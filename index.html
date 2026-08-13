@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v4</title>
+<title>FE QUEST PWA v5</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1069,6 +1069,146 @@
     .diag-nav button{width:100%}
   }
 
+
+  /* ===== v5: Problem engine / review scheduling ===== */
+  .problem-hub{
+    display:grid;
+    gap:16px;
+    margin-top:22px;
+  }
+  .problem-mode{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    box-shadow:var(--shadow);
+  }
+  .problem-mode-icon{
+    width:50px;height:50px;border-radius:16px;
+    display:grid;place-items:center;font-size:26px;flex:0 0 auto;
+  }
+  .problem-mode-copy{flex:1;min-width:0}
+  .problem-mode-title{font-weight:900;font-size:17px;margin-bottom:3px}
+  .problem-mode button{
+    border:none;border-radius:14px;padding:11px 14px;font-weight:900;
+    background:var(--green);color:white;white-space:nowrap;
+  }
+  .due-count{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:25px;height:25px;border-radius:999px;
+    background:var(--red);color:#fff;font-size:12px;font-weight:900;
+    padding:0 8px;margin-left:6px;
+  }
+
+  .quiz-card{
+    background:#fff;border:1px solid var(--line);border-radius:26px;
+    padding:24px;box-shadow:var(--shadow);
+  }
+  .quiz-top{
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .quiz-badge{
+    border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900;
+    background:var(--green-soft);color:var(--green-dark);
+  }
+  .quiz-source{
+    margin-left:auto;color:var(--muted);font-size:12px;font-weight:800;
+  }
+  .quiz-question{
+    font-size:20px;line-height:1.65;font-weight:900;margin:20px 0;
+  }
+  .quiz-options{display:grid;gap:10px}
+  .quiz-option{
+    border:2px solid var(--line);background:#fff;border-radius:17px;
+    padding:14px 15px;text-align:left;font-weight:800;line-height:1.5;
+    min-height:52px;
+  }
+  .quiz-option:hover{border-color:#c9d5df}
+  .quiz-option.selected{border-color:var(--blue);background:var(--blue-soft)}
+  .quiz-option.correct{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .quiz-option.wrong{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+  .quiz-option:disabled{cursor:default}
+
+  .quiz-actions{
+    display:flex;gap:10px;justify-content:flex-end;margin-top:18px;
+  }
+  .quiz-explain{
+    display:none;margin-top:18px;padding:17px;border-radius:18px;
+    background:#f8fafc;border:1px solid var(--line);line-height:1.65;
+  }
+  .quiz-explain.show{display:block}
+  .quiz-explain h3{margin-bottom:7px}
+  .quiz-hint{
+    margin-top:10px;color:var(--muted);font-size:13px;
+  }
+  .reason-box{
+    display:none;margin-top:14px;padding:15px;border-radius:18px;
+    background:#fff6f6;border:1px solid #ffd9d9;
+  }
+  .reason-box.show{display:block}
+  .reason-title{font-weight:900;margin-bottom:9px}
+  .reason-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .reason-chip{
+    border:1px solid #f1caca;background:#fff;border-radius:999px;
+    padding:8px 11px;font-size:12px;font-weight:900;
+  }
+  .reason-chip.picked{background:var(--red);border-color:var(--red);color:white}
+  .quiz-footer{
+    display:flex;align-items:center;gap:12px;margin-top:18px;
+  }
+  .quiz-footer .progress{flex:1}
+  .quiz-counter{font-weight:900;color:var(--muted);font-size:13px}
+
+  .session-result{
+    background:#fff;border:1px solid var(--line);border-radius:26px;
+    padding:26px;text-align:center;box-shadow:var(--shadow);
+  }
+  .session-score{
+    font-size:42px;font-weight:900;color:var(--green-dark);
+    margin:8px 0;
+  }
+  .session-breakdown{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0;
+  }
+  .break-card{
+    background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:14px;
+  }
+  .break-num{font-size:24px;font-weight:900}
+  .history-box{
+    margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;
+  }
+  .history-row{
+    display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);
+  }
+  .history-row:last-child{border-bottom:none}
+  .history-mark{
+    width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;
+  }
+  .history-mark.ok{background:var(--green-soft);color:var(--green-dark)}
+  .history-mark.ng{background:var(--red-soft);color:var(--red)}
+  .history-text{flex:1;min-width:0}
+  .history-title{font-weight:900;font-size:13px}
+  .history-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+  @media(max-width:720px){
+    .problem-mode{
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .problem-mode-copy{min-width:calc(100% - 66px)}
+    .problem-mode button{width:100%;min-height:46px}
+    .quiz-card{padding:18px}
+    .quiz-question{font-size:18px}
+    .quiz-actions{display:grid;grid-template-columns:1fr 1fr}
+    .quiz-actions button{width:100%}
+    .session-breakdown{grid-template-columns:repeat(3,1fr);gap:7px}
+    .break-card{padding:11px 5px}
+    .break-num{font-size:20px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1200,16 +1340,106 @@
     <!-- PROBLEMS -->
     <section id="problems" class="screen">
       <h1>問題演習 📖</h1>
-      <div class="sub">この試作では見た目だけの画面です。</div>
-      <div class="section hero">
-        <h2>おすすめ</h2>
-        <div class="quest-list">
-          <div class="quest-item"><div class="quest-icon green">A</div><div><div class="q-title">科目A 10問</div><div class="sub">弱点中心</div></div><div class="q-time">約15分</div></div>
-          <div class="quest-item"><div class="quest-icon purple">B</div><div><div class="q-title">科目B 3問</div><div class="sub">トレース中心</div></div><div class="q-time">約20分</div></div>
+      <div class="sub">問題はFE QUEST用に作成したオリジナル問題です。参考書の問題文は転載していません。</div>
+
+      <div class="problem-hub" id="problemHub">
+        <div class="problem-mode">
+          <div class="problem-mode-icon green">🧠</div>
+          <div class="problem-mode-copy">
+            <div class="problem-mode-title">今日の復習 <span class="due-count" id="dueCount">0</span></div>
+            <div class="sub">復習日になった問題を優先して解きます。</div>
+          </div>
+          <button data-mode="review">始める</button>
+        </div>
+
+        <div class="problem-mode">
+          <div class="problem-mode-icon blue">🎯</div>
+          <div class="problem-mode-copy">
+            <div class="problem-mode-title">弱点10問</div>
+            <div class="sub">現在の習熟度が低い分野から自動選出します。</div>
+          </div>
+          <button data-mode="weak">始める</button>
+        </div>
+
+        <div class="problem-mode">
+          <div class="problem-mode-icon purple">🎲</div>
+          <div class="problem-mode-copy">
+            <div class="problem-mode-title">ランダム10問</div>
+            <div class="sub">8分野からバランスよく出題します。</div>
+          </div>
+          <button data-mode="random">始める</button>
+        </div>
+
+        <div class="history-box">
+          <h3>最近の演習</h3>
+          <div id="recentHistory"><div class="sub">まだ演習履歴がありません。</div></div>
+        </div>
+      </div>
+
+      <div id="quizSession" style="display:none">
+        <div class="screen-head">
+          <button class="back" id="quitQuiz">←</button>
+          <div style="flex:1">
+            <h1 id="quizSessionTitle">問題演習</h1>
+            <div class="sub" id="quizSessionSub">オリジナル問題</div>
+          </div>
+        </div>
+        <div class="quiz-card">
+          <div class="quiz-top">
+            <span class="quiz-badge" id="quizCategory">分野</span>
+            <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
+            <span class="quiz-source">FE QUEST オリジナル</span>
+          </div>
+          <div class="quiz-question" id="quizQuestion"></div>
+          <div class="quiz-options" id="quizOptions"></div>
+
+          <div class="quiz-explain" id="quizExplain">
+            <h3 id="quizResultTitle">解説</h3>
+            <div id="quizExplanation"></div>
+            <div class="quiz-hint" id="quizHint"></div>
+          </div>
+
+          <div class="reason-box" id="reasonBox">
+            <div class="reason-title">今回、どこでつまずきましたか？</div>
+            <div class="reason-chips">
+              <button class="reason-chip" data-reason="用語を知らなかった">用語</button>
+              <button class="reason-chip" data-reason="計算方法を忘れた">計算</button>
+              <button class="reason-chip" data-reason="問題文を読み違えた">読み違い</button>
+              <button class="reason-chip" data-reason="2択まで迷った">2択で迷った</button>
+              <button class="reason-chip" data-reason="ほぼ分からなかった">分からない</button>
+            </div>
+          </div>
+
+          <div class="quiz-actions">
+            <button class="secondary" id="quizHintBtn">💡 ヒント</button>
+            <button class="primary" id="quizSubmit">回答する</button>
+          </div>
+
+          <div class="quiz-footer">
+            <div class="progress blue"><div id="quizProgress" style="width:0%"></div></div>
+            <div class="quiz-counter" id="quizCounter">1 / 10</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="quizResultScreen" style="display:none">
+        <div class="session-result">
+          <div style="font-size:62px">🎉</div>
+          <h1>演習完了！</h1>
+          <div class="session-score" id="sessionScore">80%</div>
+          <div class="sub" id="sessionComment"></div>
+
+          <div class="session-breakdown">
+            <div class="break-card"><div class="sub">正解</div><div class="break-num" id="sessionCorrect">0</div></div>
+            <div class="break-card"><div class="sub">不正解</div><div class="break-num" id="sessionWrong">0</div></div>
+            <div class="break-card"><div class="sub">獲得XP</div><div class="break-num" id="sessionXp">0</div></div>
+          </div>
+
+          <div class="daily-note" id="sessionAdvice"></div>
+          <button class="primary" id="sessionHome" style="margin-top:20px">問題画面へ戻る</button>
         </div>
       </div>
     </section>
-
 
     <!-- DIAGNOSTIC -->
     <section id="diagnostic" class="screen">
@@ -1884,6 +2114,523 @@ document.getElementById('finishQuest')?.addEventListener('click',()=>{
 
 // If the current prototype's result handler hard-codes XP, profile refresh will win afterwards.
 setTimeout(refreshProfileUI,0);
+
+
+
+// ===== v5: Original question bank + spaced review =====
+// All questions below are FE QUEST originals.
+// Book structure/topics were used only as curriculum references.
+
+const QUESTION_BANK = [
+  // 基礎理論
+  {id:'theory-01',cat:'基礎理論',concept:'基数変換',difficulty:'基礎',
+   q:'10進数の13を2進数で表したものはどれですか？',
+   options:['1011','1101','1110','1001'],a:1,
+   exp:'13 = 8 + 4 + 1 なので、8・4・1の桁が1になります。したがって 1101 です。',
+   hint:'8, 4, 2, 1 の4つの重みで13を作ってみましょう。'},
+  {id:'theory-02',cat:'基礎理論',concept:'論理演算',difficulty:'基礎',
+   q:'Aが真、Bが偽のとき、A AND B の結果はどれですか？',
+   options:['真','偽','場合による','定義できない'],a:1,
+   exp:'ANDは両方が真のときだけ真になります。Bが偽なので結果は偽です。',
+   hint:'ANDは「AもBも」の意味です。'},
+  {id:'theory-03',cat:'基礎理論',concept:'補数',difficulty:'標準',
+   q:'8ビットの2の補数表現で、00000101 が +5 を表すとき、-5 を表すものはどれですか？',
+   options:['11111010','11111011','10000101','00000110'],a:1,
+   exp:'+5のビットを反転すると11111010、そこに1を加えると11111011です。',
+   hint:'2の補数は「ビット反転して1を加える」です。'},
+  {id:'theory-04',cat:'基礎理論',concept:'確率',difficulty:'標準',
+   q:'独立した2つの装置A・Bがあり、それぞれ正常に動く確率が0.9です。両方とも正常に動く確率は？',
+   options:['0.81','0.90','0.99','1.80'],a:0,
+   exp:'独立事象なので 0.9 × 0.9 = 0.81 です。',
+   hint:'「両方とも」は確率を掛け合わせます。'},
+
+  // コンピュータ
+  {id:'computer-01',cat:'コンピュータ',concept:'CPU',difficulty:'基礎',
+   q:'CPUが主記憶から命令を取り出し、内容を解読して実行する一連の流れとして最も適切なのは？',
+   options:['実行→解読→取出し','取出し→解読→実行','解読→取出し→実行','取出し→実行→解読'],a:1,
+   exp:'基本的な命令サイクルは、命令取出し（fetch）→命令解読（decode）→実行（execute）です。',
+   hint:'まず命令を手元に持ってこないと、解読も実行もできません。'},
+  {id:'computer-02',cat:'コンピュータ',concept:'キャッシュ',difficulty:'基礎',
+   q:'キャッシュメモリの主な目的として最も適切なのは？',
+   options:['CPUと主記憶の速度差を小さくする','電源断でも必ずデータを保持する','ネットワーク速度を上げる','ディスク容量を増やす'],a:0,
+   exp:'高速なキャッシュをCPUと主記憶の間に置き、頻繁に使うデータを置くことで実効アクセス時間を短くします。',
+   hint:'CPUは非常に高速ですが、主記憶はそれより遅いです。'},
+  {id:'computer-03',cat:'コンピュータ',concept:'記憶階層',difficulty:'標準',
+   q:'一般に、アクセス速度が速い順として最も適切なのは？',
+   options:['SSD→主記憶→レジスタ','レジスタ→キャッシュ→主記憶','主記憶→キャッシュ→レジスタ','キャッシュ→SSD→レジスタ'],a:1,
+   exp:'CPU内部のレジスタが最も高速で、その次にキャッシュ、主記憶と続きます。',
+   hint:'CPUに近いほど高速、と考えると整理しやすいです。'},
+  {id:'computer-04',cat:'コンピュータ',concept:'割込み',difficulty:'標準',
+   q:'入出力装置の処理完了をCPUへ知らせ、現在の処理を一時中断して対応処理を行わせる仕組みは？',
+   options:['割込み','スプーリング','キャッシュ','仮想記憶'],a:0,
+   exp:'割込みは、外部イベントなどに応じてCPUが現在の処理を一時中断し、割込み処理へ移る仕組みです。',
+   hint:'「今やっている処理に割って入る」イメージです。'},
+
+  // データベース
+  {id:'db-01',cat:'データベース',concept:'主キー',difficulty:'基礎',
+   q:'関係データベースの表で、各行を一意に識別するための属性は？',
+   options:['主キー','外部キー','ビュー','インデックスだけ'],a:0,
+   exp:'主キーは各行（レコード）を一意に識別するための属性または属性の組です。',
+   hint:'「この1行は誰？」を一意に決めるキーです。'},
+  {id:'db-02',cat:'データベース',concept:'SQL',difficulty:'基礎',
+   q:'表 employee から salary が300000以上の行を検索したい。WHERE句として適切なのは？',
+   options:['WHERE salary >= 300000','WHERE salary =< 300000','WHERE salary LIKE 300000','WHERE salary IS 300000'],a:0,
+   exp:'300000以上は >= を使います。したがって WHERE salary >= 300000 です。',
+   hint:'「以上」は >= です。'},
+  {id:'db-03',cat:'データベース',concept:'正規化',difficulty:'標準',
+   q:'データベースの正規化を行う主な目的として最も適切なのは？',
+   options:['データの重複や更新時の矛盾を減らす','必ず検索速度を最大化する','全表を1つにまとめる','パスワードを暗号化する'],a:0,
+   exp:'正規化はデータの重複を抑え、追加・更新・削除時の不整合を起こしにくくするために行います。',
+   hint:'同じ情報を何か所にも持つと、修正漏れが起きやすくなります。'},
+  {id:'db-04',cat:'データベース',concept:'トランザクション',difficulty:'標準',
+   q:'銀行振込で「A口座から減額」と「B口座へ加算」を一体として扱い、途中失敗時は両方取り消したい。この性質に最も関係するものは？',
+   options:['原子性','可用性','局所性','冗長性'],a:0,
+   exp:'原子性（Atomicity）は、トランザクション内の処理を「全部成功」か「全部失敗」のどちらかとして扱う性質です。',
+   hint:'途中まで反映された状態を残さない性質です。'},
+
+  // ネットワーク
+  {id:'net-01',cat:'ネットワーク',concept:'IPアドレス',difficulty:'基礎',
+   q:'LAN内で使われることが多く、インターネット上で直接ルーティングされないアドレスは？',
+   options:['プライベートIPアドレス','グローバルIPアドレス','MACアドレス','URL'],a:0,
+   exp:'プライベートIPアドレスはLAN内で利用され、通常はNATなどを介してインターネットへ接続します。',
+   hint:'家庭のルータ配下でよく使うアドレスです。'},
+  {id:'net-02',cat:'ネットワーク',concept:'DNS',difficulty:'基礎',
+   q:'example.com のようなドメイン名をIPアドレスへ対応付ける仕組みは？',
+   options:['DNS','DHCP','FTP','SMTP'],a:0,
+   exp:'DNSはドメイン名とIPアドレスの対応付けを行う仕組みです。',
+   hint:'人間向けの名前を、通信で使うアドレスに変換します。'},
+  {id:'net-03',cat:'ネットワーク',concept:'サブネット',difficulty:'標準',
+   q:'IPv4アドレス 192.168.10.25/24 のネットワークアドレスは？',
+   options:['192.168.10.0','192.168.10.24','192.168.0.0','192.168.10.255'],a:0,
+   exp:'/24では先頭24ビットがネットワーク部です。最後の8ビットを0にすると192.168.10.0です。',
+   hint:'/24は 255.255.255.0 と同じ意味です。'},
+  {id:'net-04',cat:'ネットワーク',concept:'TCP/UDP',difficulty:'標準',
+   q:'到達確認や再送制御を行い、信頼性の高い通信を提供するプロトコルは？',
+   options:['TCP','UDP','ARP','ICMPだけ'],a:0,
+   exp:'TCPはコネクション型で、順序制御・再送制御などにより信頼性を確保します。',
+   hint:'Webやメールなど、多くの用途で「確実に届けたい」ときに使われます。'},
+
+  // セキュリティ
+  {id:'sec-01',cat:'セキュリティ',concept:'ハッシュ',difficulty:'基礎',
+   q:'入力データから固定長の値を生成し、改ざん検知などに利用されるものは？',
+   options:['ハッシュ関数','ルータ','正規化','キャッシュ'],a:0,
+   exp:'ハッシュ関数は入力から固定長のハッシュ値を生成します。内容が変わると通常ハッシュ値も変化します。',
+   hint:'データの「指紋」のような値を作ります。'},
+  {id:'sec-02',cat:'セキュリティ',concept:'公開鍵暗号',difficulty:'標準',
+   q:'公開鍵暗号方式で、受信者だけが読めるように送信内容を暗号化するとき、通常どの鍵を使いますか？',
+   options:['受信者の公開鍵','受信者の秘密鍵','送信者の秘密鍵だけ','送信者の公開鍵だけ'],a:0,
+   exp:'受信者の公開鍵で暗号化し、その対応する受信者の秘密鍵で復号します。',
+   hint:'暗号化する鍵は相手に公開されていても困らない鍵です。'},
+  {id:'sec-03',cat:'セキュリティ',concept:'デジタル署名',difficulty:'標準',
+   q:'デジタル署名を付与する際、署名者が主に使用する鍵は？',
+   options:['署名者の秘密鍵','署名者の公開鍵','受信者の公開鍵','受信者の秘密鍵'],a:0,
+   exp:'署名者は自分の秘密鍵を用いて署名し、検証側は署名者の公開鍵で確認します。',
+   hint:'本人しか持っていない鍵で署名するから、本人性の確認に使えます。'},
+  {id:'sec-04',cat:'セキュリティ',concept:'認証',difficulty:'基礎',
+   q:'「知っている情報」「持っている物」「本人の身体的特徴」のうち、異なる種類を2つ以上組み合わせる認証は？',
+   options:['多要素認証','単一障害点','排他制御','負荷分散'],a:0,
+   exp:'多要素認証は、知識・所持・生体など異なる要素を組み合わせます。',
+   hint:'パスワード＋スマホ認証のような組合せです。'},
+
+  // アルゴリズム
+  {id:'algo-01',cat:'アルゴリズム',concept:'二分探索',difficulty:'基礎',
+   q:'昇順に整列された配列 [4, 9, 15, 22, 31, 40, 52] から40を二分探索する。最初に22と比較した後、次に残す範囲は？',
+   options:['22より左側','22より右側','全体を残す','探索終了'],a:1,
+   exp:'40は22より大きいので、22以下の左半分を捨て、右半分を探索します。',
+   hint:'目的値40と中央22の大小を比べます。'},
+  {id:'algo-02',cat:'アルゴリズム',concept:'スタック',difficulty:'基礎',
+   q:'空のスタックに A、B、C の順でPUSHした後、1回POPすると取り出されるのは？',
+   options:['A','B','C','何も取り出せない'],a:2,
+   exp:'スタックはLIFO（後入れ先出し）なので、最後に入れたCが最初に取り出されます。',
+   hint:'積み重ねた皿を上から取るイメージです。'},
+  {id:'algo-03',cat:'アルゴリズム',concept:'計算量',difficulty:'標準',
+   q:'要素数nの配列を先頭から順に調べる線形探索で、最悪の場合に調べる要素数はおおよそどれですか？',
+   options:['1','log2 n','n','n²'],a:2,
+   exp:'目的の値が最後にある、または存在しない場合、最大でn個すべてを調べます。計算量はO(n)です。',
+   hint:'一つずつ順番に見る探索です。'},
+  {id:'algo-04',cat:'アルゴリズム',concept:'ループトレース',difficulty:'標準',
+   q:'a←0 とし、iを1から4まで1ずつ増やしながら a←a+i を実行する。終了時のaはいくつですか？',
+   options:['4','6','10','16'],a:2,
+   exp:'aは 0+1+2+3+4 = 10 になります。',
+   hint:'iの値を1,2,3,4と順番に足してみましょう。'},
+
+  // マネジメント
+  {id:'mgmt-01',cat:'マネジメント',concept:'プロジェクト',difficulty:'基礎',
+   q:'プロジェクトの作業を細かい単位へ分解し、階層的に整理したものは？',
+   options:['WBS','DNS','ER図','NAT'],a:0,
+   exp:'WBS（Work Breakdown Structure）は、プロジェクトの作業を階層的に分解したものです。',
+   hint:'大きな仕事を小さな仕事へ「分解」します。'},
+  {id:'mgmt-02',cat:'マネジメント',concept:'リスク',difficulty:'標準',
+   q:'発生確率は低いが、発生した場合の影響が非常に大きいリスクへの対応として、まず適切なのは？',
+   options:['無条件で無視する','影響と対応策を検討して管理対象にする','必ず発生したものとして扱う','記録せず担当者だけで覚える'],a:1,
+   exp:'リスクは発生確率と影響度を評価し、必要な対応を計画します。確率が低くても影響が大きければ管理対象になり得ます。',
+   hint:'確率だけでなく「起きたときの大きさ」も見ます。'},
+  {id:'mgmt-03',cat:'マネジメント',concept:'サービスレベル',difficulty:'基礎',
+   q:'サービス提供者と利用者の間で、可用性や応答時間などのサービス水準を合意したものは？',
+   options:['SLA','SQL','SDK','SSLだけ'],a:0,
+   exp:'SLA（Service Level Agreement）は、提供するサービス水準についての合意です。',
+   hint:'Service Level の合意です。'},
+  {id:'mgmt-04',cat:'マネジメント',concept:'監査',difficulty:'標準',
+   q:'システム監査人に特に求められる立場として最も適切なのは？',
+   options:['監査対象からの独立性','開発担当者と必ず同一人物','営業目標の達成責任','監査対象部署への従属'],a:0,
+   exp:'システム監査では、客観的な評価を行うため監査対象からの独立性が重要です。',
+   hint:'自分で作ったものを自分だけで監査すると客観性が弱くなります。'},
+
+  // ストラテジ
+  {id:'strat-01',cat:'ストラテジ',concept:'損益分岐点',difficulty:'基礎',
+   q:'売上高と総費用が等しくなり、利益が0となる売上高を何と呼びますか？',
+   options:['損益分岐点売上高','営業利益','限界利益率','固定資産'],a:0,
+   exp:'利益がちょうど0になる売上高を損益分岐点売上高と呼びます。',
+   hint:'利益がプラスにもマイナスにもならない境目です。'},
+  {id:'strat-02',cat:'ストラテジ',concept:'SWOT',difficulty:'基礎',
+   q:'SWOT分析で、企業内部の「強み」を表す要素は？',
+   options:['Strength','Weakness','Opportunity','Threat'],a:0,
+   exp:'SWOTはStrength（強み）、Weakness（弱み）、Opportunity（機会）、Threat（脅威）です。',
+   hint:'Sは英語の「強さ」です。'},
+  {id:'strat-03',cat:'ストラテジ',concept:'マーケティング',difficulty:'標準',
+   q:'市場を顧客の属性やニーズなどで複数のグループに分けることは？',
+   options:['セグメンテーション','デバッグ','正規化','スケジューリング'],a:0,
+   exp:'セグメンテーションは市場を一定の基準で複数の顧客群に分けることです。',
+   hint:'市場を「区分」に分ける考え方です。'},
+  {id:'strat-04',cat:'ストラテジ',concept:'知的財産',difficulty:'標準',
+   q:'発明を保護する代表的な産業財産権は？',
+   options:['特許権','著作権だけ','商号','所有権'],a:0,
+   exp:'発明を保護する代表的な権利は特許権です。',
+   hint:'新しい技術的アイデア＝発明を保護します。'}
+];
+
+function ensureQuestionProfile(){
+  if(!profile.qStats) profile.qStats={};
+  if(!profile.sessions) profile.sessions=[];
+  QUESTION_BANK.forEach(q=>{
+    if(!profile.qStats[q.id]){
+      profile.qStats[q.id]={
+        attempts:0, correct:0, streak:0,
+        due:null, last:null, lastReason:null
+      };
+    }
+  });
+}
+ensureQuestionProfile();
+saveProfile();
+
+function localDateISO(offsetDays=0){
+  const d=new Date();
+  d.setHours(12,0,0,0);
+  d.setDate(d.getDate()+offsetDays);
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function isDue(stat){
+  return stat && stat.due && stat.due <= localDateISO(0);
+}
+function reviewInterval(streak){
+  if(streak <= 0) return 1;
+  if(streak === 1) return 3;
+  if(streak === 2) return 7;
+  if(streak === 3) return 14;
+  return 30;
+}
+function shuffled(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function dueQuestions(){
+  ensureQuestionProfile();
+  return QUESTION_BANK.filter(q=>isDue(profile.qStats[q.id]));
+}
+function updateDueCount(){
+  const e=document.getElementById('dueCount');
+  if(e) e.textContent=dueQuestions().length;
+}
+function categoryWeakness(cat){
+  return 100-(profile.skills[cat] ?? 50);
+}
+function chooseWeakQuestions(n=10){
+  const ranked=shuffled(QUESTION_BANK).sort((a,b)=>categoryWeakness(b.cat)-categoryWeakness(a.cat));
+  return ranked.slice(0,Math.min(n,ranked.length));
+}
+function chooseRandomBalanced(n=10){
+  const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))];
+  let selected=[];
+  let pools={};
+  cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c)));
+  let ci=0;
+  while(selected.length<n && Object.values(pools).some(p=>p.length)){
+    const c=cats[ci%cats.length];
+    if(pools[c].length) selected.push(pools[c].pop());
+    ci++;
+  }
+  return selected;
+}
+
+let quizItems=[];
+let quizIndex=0;
+let quizSelected=null;
+let quizAnswered=false;
+let quizCorrectCount=0;
+let quizWrongCount=0;
+let quizEarnedXp=0;
+let quizMode='random';
+let quizPickedReason=null;
+let sessionLog=[];
+
+const problemHub=document.getElementById('problemHub');
+const quizSession=document.getElementById('quizSession');
+const quizResultScreen=document.getElementById('quizResultScreen');
+
+function openProblemsHub(){
+  if(problemHub) problemHub.style.display='grid';
+  if(quizSession) quizSession.style.display='none';
+  if(quizResultScreen) quizResultScreen.style.display='none';
+  updateDueCount();
+  renderRecentHistory();
+}
+
+function startQuiz(mode){
+  ensureQuestionProfile();
+  quizMode=mode;
+  if(mode==='review'){
+    const due=dueQuestions();
+    quizItems=due.length ? shuffled(due).slice(0,10) : chooseWeakQuestions(5);
+  }else if(mode==='weak'){
+    quizItems=chooseWeakQuestions(10);
+  }else{
+    quizItems=chooseRandomBalanced(10);
+  }
+  quizIndex=0;
+  quizSelected=null;
+  quizAnswered=false;
+  quizCorrectCount=0;
+  quizWrongCount=0;
+  quizEarnedXp=0;
+  quizPickedReason=null;
+  sessionLog=[];
+
+  problemHub.style.display='none';
+  quizResultScreen.style.display='none';
+  quizSession.style.display='block';
+
+  const titles={review:'今日の復習',weak:'弱点10問',random:'ランダム10問'};
+  document.getElementById('quizSessionTitle').textContent=titles[mode]||'問題演習';
+  document.getElementById('quizSessionSub').textContent='FE QUEST オリジナル問題';
+  renderQuizQuestion();
+}
+
+document.querySelectorAll('.problem-mode button[data-mode]').forEach(b=>{
+  b.addEventListener('click',()=>startQuiz(b.dataset.mode));
+});
+
+function renderQuizQuestion(){
+  const q=quizItems[quizIndex];
+  quizSelected=null;
+  quizAnswered=false;
+  quizPickedReason=null;
+
+  document.getElementById('quizCategory').textContent=`${q.cat}・${q.concept}`;
+  document.getElementById('quizDifficulty').textContent=q.difficulty;
+  document.getElementById('quizQuestion').textContent=q.q;
+  document.getElementById('quizCounter').textContent=`${quizIndex+1} / ${quizItems.length}`;
+  document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
+  document.getElementById('quizExplain').classList.remove('show');
+  document.getElementById('reasonBox').classList.remove('show');
+  document.getElementById('quizSubmit').textContent='回答する';
+  document.getElementById('quizSubmit').disabled=false;
+  document.getElementById('quizHintBtn').style.display='block';
+
+  document.querySelectorAll('.reason-chip').forEach(c=>c.classList.remove('picked'));
+
+  const opts=document.getElementById('quizOptions');
+  opts.innerHTML='';
+  q.options.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='quiz-option';
+    b.textContent=`${String.fromCharCode(65+i)}. ${op}`;
+    b.addEventListener('click',()=>{
+      if(quizAnswered) return;
+      quizSelected=i;
+      document.querySelectorAll('.quiz-option').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+    });
+    opts.appendChild(b);
+  });
+}
+
+document.getElementById('quizHintBtn')?.addEventListener('click',()=>{
+  const q=quizItems[quizIndex];
+  popToast(q.hint);
+});
+
+document.getElementById('quizSubmit')?.addEventListener('click',()=>{
+  if(!quizAnswered){
+    if(quizSelected===null){
+      popToast('選択肢を1つ選んでください');
+      return;
+    }
+    gradeCurrentQuestion();
+  }else{
+    if(quizIndex < quizItems.length-1){
+      quizIndex++;
+      renderQuizQuestion();
+    }else{
+      finishQuizSession();
+    }
+  }
+});
+
+function gradeCurrentQuestion(){
+  const q=quizItems[quizIndex];
+  const ok=quizSelected===q.a;
+  quizAnswered=true;
+
+  document.querySelectorAll('.quiz-option').forEach((b,i)=>{
+    b.disabled=true;
+    b.classList.remove('selected');
+    if(i===q.a) b.classList.add('correct');
+    else if(i===quizSelected && !ok) b.classList.add('wrong');
+  });
+
+  const title=document.getElementById('quizResultTitle');
+  title.textContent=ok?'⭕ 正解！':'❌ 不正解';
+  document.getElementById('quizExplanation').textContent=q.exp;
+  document.getElementById('quizHint').textContent=`覚え方：${q.hint}`;
+  document.getElementById('quizExplain').classList.add('show');
+  document.getElementById('quizHintBtn').style.display='none';
+
+  if(ok){
+    quizCorrectCount++;
+    quizEarnedXp+=10;
+  }else{
+    quizWrongCount++;
+    document.getElementById('reasonBox').classList.add('show');
+  }
+
+  const st=profile.qStats[q.id];
+  st.attempts++;
+  st.last=localDateISO(0);
+  if(ok){
+    st.correct++;
+    st.streak=(st.streak||0)+1;
+    st.due=localDateISO(reviewInterval(st.streak));
+    profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+1,0,100);
+  }else{
+    st.streak=0;
+    st.due=localDateISO(1);
+    profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-2,0,100);
+  }
+
+  sessionLog.push({id:q.id,cat:q.cat,concept:q.concept,ok});
+  profile.xp += ok ? 10 : 2;
+  saveProfile();
+
+  document.getElementById('quizSubmit').textContent=
+    quizIndex===quizItems.length-1 ? '結果を見る' : '次の問題 →';
+  document.getElementById('quizProgress').style.width=`${((quizIndex+1)/quizItems.length)*100}%`;
+}
+
+document.querySelectorAll('.reason-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.reason-chip').forEach(c=>c.classList.remove('picked'));
+    chip.classList.add('picked');
+    quizPickedReason=chip.dataset.reason;
+    const q=quizItems[quizIndex];
+    if(profile.qStats[q.id]){
+      profile.qStats[q.id].lastReason=quizPickedReason;
+      saveProfile();
+    }
+  });
+});
+
+function finishQuizSession(){
+  const total=quizItems.length;
+  const rate=total?Math.round(quizCorrectCount/total*100):0;
+  profile.sessions.unshift({
+    date:localDateISO(0),
+    mode:quizMode,
+    total,
+    correct:quizCorrectCount,
+    rate,
+    log:sessionLog.slice(0,10)
+  });
+  profile.sessions=profile.sessions.slice(0,20);
+  profile.lastStudyDate=localDateISO(0);
+  saveProfile();
+
+  quizSession.style.display='none';
+  quizResultScreen.style.display='block';
+
+  document.getElementById('sessionScore').textContent=`${rate}%`;
+  document.getElementById('sessionCorrect').textContent=quizCorrectCount;
+  document.getElementById('sessionWrong').textContent=quizWrongCount;
+  document.getElementById('sessionXp').textContent=`+${quizCorrectCount*10 + quizWrongCount*2}`;
+
+  let comment='いい復習になりました。';
+  if(rate>=90) comment='かなり安定しています！次は少し難しい問題へ進めます。';
+  else if(rate>=70) comment='合格圏を意識できる良い出来です。間違えた問題を復習しましょう。';
+  else if(rate>=50) comment='理解は進んでいます。苦手分野をもう一周すると伸びます。';
+  else comment='今は弱点を発見できたことが収穫です。明日の復習に自動で回します。';
+  document.getElementById('sessionComment').textContent=comment;
+
+  const wrongCats={};
+  sessionLog.filter(x=>!x.ok).forEach(x=>wrongCats[x.cat]=(wrongCats[x.cat]||0)+1);
+  const topWrong=Object.entries(wrongCats).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  document.getElementById('sessionAdvice').textContent=
+    topWrong.length
+      ? `今回の要復習は「${topWrong.join('・')}」。不正解問題は明日以降の復習キューへ入りました。`
+      : '全問正解です。正解した問題も忘却を防ぐため、数日後に再出題されます。';
+
+  renderRecentHistory();
+  updateDueCount();
+}
+
+document.getElementById('sessionHome')?.addEventListener('click',openProblemsHub);
+document.getElementById('quitQuiz')?.addEventListener('click',()=>{
+  if(confirm('この演習を終了して問題一覧へ戻りますか？')) openProblemsHub();
+});
+
+function renderRecentHistory(){
+  const root=document.getElementById('recentHistory');
+  if(!root) return;
+  ensureQuestionProfile();
+
+  const sessions=(profile.sessions||[]).slice(0,4);
+  if(!sessions.length){
+    root.innerHTML='<div class="sub">まだ演習履歴がありません。</div>';
+    return;
+  }
+  root.innerHTML='';
+  const names={review:'今日の復習',weak:'弱点10問',random:'ランダム10問'};
+  sessions.forEach(s=>{
+    const row=document.createElement('div');
+    row.className='history-row';
+    const good=s.rate>=70;
+    row.innerHTML=`
+      <div class="history-mark ${good?'ok':'ng'}">${good?'✓':'!'}</div>
+      <div class="history-text">
+        <div class="history-title">${names[s.mode]||'問題演習'}・${s.rate}%</div>
+        <div class="history-sub">${s.date}　${s.correct}/${s.total}問正解</div>
+      </div>
+    `;
+    root.appendChild(row);
+  });
+}
+
+// Integrate review count with profile refresh.
+const _refreshProfileUI_v5 = refreshProfileUI;
+refreshProfileUI = function(){
+  _refreshProfileUI_v5();
+  ensureQuestionProfile();
+  updateDueCount();
+  renderRecentHistory();
+};
+refreshProfileUI();
+openProblemsHub();
 
 
 // ===== PWA support =====
