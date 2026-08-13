@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v8</title>
+<title>FE QUEST PWA v9</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1701,6 +1701,177 @@
     .tree-view{font-size:12px;overflow:auto}
   }
 
+
+  /* ===== v9: Subject B Security Scenario Lab ===== */
+  .b-mode-tabs{
+    display:flex;gap:8px;background:#eef2f6;border-radius:16px;padding:5px;
+    margin:14px 0 20px;
+  }
+  .b-mode-tab{
+    flex:1;border:none;background:transparent;border-radius:12px;
+    min-height:44px;font-weight:900;color:var(--muted);
+  }
+  .b-mode-tab.active{
+    background:#fff;color:var(--text);box-shadow:0 3px 10px rgba(40,55,70,.08);
+  }
+  .b-mode-tab.security.active{color:#116f62}
+  .sec-select.hidden{display:none}
+  .sec-lab{display:none}
+  .sec-lab.show{display:block}
+
+  .sec-hero{
+    background:linear-gradient(135deg,#e9fff9,#f9fffd);
+    border:1px solid #ccefe6;border-radius:26px;padding:22px;
+    display:flex;align-items:center;gap:16px;margin-bottom:20px;
+  }
+  .sec-hero-icon{
+    width:62px;height:62px;border-radius:19px;background:#fff;
+    display:grid;place-items:center;font-size:34px;flex:0 0 auto;
+  }
+  .sec-hero-copy{flex:1}
+  .sec-hero-title{font-size:21px;font-weight:900;color:#116f62}
+  .sec-hero-progress{font-size:24px;font-weight:900;color:#13836f}
+
+  .sec-grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+  }
+  .sec-card{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);
+  }
+  .sec-card.done{border-color:#ccefe6;background:#fbfffd}
+  .sec-card-top{display:flex;align-items:flex-start;gap:12px}
+  .sec-card-icon{
+    width:48px;height:48px;border-radius:15px;background:#e9fff9;
+    display:grid;place-items:center;font-size:25px;flex:0 0 auto;
+  }
+  .sec-card-title{font-weight:900;font-size:17px}
+  .sec-card-meta{font-size:12px;color:var(--muted);font-weight:800;margin-top:3px}
+  .sec-card-desc{font-size:13px;line-height:1.6;color:var(--muted);margin:13px 0}
+  .sec-card-bottom{display:flex;align-items:center;gap:10px}
+  .sec-start{
+    margin-left:auto;border:none;background:#18a889;color:#fff;
+    border-radius:13px;padding:10px 13px;font-weight:900;
+  }
+  .sec-check{color:#13836f;font-weight:900;font-size:13px}
+
+  .incident-banner{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);margin-bottom:14px;
+  }
+  .incident-top{display:flex;align-items:center;gap:10px}
+  .incident-icon{
+    width:44px;height:44px;border-radius:14px;background:#fff0f0;
+    display:grid;place-items:center;font-size:22px;
+  }
+  .incident-title{font-size:19px;font-weight:900}
+  .incident-badge{
+    margin-left:auto;padding:6px 9px;border-radius:999px;
+    background:#fff3d6;color:#996300;font-size:11px;font-weight:900;
+  }
+  .incident-text{
+    margin-top:12px;line-height:1.75;font-size:15px;
+    background:#f8fafc;border-radius:16px;padding:14px;
+  }
+
+  .evidence-panel{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);margin-bottom:14px;
+  }
+  .evidence-title{font-size:13px;color:var(--muted);font-weight:900;letter-spacing:.4px;margin-bottom:10px}
+  .evidence-list{display:grid;gap:8px}
+  .evidence-item{
+    display:flex;gap:10px;align-items:flex-start;
+    background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:11px 12px;
+    line-height:1.55;font-size:13px;
+  }
+  .evidence-item .ev-icon{font-size:18px;flex:0 0 auto}
+
+  .log-box{
+    background:#26313b;color:#f0f4f7;border-radius:15px;
+    padding:13px 14px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:12px;line-height:1.75;overflow:auto;white-space:pre-wrap;
+  }
+  .log-alert{color:#ffcc66;font-weight:900}
+  .log-bad{color:#ff8585;font-weight:900}
+  .log-good{color:#8ee59c;font-weight:900}
+
+  .decision-panel{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);
+  }
+  .decision-step{
+    display:flex;align-items:center;gap:9px;margin-bottom:12px;
+  }
+  .decision-num{
+    width:30px;height:30px;border-radius:50%;background:#18a889;color:#fff;
+    display:grid;place-items:center;font-weight:900;font-size:13px;
+  }
+  .decision-label{font-weight:900;color:#116f62;font-size:13px}
+  .decision-question{font-size:18px;line-height:1.6;font-weight:900;margin-bottom:13px}
+  .decision-options{display:grid;gap:9px}
+  .decision-option{
+    border:2px solid var(--line);background:#fff;border-radius:16px;
+    padding:13px 14px;text-align:left;line-height:1.55;font-weight:800;
+  }
+  .decision-option:hover{border-color:#aadfd3}
+  .decision-option.good{border-color:#18a889;background:#e9fff9;color:#116f62}
+  .decision-option.bad{border-color:var(--red);background:var(--red-soft);color:#bd3636}
+  .decision-option:disabled{cursor:default}
+  .decision-feedback{
+    display:none;margin-top:13px;padding:14px;border-radius:16px;
+    line-height:1.65;background:#e9fff9;border:1px solid #ccefe6;
+  }
+  .decision-feedback.show{display:block}
+  .decision-feedback.bad{background:#fff0f0;border-color:#ffd5d5}
+
+  .sec-progress-row{
+    display:flex;align-items:center;gap:10px;margin-top:15px;
+  }
+  .sec-progress-row .progress{flex:1}
+  .sec-counter{font-size:12px;font-weight:900;color:var(--muted)}
+  .sec-next{
+    width:100%;border:none;background:#18a889;color:#fff;border-radius:14px;
+    min-height:48px;font-weight:900;margin-top:13px;display:none;
+  }
+  .sec-next.show{display:block}
+
+  .sec-complete{
+    display:none;text-align:center;background:#fff;border:1px solid var(--line);
+    border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-top:16px;
+  }
+  .sec-complete.show{display:block}
+  .sec-complete-icon{font-size:64px}
+  .sec-xp{font-size:30px;font-weight:900;color:var(--yellow);margin:7px 0}
+  .sec-summary{
+    margin:15px auto 0;max-width:600px;background:#f8fafc;border:1px solid var(--line);
+    border-radius:16px;padding:14px;text-align:left;line-height:1.65;
+  }
+
+  .risk-matrix{
+    display:grid;grid-template-columns:70px repeat(3,1fr);gap:5px;
+    max-width:520px;margin:0 auto;
+  }
+  .risk-cell{
+    min-height:55px;border-radius:10px;background:#f1f4f7;
+    display:grid;place-items:center;text-align:center;font-size:11px;font-weight:900;padding:4px;
+  }
+  .risk-cell.medium{background:#fff3d6;color:#936000}
+  .risk-cell.high{background:#fff0f0;color:#bd3636}
+  .risk-cell.low{background:#e9fff9;color:#116f62}
+
+  @media(max-width:720px){
+    .b-mode-tabs{margin-top:10px}
+    .sec-hero{padding:17px;align-items:flex-start}
+    .sec-hero-icon{width:52px;height:52px;font-size:29px}
+    .sec-hero-progress{font-size:20px}
+    .sec-grid{grid-template-columns:1fr}
+    .incident-text,.decision-question{font-size:15px}
+    .evidence-panel,.decision-panel,.incident-banner{padding:15px;border-radius:19px}
+    .risk-matrix{grid-template-columns:55px repeat(3,1fr);gap:4px}
+    .risk-cell{min-height:50px;font-size:10px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1954,7 +2125,7 @@
             <div><div class="lesson-tile-title">PROGRAM TRACE</div><div class="lesson-tile-cat">科目B</div></div>
           </div>
           <div class="lesson-tile-desc">コードを1行ずつ実行し、変数の値がどう変わるかを目で追います。</div>
-          <button class="lesson-open" id="mapTrace">科目Bトレースを開く</button>
+          <button class="lesson-open" id="mapTrace">科目B LABを開く</button>
         </div>
       </div>
     </section>
@@ -2149,6 +2320,11 @@
           <div><h1>科目B TRACE LAB 💻</h1><div class="sub">擬似コードを1行ずつ動かし、変数・配列・スタックの変化を追います。</div></div>
         </div>
 
+        <div class="b-mode-tabs">
+          <button class="b-mode-tab active" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+        </div>
+
         <div class="b-hero">
           <div class="b-hero-icon">🧪</div>
           <div class="b-hero-copy">
@@ -2201,6 +2377,77 @@
           <div class="b-xp" id="bCompleteXp">+80 XP</div>
           <div class="sub" id="bCompleteText"></div>
           <button class="primary" id="bNextExercise" style="margin-top:18px">一覧へ戻る</button>
+        </div>
+      </div>
+
+      <div id="secSelect" class="sec-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map">←</button>
+          <div><h1>科目B SECURITY LAB 🛡️</h1><div class="sub">状況・証拠・ログを読み、最も適切な判断を選びます。</div></div>
+        </div>
+
+        <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security active" data-bmode="security">🛡️ セキュリティ</button>
+        </div>
+
+        <div class="sec-hero">
+          <div class="sec-hero-icon">🛡️</div>
+          <div class="sec-hero-copy">
+            <div class="sec-hero-title">SECURITY SCENARIO LAB</div>
+            <div class="sub">用語を当てるだけでなく「この状況なら何を優先するか」を考える訓練です。</div>
+          </div>
+          <div class="sec-hero-progress" id="secProgressText">0 / 6</div>
+        </div>
+
+        <div class="sec-grid" id="secScenarioGrid"></div>
+      </div>
+
+      <div id="secLab" class="sec-lab">
+        <div class="trace-title-row">
+          <button class="back" id="secBackToList">←</button>
+          <div class="trace-info">
+            <h1 id="secLabTitle">SECURITY SCENARIO</h1>
+            <div class="sub" id="secLabMeta">FE QUEST ORIGINAL</div>
+          </div>
+        </div>
+
+        <div class="incident-banner">
+          <div class="incident-top">
+            <div class="incident-icon" id="secIncidentIcon">⚠️</div>
+            <div class="incident-title" id="secIncidentTitle"></div>
+            <div class="incident-badge" id="secIncidentBadge"></div>
+          </div>
+          <div class="incident-text" id="secIncidentText"></div>
+        </div>
+
+        <div class="evidence-panel">
+          <div class="evidence-title">EVIDENCE / LOG</div>
+          <div id="secEvidence"></div>
+        </div>
+
+        <div class="decision-panel">
+          <div class="decision-step">
+            <div class="decision-num" id="secDecisionNum">1</div>
+            <div class="decision-label">DECISION</div>
+          </div>
+          <div class="decision-question" id="secQuestion"></div>
+          <div class="decision-options" id="secOptions"></div>
+          <div class="decision-feedback" id="secFeedback"></div>
+          <button class="sec-next" id="secNext">次の判断へ →</button>
+          <div class="sec-progress-row">
+            <div class="progress"><div id="secStepProgress" style="width:0%;background:#18a889"></div></div>
+            <div class="sec-counter" id="secCounter">1 / 3</div>
+          </div>
+        </div>
+
+        <div class="sec-complete" id="secComplete">
+          <div class="sec-complete-icon">🛡️</div>
+          <h2>SCENARIO COMPLETE!</h2>
+          <div class="sec-xp" id="secCompleteXp">+80 XP</div>
+          <div class="sub" id="secCompleteText"></div>
+          <div class="sec-summary" id="secCompleteSummary"></div>
+          <button class="primary" id="secReturnList" style="margin-top:18px">一覧へ戻る</button>
         </div>
       </div>
     </section>
@@ -4453,6 +4700,449 @@ function finishBExercise(){
   document.getElementById('bStep').textContent='✓ COMPLETE';
   renderBGrid();
 }
+
+
+
+// ===== v9: Subject B Security Scenario Lab =====
+const SECURITY_SCENARIOS = [
+  {
+    id:'phishing',
+    title:'偽ログイン画面',
+    icon:'🎣',
+    level:'基礎',
+    concept:'フィッシング・認証',
+    desc:'メールから偽サイトへ誘導された疑い。何を根拠に判断し、何を優先するか考えます。',
+    incident:{
+      title:'「パスワード期限切れ」のメール',
+      badge:'認証情報',
+      icon:'📧',
+      text:'社員Aは「本日中にパスワードを更新してください」というメールのリンクからログイン画面を開き、IDとパスワードを入力しました。その直後、画面がエラーになりました。'
+    },
+    evidence:[
+      {icon:'🔗',text:'メール本文のリンク先は <b>https://account-example-security.com/</b>'},
+      {icon:'🏢',text:'会社の正規ログインURLは <b>https://login.example.co.jp/</b>'},
+      {icon:'📱',text:'社員Aのアカウントでは多要素認証が有効'}
+    ],
+    steps:[
+      {
+        q:'最も疑うべき事象はどれですか？',
+        options:['フィッシングによる認証情報の窃取','SQLインジェクション','ディスク故障','DNSキャッシュの正常動作'],
+        a:0,
+        explain:'正規ドメインと異なるサイトへメールから誘導され、認証情報を入力しているため、フィッシングを最優先で疑います。'
+      },
+      {
+        q:'社員Aがまず行う対応として最も適切なのは？',
+        options:['同じリンクからもう一度ログインする','正規の経路からパスワードを変更し、管理担当へ連絡する','メールを削除するだけで終える','PCを再起動すれば十分'],
+        a:1,
+        explain:'認証情報が漏えいした可能性があるため、攻撃者が利用する前に正規経路で資格情報を変更し、組織の手順に従って報告・確認します。'
+      },
+      {
+        q:'多要素認証が有効であることの効果として最も適切なのは？',
+        options:['盗まれたパスワードだけではログインしにくくなる','パスワード漏えい自体が絶対に起きなくなる','偽メールを自動的にすべて削除する','端末のマルウェア感染を必ず防ぐ'],
+        a:0,
+        explain:'多要素認証は追加要素を要求するため、パスワード単独の漏えいによる不正ログインのリスクを下げます。'
+      }
+    ],
+    summary:'URLの真正性確認 → 資格情報漏えいを想定した迅速な変更・報告 → MFAで単一要素依存を減らす。'
+  },
+  {
+    id:'ransomware',
+    title:'共有フォルダ暗号化',
+    icon:'🔐',
+    level:'標準',
+    concept:'マルウェア・インシデント対応',
+    desc:'複数ファイルが突然開けなくなった状況で、被害拡大を防ぐ初動を判断します。',
+    incident:{
+      title:'共有フォルダの拡張子が一斉に変化',
+      badge:'マルウェア',
+      icon:'🚨',
+      text:'社員BのPCで作業中、共有フォルダの多数の文書が突然開けなくなり、ファイル名の末尾に見慣れない拡張子が付きました。'
+    },
+    log:`10:03  user=B  file=budget.xlsx      action=rename -> budget.xlsx.locked
+10:03  user=B  file=plan.docx         action=rename -> plan.docx.locked
+10:04  user=B  file=manual.pdf        action=rename -> manual.pdf.locked
+10:04  host=B-PC outbound_connection  unknown-host`,
+    steps:[
+      {
+        q:'最優先の初動として適切なのは？',
+        options:['感染が疑われるPCをネットワークから隔離する','そのまま作業を続ける','共有フォルダを全員で開いて確認する','バックアップも含め全データを削除する'],
+        a:0,
+        explain:'ランサムウェアなどのマルウェア感染が疑われる場合、まず通信経路を断って他端末や共有資源への被害拡大を抑えることが重要です。'
+      },
+      {
+        q:'復旧に備えて平時から重要な対策は？',
+        options:['定期的なバックアップと復元確認','全員で同じ管理者パスワードを使う','OS更新を止める','ログを保存しない'],
+        a:0,
+        explain:'バックアップは復旧の重要な手段ですが、実際に復元できるかを定期的に確認しておくことも重要です。'
+      },
+      {
+        q:'原因調査に役立つ情報として適切なのは？',
+        options:['端末・認証・通信などのログ','社員の好きな色','ディスプレイ解像度だけ','プリンタ用紙の残量'],
+        a:0,
+        explain:'端末上のイベントや認証履歴、外部通信などのログは侵入経路・実行時刻・影響範囲の調査に役立ちます。'
+      }
+    ],
+    summary:'隔離して被害拡大を止める → バックアップからの復旧を可能にする → ログを使って原因と影響範囲を調査する。'
+  },
+  {
+    id:'access',
+    title:'権限が広すぎる共有資料',
+    icon:'🪪',
+    level:'基礎',
+    concept:'アクセス制御・最小権限',
+    desc:'必要以上のアクセス権が付与されている状態を見つけ、適切な権限設計を選びます。',
+    incident:{
+      title:'給与一覧を全社員が閲覧可能',
+      badge:'アクセス制御',
+      icon:'📂',
+      text:'人事部が管理する給与一覧ファイルを確認したところ、設定ミスにより「全社員：閲覧可」になっていました。本来は人事担当の一部だけが利用します。'
+    },
+    evidence:[
+      {icon:'👥',text:'対象ファイル：給与一覧'},
+      {icon:'🔓',text:'現在：全社員グループに閲覧権限'},
+      {icon:'🎯',text:'業務上必要：人事給与担当グループのみ'}
+    ],
+    steps:[
+      {
+        q:'適用すべき考え方として最も適切なのは？',
+        options:['最小権限の原則','全員管理者の原則','可用性だけを最大化する原則','権限は一度設定したら変更しない原則'],
+        a:0,
+        explain:'利用者には業務上必要な最小限の権限だけを与える「最小権限」が基本です。'
+      },
+      {
+        q:'具体的な是正として適切なのは？',
+        options:['全社員の閲覧権限を外し、必要な担当グループだけに付与する','全社員へ編集権限も付ける','ファイル名だけ変更する','誰でも使える共通アカウントを作る'],
+        a:0,
+        explain:'不要な権限を削除し、職務上必要なグループへ限定することで情報漏えいリスクを下げます。'
+      },
+      {
+        q:'今後の再発防止として有効なのは？',
+        options:['権限の定期的な棚卸し','権限設定を記録しない','退職者アカウントを永久に残す','すべてのファイルを公開にする'],
+        a:0,
+        explain:'異動・退職・業務変更で必要権限は変わるため、定期的なアクセス権レビューが有効です。'
+      }
+    ],
+    summary:'必要な人に必要な権限だけを与え、定期的に権限を棚卸しする。'
+  },
+  {
+    id:'logs',
+    title:'不審な深夜ログイン',
+    icon:'🧾',
+    level:'標準',
+    concept:'ログ分析・認証',
+    desc:'認証ログから異常な振る舞いを見つけ、追加確認すべき情報を選びます。',
+    incident:{
+      title:'普段と異なる時間・地域からのログイン',
+      badge:'ログ分析',
+      icon:'🌙',
+      text:'社員Cは通常、日本国内から平日9〜18時に利用しています。監視システムが深夜のログインを検知しました。'
+    },
+    log:`2026-08-12 17:42  user=C  login=SUCCESS  region=JP
+2026-08-13 02:18  user=C  login=FAILED   region=XX
+2026-08-13 02:18  user=C  login=FAILED   region=XX
+2026-08-13 02:19  user=C  login=SUCCESS  region=XX
+2026-08-13 02:21  user=C  file_download=124`,
+    steps:[
+      {
+        q:'このログで特に注意すべき組合せは？',
+        options:['普段と異なる地域・時間帯の成功ログインと大量ダウンロード','17:42の国内ログインだけ','日付が変わったこと自体','ログが5行あること'],
+        a:0,
+        explain:'通常行動と異なる地域・時間帯で、失敗後に成功し大量取得まで続いている点は不正利用の可能性を示す重要な兆候です。'
+      },
+      {
+        q:'次に確認すると有用なものは？',
+        options:['社員C本人の利用事実、接続元、MFA履歴など','社員Cの好きな食べ物','PCの壁紙','モニタの大きさ'],
+        a:0,
+        explain:'本人確認と接続元、追加認証の履歴を突き合わせることで、正当な利用か不正アクセスかを判断しやすくなります。'
+      },
+      {
+        q:'不正利用と判断した場合の対応として適切なのは？',
+        options:['アカウント保護と影響範囲の調査を行う','ログを消して様子を見る','同じパスワードを全社員へ配る','通知を無視する'],
+        a:0,
+        explain:'資格情報の無効化・変更などでアカウントを保護し、何が閲覧・取得されたかをログ等から調べます。'
+      }
+    ],
+    summary:'通常パターンとの差を見つけ、本人確認・認証履歴・接続元を突合し、不正ならアカウント保護と影響範囲調査へ進む。'
+  },
+  {
+    id:'certificate',
+    title:'証明書エラーのWebサイト',
+    icon:'📜',
+    level:'標準',
+    concept:'デジタル証明書・認証局',
+    desc:'ブラウザの証明書警告を手掛かりに、サーバの真正性確認について考えます。',
+    incident:{
+      title:'社内サービスで証明書警告',
+      badge:'証明書',
+      icon:'🌐',
+      text:'社内ポータルへアクセスしたところ、「この接続ではプライバシーが保護されません」という警告が表示されました。証明書の対象名は別のドメインになっています。'
+    },
+    evidence:[
+      {icon:'🔐',text:'アクセス先：portal.example.co.jp'},
+      {icon:'📜',text:'証明書の対象：portal-example.net'},
+      {icon:'⚠️',text:'ブラウザ：証明書名が一致しないと警告'}
+    ],
+    steps:[
+      {
+        q:'この警告から分かることとして適切なのは？',
+        options:['アクセス先と証明書の対象が一致せず、真正性を確認できない状態','通信が必ず高速になる','パスワードが自動的に変更された','サーバが必ずマルウェア感染している'],
+        a:0,
+        explain:'証明書の名前がアクセス先と一致しない場合、接続している相手が期待したサーバであることを正常に確認できません。'
+      },
+      {
+        q:'利用者の行動として適切なのは？',
+        options:['警告を無視して認証情報を入力せず、管理担当へ確認する','とにかく警告を無視して進む','証明書を自分で適当に作り直す','全社員へパスワードを送る'],
+        a:0,
+        explain:'証明書警告を無視して機密情報を入力するのは避け、正しいURL・証明書設定かを管理側へ確認します。'
+      },
+      {
+        q:'認証局（CA）の役割に最も近いものは？',
+        options:['公開鍵と主体の対応を証明するデジタル証明書を発行・管理する','利用者の全パスワードを公開する','すべての通信内容を保存する','CPUの命令を実行する'],
+        a:0,
+        explain:'認証局は、公開鍵が誰のものかを確認できるようデジタル証明書を発行・管理する役割を持ちます。'
+      }
+    ],
+    summary:'証明書の対象名・有効性・信頼チェーンを通じて接続相手の真正性を確認し、警告時は安易に続行しない。'
+  },
+  {
+    id:'risk',
+    title:'どのリスクから対策する？',
+    icon:'📊',
+    level:'応用',
+    concept:'リスクマネジメント',
+    desc:'発生可能性と影響度から、優先して扱うべきリスクを判断します。',
+    incident:{
+      title:'3つのリスク候補',
+      badge:'リスク評価',
+      icon:'🎯',
+      text:'新サービス公開前に、3つの情報セキュリティリスクを評価しました。予算上、まず1件を重点対策する必要があります。'
+    },
+    risk:true,
+    steps:[
+      {
+        q:'最も優先度が高いと考えられるものは？',
+        options:['R1：発生可能性 高・影響度 高','R2：発生可能性 低・影響度 低','R3：発生可能性 中・影響度 低','どれも必ず同じ'],
+        a:0,
+        explain:'一般に発生可能性と影響度の両方が高いリスクは優先して対応すべき候補になります。'
+      },
+      {
+        q:'リスク対応を決める際に適切なのは？',
+        options:['評価結果や許容可能な水準、対策コストなどを考慮する','影響度を見ず発生確率だけで決める','記録せず直感だけで決める','すべてのリスクを必ずゼロにする'],
+        a:0,
+        explain:'リスクは完全にゼロにできるとは限らないため、評価・許容水準・費用対効果などを考えて対応を選びます。'
+      },
+      {
+        q:'対策後にも残るリスクを何と考えますか？',
+        options:['残留リスク','主キー','キャッシュヒット','スループット'],
+        a:0,
+        explain:'対策を実施しても残るリスクを残留リスクと呼び、許容できるか継続的に管理します。'
+      }
+    ],
+    summary:'発生可能性×影響度で優先順位を考え、対策コストや許容水準を踏まえて処置し、残留リスクも管理する。'
+  }
+];
+
+if(!profile.securityBProgress) profile.securityBProgress={};
+SECURITY_SCENARIOS.forEach(s=>{
+  if(profile.securityBProgress[s.id]===undefined) profile.securityBProgress[s.id]=0;
+});
+saveProfile();
+
+let currentSec=null;
+let secStepIndex=0;
+let secAnswered=false;
+let secCorrect=0;
+
+function setBMode(mode){
+  const traceMode=mode==='trace';
+  document.getElementById('bSelect')?.classList.toggle('hidden',!traceMode);
+  document.getElementById('secSelect')?.classList.toggle('hidden',traceMode);
+  document.getElementById('bLab')?.classList.remove('show');
+  document.getElementById('secLab')?.classList.remove('show');
+  document.querySelectorAll('[data-bmode]').forEach(b=>{
+    b.classList.toggle('active',b.dataset.bmode===mode);
+  });
+  if(traceMode) renderBGrid();
+  else renderSecGrid();
+}
+document.querySelectorAll('[data-bmode]').forEach(b=>{
+  b.addEventListener('click',()=>setBMode(b.dataset.bmode));
+});
+
+function renderSecGrid(){
+  const root=document.getElementById('secScenarioGrid');
+  if(!root) return;
+  root.innerHTML='';
+  let done=0;
+  SECURITY_SCENARIOS.forEach(s=>{
+    const pct=profile.securityBProgress?.[s.id]||0;
+    if(pct>=100) done++;
+    const diffClass=s.level==='標準'?'medium':s.level==='応用'?'hard':'';
+    const card=document.createElement('div');
+    card.className='sec-card'+(pct>=100?' done':'');
+    card.innerHTML=`
+      <div class="sec-card-top">
+        <div class="sec-card-icon">${s.icon}</div>
+        <div>
+          <div class="sec-card-title">${s.title}</div>
+          <div class="sec-card-meta">${s.concept}</div>
+        </div>
+      </div>
+      <div class="sec-card-desc">${s.desc}</div>
+      <div class="sec-card-bottom">
+        <span class="difficulty ${diffClass}">${s.level}</span>
+        ${pct>=100?'<span class="sec-check">✓ CLEAR</span>':''}
+        <button class="sec-start" data-sec="${s.id}">${pct>=100?'もう一度':'開始'}</button>
+      </div>`;
+    root.appendChild(card);
+  });
+  document.getElementById('secProgressText').textContent=`${done} / ${SECURITY_SCENARIOS.length}`;
+  root.querySelectorAll('[data-sec]').forEach(b=>b.onclick=()=>startSecurityScenario(b.dataset.sec));
+}
+renderSecGrid();
+
+function renderSecEvidence(s){
+  const root=document.getElementById('secEvidence');
+  if(s.log){
+    root.innerHTML=`<div class="log-box">${escapeHtml(s.log)}</div>`;
+    return;
+  }
+  if(s.risk){
+    root.innerHTML=`
+      <div class="risk-matrix">
+        <div class="risk-cell"></div><div class="risk-cell">影響 低</div><div class="risk-cell">影響 中</div><div class="risk-cell">影響 高</div>
+        <div class="risk-cell">可能性 高</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div><div class="risk-cell high">R1：最優先候補</div>
+        <div class="risk-cell">可能性 中</div><div class="risk-cell low">R3</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div>
+        <div class="risk-cell">可能性 低</div><div class="risk-cell low">R2</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div>
+      </div>`;
+    return;
+  }
+  root.innerHTML=`<div class="evidence-list">${
+    (s.evidence||[]).map(e=>`<div class="evidence-item"><span class="ev-icon">${e.icon}</span><div>${e.text}</div></div>`).join('')
+  }</div>`;
+}
+
+function startSecurityScenario(id){
+  currentSec=SECURITY_SCENARIOS.find(s=>s.id===id);
+  if(!currentSec) return;
+  secStepIndex=0;
+  secAnswered=false;
+  secCorrect=0;
+
+  document.getElementById('secSelect').classList.add('hidden');
+  document.getElementById('bSelect').classList.add('hidden');
+  document.getElementById('bLab').classList.remove('show');
+  document.getElementById('secLab').classList.add('show');
+  document.getElementById('secComplete').classList.remove('show');
+
+  document.getElementById('secLabTitle').textContent=currentSec.title;
+  document.getElementById('secLabMeta').textContent=`科目B・${currentSec.concept}・${currentSec.level}・FE QUEST ORIGINAL`;
+  document.getElementById('secIncidentIcon').textContent=currentSec.incident.icon;
+  document.getElementById('secIncidentTitle').textContent=currentSec.incident.title;
+  document.getElementById('secIncidentBadge').textContent=currentSec.incident.badge;
+  document.getElementById('secIncidentText').textContent=currentSec.incident.text;
+  renderSecEvidence(currentSec);
+  renderSecDecision();
+}
+
+function renderSecDecision(){
+  const step=currentSec.steps[secStepIndex];
+  secAnswered=false;
+  document.getElementById('secDecisionNum').textContent=secStepIndex+1;
+  document.getElementById('secQuestion').textContent=step.q;
+  document.getElementById('secFeedback').className='decision-feedback';
+  document.getElementById('secFeedback').textContent='';
+  document.getElementById('secNext').classList.remove('show');
+  document.getElementById('secCounter').textContent=`${secStepIndex+1} / ${currentSec.steps.length}`;
+  document.getElementById('secStepProgress').style.width=`${(secStepIndex/currentSec.steps.length)*100}%`;
+
+  const root=document.getElementById('secOptions');
+  root.innerHTML='';
+  step.options.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='decision-option';
+    b.textContent=`${String.fromCharCode(65+i)}. ${op}`;
+    b.onclick=()=>answerSecDecision(i,b);
+    root.appendChild(b);
+  });
+}
+
+function answerSecDecision(i,button){
+  if(secAnswered) return;
+  const step=currentSec.steps[secStepIndex];
+  const ok=i===step.a;
+  secAnswered=true;
+
+  document.querySelectorAll('#secOptions .decision-option').forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===step.a) b.classList.add('good');
+    else if(idx===i && !ok) b.classList.add('bad');
+  });
+
+  if(ok){
+    secCorrect++;
+    profile.xp += 8;
+    popToast('判断正解！ +8 XP');
+  }else{
+    profile.xp += 2;
+  }
+  saveProfile();
+
+  const fb=document.getElementById('secFeedback');
+  fb.className='decision-feedback show'+(ok?'':' bad');
+  fb.innerHTML=`<b>${ok?'⭕ 適切です':'❌ この場面では別の対応が適切です'}</b><div style="margin-top:6px">${step.explain}</div>`;
+
+  document.getElementById('secStepProgress').style.width=`${((secStepIndex+1)/currentSec.steps.length)*100}%`;
+  const next=document.getElementById('secNext');
+  next.textContent=secStepIndex===currentSec.steps.length-1?'シナリオ結果を見る':'次の判断へ →';
+  next.classList.add('show');
+}
+
+document.getElementById('secNext')?.addEventListener('click',()=>{
+  if(!secAnswered) return;
+  if(secStepIndex<currentSec.steps.length-1){
+    secStepIndex++;
+    renderSecDecision();
+  }else{
+    finishSecurityScenario();
+  }
+});
+
+function finishSecurityScenario(){
+  const old=profile.securityBProgress[currentSec.id]||0;
+  profile.securityBProgress[currentSec.id]=100;
+  profile.skills['セキュリティ']=clamp((profile.skills['セキュリティ']||50)+(old<100?3:1),0,100);
+  const bonus=old<100?60:15;
+  profile.xp += bonus;
+  saveProfile();
+
+  document.getElementById('secCompleteXp').textContent=`+${bonus} XP`;
+  document.getElementById('secCompleteText').textContent=`${secCorrect} / ${currentSec.steps.length} 個の判断が最初から適切でした。`;
+  document.getElementById('secCompleteSummary').innerHTML=`<b>今回の要点</b><br>${currentSec.summary}`;
+  document.getElementById('secComplete').classList.add('show');
+  document.querySelector('.decision-panel').style.display='none';
+  renderSecGrid();
+}
+
+function showSecurityList(){
+  document.getElementById('secLab').classList.remove('show');
+  document.getElementById('secSelect').classList.remove('hidden');
+  document.getElementById('bSelect').classList.add('hidden');
+  const dp=document.querySelector('.decision-panel');
+  if(dp) dp.style.display='';
+  renderSecGrid();
+}
+document.getElementById('secBackToList')?.addEventListener('click',showSecurityList);
+document.getElementById('secReturnList')?.addEventListener('click',showSecurityList);
+
+// Opening 科目B LAB defaults to the algorithm lab, while tabs allow switching.
+const _showBListV9 = showBList;
+showBList = function(){
+  document.getElementById('secSelect')?.classList.add('hidden');
+  document.getElementById('secLab')?.classList.remove('show');
+  document.querySelectorAll('[data-bmode]').forEach(b=>b.classList.toggle('active',b.dataset.bmode==='trace'));
+  _showBListV9();
+};
 
 
 // ===== PWA support =====
