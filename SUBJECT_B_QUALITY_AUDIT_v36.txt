@@ -1,0 +1,20 @@
+FE QUEST v36 — SUBJECT B COMPOUND QUALITY AUDIT
+
+対象: 15セット / 45設問
+
+設問タイプ監査:
+トレース / 空欄補充 / 変更予測 / 処理理解
+
+設問ごとに追加:
+- qlevel
+- point
+- pitfall
+
+解説UI:
+正解だけでなく、処理を追う着眼点と典型的な誤りを分離表示。
+
+分類修正:
+postfix_stack #2 -> 処理理解
+bit_permission #3 -> トレース
+matrix_transpose #3 -> トレース
+merge_sorted #3 -> トレース

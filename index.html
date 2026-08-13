@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v31</title>
+<title>FE QUEST PWA v38</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3138,6 +3138,295 @@
     .trace-matrix-cell{width:45px;height:43px}
   }
 
+
+  /* ===== v32: compact lesson density ===== */
+  .lesson-takeaway{margin-top:10px;padding:11px 13px;border-radius:14px;background:#fff;border:1px solid #cfe8bd;text-align:left;color:#17324a}
+  .lesson-takeaway b{display:block;font-size:12px;margin-bottom:4px}
+  .lesson-takeaway span{display:block;font-size:10px;line-height:1.55;color:#5b7185}
+
+
+  /* ===== v33: Subject B practical mini mock ===== */
+  .b-mode-tab.exam.active{color:#8b54d6}
+  .bmock-select.hidden{display:none}.bmock-exam,.bmock-result{display:none}
+  .bmock-exam.show,.bmock-result.show{display:block}
+
+  .bmock-hero{display:flex;align-items:center;gap:16px;padding:20px;border-radius:22px;border:1px solid #e3d3f5;background:linear-gradient(135deg,#fbf8ff,#f6f1ff);margin-bottom:16px}
+  .bmock-hero-icon{font-size:36px}.bmock-hero-copy{flex:1}.bmock-hero-title{font-size:20px;font-weight:1000;color:#7446a6}
+  .bmock-hero-score{font-size:12px;font-weight:1000;color:#7542a6;background:#fff;border:1px solid #e2d3f1;border-radius:999px;padding:8px 11px;white-space:nowrap}
+  .bmock-rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .bmock-rules>div{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px;text-align:center}
+  .bmock-rules span{display:block;font-size:22px;font-weight:1000;color:#7d4db1}.bmock-rules b{display:block;font-size:10px;margin-top:1px}.bmock-rules small{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+  .bmock-notice{display:flex;gap:8px;flex-direction:column;padding:13px 15px;border-radius:16px;background:#fffaf0;border:1px solid #f0dfaf;margin-bottom:14px}
+  .bmock-notice b{font-size:11px}.bmock-notice span{font-size:10px;line-height:1.55;color:#687d8d}
+  .bmock-start{width:100%;border:none;border-radius:16px;padding:15px;background:var(--purple);color:#fff;font-size:14px;font-weight:1000;cursor:pointer;box-shadow:0 4px 0 #6f36aa}
+  .bmock-start:active{transform:translateY(2px);box-shadow:0 2px 0 #6f36aa}
+
+  .bmock-history{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}
+  .bmock-history-title{font-size:12px;font-weight:1000;margin-bottom:8px}
+  .bmock-history-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:9px 2px;border-top:1px solid #eef2f5}
+  .bmock-history-row:first-child{border-top:none}.bmock-history-main b{display:block;font-size:11px}.bmock-history-main span{font-size:9px;color:var(--muted)}
+  .bmock-history-time{font-size:10px;color:var(--muted);font-weight:900}.bmock-history-score{font-size:16px;color:#7d4db1;font-weight:1000}
+
+  .bmock-topbar{display:flex;gap:10px;align-items:center;margin-bottom:14px}.bmock-top-title{flex:1;min-width:0}
+  .bmock-top-title b{display:block;font-size:15px}.bmock-top-title span{font-size:10px;color:var(--muted)}
+  .bmock-timer{border:1px solid #dcc9ef;background:#fbf8ff;color:#70429d;border-radius:12px;padding:8px 11px;font-weight:1000;font-variant-numeric:tabular-nums}
+  .bmock-timer.warn{background:#fff9dc;border-color:#f1d365;color:#896900}.bmock-timer.danger{background:#fff0f0;border-color:#f0b9b9;color:#b53a3a}
+  .bmock-submit-top{border:none;border-radius:11px;padding:9px 13px;background:#7e4db1;color:#fff;font-weight:1000;cursor:pointer}
+
+  .bmock-layout{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:14px;align-items:start}
+  .bmock-question-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px}
+  .bmock-q-meta{display:flex;gap:8px;align-items:center}.bmock-q-num{font-size:11px;font-weight:1000;color:#7645a9}
+  .bmock-q-label{font-size:9px;font-weight:1000;background:#f3ecfb;color:#7241a1;border-radius:999px;padding:4px 8px}
+  .bmock-prompt{font-size:11px;color:var(--muted);margin:13px 0 10px;line-height:1.55}
+  .bmock-code-title,.bmock-snapshot-title{font-size:9px;font-weight:1000;letter-spacing:.11em;color:#6d7e8b;margin:12px 0 6px}
+  .bmock-code{background:#111923;border-radius:14px;padding:10px;overflow:auto}
+  .bmock-code-line{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:3px 7px;border-radius:7px;color:#dbe7f2;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;white-space:pre}
+  .bmock-code-line.target{background:#4a2b66;color:#fff}.bmock-code-line .ln{color:#718395;text-align:right;user-select:none}
+  .bmock-state{display:flex;gap:7px;flex-wrap:wrap}.bmock-state-card{background:#f8fafc;border:1px solid var(--line);border-radius:11px;padding:8px 10px;min-width:72px}
+  .bmock-state-key{font-size:8px;color:var(--muted);font-weight:1000}.bmock-state-val{font-size:15px;font-weight:1000;margin-top:2px}
+  .bmock-visual{margin-top:8px;padding:10px;border:1px solid #edf0f3;border-radius:14px;background:#fbfcfd}.bmock-visual:empty{display:none}
+  .bmock-question{font-size:17px;font-weight:1000;line-height:1.6;margin:18px 0 10px}
+  .bmock-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .bmock-option{border:2px solid var(--line);background:#fff;border-radius:13px;padding:12px;text-align:left;font-weight:900;font-size:12px;cursor:pointer}
+  .bmock-option.selected{border-color:#8f4ada;background:#f6effc}
+  .bmock-actions{display:flex;align-items:center;gap:8px;margin-top:16px}
+  .bmock-prev,.bmock-next,.bmock-flag{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}
+  .bmock-next{margin-left:auto;background:#8f4ada;color:#fff;border-color:#8f4ada}.bmock-flag.active{background:#fff8d6;border-color:#e7c652;color:#806000}
+
+  .bmock-nav-panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;position:sticky;top:12px}
+  .bmock-nav-title{font-size:11px;font-weight:1000;color:var(--muted);margin-bottom:9px}
+  .bmock-nav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .bmock-nav-q{height:34px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:10px;font-weight:1000;cursor:pointer;position:relative}
+  .bmock-nav-q.answered{background:#f2eafb;border-color:#d7bbed;color:#7443a3}.bmock-nav-q.current{outline:2px solid #8f4ada;outline-offset:1px}
+  .bmock-nav-q.flagged:after{content:"★";position:absolute;right:2px;top:0;font-size:7px;color:#9b7600}
+  .bmock-legend{display:grid;gap:4px;margin-top:10px;font-size:8px;color:var(--muted)}.bmock-answer-count{margin-top:10px;text-align:center;font-size:9px;font-weight:1000;color:#6e8090}
+
+  .bmock-result-hero{text-align:center;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}
+  .bmock-result-icon{font-size:48px}.bmock-result-kicker{font-size:9px;font-weight:1000;letter-spacing:.14em;color:#7950a7;margin-top:5px}
+  .bmock-result-score{font-size:42px;font-weight:1000;color:#7f4ab4;margin:3px 0}
+  .bmock-result-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  .bmock-result-stats>div{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center}
+  .bmock-result-stats span{display:block;font-size:20px;font-weight:1000}.bmock-result-stats b{display:block;font-size:9px;color:var(--muted);margin-top:2px}
+  .bmock-breakdown{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+  .bmock-break-row{display:grid;grid-template-columns:70px 1fr 48px;gap:8px;align-items:center;margin-top:8px}.bmock-break-row:first-child{margin-top:0}
+  .bmock-break-label{font-size:10px;font-weight:1000}.bmock-break-bar{height:8px;background:#edf1f4;border-radius:999px;overflow:hidden}
+  .bmock-break-fill{height:100%;background:#8f4ada;border-radius:999px}.bmock-break-score{text-align:right;font-size:10px;font-weight:1000}
+  .bmock-review-head{margin:18px 2px 9px}.bmock-review-head h2{font-size:18px;margin:0 0 2px}.bmock-review-list{display:grid;gap:10px}
+  .bmock-review-item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}.bmock-review-item.correct{border-left:4px solid #58ba31}.bmock-review-item.wrong{border-left:4px solid #e36666}
+  .bmock-review-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.bmock-review-top b{font-size:11px}.bmock-review-mark{font-size:10px;font-weight:1000}
+  .bmock-review-q{font-size:11px;font-weight:900;line-height:1.5;margin-top:7px}.bmock-review-answer{font-size:10px;line-height:1.55;margin-top:7px;padding:8px 10px;border-radius:10px;background:#f8fafc}
+  .bmock-review-explain{font-size:10px;line-height:1.55;color:#617687;margin-top:6px}
+  .bmock-review-study{margin-top:8px;border:1px solid #d8c1ec;background:#fbf7ff;color:#7341a2;border-radius:10px;padding:7px 10px;font-size:9px;font-weight:1000;cursor:pointer}
+  .bmock-result-actions{display:flex;justify-content:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+  @media(max-width:820px){.bmock-layout{grid-template-columns:1fr}.bmock-nav-panel{position:static}.bmock-nav-grid{grid-template-columns:repeat(8,1fr)}}
+  @media(max-width:620px){.bmock-rules{grid-template-columns:1fr 1fr}.bmock-options{grid-template-columns:1fr}.bmock-result-stats{grid-template-columns:1fr 1fr}.bmock-top-title span{display:none}.bmock-timer{padding:7px 8px}}
+
+
+  /* ===== v34: compound challenge ===== */
+  .bmock-mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .bmock-mode-card{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:15px;text-align:left;cursor:pointer;transition:.15s ease}
+  .bmock-mode-card:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(30,50,70,.07)}
+  .bmock-mode-card.compound{border-color:#ddc8ef;background:#fcf8ff}
+  .bmock-mode-icon{font-size:26px}.bmock-mode-copy{flex:1}.bmock-mode-copy b{display:block;font-size:13px}
+  .bmock-mode-copy small{display:block;color:var(--muted);font-size:9px;line-height:1.45;margin-top:3px}.bmock-mode-go{font-size:18px;font-weight:1000;color:#8650ba}
+  .bcompound-exam,.bcompound-result{display:none}.bcompound-exam.show,.bcompound-result.show{display:block}
+  .bcompound-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:14px;align-items:start}
+  .bcompound-code-pane,.bcompound-question-pane{background:#fff;border:1px solid var(--line);border-radius:22px;padding:17px}
+  .bcompound-code-pane{position:sticky;top:12px}.bcompound-set-head{display:flex;align-items:center;gap:8px}
+  .bcompound-set-head span{font-size:9px;font-weight:1000;padding:5px 8px;border-radius:999px;background:#f0e6fa;color:#7443a3}.bcompound-set-head b{font-size:18px}
+  .bcompound-lead{font-size:11px;line-height:1.65;color:#627789;margin-top:10px}.bcompound-code{max-height:500px}
+  .bcompound-data{margin-top:10px;display:grid;gap:8px}.bcompound-data-card{border:1px solid #e5eaee;border-radius:12px;padding:9px 11px;background:#fafcfd;font-size:10px;line-height:1.55}
+  .bcompound-data-card b{display:block;font-size:9px;color:#6e8090;margin-bottom:3px}.bcompound-q-progress{font-size:10px;font-weight:1000;color:#7d4daf;margin-bottom:8px}
+  .bcompound-question{font-size:17px;line-height:1.65;font-weight:1000;margin-bottom:12px}.bcompound-qnav{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+  .bcompound-qnav button{width:34px;height:34px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:1000;cursor:pointer}.bcompound-qnav button.answered{background:#f0e7fa;border-color:#d7b9ee;color:#7541a7}.bcompound-qnav button.current{outline:2px solid #8f4ada;outline-offset:1px}
+  .bcompound-review{display:grid;gap:10px;margin-top:14px}.bcompound-review-item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}.bcompound-review-item.correct{border-left:4px solid #58ba31}.bcompound-review-item.wrong{border-left:4px solid #e36666}
+  .bcompound-review-q{font-size:11px;line-height:1.55;margin-top:6px;font-weight:900}.bcompound-review-a{font-size:10px;line-height:1.55;background:#f8fafc;border-radius:10px;padding:8px 10px;margin-top:7px}.bcompound-review-e{font-size:10px;line-height:1.55;color:#617687;margin-top:6px}
+  @media(max-width:900px){.bcompound-layout{grid-template-columns:1fr}.bcompound-code-pane{position:static}}
+  @media(max-width:620px){.bmock-mode-cards{grid-template-columns:1fr}}
+
+
+  /* ===== v35: expanded compound bank ===== */
+  .bcompound-format-strip{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 14px}
+  .bcompound-format-strip span{font-size:9px;font-weight:1000;color:#6d4b8d;background:#faf5ff;border:1px solid #e5d4f3;border-radius:999px;padding:6px 9px}
+  .bmock-history-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .bcompound-kind{display:inline-flex;align-items:center;border:1px solid #decaf0;background:#faf5ff;color:#7444a4;border-radius:999px;padding:4px 8px;font-size:8px;font-weight:1000;margin-left:6px}
+  .bcompound-code-line-blank{background:#3b2850!important;color:#fff!important}
+  @media(max-width:760px){.bmock-history-grid{grid-template-columns:1fr}}
+
+
+  /* ===== v36: compound quality audit ===== */
+  .bcompound-audit-badge{margin:-5px 0 14px;padding:9px 12px;border-radius:13px;background:#f5fff1;border:1px solid #cbe9b9;color:#39761f;font-size:10px;font-weight:1000;text-align:center}
+  .bcompound-audit-badge small{font-size:8px;color:#66805b;margin-left:5px;font-weight:800}
+  .bcompound-meta-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+  .bcompound-meta-tag{font-size:9px;font-weight:1000;padding:5px 8px;border-radius:999px;background:#f4edf9;color:#71419f;border:1px solid #e1d2ee}
+  .bcompound-meta-tag.diff-basic{background:#effbea;color:#4a7d2f;border-color:#cee8c0}
+  .bcompound-meta-tag.diff-standard{background:#fff8df;color:#886b13;border-color:#eddc9d}
+  .bcompound-meta-tag.diff-advanced{background:#fff0f0;color:#a14e4e;border-color:#ebc7c7}
+  .bcompound-review-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .bcompound-review-meta span{font-size:8px;font-weight:1000;padding:4px 7px;border-radius:999px;background:#f1edf7;color:#71459a}
+  .bcompound-review-box{margin-top:7px;padding:9px 10px;border-radius:11px;background:#fbfcfd;border:1px solid #e5eaee}
+  .bcompound-review-box b{display:block;font-size:9px;margin-bottom:3px;color:#526879}
+  .bcompound-review-box span{display:block;font-size:10px;line-height:1.6;color:#627789}
+  .bcompound-review-box.pitfall{background:#fffaf1;border-color:#efe0b8}
+  .bcompound-review-box.pitfall b{color:#856d29}
+
+
+  /* ===== v37: Security expansion / practical mock ===== */
+  .sec-practical-card{
+    display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:14px 15px;
+    border:1px solid #bfe9de;border-radius:18px;background:linear-gradient(135deg,#f5fffc,#fbfffe);
+  }
+  .sec-practical-icon{font-size:27px}
+  .sec-practical-copy{flex:1}
+  .sec-practical-copy b{display:block;font-size:13px;color:#13785f}
+  .sec-practical-copy span{display:block;font-size:9px;line-height:1.5;color:var(--muted);margin-top:3px}
+  .sec-practical-card button{
+    border:none;border-radius:11px;padding:9px 12px;background:#18a889;color:#fff;font-size:10px;font-weight:1000;cursor:pointer
+  }
+
+  .sec-filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+  .sec-filter{
+    border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;
+    font-weight:900;font-size:11px;color:var(--muted);cursor:pointer
+  }
+  .sec-filter.active{background:#18a889;border-color:#18a889;color:#fff}
+
+  .sec-retry-hint{
+    margin-top:7px;padding:9px 11px;border-radius:11px;background:#fff9dc;border:1px solid #efd675;
+    font-size:10px;line-height:1.55;color:#6e5b12
+  }
+
+  .secmock-exam,.secmock-result{display:none}
+  .secmock-exam.show,.secmock-result.show{display:block}
+  .secmock-layout{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:14px;align-items:start}
+  .secmock-question-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px}
+  .secmock-q-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .secmock-q-meta span:first-child{font-size:11px;font-weight:1000;color:#16856c}
+  .secmock-q-meta span:last-child{font-size:9px;font-weight:1000;padding:4px 8px;border-radius:999px;background:#eafaf5;color:#14735e}
+  .secmock-incident{margin-top:13px;padding:13px;border-radius:15px;background:#f8fbfc;border:1px solid #e2eaee}
+  .secmock-incident-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .secmock-incident-head span{font-size:20px}.secmock-incident-head b{font-size:13px}
+  .secmock-incident>div:last-child{font-size:10px;line-height:1.6;color:#617687}
+  .secmock-evidence-title{font-size:9px;font-weight:1000;letter-spacing:.1em;color:#6d7e8b;margin:12px 0 6px}
+  .secmock-evidence{border:1px solid #e8edef;border-radius:14px;background:#fbfcfd;padding:10px}
+  .secmock-evidence .log-box{margin:0}
+  .secmock-question{font-size:17px;font-weight:1000;line-height:1.65;margin:18px 0 10px}
+  .secmock-options{display:grid;gap:9px}
+  .secmock-option{
+    border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;text-align:left;
+    font-size:12px;font-weight:900;line-height:1.5;cursor:pointer
+  }
+  .secmock-option.selected{border-color:#18a889;background:#effbf7}
+  .secmock-next{background:#18a889!important;border-color:#18a889!important}
+  .secmock-timer{
+    border:1px solid #bde5dc;background:#f2fcf9;color:#126c58;border-radius:12px;padding:8px 11px;
+    font-weight:1000;font-variant-numeric:tabular-nums
+  }
+  .secmock-timer.warn{background:#fff9dc;border-color:#f1d365;color:#896900}
+  .secmock-timer.danger{background:#fff0f0;border-color:#f0b9b9;color:#b53a3a}
+  .secmock-submit-top{border:none;border-radius:11px;padding:9px 13px;background:#18a889;color:#fff;font-weight:1000;cursor:pointer}
+  .secmock-result-hero{border-color:#cbe9e1;background:linear-gradient(135deg,#f5fffc,#fff)}
+  .secmock-breakdown{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+  .secmock-break-row{display:grid;grid-template-columns:70px 1fr 50px;gap:8px;align-items:center;margin-top:8px}
+  .secmock-break-row:first-child{margin-top:0}
+  .secmock-break-label{font-size:10px;font-weight:1000}
+  .secmock-break-bar{height:8px;background:#edf1f4;border-radius:999px;overflow:hidden}
+  .secmock-break-fill{height:100%;background:#18a889;border-radius:999px}
+  .secmock-break-score{text-align:right;font-size:10px;font-weight:1000}
+  .secmock-review-list{display:grid;gap:10px}
+  .secmock-review-item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}
+  .secmock-review-item.correct{border-left:4px solid #58ba31}
+  .secmock-review-item.wrong{border-left:4px solid #e36666}
+  .secmock-review-top{display:flex;justify-content:space-between;gap:8px}
+  .secmock-review-top b{font-size:11px}.secmock-review-top span{font-size:10px;font-weight:1000}
+  .secmock-review-q{font-size:11px;font-weight:900;line-height:1.55;margin-top:7px}
+  .secmock-review-a{font-size:10px;line-height:1.55;margin-top:7px;padding:8px 10px;border-radius:10px;background:#f8fafc}
+  .secmock-review-e{font-size:10px;line-height:1.55;color:#617687;margin-top:6px}
+  .secmock-review-study{margin-top:8px;border:1px solid #bfe6dc;background:#f5fffc;color:#13785f;border-radius:10px;padding:7px 10px;font-size:9px;font-weight:1000;cursor:pointer}
+  @media(max-width:820px){.secmock-layout{grid-template-columns:1fr}.sec-practical-card{align-items:flex-start}}
+  @media(max-width:560px){.sec-practical-card{flex-wrap:wrap}.sec-practical-card button{width:100%}}
+
+
+  /* ===== v38: Full Subject-B practice ===== */
+  .b-mode-tab.final.active{color:#6f3ca5;background:#f4ecfb}
+  .bfinal-select.hidden{display:none}.bfinal-exam,.bfinal-result{display:none}
+  .bfinal-exam.show,.bfinal-result.show{display:block}
+
+  .bfinal-hero{border:1px solid #dcc6ef;background:linear-gradient(135deg,#fcf9ff,#f5eefc);border-radius:22px;padding:20px;margin-bottom:13px}
+  .bfinal-hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .bfinal-badge{font-size:9px;letter-spacing:.13em;font-weight:1000;color:#7545a5}
+  .bfinal-best{font-size:10px;font-weight:1000;color:#7545a5;background:#fff;border:1px solid #ddccef;border-radius:999px;padding:7px 10px}
+  .bfinal-title{font-size:23px;font-weight:1000;margin:9px 0 5px}
+  .bfinal-spec{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:13px}
+  .bfinal-spec>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+  .bfinal-spec span{display:block;font-size:22px;font-weight:1000;color:#7545a5}
+  .bfinal-spec b{display:block;font-size:9px;margin-top:1px}.bfinal-spec small{display:block;font-size:8px;color:var(--muted);margin-top:3px}
+  .bfinal-format{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px;margin-bottom:13px}
+  .bfinal-format-title{font-size:11px;font-weight:1000;margin-bottom:8px}
+  .bfinal-format-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .bfinal-format-chips span{font-size:9px;font-weight:900;padding:6px 8px;border-radius:999px;background:#f2ecf8;color:#71449c}
+  .bfinal-start{width:100%;border:none;border-radius:16px;padding:15px;background:#7e45b4;color:#fff;font-size:14px;font-weight:1000;box-shadow:0 4px 0 #62318e;cursor:pointer}
+
+  .bfinal-topbar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .bfinal-top-copy{min-width:155px}.bfinal-top-copy b{display:block;font-size:13px}.bfinal-top-copy span{font-size:9px;color:var(--muted)}
+  .bfinal-progress-mini{height:7px;background:#e9edf0;border-radius:999px;overflow:hidden;flex:1}
+  .bfinal-progress-mini>div{height:100%;width:0;background:#7e45b4;border-radius:999px;transition:width .2s}
+  .bfinal-timer{border:1px solid #dbc6ec;background:#faf6ff;color:#71419c;border-radius:12px;padding:8px 10px;font-weight:1000;font-variant-numeric:tabular-nums}
+  .bfinal-timer.warn{background:#fff9dc;border-color:#efd26a;color:#896900}.bfinal-timer.danger{background:#fff0f0;border-color:#efbcbc;color:#b43a3a}
+  .bfinal-submit{border:none;border-radius:11px;padding:9px 13px;background:#7e45b4;color:#fff;font-weight:1000;cursor:pointer}
+
+  .bfinal-layout{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:14px;align-items:start}
+  .bfinal-question-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px}
+  .bfinal-qhead{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  .bfinal-qnum{font-size:12px;font-weight:1000;color:#7342a2}.bfinal-qtype,.bfinal-qformat{font-size:9px;font-weight:1000;border-radius:999px;padding:5px 8px}
+  .bfinal-qtype{background:#f2eafa;color:#71419d}.bfinal-qtype.security{background:#e9faf5;color:#12725c}
+  .bfinal-qformat{background:#f5f7f8;color:#627789}
+  .bfinal-context{font-size:11px;line-height:1.7;color:#5f7383;margin:13px 0 9px}
+  .bfinal-code{max-height:430px}
+  .bfinal-data{display:grid;gap:7px;margin-top:9px}
+  .bfinal-data-card{background:#fafcfd;border:1px solid #e6ebee;border-radius:12px;padding:8px 10px;font-size:10px;line-height:1.55}
+  .bfinal-data-card b{display:block;font-size:8px;color:#6c7f8e;margin-bottom:2px}
+  .bfinal-question{font-size:17px;line-height:1.65;font-weight:1000;margin:18px 0 10px}
+  .bfinal-options{display:grid;gap:9px}
+  .bfinal-option{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;text-align:left;font-size:12px;font-weight:900;line-height:1.5;cursor:pointer}
+  .bfinal-option.selected{border-color:#8650b8;background:#f7f0fc}
+  .bfinal-option.security.selected{border-color:#18a889;background:#effbf7}
+  .bfinal-actions{display:flex;gap:8px;margin-top:16px}.bfinal-actions button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}
+  .bfinal-actions .next{margin-left:auto;background:#7e45b4;border-color:#7e45b4;color:#fff}.bfinal-actions #bFinalFlag.active{background:#fff8d6;border-color:#e5c65b;color:#806000}
+
+  .bfinal-nav{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;position:sticky;top:12px}
+  .bfinal-nav-title{font-size:11px;font-weight:1000}.bfinal-nav-sub{font-size:8px;color:var(--muted);margin:3px 0 10px}
+  .bfinal-nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .bfinal-nav-q{height:34px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:10px;font-weight:1000;cursor:pointer;position:relative}
+  .bfinal-nav-q.algo.answered{background:#f2eafa;border-color:#d9bfed;color:#70409f}.bfinal-nav-q.security.answered{background:#eaf9f5;border-color:#bde6db;color:#126f5b}
+  .bfinal-nav-q.current{outline:2px solid #27394a;outline-offset:1px}.bfinal-nav-q.flagged:after{content:"★";position:absolute;right:2px;top:0;font-size:7px;color:#987300}
+  .bfinal-count{text-align:center;font-size:9px;font-weight:1000;color:#687d8c;margin-top:10px}
+  .bfinal-section-count{display:grid;gap:4px;border-top:1px solid #eef2f4;margin-top:10px;padding-top:9px;font-size:8px;color:#6a7e8e}
+
+  .bfinal-result-hero{text-align:center;background:linear-gradient(135deg,#faf6ff,#fff);border:1px solid #ddc9ef;border-radius:22px;padding:20px}
+  .bfinal-result-icon{font-size:44px}.bfinal-result-kicker{font-size:9px;font-weight:1000;letter-spacing:.14em;color:#7544a5}
+  .bfinal-result-points{display:inline-block;font-size:52px;font-weight:1000;color:#7645a7;margin-top:5px}.bfinal-result-denom{display:inline-block;font-size:16px;font-weight:1000;color:#8796a1}
+  .bfinal-result-raw{font-size:13px;font-weight:1000;margin-top:2px}
+  .bfinal-result-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  .bfinal-result-stats>div{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center}
+  .bfinal-result-stats span{display:block;font-size:20px;font-weight:1000}.bfinal-result-stats b{display:block;font-size:9px;color:var(--muted)}
+  .bfinal-section-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .bfinal-section-card{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}
+  .bfinal-section-card.algo{border-left:4px solid #8550b4}.bfinal-section-card.security{border-left:4px solid #18a889}
+  .bfinal-section-icon{font-size:26px}.bfinal-section-card b{display:block;font-size:11px}.bfinal-section-card span{display:block;font-size:18px;font-weight:1000;margin-top:2px}
+  .bfinal-format-breakdown{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+  .bfinal-format-row{display:grid;grid-template-columns:90px 1fr 52px;gap:8px;align-items:center;margin-top:7px}.bfinal-format-row:first-child{margin-top:0}
+  .bfinal-format-label{font-size:9px;font-weight:1000}.bfinal-format-bar{height:8px;background:#edf1f4;border-radius:999px;overflow:hidden}.bfinal-format-fill{height:100%;background:#7e45b4;border-radius:999px}.bfinal-format-score{text-align:right;font-size:9px;font-weight:1000}
+  .bfinal-review-list{display:grid;gap:10px}.bfinal-review-item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}
+  .bfinal-review-item.correct{border-left:4px solid #58ba31}.bfinal-review-item.wrong{border-left:4px solid #e36666}
+  .bfinal-review-top{display:flex;justify-content:space-between;gap:8px}.bfinal-review-top b{font-size:11px}.bfinal-review-top span{font-size:9px;font-weight:1000}
+  .bfinal-review-q{font-size:11px;font-weight:900;line-height:1.55;margin-top:7px}.bfinal-review-a{font-size:10px;line-height:1.55;background:#f8fafc;border-radius:10px;padding:8px 10px;margin-top:7px}
+  .bfinal-review-e{font-size:10px;line-height:1.55;color:#617687;margin-top:6px}
+  .bfinal-review-study{margin-top:8px;border:1px solid #d9c4eb;background:#fbf8ff;color:#7343a2;border-radius:10px;padding:7px 10px;font-size:9px;font-weight:1000;cursor:pointer}
+  @media(max-width:860px){.bfinal-layout{grid-template-columns:1fr}.bfinal-nav{position:static}.bfinal-nav-grid{grid-template-columns:repeat(10,1fr)}}
+  @media(max-width:620px){.bfinal-spec{grid-template-columns:1fr 1fr}.bfinal-result-stats{grid-template-columns:1fr 1fr}.bfinal-section-results{grid-template-columns:1fr}.bfinal-top-copy span,.bfinal-progress-mini{display:none}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4146,6 +4435,8 @@
         <div class="b-mode-tabs">
           <button class="b-mode-tab active" data-bmode="trace">💻 アルゴリズム</button>
           <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">🏁 総合実戦</button>
         </div>
 
         <div class="b-hero">
@@ -4218,6 +4509,347 @@
         </div>
       </div>
 
+
+
+      <div id="bFinalSelect" class="bfinal-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map">←</button>
+          <div>
+            <h1>科目B 総合実戦 🏁</h1>
+            <div class="sub">アルゴリズムと情報セキュリティを混ぜた20問を、100分で解きます。</div>
+          </div>
+        </div>
+
+        <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final active" data-bmode="final">🏁 総合実戦</button>
+        </div>
+
+        <div class="bfinal-hero">
+          <div class="bfinal-hero-top">
+            <div class="bfinal-badge">FULL SUBJECT B</div>
+            <div class="bfinal-best" id="bFinalBest">BEST —</div>
+          </div>
+          <div class="bfinal-title">本番を意識した20問・100分</div>
+          <div class="sub">
+            擬似言語16問 + 情報セキュリティ4問。ヒント・途中採点・STEP操作はありません。
+            問題文を読み、必要なら手元でトレースして最後まで解き切ります。
+          </div>
+        </div>
+
+        <div class="bfinal-spec">
+          <div><span>20</span><b>問</b><small>全問回答</small></div>
+          <div><span>100</span><b>分</b><small>1問平均5分</small></div>
+          <div><span>16 + 4</span><b>構成</b><small>擬似言語 + Security</small></div>
+          <div><span>600</span><b>練習目標</b><small>FE QUEST内換算</small></div>
+        </div>
+
+        <div class="bfinal-format">
+          <div class="bfinal-format-title">出題形式</div>
+          <div class="bfinal-format-chips">
+            <span>途中状態</span><span>空欄補充</span><span>処理結果</span><span>関数・再帰</span>
+            <span>配列・リスト</span><span>ビット列</span><span>ケース判断</span><span>ログ読解</span>
+          </div>
+          <div class="sub">同じ問題文の再現ではなく、FE QUESTのオリジナル問題だけで構成しています。</div>
+        </div>
+
+        <button class="bfinal-start" id="bFinalStart">20問の総合実戦を開始 →</button>
+
+        <div class="bmock-history">
+          <div class="bmock-history-title">最近の総合実戦</div>
+          <div id="bFinalHistory"></div>
+        </div>
+      </div>
+
+      <div id="bFinalExam" class="bfinal-exam">
+        <div class="bfinal-topbar">
+          <button class="back" id="bFinalExit">×</button>
+          <div class="bfinal-top-copy">
+            <b>SUBJECT B FULL PRACTICE</b>
+            <span id="bFinalTopMeta">QUESTION 1 / 20</span>
+          </div>
+          <div class="bfinal-progress-mini"><div id="bFinalProgressMini"></div></div>
+          <div class="bfinal-timer" id="bFinalTimer">100:00</div>
+          <button class="bfinal-submit" id="bFinalSubmit">提出</button>
+        </div>
+
+        <div class="bfinal-layout">
+          <main class="bfinal-question-card">
+            <div class="bfinal-qhead">
+              <span class="bfinal-qnum" id="bFinalQNum">Q1</span>
+              <span class="bfinal-qtype" id="bFinalQType">擬似言語</span>
+              <span class="bfinal-qformat" id="bFinalQFormat"></span>
+            </div>
+
+            <div id="bFinalAlgoBlock">
+              <div class="bfinal-context" id="bFinalAlgoContext"></div>
+              <div class="bmock-code-title">PSEUDOCODE</div>
+              <div class="bmock-code bfinal-code" id="bFinalCode"></div>
+              <div class="bfinal-data" id="bFinalAlgoData"></div>
+            </div>
+
+            <div id="bFinalSecurityBlock" class="hidden">
+              <div class="secmock-incident">
+                <div class="secmock-incident-head">
+                  <span id="bFinalSecIcon">⚠️</span><b id="bFinalSecTitle"></b>
+                </div>
+                <div id="bFinalSecText"></div>
+              </div>
+              <div class="secmock-evidence-title">EVIDENCE / LOG</div>
+              <div class="secmock-evidence" id="bFinalSecEvidence"></div>
+            </div>
+
+            <div class="bfinal-question" id="bFinalQuestion"></div>
+            <div class="bfinal-options" id="bFinalOptions"></div>
+
+            <div class="bfinal-actions">
+              <button id="bFinalPrev">← 前へ</button>
+              <button id="bFinalFlag">☆ 後で見る</button>
+              <button id="bFinalNext" class="next">次へ →</button>
+            </div>
+          </main>
+
+          <aside class="bfinal-nav">
+            <div class="bfinal-nav-title">問題一覧</div>
+            <div class="bfinal-nav-sub">紫＝擬似言語 / 緑＝Security</div>
+            <div class="bfinal-nav-grid" id="bFinalNavGrid"></div>
+            <div class="bfinal-count" id="bFinalAnswerCount">0 / 20 回答</div>
+            <div class="bfinal-section-count">
+              <div><span id="bFinalAlgoAnswered">0</span>/16 擬似言語</div>
+              <div><span id="bFinalSecAnswered">0</span>/4 Security</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="bFinalResult" class="bfinal-result">
+        <div class="bfinal-result-hero">
+          <div class="bfinal-result-icon">🏁</div>
+          <div class="bfinal-result-kicker">SUBJECT B FULL PRACTICE</div>
+          <div class="bfinal-result-points" id="bFinalResultPoints">0</div>
+          <div class="bfinal-result-denom">/ 1000 <small>FE QUEST練習換算</small></div>
+          <div class="bfinal-result-raw" id="bFinalResultRaw">0 / 20 正解</div>
+          <div class="sub" id="bFinalResultMessage"></div>
+        </div>
+
+        <div class="bfinal-result-stats">
+          <div><span id="bFinalStatCorrect">0</span><b>正解</b></div>
+          <div><span id="bFinalStatWrong">0</span><b>不正解</b></div>
+          <div><span id="bFinalStatBlank">0</span><b>未回答</b></div>
+          <div><span id="bFinalStatTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="bfinal-section-results">
+          <div class="bfinal-section-card algo">
+            <div class="bfinal-section-icon">💻</div>
+            <div><b>擬似言語</b><span id="bFinalAlgoScore">0 / 16</span></div>
+          </div>
+          <div class="bfinal-section-card security">
+            <div class="bfinal-section-icon">🛡️</div>
+            <div><b>情報セキュリティ</b><span id="bFinalSecScore">0 / 4</span></div>
+          </div>
+        </div>
+
+        <div class="bfinal-format-breakdown" id="bFinalFormatBreakdown"></div>
+
+        <div class="bmock-review-head">
+          <h2>全20問レビュー</h2>
+          <div class="sub">誤答は、どの読み方で崩れたかまで確認できます。</div>
+        </div>
+        <div class="bfinal-review-list" id="bFinalReviewList"></div>
+
+        <div class="bmock-result-actions">
+          <button class="secondary" id="bFinalBackMenu">総合実戦メニューへ</button>
+          <button class="primary" id="bFinalRetry">もう一度挑戦</button>
+        </div>
+      </div>
+
+      <div id="bMockSelect" class="bmock-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map">←</button>
+          <div><h1>科目B 実戦ミニ模試 🎯</h1><div class="sub">途中状態を自力で読み切る、ヒントなしのアルゴリズム実戦モードです。</div></div>
+        </div>
+        <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam active" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">🏁 総合実戦</button>
+        </div>
+
+        <div class="bmock-hero">
+          <div class="bmock-hero-icon">🧠</div>
+          <div class="bmock-hero-copy">
+            <div class="bmock-hero-title">ALGORITHM MINI MOCK</div>
+            <div class="sub">コードと現在状態だけを見て、次の値・最終値・探索位置などを予測します。採点は最後にまとめて行います。</div>
+          </div>
+          <div class="bmock-hero-score" id="bMockBest">BEST —</div>
+        </div>
+
+        <div class="bmock-rules">
+          <div><span>8</span><b>問</b><small>途中状態予測</small></div>
+          <div><span>40</span><b>分</b><small>目安5分/問</small></div>
+          <div><span>2・4・2</span><b>難易度</b><small>基礎・標準・応用</small></div>
+          <div><span>0</span><b>ヒント</b><small>途中正誤も非表示</small></div>
+        </div>
+
+        <div class="bmock-notice">
+          <b>実戦モード</b>
+          <span>「次の行を実行」「ヒント」「途中の正誤表示」はありません。回答は自由に行き来でき、最後の提出時にだけ採点します。</span>
+        </div>
+
+        <div class="bmock-mode-cards">
+          <button class="bmock-mode-card mini" id="bMockStart">
+            <span class="bmock-mode-icon">🎯</span>
+            <span class="bmock-mode-copy"><b>実戦ミニ模試</b><small>8問・40分 / 状態予測を連続で解く</small></span>
+            <span class="bmock-mode-go">→</span>
+          </button>
+          <button class="bmock-mode-card compound" id="bCompoundStart">
+            <span class="bmock-mode-icon">🧩</span>
+            <span class="bmock-mode-copy"><b>複合問題</b><small>15セット / 長いコード1題 + 設問3問</small></span>
+            <span class="bmock-mode-go">→</span>
+          </button>
+        </div>
+
+        <div class="bcompound-format-strip">
+          <span>🔢 トレース</span><span>🧩 空欄補充</span><span>🔧 変更予測</span><span>💡 処理理解</span>
+        </div>
+        <div class="bcompound-audit-badge">✓ 15セット・45設問 品質監査済み <small>難易度 / 誤答選択肢 / 解説 / 設問タイプ</small></div>
+
+        <div class="bmock-history-grid">
+          <div class="bmock-history">
+            <div class="bmock-history-title">実戦ミニ模試の履歴</div>
+            <div id="bMockHistory"></div>
+          </div>
+          <div class="bmock-history">
+            <div class="bmock-history-title">複合問題の履歴</div>
+            <div id="bCompoundHistoryMenu"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="bCompoundExam" class="bcompound-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="bCompoundExit">×</button>
+          <div class="bmock-top-title"><b>COMPOUND CHALLENGE</b><span>長文1題・設問3問</span></div>
+          <div class="bmock-timer" id="bCompoundTimer">20:00</div>
+          <button class="bmock-submit-top" id="bCompoundSubmit">提出</button>
+        </div>
+        <div class="bcompound-layout">
+          <section class="bcompound-code-pane">
+            <div class="bcompound-set-head"><span id="bCompoundLevel">標準</span><b id="bCompoundTitle">複合問題</b></div>
+            <div class="bcompound-lead" id="bCompoundLead"></div>
+            <div class="bmock-code-title">PSEUDOCODE</div>
+            <div class="bmock-code bcompound-code" id="bCompoundCode"></div>
+            <div class="bcompound-data" id="bCompoundData"></div>
+          </section>
+          <section class="bcompound-question-pane">
+            <div class="bcompound-q-progress" id="bCompoundQProgress">設問 1 / 3</div>
+            <div class="bcompound-question" id="bCompoundQuestion"></div>
+            <div class="bmock-options" id="bCompoundOptions"></div>
+            <div class="bcompound-qnav" id="bCompoundQNav"></div>
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="bCompoundPrev">← 前へ</button>
+              <button class="bmock-next" id="bCompoundNext">次へ →</button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="bCompoundResult" class="bcompound-result">
+        <div class="bmock-result-hero">
+          <div class="bmock-result-icon">🧩</div>
+          <div class="bmock-result-kicker">COMPOUND CHALLENGE</div>
+          <div class="bmock-result-score" id="bCompoundResultScore">0 / 3</div>
+          <div class="sub" id="bCompoundResultMessage"></div>
+        </div>
+        <div class="bmock-result-stats">
+          <div><span id="bCompoundCorrect">0</span><b>正解</b></div>
+          <div><span id="bCompoundWrong">0</span><b>不正解</b></div>
+          <div><span id="bCompoundBlank">0</span><b>未回答</b></div>
+          <div><span id="bCompoundTime">00:00</span><b>所要時間</b></div>
+        </div>
+        <div class="bcompound-review" id="bCompoundReview"></div>
+        <div class="bmock-result-actions">
+          <button class="secondary" id="bCompoundBackMenu">実戦メニューへ</button>
+          <button class="primary" id="bCompoundRetry">別の複合問題へ</button>
+        </div>
+      </div>
+
+      <div id="bMockExam" class="bmock-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="bMockExit">×</button>
+          <div class="bmock-top-title"><b>ALGORITHM MINI MOCK</b><span>8問・ヒントなし</span></div>
+          <div class="bmock-timer" id="bMockTimer">40:00</div>
+          <button class="bmock-submit-top" id="bMockSubmitTop">提出</button>
+        </div>
+
+        <div class="bmock-layout">
+          <div class="bmock-question-card">
+            <div class="bmock-q-meta">
+              <span class="bmock-q-num" id="bMockQNum">QUESTION 1 / 8</span>
+              <span class="bmock-q-label">科目B・アルゴリズム</span>
+            </div>
+
+            <div class="bmock-prompt">次の状態から処理を続けたとき、問いに答えてください。</div>
+
+            <div class="bmock-code-title">PSEUDOCODE</div>
+            <div class="bmock-code" id="bMockCode"></div>
+
+            <div class="bmock-snapshot-title">CURRENT STATE</div>
+            <div class="bmock-state" id="bMockState"></div>
+            <div class="bmock-visual" id="bMockVisual"></div>
+
+            <div class="bmock-question" id="bMockQuestion"></div>
+            <div class="bmock-options" id="bMockOptions"></div>
+
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="bMockPrev">← 前へ</button>
+              <button class="bmock-flag" id="bMockFlag">☆ 後で見る</button>
+              <button class="bmock-next" id="bMockNext">次へ →</button>
+            </div>
+          </div>
+
+          <aside class="bmock-nav-panel">
+            <div class="bmock-nav-title">問題一覧</div>
+            <div class="bmock-nav-grid" id="bMockNavGrid"></div>
+            <div class="bmock-legend"><span>■ 回答済み</span><span>★ 後で見る</span></div>
+            <div class="bmock-answer-count" id="bMockAnswerCount">0 / 8 回答</div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="bMockResult" class="bmock-result">
+        <div class="bmock-result-hero">
+          <div class="bmock-result-icon">🎯</div>
+          <div class="bmock-result-kicker">ALGORITHM MINI MOCK</div>
+          <div class="bmock-result-score" id="bMockResultScore">0 / 8</div>
+          <div class="sub" id="bMockResultMessage"></div>
+        </div>
+
+        <div class="bmock-result-stats">
+          <div><span id="bMockStatCorrect">0</span><b>正解</b></div>
+          <div><span id="bMockStatWrong">0</span><b>不正解</b></div>
+          <div><span id="bMockStatBlank">0</span><b>未回答</b></div>
+          <div><span id="bMockStatTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="bmock-breakdown" id="bMockBreakdown"></div>
+
+        <div class="bmock-review-head">
+          <h2>解答レビュー</h2>
+          <div class="sub">提出後だけ正解と理由を確認できます。</div>
+        </div>
+        <div class="bmock-review-list" id="bMockReviewList"></div>
+
+        <div class="bmock-result-actions">
+          <button class="secondary" id="bMockResultList">実戦メニューへ</button>
+          <button class="primary" id="bMockRetry">もう一度挑戦</button>
+        </div>
+      </div>
+
       <div id="secSelect" class="sec-select hidden">
         <div class="screen-head">
           <button class="back" data-screen="map">←</button>
@@ -4227,6 +4859,8 @@
         <div class="b-mode-tabs">
           <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
           <button class="b-mode-tab security active" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">🏁 総合実戦</button>
         </div>
 
         <div class="sec-hero">
@@ -4235,10 +4869,101 @@
             <div class="sec-hero-title">SECURITY SCENARIO LAB</div>
             <div class="sub">用語を当てるだけでなく「この状況なら何を優先するか」を考える訓練です。</div>
           </div>
-          <div class="sec-hero-progress" id="secProgressText">0 / 6</div>
+          <div class="sec-hero-progress" id="secProgressText">0 / 15</div>
+        </div>
+
+        <div class="sec-practical-card">
+          <div class="sec-practical-icon">🎯</div>
+          <div class="sec-practical-copy">
+            <b>SECURITY MINI MOCK</b>
+            <span>8問・20分。状況と証拠を読み、ヒントなしで判断します。</span>
+          </div>
+          <button id="secMockStartMenu">実戦へ →</button>
+        </div>
+
+        <div class="sec-filter-tabs" id="secFilterTabs">
+          <button class="sec-filter active" data-secfilter="all">すべて</button>
+          <button class="sec-filter" data-secfilter="基礎">基礎</button>
+          <button class="sec-filter" data-secfilter="標準">標準</button>
+          <button class="sec-filter" data-secfilter="応用">応用</button>
         </div>
 
         <div class="sec-grid" id="secScenarioGrid"></div>
+      </div>
+
+
+      <div id="secMockExam" class="secmock-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="secMockExit">×</button>
+          <div class="bmock-top-title"><b>SECURITY MINI MOCK</b><span>8問・ヒントなし</span></div>
+          <div class="secmock-timer" id="secMockTimer">20:00</div>
+          <button class="secmock-submit-top" id="secMockSubmitTop">提出</button>
+        </div>
+
+        <div class="secmock-layout">
+          <section class="secmock-question-card">
+            <div class="secmock-q-meta">
+              <span id="secMockQNum">QUESTION 1 / 8</span>
+              <span>科目B・情報セキュリティ</span>
+            </div>
+
+            <div class="secmock-incident">
+              <div class="secmock-incident-head">
+                <span id="secMockIncidentIcon">⚠️</span>
+                <b id="secMockIncidentTitle"></b>
+              </div>
+              <div id="secMockIncidentText"></div>
+            </div>
+
+            <div class="secmock-evidence-title">EVIDENCE / LOG</div>
+            <div class="secmock-evidence" id="secMockEvidence"></div>
+
+            <div class="secmock-question" id="secMockQuestion"></div>
+            <div class="secmock-options" id="secMockOptions"></div>
+
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="secMockPrev">← 前へ</button>
+              <button class="bmock-flag" id="secMockFlag">☆ 後で見る</button>
+              <button class="bmock-next secmock-next" id="secMockNext">次へ →</button>
+            </div>
+          </section>
+
+          <aside class="bmock-nav-panel">
+            <div class="bmock-nav-title">問題一覧</div>
+            <div class="bmock-nav-grid" id="secMockNavGrid"></div>
+            <div class="bmock-legend"><span>■ 回答済み</span><span>★ 後で見る</span></div>
+            <div class="bmock-answer-count" id="secMockAnswerCount">0 / 8 回答</div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="secMockResult" class="secmock-result">
+        <div class="bmock-result-hero secmock-result-hero">
+          <div class="bmock-result-icon">🛡️</div>
+          <div class="bmock-result-kicker">SECURITY MINI MOCK</div>
+          <div class="bmock-result-score" id="secMockResultScore">0 / 8</div>
+          <div class="sub" id="secMockResultMessage"></div>
+        </div>
+
+        <div class="bmock-result-stats">
+          <div><span id="secMockCorrect">0</span><b>正解</b></div>
+          <div><span id="secMockWrong">0</span><b>不正解</b></div>
+          <div><span id="secMockBlank">0</span><b>未回答</b></div>
+          <div><span id="secMockTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="secmock-breakdown" id="secMockBreakdown"></div>
+
+        <div class="bmock-review-head">
+          <h2>解答レビュー</h2>
+          <div class="sub">提出後にだけ正解・解説を表示します。</div>
+        </div>
+        <div class="secmock-review-list" id="secMockReviewList"></div>
+
+        <div class="bmock-result-actions">
+          <button class="secondary" id="secMockBackList">セキュリティ一覧へ</button>
+          <button class="primary" id="secMockRetry">もう一度挑戦</button>
+        </div>
       </div>
 
       <div id="secLab" class="sec-lab">
@@ -8480,10 +9205,9 @@ const LESSONS = {
   iprights:{
     title:'知的財産権',cat:'法務',skill:'ストラテジ',
     pages:[
-      {headline:'「何を守るか」で権利が違う',copy:'発明、作品・プログラム、商品やサービスの目印など、保護対象を整理します。',render:()=>rightsView(0)},
-      {headline:'3つの対象を仕分ける',copy:'対象を見て、最も近い権利を選んでください。',interactive:'iprights'},
-      {headline:'発明＝特許、著作物＝著作権、ブランドの目印＝商標',copy:'実際の権利成立条件や保護範囲には細かなルールがありますが、まず対象の違いを押さえます。',render:()=>rightsView(3)},
-      {headline:'ミニチェック',copy:'新しい機械の技術的な発明を保護する代表的な権利は？',quiz:{options:['特許権','著作権','商標権','所有権'],answer:0,explain:'技術的な発明を保護する代表的な産業財産権は特許権です。'}}
+      {headline:'4つの保護対象を一度に整理する',copy:'発明→特許権、作品・プログラム→著作権、ブランド名・マーク→商標権、物品の形状・模様などのデザイン→意匠権、という対応をまず確認します。',render:()=>rightsView(4)},
+      {headline:'4つの対象を仕分ける',copy:'保護したい対象を見て、最も近い権利を選んでください。物品のデザインも含めて4種類すべて確認します。',interactive:'iprights'},
+      {headline:'ミニチェック',copy:'新しい製品の外観デザインを保護する代表的な権利は？',quiz:{options:['意匠権','特許権','著作権','商標権'],answer:0,explain:'物品などの形状・模様・色彩によるデザインを保護する代表的な産業財産権は意匠権です。'}}
     ]
   },
   breakeven:{
@@ -9171,6 +9895,60 @@ function searchView(discarded){
 }
 
 if(!profile.lessonProgress) profile.lessonProgress={};
+// ===== v32: lesson density audit =====
+function applyLessonDensityAudit(){
+  const staticCompact={
+    memorychips:{
+      headline:'RAM・ROM・フラッシュを1画面で比較',
+      copy:'RAMは揮発性で通常は読み書き可能、ROMは不揮発性で基本は読出し中心、フラッシュは不揮発性かつ電気的に書換え可能です。性質と代表用途を一度に整理します。',
+      render:()=>memoryView('all')
+    },
+    devmodel:{
+      headline:'ウォーターフォールとアジャイルを1画面で比較',
+      copy:'ウォーターフォールは工程を順に固めて進め、アジャイルは短い反復で実装・確認・改善を繰り返します。要件の安定性やプロジェクト特性に応じて使い分けます。',
+      render:()=>devModelView('both')
+    },
+    procurement:{
+      headline:'RFPの役割と中身を1画面で整理',
+      copy:'RFPはベンダへ提案を依頼する文書です。目的・背景、要求機能、納期や条件、評価方法などを明確にして、提案を比較できるようにします。',
+      render:()=>rfpView('all')
+    },
+    reliability:{
+      headline:'直列・並列システムの稼働率を一度に比較',
+      copy:'稼働率0.9の装置2台なら、直列は両方が動く必要があるので0.9×0.9=0.81。並列は両方故障する確率0.1×0.1を1から引いて0.99です。',
+      render:()=>reliabilityView('both')
+    },
+    backup:{
+      headline:'フル・増分・差分バックアップを1画面で整理',
+      copy:'フルは対象全体、増分は前回バックアップ以降の変更、差分は直近のフルバックアップ以降の変更を保存します。保存量と復元手順の違いを図で比較します。',
+      render:()=>backupView('compare')
+    },
+    tcpudp:{
+      headline:'TCPとUDPを1画面で比較',
+      copy:'TCPは再送・順序制御などで信頼性を高めます。UDPはUDP自体に再送制御を持たず、処理が軽いのが特徴です。パケット欠落時の違いを並べて確認します。',
+      render:()=>protocolView('both')
+    }
+  };
+
+  Object.entries(staticCompact).forEach(([id,content])=>{
+    const lesson=LESSONS[id];
+    if(!lesson) return;
+    const quiz=lesson.pages.find(p=>p.quiz);
+    lesson.pages=[content,quiz];
+  });
+
+  Object.entries(LESSONS).forEach(([id,lesson])=>{
+    if(staticCompact[id]) return;
+    if(lesson.pages.length!==4) return;
+    const [overview,interactive,recap,check]=lesson.pages;
+    if(interactive?.interactive && check?.quiz){
+      interactive.takeaway={headline:recap.headline,copy:recap.copy};
+      lesson.pages=[overview,interactive,check];
+    }
+  });
+}
+applyLessonDensityAudit();
+
 Object.keys(LESSONS).forEach(id=>{
   if(profile.lessonProgress[id]===undefined) profile.lessonProgress[id]=0;
 });
@@ -9307,7 +10085,11 @@ function renderLesson(){
   document.getElementById('lessonCopy').textContent=page.copy;
   updateInteractionGuide(page);
   document.getElementById('lessonStepLabel').textContent=`${lessonStep+1} / ${lesson.pages.length}`;
-  document.querySelectorAll('#lessonDots span').forEach((s,i)=>s.classList.toggle('on',i<=lessonStep));
+  const dots=document.getElementById('lessonDots');
+  if(dots.children.length!==lesson.pages.length){
+    dots.innerHTML=Array.from({length:lesson.pages.length},()=>'<span></span>').join('');
+  }
+  dots.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('on',i<=lessonStep));
   const check=document.getElementById('lessonCheck');
   check.className='lesson-check';
   check.innerHTML='';
@@ -9339,7 +10121,14 @@ function renderLesson(){
 function showLessonFeedback(msg,bad=false){
   const c=document.getElementById('lessonCheck');
   c.className='lesson-check show'+(bad?' bad':'');
-  c.innerHTML=msg;
+  let extra='';
+  if(!bad && lessonInteractiveDone){
+    const page=LESSONS[activeLesson]?.pages?.[lessonStep];
+    if(page?.takeaway){
+      extra=`<div class="lesson-takeaway"><b>${escapeHtml(page.takeaway.headline)}</b><span>${escapeHtml(page.takeaway.copy)}</span></div>`;
+    }
+  }
+  c.innerHTML=msg+extra;
   if(!bad && (lessonInteractiveDone||lessonQuizDone)) markInteractionGuideDone();
 }
 
@@ -9819,16 +10608,17 @@ function renderInteractive(type,stage){
     const cases=[
       {q:'新しい省エネ機構の発明',a:'特許権'},
       {q:'自作したゲームプログラム',a:'著作権'},
-      {q:'新商品のブランドロゴ',a:'商標権'}
+      {q:'新商品のブランドロゴ',a:'商標権'},
+      {q:'新しい電気ケトルの外観デザイン',a:'意匠権'}
     ];
     const rights=['特許権','著作権','商標権','意匠権'];
     const draw=()=>{
       const c=cases[rightsSteps];
-      if(!c){lessonInteractiveDone=true;stage.innerHTML=rightsView(3);showLessonFeedback('✅ 3つ仕分けできました。');return;}
+      if(!c){lessonInteractiveDone=true;stage.innerHTML=rightsView(4);showLessonFeedback('✅ 4つすべて仕分けできました。');return;}
       stage.innerHTML=`<div style="text-align:center;font-size:20px;font-weight:900;margin-bottom:14px">${c.q}</div><div class="micro-options">${rights.map(r=>`<button class="micro-option" data-r="${r}">${r}</button>`).join('')}</div>`;
       stage.querySelectorAll('.micro-option').forEach(b=>b.onclick=()=>{
         if(b.dataset.r===c.a){b.classList.add('good');rightsSteps++;showLessonFeedback(`⭕ ${c.a} が最も近い分類です。`);setTimeout(draw,450);}
-        else{b.classList.add('bad');showLessonFeedback('保護したい対象が「発明・著作物・ブランド」のどれか考えてみましょう。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+        else{b.classList.add('bad');showLessonFeedback('保護したい対象が「発明・著作物・ブランドの目印・物品のデザイン」のどれか考えてみましょう。',true);setTimeout(()=>b.classList.remove('bad'),650);}
       });
     };
     draw();
@@ -10370,6 +11160,401 @@ const B_EXERCISES = [
 
 ];
 
+
+// ===== v33: Subject B practical mini mock =====
+
+// ===== v34: compound challenge =====
+const B_COMPOUND_SECONDS=20*60;
+const B_COMPOUND_SETS=[
+{id:'sales_filter',level:'標準',title:'売上データの集計',lead:'日別売上から基準以上の値だけを集計し、最大値と平均も求めます。',code:['sales ← [42, 18, 55, 31, 67]','limit ← 40','sum ← 0','count ← 0','max ← sales[0]','for i ← 0 to 4','    if sales[i] ≥ limit','        sum ← sum + sales[i]','        count ← count + 1','    endif','    if sales[i] > max','        max ← sales[i]','    endif','endfor','avg ← sum / count','sum, count, max, avg を出力する'],data:[{label:'注意',text:'添字は0から始まり、avgは条件を満たした売上だけの平均です。'}],qs:[{q:'i=2 の処理がすべて終わった直後、sum と count の組合せは？',opts:['sum=42, count=1','sum=97, count=2','sum=115, count=3','sum=55, count=1'],a:1,exp:'42と55が基準40以上です。18は対象外なので、i=2終了時点でsum=97、count=2です。'},{q:'ループ終了後の max は？',opts:['55','67','97','213'],a:1,exp:'配列の最大値67までmaxが更新されます。'},{q:'最後に出力される avg は？',opts:['41.4','54.67','53.25','71.0'],a:1,exp:'対象は42,55,67で合計164、個数3なので164÷3≒54.67です。'}]},
+{id:'matrix_threshold',level:'応用',title:'二次元配列のしきい値判定',lead:'2×3行列を行優先で走査し、50以上の要素数と位置スコアを求めます。',code:['m ← [[20, 60, 45], [80, 30, 70]]','count ← 0','score ← 0','for r ← 0 to 1','    for c ← 0 to 2','        if m[r][c] ≥ 50','            count ← count + 1','            score ← score + r + c','        endif','    endfor','endfor','count, score を出力する'],data:[{label:'走査順',text:'(0,0)→(0,1)→(0,2)→(1,0)→(1,1)→(1,2)'}],qs:[{q:'(0,1) の要素60を処理した直後、count と score は？',opts:['count=0, score=0','count=1, score=1','count=1, score=60','count=2, score=1'],a:1,exp:'60は50以上なのでcount=1、scoreには0+1=1が加わります。'},{q:'すべての走査終了後、count は？',opts:['2','3','4','6'],a:1,exp:'50以上なのは60,80,70の3要素です。'},{q:'すべての走査終了後、score は？',opts:['3','4','5','6'],a:2,exp:'対象位置(0,1),(1,0),(1,2)のr+cは1,1,3で、合計5です。'}]},
+{id:'queue_service',level:'標準',title:'受付キューの処理',lead:'受付番号をFIFOのキューで処理し、途中で新しい受付を追加します。',code:['q ← [101, 102, 103]','x ← DEQUEUE(q)','ENQUEUE(q, 104)','y ← DEQUEUE(q)','ENQUEUE(q, 105)','z ← DEQUEUE(q)','q, x, y, z を出力する'],data:[{label:'FIFO',text:'DEQUEUEは先頭から、ENQUEUEは末尾へ追加します。'}],qs:[{q:'ENQUEUE(q,104) を実行した直後の q は？',opts:['[101,102,103,104]','[102,103,104]','[104,102,103]','[102,104]'],a:1,exp:'101を取り出した後の[102,103]へ104を追加するので[102,103,104]です。'},{q:'y に代入される値は？',opts:['101','102','103','104'],a:1,exp:'次の先頭は102なのでy=102です。'},{q:'最後に出力される q は？',opts:['[103,104,105]','[104,105]','[105]','[]'],a:1,exp:'101,102,103が順に取り出され、104,105が残ります。'}]},
+{id:'linked_rank',level:'応用',title:'連結リストの条件付き集計',lead:'単方向リストを先頭からたどり、valueが10以上のノードだけ集計します。',code:['A(value=8,next=B)','B(value=14,next=C)','C(value=11,next=D)','D(value=5,next=null)','p ← A','count ← 0','sum ← 0','while p ≠ null','    if p.value ≥ 10','        count ← count + 1','        sum ← sum + p.value','    endif','    p ← p.next','endwhile','count, sum を出力する'],data:[{label:'リスト',text:'A(8) → B(14) → C(11) → D(5) → null'}],qs:[{q:'Bを処理し終えた直後、count と sum は？',opts:['count=0, sum=0','count=1, sum=14','count=2, sum=22','count=1, sum=8'],a:1,exp:'A=8は条件外で、B=14で初めてcount=1、sum=14です。'},{q:'Cを処理し終えた直後の sum は？',opts:['14','19','25','33'],a:2,exp:'Bの14とCの11を足して25です。'},{q:'最終的に出力される count は？',opts:['1','2','3','4'],a:1,exp:'10以上なのはBとCの2ノードです。'}]},
+{id:'binary_count',level:'応用',title:'二分探索の比較回数',lead:'昇順配列から目的値を探しながら、比較回数も数えます。',code:['data ← [3, 7, 12, 18, 25, 31, 40, 52]','target ← 31','low ← 0','high ← 7','count ← 0','while low ≤ high','    mid ← (low + high) div 2','    count ← count + 1','    if data[mid] = target','        pos ← mid','        break','    elseif data[mid] < target','        low ← mid + 1','    else','        high ← mid - 1','    endif','endwhile','pos, count を出力する'],data:[{label:'div',text:'整数除算で小数点以下を切り捨てます。'}],qs:[{q:'最初の mid は？',opts:['2','3','4','5'],a:1,exp:'(0+7) div 2=3です。'},{q:'最初の比較後、low はいくつに更新される？',opts:['3','4','5','6'],a:1,exp:'data[3]=18は31より小さいのでlow=mid+1=4です。'},{q:'最終的な pos と count の組合せは？',opts:['pos=5, count=2','pos=5, count=3','pos=6, count=2','pos=6, count=3'],a:0,exp:'mid=3の18、次にmid=5の31を比較して見つかるのでpos=5、count=2です。'}]},
+{id:'recursive_sum',level:'標準',title:'再帰による合計',lead:'1からnまでの合計を再帰で求め、戻り値が合成される流れを読み取ります。',code:['function total(n)','    if n = 1','        return 1','    endif','    return n + total(n - 1)','endfunction','x ← total(4)','x を出力する'],data:[{label:'呼出し',text:'total(4) → total(3) → total(2) → total(1)'}],qs:[{q:'total(1) の戻り値は？',opts:['0','1','2','4'],a:1,exp:'終了条件n=1に一致するので1を返します。'},{q:'total(3) の戻り値は？',opts:['3','5','6','7'],a:2,exp:'3+(2+1)=6です。'},{q:'最後に x に入る値は？',opts:['6','8','10','24'],a:2,exp:'4+3+2+1=10です。'}]},
+{id:'insertion_pass',level:'標準',title:'挿入ソートの途中状態',lead:'未整列の要素keyを、整列済み部分の適切な位置へ挿入します。空欄補充と途中配列をまとめて読みます。',code:['data ← [7, 3, 5, 2]','for i ← 1 to 3','    key ← data[i]','    j ← i - 1','    while j ≥ 0 and data[j] > key','        data[j+1] ← data[j]','        j ← j - 1','    endwhile','    [A]','endfor','data を出力する'],data:[{label:'空欄[A]',text:'keyを空いた位置へ戻す処理が入ります。'}],qs:[
+ {kind:'空欄補充',q:'空欄[A]に入る処理として適切なのは？',opts:['data[j] ← key','data[j+1] ← key','key ← data[j+1]','data[i] ← j'],a:1,exp:'whileで大きい要素を右へずらした後、空いた位置j+1へkeyを入れます。'},
+ {kind:'トレース',q:'i=1 の処理が終わった直後の data は？',opts:['[7,3,5,2]','[3,7,5,2]','[3,5,7,2]','[2,3,5,7]'],a:1,exp:'key=3、7を右へずらして3を先頭へ入れるので[3,7,5,2]です。'},
+ {kind:'変更予測',q:'外側ループを i=1 to 2 に変更した場合、終了時の data は？',opts:['[3,5,7,2]','[2,3,5,7]','[3,7,5,2]','[3,5,2,7]'],a:0,exp:'i=1で[3,7,5,2]、i=2で5を挿入して[3,5,7,2]となり、i=3は実行しません。'}]},
+{id:'postfix_stack',level:'応用',title:'逆ポーランド記法の評価',lead:'数値はスタックへ積み、演算子が現れたら2値を取り出して計算結果を積みます。',code:['tokens ← [3, 4, +, 2, ×]','stack ← 空','for token in tokens','    if token が数値','        PUSH(stack, token)','    else','        b ← POP(stack)','        a ← POP(stack)','        PUSH(stack, a token b)','    endif','endfor','result ← POP(stack)','result を出力する'],data:[{label:'演算順',text:'3 4 + 2 × は (3+4)×2 を表します。'}],qs:[
+ {kind:'トレース',q:'+ を処理し終えた直後の stack は？',opts:['[3,4]','[7]','[4,3]','[12]'],a:1,exp:'3と4をPOPして加算し、7をPUSHするのでstack=[7]です。'},
+ {kind:'空欄補充',q:'演算子処理で a と b を取り出す順序が必要な主な理由は？',opts:['減算や除算では順序で結果が変わるため','スタックでは加算できないため','PUSHは1回しかできないため','数値を昇順にするため'],a:0,exp:'a-bやa÷bではオペランド順が重要なので、先に取り出した値をb、次をaとして扱います。'},
+ {kind:'トレース',q:'最後の result は？',opts:['9','12','14','18'],a:2,exp:'3+4=7、その後7×2=14です。'}]},
+{id:'bfs_queue',level:'応用',title:'幅優先探索とキュー',lead:'グラフを幅優先にたどり、発見した頂点をキューへ追加します。',code:['adj[A] ← [B,C]','adj[B] ← [D]','adj[C] ← [E]','adj[D] ← []','adj[E] ← []','q ← [A]','visited[A] ← true','while q が空でない','    v ← DEQUEUE(q)','    v を出力','    for each u in adj[v]','        if visited[u] = false','            [A]','            ENQUEUE(q,u)','        endif','    endfor','endwhile'],data:[{label:'前提',text:'隣接リストは表示順に処理し、A以外のvisited初期値はfalseです。'}],qs:[
+ {kind:'空欄補充',q:'同じ頂点を何度もキューへ入れないため、空欄[A]に入れる処理は？',opts:['visited[v] ← false','visited[u] ← true','q ← 空','u ← v'],a:1,exp:'uをキューへ追加する時点でvisited[u]=trueにして重複追加を防ぎます。'},
+ {kind:'トレース',q:'Aを処理し終えた直後の q は？',opts:['[A,B,C]','[B,C]','[C,B]','[B]'],a:1,exp:'Aを取り出した後、B、Cを順に追加するので[B,C]です。'},
+ {kind:'処理理解',q:'このコードの出力順として正しいものは？',opts:['A,B,D,C,E','A,B,C,D,E','A,C,E,B,D','D,B,E,C,A'],a:1,exp:'幅優先探索なので距離1のB,Cを先に処理し、その後D,Eへ進みます。'}]},
+{id:'bit_permission',level:'標準',title:'権限ビットの操作',lead:'ビットマスクのANDで権限を確認し、ORで新しい権限を追加します。',code:['perm ← 1001₂','writeMask ← 0100₂','adminMask ← 1000₂','if (perm AND writeMask) ≠ 0000₂','    canWrite ← true','else','    canWrite ← false','endif','[A]','perm を出力する'],data:[{label:'ビット',text:'上位から admin / write / read / guest とします。'}],qs:[
+ {kind:'トレース',q:'初期状態で canWrite は？',opts:['true','false','未定義','adminと同じ'],a:1,exp:'1001 AND 0100 = 0000なのでwriteビットは立っておらずfalseです。'},
+ {kind:'空欄補充',q:'write権限を追加するため空欄[A]に入れる処理は？',opts:['perm ← perm AND writeMask','perm ← perm OR writeMask','perm ← NOT perm','perm ← perm XOR adminMask'],a:1,exp:'特定ビットを1に設定するには、そのマスクとのORを使います。'},
+ {kind:'変更予測',q:'[A]を正しく補った後の perm は？',opts:['1001₂','0100₂','1101₂','0000₂'],a:2,exp:'1001 OR 0100 = 1101です。'}]},
+{id:'object_cart',level:'標準',title:'オブジェクトとメソッド',lead:'Cartオブジェクトの合計金額を、メソッド呼出しで更新します。',code:['class Cart','    total','    procedure add(price)','        total ← total + price','    endprocedure','    procedure discount(rate)','        [A]','    endprocedure','endclass','c ← Cart(total=0)','c.add(1200)','c.add(800)','c.discount(0.10)','c.total を出力する'],data:[{label:'rate',text:'0.10は10%を表します。'}],qs:[
+ {kind:'トレース',q:'2回の add が終わった直後の total は？',opts:['800','1200','1800','2000'],a:3,exp:'1200と800を順に加えるのでtotal=2000です。'},
+ {kind:'空欄補充',q:'10%割引を行う空欄[A]の処理として適切なのは？',opts:['total ← total × rate','total ← total × (1 - rate)','total ← total + rate','rate ← total × 0.1'],a:1,exp:'10%引き後は元の90%なのでtotal×(1-rate)です。'},
+ {kind:'変更予測',q:'割引率を0.25へ変更した場合、最終totalは？',opts:['500','1500','1750','2000'],a:1,exp:'2000×(1-0.25)=1500です。'}]},
+{id:'matrix_transpose',level:'応用',title:'行列の転置',lead:'2×3行列の行と列を入れ替えて3×2行列を作ります。',code:['m ← [[1,2,3],[4,5,6]]','out ← 3行2列の配列','for r ← 0 to 1','    for c ← 0 to 2','        [A]','    endfor','endfor','out を出力する'],data:[{label:'転置',text:'元のm[r][c]をoutの列・行を入れ替えた位置へ置きます。'}],qs:[
+ {kind:'空欄補充',q:'転置を行う空欄[A]の処理は？',opts:['out[r][c] ← m[r][c]','out[c][r] ← m[r][c]','out[r][c] ← m[c][r]','m[c][r] ← out[r][c]'],a:1,exp:'行と列を入れ替えるのでout[c][r]へm[r][c]を代入します。'},
+ {kind:'トレース',q:'処理後の out[2][1] は？',opts:['3','4','5','6'],a:3,exp:'out[2][1]にはm[1][2]=6が入ります。'},
+ {kind:'処理理解',q:'最終的な out は？',opts:['[[1,2,3],[4,5,6]]','[[1,4],[2,5],[3,6]]','[[1,2],[3,4],[5,6]]','[[4,1],[5,2],[6,3]]'],a:1,exp:'各列を行として並べると[[1,4],[2,5],[3,6]]です。'}]},
+{id:'merge_sorted',level:'応用',title:'整列済み配列のマージ',lead:'昇順の2配列を先頭から比較し、小さい方をoutへ移して1つの昇順配列にします。',code:['a ← [2,5,9]','b ← [1,6,8]','i ← 0, j ← 0','out ← []','while i < 3 and j < 3','    if a[i] ≤ b[j]','        out の末尾に a[i] を追加','        i ← i + 1','    else','        out の末尾に b[j] を追加','        j ← j + 1','    endif','endwhile','残った要素をoutへ追加','out を出力する'],data:[{label:'比較',text:'各配列は最初から昇順に整列済みです。'}],qs:[
+ {kind:'トレース',q:'outに3個の値が入った時点の内容は？',opts:['[1,2,5]','[1,2,6]','[2,5,9]','[1,5,6]'],a:0,exp:'1(b)、2(a)、5(a)の順で追加されます。'},
+ {kind:'変更予測',q:'aを[2,7,9]へ変更した場合、outの先頭4要素は？',opts:['[1,2,6,7]','[1,2,7,6]','[2,1,6,7]','[1,6,2,7]'],a:0,exp:'1、2、次は6<7なので6、その次に7となります。'},
+ {kind:'処理理解',q:'元の配列で最終的なoutは？',opts:['[1,2,5,6,8,9]','[2,5,9,1,6,8]','[1,2,6,5,8,9]','[9,8,6,5,2,1]'],a:0,exp:'2つの昇順配列をマージするので[1,2,5,6,8,9]です。'}]},
+{id:'sentinel_search',level:'標準',title:'番兵を使った線形探索',lead:'配列末尾へ目的値を番兵として置き、ループ内の範囲判定を省きます。',code:['data ← [4,7,1,9]','target ← 6','n ← 4','data[n] ← target','i ← 0','while [A]','    i ← i + 1','endwhile','if i < n','    pos ← i','else','    pos ← -1','endif','pos を出力する'],data:[{label:'番兵',text:'data[4]には必ずtargetが入るため、探索ループはいずれ停止します。'}],qs:[
+ {kind:'空欄補充',q:'空欄[A]に入る条件として適切なのは？',opts:['i < n','data[i] ≠ target','data[i] = target','i = target'],a:1,exp:'targetと一致するまでiを進めるのでdata[i]≠targetを条件にします。'},
+ {kind:'トレース',q:'target=6のとき、while終了直後の i は？',opts:['3','4','5','-1'],a:1,exp:'元の4要素には6がないため、番兵を置いた添字4で一致して停止します。'},
+ {kind:'変更予測',q:'targetを9へ変更した場合、最終posは？',opts:['2','3','4','-1'],a:1,exp:'元のdata[3]=9で見つかるのでi=3<nとなりpos=3です。'}]},
+{id:'tree_height',level:'応用',title:'木の高さを再帰で求める',lead:'空の子を高さ0、葉を高さ1として、左右部分木の大きい方へ1を加えます。',code:['function height(node)','    if node = null','        return 0','    endif','    left ← height(node.left)','    right ← height(node.right)','    [A]','endfunction','A.left=B, A.right=C','B.left=D, B.right=null','C.left=null, C.right=null','D.left=null, D.right=null','height(A) を出力する'],data:[{label:'木',text:'Aの子はB,C。Bの左子はDです。'}],qs:[
+ {kind:'空欄補充',q:'空欄[A]に入る戻り値は？',opts:['return left + right','return 1 + max(left,right)','return max(left,right)','return node + 1'],a:1,exp:'現在ノード自身の1を、左右部分木の高い方へ加えます。'},
+ {kind:'トレース',q:'height(B) は？',opts:['1','2','3','4'],a:1,exp:'B→Dという2階層なのでheight(B)=2です。'},
+ {kind:'変更予測',q:'Dの左子にEを追加した場合、height(A)は？',opts:['2','3','4','5'],a:2,exp:'空の子を0とするのでE=1、D=2、B=3、A=4です。'}]}
+
+];
+
+// ===== v36: compound-question quality audit =====
+const B_COMPOUND_QUALITY={
+  sales_filter:[
+    {kind:'トレース',qlevel:'基礎',point:'条件を満たした要素だけsumとcountを同時更新する。',pitfall:'18まで足したり、i=2を「2回目」と読み違えない。'},
+    {kind:'トレース',qlevel:'標準',point:'maxは各要素との比較結果だけで更新される。',pitfall:'sum=164など、集計値と最大値を混同しない。'},
+    {kind:'トレース',qlevel:'標準',point:'平均の分母は全5件ではなく条件を満たした3件。',pitfall:'164÷5を計算すると32.8になり、対象件数の条件を落としている。'}
+  ],
+  matrix_threshold:[
+    {kind:'トレース',qlevel:'標準',point:'二次元添字r,cと値そのものを分けて追う。',pitfall:'scoreへ60を足すのではなく、r+cを足す。'},
+    {kind:'トレース',qlevel:'標準',point:'50以上の要素を行優先で全て数える。',pitfall:'45や30を条件に含めない。'},
+    {kind:'トレース',qlevel:'応用',point:'対象位置ごとにr+cを計算して累積する。',pitfall:'要素値60+80+70を合計する問題ではない。'}
+  ],
+  queue_service:[
+    {kind:'トレース',qlevel:'基礎',point:'DEQUEUEは先頭削除、ENQUEUEは末尾追加。',pitfall:'101を取り出した後もキューに残してしまわない。'},
+    {kind:'トレース',qlevel:'標準',point:'FIFOなので2回目に取り出すのは102。',pitfall:'最後に追加した104を先に取り出すのはスタックの考え方。'},
+    {kind:'トレース',qlevel:'標準',point:'各操作後のキューを順番に書き換える。',pitfall:'z=103を取り出した後も103を残さない。'}
+  ],
+  linked_rank:[
+    {kind:'トレース',qlevel:'標準',point:'pが指すノードのvalueだけを条件判定する。',pitfall:'A=8は10未満なのでcountにもsumにも入れない。'},
+    {kind:'トレース',qlevel:'標準',point:'BとCの条件成立時だけsumを累積する。',pitfall:'Aの8を誤って足すと33になる。'},
+    {kind:'トレース',qlevel:'応用',point:'リスト終端nullまで全ノードを順にたどる。',pitfall:'ノード数4と条件成立数2を混同しない。'}
+  ],
+  binary_count:[
+    {kind:'トレース',qlevel:'標準',point:'midは(low+high) div 2で小数点以下切捨て。',pitfall:'配列長8の中央を4と直感だけで決めない。'},
+    {kind:'トレース',qlevel:'標準',point:'data[mid]がtargetより小さいのでlow=mid+1。',pitfall:'highを更新するのはdata[mid]がtargetより大きい場合。'},
+    {kind:'トレース',qlevel:'応用',point:'比較回数はmidを決めて値を比較するたびに1増える。',pitfall:'low/highの更新回数をcountと数えない。'}
+  ],
+  recursive_sum:[
+    {kind:'トレース',qlevel:'基礎',point:'終了条件n=1が再帰を止める基底ケース。',pitfall:'total(1)からさらにtotal(0)を呼ぶと考えない。'},
+    {kind:'トレース',qlevel:'標準',point:'戻り値を内側から total(1)→total(2)→total(3) と合成する。',pitfall:'呼出し順と戻り値の計算順を混同しない。'},
+    {kind:'トレース',qlevel:'標準',point:'total(4)=4+3+2+1として展開できる。',pitfall:'階乗4×3×2×1=24とは別の再帰式。'}
+  ],
+  insertion_pass:[
+    {kind:'空欄補充',qlevel:'標準',point:'右シフト後に空いたj+1へkeyを戻す。',pitfall:'jはwhile終了時に挿入位置の1つ左を指している。'},
+    {kind:'トレース',qlevel:'標準',point:'i=1ではkey=3だけを整列済み部分[7]へ挿入する。',pitfall:'1回の外側ループで配列全体が整列すると考えない。'},
+    {kind:'変更予測',qlevel:'応用',point:'変更したループ上限までだけ処理を再実行する。',pitfall:'元コードの最終結果[2,3,5,7]をそのまま選ばない。'}
+  ],
+  postfix_stack:[
+    {kind:'トレース',qlevel:'標準',point:'演算子が来たら2値をPOPし、結果を1つPUSHする。',pitfall:'3と4をスタックに残したまま7を追加しない。'},
+    {kind:'処理理解',qlevel:'標準',point:'非可換演算ではPOPした順序が式の左右を決める。',pitfall:'加算だけを見て順序は不要だと判断しない。'},
+    {kind:'トレース',qlevel:'応用',point:'3 4 + を7に畳み、次に7 2 ×を評価する。',pitfall:'通常の中置記法の優先順位でtokensを読み替えない。'}
+  ],
+  bfs_queue:[
+    {kind:'空欄補充',qlevel:'標準',point:'発見時点でvisited=trueにして重複ENQUEUEを防ぐ。',pitfall:'DEQUEUEした時点までvisited更新を遅らせない。'},
+    {kind:'トレース',qlevel:'標準',point:'Aを取り出した後、隣接B,Cを表示順に末尾追加する。',pitfall:'Aをキュー内に残したり、C,Bの順にしない。'},
+    {kind:'処理理解',qlevel:'応用',point:'キューを使うため同じ深さの頂点を先に処理する。',pitfall:'A,B,D,C,Eは深さ優先探索に近い順序。'}
+  ],
+  bit_permission:[
+    {kind:'トレース',qlevel:'基礎',point:'AND結果が0なら対象ビットは立っていない。',pitfall:'adminビット1000が1であることとwrite権限を混同しない。'},
+    {kind:'空欄補充',qlevel:'標準',point:'ORは指定ビットを1にし、他の1ビットを保持できる。',pitfall:'ANDを使うとwrite以外のビットが落ちる。'},
+    {kind:'トレース',qlevel:'標準',point:'1001 OR 0100を各桁で計算する。',pitfall:'ORを加算とみなして1101以外の値にしない。'}
+  ],
+  object_cart:[
+    {kind:'トレース',qlevel:'基礎',point:'同じオブジェクトcのtotalを2回のaddで累積更新する。',pitfall:'2回目のaddでtotalを800に上書きしない。'},
+    {kind:'空欄補充',qlevel:'標準',point:'割引後は元金額×(1-rate)。',pitfall:'total×rateは割引額そのもの。'},
+    {kind:'変更予測',qlevel:'標準',point:'変更後のrate=0.25を同じ式へ代入する。',pitfall:'25%引きを2000-25と計算しない。'}
+  ],
+  matrix_transpose:[
+    {kind:'空欄補充',qlevel:'標準',point:'転置では入力[r][c]を出力[c][r]へ置く。',pitfall:'添字を入れ替えずコピーすると元行列のまま。'},
+    {kind:'トレース',qlevel:'標準',point:'out[2][1]はm[1][2]に対応する。',pitfall:'m[2][1]は元行列に存在しない。'},
+    {kind:'トレース',qlevel:'応用',point:'元行列の各列を新しい行として並べる。',pitfall:'要素順だけを横に2個ずつ区切る操作ではない。'}
+  ],
+  merge_sorted:[
+    {kind:'トレース',qlevel:'標準',point:'a[i]とb[j]の小さい方を1個ずつoutへ移す。',pitfall:'同じ配列から連続で取る場合も毎回先頭候補を比較する。'},
+    {kind:'変更予測',qlevel:'応用',point:'aの変更後は比較列を最初から追い直す。',pitfall:'7を6より先に置くと昇順条件が崩れる。'},
+    {kind:'トレース',qlevel:'応用',point:'両配列が昇順なのでマージ結果も昇順になる。',pitfall:'単純連結[2,5,9,1,6,8]ではない。'}
+  ],
+  sentinel_search:[
+    {kind:'空欄補充',qlevel:'標準',point:'番兵により範囲判定なしで一致するまで探索できる。',pitfall:'i<nをwhile条件に入れると番兵法の狙いが薄れる。'},
+    {kind:'トレース',qlevel:'標準',point:'見つからない場合は番兵を置いた添字nで停止する。',pitfall:'見つからない= -1 はwhile終了後のpos判定で決まる。'},
+    {kind:'変更予測',qlevel:'標準',point:'target=9なら元データの添字3で番兵より前に見つかる。',pitfall:'番兵の添字4まで必ず進むわけではない。'}
+  ],
+  tree_height:[
+    {kind:'空欄補充',qlevel:'標準',point:'高さは左右部分木の最大値に現在ノード1を加える。',pitfall:'left+rightはノード数に近い計算で高さではない。'},
+    {kind:'トレース',qlevel:'標準',point:'Dが葉なのでheight(D)=1、したがってB=2。',pitfall:'辺の本数で高さを数える定義と混同しない。このコードはノード数で数える。'},
+    {kind:'変更予測',qlevel:'応用',point:'E追加後はE→D→B→Aの戻り値を下から更新する。',pitfall:'追加前のA=3から1増えるので4。途中のBだけ更新して止めない。'}
+  ]
+};
+
+function applyCompoundQualityAudit(){
+  B_COMPOUND_SETS.forEach(set=>{
+    const meta=B_COMPOUND_QUALITY[set.id];
+    if(!meta||meta.length!==set.qs.length) return;
+    set.qs.forEach((q,i)=>Object.assign(q,meta[i]));
+  });
+}
+applyCompoundQualityAudit();
+
+if(!profile.bCompoundHistory)profile.bCompoundHistory=[];
+if(!profile.bCompoundStats)profile.bCompoundStats={};
+B_COMPOUND_SETS.forEach(s=>{if(!profile.bCompoundStats[s.id])profile.bCompoundStats[s.id]={seen:0,correct:0,lastSeen:null}});
+let bCompoundSet=null,bCompoundAnswers=[],bCompoundIndex=0,bCompoundSeconds=B_COMPOUND_SECONDS,bCompoundTimerId=null,bCompoundStartedAt=null;
+function randomizeCompoundSet(set){const out=structuredClone(set);out.qs=out.qs.map(q=>{const correct=q.opts[q.a];const opts=shuffled(q.opts);return {...q,opts,a:opts.indexOf(correct)}});return out}
+function chooseCompoundSet(){const picked=[...B_COMPOUND_SETS].sort((a,b)=>{const sa=profile.bCompoundStats[a.id]?.seen||0,sb=profile.bCompoundStats[b.id]?.seen||0;if(sa!==sb)return sa-sb;const la=profile.bCompoundStats[a.id]?.lastSeen||'',lb=profile.bCompoundStats[b.id]?.lastSeen||'';if(la!==lb)return la.localeCompare(lb);return Math.random()-.5})[0];return randomizeCompoundSet(picked)}
+function startCompoundChallenge(){bCompoundSet=chooseCompoundSet();bCompoundAnswers=Array(3).fill(null);bCompoundIndex=0;bCompoundSeconds=B_COMPOUND_SECONDS;bCompoundStartedAt=Date.now();document.getElementById('bMockSelect')?.classList.add('hidden');document.getElementById('bCompoundResult')?.classList.remove('show');document.getElementById('bCompoundExam')?.classList.add('show');document.getElementById('bCompoundLevel').textContent=bCompoundSet.level;document.getElementById('bCompoundTitle').textContent=bCompoundSet.title;document.getElementById('bCompoundLead').textContent=bCompoundSet.lead;document.getElementById('bCompoundCode').innerHTML=bCompoundSet.code.map((line,i)=>`<div class="bmock-code-line"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');document.getElementById('bCompoundData').innerHTML=(bCompoundSet.data||[]).map(d=>`<div class="bcompound-data-card"><b>${escapeHtml(d.label)}</b>${escapeHtml(d.text)}</div>`).join('');renderCompoundQuestion();startCompoundTimer()}
+function startCompoundTimer(){stopCompoundTimer();updateCompoundTimer();bCompoundTimerId=setInterval(()=>{bCompoundSeconds--;updateCompoundTimer();if(bCompoundSeconds<=0){stopCompoundTimer();finishCompoundChallenge(true)}},1000)}
+function stopCompoundTimer(){if(bCompoundTimerId){clearInterval(bCompoundTimerId);bCompoundTimerId=null}}
+function updateCompoundTimer(){const t=document.getElementById('bCompoundTimer');if(!t)return;t.textContent=bMockFormatTime(bCompoundSeconds);t.classList.toggle('warn',bCompoundSeconds<=300&&bCompoundSeconds>120);t.classList.toggle('danger',bCompoundSeconds<=120)}
+function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class="bcompound-kind">${escapeHtml(q.kind||'トレース')}</span> <span class="bcompound-kind ${diffClass}">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class="bmock-option ${ans===i?'selected':''}" data-copt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class="${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}" data-cq="${i}">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})}
+function askSubmitCompound(){const blank=bCompoundAnswers.filter(x=>x===null).length;if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishCompoundChallenge(false)}
+function finishCompoundChallenge(timeUp=false){if(!bCompoundSet)return;stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);profile.bCompoundHistory=[{date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details},...(profile.bCompoundHistory||[])].slice(0,20);saveProfile();document.getElementById('bCompoundExam')?.classList.remove('show');document.getElementById('bCompoundResult')?.classList.add('show');document.getElementById('bCompoundResultScore').textContent=`${correct} / 3`;document.getElementById('bCompoundResultMessage').textContent=correct===3?`長いコードを最後まで読み切れています。+${earned} XP`:correct===2?`あと一歩です。間違えた設問の途中状態を確認しましょう。+${earned} XP`:`紙に途中値を書きながら再挑戦するのがおすすめです。+${earned} XP`;document.getElementById('bCompoundCorrect').textContent=correct;document.getElementById('bCompoundWrong').textContent=3-correct-blank;document.getElementById('bCompoundBlank').textContent=blank;document.getElementById('bCompoundTime').textContent=bMockFormatTime(used);document.getElementById('bCompoundReview').innerHTML=details.map((d,i)=>`<div class="bcompound-review-item ${d.ok?'correct':'wrong'}"><b>設問${i+1} ${d.ok?'✓ 正解':'✕ 要確認'}</b><div class="bcompound-review-meta"><span>${escapeHtml(d.kind)}</span><span>${escapeHtml(d.qlevel)}</span></div><div class="bcompound-review-q">${escapeHtml(d.q)}</div><div class="bcompound-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bcompound-review-box"><b>考え方</b><span>${escapeHtml(d.exp)}</span></div><div class="bcompound-review-box"><b>見るポイント</b><span>${escapeHtml(d.point)}</span></div><div class="bcompound-review-box pitfall"><b>間違えやすい点</b><span>${escapeHtml(d.pitfall)}</span></div></div>`).join('')}
+document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');showBMockMenu()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}});
+
+const B_MOCK_COUNT=8;
+const B_MOCK_SECONDS=40*60;
+const B_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2};
+
+const B_MOCK_EXTRA_DISTRACTOR={
+  loop_sum:'5',array_max:'11',linear_search:'2',stack_ops:'8',recursion:'4',tree_dfs:'B',
+  count_even:'4',array_reverse:'5',nested_loop:'8',binary_search_b:'6',
+  bubble_sort_b:'[4,1,2,5]',selection_sort_b:'[1,5,2,4]',matrix_sum:'7',matrix_find:'(0,2)',
+  queue_ops:'7',linked_list:'12',bit_mask:'0001',object_counter:'2',gcd_euclid:'3',recursive_fib:'5'
+};
+
+const B_MOCK_EXPLANATION={
+  loop_sum:'i=2のときは直前のsum=1に2を加えるので、sum=3になります。',
+  array_max:'data[1]=9は現在のmax=4より大きいため、maxは9へ更新されます。',
+  linear_search:'添字は0から始まるため、12を見つけた位置はdata[3]で、posには3が入ります。',
+  stack_ops:'スタックはLIFOです。2の上に4が積まれているので、次のPOPでは4が取り出されます。',
+  recursion:'factorialの終了条件ではfactorial(1)=1を返します。ここから呼出し元へ値が戻ります。',
+  tree_dfs:'先行順の深さ優先探索ではA→Bの次にBの左子Dへ進むので、次の出力はDです。',
+  count_even:'8は2で割り切れるので条件が真となり、countは0から1へ増えます。',
+  array_reverse:'末尾から走査しているため、5の次はdata[3]=4がoutへ追加されます。',
+  nested_loop:'外側3回×内側2回なので、countを増やす処理は合計6回実行されます。',
+  binary_search_b:'data[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。',
+  bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。',
+  selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。',
+  matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。',
+  matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。',
+  queue_ops:'キューはFIFOです。3,5の順に入っているので、次のDEQUEUEは先頭の3です。',
+  linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。',
+  bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。',
+  object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。',
+  gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。',
+  recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。'
+};
+
+if(!profile.bMockHistory) profile.bMockHistory=[];
+if(!profile.bMockStats) profile.bMockStats={};
+B_EXERCISES.forEach(ex=>{
+  if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null};
+});
+
+let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0;
+let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null;
+
+function bMockCandidateFromExercise(ex){
+  const predIndex=ex.steps.findIndex(s=>s.predict);
+  if(predIndex<0)return null;
+  const step=ex.steps[predIndex],pred=step.predict,correct=String(pred.opts[pred.a]);
+  const options=pred.opts.map(String);
+  const extra=String(B_MOCK_EXTRA_DISTRACTOR[ex.id]??'');
+  if(extra && !options.includes(extra))options.push(extra);
+  while(options.length<4)options.push(`選択肢${options.length+1}`);
+  return {
+    id:ex.id,exId:ex.id,title:ex.title,level:ex.level,code:ex.code,line:step.line,
+    state:structuredClone(step.state||{}),
+    visual:{
+      array:structuredClone(ex.array||null),arrayState:structuredClone(step.arrayState||null),
+      focus:step.focus,found:step.found,target:ex.target,matrix:structuredClone(ex.matrix||null),
+      matrixFocus:structuredClone(step.matrixFocus||null),queue:structuredClone(step.queue||null),
+      list:structuredClone(ex.list||null),currentNode:step.currentNode,visited:structuredClone(step.visited||null),
+      bits:structuredClone(step.bits||null),object:structuredClone(step.object||null),objectName:ex.objectName,
+      stack:structuredClone(step.stack||null),tree:structuredClone(ex.tree||null)
+    },
+    q:pred.q,options,correctText:correct,
+    explain:B_MOCK_EXPLANATION[ex.id]||`${ex.title}をコード通りに追うと、正解は「${correct}」です。`
+  };
+}
+
+function shuffleBMockAnswer(item){
+  const options=shuffled(item.options);
+  return {...item,options,a:options.indexOf(item.correctText)};
+}
+
+function buildBMock(){
+  const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[];
+  Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{
+    const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{
+      const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0;
+      if(sa!==sb)return sa-sb;
+      const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||'';
+      if(la!==lb)return la.localeCompare(lb);
+      return Math.random()-.5;
+    });
+    selected.push(...pool.slice(0,n));
+  });
+  return shuffled(selected).map(shuffleBMockAnswer);
+}
+
+function bMockFormatTime(sec){
+  sec=Math.max(0,Math.floor(sec||0));
+  return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+}
+
+function renderBMockMenu(){
+  const hist=profile.bMockHistory||[],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null;
+  document.getElementById('bMockBest').textContent=best===null?'BEST —':`BEST ${best}%`;
+  const root=document.getElementById('bMockHistory'),rows=hist.slice(0,5);
+  root.innerHTML=rows.length?rows.map(h=>`
+    <div class="bmock-history-row">
+      <div class="bmock-history-main"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div>
+      <div class="bmock-history-time">${bMockFormatTime(h.seconds||0)}</div><div class="bmock-history-score">${h.rate}%</div>
+    </div>`).join(''):'<div class="sub">まだ受験履歴はありません。</div>';
+  const croot=document.getElementById('bCompoundHistoryMenu');
+  if(croot){const cs=(profile.bCompoundHistory||[]).slice(0,5);croot.innerHTML=cs.length?cs.map(h=>`<div class="bmock-history-row"><div class="bmock-history-main"><b>${escapeHtml(h.title)} ${h.correct}/3</b><span>${escapeHtml(h.date||'')}</span></div><div class="bmock-history-time">${bMockFormatTime(h.seconds||0)}</div><div class="bmock-history-score">${h.rate}%</div></div>`).join(''):'<div class="sub">まだ受験履歴はありません。</div>';}
+}
+
+function showBMockMenu(){
+  stopBMockTimer();
+  stopCompoundTimer();
+  document.getElementById('bSelect')?.classList.add('hidden');
+  document.getElementById('secSelect')?.classList.add('hidden');
+  document.getElementById('bLab')?.classList.remove('show');
+  document.getElementById('secLab')?.classList.remove('show');
+  document.getElementById('bMockExam')?.classList.remove('show');
+  document.getElementById('bMockResult')?.classList.remove('show');
+  document.getElementById('bCompoundExam')?.classList.remove('show');
+  document.getElementById('bCompoundResult')?.classList.remove('show');
+  document.getElementById('bMockSelect')?.classList.remove('hidden');
+  renderBMockMenu();
+}
+
+function startBMiniMock(){
+  bMockItems=buildBMock();bMockAnswers=Array(bMockItems.length).fill(null);bMockFlags=new Set();bMockIndex=0;
+  bMockSeconds=B_MOCK_SECONDS;bMockStartedAt=Date.now();lastBMockAttempt=null;
+  document.getElementById('bMockSelect')?.classList.add('hidden');
+  document.getElementById('bMockResult')?.classList.remove('show');
+  document.getElementById('bMockExam')?.classList.add('show');
+  renderBMockQuestion();startBMockTimer();
+}
+
+function startBMockTimer(){
+  stopBMockTimer();updateBMockTimer();
+  bMockTimerId=setInterval(()=>{bMockSeconds--;updateBMockTimer();if(bMockSeconds<=0){stopBMockTimer();finishBMiniMock(true);}},1000);
+}
+function stopBMockTimer(){if(bMockTimerId){clearInterval(bMockTimerId);bMockTimerId=null;}}
+function updateBMockTimer(){
+  const t=document.getElementById('bMockTimer');if(!t)return;
+  t.textContent=bMockFormatTime(bMockSeconds);
+  t.classList.toggle('warn',bMockSeconds<=600&&bMockSeconds>300);t.classList.toggle('danger',bMockSeconds<=300);
+}
+
+function bMockVisualHtml(item){
+  const v=item.visual||{};
+  if(v.matrix){const f=v.matrixFocus||[];return `<div class="trace-matrix">${v.matrix.map((row,r)=>`<div class="trace-matrix-row">${row.map((x,c)=>`<div class="trace-matrix-cell ${f[0]===r&&f[1]===c?'focus':''}">${escapeHtml(x)}<span class="trace-matrix-index">${r},${c}</span></div>`).join('')}</div>`).join('')}</div>`;}
+  if(v.queue)return `<div class="trace-queue-label">FRONT → REAR</div><div class="trace-queue">${v.queue.length?v.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
+  if(v.list){const visited=v.visited||[];return `<div class="trace-list">${v.list.map((node,i)=>`${i?'<span class="trace-list-arrow">→</span>':''}<div class="trace-list-node ${v.currentNode===node.id?'current':''} ${visited.includes(node.id)?'visited':''}"><div class="trace-node-id">${escapeHtml(node.id)}</div><div class="trace-node-value">${escapeHtml(node.value)}</div></div>`).join('')}<span class="trace-list-arrow">→ null</span></div>`;}
+  if(v.bits){const labels={x:'x',mask:'mask',result:'AND'};return `<div class="trace-bits">${Object.entries(v.bits).map(([k,val])=>`<div class="trace-bit-row"><div class="trace-bit-label">${labels[k]||escapeHtml(k)}</div><div class="trace-bit-value">${escapeHtml(val)}</div></div>`).join('')}</div>`;}
+  if(v.object)return `<div class="trace-object"><div class="trace-object-title">${escapeHtml(v.objectName||'object')}</div>${Object.entries(v.object).map(([k,val])=>`<div class="trace-object-prop"><span>${escapeHtml(k)}</span><b>${escapeHtml(val)}</b></div>`).join('')}</div>`;
+  if(v.array){const arr=v.arrayState||v.array;return `<div class="trace-array">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
+  if(v.stack)return `<div class="sub" style="text-align:center;margin-bottom:6px">TOP</div><div class="trace-stack">${v.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
+  if(v.tree){const visited=v.visited||[],mark=n=>visited.includes(n)?`[${n}]`:n;return `<div class="tree-view">       ${mark('A')}
+      /   \\
+    ${mark('B')}     ${mark('C')}
+   / \\
+ ${mark('D')}   ${mark('E')}</div>`;}
+  return '';
+}
+
+function renderBMockQuestion(){
+  if(!bMockItems.length)return;
+  const item=bMockItems[bMockIndex];
+  document.getElementById('bMockQNum').textContent=`QUESTION ${bMockIndex+1} / ${bMockItems.length}`;
+  document.getElementById('bMockCode').innerHTML=item.code.map((line,i)=>`<div class="bmock-code-line ${i===item.line?'target':''}"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');
+  document.getElementById('bMockState').innerHTML=Object.entries(item.state||{}).map(([k,v])=>`<div class="bmock-state-card"><div class="bmock-state-key">${escapeHtml(k)}</div><div class="bmock-state-val">${escapeHtml(v)}</div></div>`).join('');
+  document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item);
+  document.getElementById('bMockQuestion').textContent=item.q;
+  const answer=bMockAnswers[bMockIndex];
+  document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class="bmock-option ${answer===i?'selected':''}" data-bmopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');
+  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
+  document.getElementById('bMockPrev').disabled=bMockIndex===0;
+  document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →';
+  document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex));
+  document.getElementById('bMockFlag').textContent=bMockFlags.has(bMockIndex)?'★ 後で見る':'☆ 後で見る';
+  renderBMockNav();
+}
+
+function renderBMockNav(){
+  const root=document.getElementById('bMockNavGrid');
+  root.innerHTML=bMockItems.map((_,i)=>`<button class="bmock-nav-q ${bMockAnswers[i]!==null?'answered':''} ${bMockFlags.has(i)?'flagged':''} ${i===bMockIndex?'current':''}" data-bmq="${i}">${i+1}</button>`).join('');
+  root.querySelectorAll('[data-bmq]').forEach(btn=>btn.onclick=()=>{bMockIndex=Number(btn.dataset.bmq);renderBMockQuestion();});
+  document.getElementById('bMockAnswerCount').textContent=`${bMockAnswers.filter(x=>x!==null).length} / ${bMockItems.length} 回答`;
+}
+
+function askSubmitBMock(){
+  const blank=bMockAnswers.filter(x=>x===null).length;
+  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false);
+}
+
+function finishBMiniMock(timeUp=false){
+  if(!bMockItems.length)return;
+  stopBMockTimer();
+  const used=Math.min(B_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(bMockStartedAt||Date.now()))/1000)));
+  let correct=0,blank=0;
+  const details=bMockItems.map((item,i)=>{
+    const ans=bMockAnswers[i],ok=ans===item.a;if(ok)correct++;if(ans===null)blank++;
+    const st=profile.bMockStats[item.id]||(profile.bMockStats[item.id]={seen:0,correct:0,lastSeen:null});
+    st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0);
+    return {id:item.id,exId:item.exId,title:item.title,level:item.level,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain};
+  });
+  const rate=Math.round(correct/bMockItems.length*100),earned=correct*8+(rate>=75?20:0);
+  profile.xp=(profile.xp||0)+earned;
+  if(profile.skills?.['アルゴリズム']!==undefined)profile.skills['アルゴリズム']=clamp(profile.skills['アルゴリズム']+(rate>=75?2:rate>=50?1:0),0,100);
+  const attempt={
+    date:localDateISO(0),total:bMockItems.length,correct,blank,rate,seconds:used,timeUp,
+    levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const rows=details.filter(d=>d.level===level);return[level,{correct:rows.filter(d=>d.ok).length,total:rows.length}]})),
+    details
+  };
+  profile.bMockHistory=[attempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile();
+  document.getElementById('bMockExam')?.classList.remove('show');document.getElementById('bMockResult')?.classList.add('show');
+  renderBMockResult(attempt,earned);
+  if(typeof renderReadiness==='function')renderReadiness();
+  if(typeof renderDailyPlan==='function')renderDailyPlan();
+}
+
+function renderBMockResult(attempt,earned){
+  document.getElementById('bMockResultScore').textContent=`${attempt.correct} / ${attempt.total}`;
+  document.getElementById('bMockResultMessage').textContent=attempt.rate>=88?`かなり安定しています。+${earned} XP`:attempt.rate>=75?`実戦レベルに近づいています。+${earned} XP`:attempt.rate>=50?`間違えた状態変化を学習モードで追い直しましょう。+${earned} XP`:`誤答した演習を1行ずつトレースし直すのがおすすめです。+${earned} XP`;
+  document.getElementById('bMockStatCorrect').textContent=attempt.correct;
+  document.getElementById('bMockStatWrong').textContent=attempt.total-attempt.correct-attempt.blank;
+  document.getElementById('bMockStatBlank').textContent=attempt.blank;document.getElementById('bMockStatTime').textContent=bMockFormatTime(attempt.seconds);
+  document.getElementById('bMockBreakdown').innerHTML=['基礎','標準','応用'].map(level=>{const x=attempt.levels[level],pct=x.total?Math.round(x.correct/x.total*100):0;return `<div class="bmock-break-row"><div class="bmock-break-label">${level}</div><div class="bmock-break-bar"><div class="bmock-break-fill" style="width:${pct}%"></div></div><div class="bmock-break-score">${x.correct}/${x.total}</div></div>`}).join('');
+  document.getElementById('bMockReviewList').innerHTML=attempt.details.map((d,i)=>`
+    <div class="bmock-review-item ${d.ok?'correct':'wrong'}">
+      <div class="bmock-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span class="bmock-review-mark">${d.ok?'✓ 正解':'✕ 要復習'}</span></div>
+      <div class="bmock-review-q">${escapeHtml(d.q)}</div>
+      <div class="bmock-review-answer">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div>
+      <div class="bmock-review-explain">${escapeHtml(d.explain)}</div>
+      ${d.ok?'':`<button class="bmock-review-study" data-bstudy="${escapeHtml(d.exId)}">学習モードで1行ずつ確認 →</button>`}
+    </div>`).join('');
+  document.querySelectorAll('[data-bstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('bMockResult')?.classList.remove('show');setBMode('trace');startBExercise(btn.dataset.bstudy);});
+}
+
+document.getElementById('bMockStart')?.addEventListener('click',startBMiniMock);
+document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock);
+document.getElementById('bMockResultList')?.addEventListener('click',showBMockMenu);
+document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock);
+document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}});
+document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();});
+document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(bMockIndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQuestion();});
+document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))showBMockMenu();});
+
+
 if(!profile.bProgress) profile.bProgress={};
 B_EXERCISES.forEach(x=>{
   if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0;
@@ -10437,7 +11622,12 @@ document.getElementById('mapTrace')?.addEventListener('click',()=>{
 });
 
 function showBList(){
+  stopBMockTimer();
   document.getElementById('bSelect').classList.remove('hidden');
+  document.getElementById('secSelect')?.classList.add('hidden');
+  document.getElementById('bMockSelect')?.classList.add('hidden');
+  document.getElementById('bMockExam')?.classList.remove('show');
+  document.getElementById('bMockResult')?.classList.remove('show');
   document.getElementById('bLab').classList.remove('show');
   renderBGrid();
 }
@@ -10876,44 +12066,697 @@ const SECURITY_SCENARIOS = [
       }
     ],
     summary:'発生可能性×影響度で優先順位を考え、対策コストや許容水準を踏まえて処置し、残留リスクも管理する。'
+  },
+  {
+    id:'sql_injection',
+    title:'検索画面への不正入力',
+    icon:'🗄️',
+    level:'標準',
+    concept:'SQLインジェクション・入力処理',
+    desc:'入力値がSQL文へ直接連結されているWebアプリで、原因と対策を判断します。',
+    incident:{
+      title:'商品検索で想定外の大量データが表示',
+      badge:'Webアプリ',
+      icon:'⌨️',
+      text:'社内の商品検索画面で、特殊な文字列を入力した直後、本来閲覧できない多数のレコードまで表示されました。'
+    },
+    evidence:[
+      {icon:'🧩',text:'アプリは入力文字列をSQL文へ直接連結している'},
+      {icon:'🗃️',text:'検索用DBアカウントには更新権限まで付与されている'},
+      {icon:'📝',text:'Webアクセスログには通常と異なる長い検索文字列'}
+    ],
+    steps:[
+      {q:'最も疑うべき攻撃は？',options:['SQLインジェクション','ARPスプーフィング','DoS攻撃','パスワードリスト攻撃'],a:0,hint:'入力値が「データ」ではなくSQLの一部として解釈される攻撃を考えます。',explain:'入力値をSQLへ直接連結しているため、入力がSQL構文として解釈されるSQLインジェクションを疑います。'},
+      {q:'アプリ側の基本的な対策として適切なのは？',options:['プレースホルダを使ったパラメータ化クエリ','入力をそのままSQLへ連結する','DBの監査ログを無効にする','検索画面を画像にする'],a:0,hint:'SQLの構文と利用者が入力する値を分離する方法です。',explain:'プレースホルダを用いてSQL構文と入力値を分離することで、入力を命令として解釈されにくくします。'},
+      {q:'被害を小さくするためのDB権限設計として適切なのは？',options:['アプリ用アカウントへ必要最小限の権限だけを付与する','常にDB管理者権限を使う','全利用者へ更新権限を与える','権限管理をしない'],a:0,hint:'アプリが侵害された場合でも実行できる操作を限定します。',explain:'最小権限により、アプリが侵害されてもDB上で可能な操作範囲を抑えられます。'}
+    ],
+    summary:'SQL構文と入力値を分離し、DBアカウントにも最小権限を適用する。'
+  },
+  {
+    id:'xss',
+    title:'掲示板に不審なスクリプト',
+    icon:'🧪',
+    level:'標準',
+    concept:'XSS・出力処理',
+    desc:'投稿内容をそのままHTMLへ表示する画面で、スクリプト実行を防ぐ方法を考えます。',
+    incident:{
+      title:'投稿を開いた利用者のブラウザで不審な動作',
+      badge:'Webアプリ',
+      icon:'💬',
+      text:'社内掲示板に投稿された文字列を表示した利用者のブラウザで、意図しないスクリプトが実行されました。'
+    },
+    evidence:[
+      {icon:'📝',text:'投稿内容はHTMLへそのまま埋め込まれている'},
+      {icon:'🌐',text:'問題の投稿にはHTMLタグのような文字列が含まれている'},
+      {icon:'👤',text:'投稿を閲覧した複数利用者で同じ現象'}
+    ],
+    steps:[
+      {q:'最も疑うべき脆弱性は？',options:['クロスサイトスクリプティング（XSS）','バッファキャッシュ','RAID障害','DNSラウンドロビン'],a:0,hint:'利用者の入力がブラウザでスクリプトとして実行される問題です。',explain:'投稿内容がHTMLへそのまま出力され、閲覧者側でスクリプトが実行されているためXSSを疑います。'},
+      {q:'表示時の基本対策として適切なのは？',options:['HTMLで特別な意味を持つ文字を適切にエスケープする','投稿をすべてSQLへ変換する','TCPをUDPへ変更する','画面の背景色を固定する'],a:0,hint:'利用者入力を「プログラム」ではなく「文字」として表示させます。',explain:'出力時に適切なエスケープを行い、投稿内容がHTMLやスクリプトとして解釈されないようにします。'},
+      {q:'影響調査で有用なのは？',options:['問題投稿の内容・閲覧者・実行時刻などのログ','プリンタ用紙の在庫','利用者の壁紙','CPUクロックだけ'],a:0,hint:'誰が、いつ、どの投稿を閲覧したかを確認します。',explain:'投稿内容と閲覧履歴などを確認することで、影響を受けた利用者や期間を調べられます。'}
+    ],
+    summary:'利用者入力は出力時に適切にエスケープし、発生時は投稿と閲覧履歴から影響範囲を確認する。'
+  },
+  {
+    id:'password_spray',
+    title:'多数アカウントへの少数パスワード試行',
+    icon:'🔑',
+    level:'応用',
+    concept:'認証攻撃・ログ分析',
+    desc:'多数の利用者へ同じ少数パスワードを試す認証ログから、攻撃と対策を判断します。',
+    incident:{
+      title:'複数ユーザーで同じ送信元から認証失敗',
+      badge:'認証攻撃',
+      icon:'🚪',
+      text:'短時間に多数の利用者アカウントで1〜2回ずつ認証失敗が発生し、一部のアカウントでは成功も記録されました。'
+    },
+    log:`09:10 source=198.51.100.8 user=A result=FAILED
+09:10 source=198.51.100.8 user=B result=FAILED
+09:11 source=198.51.100.8 user=C result=FAILED
+09:11 source=198.51.100.8 user=D result=SUCCESS
+09:12 source=198.51.100.8 user=E result=FAILED`,
+    steps:[
+      {q:'特徴に最も近い攻撃は？',options:['パスワードスプレー攻撃','SQLインジェクション','クロスサイトスクリプティング','セッション確立'],a:0,hint:'1アカウントへ大量試行ではなく、多数のアカウントへ少数候補を試しています。',explain:'多数のアカウントへ同じ少数のパスワード候補を試すパスワードスプレー攻撃の特徴です。'},
+      {q:'成功したDアカウントについて優先すべき対応は？',options:['本人確認と資格情報の保護、利用履歴の調査','ログを削除する','成功を正常利用と決めつける','パスワードを全員で共有する'],a:0,hint:'攻撃者がログインに成功した可能性を前提に考えます。',explain:'本人の利用か確認し、必要なら資格情報変更やセッション無効化を行い、成功後の操作も調査します。'},
+      {q:'予防策として有効なものは？',options:['MFA、弱いパスワードの禁止、異常認証の監視','認証ログを保存しない','全員同じパスワードを使う','失敗回数を監視しない'],a:0,hint:'パスワード単独への依存を減らし、異常を検知します。',explain:'MFAや適切なパスワード方針、認証ログ監視を組み合わせることでリスクを下げられます。'}
+    ],
+    summary:'多数アカウントへの低頻度試行も監視し、MFAと認証ログ分析でパスワード単独依存を減らす。'
+  },
+  {
+    id:'usb_malware',
+    title:'出所不明のUSBメモリ',
+    icon:'💾',
+    level:'基礎',
+    concept:'マルウェア・媒体管理',
+    desc:'出所不明の外部媒体を業務PCへ接続した状況で、初動と再発防止を考えます。',
+    incident:{
+      title:'拾得したUSBを業務PCへ接続',
+      badge:'外部媒体',
+      icon:'🔌',
+      text:'社員Dが社内で見つけた出所不明のUSBメモリを、所有者を確認するため業務PCへ接続しました。その後、セキュリティソフトが警告を出しました。'
+    },
+    evidence:[
+      {icon:'⚠️',text:'セキュリティソフト：未知の実行ファイルを検知'},
+      {icon:'💾',text:'USBの所有者・入手経路は不明'},
+      {icon:'🖥️',text:'接続したのは社内ネットワーク上の業務PC'}
+    ],
+    steps:[
+      {q:'まず適切な対応は？',options:['端末を組織の手順に従って隔離・報告し、調査する','警告を無効にして使い続ける','USB内の全ファイルを実行する','別のPCにも接続する'],a:0,hint:'未知ファイルが実行された可能性と被害拡大を考えます。',explain:'感染の可能性があるため被害拡大を抑え、担当部署へ報告して端末と媒体を調査します。'},
+      {q:'平時の対策として適切なのは？',options:['外部媒体の利用ルールやデバイス制御を設ける','出所不明の媒体も自由に使う','警告機能を停止する','媒体利用を記録しない'],a:0,hint:'誰でも自由に未知の媒体を接続できないようにします。',explain:'外部媒体の利用制限や承認手順、デバイス制御などで不用意な接続を減らします。'},
+      {q:'USBの内容確認が必要な場合に望ましい方法は？',options:['組織で定めた安全な検査環境・手順を利用する','重要サーバへ直接接続する','自宅PCだけで確認すれば安全','自動実行を有効にする'],a:0,hint:'通常の業務環境から分離した検査を考えます。',explain:'組織の安全な検査環境や手順で確認し、業務環境へ直接持ち込まないことが重要です。'}
+    ],
+    summary:'出所不明媒体は不用意に接続せず、媒体管理と安全な検査手順で感染経路を抑える。'
+  },
+  {
+    id:'exfiltration',
+    title:'大量の機密ファイル持ち出し',
+    icon:'📤',
+    level:'応用',
+    concept:'情報漏えい・ログ分析',
+    desc:'退職予定者による通常と異なる大量ダウンロードから、確認・保護・権限管理を判断します。',
+    incident:{
+      title:'退職予定者が深夜に大量ダウンロード',
+      badge:'情報漏えい',
+      icon:'📁',
+      text:'退職予定の社員Eが、普段アクセスしない設計資料を深夜に大量ダウンロードしたことを監視システムが検知しました。'
+    },
+    log:`22:41 user=E file=design01.pdf download
+22:42 user=E file=design02.pdf download
+22:43 user=E file=customer-list.csv download
+22:44 user=E archive=project-all.zip download`,
+    steps:[
+      {q:'最初に行うべきこととして適切なのは？',options:['正当な業務か確認しつつ、必要に応じてアクセスを保護してログを保全する','ログをすぐ削除する','何も確認せず全社員のアカウントを停止する','大量取得を正常と決めつける'],a:0,hint:'事実確認と証拠保全、被害拡大防止を両立します。',explain:'正当性を確認し、漏えいの可能性があればアクセス制御などで保護しつつ、調査用ログを保全します。'},
+      {q:'再発防止として有効なのは？',options:['職務変更・退職に合わせた権限見直しと異常な大量取得の監視','全資料を全社員へ公開する','退職者の権限を永久に残す','監視ログを停止する'],a:0,hint:'必要な権限の期間と、通常と違う大量操作に注目します。',explain:'ライフサイクルに合わせた権限管理と、通常パターンから外れた大量取得の監視が有効です。'},
+      {q:'調査で重要な情報は？',options:['取得したファイル、時刻、接続元、持出し先など','社員の趣味','キーボード配列','モニタ解像度'],a:0,hint:'何が、いつ、どこから、どこへ移ったかを追います。',explain:'対象データ・時間・接続元・転送先などを確認し、影響範囲を特定します。'}
+    ],
+    summary:'異常な大量取得はログを保全しながら正当性を確認し、権限管理と監視で持出しリスクを下げる。'
+  },
+  {
+    id:'crypto_choice',
+    title:'大容量ファイルの安全な送信',
+    icon:'🔒',
+    level:'標準',
+    concept:'共通鍵暗号・公開鍵暗号',
+    desc:'大容量データの暗号化と鍵配送を組み合わせる考え方を整理します。',
+    incident:{
+      title:'取引先へ大容量の機密ファイルを送信',
+      badge:'暗号',
+      icon:'📦',
+      text:'大容量の機密データを取引先へ送る必要があります。安全性に加え、暗号化処理の効率も考える必要があります。'
+    },
+    evidence:[
+      {icon:'⚡',text:'共通鍵暗号：一般に大量データを高速に暗号化しやすい'},
+      {icon:'🔑',text:'公開鍵暗号：相手の公開鍵を利用できる'},
+      {icon:'📁',text:'送信データ：数GBの機密ファイル'}
+    ],
+    steps:[
+      {q:'大容量データ本体の暗号化に向く方法は？',options:['共通鍵暗号','ハッシュ値だけ','公開鍵証明書そのもの','パリティビット'],a:0,hint:'大量データを効率よく暗号化する方式を考えます。',explain:'共通鍵暗号は一般に高速で、大容量データ本体の暗号化に適します。'},
+      {q:'共通鍵を相手へ安全に渡す考え方として適切なのは？',options:['相手の公開鍵を利用して共通鍵を保護する','平文メール本文に共通鍵を書く','全取引先で同じ鍵を永久に使う','鍵を公開Webページへ載せる'],a:0,hint:'相手だけが復号できるように鍵を保護します。',explain:'相手の公開鍵で共通鍵を保護すれば、対応する秘密鍵を持つ相手が復号できます。'},
+      {q:'このように方式を組み合わせる主な理由は？',options:['公開鍵暗号の鍵配送の利点と共通鍵暗号の処理効率を生かす','暗号化を行わないため','ハッシュを復号するため','パスワードを共有するため'],a:0,hint:'それぞれの暗号方式の得意分野を組み合わせます。',explain:'鍵の安全な共有には公開鍵暗号、大量データには共通鍵暗号という利点を組み合わせられます。'}
+    ],
+    summary:'大量データは共通鍵暗号、鍵の保護には公開鍵暗号を利用するなど、それぞれの特性を組み合わせる。'
+  },
+  {
+    id:'password_hash',
+    title:'パスワードDB流出への備え',
+    icon:'🧂',
+    level:'基礎',
+    concept:'ハッシュ・ソルト',
+    desc:'パスワードを安全に保存するためのハッシュとソルトの役割を考えます。',
+    incident:{
+      title:'Webサービスの認証DB設計',
+      badge:'パスワード保護',
+      icon:'🗝️',
+      text:'新しいWebサービスで利用者パスワードの保存方法を検討しています。DBが漏えいした場合も、元パスワードを得にくくしたいと考えています。'
+    },
+    evidence:[
+      {icon:'🧮',text:'ハッシュ関数：入力から固定長の値を計算'},
+      {icon:'🧂',text:'ソルト：利用者ごとに異なるランダム値を付加'},
+      {icon:'🚫',text:'平文パスワードをそのまま保存しない'}
+    ],
+    steps:[
+      {q:'保存方法として適切なのは？',options:['適切なパスワード用ハッシュ処理を用いて保存する','平文のまま保存する','全員同じ暗号鍵を画面に表示する','パスワードをユーザー名と同じにする'],a:0,hint:'DBから元のパスワードを直接読めない形にします。',explain:'パスワードは平文ではなく、適切なハッシュ処理を使った検証可能な形で保存します。'},
+      {q:'利用者ごとにソルトを加える主な効果は？',options:['同じパスワードでも保存されるハッシュ値を異ならせる','ハッシュから元パスワードを簡単に復号する','パスワードを短くする','全利用者の値を同一にする'],a:0,hint:'同じパスワード同士が同じ保存値になることを防ぎます。',explain:'異なるソルトにより同じパスワードでもハッシュ値が変わり、事前計算結果を使いにくくします。'},
+      {q:'DB流出が判明した場合の対応として適切なのは？',options:['影響評価と利用者保護を行い、必要に応じてパスワード変更などを促す','流出ログを削除して終える','平文保存へ戻す','何も通知しないと決める'],a:0,hint:'ハッシュ化していても流出自体の影響評価は必要です。',explain:'ハッシュ化はリスクを下げますが、流出時には影響を評価し、必要なアカウント保護や通知を行います。'}
+    ],
+    summary:'パスワードは平文保存せず、ソルトを用いた適切なハッシュ処理と流出時のアカウント保護を組み合わせる。'
+  },
+  {
+    id:'signed_update',
+    title:'ソフトウェア更新の署名確認',
+    icon:'✍️',
+    level:'標準',
+    concept:'デジタル署名・完全性',
+    desc:'配布された更新ファイルが正規提供者のもので改ざんされていないかを確認します。',
+    incident:{
+      title:'更新ファイルの署名検証に失敗',
+      badge:'デジタル署名',
+      icon:'📦',
+      text:'業務ソフトの更新ファイルを取得したところ、署名検証で「署名が無効」と表示されました。'
+    },
+    evidence:[
+      {icon:'✍️',text:'正規更新ファイルは開発元の秘密鍵で署名される'},
+      {icon:'🔑',text:'利用側は対応する公開鍵で署名を検証する'},
+      {icon:'⚠️',text:'今回のファイル：署名検証に失敗'}
+    ],
+    steps:[
+      {q:'この状態で適切な判断は？',options:['更新を実行せず、正規配布元とファイルを確認する','警告を無視して全端末へ配布する','署名を削除して実行する','秘密鍵を全社員へ配る'],a:0,hint:'真正性・完全性を確認できない更新ファイルです。',explain:'署名検証に失敗したファイルは正規提供者のものか、改ざんされていないか確認できないため実行を止めます。'},
+      {q:'デジタル署名で確認できる性質として適切なのは？',options:['送信者・作成者の真正性とデータの改ざん検知','データの機密性だけ','CPU速度','ストレージ容量'],a:0,hint:'「誰が署名したか」と「内容が変わっていないか」に注目します。',explain:'署名は署名者の真正性確認と、署名後のデータ改ざん検知に利用されます。'},
+      {q:'署名に用いる鍵の組合せとして適切なのは？',options:['署名は秘密鍵、検証は公開鍵','署名も検証も公開鍵だけ','署名は公開鍵、検証は秘密鍵','共通鍵をWebで公開する'],a:0,hint:'秘密鍵は所有者だけが保持し、検証は広く可能にします。',explain:'署名者が秘密鍵で署名し、受信側が公開鍵で検証します。'}
+    ],
+    summary:'署名検証に失敗した更新は実行せず、デジタル署名で提供者の真正性と完全性を確認する。'
+  },
+  {
+    id:'patch',
+    title:'公表済み脆弱性の未修正サーバ',
+    icon:'🩹',
+    level:'標準',
+    concept:'脆弱性管理・パッチ',
+    desc:'重大な脆弱性が公表されたサーバで、優先順位を付けて対策する流れを考えます。',
+    incident:{
+      title:'インターネット公開サーバに重大な脆弱性',
+      badge:'脆弱性管理',
+      icon:'🌍',
+      text:'インターネット公開中の業務サーバで、現在利用しているソフトウェアの重大な脆弱性が公表されました。修正版も提供されています。'
+    },
+    evidence:[
+      {icon:'🌐',text:'対象サーバ：インターネットから到達可能'},
+      {icon:'⚠️',text:'脆弱性：重大度が高く、悪用情報も公開'},
+      {icon:'🩹',text:'ベンダ：修正版を提供済み'}
+    ],
+    steps:[
+      {q:'対応優先度として適切なのは？',options:['高い優先度で影響確認・修正を進める','次回の数年後更新まで放置する','脆弱性情報を削除する','ログ機能を止める'],a:0,hint:'外部公開・重大度・悪用可能性を合わせて考えます。',explain:'外部公開され、重大度が高く悪用可能性もあるため、優先して影響確認と修正を進める必要があります。'},
+      {q:'パッチ適用前に考慮すべきことは？',options:['影響・互換性を確認し、組織の変更手順に従って適用する','本番へ無条件で即時適用するだけ','バックアップや復旧手順を考えない','検証環境を禁止する'],a:0,hint:'修正の緊急性と、変更による障害リスクの両方を扱います。',explain:'緊急性を踏まえつつ、影響や互換性を確認し、定めた変更管理手順に沿って適用します。'},
+      {q:'すぐに修正できない場合の考え方として適切なのは？',options:['アクセス制限など暫定対策を検討し、残るリスクを管理する','何もしない','脆弱性が消えたことにする','認証をすべて解除する'],a:0,hint:'恒久対策までの間、攻撃される可能性を下げます。',explain:'パッチまでの暫定措置としてアクセス制限などを検討し、残留リスクを管理します。'}
+    ],
+    summary:'脆弱性の重大度・露出・悪用可能性で優先順位を付け、検証と変更管理を行いながら修正する。'
   }
+
 ];
+
+
+
+// ===== v38: Full Subject-B practice =====
+const B_FINAL_COUNT=20;
+const B_FINAL_ALGO_COUNT=16;
+const B_FINAL_SEC_COUNT=4;
+const B_FINAL_SECONDS=100*60;
+
+if(!profile.bFinalHistory) profile.bFinalHistory=[];
+if(!profile.bFinalStats) profile.bFinalStats={};
+
+let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0;
+let bFinalSeconds=B_FINAL_SECONDS,bFinalTimerId=null,bFinalStartedAt=null,lastBFinalAttempt=null;
+
+function bFinalFormatOf(item){
+  if(item.kind==='security') return item.log?'ログ読解':'ケース判断';
+  return item.format||'トレース';
+}
+
+function makeFinalAlgoFromTrace(ex){
+  const predSteps=ex.steps.map((s,i)=>({s,i})).filter(x=>x.s.predict);
+  const pick=predSteps[Math.floor(Math.random()*predSteps.length)]||predSteps[0];
+  if(!pick)return null;
+  const pred=pick.s.predict;
+  const correct=String(pred.opts[pred.a]);
+  const base=[...pred.opts.map(String)];
+  const extra=String(B_MOCK_EXTRA_DISTRACTOR?.[ex.id]??'');
+  if(extra && !base.includes(extra)) base.push(extra);
+  if(base.length<4 && /^-?\d+(?:\.\d+)?$/.test(correct)){
+    const n=Number(correct);
+    [n-1,n+1,n+2,n-2].map(String).forEach(x=>{if(base.length<4&&!base.includes(x))base.push(x)});
+  }
+  ['変化しない','処理を終了する','未定義'].forEach(x=>{if(base.length<4&&!base.includes(x))base.push(x)});
+  const opts=shuffled(base.slice(0,4));
+  return {
+    id:`trace:${ex.id}`,sourceId:ex.id,kind:'algo',format:'途中状態',
+    title:ex.title,level:ex.level,
+    context:`次の擬似言語について、示された処理の途中状態を読み取ってください。`,
+    code:[...ex.code],
+    data:[],
+    q:pred.q,options:opts,a:opts.indexOf(correct),correctText:correct,
+    explain:B_MOCK_EXPLANATION[ex.id]||`${ex.title}を処理順にトレースすると「${correct}」になります。`,
+    studyMode:'trace'
+  };
+}
+
+function makeFinalAlgoFromCompound(set){
+  const q=structuredClone(set.qs[Math.floor(Math.random()*set.qs.length)]);
+  const correct=q.opts[q.a],opts=shuffled([...q.opts]);
+  const format=q.format||(
+    /空欄|\[A\]|入る/.test(q.q)?'空欄補充':
+    /変更|変え|場合/.test(q.q)?'変更予測':
+    /何を|目的|処理/.test(q.q)?'処理理解':'処理結果'
+  );
+  return {
+    id:`compound:${set.id}:${set.qs.findIndex(x=>x.q===q.q)}`,sourceId:set.id,kind:'algo',format,
+    title:set.title,level:set.level,
+    context:set.lead,
+    code:[...set.code],
+    data:structuredClone(set.data||[]),
+    q:q.q,options:opts,a:opts.indexOf(correct),correctText:correct,
+    explain:q.exp||q.explain||`コードを処理順に追うと「${correct}」です。`,
+    studyMode:'compound'
+  };
+}
+
+function makeFinalSecurity(s){
+  const stepIndex=Math.floor(Math.random()*s.steps.length),step=s.steps[stepIndex],correct=step.options[step.a],opts=shuffled([...step.options]);
+  return {
+    id:`sec:${s.id}:${stepIndex}`,sourceId:s.id,kind:'security',
+    format:s.log?'ログ読解':'ケース判断',title:s.title,level:s.level,concept:s.concept,
+    incident:structuredClone(s.incident),evidence:structuredClone(s.evidence||null),log:s.log||null,risk:!!s.risk,
+    q:step.q,options:opts,a:opts.indexOf(correct),correctText:correct,explain:step.explain,studyMode:'security'
+  };
+}
+
+function finalAlgoPool(){
+  const trace=B_EXERCISES.map(makeFinalAlgoFromTrace).filter(Boolean);
+  const compound=B_COMPOUND_SETS.map(makeFinalAlgoFromCompound);
+  return [...trace,...compound];
+}
+
+function buildBFinal(){
+  // Balance source style rather than copying any particular published question:
+  // 8 single-trace + 8 longer/varied program questions + 4 security cases.
+  const traceCandidates=shuffled(B_EXERCISES.map(makeFinalAlgoFromTrace).filter(Boolean));
+  const compoundCandidates=shuffled(B_COMPOUND_SETS.map(makeFinalAlgoFromCompound));
+  const algo=[...traceCandidates.slice(0,8),...compoundCandidates.slice(0,8)];
+
+  // Prefer security scenarios used less often in full practice.
+  const secPool=[...SECURITY_SCENARIOS].sort((a,b)=>{
+    const sa=profile.bFinalStats[`sec:${a.id}`]?.seen||0,sb=profile.bFinalStats[`sec:${b.id}`]?.seen||0;
+    if(sa!==sb)return sa-sb;
+    return Math.random()-.5;
+  }).slice(0,4).map(makeFinalSecurity);
+
+  // Keep a mixed exam; security questions are not forced to the end.
+  return shuffled([...algo,...secPool]);
+}
+
+function renderBFinalMenu(){
+  const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>h.points||0)):null;
+  document.getElementById('bFinalBest').textContent=best===null?'BEST —':`BEST ${best}`;
+  const root=document.getElementById('bFinalHistory'),rows=hist.slice(0,5);
+  root.innerHTML=rows.length?rows.map(h=>`
+    <div class="bmock-history-row">
+      <div class="bmock-history-main"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div>
+      <div class="bmock-history-time">${bMockFormatTime(h.seconds||0)}</div>
+      <div class="bmock-history-score">${h.points}</div>
+    </div>`).join(''):'<div class="sub">まだ総合実戦の受験履歴はありません。</div>';
+}
+
+function showBFinalMenu(){
+  stopBFinalTimer();
+  ['bSelect','secSelect','bMockSelect'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
+  ['bLab','secLab','bMockExam','bMockResult','bCompoundExam','bCompoundResult','secMockExam','secMockResult','bFinalExam','bFinalResult'].forEach(id=>document.getElementById(id)?.classList.remove('show'));
+  document.getElementById('bFinalSelect')?.classList.remove('hidden');
+  renderBFinalMenu();
+}
+
+function startBFinal(){
+  bFinalItems=buildBFinal();bFinalAnswers=Array(bFinalItems.length).fill(null);bFinalFlags=new Set();bFinalIndex=0;
+  bFinalSeconds=B_FINAL_SECONDS;bFinalStartedAt=Date.now();lastBFinalAttempt=null;
+  document.getElementById('bFinalSelect')?.classList.add('hidden');
+  document.getElementById('bFinalResult')?.classList.remove('show');
+  document.getElementById('bFinalExam')?.classList.add('show');
+  renderBFinalQuestion();startBFinalTimer();
+}
+function stopBFinalTimer(){if(bFinalTimerId){clearInterval(bFinalTimerId);bFinalTimerId=null}}
+function startBFinalTimer(){
+  stopBFinalTimer();updateBFinalTimer();
+  bFinalTimerId=setInterval(()=>{bFinalSeconds--;updateBFinalTimer();if(bFinalSeconds<=0){stopBFinalTimer();finishBFinal(true)}},1000);
+}
+function updateBFinalTimer(){
+  const t=document.getElementById('bFinalTimer');if(!t)return;
+  t.textContent=bMockFormatTime(bFinalSeconds);
+  t.classList.toggle('warn',bFinalSeconds<=15*60&&bFinalSeconds>5*60);
+  t.classList.toggle('danger',bFinalSeconds<=5*60);
+}
+
+function finalAlgoDataHtml(item){
+  return (item.data||[]).map(d=>`<div class="bfinal-data-card"><b>${escapeHtml(d.label||'補足')}</b>${escapeHtml(d.text||'')}</div>`).join('');
+}
+
+function renderBFinalQuestion(){
+  const item=bFinalItems[bFinalIndex];if(!item)return;
+  document.getElementById('bFinalTopMeta').textContent=`QUESTION ${bFinalIndex+1} / ${bFinalItems.length}`;
+  document.getElementById('bFinalQNum').textContent=`Q${bFinalIndex+1}`;
+  const type=document.getElementById('bFinalQType');
+  type.textContent=item.kind==='security'?'情報セキュリティ':'擬似言語';
+  type.classList.toggle('security',item.kind==='security');
+  document.getElementById('bFinalQFormat').textContent=bFinalFormatOf(item);
+
+  const algo=document.getElementById('bFinalAlgoBlock'),sec=document.getElementById('bFinalSecurityBlock');
+  if(item.kind==='algo'){
+    algo.classList.remove('hidden');sec.classList.add('hidden');
+    document.getElementById('bFinalAlgoContext').textContent=item.context||'';
+    document.getElementById('bFinalCode').innerHTML=item.code.map((line,i)=>`<div class="bmock-code-line"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');
+    document.getElementById('bFinalAlgoData').innerHTML=finalAlgoDataHtml(item);
+  }else{
+    algo.classList.add('hidden');sec.classList.remove('hidden');
+    document.getElementById('bFinalSecIcon').textContent=item.incident.icon;
+    document.getElementById('bFinalSecTitle').textContent=item.incident.title;
+    document.getElementById('bFinalSecText').textContent=item.incident.text;
+    document.getElementById('bFinalSecEvidence').innerHTML=securityMockEvidenceHtml(item);
+  }
+
+  document.getElementById('bFinalQuestion').textContent=item.q;
+  const ans=bFinalAnswers[bFinalIndex];
+  document.getElementById('bFinalOptions').innerHTML=item.options.map((op,i)=>`<button class="bfinal-option ${item.kind==='security'?'security':''} ${ans===i?'selected':''}" data-bfopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join('');
+  document.querySelectorAll('[data-bfopt]').forEach(btn=>btn.onclick=()=>{bFinalAnswers[bFinalIndex]=Number(btn.dataset.bfopt);renderBFinalQuestion()});
+
+  document.getElementById('bFinalPrev').disabled=bFinalIndex===0;
+  document.getElementById('bFinalNext').textContent=bFinalIndex===bFinalItems.length-1?'提出へ':'次へ →';
+  document.getElementById('bFinalFlag').classList.toggle('active',bFinalFlags.has(bFinalIndex));
+  document.getElementById('bFinalFlag').textContent=bFinalFlags.has(bFinalIndex)?'★ 後で見る':'☆ 後で見る';
+  document.getElementById('bFinalProgressMini').style.width=`${((bFinalIndex+1)/bFinalItems.length)*100}%`;
+  renderBFinalNav();
+}
+
+function renderBFinalNav(){
+  const root=document.getElementById('bFinalNavGrid');
+  root.innerHTML=bFinalItems.map((item,i)=>`<button class="bfinal-nav-q ${item.kind==='security'?'security':'algo'} ${bFinalAnswers[i]!==null?'answered':''} ${bFinalFlags.has(i)?'flagged':''} ${i===bFinalIndex?'current':''}" data-bfq="${i}">${i+1}</button>`).join('');
+  root.querySelectorAll('[data-bfq]').forEach(btn=>btn.onclick=()=>{bFinalIndex=Number(btn.dataset.bfq);renderBFinalQuestion()});
+  const answered=bFinalAnswers.filter(x=>x!==null).length;
+  const algo=bFinalItems.reduce((n,x,i)=>n+(x.kind==='algo'&&bFinalAnswers[i]!==null?1:0),0);
+  const sec=bFinalItems.reduce((n,x,i)=>n+(x.kind==='security'&&bFinalAnswers[i]!==null?1:0),0);
+  document.getElementById('bFinalAnswerCount').textContent=`${answered} / ${bFinalItems.length} 回答`;
+  document.getElementById('bFinalAlgoAnswered').textContent=algo;document.getElementById('bFinalSecAnswered').textContent=sec;
+}
+
+function askSubmitBFinal(){
+  const blank=bFinalAnswers.filter(x=>x===null).length;
+  if(confirm(blank?`未回答が${blank}問あります。総合実戦を提出しますか？`:'20問の回答を提出しますか？'))finishBFinal(false);
+}
+
+function finishBFinal(timeUp=false){
+  if(!bFinalItems.length)return;
+  stopBFinalTimer();
+  const used=Math.min(B_FINAL_SECONDS,Math.max(0,Math.round((Date.now()-(bFinalStartedAt||Date.now()))/1000)));
+  let correct=0,blank=0,algoCorrect=0,secCorrect=0;
+  const details=bFinalItems.map((item,i)=>{
+    const ans=bFinalAnswers[i],ok=ans===item.a;if(ok){correct++;if(item.kind==='algo')algoCorrect++;else secCorrect++;}if(ans===null)blank++;
+    const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`;
+    if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null};
+    const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0);
+    return {sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};
+  });
+  // Simple practice score: 20 equal-weight questions -> 50 points each.
+  // It is an in-app practice score, not a claim about IRT score conversion.
+  const points=correct*50,rate=Math.round(correct/20*100),earned=correct*10+(points>=600?40:0);
+  profile.xp=(profile.xp||0)+earned;
+  const attempt={date:localDateISO(0),total:20,correct,blank,points,rate,seconds:used,timeUp,algoCorrect,secCorrect,details};
+  profile.bFinalHistory=[attempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile();
+
+  document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show');
+  renderBFinalResult(attempt,earned);
+}
+
+function renderBFinalResult(a,earned){
+  document.getElementById('bFinalResultPoints').textContent=a.points;
+  document.getElementById('bFinalResultRaw').textContent=`${a.correct} / 20 正解`;
+  document.getElementById('bFinalResultMessage').textContent=a.points>=800?`かなり安定しています。時間配分を保ったまま精度を維持しましょう。+${earned} XP`:a.points>=600?`目標ラインに到達しました。誤答分野を潰して余裕を作りましょう。+${earned} XP`:a.points>=450?`あと少しです。誤答を「トレース」「読解」「判断」に分けて復習しましょう。+${earned} XP`:`学習モードへ戻り、途中状態を書き出す練習から積み直すのがおすすめです。+${earned} XP`;
+  document.getElementById('bFinalStatCorrect').textContent=a.correct;
+  document.getElementById('bFinalStatWrong').textContent=20-a.correct-a.blank;
+  document.getElementById('bFinalStatBlank').textContent=a.blank;
+  document.getElementById('bFinalStatTime').textContent=bMockFormatTime(a.seconds);
+  document.getElementById('bFinalAlgoScore').textContent=`${a.algoCorrect} / 16`;
+  document.getElementById('bFinalSecScore').textContent=`${a.secCorrect} / 4`;
+
+  const formats=[...new Set(a.details.map(d=>d.format))];
+  document.getElementById('bFinalFormatBreakdown').innerHTML=formats.map(f=>{
+    const rows=a.details.filter(d=>d.format===f),n=rows.filter(d=>d.ok).length,pct=Math.round(n/rows.length*100);
+    return `<div class="bfinal-format-row"><div class="bfinal-format-label">${escapeHtml(f)}</div><div class="bfinal-format-bar"><div class="bfinal-format-fill" style="width:${pct}%"></div></div><div class="bfinal-format-score">${n}/${rows.length}</div></div>`;
+  }).join('');
+
+  document.getElementById('bFinalReviewList').innerHTML=a.details.map((d,i)=>`<div class="bfinal-review-item ${d.ok?'correct':'wrong'}"><div class="bfinal-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ Security':'💻 '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="bfinal-review-q">${escapeHtml(d.q)}</div><div class="bfinal-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bfinal-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<button class="bfinal-review-study" data-bfinalstudy="${escapeHtml(d.studyMode)}" data-bfinalsource="${escapeHtml(d.sourceId)}">学習モードで復習 →</button>`}</div>`).join('');
+  document.querySelectorAll('[data-bfinalstudy]').forEach(btn=>btn.onclick=()=>{
+    document.getElementById('bFinalResult')?.classList.remove('show');
+    const mode=btn.dataset.bfinalstudy,source=btn.dataset.bfinalsource;
+    if(mode==='security'){setBMode('security');startSecurityScenario(source)}
+    else if(mode==='trace'){setBMode('trace');startBExercise(source)}
+    else{setBMode('mock');showBMockMenu()}
+  });
+}
+
+document.getElementById('bFinalStart')?.addEventListener('click',startBFinal);
+document.getElementById('bFinalRetry')?.addEventListener('click',startBFinal);
+document.getElementById('bFinalBackMenu')?.addEventListener('click',showBFinalMenu);
+document.getElementById('bFinalSubmit')?.addEventListener('click',askSubmitBFinal);
+document.getElementById('bFinalPrev')?.addEventListener('click',()=>{if(bFinalIndex>0){bFinalIndex--;renderBFinalQuestion()}});
+document.getElementById('bFinalNext')?.addEventListener('click',()=>{if(bFinalIndex<bFinalItems.length-1){bFinalIndex++;renderBFinalQuestion()}else askSubmitBFinal()});
+document.getElementById('bFinalFlag')?.addEventListener('click',()=>{bFinalFlags.has(bFinalIndex)?bFinalFlags.delete(bFinalIndex):bFinalFlags.add(bFinalIndex);renderBFinalQuestion()});
+document.getElementById('bFinalExit')?.addEventListener('click',()=>{if(confirm('科目B総合実戦を終了しますか？回答は保存されません。'))showBFinalMenu()});
+
+
+// ===== v37: Security Mini Mock =====
+const SECURITY_MOCK_COUNT=8;
+const SECURITY_MOCK_SECONDS=20*60;
+const SECURITY_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2};
+
+if(!profile.securityMockHistory) profile.securityMockHistory=[];
+if(!profile.securityMockStats) profile.securityMockStats={};
+
+function ensureSecurityMockStats(){
+  SECURITY_SCENARIOS.forEach(s=>{
+    if(!profile.securityMockStats[s.id]) profile.securityMockStats[s.id]={seen:0,correct:0,lastSeen:null};
+  });
+}
+
+let secMockItems=[],secMockAnswers=[],secMockFlags=new Set(),secMockIndex=0;
+let secMockSeconds=SECURITY_MOCK_SECONDS,secMockTimerId=null,secMockStartedAt=null,lastSecurityMockAttempt=null;
+
+function randomizeSecurityMockItem(s,stepIndex){
+  const step=s.steps[stepIndex];
+  const correctText=step.options[step.a];
+  const options=shuffled([...step.options]);
+  return {
+    id:`${s.id}:${stepIndex}`,scenarioId:s.id,title:s.title,level:s.level,concept:s.concept,
+    incident:structuredClone(s.incident),evidence:structuredClone(s.evidence||null),log:s.log||null,risk:!!s.risk,
+    q:step.q,options,a:options.indexOf(correctText),correctText,explain:step.explain
+  };
+}
+
+function buildSecurityMock(){
+  ensureSecurityMockStats();
+  const selected=[];
+  Object.entries(SECURITY_MOCK_QUOTAS).forEach(([level,n])=>{
+    const pool=SECURITY_SCENARIOS.filter(s=>s.level===level).sort((a,b)=>{
+      const sa=profile.securityMockStats[a.id]?.seen||0,sb=profile.securityMockStats[b.id]?.seen||0;
+      if(sa!==sb)return sa-sb;
+      const la=profile.securityMockStats[a.id]?.lastSeen||'',lb=profile.securityMockStats[b.id]?.lastSeen||'';
+      if(la!==lb)return la.localeCompare(lb);
+      return Math.random()-.5;
+    });
+    selected.push(...pool.slice(0,n));
+  });
+  return shuffled(selected).map(s=>randomizeSecurityMockItem(s,Math.floor(Math.random()*s.steps.length)));
+}
+
+function securityMockEvidenceHtml(item){
+  if(item.log)return `<div class="log-box">${escapeHtml(item.log)}</div>`;
+  if(item.risk)return `<div class="risk-matrix">
+    <div class="risk-cell"></div><div class="risk-cell">影響 低</div><div class="risk-cell">影響 中</div><div class="risk-cell">影響 高</div>
+    <div class="risk-cell">可能性 高</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div><div class="risk-cell high">R1：高</div>
+    <div class="risk-cell">可能性 中</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div>
+    <div class="risk-cell">可能性 低</div><div class="risk-cell low">低</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div>
+  </div>`;
+  return `<div class="evidence-list">${(item.evidence||[]).map(e=>`<div class="evidence-item"><span class="ev-icon">${e.icon}</span><div>${e.text}</div></div>`).join('')}</div>`;
+}
+
+function startSecurityMock(){
+  secMockItems=buildSecurityMock();
+  secMockAnswers=Array(secMockItems.length).fill(null);
+  secMockFlags=new Set();secMockIndex=0;secMockSeconds=SECURITY_MOCK_SECONDS;secMockStartedAt=Date.now();
+  document.getElementById('secSelect')?.classList.add('hidden');
+  document.getElementById('secMockResult')?.classList.remove('show');
+  document.getElementById('secMockExam')?.classList.add('show');
+  renderSecurityMockQuestion();startSecurityMockTimer();
+}
+
+function stopSecurityMockTimer(){if(secMockTimerId){clearInterval(secMockTimerId);secMockTimerId=null}}
+function startSecurityMockTimer(){
+  stopSecurityMockTimer();updateSecurityMockTimer();
+  secMockTimerId=setInterval(()=>{secMockSeconds--;updateSecurityMockTimer();if(secMockSeconds<=0){stopSecurityMockTimer();finishSecurityMock(true)}},1000);
+}
+function updateSecurityMockTimer(){
+  const t=document.getElementById('secMockTimer');if(!t)return;
+  t.textContent=bMockFormatTime(secMockSeconds);
+  t.classList.toggle('warn',secMockSeconds<=300&&secMockSeconds>120);
+  t.classList.toggle('danger',secMockSeconds<=120);
+}
+
+function renderSecurityMockQuestion(){
+  const item=secMockItems[secMockIndex];
+  if(!item)return;
+  document.getElementById('secMockQNum').textContent=`QUESTION ${secMockIndex+1} / ${secMockItems.length}`;
+  document.getElementById('secMockIncidentIcon').textContent=item.incident.icon;
+  document.getElementById('secMockIncidentTitle').textContent=item.incident.title;
+  document.getElementById('secMockIncidentText').textContent=item.incident.text;
+  document.getElementById('secMockEvidence').innerHTML=securityMockEvidenceHtml(item);
+  document.getElementById('secMockQuestion').textContent=item.q;
+  const ans=secMockAnswers[secMockIndex];
+  document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class="secmock-option ${ans===i?'selected':''}" data-smopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join('');
+  document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()});
+  document.getElementById('secMockPrev').disabled=secMockIndex===0;
+  document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →';
+  document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex));
+  document.getElementById('secMockFlag').textContent=secMockFlags.has(secMockIndex)?'★ 後で見る':'☆ 後で見る';
+  renderSecurityMockNav();
+}
+function renderSecurityMockNav(){
+  const root=document.getElementById('secMockNavGrid');
+  root.innerHTML=secMockItems.map((_,i)=>`<button class="bmock-nav-q ${secMockAnswers[i]!==null?'answered':''} ${secMockFlags.has(i)?'flagged':''} ${i===secMockIndex?'current':''}" data-smq="${i}">${i+1}</button>`).join('');
+  root.querySelectorAll('[data-smq]').forEach(btn=>btn.onclick=()=>{secMockIndex=Number(btn.dataset.smq);renderSecurityMockQuestion()});
+  document.getElementById('secMockAnswerCount').textContent=`${secMockAnswers.filter(x=>x!==null).length} / ${secMockItems.length} 回答`;
+}
+function askSubmitSecurityMock(){
+  const blank=secMockAnswers.filter(x=>x===null).length;
+  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishSecurityMock(false);
+}
+function finishSecurityMock(timeUp=false){
+  if(!secMockItems.length)return;
+  stopSecurityMockTimer();
+  const used=Math.min(SECURITY_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(secMockStartedAt||Date.now()))/1000)));
+  let correct=0,blank=0;
+  const details=secMockItems.map((item,i)=>{
+    const ans=secMockAnswers[i],ok=ans===item.a;
+    if(ok)correct++;if(ans===null)blank++;
+    const st=profile.securityMockStats[item.scenarioId]||(profile.securityMockStats[item.scenarioId]={seen:0,correct:0,lastSeen:null});
+    st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0);
+    return {scenarioId:item.scenarioId,title:item.title,level:item.level,concept:item.concept,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain};
+  });
+  const rate=Math.round(correct/secMockItems.length*100),earned=correct*8+(rate>=75?20:0);
+  profile.xp=(profile.xp||0)+earned;
+  if(profile.skills?.['セキュリティ']!==undefined)profile.skills['セキュリティ']=clamp(profile.skills['セキュリティ']+(rate>=75?2:rate>=50?1:0),0,100);
+  const attempt={
+    date:localDateISO(0),total:secMockItems.length,correct,blank,rate,seconds:used,timeUp,
+    levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const r=details.filter(d=>d.level===level);return[level,{correct:r.filter(d=>d.ok).length,total:r.length}]})),
+    details
+  };
+  profile.securityMockHistory=[attempt,...(profile.securityMockHistory||[])].slice(0,20);
+  lastSecurityMockAttempt=attempt;saveProfile();
+
+  document.getElementById('secMockExam')?.classList.remove('show');
+  document.getElementById('secMockResult')?.classList.add('show');
+  document.getElementById('secMockResultScore').textContent=`${correct} / ${secMockItems.length}`;
+  document.getElementById('secMockResultMessage').textContent=rate>=88?`状況判断がかなり安定しています。+${earned} XP`:rate>=75?`実戦で十分戦える水準に近づいています。+${earned} XP`:rate>=50?`誤答したシナリオを学習モードで確認しましょう。+${earned} XP`:`まずは誤答シナリオの「何を最優先するか」を整理しましょう。+${earned} XP`;
+  document.getElementById('secMockCorrect').textContent=correct;
+  document.getElementById('secMockWrong').textContent=secMockItems.length-correct-blank;
+  document.getElementById('secMockBlank').textContent=blank;
+  document.getElementById('secMockTime').textContent=bMockFormatTime(used);
+  document.getElementById('secMockBreakdown').innerHTML=['基礎','標準','応用'].map(level=>{const x=attempt.levels[level],pct=x.total?Math.round(x.correct/x.total*100):0;return `<div class="secmock-break-row"><div class="secmock-break-label">${level}</div><div class="secmock-break-bar"><div class="secmock-break-fill" style="width:${pct}%"></div></div><div class="secmock-break-score">${x.correct}/${x.total}</div></div>`}).join('');
+  document.getElementById('secMockReviewList').innerHTML=details.map((d,i)=>`<div class="secmock-review-item ${d.ok?'correct':'wrong'}"><div class="secmock-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="secmock-review-q">${escapeHtml(d.q)}</div><div class="secmock-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="secmock-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<button class="secmock-review-study" data-sstudy="${escapeHtml(d.scenarioId)}">学習シナリオで確認 →</button>`}</div>`).join('');
+  document.querySelectorAll('[data-sstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('secMockResult')?.classList.remove('show');setBMode('security');startSecurityScenario(btn.dataset.sstudy)});
+}
+
+document.getElementById('secMockStartMenu')?.addEventListener('click',startSecurityMock);
+document.getElementById('secMockRetry')?.addEventListener('click',startSecurityMock);
+document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');setBMode('security')});
+document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock);
+document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}});
+document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()});
+document.getElementById('secMockFlag')?.addEventListener('click',()=>{secMockFlags.has(secMockIndex)?secMockFlags.delete(secMockIndex):secMockFlags.add(secMockIndex);renderSecurityMockQuestion()});
+document.getElementById('secMockExit')?.addEventListener('click',()=>{if(confirm('セキュリティ実戦を終了しますか？回答は保存されません。')){stopSecurityMockTimer();document.getElementById('secMockExam')?.classList.remove('show');setBMode('security')}});
+
 
 if(!profile.securityBProgress) profile.securityBProgress={};
 SECURITY_SCENARIOS.forEach(s=>{
   if(profile.securityBProgress[s.id]===undefined) profile.securityBProgress[s.id]=0;
 });
+ensureSecurityMockStats();
 saveProfile();
 
 let currentSec=null;
 let secStepIndex=0;
 let secAnswered=false;
 let secCorrect=0;
+let secFirstTryCorrect=0;
+let secAttempts=0;
 
 function setBMode(mode){
-  const traceMode=mode==='trace';
+  const traceMode=mode==='trace',securityMode=mode==='security',mockMode=mode==='mock',finalMode=mode==='final';
   document.getElementById('bSelect')?.classList.toggle('hidden',!traceMode);
-  document.getElementById('secSelect')?.classList.toggle('hidden',traceMode);
+  document.getElementById('secSelect')?.classList.toggle('hidden',!securityMode);
+  document.getElementById('bMockSelect')?.classList.toggle('hidden',!mockMode);
+  document.getElementById('bFinalSelect')?.classList.toggle('hidden',!finalMode);
   document.getElementById('bLab')?.classList.remove('show');
   document.getElementById('secLab')?.classList.remove('show');
-  document.querySelectorAll('[data-bmode]').forEach(b=>{
-    b.classList.toggle('active',b.dataset.bmode===mode);
-  });
-  if(traceMode) renderBGrid();
-  else renderSecGrid();
+  document.getElementById('bMockExam')?.classList.remove('show');
+  document.getElementById('bMockResult')?.classList.remove('show');
+  document.getElementById('bCompoundExam')?.classList.remove('show');
+  document.getElementById('bCompoundResult')?.classList.remove('show');
+  document.getElementById('secMockExam')?.classList.remove('show');
+  document.getElementById('secMockResult')?.classList.remove('show');
+  document.getElementById('bFinalExam')?.classList.remove('show');
+  document.getElementById('bFinalResult')?.classList.remove('show');
+  stopSecurityMockTimer();stopBFinalTimer();
+  document.querySelectorAll('[data-bmode]').forEach(b=>b.classList.toggle('active',b.dataset.bmode===mode));
+  if(traceMode)renderBGrid();else if(securityMode)renderSecGrid();else if(mockMode)renderBMockMenu();else if(finalMode)renderBFinalMenu();
 }
 document.querySelectorAll('[data-bmode]').forEach(b=>{
   b.addEventListener('click',()=>setBMode(b.dataset.bmode));
+});
+
+
+let currentSecFilter='all';
+document.getElementById('secFilterTabs')?.querySelectorAll('[data-secfilter]').forEach(btn=>{
+  btn.onclick=()=>{
+    currentSecFilter=btn.dataset.secfilter;
+    document.getElementById('secFilterTabs').querySelectorAll('[data-secfilter]').forEach(x=>x.classList.toggle('active',x===btn));
+    renderSecGrid();
+  };
 });
 
 function renderSecGrid(){
   const root=document.getElementById('secScenarioGrid');
   if(!root) return;
   root.innerHTML='';
-  let done=0;
-  SECURITY_SCENARIOS.forEach(s=>{
+  const done=SECURITY_SCENARIOS.filter(s=>(profile.securityBProgress?.[s.id]||0)>=100).length;
+  const visible=SECURITY_SCENARIOS.filter(s=>currentSecFilter==='all'||s.level===currentSecFilter);
+  visible.forEach(s=>{
     const pct=profile.securityBProgress?.[s.id]||0;
-    if(pct>=100) done++;
     const diffClass=s.level==='標準'?'medium':s.level==='応用'?'hard':'';
     const card=document.createElement('div');
     card.className='sec-card'+(pct>=100?' done':'');
@@ -10965,6 +12808,8 @@ function startSecurityScenario(id){
   secStepIndex=0;
   secAnswered=false;
   secCorrect=0;
+  secFirstTryCorrect=0;
+  secAttempts=0;
 
   document.getElementById('secSelect').classList.add('hidden');
   document.getElementById('bSelect').classList.add('hidden');
@@ -10985,6 +12830,7 @@ function startSecurityScenario(id){
 function renderSecDecision(){
   const step=currentSec.steps[secStepIndex];
   secAnswered=false;
+  secAttempts=0;
   document.getElementById('secDecisionNum').textContent=secStepIndex+1;
   document.getElementById('secQuestion').textContent=step.q;
   document.getElementById('secFeedback').className='decision-feedback';
@@ -11008,9 +12854,22 @@ function answerSecDecision(i,button){
   if(secAnswered) return;
   const step=currentSec.steps[secStepIndex];
   const ok=i===step.a;
-  secAnswered=true;
+  const firstTry=secAttempts===0;
+  secAttempts++;
 
-  document.querySelectorAll('#secOptions .decision-option').forEach((b,idx)=>{
+  const buttons=[...document.querySelectorAll('#secOptions .decision-option')];
+  const fb=document.getElementById('secFeedback');
+
+  if(!ok && secAttempts===1){
+    button.disabled=true;
+    button.classList.add('bad');
+    fb.className='decision-feedback show bad';
+    fb.innerHTML=`<b>もう一度考えてみましょう</b><div class="sec-retry-hint">💡 ${escapeHtml(step.hint||'この状況で守るべき情報・被害拡大防止・証拠保全のどれを優先するか整理してください。')}</div>`;
+    return;
+  }
+
+  secAnswered=true;
+  buttons.forEach((b,idx)=>{
     b.disabled=true;
     if(idx===step.a) b.classList.add('good');
     else if(idx===i && !ok) b.classList.add('bad');
@@ -11018,16 +12877,19 @@ function answerSecDecision(i,button){
 
   if(ok){
     secCorrect++;
-    profile.xp += 8;
-    popToast('判断正解！ +8 XP');
-  }else{
-    profile.xp += 2;
+    if(firstTry){
+      secFirstTryCorrect++;
+      profile.xp += 8;
+      popToast('判断正解！ +8 XP');
+    }else{
+      profile.xp += 4;
+      popToast('再挑戦で正解！ +4 XP');
+    }
   }
   saveProfile();
 
-  const fb=document.getElementById('secFeedback');
   fb.className='decision-feedback show'+(ok?'':' bad');
-  fb.innerHTML=`<b>${ok?'⭕ 適切です':'❌ この場面では別の対応が適切です'}</b><div style="margin-top:6px">${step.explain}</div>`;
+  fb.innerHTML=`<b>${ok?'⭕ 適切です':'❌ 正解を確認しましょう'}</b><div style="margin-top:6px">${escapeHtml(step.explain)}</div>`;
 
   document.getElementById('secStepProgress').style.width=`${((secStepIndex+1)/currentSec.steps.length)*100}%`;
   const next=document.getElementById('secNext');
@@ -11054,7 +12916,7 @@ function finishSecurityScenario(){
   saveProfile();
 
   document.getElementById('secCompleteXp').textContent=`+${bonus} XP`;
-  document.getElementById('secCompleteText').textContent=`${secCorrect} / ${currentSec.steps.length} 個の判断が最初から適切でした。`;
+  document.getElementById('secCompleteText').textContent=`${secFirstTryCorrect} / ${currentSec.steps.length} 個を最初の回答で正解しました。再挑戦を含む最終正解は ${secCorrect} / ${currentSec.steps.length} です。`;
   document.getElementById('secCompleteSummary').innerHTML=`<b>今回の要点</b><br>${currentSec.summary}`;
   document.getElementById('secComplete').classList.add('show');
   document.querySelector('.decision-panel').style.display='none';
@@ -11062,6 +12924,9 @@ function finishSecurityScenario(){
 }
 
 function showSecurityList(){
+  stopSecurityMockTimer();
+  document.getElementById('secMockExam')?.classList.remove('show');
+  document.getElementById('secMockResult')?.classList.remove('show');
   document.getElementById('secLab').classList.remove('show');
   document.getElementById('secSelect').classList.remove('hidden');
   document.getElementById('bSelect').classList.add('hidden');
@@ -11180,6 +13045,13 @@ function nextBChoice(){
   const algoRate=algoDone/algoTotal;
   const secRate=secDone/secTotal;
 
+  if(algoRate>=1 && secRate>=1){
+    const finalRuns=(profile.bFinalHistory||[]).length;
+    return finalRuns===0
+      ? {mode:'final',id:null,title:'科目B 総合実戦'}
+      : {mode:'mock',id:null,title:'実戦ミニ模試'};
+  }
+
   if(algoRate<=secRate){
     const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100) || B_EXERCISES[0];
     return {mode:'trace',id:ex?.id,title:ex?.title||'アルゴリズムTRACE'};
@@ -11221,8 +13093,8 @@ function buildTodayTasks(){
     },
     {
       type:'subjectB',icon:'💻',bg:'purple',
-      title:b.mode==='trace'?`TRACE：${b.title}`:`SECURITY：${b.title}`,
-      desc:b.mode==='trace'?'科目B アルゴリズム':'科目B 情報セキュリティ',
+      title:b.mode==='trace'?`TRACE：${b.title}`:b.mode==='security'?`SECURITY：${b.title}`:b.mode==='final'?`総合：${b.title}`:`実戦：${b.title}`,
+      desc:b.mode==='trace'?'科目B アルゴリズム':b.mode==='security'?'科目B 情報セキュリティ':b.mode==='final'?'科目B 総合実戦':'科目B アルゴリズム実戦',
       minutes:alloc.subjectB,bmode:b.mode,bid:b.id
     },
     {
@@ -11295,9 +13167,13 @@ function launchDailyTask(t){
     if(t.bmode==='trace'){
       setBMode('trace');
       if(t.bid) startBExercise(t.bid);
-    }else{
+    }else if(t.bmode==='security'){
       setBMode('security');
       if(t.bid) startSecurityScenario(t.bid);
+    }else if(t.bmode==='final'){
+      setBMode('final');
+    }else{
+      setBMode('mock');
     }
     return;
   }
@@ -12916,6 +14792,8 @@ function runAppSelfCheck(){
 
     const lessonIds=Object.keys(LESSONS||{});
     assert(lessonIds.length>=30,'At least 30 lessons expected');
+    const pageCounts=lessonIds.map(id=>LESSONS[id].pages.length);
+    assert(pageCounts.every(n=>n===2||n===3),'Lessons should use compact 2/3-page structure');
     lessonIds.forEach(id=>{
       const l=LESSONS[id];
       assert(l&&Array.isArray(l.pages)&&l.pages.length>=1,`Lesson ${id}: pages missing`);
@@ -12934,7 +14812,21 @@ function runAppSelfCheck(){
       assert(MOCK_BLUEPRINTS.half.count===30 && MOCK_BLUEPRINTS.half.basic===12 && MOCK_BLUEPRINTS.half.standard===18,'HALF mock blueprint invalid');
     }
     assert(Array.isArray(B_EXERCISES) && B_EXERCISES.length===20,'Subject B exercises should be 20');
-    assert(typeof SECURITY_SCENARIOS==='object' && Object.keys(SECURITY_SCENARIOS).length>=6,'Security scenarios missing');
+    if(typeof B_MOCK_COUNT!=='undefined'){
+      assert(B_MOCK_COUNT===8,'Subject B mini mock should contain 8 questions');
+      assert(Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8,'Subject B mini mock quota invalid');
+      assert(B_EXERCISES.every(ex=>ex.steps.some(s=>s.predict)),'Every Subject B exercise needs a prediction point');
+      assert(Array.isArray(B_COMPOUND_SETS) && B_COMPOUND_SETS.length===15,'Compound challenge should contain 15 sets');
+      assert(B_COMPOUND_SETS.every(s=>s.qs?.length===3),'Every compound set must contain 3 questions');assert(B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall),'Compound quality metadata missing');
+    }
+    assert(Array.isArray(SECURITY_SCENARIOS) && SECURITY_SCENARIOS.length===15,'Security scenarios should be 15');
+    if(typeof SECURITY_MOCK_COUNT!=='undefined'){
+      assert(SECURITY_MOCK_COUNT===8,'Security mini mock should contain 8 questions');
+      assert(Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8,'Security mini mock quota invalid');
+    }
+    if(typeof B_FINAL_COUNT!=='undefined'){
+      assert(B_FINAL_COUNT===20 && B_FINAL_ALGO_COUNT===16 && B_FINAL_SEC_COUNT===4,'Full Subject B blueprint invalid');
+    }
 
     const requiredDom=['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'];
     requiredDom.forEach(id=>assert(!!document.getElementById(id),`Required DOM missing: ${id}`));
