@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v38</title>
+<title>FE QUEST PWA v39</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3427,6 +3427,50 @@
   @media(max-width:860px){.bfinal-layout{grid-template-columns:1fr}.bfinal-nav{position:static}.bfinal-nav-grid{grid-template-columns:repeat(10,1fr)}}
   @media(max-width:620px){.bfinal-spec{grid-template-columns:1fr 1fr}.bfinal-result-stats{grid-template-columns:1fr 1fr}.bfinal-section-results{grid-template-columns:1fr}.bfinal-top-copy span,.bfinal-progress-mini{display:none}}
 
+
+  /* ===== v39: guided step-action UX ===== */
+  .flow-helper{
+    display:flex;align-items:flex-start;gap:10px;
+    margin:0 auto 14px;padding:11px 14px;max-width:680px;
+    background:#f7f3ff;border:1px solid #dfcff2;border-radius:16px;
+  }
+  .flow-helper-icon{
+    flex:0 0 28px;width:28px;height:28px;border-radius:50%;
+    display:grid;place-items:center;background:#fff;color:var(--purple);font-size:15px;font-weight:900;
+    border:1px solid #e3d6f3;
+  }
+  .flow-helper b{display:block;font-size:10px;color:#6f3ca5;margin-bottom:2px}
+  .flow-helper span{font-size:10px;line-height:1.6;color:#5f7383}
+  .flow-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .flow-step-btn{
+    min-width:210px;display:flex;align-items:center;gap:10px;justify-content:flex-start;
+    border:2px solid #dfcff2;background:#fff;color:var(--text);border-radius:16px;
+    padding:12px 15px;font-weight:900;box-shadow:0 2px 0 rgba(104,62,151,.05);
+    transition:transform .12s, box-shadow .12s, border-color .12s, background .12s, opacity .12s;
+  }
+  .flow-step-btn:not(:disabled){cursor:pointer}
+  .flow-step-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(79,53,126,.08)}
+  .flow-step-btn .step-badge{
+    flex:0 0 28px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+    font-size:11px;font-weight:1000;background:#efe7fb;color:#6f3ca5;
+  }
+  .flow-step-btn .step-main{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+  .flow-step-btn .step-title{font-size:11px;font-weight:1000;line-height:1.3}
+  .flow-step-btn .step-sub{font-size:8px;line-height:1.4;color:#738593;font-weight:800}
+  .flow-step-btn.current{
+    border-color:#9257c7;background:#faf5ff;box-shadow:0 4px 0 #d8c2ef;
+  }
+  .flow-step-btn.current .step-badge{background:var(--purple);color:#fff}
+  .flow-step-btn.done{border-color:#b9e3c0;background:#f3fbf4}
+  .flow-step-btn.done .step-badge{background:#58ba31;color:#fff}
+  .flow-step-btn.done .step-sub{color:#4e8454}
+  .flow-step-btn:disabled:not(.done){opacity:.58;cursor:default;background:#fafbfc;border-color:#e6eaed;box-shadow:none}
+  .flow-step-btn:disabled:not(.done) .step-badge{background:#e9edf0;color:#7d8e9c}
+  .flow-step-btn:disabled:not(.done) .step-sub{color:#8899a6}
+  @media(max-width:620px){
+    .flow-actions{flex-direction:column;align-items:stretch}.flow-step-btn{min-width:0;width:100%}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3512,14 +3556,14 @@
       <div id="mockMenu" class="mock-menu">
         <div class="screen-head">
           <button class="back" data-screen="home">←</button>
-          <div><h1>科目A MOCK 📝</h1><div class="sub">FE QUESTオリジナル問題で、本番を意識した時間配分を練習します。</div></div>
+          <div><h1>科目A MOCK 📝</h1><div class="sub">本番を意識した時間配分を練習します。</div></div>
         </div>
 
         <div class="mock-hero">
           <div class="mock-hero-icon">⏱️</div>
           <div class="mock-hero-copy">
             <div class="mock-hero-title">2026年度 現行形式対応</div>
-            <div class="mock-official">科目A：90分・60問・四肢択一。FE QUESTオリジナル問題で本番を意識した演習を行います。</div>
+            <div class="mock-official">科目A：90分・60問・四肢択一。本番を意識した演習を行います。</div>
           </div>
         </div>
 
@@ -4204,7 +4248,7 @@
     <!-- PROBLEMS -->
     <section id="problems" class="screen">
       <h1>問題演習 📖</h1>
-      <div class="sub">8分野×20問、全160問のFE QUESTオリジナル問題から出題します。</div><div class="bank-summary">📚 QUESTION BANK 160</div>
+      <div class="sub">8分野×20問、全160問から出題します。</div><div class="bank-summary">📚 QUESTION BANK 160</div>
 
       <div class="problem-hub" id="problemHub">
         <div class="problem-mode">
@@ -4267,7 +4311,7 @@
           <button class="back" id="quitQuiz">←</button>
           <div style="flex:1">
             <h1 id="quizSessionTitle">問題演習</h1>
-            <div class="sub" id="quizSessionSub">オリジナル問題</div>
+            <div class="sub" id="quizSessionSub">科目A 問題演習</div>
           </div>
         </div>
         <div class="rx-banner" id="rxBanner" style="display:none">
@@ -4284,7 +4328,7 @@
             <span class="quiz-badge" id="quizCategory">分野</span>
             <span class="variant-badge" id="variantBadge" style="display:none">VARIANT REVIEW</span>
             <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
-            <span class="quiz-source">FE QUEST オリジナル</span>
+            <span class="quiz-source">QUESTION</span>
           </div>
           <div class="quiz-question" id="quizQuestion"></div>
 
@@ -4356,7 +4400,7 @@
         <button class="back" data-screen="home">←</button>
         <div>
           <h1>初回実力診断 🧭</h1>
-          <div class="sub">オリジナル問題で現在の基礎力をざっくり確認します。結果は端末内に保存されます。</div>
+          <div class="sub">短い診断で現在の基礎力をざっくり確認します。結果は端末内に保存されます。</div>
         </div>
       </div>
 
@@ -4399,7 +4443,7 @@
         <button class="back" data-screen="map">←</button>
         <div style="flex:1">
           <h1 id="lessonTitle">インタラクティブ学習</h1>
-          <div class="sub" id="lessonCategory">FE QUEST ORIGINAL LESSON</div>
+          <div class="sub" id="lessonCategory">LESSON</div>
         </div>
       </div>
 
@@ -4552,7 +4596,7 @@
             <span>途中状態</span><span>空欄補充</span><span>処理結果</span><span>関数・再帰</span>
             <span>配列・リスト</span><span>ビット列</span><span>ケース判断</span><span>ログ読解</span>
           </div>
-          <div class="sub">同じ問題文の再現ではなく、FE QUESTのオリジナル問題だけで構成しています。</div>
+          <div class="sub">複数の出題形式を横断して、科目Bの実戦力を確認します。</div>
         </div>
 
         <button class="bfinal-start" id="bFinalStart">20問の総合実戦を開始 →</button>
@@ -4971,7 +5015,7 @@
           <button class="back" id="secBackToList">←</button>
           <div class="trace-info">
             <h1 id="secLabTitle">SECURITY SCENARIO</h1>
-            <div class="sub" id="secLabMeta">FE QUEST ORIGINAL</div>
+            <div class="sub" id="secLabMeta">SECURITY SCENARIO</div>
           </div>
         </div>
 
@@ -8697,7 +8741,7 @@ function startQuiz(mode){
       ?prescriptionMeta(mode).title
       :titles[mode];
   document.getElementById('quizSessionTitle').textContent=modeTitle||'問題演習';
-  document.getElementById('quizSessionSub').textContent='FE QUEST オリジナル問題';
+  document.getElementById('quizSessionSub').textContent='科目A 問題演習';
   configurePrescriptionUI(mode);
   renderQuizQuestion();
 }
@@ -8862,7 +8906,7 @@ function gradeCurrentQuestion(){
       document.getElementById('quizExplain').appendChild(sourceNote);
     }
     sourceNote.innerHTML=q.variantSibling
-      ? '<b>RELATED REVIEW</b>　同じ論点または同じ分野の別オリジナル問題で確認しました。'
+      ? '<b>RELATED REVIEW</b>　同じ論点または同じ分野の別問題で確認しました。'
       : '<b>VARIANT REVIEW</b>　元問題と同じ論点を、別の数値・条件で確認しました。';
   }else if(sourceNote){
     sourceNote.remove();
@@ -10080,7 +10124,7 @@ function renderLesson(){
   const lesson=LESSONS[activeLesson];
   const page=lesson.pages[lessonStep];
   document.getElementById('lessonTitle').textContent=lesson.title;
-  document.getElementById('lessonCategory').textContent=`${lesson.cat}・FE QUEST ORIGINAL LESSON`;
+  document.getElementById('lessonCategory').textContent=`${lesson.cat}・LESSON`;
   document.getElementById('lessonHeadline').textContent=page.headline;
   document.getElementById('lessonCopy').textContent=page.copy;
   updateInteractionGuide(page);
@@ -10170,23 +10214,50 @@ function renderInteractive(type,stage){
     });
   }
 
+
+function flowStepButton(step,label,sub,opts={}){
+  const current=!!opts.current,done=!!opts.done,disabled=!!opts.disabled;
+  const icon=done?'✓':step;
+  return `<button class="flow-step-btn ${current?'current':''} ${done?'done':''}" ${disabled?'disabled':''} id="${opts.id||''}">
+    <span class="step-badge">${icon}</span>
+    <span class="step-main">
+      <span class="step-title">${label}</span>
+      <span class="step-sub">${sub}</span>
+    </span>
+  </button>`;
+}
+function transactionFlowHelper(step){
+  if(step===0){
+    return `<div class="flow-helper"><div class="flow-helper-icon">👆</div><div><b>次に押す操作</b><span>まずは <b>STEP 1</b> を押して、A口座だけ減額した不整合な状態を作ります。</span></div></div>`;
+  }
+  if(step===1){
+    return `<div class="flow-helper"><div class="flow-helper-icon">⚠️</div><div><b>障害発生</b><span>A口座だけ減ってしまいました。次は <b>STEP 2</b> を押して、ROLLBACKで開始前の状態へ戻します。</span></div></div>`;
+  }
+  return `<div class="flow-helper"><div class="flow-helper-icon">✅</div><div><b>操作完了</b><span>途中状態を残さず元に戻せました。これがトランザクションの原子性です。</span></div></div>`;
+}
+function transactionActionView(step){
+  return `<div class="flow-actions">
+    ${flowStepButton('1','Aから1,000円減額','まず不整合な状態を作る',{id:'txnWithdraw',current:step===0,done:step>=1,disabled:step>=1})}
+    ${flowStepButton('2','ROLLBACK','失敗した処理を元に戻す',{id:'txnRollback',current:step===1,done:step>=2,disabled:step!==1})}
+  </div>`;
+}
+function renderTransactionLesson(step, message, feedback, important=false){
+  const balances = step===1 ? [9000,5000] : [10000,5000];
+  stage.innerHTML = `<div id="bankDynamic">${bankView(balances[0],balances[1],message)}</div>${transactionFlowHelper(step)}${transactionActionView(step)}`;
+  if(feedback) showLessonFeedback(feedback, important);
+}
+
   if(type==='transaction'){
-    stage.innerHTML=`<div id="bankDynamic">${bankView(10000,5000,'開始前：A=10,000 / B=5,000')}</div>
-      <div class="txn-buttons"><button class="secondary" id="txnWithdraw">① Aから1,000円減額</button><button class="purple-btn" id="txnRollback" disabled>② ROLLBACK</button></div>`;
+    renderTransactionLesson(0,'開始前：A=10,000 / B=5,000');
     document.getElementById('txnWithdraw').addEventListener('click',()=>{
       txnState=1;
-      document.getElementById('bankDynamic').innerHTML=bankView(9000,5000,'⚠ Aだけ減額。ここで障害が発生！');
-      document.getElementById('txnWithdraw').disabled=true;
-      document.getElementById('txnRollback').disabled=false;
-      showLessonFeedback('B口座への加算前に障害が起きました。このままだと1,000円が消えてしまいます。',true);
-    });
-    document.getElementById('txnRollback').addEventListener('click',()=>{
-      txnState=2;
-      document.getElementById('bankDynamic').innerHTML=bankView(10000,5000,'ROLLBACK → 処理前の状態へ復元');
-      document.getElementById('txnRollback').disabled=true;
-      lessonInteractiveDone=true;
-      showLessonFeedback('✅ ROLLBACKでA口座も元に戻りました。「途中だけ反映」を残さないのが重要です。');
-    });
+      renderTransactionLesson(1,'⚠ Aだけ減額。ここで障害が発生！','B口座への加算前に障害が起きました。このままだと1,000円が消えてしまいます。',true);
+      document.getElementById('txnRollback').addEventListener('click',()=>{
+        txnState=2;
+        lessonInteractiveDone=true;
+        renderTransactionLesson(2,'ROLLBACK → 処理前の状態へ復元','✅ ROLLBACKでA口座も元に戻りました。「途中だけ反映」を残さないのが重要です。');
+      },{once:true});
+    },{once:true});
   }
 
   if(type==='subnet'){
@@ -12818,7 +12889,7 @@ function startSecurityScenario(id){
   document.getElementById('secComplete').classList.remove('show');
 
   document.getElementById('secLabTitle').textContent=currentSec.title;
-  document.getElementById('secLabMeta').textContent=`科目B・${currentSec.concept}・${currentSec.level}・FE QUEST ORIGINAL`;
+  document.getElementById('secLabMeta').textContent=`科目B・${currentSec.concept}・${currentSec.level}`;
   document.getElementById('secIncidentIcon').textContent=currentSec.incident.icon;
   document.getElementById('secIncidentTitle').textContent=currentSec.incident.title;
   document.getElementById('secIncidentBadge').textContent=currentSec.incident.badge;
