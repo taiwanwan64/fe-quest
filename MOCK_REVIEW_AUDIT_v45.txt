@@ -1,0 +1,30 @@
+FE QUEST v45 — MOCK REVIEW AUDIT
+
+科目A MOCK
+- 結果画面に最優先分野 / 時間超過 / 繰り返し誤答を表示
+- 誤答原因を記録すると、その原因に応じた復習処方を表示
+- 知識不足 -> 教材（存在する場合）
+- 計算ミス -> 計算ドリル
+- 読み違い -> 条件語ドリル
+- 2択 -> 比較ドリル
+- 時間不足 -> 90秒スプリント
+- 復習ルートへ直接遷移可能
+- 類題は初回誤答で答えを見せずヒント -> 再挑戦
+
+科目B総合実戦
+- 崩れた設問形式 / 擬似言語・Security / 繰り返し誤答を診断
+- 誤答ごとに原因を記録
+- 原因に合わせて TRACE / 複合問題 / Security / 時間練習へ誘導
+
+全新規テキストは14px以上。
+
+Runtime regression:
+BOOT_SELF_CHECK_OK
+A_MOCK_DIAGNOSIS_OK
+A_REVIEW_PRESCRIPTION_OK
+A_SIMILAR_FIRST_MISS_HINT_OK
+B_FINAL_DIAGNOSIS_OK
+B_FINAL_REASON_ACTION_OK
+B_REPEAT_CLASSIFICATION_OK
+REGRESSION_OK 160/20/15/15/96
+VARIANTS_OK 232

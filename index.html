@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v44</title>
+<title>FE QUEST PWA v46</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3587,7 +3587,7 @@
   .journey-step.done{background:#f3fbf4;border-color:#cfeac7}.journey-step.done .n{background:#58ba31;color:#fff}.journey-step.current{background:#f7f0fc;border-color:#cba7e5}.journey-step.current .n{background:#7d49ac;color:#fff}
   .review-journey-guidance{font-size:14px;line-height:1.6;color:#617584;margin-top:10px}.review-journey-action{width:100%;margin-top:10px;border:none;border-radius:13px;padding:11px 13px;background:#7d49ac;color:#fff;font-size:14px;font-weight:1000;cursor:pointer}
   .review-route-inline{margin-top:12px;padding:12px 14px;border:1px solid #dac9ea;border-radius:15px;background:#fbf8ff}.review-route-inline b{display:block;font-size:14px;color:#6f419a}.review-route-inline span{display:block;font-size:14px;line-height:1.55;color:#627687;margin-top:4px}
-  .review-route-inline .route-mini{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.review-route-inline .route-mini i{font-style:normal;font-size:14px;font-weight:900;padding:5px 7px;border-radius:999px;background:#eee5f8;color:#70439a}.review-route-inline .route-mini i.done{background:#e7f7e5;color:#3d8442}
+  .review-route-inline .route-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.review-route-inline .route-mini i{font-style:normal;display:flex;flex-direction:column;gap:2px;font-size:14px;font-weight:900;padding:9px 10px;border-radius:12px;background:#f4eff9;color:#70439a;border:1px solid #e1d4ed}.review-route-inline .route-mini i b{font-size:14px;color:inherit}.review-route-inline .route-mini i span{font-size:14px;line-height:1.45;color:#6c7d8b;margin:0}.review-route-inline .route-mini i.done{background:#eef9ed;color:#3d8442;border-color:#cae7c7}.review-route-inline .route-mini i.current{background:#f7f0fc;border-color:#c8a6e1;box-shadow:0 0 0 1px #c8a6e1 inset}.review-route-inline .route-mini i.current span{color:#70439a}@media(max-width:620px){.review-route-inline .route-mini{grid-template-columns:1fr}}
   .session-review-actions{display:flex;gap:9px;justify-content:center;margin-top:20px;flex-wrap:wrap}.session-review-actions button{margin:0!important}.review-route-continue{border:none;border-radius:12px;padding:11px 16px;background:#7d49ac;color:#fff;font-weight:1000;cursor:pointer}
   .lesson-review-next{margin-top:13px;border:none;border-radius:13px;padding:11px 16px;background:#7d49ac;color:#fff;font-size:14px;font-weight:1000;cursor:pointer}
   @media(max-width:620px){.review-journey-steps{grid-template-columns:1fr}.journey-step{display:grid;grid-template-columns:28px 1fr;column-gap:8px;text-align:left;align-items:center}.journey-step .n{grid-row:1/3;margin:0}.journey-step b,.journey-step span{margin:0}.session-review-actions{flex-direction:column}.session-review-actions button{width:100%}}
@@ -3628,6 +3628,32 @@
   .analytics-next{display:flex;align-items:flex-start;gap:12px;padding:13px;border-radius:15px;background:#f6f9fb;border:1px solid #dfe7eb}.analytics-next-icon{font-size:28px}.analytics-next b{display:block;font-size:16px;margin-bottom:4px}.analytics-next span{font-size:14px;line-height:1.65;color:#5f7383}.analytics-next button{margin-top:9px;border:none;background:#39a847;color:#fff;border-radius:11px;padding:9px 12px;font-size:14px;font-weight:1000;cursor:pointer}
   @media(max-width:900px){.analytics-summary{grid-template-columns:1fr 1fr}.analytics-grid{grid-template-columns:1fr}.analytics-category-row{grid-template-columns:105px 1fr 72px 72px}.analytics-category-row .analytics-trend-chip{grid-column:2/5;justify-self:start}.analytics-heatmap{grid-template-columns:repeat(10,1fr)}}
   @media(max-width:560px){.analytics-category-row{grid-template-columns:1fr 74px}.analytics-cat-bar{grid-column:1/3}.analytics-cat-metric{text-align:left}.analytics-category-row .analytics-trend-chip{grid-column:auto;justify-self:end}.analytics-heatmap{grid-template-columns:repeat(6,1fr)}.analytics-stage-grid{grid-template-columns:1fr 1fr}}
+
+
+  /* ===== v45: Mock review diagnosis & prescription ===== */
+  .mock-diagnosis,.bfinal-diagnosis{margin:14px 0;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px}
+  .mock-diagnosis-title,.bfinal-diagnosis-title{font-size:18px;font-weight:1000;margin-bottom:10px}
+  .mock-diagnosis-grid,.bfinal-diagnosis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .mock-diagnosis-item,.bfinal-diagnosis-item{border:1px solid #e5eaee;border-radius:15px;padding:12px;background:#fafcfd}
+  .mock-diagnosis-item span,.bfinal-diagnosis-item span{display:block;font-size:14px;color:var(--muted);font-weight:900}
+  .mock-diagnosis-item b,.bfinal-diagnosis-item b{display:block;font-size:17px;margin-top:4px;line-height:1.45}
+  .mock-diagnosis-item small,.bfinal-diagnosis-item small{display:block;font-size:14px;line-height:1.55;color:#647888;margin-top:4px}
+  .review-prescription{margin-top:14px;border:1px solid #f0d4b9;background:#fff9f2;border-radius:16px;padding:14px}
+  .review-prescription-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}.review-prescription-head span{font-size:20px}.review-prescription-head b{font-size:16px}
+  #reviewPrescriptionText{font-size:14px;line-height:1.65;color:#5f7383}
+  .review-prescription-actions,.review-summary-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+  .review-prescription-actions button,.review-summary-actions button{min-height:46px;border-radius:12px;padding:10px 13px;font-size:14px;font-weight:1000;cursor:pointer}
+  #reviewPrescriptionMain{border:none;background:#ff9f1c;color:#fff}.review-prescription-actions #reviewJourneyDirect{border:1px solid #d8e0e6;background:#fff;color:var(--text)}
+  .review-summary-actions{justify-content:center;margin-top:16px}
+  .bfinal-review-reason{margin-top:10px;padding-top:10px;border-top:1px solid #edf1f3}
+  .bfinal-review-reason-title{font-size:14px;font-weight:1000;margin-bottom:7px}
+  .bfinal-review-reason-chips{display:flex;gap:7px;flex-wrap:wrap}
+  .bfinal-review-reason-chip{border:1px solid #d9e0e5;background:#fff;border-radius:999px;padding:8px 10px;font-size:14px;font-weight:900;cursor:pointer}
+  .bfinal-review-reason-chip.picked{background:#eee4f8;border-color:#cba9e6;color:#6c3898}
+  .bfinal-review-action{margin-top:10px;padding:11px 12px;border-radius:13px;background:#f8f5fc;border:1px solid #dfcfed;font-size:14px;line-height:1.6;color:#5d7181}
+  .bfinal-review-action b{display:block;color:#70419c;margin-bottom:3px;font-size:15px}
+  .bfinal-review-study.smart{margin-top:8px;font-size:14px;min-height:44px;padding:9px 12px}
+  @media(max-width:760px){.mock-diagnosis-grid,.bfinal-diagnosis-grid{grid-template-columns:1fr}.review-prescription-actions,.review-summary-actions{flex-direction:column}.review-prescription-actions button,.review-summary-actions button{width:100%}}
 
 </style>
 
@@ -3812,6 +3838,8 @@
           </div>
         </div>
 
+        <div class="mock-diagnosis" id="mockDiagnosis"></div>
+
         <div class="mock-result-grid">
           <div class="mock-result-card">
             <h3>分野別正答率</h3>
@@ -3869,6 +3897,15 @@
             </div>
           </div>
 
+          <div class="review-prescription" id="reviewPrescription">
+            <div class="review-prescription-head"><span>💊</span><b>次の一手</b></div>
+            <div id="reviewPrescriptionText">原因を選ぶと、復習方法を提案します。</div>
+            <div class="review-prescription-actions">
+              <button id="reviewPrescriptionMain">復習を開始 →</button>
+              <button id="reviewJourneyDirect">復習ルートを見る</button>
+            </div>
+          </div>
+
           <div class="review-time" id="reviewTime"></div>
 
           <div class="similar-box" id="similarBox">
@@ -3891,7 +3928,11 @@
           <div class="sub">間違い方まで記録したので、今後の弱点分析に利用できます。</div>
           <div class="reason-summary" id="reasonSummary"></div>
           <div class="priority-box" id="reviewPriority"></div>
-          <button class="primary" id="reviewSummaryBack" style="margin-top:18px">模試結果へ戻る</button>
+          <div class="review-summary-actions">
+            <button class="primary" id="reviewSummaryJourney">復習ルートを続ける →</button>
+            <button class="secondary" id="reviewSummaryRx">原因別ドリルを始める</button>
+            <button class="secondary" id="reviewSummaryBack">模試結果へ戻る</button>
+          </div>
         </div>
       </div>
     </section>
@@ -4477,7 +4518,7 @@
             <div class="review-journey-icon">🔁</div>
             <div class="review-journey-copy">
               <b>復習ルート</b>
-              <span id="reviewJourneySummary">誤答すると、理解し直すところから定着まで案内します。</span>
+              <span id="reviewJourneySummary">誤答した論点を「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。</span>
             </div>
             <div class="review-journey-count" id="reviewJourneyCount">0</div>
           </div>
@@ -4929,6 +4970,7 @@
           </div>
         </div>
 
+        <div class="bfinal-diagnosis" id="bFinalDiagnosis"></div>
         <div class="bfinal-format-breakdown" id="bFinalFormatBreakdown"></div>
 
         <div class="bmock-review-head">
@@ -8396,7 +8438,7 @@ const QUESTION_LESSON_MAP={
 };
 function lessonForQuestion(q){return QUESTION_LESSON_MAP[q?.concept]||null;}
 function journeyFor(id){return profile.reviewJourneys?.[id]||null;}
-function journeyStageLabel(stage){return stage==='relearn'?'教材':stage==='verify'?'類題':stage==='spaced'?'後日復習':'定着';}
+function journeyStageLabel(stage){return stage==='relearn'?'理解し直す':stage==='verify'?'別問題で確認':stage==='spaced'?'定着確認':'定着済み';}
 function registerReviewJourney(q,source='practice'){
   const id=q?.sourceId||q?.id;if(!id)return null;
   const base=QUESTION_BANK.find(x=>x.id===id)||q;
@@ -8421,8 +8463,12 @@ function activeReviewJourneys(){
 }
 function journeyStepHtml(j){
   const idx=j.stage==='relearn'?0:j.stage==='verify'?1:j.stage==='spaced'?2:3;
-  const rows=[['教材','理解し直す'],['類題','初見で正解'],['後日復習','間隔を空ける']];
-  return rows.map((r,i)=>`<div class="journey-step ${i<idx?'done':i===idx?'current':''}"><div class="n">${i<idx?'✓':i+1}</div><b>${r[0]}</b><span>${r[1]}</span></div>`).join('');
+  const rows=[
+    ['📘','理解し直す','教材で要点を整理'],
+    ['🧩','別問題で確認','ヒントなしで初見正解'],
+    ['🧠','定着を確認','日を空けてもう一度解く']
+  ];
+  return rows.map((r,i)=>`<div class="journey-step ${i<idx?'done':i===idx?'current':''}"><div class="n">${i<idx?'✓':r[0]}</div><b>${r[1]}</b><span>${r[2]}</span></div>`).join('');
 }
 function journeyGuidance(j){
   if(j.stage==='relearn')return j.lessonId?'まず短い教材で論点を整理します。読み終えたら、そのまま類題へ進みます。':'この論点は専用教材がないため、類題から確認します。';
@@ -8433,7 +8479,7 @@ function journeyGuidance(j){
 function renderReviewJourneyHub(){
   const all=activeReviewJourneys(),count=document.getElementById('reviewJourneyCount');if(count)count.textContent=all.length;
   const empty=document.getElementById('reviewJourneyEmpty'),next=document.getElementById('reviewJourneyNext');if(!empty||!next)return;
-  if(!all.length){empty.style.display='';next.style.display='none';document.getElementById('reviewJourneySummary').textContent='誤答すると、理解し直すところから定着まで案内します。';return;}
+  if(!all.length){empty.style.display='';next.style.display='none';document.getElementById('reviewJourneySummary').textContent='誤答した論点を「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。';return;}
   const j=all[0];empty.style.display='none';next.style.display='';document.getElementById('reviewJourneySummary').textContent=`${all.length}件の復習ルートが進行中です。次にやる1件だけ表示しています。`;
   document.getElementById('reviewJourneyCat').textContent=j.cat;document.getElementById('reviewJourneyConcept').textContent=j.concept;
   document.getElementById('reviewJourneySteps').innerHTML=journeyStepHtml(j);document.getElementById('reviewJourneyGuidance').textContent=journeyGuidance(j);
@@ -8460,7 +8506,18 @@ function renderInlineReviewRoute(q){
   const explain=document.getElementById('quizExplain');if(!explain)return;
   explain.querySelector('.review-route-inline')?.remove();
   const id=q.sourceId||q.id,j=journeyFor(id);if(!j)return;
-  const d=document.createElement('div');d.className='review-route-inline';d.innerHTML=`<b>🔁 復習ルートに登録しました</b><span>${escapeHtml(j.concept)}を「理解し直す → 類題 → 後日復習」の順で定着まで追います。</span><div class="route-mini"><i class="${j.stage!=='relearn'?'done':''}">1 教材</i><i class="${['spaced','stable'].includes(j.stage)?'done':''}">2 類題</i><i class="${j.stage==='stable'?'done':''}">3 後日</i></div>`;explain.appendChild(d);
+  const idx=j.stage==='relearn'?0:j.stage==='verify'?1:j.stage==='spaced'?2:3;
+  const steps=[
+    ['理解し直す','教材で要点を整理'],
+    ['別問題で確認','ヒントなしで初見正解'],
+    ['定着を確認','日を空けてもう一度解く']
+  ];
+  const stepHtml=steps.map((s,i)=>`<i class="${i<idx?'done':i===idx?'current':''}"><b>${s[0]}</b><span>${s[1]}</span></i>`).join('');
+  const d=document.createElement('div');
+  d.className='review-route-inline';
+  d.dataset.questionId=id;
+  d.innerHTML=`<b>🔁 この問題を復習ルートに追加しました</b><span>${escapeHtml(j.concept)}は、次の3段階で「分かった」から「定着した」まで確認します。</span><div class="route-mini">${stepHtml}</div>`;
+  explain.appendChild(d);
 }
 
 
@@ -9102,9 +9159,12 @@ function renderQuizQuestion(){
   }
   document.getElementById('quizCounter').textContent=`${quizIndex+1} / ${quizItems.length}`;
   document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
-  document.getElementById('quizExplain').classList.remove('show');
-  document.getElementById('quizExplain').querySelector('.memory-next-note')?.remove();
-  document.getElementById('quizExplain').querySelector('.variant-source-note')?.remove();
+  const quizExplain=document.getElementById('quizExplain');
+  quizExplain.classList.remove('show');
+  quizExplain.querySelectorAll('.memory-next-note,.variant-source-note,.retry-note,.review-route-inline').forEach(x=>x.remove());
+  document.getElementById('quizResultTitle').textContent='';
+  document.getElementById('quizExplanation').textContent='';
+  document.getElementById('quizHint').textContent='';
   document.getElementById('reasonBox').classList.remove('show');
   document.getElementById('quizSubmit').textContent='回答する';
   document.getElementById('quizSubmit').disabled=false;
@@ -9220,14 +9280,6 @@ function gradeCurrentQuestion(){
   document.getElementById('quizExplain').classList.add('show');
   document.getElementById('quizHintBtn').style.display='none';
 
-  let memoryNote=document.getElementById('quizExplain').querySelector('.memory-next-note');
-  if(!memoryNote){
-    memoryNote=document.createElement('div');
-    memoryNote.className='memory-next-note';
-    document.getElementById('quizExplain').appendChild(memoryNote);
-  }
-  memoryNote.innerHTML=`<b>🧠 次回復習：</b> ${st.due||'未設定'} <span>・記憶間隔 ${Math.round(st.stability||1)}日</span>`;
-
   let sourceNote=document.getElementById('quizExplain').querySelector('.variant-source-note');
   if(q.variant){
     if(!sourceNote){
@@ -9279,6 +9331,20 @@ function gradeCurrentQuestion(){
     markJourneyAnswer(jid,!quizFirstAttemptWrong&&ok);
   }
   if(!ok || quizFirstAttemptWrong) renderInlineReviewRoute(q);
+
+  // Normal first-try correct answers stay visually clean. Show scheduling only when
+  // this CURRENT question is itself being reviewed, was missed, or needed a retry.
+  const showCurrentMemory = !ok || quizFirstAttemptWrong || quizMode==='review' || String(quizMode).startsWith('journey:') || String(quizMode).startsWith('rx:');
+  if(showCurrentMemory){
+    let memoryNote=document.getElementById('quizExplain').querySelector('.memory-next-note');
+    if(!memoryNote){
+      memoryNote=document.createElement('div');
+      memoryNote.className='memory-next-note';
+      document.getElementById('quizExplain').appendChild(memoryNote);
+    }
+    memoryNote.dataset.questionId=statId;
+    memoryNote.innerHTML=`<b>🧠 この問題の次回復習：</b> ${st.due||'未設定'} <span>・記憶間隔 ${Math.round(st.stability||1)}日</span>`;
+  }
 
   sessionLog.push({
     id:q.sourceId||q.id,variantId:q.variant?q.id:null,cat:q.cat,concept:q.concept,
@@ -12923,6 +12989,34 @@ function askSubmitBFinal(){
   if(confirm(blank?`未回答が${blank}問あります。総合実戦を提出しますか？`:'20問の回答を提出しますか？'))finishBFinal(false);
 }
 
+
+if(!profile.bFinalMistakeStats)profile.bFinalMistakeStats={};
+function bFinalMistakeKey(d){return `${d.kind}:${d.sourceId}:${d.format}`;}
+function bFinalReviewReasonMeta(reason,d){
+  const m={
+    'トレースミス':['TRACEで1行ずつ確認','途中状態を紙に書き、変数・配列の更新を1行ずつ追います。'],
+    'コード理解':['複合問題で確認','空欄や処理目的を、コード全体の役割から判断する練習へ進みます。'],
+    '読み違い':['条件を読み直す','設問が聞いている時点・対象・条件を先に囲ってからコードを読みます。'],
+    '知識不足':[d.kind==='security'?'Securityシナリオで確認':'学習モードで確認','用語や仕組みを短く整理してから、もう一度判断します。'],
+    '時間不足':['時間を区切って再挑戦','一つの設問に粘りすぎず、後で戻る判断を練習します。']
+  };return m[reason]||[d.kind==='security'?'Securityシナリオへ':'学習モードへ','まず該当する学習モードで処理を確認します。'];
+}
+function bFinalAutoDiagnosis(a){
+  const wrong=a.details.filter(d=>!d.ok),byFormat={};wrong.forEach(d=>byFormat[d.format]=(byFormat[d.format]||0)+1);
+  const top=Object.entries(byFormat).sort((a,b)=>b[1]-a[1])[0];
+  const secWrong=a.details.filter(d=>d.kind==='security'&&!d.ok).length,algoWrong=a.details.filter(d=>d.kind==='algo'&&!d.ok).length;
+  const repeat=wrong.filter(d=>(profile.bFinalMistakeStats?.[bFinalMistakeKey(d)]?.misses||0)>=2).length;
+  return {topFormat:top?.[0]||'—',topCount:top?.[1]||0,secWrong,algoWrong,repeat};
+}
+function renderBFinalDiagnosis(a){
+  const root=document.getElementById('bFinalDiagnosis');if(!root)return;const x=bFinalAutoDiagnosis(a);
+  const area=x.secWrong>x.algoWrong?'情報セキュリティ':x.algoWrong?'擬似言語':'—';
+  root.innerHTML=`<div class="bfinal-diagnosis-title">今回の総合実戦診断</div><div class="bfinal-diagnosis-grid">
+    <div class="bfinal-diagnosis-item"><span>崩れた形式</span><b>${escapeHtml(x.topFormat)}</b><small>${x.topCount}問の誤答</small></div>
+    <div class="bfinal-diagnosis-item"><span>優先領域</span><b>${area}</b><small>擬似言語 ${x.algoWrong}問 / Security ${x.secWrong}問の誤答</small></div>
+    <div class="bfinal-diagnosis-item"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>以前の総合実戦でも同じ型でつまずいた問題</small></div>
+  </div>`;
+}
 function finishBFinal(timeUp=false){
   if(!bFinalItems.length)return;
   stopBFinalTimer();
@@ -12933,7 +13027,9 @@ function finishBFinal(timeUp=false){
     const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`;
     if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null};
     const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0);
-    return {sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};
+    const detail={sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};
+    if(!ok){const mk=bFinalMistakeKey(detail);const ms=profile.bFinalMistakeStats[mk]||(profile.bFinalMistakeStats[mk]={misses:0,reasons:{},lastReason:null,last:null});ms.misses=(ms.misses||0)+1;ms.last=localDateISO(0);}
+    return detail;
   });
   // Simple practice score: 20 equal-weight questions -> 50 points each.
   // It is an in-app practice score, not a claim about IRT score conversion.
@@ -12956,6 +13052,7 @@ function renderBFinalResult(a,earned){
   document.getElementById('bFinalStatTime').textContent=bMockFormatTime(a.seconds);
   document.getElementById('bFinalAlgoScore').textContent=`${a.algoCorrect} / 16`;
   document.getElementById('bFinalSecScore').textContent=`${a.secCorrect} / 4`;
+  renderBFinalDiagnosis(a);
 
   const formats=[...new Set(a.details.map(d=>d.format))];
   document.getElementById('bFinalFormatBreakdown').innerHTML=formats.map(f=>{
@@ -12963,7 +13060,15 @@ function renderBFinalResult(a,earned){
     return `<div class="bfinal-format-row"><div class="bfinal-format-label">${escapeHtml(f)}</div><div class="bfinal-format-bar"><div class="bfinal-format-fill" style="width:${pct}%"></div></div><div class="bfinal-format-score">${n}/${rows.length}</div></div>`;
   }).join('');
 
-  document.getElementById('bFinalReviewList').innerHTML=a.details.map((d,i)=>`<div class="bfinal-review-item ${d.ok?'correct':'wrong'}"><div class="bfinal-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ Security':'💻 '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="bfinal-review-q">${escapeHtml(d.q)}</div><div class="bfinal-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bfinal-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<button class="bfinal-review-study" data-bfinalstudy="${escapeHtml(d.studyMode)}" data-bfinalsource="${escapeHtml(d.sourceId)}">学習モードで復習 →</button>`}</div>`).join('');
+  document.getElementById('bFinalReviewList').innerHTML=a.details.map((d,i)=>{
+    const mk=bFinalMistakeKey(d),ms=profile.bFinalMistakeStats?.[mk],reason=ms?.lastReason||'';const meta=bFinalReviewReasonMeta(reason,d);
+    return `<div class="bfinal-review-item ${d.ok?'correct':'wrong'}"><div class="bfinal-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ Security':'💻 '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="bfinal-review-q">${escapeHtml(d.q)}</div><div class="bfinal-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bfinal-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<div class="bfinal-review-reason"><div class="bfinal-review-reason-title">なぜ崩れましたか？</div><div class="bfinal-review-reason-chips">${['トレースミス','コード理解','読み違い','知識不足','時間不足'].map(r=>`<button class="bfinal-review-reason-chip ${reason===r?'picked':''}" data-bfreason="${r}" data-bfkey="${escapeHtml(mk)}">${r}</button>`).join('')}</div></div><div class="bfinal-review-action" data-bfaction="${escapeHtml(mk)}"><b>${escapeHtml(meta[0])}</b>${escapeHtml(meta[1])}</div><button class="bfinal-review-study smart" data-bfinalstudy="${escapeHtml(d.studyMode)}" data-bfinalsource="${escapeHtml(d.sourceId)}">${escapeHtml(meta[0])} →</button>`}</div>`;
+  }).join('');
+  document.querySelectorAll('[data-bfreason]').forEach(btn=>btn.onclick=()=>{
+    const key=btn.dataset.bfkey,reason=btn.dataset.bfreason,st=profile.bFinalMistakeStats[key];if(!st)return;
+    if(st.lastReason&&st.reasons?.[st.lastReason])st.reasons[st.lastReason]=Math.max(0,st.reasons[st.lastReason]-1);
+    st.lastReason=reason;st.reasons=st.reasons||{};st.reasons[reason]=(st.reasons[reason]||0)+1;st.last=localDateISO(0);saveProfile();renderBFinalResult(a,0);
+  });
   document.querySelectorAll('[data-bfinalstudy]').forEach(btn=>btn.onclick=()=>{
     document.getElementById('bFinalResult')?.classList.remove('show');
     const mode=btn.dataset.bfinalstudy,source=btn.dataset.bfinalsource;
@@ -14155,6 +14260,54 @@ function formatElapsed(sec){
   return `${m}分${String(s).padStart(2,'0')}秒`;
 }
 
+
+function mockTargetSeconds(){return mockItems.length?Math.round(mockInitialSeconds/mockItems.length):90;}
+function mockAttemptDiagnostics(details,byCat){
+  const target=mockTargetSeconds();
+  const wrongRows=details.filter(d=>d.answerIndex===null||d.answerIndex!==d.correctIndex);
+  const slowRows=details.filter(d=>(d.seconds||0)>target*1.35);
+  const repeatRows=wrongRows.filter(d=>(profile.mockMistakeStats?.[d.id]?.misses||0)>=1);
+  const weakest=Object.entries(byCat||{}).filter(([,v])=>v.total).sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total))[0];
+  return {target,wrong:wrongRows.length,slow:slowRows.length,repeat:repeatRows.length,weakest:weakest?{cat:weakest[0],pct:Math.round(weakest[1].correct/weakest[1].total*100)}:null};
+}
+function renderMockDiagnosis(attempt,byCat){
+  const root=document.getElementById('mockDiagnosis');if(!root)return;
+  const x=mockAttemptDiagnostics(attempt?.details||[],byCat||{});
+  root.innerHTML=`<div class="mock-diagnosis-title">今回の模試診断</div><div class="mock-diagnosis-grid">
+    <div class="mock-diagnosis-item"><span>最優先分野</span><b>${x.weakest?escapeHtml(x.weakest.cat):'—'}</b><small>${x.weakest?`正答率 ${x.weakest.pct}%`:'十分なデータがありません'}</small></div>
+    <div class="mock-diagnosis-item"><span>時間を使った問題</span><b>${x.slow}問</b><small>目安 ${x.target}秒/問 の1.35倍を超えた問題</small></div>
+    <div class="mock-diagnosis-item"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>過去にも模試レビューで誤答した論点</small></div>
+  </div>`;
+}
+function reasonPrescription(reason,q){
+  const map={
+    '知識不足':{kind:'knowledge',text:'まず短い教材で定義と仕組みを整理してから、同じ分野の問題へ戻ります。'},
+    '計算ミス':{kind:'calc',text:'途中式・単位・変換過程を省略しない計算ドリルで確認します。'},
+    '読み違い':{kind:'read',text:'条件語を拾う練習をして、「適切／不適切」「以上／未満」の読み落としを減らします。'},
+    '2択で迷った':{kind:'contrast',text:'似た選択肢を2つに絞り、違いを言葉にしてから選ぶ比較ドリルへ進みます。'},
+    '時間不足':{kind:'speed',text:'1問90秒を目安に判断するスプリントで、時間配分を整えます。'}
+  };
+  const x=map[reason]||{kind:'repeat',text:'復習ルートに沿って、教材・類題・後日復習まで進めます。'};
+  const lesson=lessonForQuestion(q);
+  return {...x,lesson};
+}
+function renderReviewPrescription(){
+  const item=reviewItems[reviewIndex];if(!item)return;
+  const stat=getMockMistakeStat(item.q.id),reason=stat.lastReason;
+  const p=reasonPrescription(reason,item.q),text=document.getElementById('reviewPrescriptionText'),main=document.getElementById('reviewPrescriptionMain'),journey=document.getElementById('reviewJourneyDirect');
+  if(text)text.textContent=reason?`${reason}：${p.text}`:'原因を選ぶと、そのつまずき方に合った復習方法を提案します。';
+  if(main){main.dataset.reason=reason||'';main.dataset.qid=item.q.id;main.textContent=reason==='知識不足'&&p.lesson?'教材で理解し直す →':reason?`${prescriptionMeta({kind:p.kind,cat:item.q.cat}).title} →`:'復習を開始 →';main.disabled=!reason;}
+  const j=journeyFor(item.q.id);if(journey){journey.dataset.qid=item.q.id;journey.disabled=!j;journey.textContent=j?`${journeyStageLabel(j.stage)}から復習ルートを続ける`:'復習ルートを見る';}
+}
+function startReviewPrescription(qid,reason){
+  const q=originalQuestionById(qid);if(!q)return;
+  const p=reasonPrescription(reason,q);
+  if(reason==='知識不足'&&p.lesson){activeReviewJourneyId=qid;startLesson(p.lesson);return;}
+  showScreen('problems');startQuiz(`rx:${p.kind}:${q.cat}`);
+}
+function currentReviewDominantReason(){
+  const totals=aggregateReasons();return Object.entries(totals).sort((a,b)=>b[1]-a[1])[0]?.[0]||null;
+}
 function finishMock(timeup=false){
   recordMockQuestionTime();
   if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
@@ -14217,7 +14370,7 @@ function finishMock(timeup=false){
   lastMockAttempt={
     date:localDateISO(0),mode:mockMode,total,correct,blank,rate,seconds:used,
     blueprint:mockCurrentBlueprint?structuredClone(mockCurrentBlueprint):null,
-    details:attemptDetails
+    byCat:structuredClone(byCat),details:attemptDetails
   };
   profile.mockHistory.unshift(lastMockAttempt);
   profile.mockHistory=profile.mockHistory.slice(0,10);
@@ -14241,6 +14394,7 @@ function finishMock(timeup=false){
   if(timeup) message='時間終了です。未回答を含めて、時間配分も復習材料にしましょう。';
   document.getElementById('mockResultIcon').textContent=icon;
   document.getElementById('mockResultMessage').textContent=message;
+  renderMockDiagnosis(lastMockAttempt,byCat);
 
   const breakdown=document.getElementById('mockBreakdown');
   breakdown.innerHTML='';
@@ -14258,7 +14412,10 @@ function finishMock(timeup=false){
     const d=document.createElement('div');
     d.className='mock-review-item';
     const selected=x.ans===null?'未回答':x.q.options[x.ans];
-    d.innerHTML=`<b>${x.q.cat}・${x.q.concept}</b><div class="sub">${escapeHtml(x.q.q)}<br>あなた：${escapeHtml(selected)} ／ 正解：${escapeHtml(x.q.options[x.q.a])}</div>`;
+    const stat=profile.mockMistakeStats?.[x.q.sourceId||x.q.id];
+    const j=journeyFor(x.q.sourceId||x.q.id);
+    const reason=stat?.lastReason||'原因未記録';
+    d.innerHTML=`<b>${x.q.cat}・${x.q.concept}</b><div class="sub">${escapeHtml(x.q.q)}<br>あなた：${escapeHtml(selected)} ／ 正解：${escapeHtml(x.q.options[x.q.a])}</div><div class="sub">原因：${escapeHtml(reason)}${j?` ／ 復習：${journeyStageLabel(j.stage)}`:''}</div>`;
     review.appendChild(d);
   });
   if(!wrongs.length) review.innerHTML='<div class="sub">全問正解です 🎉</div>';
@@ -14373,7 +14530,8 @@ function renderMockReviewItem(){
 
   document.getElementById('reviewExplanation').textContent=q.exp;
   document.getElementById('reviewHint').textContent='覚え方：'+q.hint;
-  document.getElementById('reviewTime').textContent=`この問題に使った時間：約${item.seconds||0}秒`;
+  const target=Math.round((lastMockAttempt?.mode==='half'?45*60:90*60)/(lastMockAttempt?.total||60));
+  document.getElementById('reviewTime').textContent=`この問題：約${item.seconds||0}秒 ／ 目安：約${target}秒`;
 
   document.querySelectorAll('.review-reason-chip').forEach(c=>{
     c.classList.toggle('picked',stat.lastReason===c.dataset.mreason);
@@ -14383,6 +14541,7 @@ function renderMockReviewItem(){
   document.getElementById('reviewNext').textContent=reviewIndex===reviewItems.length-1?'レビュー完了':'次へ →';
   document.getElementById('similarBox').classList.remove('show');
   currentSimilar=null;
+  renderReviewPrescription();
 }
 
 document.querySelectorAll('.review-reason-chip').forEach(chip=>{
@@ -14399,10 +14558,12 @@ document.querySelectorAll('.review-reason-chip').forEach(chip=>{
     stat.lastReason=reason;
     stat.reasons[reason]=(stat.reasons[reason]||0)+1;
     stat.last=localDateISO(0);
+    const qst=profile.qStats?.[item.q.id];if(qst)qst.lastReason=reason;
 
     document.querySelectorAll('.review-reason-chip').forEach(c=>c.classList.remove('picked'));
     chip.classList.add('picked');
     saveProfile();
+    renderReviewPrescription();
   });
 });
 
@@ -14458,7 +14619,7 @@ document.getElementById('reviewSimilar')?.addEventListener('click',()=>{
     document.getElementById('similarFeedback').textContent='';
     return;
   }
-  box.classList.add('show');
+  box.classList.add('show');box.dataset.tried='0';
   document.getElementById('similarQuestion').textContent=currentSimilar.q;
   document.getElementById('similarFeedback').textContent='';
   const root=document.getElementById('similarOptions');
@@ -14468,21 +14629,31 @@ document.getElementById('reviewSimilar')?.addEventListener('click',()=>{
     b.className='similar-option';
     b.textContent=`${String.fromCharCode(65+i)}. ${o}`;
     b.onclick=()=>{
-      root.querySelectorAll('button').forEach(x=>x.disabled=true);
+      const box=document.getElementById('similarBox');
+      const tried=box.dataset.tried==='1';
       if(i===currentSimilar.a){
+        root.querySelectorAll('button').forEach(x=>x.disabled=true);
         b.classList.add('good');
         document.getElementById('similarFeedback').textContent='⭕ 正解！ '+currentSimilar.exp;
-        profile.xp+=5;
-        saveProfile();
+        const base=reviewItems[reviewIndex]?.q,j=base?journeyFor(base.id):null;
+        if(base&&j?.stage==='verify')markJourneyAnswer(base.id,!tried);
+        profile.xp+=tried?2:5;saveProfile();
+      }else if(!tried){
+        b.disabled=true;b.classList.add('bad');box.dataset.tried='1';
+        document.getElementById('similarFeedback').textContent='まだ答えは表示しません。ヒント：'+(currentSimilar.hint||'問題文の条件と選択肢の違いをもう一度比べてください。');
       }else{
-        b.classList.add('bad');
-        root.children[currentSimilar.a]?.classList.add('good');
+        root.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('bad');root.children[currentSimilar.a]?.classList.add('good');
         document.getElementById('similarFeedback').textContent='正解は '+currentSimilar.options[currentSimilar.a]+'。 '+currentSimilar.exp;
+        const base=reviewItems[reviewIndex]?.q;if(base)markJourneyAnswer(base.id,false);
       }
     };
     root.appendChild(b);
   });
 });
+
+
+document.getElementById('reviewPrescriptionMain')?.addEventListener('click',e=>{const qid=e.currentTarget.dataset.qid,reason=e.currentTarget.dataset.reason;if(qid&&reason)startReviewPrescription(qid,reason);});
+document.getElementById('reviewJourneyDirect')?.addEventListener('click',e=>{const qid=e.currentTarget.dataset.qid;if(qid)startJourneyAction(qid);});
 
 function aggregateReasons(){
   const totals={};
@@ -14504,9 +14675,13 @@ function finishMockReview(){
   const catCounts={};
   reviewItems.filter(x=>x.wrong).forEach(x=>catCounts[x.q.cat]=(catCounts[x.q.cat]||0)+1);
   const priority=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const dominant=currentReviewDominantReason();
   document.getElementById('reviewPriority').innerHTML=priority.length
-    ? `<b>次に優先する分野</b><br>${priority.map(([c,n])=>`${c}（${n}問）`).join(' → ')}<br><span class="sub">誤答は復習ルートにも登録済みです。</span>`
+    ? `<b>次に優先する分野</b><br>${priority.map(([c,n])=>`${c}（${n}問）`).join(' → ')}<br><span class="sub">主な原因：${escapeHtml(dominant||'未記録')}。誤答は復習ルートにも登録済みです。</span>`
     : '<b>誤答はありませんでした。</b>';
+  const jbtn=document.getElementById('reviewSummaryJourney'),rxbtn=document.getElementById('reviewSummaryRx');
+  if(jbtn)jbtn.style.display=activeReviewJourneys().length?'':'none';
+  if(rxbtn){rxbtn.style.display=dominant?'':'none';rxbtn.dataset.reason=dominant||'';rxbtn.dataset.cat=priority[0]?.[0]||weakestSkill();}
 
   profile.xp+=10;
   saveProfile();
@@ -14519,6 +14694,8 @@ function exitMockReview(){
 }
 document.getElementById('reviewExit')?.addEventListener('click',exitMockReview);
 document.getElementById('reviewSummaryBack')?.addEventListener('click',exitMockReview);
+document.getElementById('reviewSummaryJourney')?.addEventListener('click',()=>{const j=activeReviewJourneys()[0];if(j)startJourneyAction(j.id);});
+document.getElementById('reviewSummaryRx')?.addEventListener('click',e=>{const reason=e.currentTarget.dataset.reason,cat=e.currentTarget.dataset.cat;const fake={id:'',cat,concept:''};const p=reasonPrescription(reason,fake);showScreen('problems');startQuiz(`rx:${p.kind}:${cat}`);});
 
 
 // Planner STEP5 now reflects real mock attempts as well as ordinary problem sessions.

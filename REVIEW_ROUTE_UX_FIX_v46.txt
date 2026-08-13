@@ -1,0 +1,21 @@
+FE QUEST v46 — REVIEW ROUTE UX FIX
+
+1. Stale feedback fix
+- renderQuizQuestion now removes memory-next-note, variant-source-note, retry-note, and review-route-inline.
+- Previous question review cards cannot remain on the next question.
+- Dynamic title/explanation/hint text is cleared when the question changes.
+
+2. Current-question memory label
+- Normal first-try correct answers do not show a next-review schedule.
+- Schedule is shown only for the current question when it was wrong/recovered or is in review/journey/prescription mode.
+- Label changed to: この問題の次回復習.
+- Memory note is created after adaptive memory update, so the displayed due date belongs to the current updated question state.
+
+3. Review journey wording
+Old: 1 教材 / 2 類題 / 3 後日
+New:
+- 理解し直す — 教材で要点を整理
+- 別問題で確認 — ヒントなしで初見正解
+- 定着を確認 — 日を空けてもう一度解く
+
+4. 14px minimum text rule retained.
