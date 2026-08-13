@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v27</title>
+<title>FE QUEST PWA v28</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3046,6 +3046,19 @@
   .rfp-grid .rfp-card.active,
   .protocol-grid .protocol-card.active{
     cursor:default;
+  }
+
+
+  /* ===== v28: overview-page safety net ===== */
+  .lesson-stage.lesson-intro .flow-current,
+  .lesson-stage.lesson-intro .flow-done{
+    animation:none!important;
+    box-shadow:none!important;
+  }
+  .lesson-stage.lesson-intro .flow-current::after,
+  .lesson-stage.lesson-intro .flow-done::before,
+  .lesson-stage.lesson-intro .step-position-note{
+    display:none!important;
   }
 
 </style>
@@ -7759,7 +7772,7 @@ function startLesson(id){
   lessonStep=0;
   lessonCompleteMode=false;
   const prev=document.getElementById('lessonPrev');
-  if(prev) prev.style.display='';
+  if(prev) prev.style.display='none';
   resetLessonState();
   showScreen('lesson');
   renderLesson();
@@ -7816,6 +7829,19 @@ function markInteractionGuideDone(){
   root.classList.add('ready');document.getElementById('interactionGuideTitle').textContent='✓ 操作完了';
 }
 
+
+// ===== v28: first-page presentation rule =====
+// Page 1 is an overview. It must not look as if a step-by-step exercise has already started.
+function neutralizeFirstPageMarkup(markup){
+  let s=String(markup??'');
+  s=s.replace(/\bflow-current\b/g,'')
+     .replace(/\bflow-done\b/g,'')
+     .replace(/\bflow-arrow-current\b/g,'')
+     .replace(/class="file-node\s+active"/g,'class="file-node"')
+     .replace(/<div class="step-position-note">[\s\S]*?<\/div>/g,'');
+  return s;
+}
+
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
   const page=lesson.pages[lessonStep];
@@ -7831,15 +7857,22 @@ function renderLesson(){
   check.innerHTML='';
 
   const stage=document.getElementById('lessonStage');
+  stage.classList.toggle('lesson-intro',lessonStep===0);
   stage.innerHTML='';
   lessonInteractiveDone=!page.interactive && !page.quiz;
   lessonQuizDone=!page.quiz;
 
-  if(page.render) stage.innerHTML=page.render();
+  if(page.render){
+    const markup=page.render();
+    stage.innerHTML=lessonStep===0 ? neutralizeFirstPageMarkup(markup) : markup;
+  }
   if(page.interactive) renderInteractive(page.interactive,stage);
   if(page.quiz) renderLessonQuiz(page.quiz,stage);
 
-  document.getElementById('lessonPrev').disabled=lessonStep===0;
+  // First page has nowhere to go back to, so do not show a disabled Back button.
+  const prev=document.getElementById('lessonPrev');
+  prev.style.display=lessonStep===0?'none':'';
+  prev.disabled=lessonStep===0;
   const next=document.getElementById('lessonNext');
   if(lessonStep===lesson.pages.length-1){
     next.textContent='レッスン完了 ✨';
