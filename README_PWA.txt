@@ -1,31 +1,13 @@
-FE QUEST PWA v38
+FE QUEST PWA v41
 
-SUBJECT B FULL PRACTICE
-
-追加:
-科目B -> 🏁 総合実戦
-
-20問 / 100分
-- 擬似言語 16問
-- 情報セキュリティ 4問
-- 問題順は混在
-- ヒントなし
-- STEP操作なし
-- 途中正誤なし
-- 問題移動 / 後で見る
-- 提出後に一括採点
-- 誤答から学習モードへ戻れる
-
-擬似言語:
-既存TRACE 20演習から8問
-既存複合問題15セットから8問
-途中状態 / 処理結果 / 空欄補充 / 変更予測 / 処理理解などを混在
-
-Security:
-15シナリオから4問
-ケース判断 / ログ読解
-
-1000点表示:
-FE QUEST内の練習用換算。
-20問を等配点（1問50点）として表示。
-実際のIRT評価点を再現するものではない。
+ALL LESSON UX AUDIT
+- 34/34 lessons reviewed
+- 96 lesson pages retained
+- lesson typography floor raised
+- duplicate completion explanations removed
+- filesystem interaction made meaningful
+- automata sequential UI simplified
+- cache and stack/queue equal-choice controls standardized
+- transaction and mutex v40 smart status/action UI retained
+- first-page overview rule retained
+- Subject A/B content and progress compatibility retained

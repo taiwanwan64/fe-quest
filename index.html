@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v40</title>
+<title>FE QUEST PWA v41</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3486,6 +3486,92 @@
   .step-status.success .step-status-icon{color:#3e9442}
   .step-status-title{font-size:15px;font-weight:1000;color:var(--text)}
   .step-status-body{font-size:14px;line-height:1.7;color:#5f7383}
+
+
+  /* ===== v41: all-lesson UX audit ===== */
+  #lessonStage .sub,
+  #lessonStage small,
+  #lessonStage .small,
+  #lessonStage .static-compare-note,
+  #lessonStage .step-position-note,
+  #lessonStage .bank-summary,
+  #lessonStage .lesson-takeaway span,
+  #lessonStage .model-tap-label,
+  #lessonStage .model-choice-index,
+  #lessonStage .dev-step .small{
+    font-size:12px!important;
+    line-height:1.55;
+  }
+  #lessonStage .lesson-copy{font-size:14px;line-height:1.7}
+  #lessonCheck{font-size:14px;line-height:1.7}
+  #lessonStage .micro-option,
+  #lessonStage .purple-btn,
+  #lessonStage .secondary,
+  #lessonStage .cp-choice,
+  #lessonStage .logic-switch,
+  #lessonStage .prediction-option{
+    min-height:46px;
+    font-size:14px;
+  }
+  #lessonStage button:focus-visible{
+    outline:3px solid rgba(28,176,246,.28);
+    outline-offset:3px;
+  }
+  #lessonStage .flow-current::after{font-size:11px!important;padding:3px 7px}
+  #lessonStage .flow-done::before{font-size:13px!important}
+  #lessonStage .sig-hash{font-size:13px}
+  #lessonStage .packet{font-size:13px}
+
+  .explore-actions{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+    max-width:620px;margin:15px auto 0;
+  }
+  .explore-btn{
+    border:2px solid var(--line);background:#fff;color:var(--text);border-radius:15px;
+    padding:13px 15px;min-height:50px;font-size:14px;font-weight:1000;cursor:pointer;
+    transition:border-color .12s,background .12s,transform .12s,box-shadow .12s;
+  }
+  .explore-btn:hover{border-color:#bba1d5;transform:translateY(-1px)}
+  .explore-btn.seen{border-color:#b9e3c0;background:#f3fbf4;color:#316f37}
+  .explore-btn.seen::before{content:'✓ ';font-weight:1000}
+
+  .file-path-task{max-width:650px;margin:12px auto 0}
+  .file-path-current{
+    margin-bottom:10px;padding:11px 13px;border:1px solid #d9e4ec;border-radius:13px;
+    background:#fff;font-size:14px;line-height:1.55;
+  }
+  .file-path-current b{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#1679ad}
+  .file-path-label{font-size:13px;font-weight:1000;color:#5f7383;margin-bottom:8px;text-align:center}
+  .file-path-options{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .file-path-option{
+    min-height:48px;border:2px solid var(--line);background:#fff;border-radius:14px;
+    font-size:14px;font-weight:1000;cursor:pointer;
+  }
+  .file-path-option:hover{border-color:var(--blue)}
+  .file-path-option.good{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .file-path-option.bad{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+
+  .fsm-sequence{
+    display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap;margin:12px auto 0;
+  }
+  .fsm-token{
+    min-width:42px;height:42px;display:grid;place-items:center;border-radius:12px;
+    border:2px solid var(--line);background:#fff;font-size:15px;font-weight:1000;
+  }
+  .fsm-token.done{border-color:#b9e3c0;background:#f3fbf4;color:#34723a}
+  .fsm-token.current{border-color:var(--purple);background:var(--purple-soft);color:#6f3ca5}
+  .fsm-next{
+    display:block;margin:12px auto 0;min-width:220px;min-height:48px;border:none;border-radius:14px;
+    background:var(--purple);color:#fff;font-size:14px;font-weight:1000;cursor:pointer;
+  }
+
+  .lesson-check .lesson-takeaway{margin-top:0}
+  .lesson-check .lesson-takeaway b{font-size:14px}
+
+  @media(max-width:620px){
+    .explore-actions{grid-template-columns:1fr}
+    .file-path-options{grid-template-columns:1fr}
+  }
 
 </style>
 
@@ -10181,14 +10267,12 @@ function renderLesson(){
 function showLessonFeedback(msg,bad=false){
   const c=document.getElementById('lessonCheck');
   c.className='lesson-check show'+(bad?' bad':'');
-  let extra='';
-  if(!bad && lessonInteractiveDone){
-    const page=LESSONS[activeLesson]?.pages?.[lessonStep];
-    if(page?.takeaway){
-      extra=`<div class="lesson-takeaway"><b>${escapeHtml(page.takeaway.headline)}</b><span>${escapeHtml(page.takeaway.copy)}</span></div>`;
-    }
+  const page=LESSONS[activeLesson]?.pages?.[lessonStep];
+  if(!bad && lessonInteractiveDone && page?.takeaway){
+    c.innerHTML=`<div class="lesson-takeaway"><b>${escapeHtml(page.takeaway.headline)}</b><span>${escapeHtml(page.takeaway.copy)}</span></div>`;
+  }else{
+    c.innerHTML=msg;
   }
-  c.innerHTML=msg+extra;
   if(!bad && (lessonInteractiveDone||lessonQuizDone)) markInteractionGuideDone();
 }
 
@@ -10335,44 +10419,25 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='cache'){
-    stage.innerHTML=`<div id="cacheDynamic">${cacheView('idle')}</div>
-      <div class="txn-buttons"><button class="secondary" id="cacheHit">⚡ HITを見る</button><button class="purple-btn" id="cacheMiss">🐢 MISSを見る</button></div>`;
-    document.getElementById('cacheHit').onclick=()=>{
-      cacheSeen.add('hit');
-      document.getElementById('cacheDynamic').innerHTML=cacheView('hit');
-      showLessonFeedback('⚡ HIT：キャッシュにデータがあり、主記憶まで行かずに取得できました。');
-      if(cacheSeen.size>=2) lessonInteractiveDone=true;
+    const drawActions=()=>{
+      document.getElementById('cacheActions').innerHTML=`<button class="explore-btn ${cacheSeen.has('hit')?'seen':''}" id="cacheHit">⚡ HIT</button><button class="explore-btn ${cacheSeen.has('miss')?'seen':''}" id="cacheMiss">🐢 MISS</button>`;
+      document.getElementById('cacheHit').onclick=()=>{cacheSeen.add('hit');document.getElementById('cacheDynamic').innerHTML=cacheView('hit');lessonInteractiveDone=cacheSeen.size>=2;drawActions();showLessonFeedback('HIT：キャッシュにデータがあり、主記憶まで行かずに取得できます。');};
+      document.getElementById('cacheMiss').onclick=()=>{cacheSeen.add('miss');document.getElementById('cacheDynamic').innerHTML=cacheView('miss');lessonInteractiveDone=cacheSeen.size>=2;drawActions();showLessonFeedback('MISS：キャッシュになかったため、主記憶へ取りに行きます。');};
     };
-    document.getElementById('cacheMiss').onclick=()=>{
-      cacheSeen.add('miss');
-      document.getElementById('cacheDynamic').innerHTML=cacheView('miss');
-      showLessonFeedback('🐢 MISS：キャッシュになかったので、主記憶へ取りに行きました。');
-      if(cacheSeen.size>=2) lessonInteractiveDone=true;
-    };
+    stage.innerHTML=`<div id="cacheDynamic">${cacheView('idle')}</div><div class="explore-actions" id="cacheActions"></div>`;
+    drawActions();
   }
 
   if(type==='stackqueue'){
     let stack=['A','B','C'], queue=['A','B','C'];
     const draw=()=>{
-      stage.innerHTML=`${dataStructureView(stack,queue)}
-      <div class="ds-controls">
-        <button class="purple-btn" id="popStack">STACK: POP</button>
-        <button class="secondary" id="deqQueue">QUEUE: DEQUEUE</button>
+      lessonInteractiveDone=dsSeen.size>=2;
+      stage.innerHTML=`${dataStructureView(stack,queue)}<div class="explore-actions">
+        <button class="explore-btn ${dsSeen.has('stack')?'seen':''}" id="popStack" ${dsSeen.has('stack')?'disabled':''}>STACK：POP</button>
+        <button class="explore-btn ${dsSeen.has('queue')?'seen':''}" id="deqQueue" ${dsSeen.has('queue')?'disabled':''}>QUEUE：DEQUEUE</button>
       </div>`;
-      document.getElementById('popStack').onclick=()=>{
-        if(stack.length){
-          const x=stack.pop(); dsSeen.add('stack'); draw();
-          showLessonFeedback(`STACKでは <b>${x}</b> が出ました。最後に入れたCから取り出すLIFOです。`);
-          if(dsSeen.size>=2) lessonInteractiveDone=true;
-        }
-      };
-      document.getElementById('deqQueue').onclick=()=>{
-        if(queue.length){
-          const x=queue.shift(); dsSeen.add('queue'); draw();
-          showLessonFeedback(`QUEUEでは <b>${x}</b> が出ました。最初に入れたAから取り出すFIFOです。`);
-          if(dsSeen.size>=2) lessonInteractiveDone=true;
-        }
-      };
+      const ps=document.getElementById('popStack');if(ps&&!ps.disabled)ps.onclick=()=>{const x=stack.pop();dsSeen.add('stack');draw();showLessonFeedback(`STACKでは <b>${x}</b> が出ました。最後に入れた要素から取り出すLIFOです。`);};
+      const dq=document.getElementById('deqQueue');if(dq&&!dq.disabled)dq.onclick=()=>{const x=queue.shift();dsSeen.add('queue');draw();showLessonFeedback(`QUEUEでは <b>${x}</b> が出ました。最初に入れた要素から取り出すFIFOです。`);};
     };
     draw();
   }
@@ -10407,16 +10472,16 @@ function renderTransactionLesson(step, message){
 
   if(type==='signature'){
     stage.innerHTML=`<div id="sigDynamic">${signatureView(0)}</div>
-      <div style="text-align:center;margin-top:16px"><button class="purple-btn" id="sigStepBtn">① ハッシュを作る</button></div>`;
+      <div style="text-align:center;margin-top:16px"><button class="purple-btn" id="sigStepBtn">ハッシュを作る →</button></div>`;
     document.getElementById('sigStepBtn').onclick=()=>{
       signatureStep++;
       if(signatureStep===1){
         document.getElementById('sigDynamic').innerHTML=signatureView(1);
-        document.getElementById('sigStepBtn').textContent='② 秘密鍵で署名';
+        document.getElementById('sigStepBtn').textContent='秘密鍵で署名 →';
         showLessonFeedback('文書からハッシュ値を作りました。');
       }else if(signatureStep===2){
         document.getElementById('sigDynamic').innerHTML=signatureView(2);
-        document.getElementById('sigStepBtn').textContent='③ 公開鍵で検証';
+        document.getElementById('sigStepBtn').textContent='公開鍵で検証 →';
         showLessonFeedback('署名者の秘密鍵で署名データを作りました。');
       }else{
         document.getElementById('sigDynamic').innerHTML=signatureView(3);
@@ -10465,16 +10530,20 @@ function renderTransactionLesson(step, message){
   if(type==='automata'){
     const seq=[1,0,1];
     let state='A';
-    const draw=()=>{
-      stage.innerHTML=`<div id="fsmDynamic">${automataView(state)}</div><div class="fsm-controls">${seq.map((x,i)=>`<button class="micro-option" data-i="${i}" ${i!==automataIdx?'disabled':''}>入力 ${x}</button>`).join('')}</div>`;
-      stage.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
+    const draw=(lastMsg='')=>{
+      const tokens=seq.map((x,i)=>`<div class="fsm-token ${i<automataIdx?'done':i===automataIdx?'current':''}">${x}</div>`).join('<span>→</span>');
+      const done=automataIdx>=seq.length;
+      stage.innerHTML=`<div id="fsmDynamic">${automataView(state)}</div>
+        <div class="fsm-sequence">${tokens}</div>
+        ${done?'':`<button class="fsm-next" id="fsmNext">次の入力 ${seq[automataIdx]} を適用 →</button>`}`;
+      if(lastMsg) showLessonFeedback(lastMsg);
+      if(done){lessonInteractiveDone=true;showLessonFeedback('✅ 入力列 1→0→1 を最後まで追えました。');return;}
+      document.getElementById('fsmNext').onclick=()=>{
         const input=seq[automataIdx];
         if(input===1) state=state==='A'?'B':'A';
         automataIdx++;
-        showLessonFeedback(`入力${input} → 現在の状態は ${state} です。`);
-        if(automataIdx===seq.length){lessonInteractiveDone=true;setTimeout(()=>{stage.innerHTML=automataView(state);},250);}
-        else draw();
-      });
+        draw(`入力${input}を適用 → 現在の状態は ${state} です。`);
+      };
     };
     draw();
   }
@@ -10490,14 +10559,29 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='filesystem'){
-    const labels=['/','home','user','docs','report.pdf'];
+    const steps=[
+      {path:'/',correct:'home',opts:['home','etc','var']},
+      {path:'/home',correct:'user',opts:['guest','user','shared']},
+      {path:'/home/user',correct:'docs',opts:['bin','cache','docs']},
+      {path:'/home/user/docs',correct:'report.pdf',opts:['photo.png','report.pdf','app.exe']}
+    ];
     const draw=()=>{
-      stage.innerHTML=`${fileTreeView(fileStep)}<div class="fsm-controls"><button class="purple-btn" id="fileNext">${fileStep<4?`次へ：${labels[fileStep+1]}（STEP ${fileStep+1} / 5）`:'✓ 到達'}</button></div>`;
-      const b=document.getElementById('fileNext');
-      if(fileStep>=4){
-        stage.innerHTML=`${fileTreeView(5)}<div class="fsm-controls"><button class="purple-btn" disabled>✓ 到達</button></div>`;
-        lessonInteractiveDone=true;showLessonFeedback('✅ /home/user/docs/report.pdf に到達しました。');
-      }else b.onclick=()=>{fileStep++;draw();};
+      if(fileStep>=steps.length){
+        lessonInteractiveDone=true;
+        stage.innerHTML=`${fileTreeView(5)}<div class="file-path-task">${stepStatusCard('到達','絶対パス /home/user/docs/report.pdf を階層順にたどれました。','success')}</div>`;
+        showLessonFeedback('✅ 絶対パスを階層順にたどれました。');
+        return;
+      }
+      const s=steps[fileStep];
+      stage.innerHTML=`${fileTreeView(fileStep)}<div class="file-path-task">
+        <div class="file-path-current">現在位置：<b>${s.path}</b></div>
+        <div class="file-path-label">次に進む名前を選んでください</div>
+        <div class="file-path-options">${s.opts.map(x=>`<button class="file-path-option" data-filepart="${x}">${x}</button>`).join('')}</div>
+      </div>`;
+      stage.querySelectorAll('[data-filepart]').forEach(b=>b.onclick=()=>{
+        if(b.dataset.filepart===s.correct){b.classList.add('good');fileStep++;setTimeout(draw,220);}
+        else{b.classList.add('bad');showLessonFeedback(`「${s.path}」から目的ファイルへ進む次の階層を考えてみましょう。`,true);setTimeout(()=>b.classList.remove('bad'),650);}
+      });
     };
     draw();
   }
@@ -10726,7 +10810,7 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='breakeven'){
-    stage.innerHTML=`<div id="beDynamic">${breakEvenView(false)}</div><div class="be-controls"><button class="purple-btn" id="showBE">交点を表示</button></div>`;
+    stage.innerHTML=`<div id="beDynamic">${breakEvenView(false)}</div><div class="be-controls"><button class="purple-btn" id="showBE">売上＝総費用の点を確認</button></div>`;
     document.getElementById('showBE').onclick=()=>{
       document.getElementById('beDynamic').innerHTML=breakEvenView(true);
       document.getElementById('showBE').disabled=true;lessonInteractiveDone=true;
@@ -14942,6 +15026,21 @@ function runAppSelfCheck(){
 
   return {ok:errors.length===0,errors,warnings,checkedAt:new Date().toISOString()};
 }
+
+function runLessonUXAudit(){
+  const lessonIds=Object.keys(LESSONS||{});
+  const pageCounts=Object.fromEntries(lessonIds.map(id=>[id,LESSONS[id].pages.length]));
+  const interactiveTypes=lessonIds.flatMap(id=>LESSONS[id].pages.filter(p=>p.interactive).map(p=>p.interactive));
+  const issues=[];
+  if(lessonIds.length!==34)issues.push(`lesson count ${lessonIds.length}`);
+  if(!Object.values(pageCounts).every(n=>n===2||n===3))issues.push('page density');
+  if(new Set(interactiveTypes).size!==interactiveTypes.length)issues.push('duplicate interactive type');
+  const required=['transaction','mutex','filesystem','automata','cache','stackqueue'];
+  required.forEach(x=>{if(!interactiveTypes.includes(x))issues.push(`missing ${x}`)});
+  return {ok:issues.length===0,lessonCount:lessonIds.length,totalPages:Object.values(pageCounts).reduce((a,b)=>a+b,0),interactiveCount:interactiveTypes.length,issues};
+}
+window.FEQUEST_LESSON_UX_AUDIT=runLessonUXAudit();
+
 window.FEQUEST_SELF_CHECK=runAppSelfCheck();
 if(!window.FEQUEST_SELF_CHECK.ok){
   console.warn('FE QUEST self-check failed',window.FEQUEST_SELF_CHECK.errors);
