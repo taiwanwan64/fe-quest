@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v22</title>
+<title>FE QUEST PWA v23</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2944,6 +2944,98 @@
   .model-card.model-choice.visited .model-choice-index{background:var(--purple);color:#fff}
   @media(max-width:720px){.interaction-guide{margin-top:13px}.model-tap-label{position:static;display:inline-block;margin-top:10px}}
 
+
+  /* ===== v23: animated current-position guide ===== */
+  @keyframes feCurrentPulse{
+    0%,100%{
+      box-shadow:0 0 0 3px rgba(28,176,246,.18),0 8px 20px rgba(28,176,246,.10);
+    }
+    50%{
+      box-shadow:0 0 0 7px rgba(28,176,246,.10),0 10px 30px rgba(28,176,246,.24);
+    }
+  }
+  .flow-current{
+    position:relative;z-index:3;
+    border-color:var(--blue)!important;
+    background:#eef9ff!important;
+    animation:feCurrentPulse 1.45s ease-in-out infinite;
+  }
+  .flow-current::after{
+    content:"現在";
+    position:absolute;top:-12px;right:8px;
+    padding:3px 7px;border-radius:999px;
+    background:var(--blue);color:#fff;
+    font-size:9px;font-weight:900;letter-spacing:.02em;
+    line-height:1.4;
+  }
+  .flow-done{
+    border-color:#b9e7a8!important;
+    background:#f5fff1!important;
+  }
+  .flow-done::before{
+    content:"✓";
+    position:absolute;left:8px;top:7px;
+    color:var(--green-dark);font-weight:1000;font-size:11px;
+  }
+  .flow-arrow-current{
+    color:var(--blue)!important;
+    font-weight:1000;
+    filter:drop-shadow(0 0 5px rgba(28,176,246,.38));
+  }
+
+  .sched-lane.flow-current{
+    border-radius:14px;padding:6px;
+    background:#eef9ff!important;
+  }
+  .sched-lane.flow-done{
+    border-radius:14px;padding:6px;
+    background:#f5fff1!important;
+  }
+  .sched-lane.flow-current::after,
+  .sched-lane.flow-done::before{
+    display:none;
+  }
+
+  .file-tree-row{
+    width:max-content;min-width:230px;
+    padding:5px 9px;border-radius:10px;
+    position:relative;
+  }
+  .file-tree-row.flow-current{
+    background:#eef9ff!important;
+    outline:2px solid var(--blue);
+  }
+  .file-tree-row.flow-done{
+    background:#f5fff1!important;
+  }
+
+  .fin-row.flow-current{
+    border-radius:12px;
+    outline:2px solid var(--blue);
+    outline-offset:2px;
+  }
+  .fin-row.flow-current::after{top:50%;right:10px;transform:translateY(-50%)}
+  .fin-row.flow-done::before{top:50%;transform:translateY(-50%)}
+
+  .test-level.flow-current,
+  .dev-step.flow-current{
+    transform:translateY(-2px);
+  }
+
+  .step-position-note{
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    margin:10px auto 0;color:#1679ad;font-size:11px;font-weight:900;
+  }
+  .step-position-dot{
+    width:9px;height:9px;border-radius:50%;background:var(--blue);
+    box-shadow:0 0 0 4px rgba(28,176,246,.13);
+    animation:feCurrentPulse 1.45s ease-in-out infinite;
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .flow-current,.step-position-dot{animation:none!important}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -5777,7 +5869,7 @@ const LESSONS = {
     pages:[
       {headline:'ファイルは階層構造で整理できる',copy:'ルートからフォルダを順にたどって目的のファイルへ到達します。',render:()=>fileTreeView(0)},
       {headline:'report.pdfまでたどる',copy:'home → user → docs → report.pdf の順に選んでください。',interactive:'filesystem'},
-      {headline:'絶対パスはルートから書く',copy:'この例なら /home/user/docs/report.pdf のように、ルートから対象までの位置を表せます。',render:()=>fileTreeView(4)},
+      {headline:'絶対パスはルートから書く',copy:'この例なら /home/user/docs/report.pdf のように、ルートから対象までの位置を表せます。',render:()=>fileTreeView(5)},
       {headline:'ミニチェック',copy:'ルート直下のhome、その下のuser、その下のmemo.txtを表す絶対パスは？',quiz:{options:['/home/user/memo.txt','home/user/memo.txt','../memo.txt','memo.txt/home'],answer:0,explain:'絶対パスはルートから順に階層を記述します。'}}
     ]
   },
@@ -5803,7 +5895,7 @@ const LESSONS = {
     title:'ウォーターフォールとアジャイル',cat:'ソフトウェア開発手法',skill:'マネジメント',
     pages:[
       {headline:'開発の進め方には特徴の違いがある',copy:'工程を順に固めて進めるウォーターフォールと、短い反復で価値を追加するアジャイルを比べます。',render:()=>devModelView('none')},
-      {headline:'2つのモデルを比較',copy:'下の2枚のカードを、①→②の順にタップして特徴を比べてください。',interactive:'devmodel'},
+      {headline:'2つのモデルを比較',copy:'2つのカードを見比べて、工程を順に進める方法と、短い反復を繰り返す方法の違いを確認してください。',render:()=>devModelView('both')},
       {headline:'変更への向き合い方が違う',copy:'どちらが常に優れているというより、要件の安定性やプロジェクト特性に応じて選びます。',render:()=>devModelView('both')},
       {headline:'ミニチェック',copy:'短い期間で設計・実装・テストを繰り返し、段階的に価値を追加する考え方に近いのは？',quiz:{options:['アジャイル開発','ウォーターフォール','バックアップ','監査'],answer:0,explain:'アジャイルでは短い反復を繰り返しながら、利用者のフィードバックも取り入れて改善します。'}}
     ]
@@ -5849,7 +5941,7 @@ const LESSONS = {
     pages:[
       {headline:'現実世界の情報をデジタルへつなぐ',copy:'温度センサの値をネットワーク経由でクラウドへ送り、条件に応じて空調を動かす例です。',render:()=>iotView(0)},
       {headline:'データの流れを進める',copy:'1 STEPずつ、センサ → ネットワーク → クラウド → アクチュエータの順に進めてください。',interactive:'iot'},
-      {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(3)},
+      {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(4)},
       {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
     ]
   },
@@ -5869,7 +5961,7 @@ const LESSONS = {
     pages:[
       {headline:'OSはハードウェアとアプリの仲介役',copy:'CPU・メモリ・入出力装置などの資源を管理し、複数のプログラムが使えるよう調整します。',render:()=>scheduleView(0)},
       {headline:'CPUを順番に割り当ててみる',copy:'P1・P2・P3へ1タイムスライスずつCPUを割り当てます。3回進めてください。',interactive:'os'},
-      {headline:'短時間ずつ切り替えることで複数処理を進められる',copy:'実際にはスケジューリング方式によって優先度や待ち時間の考え方が異なりますが、OSがCPU利用を調整する点が重要です。',render:()=>scheduleView(3)},
+      {headline:'短時間ずつ切り替えることで複数処理を進められる',copy:'実際にはスケジューリング方式によって優先度や待ち時間の考え方が異なりますが、OSがCPU利用を調整する点が重要です。',render:()=>scheduleView(4)},
       {headline:'ミニチェック',copy:'OSの役割として最も適切なのは？',quiz:{options:['CPUやメモリなどの資源を管理する','必ずWebページを作成する','データベース表を保存する','LANケーブルの長さを決める'],answer:0,explain:'OSはCPU・メモリ・入出力などのコンピュータ資源を管理し、アプリケーションの実行環境を提供します。'}}
     ]
   },
@@ -6314,14 +6406,17 @@ function memoryView(mode){
   return `<div class="memory-grid">${data.map((x,i)=>`<div class="mem-card ${mode==='all'||mode===String(i)?'active':''}"><div class="mem-icon">${x[0]}</div><div class="mem-title">${x[1]}</div><div class="mem-props">${mode==='all'||mode===String(i)?`${x[2]}<br>${x[3]}`:'特徴を確認'}</div></div>`).join('')}</div>`;
 }
 function fileTreeView(active){
-  const nodes=['/','home/','user/','docs/','report.pdf'];
-  return `<div class="file-tree">
-    <div><span class="file-node ${active>=0?'active':''}">/</span></div>
-    <div>└─ <span class="file-node ${active>=1?'active':''}">home/</span></div>
-    <div>&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=2?'active':''}">user/</span></div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=3?'active':''}">docs/</span></div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=4?'active':''}">report.pdf</span></div>
-  </div>${active>=4?'<div class="path-box">/home/user/docs/report.pdf</div>':''}`;
+  const nodes=[
+    ['','/'],
+    ['└─ ','home/'],
+    ['&nbsp;&nbsp;&nbsp;└─ ','user/'],
+    ['&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ ','docs/'],
+    ['&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ ','report.pdf']
+  ];
+  const current=Math.min(active,5);
+  return `<div class="file-tree">${nodes.map((x,i)=>`<div class="file-tree-row ${flowState(i,current,5)}">${x[0]}<span class="file-node ${i<=active?'active':''}">${x[1]}</span></div>`).join('')}</div>
+    ${current<5?stepPositionNote(`現在：${nodes[current][1]}`):stepPositionNote('目的のファイルまで到達しました')}
+    ${active>=4?'<div class="path-box">/home/user/docs/report.pdf</div>':''}`;
 }
 function uiView(good){
   return `<div class="ui-mock"><div class="ui-toolbar"><span class="ui-dot"></span><span class="ui-dot"></span><span class="ui-dot"></span></div>
@@ -6375,27 +6470,47 @@ function swotView(active){
   const cells=[['S','Strength','強み・内部'],['W','Weakness','弱み・内部'],['O','Opportunity','機会・外部'],['T','Threat','脅威・外部']];
   return `<div class="swot-grid">${cells.map((x,i)=>`<div class="swot-cell ${active>i?'active':''}"><div class="swot-letter">${x[0]}</div><div class="swot-name">${x[1]}</div><div>${active>i?x[2]:'？'}</div></div>`).join('')}</div>`;
 }
+
+function flowState(index,current,total){
+  if(current>=total) return 'flow-done';
+  if(index<current) return 'flow-done';
+  if(index===current) return 'flow-current';
+  return '';
+}
+function flowArrowState(index,current,total){
+  if(current>=total) return 'flow-arrow-current';
+  return index===current ? 'flow-arrow-current' : '';
+}
+function stepPositionNote(label){
+  return `<div class="step-position-note"><span class="step-position-dot"></span>${label}</div>`;
+}
+
 function iotView(step){
   const cards=[['🌡️','センサ','温度を取得'],['📡','ネットワーク','データ送信'],['☁️','クラウド','判断・蓄積'],['❄️','アクチュエータ','空調をON']];
-  return `<div class="diagram-scroll"><div class="iot-flow">${cards.map((x,i)=>`${i?'<div aria-hidden="true" class="iot-arrow">→</div>':''}<div class="iot-card ${step>=i?'active':''}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div></div>`;
+  const current=Math.min(step,4);
+  return `<div class="diagram-scroll"><div class="iot-flow">${cards.map((x,i)=>`${i?`<div aria-hidden="true" class="iot-arrow ${i===current?'flow-arrow-current':''}">→</div>`:''}<div class="iot-card ${flowState(i,current,4)}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div></div>
+    ${current<4?stepPositionNote(`現在：${cards[current][1]}`):stepPositionNote('流れをすべて確認しました')}`;
 }
 function financeView(step){
   return `<div class="finance-table">
     <div class="fin-row"><span>売上高</span><span class="fin-value">1,000</span></div>
     <div class="fin-row"><span>－ 売上原価</span><span class="fin-value">600</span></div>
-    <div class="fin-row total"><span>売上総利益</span><span class="fin-value ${step>=1?'fin-highlight':''}">${step>=1?'400':'?'}</span></div>
+    <div class="fin-row total ${step===0?'flow-current':step>0?'flow-done':''}"><span>売上総利益</span><span class="fin-value ${step>=1?'fin-highlight':''}">${step>=1?'400':'?'}</span></div>
     <div class="fin-row"><span>－ 販売費及び一般管理費</span><span class="fin-value">250</span></div>
-    <div class="fin-row total"><span>営業利益</span><span class="fin-value ${step>=2?'fin-highlight':''}">${step>=2?'150':'?'}</span></div>
-  </div>`;
+    <div class="fin-row total ${step===1?'flow-current':step>=2?'flow-done':''}"><span>営業利益</span><span class="fin-value ${step>=2?'fin-highlight':''}">${step>=2?'150':'?'}</span></div>
+  </div>${step<2?stepPositionNote(step===0?'現在：売上総利益を求める':'現在：営業利益を求める'):stepPositionNote('利益計算をすべて確認しました')}`;
 }
 
 function scheduleView(step){
   const labels=['P1','P2','P3'];
+  const current=step===0?0:Math.min(step-1,2);
+  const allDone=step>=4;
   return `<div>${labels.map((p,i)=>`
-    <div class="sched-lane">
+    <div class="sched-lane ${allDone?'flow-done':i<current?'flow-done':i===current?'flow-current':''}">
       <div class="sched-name">${p}</div>
       <div class="sched-bar">${[0,1,2].map(s=>`<div class="cpu-slice ${s<step&&s%3===i?'active':''}">${s%3===i&&s<step?'CPU':''}</div>`).join('')}</div>
     </div>`).join('')}</div>
+    ${allDone?stepPositionNote('3プロセスへの割当てを確認しました'):stepPositionNote(`現在：${labels[current]}`)}
     <div class="lesson-copy" style="margin-top:12px">CPUを短い時間単位で複数プロセスへ割り当てるイメージです。</div>`;
 }
 function reliabilityView(mode){
@@ -6427,11 +6542,19 @@ function backupView(mode){
 }
 function devPipeline(active){
   const items=[['要件定義','何を作る？'],['設計','どう作る？'],['実装','コード化'],['テスト','確認'],['移行','利用開始']];
-  return `<div class="dev-pipeline">${items.map((x,i)=>`<div class="dev-step ${active>i?'active':''}"><div>${x[0]}</div><div class="small">${x[1]}</div></div>`).join('')}</div>`;
+  const current=Math.min(active,5);
+  return `<div class="dev-pipeline">${items.map((x,i)=>`<div class="dev-step ${flowState(i,current,5)}"><div>${x[0]}</div><div class="small">${x[1]}</div></div>`).join('')}</div>
+    ${current<5?stepPositionNote(`現在：${items[current][0]}`):stepPositionNote('開発工程をすべて確認しました')}`;
 }
 function testPyramid(active){
   const items=['受入テスト','システムテスト','結合テスト','単体テスト'];
-  return `<div class="test-pyramid">${items.map((x,i)=>`<div class="test-level ${active>=(4-i)?'active':''}">${x}</div>`).join('')}</div>`;
+  const current=Math.min(active,4);
+  return `<div class="test-pyramid">${items.map((x,i)=>{
+    const order=3-i;
+    const cls=current>=4?'flow-done':order<current?'flow-done':order===current?'flow-current':'';
+    return `<div class="test-level ${cls}">${x}</div>`;
+  }).join('')}</div>
+  ${current<4?stepPositionNote(`現在：${items[3-current]}`):stepPositionNote('4段階のテストをすべて確認しました')}`;
 }
 function criticalPathView(show){
   return `<div class="cp-network">
@@ -6527,13 +6650,15 @@ function protocolView(mode){
   </div>`;
 }
 function signatureView(active){
+  const labels=['文書をハッシュ','秘密鍵で署名','公開鍵で検証'];
+  const current=Math.min(active,3);
   return `<div class="signature-flow">
-    <div class="sig-card ${active>=1?'active':''}"><div style="font-size:28px">📄</div><b>文書をハッシュ</b><span class="sig-hash">A7C4...</span></div>
-    <div class="cpu-arrow">→</div>
-    <div class="sig-card ${active>=2?'active':''}"><div style="font-size:28px">✍️</div><b>秘密鍵で署名</b><div class="sub">署名データを作る</div></div>
-    <div class="cpu-arrow">→</div>
-    <div class="sig-card ${active>=3?'active':''}"><div style="font-size:28px">✅</div><b>公開鍵で検証</b><div class="sub">本人性・改ざん確認</div></div>
-  </div>`;
+    <div class="sig-card ${flowState(0,current,3)}"><div style="font-size:28px">📄</div><b>文書をハッシュ</b><span class="sig-hash">A7C4...</span></div>
+    <div class="cpu-arrow ${current===1?'flow-arrow-current':''}">→</div>
+    <div class="sig-card ${flowState(1,current,3)}"><div style="font-size:28px">✍️</div><b>秘密鍵で署名</b><div class="sub">署名データを作る</div></div>
+    <div class="cpu-arrow ${current===2?'flow-arrow-current':''}">→</div>
+    <div class="sig-card ${flowState(2,current,3)}"><div style="font-size:28px">✅</div><b>公開鍵で検証</b><div class="sub">本人性・改ざん確認</div></div>
+  </div>${current<3?stepPositionNote(`現在：${labels[current]}`):stepPositionNote('署名と検証の流れをすべて確認しました')}`;
 }
 function lockView(mode){
   const locked=mode==='locked';
@@ -6546,9 +6671,10 @@ function lockView(mode){
 
 function cpuFlow(active){
   const labels=[['📥','FETCH','命令を取り出す'],['🧠','DECODE','命令を解読'],['⚡','EXECUTE','命令を実行']];
+  const current=Math.min(active,3);
   return `<div class="cpu-flow">${
-    labels.map((x,i)=>`${i?'<div class="cpu-arrow">→</div>':''}<div class="cpu-box ${active===i+1||active===3?'active':''}"><div style="font-size:30px">${x[0]}</div><div>${x[1]}</div><div class="sub">${x[2]}</div></div>`).join('')
-  }</div>`;
+    labels.map((x,i)=>`${i?`<div class="cpu-arrow ${i===current?'flow-arrow-current':''}">→</div>`:''}<div class="cpu-box ${flowState(i,current,3)}"><div style="font-size:30px">${x[0]}</div><div>${x[1]}</div><div class="sub">${x[2]}</div></div>`).join('')
+  }</div>${current<3?stepPositionNote(`現在：${labels[current][1]}`):stepPositionNote('命令サイクルをすべて確認しました')}`;
 }
 function bankView(a,b,log){
   return `<div class="bank-grid">
@@ -6664,7 +6790,6 @@ const INTERACTION_GUIDES={
   filesystem:['「1 STEP」で進める','ルートからファイルまでパスをたどってください。'],
   uiux:['改善ボタンを押す','操作しやすいUIへ変化させてください。'],
   multimedia:['計算を表示','画素数とbit数からデータ量を確認してください。'],
-  devmodel:['2枚のカードを順にタップ','①ウォーターフォール → ②アジャイルの両方を押すと完了です。'],
   audit:['選択肢をタップ','監査担当として適切な立場を選んでください。'],
   businessprocess:['改善案をタップ','業務プロセスの変化を確認してください。'],
   procurement:['カードを確認','RFPに含める要素を順に確認してください。'],
@@ -6687,8 +6812,9 @@ function updateInteractionGuide(page){
   root.classList.remove('ready');
   if(page.interactive){
     const g=INTERACTION_GUIDES[page.interactive]||['下の操作部を使う','ボタンやカードを操作して変化を確認してください。'];
+    const sequential=['cpuCycle','signature','filesystem','iot','finance','os','development','testing'];
     document.getElementById('interactionGuideTitle').textContent='操作：'+g[0];
-    document.getElementById('interactionGuideText').textContent=g[1];
+    document.getElementById('interactionGuideText').textContent=g[1]+(sequential.includes(page.interactive)?' 青く光っている箇所が現在位置です。':'');
     root.style.display='flex';
   }else if(page.quiz){
     document.getElementById('interactionGuideTitle').textContent='回答：選択肢を1つタップ';
@@ -6764,7 +6890,7 @@ function renderInteractive(type,stage){
     document.getElementById('cpuStepBtn').addEventListener('click',()=>{
       cpuStep=Math.min(3,cpuStep+1);
       document.getElementById('cpuDynamic').innerHTML=cpuFlow(cpuStep);
-      const names=['','Fetch：命令を取り出しました。','Decode：命令の意味を解読しました。','Execute：命令を実行しました。'];
+      const names=['','Fetchが完了。次はDecodeです。','Decodeが完了。次はExecuteです。','Executeまで完了しました。'];
       showLessonFeedback(names[cpuStep]);
       if(cpuStep===3){
         lessonInteractiveDone=true;
@@ -6996,8 +7122,10 @@ function renderInteractive(type,stage){
     const draw=()=>{
       stage.innerHTML=`${fileTreeView(fileStep)}<div class="fsm-controls"><button class="purple-btn" id="fileNext">${fileStep<4?`次へ：${labels[fileStep+1]}`:'✓ 到達'}</button></div>`;
       const b=document.getElementById('fileNext');
-      if(fileStep>=4){b.disabled=true;lessonInteractiveDone=true;showLessonFeedback('✅ /home/user/docs/report.pdf に到達しました。');}
-      else b.onclick=()=>{fileStep++;draw();};
+      if(fileStep>=4){
+        stage.innerHTML=`${fileTreeView(5)}<div class="fsm-controls"><button class="purple-btn" disabled>✓ 到達</button></div>`;
+        lessonInteractiveDone=true;showLessonFeedback('✅ /home/user/docs/report.pdf に到達しました。');
+      }else b.onclick=()=>{fileStep++;draw();};
     };
     draw();
   }
@@ -7080,10 +7208,17 @@ function renderInteractive(type,stage){
   if(type==='iot'){
     stage.innerHTML=`<div id="iotDynamic">${iotView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="iotStepBtn">▶ 1 STEP</button></div>`;
     document.getElementById('iotStepBtn').onclick=()=>{
-      iotStep=Math.min(3,iotStep+1);document.getElementById('iotDynamic').innerHTML=iotView(iotStep);
-      const msgs=['','温度データをネットワークへ送りました。','クラウドで条件を判定しました。','アクチュエータが空調をONにしました。'];
+      iotStep=Math.min(4,iotStep+1);
+      document.getElementById('iotDynamic').innerHTML=iotView(iotStep);
+      const msgs=[
+        '',
+        'センサで取得した温度データをネットワークへ渡します。',
+        'ネットワーク経由でクラウドへデータが届きました。',
+        'クラウドで条件を判定し、アクチュエータへ指示します。',
+        'アクチュエータが空調をONにしました。'
+      ];
       showLessonFeedback(msgs[iotStep]);
-      if(iotStep===3){lessonInteractiveDone=true;document.getElementById('iotStepBtn').disabled=true;document.getElementById('iotStepBtn').textContent='✓ 完了';}
+      if(iotStep===4){lessonInteractiveDone=true;document.getElementById('iotStepBtn').disabled=true;document.getElementById('iotStepBtn').textContent='✓ 完了';}
     };
   }
 

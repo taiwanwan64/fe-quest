@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fe-quest-v22-1';
+const CACHE_NAME = 'fe-quest-v23-1';
 const APP_SHELL = [
   './',
   './index.html',
