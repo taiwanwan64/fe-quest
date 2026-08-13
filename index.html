@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v43</title>
+<title>FE QUEST PWA v44</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3607,6 +3607,28 @@
     main{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
   }
 
+
+  /* ===== v44: learning analytics ===== */
+  .analytics-open{margin-top:14px;width:100%;border:1px solid #c9d9e4;background:#f8fbfd;color:#17324a;border-radius:14px;padding:12px 14px;font-size:14px;font-weight:1000;cursor:pointer}
+  .analytics-open:hover{background:#f1f7fa}
+  .analytics-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+  .analytics-stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;text-align:center}
+  .analytics-stat span{display:block;font-size:14px;color:var(--muted);font-weight:900}.analytics-stat b{display:block;font-size:25px;margin:3px 0;color:#17324a}.analytics-stat small{display:block;font-size:14px;color:var(--muted)}
+  .analytics-note{font-size:14px;line-height:1.65;color:#5f7383;background:#f7f9fb;border:1px solid #e0e6ea;border-radius:14px;padding:11px 13px;margin-bottom:14px}
+  .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.analytics-grid-top{margin-top:0}
+  .analytics-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:12px}.analytics-grid .analytics-card{margin-top:0}
+  .analytics-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.analytics-card h2{font-size:19px;margin:0 0 3px}.analytics-total{font-size:22px;font-weight:1000;color:#2782ad;white-space:nowrap}.analytics-legend{font-size:14px;color:var(--muted);font-weight:900}
+  .analytics-heatmap{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}.analytics-day{aspect-ratio:1;border-radius:7px;background:#edf1f4;position:relative;min-height:25px}.analytics-day.lv1{background:#dff3e0}.analytics-day.lv2{background:#bfe6c1}.analytics-day.lv3{background:#8fd591}.analytics-day.lv4{background:#55bb59}.analytics-day.today{outline:2px solid #17324a;outline-offset:1px}.analytics-day[title]{cursor:default}
+  .analytics-heatmap-labels{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-top:8px}
+  .analytics-signal-list{display:grid;gap:9px}.analytics-signal{border:1px solid #e3e9ed;border-radius:14px;padding:11px 12px}.analytics-signal.good{background:#f3fbf4;border-color:#d0edcf}.analytics-signal.bad{background:#fff6f6;border-color:#f0d3d3}.analytics-signal.neutral{background:#f8fafb}.analytics-signal-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.analytics-signal-top b{font-size:15px}.analytics-delta{font-size:15px;font-weight:1000}.analytics-signal.good .analytics-delta{color:#33853b}.analytics-signal.bad .analytics-delta{color:#c84b4b}.analytics-signal p{font-size:14px;line-height:1.55;color:#5f7383;margin:5px 0 0}
+  .analytics-category-list{display:grid;gap:9px}.analytics-category-row{display:grid;grid-template-columns:120px minmax(140px,1fr) 84px 84px 82px;gap:10px;align-items:center;border-top:1px solid #edf1f3;padding-top:10px}.analytics-category-row:first-child{border-top:none;padding-top:0}.analytics-category-name{font-size:15px;font-weight:1000}.analytics-cat-bar{height:10px;background:#edf1f4;border-radius:999px;overflow:hidden}.analytics-cat-fill{height:100%;background:#42ad55;border-radius:999px}.analytics-cat-metric{font-size:14px;font-weight:900;text-align:right}.analytics-trend-chip{font-size:14px;font-weight:1000;text-align:center;padding:6px 8px;border-radius:999px;background:#f1f4f6}.analytics-trend-chip.up{background:#edf9ef;color:#31813a}.analytics-trend-chip.down{background:#fff0f0;color:#bb4242}.analytics-trend-chip.flat{background:#f1f4f6;color:#667887}
+  .analytics-stage-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}.analytics-stage{border:1px solid #e4e9ec;border-radius:13px;padding:9px;text-align:center}.analytics-stage b{display:block;font-size:20px}.analytics-stage span{font-size:14px;color:var(--muted)}
+  .analytics-stable-list{display:grid;gap:7px}.analytics-stable-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #edf1f3;padding-top:8px}.analytics-stable-item:first-child{border-top:none;padding-top:0}.analytics-stable-item b{font-size:14px}.analytics-stable-item span{font-size:14px;color:var(--muted)}
+  .analytics-format-list{display:grid;gap:10px}.analytics-format-row{display:grid;grid-template-columns:100px 1fr 68px;gap:9px;align-items:center}.analytics-format-name{font-size:14px;font-weight:1000}.analytics-format-bar{height:10px;background:#edf1f4;border-radius:999px;overflow:hidden}.analytics-format-fill{height:100%;background:#8150b3;border-radius:999px}.analytics-format-score{text-align:right;font-size:14px;font-weight:1000}.analytics-format-empty{font-size:14px;line-height:1.6;color:var(--muted);padding:10px 0}
+  .analytics-next{display:flex;align-items:flex-start;gap:12px;padding:13px;border-radius:15px;background:#f6f9fb;border:1px solid #dfe7eb}.analytics-next-icon{font-size:28px}.analytics-next b{display:block;font-size:16px;margin-bottom:4px}.analytics-next span{font-size:14px;line-height:1.65;color:#5f7383}.analytics-next button{margin-top:9px;border:none;background:#39a847;color:#fff;border-radius:11px;padding:9px 12px;font-size:14px;font-weight:1000;cursor:pointer}
+  @media(max-width:900px){.analytics-summary{grid-template-columns:1fr 1fr}.analytics-grid{grid-template-columns:1fr}.analytics-category-row{grid-template-columns:105px 1fr 72px 72px}.analytics-category-row .analytics-trend-chip{grid-column:2/5;justify-self:start}.analytics-heatmap{grid-template-columns:repeat(10,1fr)}}
+  @media(max-width:560px){.analytics-category-row{grid-template-columns:1fr 74px}.analytics-cat-bar{grid-column:1/3}.analytics-cat-metric{text-align:left}.analytics-category-row .analytics-trend-chip{grid-column:auto;justify-self:end}.analytics-heatmap{grid-template-columns:repeat(6,1fr)}.analytics-stage-grid{grid-template-columns:1fr 1fr}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3913,6 +3935,7 @@
             <h2>今週の学習</h2>
             <div class="sub">この端末で記録した学習時間です。</div>
             <div class="week-chart" id="weekChart"></div>
+            <button class="analytics-open" data-screen="history">学習分析を詳しく見る →</button>
           </div>
 
           <div class="planner-card">
@@ -3984,6 +4007,59 @@
             <button class="planner-save" id="startForecastReview" style="margin-top:14px">今日の復習を始める</button>
           </div>
         </div>
+      </div>
+    </section>
+
+
+    <!-- LEARNING ANALYTICS -->
+    <section id="history" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="plan">←</button>
+        <div><h1>学習分析 📈</h1><div class="sub">学習量だけでなく、伸び・停滞・定着・科目Bの得意な問題形式まで確認します。</div></div>
+      </div>
+
+      <div class="analytics-summary" id="analyticsSummary">
+        <div class="analytics-stat"><span>直近7日</span><b id="analytics7Min">0分</b><small>記録学習時間</small></div>
+        <div class="analytics-stat"><span>直近30日</span><b id="analytics30Days">0日</b><small>学習した日数</small></div>
+        <div class="analytics-stat"><span>定着</span><b id="analyticsStable">0</b><small>復習ルート完了</small></div>
+        <div class="analytics-stat"><span>進行中</span><b id="analyticsActiveRoutes">0</b><small>復習ルート</small></div>
+      </div>
+      <div class="analytics-note">記録学習時間は、今日のクエストで完了した学習項目に割り当てた時間を集計したものです。実際の経過時間そのものではありません。</div>
+
+      <div class="analytics-grid analytics-grid-top">
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>30日間の学習</h2><div class="sub">濃い日ほど記録学習時間が長い日です。</div></div><div class="analytics-total" id="analytics30Min">0分</div></div>
+          <div class="analytics-heatmap" id="analyticsHeatmap"></div>
+        </div>
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>最近の変化</h2><div class="sub">直近の回答と、その前の回答を分野ごとに比較します。</div></div></div>
+          <div class="analytics-signal-list" id="analyticsSignals"></div>
+        </div>
+      </div>
+
+      <div class="analytics-card">
+        <div class="analytics-card-head">
+          <div><h2>8分野の現在地</h2><div class="sub">累積正答率・習熟度・最近の変化を並べて確認します。</div></div>
+          <div class="analytics-legend">↑ 改善　→ 横ばい　↓ 要注意</div>
+        </div>
+        <div class="analytics-category-list" id="analyticsCategories"></div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>復習で定着した論点 🔁</h2><div class="sub">教材→類題→後日復習を完了した論点です。</div></div><div class="analytics-total" id="analyticsStableTotal">0</div></div>
+          <div class="analytics-stage-grid" id="analyticsJourneyStages"></div>
+          <div class="analytics-stable-list" id="analyticsStableList"></div>
+        </div>
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>科目B・形式別成績 💻</h2><div class="sub">実戦履歴から、どの読み方が得意かを集計します。</div></div></div>
+          <div class="analytics-format-list" id="analyticsBFormats"></div>
+        </div>
+      </div>
+
+      <div class="analytics-card">
+        <div class="analytics-card-head"><div><h2>次に伸ばすポイント</h2><div class="sub">現在のデータから、優先度の高い1つを提案します。</div></div></div>
+        <div class="analytics-next" id="analyticsNext"></div>
       </div>
     </section>
 
@@ -5320,6 +5396,7 @@ const navBtns = [...document.querySelectorAll('.nav-btn[data-screen]')];
 function showScreen(id){
   screens.forEach(s => s.classList.toggle('active', s.id === id));
   navBtns.forEach(b => b.classList.toggle('active', b.dataset.screen === id));
+  if(id==='history' && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -9329,6 +9406,7 @@ refreshProfileUI = function(){
   ensureQuestionProfile();
   updateDueCount();
   renderRecentHistory();
+  if(document.getElementById('history')?.classList.contains('active') && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
 };
 refreshProfileUI();
 openProblemsHub();
@@ -14457,6 +14535,119 @@ roadmapData=function(){
   return data;
 };
 
+
+
+
+// ===== v44: learning history analytics =====
+const ANALYTICS_CATEGORIES=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
+
+function analyticsDateMinus(days){return localDateISO(-days)}
+function analyticsMinutes(days){
+  let total=0;
+  for(let i=0;i<days;i++) total+=Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0);
+  return total;
+}
+function analyticsActiveDays(days){
+  let n=0;for(let i=0;i<days;i++)if(Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0)>0)n++;return n;
+}
+function analyticsAttemptStream(){
+  const rows=[];
+  (profile.sessions||[]).forEach((s,si)=>(s.log||[]).forEach((x,li)=>rows.push({date:s.date,cat:x.cat,ok:!!x.ok,order:si*100+li,source:'session'})));
+  (profile.mockHistory||[]).forEach((h,hi)=>(h.details||[]).forEach((d,di)=>{
+    const q=QUESTION_BANK.find(x=>x.id===d.id);if(!q)return;
+    rows.push({date:h.date,cat:q.cat,ok:d.answerIndex!==null&&d.answerIndex===d.correctIndex,order:hi*100+di+50000,source:'mock'});
+  }));
+  return rows.sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.order-b.order);
+}
+function analyticsTrend(cat){
+  const rows=analyticsAttemptStream().filter(x=>x.cat===cat);
+  const recent=rows.slice(0,10),previous=rows.slice(10,20);
+  if(recent.length<3||previous.length<3)return {delta:null,recent:null,previous:null,n:rows.length};
+  const pct=a=>Math.round(a.filter(x=>x.ok).length/a.length*100);
+  const r=pct(recent),p=pct(previous);return {delta:r-p,recent:r,previous:p,n:rows.length};
+}
+function analyticsCategorySnapshot(cat){
+  let attempts=0,correct=0;
+  QUESTION_BANK.filter(q=>q.cat===cat).forEach(q=>{const s=profile.qStats?.[q.id];if(s){attempts+=s.attempts||0;correct+=s.correct||0}});
+  const accuracy=attempts?Math.round(correct/attempts*100):null;
+  return {cat,attempts,accuracy,mastery:Math.round(profile.skills?.[cat]??50),trend:analyticsTrend(cat)};
+}
+function analyticsTrendClass(delta){return delta==null?'flat':delta>=8?'up':delta<=-8?'down':'flat'}
+function analyticsTrendText(t){
+  if(t.delta==null)return 'データ待ち';
+  if(t.delta>=8)return `↑ +${t.delta}pt`;
+  if(t.delta<=-8)return `↓ ${t.delta}pt`;
+  return `→ ${t.delta>0?'+':''}${t.delta}pt`;
+}
+function renderAnalyticsHeatmap(){
+  const root=document.getElementById('analyticsHeatmap');if(!root)return;
+  const vals=[];for(let i=29;i>=0;i--)vals.push({date:analyticsDateMinus(i),min:Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0)});
+  const max=Math.max(1,...vals.map(x=>x.min));
+  root.innerHTML=vals.map(x=>{const ratio=x.min/max;const lv=x.min<=0?'':ratio<=.25?'lv1':ratio<=.5?'lv2':ratio<=.75?'lv3':'lv4';return `<div class="analytics-day ${lv} ${x.date===localDateISO(0)?'today':''}" title="${x.date}：${x.min}分"></div>`}).join('')+`<div class="analytics-heatmap-labels" style="grid-column:1/-1"><span>${vals[0].date.slice(5)}</span><span>今日</span></div>`;
+}
+function renderAnalyticsSignals(snaps){
+  const root=document.getElementById('analyticsSignals');if(!root)return;
+  const usable=snaps.filter(x=>x.trend.delta!=null);
+  if(!usable.length){root.innerHTML='<div class="analytics-signal neutral"><div class="analytics-signal-top"><b>比較データを集めています</b><span class="analytics-delta">—</span></div><p>同じ分野で20回答ほど蓄積すると、直近10回答とその前10回答を比較して伸びを表示します。</p></div>';return;}
+  const best=[...usable].sort((a,b)=>b.trend.delta-a.trend.delta)[0],worst=[...usable].sort((a,b)=>a.trend.delta-b.trend.delta)[0];
+  let cards=[];
+  if(best.trend.delta>0)cards.push(`<div class="analytics-signal good"><div class="analytics-signal-top"><b>📈 伸び：${best.cat}</b><span class="analytics-delta">+${best.trend.delta}pt</span></div><p>直近10回答 ${best.trend.recent}% ← その前 ${best.trend.previous}%</p></div>`);
+  if(worst.trend.delta<0)cards.push(`<div class="analytics-signal bad"><div class="analytics-signal-top"><b>🔎 要注意：${worst.cat}</b><span class="analytics-delta">${worst.trend.delta}pt</span></div><p>直近10回答 ${worst.trend.recent}% ← その前 ${worst.trend.previous}%</p></div>`);
+  if(!cards.length)cards.push('<div class="analytics-signal neutral"><div class="analytics-signal-top"><b>→ 最近は安定</b><span class="analytics-delta">横ばい</span></div><p>比較可能な分野では、大きな上昇・低下は見られません。</p></div>');
+  root.innerHTML=cards.join('');
+}
+function renderAnalyticsCategories(snaps){
+  const root=document.getElementById('analyticsCategories');if(!root)return;
+  root.innerHTML=snaps.map(x=>{const acc=x.accuracy==null?'—':`${x.accuracy}%`,bar=x.accuracy==null?x.mastery:x.accuracy,tc=analyticsTrendClass(x.trend.delta);return `<div class="analytics-category-row"><div class="analytics-category-name">${x.cat}</div><div class="analytics-cat-bar"><div class="analytics-cat-fill" style="width:${bar}%"></div></div><div class="analytics-cat-metric">正答 ${acc}</div><div class="analytics-cat-metric">習熟 ${x.mastery}%</div><div class="analytics-trend-chip ${tc}">${analyticsTrendText(x.trend)}</div></div>`}).join('');
+}
+function analyticsJourneyCounts(){
+  const js=Object.values(profile.reviewJourneys||{}),count=stage=>js.filter(j=>j.stage===stage).length;
+  return {relearn:count('relearn'),verify:count('verify'),spaced:count('spaced'),stable:count('stable')};
+}
+function renderAnalyticsJourneys(){
+  const counts=analyticsJourneyCounts();
+  document.getElementById('analyticsStableTotal').textContent=counts.stable;
+  const stage=document.getElementById('analyticsJourneyStages');if(stage)stage.innerHTML=`<div class="analytics-stage"><b>${counts.relearn}</b><span>教材</span></div><div class="analytics-stage"><b>${counts.verify}</b><span>類題</span></div><div class="analytics-stage"><b>${counts.spaced}</b><span>後日待ち</span></div><div class="analytics-stage"><b>${counts.stable}</b><span>定着</span></div>`;
+  const stable=Object.values(profile.reviewJourneys||{}).filter(j=>j.stage==='stable').sort((a,b)=>String(b.completedAt||'').localeCompare(String(a.completedAt||''))).slice(0,6);
+  const list=document.getElementById('analyticsStableList');if(list)list.innerHTML=stable.length?stable.map(j=>`<div class="analytics-stable-item"><b>${escapeHtml(j.concept)}</b><span>${escapeHtml(j.completedAt||'定着')}</span></div>`).join(''):'<div class="analytics-format-empty">まだ定着まで完了した復習ルートはありません。</div>';
+}
+function analyticsBFormatRows(){
+  const map={};const add=(name,ok)=>{if(!name)return;if(!map[name])map[name]={name,total:0,correct:0};map[name].total++;if(ok)map[name].correct++};
+  // Algorithm mini mock: all questions are intermediate-state prediction.
+  (profile.bMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add('途中状態',!!d.ok)));
+  // Compound challenge stores the question kind in v36+ history.
+  (profile.bCompoundHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.kind||'処理結果',!!d.ok)));
+  // Full Subject-B practice already stores normalized format names.
+  (profile.bFinalHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.format||(d.kind==='security'?'ケース判断':'処理結果'),!!d.ok)));
+  // Security mini mock: infer log-reading vs scenario judgment from its source scenario.
+  (profile.securityMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>{const s=SECURITY_SCENARIOS.find(x=>x.id===d.scenarioId);add(s?.log?'ログ読解':'ケース判断',!!d.ok)}));
+  return Object.values(map).sort((a,b)=>b.total-a.total);
+}
+function renderAnalyticsBFormats(){
+  const root=document.getElementById('analyticsBFormats');if(!root)return;const rows=analyticsBFormatRows();
+  if(!rows.length){root.innerHTML='<div class="analytics-format-empty">科目Bの実戦モードを解くと、途中状態・空欄補充・ケース判断などの形式別正答率を表示します。</div>';return;}
+  root.innerHTML=rows.map(x=>{const pct=Math.round(x.correct/x.total*100);return `<div class="analytics-format-row"><div class="analytics-format-name">${escapeHtml(x.name)}</div><div class="analytics-format-bar"><div class="analytics-format-fill" style="width:${pct}%"></div></div><div class="analytics-format-score">${pct}% (${x.correct}/${x.total})</div></div>`}).join('');
+}
+function renderAnalyticsNext(snaps){
+  const root=document.getElementById('analyticsNext');if(!root)return;
+  const active=activeReviewJourneys();
+  if(active.length){const j=active[0];root.innerHTML=`<div class="analytics-next-icon">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button id="analyticsNextAction">復習を続ける →</button></div>`;document.getElementById('analyticsNextAction').onclick=()=>startJourneyAction(j.id);return;}
+  const attempted=snaps.filter(x=>x.attempts>=3&&x.accuracy!=null);
+  if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accuracy-b.accuracy||a.mastery-b.mastery)[0];root.innerHTML=`<div class="analytics-next-icon">🎯</div><div><b>${weak.cat}を10問で確認</b><span>累積正答率 ${weak.accuracy}%・習熟度 ${weak.mastery}%です。現在もっとも確認効果が高い分野です。</span><button id="analyticsNextAction">苦手画面で確認 →</button></div>`;document.getElementById('analyticsNextAction').onclick=()=>showScreen('weak');return;}
+  root.innerHTML='<div class="analytics-next-icon">🌱</div><div><b>まず演習データを集める</b><span>まだ分析に必要な回答数が少ないため、今日のクエストやランダム問題を進めると分析精度が上がります。</span></div>';
+}
+function renderLearningAnalytics(){
+  ensureQuestionProfile();
+  const seven=analyticsMinutes(7),thirty=analyticsMinutes(30),days=analyticsActiveDays(30),journeys=analyticsJourneyCounts();
+  document.getElementById('analytics7Min').textContent=`${seven}分`;
+  document.getElementById('analytics30Min').textContent=`${thirty}分`;
+  document.getElementById('analytics30Days').textContent=`${days}日`;
+  document.getElementById('analyticsStable').textContent=journeys.stable;
+  document.getElementById('analyticsActiveRoutes').textContent=journeys.relearn+journeys.verify+journeys.spaced;
+  renderAnalyticsHeatmap();
+  const snaps=ANALYTICS_CATEGORIES.map(analyticsCategorySnapshot);
+  renderAnalyticsSignals(snaps);renderAnalyticsCategories(snaps);renderAnalyticsJourneys();renderAnalyticsBFormats();renderAnalyticsNext(snaps);
+}
 
 
 // ===== v15: deep weakness analytics =====

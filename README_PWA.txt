@@ -1,22 +1,26 @@
-FE QUEST PWA v43
+FE QUEST PWA v44
 
-APP-WIDE READABILITY AUDIT
+LEARNING ANALYTICS
 
-Minimum visible text size: 14px.
-All explicit font sizes below 14px were raised to 14px across lessons, problems, Subject B, security, review, navigation, logs and helper text.
-<small> elements are also fixed at 14px.
-Mobile bottom navigation spacing was enlarged to accommodate readable labels.
+③ 学習履歴の可視化を追加。
 
-FE QUEST PWA v41
+学習計画 -> 「学習分析を詳しく見る」から開く。
 
-ALL LESSON UX AUDIT
-- 34/34 lessons reviewed
-- 96 lesson pages retained
-- lesson typography floor raised
-- duplicate completion explanations removed
-- filesystem interaction made meaningful
-- automata sequential UI simplified
-- cache and stack/queue equal-choice controls standardized
-- transaction and mutex v40 smart status/action UI retained
-- first-page overview rule retained
-- Subject A/B content and progress compatibility retained
+表示内容:
+- 直近7日の記録学習時間
+- 直近30日の学習日数 / 30日ヒートマップ
+- 8分野の累積正答率 / 習熟度 / 最近の変化
+- 最近伸びた分野 / 要注意分野
+- 復習ルートの進捗と定着した論点
+- 科目Bの設問形式別正答率
+- 次に伸ばすポイント
+
+最近の変化:
+各分野について直近10回答と、その前10回答を比較。
+双方3回答以上ない場合は「データ待ち」とする。
+
+記録学習時間:
+実測時間ではなく、今日のクエストで完了したタスクに割り当てた学習時間の集計。
+
+文字サイズ:
+v43の14px最小ルールを維持。
