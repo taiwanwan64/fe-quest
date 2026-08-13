@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v30</title>
+<title>FE QUEST PWA v31</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3089,6 +3089,55 @@
     .mock-blueprint-head{align-items:flex-start}
   }
 
+
+  /* ===== v31: Subject B curriculum expansion ===== */
+  .b-learning-path{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;gap:8px;align-items:center;margin:0 0 14px}
+  .b-path-step{min-height:67px;border:1px solid var(--line);border-radius:16px;padding:11px 13px;background:#fff}
+  .b-path-step b{display:block;font-size:12px}
+  .b-path-step span{display:block;font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .b-path-step.basic{border-color:#cce8bd;background:#f8fff4}
+  .b-path-step.standard{border-color:#f0dfaf;background:#fffaf0}
+  .b-path-step.advanced{border-color:#ead2d2;background:#fff7f7}
+  .b-path-arrow{text-align:center;color:#9aabb8;font-size:20px}
+
+  .b-filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+  .b-filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:900;font-size:11px;color:var(--muted);cursor:pointer}
+  .b-filter.active{background:var(--purple);border-color:var(--purple);color:#fff}
+
+  .trace-matrix{display:grid;gap:7px;justify-content:center}
+  .trace-matrix-row{display:flex;gap:7px}
+  .trace-matrix-cell{width:52px;height:48px;border:2px solid var(--line);border-radius:12px;background:#fff;display:grid;place-items:center;font-weight:900;position:relative}
+  .trace-matrix-cell.focus{border-color:var(--purple);background:var(--purple-soft);box-shadow:0 0 0 4px rgba(143,74,218,.08)}
+  .trace-matrix-index{position:absolute;right:3px;bottom:2px;font-size:8px;color:var(--muted)}
+
+  .trace-queue{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+  .trace-queue-item{min-width:48px;padding:10px;border:2px solid var(--line);background:#fff;border-radius:12px;text-align:center;font-weight:900}
+  .trace-queue-label{text-align:center;font-size:9px;color:var(--muted);margin-bottom:6px;font-weight:900}
+
+  .trace-list{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+  .trace-list-node{min-width:74px;border:2px solid var(--line);border-radius:13px;background:#fff;padding:9px;text-align:center;position:relative}
+  .trace-list-node.current{border-color:var(--purple);background:var(--purple-soft);box-shadow:0 0 0 4px rgba(143,74,218,.08)}
+  .trace-list-node.visited{border-color:#bfe4a8;background:#f7fff3}
+  .trace-list-arrow{font-size:18px;color:#9aabb8}
+  .trace-node-id{font-size:9px;color:var(--muted);font-weight:900}
+  .trace-node-value{font-size:18px;font-weight:1000}
+
+  .trace-bits{max-width:390px;margin:0 auto;display:grid;gap:7px}
+  .trace-bit-row{display:grid;grid-template-columns:74px 1fr;align-items:center;gap:8px}
+  .trace-bit-label{font-size:10px;font-weight:900;color:var(--muted);text-align:right}
+  .trace-bit-value{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:20px;font-weight:1000;letter-spacing:.18em;background:#111a25;color:#d8f1ff;border-radius:11px;padding:9px 12px;text-align:center}
+
+  .trace-object{max-width:320px;margin:0 auto;border:2px solid #dac5f1;border-radius:16px;background:#fbf8ff;padding:13px}
+  .trace-object-title{font-size:11px;font-weight:1000;color:#7542a6;margin-bottom:8px}
+  .trace-object-prop{display:flex;justify-content:space-between;gap:10px;background:#fff;border:1px solid #eadff4;border-radius:10px;padding:8px 10px;font-size:12px}
+  .trace-object-prop+.trace-object-prop{margin-top:6px}
+
+  @media(max-width:720px){
+    .b-learning-path{grid-template-columns:1fr}
+    .b-path-arrow{transform:rotate(90deg)}
+    .trace-matrix-cell{width:45px;height:43px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4091,7 +4140,7 @@
       <div id="bSelect" class="b-select">
         <div class="screen-head">
           <button class="back" data-screen="map">←</button>
-          <div><h1>科目B TRACE LAB 💻</h1><div class="sub">擬似コードを1行ずつ動かし、変数・配列・スタックの変化を追います。</div></div>
+          <div><h1>科目B TRACE LAB 💻</h1><div class="sub">擬似コードを1行ずつ追い、基礎から二次元配列・リスト・再帰まで段階的に鍛えます。</div></div>
         </div>
 
         <div class="b-mode-tabs">
@@ -4105,7 +4154,22 @@
             <div class="b-hero-title">TRACE TRAINING</div>
             <div class="sub">予測 → 次の行を実行 → 状態確認を繰り返して、頭の中でトレースする力を育てます。</div>
           </div>
-          <div class="b-hero-progress" id="bProgressText">0 / 6</div>
+          <div class="b-hero-progress" id="bProgressText">0 / 20</div>
+        </div>
+
+        <div class="b-learning-path">
+          <div class="b-path-step basic"><b>1 基礎</b><span>ループ・配列・キュー</span></div>
+          <div class="b-path-arrow">→</div>
+          <div class="b-path-step standard"><b>2 標準</b><span>探索・ソート・二次元配列</span></div>
+          <div class="b-path-arrow">→</div>
+          <div class="b-path-step advanced"><b>3 応用</b><span>木・リスト・再帰・複合処理</span></div>
+        </div>
+
+        <div class="b-filter-tabs" id="bFilterTabs">
+          <button class="b-filter active" data-bfilter="all">すべて</button>
+          <button class="b-filter" data-bfilter="基礎">基礎</button>
+          <button class="b-filter" data-bfilter="標準">標準</button>
+          <button class="b-filter" data-bfilter="応用">応用</button>
         </div>
 
         <div class="b-grid" id="bExerciseGrid"></div>
@@ -10071,7 +10135,239 @@ const B_EXERCISES = [
       {line:2,state:{node:'C',output:'A B D E C'},visited:['A','B','D','E','C'],stack:[],msg:'Cを出力して完了。'},
       {line:7,state:{node:'—',output:'A B D E C'},visited:['A','B','D','E','C'],stack:[],msg:'訪問順は A → B → D → E → C です。'}
     ]
+  },
+  {
+    id:'count_even', title:'偶数を数える', icon:'🔢', level:'基礎',
+    desc:'配列を走査し、条件に合う要素だけcountを増やします。', concept:'配列・条件分岐',
+    code:['data ← [3, 8, 11, 14, 20]','count ← 0','for i ← 0 to 4','    if data[i] mod 2 = 0','        count ← count + 1','    endif','endfor','count を出力する'],
+    array:[3,8,11,14,20],
+    steps:[
+      {line:0,state:{i:'—',count:'—'},focus:-1,msg:'5個の値を持つ配列です。'},
+      {line:1,state:{i:'—',count:0},focus:-1,msg:'countを0で開始。'},
+      {line:2,state:{i:0,count:0},focus:0,msg:'3を調べます。'},
+      {line:3,state:{i:0,count:0},focus:0,msg:'3は奇数なので更新しません。'},
+      {line:2,state:{i:1,count:0},focus:1,msg:'8を調べます。',predict:{q:'8は偶数です。更新後のcountは？',opts:['0','1','2'],a:1}},
+      {line:4,state:{i:1,count:1},focus:1,msg:'count=1。'},
+      {line:2,state:{i:2,count:1},focus:2,msg:'11は奇数。'},
+      {line:2,state:{i:3,count:1},focus:3,msg:'14は偶数。'},
+      {line:4,state:{i:3,count:2},focus:3,msg:'count=2。'},
+      {line:2,state:{i:4,count:2},focus:4,msg:'20は偶数。'},
+      {line:4,state:{i:4,count:3},focus:4,msg:'count=3。'},
+      {line:7,state:{i:4,count:3},focus:-1,msg:'偶数は3個です。'}
+    ]
+  },
+  {
+    id:'array_reverse', title:'配列を逆順にする', icon:'↔️', level:'標準',
+    desc:'末尾から読み取り、新しい配列へ順に追加します。', concept:'配列・逆順走査',
+    code:['data ← [1, 2, 3, 4, 5]','out ← 空の配列','for i ← 4 downto 0','    out の末尾に data[i] を追加','endfor','out を出力する'],
+    array:[1,2,3,4,5],
+    steps:[
+      {line:0,state:{i:'—',out:'[]'},focus:-1,msg:'元の配列です。'},
+      {line:1,state:{i:'—',out:'[]'},focus:-1,msg:'outは空です。'},
+      {line:2,state:{i:4,out:'[]'},focus:4,msg:'末尾から開始。'},
+      {line:3,state:{i:4,out:'[5]'},focus:4,msg:'5を追加。'},
+      {line:2,state:{i:3,out:'[5]'},focus:3,msg:'次は添字3。',predict:{q:'次に追加される値は？',opts:['2','3','4'],a:2}},
+      {line:3,state:{i:3,out:'[5,4]'},focus:3,msg:'4を追加。'},
+      {line:3,state:{i:2,out:'[5,4,3]'},focus:2,msg:'3を追加。'},
+      {line:3,state:{i:1,out:'[5,4,3,2]'},focus:1,msg:'2を追加。'},
+      {line:3,state:{i:0,out:'[5,4,3,2,1]'},focus:0,msg:'1を追加。'},
+      {line:5,state:{i:0,out:'[5,4,3,2,1]'},focus:-1,msg:'逆順配列が完成しました。'}
+    ]
+  },
+  {
+    id:'nested_loop', title:'二重ループ', icon:'🔁', level:'標準',
+    desc:'外側と内側のループの組合せを追います。', concept:'二重ループ・回数',
+    code:['count ← 0','for i ← 1 to 3','    for j ← 1 to 2','        count ← count + 1','    endfor','endfor','count を出力する'],
+    steps:[
+      {line:0,state:{i:'—',j:'—',count:0},msg:'count=0。'},
+      {line:1,state:{i:1,j:'—',count:0},msg:'i=1。'},
+      {line:2,state:{i:1,j:1,count:0},msg:'j=1。'},
+      {line:3,state:{i:1,j:1,count:1},msg:'count=1。'},
+      {line:3,state:{i:1,j:2,count:2},msg:'count=2。'},
+      {line:1,state:{i:2,j:'—',count:2},msg:'i=2へ。',predict:{q:'最終的なcountは？',opts:['5','6','9'],a:1}},
+      {line:3,state:{i:2,j:1,count:3},msg:'count=3。'},
+      {line:3,state:{i:2,j:2,count:4},msg:'count=4。'},
+      {line:1,state:{i:3,j:'—',count:4},msg:'i=3へ。'},
+      {line:3,state:{i:3,j:1,count:5},msg:'count=5。'},
+      {line:3,state:{i:3,j:2,count:6},msg:'count=6。'},
+      {line:6,state:{i:3,j:2,count:6},msg:'3×2=6回です。'}
+    ]
+  },
+  {
+    id:'binary_search_b', title:'二分探索トレース', icon:'🎯', level:'標準',
+    desc:'low・high・midを更新しながら探索範囲を半分にします。', concept:'二分探索・範囲更新',
+    code:['data ← [2, 5, 8, 12, 16, 21, 30]','target ← 21','low ← 0, high ← 6','while low ≤ high','    mid ← (low + high) div 2','    if data[mid] = target','        pos ← mid; break','    elseif data[mid] < target','        low ← mid + 1','    else','        high ← mid - 1','    endif','endwhile','pos を出力する'],
+    array:[2,5,8,12,16,21,30], target:21,
+    steps:[
+      {line:0,state:{low:'—',high:'—',mid:'—',pos:'—'},focus:-1,msg:'昇順配列です。'},
+      {line:2,state:{low:0,high:6,mid:'—',pos:'—'},focus:-1,msg:'探索範囲0〜6。'},
+      {line:4,state:{low:0,high:6,mid:3,pos:'—'},focus:3,msg:'mid=3、値は12。'},
+      {line:7,state:{low:0,high:6,mid:3,pos:'—'},focus:3,msg:'12<21なので右側へ。',predict:{q:'次のlowは？',opts:['3','4','5'],a:1}},
+      {line:8,state:{low:4,high:6,mid:3,pos:'—'},focus:3,msg:'low=4。'},
+      {line:4,state:{low:4,high:6,mid:5,pos:'—'},focus:5,msg:'mid=5、値は21。'},
+      {line:5,state:{low:4,high:6,mid:5,pos:'—'},focus:5,found:5,msg:'一致。'},
+      {line:6,state:{low:4,high:6,mid:5,pos:5},focus:5,found:5,msg:'pos=5。'},
+      {line:13,state:{low:4,high:6,mid:5,pos:5},focus:5,found:5,msg:'出力は5です。'}
+    ]
+  },
+  {
+    id:'bubble_sort_b', title:'バブルソート', icon:'🫧', level:'標準',
+    desc:'隣同士を比較し、大きい値を右へ送る1走査を追います。', concept:'ソート・交換',
+    code:['data ← [5, 1, 4, 2]','for i ← 0 to 2','    if data[i] > data[i+1]','        data[i] と data[i+1] を交換','    endif','endfor','data を出力する'],
+    array:[5,1,4,2],
+    steps:[
+      {line:0,state:{i:'—'},arrayState:[5,1,4,2],focus:-1,msg:'初期配列。'},
+      {line:1,state:{i:0},arrayState:[5,1,4,2],focus:0,msg:'5と1を比較。'},
+      {line:3,state:{i:0},arrayState:[1,5,4,2],focus:1,msg:'交換して[1,5,4,2]。'},
+      {line:1,state:{i:1},arrayState:[1,5,4,2],focus:1,msg:'5と4を比較。'},
+      {line:3,state:{i:1},arrayState:[1,4,5,2],focus:2,msg:'交換して[1,4,5,2]。',predict:{q:'最後に5と2を交換した後は？',opts:['[1,2,4,5]','[1,4,2,5]','[2,1,4,5]'],a:1}},
+      {line:1,state:{i:2},arrayState:[1,4,5,2],focus:2,msg:'5と2を比較。'},
+      {line:3,state:{i:2},arrayState:[1,4,2,5],focus:3,msg:'最大値5が右端へ。'},
+      {line:6,state:{i:2},arrayState:[1,4,2,5],focus:-1,msg:'1走査後です。'}
+    ]
+  },
+  {
+    id:'selection_sort_b', title:'選択ソート', icon:'🔽', level:'標準',
+    desc:'未整列部分から最小値を探し、先頭へ移動します。', concept:'ソート・最小値探索',
+    code:['data ← [4, 2, 5, 1]','minPos ← 0','for j ← 1 to 3','    if data[j] < data[minPos]','        minPos ← j','    endif','endfor','data[0] と data[minPos] を交換','data を出力する'],
+    array:[4,2,5,1],
+    steps:[
+      {line:0,state:{j:'—',minPos:'—'},arrayState:[4,2,5,1],focus:-1,msg:'初期配列。'},
+      {line:1,state:{j:'—',minPos:0},arrayState:[4,2,5,1],focus:0,msg:'最小候補は4。'},
+      {line:2,state:{j:1,minPos:0},arrayState:[4,2,5,1],focus:1,msg:'2<4。'},
+      {line:4,state:{j:1,minPos:1},arrayState:[4,2,5,1],focus:1,msg:'minPos=1。'},
+      {line:2,state:{j:2,minPos:1},arrayState:[4,2,5,1],focus:2,msg:'5<2は偽。'},
+      {line:2,state:{j:3,minPos:1},arrayState:[4,2,5,1],focus:3,msg:'1<2は真。',predict:{q:'最終的なminPosは？',opts:['1','2','3'],a:2}},
+      {line:4,state:{j:3,minPos:3},arrayState:[4,2,5,1],focus:3,msg:'minPos=3。'},
+      {line:7,state:{j:3,minPos:3},arrayState:[1,2,5,4],focus:0,msg:'4と1を交換。'},
+      {line:8,state:{j:3,minPos:3},arrayState:[1,2,5,4],focus:-1,msg:'1回目の選択後です。'}
+    ]
+  },
+  {
+    id:'matrix_sum', title:'二次元配列の合計', icon:'🧮', level:'標準',
+    desc:'行と列の二重ループで2×2行列の全要素を足します。', concept:'二次元配列・二重ループ',
+    code:['m ← [[1,2],[3,4]]','sum ← 0','for r ← 0 to 1','    for c ← 0 to 1','        sum ← sum + m[r][c]','    endfor','endfor','sum を出力する'],
+    matrix:[[1,2],[3,4]],
+    steps:[
+      {line:0,state:{r:'—',c:'—',sum:'—'},matrixFocus:null,msg:'2×2行列。'},
+      {line:1,state:{r:'—',c:'—',sum:0},matrixFocus:null,msg:'sum=0。'},
+      {line:4,state:{r:0,c:0,sum:1},matrixFocus:[0,0],msg:'1を加算。'},
+      {line:4,state:{r:0,c:1,sum:3},matrixFocus:[0,1],msg:'2を加算。'},
+      {line:4,state:{r:1,c:0,sum:6},matrixFocus:[1,0],msg:'3を加算。',predict:{q:'最後に4を加えたsumは？',opts:['8','9','10'],a:2}},
+      {line:4,state:{r:1,c:1,sum:10},matrixFocus:[1,1],msg:'4を加算。'},
+      {line:7,state:{r:1,c:1,sum:10},matrixFocus:null,msg:'合計は10。'}
+    ]
+  },
+  {
+    id:'matrix_find', title:'二次元配列から探索', icon:'🗺️', level:'応用',
+    desc:'行列を行優先で走査し、目的値の行・列を記録します。', concept:'二次元配列・探索',
+    code:['m ← [[2,4,6],[8,10,12]]','target ← 10','row ← -1, col ← -1','for r ← 0 to 1','    for c ← 0 to 2','        if m[r][c] = target','            row ← r; col ← c','        endif','    endfor','endfor','row, col を出力する'],
+    matrix:[[2,4,6],[8,10,12]],
+    steps:[
+      {line:0,state:{r:'—',c:'—',row:-1,col:-1},matrixFocus:null,msg:'2行3列。'},
+      {line:4,state:{r:0,c:0,row:-1,col:-1},matrixFocus:[0,0],msg:'2を確認。'},
+      {line:4,state:{r:0,c:1,row:-1,col:-1},matrixFocus:[0,1],msg:'4を確認。'},
+      {line:4,state:{r:0,c:2,row:-1,col:-1},matrixFocus:[0,2],msg:'6を確認。'},
+      {line:4,state:{r:1,c:0,row:-1,col:-1},matrixFocus:[1,0],msg:'8を確認。'},
+      {line:4,state:{r:1,c:1,row:-1,col:-1},matrixFocus:[1,1],msg:'10を確認。',predict:{q:'見つかった位置(row,col)は？',opts:['(0,1)','(1,0)','(1,1)'],a:2}},
+      {line:5,state:{r:1,c:1,row:-1,col:-1},matrixFocus:[1,1],msg:'一致。'},
+      {line:6,state:{r:1,c:1,row:1,col:1},matrixFocus:[1,1],msg:'row=1,col=1。'},
+      {line:10,state:{r:1,c:2,row:1,col:1},matrixFocus:null,msg:'出力は(1,1)。'}
+    ]
+  },
+  {
+    id:'queue_ops', title:'キュー操作', icon:'🚶', level:'基礎',
+    desc:'ENQUEUEとDEQUEUEでFIFOの動きを追います。', concept:'キュー・FIFO',
+    code:['queue ← 空','ENQUEUE(queue, 3)','ENQUEUE(queue, 5)','x ← DEQUEUE(queue)','ENQUEUE(queue, 7)','y ← DEQUEUE(queue)','x, y を出力する'],
+    steps:[
+      {line:0,state:{x:'—',y:'—'},queue:[],msg:'空のキュー。'},
+      {line:1,state:{x:'—',y:'—'},queue:[3],msg:'3を追加。'},
+      {line:2,state:{x:'—',y:'—'},queue:[3,5],msg:'5を追加。',predict:{q:'次のDEQUEUEで取り出す値は？',opts:['3','5','7'],a:0}},
+      {line:3,state:{x:3,y:'—'},queue:[5],msg:'先頭3を取り出す。'},
+      {line:4,state:{x:3,y:'—'},queue:[5,7],msg:'7を追加。'},
+      {line:5,state:{x:3,y:5},queue:[7],msg:'先頭5を取り出す。'},
+      {line:6,state:{x:3,y:5},queue:[7],msg:'x=3,y=5。'}
+    ]
+  },
+  {
+    id:'linked_list', title:'連結リストをたどる', icon:'🔗', level:'応用',
+    desc:'nextポインタでノードを順に移動し、値を合計します。', concept:'リスト・ポインタ',
+    code:['A(value=5,next=B)','B(value=7,next=C)','C(value=9,next=null)','p ← A, sum ← 0','while p ≠ null','    sum ← sum + p.value','    p ← p.next','endwhile','sum を出力する'],
+    list:[{id:'A',value:5},{id:'B',value:7},{id:'C',value:9}],
+    steps:[
+      {line:3,state:{p:'A',sum:0},currentNode:'A',visited:[],msg:'pはA。'},
+      {line:5,state:{p:'A',sum:5},currentNode:'A',visited:['A'],msg:'5を加算。'},
+      {line:6,state:{p:'B',sum:5},currentNode:'B',visited:['A'],msg:'Bへ。'},
+      {line:5,state:{p:'B',sum:12},currentNode:'B',visited:['A','B'],msg:'7を加算。',predict:{q:'Cも加算した最終sumは？',opts:['16','20','21'],a:2}},
+      {line:6,state:{p:'C',sum:12},currentNode:'C',visited:['A','B'],msg:'Cへ。'},
+      {line:5,state:{p:'C',sum:21},currentNode:'C',visited:['A','B','C'],msg:'9を加算。'},
+      {line:6,state:{p:'null',sum:21},currentNode:null,visited:['A','B','C'],msg:'nullへ到達。'},
+      {line:8,state:{p:'null',sum:21},currentNode:null,visited:['A','B','C'],msg:'出力は21。'}
+    ]
+  },
+  {
+    id:'bit_mask', title:'ビットマスク', icon:'🎛️', level:'標準',
+    desc:'AND演算で特定ビットが1かどうかを調べます。', concept:'ビット列・AND',
+    code:['x ← 1101₂','mask ← 0100₂','y ← x AND mask','if y ≠ 0000₂','    flag ← true','else','    flag ← false','endif','flag を出力する'],
+    steps:[
+      {line:0,state:{x:'1101',mask:'—',y:'—',flag:'—'},bits:{x:'1101'},msg:'x=1101₂。'},
+      {line:1,state:{x:'1101',mask:'0100',y:'—',flag:'—'},bits:{x:'1101',mask:'0100'},msg:'mask=0100₂。'},
+      {line:2,state:{x:'1101',mask:'0100',y:'0100',flag:'—'},bits:{x:'1101',mask:'0100',result:'0100'},msg:'AND結果は0100。',predict:{q:'yは0000ではありません。flagは？',opts:['true','false','未定義'],a:0}},
+      {line:3,state:{x:'1101',mask:'0100',y:'0100',flag:'—'},bits:{x:'1101',mask:'0100',result:'0100'},msg:'条件は真。'},
+      {line:4,state:{x:'1101',mask:'0100',y:'0100',flag:'true'},bits:{x:'1101',mask:'0100',result:'0100'},msg:'flag=true。'},
+      {line:8,state:{x:'1101',mask:'0100',y:'0100',flag:'true'},bits:{x:'1101',mask:'0100',result:'0100'},msg:'対象ビットは1。'}
+    ]
+  },
+  {
+    id:'object_counter', title:'オブジェクトの状態', icon:'📦', level:'標準',
+    desc:'メソッド呼出しでフィールドが変化する様子を追います。', concept:'オブジェクト・メソッド',
+    code:['class Counter','    value','    procedure inc()','        value ← value + 1','    endprocedure','endclass','c ← Counter(value=2)','c.inc()','c.inc()','c.value を出力する'],
+    objectName:'Counter c',
+    steps:[
+      {line:6,state:{value:2},object:{value:2},msg:'value=2で生成。'},
+      {line:7,state:{value:2},object:{value:2},msg:'1回目のinc()。'},
+      {line:3,state:{value:3},object:{value:3},msg:'value=3。'},
+      {line:8,state:{value:3},object:{value:3},msg:'2回目のinc()。',predict:{q:'更新後valueは？',opts:['3','4','5'],a:1}},
+      {line:3,state:{value:4},object:{value:4},msg:'value=4。'},
+      {line:9,state:{value:4},object:{value:4},msg:'出力は4。'}
+    ]
+  },
+  {
+    id:'gcd_euclid', title:'ユークリッド互除法', icon:'➗', level:'応用',
+    desc:'剰余を使って48と18の最大公約数を求めます。', concept:'反復・剰余',
+    code:['a ← 48, b ← 18','while b ≠ 0','    r ← a mod b','    a ← b','    b ← r','endwhile','a を出力する'],
+    steps:[
+      {line:0,state:{a:48,b:18,r:'—'},msg:'a=48,b=18。'},
+      {line:2,state:{a:48,b:18,r:12},msg:'48 mod 18=12。'},
+      {line:3,state:{a:18,b:18,r:12},msg:'a=18。'},
+      {line:4,state:{a:18,b:12,r:12},msg:'b=12。'},
+      {line:2,state:{a:18,b:12,r:6},msg:'18 mod 12=6。',predict:{q:'次の12 mod 6は？',opts:['0','2','6'],a:0}},
+      {line:3,state:{a:12,b:12,r:6},msg:'a=12。'},
+      {line:4,state:{a:12,b:6,r:6},msg:'b=6。'},
+      {line:2,state:{a:12,b:6,r:0},msg:'12 mod 6=0。'},
+      {line:3,state:{a:6,b:6,r:0},msg:'a=6。'},
+      {line:4,state:{a:6,b:0,r:0},msg:'b=0。'},
+      {line:6,state:{a:6,b:0,r:0},msg:'最大公約数は6。'}
+    ]
+  },
+  {
+    id:'recursive_fib', title:'再帰でフィボナッチ', icon:'🌿', level:'応用',
+    desc:'fib(4)の呼出しを分解し、再帰の枝分かれを追います。', concept:'再帰・複数呼出し',
+    code:['function fib(n)','    if n ≤ 1','        return n','    endif','    return fib(n-1) + fib(n-2)','endfunction','fib(4) を出力する'],
+    steps:[
+      {line:6,state:{n:4,result:'—'},stack:['fib(4)'],msg:'fib(4)を呼び出す。'},
+      {line:4,state:{n:4,result:'—'},stack:['fib(4)','fib(3)','fib(2)','fib(1)'],msg:'左側を深くたどる。'},
+      {line:2,state:{n:1,result:1},stack:['fib(4)','fib(3)','fib(2)'],msg:'fib(1)=1。'},
+      {line:4,state:{n:2,result:'—'},stack:['fib(4)','fib(3)','fib(2)','fib(0)'],msg:'fib(0)も必要。'},
+      {line:2,state:{n:0,result:0},stack:['fib(4)','fib(3)','fib(2)'],msg:'fib(0)=0。'},
+      {line:4,state:{n:2,result:1},stack:['fib(4)','fib(3)'],msg:'fib(2)=1。',predict:{q:'fib(3)=fib(2)+fib(1)は？',opts:['1','2','3'],a:1}},
+      {line:4,state:{n:3,result:2},stack:['fib(4)'],msg:'fib(3)=2。'},
+      {line:4,state:{n:2,result:1},stack:['fib(4)'],msg:'右側fib(2)=1。'},
+      {line:4,state:{n:4,result:3},stack:[],msg:'fib(4)=2+1=3。'},
+      {line:6,state:{n:4,result:3},stack:[],msg:'出力は3。'}
+    ]
   }
+
 ];
 
 if(!profile.bProgress) profile.bProgress={};
@@ -10085,14 +10381,24 @@ let bStepIndex=-1;
 let bPredictionSatisfied=true;
 let lastBState={};
 
+
+let currentBFilter='all';
+document.getElementById('bFilterTabs')?.querySelectorAll('[data-bfilter]').forEach(btn=>{
+  btn.onclick=()=>{
+    currentBFilter=btn.dataset.bfilter;
+    document.getElementById('bFilterTabs').querySelectorAll('[data-bfilter]').forEach(x=>x.classList.toggle('active',x===btn));
+    renderBGrid();
+  };
+});
+
 function renderBGrid(){
   const root=document.getElementById('bExerciseGrid');
   if(!root) return;
   root.innerHTML='';
-  let done=0;
-  B_EXERCISES.forEach(ex=>{
+  const done=B_EXERCISES.filter(ex=>(profile.bProgress?.[ex.id]||0)>=100).length;
+  const visible=B_EXERCISES.filter(ex=>currentBFilter==='all'||ex.level===currentBFilter);
+  visible.forEach(ex=>{
     const pct=profile.bProgress?.[ex.id]||0;
-    if(pct>=100) done++;
     const card=document.createElement('div');
     card.className='b-card'+(pct>=100?' done':'');
     const diffClass=ex.level==='標準'?'medium':ex.level==='応用'?'hard':'';
@@ -10113,7 +10419,14 @@ function renderBGrid(){
     root.appendChild(card);
   });
   const t=document.getElementById('bProgressText');
-  if(t) t.textContent=`${done} / ${B_EXERCISES.length}`;
+  if(t){
+    const levels=['基礎','標準','応用'].map(level=>{
+      const all=B_EXERCISES.filter(x=>x.level===level).length;
+      const clear=B_EXERCISES.filter(x=>x.level===level&&(profile.bProgress?.[x.id]||0)>=100).length;
+      return `${level}${clear}/${all}`;
+    }).join(' ・ ');
+    t.innerHTML=`<div>${done} / ${B_EXERCISES.length}</div><div style="font-size:9px;color:#8965ab;margin-top:2px">${levels}</div>`;
+  }
   root.querySelectorAll('[data-bex]').forEach(b=>b.onclick=()=>startBExercise(b.dataset.bex));
 }
 renderBGrid();
@@ -10216,17 +10529,56 @@ function renderBState(state){
 
 function renderBVisual(step){
   const v=document.getElementById('bVisual');
+
+  if(currentB.matrix){
+    const focus=step.matrixFocus||[];
+    v.innerHTML=`<div class="trace-matrix">${currentB.matrix.map((row,r)=>`
+      <div class="trace-matrix-row">${row.map((x,c)=>`<div class="trace-matrix-cell ${focus[0]===r&&focus[1]===c?'focus':''}">${x}<span class="trace-matrix-index">${r},${c}</span></div>`).join('')}</div>`).join('')}</div>`;
+    return;
+  }
+
+  if(step.queue){
+    v.innerHTML=`<div class="trace-queue-label">FRONT → REAR</div><div class="trace-queue">${step.queue.length?step.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
+    return;
+  }
+
+  if(currentB.list){
+    const visited=step.visited||[];
+    v.innerHTML=`<div class="trace-list">${currentB.list.map((node,i)=>`
+      ${i?'<span class="trace-list-arrow">→</span>':''}
+      <div class="trace-list-node ${step.currentNode===node.id?'current':''} ${visited.includes(node.id)?'visited':''}">
+        <div class="trace-node-id">${node.id}</div><div class="trace-node-value">${node.value}</div>
+      </div>`).join('')}<span class="trace-list-arrow">→ null</span></div>`;
+    return;
+  }
+
+  if(step.bits){
+    const labels={x:'x',mask:'mask',result:'AND'};
+    v.innerHTML=`<div class="trace-bits">${Object.entries(step.bits).map(([k,val])=>`
+      <div class="trace-bit-row"><div class="trace-bit-label">${labels[k]||escapeHtml(k)}</div><div class="trace-bit-value">${escapeHtml(val)}</div></div>`).join('')}</div>`;
+    return;
+  }
+
+  if(step.object){
+    const title=currentB.objectName||'object';
+    v.innerHTML=`<div class="trace-object"><div class="trace-object-title">${escapeHtml(title)}</div>${Object.entries(step.object).map(([k,val])=>`
+      <div class="trace-object-prop"><span>${escapeHtml(k)}</span><b>${escapeHtml(val)}</b></div>`).join('')}</div>`;
+    return;
+  }
+
   if(currentB.array){
-    const arr=currentB.array;
+    const arr=step.arrayState||currentB.array;
     v.innerHTML=`<div class="trace-array">${
       arr.map((x,i)=>`<div class="trace-array-cell ${step.focus===i?'focus':''} ${step.found===i?'found':''}">${x}<span class="trace-array-index">${i}</span></div>`).join('')
     }</div>${currentB.target!==undefined?`<div class="visit-path">target = ${currentB.target}</div>`:''}`;
     return;
   }
+
   if(step.stack){
     v.innerHTML=`<div class="sub" style="text-align:center;margin-bottom:6px">TOP</div><div class="trace-stack">${step.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
     return;
   }
+
   if(currentB.tree){
     const visited=step.visited||[];
     const mark=n=>visited.includes(n)?`[${n}]`:n;
@@ -10238,6 +10590,7 @@ function renderBVisual(step){
  <div class="visit-path">出力：${escapeHtml(step.state?.output||'—')}</div>`;
     return;
   }
+
   v.innerHTML='<div class="sub" style="text-align:center">変数の変化を右上のSTATEで追いましょう。</div>';
 }
 
@@ -11004,7 +11357,7 @@ function roadmapData(){
   return [
     {icon:'🌱',title:'STEP 1　基礎固め',desc:'基礎理論・CPU・基本アルゴリズム',pct:basics},
     {icon:'🧩',title:'STEP 2　テクノロジ中核',desc:'DB・ネットワーク・セキュリティ',pct:tech},
-    {icon:'💻',title:'STEP 3　科目B アルゴリズム',desc:'TRACE LABで擬似コードを追う',pct:bAlgo},
+    {icon:'💻',title:'STEP 3　科目B アルゴリズム',desc:'20演習を基礎→標準→応用の順にトレース',pct:bAlgo},
     {icon:'🛡️',title:'STEP 4　科目B セキュリティ',desc:'SCENARIO LABで状況判断',pct:bSec},
     {icon:'🏁',title:'STEP 5　総合演習',desc:'弱点演習・復習・模擬問題へ',pct:practice}
   ];
@@ -12580,7 +12933,7 @@ function runAppSelfCheck(){
       assert(MOCK_BLUEPRINTS.full.count===60 && MOCK_BLUEPRINTS.full.basic===24 && MOCK_BLUEPRINTS.full.standard===36,'FULL mock blueprint invalid');
       assert(MOCK_BLUEPRINTS.half.count===30 && MOCK_BLUEPRINTS.half.basic===12 && MOCK_BLUEPRINTS.half.standard===18,'HALF mock blueprint invalid');
     }
-    assert(typeof B_EXERCISES==='object' && Object.keys(B_EXERCISES).length>=6,'Subject B exercises missing');
+    assert(Array.isArray(B_EXERCISES) && B_EXERCISES.length===20,'Subject B exercises should be 20');
     assert(typeof SECURITY_SCENARIOS==='object' && Object.keys(SECURITY_SCENARIOS).length>=6,'Security scenarios missing');
 
     const requiredDom=['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'];
