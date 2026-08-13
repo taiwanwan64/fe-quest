@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v11</title>
+<title>FE QUEST PWA v12</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2185,6 +2185,179 @@
     .sched-name{font-size:12px}
   }
 
+
+  /* ===== v12: coverage + remaining curriculum labs ===== */
+  .coverage-summary{
+    background:linear-gradient(135deg,#f0f8ff,#fbfdff);
+    border:1px solid #d7eaf8;border-radius:26px;padding:22px;
+    display:flex;align-items:center;gap:16px;margin:18px 0;
+  }
+  .coverage-icon{
+    width:60px;height:60px;border-radius:18px;background:#fff;
+    display:grid;place-items:center;font-size:32px;flex:0 0 auto;
+  }
+  .coverage-copy{flex:1}
+  .coverage-big{font-size:29px;font-weight:900;color:#087db4}
+  .coverage-grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+  }
+  .coverage-chapter{
+    background:#fff;border:1px solid var(--line);border-radius:19px;padding:14px;
+    display:grid;grid-template-columns:42px 1fr 48px;gap:10px;align-items:center;
+  }
+  .coverage-ch-num{
+    width:38px;height:38px;border-radius:12px;background:#f2f6f9;
+    display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--muted);
+  }
+  .coverage-ch-title{font-size:14px;font-weight:900}
+  .coverage-ch-sub{font-size:11px;color:var(--muted);margin-top:3px}
+  .coverage-ch-pct{text-align:right;font-size:13px;font-weight:900}
+  .coverage-legend{
+    margin-top:14px;padding:13px;border-radius:16px;background:#f8fafc;
+    border:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6;
+  }
+
+  .fsm-wrap{max-width:700px;margin:0 auto;text-align:center}
+  .fsm-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:18px 0}
+  .fsm-state{
+    width:105px;height:105px;border-radius:50%;background:#fff;border:3px solid var(--line);
+    display:grid;place-items:center;font-weight:900;transition:.2s;
+  }
+  .fsm-state.active{border-color:var(--green);background:var(--green-soft);transform:scale(1.04)}
+  .fsm-arrow{font-size:24px;color:#9caab6}
+  .fsm-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+
+  .memory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:760px;margin:0 auto}
+  .mem-card{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px;text-align:center;
+  }
+  .mem-card.active{border-color:var(--blue);background:var(--blue-soft)}
+  .mem-icon{font-size:30px;margin-bottom:6px}
+  .mem-title{font-weight:900}
+  .mem-props{font-size:12px;color:var(--muted);line-height:1.6;margin-top:7px}
+
+  .file-tree{
+    max-width:650px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:18px;padding:17px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    line-height:1.9;
+  }
+  .file-node{padding:2px 7px;border-radius:8px;display:inline-block}
+  .file-node.active{background:var(--green-soft);color:var(--green-dark);font-weight:900}
+  .path-box{
+    max-width:650px;margin:12px auto 0;background:#26313b;color:#fff;border-radius:13px;
+    padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  .ui-mock{
+    max-width:700px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:20px;padding:16px;
+  }
+  .ui-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:13px}
+  .ui-dot{width:11px;height:11px;border-radius:50%;background:#dbe2e8}
+  .ui-content{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .ui-bad,.ui-good{border:2px solid var(--line);border-radius:17px;padding:15px}
+  .ui-good{border-color:#cceab8;background:#fbfff8}
+  .tiny-button{font-size:9px;border:1px solid #ccd6df;padding:3px;border-radius:3px;background:#fff}
+  .good-button{font-size:15px;border:none;padding:12px 15px;border-radius:12px;background:var(--green);color:#fff;font-weight:900}
+
+  .pixel-demo{
+    display:grid;grid-template-columns:repeat(8,22px);gap:2px;justify-content:center;margin:10px auto 15px;
+  }
+  .pixel{width:22px;height:22px;border-radius:4px;background:#dce5ec}
+  .pixel.on{background:var(--blue)}
+  .media-calc{
+    max-width:600px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:17px;padding:15px;text-align:center;
+  }
+  .media-formula{font-size:20px;font-weight:900;margin:9px 0}
+
+  .model-cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:750px;margin:0 auto;
+  }
+  .model-card{
+    background:#fff;border:2px solid var(--line);border-radius:20px;padding:17px;
+  }
+  .model-card.active{border-color:var(--green);background:var(--green-soft)}
+  .model-flow{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+  .model-step{padding:6px 8px;border-radius:8px;background:#f0f3f6;font-size:11px;font-weight:900}
+
+  .audit-board{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:13px;align-items:center;max-width:730px;margin:0 auto;
+  }
+  .audit-side{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px;text-align:center;
+  }
+  .audit-side.active{border-color:var(--purple);background:var(--purple-soft)}
+  .audit-arrow{font-size:28px;color:#9aa8b5}
+
+  .process-lane{
+    max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;
+  }
+  .process-box{
+    background:#fff;border:2px solid var(--line);border-radius:15px;padding:13px 14px;font-weight:900;text-align:center;
+  }
+  .process-box.waste{border-color:var(--red);background:var(--red-soft)}
+  .process-box.good{border-color:var(--green);background:var(--green-soft)}
+  .process-arrow{font-size:20px;color:#9caab6}
+
+  .rfp-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:720px;margin:0 auto;
+  }
+  .rfp-card{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:15px;
+  }
+  .rfp-card.active{border-color:var(--blue);background:var(--blue-soft)}
+  .rfp-title{font-weight:900}
+  .rfp-desc{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.55}
+
+  .swot-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:650px;margin:0 auto;
+  }
+  .swot-cell{
+    min-height:115px;border-radius:18px;padding:14px;border:2px solid var(--line);background:#fff;
+  }
+  .swot-cell.active{border-color:var(--green);background:var(--green-soft)}
+  .swot-letter{font-size:25px;font-weight:900}
+  .swot-name{font-size:12px;color:var(--muted);font-weight:900;margin-bottom:7px}
+
+  .iot-flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:9px;align-items:center;max-width:780px;margin:0 auto;
+  }
+  .iot-card{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:17px 10px;text-align:center;
+  }
+  .iot-card.active{border-color:var(--blue);background:var(--blue-soft)}
+  .iot-icon{font-size:30px;margin-bottom:5px}
+
+  .finance-table{
+    max-width:620px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;
+  }
+  .fin-row{display:flex;justify-content:space-between;gap:12px;padding:10px;border-bottom:1px solid var(--line)}
+  .fin-row:last-child{border-bottom:none}
+  .fin-row.total{font-weight:900;background:#f8fafc;border-radius:10px}
+  .fin-value{font-weight:900}
+  .fin-highlight{color:var(--green-dark)}
+
+  .law-cases{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:720px;margin:0 auto;
+  }
+  .law-card{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:15px;
+  }
+  .law-card.active{border-color:var(--yellow);background:#fffaf0}
+  .law-title{font-weight:900}
+  .law-desc{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.55}
+
+  @media(max-width:720px){
+    .coverage-grid{grid-template-columns:1fr}
+    .coverage-summary{padding:17px;align-items:flex-start}
+    .memory-grid,.model-cards,.rfp-grid,.law-cases{grid-template-columns:1fr}
+    .ui-content{grid-template-columns:1fr}
+    .audit-board,.iot-flow{grid-template-columns:1fr}
+    .audit-arrow,.iot-flow>.cpu-arrow{transform:rotate(90deg);text-align:center}
+    .swot-grid{grid-template-columns:1fr 1fr}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -2212,6 +2385,7 @@
     <button class="nav-btn" data-screen="weak"><span class="ico">🧠</span><span>苦手</span></button>
     <button class="nav-btn" data-screen="problems"><span class="ico">📖</span><span>問題</span></button>
     <button class="nav-btn" data-screen="plan"><span class="ico">📅</span><span>計画</span></button>
+    <button class="nav-btn" data-screen="coverage"><span class="ico">🧭</span><span>範囲</span></button>
     <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico">⚙️</span><span>設定</span></button>
   </aside>
 
@@ -2263,6 +2437,26 @@
           <div class="mini-card"><div class="big">🌐</div><b>Network</b><div class="sub">習熟度 58%</div><div class="progress purple" style="margin-top:10px"><div style="width:58%"></div></div></div>
         </div>
       </div>
+    </section>
+
+    <!-- COVERAGE -->
+    <section id="coverage" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home">←</button>
+        <div><h1>試験範囲カバレッジ 🧭</h1><div class="sub">参考書の22章を基準に、FE QUEST内の教材・科目B演習の進み具合を確認します。</div></div>
+      </div>
+
+      <div class="coverage-summary">
+        <div class="coverage-icon">📚</div>
+        <div class="coverage-copy">
+          <b>CURRICULUM COVERAGE</b>
+          <div class="sub">全22章に対応する学習コンテンツを配置しました。</div>
+        </div>
+        <div class="coverage-big" id="coverageOverall">0%</div>
+      </div>
+
+      <div class="coverage-grid" id="coverageGrid"></div>
+      <div class="coverage-legend">この%は「その章に対応するFE QUEST教材をどこまで完了したか」の進捗です。試験での得点率や合格確率を表すものではありません。</div>
     </section>
 
     <!-- PLAN -->
@@ -2348,7 +2542,7 @@
         <div class="course-overview-icon">🌱</div>
         <div class="course-overview-copy">
           <b>INTERACTIVE COURSE</b>
-          <div class="sub">主要21レッスンを実装しました。</div>
+          <div class="sub">主要34レッスンを実装しました。</div>
         </div>
         <div class="course-percent" id="coursePercent">0%</div>
       </div>
@@ -2574,6 +2768,91 @@
           <div class="lesson-tile-desc">売上線と費用線の交点を見ながら、利益が0になる境目を理解します。</div>
           <div class="lesson-tile-bottom"><div class="progress"><div data-lp="breakeven" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="breakeven">0%</span></div>
           <button class="lesson-open" data-lesson="breakeven">学習する</button>
+        </div>
+
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🚦</div><div><div class="lesson-tile-title">オートマトン</div><div class="lesson-tile-cat">基礎理論</div></div></div>
+          <div class="lesson-tile-desc">入力0/1によって状態が遷移する機械を動かし、「状態」と「入力」の考え方を体感します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="automata" style="width:0%"></div></div><span class="lesson-percent" data-lpt="automata">0%</span></div>
+          <button class="lesson-open" data-lesson="automata">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🧠</div><div><div class="lesson-tile-title">RAM・ROM・フラッシュ</div><div class="lesson-tile-cat">ハードウェア</div></div></div>
+          <div class="lesson-tile-desc">揮発性・書換え可否・用途を比較して、半導体メモリの違いを整理します。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="memorychips" style="width:0%"></div></div><span class="lesson-percent" data-lpt="memorychips">0%</span></div>
+          <button class="lesson-open" data-lesson="memorychips">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">📁</div><div><div class="lesson-tile-title">ファイルシステム</div><div class="lesson-tile-cat">ソフトウェア</div></div></div>
+          <div class="lesson-tile-desc">フォルダ階層をたどり、絶対パスがどのように対象ファイルを表すか確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="filesystem" style="width:0%"></div></div><span class="lesson-percent" data-lpt="filesystem">0%</span></div>
+          <button class="lesson-open" data-lesson="filesystem">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🖱️</div><div><div class="lesson-tile-title">UI設計とアクセシビリティ</div><div class="lesson-tile-cat">UI</div></div></div>
+          <div class="lesson-tile-desc">小さすぎる操作部品と改善例を比べ、分かりやすさ・操作しやすさを考えます。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="uiux" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="uiux">0%</span></div>
+          <button class="lesson-open" data-lesson="uiux">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🖼️</div><div><div class="lesson-tile-title">画像データ量</div><div class="lesson-tile-cat">マルチメディア</div></div></div>
+          <div class="lesson-tile-desc">画素数×1画素当たりのビット数から、画像のおおよそのデータ量を計算します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="multimedia" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="multimedia">0%</span></div>
+          <button class="lesson-open" data-lesson="multimedia">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔄</div><div><div class="lesson-tile-title">ウォーターフォールとアジャイル</div><div class="lesson-tile-cat">開発手法</div></div></div>
+          <div class="lesson-tile-desc">工程を順に進める開発と、短い反復で改善する開発を比較します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="devmodel" style="width:0%"></div></div><span class="lesson-percent" data-lpt="devmodel">0%</span></div>
+          <button class="lesson-open" data-lesson="devmodel">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔎</div><div><div class="lesson-tile-title">システム監査</div><div class="lesson-tile-cat">監査・内部統制</div></div></div>
+          <div class="lesson-tile-desc">開発担当と監査担当の役割を分け、独立性と客観性の意味を理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="audit" style="width:0%"></div></div><span class="lesson-percent" data-lpt="audit">0%</span></div>
+          <button class="lesson-open" data-lesson="audit">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔧</div><div><div class="lesson-tile-title">業務プロセス改善</div><div class="lesson-tile-cat">システム戦略</div></div></div>
+          <div class="lesson-tile-desc">現状業務からムダを取り除き、ITを使ったTo-Beプロセスへ組み替えます。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="businessprocess" style="width:0%"></div></div><span class="lesson-percent" data-lpt="businessprocess">0%</span></div>
+          <button class="lesson-open" data-lesson="businessprocess">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">📨</div><div><div class="lesson-tile-title">RFPと調達</div><div class="lesson-tile-cat">システム企画</div></div></div>
+          <div class="lesson-tile-desc">発注側の要求を整理し、ベンダへ提案を依頼する流れを確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="procurement" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="procurement">0%</span></div>
+          <button class="lesson-open" data-lesson="procurement">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🧭</div><div><div class="lesson-tile-title">SWOT分析</div><div class="lesson-tile-cat">経営戦略</div></div></div>
+          <div class="lesson-tile-desc">強み・弱み・機会・脅威を「内部／外部」「プラス／マイナス」で仕分けします。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="swot" style="width:0%"></div></div><span class="lesson-percent" data-lpt="swot">0%</span></div>
+          <button class="lesson-open" data-lesson="swot">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">🌡️</div><div><div class="lesson-tile-title">IoTの流れ</div><div class="lesson-tile-cat">ビジネスインダストリ</div></div></div>
+          <div class="lesson-tile-desc">センサ→ネットワーク→クラウド→アクチュエータという情報の流れを動かします。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="iot" style="width:0%"></div></div><span class="lesson-percent" data-lpt="iot">0%</span></div>
+          <button class="lesson-open" data-lesson="iot">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top"><div class="lesson-tile-icon">💹</div><div><div class="lesson-tile-title">利益の計算</div><div class="lesson-tile-cat">企業活動</div></div></div>
+          <div class="lesson-tile-desc">売上高から売上原価・販管費を順に引き、売上総利益と営業利益を求めます。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="finance" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="finance">0%</span></div>
+          <button class="lesson-open" data-lesson="finance">学習する</button>
         </div>
 
         <div class="lesson-tile lesson-special" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
@@ -3594,6 +3873,19 @@ const QUESTION_BANK = [
    options:['0','売上高と同額','必ずマイナス','固定費と同額'],a:0,
    exp:'売上高－総費用が利益なので、両者が等しい損益分岐点では利益は0です。',
    hint:'売上高 = 総費用です。'}
+,
+  {id:'theory-05',cat:'基礎理論',concept:'オートマトン',difficulty:'標準',q:'状態Aで入力1を受けるとBへ、状態Bで入力1を受けるとAへ移る。初期状態Aから入力列1,1を与えた最終状態は？',options:['A','B','終了状態だけ','不明'],a:0,exp:'A→(1)B→(1)Aと遷移するので最終状態はAです。',hint:'入力を1個ずつ順に適用します。'},
+  {id:'hardware-01',cat:'コンピュータ',concept:'半導体メモリ',difficulty:'基礎',q:'一般に電源を切ると記憶内容が失われるメモリは？',options:['RAM','ROM','フラッシュメモリ','光ディスク'],a:0,exp:'RAMは一般に揮発性で、電源を切ると内容が失われます。',hint:'主記憶として使われる代表的なメモリです。'},
+  {id:'software-01',cat:'コンピュータ',concept:'ファイルシステム',difficulty:'基礎',q:'ルート直下のhome、その下のuser、その下のdata.csvを示す絶対パスは？',options:['/home/user/data.csv','../data.csv','data.csv/home','homeだけ'],a:0,exp:'絶対パスはルート/から階層を順に記述します。',hint:'先頭は/です。'},
+  {id:'ui-01',cat:'ストラテジ',concept:'アクセシビリティ',difficulty:'基礎',q:'UIのアクセシビリティ向上策として適切なのは？',options:['色に加えて文字や形でも状態を示す','文字を読めないほど小さくする','操作ボタンを極端に小さくする','説明を削除する'],a:0,exp:'複数の手掛かりで情報を表すと、より多くの利用者が理解しやすくなります。',hint:'色だけに依存しない設計です。'},
+  {id:'media-01',cat:'コンピュータ',concept:'画像データ量',difficulty:'標準',q:'200×100画素、1画素8ビットの非圧縮画像のデータ量は何ビット？',options:['160,000','20,000','1,600','800'],a:0,exp:'200×100×8=160,000ビットです。',hint:'画素数×1画素のビット数です。'},
+  {id:'mgmt-09',cat:'マネジメント',concept:'開発モデル',difficulty:'基礎',q:'短い反復で計画・実装・確認・改善を繰り返す開発手法に近いのは？',options:['アジャイル','ウォーターフォールだけ','RAID','正規化'],a:0,exp:'アジャイル開発は短い反復を繰り返しながら段階的に価値を提供します。',hint:'反復型の開発です。'},
+  {id:'mgmt-10',cat:'マネジメント',concept:'システム監査',difficulty:'標準',q:'システム監査人に求められる性質として適切なのは？',options:['監査対象からの独立性','監査対象部署への完全従属','監査証拠を残さない','開発者本人だけで監査する'],a:0,exp:'客観的な評価のため、監査対象からの独立性が重要です。',hint:'自分の仕事を自分だけで評価しない考え方です。'},
+  {id:'strat-07',cat:'ストラテジ',concept:'BPR',difficulty:'標準',q:'BPRの説明として最も適切なのは？',options:['業務プロセスを抜本的に見直して再設計する','既存手順を絶対に変えない','PC台数だけを増やす','売上高だけを記録する'],a:0,exp:'BPRは業務プロセスを根本から見直し、大幅な改善を目指します。',hint:'Business Process Re-engineeringです。'},
+  {id:'strat-08',cat:'ストラテジ',concept:'RFP',difficulty:'基礎',q:'システム調達で、候補ベンダに提案を依頼する文書は？',options:['RFP','SLA','SQL','WBSだけ'],a:0,exp:'RFPはRequest for Proposal、提案依頼書です。',hint:'PはProposalです。'},
+  {id:'strat-09',cat:'ストラテジ',concept:'SWOT',difficulty:'基礎',q:'SWOT分析で「競合企業の新規参入」は一般にどれ？',options:['Threat','Strength','Weakness','Opportunity'],a:0,exp:'競合の新規参入は外部環境のマイナス要因なのでThreat（脅威）です。',hint:'外部×マイナスです。'},
+  {id:'strat-10',cat:'ストラテジ',concept:'IoT',difficulty:'基礎',q:'IoTで温度などの物理量を取得する装置は？',options:['センサ','アクチュエータだけ','コンパイラ','DBの主キー'],a:0,exp:'現実世界の温度・光・加速度などを取得するのはセンサです。',hint:'測る側です。'},
+  {id:'strat-11',cat:'ストラテジ',concept:'財務',difficulty:'基礎',q:'売上高900、売上原価550のとき、売上総利益はいくら？',options:['350','550','900','1,450'],a:0,exp:'売上総利益=売上高900−売上原価550=350です。',hint:'売上高から売上原価を引きます。'}
 ];
 
 function ensureQuestionProfile(){
@@ -3935,6 +4227,116 @@ openProblemsHub();
 
 // ===== v6: Interactive lesson engine =====
 const LESSONS = {
+
+  automata:{
+    title:'オートマトン',cat:'基礎理論',skill:'基礎理論',
+    pages:[
+      {headline:'オートマトンは「現在の状態」と「入力」で次が決まる',copy:'ここでは2状態だけの簡単な機械を使います。入力1で状態を切り替え、入力0では状態を維持します。',render:()=>automataView('A')},
+      {headline:'入力列 1 → 0 → 1 を与える',copy:'ボタンを順に押して状態遷移を確認してください。',interactive:'automata'},
+      {headline:'状態は A → B → B → A',copy:'同じ入力でも、現在どの状態にいるかによって次の状態が決まるのがポイントです。',render:()=>automataView('A')},
+      {headline:'ミニチェック',copy:'状態Aで入力1を与えるとBへ移る規則のとき、状態Aから入力1を与えた直後の状態は？',quiz:{options:['A','B','必ず終了','不明'],answer:1,explain:'定義された遷移規則に従い、Aから入力1でBへ移ります。'}}
+    ]
+  },
+  memorychips:{
+    title:'RAM・ROM・フラッシュ',cat:'ハードウェア',skill:'コンピュータ',
+    pages:[
+      {headline:'半導体メモリは性質で整理する',copy:'まず「電源を切ると消えるか」「通常利用で書き換えるか」を軸に比べます。',render:()=>memoryView('none')},
+      {headline:'3種類を比較する',copy:'RAM・ROM・フラッシュを順に選び、特徴を確認してください。',interactive:'memorychips'},
+      {headline:'RAMは揮発性、ROM系は不揮発性',copy:'フラッシュメモリは電気的に書換え可能な不揮発性メモリとしてUSBメモリやSSDなどにも利用されます。',render:()=>memoryView('all')},
+      {headline:'ミニチェック',copy:'一般に、電源を切ると内容が失われる主記憶用メモリは？',quiz:{options:['RAM','ROM','フラッシュメモリだけ','光ディスク'],answer:0,explain:'主記憶に使われるRAMは一般に揮発性で、電源断で内容が失われます。'}}
+    ]
+  },
+  filesystem:{
+    title:'ファイルシステム',cat:'ソフトウェア',skill:'コンピュータ',
+    pages:[
+      {headline:'ファイルは階層構造で整理できる',copy:'ルートからフォルダを順にたどって目的のファイルへ到達します。',render:()=>fileTreeView(0)},
+      {headline:'report.pdfまでたどる',copy:'home → user → docs → report.pdf の順に選んでください。',interactive:'filesystem'},
+      {headline:'絶対パスはルートから書く',copy:'この例なら /home/user/docs/report.pdf のように、ルートから対象までの位置を表せます。',render:()=>fileTreeView(4)},
+      {headline:'ミニチェック',copy:'ルート直下のhome、その下のuser、その下のmemo.txtを表す絶対パスは？',quiz:{options:['/home/user/memo.txt','home/userだけ','../memo.txtだけ','memo.txt/home'],answer:0,explain:'絶対パスはルートから順に階層を記述します。'}}
+    ]
+  },
+  uiux:{
+    title:'UI設計とアクセシビリティ',cat:'ユーザーインタフェース',skill:'ストラテジ',
+    pages:[
+      {headline:'「使える」だけでなく「分かりやすく操作できる」',copy:'ラベル・文字サイズ・コントラスト・操作領域などは使いやすさに影響します。',render:()=>uiView(false)},
+      {headline:'改善したUIを選ぶ',copy:'小さく説明のないボタンと、十分な大きさでラベルのあるボタンを比べます。',interactive:'uiux'},
+      {headline:'誰が見ても意味が分かる手掛かりを増やす',copy:'色だけに頼らず文字や形でも伝える、操作対象を十分な大きさにする、といった配慮が有効です。',render:()=>uiView(true)},
+      {headline:'ミニチェック',copy:'アクセシビリティ向上策として適切なのは？',quiz:{options:['色だけでなく文字や形でも状態を示す','文字を極端に小さくする','操作ボタンをできるだけ狭くする','説明をすべて削除する'],answer:0,explain:'複数の手掛かりで情報を伝えると、色の識別が難しい利用者などにも伝わりやすくなります。'}}
+    ]
+  },
+  multimedia:{
+    title:'画像データ量',cat:'マルチメディア',skill:'コンピュータ',
+    pages:[
+      {headline:'非圧縮画像の基本は「画素数×色の情報量」',copy:'8×8画素、1画素8ビットの簡単な画像で考えます。',render:()=>mediaView(false)},
+      {headline:'データ量を計算する',copy:'8×8×8ビットを計算して、バイトへ直してみましょう。',interactive:'multimedia'},
+      {headline:'8×8×8 = 512ビット = 64バイト',copy:'実際の画像形式では圧縮や付加情報がありますが、基本計算では画素数と1画素当たりのビット数を掛けます。',render:()=>mediaView(true)},
+      {headline:'ミニチェック',copy:'100×100画素、1画素24ビットの非圧縮画像のデータ量は何ビット？',quiz:{options:['240,000','10,000','24,000','2,400'],answer:0,explain:'100×100×24 = 240,000ビットです。'}}
+    ]
+  },
+  devmodel:{
+    title:'ウォーターフォールとアジャイル',cat:'ソフトウェア開発手法',skill:'マネジメント',
+    pages:[
+      {headline:'開発の進め方には特徴の違いがある',copy:'工程を順に固めて進めるウォーターフォールと、短い反復で価値を追加するアジャイルを比べます。',render:()=>devModelView('none')},
+      {headline:'2つのモデルを比較',copy:'両方を押して特徴を確認してください。',interactive:'devmodel'},
+      {headline:'変更への向き合い方が違う',copy:'どちらが常に優れているというより、要件の安定性やプロジェクト特性に応じて選びます。',render:()=>devModelView('both')},
+      {headline:'ミニチェック',copy:'短い期間で設計・実装・テストを繰り返し、段階的に価値を追加する考え方に近いのは？',quiz:{options:['アジャイル開発','ウォーターフォールだけ','バックアップ','監査'],answer:0,explain:'アジャイルでは短い反復を繰り返しながら、利用者のフィードバックも取り入れて改善します。'}}
+    ]
+  },
+  audit:{
+    title:'システム監査',cat:'システム監査',skill:'マネジメント',
+    pages:[
+      {headline:'監査は客観的な立場から評価する',copy:'自分が作った仕組みを自分だけで評価すると、見落としや利益相反が起こりやすくなります。',render:()=>auditView(false)},
+      {headline:'独立した監査担当を選ぶ',copy:'開発担当自身と、監査対象から独立した担当のどちらが適切か選んでください。',interactive:'audit'},
+      {headline:'独立性は監査の重要な前提',copy:'監査では証拠を基に客観的に評価し、改善が必要なら指摘や助言につなげます。',render:()=>auditView(true)},
+      {headline:'ミニチェック',copy:'システム監査人に特に求められる立場は？',quiz:{options:['監査対象からの独立性','必ず開発責任者と同一人物','営業目標の達成責任','監査結果を記録しないこと'],answer:0,explain:'客観的な評価のため、監査対象からの独立性が重要です。'}}
+    ]
+  },
+  businessprocess:{
+    title:'業務プロセス改善',cat:'システム戦略',skill:'ストラテジ',
+    pages:[
+      {headline:'まずAs-Isを見える化する',copy:'紙申請→手入力→確認→再入力という現状業務には、重複入力のムダがあります。',render:()=>processView(false)},
+      {headline:'ムダを1つ取り除く',copy:'「再入力をなくす」を選び、To-Beプロセスへ改善してください。',interactive:'businessprocess'},
+      {headline:'IT導入そのものではなく業務全体を改善する',copy:'目的はツールを入れることではなく、業務の価値・時間・品質を改善することです。',render:()=>processView(true)},
+      {headline:'ミニチェック',copy:'BPRの考え方に最も近いものは？',quiz:{options:['業務プロセスを抜本的に見直し再設計する','既存手順を絶対に変えない','PC台数だけ増やす','バックアップだけ取る'],answer:0,explain:'BPRは業務プロセスそのものを根本から見直し、大幅な改善を目指す考え方です。'}}
+    ]
+  },
+  procurement:{
+    title:'RFPと調達',cat:'システム企画',skill:'ストラテジ',
+    pages:[
+      {headline:'発注前に「何を求めるか」を整理する',copy:'ベンダへ提案を依頼するときは、目的・要件・条件などを明確にします。',render:()=>rfpView('none')},
+      {headline:'RFPに含めたい情報を選ぶ',copy:'目的・必要機能・納期条件などを確認してください。',interactive:'procurement'},
+      {headline:'RFPは提案依頼書',copy:'複数の候補から提案を受け、評価基準などに基づいて調達先を選定する流れにつながります。',render:()=>rfpView('all')},
+      {headline:'ミニチェック',copy:'情報システム調達で、ベンダに提案を依頼する文書は？',quiz:{options:['RFP','SLAだけ','WBSだけ','DNS'],answer:0,explain:'RFP（Request for Proposal）は提案依頼書です。'}}
+    ]
+  },
+  swot:{
+    title:'SWOT分析',cat:'経営戦略',skill:'ストラテジ',
+    pages:[
+      {headline:'内部と外部、プラスとマイナスで4象限',copy:'Strength・Weaknessは内部環境、Opportunity・Threatは外部環境として整理します。',render:()=>swotView(0)},
+      {headline:'4つの例を仕分ける',copy:'順番に正しい象限を選んでください。',interactive:'swot'},
+      {headline:'S/Wは自社内部、O/Tは外部環境',copy:'戦略を考える材料として、自社の強みを機会に生かすなどの組合せを検討します。',render:()=>swotView(4)},
+      {headline:'ミニチェック',copy:'SWOT分析で「市場が急成長している」は一般にどれ？',quiz:{options:['Opportunity','Strength','Weakness','Threat'],answer:0,explain:'市場成長は企業外部の好ましい環境なのでOpportunity（機会）です。'}}
+    ]
+  },
+  iot:{
+    title:'IoTの流れ',cat:'ビジネスインダストリ',skill:'ストラテジ',
+    pages:[
+      {headline:'現実世界の情報をデジタルへつなぐ',copy:'温度センサの値をネットワーク経由でクラウドへ送り、条件に応じて空調を動かす例です。',render:()=>iotView(0)},
+      {headline:'データの流れを進める',copy:'1 STEPずつセンサ→通信→クラウド→制御へ進めてください。',interactive:'iot'},
+      {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(3)},
+      {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータだけ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
+    ]
+  },
+  finance:{
+    title:'利益の計算',cat:'企業活動',skill:'ストラテジ',
+    pages:[
+      {headline:'売上高から段階的に費用を引く',copy:'売上高1,000、売上原価600、販管費250の簡単な例で考えます。',render:()=>financeView(0)},
+      {headline:'営業利益まで計算する',copy:'まず売上総利益、次に営業利益を求めてください。',interactive:'finance'},
+      {headline:'売上総利益400、営業利益150',copy:'売上高−売上原価=売上総利益、そこから販管費を引いたものが営業利益です。',render:()=>financeView(2)},
+      {headline:'ミニチェック',copy:'売上高800、売上原価500なら売上総利益はいくら？',quiz:{options:['300','500','800','1,300'],answer:0,explain:'売上総利益 = 売上高800 − 売上原価500 = 300です。'}}
+    ]
+  },
+
 
   os:{
     title:'OSとCPUスケジューリング',cat:'ソフトウェア',skill:'コンピュータ',
@@ -4369,6 +4771,86 @@ const LESSONS = {
 
 
 
+
+function automataView(state){
+  return `<div class="fsm-wrap"><div class="fsm-row">
+    <div class="fsm-state ${state==='A'?'active':''}">状態A</div>
+    <div class="fsm-arrow">⇄</div>
+    <div class="fsm-state ${state==='B'?'active':''}">状態B</div>
+  </div><div class="lesson-copy">入力1：A⇄Bを切替 ／ 入力0：同じ状態を維持</div></div>`;
+}
+function memoryView(mode){
+  const data=[
+    ['💨','RAM','揮発性','通常は読書き可'],
+    ['📕','ROM','不揮発性','基本は読出し中心'],
+    ['⚡','フラッシュ','不揮発性','電気的に書換え可']
+  ];
+  return `<div class="memory-grid">${data.map((x,i)=>`<div class="mem-card ${mode==='all'||mode===String(i)?'active':''}"><div class="mem-icon">${x[0]}</div><div class="mem-title">${x[1]}</div><div class="mem-props">${mode==='all'||mode===String(i)?`${x[2]}<br>${x[3]}`:'特徴を確認'}</div></div>`).join('')}</div>`;
+}
+function fileTreeView(active){
+  const nodes=['/','home/','user/','docs/','report.pdf'];
+  return `<div class="file-tree">
+    <div><span class="file-node ${active>=0?'active':''}">/</span></div>
+    <div>└─ <span class="file-node ${active>=1?'active':''}">home/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=2?'active':''}">user/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=3?'active':''}">docs/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file-node ${active>=4?'active':''}">report.pdf</span></div>
+  </div>${active>=4?'<div class="path-box">/home/user/docs/report.pdf</div>':''}`;
+}
+function uiView(good){
+  return `<div class="ui-mock"><div class="ui-toolbar"><span class="ui-dot"></span><span class="ui-dot"></span><span class="ui-dot"></span></div>
+  <div class="ui-content">
+    <div class="ui-bad"><b>改善前</b><p class="sub">ラベルなし・操作領域が小さい</p><button class="tiny-button">?</button></div>
+    <div class="ui-good"><b>改善後</b><p class="sub">目的が分かるラベルと十分な操作領域</p><button class="good-button">${good?'保存する':'保存する'}</button></div>
+  </div></div>`;
+}
+function mediaView(done){
+  const pixels=Array.from({length:64},(_,i)=>`<div class="pixel ${i%5===0?'on':''}"></div>`).join('');
+  return `<div class="pixel-demo">${pixels}</div><div class="media-calc"><b>8 × 8 画素・8bit/画素</b><div class="media-formula">${done?'8 × 8 × 8 = 512 bit = 64 byte':'データ量 = 画素数 × 1画素のbit数'}</div></div>`;
+}
+function devModelView(mode){
+  return `<div class="model-cards">
+    <div class="model-card ${mode==='waterfall'||mode==='both'?'active':''}"><b>ウォーターフォール</b><div class="model-flow">${['要件','設計','実装','テスト'].map(x=>`<span class="model-step">${x}</span>`).join('')}</div><div class="sub" style="margin-top:8px">工程を順に進める</div></div>
+    <div class="model-card ${mode==='agile'||mode==='both'?'active':''}"><b>アジャイル</b><div class="model-flow">${['計画','実装','確認','改善','↻'].map(x=>`<span class="model-step">${x}</span>`).join('')}</div><div class="sub" style="margin-top:8px">短い反復を繰り返す</div></div>
+  </div>`;
+}
+function auditView(independent){
+  return `<div class="audit-board">
+    <div class="audit-side"><div style="font-size:28px">👨‍💻</div><b>開発担当</b><div class="sub">システムを構築</div></div>
+    <div class="audit-arrow">→</div>
+    <div class="audit-side ${independent?'active':''}"><div style="font-size:28px">🔎</div><b>監査担当</b><div class="sub">${independent?'独立した立場で評価':'誰が評価する？'}</div></div>
+  </div>`;
+}
+function processView(improved){
+  const arr=improved?[
+    ['申請','good'],['自動取込','good'],['確認','good'],['完了','good']
+  ]:[
+    ['紙申請',''],['手入力',''],['確認',''],['再入力','waste'],['完了','']
+  ];
+  return `<div class="process-lane">${arr.map((x,i)=>`${i?'<span class="process-arrow">→</span>':''}<div class="process-box ${x[1]}">${x[0]}</div>`).join('')}</div>`;
+}
+function rfpView(mode){
+  const items=[['目的・背景','なぜ必要か'],['要求機能','何が必要か'],['納期・条件','いつ・どんな条件か'],['評価方法','どう比較するか']];
+  return `<div class="rfp-grid">${items.map((x,i)=>`<div class="rfp-card ${mode==='all'||mode===String(i)?'active':''}"><div class="rfp-title">${x[0]}</div><div class="rfp-desc">${mode==='all'||mode===String(i)?x[1]:'RFPの要素'}</div></div>`).join('')}</div>`;
+}
+function swotView(active){
+  const cells=[['S','Strength','強み・内部'],['W','Weakness','弱み・内部'],['O','Opportunity','機会・外部'],['T','Threat','脅威・外部']];
+  return `<div class="swot-grid">${cells.map((x,i)=>`<div class="swot-cell ${active>i?'active':''}"><div class="swot-letter">${x[0]}</div><div class="swot-name">${x[1]}</div><div>${active>i?x[2]:'？'}</div></div>`).join('')}</div>`;
+}
+function iotView(step){
+  const cards=[['🌡️','センサ','温度を取得'],['📡','ネットワーク','データ送信'],['☁️','クラウド','判断・蓄積'],['❄️','アクチュエータ','空調をON']];
+  return `<div class="iot-flow">${cards.map((x,i)=>`${i?'<div class="cpu-arrow">→</div>':''}<div class="iot-card ${step>=i?'active':''}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div>`;
+}
+function financeView(step){
+  return `<div class="finance-table">
+    <div class="fin-row"><span>売上高</span><span class="fin-value">1,000</span></div>
+    <div class="fin-row"><span>－ 売上原価</span><span class="fin-value">600</span></div>
+    <div class="fin-row total"><span>売上総利益</span><span class="fin-value ${step>=1?'fin-highlight':''}">${step>=1?'400':'?'}</span></div>
+    <div class="fin-row"><span>－ 販売費及び一般管理費</span><span class="fin-value">250</span></div>
+    <div class="fin-row total"><span>営業利益</span><span class="fin-value ${step>=2?'fin-highlight':''}">${step>=2?'150':'?'}</span></div>
+  </div>`;
+}
+
 function scheduleView(step){
   const labels=['P1','P2','P3'];
   return `<div>${labels.map((p,i)=>`
@@ -4581,7 +5063,15 @@ let reliabilitySeen=new Set();
 let backupSeen=new Set();
 let devSteps=0;
 let testSteps=0;
-let rightsSteps=0;
+let rightsSteps=0;automataIdx=0;memorySeen=new Set();fileStep=0;devModelSeen=new Set();rfpSeen=new Set();swotStep=0;iotStep=0;financeStep=0;
+let automataIdx=0;
+let memorySeen=new Set();
+let fileStep=0;
+let devModelSeen=new Set();
+let rfpSeen=new Set();
+let swotStep=0;
+let iotStep=0;
+let financeStep=0;
 let lessonCompleteMode=false;
 
 function updateCourseUI(){
@@ -4615,7 +5105,7 @@ function startLesson(id){
 function resetLessonState(){
   lessonInteractiveDone=false;
   lessonQuizDone=false;
-  cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;osSteps=0;reliabilitySeen=new Set();backupSeen=new Set();devSteps=0;testSteps=0;rightsSteps=0;
+  cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;osSteps=0;reliabilitySeen=new Set();backupSeen=new Set();devSteps=0;testSteps=0;rightsSteps=0;automataIdx=0;memorySeen=new Set();fileStep=0;devModelSeen=new Set();rfpSeen=new Set();swotStep=0;iotStep=0;financeStep=0;
 }
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
@@ -4876,6 +5366,131 @@ function renderInteractive(type,stage){
     };
   }
 
+
+
+  if(type==='automata'){
+    const seq=[1,0,1];
+    let state='A';
+    const draw=()=>{
+      stage.innerHTML=`<div id="fsmDynamic">${automataView(state)}</div><div class="fsm-controls">${seq.map((x,i)=>`<button class="micro-option" data-i="${i}" ${i!==automataIdx?'disabled':''}>入力 ${x}</button>`).join('')}</div>`;
+      stage.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
+        const input=seq[automataIdx];
+        if(input===1) state=state==='A'?'B':'A';
+        automataIdx++;
+        showLessonFeedback(`入力${input} → 現在の状態は ${state} です。`);
+        if(automataIdx===seq.length){lessonInteractiveDone=true;setTimeout(()=>{stage.innerHTML=automataView(state);},250);}
+        else draw();
+      });
+    };
+    draw();
+  }
+
+  if(type==='memorychips'){
+    stage.innerHTML=`<div id="memDynamic">${memoryView('none')}</div><div class="txn-buttons">
+      <button class="secondary" data-mem="0">RAM</button><button class="secondary" data-mem="1">ROM</button><button class="purple-btn" data-mem="2">フラッシュ</button></div>`;
+    stage.querySelectorAll('[data-mem]').forEach(b=>b.onclick=()=>{
+      memorySeen.add(b.dataset.mem);
+      document.getElementById('memDynamic').innerHTML=memoryView(b.dataset.mem);
+      if(memorySeen.size>=3){lessonInteractiveDone=true;showLessonFeedback('✅ 3種類を比較できました。揮発性と書換え可否を軸に整理しましょう。');}
+    });
+  }
+
+  if(type==='filesystem'){
+    const labels=['/','home','user','docs','report.pdf'];
+    const draw=()=>{
+      stage.innerHTML=`${fileTreeView(fileStep)}<div class="fsm-controls"><button class="purple-btn" id="fileNext">${fileStep<4?`次へ：${labels[fileStep+1]}`:'✓ 到達'}</button></div>`;
+      const b=document.getElementById('fileNext');
+      if(fileStep>=4){b.disabled=true;lessonInteractiveDone=true;showLessonFeedback('✅ /home/user/docs/report.pdf に到達しました。');}
+      else b.onclick=()=>{fileStep++;draw();};
+    };
+    draw();
+  }
+
+  if(type==='uiux'){
+    stage.innerHTML=`${uiView(false)}<div class="micro-options"><button class="micro-option" data-ui="bad">左：小さい「?」</button><button class="micro-option" data-ui="good">右：「保存する」</button></div>`;
+    stage.querySelectorAll('[data-ui]').forEach(b=>b.onclick=()=>{
+      if(b.dataset.ui==='good'){b.classList.add('good');lessonInteractiveDone=true;showLessonFeedback('⭕ 目的が分かるラベルと十分な操作領域があり、操作しやすい設計です。');}
+      else{b.classList.add('bad');showLessonFeedback('何をするボタンか分かるか、押しやすい大きさかを見てみましょう。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+    });
+  }
+
+  if(type==='multimedia'){
+    stage.innerHTML=`${mediaView(false)}<div class="micro-options"><button class="micro-option" data-v="32">32 byte</button><button class="micro-option" data-v="64">64 byte</button><button class="micro-option" data-v="512">512 byte</button><button class="micro-option" data-v="4096">4096 byte</button></div>`;
+    stage.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{
+      if(b.dataset.v==='64'){b.classList.add('good');lessonInteractiveDone=true;stage.querySelector('.media-calc').outerHTML=mediaView(true).match(/<div class="media-calc">[\s\S]*<\/div>$/)?.[0]||stage.querySelector('.media-calc').outerHTML;showLessonFeedback('⭕ 512ビット ÷ 8 = 64バイトです。');}
+      else{b.classList.add('bad');showLessonFeedback('まず 8×8×8 = 512ビット。その後8で割ってバイトへ変換します。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+    });
+  }
+
+  if(type==='devmodel'){
+    stage.innerHTML=`<div id="modelDynamic">${devModelView('none')}</div><div class="txn-buttons"><button class="secondary" id="showWf">ウォーターフォール</button><button class="purple-btn" id="showAgile">アジャイル</button></div>`;
+    document.getElementById('showWf').onclick=()=>{devModelSeen.add('w');document.getElementById('modelDynamic').innerHTML=devModelView('waterfall');showLessonFeedback('工程を順に区切って進めるモデルです。');if(devModelSeen.size>=2)lessonInteractiveDone=true;};
+    document.getElementById('showAgile').onclick=()=>{devModelSeen.add('a');document.getElementById('modelDynamic').innerHTML=devModelView('agile');showLessonFeedback('短い反復で計画・実装・確認・改善を回します。');if(devModelSeen.size>=2)lessonInteractiveDone=true;};
+  }
+
+  if(type==='audit'){
+    stage.innerHTML=`${auditView(false)}<div class="micro-options"><button class="micro-option" data-audit="dev">開発責任者だけで監査</button><button class="micro-option" data-audit="ind">独立した監査担当</button></div>`;
+    stage.querySelectorAll('[data-audit]').forEach(b=>b.onclick=()=>{
+      if(b.dataset.audit==='ind'){b.classList.add('good');lessonInteractiveDone=true;showLessonFeedback('⭕ 客観的な評価のため、監査対象からの独立性が重要です。');}
+      else{b.classList.add('bad');showLessonFeedback('自分の仕事を自分だけで評価すると客観性が弱くなります。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+    });
+  }
+
+  if(type==='businessprocess'){
+    stage.innerHTML=`${processView(false)}<div class="micro-options"><button class="micro-option" data-proc="keep">再入力を残す</button><button class="micro-option" data-proc="remove">再入力をなくす</button></div>`;
+    stage.querySelectorAll('[data-proc]').forEach(b=>b.onclick=()=>{
+      if(b.dataset.proc==='remove'){b.classList.add('good');lessonInteractiveDone=true;stage.querySelector('.process-lane').outerHTML=processView(true);showLessonFeedback('⭕ 重複入力をなくし、データを一度入力すれば後工程でも利用する形に改善しました。');}
+      else{b.classList.add('bad');showLessonFeedback('どの工程が同じ情報を二度入力しているか探しましょう。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+    });
+  }
+
+  if(type==='procurement'){
+    stage.innerHTML=`<div id="rfpDynamic">${rfpView('none')}</div><div class="txn-buttons">
+      <button class="secondary" data-rfp="0">目的</button><button class="secondary" data-rfp="1">要求機能</button><button class="secondary" data-rfp="2">納期条件</button><button class="purple-btn" data-rfp="3">評価方法</button></div>`;
+    stage.querySelectorAll('[data-rfp]').forEach(b=>b.onclick=()=>{
+      rfpSeen.add(b.dataset.rfp);document.getElementById('rfpDynamic').innerHTML=rfpView(b.dataset.rfp);
+      if(rfpSeen.size>=4){lessonInteractiveDone=true;showLessonFeedback('✅ 提案を比較できるよう、要求と条件を明確にしておくことが重要です。');}
+    });
+  }
+
+  if(type==='swot'){
+    const cases=[
+      ['高い技術力','S'],['知名度が低い','W'],['市場が拡大中','O'],['競合が新規参入','T']
+    ];
+    const draw=()=>{
+      if(swotStep>=cases.length){lessonInteractiveDone=true;stage.innerHTML=swotView(4);showLessonFeedback('✅ 内部S/W、外部O/Tを仕分けできました。');return;}
+      const c=cases[swotStep];
+      stage.innerHTML=`<div style="text-align:center;font-weight:900;font-size:20px;margin-bottom:13px">${c[0]}</div><div class="micro-options">${['S','W','O','T'].map(x=>`<button class="micro-option" data-s="${x}">${x}</button>`).join('')}</div>`;
+      stage.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{
+        if(b.dataset.s===c[1]){b.classList.add('good');swotStep++;showLessonFeedback('⭕ 正しく分類できました。');setTimeout(draw,400);}
+        else{b.classList.add('bad');showLessonFeedback('内部か外部か、プラスかマイナスかで考えてみましょう。',true);setTimeout(()=>b.classList.remove('bad'),600);}
+      });
+    };draw();
+  }
+
+  if(type==='iot'){
+    stage.innerHTML=`<div id="iotDynamic">${iotView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="iotStepBtn">▶ 1 STEP</button></div>`;
+    document.getElementById('iotStepBtn').onclick=()=>{
+      iotStep=Math.min(3,iotStep+1);document.getElementById('iotDynamic').innerHTML=iotView(iotStep);
+      const msgs=['','温度データをネットワークへ送りました。','クラウドで条件を判定しました。','アクチュエータが空調をONにしました。'];
+      showLessonFeedback(msgs[iotStep]);
+      if(iotStep===3){lessonInteractiveDone=true;document.getElementById('iotStepBtn').disabled=true;document.getElementById('iotStepBtn').textContent='✓ 完了';}
+    };
+  }
+
+  if(type==='finance'){
+    stage.innerHTML=`<div id="finDynamic">${financeView(0)}</div><div class="micro-options" id="finOptions"><button class="micro-option" data-fin="400">売上総利益 400</button><button class="micro-option" data-fin="600">売上総利益 600</button></div>`;
+    stage.querySelectorAll('[data-fin]').forEach(b=>b.onclick=()=>{
+      if(b.dataset.fin==='400'){
+        financeStep=1;document.getElementById('finDynamic').innerHTML=financeView(1);
+        document.getElementById('finOptions').innerHTML='<button class="micro-option" data-op="150">営業利益 150</button><button class="micro-option" data-op="250">営業利益 250</button>';
+        document.querySelectorAll('[data-op]').forEach(x=>x.onclick=()=>{
+          if(x.dataset.op==='150'){x.classList.add('good');financeStep=2;document.getElementById('finDynamic').innerHTML=financeView(2);lessonInteractiveDone=true;showLessonFeedback('✅ 1,000−600=400、400−250=150です。');}
+          else{x.classList.add('bad');showLessonFeedback('売上総利益400から販管費250を引きます。',true);setTimeout(()=>x.classList.remove('bad'),600);}
+        });
+      }else{b.classList.add('bad');showLessonFeedback('売上総利益 = 売上高1,000 − 売上原価600です。',true);setTimeout(()=>b.classList.remove('bad'),600);}
+    });
+  }
 
   if(type==='os'){
     stage.innerHTML=`<div id="osDynamic">${scheduleView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="osStepBtn">▶ CPUを割り当てる</button></div>`;
@@ -6181,14 +6796,14 @@ finishQuizSession=function(){
 };
 
 function roadmapData(){
-  const basicsIds=['binary','logic','cpu','cache','os','reliability','backup','binarysearch','stackqueue'];
-  const techIds=['transaction','sql','mutex','subnet','tcpudp','crypto','signature','development','testing'];
+  const basicsIds=['binary','logic','automata','cpu','cache','os','filesystem','backup','memorychips','uiux','multimedia','reliability','binarysearch','stackqueue'];
+  const techIds=['transaction','sql','mutex','subnet','tcpudp','crypto','signature','development','testing','devmodel'];
   const basics=lessonCompletionAverage(basicsIds.filter(id=>LESSONS[id]));
   const tech=lessonCompletionAverage(techIds.filter(id=>LESSONS[id]));
   const bAlgo=objectCompletion(profile.bProgress);
   const bSec=objectCompletion(profile.securityBProgress);
-  const mgmtIds=['development','testing','criticalpath','sla'].filter(id=>LESSONS[id]);
-  const stratIds=['iprights','breakeven'].filter(id=>LESSONS[id]);
+  const mgmtIds=['development','testing','devmodel','criticalpath','sla','audit'].filter(id=>LESSONS[id]);
+  const stratIds=['businessprocess','procurement','swot','iot','iprights','breakeven','finance','uiux'].filter(id=>LESSONS[id]);
   const mgmt=lessonCompletionAverage(mgmtIds);
   const strat=lessonCompletionAverage(stratIds);
   const exerciseBase=Math.min(100,Math.round(((profile.sessions||[]).length/10)*100));
@@ -6337,6 +6952,70 @@ refreshProfileUI=function(){
 
 renderDailyPlan();
 renderPlannerScreen();
+
+
+
+// ===== v12: curriculum coverage mapped to the textbook's 22 chapters =====
+const CHAPTER_COVERAGE = [
+  {n:1,title:'基礎理論1',ids:['binary']},
+  {n:2,title:'基礎理論2',ids:['logic','automata']},
+  {n:3,title:'アルゴリズムとプログラミング',ids:['binarysearch','stackqueue']},
+  {n:4,title:'コンピュータの構成要素',ids:['cpu','cache']},
+  {n:5,title:'システムの構成要素',ids:['reliability']},
+  {n:6,title:'ソフトウェア',ids:['os','filesystem','backup']},
+  {n:7,title:'ハードウェア',ids:['memorychips']},
+  {n:8,title:'UIとマルチメディア',ids:['uiux','multimedia']},
+  {n:9,title:'データベース',ids:['transaction','sql','mutex']},
+  {n:10,title:'ネットワーク',ids:['subnet','tcpudp']},
+  {n:11,title:'情報セキュリティ',ids:['crypto','signature']},
+  {n:12,title:'システム開発',ids:['development','testing']},
+  {n:13,title:'ソフトウェア開発手法',ids:['devmodel']},
+  {n:14,title:'プロジェクトマネジメント',ids:['criticalpath']},
+  {n:15,title:'サービスマネジメントと監査',ids:['sla','audit']},
+  {n:16,title:'システム戦略',ids:['businessprocess']},
+  {n:17,title:'システム企画',ids:['procurement']},
+  {n:18,title:'経営戦略マネジメント',ids:['swot']},
+  {n:19,title:'ビジネスインダストリ',ids:['iot']},
+  {n:20,title:'企業活動',ids:['breakeven','finance']},
+  {n:21,title:'法務',ids:['iprights']},
+  {n:22,title:'科目B 合格戦略',special:'b'}
+];
+
+function chapterProgress(ch){
+  if(ch.special==='b'){
+    const a=objectCompletion(profile.bProgress);
+    const s=objectCompletion(profile.securityBProgress);
+    return Math.round((a+s)/2);
+  }
+  const valid=(ch.ids||[]).filter(id=>LESSONS[id]);
+  if(!valid.length) return 0;
+  return Math.round(valid.reduce((sum,id)=>sum+(profile.lessonProgress?.[id]||0),0)/valid.length);
+}
+function renderCoverage(){
+  const root=document.getElementById('coverageGrid');
+  if(!root) return;
+  root.innerHTML='';
+  const vals=[];
+  CHAPTER_COVERAGE.forEach(ch=>{
+    const pct=chapterProgress(ch);vals.push(pct);
+    const d=document.createElement('div');
+    d.className='coverage-chapter';
+    d.innerHTML=`<div class="coverage-ch-num">第${ch.n}章</div>
+      <div><div class="coverage-ch-title">${ch.title}</div><div class="coverage-ch-sub">${ch.special==='b'?'TRACE / SECURITY LAB':'対応教材 '+(ch.ids||[]).length+'本'}</div>
+      <div class="progress" style="height:8px;margin-top:7px"><div style="width:${pct}%"></div></div></div>
+      <div class="coverage-ch-pct">${pct}%</div>`;
+    root.appendChild(d);
+  });
+  const overall=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+  document.getElementById('coverageOverall').textContent=overall+'%';
+}
+
+const _refreshProfileUI_v12=refreshProfileUI;
+refreshProfileUI=function(){
+  _refreshProfileUI_v12();
+  renderCoverage();
+};
+renderCoverage();
 
 
 // ===== PWA support =====
