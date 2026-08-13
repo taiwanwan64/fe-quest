@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v23</title>
+<title>FE QUEST PWA v24</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2929,7 +2929,7 @@
 
 
   /* ===== v22: clearer interaction affordance ===== */
-  .interaction-guide{max-width:760px;margin:16px auto -8px;padding:11px 14px;border:1px solid #cfdef0;background:#f4f9ff;border-radius:15px;display:flex;align-items:center;gap:10px;line-height:1.45}
+  .interaction-guide{display:none!important;max-width:760px;margin:16px auto -8px;padding:11px 14px;border:1px solid #cfdef0;background:#f4f9ff;border-radius:15px;display:flex;align-items:center;gap:10px;line-height:1.45}
   .interaction-guide-icon{width:34px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:19px;flex:0 0 auto;border:1px solid #d8e7f5}
   .interaction-guide b{display:block;font-size:12px;color:#1774a8}
   .interaction-guide span:not(.interaction-guide-icon){display:block;font-size:11px;color:var(--muted);margin-top:2px}
@@ -2962,11 +2962,11 @@
   }
   .flow-current::after{
     content:"現在";
-    position:absolute;top:-12px;right:8px;
-    padding:3px 7px;border-radius:999px;
+    position:absolute;top:6px;right:6px;z-index:5;
+    padding:2px 6px;border-radius:999px;
     background:var(--blue);color:#fff;
     font-size:9px;font-weight:900;letter-spacing:.02em;
-    line-height:1.4;
+    line-height:1.35;
   }
   .flow-done{
     border-color:#b9e7a8!important;
@@ -3023,13 +3023,18 @@
   }
 
   .step-position-note{
-    display:flex;align-items:center;justify-content:center;gap:7px;
+    display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;
     margin:10px auto 0;color:#1679ad;font-size:11px;font-weight:900;
   }
   .step-position-dot{
     width:9px;height:9px;border-radius:50%;background:var(--blue);
     box-shadow:0 0 0 4px rgba(28,176,246,.13);
     animation:feCurrentPulse 1.45s ease-in-out infinite;
+  }
+  .step-position-count{
+    display:inline-block;padding:2px 8px;border-radius:999px;
+    background:#eef9ff;border:1px solid #c8e7fb;color:#1679ad;
+    font-size:10px;font-weight:1000;
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -5940,7 +5945,7 @@ const LESSONS = {
     title:'IoTの流れ',cat:'ビジネスインダストリ',skill:'ストラテジ',
     pages:[
       {headline:'現実世界の情報をデジタルへつなぐ',copy:'温度センサの値をネットワーク経由でクラウドへ送り、条件に応じて空調を動かす例です。',render:()=>iotView(0)},
-      {headline:'データの流れを進める',copy:'1 STEPずつ、センサ → ネットワーク → クラウド → アクチュエータの順に進めてください。',interactive:'iot'},
+      {headline:'データの流れを進める',copy:'青く光る箇所を見ながら、センサ → ネットワーク → クラウド → アクチュエータの順に進めてください。',interactive:'iot'},
       {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(4)},
       {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
     ]
@@ -6266,7 +6271,7 @@ const LESSONS = {
       },
       {
         headline:'Fetch → Decode → Execute',
-        copy:'「1 STEP」を押して命令を進めてください。',
+        copy:'青く光る箇所を見ながら、命令サイクルを順に進めてください。',
         interactive:'cpuCycle'
       },
       {
@@ -6415,7 +6420,7 @@ function fileTreeView(active){
   ];
   const current=Math.min(active,5);
   return `<div class="file-tree">${nodes.map((x,i)=>`<div class="file-tree-row ${flowState(i,current,5)}">${x[0]}<span class="file-node ${i<=active?'active':''}">${x[1]}</span></div>`).join('')}</div>
-    ${current<5?stepPositionNote(`現在：${nodes[current][1]}`):stepPositionNote('目的のファイルまで到達しました')}
+    ${current<5?stepPositionNote(`現在：${nodes[current][1]}`, current+1, 5):stepPositionNote('目的のファイルまで到達しました')}
     ${active>=4?'<div class="path-box">/home/user/docs/report.pdf</div>':''}`;
 }
 function uiView(good){
@@ -6481,15 +6486,20 @@ function flowArrowState(index,current,total){
   if(current>=total) return 'flow-arrow-current';
   return index===current ? 'flow-arrow-current' : '';
 }
-function stepPositionNote(label){
-  return `<div class="step-position-note"><span class="step-position-dot"></span>${label}</div>`;
+function stepPositionNote(label,currentStep=null,totalSteps=null){
+  const count=(Number.isInteger(currentStep)&&Number.isInteger(totalSteps))
+    ? `<span class="step-position-count">STEP ${currentStep} / ${totalSteps}</span>` : '';
+  return `<div class="step-position-note"><span class="step-position-dot"></span>${label}${count}</div>`;
+}
+function progressButtonLabel(currentStep,totalSteps,base='▶ 進める'){
+  return `${base}（STEP ${currentStep} / ${totalSteps}）`;
 }
 
 function iotView(step){
   const cards=[['🌡️','センサ','温度を取得'],['📡','ネットワーク','データ送信'],['☁️','クラウド','判断・蓄積'],['❄️','アクチュエータ','空調をON']];
   const current=Math.min(step,4);
   return `<div class="diagram-scroll"><div class="iot-flow">${cards.map((x,i)=>`${i?`<div aria-hidden="true" class="iot-arrow ${i===current?'flow-arrow-current':''}">→</div>`:''}<div class="iot-card ${flowState(i,current,4)}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div></div>
-    ${current<4?stepPositionNote(`現在：${cards[current][1]}`):stepPositionNote('流れをすべて確認しました')}`;
+    ${current<4?stepPositionNote(`現在：${cards[current][1]}`, current+1, 4):stepPositionNote('流れをすべて確認しました')}`;
 }
 function financeView(step){
   return `<div class="finance-table">
@@ -6498,7 +6508,7 @@ function financeView(step){
     <div class="fin-row total ${step===0?'flow-current':step>0?'flow-done':''}"><span>売上総利益</span><span class="fin-value ${step>=1?'fin-highlight':''}">${step>=1?'400':'?'}</span></div>
     <div class="fin-row"><span>－ 販売費及び一般管理費</span><span class="fin-value">250</span></div>
     <div class="fin-row total ${step===1?'flow-current':step>=2?'flow-done':''}"><span>営業利益</span><span class="fin-value ${step>=2?'fin-highlight':''}">${step>=2?'150':'?'}</span></div>
-  </div>${step<2?stepPositionNote(step===0?'現在：売上総利益を求める':'現在：営業利益を求める'):stepPositionNote('利益計算をすべて確認しました')}`;
+  </div>${step<2?stepPositionNote(step===0?'現在：売上総利益を求める':'現在：営業利益を求める', step+1, 2):stepPositionNote('利益計算をすべて確認しました')}`;
 }
 
 function scheduleView(step){
@@ -6510,7 +6520,7 @@ function scheduleView(step){
       <div class="sched-name">${p}</div>
       <div class="sched-bar">${[0,1,2].map(s=>`<div class="cpu-slice ${s<step&&s%3===i?'active':''}">${s%3===i&&s<step?'CPU':''}</div>`).join('')}</div>
     </div>`).join('')}</div>
-    ${allDone?stepPositionNote('3プロセスへの割当てを確認しました'):stepPositionNote(`現在：${labels[current]}`)}
+    ${allDone?stepPositionNote('3プロセスへの割当てを確認しました'):stepPositionNote(`現在：${labels[current]}`, current+1, 3)}
     <div class="lesson-copy" style="margin-top:12px">CPUを短い時間単位で複数プロセスへ割り当てるイメージです。</div>`;
 }
 function reliabilityView(mode){
@@ -6544,7 +6554,7 @@ function devPipeline(active){
   const items=[['要件定義','何を作る？'],['設計','どう作る？'],['実装','コード化'],['テスト','確認'],['移行','利用開始']];
   const current=Math.min(active,5);
   return `<div class="dev-pipeline">${items.map((x,i)=>`<div class="dev-step ${flowState(i,current,5)}"><div>${x[0]}</div><div class="small">${x[1]}</div></div>`).join('')}</div>
-    ${current<5?stepPositionNote(`現在：${items[current][0]}`):stepPositionNote('開発工程をすべて確認しました')}`;
+    ${current<5?stepPositionNote(`現在：${items[current][0]}`, current+1, 5):stepPositionNote('開発工程をすべて確認しました')}`;
 }
 function testPyramid(active){
   const items=['受入テスト','システムテスト','結合テスト','単体テスト'];
@@ -6554,7 +6564,7 @@ function testPyramid(active){
     const cls=current>=4?'flow-done':order<current?'flow-done':order===current?'flow-current':'';
     return `<div class="test-level ${cls}">${x}</div>`;
   }).join('')}</div>
-  ${current<4?stepPositionNote(`現在：${items[3-current]}`):stepPositionNote('4段階のテストをすべて確認しました')}`;
+  ${current<4?stepPositionNote(`現在：${items[3-current]}`, current+1, 4):stepPositionNote('4段階のテストをすべて確認しました')}`;
 }
 function criticalPathView(show){
   return `<div class="cp-network">
@@ -6658,7 +6668,7 @@ function signatureView(active){
     <div class="sig-card ${flowState(1,current,3)}"><div style="font-size:28px">✍️</div><b>秘密鍵で署名</b><div class="sub">署名データを作る</div></div>
     <div class="cpu-arrow ${current===2?'flow-arrow-current':''}">→</div>
     <div class="sig-card ${flowState(2,current,3)}"><div style="font-size:28px">✅</div><b>公開鍵で検証</b><div class="sub">本人性・改ざん確認</div></div>
-  </div>${current<3?stepPositionNote(`現在：${labels[current]}`):stepPositionNote('署名と検証の流れをすべて確認しました')}`;
+  </div>${current<3?stepPositionNote(`現在：${labels[current]}`, current+1, 3):stepPositionNote('署名と検証の流れをすべて確認しました')}`;
 }
 function lockView(mode){
   const locked=mode==='locked';
@@ -6674,7 +6684,7 @@ function cpuFlow(active){
   const current=Math.min(active,3);
   return `<div class="cpu-flow">${
     labels.map((x,i)=>`${i?`<div class="cpu-arrow ${i===current?'flow-arrow-current':''}">→</div>`:''}<div class="cpu-box ${flowState(i,current,3)}"><div style="font-size:30px">${x[0]}</div><div>${x[1]}</div><div class="sub">${x[2]}</div></div>`).join('')
-  }</div>${current<3?stepPositionNote(`現在：${labels[current][1]}`):stepPositionNote('命令サイクルをすべて確認しました')}`;
+  }</div>${current<3?stepPositionNote(`現在：${labels[current][1]}`, current+1, 3):stepPositionNote('命令サイクルをすべて確認しました')}`;
 }
 function bankView(a,b,log){
   return `<div class="bank-grid">
@@ -6808,19 +6818,10 @@ const INTERACTION_GUIDES={
   binarysearch:['左右どちらかをタップ','中央と比べて、残す半分を選んでください。']
 };
 function updateInteractionGuide(page){
-  const root=document.getElementById('interactionGuide');if(!root)return;
+  const root=document.getElementById('interactionGuide');
+  if(!root) return;
+  root.style.display='none';
   root.classList.remove('ready');
-  if(page.interactive){
-    const g=INTERACTION_GUIDES[page.interactive]||['下の操作部を使う','ボタンやカードを操作して変化を確認してください。'];
-    const sequential=['cpuCycle','signature','filesystem','iot','finance','os','development','testing'];
-    document.getElementById('interactionGuideTitle').textContent='操作：'+g[0];
-    document.getElementById('interactionGuideText').textContent=g[1]+(sequential.includes(page.interactive)?' 青く光っている箇所が現在位置です。':'');
-    root.style.display='flex';
-  }else if(page.quiz){
-    document.getElementById('interactionGuideTitle').textContent='回答：選択肢を1つタップ';
-    document.getElementById('interactionGuideText').textContent='選んだあとに正解と解説を確認できます。';
-    root.style.display='flex';
-  }else root.style.display='none';
 }
 function markInteractionGuideDone(){
   const root=document.getElementById('interactionGuide');if(!root||root.style.display==='none')return;
@@ -6886,15 +6887,19 @@ function renderInteractive(type,stage){
   }
 
   if(type==='cpuCycle'){
-    stage.innerHTML=`<div id="cpuDynamic">${cpuFlow(0)}</div><div class="cpu-action"><button class="purple-btn" id="cpuStepBtn">▶ 1 STEP</button></div>`;
+    stage.innerHTML=`<div id="cpuDynamic">${cpuFlow(0)}</div><div class="cpu-action"><button class="purple-btn" id="cpuStepBtn">${progressButtonLabel(1,3)}</button></div>`;
     document.getElementById('cpuStepBtn').addEventListener('click',()=>{
       cpuStep=Math.min(3,cpuStep+1);
       document.getElementById('cpuDynamic').innerHTML=cpuFlow(cpuStep);
       const names=['','Fetchが完了。次はDecodeです。','Decodeが完了。次はExecuteです。','Executeまで完了しました。'];
       showLessonFeedback(names[cpuStep]);
+      const btn=document.getElementById('cpuStepBtn');
       if(cpuStep===3){
         lessonInteractiveDone=true;
-        document.getElementById('cpuStepBtn').textContent='✓ 完了';
+        btn.disabled=true;
+        btn.textContent='✓ 完了';
+      }else{
+        btn.textContent=progressButtonLabel(cpuStep+1,3);
       }
     });
   }
@@ -7206,7 +7211,7 @@ function renderInteractive(type,stage){
   }
 
   if(type==='iot'){
-    stage.innerHTML=`<div id="iotDynamic">${iotView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="iotStepBtn">▶ 1 STEP</button></div>`;
+    stage.innerHTML=`<div id="iotDynamic">${iotView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="iotStepBtn">${progressButtonLabel(1,4)}</button></div>`;
     document.getElementById('iotStepBtn').onclick=()=>{
       iotStep=Math.min(4,iotStep+1);
       document.getElementById('iotDynamic').innerHTML=iotView(iotStep);
@@ -7218,7 +7223,9 @@ function renderInteractive(type,stage){
         'アクチュエータが空調をONにしました。'
       ];
       showLessonFeedback(msgs[iotStep]);
-      if(iotStep===4){lessonInteractiveDone=true;document.getElementById('iotStepBtn').disabled=true;document.getElementById('iotStepBtn').textContent='✓ 完了';}
+      const btn=document.getElementById('iotStepBtn');
+      if(iotStep===4){lessonInteractiveDone=true;btn.disabled=true;btn.textContent='✓ 完了';}
+      else{btn.textContent=progressButtonLabel(iotStep+1,4);}
     };
   }
 
