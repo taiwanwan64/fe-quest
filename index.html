@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v18</title>
+<title>FE QUEST PWA v19</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2857,6 +2857,54 @@
     .review-forecast{gap:3px}
   }
 
+
+  /* ===== v19: Variant Review ===== */
+  .variant-badge{
+    margin-left:5px;padding:5px 8px;border-radius:999px;
+    background:#f3ebff;color:#66369a;font-size:9px;font-weight:900;letter-spacing:.4px;
+  }
+  .review-engine-card{
+    display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;
+    background:linear-gradient(135deg,#fbf8ff,#fff);border:1px solid #ded0f2;
+    border-radius:20px;padding:15px;
+  }
+  .review-engine-icon{
+    width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e5daf4;
+    display:grid;place-items:center;font-size:24px;
+  }
+  .review-engine-copy b{font-size:14px}
+  .review-engine-copy>div{font-size:11px;color:var(--muted);line-height:1.5;margin-top:3px}
+  .review-engine-meta{color:#7445a5!important;font-weight:900}
+  .switch-row{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:900;white-space:nowrap}
+  .switch-row input{width:18px;height:18px}
+
+  .variant-source-note{
+    margin-top:10px;padding:10px 12px;border-radius:13px;
+    background:#f7f3ff;border:1px solid #ded0f2;font-size:11px;line-height:1.55;
+  }
+  .variant-source-note b{color:#67349b}
+
+  .recall-gate{
+    margin-bottom:13px;padding:13px;border-radius:16px;background:#fffaf0;border:1px solid #f0dfb4;
+  }
+  .recall-gate-title{font-size:12px;font-weight:900;color:#8a6500;margin-bottom:7px}
+  .recall-input{
+    width:100%;border:2px solid var(--line);border-radius:13px;padding:10px 11px;font:inherit;
+  }
+  .recall-actions{display:flex;gap:8px;align-items:center;margin-top:8px}
+  .recall-actions button{
+    border:none;border-radius:11px;padding:8px 10px;background:#ffc800;font-weight:900;
+  }
+  .recall-status{font-size:10px;color:var(--muted);font-weight:800}
+  .options-locked{
+    display:none!important;
+  }
+
+  @media(max-width:720px){
+    .review-engine-card{grid-template-columns:42px 1fr}
+    .switch-row{grid-column:2}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3656,6 +3704,19 @@
           <button data-mode="random">始める</button>
         </div>
 
+        <div class="review-engine-card">
+          <div class="review-engine-icon">🧠</div>
+          <div class="review-engine-copy">
+            <b>VARIANT REVIEW</b>
+            <div>復習では、同じ論点を別の数値・別の聞き方で確認します。</div>
+            <div class="review-engine-meta" id="variantCoverageText">生成可能な類題を確認中…</div>
+          </div>
+          <label class="switch-row">
+            <input type="checkbox" id="variantReviewToggle" checked>
+            <span>類題を優先</span>
+          </label>
+        </div>
+
         <div class="history-box">
           <h3>最近の演習</h3>
           <div id="recentHistory"><div class="sub">まだ演習履歴がありません。</div></div>
@@ -3682,6 +3743,7 @@
         <div class="quiz-card">
           <div class="quiz-top">
             <span class="quiz-badge" id="quizCategory">分野</span>
+            <span class="variant-badge" id="variantBadge" style="display:none">VARIANT REVIEW</span>
             <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
             <span class="quiz-source">FE QUEST オリジナル</span>
           </div>
@@ -4940,12 +5002,168 @@ function openProblemsHub(){
   renderRecentHistory();
 }
 
+
+// ===== v19: parameterized review variants =====
+function shuffledCopy(arr){ return shuffled([...arr]); }
+function choicePack(correct,distractors){
+  const vals=[];
+  [correct,...distractors].forEach(x=>{
+    const s=String(x);
+    if(!vals.some(v=>String(v)===s)) vals.push(x);
+  });
+  let filler=1;
+  while(vals.length<4){
+    const x=`候補${filler++}`;
+    if(!vals.includes(x)) vals.push(x);
+  }
+  const mixed=shuffledCopy(vals.slice(0,4));
+  return {options:mixed.map(String),a:mixed.findIndex(x=>String(x)===String(correct))};
+}
+function variantId(baseId){
+  return `variant:${baseId}:${Date.now()}:${Math.floor(Math.random()*100000)}`;
+}
+
+function genBaseConversion(base){
+  const n=8+Math.floor(Math.random()*55),bin=n.toString(2);
+  const p=choicePack(n,[n+1,Math.max(0,n-2),n+4]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`2進数 ${bin} を10進数で表すと？`,options:p.options,a:p.a,
+    exp:`${bin}₂ を各桁の2の重みで足すと ${n} です。`,hint:'右端から1,2,4,8,…の重みを考えます。'};
+}
+function genHexConversion(base){
+  const n=20+Math.floor(Math.random()*180),hx=n.toString(16).toUpperCase();
+  const p=choicePack(n,[n+16,Math.max(0,n-16),n+1]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`16進数 ${hx} を10進数で表すと？`,options:p.options,a:p.a,
+    exp:`${hx}₁₆ を16の位取りで計算すると ${n} です。`,hint:'A=10、B=11、…、F=15です。'};
+}
+function genReliability(base){
+  const vals=[0.8,0.85,0.9,0.95],r=vals[Math.floor(Math.random()*vals.length)];
+  const serial=Math.round(r*r*10000)/10000;
+  const parallel=Math.round((1-(1-r)*(1-r))*10000)/10000;
+  const askParallel=Math.random()<0.5,correct=askParallel?parallel:serial;
+  const p=choicePack(correct,[r,askParallel?serial:parallel,Math.round(2*r*100)/100]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`稼働率${r}の同一装置2台を${askParallel?'並列':'直列'}に接続した。システム稼働率は？`,
+    options:p.options,a:p.a,
+    exp:askParallel?`1−(1−${r})²=${parallel}です。`:`${r}×${r}=${serial}です。`,
+    hint:askParallel?'両方とも故障する確率を1から引きます。':'直列は両方が稼働する必要があります。'};
+}
+function genImageSize(base){
+  const ws=[80,100,120,160,200,240],hs=[60,80,100,120],bs=[8,16,24];
+  const w=ws[Math.floor(Math.random()*ws.length)],h=hs[Math.floor(Math.random()*hs.length)],b=bs[Math.floor(Math.random()*bs.length)];
+  const correct=w*h*b;
+  const p=choicePack(correct,[w*h,Math.floor(correct/8),correct*8]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`${w}×${h}画素、1画素${b}ビットの非圧縮画像は何ビット？`,options:p.options,a:p.a,
+    exp:`${w}×${h}×${b}=${correct}ビットです。`,hint:'画素数×1画素当たりのビット数です。'};
+}
+function genGrossProfit(base){
+  const sales=(6+Math.floor(Math.random()*8))*100;
+  let cost=(3+Math.floor(Math.random()*4))*100;
+  if(cost>=sales) cost=sales-200;
+  const correct=sales-cost,p=choicePack(correct,[cost,sales,sales+cost]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`売上高${sales}、売上原価${cost}のとき、売上総利益はいくら？`,options:p.options,a:p.a,
+    exp:`${sales}−${cost}=${correct}です。`,hint:'売上高から売上原価を引きます。'};
+}
+function genQueue(base){
+  const letters=shuffledCopy(['A','B','C','D','E']).slice(0,3);
+  const remove=1+Math.floor(Math.random()*2),answer=letters[remove-1];
+  const p=choicePack(answer,[...letters.filter(x=>x!==answer),'取り出せない']);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`空のキューへ ${letters.join(' → ')} の順にENQUEUEした後、${remove}回目のDEQUEUEで取り出されるのは？`,options:p.options,a:p.a,
+    exp:`FIFOなので${remove}回目は ${answer} です。`,hint:'最初に入れたものから取り出します。'};
+}
+function genStack(base){
+  const nums=shuffledCopy([2,4,6,8,10,12]).slice(0,3),answer=nums[2];
+  const p=choicePack(answer,[nums[0],nums[1],'取り出せない']);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`空のスタックへ ${nums.join(' → ')} の順にPUSHした直後、1回POPすると取り出される値は？`,options:p.options,a:p.a,
+    exp:`LIFOなので最後にPUSHした ${answer} が最初にPOPされます。`,hint:'最後に入れたものが最初に出ます。'};
+}
+function genConditional(base){
+  const x=3+Math.floor(Math.random()*12),th=2+Math.floor(Math.random()*10),yt=1+Math.floor(Math.random()*4),yf=5+Math.floor(Math.random()*4);
+  const answer=x>th?yt:yf,p=choicePack(answer,[x,th,x>th?yf:yt]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`x=${x} のとき「if x > ${th} then y←${yt} else y←${yf}」を実行した後のyは？`,options:p.options,a:p.a,
+    exp:`${x}>${th} は${x>th?'真':'偽'}なので y=${answer} です。`,hint:`まず ${x}>${th} を判定します。`};
+}
+function genSetIntersection(base){
+  const c=2+Math.floor(Math.random()*6),aa=[c,c+1,c+3],bb=[c-1,c,c+4],correct=`{${c}}`;
+  const p=choicePack(correct,[`{${c},${c+1}}`,`{${c-1},${c}}`,`{${[...new Set([...aa,...bb])].join(',')}}`]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`集合A={${aa.join(',')}}、集合B={${bb.join(',')}} の共通部分 A∩B は？`,options:p.options,a:p.a,
+    exp:`両方に含まれるのは ${c} だけなので ${correct} です。`,hint:'両方の集合に含まれる要素だけ残します。'};
+}
+function genThroughput(base){
+  const seconds=[30,60,120][Math.floor(Math.random()*3)],count=[60,90,120,180][Math.floor(Math.random()*4)];
+  const v=count/(seconds/60),correct=Number.isInteger(v)?String(v):v.toFixed(1);
+  const p=choicePack(correct,[String(count),String(Math.round(v/2)),String(Math.round(v*2))]);
+  return {id:variantId(base.id),sourceId:base.id,variant:true,cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`${seconds}秒間に${count}件処理できるシステムの、1分当たりのスループットは何件？`,options:p.options,a:p.a,
+    exp:`${count}÷(${seconds}/60)=${correct}件/分です。`,hint:'時間を1分にそろえます。'};
+}
+
+const VARIANT_GENERATORS=[
+  {match:q=>q.concept==='基数変換',gen:genBaseConversion},
+  {match:q=>q.concept==='16進数',gen:genHexConversion},
+  {match:q=>q.concept==='信頼性',gen:genReliability},
+  {match:q=>q.concept==='画像データ量',gen:genImageSize},
+  {match:q=>q.concept==='財務',gen:genGrossProfit},
+  {match:q=>q.concept==='キュー',gen:genQueue},
+  {match:q=>q.concept==='スタック',gen:genStack},
+  {match:q=>q.concept==='条件分岐',gen:genConditional},
+  {match:q=>q.concept==='集合',gen:genSetIntersection},
+  {match:q=>q.concept==='スループット',gen:genThroughput}
+];
+function generatorFor(q){return VARIANT_GENERATORS.find(x=>x.match(q))?.gen||null;}
+function hasVariant(q){return !!generatorFor(q);}
+function generateVariant(q){
+  const g=generatorFor(q);
+  if(!g)return null;
+  try{
+    const v=g(q);
+    if(!v||!Array.isArray(v.options)||v.options.length!==4||v.a<0||v.a>3||v.options[v.a]==null)return null;
+    return v;
+  }catch(e){console.warn('variant generation failed',q.id,e);return null;}
+}
+function siblingVariant(q){
+  const siblings=QUESTION_BANK.filter(x=>x.id!==q.id&&(x.concept===q.concept||x.cat===q.cat));
+  if(!siblings.length)return null;
+  const same=siblings.filter(x=>x.concept===q.concept),pool=same.length?same:siblings,picked=shuffledCopy(pool)[0];
+  return {...picked,id:variantId(q.id),sourceId:q.id,variant:true,variantSibling:true};
+}
+function buildReviewItem(q){
+  if(profile.settings.variantReview===false)return q;
+  return generateVariant(q)||siblingVariant(q)||q;
+}
+function variantCoverage(){
+  const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length;
+  const concepts=[...new Set(QUESTION_BANK.filter(hasVariant).map(q=>q.concept))].length;
+  return {direct,total,concepts};
+}
+function validateGeneratedVariants(){
+  let count=0;
+  for(const base of QUESTION_BANK.filter(hasVariant)){
+    for(let i=0;i<8;i++){
+      const q=generateVariant(base);
+      if(!q||q.options.length!==4||q.a<0||q.a>3||q.options[q.a]==null)throw new Error('invalid variant '+base.id);
+      if(q.sourceId!==base.id)throw new Error('source mismatch '+base.id);
+      count++;
+    }
+  }
+  return count;
+}
+
+
 function startQuiz(mode){
   ensureQuestionProfile();
   quizMode=mode;
   if(mode==='review'){
     const due=dueQuestions();
-    quizItems=due.length ? due.slice(0,10) : chooseWeakQuestions(5);
+    const bases=due.length ? due.slice(0,10) : chooseWeakQuestions(5);
+    quizItems=bases.map(buildReviewItem);
   }else if(mode==='weak'){
     quizItems=chooseWeakQuestions(10);
   }else if(mode==='boss'){
@@ -5005,10 +5223,16 @@ function renderQuizQuestion(){
   document.getElementById('quizCategory').textContent=`${q.cat}・${q.concept}`;
   document.getElementById('quizDifficulty').textContent=q.difficulty;
   document.getElementById('quizQuestion').textContent=q.q;
+  const vb=document.getElementById('variantBadge');
+  if(vb){
+    vb.style.display=q.variant?'inline-block':'none';
+    vb.textContent=q.variantSibling?'RELATED REVIEW':'VARIANT REVIEW';
+  }
   document.getElementById('quizCounter').textContent=`${quizIndex+1} / ${quizItems.length}`;
   document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
   document.getElementById('quizExplain').classList.remove('show');
   document.getElementById('quizExplain').querySelector('.memory-next-note')?.remove();
+  document.getElementById('quizExplain').querySelector('.variant-source-note')?.remove();
   document.getElementById('reasonBox').classList.remove('show');
   document.getElementById('quizSubmit').textContent='回答する';
   document.getElementById('quizSubmit').disabled=false;
@@ -5059,8 +5283,9 @@ document.getElementById('quizSubmit')?.addEventListener('click',()=>{
 function gradeCurrentQuestion(){
   const q=quizItems[quizIndex];
   const ok=quizSelected===q.a;
-  const isRx=String(quizMode).startsWith('rx:');
-  const st=profile.qStats[q.id];
+  const isRx=String(quizMode).startsWith('rx:') || quizMode==='review';
+  const statId=q.sourceId||q.id;
+  const st=profile.qStats[statId];
   const selectedNow=quizSelected;
   const attemptSeconds=Math.max(1,Math.round((Date.now()-quizQuestionStartedAt)/1000));
 
@@ -5130,6 +5355,20 @@ function gradeCurrentQuestion(){
   }
   memoryNote.innerHTML=`<b>🧠 次回復習：</b> ${st.due||'未設定'} <span>・記憶間隔 ${Math.round(st.stability||1)}日</span>`;
 
+  let sourceNote=document.getElementById('quizExplain').querySelector('.variant-source-note');
+  if(q.variant){
+    if(!sourceNote){
+      sourceNote=document.createElement('div');
+      sourceNote.className='variant-source-note';
+      document.getElementById('quizExplain').appendChild(sourceNote);
+    }
+    sourceNote.innerHTML=q.variantSibling
+      ? '<b>RELATED REVIEW</b>　同じ論点または同じ分野の別オリジナル問題で確認しました。'
+      : '<b>VARIANT REVIEW</b>　元問題と同じ論点を、別の数値・条件で確認しました。';
+  }else if(sourceNote){
+    sourceNote.remove();
+  }
+
   const retryNote=document.getElementById('quizExplain').querySelector('.retry-note');
   if(retryNote) retryNote.remove();
 
@@ -5162,7 +5401,7 @@ function gradeCurrentQuestion(){
   }
 
   sessionLog.push({
-    id:q.id,cat:q.cat,concept:q.concept,
+    id:q.sourceId||q.id,variantId:q.variant?q.id:null,cat:q.cat,concept:q.concept,
     ok:!quizFirstAttemptWrong && ok,
     recovered,
     seconds:quizFirstAttemptWrong?(quizFirstAttemptSeconds||attemptSeconds):attemptSeconds,
@@ -5186,8 +5425,9 @@ document.querySelectorAll('.reason-chip').forEach(chip=>{
     chip.classList.add('picked');
     quizPickedReason=chip.dataset.reason;
     const q=quizItems[quizIndex];
-    if(profile.qStats[q.id]){
-      profile.qStats[q.id].lastReason=quizPickedReason;
+    const statId=q.sourceId||q.id;
+    if(profile.qStats[statId]){
+      profile.qStats[statId].lastReason=quizPickedReason;
       saveProfile();
     }
   });
@@ -7627,6 +7867,7 @@ if(!profile.settings) profile.settings={studyMinutes:60,examDate:''};
 if(!profile.dailyPlans) profile.dailyPlans={};
 if(!profile.activity) profile.activity={};
 if(!profile.settings.studyMinutes) profile.settings.studyMinutes=60;
+if(profile.settings.variantReview==null) profile.settings.variantReview=true;
 saveProfile();
 
 function dateKey(d=new Date()){
@@ -8867,6 +9108,9 @@ function stopQuestionPacer(){
 }
 function safeTechniqueSnapshot(){
   const kind=rxKind();
+  if(quizMode==='review' && rxTechniqueData.recall!=null){
+    return {kind:'review-recall',recall:String(rxTechniqueData.recall||'').slice(0,120)};
+  }
   if(!kind) return null;
   const out={kind};
   if(kind==='calc') out.work=(rxTechniqueData.work||'').slice(0,120);
@@ -8900,6 +9144,35 @@ function renderRxTechnique(q){
   const kind=rxKind();
   stopQuestionPacer();
   rxPaceElapsed=0;
+  const optionsEl=document.getElementById('quizOptions');
+  if(optionsEl) optionsEl.classList.remove('options-locked');
+
+  if(quizMode==='review' && q.variant){
+    box.style.display='block';
+    document.getElementById('rxTechniqueIcon').textContent='🧠';
+    document.getElementById('rxTechniqueTitle').textContent='選択肢を見る前に思い出す';
+    document.getElementById('rxTechniqueDesc').textContent='完全一致の採点はしません。答え・式・キーワードを短く書き出します。';
+    rxTechniqueReady=false;
+    rxTechniqueData={recall:''};
+    if(optionsEl) optionsEl.classList.add('options-locked');
+    body.innerHTML=`<div class="recall-gate">
+      <div class="recall-gate-title">ACTIVE RECALL</div>
+      <input class="recall-input" id="reviewRecallInput" placeholder="思い出した答え・式・キーワード">
+      <div class="recall-actions"><button id="reviewRecallDone">選択肢を見る</button><span class="recall-status" id="reviewRecallStatus">まず記憶から取り出してみましょう。</span></div>
+    </div>`;
+    document.getElementById('reviewRecallDone').onclick=()=>{
+      const input=document.getElementById('reviewRecallInput');
+      const val=input.value.trim();
+      if(!val){popToast('短くてよいので、思い出した内容を書いてみましょう');return;}
+      rxTechniqueData.recall=val;
+      rxTechniqueReady=true;
+      input.disabled=true;
+      document.getElementById('reviewRecallDone').disabled=true;
+      document.getElementById('reviewRecallStatus').textContent='✓ 想起してから選択肢を表示しました';
+      if(optionsEl) optionsEl.classList.remove('options-locked');
+    };
+    return;
+  }
 
   if(!kind || kind==='knowledge'){
     box.style.display='none';
@@ -9034,6 +9307,13 @@ function renderRxTechnique(q){
 
 function validateRxTechniqueBeforeAnswer(){
   const kind=rxKind();
+  if(quizMode==='review'){
+    if(!rxTechniqueReady){
+      popToast('まず記憶から答えを思い出してから選択肢へ進みましょう');
+      return false;
+    }
+    return true;
+  }
   if(!kind || kind==='knowledge' || kind==='speed') return true;
   if(!rxTechniqueReady){
     const msgs={
@@ -9275,6 +9555,23 @@ refreshProfileUI=function(){
 };
 
 renderMemoryDashboard();
+
+
+// ===== v19: Variant Review settings =====
+function refreshVariantReviewUI(){
+  const t=document.getElementById('variantReviewToggle');
+  if(t)t.checked=profile.settings.variantReview!==false;
+  const c=variantCoverage();
+  const e=document.getElementById('variantCoverageText');
+  if(e)e.textContent=`パラメータ生成 ${c.concepts}論点・${c.direct}問を直接対応。その他は同論点/同分野の別問題を優先。`;
+}
+document.getElementById('variantReviewToggle')?.addEventListener('change',e=>{
+  profile.settings.variantReview=!!e.target.checked;
+  saveProfile();
+  refreshVariantReviewUI();
+  popToast(profile.settings.variantReview?'復習で類題を優先します':'元問題をそのまま復習します');
+});
+refreshVariantReviewUI();
 
 window.FEQUEST_BOOT_OK = true;
 // ===== PWA support =====
