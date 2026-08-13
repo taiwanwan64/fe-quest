@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v21</title>
+<title>FE QUEST PWA v22</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2927,6 +2927,23 @@
     .switch-row{grid-column:2}
   }
 
+
+  /* ===== v22: clearer interaction affordance ===== */
+  .interaction-guide{max-width:760px;margin:16px auto -8px;padding:11px 14px;border:1px solid #cfdef0;background:#f4f9ff;border-radius:15px;display:flex;align-items:center;gap:10px;line-height:1.45}
+  .interaction-guide-icon{width:34px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:19px;flex:0 0 auto;border:1px solid #d8e7f5}
+  .interaction-guide b{display:block;font-size:12px;color:#1774a8}
+  .interaction-guide span:not(.interaction-guide-icon){display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .interaction-guide.ready{background:#f3fff0;border-color:#cce9bd}
+  .interaction-guide.ready b{color:var(--green-dark)}
+  .model-card.model-choice{appearance:none;width:100%;text-align:left;color:var(--text);font:inherit;cursor:pointer;position:relative;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease}
+  .model-card.model-choice:hover{border-color:var(--purple);box-shadow:0 7px 18px rgba(90,50,145,.10);transform:translateY(-1px)}
+  .model-card.model-choice:focus-visible{outline:3px solid rgba(148,76,225,.24);outline-offset:2px;border-color:var(--purple)}
+  .model-card.model-choice.visited{border-color:var(--purple);background:var(--purple-soft)}
+  .model-tap-label{position:absolute;right:12px;top:10px;padding:4px 7px;border-radius:999px;background:#f0e5ff;color:#6e35a5;font-size:9px;font-weight:900}
+  .model-choice-index{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:8px;margin-right:6px;background:#f3f6f8;color:#667684;font-size:11px;font-weight:900}
+  .model-card.model-choice.visited .model-choice-index{background:var(--purple);color:#fff}
+  @media(max-width:720px){.interaction-guide{margin-top:13px}.model-tap-label{position:static;display:inline-block;margin-top:10px}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3892,6 +3909,10 @@
         </div>
         <div class="lesson-headline" id="lessonHeadline"></div>
         <div class="lesson-copy" id="lessonCopy"></div>
+        <div class="interaction-guide" id="interactionGuide" style="display:none">
+          <span class="interaction-guide-icon">👆</span>
+          <div><b id="interactionGuideTitle">ここを操作</b><span id="interactionGuideText"></span></div>
+        </div>
         <div class="lesson-stage" id="lessonStage"></div>
         <div class="lesson-check" id="lessonCheck"></div>
 
@@ -4343,12 +4364,12 @@ const DIAG_QUESTIONS = [
   {
     category:'ネットワーク',
     q:'インターネット上で機器を識別するために使われる論理的なアドレスは？',
-    options:['MACアドレスだけ','IPアドレス','SSID','URLだけ'], answer:1
+    options:['MACアドレス','IPアドレス','SSID','URL'], answer:1
   },
   {
     category:'セキュリティ',
     q:'送信者本人が作成したことと、内容が改ざんされていないことの確認に役立つものは？',
-    options:['デジタル署名','バックアップ','圧縮','ファイアウォールだけ'], answer:0
+    options:['デジタル署名','バックアップ','圧縮','ファイアウォール'], answer:0
   },
   {
     category:'アルゴリズム',
@@ -4559,7 +4580,7 @@ const QUESTION_BANK = [
   // データベース
   {id:'db-01',cat:'データベース',concept:'主キー',difficulty:'基礎',
    q:'関係データベースの表で、各行を一意に識別するための属性は？',
-   options:['主キー','外部キー','ビュー','インデックスだけ'],a:0,
+   options:['主キー','外部キー','ビュー','インデックス'],a:0,
    exp:'主キーは各行（レコード）を一意に識別するための属性または属性の組です。',
    hint:'「この1行は誰？」を一意に決めるキーです。'},
   {id:'db-02',cat:'データベース',concept:'SQL',difficulty:'基礎',
@@ -4596,7 +4617,7 @@ const QUESTION_BANK = [
    hint:'/24は 255.255.255.0 と同じ意味です。'},
   {id:'net-04',cat:'ネットワーク',concept:'TCP/UDP',difficulty:'標準',
    q:'到達確認や再送制御を行い、信頼性の高い通信を提供するプロトコルは？',
-   options:['TCP','UDP','ARP','ICMPだけ'],a:0,
+   options:['TCP','UDP','ARP','ICMP'],a:0,
    exp:'TCPはコネクション型で、順序制御・再送制御などにより信頼性を確保します。',
    hint:'Webやメールなど、多くの用途で「確実に届けたい」ときに使われます。'},
 
@@ -4608,7 +4629,7 @@ const QUESTION_BANK = [
    hint:'データの「指紋」のような値を作ります。'},
   {id:'sec-02',cat:'セキュリティ',concept:'公開鍵暗号',difficulty:'標準',
    q:'公開鍵暗号方式で、受信者だけが読めるように送信内容を暗号化するとき、通常どの鍵を使いますか？',
-   options:['受信者の公開鍵','受信者の秘密鍵','送信者の秘密鍵だけ','送信者の公開鍵だけ'],a:0,
+   options:['受信者の公開鍵','受信者の秘密鍵','送信者の秘密鍵','送信者の公開鍵'],a:0,
    exp:'受信者の公開鍵で暗号化し、その対応する受信者の秘密鍵で復号します。',
    hint:'暗号化する鍵は相手に公開されていても困らない鍵です。'},
   {id:'sec-03',cat:'セキュリティ',concept:'デジタル署名',difficulty:'標準',
@@ -4657,7 +4678,7 @@ const QUESTION_BANK = [
    hint:'確率だけでなく「起きたときの大きさ」も見ます。'},
   {id:'mgmt-03',cat:'マネジメント',concept:'サービスレベル',difficulty:'基礎',
    q:'サービス提供者と利用者の間で、可用性や応答時間などのサービス水準を合意したものは？',
-   options:['SLA','SQL','SDK','SSLだけ'],a:0,
+   options:['SLA','SQL','SDK','SSL'],a:0,
    exp:'SLA（Service Level Agreement）は、提供するサービス水準についての合意です。',
    hint:'Service Level の合意です。'},
   {id:'mgmt-04',cat:'マネジメント',concept:'監査',difficulty:'標準',
@@ -4684,13 +4705,13 @@ const QUESTION_BANK = [
    hint:'市場を「区分」に分ける考え方です。'},
   {id:'strat-04',cat:'ストラテジ',concept:'知的財産',difficulty:'標準',
    q:'発明を保護する代表的な産業財産権は？',
-   options:['特許権','著作権だけ','商号','所有権'],a:0,
+   options:['特許権','著作権','商号','所有権'],a:0,
    exp:'発明を保護する代表的な権利は特許権です。',
    hint:'新しい技術的アイデア＝発明を保護します。'}
 ,
   {id:'sys-01',cat:'コンピュータ',concept:'OS',difficulty:'基礎',
    q:'複数のプログラムがCPUや主記憶を利用できるよう、資源を管理するソフトウェアは？',
-   options:['オペレーティングシステム','DNSサーバだけ','データベースの主キー','デジタル署名'],a:0,
+   options:['オペレーティングシステム','DNSサーバ','データベースの主キー','デジタル署名'],a:0,
    exp:'OSはCPU・メモリ・入出力などの資源を管理し、アプリケーションの実行環境を提供します。',
    hint:'WindowsやLinuxが代表例です。'},
   {id:'sys-02',cat:'コンピュータ',concept:'信頼性',difficulty:'標準',
@@ -4700,12 +4721,12 @@ const QUESTION_BANK = [
    hint:'「AもBも稼働」の確率です。'},
   {id:'mgmt-05',cat:'マネジメント',concept:'システム開発',difficulty:'基礎',
    q:'利用者が必要とする機能や性能を明確にする工程として最も適切なのは？',
-   options:['要件定義','実装','廃棄','バックアップだけ'],a:0,
+   options:['要件定義','実装','廃棄','バックアップ'],a:0,
    exp:'要件定義では、システムが満たすべき機能・性能・制約などを整理します。',
    hint:'「何を作るか」を決める工程です。'},
   {id:'mgmt-06',cat:'マネジメント',concept:'テスト',difficulty:'標準',
    q:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',
-   options:['結合テスト','単体テスト','受入テストだけ','監査'],a:0,
+   options:['結合テスト','単体テスト','受入テスト','監査'],a:0,
    exp:'結合テストでは複数モジュールを組み合わせ、連携部分を確認します。',
    hint:'単体より一段広い範囲です。'},
   {id:'mgmt-07',cat:'マネジメント',concept:'クリティカルパス',difficulty:'標準',
@@ -4715,12 +4736,12 @@ const QUESTION_BANK = [
    hint:'「一番時間がかかる経路」です。'},
   {id:'mgmt-08',cat:'マネジメント',concept:'SLA',difficulty:'基礎',
    q:'サービス提供者と利用者の間で、可用性や応答時間などのサービス水準を合意するものは？',
-   options:['SLA','WBSだけ','SQL','DNS'],a:0,
+   options:['SLA','WBS','SQL','DNS'],a:0,
    exp:'SLAは提供するサービス水準についての合意です。',
    hint:'Service Level Agreement の略です。'},
   {id:'strat-05',cat:'ストラテジ',concept:'知的財産',difficulty:'基礎',
    q:'技術的な発明を保護する代表的な産業財産権は？',
-   options:['特許権','著作権だけ','商標権だけ','所有権だけ'],a:0,
+   options:['特許権','著作権','商標権','所有権'],a:0,
    exp:'発明を保護する代表的な権利は特許権です。',
    hint:'新しい技術的アイデアを保護します。'},
   {id:'strat-06',cat:'ストラテジ',concept:'損益分岐点',difficulty:'基礎',
@@ -4729,37 +4750,37 @@ const QUESTION_BANK = [
    exp:'売上高－総費用が利益なので、両者が等しい損益分岐点では利益は0です。',
    hint:'売上高 = 総費用です。'}
 ,
-  {id:'theory-05',cat:'基礎理論',concept:'オートマトン',difficulty:'標準',q:'状態Aで入力1を受けるとBへ、状態Bで入力1を受けるとAへ移る。初期状態Aから入力列1,1を与えた最終状態は？',options:['A','B','終了状態だけ','不明'],a:0,exp:'A→(1)B→(1)Aと遷移するので最終状態はAです。',hint:'入力を1個ずつ順に適用します。'},
+  {id:'theory-05',cat:'基礎理論',concept:'オートマトン',difficulty:'標準',q:'状態Aで入力1を受けるとBへ、状態Bで入力1を受けるとAへ移る。初期状態Aから入力列1,1を与えた最終状態は？',options:['A','B','終了状態','不明'],a:0,exp:'A→(1)B→(1)Aと遷移するので最終状態はAです。',hint:'入力を1個ずつ順に適用します。'},
   {id:'hardware-01',cat:'コンピュータ',concept:'半導体メモリ',difficulty:'基礎',q:'一般に電源を切ると記憶内容が失われるメモリは？',options:['RAM','ROM','フラッシュメモリ','光ディスク'],a:0,exp:'RAMは一般に揮発性で、電源を切ると内容が失われます。',hint:'主記憶として使われる代表的なメモリです。'},
   {id:'software-01',cat:'コンピュータ',concept:'ファイルシステム',difficulty:'基礎',q:'ルート直下のhome、その下のuser、その下のdata.csvを示す絶対パスは？',options:['/home/user/data.csv','../data.csv','data.csv/home','homeだけ'],a:0,exp:'絶対パスはルート/から階層を順に記述します。',hint:'先頭は/です。'},
   {id:'ui-01',cat:'ストラテジ',concept:'アクセシビリティ',difficulty:'基礎',q:'UIのアクセシビリティ向上策として適切なのは？',options:['色に加えて文字や形でも状態を示す','文字を読めないほど小さくする','操作ボタンを極端に小さくする','説明を削除する'],a:0,exp:'複数の手掛かりで情報を表すと、より多くの利用者が理解しやすくなります。',hint:'色だけに依存しない設計です。'},
   {id:'media-01',cat:'コンピュータ',concept:'画像データ量',difficulty:'標準',q:'200×100画素、1画素8ビットの非圧縮画像のデータ量は何ビット？',options:['160,000','20,000','1,600','800'],a:0,exp:'200×100×8=160,000ビットです。',hint:'画素数×1画素のビット数です。'},
-  {id:'mgmt-09',cat:'マネジメント',concept:'開発モデル',difficulty:'基礎',q:'短い反復で計画・実装・確認・改善を繰り返す開発手法に近いのは？',options:['アジャイル','ウォーターフォールだけ','RAID','正規化'],a:0,exp:'アジャイル開発は短い反復を繰り返しながら段階的に価値を提供します。',hint:'反復型の開発です。'},
-  {id:'mgmt-10',cat:'マネジメント',concept:'システム監査',difficulty:'標準',q:'システム監査人に求められる性質として適切なのは？',options:['監査対象からの独立性','監査対象部署への完全従属','監査証拠を残さない','開発者本人だけで監査する'],a:0,exp:'客観的な評価のため、監査対象からの独立性が重要です。',hint:'自分の仕事を自分だけで評価しない考え方です。'},
-  {id:'strat-07',cat:'ストラテジ',concept:'BPR',difficulty:'標準',q:'BPRの説明として最も適切なのは？',options:['業務プロセスを抜本的に見直して再設計する','既存手順を絶対に変えない','PC台数だけを増やす','売上高だけを記録する'],a:0,exp:'BPRは業務プロセスを根本から見直し、大幅な改善を目指します。',hint:'Business Process Re-engineeringです。'},
-  {id:'strat-08',cat:'ストラテジ',concept:'RFP',difficulty:'基礎',q:'システム調達で、候補ベンダに提案を依頼する文書は？',options:['RFP','SLA','SQL','WBSだけ'],a:0,exp:'RFPはRequest for Proposal、提案依頼書です。',hint:'PはProposalです。'},
+  {id:'mgmt-09',cat:'マネジメント',concept:'開発モデル',difficulty:'基礎',q:'短い反復で計画・実装・確認・改善を繰り返す開発手法に近いのは？',options:['アジャイル','ウォーターフォール','RAID','正規化'],a:0,exp:'アジャイル開発は短い反復を繰り返しながら段階的に価値を提供します。',hint:'反復型の開発です。'},
+  {id:'mgmt-10',cat:'マネジメント',concept:'システム監査',difficulty:'標準',q:'システム監査人に求められる性質として適切なのは？',options:['監査対象からの独立性','監査対象部署への完全従属','監査証拠を残さない','開発担当者が自分の成果物を監査する'],a:0,exp:'客観的な評価のため、監査対象からの独立性が重要です。',hint:'自分の仕事を自分だけで評価しない考え方です。'},
+  {id:'strat-07',cat:'ストラテジ',concept:'BPR',difficulty:'標準',q:'BPRの説明として最も適切なのは？',options:['業務プロセスを抜本的に見直して再設計する','既存手順を絶対に変えない','PC台数を増設する','売上高を記録する'],a:0,exp:'BPRは業務プロセスを根本から見直し、大幅な改善を目指します。',hint:'Business Process Re-engineeringです。'},
+  {id:'strat-08',cat:'ストラテジ',concept:'RFP',difficulty:'基礎',q:'システム調達で、候補ベンダに提案を依頼する文書は？',options:['RFP','SLA','SQL','WBS'],a:0,exp:'RFPはRequest for Proposal、提案依頼書です。',hint:'PはProposalです。'},
   {id:'strat-09',cat:'ストラテジ',concept:'SWOT',difficulty:'基礎',q:'SWOT分析で「競合企業の新規参入」は一般にどれ？',options:['Threat','Strength','Weakness','Opportunity'],a:0,exp:'競合の新規参入は外部環境のマイナス要因なのでThreat（脅威）です。',hint:'外部×マイナスです。'},
-  {id:'strat-10',cat:'ストラテジ',concept:'IoT',difficulty:'基礎',q:'IoTで温度などの物理量を取得する装置は？',options:['センサ','アクチュエータだけ','コンパイラ','DBの主キー'],a:0,exp:'現実世界の温度・光・加速度などを取得するのはセンサです。',hint:'測る側です。'},
+  {id:'strat-10',cat:'ストラテジ',concept:'IoT',difficulty:'基礎',q:'IoTで温度などの物理量を取得する装置は？',options:['センサ','アクチュエータ','コンパイラ','DBの主キー'],a:0,exp:'現実世界の温度・光・加速度などを取得するのはセンサです。',hint:'測る側です。'},
   {id:'strat-11',cat:'ストラテジ',concept:'財務',difficulty:'基礎',q:'売上高900、売上原価550のとき、売上総利益はいくら？',options:['350','550','900','1,450'],a:0,exp:'売上総利益=売上高900−売上原価550=350です。',hint:'売上高から売上原価を引きます。'}
 ,
   {id:'theory-06',cat:'基礎理論',concept:'データ単位',difficulty:'基礎',q:'1KiBを1024バイトとすると、4KiBは何バイト？',options:['4096','4000','2048','8192'],a:0,exp:'4×1024=4096バイトです。',hint:'KiBでは1024倍します。'},
   {id:'theory-07',cat:'基礎理論',concept:'16進数',difficulty:'基礎',q:'16進数 1F を10進数で表すと？',options:['31','25','21','35'],a:0,exp:'1×16+15=31です。Fは10進数の15です。',hint:'F=15です。'},
   {id:'theory-08',cat:'基礎理論',concept:'集合',difficulty:'標準',q:'集合A={1,2,3}、集合B={3,4,5}の共通部分A∩Bは？',options:['{3}','{1,2,3,4,5}','{1,2}','{4,5}'],a:0,exp:'両方の集合に含まれる要素は3だけです。',hint:'共通して含まれるものを探します。'},
 
-  {id:'computer-05',cat:'コンピュータ',concept:'スループット',difficulty:'標準',q:'あるシステムが1分間に120件の処理を完了する。この値が表す性能指標に最も近いものは？',options:['スループット','応答時間だけ','稼働率だけ','故障率'],a:0,exp:'単位時間当たりに処理できる仕事量をスループットと呼びます。',hint:'「1分に何件」のような量です。'},
-  {id:'computer-06',cat:'コンピュータ',concept:'RAID',difficulty:'標準',q:'複数ディスクに同じデータを書き込むミラーリングを利用する代表的なRAIDレベルは？',options:['RAID1','RAID0','RAID5だけ','RAID10以外すべて'],a:0,exp:'RAID1はミラーリングで同じ内容を複数ディスクに保持します。',hint:'1はミラーリング、と整理します。'},
+  {id:'computer-05',cat:'コンピュータ',concept:'スループット',difficulty:'標準',q:'あるシステムが1分間に120件の処理を完了する。この値が表す性能指標に最も近いものは？',options:['スループット','応答時間','稼働率','故障率'],a:0,exp:'単位時間当たりに処理できる仕事量をスループットと呼びます。',hint:'「1分に何件」のような量です。'},
+  {id:'computer-06',cat:'コンピュータ',concept:'RAID',difficulty:'標準',q:'複数ディスクに同じデータを書き込むミラーリングを利用する代表的なRAIDレベルは？',options:['RAID1','RAID0','RAID5','RAID10以外すべて'],a:0,exp:'RAID1はミラーリングで同じ内容を複数ディスクに保持します。',hint:'1はミラーリング、と整理します。'},
   {id:'computer-07',cat:'コンピュータ',concept:'入出力',difficulty:'基礎',q:'コンピュータから利用者へ情報を表示する装置はどれ？',options:['ディスプレイ','キーボード','マウス','スキャナ'],a:0,exp:'ディスプレイは出力装置です。',hint:'画面へ情報を出します。'},
 
   {id:'db-05',cat:'データベース',concept:'外部キー',difficulty:'標準',q:'注文表の顧客IDを顧客表の顧客IDと対応付けるとき、注文表側の顧客IDに設定するキーとして最も適切なのは？',options:['外部キー','主キーでなければならない','暗号鍵','ハッシュ値'],a:0,exp:'他の表の主キーなどを参照して関係を表す属性を外部キーとして設定します。',hint:'別の表を参照するキーです。'},
-  {id:'db-06',cat:'データベース',concept:'SQL集約',difficulty:'標準',q:'表salesのamount列の合計を求めるSQL関数は？',options:['SUM(amount)','COUNT(amount)だけ','AVG(amount)だけ','ORDER(amount)'],a:0,exp:'SUMは指定した数値列の合計を求める集約関数です。',hint:'英語で「合計」です。'},
-  {id:'db-07',cat:'データベース',concept:'インデックス',difficulty:'標準',q:'検索を高速化するために表の列へ設定する索引に最も近いものは？',options:['インデックス','トランザクションだけ','ビューだけ','外部キーだけ'],a:0,exp:'インデックスは検索対象の位置を効率よく探すための索引です。',hint:'本の索引をイメージします。'},
+  {id:'db-06',cat:'データベース',concept:'SQL集約',difficulty:'標準',q:'表salesのamount列の合計を求めるSQL関数は？',options:['SUM(amount)','COUNT(amount)','AVG(amount)','ORDER(amount)'],a:0,exp:'SUMは指定した数値列の合計を求める集約関数です。',hint:'英語で「合計」です。'},
+  {id:'db-07',cat:'データベース',concept:'インデックス',difficulty:'標準',q:'検索を高速化するために表の列へ設定する索引に最も近いものは？',options:['インデックス','トランザクション','ビュー','外部キー'],a:0,exp:'インデックスは検索対象の位置を効率よく探すための索引です。',hint:'本の索引をイメージします。'},
 
   {id:'net-05',cat:'ネットワーク',concept:'DHCP',difficulty:'基礎',q:'LAN内の端末へIPアドレスなどのネットワーク設定を自動配布するプロトコルは？',options:['DHCP','HTTP','SMTP','FTP'],a:0,exp:'DHCPはIPアドレスやデフォルトゲートウェイ等の設定を端末へ自動配布します。',hint:'端末のIP設定を自動化します。'},
-  {id:'net-06',cat:'ネットワーク',concept:'HTTP',difficulty:'基礎',q:'WebブラウザとWebサーバ間の通信で代表的に用いられるプロトコルは？',options:['HTTP','SMTP','POP3だけ','SNMPだけ'],a:0,exp:'HTTPはWebのデータ転送に使われる代表的なプロトコルです。',hint:'Webページの通信です。'},
+  {id:'net-06',cat:'ネットワーク',concept:'HTTP',difficulty:'基礎',q:'WebブラウザとWebサーバ間の通信で代表的に用いられるプロトコルは？',options:['HTTP','SMTP','POP3','SNMP'],a:0,exp:'HTTPはWebのデータ転送に使われる代表的なプロトコルです。',hint:'Webページの通信です。'},
   {id:'net-07',cat:'ネットワーク',concept:'NAT',difficulty:'標準',q:'家庭内の複数端末がプライベートIPアドレスを使い、1つのグローバルIPアドレスを共有してインターネットへ接続する仕組みに関係するものは？',options:['NAPT','DNSSEC','RAID','WBS'],a:0,exp:'NAPTはIPアドレスだけでなくポート番号も変換し、複数端末で1つのグローバルIPを共有できます。',hint:'アドレス＋ポート番号を変換します。'},
 
-  {id:'sec-05',cat:'セキュリティ',concept:'共通鍵暗号',difficulty:'基礎',q:'暗号化と復号に同じ秘密の鍵を使う方式は？',options:['共通鍵暗号方式','公開鍵暗号方式だけ','ハッシュ関数','デジタル署名だけ'],a:0,exp:'共通鍵暗号方式では送受信者が同じ秘密鍵を共有して暗号化・復号します。',hint:'「共通」の鍵を使います。'},
-  {id:'sec-06',cat:'セキュリティ',concept:'マルウェア',difficulty:'標準',q:'利用者に気付かれにくい形で他のプログラムに寄生せず単独でネットワークを介して自己増殖するものに最も近いのは？',options:['ワーム','コンピュータウイルスだけ','SQL','Cookie'],a:0,exp:'ワームは他のプログラムへの寄生を必須とせず、ネットワークなどを介して自己増殖します。',hint:'単独で増殖する点が特徴です。'},
+  {id:'sec-05',cat:'セキュリティ',concept:'共通鍵暗号',difficulty:'基礎',q:'暗号化と復号に同じ秘密の鍵を使う方式は？',options:['共通鍵暗号方式','公開鍵暗号方式','ハッシュ関数','デジタル署名'],a:0,exp:'共通鍵暗号方式では送受信者が同じ秘密鍵を共有して暗号化・復号します。',hint:'「共通」の鍵を使います。'},
+  {id:'sec-06',cat:'セキュリティ',concept:'マルウェア',difficulty:'標準',q:'利用者に気付かれにくい形で他のプログラムに寄生せず単独でネットワークを介して自己増殖するものに最も近いのは？',options:['ワーム','コンピュータウイルス','SQL','Cookie'],a:0,exp:'ワームは他のプログラムへの寄生を必須とせず、ネットワークなどを介して自己増殖します。',hint:'単独で増殖する点が特徴です。'},
   {id:'sec-07',cat:'セキュリティ',concept:'バックアップ',difficulty:'基礎',q:'情報セキュリティの可用性向上に寄与する対策として適切なのは？',options:['定期的なバックアップと復元確認','パスワードを公開する','全ログを削除する','アクセス権を全員に付ける'],a:0,exp:'障害時に復旧できるバックアップは、必要なとき利用可能な状態を保つ可用性に寄与します。',hint:'障害から復旧できる対策です。'},
 
   {id:'algo-05',cat:'アルゴリズム',concept:'キュー',difficulty:'基礎',q:'空のキューへA,B,Cの順にENQUEUEした後、1回DEQUEUEすると取り出されるのは？',options:['A','B','C','取り出せない'],a:0,exp:'キューはFIFOなので最初に入れたAが最初に取り出されます。',hint:'待ち行列と同じです。'},
@@ -4772,7 +4793,7 @@ const QUESTION_BANK = [
 
   {id:'strat-12',cat:'ストラテジ',concept:'マーケティング',difficulty:'基礎',q:'市場を顧客の属性やニーズで複数のグループへ分ける活動は？',options:['セグメンテーション','デバッグ','正規化','暗号化'],a:0,exp:'市場を同質的な顧客群へ分けることをセグメンテーションと呼びます。',hint:'市場を区分します。'},
   {id:'strat-13',cat:'ストラテジ',concept:'KPI',difficulty:'標準',q:'最終目標の達成に向けた途中経過を測る重要な指標は？',options:['KPI','CPU','LAN','ROM'],a:0,exp:'KPIはKey Performance Indicatorで、目標達成に向けた重要業績評価指標です。',hint:'Performance Indicatorです。'},
-  {id:'strat-14',cat:'ストラテジ',concept:'法務',difficulty:'標準',q:'他人が作成したプログラムを無断で複製して配布する行為が主に問題となる権利は？',options:['著作権','特許権だけ','商標権だけ','所有権だけ'],a:0,exp:'プログラムは著作物として著作権による保護対象となり得ます。',hint:'プログラムの「表現」を保護する権利です。'}
+  {id:'strat-14',cat:'ストラテジ',concept:'法務',difficulty:'標準',q:'他人が作成したプログラムを無断で複製して配布する行為が主に問題となる権利は？',options:['著作権','特許権だけ','商標権','所有権'],a:0,exp:'プログラムは著作物として著作権による保護対象となり得ます。',hint:'プログラムの「表現」を保護する権利です。'}
 ];
 
 function ensureQuestionProfile(){
@@ -5244,8 +5265,8 @@ function genSymmetricCrypto(base){
   const correct='暗号化と復号に同じ秘密鍵を使う';
   const p=choicePack(correct,[
     '暗号化は公開鍵、復号は秘密鍵を使う',
-    '鍵を使わずハッシュ値だけで復号する',
-    '署名者の秘密鍵だけで通信内容を復号する'
+    'ハッシュ値から元の平文を復元する',
+    '署名者の秘密鍵で受信者向け暗号文を復号する'
   ]);
   return {
     id:variantId(base.id),sourceId:base.id,variant:true,
@@ -5748,7 +5769,7 @@ const LESSONS = {
       {headline:'半導体メモリは性質で整理する',copy:'まず「電源を切ると消えるか」「通常利用で書き換えるか」を軸に比べます。',render:()=>memoryView('none')},
       {headline:'3種類を比較する',copy:'RAM・ROM・フラッシュを順に選び、特徴を確認してください。',interactive:'memorychips'},
       {headline:'RAMは揮発性、ROM系は不揮発性',copy:'フラッシュメモリは電気的に書換え可能な不揮発性メモリとしてUSBメモリやSSDなどにも利用されます。',render:()=>memoryView('all')},
-      {headline:'ミニチェック',copy:'一般に、電源を切ると内容が失われる主記憶用メモリは？',quiz:{options:['RAM','ROM','フラッシュメモリだけ','光ディスク'],answer:0,explain:'主記憶に使われるRAMは一般に揮発性で、電源断で内容が失われます。'}}
+      {headline:'ミニチェック',copy:'一般に、電源を切ると内容が失われる主記憶用メモリは？',quiz:{options:['RAM','ROM','フラッシュメモリ','光ディスク'],answer:0,explain:'主記憶に使われるRAMは一般に揮発性で、電源断で内容が失われます。'}}
     ]
   },
   filesystem:{
@@ -5757,7 +5778,7 @@ const LESSONS = {
       {headline:'ファイルは階層構造で整理できる',copy:'ルートからフォルダを順にたどって目的のファイルへ到達します。',render:()=>fileTreeView(0)},
       {headline:'report.pdfまでたどる',copy:'home → user → docs → report.pdf の順に選んでください。',interactive:'filesystem'},
       {headline:'絶対パスはルートから書く',copy:'この例なら /home/user/docs/report.pdf のように、ルートから対象までの位置を表せます。',render:()=>fileTreeView(4)},
-      {headline:'ミニチェック',copy:'ルート直下のhome、その下のuser、その下のmemo.txtを表す絶対パスは？',quiz:{options:['/home/user/memo.txt','home/userだけ','../memo.txtだけ','memo.txt/home'],answer:0,explain:'絶対パスはルートから順に階層を記述します。'}}
+      {headline:'ミニチェック',copy:'ルート直下のhome、その下のuser、その下のmemo.txtを表す絶対パスは？',quiz:{options:['/home/user/memo.txt','home/user/memo.txt','../memo.txt','memo.txt/home'],answer:0,explain:'絶対パスはルートから順に階層を記述します。'}}
     ]
   },
   uiux:{
@@ -5782,9 +5803,9 @@ const LESSONS = {
     title:'ウォーターフォールとアジャイル',cat:'ソフトウェア開発手法',skill:'マネジメント',
     pages:[
       {headline:'開発の進め方には特徴の違いがある',copy:'工程を順に固めて進めるウォーターフォールと、短い反復で価値を追加するアジャイルを比べます。',render:()=>devModelView('none')},
-      {headline:'2つのモデルを比較',copy:'両方を押して特徴を確認してください。',interactive:'devmodel'},
+      {headline:'2つのモデルを比較',copy:'下の2枚のカードを、①→②の順にタップして特徴を比べてください。',interactive:'devmodel'},
       {headline:'変更への向き合い方が違う',copy:'どちらが常に優れているというより、要件の安定性やプロジェクト特性に応じて選びます。',render:()=>devModelView('both')},
-      {headline:'ミニチェック',copy:'短い期間で設計・実装・テストを繰り返し、段階的に価値を追加する考え方に近いのは？',quiz:{options:['アジャイル開発','ウォーターフォールだけ','バックアップ','監査'],answer:0,explain:'アジャイルでは短い反復を繰り返しながら、利用者のフィードバックも取り入れて改善します。'}}
+      {headline:'ミニチェック',copy:'短い期間で設計・実装・テストを繰り返し、段階的に価値を追加する考え方に近いのは？',quiz:{options:['アジャイル開発','ウォーターフォール','バックアップ','監査'],answer:0,explain:'アジャイルでは短い反復を繰り返しながら、利用者のフィードバックも取り入れて改善します。'}}
     ]
   },
   audit:{
@@ -5802,7 +5823,7 @@ const LESSONS = {
       {headline:'まずAs-Isを見える化する',copy:'紙申請→手入力→確認→再入力という現状業務には、重複入力のムダがあります。',render:()=>processView(false)},
       {headline:'ムダを1つ取り除く',copy:'「再入力をなくす」を選び、To-Beプロセスへ改善してください。',interactive:'businessprocess'},
       {headline:'IT導入そのものではなく業務全体を改善する',copy:'目的はツールを入れることではなく、業務の価値・時間・品質を改善することです。',render:()=>processView(true)},
-      {headline:'ミニチェック',copy:'BPRの考え方に最も近いものは？',quiz:{options:['業務プロセスを抜本的に見直し再設計する','既存手順を絶対に変えない','PC台数だけ増やす','バックアップだけ取る'],answer:0,explain:'BPRは業務プロセスそのものを根本から見直し、大幅な改善を目指す考え方です。'}}
+      {headline:'ミニチェック',copy:'BPRの考え方に最も近いものは？',quiz:{options:['業務プロセスを抜本的に見直し再設計する','既存手順を絶対に変えない','PC台数を増設する','バックアップ取る'],answer:0,explain:'BPRは業務プロセスそのものを根本から見直し、大幅な改善を目指す考え方です。'}}
     ]
   },
   procurement:{
@@ -5811,7 +5832,7 @@ const LESSONS = {
       {headline:'発注前に「何を求めるか」を整理する',copy:'ベンダへ提案を依頼するときは、目的・要件・条件などを明確にします。',render:()=>rfpView('none')},
       {headline:'RFPに含めたい情報を選ぶ',copy:'目的・必要機能・納期条件などを確認してください。',interactive:'procurement'},
       {headline:'RFPは提案依頼書',copy:'複数の候補から提案を受け、評価基準などに基づいて調達先を選定する流れにつながります。',render:()=>rfpView('all')},
-      {headline:'ミニチェック',copy:'情報システム調達で、ベンダに提案を依頼する文書は？',quiz:{options:['RFP','SLAだけ','WBSだけ','DNS'],answer:0,explain:'RFP（Request for Proposal）は提案依頼書です。'}}
+      {headline:'ミニチェック',copy:'情報システム調達で、ベンダに提案を依頼する文書は？',quiz:{options:['RFP','SLA','WBS','DNS'],answer:0,explain:'RFP（Request for Proposal）は提案依頼書です。'}}
     ]
   },
   swot:{
@@ -5829,7 +5850,7 @@ const LESSONS = {
       {headline:'現実世界の情報をデジタルへつなぐ',copy:'温度センサの値をネットワーク経由でクラウドへ送り、条件に応じて空調を動かす例です。',render:()=>iotView(0)},
       {headline:'データの流れを進める',copy:'1 STEPずつ、センサ → ネットワーク → クラウド → アクチュエータの順に進めてください。',interactive:'iot'},
       {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(3)},
-      {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータだけ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
+      {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
     ]
   },
   finance:{
@@ -5849,7 +5870,7 @@ const LESSONS = {
       {headline:'OSはハードウェアとアプリの仲介役',copy:'CPU・メモリ・入出力装置などの資源を管理し、複数のプログラムが使えるよう調整します。',render:()=>scheduleView(0)},
       {headline:'CPUを順番に割り当ててみる',copy:'P1・P2・P3へ1タイムスライスずつCPUを割り当てます。3回進めてください。',interactive:'os'},
       {headline:'短時間ずつ切り替えることで複数処理を進められる',copy:'実際にはスケジューリング方式によって優先度や待ち時間の考え方が異なりますが、OSがCPU利用を調整する点が重要です。',render:()=>scheduleView(3)},
-      {headline:'ミニチェック',copy:'OSの役割として最も適切なのは？',quiz:{options:['CPUやメモリなどの資源を管理する','必ずWebページを作成する','データベースの表だけを保存する','LANケーブルの長さを決める'],answer:0,explain:'OSはCPU・メモリ・入出力などのコンピュータ資源を管理し、アプリケーションの実行環境を提供します。'}}
+      {headline:'ミニチェック',copy:'OSの役割として最も適切なのは？',quiz:{options:['CPUやメモリなどの資源を管理する','必ずWebページを作成する','データベース表を保存する','LANケーブルの長さを決める'],answer:0,explain:'OSはCPU・メモリ・入出力などのコンピュータ資源を管理し、アプリケーションの実行環境を提供します。'}}
     ]
   },
   reliability:{
@@ -5867,7 +5888,7 @@ const LESSONS = {
       {headline:'フル・増分・差分は「どこからの変更か」が違う',copy:'日曜にフルバックアップを取り、月〜木にデータが変化するとします。',render:()=>backupView('full')},
       {headline:'増分と差分を切り替えて比較',copy:'ボタンで方式を切り替え、毎日どの変更を保存するか確認してください。',interactive:'backup'},
       {headline:'増分は前回バックアップ以降、差分は直近フル以降',copy:'増分は日々の保存量を抑えやすく、差分は復元時にフル＋最新差分で済みやすい、という違いがあります。',render:()=>backupView('compare')},
-      {headline:'ミニチェック',copy:'日曜にフル、月〜水は増分バックアップを取った。水曜終了時点へ戻すとき一般に必要なのは？',quiz:{options:['日曜フル＋月・火・水の増分','水曜増分だけ','日曜フルだけ','月曜増分だけ'],answer:0,explain:'増分方式では直近フルと、それ以降の各増分バックアップを順に使って復元します。'}}
+      {headline:'ミニチェック',copy:'日曜にフル、月〜水は増分バックアップを取った。水曜終了時点へ戻すとき一般に必要なのは？',quiz:{options:['日曜フル＋月・火・水の増分','水曜の増分','日曜のフル','月曜の増分'],answer:0,explain:'増分方式では直近フルと、それ以降の各増分バックアップを順に使って復元します。'}}
     ]
   },
   development:{
@@ -5876,7 +5897,7 @@ const LESSONS = {
       {headline:'作る前に「何を作るか」を決める',copy:'開発は、要件定義→設計→実装→テスト→移行という大きな流れで整理できます。',render:()=>devPipeline(0)},
       {headline:'工程を順に進めてみる',copy:'「次の工程」を押して、各段階の役割を確認してください。',interactive:'development'},
       {headline:'上流で決めた内容が下流の基準になる',copy:'要件が曖昧なまま実装へ進むと、後で大きな手戻りにつながりやすくなります。',render:()=>devPipeline(5)},
-      {headline:'ミニチェック',copy:'利用者がシステムに求める機能・性能などを明確にする工程は？',quiz:{options:['要件定義','実装だけ','運用終了','廃棄だけ'],answer:0,explain:'システム要件定義では、実現すべき機能や性能、制約などを明確にします。'}}
+      {headline:'ミニチェック',copy:'利用者がシステムに求める機能・性能などを明確にする工程は？',quiz:{options:['要件定義','実装','運用終了','廃棄'],answer:0,explain:'システム要件定義では、実現すべき機能や性能、制約などを明確にします。'}}
     ]
   },
   testing:{
@@ -5885,7 +5906,7 @@ const LESSONS = {
       {headline:'小さな単位から全体へ広げる',copy:'単体→結合→システム→受入、と対象範囲を広げて確認していきます。',render:()=>testPyramid(0)},
       {headline:'テスト範囲を1段ずつ広げる',copy:'1 STEPで次のテストレベルへ進んでください。',interactive:'testing'},
       {headline:'誰が何を確認するかも重要',copy:'単体では部品、結合では部品間、システムでは全体、受入では利用者側の要求を満たすかを確認します。',render:()=>testPyramid(4)},
-      {headline:'ミニチェック',copy:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',quiz:{options:['結合テスト','単体テスト','受入テストだけ','負荷分散'],answer:0,explain:'結合テストでは複数モジュールを組み合わせ、連携やインタフェースを確認します。'}}
+      {headline:'ミニチェック',copy:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',quiz:{options:['結合テスト','単体テスト','受入テスト','負荷分散'],answer:0,explain:'結合テストでは複数モジュールを組み合わせ、連携やインタフェースを確認します。'}}
     ]
   },
   criticalpath:{
@@ -5912,7 +5933,7 @@ const LESSONS = {
       {headline:'「何を守るか」で権利が違う',copy:'発明、作品・プログラム、商品やサービスの目印など、保護対象を整理します。',render:()=>rightsView(0)},
       {headline:'3つの対象を仕分ける',copy:'対象を見て、最も近い権利を選んでください。',interactive:'iprights'},
       {headline:'発明＝特許、著作物＝著作権、ブランドの目印＝商標',copy:'実際の権利成立条件や保護範囲には細かなルールがありますが、まず対象の違いを押さえます。',render:()=>rightsView(3)},
-      {headline:'ミニチェック',copy:'新しい機械の技術的な発明を保護する代表的な権利は？',quiz:{options:['特許権','著作権だけ','商標権だけ','所有権だけ'],answer:0,explain:'技術的な発明を保護する代表的な産業財産権は特許権です。'}}
+      {headline:'ミニチェック',copy:'新しい機械の技術的な発明を保護する代表的な権利は？',quiz:{options:['特許権','著作権','商標権','所有権'],answer:0,explain:'技術的な発明を保護する代表的な産業財産権は特許権です。'}}
     ]
   },
   breakeven:{
@@ -5973,7 +5994,7 @@ const LESSONS = {
       {
         headline:'ミニチェック',
         copy:'キャッシュミスが起きた場合、一般に次に参照するのは？',
-        quiz:{options:['主記憶','必ずSSDだけ','プリンタ','DNSサーバ'],answer:0,explain:'キャッシュに目的データがなければ、通常はより下位の記憶階層である主記憶などへアクセスします。'}
+        quiz:{options:['主記憶','SSD','プリンタ','DNSサーバ'],answer:0,explain:'キャッシュに目的データがなければ、通常はより下位の記憶階層である主記憶などへアクセスします。'}
       }
     ]
   },
@@ -6051,7 +6072,7 @@ const LESSONS = {
       {
         headline:'ミニチェック',
         copy:'信頼性よりリアルタイム性や軽量さを重視する場面で使われやすいのは？',
-        quiz:{options:['UDP','TCPだけ','SQL','DNSだけ'],answer:0,explain:'UDPは再送や接続管理の負担が小さく、リアルタイム通信などで利用されます。'}
+        quiz:{options:['UDP','TCP','SQL','DNS'],answer:0,explain:'UDPは再送や接続管理の負担が小さく、リアルタイム通信などで利用されます。'}
       }
     ]
   },
@@ -6077,7 +6098,7 @@ const LESSONS = {
       {
         headline:'ミニチェック',
         copy:'デジタル署名を作成するとき、署名者が使用する鍵は？',
-        quiz:{options:['署名者の秘密鍵','署名者の公開鍵','受信者の秘密鍵','共通鍵だけ'],answer:0,explain:'署名者本人だけが持つ秘密鍵で署名し、署名者の公開鍵で検証します。'}
+        quiz:{options:['署名者の秘密鍵','署名者の公開鍵','受信者の秘密鍵','共通鍵'],answer:0,explain:'署名者本人だけが持つ秘密鍵で署名し、署名者の公開鍵で検証します。'}
       }
     ]
   },
@@ -6313,10 +6334,22 @@ function mediaView(done){
   const pixels=Array.from({length:64},(_,i)=>`<div class="pixel ${i%5===0?'on':''}"></div>`).join('');
   return `<div class="pixel-demo">${pixels}</div><div class="media-calc"><b>8 × 8 画素・8bit/画素</b><div class="media-formula">${done?'8 × 8 × 8 = 512 bit = 64 byte':'データ量 = 画素数 × 1画素のbit数'}</div></div>`;
 }
-function devModelView(mode){
+function devModelView(mode,interactive=false){
+  const wfVisited=(typeof devModelSeen!=='undefined'&&devModelSeen.has('w'))||mode==='waterfall'||mode==='both';
+  const agVisited=(typeof devModelSeen!=='undefined'&&devModelSeen.has('a'))||mode==='agile'||mode==='both';
+  const card=(kind,title,steps,desc,visited,idx)=>{
+    const tag=interactive?'button':'div';
+    const attrs=interactive?`type="button" data-model="${kind}" aria-pressed="${visited?'true':'false'}"`:'';
+    return `<${tag} class="model-card ${interactive?'model-choice':''} ${visited?'active visited':''}" ${attrs}>
+      ${interactive?`<span class="model-choice-index">${idx}</span>`:''}<b>${title}</b>
+      <div class="model-flow">${steps.map(x=>`<span class="model-step">${x}</span>`).join('')}</div>
+      <div class="sub" style="margin-top:8px">${desc}</div>
+      ${interactive?`<span class="model-tap-label">${visited?'✓ 確認済み':'タップして確認'}</span>`:''}
+    </${tag}>`;
+  };
   return `<div class="model-cards">
-    <div class="model-card ${mode==='waterfall'||mode==='both'?'active':''}"><b>ウォーターフォール</b><div class="model-flow">${['要件','設計','実装','テスト'].map(x=>`<span class="model-step">${x}</span>`).join('')}</div><div class="sub" style="margin-top:8px">工程を順に進める</div></div>
-    <div class="model-card ${mode==='agile'||mode==='both'?'active':''}"><b>アジャイル</b><div class="model-flow">${['計画','実装','確認','改善','↻'].map(x=>`<span class="model-step">${x}</span>`).join('')}</div><div class="sub" style="margin-top:8px">短い反復を繰り返す</div></div>
+    ${card('waterfall','ウォーターフォール',['要件','設計','実装','テスト'],'工程を順に進める',wfVisited,'①')}
+    ${card('agile','アジャイル',['計画','実装','確認','改善','↻'],'短い反復を繰り返す',agVisited,'②')}
   </div>`;
 }
 function auditView(independent){
@@ -6612,6 +6645,62 @@ function resetLessonState(){
   lessonQuizDone=false;
   cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;osSteps=0;reliabilitySeen=new Set();backupSeen=new Set();devSteps=0;testSteps=0;rightsSteps=0;automataIdx=0;memorySeen=new Set();fileStep=0;devModelSeen=new Set();rfpSeen=new Set();swotStep=0;iotStep=0;financeStep=0;
 }
+
+const INTERACTION_GUIDES={
+  binary13:['ビットをタップ','8・4・2・1のボタンを押して、合計13を作ってください。'],
+  cpuCycle:['「1 STEP」を押す','Fetch → Decode → Execute の順に進めます。'],
+  transaction:['①→②の順に押す','まず減額し、その後ROLLBACKを押してください。'],
+  subnet:['操作ボタンを押す','ホスト部を0にしてネットワークアドレスを作ってください。'],
+  crypto:['カードを順に確認','公開鍵・秘密鍵の役割を操作して確認してください。'],
+  logic:['4通りをタップ','A・Bの組合せをすべて確認してください。'],
+  cache:['ボタンを順に試す','キャッシュHIT/MISSの違いを確認してください。'],
+  stackqueue:['操作ボタンを押す','PUSH/POP、ENQUEUE/DEQUEUEを動かしてください。'],
+  sql:['条件を選ぶ','WHERE条件を変えて結果の行を確認してください。'],
+  tcpudp:['TCPとUDPを両方タップ','2つの方式をそれぞれ確認すると完了です。'],
+  signature:['「1 STEP」で進める','署名生成から検証まで順番に進めてください。'],
+  mutex:['操作を順に試す','同時更新と排他制御の違いを確認してください。'],
+  automata:['入力を押す','0または1を押して状態の変化を確認してください。'],
+  memorychips:['RAMとROMを両方タップ','2種類の特徴をそれぞれ確認してください。'],
+  filesystem:['「1 STEP」で進める','ルートからファイルまでパスをたどってください。'],
+  uiux:['改善ボタンを押す','操作しやすいUIへ変化させてください。'],
+  multimedia:['計算を表示','画素数とbit数からデータ量を確認してください。'],
+  devmodel:['2枚のカードを順にタップ','①ウォーターフォール → ②アジャイルの両方を押すと完了です。'],
+  audit:['選択肢をタップ','監査担当として適切な立場を選んでください。'],
+  businessprocess:['改善案をタップ','業務プロセスの変化を確認してください。'],
+  procurement:['カードを確認','RFPに含める要素を順に確認してください。'],
+  swot:['「1 STEP」で進める','S・W・O・Tを順に確認してください。'],
+  iot:['「1 STEP」で進める','センサ → ネットワーク → クラウド → アクチュエータへ進めます。'],
+  finance:['「1 STEP」で計算','売上総利益 → 営業利益の順に確認してください。'],
+  os:['「1 STEP」で進める','CPU割当ての変化を順に確認してください。'],
+  reliability:['直列・並列を両方タップ','2種類の稼働率をそれぞれ確認してください。'],
+  backup:['増分・差分を両方タップ','2方式の保存範囲の違いを確認してください。'],
+  development:['「1 STEP」で進める','開発工程を要件定義から順に進めてください。'],
+  testing:['「1 STEP」で進める','単体 → 結合 → システム → 受入の順に確認してください。'],
+  criticalpath:['経路を選ぶ','各経路の日数を比べて最長経路を選んでください。'],
+  sla:['選択肢をタップ','SLAとして適切な内容を選んでください。'],
+  iprights:['ケースをタップ','発明・著作物・商標などを分類してください。'],
+  breakeven:['数量を動かす','売上と費用が一致する地点を探してください。'],
+  binarysearch:['左右どちらかをタップ','中央と比べて、残す半分を選んでください。']
+};
+function updateInteractionGuide(page){
+  const root=document.getElementById('interactionGuide');if(!root)return;
+  root.classList.remove('ready');
+  if(page.interactive){
+    const g=INTERACTION_GUIDES[page.interactive]||['下の操作部を使う','ボタンやカードを操作して変化を確認してください。'];
+    document.getElementById('interactionGuideTitle').textContent='操作：'+g[0];
+    document.getElementById('interactionGuideText').textContent=g[1];
+    root.style.display='flex';
+  }else if(page.quiz){
+    document.getElementById('interactionGuideTitle').textContent='回答：選択肢を1つタップ';
+    document.getElementById('interactionGuideText').textContent='選んだあとに正解と解説を確認できます。';
+    root.style.display='flex';
+  }else root.style.display='none';
+}
+function markInteractionGuideDone(){
+  const root=document.getElementById('interactionGuide');if(!root||root.style.display==='none')return;
+  root.classList.add('ready');document.getElementById('interactionGuideTitle').textContent='✓ 操作完了';
+}
+
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
   const page=lesson.pages[lessonStep];
@@ -6619,6 +6708,7 @@ function renderLesson(){
   document.getElementById('lessonCategory').textContent=`${lesson.cat}・FE QUEST ORIGINAL LESSON`;
   document.getElementById('lessonHeadline').textContent=page.headline;
   document.getElementById('lessonCopy').textContent=page.copy;
+  updateInteractionGuide(page);
   document.getElementById('lessonStepLabel').textContent=`${lessonStep+1} / ${lesson.pages.length}`;
   document.querySelectorAll('#lessonDots span').forEach((s,i)=>s.classList.toggle('on',i<=lessonStep));
   const check=document.getElementById('lessonCheck');
@@ -6646,6 +6736,7 @@ function showLessonFeedback(msg,bad=false){
   const c=document.getElementById('lessonCheck');
   c.className='lesson-check show'+(bad?' bad':'');
   c.innerHTML=msg;
+  if(!bad && (lessonInteractiveDone||lessonQuizDone)) markInteractionGuideDone();
 }
 
 function renderInteractive(type,stage){
@@ -6928,9 +7019,22 @@ function renderInteractive(type,stage){
   }
 
   if(type==='devmodel'){
-    stage.innerHTML=`<div id="modelDynamic">${devModelView('none')}</div><div class="txn-buttons"><button class="secondary" id="showWf">ウォーターフォール</button><button class="purple-btn" id="showAgile">アジャイル</button></div>`;
-    document.getElementById('showWf').onclick=()=>{devModelSeen.add('w');document.getElementById('modelDynamic').innerHTML=devModelView('waterfall');showLessonFeedback('工程を順に区切って進めるモデルです。');if(devModelSeen.size>=2)lessonInteractiveDone=true;};
-    document.getElementById('showAgile').onclick=()=>{devModelSeen.add('a');document.getElementById('modelDynamic').innerHTML=devModelView('agile');showLessonFeedback('短い反復で計画・実装・確認・改善を回します。');if(devModelSeen.size>=2)lessonInteractiveDone=true;};
+    const renderModelChoices=()=>{
+      stage.innerHTML=`<div id="modelDynamic">${devModelView('none',true)}</div>`;
+      stage.querySelectorAll('[data-model]').forEach(btn=>{
+        btn.onclick=()=>{
+          const kind=btn.dataset.model;
+          devModelSeen.add(kind==='waterfall'?'w':'a');
+          lessonInteractiveDone=devModelSeen.size>=2;
+          renderModelChoices();
+          showLessonFeedback(kind==='waterfall'
+            ? '① ウォーターフォール：工程を順に区切って進めます。次は②アジャイルも確認してください。'
+            : '② アジャイル：短い反復で計画・実装・確認・改善を回します。'+(lessonInteractiveDone?' 2つの比較が完了しました。':' 次は①ウォーターフォールも確認してください。'));
+          if(lessonInteractiveDone)markInteractionGuideDone();
+        };
+      });
+    };
+    renderModelChoices();
   }
 
   if(type==='audit'){
@@ -7696,7 +7800,7 @@ const SECURITY_SCENARIOS = [
       },
       {
         q:'原因調査に役立つ情報として適切なのは？',
-        options:['端末・認証・通信などのログ','社員の好きな色','ディスプレイ解像度だけ','プリンタ用紙の残量'],
+        options:['端末・認証・通信などのログ','社員の好きな色','ディスプレイ解像度','プリンタ用紙の残量'],
         a:0,
         explain:'端末上のイベントや認証履歴、外部通信などのログは侵入経路・実行時刻・影響範囲の調査に役立ちます。'
       }
@@ -7724,13 +7828,13 @@ const SECURITY_SCENARIOS = [
     steps:[
       {
         q:'適用すべき考え方として最も適切なのは？',
-        options:['最小権限の原則','全員管理者の原則','可用性だけを最大化する原則','権限は一度設定したら変更しない原則'],
+        options:['最小権限の原則','全員管理者の原則','可用性を最優先する考え方','権限は一度設定したら変更しない原則'],
         a:0,
         explain:'利用者には業務上必要な最小限の権限だけを与える「最小権限」が基本です。'
       },
       {
         q:'具体的な是正として適切なのは？',
-        options:['全社員の閲覧権限を外し、必要な担当グループだけに付与する','全社員へ編集権限も付ける','ファイル名だけ変更する','誰でも使える共通アカウントを作る'],
+        options:['全社員の閲覧権限を外し、必要な担当グループだけに付与する','全社員へ編集権限も付ける','ファイル名を変更する','誰でも使える共通アカウントを作る'],
         a:0,
         explain:'不要な権限を削除し、職務上必要なグループへ限定することで情報漏えいリスクを下げます。'
       },
@@ -7764,7 +7868,7 @@ const SECURITY_SCENARIOS = [
     steps:[
       {
         q:'このログで特に注意すべき組合せは？',
-        options:['普段と異なる地域・時間帯の成功ログインと大量ダウンロード','17:42の国内ログインだけ','日付が変わったこと自体','ログが5行あること'],
+        options:['普段と異なる地域・時間帯の成功ログインと大量ダウンロード','17:42の通常地域からのログイン','日付が変わったこと自体','ログが5行あること'],
         a:0,
         explain:'通常行動と異なる地域・時間帯で、失敗後に成功し大量取得まで続いている点は不正利用の可能性を示す重要な兆候です。'
       },
@@ -7846,7 +7950,7 @@ const SECURITY_SCENARIOS = [
       },
       {
         q:'リスク対応を決める際に適切なのは？',
-        options:['評価結果や許容可能な水準、対策コストなどを考慮する','影響度を見ず発生確率だけで決める','記録せず直感だけで決める','すべてのリスクを必ずゼロにする'],
+        options:['評価結果や許容可能な水準、対策コストなどを考慮する','影響度を見ず発生確率で決める','記録せず直感で決める','すべてのリスクを必ずゼロにする'],
         a:0,
         explain:'リスクは完全にゼロにできるとは限らないため、評価・許容水準・費用対効果などを考えて対応を選びます。'
       },
