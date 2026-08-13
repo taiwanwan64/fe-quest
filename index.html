@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v57</title>
+<title>FE QUEST PWA v58</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3967,6 +3967,35 @@
   .core-worked-reason b,.core-worked-answer b{font-size:15px}
   .core-worked-reason p,.core-worked-answer p{font-size:14px;line-height:1.7;margin:5px 0 0;color:#526b7b}
 
+
+  /* ===== v58: global visibility contract ===== */
+  .hidden{display:none!important}
+
+
+  /* ===== v58: paired Subject A / B course overview cards ===== */
+  .course-paired-overview{
+    min-height:100px;
+    margin:18px 0 22px;
+    padding:20px;
+    box-sizing:border-box;
+  }
+  .course-paired-overview .course-overview-copy b{
+    display:block;font-size:18px;font-weight:1000;margin-bottom:4px;
+  }
+  .course-overview-side{
+    min-width:84px;text-align:right;white-space:nowrap;font-size:18px;font-weight:1000;
+  }
+  .subject-b-overview{
+    background:linear-gradient(135deg,#fbf6ff,#f7fbff);
+    border-color:#ddc9ef;
+  }
+  .subject-b-overview-icon{background:#fff}
+  .subject-b-overview-side{color:#7542a8}
+  @media(max-width:720px){
+    .course-paired-overview{min-height:112px}
+    .course-overview-side{min-width:auto}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4052,7 +4081,7 @@
       <div id="mockMenu" class="mock-menu">
         <div class="screen-head">
           <button class="back" data-screen="home">←</button>
-          <div><h1>科目A MOCK 📝</h1><div class="sub">本番を意識した時間配分を練習します。</div></div>
+          <div><h1>科目A 模試 📝</h1><div class="sub">本番を意識した時間配分を練習します。</div></div>
         </div>
 
         <div class="mock-hero">
@@ -4066,7 +4095,7 @@
         <div class="mock-blueprint-card">
           <div class="mock-blueprint-head">
             <div>
-              <div class="mock-blueprint-kicker">FE QUEST MOCK BLUEPRINT</div>
+              <div class="mock-blueprint-kicker">FE QUEST 模試設計</div>
               <b>毎回の出題バランスを自動調整</b>
             </div>
             <span class="mock-blueprint-badge">160問から選出</span>
@@ -4083,7 +4112,7 @@
         <div class="mock-cards">
           <div class="mock-card featured">
             <div class="mock-card-icon">🏁</div>
-            <div class="mock-card-title">FULL MOCK</div>
+            <div class="mock-card-title">フル模試</div>
             <div class="mock-card-desc">60問を90分で解く本番形式。途中で問題に★を付けて、後から見直せます。</div>
             <div class="mock-specs"><span class="mock-spec">60問</span><span class="mock-spec">90分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎24 / 標準36</span></div>
             <button class="mock-start" data-mock-mode="full">本番形式を始める</button>
@@ -4091,7 +4120,7 @@
 
           <div class="mock-card">
             <div class="mock-card-icon">⚡</div>
-            <div class="mock-card-title">HALF MOCK</div>
+            <div class="mock-card-title">ハーフ模試</div>
             <div class="mock-card-desc">時間がない日の実戦練習。30問・45分で、本番と同じ1問あたりのペースを練習します。</div>
             <div class="mock-specs"><span class="mock-spec">30問</span><span class="mock-spec">45分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎12 / 標準18</span></div>
             <button class="mock-start" data-mock-mode="half">ハーフ模試を始める</button>
@@ -4106,7 +4135,7 @@
 
       <div id="mockExam" class="mock-exam">
         <div class="mock-topbar">
-          <div class="mock-top-title"><b id="mockExamTitle">FULL MOCK</b><span id="mockExamProgressText">問1 / 60</span></div>
+          <div class="mock-top-title"><b id="mockExamTitle">フル模試</b><span id="mockExamProgressText">問1 / 60</span></div>
           <div class="mock-timer" id="mockTimer">90:00</div>
           <button class="mock-finish-btn" id="mockFinish">終了・採点</button>
         </div>
@@ -4127,7 +4156,7 @@
           </div>
 
           <div class="mock-nav-panel">
-            <div class="mock-nav-title">QUESTION MAP</div>
+            <div class="mock-nav-title">問題マップ</div>
             <div class="mock-nav-grid" id="mockNavGrid"></div>
             <div class="mock-legend">青＝回答済み　★＝見直し　枠＝現在の問題</div>
           </div>
@@ -4259,7 +4288,7 @@
       <div class="coverage-summary">
         <div class="coverage-icon">📚</div>
         <div class="coverage-copy">
-          <b>EXAM AREA COVERAGE</b>
+          <b>試験範囲カバレッジ</b>
           <div class="sub">主要分野を横断して学習コンテンツの進捗を確認できます。</div>
         </div>
         <div class="coverage-big" id="coverageOverall">0%</div>
@@ -4461,15 +4490,15 @@
         </button>
         <button class="course-subject-tab subject-b" data-course-subject="B" role="tab" aria-selected="false" aria-controls="subjectBCoursePanel">
           <span class="course-subject-icon">💻</span>
-          <span><b>科目B</b><small>PROGRAM TRACE・Security・実戦</small></span>
+          <span><b>科目B</b><small>プログラムトレース・セキュリティ・実戦</small></span>
         </button>
       </div>
 
       <div id="subjectACoursePanel" role="tabpanel" aria-hidden="false">
-        <div class="course-overview core-overview">
+        <div class="course-overview core-overview course-paired-overview">
           <div class="course-overview-icon">📘</div>
-          <div class="course-overview-copy"><b>科目A CORE COURSE</b><div class="sub"><span id="coreLessonCount">99</span>テーマ・全594ページで体系的に学びます。</div></div>
-          <div class="course-percent" id="coursePercent">0%</div>
+          <div class="course-overview-copy"><b>科目A コアコース</b><div class="sub"><span id="coreLessonCount">99</span>テーマ・全594ページで体系的に学びます。</div></div>
+          <div class="course-overview-side course-percent" id="coursePercent">0%</div>
         </div>
         <div class="core-course-tools">
           <input id="coreCourseSearch" class="core-course-search" type="search" placeholder="用語・テーマを検索（例：正規化、DNS、EVM）">
@@ -4484,42 +4513,39 @@
       </div>
 
       <div id="subjectBCoursePanel" class="subject-b-course course-panel-hidden" role="tabpanel" aria-hidden="true" hidden>
-        <div class="subject-b-course-hero">
-          <div class="subject-b-course-icon">💻</div>
-          <div>
-            <div class="subject-b-course-kicker">SUBJECT B COURSE</div>
-            <h2>PROGRAM TRACEを中心に、科目Bを段階的に仕上げる</h2>
-            <div class="sub">基礎トレース → Security → 複合演習 → 20問総合実戦の順に進められます。</div>
-          </div>
+        <div class="course-overview subject-b-overview course-paired-overview">
+          <div class="course-overview-icon subject-b-overview-icon">💻</div>
+          <div class="course-overview-copy"><b>科目B コアコース</b><div class="sub">プログラムトレース → セキュリティ → 複合演習 → 20問総合実戦の順に進めます。</div></div>
+          <div class="course-overview-side subject-b-overview-side">4ステップ</div>
         </div>
 
         <div class="subject-b-course-grid">
           <button class="subject-b-course-card trace-card" data-course-bmode="trace">
-            <span class="subject-b-card-step">STEP 1</span>
+            <span class="subject-b-card-step">ステップ 1</span>
             <span class="subject-b-card-icon">🧠</span>
-            <b>PROGRAM TRACE</b>
+            <b>プログラムトレース</b>
             <span>20演習</span>
             <small>擬似コードを1行ずつ追い、変数・配列・スタック・キュー・再帰などの途中状態を予測します。</small>
             <em>ここから始める →</em>
           </button>
           <button class="subject-b-course-card security-card" data-course-bmode="security">
-            <span class="subject-b-card-step">STEP 2</span>
+            <span class="subject-b-card-step">ステップ 2</span>
             <span class="subject-b-card-icon">🛡️</span>
-            <b>SECURITY SCENARIO</b>
+            <b>セキュリティ シナリオ</b>
             <span>15シナリオ</span>
             <small>攻撃・認証・ログ・証明書・リスク対応を、状況を読んで判断する形で練習します。</small>
-            <em>Securityを学ぶ →</em>
+            <em>セキュリティを学ぶ →</em>
           </button>
           <button class="subject-b-course-card mock-card" data-course-bmode="mock">
-            <span class="subject-b-card-step">STEP 3</span>
+            <span class="subject-b-card-step">ステップ 3</span>
             <span class="subject-b-card-icon">🎯</span>
             <b>複合・実戦トレーニング</b>
-            <span>複合15セット + Mini Mock</span>
+            <span>複合15セット＋ミニ模試</span>
             <small>ヒント依存を減らし、複数の処理・条件をまとめて読む力を鍛えます。</small>
             <em>実戦へ進む →</em>
           </button>
           <button class="subject-b-course-card final-card" data-course-bmode="final">
-            <span class="subject-b-card-step">STEP 4</span>
+            <span class="subject-b-card-step">ステップ 4</span>
             <span class="subject-b-card-icon">🏁</span>
             <b>科目B 総合実戦</b>
             <span>20問・100分</span>
@@ -4543,7 +4569,7 @@
       <div class="weak-hero">
         <div class="weak-hero-icon">🎯</div>
         <div class="weak-hero-copy">
-          <div class="weak-hero-label">NEXT PRIORITY</div>
+          <div class="weak-hero-label">次の優先項目</div>
           <div class="weak-hero-title" id="weakTopTitle">学習データを分析中</div>
           <div class="weak-hero-sub" id="weakTopSub"></div>
         </div>
@@ -4592,7 +4618,7 @@
     <!-- PROBLEMS -->
     <section id="problems" class="screen">
       <h1>問題演習 📖</h1>
-      <div class="sub">既存160問＋99テーマ直結297問＋実戦チャレンジ129問の全586問から出題します。</div><div class="bank-summary">📚 QUESTION BANK 586</div>
+      <div class="sub">既存160問＋99テーマ直結297問＋実戦チャレンジ129問の全586問から出題します。</div><div class="bank-summary">📚 問題バンク 586</div>
 
       <div class="problem-hub" id="problemHub">
         <div class="problem-mode">
@@ -4652,7 +4678,7 @@
         <div class="review-engine-card">
           <div class="review-engine-icon">🧠</div>
           <div class="review-engine-copy">
-            <b>VARIANT REVIEW</b>
+            <b>バリエーション復習</b>
             <div>復習では、同じ論点を別の数値・別の聞き方で確認します。</div>
             <div class="review-engine-meta" id="variantCoverageText">生成可能な類題を確認中…</div>
           </div>
@@ -4688,9 +4714,9 @@
         <div class="quiz-card">
           <div class="quiz-top">
             <span class="quiz-badge" id="quizCategory">分野</span>
-            <span class="variant-badge" id="variantBadge" style="display:none">VARIANT REVIEW</span>
+            <span class="variant-badge" id="variantBadge" style="display:none">バリエーション復習</span>
             <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
-            <span class="quiz-source">QUESTION</span>
+            <span class="quiz-source">問題</span>
           </div>
           <div class="quiz-question" id="quizQuestion"></div>
 
@@ -4808,7 +4834,7 @@
         <button class="back" data-screen="map">←</button>
         <div style="flex:1">
           <h1 id="lessonTitle">インタラクティブ学習</h1>
-          <div class="sub" id="lessonCategory">LESSON</div>
+          <div class="sub" id="lessonCategory">レッスン</div>
         </div>
       </div>
 
@@ -4838,7 +4864,7 @@
       <div id="bSelect" class="b-select">
         <div class="screen-head">
           <button class="back" data-screen="map">←</button>
-          <div><h1>科目B PROGRAM TRACE 💻</h1><div class="sub">擬似コードを1行ずつ追い、基礎から二次元配列・リスト・再帰まで段階的に鍛えます。</div></div>
+          <div><h1>科目B プログラムトレース 💻</h1><div class="sub">擬似コードを1行ずつ追い、基礎から二次元配列・リスト・再帰まで段階的に鍛えます。</div></div>
         </div>
 
         <div class="b-mode-tabs">
@@ -4851,7 +4877,7 @@
         <div class="b-hero">
           <div class="b-hero-icon">🧪</div>
           <div class="b-hero-copy">
-            <div class="b-hero-title">PROGRAM TRACE TRAINING</div>
+            <div class="b-hero-title">プログラムトレース演習</div>
             <div class="sub">予測 → 次の行を実行 → 状態確認を繰り返して、頭の中でトレースする力を育てます。</div>
           </div>
           <div class="b-hero-progress" id="bProgressText">0 / 20</div>
@@ -4879,14 +4905,14 @@
         <div class="trace-title-row">
           <button class="back" id="bBackToList">←</button>
           <div class="trace-info">
-            <h1 id="bLabTitle">TRACE</h1>
+            <h1 id="bLabTitle">トレース</h1>
             <div class="sub" id="bLabMeta"></div>
           </div>
         </div>
 
         <div class="trace-workspace">
           <div class="trace-code-panel">
-            <div class="trace-code-title">PSEUDOCODE</div>
+            <div class="trace-code-title">擬似コード</div>
             <div id="bCode"></div>
             <div class="trace-message" id="bTraceMessage">次の行を実行してください。</div>
 
@@ -4902,7 +4928,7 @@
           </div>
 
           <div class="trace-state-panel">
-            <div class="trace-state-title">STATE</div>
+            <div class="trace-state-title">状態</div>
             <div class="state-grid" id="bStateGrid"></div>
             <div class="trace-visual" id="bVisual"></div>
             <div class="progress purple" style="margin-top:14px"><div id="bTraceProgress" style="width:0%"></div></div>
@@ -4911,7 +4937,7 @@
 
         <div class="b-complete" id="bComplete">
           <div class="b-complete-icon">🏆</div>
-          <h2>TRACE COMPLETE!</h2>
+          <h2>トレース完了！</h2>
           <div class="b-xp" id="bCompleteXp">+80 XP</div>
           <div class="sub" id="bCompleteText"></div>
           <button class="primary" id="bNextExercise" style="margin-top:18px">一覧へ戻る</button>
@@ -4938,8 +4964,8 @@
 
         <div class="bfinal-hero">
           <div class="bfinal-hero-top">
-            <div class="bfinal-badge">FULL SUBJECT B</div>
-            <div class="bfinal-best" id="bFinalBest">BEST —</div>
+            <div class="bfinal-badge">科目B フル実戦</div>
+            <div class="bfinal-best" id="bFinalBest">ベスト —</div>
           </div>
           <div class="bfinal-title">本番を意識した20問・100分</div>
           <div class="sub">
@@ -4976,8 +5002,8 @@
         <div class="bfinal-topbar">
           <button class="back" id="bFinalExit">×</button>
           <div class="bfinal-top-copy">
-            <b>SUBJECT B FULL PRACTICE</b>
-            <span id="bFinalTopMeta">QUESTION 1 / 20</span>
+            <b>科目B 総合実戦</b>
+            <span id="bFinalTopMeta">問題 1 / 20</span>
           </div>
           <div class="bfinal-progress-mini"><div id="bFinalProgressMini"></div></div>
           <div class="bfinal-timer" id="bFinalTimer">100:00</div>
@@ -4994,19 +5020,19 @@
 
             <div id="bFinalAlgoBlock">
               <div class="bfinal-context" id="bFinalAlgoContext"></div>
-              <div class="bmock-code-title">PSEUDOCODE</div>
+              <div class="bmock-code-title">擬似コード</div>
               <div class="bmock-code bfinal-code" id="bFinalCode"></div>
               <div class="bfinal-data" id="bFinalAlgoData"></div>
             </div>
 
-            <div id="bFinalSecurityBlock" class="hidden">
+            <div id="bFinalSecurityBlock" class="hidden" hidden>
               <div class="secmock-incident">
                 <div class="secmock-incident-head">
                   <span id="bFinalSecIcon">⚠️</span><b id="bFinalSecTitle"></b>
                 </div>
                 <div id="bFinalSecText"></div>
               </div>
-              <div class="secmock-evidence-title">EVIDENCE / LOG</div>
+              <div class="secmock-evidence-title">判断材料・ログ</div>
               <div class="secmock-evidence" id="bFinalSecEvidence"></div>
             </div>
 
@@ -5022,12 +5048,12 @@
 
           <aside class="bfinal-nav">
             <div class="bfinal-nav-title">問題一覧</div>
-            <div class="bfinal-nav-sub">紫＝擬似言語 / 緑＝Security</div>
+            <div class="bfinal-nav-sub">紫＝擬似言語 / 緑＝セキュリティ</div>
             <div class="bfinal-nav-grid" id="bFinalNavGrid"></div>
             <div class="bfinal-count" id="bFinalAnswerCount">0 / 20 回答</div>
             <div class="bfinal-section-count">
               <div><span id="bFinalAlgoAnswered">0</span>/16 擬似言語</div>
-              <div><span id="bFinalSecAnswered">0</span>/4 Security</div>
+              <div><span id="bFinalSecAnswered">0</span>/4 セキュリティ</div>
             </div>
           </aside>
         </div>
@@ -5036,7 +5062,7 @@
       <div id="bFinalResult" class="bfinal-result">
         <div class="bfinal-result-hero">
           <div class="bfinal-result-icon">🏁</div>
-          <div class="bfinal-result-kicker">SUBJECT B FULL PRACTICE</div>
+          <div class="bfinal-result-kicker">科目B 総合実戦</div>
           <div class="bfinal-result-points" id="bFinalResultPoints">0</div>
           <div class="bfinal-result-denom">/ 1000 <small>FE QUEST練習換算</small></div>
           <div class="bfinal-result-raw" id="bFinalResultRaw">0 / 20 正解</div>
@@ -5091,10 +5117,10 @@
         <div class="bmock-hero">
           <div class="bmock-hero-icon">🧠</div>
           <div class="bmock-hero-copy">
-            <div class="bmock-hero-title">ALGORITHM MINI MOCK</div>
+            <div class="bmock-hero-title">アルゴリズム ミニ模試</div>
             <div class="sub">コードと現在状態だけを見て、次の値・最終値・探索位置などを予測します。採点は最後にまとめて行います。</div>
           </div>
-          <div class="bmock-hero-score" id="bMockBest">BEST —</div>
+          <div class="bmock-hero-score" id="bMockBest">ベスト —</div>
         </div>
 
         <div class="bmock-rules">
@@ -5143,7 +5169,7 @@
       <div id="bCompoundExam" class="bcompound-exam">
         <div class="bmock-topbar">
           <button class="back" id="bCompoundExit">×</button>
-          <div class="bmock-top-title"><b>COMPOUND CHALLENGE</b><span>長文1題・設問3問</span></div>
+          <div class="bmock-top-title"><b>複合チャレンジ</b><span>長文1題・設問3問</span></div>
           <div class="bmock-timer" id="bCompoundTimer">20:00</div>
           <button class="bmock-submit-top" id="bCompoundSubmit">提出</button>
         </div>
@@ -5151,7 +5177,7 @@
           <section class="bcompound-code-pane">
             <div class="bcompound-set-head"><span id="bCompoundLevel">標準</span><b id="bCompoundTitle">複合問題</b></div>
             <div class="bcompound-lead" id="bCompoundLead"></div>
-            <div class="bmock-code-title">PSEUDOCODE</div>
+            <div class="bmock-code-title">擬似コード</div>
             <div class="bmock-code bcompound-code" id="bCompoundCode"></div>
             <div class="bcompound-data" id="bCompoundData"></div>
           </section>
@@ -5171,7 +5197,7 @@
       <div id="bCompoundResult" class="bcompound-result">
         <div class="bmock-result-hero">
           <div class="bmock-result-icon">🧩</div>
-          <div class="bmock-result-kicker">COMPOUND CHALLENGE</div>
+          <div class="bmock-result-kicker">複合チャレンジ</div>
           <div class="bmock-result-score" id="bCompoundResultScore">0 / 3</div>
           <div class="sub" id="bCompoundResultMessage"></div>
         </div>
@@ -5191,7 +5217,7 @@
       <div id="bMockExam" class="bmock-exam">
         <div class="bmock-topbar">
           <button class="back" id="bMockExit">×</button>
-          <div class="bmock-top-title"><b>ALGORITHM MINI MOCK</b><span>8問・ヒントなし</span></div>
+          <div class="bmock-top-title"><b>アルゴリズム ミニ模試</b><span>8問・ヒントなし</span></div>
           <div class="bmock-timer" id="bMockTimer">40:00</div>
           <button class="bmock-submit-top" id="bMockSubmitTop">提出</button>
         </div>
@@ -5199,16 +5225,16 @@
         <div class="bmock-layout">
           <div class="bmock-question-card">
             <div class="bmock-q-meta">
-              <span class="bmock-q-num" id="bMockQNum">QUESTION 1 / 8</span>
+              <span class="bmock-q-num" id="bMockQNum">問題 1 / 8</span>
               <span class="bmock-q-label">科目B・アルゴリズム</span>
             </div>
 
             <div class="bmock-prompt">次の状態から処理を続けたとき、問いに答えてください。</div>
 
-            <div class="bmock-code-title">PSEUDOCODE</div>
+            <div class="bmock-code-title">擬似コード</div>
             <div class="bmock-code" id="bMockCode"></div>
 
-            <div class="bmock-snapshot-title">CURRENT STATE</div>
+            <div class="bmock-snapshot-title">現在の状態</div>
             <div class="bmock-state" id="bMockState"></div>
             <div class="bmock-visual" id="bMockVisual"></div>
 
@@ -5234,7 +5260,7 @@
       <div id="bMockResult" class="bmock-result">
         <div class="bmock-result-hero">
           <div class="bmock-result-icon">🎯</div>
-          <div class="bmock-result-kicker">ALGORITHM MINI MOCK</div>
+          <div class="bmock-result-kicker">アルゴリズム ミニ模試</div>
           <div class="bmock-result-score" id="bMockResultScore">0 / 8</div>
           <div class="sub" id="bMockResultMessage"></div>
         </div>
@@ -5263,7 +5289,7 @@
       <div id="secSelect" class="sec-select hidden">
         <div class="screen-head">
           <button class="back" data-screen="map">←</button>
-          <div><h1>科目B SECURITY LAB 🛡️</h1><div class="sub">状況・証拠・ログを読み、最も適切な判断を選びます。</div></div>
+          <div><h1>科目B セキュリティ演習 🛡️</h1><div class="sub">状況・証拠・ログを読み、最も適切な判断を選びます。</div></div>
         </div>
 
         <div class="b-mode-tabs">
@@ -5276,7 +5302,7 @@
         <div class="sec-hero">
           <div class="sec-hero-icon">🛡️</div>
           <div class="sec-hero-copy">
-            <div class="sec-hero-title">SECURITY SCENARIO LAB</div>
+            <div class="sec-hero-title">セキュリティ シナリオ演習</div>
             <div class="sub">用語を当てるだけでなく「この状況なら何を優先するか」を考える訓練です。</div>
           </div>
           <div class="sec-hero-progress" id="secProgressText">0 / 15</div>
@@ -5285,7 +5311,7 @@
         <div class="sec-practical-card">
           <div class="sec-practical-icon">🎯</div>
           <div class="sec-practical-copy">
-            <b>SECURITY MINI MOCK</b>
+            <b>セキュリティ ミニ模試</b>
             <span>8問・20分。状況と証拠を読み、ヒントなしで判断します。</span>
           </div>
           <button id="secMockStartMenu">実戦へ →</button>
@@ -5305,7 +5331,7 @@
       <div id="secMockExam" class="secmock-exam">
         <div class="bmock-topbar">
           <button class="back" id="secMockExit">×</button>
-          <div class="bmock-top-title"><b>SECURITY MINI MOCK</b><span>8問・ヒントなし</span></div>
+          <div class="bmock-top-title"><b>セキュリティ ミニ模試</b><span>8問・ヒントなし</span></div>
           <div class="secmock-timer" id="secMockTimer">20:00</div>
           <button class="secmock-submit-top" id="secMockSubmitTop">提出</button>
         </div>
@@ -5313,7 +5339,7 @@
         <div class="secmock-layout">
           <section class="secmock-question-card">
             <div class="secmock-q-meta">
-              <span id="secMockQNum">QUESTION 1 / 8</span>
+              <span id="secMockQNum">問題 1 / 8</span>
               <span>科目B・情報セキュリティ</span>
             </div>
 
@@ -5325,7 +5351,7 @@
               <div id="secMockIncidentText"></div>
             </div>
 
-            <div class="secmock-evidence-title">EVIDENCE / LOG</div>
+            <div class="secmock-evidence-title">判断材料・ログ</div>
             <div class="secmock-evidence" id="secMockEvidence"></div>
 
             <div class="secmock-question" id="secMockQuestion"></div>
@@ -5350,7 +5376,7 @@
       <div id="secMockResult" class="secmock-result">
         <div class="bmock-result-hero secmock-result-hero">
           <div class="bmock-result-icon">🛡️</div>
-          <div class="bmock-result-kicker">SECURITY MINI MOCK</div>
+          <div class="bmock-result-kicker">セキュリティ ミニ模試</div>
           <div class="bmock-result-score" id="secMockResultScore">0 / 8</div>
           <div class="sub" id="secMockResultMessage"></div>
         </div>
@@ -5380,8 +5406,8 @@
         <div class="trace-title-row">
           <button class="back" id="secBackToList">←</button>
           <div class="trace-info">
-            <h1 id="secLabTitle">SECURITY SCENARIO</h1>
-            <div class="sub" id="secLabMeta">SECURITY SCENARIO</div>
+            <h1 id="secLabTitle">セキュリティ シナリオ</h1>
+            <div class="sub" id="secLabMeta">セキュリティ シナリオ</div>
           </div>
         </div>
 
@@ -5395,14 +5421,14 @@
         </div>
 
         <div class="evidence-panel">
-          <div class="evidence-title">EVIDENCE / LOG</div>
+          <div class="evidence-title">判断材料・ログ</div>
           <div id="secEvidence"></div>
         </div>
 
         <div class="decision-panel">
           <div class="decision-step">
             <div class="decision-num" id="secDecisionNum">1</div>
-            <div class="decision-label">DECISION</div>
+            <div class="decision-label">判断</div>
           </div>
           <div class="decision-question" id="secQuestion"></div>
           <div class="decision-options" id="secOptions"></div>
@@ -5416,7 +5442,7 @@
 
         <div class="sec-complete" id="secComplete">
           <div class="sec-complete-icon">🛡️</div>
-          <h2>SCENARIO COMPLETE!</h2>
+          <h2>シナリオ完了！</h2>
           <div class="sec-xp" id="secCompleteXp">+80 XP</div>
           <div class="sub" id="secCompleteText"></div>
           <div class="sec-summary" id="secCompleteSummary"></div>
@@ -5429,7 +5455,7 @@
     <section id="result" class="screen">
       <div class="result-card">
         <div class="result-icon">🏆</div>
-        <h1>QUEST COMPLETE!</h1>
+        <h1>クエスト完了！</h1>
         <div class="sub">今日のクエストを完了しました。</div>
         <div class="xp">+340 XP</div>
 
@@ -9291,7 +9317,7 @@ function renderQuizQuestion(){
   const vb=document.getElementById('variantBadge');
   if(vb){
     vb.style.display=q.variant?'inline-block':'none';
-    vb.textContent=q.variantSibling?'RELATED REVIEW':'VARIANT REVIEW';
+    vb.textContent=q.variantSibling?'関連問題復習':'バリエーション復習';
   }
   document.getElementById('quizCounter').textContent=`${quizIndex+1} / ${quizItems.length}`;
   document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
@@ -9395,7 +9421,7 @@ function gradeCurrentQuestion(){
       note.className='retry-note';
       explain.appendChild(note);
     }
-    note.innerHTML='<b>RETRY</b>　最初の誤答は成績に記録しました。正解を見ずに、もう一度考えます。';
+    note.innerHTML='<b>再挑戦</b>　最初の誤答は成績に記録しました。正解を見ずに、もう一度考えます。';
     return;
   }
 
@@ -10323,11 +10349,11 @@ function reliabilityView(mode){
 function backupView(mode){
   const days=['日','月','火','水','木'];
   const changes=['FULL','A','B','C','D'];
-  const full=days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':'<div class="backup-block backup-inc">変更 '+changes[i]+'</div>'}</div>`).join('');
+  const full=days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">フル</div>':'<div class="backup-block backup-inc">変更 '+changes[i]+'</div>'}</div>`).join('');
   if(mode==='full') return `<div class="backup-strip">${full}</div><div class="lesson-copy" style="margin-top:13px">日曜に全データを保存し、月曜以降にA〜Dの変更が発生したとします。</div>`;
-  if(mode==='incremental') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-inc">${changes[i]}のみ</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">増分：前回バックアップ以降の変更だけ。</div>`;
-  if(mode==='differential') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-diff">${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">差分：直近のフル以降の変更を毎回まとめて保存。</div>`;
-  return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-inc">増分 ${changes[i]}</div><div class="backup-block backup-diff">差分 ${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div>`;
+  if(mode==='incremental') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">フル</div>':`<div class="backup-block backup-inc">${changes[i]}のみ</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">増分：前回バックアップ以降の変更だけ。</div>`;
+  if(mode==='differential') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">フル</div>':`<div class="backup-block backup-diff">${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">差分：直近のフル以降の変更を毎回まとめて保存。</div>`;
+  return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">フル</div>':`<div class="backup-block backup-inc">増分 ${changes[i]}</div><div class="backup-block backup-diff">差分 ${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div>`;
 }
 function devPipeline(active){
   const items=[['要件定義','何を作る？'],['設計','どう作る？'],['実装','コード化'],['テスト','確認'],['移行','利用開始']];
@@ -10451,8 +10477,8 @@ function cacheView(mode){
 }
 function dataStructureView(stack,queue){
   return `<div class="ds-stage">
-    <div class="ds-panel"><div class="ds-label">STACK（LIFO）</div><div class="ds-items stack-items">${stack.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
-    <div class="ds-panel"><div class="ds-label">QUEUE（FIFO）</div><div class="ds-items queue-items">${queue.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
+    <div class="ds-panel"><div class="ds-label">スタック（LIFO）</div><div class="ds-items stack-items">${stack.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
+    <div class="ds-panel"><div class="ds-label">キュー（FIFO）</div><div class="ds-items queue-items">${queue.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
   </div>`;
 }
 function sqlView(filtered){
@@ -10490,7 +10516,7 @@ function lockView(mode){
   const locked=mode==='locked';
   return `<div class="lock-demo">
     <div class="worker"><div style="font-size:28px">👤</div><b>利用者A</b><div class="sub">${locked?'更新中':'購入したい'}</div></div>
-    <div class="resource ${locked?'locked':''}"><div class="lock-icon">${locked?'🔒':'📦'}</div><b>在庫：1</b><div class="sub">${locked?'AがLOCK中':'共有データ'}</div></div>
+    <div class="resource ${locked?'locked':''}"><div class="lock-icon">${locked?'🔒':'📦'}</div><b>在庫：1</b><div class="sub">${locked?'Aがロック中':'共有データ'}</div></div>
     <div class="worker ${locked?'wait':''}"><div style="font-size:28px">👤</div><b>利用者B</b><div class="sub">${locked?'待機中…':'購入したい'}</div></div>
   </div>`;
 }
@@ -11085,7 +11111,7 @@ function renderTransactionLesson(step, message){
 
   if(type==='cache'){
     const drawActions=()=>{
-      document.getElementById('cacheActions').innerHTML=`<button class="explore-btn ${cacheSeen.has('hit')?'seen':''}" id="cacheHit">⚡ HIT</button><button class="explore-btn ${cacheSeen.has('miss')?'seen':''}" id="cacheMiss">🐢 MISS</button>`;
+      document.getElementById('cacheActions').innerHTML=`<button class="explore-btn ${cacheSeen.has('hit')?'seen':''}" id="cacheHit">⚡ ヒット</button><button class="explore-btn ${cacheSeen.has('miss')?'seen':''}" id="cacheMiss">🐢 ミス</button>`;
       document.getElementById('cacheHit').onclick=()=>{cacheSeen.add('hit');document.getElementById('cacheDynamic').innerHTML=cacheView('hit');lessonInteractiveDone=cacheSeen.size>=2;drawActions();showLessonFeedback('HIT：キャッシュにデータがあり、主記憶まで行かずに取得できます。');};
       document.getElementById('cacheMiss').onclick=()=>{cacheSeen.add('miss');document.getElementById('cacheDynamic').innerHTML=cacheView('miss');lessonInteractiveDone=cacheSeen.size>=2;drawActions();showLessonFeedback('MISS：キャッシュになかったため、主記憶へ取りに行きます。');};
     };
@@ -11098,8 +11124,8 @@ function renderTransactionLesson(step, message){
     const draw=()=>{
       lessonInteractiveDone=dsSeen.size>=2;
       stage.innerHTML=`${dataStructureView(stack,queue)}<div class="explore-actions">
-        <button class="explore-btn ${dsSeen.has('stack')?'seen':''}" id="popStack" ${dsSeen.has('stack')?'disabled':''}>STACK：POP</button>
-        <button class="explore-btn ${dsSeen.has('queue')?'seen':''}" id="deqQueue" ${dsSeen.has('queue')?'disabled':''}>QUEUE：DEQUEUE</button>
+        <button class="explore-btn ${dsSeen.has('stack')?'seen':''}" id="popStack" ${dsSeen.has('stack')?'disabled':''}>スタック：POP</button>
+        <button class="explore-btn ${dsSeen.has('queue')?'seen':''}" id="deqQueue" ${dsSeen.has('queue')?'disabled':''}>キュー：DEQUEUE</button>
       </div>`;
       const ps=document.getElementById('popStack');if(ps&&!ps.disabled)ps.onclick=()=>{const x=stack.pop();dsSeen.add('stack');draw();showLessonFeedback(`STACKでは <b>${x}</b> が出ました。最後に入れた要素から取り出すLIFOです。`);};
       const dq=document.getElementById('deqQueue');if(dq&&!dq.disabled)dq.onclick=()=>{const x=queue.shift();dsSeen.add('queue');draw();showLessonFeedback(`QUEUEでは <b>${x}</b> が出ました。最初に入れた要素から取り出すFIFOです。`);};
@@ -11160,7 +11186,7 @@ function renderTransactionLesson(step, message){
       const scene = step===2
         ? `<div class="lock-demo">
             <div class="worker"><div style="font-size:28px">👤</div><b>利用者A</b><div class="sub">購入完了</div></div>
-            <div class="resource"><div class="lock-icon">📦</div><b>在庫：0</b><div class="sub">UNLOCK</div></div>
+            <div class="resource"><div class="lock-icon">📦</div><b>在庫：0</b><div class="sub">ロック解除</div></div>
             <div class="worker"><div style="font-size:28px">👤</div><b>利用者B</b><div class="sub">在庫0を確認</div></div>
           </div>`
         : lockView(step===1?'locked':'idle');
@@ -12255,7 +12281,7 @@ function bMockFormatTime(sec){
 
 function renderBMockMenu(){
   const hist=profile.bMockHistory||[],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null;
-  document.getElementById('bMockBest').textContent=best===null?'BEST —':`BEST ${best}%`;
+  document.getElementById('bMockBest').textContent=best===null?'ベスト —':`BEST ${best}%`;
   const root=document.getElementById('bMockHistory'),rows=hist.slice(0,5);
   root.innerHTML=rows.length?rows.map(h=>`
     <div class="bmock-history-row">
@@ -12304,12 +12330,12 @@ function updateBMockTimer(){
 function bMockVisualHtml(item){
   const v=item.visual||{};
   if(v.matrix){const f=v.matrixFocus||[];return `<div class="trace-matrix">${v.matrix.map((row,r)=>`<div class="trace-matrix-row">${row.map((x,c)=>`<div class="trace-matrix-cell ${f[0]===r&&f[1]===c?'focus':''}">${escapeHtml(x)}<span class="trace-matrix-index">${r},${c}</span></div>`).join('')}</div>`).join('')}</div>`;}
-  if(v.queue)return `<div class="trace-queue-label">FRONT → REAR</div><div class="trace-queue">${v.queue.length?v.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
+  if(v.queue)return `<div class="trace-queue-label">先頭 → 末尾</div><div class="trace-queue">${v.queue.length?v.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
   if(v.list){const visited=v.visited||[];return `<div class="trace-list">${v.list.map((node,i)=>`${i?'<span class="trace-list-arrow">→</span>':''}<div class="trace-list-node ${v.currentNode===node.id?'current':''} ${visited.includes(node.id)?'visited':''}"><div class="trace-node-id">${escapeHtml(node.id)}</div><div class="trace-node-value">${escapeHtml(node.value)}</div></div>`).join('')}<span class="trace-list-arrow">→ null</span></div>`;}
   if(v.bits){const labels={x:'x',mask:'mask',result:'AND'};return `<div class="trace-bits">${Object.entries(v.bits).map(([k,val])=>`<div class="trace-bit-row"><div class="trace-bit-label">${labels[k]||escapeHtml(k)}</div><div class="trace-bit-value">${escapeHtml(val)}</div></div>`).join('')}</div>`;}
   if(v.object)return `<div class="trace-object"><div class="trace-object-title">${escapeHtml(v.objectName||'object')}</div>${Object.entries(v.object).map(([k,val])=>`<div class="trace-object-prop"><span>${escapeHtml(k)}</span><b>${escapeHtml(val)}</b></div>`).join('')}</div>`;
   if(v.array){const arr=v.arrayState||v.array;return `<div class="trace-array">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
-  if(v.stack)return `<div class="sub" style="text-align:center;margin-bottom:6px">TOP</div><div class="trace-stack">${v.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
+  if(v.stack)return `<div class="sub" style="text-align:center;margin-bottom:6px">トップ</div><div class="trace-stack">${v.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
   if(v.tree){const visited=v.visited||[],mark=n=>visited.includes(n)?`[${n}]`:n;return `<div class="tree-view">       ${mark('A')}
       /   \\
     ${mark('B')}     ${mark('C')}
@@ -12321,7 +12347,7 @@ function bMockVisualHtml(item){
 function renderBMockQuestion(){
   if(!bMockItems.length)return;
   const item=bMockItems[bMockIndex];
-  document.getElementById('bMockQNum').textContent=`QUESTION ${bMockIndex+1} / ${bMockItems.length}`;
+  document.getElementById('bMockQNum').textContent=`問題 ${bMockIndex+1} / ${bMockItems.length}`;
   document.getElementById('bMockCode').innerHTML=item.code.map((line,i)=>`<div class="bmock-code-line ${i===item.line?'target':''}"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');
   document.getElementById('bMockState').innerHTML=Object.entries(item.state||{}).map(([k,v])=>`<div class="bmock-state-card"><div class="bmock-state-key">${escapeHtml(k)}</div><div class="bmock-state-val">${escapeHtml(v)}</div></div>`).join('');
   document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item);
@@ -12445,7 +12471,7 @@ function renderBGrid(){
       <div class="b-card-desc">${ex.desc}</div>
       <div class="b-card-bottom">
         <span class="difficulty ${diffClass}">${ex.level}</span>
-        ${pct>=100?'<span class="b-check">✓ CLEAR</span>':''}
+        ${pct>=100?'<span class="b-check">✓ クリア</span>':''}
         <button class="b-start" data-bex="${ex.id}">${pct>=100?'もう一度':'開始'}</button>
       </div>`;
     root.appendChild(card);
@@ -12575,7 +12601,7 @@ function renderBVisual(step){
   }
 
   if(step.queue){
-    v.innerHTML=`<div class="trace-queue-label">FRONT → REAR</div><div class="trace-queue">${step.queue.length?step.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
+    v.innerHTML=`<div class="trace-queue-label">先頭 → 末尾</div><div class="trace-queue">${step.queue.length?step.queue.map(x=>`<div class="trace-queue-item">${escapeHtml(x)}</div>`).join(''):'<div class="sub">空</div>'}</div>`;
     return;
   }
 
@@ -12612,7 +12638,7 @@ function renderBVisual(step){
   }
 
   if(step.stack){
-    v.innerHTML=`<div class="sub" style="text-align:center;margin-bottom:6px">TOP</div><div class="trace-stack">${step.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
+    v.innerHTML=`<div class="sub" style="text-align:center;margin-bottom:6px">トップ</div><div class="trace-stack">${step.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
     return;
   }
 
@@ -13243,7 +13269,7 @@ function buildBFinal(){
 
 function renderBFinalMenu(){
   const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>h.points||0)):null;
-  document.getElementById('bFinalBest').textContent=best===null?'BEST —':`BEST ${best}`;
+  document.getElementById('bFinalBest').textContent=best===null?'ベスト —':`BEST ${best}`;
   const root=document.getElementById('bFinalHistory'),rows=hist.slice(0,5);
   root.innerHTML=rows.length?rows.map(h=>`
     <div class="bmock-history-row">
@@ -13287,7 +13313,7 @@ function finalAlgoDataHtml(item){
 
 function renderBFinalQuestion(){
   const item=bFinalItems[bFinalIndex];if(!item)return;
-  document.getElementById('bFinalTopMeta').textContent=`QUESTION ${bFinalIndex+1} / ${bFinalItems.length}`;
+  document.getElementById('bFinalTopMeta').textContent=`問題 ${bFinalIndex+1} / ${bFinalItems.length}`;
   document.getElementById('bFinalQNum').textContent=`Q${bFinalIndex+1}`;
   const type=document.getElementById('bFinalQType');
   type.textContent=item.kind==='security'?'情報セキュリティ':'擬似言語';
@@ -13296,12 +13322,14 @@ function renderBFinalQuestion(){
 
   const algo=document.getElementById('bFinalAlgoBlock'),sec=document.getElementById('bFinalSecurityBlock');
   if(item.kind==='algo'){
-    algo.classList.remove('hidden');sec.classList.add('hidden');
+    algo.classList.remove('hidden');algo.hidden=false;
+    sec.classList.add('hidden');sec.hidden=true;
     document.getElementById('bFinalAlgoContext').textContent=item.context||'';
     document.getElementById('bFinalCode').innerHTML=item.code.map((line,i)=>`<div class="bmock-code-line"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');
     document.getElementById('bFinalAlgoData').innerHTML=finalAlgoDataHtml(item);
   }else{
-    algo.classList.add('hidden');sec.classList.remove('hidden');
+    algo.classList.add('hidden');algo.hidden=true;
+    sec.classList.remove('hidden');sec.hidden=false;
     document.getElementById('bFinalSecIcon').textContent=item.incident.icon;
     document.getElementById('bFinalSecTitle').textContent=item.incident.title;
     document.getElementById('bFinalSecText').textContent=item.incident.text;
@@ -13361,7 +13389,7 @@ function renderBFinalDiagnosis(a){
   const area=x.secWrong>x.algoWrong?'情報セキュリティ':x.algoWrong?'擬似言語':'—';
   root.innerHTML=`<div class="bfinal-diagnosis-title">今回の総合実戦診断</div><div class="bfinal-diagnosis-grid">
     <div class="bfinal-diagnosis-item"><span>崩れた形式</span><b>${escapeHtml(x.topFormat)}</b><small>${x.topCount}問の誤答</small></div>
-    <div class="bfinal-diagnosis-item"><span>優先領域</span><b>${area}</b><small>擬似言語 ${x.algoWrong}問 / Security ${x.secWrong}問の誤答</small></div>
+    <div class="bfinal-diagnosis-item"><span>優先領域</span><b>${area}</b><small>擬似言語 ${x.algoWrong}問 / セキュリティ ${x.secWrong}問の誤答</small></div>
     <div class="bfinal-diagnosis-item"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>以前の総合実戦でも同じ型でつまずいた問題</small></div>
   </div>`;
 }
@@ -13410,7 +13438,7 @@ function renderBFinalResult(a,earned){
 
   document.getElementById('bFinalReviewList').innerHTML=a.details.map((d,i)=>{
     const mk=bFinalMistakeKey(d),ms=profile.bFinalMistakeStats?.[mk],reason=ms?.lastReason||'';const meta=bFinalReviewReasonMeta(reason,d);
-    return `<div class="bfinal-review-item ${d.ok?'correct':'wrong'}"><div class="bfinal-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ Security':'💻 '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="bfinal-review-q">${escapeHtml(d.q)}</div><div class="bfinal-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bfinal-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<div class="bfinal-review-reason"><div class="bfinal-review-reason-title">なぜ崩れましたか？</div><div class="bfinal-review-reason-chips">${['トレースミス','コード理解','読み違い','知識不足','時間不足'].map(r=>`<button class="bfinal-review-reason-chip ${reason===r?'picked':''}" data-bfreason="${r}" data-bfkey="${escapeHtml(mk)}">${r}</button>`).join('')}</div></div><div class="bfinal-review-action" data-bfaction="${escapeHtml(mk)}"><b>${escapeHtml(meta[0])}</b>${escapeHtml(meta[1])}</div><button class="bfinal-review-study smart" data-bfinalstudy="${escapeHtml(d.studyMode)}" data-bfinalsource="${escapeHtml(d.sourceId)}">${escapeHtml(meta[0])} →</button>`}</div>`;
+    return `<div class="bfinal-review-item ${d.ok?'correct':'wrong'}"><div class="bfinal-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ セキュリティ':'💻 '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="bfinal-review-q">${escapeHtml(d.q)}</div><div class="bfinal-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bfinal-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<div class="bfinal-review-reason"><div class="bfinal-review-reason-title">なぜ崩れましたか？</div><div class="bfinal-review-reason-chips">${['トレースミス','コード理解','読み違い','知識不足','時間不足'].map(r=>`<button class="bfinal-review-reason-chip ${reason===r?'picked':''}" data-bfreason="${r}" data-bfkey="${escapeHtml(mk)}">${r}</button>`).join('')}</div></div><div class="bfinal-review-action" data-bfaction="${escapeHtml(mk)}"><b>${escapeHtml(meta[0])}</b>${escapeHtml(meta[1])}</div><button class="bfinal-review-study smart" data-bfinalstudy="${escapeHtml(d.studyMode)}" data-bfinalsource="${escapeHtml(d.sourceId)}">${escapeHtml(meta[0])} →</button>`}</div>`;
   }).join('');
   document.querySelectorAll('[data-bfreason]').forEach(btn=>btn.onclick=()=>{
     const key=btn.dataset.bfkey,reason=btn.dataset.bfreason,st=profile.bFinalMistakeStats[key];if(!st)return;
@@ -13516,7 +13544,7 @@ function updateSecurityMockTimer(){
 function renderSecurityMockQuestion(){
   const item=secMockItems[secMockIndex];
   if(!item)return;
-  document.getElementById('secMockQNum').textContent=`QUESTION ${secMockIndex+1} / ${secMockItems.length}`;
+  document.getElementById('secMockQNum').textContent=`問題 ${secMockIndex+1} / ${secMockItems.length}`;
   document.getElementById('secMockIncidentIcon').textContent=item.incident.icon;
   document.getElementById('secMockIncidentTitle').textContent=item.incident.title;
   document.getElementById('secMockIncidentText').textContent=item.incident.text;
@@ -13657,7 +13685,7 @@ function renderSecGrid(){
       <div class="sec-card-desc">${s.desc}</div>
       <div class="sec-card-bottom">
         <span class="difficulty ${diffClass}">${s.level}</span>
-        ${pct>=100?'<span class="sec-check">✓ CLEAR</span>':''}
+        ${pct>=100?'<span class="sec-check">✓ クリア</span>':''}
         <button class="sec-start" data-sec="${s.id}">${pct>=100?'もう一度':'開始'}</button>
       </div>`;
     root.appendChild(card);
@@ -14261,7 +14289,7 @@ function renderCountdown(){
   if(!profile.settings.examDate){box.innerHTML='<div class="countdown-empty">受験予定日を設定すると、残り日数・必要ペース・完了見込みを計算します。</div>';return;}
   const days=examDaysRemaining();
   if(days<0)box.innerHTML='<div class="countdown-empty">設定した受験予定日は過ぎています。新しい日付を設定してください。</div>';
-  else if(days===0)box.innerHTML='<div class="countdown"><div class="countdown-num">TODAY</div><div class="countdown-label">今日は受験予定日です</div></div>';
+  else if(days===0)box.innerHTML='<div class="countdown"><div class="countdown-num">今日</div><div class="countdown-label">今日は受験予定日です</div></div>';
   else box.innerHTML=`<div class="countdown"><div class="countdown-num">${days}</div><div class="countdown-label">日後までに仕上げる</div></div>`;
 }
 
@@ -14362,7 +14390,7 @@ function renderCoverage(){
     const d=document.createElement('div');
     d.className='coverage-chapter';
     d.innerHTML=`<div class="coverage-ch-num" style="font-size:20px">${area.icon}</div>
-      <div><div class="coverage-ch-title">${area.title}</div><div class="coverage-ch-sub">${area.special==='b'?'TRACE / SECURITY LAB':'対応テーマ '+(area.ids||[]).length+'本'}</div>
+      <div><div class="coverage-ch-title">${area.title}</div><div class="coverage-ch-sub">${area.special==='b'?'トレース / セキュリティ演習':'対応テーマ '+(area.ids||[]).length+'本'}</div>
       <div class="progress" style="height:8px;margin-top:7px"><div style="width:${pct}%"></div></div></div>
       <div class="coverage-ch-pct">${pct}%</div>`;
     root.appendChild(d);
@@ -14559,7 +14587,7 @@ function startMock(mode){
   document.getElementById('mockMenu').classList.add('hidden');
   document.getElementById('mockExam').classList.add('show');
   document.getElementById('mockResult').classList.remove('show');
-  document.getElementById('mockExamTitle').textContent=mode==='full'?'FULL MOCK・科目A':'HALF MOCK・科目A';
+  document.getElementById('mockExamTitle').textContent=mode==='full'?'フル模試・科目A':'ハーフ模試・科目A';
 
   renderMockNavigator();
   renderMockQuestion();
@@ -14866,7 +14894,7 @@ function renderMockHistory(){
     d.className='mock-history-row';
     const bp=h.blueprint?.counts?.difficulty;
     const bpText=bp?`<div class="mock-history-blueprint">基礎 ${bp['基礎']||0} / 標準 ${bp['標準']||0}</div>`:'';
-    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div>${bpText}${h.details?'<button class="mock-history-review">レビュー</button>':''}</div>
+    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'フル模試':'ハーフ模試'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div>${bpText}${h.details?'<button class="mock-history-review">レビュー</button>':''}</div>
       <div class="mock-history-time">${formatElapsed(h.seconds||0)}</div><div class="mock-history-score">${h.rate}%</div>`;
     d.querySelector('.mock-history-review')?.addEventListener('click',()=>startMockReview(h));
     root.appendChild(d);
@@ -15486,7 +15514,7 @@ function renderRxTechnique(q){
     rxTechniqueData={recall:''};
     if(optionsEl) optionsEl.classList.add('options-locked');
     body.innerHTML=`<div class="recall-gate">
-      <div class="recall-gate-title">ACTIVE RECALL</div>
+      <div class="recall-gate-title">アクティブリコール</div>
       <input class="recall-input" id="reviewRecallInput" placeholder="思い出した答え・式・キーワード">
       <div class="recall-actions"><button id="reviewRecallDone">選択肢を見る</button><span class="recall-status" id="reviewRecallStatus">まず記憶から取り出してみましょう。</span></div>
     </div>`;
