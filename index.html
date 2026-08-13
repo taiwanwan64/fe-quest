@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v52</title>
+<title>FE QUEST PWA v53</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3838,6 +3838,35 @@
   .testing-choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.testing-choice{border:2px solid #dfe6eb;background:#fff;border-radius:14px;padding:13px;font-size:15px;font-weight:1000;cursor:pointer}.testing-choice.good{border-color:#55bb32;background:#f2fbe9}.testing-choice.bad{border-color:#e46b6b;background:#fff1f1}.testing-progress{font-size:14px;font-weight:900;color:#6f8190;text-align:center;margin-top:12px}
   @media(max-width:760px){.lesson-study-points,.lesson-note-grid,.test-method-compare,.testing-choice-grid{grid-template-columns:1fr}.test-type-row{grid-template-columns:1fr}.test-type-who{text-align:left}}
 
+
+  /* ===== v53: 99-topic core course ===== */
+  .core-overview{margin-bottom:14px}
+  .core-course-tools{display:flex;gap:12px;align-items:center;margin:0 0 14px}
+  .core-course-search{flex:1;min-height:48px;border:1px solid #dce4e9;border-radius:14px;padding:10px 14px;font-size:14px;background:#fff;color:var(--text)}
+  .core-course-stats{font-size:14px;font-weight:1000;color:#607586;white-space:nowrap}
+  .core-course-chapters{display:grid;gap:12px}
+  .core-chapter{border:1px solid #dfe6eb;border-radius:19px;background:#fff;overflow:hidden}
+  .core-chapter-head{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;padding:15px 17px;cursor:pointer;background:#fff}
+  .core-chapter-no{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#eff8e9;color:#378526;font-size:16px;font-weight:1000}
+  .core-chapter-title{font-size:18px;font-weight:1000}.core-chapter-meta{font-size:14px;color:#6c7f8e;margin-top:3px}
+  .core-chapter-progress{min-width:90px;text-align:right}.core-chapter-progress b{font-size:16px}.core-chapter-progress span{display:block;font-size:14px;color:#718492}
+  .core-chapter-body{display:none;padding:0 14px 14px}.core-chapter.open .core-chapter-body{display:grid;gap:8px}
+  .core-topic-row{display:grid;grid-template-columns:70px 1fr 90px;gap:10px;align-items:center;border:1px solid #e5eaed;border-radius:14px;padding:11px 12px;background:#fbfcfd;cursor:pointer}
+  .core-topic-row:hover{background:#f7fbf4;border-color:#cfe4c5}.core-topic-row.done{background:#f4fbf0;border-color:#c8e5bb}
+  .core-topic-code{font-size:14px;font-weight:1000;color:#708390}.core-topic-name{font-size:15px;font-weight:1000;color:#17364b}.core-topic-sub{font-size:14px;color:#6c7f8e;margin-top:3px;line-height:1.45}
+  .core-topic-pct{text-align:right;font-size:14px;font-weight:1000;color:#4b8060}
+  .lab-course-details{margin-top:18px;border:1px solid #dfe6eb;border-radius:18px;background:#fff;padding:14px}
+  .lab-course-details summary{cursor:pointer;font-size:17px;font-weight:1000}.lab-course-note{margin:8px 0 13px}
+  .core-text-page{max-width:920px;margin:0 auto;text-align:left}
+  .core-text-hero{border:1px solid #dfe6eb;border-radius:20px;padding:18px;background:#fff}
+  .core-text-code{font-size:14px;font-weight:1000;color:#6f3fa0}.core-text-title{font-size:22px;font-weight:1000;margin-top:5px}.core-text-lead{font-size:16px;line-height:1.85;color:#405b6b;margin-top:10px}
+  .core-point-list{display:grid;gap:10px;margin-top:14px}.core-point{display:flex;gap:11px;align-items:flex-start;border:1px solid #e4e9ec;border-radius:14px;padding:12px;background:#fafcfd}.core-point-no{flex:0 0 30px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eaf8e2;color:#358024;font-size:14px;font-weight:1000}.core-point-text{font-size:15px;line-height:1.7;color:#506a7a}
+  .core-detail-card{border:1px solid #dfe6eb;border-radius:18px;background:#fff;padding:17px;margin-bottom:10px}.core-detail-card h3{font-size:18px;margin:0 0 8px}.core-detail-card p,.core-detail-card li{font-size:15px;line-height:1.75;color:#536d7c}.core-detail-card ul{margin:0;padding-left:22px}
+  .core-example{background:#f3f9ff;border-color:#cfe2ef}.core-pitfall{background:#fff8e9;border-color:#ecd8a7}.core-exam{background:#f8f3fd;border-color:#dfd0ec}
+  .core-related{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.core-related span{font-size:14px;border-radius:999px;background:#eef2f4;padding:6px 9px;color:#5c7180;font-weight:900}
+  .core-mini-banner{margin-top:12px;padding:12px 14px;border-radius:14px;background:#f2faec;border:1px solid #cfe7c4;font-size:14px;line-height:1.65;color:#426d3a}
+  @media(max-width:660px){.core-course-tools{display:block}.core-course-stats{margin-top:8px}.core-chapter-head{grid-template-columns:48px 1fr}.core-chapter-progress{grid-column:2;text-align:left}.core-topic-row{grid-template-columns:58px 1fr}.core-topic-pct{grid-column:2;text-align:left}.core-text-title{font-size:20px}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4322,335 +4351,23 @@
     <section id="map" class="screen">
       <div class="screen-head">
         <button class="back" data-screen="home">←</button>
-        <div><h1>学習コース 🗺️</h1><div class="sub">短い図解と操作を組み合わせて、重要テーマを理解していきます。</div></div>
+        <div><h1>科目A 完全学習コース 📚</h1><div class="sub">21章・99テーマを順に学び、科目Aの全範囲を体系的に固めます。</div></div>
       </div>
-
-      <div class="course-overview">
-        <div class="course-overview-icon">🌱</div>
-        <div class="course-overview-copy">
-          <b>INTERACTIVE COURSE</b>
-          <div class="sub">主要34レッスンを実装しました。</div>
-        </div>
+      <div class="course-overview core-overview">
+        <div class="course-overview-icon">📘</div>
+        <div class="course-overview-copy"><b>科目A CORE COURSE</b><div class="sub"><span id="coreLessonCount">99</span>テーマ・章ごとに要点→仕組み→例→試験ポイント→確認問題</div></div>
         <div class="course-percent" id="coursePercent">0%</div>
       </div>
-
-      <div class="lesson-grid" id="lessonGrid">
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🔢</div>
-            <div><div class="lesson-tile-title">2進数を触って理解</div><div class="lesson-tile-cat">基礎理論</div></div>
-          </div>
-          <div class="lesson-tile-desc">8・4・2・1のスイッチをON/OFFして、2進数と10進数の関係を体感します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="binary" style="width:0%"></div></div><span class="lesson-percent" data-lpt="binary">0%</span></div>
-          <button class="lesson-open" data-lesson="binary">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">⚙️</div>
-            <div><div class="lesson-tile-title">CPUの命令サイクル</div><div class="lesson-tile-cat">コンピュータ</div></div>
-          </div>
-          <div class="lesson-tile-desc">Fetch → Decode → Execute を、命令がCPU内を進むアニメーションで確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="cpu" style="width:0%"></div></div><span class="lesson-percent" data-lpt="cpu">0%</span></div>
-          <button class="lesson-open" data-lesson="cpu">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🏦</div>
-            <div><div class="lesson-tile-title">トランザクション</div><div class="lesson-tile-cat">データベース</div></div>
-          </div>
-          <div class="lesson-tile-desc">銀行振込を例に、COMMITとROLLBACK、原子性を操作しながら学びます。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="transaction" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="transaction">0%</span></div>
-          <button class="lesson-open" data-lesson="transaction">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🌐</div>
-            <div><div class="lesson-tile-title">/24 サブネット入門</div><div class="lesson-tile-cat">ネットワーク</div></div>
-          </div>
-          <div class="lesson-tile-desc">IPアドレスのネットワーク部とホスト部を色分けし、ネットワークアドレスを求めます。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="subnet" style="width:0%"></div></div><span class="lesson-percent" data-lpt="subnet">0%</span></div>
-          <button class="lesson-open" data-lesson="subnet">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🔐</div>
-            <div><div class="lesson-tile-title">公開鍵暗号</div><div class="lesson-tile-cat">セキュリティ</div></div>
-          </div>
-          <div class="lesson-tile-desc">受信者の公開鍵で暗号化し、受信者の秘密鍵で復号する流れを動かして確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="crypto" style="width:0%"></div></div><span class="lesson-percent" data-lpt="crypto">0%</span></div>
-          <button class="lesson-open" data-lesson="crypto">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🔎</div>
-            <div><div class="lesson-tile-title">二分探索</div><div class="lesson-tile-cat">アルゴリズム</div></div>
-          </div>
-          <div class="lesson-tile-desc">中央と比較して半分を捨てる、という二分探索の核心を配列操作で理解します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="binarysearch" style="width:0%"></div></div><span class="lesson-percent" data-lpt="binarysearch">0%</span></div>
-          <button class="lesson-open" data-lesson="binarysearch">学習する</button>
-        </div>
-
-
-        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🔀</div>
-            <div><div class="lesson-tile-title">AND / OR 論理演算</div><div class="lesson-tile-cat">基礎理論</div></div>
-          </div>
-          <div class="lesson-tile-desc">AとBのスイッチを切り替え、ANDとORの出力がどう変わるかを実験します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="logic" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="logic">0%</span></div>
-          <button class="lesson-open" data-lesson="logic">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🚀</div>
-            <div><div class="lesson-tile-title">キャッシュ HIT / MISS</div><div class="lesson-tile-cat">コンピュータ</div></div>
-          </div>
-          <div class="lesson-tile-desc">CPUが欲しいデータをキャッシュで見つけた場合と、主記憶まで取りに行く場合を比較します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="cache" style="width:0%"></div></div><span class="lesson-percent" data-lpt="cache">0%</span></div>
-          <button class="lesson-open" data-lesson="cache">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">📚</div>
-            <div><div class="lesson-tile-title">スタック・キュー</div><div class="lesson-tile-cat">アルゴリズム</div></div>
-          </div>
-          <div class="lesson-tile-desc">PUSH / POP と ENQUEUE / DEQUEUEを実際に操作して、LIFOとFIFOの違いを理解します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="stackqueue" style="width:0%"></div></div><span class="lesson-percent" data-lpt="stackqueue">0%</span></div>
-          <button class="lesson-open" data-lesson="stackqueue">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🧾</div>
-            <div><div class="lesson-tile-title">SQL WHEREを動かす</div><div class="lesson-tile-cat">データベース</div></div>
-          </div>
-          <div class="lesson-tile-desc">社員表から条件に合う行だけを残し、SELECTとWHEREの役割を視覚的に確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="sql" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="sql">0%</span></div>
-          <button class="lesson-open" data-lesson="sql">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">📡</div>
-            <div><div class="lesson-tile-title">TCPとUDP</div><div class="lesson-tile-cat">ネットワーク</div></div>
-          </div>
-          <div class="lesson-tile-desc">パケット損失時の再送を動かし、信頼性を重視するTCPと軽量なUDPを比較します。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="tcpudp" style="width:0%"></div></div><span class="lesson-percent" data-lpt="tcpudp">0%</span></div>
-          <button class="lesson-open" data-lesson="tcpudp">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">✍️</div>
-            <div><div class="lesson-tile-title">デジタル署名</div><div class="lesson-tile-cat">セキュリティ</div></div>
-          </div>
-          <div class="lesson-tile-desc">ハッシュ値を作り、送信者の秘密鍵で署名し、公開鍵で検証する流れを確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="signature" style="width:0%"></div></div><span class="lesson-percent" data-lpt="signature">0%</span></div>
-          <button class="lesson-open" data-lesson="signature">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff4b4b;--tile-soft:#fff0f0">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🔒</div>
-            <div><div class="lesson-tile-title">排他制御</div><div class="lesson-tile-cat">データベース</div></div>
-          </div>
-          <div class="lesson-tile-desc">同じデータを2人が同時更新しようとする場面で、LOCKが何を防ぐのかを体験します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="mutex" style="width:0%;background:#ff4b4b"></div></div><span class="lesson-percent" data-lpt="mutex">0%</span></div>
-          <button class="lesson-open" data-lesson="mutex">学習する</button>
-        </div>
-
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🧵</div>
-            <div><div class="lesson-tile-title">OSとCPUスケジューリング</div><div class="lesson-tile-cat">ソフトウェア</div></div>
-          </div>
-          <div class="lesson-tile-desc">複数プロセスへCPUを割り当てる様子を動かし、OSの役割を理解します。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="os" style="width:0%"></div></div><span class="lesson-percent" data-lpt="os">0%</span></div>
-          <button class="lesson-open" data-lesson="os">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🏗️</div>
-            <div><div class="lesson-tile-title">直列・並列と信頼性</div><div class="lesson-tile-cat">システム構成</div></div>
-          </div>
-          <div class="lesson-tile-desc">2台の装置を直列・並列に置いたとき、システムが動く確率の違いを比較します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="reliability" style="width:0%"></div></div><span class="lesson-percent" data-lpt="reliability">0%</span></div>
-          <button class="lesson-open" data-lesson="reliability">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">💾</div>
-            <div><div class="lesson-tile-title">バックアップ方式</div><div class="lesson-tile-cat">ソフトウェア</div></div>
-          </div>
-          <div class="lesson-tile-desc">フル・差分・増分バックアップの「何を保存するか」をカレンダーで比較します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="backup" style="width:0%"></div></div><span class="lesson-percent" data-lpt="backup">0%</span></div>
-          <button class="lesson-open" data-lesson="backup">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🛠️</div>
-            <div><div class="lesson-tile-title">システム開発の流れ</div><div class="lesson-tile-cat">システム開発</div></div>
-          </div>
-          <div class="lesson-tile-desc">要件定義→設計→実装→テスト→移行の順序を並べ、各工程の役割を整理します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="development" style="width:0%"></div></div><span class="lesson-percent" data-lpt="development">0%</span></div>
-          <button class="lesson-open" data-lesson="development">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🧪</div>
-            <div><div class="lesson-tile-title">テスト工程</div><div class="lesson-tile-cat">システム開発</div></div>
-          </div>
-          <div class="lesson-tile-desc">単体・結合・システム・運用テストの目的、担当、テスト技法、回帰テストまで整理します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="testing" style="width:0%"></div></div><span class="lesson-percent" data-lpt="testing">0%</span></div>
-          <button class="lesson-open" data-lesson="testing">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff4b4b;--tile-soft:#fff0f0">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">🗓️</div>
-            <div><div class="lesson-tile-title">クリティカルパス</div><div class="lesson-tile-cat">プロジェクトマネジメント</div></div>
-          </div>
-          <div class="lesson-tile-desc">複数の作業経路から、プロジェクト全体の所要日数を決める経路を選びます。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="criticalpath" style="width:0%;background:#ff4b4b"></div></div><span class="lesson-percent" data-lpt="criticalpath">0%</span></div>
-          <button class="lesson-open" data-lesson="criticalpath">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">📞</div>
-            <div><div class="lesson-tile-title">SLAとサービスデスク</div><div class="lesson-tile-cat">サービスマネジメント</div></div>
-          </div>
-          <div class="lesson-tile-desc">障害チケットの重要度とSLAを見比べ、どちらを優先すべきか判断します。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="sla" style="width:0%"></div></div><span class="lesson-percent" data-lpt="sla">0%</span></div>
-          <button class="lesson-open" data-lesson="sla">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">⚖️</div>
-            <div><div class="lesson-tile-title">知的財産権</div><div class="lesson-tile-cat">法務</div></div>
-          </div>
-          <div class="lesson-tile-desc">発明・プログラム・ブランド名などを、どの権利で保護するか仕分けします。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="iprights" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="iprights">0%</span></div>
-          <button class="lesson-open" data-lesson="iprights">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">📈</div>
-            <div><div class="lesson-tile-title">損益分岐点を動かす</div><div class="lesson-tile-cat">企業活動</div></div>
-          </div>
-          <div class="lesson-tile-desc">売上線と費用線の交点を見ながら、利益が0になる境目を理解します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="breakeven" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="breakeven">0%</span></div>
-          <button class="lesson-open" data-lesson="breakeven">学習する</button>
-        </div>
-
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🚦</div><div><div class="lesson-tile-title">オートマトン</div><div class="lesson-tile-cat">基礎理論</div></div></div>
-          <div class="lesson-tile-desc">入力0/1によって状態が遷移する機械を動かし、「状態」と「入力」の考え方を体感します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="automata" style="width:0%"></div></div><span class="lesson-percent" data-lpt="automata">0%</span></div>
-          <button class="lesson-open" data-lesson="automata">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🧠</div><div><div class="lesson-tile-title">RAM・ROM・フラッシュ</div><div class="lesson-tile-cat">ハードウェア</div></div></div>
-          <div class="lesson-tile-desc">揮発性・書換え可否・用途を比較して、半導体メモリの違いを整理します。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="memorychips" style="width:0%"></div></div><span class="lesson-percent" data-lpt="memorychips">0%</span></div>
-          <button class="lesson-open" data-lesson="memorychips">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">📁</div><div><div class="lesson-tile-title">ファイルシステム</div><div class="lesson-tile-cat">ソフトウェア</div></div></div>
-          <div class="lesson-tile-desc">フォルダ階層をたどり、絶対パスがどのように対象ファイルを表すか確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="filesystem" style="width:0%"></div></div><span class="lesson-percent" data-lpt="filesystem">0%</span></div>
-          <button class="lesson-open" data-lesson="filesystem">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🖱️</div><div><div class="lesson-tile-title">UI設計とアクセシビリティ</div><div class="lesson-tile-cat">UI</div></div></div>
-          <div class="lesson-tile-desc">小さすぎる操作部品と改善例を比べ、分かりやすさ・操作しやすさを考えます。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="uiux" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="uiux">0%</span></div>
-          <button class="lesson-open" data-lesson="uiux">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🖼️</div><div><div class="lesson-tile-title">画像データ量</div><div class="lesson-tile-cat">マルチメディア</div></div></div>
-          <div class="lesson-tile-desc">画素数×1画素当たりのビット数から、画像のおおよそのデータ量を計算します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="multimedia" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="multimedia">0%</span></div>
-          <button class="lesson-open" data-lesson="multimedia">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔄</div><div><div class="lesson-tile-title">ウォーターフォールとアジャイル</div><div class="lesson-tile-cat">開発手法</div></div></div>
-          <div class="lesson-tile-desc">工程を順に進める開発と、短い反復で改善する開発を比較します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="devmodel" style="width:0%"></div></div><span class="lesson-percent" data-lpt="devmodel">0%</span></div>
-          <button class="lesson-open" data-lesson="devmodel">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔎</div><div><div class="lesson-tile-title">システム監査</div><div class="lesson-tile-cat">監査・内部統制</div></div></div>
-          <div class="lesson-tile-desc">開発担当と監査担当の役割を分け、独立性と客観性の意味を理解します。</div>
-          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="audit" style="width:0%"></div></div><span class="lesson-percent" data-lpt="audit">0%</span></div>
-          <button class="lesson-open" data-lesson="audit">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🔧</div><div><div class="lesson-tile-title">業務プロセス改善</div><div class="lesson-tile-cat">システム戦略</div></div></div>
-          <div class="lesson-tile-desc">現状業務からムダを取り除き、ITを使ったTo-Beプロセスへ組み替えます。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="businessprocess" style="width:0%"></div></div><span class="lesson-percent" data-lpt="businessprocess">0%</span></div>
-          <button class="lesson-open" data-lesson="businessprocess">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">📨</div><div><div class="lesson-tile-title">RFPと調達</div><div class="lesson-tile-cat">システム企画</div></div></div>
-          <div class="lesson-tile-desc">発注側の要求を整理し、ベンダへ提案を依頼する流れを確認します。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="procurement" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="procurement">0%</span></div>
-          <button class="lesson-open" data-lesson="procurement">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🧭</div><div><div class="lesson-tile-title">SWOT分析</div><div class="lesson-tile-cat">経営戦略</div></div></div>
-          <div class="lesson-tile-desc">強み・弱み・機会・脅威を「内部／外部」「プラス／マイナス」で仕分けします。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="swot" style="width:0%"></div></div><span class="lesson-percent" data-lpt="swot">0%</span></div>
-          <button class="lesson-open" data-lesson="swot">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">🌡️</div><div><div class="lesson-tile-title">IoTの流れ</div><div class="lesson-tile-cat">ビジネスインダストリ</div></div></div>
-          <div class="lesson-tile-desc">センサ→ネットワーク→クラウド→アクチュエータという情報の流れを動かします。</div>
-          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="iot" style="width:0%"></div></div><span class="lesson-percent" data-lpt="iot">0%</span></div>
-          <button class="lesson-open" data-lesson="iot">学習する</button>
-        </div>
-
-        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
-          <div class="lesson-tile-top"><div class="lesson-tile-icon">💹</div><div><div class="lesson-tile-title">利益の計算</div><div class="lesson-tile-cat">企業活動</div></div></div>
-          <div class="lesson-tile-desc">売上高から売上原価・販管費を順に引き、売上総利益と営業利益を求めます。</div>
-          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="finance" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="finance">0%</span></div>
-          <button class="lesson-open" data-lesson="finance">学習する</button>
-        </div>
-
-        <div class="lesson-tile lesson-special" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
-          <div class="lesson-tile-top">
-            <div class="lesson-tile-icon">💻</div>
-            <div><div class="lesson-tile-title">PROGRAM TRACE</div><div class="lesson-tile-cat">科目B</div></div>
-          </div>
-          <div class="lesson-tile-desc">コードを1行ずつ実行し、変数の値がどう変わるかを目で追います。</div>
-          <button class="lesson-open" id="mapTrace">科目B LABを開く</button>
-        </div>
+      <div class="core-course-tools">
+        <input id="coreCourseSearch" class="core-course-search" type="search" placeholder="用語・テーマを検索（例：正規化、DNS、EVM）">
+        <div class="core-course-stats"><span id="coreDoneCount">0</span> / 99 完了</div>
       </div>
+      <div id="coreCourseChapters" class="core-course-chapters"></div>
+      <details class="lab-course-details">
+        <summary>図解・操作ラボ（任意）</summary>
+        <div class="sub lab-course-note">理解を補助する図解や操作演習です。科目Aコアコースの進捗には含めません。</div>
+        <div id="labLessonGrid" class="lesson-grid"></div>
+      </details>
     </section>
 
     <!-- WEAK -->
@@ -10685,6 +10402,22 @@ function applyLessonDensityAudit(){
 }
 applyLessonDensityAudit();
 
+const LAB_LESSON_IDS=Object.keys(LESSONS);
+const CORE_A_CURRICULUM=[{"id":"core_01_01","code":"01-01","chapter":1,"chapterTitle":"基礎理論1","title":"データの単位","skill":"基礎理論","lead":"コンピュータが扱う情報量はbitを最小単位として、byte、KB、MB、GB、TBへ広がります。通信速度のbpsと記憶容量のBを区別できることが基本です。","points":["1 byte = 8 bit","2進接頭辞では1KiB=1024B、試験ではKBを1024Bとして扱う設問もある","通信速度はbit/s、容量はbyteで表すことが多い","文字・画像・音声も最終的にはビット列として保持される"],"cues":["bitとbyteの換算を必ず確認する","M・Gなど接頭辞の倍率を問題文に合わせる"],"example":"10Mbit/sで8Mbitを送る理想時間は0.8秒です。実際の通信では制御情報などで長くなる場合があります。","pitfall":"MBとMbitを同じ単位として計算しないこと。","quiz":{"q":"1byteは何bit？","options":["8bit","4bit","16bit","1024bit"],"answer":0,"explain":"1 byte = 8 bit"}},{"id":"core_01_02","code":"01-02","chapter":1,"chapterTitle":"基礎理論1","title":"数値の数え方","skill":"基礎理論","lead":"コンピュータでは10進数だけでなく2進数・8進数・16進数を頻繁に使います。それぞれの基数と使用できる数字を整理します。","points":["2進数は0,1の2種類","8進数は0〜7","10進数は0〜9","16進数は0〜9とA〜F"],"cues":["n進数では一つの桁に0〜n-1を使う","16進1桁は2進4bitに対応する"],"example":"16進数Aは10進数10、Fは15です。2進数1111は16進数Fへ1桁で対応します。","pitfall":"16進数のAをアルファベットとして扱わず数値10と考えます。","quiz":{"q":"16進数Fを10進数で表すと？","options":["15","16","14","8"],"answer":0,"explain":"2進数は0,1の2種類"}},{"id":"core_01_03","code":"01-03","chapter":1,"chapterTitle":"基礎理論1","title":"基数変換と桁の重み","skill":"基礎理論","lead":"各桁には基数の累乗という重みがあります。この考え方を使えば、任意の基数から10進数へ変換できます。","points":["右端の桁は基数^0","左へ1桁進むごとに指数が1増える","2進1011なら8+0+2+1","小数部は基数^-1、基数^-2…"],"cues":["桁の位置と重みを表に書く","1が立っている桁だけ足す方法が安全"],"example":"2進数10110は16+4+2=22です。","pitfall":"重みを左端から1,2,4…と置かないこと。右端が2^0です。","quiz":{"q":"2進数1010は10進数で？","options":["10","8","12","5"],"answer":0,"explain":"右端の桁は基数^0"}},{"id":"core_01_04","code":"01-04","chapter":1,"chapterTitle":"基礎理論1","title":"さまざまな基数変換","skill":"基礎理論","lead":"基数変換は「一度10進数を経由する方法」と「2進数と8/16進数をまとめて変換する方法」を使い分けます。","points":["10進→2進は2で割った余りを逆順に読む","2進→16進は右から4bitずつ区切る","2進→8進は右から3bitずつ区切る","16進→2進は各桁を4bitへ置き換える"],"cues":["変換途中の先頭0は必要に応じて補う","小数の10進→2進は2倍して整数部を順に読む"],"example":"2進1101 1010は16進DAです。1101=D、1010=Aに対応します。","pitfall":"4bit区切りを左から行って桁位置をずらさないこと。","quiz":{"q":"2進1111 0000を16進数で表すと？","options":["F0","0F","E0","FF"],"answer":0,"explain":"10進→2進は2で割った余りを逆順に読む"}},{"id":"core_01_05","code":"01-05","chapter":1,"chapterTitle":"基礎理論1","title":"負の2進数","skill":"基礎理論","lead":"負の整数は2の補数表現が代表的です。固定bit長で正負を同じ加算回路で扱える利点があります。","points":["最上位bitは符号の判断にも使われる","2の補数は全bit反転して1を加える","n bitの表現範囲は-2^(n-1)〜2^(n-1)-1","負数を10進へ戻すときも補数操作を使える"],"cues":["必ずbit長を固定して考える","8bitの-1は11111111"],"example":"8bitで+5=00000101。反転11111010に1を加え、-5=11111011です。","pitfall":"符号だけを反転して負数にする「符号絶対値表現」と混同しないこと。","quiz":{"q":"8bitの2の補数表現で-1は？","options":["11111111","10000001","00000001","11111110"],"answer":0,"explain":"最上位bitは符号の判断にも使われる"}},{"id":"core_01_06","code":"01-06","chapter":1,"chapterTitle":"基礎理論1","title":"2進数の四則演算","skill":"基礎理論","lead":"2進数の加減算も基本は10進数と同じ筆算です。1+1=10となる繰上がりと、補数を使った減算を押さえます。","points":["0+0=0、0+1=1","1+1=10で1を繰り上げる","1+1+1=11","減算を補数の加算へ置き換えられる"],"cues":["桁あふれの扱いはbit長に依存する","固定長では最上位から出たcarryを捨てる場合がある"],"example":"2進1011+0101=10000です。","pitfall":"10進の感覚で1+1=2と書かず、2進では10と書きます。","quiz":{"q":"2進101+11は？","options":["1000","111","110","1010"],"answer":0,"explain":"0+0=0、0+1=1"}},{"id":"core_02_01","code":"02-01","chapter":2,"chapterTitle":"基礎理論2","title":"集合と論理演算","skill":"基礎理論","lead":"集合演算と論理演算は、条件の組合せを形式的に扱う共通の考え方です。積集合・和集合・補集合とAND・OR・NOTを対応させます。","points":["積集合A∩Bは両方に属する要素","和集合A∪Bは少なくとも一方に属する要素","補集合は対象外の要素","AND/OR/NOTは真理値表で確認できる"],"cues":["ベン図で集合関係を描く","ド・モルガンの法則は否定を分配すると演算が入れ替わる"],"example":"A={1,2}, B={2,3}ならA∩B={2}、A∪B={1,2,3}です。","pitfall":"「または」を排他的ORと決めつけないこと。通常のORは両方真も含みます。","quiz":{"q":"A AND Bが1になるのは？","options":["A=1,B=1","A=1,B=0","A=0,B=1","A=0,B=0"],"answer":0,"explain":"積集合A∩Bは両方に属する要素"}},{"id":"core_02_02","code":"02-02","chapter":2,"chapterTitle":"基礎理論2","title":"論理回路","skill":"基礎理論","lead":"論理回路はAND・OR・NOTなどの論理演算を回路記号で表します。入力から出力を段階的に求めます。","points":["AND回路は全入力1で1","OR回路は一つ以上1で1","NOT回路は反転","NAND/NORはAND/ORの出力を反転"],"cues":["回路を左から右へ中間値を書いて追う","半加算器はXORとANDで和と桁上がりを作る"],"example":"A=1,B=0ならAND=0、OR=1、XOR=1です。","pitfall":"複雑な回路を一気に暗算せず、各ゲート出力を書きます。","quiz":{"q":"NOT 1の出力は？","options":["0","1","2","不定"],"answer":0,"explain":"AND回路は全入力1で1"}},{"id":"core_02_03","code":"02-03","chapter":2,"chapterTitle":"基礎理論2","title":"計算式の表し方","skill":"基礎理論","lead":"計算式の表記法には中置・前置・後置記法があります。演算子の位置と評価順序を理解します。","points":["中置記法はA+B","前置記法は+AB","後置記法はAB+","後置記法はスタックで評価しやすい"],"cues":["括弧を含む中置式から演算順を確定する","木構造にすると前順・間順・後順と対応する"],"example":"(A+B)×Cの後置記法はAB+C×です。","pitfall":"演算子の優先順位を無視して文字列順に変換しないこと。","quiz":{"q":"A+Bの後置記法は？","options":["AB+","+AB","A+B","BA+"],"answer":0,"explain":"中置記法はA+B"}},{"id":"core_02_04","code":"02-04","chapter":2,"chapterTitle":"基礎理論2","title":"オートマトン","skill":"基礎理論","lead":"オートマトンは状態・入力・遷移で動作を表すモデルです。状態遷移図・表を使い、入力列を一文字ずつ追跡します。","points":["状態は現在の内部状況","入力によって遷移先が決まる","初期状態から開始する","受理状態を持つ有限オートマトンもある"],"cues":["入力を左から一つずつ適用する","同じ入力でも現在状態により遷移先が違う"],"example":"状態Aで1ならB、Bで1ならAという規則なら入力11でAへ戻ります。","pitfall":"入力だけを見ず、必ず「現在状態」を更新します。","quiz":{"q":"状態Aから1でBへ遷移する規則。入力1後は？","options":["B","A","終了","不定"],"answer":0,"explain":"状態は現在の内部状況"}},{"id":"core_02_05","code":"02-05","chapter":2,"chapterTitle":"基礎理論2","title":"AI（人工知能）","skill":"基礎理論","lead":"AIは学習・推論など知的処理をコンピュータで実現する技術の総称です。機械学習・深層学習・生成AIの関係を整理します。","points":["機械学習はデータから規則性を学ぶ","教師あり学習は正解ラベルを使う","教師なし学習は構造やクラスタを見つける","深層学習は多層ニューラルネットワークを利用する"],"cues":["過学習・学習データの偏りを理解する","生成AIは学習データのパターンから新しい出力を生成する"],"example":"迷惑メールの正解ラベル付きデータで分類器を学習するのは教師あり学習の例です。","pitfall":"AIの出力は常に正しいとは限らず、評価・検証が必要です。","quiz":{"q":"正解ラベル付きデータで学習する代表的方式は？","options":["教師あり学習","教師なし学習","強化学習だけ","暗号化"],"answer":0,"explain":"機械学習はデータから規則性を学ぶ"}},{"id":"core_03_01","code":"03-01","chapter":3,"chapterTitle":"アルゴリズムとプログラミング","title":"データ構造","skill":"アルゴリズム","lead":"データ構造は、データをどの形で保持し、どの操作を効率よく行うかを決めます。配列・リスト・スタック・キュー・木を整理します。","points":["配列は添字で要素へ直接アクセスしやすい","連結リストは挿入・削除位置によって効率がよい","スタックはLIFO","キューはFIFO、木は階層関係を表す"],"cues":["操作ごとの計算量を意識する","ポインタやリンクのつながりを図で追う"],"example":"A,B,Cをスタックへ順にPUSHすると最初のPOPはCです。","pitfall":"「格納順」と「取出し順」を混同しないこと。","quiz":{"q":"FIFOのデータ構造は？","options":["キュー","スタック","二分木","ハッシュだけ"],"answer":0,"explain":"配列は添字で要素へ直接アクセスしやすい"}},{"id":"core_03_02","code":"03-02","chapter":3,"chapterTitle":"アルゴリズムとプログラミング","title":"アルゴリズムの基本","skill":"アルゴリズム","lead":"アルゴリズムは問題を解くための有限な処理手順です。順次・選択・反復を組み合わせ、擬似言語やフローチャートで表現します。","points":["順次は上から順に処理","選択は条件で分岐","反復は条件や回数により繰り返す","変数の値を途中で追跡する"],"cues":["ループの初期値・終了条件・更新式を確認する","条件式の境界でoff-by-oneに注意する"],"example":"1から5まで加算するならsum=0から5回加算し15になります。","pitfall":"反復回数を「値の個数」と取り違えないこと。","quiz":{"q":"if文が表す基本構造は？","options":["選択","順次だけ","記憶装置","暗号化"],"answer":0,"explain":"順次は上から順に処理"}},{"id":"core_03_03","code":"03-03","chapter":3,"chapterTitle":"アルゴリズムとプログラミング","title":"アルゴリズムの分類","skill":"アルゴリズム","lead":"代表的なアルゴリズムとして探索・整列を理解し、データ量が増えたときの効率も比較します。","points":["線形探索は先頭から順に探す","二分探索は整列済みデータを半分ずつ絞る","バブルソートは隣接要素を比較交換","選択・挿入など整列法には特徴がある"],"cues":["二分探索の前提は整列済み","オーダ記法で増え方を比較する"],"example":"要素数1024なら二分探索は最大およそ10回の比較で範囲を絞れます。","pitfall":"二分探索を未整列データへそのまま使わないこと。","quiz":{"q":"二分探索の前提は？","options":["データが整列済み","全要素が同じ","文字列だけ","要素数が偶数"],"answer":0,"explain":"線形探索は先頭から順に探す"}},{"id":"core_03_04","code":"03-04","chapter":3,"chapterTitle":"アルゴリズムとプログラミング","title":"プログラムの性質と種類","skill":"アルゴリズム","lead":"プログラムは翻訳方式・実行方式・目的によって分類できます。コンパイラ、インタプリタ、ライブラリなどを整理します。","points":["コンパイラはソース全体を機械語などへ翻訳","インタプリタは逐次解釈実行","ライブラリは再利用可能な機能群","APIはソフトウェア間で機能を利用するための接点"],"cues":["コンパイル時と実行時のエラーを区別する","ソース・オブジェクト・実行形式の流れを理解する"],"example":"コンパイラ言語では翻訳後の実行形式を繰り返し実行できます。","pitfall":"コンパイラとインタプリタを「速い/遅い」だけで丸暗記しないこと。","quiz":{"q":"ソース全体を翻訳する方式は？","options":["コンパイラ","インタプリタ","DNS","DBMS"],"answer":0,"explain":"コンパイラはソース全体を機械語などへ翻訳"}},{"id":"core_03_05","code":"03-05","chapter":3,"chapterTitle":"アルゴリズムとプログラミング","title":"その他の言語","skill":"アルゴリズム","lead":"プログラミング言語以外にも、HTML・XML・SQL・スクリプトなど目的別の言語があります。役割を対応させます。","points":["HTMLはWeb文書の構造を記述","CSSは見た目を指定","XML/JSONはデータ交換で利用","SQLは関係データベースを操作"],"cues":["マークアップ言語とプログラミング言語を区別する","JSONは軽量なデータ交換形式として広く使われる"],"example":"Web APIではJSON形式でデータを送受信する例が多くあります。","pitfall":"HTMLをデータベース操作言語と混同しないこと。","quiz":{"q":"関係データベースを操作する言語は？","options":["SQL","HTML","CSS","JPEG"],"answer":0,"explain":"HTMLはWeb文書の構造を記述"}},{"id":"core_04_01","code":"04-01","chapter":4,"chapterTitle":"コンピュータの構成要素","title":"CPU（プロセッサ）","skill":"コンピュータ","lead":"CPUは制御装置・演算装置・レジスタなどから構成され、命令を高速に実行します。クロック・コア・レジスタの役割を整理します。","points":["制御装置は命令実行を制御","ALUは算術・論理演算","レジスタはCPU内部の高速な記憶領域","クロック周波数は動作タイミングの指標"],"cues":["性能はクロック周波数だけでは決まらない","マルチコアは複数処理を並列化できる"],"example":"3GHzは1秒に30億周期のクロックという意味ですが、1周期=1命令とは限りません。","pitfall":"クロック周波数だけで異なるCPU性能を断定しないこと。","quiz":{"q":"CPU内部の高速な小容量記憶は？","options":["レジスタ","HDD","光ディスク","磁気テープ"],"answer":0,"explain":"制御装置は命令実行を制御"}},{"id":"core_04_02","code":"04-02","chapter":4,"chapterTitle":"コンピュータの構成要素","title":"CPUが処理する流れ","skill":"コンピュータ","lead":"CPUは命令フェッチ、解読、実行を繰り返します。プログラムカウンタや命令レジスタの役割も押さえます。","points":["フェッチで主記憶から命令を取り出す","命令レジスタに実行中命令を保持","デコードで命令内容を解釈","実行後プログラムカウンタを次へ進める"],"cues":["命令サイクルの順序を覚える","パイプラインは複数命令の段階を重ねて処理する"],"example":"Fetch→Decode→Executeが基本的な命令サイクルです。","pitfall":"データの取得と命令の取得を混同しないこと。","quiz":{"q":"命令を解読する段階は？","options":["Decode","Fetch","Backup","Commit"],"answer":0,"explain":"フェッチで主記憶から命令を取り出す"}},{"id":"core_04_03","code":"04-03","chapter":4,"chapterTitle":"コンピュータの構成要素","title":"さまざまな記憶装置","skill":"コンピュータ","lead":"記憶装置は速度・容量・価格・揮発性が異なり、レジスタ→キャッシュ→主記憶→補助記憶という階層を作ります。","points":["キャッシュはCPUと主記憶の速度差を緩和","主記憶は実行中データを保持","SSDは半導体、HDDは磁気ディスク","光ディスク・磁気テープは用途が異なる"],"cues":["平均アクセス時間の計算にヒット率が使われる","SSDはシーク時間が不要"],"example":"キャッシュヒット率90%、キャッシュ1ns、主記憶50nsなら平均時間を重み付きで考えます。","pitfall":"容量が大きい装置ほど高速、という関係ではありません。","quiz":{"q":"CPUに最も近い記憶階層は？","options":["レジスタ","HDD","磁気テープ","DVD"],"answer":0,"explain":"キャッシュはCPUと主記憶の速度差を緩和"}},{"id":"core_04_04","code":"04-04","chapter":4,"chapterTitle":"コンピュータの構成要素","title":"入出力インタフェース","skill":"コンピュータ","lead":"入出力インタフェースはCPU・周辺装置間でデータをやり取りする規格です。USB、Bluetooth、HDMIなど用途を整理します。","points":["USBは周辺機器接続で広く利用","HDMIは映像・音声伝送","Bluetoothは近距離無線","NFCはさらに近距離の非接触通信で利用"],"cues":["有線/無線、伝送対象を区別する","ホットプラグ対応規格では電源ON中に着脱可能"],"example":"キーボードや外付けSSDをUSBで接続する例があります。","pitfall":"規格名と用途を丸暗記せず「何をつなぐか」で整理します。","quiz":{"q":"映像と音声のデジタル伝送で使われる代表規格は？","options":["HDMI","SQL","DNS","RAID"],"answer":0,"explain":"USBは周辺機器接続で広く利用"}},{"id":"core_04_05","code":"04-05","chapter":4,"chapterTitle":"コンピュータの構成要素","title":"入出力装置","skill":"コンピュータ","lead":"入力装置は情報をコンピュータへ取り込み、出力装置は処理結果を人や外部装置へ伝えます。代表例と性能指標を整理します。","points":["入力:キーボード、マウス、スキャナ、センサ","出力:ディスプレイ、プリンタ","タッチパネルは入力と表示を兼ねる","解像度・dpiなど装置固有の指標がある"],"cues":["OCR/OMR/MICRの用途を区別する","プリンタ方式やディスプレイ方式の特徴を問われる"],"example":"OCRは印刷文字を読み取り文字データへ変換します。","pitfall":"OCRとOMRを混同しないこと。OMRはマークを読み取ります。","quiz":{"q":"印刷文字を文字データとして読み取る技術は？","options":["OCR","OMR","DNS","NAT"],"answer":0,"explain":"入力:キーボード、マウス、スキャナ、センサ"}},{"id":"core_05_01","code":"05-01","chapter":5,"chapterTitle":"システムの構成要素","title":"「処理の仕方」によるシステムの分類","skill":"コンピュータ","lead":"システムは処理タイミングによりバッチ処理・リアルタイム処理などに分類できます。業務要件に合う方式を選びます。","points":["バッチはデータをまとめて一括処理","オンラインリアルタイムは要求に即時応答","対話型は利用者とやり取りしながら処理","処理方式は応答性と効率のトレードオフ"],"cues":["給与計算など定期一括処理はバッチ向き","座席予約など即時整合性が必要ならリアルタイム向き"],"example":"夜間に1日分の売上データを集計する処理はバッチ処理の例です。","pitfall":"「オンライン=インターネット」と限定しないこと。","quiz":{"q":"夜間に大量データをまとめて処理する方式は？","options":["バッチ処理","リアルタイム処理","署名","暗号化"],"answer":0,"explain":"バッチはデータをまとめて一括処理"}},{"id":"core_05_02","code":"05-02","chapter":5,"chapterTitle":"システムの構成要素","title":"「システム構成」によるシステムの分類","skill":"コンピュータ","lead":"システム構成には集中・分散、クライアントサーバ、3層、クラスタなどがあります。障害耐性や拡張性を考えます。","points":["クライアントサーバは役割を分担","3層構造はプレゼンテーション・アプリ・DBを分離","クラスタは複数台を連携","冗長化で単一障害点を減らす"],"cues":["水平/垂直分散の考え方","負荷分散と冗長化は目的が異なる場合がある"],"example":"Web、アプリ、DBを別層に分けると保守や拡張をしやすくなります。","pitfall":"サーバ台数が複数なら必ず高可用性、とは限りません。","quiz":{"q":"Web・AP・DBの3層に分ける構成は？","options":["3層クライアントサーバ","バッチだけ","単体テスト","スタック"],"answer":0,"explain":"クライアントサーバは役割を分担"}},{"id":"core_05_03","code":"05-03","chapter":5,"chapterTitle":"システムの構成要素","title":"システムの性能指標","skill":"コンピュータ","lead":"システム性能はレスポンスタイム、ターンアラウンドタイム、スループットなどで測ります。用語の測定範囲を区別します。","points":["レスポンスタイムは要求から応答開始/完了までの時間","ターンアラウンドは投入から全処理完了まで","スループットは単位時間当たり処理量","ベンチマークで性能を比較する"],"cues":["処理時間と待ち時間を含む範囲を確認","性能改善ではボトルネックを特定する"],"example":"1秒に100件処理できるならスループットは100件/秒です。","pitfall":"時間指標と処理量指標を混同しないこと。","quiz":{"q":"単位時間当たりの処理件数を表す指標は？","options":["スループット","MTTR","SLAだけ","WBS"],"answer":0,"explain":"レスポンスタイムは要求から応答開始/完了までの時間"}},{"id":"core_05_04","code":"05-04","chapter":5,"chapterTitle":"システムの構成要素","title":"システムの信頼性指標","skill":"コンピュータ","lead":"信頼性では稼働率、MTBF、MTTR、直列・並列構成を扱います。障害しにくさと復旧しやすさを数値化します。","points":["MTBFは平均故障間隔","MTTRは平均修復時間","稼働率=MTBF/(MTBF+MTTR)","直列は稼働率を掛け、並列は全停止確率を引く"],"cues":["MTBF大・MTTR小ほど稼働率は高い","フォールトトレラントとフェールセーフ等も区別する"],"example":"MTBF=900時間、MTTR=100時間なら稼働率0.9です。","pitfall":"MTBFとMTTRの単位・意味を逆にしないこと。","quiz":{"q":"稼働率の式は？","options":["MTBF/(MTBF+MTTR)","MTTR/MTBF","MTBF×MTTR","1/MTTR"],"answer":0,"explain":"MTBFは平均故障間隔"}},{"id":"core_06_01","code":"06-01","chapter":6,"chapterTitle":"ソフトウェア","title":"オペレーティングシステム","skill":"コンピュータ","lead":"OSはハードウェア資源を管理し、アプリケーションへ共通機能を提供します。プロセス・メモリ・ファイル・入出力管理を整理します。","points":["プロセス管理とスケジューリング","仮想記憶・ページング","ファイル管理","デバイスドライバによる装置制御"],"cues":["割込みとタスク切替を理解する","仮想記憶は補助記憶を利用して見かけ上の主記憶を広げる"],"example":"ラウンドロビンでは各プロセスへ一定時間ずつCPUを割り当てます。","pitfall":"OSをアプリケーションソフトと混同しないこと。","quiz":{"q":"CPUやメモリを管理する基本ソフトウェアは？","options":["OS","DBの表","HTML","LANケーブル"],"answer":0,"explain":"プロセス管理とスケジューリング"}},{"id":"core_06_02","code":"06-02","chapter":6,"chapterTitle":"ソフトウェア","title":"データ管理とファイルシステム","skill":"コンピュータ","lead":"データ管理ではファイルを階層構造・レコード・ブロックなどで扱います。絶対/相対パスやアクセス方式も重要です。","points":["ディレクトリで階層管理","絶対パスはルート基準","相対パスは現在位置基準","順編成・直接編成などアクセス方式がある"],"cues":["ファイル拡張子だけで内部形式は決まらない","インデックスで検索を高速化する方式もある"],"example":"/home/user/a.txtはルートからの絶対パスです。","pitfall":"現在ディレクトリが問題で示される場合は相対パスに注意します。","quiz":{"q":"ルートから記述するパスは？","options":["絶対パス","相対パス","URLだけ","MACアドレス"],"answer":0,"explain":"ディレクトリで階層管理"}},{"id":"core_06_03","code":"06-03","chapter":6,"chapterTitle":"ソフトウェア","title":"バックアップ","skill":"コンピュータ","lead":"バックアップは障害・誤操作・災害からデータを復旧するために行います。フル・差分・増分と世代管理を整理します。","points":["フルは全対象を保存","差分は直近フル以降の変更","増分は直前バックアップ以降の変更","復旧手順と保管場所も設計する"],"cues":["3-2-1のような複数媒体・遠隔保管が有効","バックアップの取得だけでなく復元テストが重要"],"example":"増分復旧はフル＋以降の増分を順番に適用します。","pitfall":"RAIDはバックアップそのものではありません。","quiz":{"q":"直近フル以降すべての変更を保存するのは？","options":["差分","増分","フルのみ","暗号化"],"answer":0,"explain":"フルは全対象を保存"}},{"id":"core_06_04","code":"06-04","chapter":6,"chapterTitle":"ソフトウェア","title":"開発ツール","skill":"コンピュータ","lead":"開発ツールはプログラム作成・変換・テスト・管理を支援します。エディタ、コンパイラ、デバッガ、CASEなどを整理します。","points":["コンパイラ/リンカで実行形式を生成","デバッガで変数・ブレークポイントを確認","IDEは複数開発機能を統合","バージョン管理で変更履歴を管理"],"cues":["ビルドとデプロイを区別する","静的解析は実行せずコードを検査する"],"example":"ブレークポイントで停止して変数値を確認するのはデバッガの典型機能です。","pitfall":"テストツールと本番監視ツールを混同しないこと。","quiz":{"q":"実行中プログラムを停止し変数を確認するツールは？","options":["デバッガ","DNS","RFP","RAID"],"answer":0,"explain":"コンパイラ/リンカで実行形式を生成"}},{"id":"core_06_05","code":"06-05","chapter":6,"chapterTitle":"ソフトウェア","title":"オープンソースソフトウェア","skill":"コンピュータ","lead":"OSSはソースコードが公開され、ライセンス条件の下で利用・改変・再配布できるソフトウェアです。","points":["ソース公開とライセンスが重要","無償とは限らない","GPLなど再配布条件が異なる","コミュニティと企業の両方が開発する"],"cues":["著作権が放棄されているわけではない","ライセンス違反に注意する"],"example":"Linuxや多くのWebサーバ・DBMSにOSSがあります。","pitfall":"OSS=パブリックドメイン、OSS=無条件に自由、ではありません。","quiz":{"q":"OSSについて正しいのは？","options":["ライセンス条件に従って利用する","著作権が必ず存在しない","必ず有料","ソース非公開"],"answer":0,"explain":"ソース公開とライセンスが重要"}},{"id":"core_07_01","code":"07-01","chapter":7,"chapterTitle":"ハードウェア","title":"半導体メモリ","skill":"コンピュータ","lead":"半導体メモリはRAM/ROM、DRAM/SRAM、フラッシュなどを性質と用途で区別します。","points":["DRAMは主記憶に広く利用、リフレッシュが必要","SRAMは高速でキャッシュに利用","ROMは不揮発性","フラッシュは電気的に消去・書換え可能"],"cues":["揮発性/不揮発性をまず分ける","DRAMとSRAMの用途を対比する"],"example":"キャッシュには高速なSRAM、主記憶には高密度なDRAMが代表的です。","pitfall":"RAM=DRAMだけではありません。","quiz":{"q":"CPUキャッシュに使われやすいのは？","options":["SRAM","DRAMだけ","HDD","DVD"],"answer":0,"explain":"DRAMは主記憶に広く利用、リフレッシュが必要"}},{"id":"core_07_02","code":"07-02","chapter":7,"chapterTitle":"ハードウェア","title":"電子回路","skill":"コンピュータ","lead":"電子回路では論理回路に加え、センサ・A/D・D/A変換などデジタル機器の基本要素を扱います。","points":["A/Dはアナログ量をデジタル値へ変換","D/Aはデジタル値をアナログ信号へ変換","サンプリングで連続信号を離散化","量子化で振幅を段階値へ変換"],"cues":["標本化定理の考え方を理解する","量子化bit数が大きいほど段階数が増える"],"example":"8bit量子化なら256段階を表現できます。","pitfall":"サンプリング周波数と量子化bit数を混同しないこと。","quiz":{"q":"8bitで表せる段階数は？","options":["256","8","16","128"],"answer":0,"explain":"A/Dはアナログ量をデジタル値へ変換"}},{"id":"core_08_01","code":"08-01","chapter":8,"chapterTitle":"ユーザーインタフェースとマルチメディア","title":"ユーザーインタフェース技術","skill":"コンピュータ","lead":"UI技術は人とシステムのやり取りを支える方法です。GUI、CLI、音声、タッチ、Web UIなどを用途で整理します。","points":["GUIは視覚的部品で操作","CLIは文字コマンドで操作","タッチUIは直接操作性が高い","音声UIは手を使いにくい場面でも有効"],"cues":["入力方法と表示方法を組み合わせる","利用環境・利用者特性を考える"],"example":"スマートフォンではタッチ操作と音声入力を組み合わせることがあります。","pitfall":"新しいUI方式が常に全利用者に最適とは限りません。","quiz":{"q":"文字コマンド中心のUIは？","options":["CLI","GUIだけ","OCR","SLA"],"answer":0,"explain":"GUIは視覚的部品で操作"}},{"id":"core_08_02","code":"08-02","chapter":8,"chapterTitle":"ユーザーインタフェースとマルチメディア","title":"ユーザーインタフェース設計","skill":"コンピュータ","lead":"UI設計ではユーザビリティ、アクセシビリティ、一貫性、フィードバックなどを考えます。","points":["操作結果をすぐ返すフィードバック","同じ操作は同じ見た目・位置にする一貫性","十分な文字サイズ・コントラスト","誤操作を防ぎ取り消し手段を用意"],"cues":["色だけで状態を伝えない","エラー文は原因と次の行動を示す"],"example":"削除前の確認やUndoは重大な誤操作を防ぐ設計です。","pitfall":"情報量を減らすことと説明不足は別問題です。","quiz":{"q":"アクセシビリティ向上策は？","options":["色以外の手掛かりも使う","文字を極小化","操作結果を隠す","すべて同色"],"answer":0,"explain":"操作結果をすぐ返すフィードバック"}},{"id":"core_08_03","code":"08-03","chapter":8,"chapterTitle":"ユーザーインタフェースとマルチメディア","title":"マルチメディア技術","skill":"コンピュータ","lead":"マルチメディアでは画像・音声・動画のデジタル化、圧縮、データ量計算を扱います。","points":["画像量=画素数×色深度","音声は標本化周波数×量子化bit数×時間×チャネル","可逆圧縮は元に完全復元","非可逆圧縮は情報を一部捨て高圧縮"],"cues":["JPEG/PNGなど形式の特徴を整理","動画はフレームと圧縮方式を考える"],"example":"44.1kHz・16bit・2chの音声は1秒で約1.41Mbitの非圧縮データです。","pitfall":"圧縮後サイズを非圧縮公式だけで断定しないこと。","quiz":{"q":"元データへ完全に戻せる圧縮は？","options":["可逆圧縮","非可逆圧縮","暗号化","ハッシュ"],"answer":0,"explain":"画像量=画素数×色深度"}},{"id":"core_09_01","code":"09-01","chapter":9,"chapterTitle":"データベース","title":"データベースの基本","skill":"データベース","lead":"データベースは共有データを一元管理し、重複・矛盾を抑えながら複数利用者から利用できるようにします。","points":["DBMSが保存・検索・更新を管理","データ独立性を高める","同時利用と障害回復を支援","スキーマで構造を定義"],"cues":["ファイル管理との違いを理解する","DBMSの機能を用語だけでなく目的で整理する"],"example":"顧客情報を部署ごとに別ファイルで持つより、一元DBで整合性を保ちやすくなります。","pitfall":"データベース=表計算ファイル1個、ではありません。","quiz":{"q":"DBを管理するソフトウェアは？","options":["DBMS","DNS","OSだけ","RFP"],"answer":0,"explain":"DBMSが保存・検索・更新を管理"}},{"id":"core_09_02","code":"09-02","chapter":9,"chapterTitle":"データベース","title":"関係データベース","skill":"データベース","lead":"関係データベースは行と列からなる表でデータを表し、キーや関係演算で表同士を扱います。","points":["行=タプル、列=属性","主キーは行を一意に識別","外部キーで表間の関係を表す","選択・射影・結合が代表的関係演算"],"cues":["NULLの意味を理解する","主キーはNULL不可・重複不可が基本"],"example":"社員表と部署表を部署IDで結合して部署名を取得できます。","pitfall":"選択=行、射影=列を取り出す、と区別します。","quiz":{"q":"行を条件で絞る関係演算は？","options":["選択","射影","結合だけ","正規化"],"answer":0,"explain":"行=タプル、列=属性"}},{"id":"core_09_03","code":"09-03","chapter":9,"chapterTitle":"データベース","title":"データベース設計","skill":"データベース","lead":"データベース設計では概念モデルから表構造へ落とし込み、正規化で更新時の矛盾や重複を減らします。","points":["ER図でエンティティと関係を表現","第1正規形は繰返し項目を排除","第2正規形は部分関数従属を排除","第3正規形は推移的関数従属を排除"],"cues":["主キー候補と関数従属を確認する","正規化し過ぎと性能のバランスもある"],"example":"受注明細で商品名を毎行重複保存するより商品表へ分離します。","pitfall":"「表を分ければ必ず正規化」とは限りません。従属性を見ます。","quiz":{"q":"繰返し項目を排除するのは主に？","options":["第1正規形","第3正規形だけ","排他制御","暗号化"],"answer":0,"explain":"ER図でエンティティと関係を表現"}},{"id":"core_09_04","code":"09-04","chapter":9,"chapterTitle":"データベース","title":"データベース管理システム","skill":"データベース","lead":"DBMSはSQL処理だけでなく、アクセス制御、排他制御、障害回復、最適化などを担います。","points":["DDLで表など定義","DMLで検索・更新","権限管理でアクセス制御","インデックス・オプティマイザで効率化"],"cues":["ログとチェックポイントによる回復","インデックスは検索を速めるが更新コストもある"],"example":"索引を適切な列に作ると検索を高速化できます。","pitfall":"インデックスを増やせば常に全処理が高速になるわけではありません。","quiz":{"q":"DBMSの索引の主目的は？","options":["検索高速化","暗号鍵生成","CPU冷却","契約締結"],"answer":0,"explain":"DDLで表など定義"}},{"id":"core_09_05","code":"09-05","chapter":9,"chapterTitle":"データベース","title":"トランザクション管理","skill":"データベース","lead":"トランザクションは一連のDB処理を一単位として扱い、ACID特性とCOMMIT/ROLLBACKで整合性を守ります。","points":["原子性は全部実行か全部取消し","一貫性は制約を保つ","独立性は同時処理の干渉を制御","永続性は確定結果を保持"],"cues":["COMMITは確定、ROLLBACKは取消し","ログを用いて障害回復する"],"example":"振込でA口座だけ減額して障害が起きたらROLLBACKで元に戻します。","pitfall":"ACIDのIを「完全に順番に実行すること」とだけ覚えないこと。","quiz":{"q":"処理を確定する操作は？","options":["COMMIT","ROLLBACK","DELETEだけ","LOCK解除だけ"],"answer":0,"explain":"原子性は全部実行か全部取消し"}},{"id":"core_09_06","code":"09-06","chapter":9,"chapterTitle":"データベース","title":"排他制御","skill":"データベース","lead":"排他制御は同じデータへ複数トランザクションが同時アクセスして矛盾するのを防ぎます。ロックとデッドロックを理解します。","points":["共有ロックは読取りを許す考え方","排他ロックは更新時に他アクセスを制限","ロック粒度で並行性が変わる","互いにロック待ちするとデッドロック"],"cues":["2相ロックの基本概念","ロック順序統一などでデッドロックを減らす"],"example":"在庫1を2人が同時に購入しないよう更新中は排他ロックします。","pitfall":"ロックを長く保持しすぎると並行性が下がります。","quiz":{"q":"互いに資源解放を待ち続ける状態は？","options":["デッドロック","キャッシュヒット","正規化","SLA"],"answer":0,"explain":"共有ロックは読取りを許す考え方"}},{"id":"core_10_01","code":"10-01","chapter":10,"chapterTitle":"ネットワーク","title":"回線","skill":"ネットワーク","lead":"通信回線ではアナログ/デジタル、交換方式、伝送速度・変調など通信の基礎を扱います。","points":["回線交換は通信中に経路を占有","パケット交換はデータを分割して共有回線を利用","伝送速度はbps","帯域・遅延・誤り率も品質へ影響"],"cues":["実効速度は理論最大値より低くなる","多重化で1回線を複数通信に利用する"],"example":"100Mbps回線でも実際のファイル転送が常に100Mbpsになるとは限りません。","pitfall":"bpsをbyte/sと取り違えないこと。","quiz":{"q":"1秒当たりのbit数を表す単位は？","options":["bps","Bだけ","dpi","Hzだけ"],"answer":0,"explain":"回線交換は通信中に経路を占有"}},{"id":"core_10_02","code":"10-02","chapter":10,"chapterTitle":"ネットワーク","title":"LAN＆WAN","skill":"ネットワーク","lead":"LANは比較的狭い範囲、WANは離れた拠点間を結ぶネットワークです。LAN機器やトポロジも整理します。","points":["Ethernetが有線LANで代表的","無線LANはIEEE 802.11系","スイッチはMACアドレスを見て転送","ルータは異なるネットワーク間を中継"],"cues":["L2スイッチとルータの役割を区別","VLANで論理的にLANを分割する"],"example":"社内LANからインターネットへ出る境界ではルータが中継します。","pitfall":"ハブ/スイッチ/ルータを全部同じ中継機と覚えないこと。","quiz":{"q":"異なるIPネットワーク間を中継する装置は？","options":["ルータ","キーボード","コンパイラ","RAID"],"answer":0,"explain":"Ethernetが有線LANで代表的"}},{"id":"core_10_03","code":"10-03","chapter":10,"chapterTitle":"ネットワーク","title":"IPアドレス","skill":"ネットワーク","lead":"IPアドレスはネットワーク上の機器を識別する論理アドレスです。IPv4/IPv6、ネットワーク部とホスト部を理解します。","points":["IPv4は32bit","IPv6は128bit","IPv4は通常10進ドット表記","IPアドレスはネットワーク部とホスト部に分かれる"],"cues":["MACアドレスとの役割差を理解","DHCPでIP設定を自動配布できる"],"example":"192.168.1.10はIPv4の表記例です。","pitfall":"IPアドレスとMACアドレスを同じ階層の識別子として扱わないこと。","quiz":{"q":"IPv4の長さは？","options":["32bit","16bit","48bit","128bit"],"answer":0,"explain":"IPv4は32bit"}},{"id":"core_10_04","code":"10-04","chapter":10,"chapterTitle":"ネットワーク","title":"サブネットマスク","skill":"ネットワーク","lead":"サブネットマスクはIPv4アドレスのネットワーク部とホスト部の境界を示します。CIDR表記とAND演算を使います。","points":["/24は先頭24bitがネットワーク部","ネットワークアドレスはホスト部全0","ブロードキャストはホスト部全1","利用可能ホスト数は基本2^hostbit-2"],"cues":["IPとマスクのANDでネットワークアドレスを求める","/26など8bit境界以外も計算できるようにする"],"example":"192.168.1.130/26のネットワークは192.168.1.128です。","pitfall":"256-マスク値でブロックサイズを求めるとき境界を確認します。","quiz":{"q":"/24のホスト部bit数は？","options":["8","24","32","4"],"answer":0,"explain":"/24は先頭24bitがネットワーク部"}},{"id":"core_10_05","code":"10-05","chapter":10,"chapterTitle":"ネットワーク","title":"グローバルIPアドレスとプライベートIPアドレス","skill":"ネットワーク","lead":"IPv4ではインターネットで一意なグローバルIPと、組織内で使うプライベートIPを使い分け、NAT/NAPTで変換します。","points":["プライベート範囲10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","NAPTは複数端末をポート番号も使い共有変換"],"cues":["NATとNAPTの違いを理解","プライベートIPはそのままインターネットでルーティングされない"],"example":"家庭ルータは複数端末のプライベートIPを1個のグローバルIPへNAPTする例があります。","pitfall":"192.168.x.xをグローバルIPと誤認しないこと。","quiz":{"q":"プライベートIPv4の代表範囲は？","options":["192.168.0.0/16","8.8.8.0/24","1.1.1.0/24","224.0.0.0/4"],"answer":0,"explain":"プライベート範囲10.0.0.0/8"}},{"id":"core_10_06","code":"10-06","chapter":10,"chapterTitle":"ネットワーク","title":"ドメイン名","skill":"ネットワーク","lead":"ドメイン名は人が扱いやすい階層的な名前で、DNSがIPアドレスなどの情報へ対応付けます。","points":["FQDNはホスト名から最上位まで完全に表す","DNSは階層分散型","A/AAAAレコードはIP対応","MXレコードはメール配送先"],"cues":["DNSキャッシュで問い合わせを減らす","URLのドメイン部分とIPの関係を理解する"],"example":"www.example.comの名前解決でDNSからIPアドレスを得ます。","pitfall":"DNSはWebページ本体を配信する仕組みではありません。","quiz":{"q":"ドメイン名をIPへ対応付ける仕組みは？","options":["DNS","DHCPだけ","FTP","SQL"],"answer":0,"explain":"FQDNはホスト名から最上位まで完全に表す"}},{"id":"core_10_07","code":"10-07","chapter":10,"chapterTitle":"ネットワーク","title":"通信プロトコル","skill":"ネットワーク","lead":"通信プロトコルは機器同士が通信するための規約です。TCP/IP階層とHTTP、SMTP、DNSなどの役割を整理します。","points":["IPはネットワーク間の配送","TCPは信頼性ある転送","UDPは軽量な転送","HTTP/HTTPS、SMTP、DNSなどは上位の応用プロトコル"],"cues":["ポート番号でアプリケーションを識別","HTTPSはHTTPをTLSで保護する"],"example":"Web閲覧ではHTTP(S)、メール送信ではSMTPが代表的です。","pitfall":"ARPやICMPをアプリケーション層プロトコルと混同しないこと。","quiz":{"q":"到達確認やエラー通知に関係するプロトコルは？","options":["ICMP","SQL","JPEG","RFP"],"answer":0,"explain":"IPはネットワーク間の配送"}},{"id":"core_10_08","code":"10-08","chapter":10,"chapterTitle":"ネットワーク","title":"インターネット応用","skill":"ネットワーク","lead":"インターネット応用ではWeb、メール、ファイル転送、クラウド、VPNなどの利用形態と関連技術を扱います。","points":["URLで資源位置を指定","Cookie/セッションで状態管理","VPNで公衆網上に仮想専用網を作る","クラウドでネット経由のIT資源を利用"],"cues":["WebメールとSMTP/IMAP等の裏側を区別","VPN=暗号化だけではなく仮想ネットワークの概念"],"example":"テレワーク端末から社内ネットワークへVPN接続する例があります。","pitfall":"URLとIPアドレス、ドメイン名を同一視しないこと。","quiz":{"q":"公衆網上に仮想的な専用網を構成する技術は？","options":["VPN","OCR","RAID","WBS"],"answer":0,"explain":"URLで資源位置を指定"}},{"id":"core_11_01","code":"11-01","chapter":11,"chapterTitle":"情報セキュリティ","title":"情報セキュリティの脅威","skill":"セキュリティ","lead":"情報セキュリティでは機密性・完全性・可用性を守るため、脅威・脆弱性・攻撃手法を理解します。","points":["マルウェア:ウイルス、ワーム、ランサムウェア等","フィッシングなどソーシャルエンジニアリング","DoS/DDoSで可用性を攻撃","SQLインジェクションやXSSはWebの代表攻撃"],"cues":["脅威と脆弱性を区別する","攻撃の目的がCIAのどこへ影響するか考える"],"example":"偽サイトへ誘導し認証情報を入力させるのはフィッシングの例です。","pitfall":"用語を暗記するだけでなく侵入経路と被害を結び付けます。","quiz":{"q":"身代金要求を行う代表的マルウェアは？","options":["ランサムウェア","DNS","DBMS","RAID"],"answer":0,"explain":"マルウェア:ウイルス、ワーム、ランサムウェア等"}},{"id":"core_11_02","code":"11-02","chapter":11,"chapterTitle":"情報セキュリティ","title":"暗号技術の基本","skill":"セキュリティ","lead":"暗号技術は機密性・完全性などを支える基礎技術です。共通鍵、公開鍵、ハッシュを目的と性能で整理します。","points":["共通鍵暗号は同じ秘密鍵で暗号化・復号","公開鍵暗号は公開鍵と秘密鍵の対","ハッシュは一方向で固定長値を得る","ハイブリッド暗号で速度と鍵配送を両立"],"cues":["暗号化とハッシュは可逆性が違う","鍵長・アルゴリズムの安全性も重要"],"example":"HTTPSでは公開鍵技術で安全に鍵共有し、実データは高速な共通鍵暗号で処理する方式が一般的です。","pitfall":"公開鍵を秘密に保持する必要はありません。秘密鍵を守ります。","quiz":{"q":"元データへ復号する鍵を持たない処理は？","options":["ハッシュ","共通鍵暗号","公開鍵暗号","VPN"],"answer":0,"explain":"共通鍵暗号は同じ秘密鍵で暗号化・復号"}},{"id":"core_11_03","code":"11-03","chapter":11,"chapterTitle":"情報セキュリティ","title":"デジタル署名と認証局","skill":"セキュリティ","lead":"デジタル署名は真正性・完全性・否認防止を支え、認証局(CA)と電子証明書で公開鍵の持ち主を確認します。","points":["署名者の秘密鍵で署名","署名者の公開鍵で検証","証明書は公開鍵と主体を結び付ける","CAが証明書を発行・検証基盤を提供"],"cues":["暗号化と署名で鍵の向きが違う","証明書の有効期限・失効確認も重要"],"example":"WebサイトのTLS証明書をCAの信頼連鎖で検証します。","pitfall":"デジタル署名は本文を秘密にすること自体が主目的ではありません。","quiz":{"q":"署名検証に使う鍵は？","options":["署名者の公開鍵","署名者の秘密鍵","受信者の秘密鍵だけ","共通鍵だけ"],"answer":0,"explain":"署名者の秘密鍵で署名"}},{"id":"core_11_04","code":"11-04","chapter":11,"chapterTitle":"情報セキュリティ","title":"リスクマネジメント","skill":"セキュリティ","lead":"セキュリティリスクは資産・脅威・脆弱性・影響を分析し、回避・低減・移転・保有などで対応します。","points":["リスク特定→分析→評価→対応","発生可能性と影響度で優先順位付け","リスク低減は対策で確率/影響を下げる","移転は保険や契約で影響を他者と分担"],"cues":["リスクゼロを前提にしない","残留リスクを受容する判断もある"],"example":"高影響・高頻度リスクを優先的に対策します。","pitfall":"脅威とリスクを同義語として扱わないこと。","quiz":{"q":"保険加入で損失負担を移す対応は？","options":["リスク移転","リスク回避だけ","リスク増大","暗号化"],"answer":0,"explain":"リスク特定→分析→評価→対応"}},{"id":"core_11_05","code":"11-05","chapter":11,"chapterTitle":"情報セキュリティ","title":"情報セキュリティマネジメント","skill":"セキュリティ","lead":"情報セキュリティマネジメントは組織として方針・責任・手順を整え、継続的にリスクを管理する仕組みです。","points":["セキュリティポリシを定める","役割・責任と教育を明確化","インシデント対応体制を整備","PDCAで継続改善"],"cues":["ISMSは管理の仕組み","技術対策だけでなく人・組織・物理面も含む"],"example":"入社・異動・退職時の権限見直しも管理策の一部です。","pitfall":"ウイルス対策ソフトを入れれば管理が完成、ではありません。","quiz":{"q":"組織的にセキュリティを継続管理する仕組みは？","options":["ISMS","DNS","RAID","OCR"],"answer":0,"explain":"セキュリティポリシを定める"}},{"id":"core_11_06","code":"11-06","chapter":11,"chapterTitle":"情報セキュリティ","title":"脅威への対策","skill":"セキュリティ","lead":"脅威への対策は認証・アクセス制御・ネットワーク防御・マルウェア対策・バックアップなどを多層で組み合わせます。","points":["多要素認証で認証強化","最小権限でアクセス制御","FW/WAF/IDS/IPSで通信や攻撃を制御・検知","パッチ適用とバックアップで被害を減らす"],"cues":["防御・検知・復旧の各段階を用意","ゼロトラストでは場所だけを信用根拠にしない"],"example":"WAFはWebアプリへの不正なHTTPリクエストを検査する対策です。","pitfall":"FW・WAF・IDS・IPSの役割を混同しないこと。","quiz":{"q":"Webアプリへの攻撃対策に特化した装置/機能は？","options":["WAF","OCR","SLA","RFP"],"answer":0,"explain":"多要素認証で認証強化"}},{"id":"core_12_01","code":"12-01","chapter":12,"chapterTitle":"システム開発","title":"システム開発技術","skill":"マネジメント","lead":"システム開発技術では企画後の要件定義・設計・実装・テスト・移行・保守というライフサイクルを理解します。","points":["開発工程ごとに成果物を作る","レビューで早期に欠陥を見つける","構成管理で成果物版を管理","保守で修正・改善を続ける"],"cues":["上流工程の誤りほど後工程で修正コストが大きい","工程間の追跡可能性を保つ"],"example":"要件とテストケースを対応付けると要求漏れを確認しやすくなります。","pitfall":"工程名だけでなく成果物と目的を対応させます。","quiz":{"q":"要件の次に一般に行う上流工程は？","options":["設計","廃棄","監査だけ","バックアップ"],"answer":0,"explain":"開発工程ごとに成果物を作る"}},{"id":"core_12_02","code":"12-02","chapter":12,"chapterTitle":"システム開発","title":"システム要件定義","skill":"マネジメント","lead":"システム要件定義では利用者・業務が必要とする機能、性能、信頼性、セキュリティ、制約を明確にします。","points":["機能要件は何をするか","非機能要件は性能・可用性・操作性等","ステークホルダから要求を引き出す","曖昧さ・矛盾・漏れを減らす"],"cues":["測定可能な表現にする","業務要件とシステム要件を区別する"],"example":"「検索結果を2秒以内に表示」は測定可能な非機能要件です。","pitfall":"「使いやすい」だけでは検証しにくいため具体化します。","quiz":{"q":"応答時間の条件は主に？","options":["非機能要件","機能要件だけ","著作権","会計基準"],"answer":0,"explain":"機能要件は何をするか"}},{"id":"core_12_03","code":"12-03","chapter":12,"chapterTitle":"システム開発","title":"システム設計","skill":"マネジメント","lead":"システム設計では要件を実現する構造・データ・画面・入出力・処理方式へ具体化します。外部設計と内部設計を区別します。","points":["外部設計は利用者から見える仕様を中心に決める","内部設計はプログラム構造・モジュール等を詳細化","データ設計・画面設計・帳票設計を行う","モジュール分割で保守性を高める"],"cues":["凝集度は高く、結合度は低くが基本","インタフェース仕様を明確にする"],"example":"1モジュールが一つの責務へ集中すると凝集度を高めやすくなります。","pitfall":"外部設計=外注先の設計、ではありません。","quiz":{"q":"モジュール間の依存を小さくする指標は？","options":["結合度を低くする","凝集度を低くする","行数を増やす","暗号鍵を共有"],"answer":0,"explain":"外部設計は利用者から見える仕様を中心に決める"}},{"id":"core_12_04","code":"12-04","chapter":12,"chapterTitle":"システム開発","title":"プログラミングとオブジェクト指向","skill":"マネジメント","lead":"プログラミングでは構造化とオブジェクト指向の基本概念を理解します。クラス、インスタンス、継承、カプセル化、多相性を整理します。","points":["クラスは設計図、インスタンスは実体","カプセル化で内部状態と操作をまとめる","継承で既存クラスを基に拡張","ポリモーフィズムで同じ操作名から異なる振舞い"],"cues":["手続きとデータをまとめる考え方","過度な継承より責務分離も重要"],"example":"「車」クラスから具体的な車オブジェクトを生成するのがインスタンス化です。","pitfall":"クラスとインスタンスを同じものとして扱わないこと。","quiz":{"q":"クラスから生成された具体的実体は？","options":["インスタンス","DNS","スキーマだけ","SLA"],"answer":0,"explain":"クラスは設計図、インスタンスは実体"}},{"id":"core_12_05","code":"12-05","chapter":12,"chapterTitle":"システム開発","title":"テスト","skill":"マネジメント","lead":"テストでは単体・結合・システム・運用へ対象範囲を広げ、ホワイト/ブラックボックス技法や回帰テストを使います。","points":["単体は個々のプログラム","結合はモジュール間連携","システムは全体の機能・非機能要件","運用は利用者が本番に近い環境で業務確認"],"cues":["境界値分析・同値分割を理解する","修正後のリグレッションテストを行う"],"example":"入力範囲1〜100なら0,1,100,101など境界付近を重点テストします。","pitfall":"テストは「エラーがないことを証明」するものではありません。","quiz":{"q":"モジュール間の連携を確認するのは？","options":["結合テスト","単体テスト","運用テストだけ","監査"],"answer":0,"explain":"単体は個々のプログラム"}},{"id":"core_13_01","code":"13-01","chapter":13,"chapterTitle":"ソフトウェア開発手法","title":"ソフトウェアの開発モデル","skill":"マネジメント","lead":"開発モデルはウォーターフォール、プロトタイピング、スパイラル、アジャイルなどがあり、要件変化やリスクに応じて選びます。","points":["ウォーターフォールは工程を順に進める","プロトタイプで早期に要求確認","スパイラルは反復しリスク評価","アジャイルは短い反復で価値を届ける"],"cues":["スクラムの役割・スプリントの考え方","モデルごとの変更への強さを比較する"],"example":"要件が変わりやすいサービスでは短い反復でフィードバックする方法が向きやすいです。","pitfall":"アジャイル=設計や文書が不要、ではありません。","quiz":{"q":"短い反復を繰り返す開発モデルは？","options":["アジャイル","ウォーターフォールだけ","バッチ","監査"],"answer":0,"explain":"ウォーターフォールは工程を順に進める"}},{"id":"core_14_01","code":"14-01","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクトマネジメント","skill":"マネジメント","lead":"プロジェクトマネジメントは期限・予算・品質などの制約下で目標を達成するため、複数の管理領域を統合します。","points":["プロジェクトは有期で独自の成果を生む","立上げ・計画・実行・監視・終結を管理","ステークホルダとの調整","変更を統合的に管理"],"cues":["定常業務とプロジェクトを区別","QCDやスコープのバランスを考える"],"example":"新システム導入は開始日・終了日と成果物があるためプロジェクトとして扱えます。","pitfall":"問題発生後だけ管理するのではなく計画・監視を継続します。","quiz":{"q":"プロジェクトの特徴は？","options":["有期で独自の成果を生む","永久に同じ作業を繰返すだけ","必ず1人","予算不要"],"answer":0,"explain":"プロジェクトは有期で独自の成果を生む"}},{"id":"core_14_02","code":"14-02","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクトスコープマネジメント","skill":"マネジメント","lead":"スコープマネジメントは、プロジェクトで実施する作業と成果物の範囲を定義・管理します。WBSが重要です。","points":["要求からスコープを定義","WBSで作業を階層分解","スコープベースラインを管理","無断な範囲拡大を防ぐ"],"cues":["成果物と作業を漏れなく分解","スコープクリープに注意する"],"example":"システム導入を設計、開発、テスト、教育などへ分解したWBSで担当・見積りを行います。","pitfall":"WBSは単なる組織図ではありません。","quiz":{"q":"作業を階層的に分解するものは？","options":["WBS","DNS","SLA","ER図"],"answer":0,"explain":"要求からスコープを定義"}},{"id":"core_14_03","code":"14-03","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクト資源マネジメント","skill":"マネジメント","lead":"資源マネジメントは人員・設備など必要資源を計画し、チームを編成・育成・調整します。","points":["必要スキルと人数を見積もる","役割・責任を明確化","チーム形成・コミュニケーション","設備・物的資源も対象"],"cues":["責任分担表で役割を整理","人月と期間を単純換算できない作業もある"],"example":"10人月の仕事を10人で必ず1か月で終えられるとは限りません。","pitfall":"人を増やせば比例して期間が短縮すると思い込まないこと。","quiz":{"q":"人員の役割・責任を明確にする管理領域は？","options":["資源マネジメント","暗号管理だけ","DNS管理","法務だけ"],"answer":0,"explain":"必要スキルと人数を見積もる"}},{"id":"core_14_04","code":"14-04","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクトスケジュールマネジメント","skill":"マネジメント","lead":"スケジュールマネジメントは作業順序・所要時間・依存関係を計画し、進捗を監視します。PERT/アローダイアグラムとクリティカルパスを扱います。","points":["先行・後続関係を整理","最早/最遅時刻と余裕を計算","クリティカルパスは最長所要時間経路","ガントチャートで期間と進捗を可視化"],"cues":["最長「作業数」ではなく最長「時間」","余裕0の作業遅延は完了日に直結する"],"example":"経路Aが7日、Bが5日なら7日の経路がクリティカルパスです。","pitfall":"短い経路をクリティカルパスと選ばないこと。","quiz":{"q":"全体期間を決める最長時間経路は？","options":["クリティカルパス","バックアップパス","DNSパス","主キー"],"answer":0,"explain":"先行・後続関係を整理"}},{"id":"core_14_05","code":"14-05","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクトコストマネジメント","skill":"マネジメント","lead":"コストマネジメントは費用を見積り、予算化し、実績とのずれを管理します。EVMで進捗とコストを統合評価できます。","points":["PV=計画価値","EV=出来高","AC=実コスト","CV=EV-AC、SV=EV-PV"],"cues":["CPI=EV/AC、SPI=EV/PV","比率が1未満なら悪化方向を確認する"],"example":"EV=80、AC=100ならCV=-20でコスト超過です。","pitfall":"SVとCVの符号・式を取り違えないこと。","quiz":{"q":"EV-ACで求める指標は？","options":["CV","SV","MTBF","SLA"],"answer":0,"explain":"PV=計画価値"}},{"id":"core_14_06","code":"14-06","chapter":14,"chapterTitle":"プロジェクトマネジメント","title":"プロジェクトリスクマネジメント","skill":"マネジメント","lead":"プロジェクトリスクマネジメントは不確実な事象を特定・分析し、対応策を計画・監視します。好機もリスクとして扱えます。","points":["リスク登録簿で管理","発生確率×影響で優先度評価","脅威への回避・低減・移転・受容","機会への活用・強化など"],"cues":["課題=既に発生、リスク=将来の不確実性","コンティンジェンシ予備を考える"],"example":"納期遅延の可能性を早期に特定し代替要員を用意するのはリスク対応です。","pitfall":"発生済み障害を「将来リスク」とだけ扱わないこと。","quiz":{"q":"将来発生するか不確実な事象は？","options":["リスク","確定実績だけ","主キー","署名"],"answer":0,"explain":"リスク登録簿で管理"}},{"id":"core_15_01","code":"15-01","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"サービスマネジメントとシステム移行","skill":"マネジメント","lead":"サービスマネジメントは稼働後のITサービスを安定して提供し、価値を継続的に改善します。移行では本番への安全な切替えを計画します。","points":["変更・リリース・構成を管理","障害と問題を区別して管理","サービス移行で教育・データ移行・切替を計画","継続的改善を行う"],"cues":["インシデントは早期復旧、問題管理は根本原因","移行方式に一斉/段階/並行などがある"],"example":"旧新システムを一定期間並行稼働し、問題なければ旧を停止する方法があります。","pitfall":"開発完了=サービス管理終了ではありません。","quiz":{"q":"サービス停止から早期復旧を重視する管理は？","options":["インシデント管理","正規化","著作権","暗号化"],"answer":0,"explain":"変更・リリース・構成を管理"}},{"id":"core_15_02","code":"15-02","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"サービスレベル管理","skill":"マネジメント","lead":"サービスレベル管理は提供者と利用者がSLAで合意した水準を測定・報告・改善します。","points":["可用性・応答時間・復旧時間を指標化","SLAで目標を合意","実績を監視し報告","未達原因を分析し改善"],"cues":["測定可能な指標にする","SLAと社内目標値を区別する場合がある"],"example":"月間稼働率99.9%以上など具体的な水準を合意します。","pitfall":"「高品質にする」のような測れない表現だけでは管理しにくいです。","quiz":{"q":"サービス水準の合意は？","options":["SLA","WBS","DNS","ER図"],"answer":0,"explain":"可用性・応答時間・復旧時間を指標化"}},{"id":"core_15_03","code":"15-03","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"サービスデスク","skill":"マネジメント","lead":"サービスデスクは利用者からの問い合わせ・障害連絡の単一窓口となり、記録・一次対応・エスカレーションを行います。","points":["SPOCとして窓口一本化","チケットで受付・進捗を記録","FAQ/ナレッジを活用","解決できなければ適切な担当へエスカレーション"],"cues":["インシデントの優先度は影響度×緊急度等で決める","問い合わせ履歴を改善へ活用"],"example":"全社ログイン不能は個人の操作質問より高優先度となりやすいです。","pitfall":"受付順だけで必ず優先度を決めるわけではありません。","quiz":{"q":"利用者問い合わせの単一窓口は？","options":["サービスデスク","CPU","DBMS","CA"],"answer":0,"explain":"SPOCとして窓口一本化"}},{"id":"core_15_04","code":"15-04","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"ファシリティマネジメント","skill":"マネジメント","lead":"ファシリティマネジメントは情報システムを支える建物・電源・空調・防災など物理環境を管理します。","points":["UPSで短時間停電へ対応","自家発電設備で長時間停電へ備える","空調で温湿度を管理","入退室管理・火災対策を行う"],"cues":["電源の二重化とバックアップを区別","サーバ室の物理セキュリティも重要"],"example":"UPSは停電直後に安全停止や発電機切替まで電力を供給します。","pitfall":"UPSを長時間の主電源と考えないこと。","quiz":{"q":"短時間停電へ備える装置は？","options":["UPS","DNS","RFP","WAF"],"answer":0,"explain":"UPSで短時間停電へ対応"}},{"id":"core_15_05","code":"15-05","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"システム監査","skill":"マネジメント","lead":"システム監査は独立した立場から情報システムのリスク・統制を客観的に評価し、改善へつなげます。","points":["監査計画を作る","監査証拠を収集","評価し報告書を作成","フォローアップで改善状況確認"],"cues":["監査人の独立性・客観性","証拠に基づく判断"],"example":"アクセスログや承認記録を抽出し、規程どおり運用されているか確認します。","pitfall":"監査人が自分で対象業務を実施して評価する状態は独立性に問題があります。","quiz":{"q":"監査判断の根拠となるものは？","options":["監査証拠","勘だけ","営業目標","広告"],"answer":0,"explain":"監査計画を作る"}},{"id":"core_15_06","code":"15-06","chapter":15,"chapterTitle":"サービスマネジメントとシステム監査","title":"内部統制","skill":"マネジメント","lead":"内部統制は組織の業務を適正・効率的に行い、財務報告の信頼性や法令遵守、資産保全などを確保する仕組みです。","points":["統制環境が基盤","リスク評価と対応","統制活動として承認・職務分掌","情報・伝達とモニタリング"],"cues":["相互牽制のため職務を分ける","IT統制には全般統制と業務処理統制がある"],"example":"申請者と承認者を別人にする職務分掌は不正防止に役立ちます。","pitfall":"内部統制=監査だけ、ではありません。監査は評価手段の一つです。","quiz":{"q":"申請と承認を分ける考え方は？","options":["職務分掌","暗号化","正規化","DNS"],"answer":0,"explain":"統制環境が基盤"}},{"id":"core_16_01","code":"16-01","chapter":16,"chapterTitle":"システム戦略","title":"情報システム戦略","skill":"ストラテジ","lead":"情報システム戦略は経営戦略・事業戦略と整合させ、IT投資の方向性・全体構想・優先順位を定めます。","points":["経営目標からIT課題を導く","全体最適を重視","ロードマップと投資優先順位","EAなどで業務・データ・アプリ・技術を整理"],"cues":["局所的なシステム最適化だけにしない","投資効果とリスクを評価する"],"example":"全社DX方針に沿い複数システムの統合ロードマップを作るのは情報システム戦略です。","pitfall":"最新技術導入自体を目的にしないこと。","quiz":{"q":"情報システム戦略が整合すべき最上位は？","options":["経営戦略","プリンタ設定だけ","SQL文","LANケーブル"],"answer":0,"explain":"経営目標からIT課題を導く"}},{"id":"core_16_02","code":"16-02","chapter":16,"chapterTitle":"システム戦略","title":"業務プロセス","skill":"ストラテジ","lead":"業務プロセスでは現状を可視化し、BPR・BPMなどで効率・品質・顧客価値を改善します。","points":["As-Isで現状を把握","To-Beで目標業務を設計","BPRは抜本的再設計","BPMは継続的にプロセスを管理改善"],"cues":["ボトルネック・重複・待ちを探す","IT導入前に業務そのものを見直す"],"example":"紙申請の二重入力をなくしデータを一元化するなどの改善があります。","pitfall":"「システムを入れること」が改善目的ではありません。","quiz":{"q":"業務を抜本的に再設計する考え方は？","options":["BPR","DNS","RAID","SLA"],"answer":0,"explain":"As-Isで現状を把握"}},{"id":"core_16_03","code":"16-03","chapter":16,"chapterTitle":"システム戦略","title":"ソリューションビジネス","skill":"ストラテジ","lead":"ソリューションビジネスは顧客課題に対し製品単体ではなく、コンサルティング・SI・運用などを組み合わせて解決策を提供します。","points":["顧客課題起点で提案","SIで複数要素を統合","アウトソーシングで業務を外部委託","クラウドサービスを組み合わせることもある"],"cues":["請負と準委任など契約形態にも注意","顧客価値と収益モデルを考える"],"example":"在庫管理課題に業務分析、クラウド導入、教育、運用支援を一体提供する例があります。","pitfall":"製品を売るだけで必ずソリューションとは限りません。","quiz":{"q":"顧客課題を総合的に解決する提供形態は？","options":["ソリューションビジネス","単体テスト","DNS","ハッシュ"],"answer":0,"explain":"顧客課題起点で提案"}},{"id":"core_16_04","code":"16-04","chapter":16,"chapterTitle":"システム戦略","title":"システムの活用促進と評価","skill":"ストラテジ","lead":"システム活用促進では導入後の教育・定着・評価まで行い、期待した効果を実現できているか確認します。","points":["利用者教育・マニュアル","チェンジマネジメントで定着支援","KPIで利用状況・効果を測定","投資効果を評価し改善"],"cues":["導入率だけでなく業務成果を見る","定量・定性指標を組み合わせる"],"example":"自動化導入後に処理時間・エラー率・利用率を追跡し効果を評価します。","pitfall":"導入完了をゴールにしないこと。","quiz":{"q":"システム導入後に効果を測る代表指標は？","options":["KPI","IPアドレス","主キー","署名鍵"],"answer":0,"explain":"利用者教育・マニュアル"}},{"id":"core_17_01","code":"17-01","chapter":17,"chapterTitle":"システム企画","title":"企画と要件定義","skill":"ストラテジ","lead":"システム企画では経営・業務課題を分析し、システム化の目的・対象・効果・実現性を検討して企画をまとめます。","points":["現状課題と目的を整理","システム化範囲を決める","費用対効果・リスク・実現性を評価","企画後に要件定義へつなぐ"],"cues":["企画の業務要件と開発段階のシステム要件を区別","ステークホルダ合意を取る"],"example":"受注時間半減を目的にシステム化案を比較し投資効果を試算します。","pitfall":"最初から特定製品ありきで目的を後付けしないこと。","quiz":{"q":"システム化の目的や費用対効果を検討する上流活動は？","options":["企画","実装だけ","テストだけ","監査だけ"],"answer":0,"explain":"現状課題と目的を整理"}},{"id":"core_17_02","code":"17-02","chapter":17,"chapterTitle":"システム企画","title":"調達計画・実施","skill":"ストラテジ","lead":"調達ではRFI/RFPで情報・提案を集め、評価・契約・受入まで計画的に進めます。","points":["RFIで市場情報を収集","RFPで具体提案を依頼","評価基準で公平に比較","契約条件・検収条件を明確化"],"cues":["請負/準委任など責任範囲を理解","提案価格だけで決めない"],"example":"機能・納期・体制・費用に配点を設け提案を評価します。","pitfall":"RFIとRFPを逆にしないこと。","quiz":{"q":"ベンダへ具体的な提案を依頼する文書は？","options":["RFP","RFIだけ","SLA","WBS"],"answer":0,"explain":"RFIで市場情報を収集"}},{"id":"core_18_01","code":"18-01","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"経営戦略","skill":"ストラテジ","lead":"経営戦略は企業が外部環境と自社資源を踏まえ、長期的な競争優位と目標達成の方向性を定めます。","points":["経営理念・ビジョンと整合","外部/内部環境を分析","競争優位の源泉を考える","戦略を具体的施策・KPIへ落とす"],"cues":["SWOT・PESTなど分析手法","経営戦略→事業戦略→機能戦略の階層"],"example":"市場成長と自社技術力を組み合わせて新市場参入を検討する例があります。","pitfall":"分析フレームワークを使うこと自体が戦略ではありません。","quiz":{"q":"内部・外部を4象限で整理する分析は？","options":["SWOT","DNS","RAID","EVM"],"answer":0,"explain":"経営理念・ビジョンと整合"}},{"id":"core_18_02","code":"18-02","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"全社戦略","skill":"ストラテジ","lead":"全社戦略は複数事業を持つ企業全体として、どの事業へ資源配分し成長するかを決めます。","points":["PPMで事業ポートフォリオを整理","多角化・M&A・アライアンス","シナジーを考える","経営資源を事業間で配分"],"cues":["PPMの市場成長率×相対市場シェア","選択と集中を理解する"],"example":"成長市場で高シェアの事業へ投資する判断などにPPMを利用します。","pitfall":"PPMを製品単体の価格決定手法と混同しないこと。","quiz":{"q":"PPMの代表的2軸は？","options":["市場成長率と相対市場シェア","CPUとメモリ","価格と温度だけ","IPとMAC"],"answer":0,"explain":"PPMで事業ポートフォリオを整理"}},{"id":"core_18_03","code":"18-03","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"事業戦略","skill":"ストラテジ","lead":"事業戦略は個別事業でどの市場・顧客にどんな価値を提供し競争するかを定めます。競争戦略や成長戦略を整理します。","points":["コストリーダーシップ","差別化","集中戦略","SWOTやファイブフォースで環境分析"],"cues":["競争相手だけでなく新規参入・代替品等も見る","強みを価値へ変換する"],"example":"高品質サポートで他社と差別化するのは差別化戦略の例です。","pitfall":"低価格=必ずコストリーダーシップではなく、低コスト構造が重要です。","quiz":{"q":"独自価値で競合と違いを作る戦略は？","options":["差別化","排他制御","正規化","SLA"],"answer":0,"explain":"コストリーダーシップ"}},{"id":"core_18_04","code":"18-04","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"事業戦略の目標と評価","skill":"ストラテジ","lead":"事業戦略の実行では目標を具体的な指標へ落とし、KGI/KPIやBSCで進捗・成果を評価します。","points":["KGIは最終目標指標","KPIは過程の重要指標","CSFは重要成功要因","BSCは財務・顧客・業務・学習成長の視点"],"cues":["目標と指標の因果関係を考える","KPIを増やし過ぎない"],"example":"売上10億円をKGI、商談数や成約率をKPIとして追う例があります。","pitfall":"測りやすい数字だけをKPIにして目的を見失わないこと。","quiz":{"q":"最終的な経営目標を測る指標は？","options":["KGI","KPIだけ","IP","MTTR"],"answer":0,"explain":"KGIは最終目標指標"}},{"id":"core_18_05","code":"18-05","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"マーケティングの基本","skill":"ストラテジ","lead":"マーケティングは顧客価値を作り、適切な市場へ届ける活動です。STP、4P、製品ライフサイクルなどを整理します。","points":["STP=市場細分化・標的設定・位置付け","4P=Product Price Place Promotion","顧客ニーズと競合を分析","製品ライフサイクルで施策が変わる"],"cues":["BtoB/BtoCの特徴","市場占有率やブランド戦略も関連"],"example":"若年層へターゲットを絞り、商品・価格・販路・広告を整合させます。","pitfall":"4PとSWOTを混同しないこと。","quiz":{"q":"4Pに含まれないものは？","options":["Personnel","Product","Price","Promotion"],"answer":0,"explain":"STP=市場細分化・標的設定・位置付け"}},{"id":"core_18_06","code":"18-06","chapter":18,"chapterTitle":"経営戦略マネジメント","title":"経営管理システム","skill":"ストラテジ","lead":"経営管理システムは企業の計画・実績・資源を情報システムで支援します。ERP、CRM、SCMなどを目的で区別します。","points":["ERPは企業資源を統合管理","CRMは顧客関係を管理","SCMは供給連鎖全体を最適化","SFAは営業活動を支援"],"cues":["略語を目的とセットで覚える","データ統合で部門横断の可視化を目指す"],"example":"ERPで会計・販売・在庫など基幹業務データを統合します。","pitfall":"CRMを生産工程管理システムと混同しないこと。","quiz":{"q":"顧客関係管理は？","options":["CRM","ERPだけ","SCMだけ","DNS"],"answer":0,"explain":"ERPは企業資源を統合管理"}},{"id":"core_19_01","code":"19-01","chapter":19,"chapterTitle":"ビジネスインダストリ","title":"ビジネスシステム","skill":"ストラテジ","lead":"ビジネスシステムには販売・会計・人事・物流など業務を支える様々な情報システムがあります。","points":["POSで販売時点情報を収集","EDIで企業間データ交換","GPS/ICタグで物流を可視化","FinTechなどITで新サービス"],"cues":["業務目的と技術名を対応","企業間取引では標準化が重要"],"example":"POSデータから商品別売上を即時集計し発注へ活用できます。","pitfall":"POS=決済端末だけ、と狭く理解しないこと。","quiz":{"q":"販売時点情報管理は？","options":["POS","DNS","WBS","CA"],"answer":0,"explain":"POSで販売時点情報を収集"}},{"id":"core_19_02","code":"19-02","chapter":19,"chapterTitle":"ビジネスインダストリ","title":"エンジニアリングシステム","skill":"ストラテジ","lead":"エンジニアリングシステムは設計・製造・生産をITで支援します。CAD/CAM/CAE、CIMなどを整理します。","points":["CADはコンピュータ支援設計","CAMは製造支援","CAEは解析・シミュレーション","CIMは製造業務を統合的に管理"],"cues":["FAで工場自動化","MRPは資材所要量計画"],"example":"CADで作成した設計データをCAMへつなぎ加工へ利用します。","pitfall":"CADとCAMを逆にしないこと。","quiz":{"q":"コンピュータ支援設計は？","options":["CAD","CAM","CRM","DNS"],"answer":0,"explain":"CADはコンピュータ支援設計"}},{"id":"core_19_03","code":"19-03","chapter":19,"chapterTitle":"ビジネスインダストリ","title":"e-ビジネス","skill":"ストラテジ","lead":"e-ビジネスはインターネットを活用した商取引・サービスです。EC形態、電子決済、広告モデルなどを整理します。","points":["BtoC/BtoB/CtoCなど取引主体で分類","ECサイト・モール・マーケットプレイス","電子決済・電子マネー","ロングテールやサブスク等のモデル"],"cues":["特定商取引等の法規にも関連","プラットフォームのネットワーク効果"],"example":"個人同士がプラットフォーム上で売買するのはCtoCの例です。","pitfall":"BtoBとBtoCを購入者人数だけで判断しないこと。","quiz":{"q":"企業から消費者への取引は？","options":["BtoC","BtoB","CtoC","GtoG"],"answer":0,"explain":"BtoC/BtoB/CtoCなど取引主体で分類"}},{"id":"core_19_04","code":"19-04","chapter":19,"chapterTitle":"ビジネスインダストリ","title":"組込みシステム・IoTシステム","skill":"ストラテジ","lead":"組込みシステムは機器へ組み込まれ特定機能を制御し、IoTはセンサ・ネットワーク・クラウド等を連携させます。","points":["組込みはリアルタイム性・制約資源が重要","センサで状態取得","アクチュエータで現実へ作用","IoTデータをクラウド/エッジで処理"],"cues":["エッジコンピューティングで近くで処理","安全性や更新・セキュリティも重要"],"example":"工場センサの振動をエッジで分析し異常時だけクラウドへ通知できます。","pitfall":"センサとアクチュエータの役割を逆にしないこと。","quiz":{"q":"現実世界へ動作を与える装置は？","options":["アクチュエータ","センサ","DNS","DBMS"],"answer":0,"explain":"組込みはリアルタイム性・制約資源が重要"}},{"id":"core_20_01","code":"20-01","chapter":20,"chapterTitle":"企業活動","title":"企業活動","skill":"ストラテジ","lead":"企業活動では経営資源・業務機能・PDCAなど組織運営の基本を理解します。","points":["経営資源:ヒト・モノ・カネ・情報","PDCAで計画・実行・評価・改善","CSRやガバナンスも企業活動に関係","業務を計数管理する"],"cues":["目的・目標・施策を階層化","生産性=成果/投入など指標を使う"],"example":"処理件数を維持し投入時間を減らせば生産性は向上します。","pitfall":"効率と有効性を同じ意味にしないこと。","quiz":{"q":"PDCAのCは？","options":["Check","Create","Cost","Customer"],"answer":0,"explain":"経営資源:ヒト・モノ・カネ・情報"}},{"id":"core_20_02","code":"20-02","chapter":20,"chapterTitle":"企業活動","title":"経営組織","skill":"ストラテジ","lead":"経営組織では職能別・事業部制・マトリックスなど組織形態と、意思決定・権限責任を整理します。","points":["職能別は専門機能ごとに編成","事業部制は製品・地域等ごとに収益責任","マトリックスは複数軸を組み合わせる","ライン/スタッフの役割"],"cues":["分権化と集権化の特徴","組織形態ごとの利点・欠点を比較"],"example":"複数製品ごとに独立採算を持たせるなら事業部制が適する場合があります。","pitfall":"マトリックス組織では指揮命令系統が複数になる場合があります。","quiz":{"q":"製品別に利益責任を持つ組織形態は？","options":["事業部制","職能別だけ","DNS型","RAID型"],"answer":0,"explain":"職能別は専門機能ごとに編成"}},{"id":"core_20_03","code":"20-03","chapter":20,"chapterTitle":"企業活動","title":"OR・IE","skill":"ストラテジ","lead":"OR・IEは数理的手法や作業分析で意思決定・効率化を支援します。線形計画、待ち行列、在庫管理、QC手法などを扱います。","points":["線形計画法で制約下の最適化","待ち行列で到着率・サービス率を分析","在庫管理で発注量・発注点を考える","QC七つ道具で品質データを可視化"],"cues":["パレート図・特性要因図等の用途","PERTもOR的手法と関連"],"example":"パレート図で不良原因を件数順に並べ重点原因を見つけます。","pitfall":"グラフの見た目だけでQC手法を選ばず目的を見ること。","quiz":{"q":"原因を大分類から枝分かれさせる図は？","options":["特性要因図","パレート図だけ","ER図","WBS"],"answer":0,"explain":"線形計画法で制約下の最適化"}},{"id":"core_20_04","code":"20-04","chapter":20,"chapterTitle":"企業活動","title":"損益分岐点","skill":"ストラテジ","lead":"損益分岐点は売上高と総費用が等しく利益0となる点です。固定費・変動費・変動費率から計算します。","points":["総費用=固定費+変動費","限界利益=売上高-変動費","限界利益率=1-変動費率","損益分岐点売上高=固定費/限界利益率"],"cues":["固定費が下がると損益分岐点も下がる","安全余裕率で現在売上との余裕を見る"],"example":"固定費300、変動費率60%なら損益分岐点売上高=300/0.4=750です。","pitfall":"変動費「率」と変動費「額」を混同しないこと。","quiz":{"q":"固定費300、限界利益率0.4の損益分岐点売上高は？","options":["750","120","300","700"],"answer":0,"explain":"総費用=固定費+変動費"}},{"id":"core_20_05","code":"20-05","chapter":20,"chapterTitle":"企業活動","title":"財務諸表と6つの利益","skill":"ストラテジ","lead":"財務諸表は企業の財政状態・経営成績・資金の流れを表します。貸借対照表、損益計算書、キャッシュフロー計算書を整理します。","points":["B/Sは資産・負債・純資産","P/Lは収益・費用・利益","売上総利益、営業利益、経常利益など段階がある","C/Fは営業・投資・財務の資金流れ"],"cues":["利益率・ROA/ROEなど指標","利益と現金増減は同じではない"],"example":"売上高1000、売上原価600なら売上総利益400です。","pitfall":"営業利益と経常利益など差し引く項目を混同しないこと。","quiz":{"q":"売上高-売上原価で求める利益は？","options":["売上総利益","営業利益だけ","純利益","経常利益"],"answer":0,"explain":"B/Sは資産・負債・純資産"}},{"id":"core_20_06","code":"20-06","chapter":20,"chapterTitle":"企業活動","title":"資産管理","skill":"ストラテジ","lead":"資産管理では企業が保有する有形・無形資産を把握し、減価償却や在庫・固定資産管理を行います。","points":["固定資産は長期利用する資産","減価償却で取得原価を期間配分","棚卸資産は販売・生産用在庫","ソフトウェア等の無形資産もある"],"cues":["定額法・定率法の考え方","簿価と時価を区別する"],"example":"取得100万円、耐用5年、残存0の定額法なら年20万円の償却が基本例です。","pitfall":"減価償却は毎年現金支出が発生する意味ではありません。","quiz":{"q":"固定資産の取得原価を使用期間へ配分する処理は？","options":["減価償却","正規化","暗号化","排他制御"],"answer":0,"explain":"固定資産は長期利用する資産"}},{"id":"core_21_01","code":"21-01","chapter":21,"chapterTitle":"法務","title":"3つの知的財産権","skill":"ストラテジ","lead":"知的財産権では産業財産権・著作権などを通じ、発明・デザイン・標章・著作物を保護します。","points":["特許権は発明","実用新案権は物品の形状・構造等の考案","意匠権はデザイン","商標権は商品・サービスの標章、著作権は著作物"],"cues":["産業財産権は出願・登録が基本","著作権は創作時に発生"],"example":"新製品の外観デザインは意匠権での保護対象になり得ます。","pitfall":"物品デザインを商標権だけで答えないこと。","quiz":{"q":"ブランド名・マークを保護する代表権利は？","options":["商標権","特許権","著作権だけ","実用新案権"],"answer":0,"explain":"特許権は発明"}},{"id":"core_21_02","code":"21-02","chapter":21,"chapterTitle":"法務","title":"産業財産権とその他の権利","skill":"ストラテジ","lead":"産業財産権に加え、著作権・不正競争防止・営業秘密など、企業活動で守る権利・情報を整理します。","points":["著作権はプログラムも保護対象","著作者人格権と財産権を区別","営業秘密は秘密管理性・有用性・非公知性などが重要","不正競争防止法で営業秘密侵害等を規制"],"cues":["ライセンス条件を守る","アイデアそのものと表現の保護を区別する"],"example":"自社だけが管理する製造ノウハウを秘密管理することは営業秘密保護に関係します。","pitfall":"著作権は登録しなければ発生しない、ではありません。","quiz":{"q":"著作権が原則発生する時点は？","options":["創作時","登録時だけ","販売時だけ","特許出願時"],"answer":0,"explain":"著作権はプログラムも保護対象"}},{"id":"core_21_03","code":"21-03","chapter":21,"chapterTitle":"法務","title":"セキュリティ関連法規","skill":"ストラテジ","lead":"セキュリティ関連法規では不正アクセス、個人情報、サイバー犯罪等に関する法令の目的と禁止行為を理解します。","points":["不正アクセス禁止法で識別符号の不正利用等を規制","個人情報保護法で個人情報の適正取扱い","刑法で不正指令電磁的記録等を規定","組織は法令・ガイドラインに沿い安全管理措置"],"cues":["技術的に可能でも法的に許されるとは限らない","個人情報と要配慮個人情報などを区別する"],"example":"他人のID・パスワードを無断利用してアクセスする行為は法的問題になります。","pitfall":"法令名だけでなく「何を規制するか」を対応させます。","quiz":{"q":"他人の認証情報を不正利用したアクセスを規制する代表法は？","options":["不正アクセス禁止法","著作権法だけ","会社法だけ","道路交通法"],"answer":0,"explain":"不正アクセス禁止法で識別符号の不正利用等を規制"}},{"id":"core_21_04","code":"21-04","chapter":21,"chapterTitle":"法務","title":"労働関連法規と取引関連法規","skill":"ストラテジ","lead":"労働・取引関連法規では労働契約、派遣、下請・契約、電子商取引などIT業務に関係する基本ルールを整理します。","points":["労働基準法で労働条件の最低基準","労働者派遣では指揮命令関係を理解","請負は成果物完成責任、準委任は業務遂行を委託","独占禁止・下請取引等の公正性も関係"],"cues":["派遣と請負の偽装請負に注意","契約書で責任・知財・秘密保持を明確化"],"example":"請負契約で発注者が受託者の個々の労働者へ直接細かな指揮命令を行うと問題になり得ます。","pitfall":"契約名称だけでなく実態で判断される場合があります。","quiz":{"q":"派遣労働者へ業務上の指揮命令を行うのは通常？","options":["派遣先","派遣元だけで現場指示なし","顧客以外禁止","誰でも自由"],"answer":0,"explain":"労働基準法で労働条件の最低基準"}}];
+const CORE_A_TOPIC_MAP=Object.fromEntries(CORE_A_CURRICULUM.map(t=>[t.id,t]));
+const CORE_A_IDS=CORE_A_CURRICULUM.map(t=>t.id);
+const CORE_A_CHAPTERS=[...new Set(CORE_A_CURRICULUM.map(t=>t.chapter))];
+function coreTopicPages(t){
+  return [
+    {headline:'このテーマの全体像',copy:t.lead,noGuide:true,render:()=>coreTopicOverviewView(t.id)},
+    {headline:'重要ポイントを整理する',copy:'用語を単独で暗記せず、仕組み・用途・違いを対応させて理解します。',noGuide:true,render:()=>coreTopicDetailView(t.id)},
+    {headline:'具体例で確認する',copy:'試験で問われる形を意識し、数値・状況・処理の流れへ当てはめます。',noGuide:true,render:()=>coreTopicExampleView(t.id)},
+    {headline:'試験での見分け方',copy:'よく混同する点と、問題文で見るべき手掛かりを確認します。',noGuide:true,render:()=>coreTopicExamView(t.id)},
+    {headline:'ミニチェック',copy:t.quiz.q,noGuide:true,quiz:{options:t.quiz.options,answer:t.quiz.answer,explain:t.quiz.explain}}
+  ];
+}
+CORE_A_CURRICULUM.forEach(t=>{LESSONS[t.id]={title:t.title,cat:`第${t.chapter}章 ${t.chapterTitle}`,skill:t.skill,core:true,code:t.code,pages:coreTopicPages(t)};});
+
 Object.keys(LESSONS).forEach(id=>{
   if(profile.lessonProgress[id]===undefined) profile.lessonProgress[id]=0;
 });
@@ -10708,7 +10441,7 @@ let reliabilitySeen=new Set();
 let backupSeen=new Set();
 let devSteps=0;
 let testSteps=0;
-const LESSON_GUIDES = {"automata":{"lead":"オートマトンは、入力を受け取るたびに「現在の状態」から次の状態へ移るモデルです。状態遷移図や遷移表を読み、入力列を左から順に追えることが重要です。","points":[["状態","処理の途中で機械がどの状況にいるかを表します。"],["遷移","現在状態と入力の組合せによって次状態が決まります。"],["入力列","一文字ずつ順に適用し、途中状態を書き換えながら追跡します。"]],"pitfall":"入力だけを見て答えを決めないこと。同じ入力でも、現在状態が違えば次状態が変わることがあります。"},"memorychips":{"lead":"半導体メモリは「電源断で内容が消えるか」と「通常利用で書き換えられるか」で整理すると混乱しにくくなります。","points":[["RAM","一般に揮発性で読み書き可能。主記憶などに利用されます。"],["ROM","不揮発性で、基本的には読み出し中心の用途に使われます。"],["フラッシュメモリ","不揮発性で電気的に書換え可能。SSDやUSBメモリなどで使われます。"]],"pitfall":"「ROM＝絶対に書換え不能」と丸暗記しないこと。ROM系には書換え可能な種類もあります。"},"filesystem":{"lead":"ファイルシステムは、ファイルやディレクトリを階層構造で管理する仕組みです。位置の表し方として絶対パスと相対パスを区別します。","points":[["ルート","階層構造の最上位です。絶対パスはここを基準に表します。"],["絶対パス","ルートから目的のファイルまでをすべて記述します。"],["相対パス","現在位置を基準に、目的地までの移動だけを表します。"]],"pitfall":"絶対パスと相対パスを混同しないこと。問題では「現在位置」が示されているかを先に確認します。"},"uiux":{"lead":"UIは利用者とシステムの接点、UXは利用を通して得られる体験全体です。試験では使いやすさ・分かりやすさ・アクセシビリティの観点が重要です。","points":[["視認性","十分な文字サイズやコントラストを確保します。"],["操作性","ボタンの目的を分かるラベルにし、押しやすい大きさを確保します。"],["アクセシビリティ","色だけに依存せず、文字や形など複数の手掛かりで伝えます。"]],"pitfall":"「見た目がきれい＝使いやすい」ではありません。利用者が迷わず操作できるかで判断します。"},"multimedia":{"lead":"画像の基本データ量は「横画素数 × 縦画素数 × 1画素当たりのビット数」で求めます。bitとbyteの変換まで一連でできるようにします。","points":[["画素数","横×縦で画像全体のピクセル数を求めます。"],["色深度","1画素を何bitで表すかを示します。"],["圧縮","非圧縮の基本計算と、実ファイルの圧縮後サイズは区別します。"]],"pitfall":"bitをbyteへ直すときは8で割ります。KBやMBまで問われる場合は単位変換も忘れないようにします。"},"devmodel":{"lead":"開発モデルは、要件の安定度や変更への対応方法によって向き不向きがあります。名称だけでなく「どう進めるか」を比較します。","points":[["ウォーターフォール","工程を順番に進め、前工程の成果物を次工程へ引き継ぎます。"],["アジャイル","短い反復を繰り返し、利用者のフィードバックを取り込みながら改善します。"],["選択基準","要件の変化、納期、利用者との協働などを踏まえて適切な方法を選びます。"]],"pitfall":"アジャイルが常に優れているわけではありません。プロジェクト特性に応じて選びます。"},"audit":{"lead":"システム監査は、情報システムやその管理が適切かを客観的に評価し、必要に応じて改善を促す活動です。","points":[["独立性","監査対象から独立した立場で評価することが重要です。"],["監査証拠","判断は記録・ログ・文書などの証拠に基づきます。"],["改善","問題点を指摘するだけでなく、改善につながる助言を行うことがあります。"]],"pitfall":"開発担当者による自己評価と、独立したシステム監査は別物です。"},"businessprocess":{"lead":"業務改善では、まず現状（As-Is）を把握し、理想の業務（To-Be）との差を明確にします。IT導入は目的ではなく改善手段です。","points":[["As-Is","現在の手順・待ち時間・重複作業などを可視化します。"],["To-Be","改善後に実現したい業務の姿を設計します。"],["BPR","業務プロセスを抜本的に見直し、大幅な改善を狙う考え方です。"]],"pitfall":"「新しいシステムを導入した＝業務改善」ではありません。業務の時間・品質・コストがどう変わるかを考えます。"},"procurement":{"lead":"システム調達では、必要なものを明確にし、複数の候補から提案を受けて比較・選定します。文書名と目的を対応させます。","points":[["RFI","情報提供依頼。市場やベンダの情報を広く集める段階で使います。"],["RFP","提案依頼。目的・要件・条件を示して具体的な提案を求めます。"],["評価","機能・費用・納期・体制など、あらかじめ定めた基準で比較します。"]],"pitfall":"RFPは契約書そのものではありません。「どんな提案をしてほしいか」を伝える文書です。"},"swot":{"lead":"SWOT分析は、内部環境と外部環境をそれぞれプラス・マイナスに分け、戦略を考える材料を整理する方法です。","points":[["Strength / Weakness","自社の内部要因。強みと弱みです。"],["Opportunity / Threat","市場・競合・制度などの外部要因。機会と脅威です。"],["クロス分析","強み×機会など、要因を組み合わせて戦略案を考えます。"]],"pitfall":"「良いこと＝Strength」ではありません。外部環境の好材料ならOpportunityです。まず内部か外部かを判定します。"},"iot":{"lead":"IoTは、センサで現実世界の情報を取得し、ネットワークで送信し、処理結果を現実世界へ戻す仕組みとして捉えると分かりやすくなります。","points":[["センサ","温度・位置・加速度など、現実世界の状態を取得します。"],["ネットワーク／クラウド","データを送受信し、保存・分析・判断を行います。"],["アクチュエータ","制御信号を受け、モータや空調など現実世界へ作用します。"]],"pitfall":"センサは「測る側」、アクチュエータは「動かす側」です。"},"finance":{"lead":"利益は一種類ではありません。売上高からどの費用を差し引いた段階かによって、売上総利益・営業利益など名称が変わります。","points":[["売上総利益","売上高 − 売上原価。商品やサービスそのものの粗い収益力を表します。"],["営業利益","売上総利益 − 販売費及び一般管理費。本業で得た利益を表します。"],["計算順序","問題文に出てくる費用がどの段階で差し引かれるかを整理します。"]],"pitfall":"売上高からいきなり販管費だけを引かないこと。利益の種類ごとに計算段階を区別します。"},"os":{"lead":"OSはCPU・メモリ・入出力装置・ファイルなどの資源を管理し、アプリケーションが利用できる実行環境を提供します。","points":[["プロセス管理","複数の処理へCPU時間を割り当てます。"],["メモリ管理","主記憶の割当てや仮想記憶などを管理します。"],["入出力・ファイル管理","装置やファイルへのアクセスを統一的に扱います。"]],"pitfall":"CPUスケジューリングはOSの役割の一部です。OS＝CPU割当てだけ、と狭く覚えないようにします。"},"reliability":{"lead":"システムの稼働率は、装置の接続方法によって計算が変わります。直列と並列を式で区別できることが重要です。","points":[["直列構成","すべての装置が動く必要があるため、各稼働率を掛け合わせます。"],["並列構成","少なくとも1台動けばよい場合、全台停止する確率を1から引きます。"],["稼働率","MTBF ÷（MTBF＋MTTR）でも求められます。"]],"pitfall":"並列構成で単純に稼働率を足さないこと。まず全台停止の確率を考えます。"},"backup":{"lead":"バックアップ方式は「何を保存するか」だけでなく、「バックアップ時間」と「復旧時に何が必要か」の両方で比較します。","points":[["フル","毎回すべてを保存。取得量は大きい一方、復旧は分かりやすい方式です。"],["差分","直近のフルバックアップ以降に変更された全データを保存します。"],["増分","直前のバックアップ以降に変更されたデータだけを保存します。"]],"pitfall":"差分と増分を逆にしないこと。復旧時に必要なバックアップの組合せまで考えると区別しやすくなります。"},"development":{"lead":"システム開発は、何を作るかを定め、構造を設計し、実装・テストを経て本番利用へ移す流れで整理します。","points":[["要件定義","利用者や業務が必要とする機能・性能などを明確にします。"],["設計・実装","要件を実現する構造や処理を設計し、プログラムへ落とします。"],["テスト・移行","要求どおり動くことを確認し、本番環境へ移します。"]],"pitfall":"要件定義は「何が必要か」、設計は「どう実現するか」です。"},"testing":{"lead":"テストは、作ったプログラムやシステムが仕様・要求どおりに動作するかを確認し、不具合を見つけて修正する工程です。","points":[["段階","単体 → 結合 → システム → 運用と、確認対象が部品から業務全体へ広がります。"],["テスト技法","内部構造を見るホワイトボックス、入出力に注目するブラックボックスなどを使います。"],["回帰テスト","修正や機能追加が、既存の正常な部分へ悪影響を与えていないか確認します。"]],"pitfall":"テスト名は「何人で行うか」ではなく「何を対象に、何を確認するか」で区別します。"},"criticalpath":{"lead":"クリティカルパスは、プロジェクト開始から完了までの経路のうち所要時間が最長となる経路です。","points":[["最長経路","経路上の作業時間を合計し、最も長い経路を探します。"],["余裕時間","クリティカルパス上の作業は原則として余裕がありません。"],["納期への影響","この経路の作業が遅れると、全体の完了が遅れます。"]],"pitfall":"「作業数が一番多い経路」ではなく「所要時間の合計が一番長い経路」です。"},"sla":{"lead":"SLAは、サービス提供者と利用者の間で合意するサービス水準です。測定できる指標として定めることが重要です。","points":[["サービス水準","可用性、応答時間、復旧時間などを数値で定めます。"],["サービスデスク","利用者からの問い合わせや障害連絡の窓口を担います。"],["継続的改善","実績を測定し、合意した水準を満たしているか確認します。"]],"pitfall":"SLAは「約束する水準」、サービスデスクは「窓口機能」です。"},"iprights":{"lead":"知的財産権は、発明・デザイン・ブランド・著作物などの成果を保護する権利です。対象と権利名を対応させます。","points":[["特許権","技術的な発明を保護します。"],["意匠権・商標権","物品などのデザイン、商品・サービスを識別する標章を保護します。"],["著作権","プログラムや文章などの著作物を保護します。"]],"pitfall":"物品のデザインは意匠権、ブランド名やマークは商標権です。対象から判断します。"},"breakeven":{"lead":"損益分岐点は、売上高と総費用が等しくなり、利益が0になる売上量・売上高です。","points":[["固定費","売上量にかかわらず一定額発生する費用です。"],["変動費","販売量や生産量に応じて増減する費用です。"],["損益分岐点","交点より売上が小さい側は赤字、大きい側は黒字になります。"]],"pitfall":"グラフでは「売上線と総費用線の交点」を見ます。固定費線との交点ではありません。"},"logic":{"lead":"論理演算は0/1（偽/真）を組み合わせて結果を求めます。AND・OR・NOTは真理値表を自分で書けるようにします。","points":[["AND","両方が1のときだけ1になります。"],["OR","少なくとも一方が1なら1になります。"],["NOT","0と1を反転します。"]],"pitfall":"ORは両方1でも1です。日常語の「どちらか一方」とは違うことがあります。"},"cache":{"lead":"キャッシュメモリは、CPUと主記憶の速度差を埋めるために、よく使うデータを高速な領域へ保持する仕組みです。","points":[["HIT","必要なデータがキャッシュにあり、高速に取得できます。"],["MISS","キャッシュにないため、主記憶などへ取りに行きます。"],["局所性","同じデータや近くのデータが再利用されやすい性質を利用します。"]],"pitfall":"キャッシュ容量だけで性能は決まりません。ヒット率や階層構成も影響します。"},"stackqueue":{"lead":"スタックとキューは、データを「どの順番で取り出すか」が異なる代表的なデータ構造です。","points":[["スタック","LIFO。最後に入れたデータを最初に取り出します。"],["キュー","FIFO。最初に入れたデータを最初に取り出します。"],["操作","スタックはPUSH/POP、キューはENQUEUE/DEQUEUEで整理します。"]],"pitfall":"追加・取り出しのたびに列を書き直すとミスが減ります。"},"sql":{"lead":"SQLのSELECT文は、どの表から（FROM）、どの行を（WHERE）、どの列として取り出すか（SELECT）を読み分けます。","points":[["SELECT","取得する列を指定します。"],["FROM","対象となる表を指定します。"],["WHERE","条件に合う行だけを絞り込みます。"]],"pitfall":"WHEREは列を消すのではなく「行を絞る」句です。SELECTの列指定と混同しないようにします。"},"tcpudp":{"lead":"TCPとUDPはトランスポート層で使われる代表的なプロトコルです。信頼性と軽さの違いで比較します。","points":[["TCP","コネクション型で、順序制御・再送制御などにより信頼性を高めます。"],["UDP","コネクションレス型で、TCPより制御が少なく軽量です。"],["用途","確実な配送を重視する通信と、遅延の小ささを重視する通信で使い分けます。"]],"pitfall":"UDP＝必ず高速、TCP＝必ず遅い、と断定しないこと。主に制御機能の違いを見ます。"},"signature":{"lead":"デジタル署名は、送信者の真正性とデータの改ざん検知に使います。暗号化による機密性とは目的が異なります。","points":[["署名生成","文書のハッシュ値を作り、署名者の秘密鍵を用いて署名します。"],["署名検証","対応する公開鍵で検証し、内容の改ざんや署名者を確認します。"],["ハッシュ","元データの変化を検知するために使います。"]],"pitfall":"署名は秘密鍵、検証は公開鍵です。"},"mutex":{"lead":"排他制御は、複数の処理が同じデータを同時に更新して矛盾することを防ぐ仕組みです。","points":[["LOCK","処理中の資源を他の処理から勝手に変更されないよう占有します。"],["UNLOCK","更新が終わったら資源を解放します。"],["同時実行制御","整合性を保ちながら複数トランザクションを処理します。"]],"pitfall":"ロックを長時間保持すると待ち時間が増え、取り方によってはデッドロックにも注意が必要です。"},"binary":{"lead":"2進数は各桁が2の累乗の重みを持ちます。右から1、2、4、8、16…と重みを書いて変換します。","points":[["桁の重み","各ビットに対応する2の累乗を確認します。"],["2進→10進","1になっている桁の重みを合計します。"],["10進→2進","2の累乗の組合せ、または2で割る方法で表します。"]],"pitfall":"重みは右端から2^0＝1で始まります。"},"quiz":{"lead":"CPUは命令を主記憶から取り出し、命令の意味を解読し、必要な演算や制御を実行するサイクルを繰り返します。","points":[["Fetch","実行する命令を主記憶から取り出します。"],["Decode","命令を解読し、どんな処理をするか判断します。"],["Execute","演算装置などを使って命令を実行します。"]],"pitfall":"Fetch→Decode→Executeの順序を入れ替えないこと。"},"transaction":{"lead":"トランザクションは、データベース上の一連の処理を論理的な1単位として扱う考え方です。","points":[["COMMIT","一連の処理を正常終了として確定します。"],["ROLLBACK","途中で異常が起きた場合、処理開始前の状態へ戻します。"],["ACID","原子性・一貫性・独立性・永続性という性質で信頼性を確保します。"]],"pitfall":"一部だけ更新された状態を残さないことが原子性の要点です。"},"subnet":{"lead":"サブネットマスクは、IPアドレスのどこまでがネットワーク部で、どこからがホスト部かを示します。","points":[["/24","先頭24bitがネットワーク部、残り8bitがホスト部です。"],["ネットワークアドレス","ホスト部をすべて0にしたアドレスです。"],["ブロードキャスト","ホスト部をすべて1にしたアドレスです。"]],"pitfall":"ネットワークアドレスとブロードキャストアドレスは通常ホストへ割り当てません。"},"crypto":{"lead":"公開鍵暗号では、暗号化と復号に異なる鍵を使います。受信者の公開鍵で暗号化し、受信者だけが持つ秘密鍵で復号します。","points":[["公開鍵","他者へ公開してよい鍵。受信者宛ての暗号化などに使います。"],["秘密鍵","所有者だけが厳重に保持する鍵です。"],["使い分け","大容量データでは共通鍵暗号と組み合わせる方式も利用されます。"]],"pitfall":"公開鍵暗号とデジタル署名では鍵の使い方が逆方向になります。目的を先に確認します。"},"binarysearch":{"lead":"二分探索は、整列済みデータの中央と目的値を比較し、探索範囲を半分ずつ捨てていく方法です。","points":[["前提","データが探索キーの順に整列されている必要があります。"],["中央比較","目的値が小さければ左半分、大きければ右半分へ絞ります。"],["効率","探索範囲が半分ずつ減るため、線形探索より効率的です。"]],"pitfall":"未整列データへそのまま二分探索はできません。"}};
+const LESSON_GUIDES = {"automata":{"lead":"オートマトンは、入力を受け取るたびに「現在の状態」から次の状態へ移るモデルです。状態遷移図や遷移表を読み、入力列を左から順に追えることが重要です。","points":[["状態","処理の途中で機械がどの状況にいるかを表します。"],["遷移","現在状態と入力の組合せによって次状態が決まります。"],["入力列","一文字ずつ順に適用し、途中状態を書き換えながら追跡します。"]],"pitfall":"入力だけを見て答えを決めないこと。同じ入力でも、現在状態が違えば次状態が変わることがあります。"},"memorychips":{"lead":"半導体メモリは「電源断で内容が消えるか」と「通常利用で書き換えられるか」で整理すると混乱しにくくなります。","points":[["RAM","一般に揮発性で読み書き可能。主記憶などに利用されます。"],["ROM","不揮発性で、基本的には読み出し中心の用途に使われます。"],["フラッシュメモリ","不揮発性で電気的に書換え可能。SSDやUSBメモリなどで使われます。"]],"pitfall":"「ROM＝絶対に書換え不能」と丸暗記しないこと。ROM系には書換え可能な種類もあります。"},"filesystem":{"lead":"ファイルシステムは、ファイルやディレクトリを階層構造で管理する仕組みです。位置の表し方として絶対パスと相対パスを区別します。","points":[["ルート","階層構造の最上位です。絶対パスはここを基準に表します。"],["絶対パス","ルートから目的のファイルまでをすべて記述します。"],["相対パス","現在位置を基準に、目的地までの移動だけを表します。"]],"pitfall":"絶対パスと相対パスを混同しないこと。問題では「現在位置」が示されているかを先に確認します。"},"uiux":{"lead":"UIは利用者とシステムの接点、UXは利用を通して得られる体験全体です。試験では使いやすさ・分かりやすさ・アクセシビリティの観点が重要です。","points":[["視認性","十分な文字サイズやコントラストを確保します。"],["操作性","ボタンの目的を分かるラベルにし、押しやすい大きさを確保します。"],["アクセシビリティ","色だけに依存せず、文字や形など複数の手掛かりで伝えます。"]],"pitfall":"「見た目がきれい＝使いやすい」ではありません。利用者が迷わず操作できるかで判断します。"},"multimedia":{"lead":"画像の基本データ量は「横画素数 × 縦画素数 × 1画素当たりのビット数」で求めます。bitとbyteの変換まで一連でできるようにします。","points":[["画素数","横×縦で画像全体のピクセル数を求めます。"],["色深度","1画素を何bitで表すかを示します。"],["圧縮","非圧縮の基本計算と、実ファイルの圧縮後サイズは区別します。"]],"pitfall":"bitをbyteへ直すときは8で割ります。KBやMBまで問われる場合は単位変換も忘れないようにします。"},"devmodel":{"lead":"開発モデルは、要件の安定度や変更への対応方法によって向き不向きがあります。名称だけでなく「どう進めるか」を比較します。","points":[["ウォーターフォール","工程を順番に進め、前工程の成果物を次工程へ引き継ぎます。"],["アジャイル","短い反復を繰り返し、利用者のフィードバックを取り込みながら改善します。"],["選択基準","要件の変化、納期、利用者との協働などを踏まえて適切な方法を選びます。"]],"pitfall":"アジャイルが常に優れているわけではありません。プロジェクト特性に応じて選びます。"},"audit":{"lead":"システム監査は、情報システムやその管理が適切かを客観的に評価し、必要に応じて改善を促す活動です。","points":[["独立性","監査対象から独立した立場で評価することが重要です。"],["監査証拠","判断は記録・ログ・文書などの証拠に基づきます。"],["改善","問題点を指摘するだけでなく、改善につながる助言を行うことがあります。"]],"pitfall":"開発担当者による自己評価と、独立したシステム監査は別物です。"},"businessprocess":{"lead":"業務改善では、まず現状（As-Is）を把握し、理想の業務（To-Be）との差を明確にします。IT導入は目的ではなく改善手段です。","points":[["As-Is","現在の手順・待ち時間・重複作業などを可視化します。"],["To-Be","改善後に実現したい業務の姿を設計します。"],["BPR","業務プロセスを抜本的に見直し、大幅な改善を狙う考え方です。"]],"pitfall":"「新しいシステムを導入した＝業務改善」ではありません。業務の時間・品質・コストがどう変わるかを考えます。"},"procurement":{"lead":"システム調達では、必要なものを明確にし、複数の候補から提案を受けて比較・選定します。文書名と目的を対応させます。","points":[["RFI","情報提供依頼。市場やベンダの情報を広く集める段階で使います。"],["RFP","提案依頼。目的・要件・条件を示して具体的な提案を求めます。"],["評価","機能・費用・納期・体制など、あらかじめ定めた基準で比較します。"]],"pitfall":"RFPは契約書そのものではありません。「どんな提案をしてほしいか」を伝える文書です。"},"swot":{"lead":"SWOT分析は、内部環境と外部環境をそれぞれプラス・マイナスに分け、戦略を考える材料を整理する方法です。","points":[["Strength / Weakness","自社の内部要因。強みと弱みです。"],["Opportunity / Threat","市場・競合・制度などの外部要因。機会と脅威です。"],["クロス分析","強み×機会など、要因を組み合わせて戦略案を考えます。"]],"pitfall":"「良いこと＝Strength」ではありません。外部環境の好材料ならOpportunityです。まず内部か外部かを判定します。"},"iot":{"lead":"IoTは、センサで現実世界の情報を取得し、ネットワークで送信し、処理結果を現実世界へ戻す仕組みとして捉えると分かりやすくなります。","points":[["センサ","温度・位置・加速度など、現実世界の状態を取得します。"],["ネットワーク／クラウド","データを送受信し、保存・分析・判断を行います。"],["アクチュエータ","制御信号を受け、モータや空調など現実世界へ作用します。"]],"pitfall":"センサは「測る側」、アクチュエータは「動かす側」です。"},"finance":{"lead":"利益は一種類ではありません。売上高からどの費用を差し引いた段階かによって、売上総利益・営業利益など名称が変わります。","points":[["売上総利益","売上高 − 売上原価。商品やサービスそのものの粗い収益力を表します。"],["営業利益","売上総利益 − 販売費及び一般管理費。本業で得た利益を表します。"],["計算順序","問題文に出てくる費用がどの段階で差し引かれるかを整理します。"]],"pitfall":"売上高からいきなり販管費だけを引かないこと。利益の種類ごとに計算段階を区別します。"},"os":{"lead":"OSはCPU・メモリ・入出力装置・ファイルなどの資源を管理し、アプリケーションが利用できる実行環境を提供します。","points":[["プロセス管理","複数の処理へCPU時間を割り当てます。"],["メモリ管理","主記憶の割当てや仮想記憶などを管理します。"],["入出力・ファイル管理","装置やファイルへのアクセスを統一的に扱います。"]],"pitfall":"CPUスケジューリングはOSの役割の一部です。OS＝CPU割当てだけ、と狭く覚えないようにします。"},"reliability":{"lead":"システムの稼働率は、装置の接続方法によって計算が変わります。直列と並列を式で区別できることが重要です。","points":[["直列構成","すべての装置が動く必要があるため、各稼働率を掛け合わせます。"],["並列構成","少なくとも1台動けばよい場合、全台停止する確率を1から引きます。"],["稼働率","MTBF ÷（MTBF＋MTTR）でも求められます。"]],"pitfall":"並列構成で単純に稼働率を足さないこと。まず全台停止の確率を考えます。"},"backup":{"lead":"バックアップ方式は「何を保存するか」だけでなく、「バックアップ時間」と「復旧時に何が必要か」の両方で比較します。","points":[["フル","毎回すべてを保存。取得量は大きい一方、復旧は分かりやすい方式です。"],["差分","直近のフルバックアップ以降に変更された全データを保存します。"],["増分","直前のバックアップ以降に変更されたデータだけを保存します。"]],"pitfall":"差分と増分を逆にしないこと。復旧時に必要なバックアップの組合せまで考えると区別しやすくなります。"},"development":{"lead":"システム開発は、何を作るかを定め、構造を設計し、実装・テストを経て本番利用へ移す流れで整理します。","points":[["要件定義","利用者や業務が必要とする機能・性能などを明確にします。"],["設計・実装","要件を実現する構造や処理を設計し、プログラムへ落とします。"],["テスト・移行","要求どおり動くことを確認し、本番環境へ移します。"]],"pitfall":"要件定義は「何が必要か」、設計は「どう実現するか」です。"},"testing":{"lead":"テストは、作ったプログラムやシステムが仕様・要求どおりに動作するかを確認し、不具合を見つけて修正する工程です。","points":[["段階","単体 → 結合 → システム → 運用と、確認対象が部品から業務全体へ広がります。"],["テスト技法","内部構造を見るホワイトボックス、入出力に注目するブラックボックスなどを使います。"],["回帰テスト","修正や機能追加が、既存の正常な部分へ悪影響を与えていないか確認します。"]],"pitfall":"テスト名は「何人で行うか」ではなく「何を対象に、何を確認するか」で区別します。"},"criticalpath":{"lead":"クリティカルパスは、プロジェクト開始から完了までの経路のうち所要時間が最長となる経路です。","points":[["最長経路","経路上の作業時間を合計し、最も長い経路を探します。"],["余裕時間","クリティカルパス上の作業は原則として余裕がありません。"],["納期への影響","この経路の作業が遅れると、全体の完了が遅れます。"]],"pitfall":"「作業数が一番多い経路」ではなく「所要時間の合計が一番長い経路」です。"},"sla":{"lead":"SLAは、サービス提供者と利用者の間で合意するサービス水準です。測定できる指標として定めることが重要です。","points":[["サービス水準","可用性、応答時間、復旧時間などを数値で定めます。"],["サービスデスク","利用者からの問い合わせや障害連絡の窓口を担います。"],["継続的改善","実績を測定し、合意した水準を満たしているか確認します。"]],"pitfall":"SLAは「約束する水準」、サービスデスクは「窓口機能」です。"},"iprights":{"lead":"知的財産権は、発明・デザイン・ブランド・著作物などの成果を保護する権利です。対象と権利名を対応させます。","points":[["特許権","技術的な発明を保護します。"],["意匠権・商標権","物品などのデザイン、商品・サービスを識別する標章を保護します。"],["著作権","プログラムや文章などの著作物を保護します。"]],"pitfall":"物品のデザインは意匠権、ブランド名やマークは商標権です。対象から判断します。"},"breakeven":{"lead":"損益分岐点は、売上高と総費用が等しくなり、利益が0になる売上量・売上高です。","points":[["固定費","売上量にかかわらず一定額発生する費用です。"],["変動費","販売量や生産量に応じて増減する費用です。"],["損益分岐点","交点より売上が小さい側は赤字、大きい側は黒字になります。"]],"pitfall":"グラフでは「売上線と総費用線の交点」を見ます。固定費線との交点ではありません。"},"logic":{"lead":"論理演算は0/1（偽/真）を組み合わせて結果を求めます。AND・OR・NOTは真理値表を自分で書けるようにします。","points":[["AND","両方が1のときだけ1になります。"],["OR","少なくとも一方が1なら1になります。"],["NOT","0と1を反転します。"]],"pitfall":"ORは両方1でも1です。日常語の「どちらか一方」とは違うことがあります。"},"cache":{"lead":"キャッシュメモリは、CPUと主記憶の速度差を埋めるために、よく使うデータを高速な領域へ保持する仕組みです。","points":[["HIT","必要なデータがキャッシュにあり、高速に取得できます。"],["MISS","キャッシュにないため、主記憶などへ取りに行きます。"],["局所性","同じデータや近くのデータが再利用されやすい性質を利用します。"]],"pitfall":"キャッシュ容量だけで性能は決まりません。ヒット率や階層構成も影響します。"},"stackqueue":{"lead":"スタックとキューは、データを「どの順番で取り出すか」が異なる代表的なデータ構造です。","points":[["スタック","LIFO。最後に入れたデータを最初に取り出します。"],["キュー","FIFO。最初に入れたデータを最初に取り出します。"],["操作","スタックはPUSH/POP、キューはENQUEUE/DEQUEUEで整理します。"]],"pitfall":"追加・取り出しのたびに列を書き直すとミスが減ります。"},"sql":{"lead":"SQLのSELECT文は、どの表から（FROM）、どの行を（WHERE）、どの列として取り出すか（SELECT）を読み分けます。","points":[["SELECT","取得する列を指定します。"],["FROM","対象となる表を指定します。"],["WHERE","条件に合う行だけを絞り込みます。"]],"pitfall":"WHEREは列を消すのではなく「行を絞る」句です。SELECTの列指定と混同しないようにします。"},"tcpudp":{"lead":"TCPとUDPはトランスポート層で使われる代表的なプロトコルです。信頼性と軽さの違いで比較します。","points":[["TCP","コネクション型で、順序制御・再送制御などにより信頼性を高めます。"],["UDP","コネクションレス型で、TCPより制御が少なく軽量です。"],["用途","確実な配送を重視する通信と、遅延の小ささを重視する通信で使い分けます。"]],"pitfall":"UDP＝必ず高速、TCP＝必ず遅い、と断定しないこと。主に制御機能の違いを見ます。"},"signature":{"lead":"デジタル署名は、送信者の真正性とデータの改ざん検知に使います。暗号化による機密性とは目的が異なります。","points":[["署名生成","文書のハッシュ値を作り、署名者の秘密鍵を用いて署名します。"],["署名検証","対応する公開鍵で検証し、内容の改ざんや署名者を確認します。"],["ハッシュ","元データの変化を検知するために使います。"]],"pitfall":"署名は秘密鍵、検証は公開鍵です。"},"mutex":{"lead":"排他制御は、複数の処理が同じデータを同時に更新して矛盾することを防ぐ仕組みです。","points":[["LOCK","処理中の資源を他の処理から勝手に変更されないよう占有します。"],["UNLOCK","更新が終わったら資源を解放します。"],["同時実行制御","整合性を保ちながら複数トランザクションを処理します。"]],"pitfall":"ロックを長時間保持すると待ち時間が増え、取り方によってはデッドロックにも注意が必要です。"},"binary":{"lead":"2進数は各桁が2の累乗の重みを持ちます。右から1、2、4、8、16…と重みを書いて変換します。","points":[["桁の重み","各ビットに対応する2の累乗を確認します。"],["2進→10進","1になっている桁の重みを合計します。"],["10進→2進","2の累乗の組合せ、または2で割る方法で表します。"]],"pitfall":"重みは右端から2^0＝1で始まります。"},"cpu":{"lead":"CPUは命令を主記憶から取り出し、命令の意味を解読し、必要な演算や制御を実行するサイクルを繰り返します。","points":[["Fetch","実行する命令を主記憶から取り出します。"],["Decode","命令を解読し、どんな処理をするか判断します。"],["Execute","演算装置などを使って命令を実行します。"]],"pitfall":"Fetch→Decode→Executeの順序を入れ替えないこと。"},"transaction":{"lead":"トランザクションは、データベース上の一連の処理を論理的な1単位として扱う考え方です。","points":[["COMMIT","一連の処理を正常終了として確定します。"],["ROLLBACK","途中で異常が起きた場合、処理開始前の状態へ戻します。"],["ACID","原子性・一貫性・独立性・永続性という性質で信頼性を確保します。"]],"pitfall":"一部だけ更新された状態を残さないことが原子性の要点です。"},"subnet":{"lead":"サブネットマスクは、IPアドレスのどこまでがネットワーク部で、どこからがホスト部かを示します。","points":[["/24","先頭24bitがネットワーク部、残り8bitがホスト部です。"],["ネットワークアドレス","ホスト部をすべて0にしたアドレスです。"],["ブロードキャスト","ホスト部をすべて1にしたアドレスです。"]],"pitfall":"ネットワークアドレスとブロードキャストアドレスは通常ホストへ割り当てません。"},"crypto":{"lead":"公開鍵暗号では、暗号化と復号に異なる鍵を使います。受信者の公開鍵で暗号化し、受信者だけが持つ秘密鍵で復号します。","points":[["公開鍵","他者へ公開してよい鍵。受信者宛ての暗号化などに使います。"],["秘密鍵","所有者だけが厳重に保持する鍵です。"],["使い分け","大容量データでは共通鍵暗号と組み合わせる方式も利用されます。"]],"pitfall":"公開鍵暗号とデジタル署名では鍵の使い方が逆方向になります。目的を先に確認します。"},"binarysearch":{"lead":"二分探索は、整列済みデータの中央と目的値を比較し、探索範囲を半分ずつ捨てていく方法です。","points":[["前提","データが探索キーの順に整列されている必要があります。"],["中央比較","目的値が小さければ左半分、大きければ右半分へ絞ります。"],["効率","探索範囲が半分ずつ減るため、線形探索より効率的です。"]],"pitfall":"未整列データへそのまま二分探索はできません。"}};
 
 let rightsSteps=0;
 let automataIdx=0;
@@ -10727,12 +10460,49 @@ function updateCourseUI(){
     document.querySelectorAll(`[data-lp="${id}"]`).forEach(e=>e.style.width=pct+'%');
     document.querySelectorAll(`[data-lpt="${id}"]`).forEach(e=>e.textContent=pct+'%');
   });
-  const vals=Object.keys(LESSONS).map(id=>profile.lessonProgress?.[id]||0);
-  const avg=Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length||1));
+  const vals=CORE_A_IDS.map(id=>profile.lessonProgress?.[id]||0);
+  const avg=Math.round(vals.reduce((a,b)=>a+b,0)/Math.max(vals.length,1));
   const cp=document.getElementById('coursePercent');
   if(cp) cp.textContent=avg+'%';
+  refreshCoreCourseProgress();
 }
 updateCourseUI();
+
+
+function renderCoreCourseMap(filter=''){
+  const root=document.getElementById('coreCourseChapters');if(!root)return;
+  const q=String(filter||'').trim().toLowerCase();
+  const byChapter={};CORE_A_CURRICULUM.forEach(t=>(byChapter[t.chapter]??=[]).push(t));
+  let output='';
+  CORE_A_CHAPTERS.forEach(ch=>{
+    const all=byChapter[ch]||[];
+    const rows=all.filter(t=>!q||`${t.code} ${t.title} ${t.chapterTitle} ${t.lead} ${t.points.join(' ')}`.toLowerCase().includes(q));
+    if(q&&!rows.length)return;
+    const done=all.filter(t=>(profile.lessonProgress?.[t.id]||0)>=100).length;
+    const pct=Math.round(all.reduce((s,t)=>s+(profile.lessonProgress?.[t.id]||0),0)/Math.max(1,all.length));
+    output+=`<section class="core-chapter ${q?'open':''}"><div class="core-chapter-head" data-core-chapter="${ch}"><div class="core-chapter-no">${ch}</div><div><div class="core-chapter-title">${escapeHtml(all[0].chapterTitle)}</div><div class="core-chapter-meta">${done}/${all.length}テーマ完了</div></div><div class="core-chapter-progress"><b>${pct}%</b><span>${q?'検索結果 '+rows.length+'件':'開いて学習'}</span></div></div><div class="core-chapter-body">${rows.map(t=>{const p=profile.lessonProgress?.[t.id]||0;return `<div class="core-topic-row ${p>=100?'done':''}" data-core-lesson="${t.id}"><div class="core-topic-code">${t.code}</div><div><div class="core-topic-name">${escapeHtml(t.title)}</div><div class="core-topic-sub">${escapeHtml(t.lead.slice(0,74))}${t.lead.length>74?'…':''}</div></div><div class="core-topic-pct">${p>=100?'✓ 完了':p+'%'}</div></div>`}).join('')}</div></section>`;
+  });
+  root.innerHTML=output||'<div class="empty">該当するテーマがありません。</div>';
+}
+function renderLabLessonGrid(){
+  const root=document.getElementById('labLessonGrid');if(!root)return;
+  root.innerHTML=LAB_LESSON_IDS.map(id=>{const l=LESSONS[id],p=profile.lessonProgress?.[id]||0;return `<div class="lesson-tile"><div class="lesson-tile-top"><div class="lesson-tile-icon">🧪</div><div><div class="lesson-tile-title">${escapeHtml(l.title)}</div><div class="lesson-tile-cat">${escapeHtml(l.cat)}</div></div></div><div class="lesson-tile-desc">図解や操作で理解を補助する任意ラボです。</div><div class="lesson-tile-bottom"><div class="progress"><div style="width:${p}%"></div></div><span class="lesson-percent">${p}%</span></div><button class="lesson-open" data-lesson="${id}">ラボを開く</button></div>`}).join('')+`<div class="lesson-tile lesson-special"><div class="lesson-tile-top"><div class="lesson-tile-icon">💻</div><div><div class="lesson-tile-title">PROGRAM TRACE</div><div class="lesson-tile-cat">科目B</div></div></div><div class="lesson-tile-desc">コードを1行ずつ追う科目Bの練習ラボです。</div><button class="lesson-open" id="mapTraceDynamic">科目B LABを開く</button></div>`;
+  root.querySelectorAll('.lesson-open[data-lesson]').forEach(b=>b.onclick=()=>startLesson(b.dataset.lesson));
+  document.getElementById('mapTraceDynamic')?.addEventListener('click',()=>{showScreen('trace');setBMode('trace')});
+}
+function refreshCoreCourseProgress(){
+  const vals=CORE_A_IDS.map(id=>profile.lessonProgress?.[id]||0),done=vals.filter(x=>x>=100).length;
+  const pct=Math.round(vals.reduce((a,b)=>a+b,0)/Math.max(1,vals.length));
+  const cp=document.getElementById('coursePercent');if(cp)cp.textContent=pct+'%';
+  const dc=document.getElementById('coreDoneCount');if(dc)dc.textContent=done;
+  renderCoreCourseMap(document.getElementById('coreCourseSearch')?.value||'');
+}
+document.getElementById('coreCourseChapters')?.addEventListener('click',e=>{
+  const row=e.target.closest?.('[data-core-lesson]');if(row){startLesson(row.dataset.coreLesson);return;}
+  const head=e.target.closest?.('[data-core-chapter]');if(head)head.parentElement.classList.toggle('open');
+});
+document.getElementById('coreCourseSearch')?.addEventListener('input',e=>renderCoreCourseMap(e.target.value));
+renderCoreCourseMap();renderLabLessonGrid();
 
 document.querySelectorAll('.lesson-open[data-lesson]').forEach(btn=>{
   btn.addEventListener('click',()=>startLesson(btn.dataset.lesson));
@@ -10807,6 +10577,25 @@ function markInteractionGuideDone(){
 function lessonStudyGuide(id){
   const g=LESSON_GUIDES[id];if(!g)return '';
   return `<section class="lesson-study-guide"><div class="lesson-study-kicker">要点解説</div><p class="lesson-study-lead">${escapeHtml(g.lead)}</p><div class="lesson-study-points">${g.points.map(p=>`<div class="lesson-study-point"><b>${escapeHtml(p[0])}</b><span>${escapeHtml(p[1])}</span></div>`).join('')}</div><div class="lesson-study-pitfall"><b>混同注意：</b> ${escapeHtml(g.pitfall)}</div></section>`;
+}
+
+
+function coreTopicOverviewView(id){
+  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
+  return `<div class="core-text-page"><section class="core-text-hero"><div class="core-text-code">${t.code}・第${t.chapter}章</div><div class="core-text-title">${escapeHtml(t.title)}</div><div class="core-text-lead">${escapeHtml(t.lead)}</div><div class="core-point-list">${t.points.map((p,i)=>`<div class="core-point"><div class="core-point-no">${i+1}</div><div class="core-point-text">${escapeHtml(p)}</div></div>`).join('')}</div></section></div>`;
+}
+function coreTopicDetailView(id){
+  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
+  return `<div class="core-text-page"><section class="core-detail-card"><h3>試験で押さえるポイント</h3><ul>${t.points.map(p=>`<li>${escapeHtml(p)}</li>`).join('')}</ul></section><section class="core-detail-card core-exam"><h3>問題文で見る手掛かり</h3><ul>${t.cues.map(c=>`<li>${escapeHtml(c)}</li>`).join('')}</ul></section></div>`;
+}
+function coreTopicExampleView(id){
+  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
+  return `<div class="core-text-page"><section class="core-detail-card core-example"><h3>具体例</h3><p>${escapeHtml(t.example)}</p></section><div class="core-mini-banner">例を読んだら、用語名だけでなく「なぜその答えになるのか」を1文で説明できる状態を目標にしてください。</div></div>`;
+}
+function coreTopicExamView(id){
+  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
+  const related=[t.skill,t.chapterTitle,t.title].filter(Boolean);
+  return `<div class="core-text-page"><section class="core-detail-card core-pitfall"><h3>混同注意</h3><p>${escapeHtml(t.pitfall)}</p></section><section class="core-detail-card"><h3>このテーマのゴール</h3><p>定義を選べるだけでなく、具体例・計算・状況判断へ当てはめられることが科目A対策では重要です。</p><div class="core-related">${related.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div></section></div>`;
 }
 
 // ===== v28: first-page presentation rule =====
@@ -11490,7 +11279,7 @@ function completeLesson(){
 
 // Home main quest starts the weakest matching implemented lesson.
 function pickLessonForSkill(skill){
-  const ids=Object.keys(LESSONS).filter(id=>LESSONS[id].skill===skill);
+  const ids=(typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS)).filter(id=>LESSONS[id].skill===skill);
   const incomplete=ids.find(id=>(profile.lessonProgress?.[id]||0)<100);
   return incomplete || ids[0] || 'binarysearch';
 }
@@ -13792,7 +13581,7 @@ function markDailyTask(type,minutes){
 }
 
 function lessonCompletionAverage(ids=null){
-  const all=ids || Object.keys(LESSONS||{});
+  const all=ids || (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{}));
   if(!all.length) return 0;
   return Math.round(all.reduce((s,id)=>s+(profile.lessonProgress?.[id]||0),0)/all.length);
 }
@@ -13849,7 +13638,7 @@ function allocateByRatios(total,ratios){
 }
 function estimateRemainingStudyMinutes(){
   let m=0;
-  Object.keys(LESSONS||{}).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*18;});
+  (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;});
   (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;});
   (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;});
   (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;});
@@ -13893,11 +13682,11 @@ function weakestSkill(){
 function nextLessonChoice(){
   const weakOrder=sortedSkills().map(x=>x[0]);
   for(const skill of weakOrder){
-    const ids=Object.keys(LESSONS).filter(id=>LESSONS[id].skill===skill);
+    const ids=CORE_A_IDS.filter(id=>LESSONS[id].skill===skill);
     const incomplete=ids.find(id=>(profile.lessonProgress?.[id]||0)<100);
     if(incomplete) return {id:incomplete,skill,title:LESSONS[incomplete].title};
   }
-  const first=Object.keys(LESSONS)[0];
+  const first=CORE_A_IDS[0];
   return {id:first,skill:LESSONS[first]?.skill||'基礎理論',title:LESSONS[first]?.title||'復習レッスン'};
 }
 function nextBChoice(){
@@ -14247,17 +14036,14 @@ renderPlannerScreen();
 
 // ===== Exam area coverage =====
 const EXAM_AREA_COVERAGE = [
-  {icon:'🔢',title:'基礎理論',ids:['binary','logic','automata']},
-  {icon:'🧩',title:'アルゴリズム・プログラミング',ids:['binarysearch','stackqueue']},
-  {icon:'⚙️',title:'コンピュータ・システム',ids:['cpu','cache','reliability','os','filesystem','backup','memorychips']},
-  {icon:'🖱️',title:'UI・マルチメディア',ids:['uiux','multimedia']},
-  {icon:'🗃️',title:'データベース',ids:['transaction','sql','mutex']},
-  {icon:'🌐',title:'ネットワーク',ids:['subnet','tcpudp']},
-  {icon:'🛡️',title:'情報セキュリティ',ids:['crypto','signature']},
-  {icon:'🛠️',title:'システム開発',ids:['development','testing','devmodel']},
-  {icon:'📋',title:'マネジメント',ids:['criticalpath','sla','audit']},
-  {icon:'🧭',title:'システム戦略・企画',ids:['businessprocess','procurement']},
-  {icon:'📈',title:'経営・企業活動・法務',ids:['swot','iot','breakeven','finance','iprights']},
+  {icon:'🔢',title:'基礎理論',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='基礎理論')},
+  {icon:'🧩',title:'アルゴリズム・プログラミング',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='アルゴリズム')},
+  {icon:'⚙️',title:'コンピュータ・システム',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='コンピュータ')},
+  {icon:'🗃️',title:'データベース',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='データベース')},
+  {icon:'🌐',title:'ネットワーク',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='ネットワーク')},
+  {icon:'🛡️',title:'情報セキュリティ',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='セキュリティ')},
+  {icon:'📋',title:'開発・マネジメント',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='マネジメント')},
+  {icon:'📈',title:'ストラテジ・企業・法務',ids:CORE_A_IDS.filter(id=>LESSONS[id].skill==='ストラテジ')},
   {icon:'💻',title:'科目B',special:'b'}
 ];
 
@@ -14281,7 +14067,7 @@ function renderCoverage(){
     const d=document.createElement('div');
     d.className='coverage-chapter';
     d.innerHTML=`<div class="coverage-ch-num" style="font-size:20px">${area.icon}</div>
-      <div><div class="coverage-ch-title">${area.title}</div><div class="coverage-ch-sub">${area.special==='b'?'TRACE / SECURITY LAB':'対応教材 '+(area.ids||[]).length+'本'}</div>
+      <div><div class="coverage-ch-title">${area.title}</div><div class="coverage-ch-sub">${area.special==='b'?'TRACE / SECURITY LAB':'対応テーマ '+(area.ids||[]).length+'本'}</div>
       <div class="progress" style="height:8px;margin-top:7px"><div style="width:${pct}%"></div></div></div>
       <div class="coverage-ch-pct">${pct}%</div>`;
     root.appendChild(d);
@@ -15850,10 +15636,11 @@ function runAppSelfCheck(){
     assert(lessonIds.length>=30,'At least 30 lessons expected');
     assert(typeof examPaceStatus==='function' && typeof effectiveStudyMinutes==='function','Exam pace engine missing');
     assert(typeof estimateRemainingStudyMinutes==='function','Workload estimator missing');
-    assert(lessonIds.every(id=>LESSON_GUIDES[id]),'All lessons need a study guide');
-    assert(lessonIds.every(id=>LESSON_GUIDES[id].points?.length>=3),'Lesson guides need at least 3 key points');
+    assert(LAB_LESSON_IDS.every(id=>LESSON_GUIDES[id]),'All lab lessons need a study guide');
+    assert(LAB_LESSON_IDS.every(id=>LESSON_GUIDES[id].points?.length>=3),'Lab lesson guides need at least 3 key points');
+    assert(CORE_A_IDS.length===99,'Core A curriculum should contain 99 topics');
     const pageCounts=lessonIds.map(id=>LESSONS[id].pages.length);
-    assert(pageCounts.every(n=>n>=3&&n<=5),'Lesson page count should stay within 3-5 pages');
+    assert(CORE_A_IDS.every(id=>LESSONS[id].pages.length===5),'Core A lessons should have 5 pages');
     lessonIds.forEach(id=>{
       const l=LESSONS[id];
       assert(l&&Array.isArray(l.pages)&&l.pages.length>=1,`Lesson ${id}: pages missing`);
@@ -15908,7 +15695,7 @@ function runLessonUXAudit(){
   const interactiveTypes=lessonIds.flatMap(id=>LESSONS[id].pages.filter(p=>p.interactive).map(p=>p.interactive));
   const issues=[];
   if(lessonIds.length!==34)issues.push(`lesson count ${lessonIds.length}`);
-  if(!Object.values(pageCounts).every(n=>n>=3&&n<=5))issues.push('page density');
+  
   if(new Set(interactiveTypes).size!==interactiveTypes.length)issues.push('duplicate interactive type');
   const required=['transaction','mutex','filesystem','automata','cache','stackqueue'];
   required.forEach(x=>{if(!interactiveTypes.includes(x))issues.push(`missing ${x}`)});
