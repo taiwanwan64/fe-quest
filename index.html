@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v15</title>
+<title>FE QUEST PWA v16</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2751,6 +2751,22 @@
     .weak-category-card{padding:14px}
   }
 
+
+  /* ===== v16: adaptive prescription drills ===== */
+  .problem-mode-icon.orange{background:#fff0df;color:#bd651b}
+  .rx-mini{display:inline-block;margin-left:5px;padding:4px 7px;border-radius:999px;background:#fff0df;color:#b8611a;font-size:9px;font-weight:900;vertical-align:middle}
+  .prescription-mode{border-color:#f1d8c0;background:#fffdfb}
+  .prescription-mode>button{background:#ff9f1c}
+  .rx-banner{margin-bottom:13px;background:linear-gradient(135deg,#fff5e9,#fffdf9);border:1px solid #f0d7bd;border-radius:19px;padding:13px 15px;display:flex;align-items:center;gap:11px}
+  .rx-banner-icon{width:43px;height:43px;border-radius:13px;background:#fff;display:grid;place-items:center;font-size:23px;flex:0 0 auto}
+  .rx-banner-copy{flex:1;font-size:12px;line-height:1.5;color:var(--muted)}
+  .rx-banner-copy b{display:block;font-size:14px;color:var(--text);margin-bottom:2px}
+  .rx-timer{min-width:74px;text-align:center;border:2px solid #f2c78f;background:#fff;padding:8px;border-radius:12px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:900;color:#a45d17}
+  .rx-timer.warn{border-color:var(--red);background:var(--red-soft);color:#b53838}
+  .rx-prescription{margin-top:13px;padding:13px;border-radius:15px;background:#fff5e9;border:1px solid #f0d7bd;font-size:12px;line-height:1.6}
+  .rx-prescription b{color:#b8611a}
+  @media(max-width:720px){.rx-banner{padding:11px}.rx-banner-icon{width:38px;height:38px}.rx-timer{min-width:63px;font-size:12px}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3513,6 +3529,15 @@
           <button data-mode="weak">始める</button>
         </div>
 
+        <div class="problem-mode prescription-mode">
+          <div class="problem-mode-icon orange">💊</div>
+          <div class="problem-mode-copy">
+            <div class="problem-mode-title">今日の処方ドリル <span class="rx-mini" id="rxMiniLabel">分析中</span></div>
+            <div class="sub" id="rxMiniDesc">間違い方に合わせて演習方法を変えます。</div>
+          </div>
+          <button id="startPrescriptionBtn">始める</button>
+        </div>
+
         <div class="problem-mode">
           <div class="problem-mode-icon purple">🎲</div>
           <div class="problem-mode-copy">
@@ -3536,6 +3561,15 @@
             <div class="sub" id="quizSessionSub">オリジナル問題</div>
           </div>
         </div>
+        <div class="rx-banner" id="rxBanner" style="display:none">
+          <div class="rx-banner-icon" id="rxBannerIcon">💊</div>
+          <div class="rx-banner-copy">
+            <b id="rxBannerTitle">処方ドリル</b>
+            <div id="rxBannerDesc">間違い方に合わせた練習です。</div>
+          </div>
+          <div class="rx-timer" id="rxTimer" style="display:none">15:00</div>
+        </div>
+
         <div class="quiz-card">
           <div class="quiz-top">
             <span class="quiz-badge" id="quizCategory">分野</span>
@@ -4642,6 +4676,8 @@ function startQuiz(mode){
   }else if(String(mode).startsWith('cat:')){
     const cat=String(mode).slice(4);
     quizItems=shuffled(QUESTION_BANK.filter(q=>q.cat===cat)).slice(0,10);
+  }else if(String(mode).startsWith('rx:')){
+    quizItems=buildPrescriptionQuiz(mode);
   }else{
     quizItems=chooseRandomBalanced(10);
   }
@@ -4659,9 +4695,14 @@ function startQuiz(mode){
   quizSession.style.display='block';
 
   const titles={review:'今日の復習',weak:'弱点10問',random:'ランダム10問',boss:'今日のBOSS'};
-  const modeTitle=String(mode).startsWith('cat:')?`${String(mode).slice(4)} 集中特訓`:titles[mode];
+  const modeTitle=String(mode).startsWith('cat:')
+    ?`${String(mode).slice(4)} 集中特訓`
+    :String(mode).startsWith('rx:')
+      ?prescriptionMeta(mode).title
+      :titles[mode];
   document.getElementById('quizSessionTitle').textContent=modeTitle||'問題演習';
   document.getElementById('quizSessionSub').textContent='FE QUEST オリジナル問題';
+  configurePrescriptionUI(mode);
   renderQuizQuestion();
 }
 
@@ -4790,6 +4831,7 @@ document.querySelectorAll('.reason-chip').forEach(chip=>{
 });
 
 function finishQuizSession(){
+  stopRxTimer();
   const total=quizItems.length;
   const rate=total?Math.round(quizCorrectCount/total*100):0;
   profile.sessions.unshift({
@@ -4833,7 +4875,10 @@ function finishQuizSession(){
 
 document.getElementById('sessionHome')?.addEventListener('click',openProblemsHub);
 document.getElementById('quitQuiz')?.addEventListener('click',()=>{
-  if(confirm('この演習を終了して問題一覧へ戻りますか？')) openProblemsHub();
+  if(confirm('この演習を終了して問題一覧へ戻りますか？')){
+    stopRxTimer();
+    openProblemsHub();
+  }
 });
 
 function renderRecentHistory(){
@@ -4855,7 +4900,7 @@ function renderRecentHistory(){
     row.innerHTML=`
       <div class="history-mark ${good?'ok':'ng'}">${good?'✓':'!'}</div>
       <div class="history-text">
-        <div class="history-title">${names[s.mode]||'問題演習'}・${s.rate}%</div>
+        <div class="history-title">${String(s.mode).startsWith('rx:')?prescriptionMeta(s.mode).title:(names[s.mode]||'問題演習')}・${s.rate}%</div>
         <div class="history-sub">${s.date}　${s.correct}/${s.total}問正解</div>
       </div>
     `;
@@ -7320,6 +7365,14 @@ function buildTodayTasks(){
   const lesson=nextLessonChoice();
   const b=nextBChoice();
   const weak=weakestSkill();
+
+  // On first boot, the weakness engine has not executed yet.
+  // Keep the safe original lesson task until the Rx engine explicitly becomes ready.
+  const rxReady=window.FEQUEST_RX_READY===true;
+  const rx=rxReady?recommendedPrescription():{kind:'knowledge',cat:lesson.skill,reason:'データ不足'};
+  const rxMeta=rxReady?prescriptionMeta(rx):{icon:'📘',title:lesson.title,desc:'未完了教材を優先'};
+  const useRx=rxReady && rx.kind!=='knowledge';
+
   return [
     {
       type:'review',icon:'🧠',bg:'green',
@@ -7327,7 +7380,12 @@ function buildTodayTasks(){
       desc:due?`復習期限の問題 ${due}問を優先`:`復習待ちがないので「${weak}」を補強`,
       minutes:alloc.review
     },
-    {
+    useRx ? {
+      type:'prescription',icon:rxMeta.icon,bg:'blue',
+      title:rxMeta.title,
+      desc:`原因「${rx.reason}」に合わせて自動処方`,
+      minutes:alloc.lesson,rx
+    } : {
       type:'lesson',icon:'📘',bg:'blue',
       title:lesson.title,
       desc:`${lesson.skill}・未完了教材を優先`,
@@ -7396,6 +7454,14 @@ function launchDailyTask(t){
     startLesson(t.lessonId);
     return;
   }
+  if(t.type==='prescription'){
+    if(t.rx?.kind==='knowledge') startLesson(pickLessonForSkill(t.rx.cat));
+    else{
+      showScreen('problems');
+      startQuiz(rxMode(t.rx));
+    }
+    return;
+  }
   if(t.type==='subjectB'){
     showScreen('trace');
     if(t.bmode==='trace'){
@@ -7444,6 +7510,7 @@ finishQuizSession=function(){
   const alloc=taskAllocation(profile.settings.studyMinutes);
   if(modeBefore==='review') markDailyTask('review',alloc.review);
   if(modeBefore==='boss') markDailyTask('boss',alloc.boss);
+  if(String(modeBefore).startsWith('rx:')) markDailyTask('prescription',alloc.lesson);
 };
 
 function roadmapData(){
@@ -8411,6 +8478,148 @@ refreshProfileUI=function(){
   renderWeakDashboard();
 };
 renderWeakDashboard();
+
+
+
+// ===== v16: adaptive prescription engine =====
+let rxTimerHandle=null;
+let rxSeconds=0;
+
+const RX_CALC_KEYWORDS=['基数','16進','データ量','稼働','信頼性','損益','財務','スループット','サブネット','画像'];
+const RX_CONTRAST_KEYWORDS=['TCP','UDP','スタック','キュー','公開鍵','共通鍵','バックアップ','RAM','ROM','アジャイル','ウォーターフォール','SLA','監査','外部キー'];
+
+function normalizeReason(reason){
+  if(['用語を知らなかった','ほぼ分からなかった'].includes(reason)) return '知識不足';
+  if(reason==='計算方法を忘れた') return '計算ミス';
+  if(reason==='問題文を読み違えた') return '読み違い';
+  return reason||'データ不足';
+}
+function recommendedPrescription(){
+  const top=sortedCategoryAnalytics()[0] || {cat:'基礎理論',dominant:'データ不足',avgSec:0,repeats:0,priority:0};
+  const reason=normalizeReason(top.dominant);
+  let kind='knowledge';
+  if(reason==='計算ミス') kind='calc';
+  else if(reason==='読み違い') kind='read';
+  else if(reason==='2択で迷った') kind='contrast';
+  else if(reason==='時間不足' || top.avgSec>110) kind='speed';
+  else if(top.repeats>=2) kind='repeat';
+  return {kind,cat:top.cat,reason,priority:top.priority};
+}
+function prescriptionMeta(modeOrRx){
+  let rx=modeOrRx;
+  if(typeof rx==='string'){
+    const parts=rx.split(':');
+    rx={kind:parts[1]||'knowledge',cat:parts.slice(2).join(':')||weakestSkill()};
+  }
+  const map={
+    knowledge:{icon:'📘',title:`${rx.cat}：知識補強`,desc:'関連教材で理解を作ってから演習へ進みます。'},
+    calc:{icon:'🧮',title:`${rx.cat}：計算ドリル`,desc:'数値・式・単位を丁寧に追う問題を優先します。'},
+    read:{icon:'🔍',title:`${rx.cat}：条件語ドリル`,desc:'「最も適切」「以上・未満」など条件を意識して解きます。'},
+    contrast:{icon:'⚖️',title:`${rx.cat}：比較ドリル`,desc:'似た用語・方式の違いを根拠付きで選ぶ練習です。'},
+    speed:{icon:'⏱️',title:`${rx.cat}：15分スプリント`,desc:'10問を15分。1問90秒を目安に時間配分を練習します。'},
+    repeat:{icon:'🔁',title:`${rx.cat}：繰り返し誤答つぶし`,desc:'何度も間違えている問題・論点を最優先で解き直します。'}
+  };
+  return map[rx.kind]||map.knowledge;
+}
+function rxMode(rx=recommendedPrescription()){return `rx:${rx.kind}:${rx.cat}`;}
+function questionMatchesKeywords(q,words){const t=`${q.concept} ${q.q}`;return words.some(w=>t.includes(w));}
+function padQuizPool(pool,cat,count){
+  const used=new Set(pool.map(q=>q.id));
+  const same=shuffled(QUESTION_BANK.filter(q=>q.cat===cat&&!used.has(q.id)));
+  const rest=shuffled(QUESTION_BANK.filter(q=>!used.has(q.id)));
+  return [...pool,...same,...rest].slice(0,count);
+}
+function buildPrescriptionQuiz(mode){
+  const p=String(mode).split(':');
+  const kind=p[1]||'knowledge',cat=p.slice(2).join(':')||weakestSkill();
+  const same=QUESTION_BANK.filter(q=>q.cat===cat);
+  let pool=[];
+  if(kind==='calc'){
+    pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS)));
+    if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS)&&!pool.some(x=>x.id===q.id)))];
+    return padQuizPool(pool,cat,8);
+  }
+  if(kind==='read'){
+    const words=['最も適切','適切','未満','以上','次に','主な','一般に','どれ'];
+    return padQuizPool(shuffled(same.filter(q=>words.some(w=>q.q.includes(w)))),cat,8);
+  }
+  if(kind==='contrast'){
+    pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS)));
+    if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS)&&!pool.some(x=>x.id===q.id)))];
+    return padQuizPool(pool,cat,8);
+  }
+  if(kind==='repeat'){
+    const ids=new Set(repeatedWrongQuestions().map(x=>x.q.id));
+    return padQuizPool(shuffled(QUESTION_BANK.filter(q=>ids.has(q.id))),cat,8);
+  }
+  if(kind==='speed') return padQuizPool(shuffled(same),cat,10);
+  return padQuizPool(shuffled(same),cat,8);
+}
+function stopRxTimer(){
+  if(rxTimerHandle){clearInterval(rxTimerHandle);rxTimerHandle=null;}
+  rxSeconds=0;
+  const e=document.getElementById('rxTimer');
+  if(e){e.style.display='none';e.classList.remove('warn');}
+}
+function updateRxTimer(){
+  const e=document.getElementById('rxTimer');if(!e)return;
+  e.textContent=`${String(Math.floor(rxSeconds/60)).padStart(2,'0')}:${String(rxSeconds%60).padStart(2,'0')}`;
+  e.classList.toggle('warn',rxSeconds<=180);
+}
+function startRxSpeedTimer(){
+  stopRxTimer();rxSeconds=900;
+  const e=document.getElementById('rxTimer');if(e)e.style.display='block';
+  updateRxTimer();
+  rxTimerHandle=setInterval(()=>{
+    rxSeconds=Math.max(0,rxSeconds-1);updateRxTimer();
+    if(rxSeconds===0){stopRxTimer();popToast('15分経過です。残りは正確さを優先して解きましょう。');}
+  },1000);
+}
+function configurePrescriptionUI(mode){
+  const b=document.getElementById('rxBanner');if(!b)return;
+  if(!String(mode).startsWith('rx:')){b.style.display='none';stopRxTimer();return;}
+  const m=prescriptionMeta(mode);
+  b.style.display='flex';
+  document.getElementById('rxBannerIcon').textContent=m.icon;
+  document.getElementById('rxBannerTitle').textContent=m.title;
+  document.getElementById('rxBannerDesc').textContent=m.desc;
+  if(String(mode).startsWith('rx:speed:'))startRxSpeedTimer();else stopRxTimer();
+}
+function refreshPrescriptionCard(){
+  const rx=recommendedPrescription(),m=prescriptionMeta(rx);
+  const a=document.getElementById('rxMiniLabel'),b=document.getElementById('rxMiniDesc');
+  if(a)a.textContent=rx.reason==='データ不足'?'診断用':rx.reason;
+  if(b)b.textContent=`${m.icon} ${m.title} — ${m.desc}`;
+}
+function startRecommendedPrescription(){
+  const rx=recommendedPrescription();
+  if(rx.kind==='knowledge'){startLesson(pickLessonForSkill(rx.cat));return;}
+  showScreen('problems');startQuiz(rxMode(rx));
+}
+document.getElementById('startPrescriptionBtn')?.addEventListener('click',startRecommendedPrescription);
+
+// Add the prescription to the weakness advice after all v15 nodes/functions are available.
+const _renderWeakDashboardV16=renderWeakDashboard;
+renderWeakDashboard=function(){
+  _renderWeakDashboardV16();
+  const rx=recommendedPrescription(),m=prescriptionMeta(rx);
+  const box=document.getElementById('weakDeepAdvice');
+  if(box) box.innerHTML += `<div class="rx-prescription"><b>💊 FE QUESTの処方：</b> ${m.title}<br>${m.desc}</div>`;
+};
+
+// From this line onward, HOME may safely use the Rx engine.
+window.FEQUEST_RX_READY=true;
+refreshPrescriptionCard();
+renderWeakDashboard();
+renderDailyPlan();
+renderPlannerScreen();
+
+const _refreshProfileUIV16=refreshProfileUI;
+refreshProfileUI=function(){
+  _refreshProfileUIV16();
+  refreshPrescriptionCard();
+  renderWeakDashboard();
+};
 
 
 window.FEQUEST_BOOT_OK = true;
