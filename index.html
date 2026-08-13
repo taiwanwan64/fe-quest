@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v13</title>
+<title>FE QUEST PWA v14</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2546,6 +2546,117 @@
     .mock-break-row{grid-template-columns:80px 1fr 40px}
   }
 
+
+  /* ===== v14: deep mock review ===== */
+  .mock-review-mode{display:none}
+  .mock-review-mode.show{display:block}
+  .review-head{
+    display:flex;align-items:center;gap:12px;margin-bottom:15px;
+  }
+  .review-head-copy{flex:1}
+  .review-progress-text{font-size:12px;color:var(--muted);font-weight:900}
+  .review-card{
+    background:#fff;border:1px solid var(--line);border-radius:25px;
+    padding:22px;box-shadow:var(--shadow);
+  }
+  .review-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+  .review-badge{
+    padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;
+    background:#f1f5f8;color:var(--muted);
+  }
+  .review-badge.wrong{background:var(--red-soft);color:#b23838}
+  .review-badge.flag{background:#fff5d4;color:#8a6500}
+  .review-badge.repeat{background:var(--purple-soft);color:#67349b}
+  .review-question{
+    font-size:18px;font-weight:900;line-height:1.7;margin:14px 0;
+  }
+  .review-answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .review-answer{
+    border:2px solid var(--line);border-radius:17px;padding:14px;
+    background:#f8fafc;
+  }
+  .review-answer.user.wrong{border-color:#ffd0d0;background:var(--red-soft)}
+  .review-answer.correct{border-color:#cdeab9;background:var(--green-soft)}
+  .review-answer-label{font-size:11px;color:var(--muted);font-weight:900;margin-bottom:5px}
+  .review-answer-value{font-weight:900;line-height:1.5}
+  .review-explain{
+    margin-top:14px;border-radius:17px;background:#f8fafc;border:1px solid var(--line);
+    padding:15px;line-height:1.7;
+  }
+  .review-explain b{display:block;margin-bottom:5px}
+  .review-reason{
+    margin-top:14px;padding:15px;border-radius:17px;background:#fff7f1;border:1px solid #f4dfcf;
+  }
+  .review-reason-title{font-weight:900;margin-bottom:9px}
+  .review-reason-chips{display:flex;gap:8px;flex-wrap:wrap}
+  .review-reason-chip{
+    border:1px solid #e5d2c3;background:#fff;border-radius:999px;
+    padding:8px 11px;font-size:12px;font-weight:900;
+  }
+  .review-reason-chip.picked{background:#ff9f1c;border-color:#ff9f1c;color:#fff}
+  .review-time{
+    margin-top:12px;font-size:12px;color:var(--muted);font-weight:800;
+  }
+  .review-actions{
+    display:flex;gap:9px;margin-top:17px;align-items:center;
+  }
+  .review-actions button{
+    border:2px solid var(--line);background:#fff;border-radius:13px;
+    min-height:44px;padding:0 13px;font-weight:900;
+  }
+  .review-actions .review-next{margin-left:auto;background:var(--blue);border-color:var(--blue);color:#fff}
+  .review-actions .similar-btn{background:var(--purple);border-color:var(--purple);color:#fff}
+
+  .similar-box{
+    display:none;margin-top:16px;padding:16px;border-radius:19px;
+    border:1px solid #dfcef6;background:#fbf8ff;
+  }
+  .similar-box.show{display:block}
+  .similar-title{font-weight:900;color:#67349b;margin-bottom:9px}
+  .similar-q{font-weight:900;line-height:1.6;margin-bottom:10px}
+  .similar-options{display:grid;gap:8px}
+  .similar-option{
+    border:2px solid var(--line);background:#fff;border-radius:14px;
+    padding:11px 12px;text-align:left;font-weight:800;
+  }
+  .similar-option.good{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .similar-option.bad{border-color:var(--red);background:var(--red-soft);color:#b23838}
+  .similar-feedback{margin-top:10px;font-size:13px;line-height:1.6}
+
+  .review-summary{
+    display:none;background:#fff;border:1px solid var(--line);border-radius:25px;
+    padding:24px;box-shadow:var(--shadow);text-align:center;
+  }
+  .review-summary.show{display:block}
+  .review-summary-icon{font-size:62px}
+  .reason-summary{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:17px auto;
+    max-width:650px;text-align:left;
+  }
+  .reason-summary-card{
+    background:#f8fafc;border:1px solid var(--line);border-radius:15px;padding:12px;
+  }
+  .reason-summary-card b{display:block;font-size:19px;margin-top:3px}
+  .priority-box{
+    max-width:650px;margin:15px auto 0;text-align:left;
+    background:#fff8dc;border:1px solid #f0dd90;border-radius:17px;padding:14px;line-height:1.65;
+  }
+
+  .mock-result-actions .reviewwrong{background:var(--purple);color:#fff}
+  .mock-history-review{
+    border:1px solid var(--line);background:#fff;border-radius:11px;
+    padding:7px 9px;font-size:11px;font-weight:900;
+  }
+
+  @media(max-width:720px){
+    .review-card{padding:17px}
+    .review-answer-grid{grid-template-columns:1fr}
+    .review-actions{display:grid;grid-template-columns:1fr 1fr}
+    .review-actions .similar-btn{grid-column:1/-1;grid-row:1}
+    .review-actions .review-next{margin:0}
+    .reason-summary{grid-template-columns:1fr 1fr}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -2727,7 +2838,73 @@
 
         <div class="mock-result-actions">
           <button class="backmock" id="mockBackMenu">模試メニューへ</button>
+          <button class="reviewwrong" id="mockStartReview">誤答を復習する</button>
           <button class="again" id="mockRetry">もう一度挑戦</button>
+        </div>
+      </div>
+
+      <div id="mockReviewMode" class="mock-review-mode">
+        <div class="review-head">
+          <button class="back" id="reviewExit">←</button>
+          <div class="review-head-copy">
+            <h1>模試レビュー 🔍</h1>
+            <div class="review-progress-text" id="reviewProgressText">1 / 1</div>
+          </div>
+        </div>
+
+        <div class="review-card" id="reviewCard">
+          <div class="review-badges" id="reviewBadges"></div>
+          <div class="review-question" id="reviewQuestion"></div>
+          <div class="review-answer-grid">
+            <div class="review-answer user" id="reviewUserAnswer">
+              <div class="review-answer-label">あなたの回答</div>
+              <div class="review-answer-value" id="reviewUserAnswerValue"></div>
+            </div>
+            <div class="review-answer correct">
+              <div class="review-answer-label">正解</div>
+              <div class="review-answer-value" id="reviewCorrectAnswerValue"></div>
+            </div>
+          </div>
+          <div class="review-explain">
+            <b>解説</b>
+            <div id="reviewExplanation"></div>
+            <div class="sub" id="reviewHint" style="margin-top:8px"></div>
+          </div>
+
+          <div class="review-reason">
+            <div class="review-reason-title">なぜ間違えましたか？</div>
+            <div class="review-reason-chips">
+              <button class="review-reason-chip" data-mreason="知識不足">知識不足</button>
+              <button class="review-reason-chip" data-mreason="計算ミス">計算ミス</button>
+              <button class="review-reason-chip" data-mreason="読み違い">読み違い</button>
+              <button class="review-reason-chip" data-mreason="2択で迷った">2択で迷った</button>
+              <button class="review-reason-chip" data-mreason="時間不足">時間不足</button>
+            </div>
+          </div>
+
+          <div class="review-time" id="reviewTime"></div>
+
+          <div class="similar-box" id="similarBox">
+            <div class="similar-title">🧩 同じ分野の類題</div>
+            <div class="similar-q" id="similarQuestion"></div>
+            <div class="similar-options" id="similarOptions"></div>
+            <div class="similar-feedback" id="similarFeedback"></div>
+          </div>
+
+          <div class="review-actions">
+            <button id="reviewPrev">← 前へ</button>
+            <button class="similar-btn" id="reviewSimilar">類題を1問</button>
+            <button class="review-next" id="reviewNext">次へ →</button>
+          </div>
+        </div>
+
+        <div class="review-summary" id="reviewSummary">
+          <div class="review-summary-icon">🧠</div>
+          <h2>レビュー完了！</h2>
+          <div class="sub">間違い方まで記録したので、今後の弱点分析に利用できます。</div>
+          <div class="reason-summary" id="reasonSummary"></div>
+          <div class="priority-box" id="reviewPriority"></div>
+          <button class="primary" id="reviewSummaryBack" style="margin-top:18px">模試結果へ戻る</button>
         </div>
       </div>
     </section>
@@ -7358,6 +7535,31 @@ let mockInitialSeconds=0;
 let mockTimerHandle=null;
 let mockStartedAt=null;
 let mockLastMode='full';
+let mockQuestionSeconds=[];
+let mockQuestionEnteredAt=null;
+let lastMockAttempt=null;
+let reviewItems=[];
+let reviewIndex=0;
+let currentSimilar=null;
+
+
+function randomizeMockQuestion(q){
+  const indexed=q.options.map((text,i)=>({text,correct:i===q.a}));
+  const mixed=shuffled(indexed);
+  return {
+    ...q,
+    options:mixed.map(x=>x.text),
+    a:mixed.findIndex(x=>x.correct),
+    sourceId:q.id
+  };
+}
+function recordMockQuestionTime(){
+  if(mockQuestionEnteredAt===null || !mockQuestionSeconds.length) return;
+  const now=Date.now();
+  const delta=Math.max(0,Math.round((now-mockQuestionEnteredAt)/1000));
+  mockQuestionSeconds[mockIndex]=(mockQuestionSeconds[mockIndex]||0)+delta;
+  mockQuestionEnteredAt=now;
+}
 
 function buildMockQuestions(count){
   // Balanced draw across the same broad categories used by FE QUEST.
@@ -7375,7 +7577,7 @@ function buildMockQuestions(count){
     const used=new Set(out.map(q=>q.id));
     out.push(...shuffled(QUESTION_BANK.filter(q=>!used.has(q.id))).slice(0,count-out.length));
   }
-  return out.slice(0,count);
+  return out.slice(0,count).map(randomizeMockQuestion);
 }
 
 function startMock(mode){
@@ -7390,8 +7592,10 @@ function startMock(mode){
   }
   mockAnswers=Array(mockItems.length).fill(null);
   mockFlags=Array(mockItems.length).fill(false);
+  mockQuestionSeconds=Array(mockItems.length).fill(0);
   mockIndex=0;
   mockStartedAt=Date.now();
+  mockQuestionEnteredAt=Date.now();
 
   document.getElementById('mockMenu').classList.add('hidden');
   document.getElementById('mockExam').classList.add('show');
@@ -7435,7 +7639,7 @@ function renderMockNavigator(){
     const b=document.createElement('button');
     b.className='mock-nav-q';
     b.textContent=i+1;
-    b.onclick=()=>{mockIndex=i;renderMockQuestion();};
+    b.onclick=()=>{recordMockQuestionTime();mockIndex=i;mockQuestionEnteredAt=Date.now();renderMockQuestion();};
     root.appendChild(b);
   });
   updateMockNavigator();
@@ -7478,10 +7682,17 @@ function renderMockQuestion(){
 }
 
 document.getElementById('mockPrev')?.addEventListener('click',()=>{
-  if(mockIndex>0){mockIndex--;renderMockQuestion();}
+  if(mockIndex>0){
+    recordMockQuestionTime();
+    mockIndex--;
+    mockQuestionEnteredAt=Date.now();
+    renderMockQuestion();
+  }
 });
 document.getElementById('mockNext')?.addEventListener('click',()=>{
+  recordMockQuestionTime();
   mockIndex=mockIndex<mockItems.length-1?mockIndex+1:0;
+  mockQuestionEnteredAt=Date.now();
   renderMockQuestion();
 });
 document.getElementById('mockFlag')?.addEventListener('click',()=>{
@@ -7502,6 +7713,7 @@ function formatElapsed(sec){
 }
 
 function finishMock(timeup=false){
+  recordMockQuestionTime();
   if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
   const used=Math.min(mockInitialSeconds,Math.max(0,mockInitialSeconds-mockSeconds));
   let correct=0,blank=0;
@@ -7537,13 +7749,20 @@ function finishMock(timeup=false){
   const rate=total?Math.round(correct/total*100):0;
   const wrong=total-correct-blank;
 
-  profile.mockHistory.unshift({
-    date:localDateISO(0),
-    mode:mockMode,
-    total,correct,blank,rate,
-    seconds:used
-  });
-  profile.mockHistory=profile.mockHistory.slice(0,15);
+  const attemptDetails=mockItems.map((q,i)=>({
+    id:q.sourceId||q.id,
+    shownOptions:[...q.options],
+    correctIndex:q.a,
+    answerIndex:mockAnswers[i],
+    flagged:!!mockFlags[i],
+    seconds:mockQuestionSeconds[i]||0
+  }));
+  lastMockAttempt={
+    date:localDateISO(0),mode:mockMode,total,correct,blank,rate,seconds:used,
+    details:attemptDetails
+  };
+  profile.mockHistory.unshift(lastMockAttempt);
+  profile.mockHistory=profile.mockHistory.slice(0,10);
   profile.xp += Math.round(correct*2);
   saveProfile();
 
@@ -7586,6 +7805,11 @@ function finishMock(timeup=false){
   });
   if(!wrongs.length) review.innerHTML='<div class="sub">全問正解です 🎉</div>';
 
+  const reviewBtn=document.getElementById('mockStartReview');
+  if(reviewBtn){
+    const hasReview=reviewCandidates(lastMockAttempt).length>0;
+    reviewBtn.style.display=hasReview?'':'none';
+  }
   renderMockHistory();
   renderDailyPlan();
   renderReadiness();
@@ -7596,6 +7820,7 @@ function showMockMenu(){
   document.getElementById('mockMenu').classList.remove('hidden');
   document.getElementById('mockExam').classList.remove('show');
   document.getElementById('mockResult').classList.remove('show');
+  document.getElementById('mockReviewMode')?.classList.remove('show');
   renderMockHistory();
 }
 document.getElementById('mockBackMenu')?.addEventListener('click',showMockMenu);
@@ -7613,12 +7838,228 @@ function renderMockHistory(){
   hist.forEach(h=>{
     const d=document.createElement('div');
     d.className='mock-history-row';
-    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div></div>
+    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div>${h.details?'<button class="mock-history-review">レビュー</button>':''}</div>
       <div class="mock-history-time">${formatElapsed(h.seconds||0)}</div><div class="mock-history-score">${h.rate}%</div>`;
+    d.querySelector('.mock-history-review')?.addEventListener('click',()=>startMockReview(h));
     root.appendChild(d);
   });
 }
 renderMockHistory();
+
+
+// ----- v14 mock review -----
+if(!profile.mockMistakeStats) profile.mockMistakeStats={};
+
+function originalQuestionById(id){
+  return QUESTION_BANK.find(q=>q.id===id);
+}
+function reviewCandidates(attempt){
+  if(!attempt?.details) return [];
+  return attempt.details.map((d,i)=>{
+    const q=originalQuestionById(d.id);
+    if(!q) return null;
+    const wrong=d.answerIndex===null || d.answerIndex!==d.correctIndex;
+    if(!wrong && !d.flagged) return null;
+    return {...d,q,wrong,position:i};
+  }).filter(Boolean);
+}
+function startMockReview(attempt=lastMockAttempt){
+  if(!attempt?.details){
+    popToast('この模試には詳細レビュー情報がありません');
+    return;
+  }
+  lastMockAttempt=attempt;
+  reviewItems=reviewCandidates(attempt);
+  if(!reviewItems.length){
+    popToast('復習対象はありません 🎉');
+    return;
+  }
+  reviewIndex=0;
+  document.getElementById('mockMenu').classList.add('hidden');
+  document.getElementById('mockExam').classList.remove('show');
+  document.getElementById('mockResult').classList.remove('show');
+  document.getElementById('mockReviewMode').classList.add('show');
+  document.getElementById('reviewCard').style.display='';
+  document.getElementById('reviewSummary').classList.remove('show');
+  renderMockReviewItem();
+}
+document.getElementById('mockStartReview')?.addEventListener('click',()=>startMockReview(lastMockAttempt));
+
+function getMockMistakeStat(id){
+  if(!profile.mockMistakeStats[id]) profile.mockMistakeStats[id]={misses:0,reasons:{},last:null};
+  return profile.mockMistakeStats[id];
+}
+function renderMockReviewItem(){
+  const item=reviewItems[reviewIndex];
+  if(!item) return;
+  const q=item.q;
+  const stat=getMockMistakeStat(q.id);
+
+  document.getElementById('reviewProgressText').textContent=`${reviewIndex+1} / ${reviewItems.length}`;
+  document.getElementById('reviewQuestion').textContent=q.q;
+
+  const badges=[];
+  badges.push(`<span class="review-badge">${q.cat}・${q.concept}</span>`);
+  if(item.wrong) badges.push('<span class="review-badge wrong">誤答</span>');
+  if(item.flagged) badges.push('<span class="review-badge flag">★ 見直し</span>');
+  if((stat.misses||0)>=2) badges.push(`<span class="review-badge repeat">繰り返し誤答 ${stat.misses}回</span>`);
+  document.getElementById('reviewBadges').innerHTML=badges.join('');
+
+  const user=item.answerIndex===null?'未回答':item.shownOptions[item.answerIndex];
+  const correct=item.shownOptions[item.correctIndex];
+  document.getElementById('reviewUserAnswerValue').textContent=user;
+  document.getElementById('reviewCorrectAnswerValue').textContent=correct;
+  document.getElementById('reviewUserAnswer').className='review-answer user'+(item.wrong?' wrong':'');
+
+  document.getElementById('reviewExplanation').textContent=q.exp;
+  document.getElementById('reviewHint').textContent='覚え方：'+q.hint;
+  document.getElementById('reviewTime').textContent=`この問題に使った時間：約${item.seconds||0}秒`;
+
+  document.querySelectorAll('.review-reason-chip').forEach(c=>{
+    c.classList.toggle('picked',stat.lastReason===c.dataset.mreason);
+  });
+
+  document.getElementById('reviewPrev').disabled=reviewIndex===0;
+  document.getElementById('reviewNext').textContent=reviewIndex===reviewItems.length-1?'レビュー完了':'次へ →';
+  document.getElementById('similarBox').classList.remove('show');
+  currentSimilar=null;
+}
+
+document.querySelectorAll('.review-reason-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    const item=reviewItems[reviewIndex];
+    if(!item) return;
+    const stat=getMockMistakeStat(item.q.id);
+
+    // Undo prior reason count if the reason is being changed.
+    if(stat.lastReason && stat.reasons[stat.lastReason]){
+      stat.reasons[stat.lastReason]=Math.max(0,stat.reasons[stat.lastReason]-1);
+    }
+    const reason=chip.dataset.mreason;
+    stat.lastReason=reason;
+    stat.reasons[reason]=(stat.reasons[reason]||0)+1;
+    stat.last=localDateISO(0);
+
+    document.querySelectorAll('.review-reason-chip').forEach(c=>c.classList.remove('picked'));
+    chip.classList.add('picked');
+    saveProfile();
+  });
+});
+
+function registerReviewedMiss(item){
+  if(!item?.wrong) return;
+  const stat=getMockMistakeStat(item.q.id);
+  if(!stat._countedAttemptKey) stat._countedAttemptKey={};
+  const key=`${lastMockAttempt?.date||''}-${item.position}-${lastMockAttempt?.seconds||0}`;
+  if(!stat._countedAttemptKey[key]){
+    stat.misses=(stat.misses||0)+1;
+    stat._countedAttemptKey[key]=true;
+    stat.last=localDateISO(0);
+    // keep small to avoid unlimited localStorage growth
+    const keys=Object.keys(stat._countedAttemptKey);
+    if(keys.length>12) delete stat._countedAttemptKey[keys[0]];
+    saveProfile();
+  }
+}
+function moveReview(delta){
+  const item=reviewItems[reviewIndex];
+  registerReviewedMiss(item);
+  const next=reviewIndex+delta;
+  if(next<0 || next>=reviewItems.length) return;
+  reviewIndex=next;
+  renderMockReviewItem();
+}
+document.getElementById('reviewPrev')?.addEventListener('click',()=>moveReview(-1));
+document.getElementById('reviewNext')?.addEventListener('click',()=>{
+  registerReviewedMiss(reviewItems[reviewIndex]);
+  if(reviewIndex<reviewItems.length-1){
+    reviewIndex++;
+    renderMockReviewItem();
+  }else{
+    finishMockReview();
+  }
+});
+
+function pickSimilarQuestion(base){
+  const concept=QUESTION_BANK.filter(q=>q.id!==base.id && q.concept===base.concept);
+  const category=QUESTION_BANK.filter(q=>q.id!==base.id && q.cat===base.cat);
+  const pool=concept.length?concept:category;
+  return pool.length?randomizeMockQuestion(shuffled(pool)[0]):null;
+}
+document.getElementById('reviewSimilar')?.addEventListener('click',()=>{
+  const item=reviewItems[reviewIndex];
+  if(!item) return;
+  currentSimilar=pickSimilarQuestion(item.q);
+  const box=document.getElementById('similarBox');
+  if(!currentSimilar){
+    box.classList.add('show');
+    document.getElementById('similarQuestion').textContent='現在、この分野の別問題はありません。';
+    document.getElementById('similarOptions').innerHTML='';
+    document.getElementById('similarFeedback').textContent='';
+    return;
+  }
+  box.classList.add('show');
+  document.getElementById('similarQuestion').textContent=currentSimilar.q;
+  document.getElementById('similarFeedback').textContent='';
+  const root=document.getElementById('similarOptions');
+  root.innerHTML='';
+  currentSimilar.options.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='similar-option';
+    b.textContent=`${String.fromCharCode(65+i)}. ${o}`;
+    b.onclick=()=>{
+      root.querySelectorAll('button').forEach(x=>x.disabled=true);
+      if(i===currentSimilar.a){
+        b.classList.add('good');
+        document.getElementById('similarFeedback').textContent='⭕ 正解！ '+currentSimilar.exp;
+        profile.xp+=5;
+        saveProfile();
+      }else{
+        b.classList.add('bad');
+        root.children[currentSimilar.a]?.classList.add('good');
+        document.getElementById('similarFeedback').textContent='正解は '+currentSimilar.options[currentSimilar.a]+'。 '+currentSimilar.exp;
+      }
+    };
+    root.appendChild(b);
+  });
+});
+
+function aggregateReasons(){
+  const totals={};
+  reviewItems.forEach(item=>{
+    const st=profile.mockMistakeStats?.[item.q.id];
+    if(st?.lastReason) totals[st.lastReason]=(totals[st.lastReason]||0)+1;
+  });
+  return totals;
+}
+function finishMockReview(){
+  document.getElementById('reviewCard').style.display='none';
+  document.getElementById('reviewSummary').classList.add('show');
+
+  const totals=aggregateReasons();
+  const reasons=['知識不足','計算ミス','読み違い','2択で迷った','時間不足'];
+  const root=document.getElementById('reasonSummary');
+  root.innerHTML=reasons.map(r=>`<div class="reason-summary-card"><span class="sub">${r}</span><b>${totals[r]||0}問</b></div>`).join('');
+
+  const catCounts={};
+  reviewItems.filter(x=>x.wrong).forEach(x=>catCounts[x.q.cat]=(catCounts[x.q.cat]||0)+1);
+  const priority=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  document.getElementById('reviewPriority').innerHTML=priority.length
+    ? `<b>次に優先する分野</b><br>${priority.map(([c,n])=>`${c}（${n}問）`).join(' → ')}<br><span class="sub">誤答問題は復習キューにも登録済みです。</span>`
+    : '<b>誤答はありませんでした。</b>';
+
+  profile.xp+=10;
+  saveProfile();
+}
+function exitMockReview(){
+  document.getElementById('mockReviewMode').classList.remove('show');
+  document.getElementById('reviewCard').style.display='';
+  document.getElementById('reviewSummary').classList.remove('show');
+  document.getElementById('mockResult').classList.add('show');
+}
+document.getElementById('reviewExit')?.addEventListener('click',exitMockReview);
+document.getElementById('reviewSummaryBack')?.addEventListener('click',exitMockReview);
+
 
 // Planner STEP5 now reflects real mock attempts as well as ordinary problem sessions.
 const _roadmapDataV13=roadmapData;
