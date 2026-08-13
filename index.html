@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v14</title>
+<title>FE QUEST PWA v15</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2657,6 +2657,100 @@
     .reason-summary{grid-template-columns:1fr 1fr}
   }
 
+
+  /* ===== v15: deep weakness analysis ===== */
+  .weak-hero{
+    margin-top:18px;background:linear-gradient(135deg,#fff6ef,#fffdfb);
+    border:1px solid #f2dfd0;border-radius:26px;padding:21px;
+    display:flex;align-items:center;gap:15px;
+  }
+  .weak-hero-icon{
+    width:58px;height:58px;border-radius:18px;background:#fff;
+    display:grid;place-items:center;font-size:31px;flex:0 0 auto;
+  }
+  .weak-hero-copy{flex:1}
+  .weak-hero-label{font-size:11px;font-weight:900;color:#bf6b22;letter-spacing:.7px}
+  .weak-hero-title{font-size:23px;font-weight:900;margin-top:3px}
+  .weak-hero-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .weak-priority-score{
+    width:82px;height:82px;border-radius:50%;background:#fff;border:7px solid #ffd7b4;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;flex:0 0 auto;
+  }
+  .weak-priority-score span{font-size:25px;font-weight:900;color:#bd651b;line-height:1}
+  .weak-priority-score small{font-size:9px;color:var(--muted);font-weight:900;margin-top:4px}
+
+  .weak-section{margin-top:19px}
+  .weak-section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:11px}
+  .weak-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .weak-category-card{
+    background:#fff;border:1px solid var(--line);border-radius:21px;padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .weak-category-card.top{border:2px solid #ffc48f;background:#fffdfa}
+  .weak-cat-head{display:flex;align-items:center;gap:10px}
+  .weak-cat-rank{
+    width:34px;height:34px;border-radius:11px;background:#f2f5f8;
+    display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--muted);
+  }
+  .weak-category-card.top .weak-cat-rank{background:#fff0df;color:#bd651b}
+  .weak-cat-copy{flex:1}
+  .weak-cat-title{font-size:16px;font-weight:900}
+  .weak-cat-priority{font-size:20px;font-weight:900;color:#bd651b}
+  .weak-cat-priority small{display:block;font-size:8px;color:var(--muted);text-align:right}
+  .weak-metrics{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:13px 0;
+  }
+  .weak-metric{background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:9px;text-align:center}
+  .weak-metric-label{font-size:9px;color:var(--muted);font-weight:900}
+  .weak-metric-value{font-size:17px;font-weight:900;margin-top:3px}
+  .weak-cat-note{font-size:11px;color:var(--muted);line-height:1.5;min-height:34px}
+  .weak-cat-actions{display:flex;gap:8px;margin-top:11px}
+  .weak-cat-actions button{
+    flex:1;border:2px solid var(--line);background:#fff;border-radius:12px;
+    min-height:39px;font-size:11px;font-weight:900;
+  }
+  .weak-cat-actions .practice-cat{background:var(--blue);border-color:var(--blue);color:#fff}
+
+  .weak-two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:15px}
+  .weak-panel{
+    background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);
+  }
+  .reason-bars{display:grid;gap:10px;margin-top:14px}
+  .reason-row{display:grid;grid-template-columns:90px 1fr 38px;gap:8px;align-items:center}
+  .reason-name{font-size:11px;font-weight:900}
+  .reason-count{text-align:right;font-size:11px;color:var(--muted);font-weight:900}
+  .reason-track{height:10px;border-radius:999px;background:#edf1f5;overflow:hidden}
+  .reason-fill{height:100%;border-radius:999px;background:#ff9f1c}
+
+  .weak-advice-box{
+    margin-top:13px;background:#f6f2ff;border:1px solid #ded0f3;border-radius:16px;
+    padding:14px;line-height:1.7;font-size:13px;
+  }
+  .weak-advice-box b{color:#68399f}
+
+  .weak-list{display:grid;gap:8px;margin-top:13px}
+  .weak-list-item{
+    background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:11px;
+  }
+  .weak-list-top{display:flex;gap:8px;align-items:center}
+  .weak-list-title{font-size:12px;font-weight:900;flex:1}
+  .weak-list-badge{
+    padding:5px 7px;border-radius:999px;background:#fff0e3;color:#b7621e;font-size:9px;font-weight:900;
+  }
+  .weak-list-sub{font-size:10px;color:var(--muted);line-height:1.5;margin-top:5px}
+  .weak-empty{color:var(--muted);font-size:12px;padding:12px 2px;line-height:1.6}
+
+  @media(max-width:800px){
+    .weak-category-grid,.weak-two-col{grid-template-columns:1fr}
+  }
+  @media(max-width:720px){
+    .weak-hero{padding:16px;align-items:flex-start}
+    .weak-hero-title{font-size:19px}
+    .weak-priority-score{width:68px;height:68px;border-width:6px}
+    .weak-priority-score span{font-size:21px}
+    .weak-category-card{padding:14px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3338,10 +3432,61 @@
 
     <!-- WEAK -->
     <section id="weak" class="screen">
-      <h1>苦手分析 🧠</h1>
-      <div class="sub">診断・問題演習・復習結果から、現在の習熟度を更新します。</div>
-      <div class="skill-list" id="skillList"></div>
-      <div class="daily-note" id="weakAdvice">実力診断をすると、ここに優先して学ぶ分野が表示されます。</div>
+      <div class="screen-head">
+        <button class="back" data-screen="home">←</button>
+        <div>
+          <h1>苦手分析 🧠</h1>
+          <div class="sub">習熟度だけでなく、正答率・誤答理由・回答時間・繰り返し誤答をまとめて分析します。</div>
+        </div>
+      </div>
+
+      <div class="weak-hero">
+        <div class="weak-hero-icon">🎯</div>
+        <div class="weak-hero-copy">
+          <div class="weak-hero-label">NEXT PRIORITY</div>
+          <div class="weak-hero-title" id="weakTopTitle">学習データを分析中</div>
+          <div class="weak-hero-sub" id="weakTopSub"></div>
+        </div>
+        <div class="weak-priority-score"><span id="weakTopScore">0</span><small>優先度</small></div>
+      </div>
+
+      <div class="weak-section">
+        <div class="weak-section-head">
+          <div><h2>分野別分析</h2><div class="sub">優先度が高い順です。</div></div>
+        </div>
+        <div class="weak-category-grid" id="weakCategoryGrid"></div>
+      </div>
+
+      <div class="weak-two-col">
+        <div class="weak-panel">
+          <h2>間違い方の傾向</h2>
+          <div class="sub">問題演習・模試レビューで記録した原因です。</div>
+          <div id="weakReasonList" class="reason-bars"></div>
+        </div>
+
+        <div class="weak-panel">
+          <h2>次の一手</h2>
+          <div class="weak-advice-box" id="weakDeepAdvice"></div>
+        </div>
+      </div>
+
+      <div class="weak-two-col">
+        <div class="weak-panel">
+          <h2>繰り返し誤答</h2>
+          <div class="sub">同じ論点で何度もつまずいている問題を優先します。</div>
+          <div id="repeatWrongList" class="weak-list"></div>
+        </div>
+
+        <div class="weak-panel">
+          <h2>時間がかかった問題</h2>
+          <div class="sub">直近の模試から、考える時間が長かった問題を表示します。</div>
+          <div id="slowQuestionList" class="weak-list"></div>
+        </div>
+      </div>
+
+      <!-- Keep legacy nodes for existing profile refresh logic -->
+      <div id="skillList" style="display:none"></div>
+      <div id="weakAdvice" style="display:none"></div>
     </section>
 
     <!-- PROBLEMS -->
@@ -4494,6 +4639,9 @@ function startQuiz(mode){
     quizItems=chooseWeakQuestions(10);
   }else if(mode==='boss'){
     quizItems=chooseRandomBalanced(5);
+  }else if(String(mode).startsWith('cat:')){
+    const cat=String(mode).slice(4);
+    quizItems=shuffled(QUESTION_BANK.filter(q=>q.cat===cat)).slice(0,10);
   }else{
     quizItems=chooseRandomBalanced(10);
   }
@@ -4511,7 +4659,8 @@ function startQuiz(mode){
   quizSession.style.display='block';
 
   const titles={review:'今日の復習',weak:'弱点10問',random:'ランダム10問',boss:'今日のBOSS'};
-  document.getElementById('quizSessionTitle').textContent=titles[mode]||'問題演習';
+  const modeTitle=String(mode).startsWith('cat:')?`${String(mode).slice(4)} 集中特訓`:titles[mode];
+  document.getElementById('quizSessionTitle').textContent=modeTitle||'問題演習';
   document.getElementById('quizSessionSub').textContent='FE QUEST オリジナル問題';
   renderQuizQuestion();
 }
@@ -5565,7 +5714,7 @@ let reliabilitySeen=new Set();
 let backupSeen=new Set();
 let devSteps=0;
 let testSteps=0;
-let rightsSteps=0;automataIdx=0;memorySeen=new Set();fileStep=0;devModelSeen=new Set();rfpSeen=new Set();swotStep=0;iotStep=0;financeStep=0;
+let rightsSteps=0;
 let automataIdx=0;
 let memorySeen=new Set();
 let fileStep=0;
@@ -8076,6 +8225,195 @@ roadmapData=function(){
 };
 
 
+
+// ===== v15: deep weakness analytics =====
+const WEAK_CATEGORIES=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
+
+function weakQuestionIdsForCat(cat){
+  return QUESTION_BANK.filter(q=>q.cat===cat).map(q=>q.id);
+}
+function allRecentMockDetails(limit=6){
+  const rows=[];
+  (profile.mockHistory||[]).slice(0,limit).forEach(h=>{
+    (h.details||[]).forEach(d=>rows.push({...d,examDate:h.date,mode:h.mode}));
+  });
+  return rows;
+}
+function reasonForQuestion(id){
+  return profile.mockMistakeStats?.[id]?.lastReason || profile.qStats?.[id]?.lastReason || null;
+}
+function categoryAnalytics(cat){
+  ensureQuestionProfile();
+  const ids=new Set(weakQuestionIdsForCat(cat));
+  let attempts=0,correct=0;
+  ids.forEach(id=>{
+    const st=profile.qStats?.[id];
+    if(st){attempts+=st.attempts||0;correct+=st.correct||0;}
+  });
+  const accuracy=attempts?Math.round(correct/attempts*100):Math.round(profile.skills?.[cat]||50);
+
+  const mockRows=allRecentMockDetails().filter(d=>ids.has(d.id));
+  const mockWrong=mockRows.filter(d=>d.answerIndex===null || d.answerIndex!==d.correctIndex).length;
+  const timed=mockRows.filter(d=>(d.seconds||0)>0);
+  const avgSec=timed.length?Math.round(timed.reduce((s,d)=>s+(d.seconds||0),0)/timed.length):0;
+
+  const reasons={};
+  ids.forEach(id=>{
+    const r=reasonForQuestion(id);
+    if(r) reasons[r]=(reasons[r]||0)+1;
+  });
+  const dominant=Object.entries(reasons).sort((a,b)=>b[1]-a[1])[0]?.[0]||'データ不足';
+
+  let repeats=0;
+  ids.forEach(id=>{
+    const st=profile.qStats?.[id];
+    const mistakes=Math.max(0,(st?.attempts||0)-(st?.correct||0));
+    const mockMiss=profile.mockMistakeStats?.[id]?.misses||0;
+    if(Math.max(mistakes,mockMiss)>=2) repeats++;
+  });
+
+  const mastery=Math.round(profile.skills?.[cat]||50);
+  const masteryRisk=100-mastery;
+  const accuracyRisk=100-accuracy;
+  const mockRisk=Math.min(100,mockWrong*12);
+  const timeRisk=avgSec?Math.min(100,Math.max(0,(avgSec-60)/1.2)):0;
+  const repeatRisk=Math.min(100,repeats*20);
+  const priority=Math.round(clamp(
+    masteryRisk*.45 + accuracyRisk*.24 + mockRisk*.12 + timeRisk*.07 + repeatRisk*.12,
+    0,100
+  ));
+  return {cat,mastery,attempts,accuracy,mockWrong,avgSec,dominant,repeats,priority};
+}
+function categoryAdvice(a){
+  if(a.dominant==='知識不足') return '教材を1本やり直してから、この分野だけ10問解くのがおすすめです。';
+  if(a.dominant==='計算ミス') return '途中式を省略せず、数値問題をゆっくり解く練習を優先しましょう。';
+  if(a.dominant==='読み違い') return '「適切／不適切」「以上／未満」など条件語へ印を付ける練習が有効です。';
+  if(a.dominant==='2択で迷った') return '似た用語の違いを比較表で整理し、根拠を言葉にして選ぶ練習が有効です。';
+  if(a.dominant==='時間不足' || a.avgSec>100) return '正解できる問題でも時間を使いすぎています。90秒を目安に一度判断する練習を。';
+  if(a.attempts===0) return '演習データが少ないので、まずこの分野を10問解いて実力を測りましょう。';
+  return '弱点問題を解き、間違えた問題を翌日の復習までつなげましょう。';
+}
+function sortedCategoryAnalytics(){
+  return WEAK_CATEGORIES.map(categoryAnalytics).sort((a,b)=>b.priority-a.priority);
+}
+function aggregateWeakReasons(){
+  const totals={'知識不足':0,'計算ミス':0,'読み違い':0,'2択で迷った':0,'時間不足':0,'用語を知らなかった':0,'計算方法を忘れた':0,'問題文を読み違えた':0,'ほぼ分からなかった':0};
+  Object.values(profile.qStats||{}).forEach(st=>{
+    if(st?.lastReason) totals[st.lastReason]=(totals[st.lastReason]||0)+1;
+  });
+  Object.values(profile.mockMistakeStats||{}).forEach(st=>{
+    if(st?.lastReason) totals[st.lastReason]=(totals[st.lastReason]||0)+1;
+  });
+  // Normalize older v5 reason labels into the v14 labels.
+  totals['知識不足'] += (totals['用語を知らなかった']||0) + (totals['ほぼ分からなかった']||0);
+  totals['計算ミス'] += totals['計算方法を忘れた']||0;
+  totals['読み違い'] += totals['問題文を読み違えた']||0;
+  return ['知識不足','計算ミス','読み違い','2択で迷った','時間不足'].map(name=>[name,totals[name]||0]);
+}
+function repeatedWrongQuestions(){
+  return QUESTION_BANK.map(q=>{
+    const st=profile.qStats?.[q.id]||{};
+    const ordinary=Math.max(0,(st.attempts||0)-(st.correct||0));
+    const mock=profile.mockMistakeStats?.[q.id]?.misses||0;
+    return {q,count:Math.max(ordinary,mock),reason:reasonForQuestion(q.id),due:st.due||''};
+  }).filter(x=>x.count>=2).sort((a,b)=>b.count-a.count).slice(0,6);
+}
+function slowMockQuestions(){
+  const byId={};
+  allRecentMockDetails(5).forEach(d=>{
+    if((d.seconds||0)<=0) return;
+    if(!byId[d.id] || d.seconds>byId[d.id].seconds) byId[d.id]=d;
+  });
+  return Object.values(byId).map(d=>({d,q:originalQuestionById(d.id)}))
+    .filter(x=>x.q).sort((a,b)=>b.d.seconds-a.d.seconds).slice(0,6);
+}
+
+function renderWeakDashboard(){
+  const grid=document.getElementById('weakCategoryGrid');
+  if(!grid) return;
+  const analytics=sortedCategoryAnalytics();
+  const top=analytics[0];
+
+  document.getElementById('weakTopTitle').textContent=`最優先：${top.cat}`;
+  document.getElementById('weakTopScore').textContent=top.priority;
+  document.getElementById('weakTopSub').textContent=
+    `習熟度 ${top.mastery}%・演習正答率 ${top.accuracy}%・${top.dominant==='データ不足'?'誤答理由はまだ未記録':`主なつまずき：${top.dominant}`}`;
+
+  grid.innerHTML='';
+  analytics.forEach((a,idx)=>{
+    const card=document.createElement('div');
+    card.className='weak-category-card'+(idx===0?' top':'');
+    card.innerHTML=`
+      <div class="weak-cat-head">
+        <div class="weak-cat-rank">#${idx+1}</div>
+        <div class="weak-cat-copy"><div class="weak-cat-title">${a.cat}</div><div class="sub">${a.repeats?`繰り返し誤答 ${a.repeats}論点`:'繰り返し誤答なし'}</div></div>
+        <div class="weak-cat-priority">${a.priority}<small>優先度</small></div>
+      </div>
+      <div class="weak-metrics">
+        <div class="weak-metric"><div class="weak-metric-label">習熟度</div><div class="weak-metric-value">${a.mastery}%</div></div>
+        <div class="weak-metric"><div class="weak-metric-label">正答率</div><div class="weak-metric-value">${a.accuracy}%</div></div>
+        <div class="weak-metric"><div class="weak-metric-label">模試平均</div><div class="weak-metric-value">${a.avgSec?a.avgSec+'s':'—'}</div></div>
+      </div>
+      <div class="weak-cat-note">${categoryAdvice(a)}</div>
+      <div class="weak-cat-actions">
+        <button class="open-cat-lesson" data-cat="${a.cat}">教材を見る</button>
+        <button class="practice-cat" data-cat="${a.cat}">この分野を10問</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('.practice-cat').forEach(b=>b.onclick=()=>{
+    showScreen('problems');
+    startQuiz('cat:'+b.dataset.cat);
+  });
+  grid.querySelectorAll('.open-cat-lesson').forEach(b=>b.onclick=()=>{
+    const id=pickLessonForSkill(b.dataset.cat);
+    startLesson(id);
+  });
+
+  const reasons=aggregateWeakReasons();
+  const maxReason=Math.max(1,...reasons.map(x=>x[1]));
+  document.getElementById('weakReasonList').innerHTML=reasons.map(([name,count])=>`
+    <div class="reason-row">
+      <div class="reason-name">${name}</div>
+      <div class="reason-track"><div class="reason-fill" style="width:${Math.round(count/maxReason*100)}%"></div></div>
+      <div class="reason-count">${count}</div>
+    </div>`).join('');
+
+  const adviceTop=analytics.slice(0,3);
+  const reason=top.dominant;
+  let habit='まず最優先分野を短い教材→10問演習→翌日復習の順で回します。';
+  if(reason==='計算ミス') habit='計算問題では途中式を残し、答えを選ぶ前に単位・桁・以上/未満を確認します。';
+  else if(reason==='読み違い') habit='問題文の条件語を先に拾ってから選択肢を見る習慣を付けます。';
+  else if(reason==='2択で迷った') habit='2択まで絞れたら、各選択肢が「なぜ違うか」を1つ言えるか確認します。';
+  else if(reason==='時間不足') habit='1問90秒を一つの目安にし、詰まった問題は見直しフラグへ回します。';
+  document.getElementById('weakDeepAdvice').innerHTML=
+    `<b>優先順位：</b> ${adviceTop.map(x=>x.cat).join(' → ')}<br><br><b>今回の改善ポイント：</b> ${habit}`;
+
+  const repeated=repeatedWrongQuestions();
+  document.getElementById('repeatWrongList').innerHTML=repeated.length?repeated.map(x=>`
+    <div class="weak-list-item">
+      <div class="weak-list-top"><div class="weak-list-title">${x.q.cat}・${x.q.concept}</div><span class="weak-list-badge">${x.count}回</span></div>
+      <div class="weak-list-sub">${escapeHtml(x.q.q)}${x.reason?`<br>直近の原因：${escapeHtml(x.reason)}`:''}${x.due?`<br>次回復習：${x.due}`:''}</div>
+    </div>`).join(''):'<div class="weak-empty">繰り返し誤答はまだありません。</div>';
+
+  const slow=slowMockQuestions();
+  document.getElementById('slowQuestionList').innerHTML=slow.length?slow.map(x=>`
+    <div class="weak-list-item">
+      <div class="weak-list-top"><div class="weak-list-title">${x.q.cat}・${x.q.concept}</div><span class="weak-list-badge">${x.d.seconds}秒</span></div>
+      <div class="weak-list-sub">${escapeHtml(x.q.q)}</div>
+    </div>`).join(''):'<div class="weak-empty">v14以降の模試を受けると、問題別の時間分析が表示されます。</div>';
+}
+
+const _refreshProfileUI_v15=refreshProfileUI;
+refreshProfileUI=function(){
+  _refreshProfileUI_v15();
+  renderWeakDashboard();
+};
+renderWeakDashboard();
+
+
+window.FEQUEST_BOOT_OK = true;
 // ===== PWA support =====
 let deferredInstallPrompt = null;
 const installCard = document.getElementById('installCard');
