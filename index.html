@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v5</title>
+<title>FE QUEST PWA v6</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1209,6 +1209,203 @@
     .break-num{font-size:20px}
   }
 
+
+  /* ===== v6: Interactive lesson library ===== */
+  .course-overview{
+    display:flex;align-items:center;gap:16px;
+    background:linear-gradient(135deg,#efffe3,#fbfff7);
+    border:1px solid #d8f4c3;border-radius:24px;padding:20px;
+    margin:18px 0 22px;
+  }
+  .course-overview-icon{
+    width:58px;height:58px;border-radius:18px;background:#fff;
+    display:grid;place-items:center;font-size:31px;flex:0 0 auto;
+  }
+  .course-overview-copy{flex:1}
+  .course-percent{font-size:26px;font-weight:900;color:var(--green-dark)}
+
+  .lesson-grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+  }
+  .lesson-tile{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .lesson-tile:before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--tile-color,var(--green));
+  }
+  .lesson-tile-top{display:flex;align-items:flex-start;gap:12px}
+  .lesson-tile-icon{
+    width:48px;height:48px;border-radius:15px;
+    display:grid;place-items:center;font-size:26px;
+    background:var(--tile-soft,var(--green-soft));flex:0 0 auto;
+  }
+  .lesson-tile-title{font-size:17px;font-weight:900;margin:2px 0 3px}
+  .lesson-tile-cat{font-size:12px;color:var(--muted);font-weight:800}
+  .lesson-tile-desc{font-size:13px;color:var(--muted);line-height:1.55;margin:13px 0}
+  .lesson-tile-bottom{display:flex;align-items:center;gap:10px}
+  .lesson-tile-bottom .progress{flex:1;height:10px}
+  .lesson-percent{font-size:12px;color:var(--muted);font-weight:900;min-width:34px;text-align:right}
+  .lesson-open{
+    margin-top:13px;width:100%;border:2px solid var(--line);background:#fff;
+    border-radius:14px;min-height:44px;font-weight:900;color:var(--text);
+  }
+  .lesson-open:hover{border-color:var(--tile-color,var(--green));}
+  .lesson-special{
+    grid-column:1/-1;background:linear-gradient(135deg,#faf6ff,#fff);
+    border-color:#e5d6fb;
+  }
+  .lesson-special .lesson-open{background:var(--purple);border-color:var(--purple);color:#fff}
+
+  .interactive-shell{
+    background:#fff;border:1px solid var(--line);border-radius:28px;
+    padding:25px;box-shadow:var(--shadow);
+  }
+  .lesson-headline{
+    text-align:center;font-size:22px;font-weight:900;line-height:1.5;
+    margin:15px 0 7px;
+  }
+  .lesson-copy{
+    max-width:700px;margin:0 auto;color:var(--muted);
+    text-align:center;line-height:1.75;font-size:15px;
+  }
+  .lesson-stage{
+    margin-top:24px;min-height:285px;
+    background:#fbfcfd;border:1px solid var(--line);border-radius:22px;padding:20px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .lesson-nav{
+    display:flex;align-items:center;gap:10px;margin-top:18px;
+  }
+  .lesson-nav .secondary{min-width:110px}
+  .lesson-nav .primary{margin-left:auto;min-width:140px}
+  .lesson-step-label{color:var(--muted);font-size:13px;font-weight:900;margin-left:auto}
+  .lesson-check{
+    display:none;margin-top:15px;padding:15px;border-radius:17px;
+    background:var(--green-soft);border:1px solid #d6f3c2;line-height:1.6;
+  }
+  .lesson-check.show{display:block}
+  .lesson-check.bad{background:var(--red-soft);border-color:#ffd6d6}
+
+  /* binary toggles */
+  .bit-board{
+    display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0;
+  }
+  .bit-col{text-align:center}
+  .bit-weight{font-size:13px;color:var(--muted);font-weight:900;margin-bottom:7px}
+  .bit-toggle{
+    width:62px;height:68px;border:2px solid #dbe4eb;background:white;
+    border-radius:17px;font-size:25px;font-weight:900;
+    box-shadow:0 4px 0 #dbe4eb;
+  }
+  .bit-toggle.on{
+    background:var(--green);border-color:var(--green);color:white;box-shadow:0 4px 0 var(--green-dark);
+  }
+  .binary-total{text-align:center;font-size:28px;font-weight:900;margin-top:14px}
+
+  /* CPU animation */
+  .cpu-flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;
+    gap:9px;max-width:720px;margin:10px auto;
+  }
+  .cpu-box{
+    border:2px solid #dfe7ed;background:#fff;border-radius:18px;
+    padding:18px 10px;text-align:center;font-weight:900;min-height:95px;
+    display:flex;flex-direction:column;justify-content:center;transition:.25s;
+  }
+  .cpu-box.active{border-color:var(--blue);background:var(--blue-soft);transform:translateY(-3px)}
+  .cpu-arrow{font-size:24px;color:#a8b4bf}
+  .cpu-action{text-align:center;margin-top:18px}
+
+  /* db transaction */
+  .bank-grid{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;
+    max-width:650px;margin:0 auto;
+  }
+  .account{
+    background:#fff;border:2px solid #dde5ec;border-radius:18px;padding:18px;text-align:center;
+  }
+  .account-money{font-size:28px;font-weight:900;margin-top:7px}
+  .transfer-arrow{text-align:center;font-size:32px}
+  .txn-log{
+    margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:15px;
+    padding:13px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;line-height:1.7;
+  }
+  .txn-buttons{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+  /* subnet */
+  .ip-row{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .octet{
+    width:90px;padding:15px 8px;border-radius:15px;text-align:center;
+    background:#fff;border:2px solid #dfe7ed;font-weight:900;font-size:19px;
+  }
+  .octet.net{background:var(--blue-soft);border-color:var(--blue)}
+  .octet.host{background:#fff5d7;border-color:var(--yellow)}
+  .subnet-legend{display:flex;gap:13px;justify-content:center;margin-top:15px;flex-wrap:wrap;font-size:13px;font-weight:800}
+  .legend-dot{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px}
+
+  /* crypto */
+  .crypto-flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;
+    gap:9px;max-width:760px;margin:0 auto;
+  }
+  .crypto-card{
+    background:#fff;border:2px solid #dfe7ed;border-radius:18px;padding:18px 12px;text-align:center;
+    min-height:115px;display:flex;flex-direction:column;justify-content:center;transition:.25s;
+  }
+  .crypto-card.active{border-color:var(--purple);background:var(--purple-soft)}
+  .crypto-icon{font-size:28px;margin-bottom:5px}
+  .crypto-actions{text-align:center;margin-top:16px}
+
+  /* binary search */
+  .search-array{
+    display:flex;justify-content:center;gap:7px;flex-wrap:nowrap;margin:18px auto;
+  }
+  .search-cell{
+    width:58px;height:58px;border:2px solid #dfe6ec;border-radius:15px;background:white;
+    display:grid;place-items:center;font-weight:900;transition:.25s;
+  }
+  .search-cell.mid{border-color:var(--blue);background:var(--blue-soft)}
+  .search-cell.target{border-color:var(--green);background:var(--green-soft)}
+  .search-cell.gone{opacity:.18;transform:scale(.92)}
+  .micro-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:620px;margin:17px auto 0}
+  .micro-option{
+    border:2px solid var(--line);background:#fff;border-radius:15px;padding:13px;font-weight:900;
+  }
+  .micro-option.good{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .micro-option.bad{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+
+  .lesson-complete{
+    text-align:center;padding:16px 5px;
+  }
+  .lesson-complete-icon{font-size:70px}
+  .lesson-complete-xp{font-size:32px;font-weight:900;color:var(--yellow);margin:8px 0}
+  .mastery-change{display:inline-block;background:var(--green-soft);color:var(--green-dark);font-weight:900;border-radius:999px;padding:8px 12px}
+
+  @media(max-width:720px){
+    .lesson-grid{grid-template-columns:1fr}
+    .lesson-special{grid-column:auto}
+    .course-overview{align-items:flex-start}
+    .interactive-shell{padding:17px;border-radius:22px}
+    .lesson-stage{padding:15px;min-height:300px}
+    .lesson-headline{font-size:19px}
+    .lesson-copy{text-align:left;font-size:14px}
+    .lesson-nav{display:grid;grid-template-columns:.75fr 1.25fr}
+    .lesson-nav .secondary,.lesson-nav .primary{width:100%;min-width:0;margin:0}
+    .lesson-step-label{grid-column:1/-1;grid-row:1;text-align:center;margin:0}
+    .bit-board{gap:5px;flex-wrap:nowrap}
+    .bit-toggle{width:calc((100vw - 90px)/4);max-width:64px;min-width:48px;height:62px}
+    .cpu-flow,.crypto-flow{
+      grid-template-columns:1fr;
+    }
+    .cpu-arrow,.crypto-flow > div[aria-hidden="true"]{transform:rotate(90deg);text-align:center}
+    .bank-grid{grid-template-columns:1fr;max-width:330px}
+    .transfer-arrow{transform:rotate(90deg)}
+    .octet{width:65px;font-size:16px;padding:13px 5px}
+    .search-array{gap:4px}
+    .search-cell{width:calc((100vw - 70px)/7);max-width:48px;min-width:34px;height:48px;font-size:14px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1312,19 +1509,86 @@
     <section id="map" class="screen">
       <div class="screen-head">
         <button class="back" data-screen="home">←</button>
-        <div><h1>学習マップ</h1><div class="sub">ステージを進めてスキルを解放します。</div></div>
+        <div><h1>学習コース 🗺️</h1><div class="sub">短い図解と操作を組み合わせて、重要テーマを理解していきます。</div></div>
       </div>
-      <div class="map-wrap">
-        <div class="map-title">
-          <h2>アルゴリズムエリア</h2>
-          <div class="sub">現在 42% 攻略</div>
+
+      <div class="course-overview">
+        <div class="course-overview-icon">🌱</div>
+        <div class="course-overview-copy">
+          <b>INTERACTIVE COURSE</b>
+          <div class="sub">まずは6つの基本ステージを実装しました。</div>
         </div>
-        <div class="path">
-          <div class="node-row"><button class="node done" title="配列">✓<span class="node-label">配列</span></button></div>
-          <div class="node-row"><button class="node done" title="スタック">↕<span class="node-label">スタック・キュー</span></button></div>
-          <div class="node-row"><button class="node current" id="mapBinary" title="二分探索">🔎<span class="node-label">二分探索</span></button></div>
-          <div class="node-row"><button class="node purple-node" id="mapTrace" title="科目B">💻<span class="node-label">科目Bトレース</span></button></div>
-          <div class="node-row"><button class="node locked" title="ロック">🔒<span class="node-label">再帰</span></button></div>
+        <div class="course-percent" id="coursePercent">0%</div>
+      </div>
+
+      <div class="lesson-grid" id="lessonGrid">
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🔢</div>
+            <div><div class="lesson-tile-title">2進数を触って理解</div><div class="lesson-tile-cat">基礎理論</div></div>
+          </div>
+          <div class="lesson-tile-desc">8・4・2・1のスイッチをON/OFFして、2進数と10進数の関係を体感します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="binary" style="width:0%"></div></div><span class="lesson-percent" data-lpt="binary">0%</span></div>
+          <button class="lesson-open" data-lesson="binary">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">⚙️</div>
+            <div><div class="lesson-tile-title">CPUの命令サイクル</div><div class="lesson-tile-cat">コンピュータ</div></div>
+          </div>
+          <div class="lesson-tile-desc">Fetch → Decode → Execute を、命令がCPU内を進むアニメーションで確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="cpu" style="width:0%"></div></div><span class="lesson-percent" data-lpt="cpu">0%</span></div>
+          <button class="lesson-open" data-lesson="cpu">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🏦</div>
+            <div><div class="lesson-tile-title">トランザクション</div><div class="lesson-tile-cat">データベース</div></div>
+          </div>
+          <div class="lesson-tile-desc">銀行振込を例に、COMMITとROLLBACK、原子性を操作しながら学びます。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="transaction" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="transaction">0%</span></div>
+          <button class="lesson-open" data-lesson="transaction">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🌐</div>
+            <div><div class="lesson-tile-title">/24 サブネット入門</div><div class="lesson-tile-cat">ネットワーク</div></div>
+          </div>
+          <div class="lesson-tile-desc">IPアドレスのネットワーク部とホスト部を色分けし、ネットワークアドレスを求めます。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="subnet" style="width:0%"></div></div><span class="lesson-percent" data-lpt="subnet">0%</span></div>
+          <button class="lesson-open" data-lesson="subnet">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🔐</div>
+            <div><div class="lesson-tile-title">公開鍵暗号</div><div class="lesson-tile-cat">セキュリティ</div></div>
+          </div>
+          <div class="lesson-tile-desc">受信者の公開鍵で暗号化し、受信者の秘密鍵で復号する流れを動かして確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="crypto" style="width:0%"></div></div><span class="lesson-percent" data-lpt="crypto">0%</span></div>
+          <button class="lesson-open" data-lesson="crypto">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🔎</div>
+            <div><div class="lesson-tile-title">二分探索</div><div class="lesson-tile-cat">アルゴリズム</div></div>
+          </div>
+          <div class="lesson-tile-desc">中央と比較して半分を捨てる、という二分探索の核心を配列操作で理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="binarysearch" style="width:0%"></div></div><span class="lesson-percent" data-lpt="binarysearch">0%</span></div>
+          <button class="lesson-open" data-lesson="binarysearch">学習する</button>
+        </div>
+
+        <div class="lesson-tile lesson-special" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">💻</div>
+            <div><div class="lesson-tile-title">PROGRAM TRACE</div><div class="lesson-tile-cat">科目B</div></div>
+          </div>
+          <div class="lesson-tile-desc">コードを1行ずつ実行し、変数の値がどう変わるかを目で追います。</div>
+          <button class="lesson-open" id="mapTrace">科目Bトレースを開く</button>
         </div>
       </div>
     </section>
@@ -1487,41 +1751,26 @@
     <!-- LESSON -->
     <section id="lesson" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="home">←</button>
+        <button class="back" data-screen="map">←</button>
         <div style="flex:1">
-          <h1>二分探索</h1>
-          <div class="sub">STAGE 3-4</div>
+          <h1 id="lessonTitle">インタラクティブ学習</h1>
+          <div class="sub" id="lessonCategory">FE QUEST ORIGINAL LESSON</div>
         </div>
       </div>
-      <div class="lesson-card">
-        <div class="lesson-progress">
-          <span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span>
+
+      <div class="interactive-shell">
+        <div class="lesson-progress" id="lessonDots">
+          <span></span><span></span><span></span><span></span>
         </div>
-        <div class="caption">37 を探してみましょう</div>
-        <div class="compare">まず中央の値と比べます。</div>
+        <div class="lesson-headline" id="lessonHeadline"></div>
+        <div class="lesson-copy" id="lessonCopy"></div>
+        <div class="lesson-stage" id="lessonStage"></div>
+        <div class="lesson-check" id="lessonCheck"></div>
 
-        <div class="array" id="arrayDemo">
-          <div class="cell">3</div>
-          <div class="cell">8</div>
-          <div class="cell">15</div>
-          <div class="cell mid">23</div>
-          <div class="cell target">37</div>
-          <div class="cell">42</div>
-          <div class="cell">61</div>
-        </div>
-
-        <div class="caption">37 ＞ 23</div>
-        <div class="compare">次に調べるのはどちら側でしょう？</div>
-
-        <div class="choice-grid">
-          <button class="choice" id="leftChoice">← 左側</button>
-          <button class="choice" id="rightChoice">右側 →</button>
-        </div>
-
-        <div class="feedback" id="lessonFeedback">
-          <b>✨ 正解です！</b>
-          <div style="margin-top:6px">37 は 23 より大きいので、左半分は探索対象から外せます。</div>
-          <div style="margin-top:14px"><button class="purple-btn" id="goTrace">科目Bトレースへ進む</button></div>
+        <div class="lesson-nav">
+          <button class="secondary" id="lessonPrev">← 戻る</button>
+          <span class="lesson-step-label" id="lessonStepLabel">1 / 4</span>
+          <button class="primary" id="lessonNext">次へ →</button>
         </div>
       </div>
     </section>
@@ -1529,7 +1778,7 @@
     <!-- TRACE -->
     <section id="trace" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="lesson">←</button>
+        <button class="back" data-screen="map">←</button>
         <div>
           <h1>PROGRAM TRACE 💻</h1>
           <div class="sub">配列とループを1行ずつ追跡します。</div>
@@ -1676,10 +1925,6 @@ document.querySelectorAll('[data-screen]').forEach(btn=>{
   btn.addEventListener('click',()=>showScreen(btn.dataset.screen));
 });
 
-document.getElementById('startQuest').addEventListener('click',()=>showScreen('lesson'));
-document.getElementById('mapBinary').addEventListener('click',()=>showScreen('lesson'));
-document.getElementById('mapTrace').addEventListener('click',()=>showScreen('trace'));
-document.getElementById('goTrace').addEventListener('click',()=>showScreen('trace'));
 
 const toast = document.getElementById('toast');
 function popToast(msg){
@@ -1689,26 +1934,6 @@ function popToast(msg){
 }
 
 document.getElementById('settingsBtn').addEventListener('click',()=>popToast('設定画面は次版で追加予定です'));
-
-const left = document.getElementById('leftChoice');
-const right = document.getElementById('rightChoice');
-const feedback = document.getElementById('lessonFeedback');
-const cells = [...document.querySelectorAll('#arrayDemo .cell')];
-
-left.addEventListener('click',()=>{
-  left.classList.add('wrong');
-  popToast('もう一度考えてみましょう 💡');
-  setTimeout(()=>left.classList.remove('wrong'),900);
-});
-
-right.addEventListener('click',()=>{
-  right.classList.add('correct');
-  left.disabled = true;
-  right.disabled = true;
-  cells.slice(0,4).forEach(c=>c.classList.add('discard'));
-  feedback.classList.add('show');
-  popToast('+10 XP ✨');
-});
 
 const traceStates = [
   {line:0,a:0,i:'—',tip:'a に 0 が代入されました。'},
@@ -2098,13 +2323,7 @@ document.getElementById('diagRedo')?.addEventListener('click',()=>{
   startDiagnosticFlow();
 });
 
-// Existing learning interactions now update mastery and persist.
-right?.addEventListener('click',()=>{
-  profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||45)+2,0,100);
-  profile.xp += 10;
-  saveProfile();
-});
-
+// Lesson interactions are handled by the v6 lesson engine.
 document.getElementById('finishQuest')?.addEventListener('click',()=>{
   profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||45)+3,0,100);
   profile.xp += 40;
@@ -2631,6 +2850,482 @@ refreshProfileUI = function(){
 };
 refreshProfileUI();
 openProblemsHub();
+
+
+
+// ===== v6: Interactive lesson engine =====
+const LESSONS = {
+  binary:{
+    title:'2進数を触って理解', cat:'基礎理論', skill:'基礎理論',
+    pages:[
+      {
+        headline:'2進数は「ON / OFF」の組合せ',
+        copy:'右から 1、2、4、8… と桁の重みが2倍ずつ増えます。まずは4ビットだけで考えましょう。',
+        render:()=>`
+          <div style="text-align:center;font-size:44px">💡</div>
+          <div class="bit-board">
+            ${[8,4,2,1].map(w=>`<div class="bit-col"><div class="bit-weight">${w}</div><button class="bit-toggle" disabled>0</button></div>`).join('')}
+          </div>
+          <div class="lesson-copy">0はOFF、1はON。ONになった桁の重みを足すと10進数になります。</div>`
+      },
+      {
+        headline:'13を作ってみましょう',
+        copy:'8・4・2・1のスイッチを押して、合計を13にしてください。',
+        interactive:'binary13'
+      },
+      {
+        headline:'13 = 8 + 4 + 1',
+        copy:'8・4・1をON、2をOFFにすると 1101 になります。桁そのものより「重みの合計」と考えると理解しやすくなります。',
+        render:()=>`
+          <div class="bit-board">
+            ${[[8,1],[4,1],[2,0],[1,1]].map(([w,b])=>`<div class="bit-col"><div class="bit-weight">${w}</div><button class="bit-toggle ${b?'on':''}" disabled>${b}</button></div>`).join('')}
+          </div>
+          <div class="binary-total">1101₂ = 13₁₀</div>`
+      },
+      {
+        headline:'ミニチェック',
+        copy:'2進数 1011 を10進数にすると？',
+        quiz:{options:['9','10','11','13'],answer:2,explain:'8 + 2 + 1 = 11 なので、1011₂ = 11₁₀ です。'}
+      }
+    ]
+  },
+
+  cpu:{
+    title:'CPUの命令サイクル', cat:'コンピュータ', skill:'コンピュータ',
+    pages:[
+      {
+        headline:'CPUは命令を順番に処理する',
+        copy:'基本の流れは「命令を取ってくる → 意味を読み解く → 実行する」です。',
+        render:()=>cpuFlow(0)
+      },
+      {
+        headline:'Fetch → Decode → Execute',
+        copy:'「1 STEP」を押して命令を進めてください。',
+        interactive:'cpuCycle'
+      },
+      {
+        headline:'なぜ順番が大切？',
+        copy:'命令を手元に取り込まなければ解読できず、解読しなければ何を実行すべきか分かりません。',
+        render:()=>cpuFlow(3)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'命令サイクルの基本的な順番として正しいものは？',
+        quiz:{options:['Execute → Decode → Fetch','Fetch → Decode → Execute','Decode → Execute → Fetch','Fetch → Execute → Decode'],answer:1,explain:'基本は Fetch（取出し）→ Decode（解読）→ Execute（実行）です。'}
+      }
+    ]
+  },
+
+  transaction:{
+    title:'トランザクション', cat:'データベース', skill:'データベース',
+    pages:[
+      {
+        headline:'振込は「2つで1セット」',
+        copy:'A口座から1,000円減らし、B口座へ1,000円増やす。この2処理は途中で片方だけ残ると困ります。',
+        render:()=>bankView(10000,5000,'まだ処理していません。')
+      },
+      {
+        headline:'途中で失敗したら？',
+        copy:'まずA口座だけ減額した状態を作ります。その後ROLLBACKして元へ戻してみましょう。',
+        interactive:'transaction'
+      },
+      {
+        headline:'原子性：全部か、何もなかったことにする',
+        copy:'トランザクションでは一連の処理をひとまとまりとして扱います。成功ならCOMMIT、失敗ならROLLBACKします。',
+        render:()=>bankView(9000,6000,'COMMIT → 両方の変更を確定')
+      },
+      {
+        headline:'ミニチェック',
+        copy:'処理途中で失敗し、一連の変更を取り消す操作は？',
+        quiz:{options:['COMMIT','ROLLBACK','SELECT','GRANT'],answer:1,explain:'ROLLBACKはトランザクションの変更を取り消し、処理前の状態へ戻します。'}
+      }
+    ]
+  },
+
+  subnet:{
+    title:'/24 サブネット入門', cat:'ネットワーク', skill:'ネットワーク',
+    pages:[
+      {
+        headline:'/24なら前の3オクテットがネットワーク部',
+        copy:'IPv4は32ビットです。/24は先頭24ビットがネットワーク部なので、10進表記では前3つのオクテットに相当します。',
+        render:()=>ipView([192,168,10,25],3)
+      },
+      {
+        headline:'ネットワークアドレスを作る',
+        copy:'ホスト部を0にするとネットワークアドレスになります。「ホスト部を0にする」を押してください。',
+        interactive:'subnet'
+      },
+      {
+        headline:'192.168.10.25/24 → 192.168.10.0',
+        copy:'前3オクテットはそのまま、最後のホスト部だけ0にします。',
+        render:()=>ipView([192,168,10,0],3)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'10.20.30.77/24 のネットワークアドレスは？',
+        quiz:{options:['10.20.30.0','10.20.0.0','10.20.30.77','10.20.30.255'],answer:0,explain:'/24では最後の1オクテットがホスト部です。そこを0にするため10.20.30.0です。'}
+      }
+    ]
+  },
+
+  crypto:{
+    title:'公開鍵暗号', cat:'セキュリティ', skill:'セキュリティ',
+    pages:[
+      {
+        headline:'鍵は2本で1組',
+        copy:'公開鍵は他人に渡してよい鍵、秘密鍵は本人だけが厳重に持つ鍵です。',
+        render:()=>cryptoView(0)
+      },
+      {
+        headline:'秘密のメッセージを送ってみる',
+        copy:'受信者の公開鍵で暗号化し、その受信者の秘密鍵で復号する流れを進めてください。',
+        interactive:'crypto'
+      },
+      {
+        headline:'暗号化：公開鍵 ／ 復号：秘密鍵',
+        copy:'「誰でも暗号化できるが、対応する秘密鍵を持つ受信者だけが読める」という形になります。',
+        render:()=>cryptoView(3)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'受信者だけが読めるように暗号化するとき、暗号化に使う鍵は？',
+        quiz:{options:['送信者の秘密鍵','受信者の公開鍵','受信者の秘密鍵','送信者の公開鍵'],answer:1,explain:'受信者の公開鍵で暗号化し、対応する受信者の秘密鍵で復号します。'}
+      }
+    ]
+  },
+
+  binarysearch:{
+    title:'二分探索', cat:'アルゴリズム', skill:'アルゴリズム',
+    pages:[
+      {
+        headline:'「半分を捨てる」探索',
+        copy:'整列済みのデータの中央を確認し、目的値が大きいか小さいかで不要な半分を捨てます。',
+        render:()=>searchView(false)
+      },
+      {
+        headline:'37を探しましょう',
+        copy:'中央の23と比較しました。37は23より大きいので、次に残す範囲は？',
+        interactive:'binarysearch'
+      },
+      {
+        headline:'探索範囲が一気に半分へ',
+        copy:'線形探索のように先頭から全部を見るのではなく、比較するたびに探索範囲を大きく減らせます。',
+        render:()=>searchView(true)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'二分探索をそのまま利用するために重要な条件は？',
+        quiz:{options:['データが整列されている','必ず重複がある','データ数が偶数','文字列だけである'],answer:0,explain:'中央との大小比較で半分を捨てるため、探索対象が順序付けされていることが重要です。'}
+      }
+    ]
+  }
+};
+
+function cpuFlow(active){
+  const labels=[['📥','FETCH','命令を取り出す'],['🧠','DECODE','命令を解読'],['⚡','EXECUTE','命令を実行']];
+  return `<div class="cpu-flow">${
+    labels.map((x,i)=>`${i?'<div class="cpu-arrow">→</div>':''}<div class="cpu-box ${active===i+1||active===3?'active':''}"><div style="font-size:30px">${x[0]}</div><div>${x[1]}</div><div class="sub">${x[2]}</div></div>`).join('')
+  }</div>`;
+}
+function bankView(a,b,log){
+  return `<div class="bank-grid">
+    <div class="account"><div>A口座</div><div class="account-money">¥${a.toLocaleString()}</div></div>
+    <div class="transfer-arrow">→</div>
+    <div class="account"><div>B口座</div><div class="account-money">¥${b.toLocaleString()}</div></div>
+  </div><div class="txn-log">${log}</div>`;
+}
+function ipView(nums,netCount){
+  return `<div class="ip-row">${nums.map((n,i)=>`<div class="octet ${i<netCount?'net':'host'}">${n}</div>`).join('<b>.</b>')}</div>
+  <div class="subnet-legend"><span><i class="legend-dot" style="background:#1cb0f6"></i>ネットワーク部</span><span><i class="legend-dot" style="background:#ffc800"></i>ホスト部</span></div>`;
+}
+function cryptoView(active){
+  return `<div class="crypto-flow">
+    <div class="crypto-card ${active>=1?'active':''}"><div class="crypto-icon">✉️</div><b>HELLO</b><div class="sub">平文</div></div>
+    <div aria-hidden="true" class="cpu-arrow">→</div>
+    <div class="crypto-card ${active>=2?'active':''}"><div class="crypto-icon">🔒</div><b>受信者の公開鍵</b><div class="sub">暗号化</div></div>
+    <div aria-hidden="true" class="cpu-arrow">→</div>
+    <div class="crypto-card ${active>=3?'active':''}"><div class="crypto-icon">🔑</div><b>受信者の秘密鍵</b><div class="sub">復号してHELLO</div></div>
+  </div>`;
+}
+function searchView(discarded){
+  const vals=[3,8,15,23,37,42,61];
+  return `<div style="text-align:center;font-weight:900">目的値：37</div>
+  <div class="search-array">${vals.map((v,i)=>`<div class="search-cell ${i===3?'mid':''} ${i===4?'target':''} ${discarded&&i<=3?'gone':''}">${v}</div>`).join('')}</div>
+  <div class="lesson-copy">${discarded?'23以下を探索対象から外しました。':'中央は23です。37と比べます。'}</div>`;
+}
+
+if(!profile.lessonProgress) profile.lessonProgress={};
+Object.keys(LESSONS).forEach(id=>{
+  if(profile.lessonProgress[id]===undefined) profile.lessonProgress[id]=0;
+});
+saveProfile();
+
+let activeLesson='binary';
+let lessonStep=0;
+let lessonInteractiveDone=false;
+let lessonQuizDone=false;
+let cpuStep=0;
+let txnState=0;
+let cryptoStep=0;
+let lessonCompleteMode=false;
+
+function updateCourseUI(){
+  Object.keys(LESSONS).forEach(id=>{
+    const pct=profile.lessonProgress?.[id]||0;
+    document.querySelectorAll(`[data-lp="${id}"]`).forEach(e=>e.style.width=pct+'%');
+    document.querySelectorAll(`[data-lpt="${id}"]`).forEach(e=>e.textContent=pct+'%');
+  });
+  const vals=Object.keys(LESSONS).map(id=>profile.lessonProgress?.[id]||0);
+  const avg=Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length||1));
+  const cp=document.getElementById('coursePercent');
+  if(cp) cp.textContent=avg+'%';
+}
+updateCourseUI();
+
+document.querySelectorAll('.lesson-open[data-lesson]').forEach(btn=>{
+  btn.addEventListener('click',()=>startLesson(btn.dataset.lesson));
+});
+document.getElementById('mapTrace')?.addEventListener('click',()=>showScreen('trace'));
+
+function startLesson(id){
+  if(!LESSONS[id]) return;
+  activeLesson=id;
+  lessonStep=0;
+  lessonCompleteMode=false;
+  const prev=document.getElementById('lessonPrev');
+  if(prev) prev.style.display='';
+  resetLessonState();
+  showScreen('lesson');
+  renderLesson();
+}
+function resetLessonState(){
+  lessonInteractiveDone=false;
+  lessonQuizDone=false;
+  cpuStep=0;txnState=0;cryptoStep=0;
+}
+function renderLesson(){
+  const lesson=LESSONS[activeLesson];
+  const page=lesson.pages[lessonStep];
+  document.getElementById('lessonTitle').textContent=lesson.title;
+  document.getElementById('lessonCategory').textContent=`${lesson.cat}・FE QUEST ORIGINAL LESSON`;
+  document.getElementById('lessonHeadline').textContent=page.headline;
+  document.getElementById('lessonCopy').textContent=page.copy;
+  document.getElementById('lessonStepLabel').textContent=`${lessonStep+1} / ${lesson.pages.length}`;
+  document.querySelectorAll('#lessonDots span').forEach((s,i)=>s.classList.toggle('on',i<=lessonStep));
+  const check=document.getElementById('lessonCheck');
+  check.className='lesson-check';
+  check.innerHTML='';
+
+  const stage=document.getElementById('lessonStage');
+  stage.innerHTML='';
+  lessonInteractiveDone=!page.interactive && !page.quiz;
+  lessonQuizDone=!page.quiz;
+
+  if(page.render) stage.innerHTML=page.render();
+  if(page.interactive) renderInteractive(page.interactive,stage);
+  if(page.quiz) renderLessonQuiz(page.quiz,stage);
+
+  document.getElementById('lessonPrev').disabled=lessonStep===0;
+  const next=document.getElementById('lessonNext');
+  if(lessonStep===lesson.pages.length-1){
+    next.textContent='レッスン完了 ✨';
+  }else{
+    next.textContent='次へ →';
+  }
+}
+function showLessonFeedback(msg,bad=false){
+  const c=document.getElementById('lessonCheck');
+  c.className='lesson-check show'+(bad?' bad':'');
+  c.innerHTML=msg;
+}
+
+function renderInteractive(type,stage){
+  if(type==='binary13'){
+    stage.innerHTML=`<div style="text-align:center;font-weight:900">目標：13</div>
+      <div class="bit-board" id="bitBoard">${[8,4,2,1].map(w=>`<div class="bit-col"><div class="bit-weight">${w}</div><button class="bit-toggle" data-weight="${w}">0</button></div>`).join('')}</div>
+      <div class="binary-total">合計 <span id="bitTotal">0</span></div>`;
+    let total=0;
+    stage.querySelectorAll('.bit-toggle').forEach(b=>{
+      b.addEventListener('click',()=>{
+        b.classList.toggle('on');
+        b.textContent=b.classList.contains('on')?'1':'0';
+        total=[...stage.querySelectorAll('.bit-toggle.on')].reduce((s,x)=>s+Number(x.dataset.weight),0);
+        document.getElementById('bitTotal').textContent=total;
+        if(total===13){
+          lessonInteractiveDone=true;
+          showLessonFeedback('🎉 できました！ 8 + 4 + 1 = 13、つまり <b>1101₂</b> です。');
+        }
+      });
+    });
+  }
+
+  if(type==='cpuCycle'){
+    stage.innerHTML=`<div id="cpuDynamic">${cpuFlow(0)}</div><div class="cpu-action"><button class="purple-btn" id="cpuStepBtn">▶ 1 STEP</button></div>`;
+    document.getElementById('cpuStepBtn').addEventListener('click',()=>{
+      cpuStep=Math.min(3,cpuStep+1);
+      document.getElementById('cpuDynamic').innerHTML=cpuFlow(cpuStep);
+      const names=['','Fetch：命令を取り出しました。','Decode：命令の意味を解読しました。','Execute：命令を実行しました。'];
+      showLessonFeedback(names[cpuStep]);
+      if(cpuStep===3){
+        lessonInteractiveDone=true;
+        document.getElementById('cpuStepBtn').textContent='✓ 完了';
+      }
+    });
+  }
+
+  if(type==='transaction'){
+    stage.innerHTML=`<div id="bankDynamic">${bankView(10000,5000,'開始前：A=10,000 / B=5,000')}</div>
+      <div class="txn-buttons"><button class="secondary" id="txnWithdraw">① Aから1,000円減額</button><button class="purple-btn" id="txnRollback" disabled>② ROLLBACK</button></div>`;
+    document.getElementById('txnWithdraw').addEventListener('click',()=>{
+      txnState=1;
+      document.getElementById('bankDynamic').innerHTML=bankView(9000,5000,'⚠ Aだけ減額。ここで障害が発生！');
+      document.getElementById('txnWithdraw').disabled=true;
+      document.getElementById('txnRollback').disabled=false;
+      showLessonFeedback('B口座への加算前に障害が起きました。このままだと1,000円が消えてしまいます。',true);
+    });
+    document.getElementById('txnRollback').addEventListener('click',()=>{
+      txnState=2;
+      document.getElementById('bankDynamic').innerHTML=bankView(10000,5000,'ROLLBACK → 処理前の状態へ復元');
+      document.getElementById('txnRollback').disabled=true;
+      lessonInteractiveDone=true;
+      showLessonFeedback('✅ ROLLBACKでA口座も元に戻りました。「途中だけ反映」を残さないのが重要です。');
+    });
+  }
+
+  if(type==='subnet'){
+    stage.innerHTML=`<div id="subnetDynamic">${ipView([192,168,10,25],3)}</div>
+      <div style="text-align:center;margin-top:18px"><button class="purple-btn" id="zeroHost">ホスト部を0にする</button></div>`;
+    document.getElementById('zeroHost').addEventListener('click',()=>{
+      document.getElementById('subnetDynamic').innerHTML=ipView([192,168,10,0],3);
+      document.getElementById('zeroHost').disabled=true;
+      lessonInteractiveDone=true;
+      showLessonFeedback('✅ ネットワークアドレスは <b>192.168.10.0</b> です。');
+    });
+  }
+
+  if(type==='crypto'){
+    stage.innerHTML=`<div id="cryptoDynamic">${cryptoView(0)}</div><div class="crypto-actions"><button class="purple-btn" id="cryptoStepBtn">🔒 公開鍵で暗号化</button></div>`;
+    document.getElementById('cryptoStepBtn').addEventListener('click',()=>{
+      cryptoStep++;
+      if(cryptoStep===1){
+        document.getElementById('cryptoDynamic').innerHTML=cryptoView(2);
+        document.getElementById('cryptoStepBtn').textContent='🔑 秘密鍵で復号';
+        showLessonFeedback('暗号文になりました。公開鍵を持っていても、同じ鍵では復号できません。');
+      }else{
+        document.getElementById('cryptoDynamic').innerHTML=cryptoView(3);
+        document.getElementById('cryptoStepBtn').disabled=true;
+        document.getElementById('cryptoStepBtn').textContent='✓ 復号完了';
+        lessonInteractiveDone=true;
+        showLessonFeedback('✅ 対応する受信者の秘密鍵で元のメッセージを復号できました。');
+      }
+    });
+  }
+
+  if(type==='binarysearch'){
+    stage.innerHTML=`${searchView(false)}
+      <div class="micro-options"><button class="micro-option" data-side="left">← 左側を残す</button><button class="micro-option" data-side="right">右側を残す →</button></div>`;
+    stage.querySelectorAll('.micro-option').forEach(b=>{
+      b.addEventListener('click',()=>{
+        if(b.dataset.side==='right'){
+          b.classList.add('good');
+          lessonInteractiveDone=true;
+          stage.querySelector('.search-array').innerHTML=[3,8,15,23,37,42,61].map((v,i)=>`<div class="search-cell ${i===3?'mid':''} ${i===4?'target':''} ${i<=3?'gone':''}">${v}</div>`).join('');
+          showLessonFeedback('🎉 正解！ 37 > 23 なので、左半分を捨てて右側を残します。');
+        }else{
+          b.classList.add('bad');
+          showLessonFeedback('💡 37は23より大きいですね。大きい値が並んでいる側を残します。',true);
+          setTimeout(()=>b.classList.remove('bad'),900);
+        }
+      });
+    });
+  }
+}
+
+function renderLessonQuiz(quiz,stage){
+  stage.innerHTML=`<div class="micro-options" id="lessonQuizOptions">${quiz.options.map((o,i)=>`<button class="micro-option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>`;
+  stage.querySelectorAll('.micro-option').forEach(b=>{
+    b.addEventListener('click',()=>{
+      if(lessonQuizDone) return;
+      const i=Number(b.dataset.i);
+      if(i===quiz.answer){
+        b.classList.add('good');
+        lessonQuizDone=true;
+        lessonInteractiveDone=true;
+        stage.querySelectorAll('.micro-option').forEach(x=>x.disabled=true);
+        showLessonFeedback('⭕ 正解！ '+quiz.explain);
+      }else{
+        b.classList.add('bad');
+        showLessonFeedback('もう一度考えてみましょう。',true);
+        setTimeout(()=>b.classList.remove('bad'),800);
+      }
+    });
+  });
+}
+
+document.getElementById('lessonPrev')?.addEventListener('click',()=>{
+  if(lessonStep>0){lessonStep--;resetLessonState();renderLesson();}
+});
+document.getElementById('lessonNext')?.addEventListener('click',()=>{
+  if(lessonCompleteMode){
+    lessonCompleteMode=false;
+    document.getElementById('lessonPrev').style.display='';
+    showScreen('map');
+    updateCourseUI();
+    return;
+  }
+  const lesson=LESSONS[activeLesson];
+  const page=lesson.pages[lessonStep];
+  if((page.interactive||page.quiz) && !lessonInteractiveDone){
+    popToast('このステップをクリアしてから進みましょう');
+    return;
+  }
+  if(lessonStep<lesson.pages.length-1){
+    lessonStep++;
+    resetLessonState();
+    renderLesson();
+  }else{
+    completeLesson();
+  }
+});
+function completeLesson(){
+  const lesson=LESSONS[activeLesson];
+  const old=profile.lessonProgress[activeLesson]||0;
+  profile.lessonProgress[activeLesson]=100;
+  profile.skills[lesson.skill]=clamp((profile.skills[lesson.skill]||50)+(old<100?3:1),0,100);
+  profile.xp += old<100?50:15;
+  saveProfile();
+  updateCourseUI();
+
+  document.getElementById('lessonHeadline').textContent='LESSON COMPLETE!';
+  document.getElementById('lessonCopy').textContent='今日の理解を、問題演習と数日後の復習で定着させます。';
+  document.getElementById('lessonStage').innerHTML=`
+    <div class="lesson-complete">
+      <div class="lesson-complete-icon">🏆</div>
+      <h2>${lesson.title} クリア</h2>
+      <div class="lesson-complete-xp">+${old<100?50:15} XP</div>
+      <span class="mastery-change">${lesson.skill} 習熟度 UP</span>
+    </div>`;
+  document.getElementById('lessonCheck').className='lesson-check';
+  document.getElementById('lessonPrev').style.display='none';
+  document.getElementById('lessonStepLabel').textContent='完了';
+  const next=document.getElementById('lessonNext');
+  next.textContent='学習マップへ';
+  lessonCompleteMode=true;
+}
+
+// Home main quest starts the weakest matching implemented lesson.
+document.getElementById('startQuest')?.addEventListener('click',()=>{
+  const weak=sortedSkills()[0]?.[0]||'アルゴリズム';
+  const map={
+    '基礎理論':'binary',
+    'コンピュータ':'cpu',
+    'データベース':'transaction',
+    'ネットワーク':'subnet',
+    'セキュリティ':'crypto',
+    'アルゴリズム':'binarysearch'
+  };
+  startLesson(map[weak]||'binarysearch');
+});
 
 
 // ===== PWA support =====
