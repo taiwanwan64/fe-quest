@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="FE QUEST" />
+<meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v46</title>
+<title>FE QUEST PWA v48</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3655,6 +3657,41 @@
   .bfinal-review-study.smart{margin-top:8px;font-size:14px;min-height:44px;padding:9px 12px}
   @media(max-width:760px){.mock-diagnosis-grid,.bfinal-diagnosis-grid{grid-template-columns:1fr}.review-prescription-actions,.review-summary-actions{flex-direction:column}.review-prescription-actions button,.review-summary-actions button{width:100%}}
 
+
+  /* ===== v47: PWA production hardening ===== */
+  .app-notice{
+    position:fixed;left:50%;bottom:22px;transform:translate(-50%,18px);
+    width:min(680px,calc(100% - 28px));z-index:120;background:#fff;border:1px solid #dfe6eb;
+    border-radius:18px;box-shadow:0 16px 42px rgba(27,45,61,.18);padding:14px 15px;
+    display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:.18s ease;
+  }
+  .app-notice.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+  .app-notice.update{border-color:#cdb4e8;background:#fbf8ff}
+  .app-notice.error{border-color:#f2bcbc;background:#fff8f8}
+  .app-notice.offline{border-color:#c7dfe9;background:#f7fcff}
+  .app-notice-icon{flex:0 0 38px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#f1f4f6;font-size:18px}
+  .app-notice-copy{flex:1;min-width:0}.app-notice-copy b{display:block;font-size:15px;line-height:1.4}.app-notice-copy span{display:block;font-size:14px;line-height:1.55;color:#647989;margin-top:2px}
+  .app-notice-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  .app-notice-actions button{border:1px solid #d9e0e5;background:#fff;border-radius:11px;padding:9px 11px;font-size:14px;font-weight:900;cursor:pointer}
+  .app-notice-actions button.primary{border-color:#7f49b1;background:#7f49b1;color:#fff}
+  .app-notice-close{width:34px;height:34px;padding:0!important;border-radius:50%!important}
+
+  .pwa-health-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+  .pwa-health-item{border:1px solid var(--line);background:#fafcfd;border-radius:14px;padding:11px 12px}
+  .pwa-health-item span{display:block;font-size:14px;color:#6a7e8d;line-height:1.4}
+  .pwa-health-item b{display:block;font-size:15px;margin-top:3px;line-height:1.4}
+  .pwa-health-item b.good{color:#3f9144}.pwa-health-item b.warn{color:#9a6b00}
+  .pwa-health-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .pwa-health-actions button{border:1px solid #d9e1e6;background:#fff;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:900;cursor:pointer}
+  .pwa-health-actions button.primary{background:#58cc02;border-color:#58cc02;color:#fff}
+  .pwa-health-note{font-size:14px;line-height:1.65;color:#687d8c;margin-top:11px;padding:10px 12px;border-radius:12px;background:#f7f9fa}
+  .pwa-storage-bar{height:8px;background:#e9eef1;border-radius:999px;overflow:hidden;margin-top:7px}.pwa-storage-bar>div{height:100%;width:0;background:#1cb0f6;border-radius:999px}
+
+  .offline-pill{font-size:14px!important;padding:9px 13px!important}
+  @media(max-width:620px){
+    .pwa-health-grid{grid-template-columns:1fr}.app-notice{bottom:86px;align-items:flex-start}.app-notice-actions{width:100%}.app-notice-copy{min-width:170px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4029,6 +4066,28 @@
               <input class="planner-input" id="examDateSetting" type="date">
             </div>
             <button class="planner-save" id="savePlanSettings">設定を保存</button>
+          </div>
+
+          <div class="planner-card" id="pwaHealthCard">
+            <h2>アプリ・データ</h2>
+            <div class="sub">更新状態と、この端末に保存されている学習データを確認できます。</div>
+            <div class="pwa-health-grid">
+              <div class="pwa-health-item"><span>アプリ</span><b id="pwaVersionStatus">v47</b></div>
+              <div class="pwa-health-item"><span>接続</span><b id="pwaNetworkStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>起動方法</span><b id="pwaDisplayStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>オフライン準備</span><b id="pwaWorkerStatus">確認中</b></div>
+            </div>
+            <div class="pwa-health-item" style="margin-top:9px">
+              <span>ブラウザ保存領域</span><b id="pwaStorageStatus">確認中</b>
+              <div class="pwa-storage-bar"><div id="pwaStorageBar"></div></div>
+            </div>
+            <div class="pwa-health-actions">
+              <button class="primary" id="checkAppUpdate">更新を確認</button>
+              <button id="exportProfile">学習データを書き出す</button>
+              <button id="importProfile">学習データを読み込む</button>
+            </div>
+            <input id="profileImportInput" type="file" accept="application/json,.json" hidden>
+            <div class="pwa-health-note">学習データはこのブラウザ内に保存されています。端末変更やサイトデータ削除に備えて、ときどき書き出しておくと安心です。</div>
           </div>
 
           <div class="planner-card">
@@ -5427,7 +5486,13 @@
   </div>
 </div>
 
-<div class="offline-pill" id="offlinePill">オフラインモード</div>
+<div class="app-notice" id="appNotice" role="status" aria-live="polite">
+  <div class="app-notice-icon" id="appNoticeIcon">ℹ️</div>
+  <div class="app-notice-copy"><b id="appNoticeTitle">お知らせ</b><span id="appNoticeBody"></span></div>
+  <div class="app-notice-actions"><button class="primary" id="appNoticeAction">実行</button><button class="app-notice-close" id="appNoticeClose" aria-label="閉じる">×</button></div>
+</div>
+
+<div class="offline-pill" id="offlinePill">オフライン — 学習データは端末に保存されます</div>
 
 <div class="toast" id="toast">保存しました</div>
 
@@ -5512,6 +5577,9 @@ document.querySelectorAll('.quick button').forEach(b=>{
 
 // ===== v4: Persistent learner profile + diagnostic =====
 const STORAGE_KEY = 'fequest_profile_v4';
+const CORRUPT_PROFILE_KEY = 'fequest_profile_corrupt_recovery';
+const APP_VERSION = 'v47';
+let profileRecoveryWarning = false;
 
 const DEFAULT_PROFILE = {
   xp: 0,
@@ -5532,18 +5600,32 @@ const DEFAULT_PROFILE = {
 };
 
 function loadProfile(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(!raw) return structuredClone(DEFAULT_PROFILE);
   try{
-    const p = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const p=JSON.parse(raw);
     return p ? {...DEFAULT_PROFILE, ...p, skills:{...DEFAULT_PROFILE.skills, ...(p.skills||{})}} : structuredClone(DEFAULT_PROFILE);
   }catch(e){
+    console.warn('学習データの読み込みに失敗しました。',e);
+    profileRecoveryWarning=true;
+    try{ localStorage.setItem(CORRUPT_PROFILE_KEY,raw); }catch(_e){}
     return JSON.parse(JSON.stringify(DEFAULT_PROFILE));
   }
 }
 let profile = loadProfile();
 
 function saveProfile(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-  refreshProfileUI();
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+    refreshProfileUI();
+    return true;
+  }catch(e){
+    console.warn('学習データの保存に失敗しました。',e);
+    setTimeout(()=>showAppNotice('error','保存できませんでした','ブラウザの保存領域が不足している可能性があります。学習データを書き出してから、不要なサイトデータを整理してください。','設定を開く',()=>{
+      showScreen('plan');setTimeout(()=>document.getElementById('pwaHealthCard')?.scrollIntoView?.({behavior:'smooth',block:'center'}),80);
+    }),0);
+    return false;
+  }
 }
 
 function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
@@ -9279,20 +9361,10 @@ function gradeCurrentQuestion(){
   document.getElementById('quizHint').textContent=`覚え方：${q.hint}`;
   document.getElementById('quizExplain').classList.add('show');
   document.getElementById('quizHintBtn').style.display='none';
-
-  let sourceNote=document.getElementById('quizExplain').querySelector('.variant-source-note');
-  if(q.variant){
-    if(!sourceNote){
-      sourceNote=document.createElement('div');
-      sourceNote.className='variant-source-note';
-      document.getElementById('quizExplain').appendChild(sourceNote);
-    }
-    sourceNote.innerHTML=q.variantSibling
-      ? '<b>RELATED REVIEW</b>　同じ論点または同じ分野の別問題で確認しました。'
-      : '<b>VARIANT REVIEW</b>　元問題と同じ論点を、別の数値・条件で確認しました。';
-  }else if(sourceNote){
-    sourceNote.remove();
-  }
+  const answerExplain=document.getElementById('quizExplain');
+  answerExplain.querySelector('.variant-source-note')?.remove();
+  answerExplain.querySelector('.review-route-inline')?.remove();
+  answerExplain.querySelector('.memory-next-note')?.remove();
 
   const retryNote=document.getElementById('quizExplain').querySelector('.retry-note');
   if(retryNote) retryNote.remove();
@@ -9329,21 +9401,6 @@ function gradeCurrentQuestion(){
   if(String(quizMode).startsWith('journey:')){
     const jid=String(quizMode).slice(8);
     markJourneyAnswer(jid,!quizFirstAttemptWrong&&ok);
-  }
-  if(!ok || quizFirstAttemptWrong) renderInlineReviewRoute(q);
-
-  // Normal first-try correct answers stay visually clean. Show scheduling only when
-  // this CURRENT question is itself being reviewed, was missed, or needed a retry.
-  const showCurrentMemory = !ok || quizFirstAttemptWrong || quizMode==='review' || String(quizMode).startsWith('journey:') || String(quizMode).startsWith('rx:');
-  if(showCurrentMemory){
-    let memoryNote=document.getElementById('quizExplain').querySelector('.memory-next-note');
-    if(!memoryNote){
-      memoryNote=document.createElement('div');
-      memoryNote.className='memory-next-note';
-      document.getElementById('quizExplain').appendChild(memoryNote);
-    }
-    memoryNote.dataset.questionId=statId;
-    memoryNote.innerHTML=`<b>🧠 この問題の次回復習：</b> ${st.due||'未設定'} <span>・記憶間隔 ${Math.round(st.stability||1)}日</span>`;
   }
 
   sessionLog.push({
@@ -15588,62 +15645,201 @@ if(!window.FEQUEST_SELF_CHECK.ok){
 }
 
 window.FEQUEST_BOOT_OK = true;
-// ===== PWA support =====
-let deferredInstallPrompt = null;
-const installCard = document.getElementById('installCard');
-const installPwaBtn = document.getElementById('installPwaBtn');
-const pwaModal = document.getElementById('pwaModal');
-const closePwaModal = document.getElementById('closePwaModal');
-const offlinePill = document.getElementById('offlinePill');
+// ===== v47: PWA production support =====
+let deferredInstallPrompt=null;
+let swRegistration=null;
+let pendingUpdateRegistration=null;
+let controllerReloading=false;
+let lastUpdateCheck=0;
+let previousOnlineState=navigator.onLine;
+
+const installCard=document.getElementById('installCard');
+const installPwaBtn=document.getElementById('installPwaBtn');
+const pwaModal=document.getElementById('pwaModal');
+const closePwaModal=document.getElementById('closePwaModal');
+const offlinePill=document.getElementById('offlinePill');
+const appNotice=document.getElementById('appNotice');
+const appNoticeIcon=document.getElementById('appNoticeIcon');
+const appNoticeTitle=document.getElementById('appNoticeTitle');
+const appNoticeBody=document.getElementById('appNoticeBody');
+const appNoticeAction=document.getElementById('appNoticeAction');
+const appNoticeClose=document.getElementById('appNoticeClose');
 
 function isStandalone(){
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
 }
-function isIOS(){
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-function refreshInstallCard(){
-  if(isStandalone() && installCard) installCard.classList.add('hidden');
-}
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+function refreshInstallCard(){ if(isStandalone()&&installCard)installCard.classList.add('hidden'); }
 refreshInstallCard();
 
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault();
-  deferredInstallPrompt = e;
-});
+function showAppNotice(kind,title,body,actionLabel='',action=null){
+  if(!appNotice)return;
+  appNotice.className=`app-notice show ${kind||''}`;
+  appNoticeIcon.textContent=kind==='update'?'⬆️':kind==='error'?'⚠️':kind==='offline'?'📴':'ℹ️';
+  appNoticeTitle.textContent=title;
+  appNoticeBody.textContent=body;
+  if(actionLabel&&action){
+    appNoticeAction.style.display='';appNoticeAction.textContent=actionLabel;appNoticeAction.onclick=action;
+  }else{
+    appNoticeAction.style.display='none';appNoticeAction.onclick=null;
+  }
+}
+function hideAppNotice(){ if(appNotice)appNotice.className='app-notice'; }
+appNoticeClose?.addEventListener('click',hideAppNotice);
 
-if(installPwaBtn){
-  installPwaBtn.addEventListener('click', async ()=>{
-    if(deferredInstallPrompt){
-      deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
-      deferredInstallPrompt = null;
-      refreshInstallCard();
-      return;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;});
+installPwaBtn?.addEventListener('click',async()=>{
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt=null;refreshInstallCard();return;
+  }
+  pwaModal?.classList.add('open');
+});
+closePwaModal?.addEventListener('click',()=>pwaModal?.classList.remove('open'));
+pwaModal?.addEventListener('click',e=>{if(e.target===pwaModal)pwaModal.classList.remove('open')});
+
+function updateOnlineState(showTransition=true){
+  const online=navigator.onLine;
+  offlinePill?.classList.toggle('show',!online);
+  if(showTransition&&previousOnlineState!==online){
+    if(online){popToast('オンラインに戻りました');checkForAppUpdate(false)}
+    else showAppNotice('offline','オフラインで利用中','教材と学習データはこの端末から利用できます。接続が戻ると更新確認を行います。');
+  }
+  previousOnlineState=online;
+  refreshPwaHealth();
+}
+window.addEventListener('online',()=>updateOnlineState(true));
+window.addEventListener('offline',()=>updateOnlineState(true));
+updateOnlineState(false);
+
+function showUpdateAvailable(reg){
+  pendingUpdateRegistration=reg;
+  showAppNotice('update','新しいFE QUESTがあります','学習データを保ったまま最新版へ切り替えます。','更新する',()=>{
+    const worker=pendingUpdateRegistration?.waiting;
+    if(worker)worker.postMessage({type:'SKIP_WAITING'});
+    else location.reload();
+  });
+  refreshPwaHealth();
+}
+
+async function checkForAppUpdate(showResult=true){
+  if(!swRegistration){if(showResult)popToast('更新確認の準備中です');return false;}
+  try{
+    lastUpdateCheck=Date.now();
+    await swRegistration.update();
+    if(swRegistration.waiting){showUpdateAvailable(swRegistration);return true;}
+    if(showResult)popToast('最新版です');
+    refreshPwaHealth();return false;
+  }catch(e){
+    console.warn('Update check failed',e);
+    if(showResult)showAppNotice('error','更新を確認できませんでした','通信状態を確認して、もう一度お試しください。');
+    return false;
+  }
+}
+
+if('serviceWorker' in navigator&&location.protocol!=='file:'){
+  window.addEventListener('load',async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+      swRegistration=reg;
+      if(reg.waiting)showUpdateAvailable(reg);
+      reg.addEventListener('updatefound',()=>{
+        const worker=reg.installing;if(!worker)return;
+        worker.addEventListener('statechange',()=>{
+          if(worker.state==='installed'&&navigator.serviceWorker.controller)showUpdateAvailable(reg);
+          refreshPwaHealth();
+        });
+      });
+      refreshPwaHealth();
+      setTimeout(()=>checkForAppUpdate(false),1200);
+    }catch(err){
+      console.warn('Service Worker registration failed:',err);
+      showAppNotice('error','オフライン準備に失敗しました','オンラインでは利用できますが、オフライン起動の準備ができませんでした。再読み込みすると改善する場合があります。','再読み込み',()=>location.reload());
+      refreshPwaHealth();
     }
-    pwaModal.classList.add('open');
+  });
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(controllerReloading)return;controllerReloading=true;location.reload();
   });
 }
-if(closePwaModal) closePwaModal.addEventListener('click',()=>pwaModal.classList.remove('open'));
-if(pwaModal) pwaModal.addEventListener('click',(e)=>{
-  if(e.target === pwaModal) pwaModal.classList.remove('open');
+
+function maybeCheckUpdate(){
+  if(document.visibilityState==='visible'&&navigator.onLine&&Date.now()-lastUpdateCheck>5*60*1000)checkForAppUpdate(false);
+}
+window.addEventListener('focus',maybeCheckUpdate);
+document.addEventListener('visibilitychange',maybeCheckUpdate);
+window.addEventListener('pageshow',()=>{updateOnlineState(false);refreshPwaHealth()});
+
+function bytesText(n){
+  if(!Number.isFinite(n))return '不明';
+  if(n<1024)return `${n} B`;
+  if(n<1024*1024)return `${(n/1024).toFixed(1)} KB`;
+  return `${(n/1024/1024).toFixed(1)} MB`;
+}
+async function refreshPwaHealth(){
+  const v=document.getElementById('pwaVersionStatus'),net=document.getElementById('pwaNetworkStatus'),disp=document.getElementById('pwaDisplayStatus'),worker=document.getElementById('pwaWorkerStatus'),storage=document.getElementById('pwaStorageStatus'),bar=document.getElementById('pwaStorageBar');
+  if(v){v.textContent=pendingUpdateRegistration?.waiting?`${APP_VERSION}・更新あり`:APP_VERSION;v.className=pendingUpdateRegistration?.waiting?'warn':'good'}
+  if(net){net.textContent=navigator.onLine?'オンライン':'オフライン';net.className=navigator.onLine?'good':'warn'}
+  if(disp){disp.textContent=isStandalone()?'ホーム画面アプリ':'ブラウザ';disp.className=isStandalone()?'good':''}
+  if(worker){
+    const controlled=!!navigator.serviceWorker?.controller;
+    worker.textContent=controlled?'準備完了':('serviceWorker'in navigator?'準備中':'非対応');worker.className=controlled?'good':'warn';
+  }
+  if(storage&&navigator.storage?.estimate){
+    try{
+      const x=await navigator.storage.estimate(),usage=x.usage||0,quota=x.quota||0,pct=quota?Math.min(100,usage/quota*100):0;
+      storage.textContent=`${bytesText(usage)} 使用 / ${bytesText(quota)}`;
+      storage.className=pct>=80?'warn':'good';if(bar)bar.style.width=`${pct}%`;
+    }catch(e){storage.textContent='取得できませんでした'}
+  }else if(storage){storage.textContent='この環境では取得不可'}
+}
+
+function exportLearningData(){
+  const payload={format:'fequest-backup-v1',appVersion:APP_VERSION,exportedAt:new Date().toISOString(),profile};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`fe-quest-backup-${localDateISO(0)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);popToast('学習データを書き出しました');
+}
+function validateImportedProfile(candidate){
+  return candidate&&typeof candidate==='object'&&!Array.isArray(candidate)&&candidate.skills&&typeof candidate.skills==='object';
+}
+async function importLearningDataFile(file){
+  try{
+    const parsed=JSON.parse(await file.text());
+    const candidate=parsed?.profile||parsed;
+    if(!validateImportedProfile(candidate))throw new Error('形式が一致しません');
+    if(!confirm('現在の学習データを、選択したバックアップで置き換えますか？'))return;
+    const restored={...DEFAULT_PROFILE,...candidate,skills:{...DEFAULT_PROFILE.skills,...(candidate.skills||{})}};
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(restored));
+    popToast('学習データを読み込みました');setTimeout(()=>location.reload(),500);
+  }catch(e){
+    console.warn('Import failed',e);showAppNotice('error','学習データを読み込めませんでした','FE QUESTから書き出したJSONファイルか確認してください。');
+  }
+}
+document.getElementById('checkAppUpdate')?.addEventListener('click',()=>checkForAppUpdate(true));
+document.getElementById('exportProfile')?.addEventListener('click',exportLearningData);
+document.getElementById('importProfile')?.addEventListener('click',()=>document.getElementById('profileImportInput')?.click());
+document.getElementById('profileImportInput')?.addEventListener('change',e=>{const f=e.target.files?.[0];if(f)importLearningDataFile(f);e.target.value=''});
+
+window.addEventListener('storage',e=>{
+  if(e.key===STORAGE_KEY&&e.newValue&&e.newValue!==e.oldValue){
+    showAppNotice('update','別の画面で学習データが更新されました','最新の学習状況を読み込むため、この画面を再読み込みできます。','再読み込み',()=>location.reload());
+  }
 });
 
-function updateOnlineState(){
-  if(!offlinePill) return;
-  offlinePill.classList.toggle('show', !navigator.onLine);
+let lastGlobalErrorAt=0;
+function reportGlobalError(){
+  const now=Date.now();if(now-lastGlobalErrorAt<3000)return;lastGlobalErrorAt=now;
+  showAppNotice('error','画面の処理で問題が発生しました','学習データは端末に保存されています。表示がおかしい場合は再読み込みしてください。','再読み込み',()=>location.reload());
 }
-window.addEventListener('online',updateOnlineState);
-window.addEventListener('offline',updateOnlineState);
-updateOnlineState();
+window.addEventListener('error',e=>{console.warn('FE QUEST runtime error',e.error||e.message);reportGlobalError()});
+window.addEventListener('unhandledrejection',e=>{console.warn('FE QUEST rejected promise',e.reason);reportGlobalError()});
 
-if('serviceWorker' in navigator && location.protocol !== 'file:'){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js').catch(err=>{
-      console.warn('Service Worker registration failed:', err);
-    });
-  });
+if(profileRecoveryWarning){
+  setTimeout(()=>showAppNotice('error','学習データを読み取れませんでした','破損したデータは復旧用として端末内に退避しました。バックアップがある場合は「学習データを読み込む」から復元できます。','設定を開く',()=>{showScreen('plan');setTimeout(()=>document.getElementById('pwaHealthCard')?.scrollIntoView?.({behavior:'smooth',block:'center'}),80)}),300);
 }
+refreshPwaHealth();
+
 
 </script>
 </body>

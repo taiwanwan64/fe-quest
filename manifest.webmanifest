@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v46",
+  "name": "FE QUEST v48",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。問題間で復習情報が持ち越される表示不具合を修正し、復習ルートを意味の分かる3段階表示へ改善。",
+  "description": "基本情報技術者試験向けPWA。回答直後のフィードバックを簡潔化し、復習ルート・次回復習・類題由来の補助表示を専用画面へ分離。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
@@ -26,5 +26,10 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
+  "prefer_related_applications": false
 }
