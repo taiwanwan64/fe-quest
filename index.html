@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v17</title>
+<title>FE QUEST PWA v18</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2800,6 +2800,63 @@
   .quiz-option.first-wrong{border-color:var(--red)!important;background:var(--red-soft)!important;color:#b23838!important}
   @media(max-width:720px){.technique-box{padding:12px}.finalist-option{flex-basis:100%}.pace-wrap{grid-template-columns:62px 1fr}}
 
+
+  /* ===== v18: adaptive memory / forgetting engine ===== */
+  .memory-next-note{
+    margin-top:11px;padding:10px 12px;border-radius:13px;
+    background:#eef8ff;border:1px solid #cce7f7;font-size:11px;line-height:1.55;
+  }
+  .memory-next-note b{color:#087db4}
+  .memory-next-note span{color:var(--muted)}
+
+  .memory-health-layout{
+    display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;margin-top:15px;
+  }
+  .memory-ring{
+    --memory-p:100;
+    width:112px;height:112px;border-radius:50%;
+    background:conic-gradient(var(--blue) calc(var(--memory-p)*1%),#edf1f5 0);
+    position:relative;display:grid;place-items:center;
+  }
+  .memory-ring:after{
+    content:"";position:absolute;inset:11px;border-radius:50%;background:#fff;
+  }
+  .memory-ring>div{position:relative;z-index:1;text-align:center}
+  .memory-ring b{display:block;font-size:23px}
+  .memory-ring span{display:block;font-size:9px;color:var(--muted);font-weight:900;margin-top:2px}
+  .memory-health-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .memory-health-stats>div{
+    background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:10px 6px;text-align:center;
+  }
+  .memory-health-stats span{display:block;font-size:9px;color:var(--muted);font-weight:900}
+  .memory-health-stats b{display:block;font-size:19px;margin-top:3px}
+
+  .review-forecast{
+    display:grid;grid-template-columns:repeat(7,1fr);gap:5px;
+    align-items:end;height:145px;margin-top:12px;
+  }
+  .forecast-day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}
+  .forecast-count{font-size:10px;color:var(--muted);font-weight:900}
+  .forecast-bar-wrap{height:92px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+  .forecast-bar{
+    width:min(28px,72%);min-height:4px;border-radius:7px 7px 3px 3px;background:var(--blue);
+  }
+  .forecast-day.today .forecast-bar{background:var(--green)}
+  .forecast-label{font-size:10px;color:var(--muted);font-weight:900}
+
+  #homeReviewCandidates .mini-card{cursor:default}
+  .memory-risk{font-size:11px;font-weight:900;color:#b8611a;margin-top:4px}
+
+  @media(max-width:720px){
+    .memory-health-layout{grid-template-columns:96px 1fr}
+    .memory-ring{width:92px;height:92px}
+    .memory-ring b{font-size:19px}
+    .memory-health-stats{grid-template-columns:1fr}
+    .memory-health-stats>div{display:flex;justify-content:space-between;align-items:center;padding:7px 9px}
+    .memory-health-stats span,.memory-health-stats b{display:inline;margin:0}
+    .review-forecast{gap:3px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -2874,10 +2931,8 @@
 
       <div class="section">
         <h2>今日の復習候補</h2>
-        <div class="mini-grid">
-          <div class="mini-card"><div class="big">🔁</div><b>while</b><div class="sub">習熟度 43%</div><div class="progress" style="margin-top:10px"><div style="width:43%"></div></div></div>
-          <div class="mini-card"><div class="big">⚙️</div><b>CPU</b><div class="sub">習熟度 76%</div><div class="progress blue" style="margin-top:10px"><div style="width:76%"></div></div></div>
-          <div class="mini-card"><div class="big">🌐</div><b>Network</b><div class="sub">習熟度 58%</div><div class="progress purple" style="margin-top:10px"><div style="width:58%"></div></div></div>
+        <div class="mini-grid" id="homeReviewCandidates">
+          <div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>
         </div>
       </div>
     </section>
@@ -3104,6 +3159,20 @@
             </div>
             <div class="adaptive-note" id="adaptiveNote"></div>
           </div>
+
+          <div class="planner-card">
+            <h2>記憶の健康状態 🧠</h2>
+            <div class="sub">一度学習した問題が、今どのくらい記憶に残っていそうかを推定します。</div>
+            <div class="memory-health-layout">
+              <div class="memory-ring" id="memoryHealthRing"><div><b id="memoryHealthValue">100%</b><span>推定保持</span></div></div>
+              <div class="memory-health-stats">
+                <div><span>安定</span><b id="memoryFreshCount">0</b></div>
+                <div><span>そろそろ</span><b id="memorySoonCount">0</b></div>
+                <div><span>要復習</span><b id="memoryDueCount">0</b></div>
+              </div>
+            </div>
+            <div class="adaptive-note" id="memoryHealthAdvice">問題演習をすると記憶モデルが育ちます。</div>
+          </div>
         </div>
 
         <div>
@@ -3139,6 +3208,13 @@
           <div class="planner-card">
             <h2>今日の配分</h2>
             <div id="planAllocation"></div>
+          </div>
+
+          <div class="planner-card">
+            <h2>7日間の復習予報 🔁</h2>
+            <div class="sub">現在の記憶間隔から、復習に戻ってくる問題数を予測します。</div>
+            <div class="review-forecast" id="reviewForecast"></div>
+            <button class="planner-save" id="startForecastReview" style="margin-top:14px">今日の復習を始める</button>
           </div>
         </div>
       </div>
@@ -3548,7 +3624,7 @@
           <div class="problem-mode-icon green">🧠</div>
           <div class="problem-mode-copy">
             <div class="problem-mode-title">今日の復習 <span class="due-count" id="dueCount">0</span></div>
-            <div class="sub">復習日になった問題を優先して解きます。</div>
+            <div class="sub">忘却リスクと期限超過を見て、優先度の高い問題から解きます。</div>
           </div>
           <button data-mode="review">始める</button>
         </div>
@@ -4625,6 +4701,18 @@ function ensureQuestionProfile(){
         due:null, last:null, lastReason:null
       };
     }
+    const st=profile.qStats[q.id];
+    if(st.stability==null){
+      const s=st.streak||0;
+      st.stability=s<=0?1:s===1?3:s===2?7:s===3?14:30;
+    }
+    if(st.lapses==null) st.lapses=0;
+    if(st.reviews==null) st.reviews=0;
+    if(st.avgSeconds==null) st.avgSeconds=0;
+    if(st.timedAnswers==null) st.timedAnswers=0;
+    if(st.lastQuality==null) st.lastQuality=null;
+    if(st.lastReviewDate==null) st.lastReviewDate=st.last||null;
+    if(st.memoryVersion==null) st.memoryVersion=1;
   });
 }
 ensureQuestionProfile();
@@ -4639,8 +4727,139 @@ function localDateISO(offsetDays=0){
   const day=String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${day}`;
 }
+
+function parseLocalISO(s){
+  if(!s) return null;
+  const [y,m,d]=String(s).split('-').map(Number);
+  if(!y||!m||!d) return null;
+  return new Date(y,m-1,d,12,0,0,0);
+}
+function daysBetweenISO(from,to=localDateISO(0)){
+  const a=parseLocalISO(from),b=parseLocalISO(to);
+  if(!a||!b) return 0;
+  return Math.round((b-a)/(1000*60*60*24));
+}
+function ensureMemoryStat(stat){
+  if(!stat) return;
+  if(stat.stability==null) stat.stability=1;
+  if(stat.lapses==null) stat.lapses=0;
+  if(stat.reviews==null) stat.reviews=0;
+  if(stat.avgSeconds==null) stat.avgSeconds=0;
+  if(stat.timedAnswers==null) stat.timedAnswers=0;
+  if(stat.lastReviewDate==null) stat.lastReviewDate=stat.last||null;
+}
+function memoryRetention(stat,onDate=localDateISO(0)){
+  if(!stat || !(stat.attempts>0) || !(stat.lastReviewDate||stat.last)) return null;
+  ensureMemoryStat(stat);
+  const elapsed=Math.max(0,daysBetweenISO(stat.lastReviewDate||stat.last,onDate));
+  const stability=Math.max(1,Number(stat.stability)||1);
+  // `stability` is defined as roughly the number of days until recall falls to 80%.
+  return Math.round(100*Math.pow(0.8,elapsed/stability));
+}
+function memoryBand(retention){
+  if(retention==null) return 'new';
+  if(retention>=93) return 'fresh';
+  if(retention>=85) return 'good';
+  if(retention>=80) return 'soon';
+  return 'due';
+}
+function speedFactorForMemory(seconds){
+  if(!seconds) return 1;
+  if(seconds<=45) return 1.10;
+  if(seconds<=90) return 1.00;
+  if(seconds<=150) return 0.90;
+  return 0.80;
+}
+function adaptiveMemoryUpdate(stat,outcome,seconds=0,reason=null,sameSession=false){
+  if(!stat) return 1;
+  ensureMemoryStat(stat);
+  const old=Math.max(1,Number(stat.stability)||1);
+
+  if(!sameSession){
+    stat.reviews=(stat.reviews||0)+1;
+    if(seconds>0){
+      const n=stat.timedAnswers||0;
+      stat.avgSeconds=Math.round(((stat.avgSeconds||0)*n + seconds)/(n+1));
+      stat.timedAnswers=n+1;
+    }
+  }
+
+  let interval=1;
+  if(outcome==='wrong'){
+    stat.lapses=(stat.lapses||0)+1;
+    stat.stability=Math.max(1,Math.round(old*0.45*10)/10);
+    stat.lastQuality=1;
+    interval=1;
+  }else if(outcome==='recovered'){
+    // Same review session: recovery is valuable, but the first attempt still exposed a gap.
+    stat.stability=Math.max(1.5,Math.round(Math.min(old*0.90,3)*10)/10);
+    stat.lastQuality=3;
+    interval=1;
+  }else{
+    const streak=Math.max(1,stat.streak||1);
+    const growth=1.62 + Math.min(streak,4)*0.17;
+    let factor=speedFactorForMemory(seconds);
+    if(reason==='2択で迷った') factor*=0.92;
+    if(reason==='時間不足') factor*=0.85;
+    stat.stability=Math.min(60,Math.max(3,Math.round(old*growth*factor*10)/10));
+    stat.lastQuality=seconds>0 && seconds<=45 ? 5 : 4;
+    interval=Math.max(2,Math.min(60,Math.round(stat.stability)));
+  }
+
+  stat.lastReviewDate=localDateISO(0);
+  stat.due=localDateISO(interval);
+  return interval;
+}
+function reviewUrgency(q){
+  const st=profile.qStats?.[q.id];
+  if(!st || !(st.attempts>0)) return -999;
+  ensureMemoryStat(st);
+  const retention=memoryRetention(st);
+  const risk=retention==null?0:Math.max(0,100-retention);
+  const overdue=st.due && st.due<=localDateISO(0) ? Math.max(0,daysBetweenISO(st.due)) : 0;
+  const repeat=Math.min(25,(st.lapses||0)*4);
+  const mockRepeat=Math.min(15,(profile.mockMistakeStats?.[q.id]?.misses||0)*3);
+  return Math.round(risk + overdue*12 + repeat + mockRepeat);
+}
+function reviewForecast(days=7){
+  ensureQuestionProfile();
+  const out=[];
+  for(let i=0;i<days;i++){
+    const date=localDateISO(i);
+    let count=0;
+    QUESTION_BANK.forEach(q=>{
+      const st=profile.qStats[q.id];
+      if(!(st?.attempts>0) || !st.due) return;
+      if(i===0){
+        if(st.due<=date) count++;
+      }else if(st.due===date) count++;
+    });
+    out.push({date,offset:i,count});
+  }
+  return out;
+}
+function memoryHealth(){
+  ensureQuestionProfile();
+  const attempted=QUESTION_BANK
+    .map(q=>({q,st:profile.qStats[q.id]}))
+    .filter(x=>x.st?.attempts>0);
+  if(!attempted.length) return {attempted:0,avg:100,fresh:0,soon:0,due:0};
+  const rows=attempted.map(x=>({...x,retention:memoryRetention(x.st)}));
+  const avg=Math.round(rows.reduce((s,x)=>s+(x.retention??100),0)/rows.length);
+  return {
+    attempted:rows.length,
+    avg,
+    fresh:rows.filter(x=>(x.retention??100)>=93).length,
+    soon:rows.filter(x=>(x.retention??100)<93 && (x.retention??100)>=80).length,
+    due:rows.filter(x=>isDue(x.st) || (x.retention??100)<80).length
+  };
+}
+
 function isDue(stat){
-  return stat && stat.due && stat.due <= localDateISO(0);
+  if(!stat || !(stat.attempts>0)) return false;
+  if(stat.due && stat.due<=localDateISO(0)) return true;
+  const retention=memoryRetention(stat);
+  return retention!=null && retention<80;
 }
 function reviewInterval(streak){
   if(streak <= 0) return 1;
@@ -4659,7 +4878,9 @@ function shuffled(arr){
 }
 function dueQuestions(){
   ensureQuestionProfile();
-  return QUESTION_BANK.filter(q=>isDue(profile.qStats[q.id]));
+  return QUESTION_BANK
+    .filter(q=>isDue(profile.qStats[q.id]))
+    .sort((a,b)=>reviewUrgency(b)-reviewUrgency(a));
 }
 function updateDueCount(){
   const e=document.getElementById('dueCount');
@@ -4704,6 +4925,8 @@ let rxTechniqueData={};
 let rxPaceHandle=null;
 let rxPaceRemaining=90;
 let rxPaceElapsed=0;
+let quizQuestionStartedAt=0;
+let quizFirstAttemptSeconds=0;
 
 const problemHub=document.getElementById('problemHub');
 const quizSession=document.getElementById('quizSession');
@@ -4722,7 +4945,7 @@ function startQuiz(mode){
   quizMode=mode;
   if(mode==='review'){
     const due=dueQuestions();
-    quizItems=due.length ? shuffled(due).slice(0,10) : chooseWeakQuestions(5);
+    quizItems=due.length ? due.slice(0,10) : chooseWeakQuestions(5);
   }else if(mode==='weak'){
     quizItems=chooseWeakQuestions(10);
   }else if(mode==='boss'){
@@ -4776,6 +4999,8 @@ function renderQuizQuestion(){
   rxTechniqueReady=true;
   rxTechniqueData={};
   stopQuestionPacer();
+  quizQuestionStartedAt=Date.now();
+  quizFirstAttemptSeconds=0;
 
   document.getElementById('quizCategory').textContent=`${q.cat}・${q.concept}`;
   document.getElementById('quizDifficulty').textContent=q.difficulty;
@@ -4783,6 +5008,7 @@ function renderQuizQuestion(){
   document.getElementById('quizCounter').textContent=`${quizIndex+1} / ${quizItems.length}`;
   document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
   document.getElementById('quizExplain').classList.remove('show');
+  document.getElementById('quizExplain').querySelector('.memory-next-note')?.remove();
   document.getElementById('reasonBox').classList.remove('show');
   document.getElementById('quizSubmit').textContent='回答する';
   document.getElementById('quizSubmit').disabled=false;
@@ -4836,16 +5062,18 @@ function gradeCurrentQuestion(){
   const isRx=String(quizMode).startsWith('rx:');
   const st=profile.qStats[q.id];
   const selectedNow=quizSelected;
+  const attemptSeconds=Math.max(1,Math.round((Date.now()-quizQuestionStartedAt)/1000));
 
   if(isRx && !ok && quizRetryCount===0){
     quizRetryCount=1;
     quizFirstAttemptWrong=true;
     quizWrongCount++;
 
+    quizFirstAttemptSeconds=attemptSeconds;
     st.attempts++;
     st.last=localDateISO(0);
     st.streak=0;
-    st.due=localDateISO(1);
+    adaptiveMemoryUpdate(st,'wrong',attemptSeconds,quizPickedReason,false);
     profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-1,0,100);
     profile.xp+=2;
     saveProfile();
@@ -4857,6 +5085,7 @@ function gradeCurrentQuestion(){
       selectedBtn.disabled=true;
     }
     quizSelected=null;
+    quizQuestionStartedAt=Date.now();
 
     document.getElementById('quizResultTitle').textContent='💡 もう一度考えてみましょう';
     document.getElementById('quizExplanation').textContent=q.hint;
@@ -4893,6 +5122,14 @@ function gradeCurrentQuestion(){
   document.getElementById('quizExplain').classList.add('show');
   document.getElementById('quizHintBtn').style.display='none';
 
+  let memoryNote=document.getElementById('quizExplain').querySelector('.memory-next-note');
+  if(!memoryNote){
+    memoryNote=document.createElement('div');
+    memoryNote.className='memory-next-note';
+    document.getElementById('quizExplain').appendChild(memoryNote);
+  }
+  memoryNote.innerHTML=`<b>🧠 次回復習：</b> ${st.due||'未設定'} <span>・記憶間隔 ${Math.round(st.stability||1)}日</span>`;
+
   const retryNote=document.getElementById('quizExplain').querySelector('.retry-note');
   if(retryNote) retryNote.remove();
 
@@ -4911,16 +5148,16 @@ function gradeCurrentQuestion(){
     st.correct++;
     if(quizFirstAttemptWrong){
       st.streak=0;
-      st.due=localDateISO(1);
+      adaptiveMemoryUpdate(st,'recovered',quizFirstAttemptSeconds||attemptSeconds,quizPickedReason,true);
       profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+0.25,0,100);
     }else{
       st.streak=(st.streak||0)+1;
-      st.due=localDateISO(reviewInterval(st.streak));
+      adaptiveMemoryUpdate(st,'correct',attemptSeconds,quizPickedReason,false);
       profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+1,0,100);
     }
   }else{
     st.streak=0;
-    st.due=localDateISO(1);
+    adaptiveMemoryUpdate(st,'wrong',attemptSeconds,quizPickedReason,false);
     profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-2,0,100);
   }
 
@@ -4928,6 +5165,9 @@ function gradeCurrentQuestion(){
     id:q.id,cat:q.cat,concept:q.concept,
     ok:!quizFirstAttemptWrong && ok,
     recovered,
+    seconds:quizFirstAttemptWrong?(quizFirstAttemptSeconds||attemptSeconds):attemptSeconds,
+    nextDue:st.due,
+    stability:st.stability,
     technique:String(quizMode).startsWith('rx:')?String(quizMode).split(':')[1]:null,
     techniqueData:safeTechniqueSnapshot()
   });
@@ -7503,7 +7743,7 @@ function buildTodayTasks(){
     {
       type:'review',icon:'🧠',bg:'green',
       title:'記憶の復習',
-      desc:due?`復習期限の問題 ${due}問を優先`:`復習待ちがないので「${weak}」を補強`,
+      desc:due?`忘却リスクの高い問題 ${due}問を優先`:`今日の復習期限はなし。「${weak}」を補強`,
       minutes:alloc.review
     },
     useRx ? {
@@ -8070,19 +8310,27 @@ function finishMock(timeup=false){
     if(!byCat[q.cat]) byCat[q.cat]={correct:0,total:0};
     byCat[q.cat].total++;
     if(ok) byCat[q.cat].correct++;
+    ensureQuestionProfile();
+    const st=profile.qStats[q.sourceId||q.id];
+    const sec=mockQuestionSeconds[i]||0;
     if(!ok){
       wrongs.push({q,ans});
-      // Feed mock weaknesses back into spaced review.
-      ensureQuestionProfile();
-      const st=profile.qStats[q.id];
       if(st){
         st.attempts=(st.attempts||0)+1;
         st.last=localDateISO(0);
         st.streak=0;
-        st.due=localDateISO(1);
+        if(ans===null && timeup) st.lastReason='時間不足';
+        adaptiveMemoryUpdate(st,'wrong',sec,st.lastReason,false);
       }
       profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-1,0,100);
     }else{
+      if(st){
+        st.attempts=(st.attempts||0)+1;
+        st.correct=(st.correct||0)+1;
+        st.last=localDateISO(0);
+        st.streak=(st.streak||0)+1;
+        adaptiveMemoryUpdate(st,'correct',sec,null,false);
+      }
       profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+0.35,0,100);
     }
   });
@@ -8944,6 +9192,89 @@ refreshProfileUI=function(){
   renderWeakDashboard();
 };
 
+
+
+// ===== v18: memory dashboard / forecast =====
+function topReviewCandidates(n=3){
+  ensureQuestionProfile();
+  const attempted=QUESTION_BANK.filter(q=>profile.qStats[q.id]?.attempts>0);
+  return attempted.sort((a,b)=>reviewUrgency(b)-reviewUrgency(a)).slice(0,n);
+}
+function renderHomeReviewCandidates(){
+  const root=document.getElementById('homeReviewCandidates');
+  if(!root) return;
+  const items=topReviewCandidates(3);
+  if(!items.length){
+    root.innerHTML='<div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>';
+    return;
+  }
+  const icons={'基礎理論':'🔢','コンピュータ':'⚙️','データベース':'🗃️','ネットワーク':'🌐','セキュリティ':'🛡️','アルゴリズム':'🧩','マネジメント':'📋','ストラテジ':'📈'};
+  root.innerHTML=items.map(q=>{
+    const st=profile.qStats[q.id];
+    const r=memoryRetention(st)??100;
+    const risk=Math.max(0,100-r);
+    return `<div class="mini-card"><div class="big">${icons[q.cat]||'🧠'}</div><b>${escapeHtml(q.concept)}</b>
+      <div class="sub">${escapeHtml(q.cat)}・推定保持 ${r}%</div>
+      <div class="progress" style="margin-top:10px"><div style="width:${r}%"></div></div>
+      <div class="memory-risk">${st.due&&st.due<=localDateISO(0)?'復習期限':'忘却リスク'} ${risk}%</div></div>`;
+  }).join('');
+}
+function renderMemoryHealth(){
+  const h=memoryHealth();
+  const ring=document.getElementById('memoryHealthRing');
+  if(ring) ring.style.setProperty('--memory-p',h.avg);
+  if(document.getElementById('memoryHealthValue')) document.getElementById('memoryHealthValue').textContent=h.avg+'%';
+  if(document.getElementById('memoryFreshCount')) document.getElementById('memoryFreshCount').textContent=h.fresh;
+  if(document.getElementById('memorySoonCount')) document.getElementById('memorySoonCount').textContent=h.soon;
+  if(document.getElementById('memoryDueCount')) document.getElementById('memoryDueCount').textContent=h.due;
+  const note=document.getElementById('memoryHealthAdvice');
+  if(note){
+    if(!h.attempted) note.textContent='問題演習をすると、問題ごとの記憶間隔を学習して復習日を調整します。';
+    else if(h.due>0) note.innerHTML=`<b>${h.due}問が復習タイミングです。</b> 今日の復習では忘却リスクが高い順に出題します。`;
+    else if(h.soon>0) note.innerHTML=`現在は安定しています。<b>${h.soon}問が近いうちに復習へ戻る見込み</b>です。`;
+    else note.textContent='現在学習済みの問題はよく保持できています。新しい範囲を進めて構いません。';
+  }
+}
+function renderReviewForecast(){
+  const root=document.getElementById('reviewForecast');
+  if(!root) return;
+  const rows=reviewForecast(7);
+  const max=Math.max(1,...rows.map(x=>x.count));
+  const names=['日','月','火','水','木','金','土'];
+  root.innerHTML=rows.map((x,i)=>{
+    const d=parseLocalISO(x.date);
+    const height=x.count?Math.max(10,Math.round(x.count/max*100)):4;
+    return `<div class="forecast-day ${i===0?'today':''}">
+      <div class="forecast-count">${x.count?x.count+'問':''}</div>
+      <div class="forecast-bar-wrap"><div class="forecast-bar" style="height:${height}%"></div></div>
+      <div class="forecast-label">${i===0?'今日':names[d.getDay()]}</div>
+    </div>`;
+  }).join('');
+}
+function renderMemoryDashboard(){
+  renderHomeReviewCandidates();
+  renderMemoryHealth();
+  renderReviewForecast();
+  updateDueCount();
+}
+document.getElementById('startForecastReview')?.addEventListener('click',()=>{
+  showScreen('problems');
+  startQuiz('review');
+});
+
+const _renderPlannerScreenV18=renderPlannerScreen;
+renderPlannerScreen=function(){
+  _renderPlannerScreenV18();
+  renderMemoryDashboard();
+};
+
+const _refreshProfileUIV18=refreshProfileUI;
+refreshProfileUI=function(){
+  _refreshProfileUIV18();
+  renderMemoryDashboard();
+};
+
+renderMemoryDashboard();
 
 window.FEQUEST_BOOT_OK = true;
 // ===== PWA support =====
