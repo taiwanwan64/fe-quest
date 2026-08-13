@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v48</title>
+<title>FE QUEST PWA v52</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2151,29 +2151,30 @@
   .sla-meter>div{height:100%;background:var(--green);border-radius:999px}
 
   .be-chart{
-    position:relative;height:260px;max-width:650px;margin:0 auto;
-    background:
-      linear-gradient(to right,transparent 49.7%,#dfe6ec 49.7%,#dfe6ec 50.3%,transparent 50.3%),
-      linear-gradient(to top,transparent 49.7%,#dfe6ec 49.7%,#dfe6ec 50.3%,transparent 50.3%),
-      #fff;
-    border-left:2px solid #9aa8b5;border-bottom:2px solid #9aa8b5;border-radius:8px;
-    overflow:hidden;
+    max-width:760px;margin:0 auto;background:#fff;border:1px solid #e3e9ed;
+    border-radius:18px;padding:14px;overflow:hidden;
   }
-  .be-line{
-    position:absolute;height:4px;width:130%;left:-15%;top:50%;transform-origin:center;
-    border-radius:999px;
-  }
-  .be-sales{background:var(--blue);transform:rotate(-28deg)}
-  .be-cost{background:var(--red);transform:rotate(-13deg);top:62%}
-  .be-point{
-    position:absolute;left:48%;top:45%;width:18px;height:18px;border-radius:50%;
-    background:var(--yellow);box-shadow:0 0 0 6px rgba(255,200,0,.18);
-  }
-  .be-label{position:absolute;font-size:14px;font-weight:900;background:#fff;padding:3px 6px;border-radius:7px}
-  .be-label.sales{right:8px;top:13px;color:#087db4}
-  .be-label.cost{right:8px;top:86px;color:#b43838}
-  .be-label.point{left:52%;top:39%;color:#7a5d00}
+  .be-svg{display:block;width:100%;height:auto;min-height:300px}
+  .be-axis{stroke:#8294a3;stroke-width:2.2}
+  .be-grid{stroke:#e8edf0;stroke-width:1}
+  .be-sales-line{stroke:#19a9ec;stroke-width:5;stroke-linecap:round}
+  .be-cost-line{stroke:#ff5157;stroke-width:5;stroke-linecap:round}
+  .be-guide{stroke:#d5aa16;stroke-width:2;stroke-dasharray:8 7}
+  .be-point-svg{fill:#ffd12f;stroke:#fff;stroke-width:4}
+  .be-point-ring{fill:none;stroke:rgba(255,193,7,.35);stroke-width:10}
+  .be-svg text{font-family:inherit;font-size:16px;font-weight:800;fill:#536978}
+  .be-svg .be-sales-label{fill:#087db4;font-weight:1000}
+  .be-svg .be-cost-label{fill:#b43838;font-weight:1000}
+  .be-svg .be-point-label{fill:#806000;font-weight:1000}
+  .be-svg .be-loss-label{fill:#c24646;font-weight:1000}
+  .be-svg .be-profit-label{fill:#21833b;font-weight:1000}
+  .be-svg .be-axis-label{fill:#6c7e8c}
   .be-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:15px}
+  @media(max-width:620px){
+    .be-chart{padding:8px}
+    .be-svg{min-height:250px}
+    .be-svg text{font-size:15px}
+  }
 
   .rights-grid{
     display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:720px;margin:0 auto;
@@ -3692,6 +3693,151 @@
     .pwa-health-grid{grid-template-columns:1fr}.app-notice{bottom:86px;align-items:flex-start}.app-notice-actions{width:100%}.app-notice-copy{min-width:170px}
   }
 
+
+  /* ===== v49: exam date adaptive pacing ===== */
+  .pace-toggle{display:inline-flex;align-items:center;cursor:pointer}
+  .pace-toggle input{position:absolute;opacity:0;pointer-events:none}
+  .pace-toggle span{position:relative;width:54px;height:30px;border-radius:999px;background:#dfe5e9;transition:.18s;border:1px solid #ced7dd}
+  .pace-toggle span:after{content:"";position:absolute;width:24px;height:24px;border-radius:50%;left:2px;top:2px;background:#fff;box-shadow:0 1px 4px rgba(30,45,60,.18);transition:.18s}
+  .pace-toggle input:checked + span{background:#54bf2d;border-color:#54bf2d}
+  .pace-toggle input:checked + span:after{transform:translateX(24px)}
+  .exam-pace-card #countdownBox{margin-bottom:12px}
+  .pace-overview{border:1px solid var(--line);border-radius:18px;padding:15px;background:#fff}
+  .pace-overview.good{background:#f3fbf4;border-color:#cfeac5}.pace-overview.ok{background:#f6fbff;border-color:#cfe3f1}
+  .pace-overview.warn{background:#fff9ec;border-color:#efdda8}.pace-overview.danger{background:#fff3f3;border-color:#f0caca}
+  .pace-head{display:flex;align-items:flex-start;gap:12px}.pace-status-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:22px;border:1px solid rgba(70,90,110,.12)}
+  .pace-head-copy{flex:1}.pace-phase{font-size:14px;font-weight:1000;color:#6d7f8e}.pace-title{font-size:18px;font-weight:1000;line-height:1.4;margin-top:2px}
+  .pace-explain{font-size:14px;line-height:1.65;color:#607586;margin-top:5px}
+  .pace-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.pace-metric{border:1px solid #e4e9ec;border-radius:13px;padding:10px 11px;background:#fff}
+  .pace-metric span{display:block;font-size:14px;color:#6b7f8e;font-weight:800}.pace-metric b{display:block;font-size:18px;margin-top:3px}
+  .pace-projection,.pace-adjustment{margin-top:10px;padding:11px 12px;border-radius:13px;font-size:14px;line-height:1.65}
+  .pace-projection{background:rgba(255,255,255,.72)}.pace-adjustment{background:#f7f2fc;border:1px solid #e1d1f0;color:#5f4b73}.pace-adjustment b{color:#6f3d9f}
+  .pace-note{margin-top:10px;font-size:14px;line-height:1.6;color:#6c7f8e}
+  .pace-phase-banner{margin:0 0 12px;padding:10px 12px;border-radius:13px;background:#f7f3fb;border:1px solid #e4d8ef;font-size:14px;line-height:1.55;color:#644f77}
+  @media(max-width:620px){.pace-metrics{grid-template-columns:1fr}}
+
+
+  /* ===== v51: semantic lesson diagrams + reversible step navigation ===== */
+
+  .swot-matrix{
+    display:grid;
+    grid-template-columns:100px minmax(180px,1fr) minmax(180px,1fr);
+    grid-template-rows:auto minmax(145px,auto) minmax(145px,auto);
+    gap:9px;max-width:780px;margin:0 auto;
+  }
+  .swot-axis-corner{display:grid;place-items:center;font-size:14px;font-weight:900;color:#6f8190}
+  .swot-axis-head,.swot-axis-side{
+    display:grid;place-items:center;text-align:center;border-radius:13px;
+    background:#f3f6f8;color:#5c7181;font-size:14px;font-weight:1000;padding:9px;
+  }
+  .swot-axis-head.internal{background:#eef8ff;color:#15749e}
+  .swot-axis-head.external{background:#f6effd;color:#70419d}
+  .swot-axis-side.plus{background:#f1faec;color:#3e7d31}
+  .swot-axis-side.minus{background:#fff1f1;color:#a34343}
+  .swot-quad{
+    position:relative;border:2px solid var(--line);background:#fff;border-radius:18px;
+    padding:16px;min-height:145px;transition:.15s ease;
+  }
+  .swot-quad[data-swot="S"]{border-color:#b7dfaa;background:#f7fff4}
+  .swot-quad[data-swot="W"]{border-color:#f0c6c6;background:#fff8f8}
+  .swot-quad[data-swot="O"]{border-color:#b9dff1;background:#f6fcff}
+  .swot-quad[data-swot="T"]{border-color:#dfcbed;background:#fcf9ff}
+  .swot-quad.clickable{cursor:pointer}
+  .swot-quad.clickable:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(50,70,90,.07)}
+  .swot-quad.good{outline:3px solid var(--green);outline-offset:2px}
+  .swot-quad.bad{outline:3px solid var(--red);outline-offset:2px}
+  .swot-letter{font-size:27px;font-weight:1000;line-height:1}
+  .swot-name{font-size:15px;color:#5e7383;font-weight:1000;margin-top:5px}
+  .swot-jp{font-size:18px;font-weight:1000;margin-top:8px}
+  .swot-rule{font-size:14px;line-height:1.55;color:#687d8c;margin-top:5px}
+  .swot-example{
+    margin-top:8px;padding:7px 9px;border-radius:10px;background:rgba(255,255,255,.75);
+    font-size:14px;font-weight:900;color:#526978;
+  }
+  .swot-practice-head{
+    max-width:780px;margin:0 auto 12px;padding:13px 15px;border:1px solid #dce4e9;
+    border-radius:15px;background:#fff;text-align:center;
+  }
+  .swot-practice-head span{display:block;font-size:14px;color:#697d8c;font-weight:900}
+  .swot-practice-head b{display:block;font-size:20px;margin-top:4px}
+
+  .test-scope-flow{
+    display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:10px;
+    max-width:880px;margin:0 auto;align-items:stretch;
+  }
+  .test-scope-step{
+    position:relative;border:2px solid var(--line);border-radius:18px;background:#fff;
+    padding:15px 12px;min-height:150px;text-align:center;
+    display:flex;flex-direction:column;justify-content:center;transition:.16s ease;
+  }
+  .test-scope-step:not(:last-child)::after{
+    content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+    font-size:22px;font-weight:1000;color:#a7b4bd;z-index:2;
+  }
+  .test-scope-step.flow-current{
+    border-color:var(--blue);background:#eef9ff;box-shadow:0 0 0 6px rgba(28,176,246,.10);
+    transform:none;
+  }
+  .test-scope-step.flow-done{border-color:#a9dd92;background:#f5fff1}
+  .test-scope-no{
+    width:31px;height:31px;border-radius:50%;display:grid;place-items:center;margin:0 auto 8px;
+    background:#edf1f4;color:#5f7383;font-size:14px;font-weight:1000;
+  }
+  .test-scope-step.flow-current .test-scope-no{background:var(--blue);color:#fff}
+  .test-scope-step.flow-done .test-scope-no{background:var(--green);color:#fff}
+  .test-scope-name{font-size:17px;font-weight:1000}
+  .test-scope-target{font-size:14px;line-height:1.55;color:#667b8b;margin-top:7px}
+  .test-current-badge{
+    position:absolute;right:9px;top:9px;border-radius:999px;background:var(--blue);color:#fff;
+    padding:4px 8px;font-size:14px;font-weight:1000;
+  }
+
+  .step-nav-controls{
+    display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px;
+  }
+  .step-prev-btn,.step-next-btn{
+    min-height:48px;border-radius:14px;padding:11px 17px;font-size:14px;font-weight:1000;
+  }
+  .step-prev-btn{border:2px solid var(--line);background:#fff;color:#425867}
+  .step-next-btn{border:2px solid var(--purple);background:var(--purple);color:#fff}
+  .step-prev-btn:not(:disabled),.step-next-btn:not(:disabled){cursor:pointer}
+  .step-prev-btn:disabled,.step-next-btn:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .step-next-btn.done{background:#f3fbf4;border-color:#b8e3a8;color:#367a32}
+
+  @media(max-width:760px){
+    .swot-matrix{grid-template-columns:78px 1fr 1fr}
+    .swot-quad{padding:12px;min-height:150px}
+    .test-scope-flow{grid-template-columns:1fr}
+    .test-scope-step:not(:last-child)::after{
+      content:"↓";right:auto;left:50%;top:auto;bottom:-22px;transform:translateX(-50%);
+    }
+  }
+
+
+  /* ===== v52: explanation-first lessons ===== */
+  .lesson-study-guide{max-width:900px;margin:0 auto 18px;padding:18px;border:1px solid #dfe6eb;border-radius:20px;background:#fff;text-align:left}
+  .lesson-study-kicker{font-size:14px;font-weight:1000;color:#6f3fa0;letter-spacing:.03em;margin-bottom:7px}
+  .lesson-study-lead{font-size:16px;line-height:1.8;color:#334b5b;font-weight:700;margin:0}
+  .lesson-study-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+  .lesson-study-point{border:1px solid #e1e7eb;border-radius:15px;padding:13px;background:#f9fbfc}
+  .lesson-study-point b{display:block;font-size:15px;color:#17364b;margin-bottom:5px}
+  .lesson-study-point span{display:block;font-size:14px;line-height:1.65;color:#627786}
+  .lesson-study-pitfall{margin-top:12px;padding:12px 14px;border-radius:14px;background:#fff8e8;border:1px solid #f0ddb0;font-size:14px;line-height:1.7;color:#6f5d29}
+  .lesson-study-pitfall b{color:#836000}
+  .lesson-visual-label{max-width:900px;margin:0 auto 8px;font-size:14px;font-weight:1000;color:#6b7e8d;text-align:left}
+  .lesson-note-section{max-width:900px;margin:0 auto 14px;border:1px solid #dfe6eb;border-radius:18px;background:#fff;padding:16px;text-align:left}
+  .lesson-note-section h3{font-size:18px;margin:0 0 8px;color:#17364b}.lesson-note-section p{font-size:15px;line-height:1.75;color:#536b7b;margin:0}
+  .lesson-note-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+  .lesson-note-card{border:1px solid #e2e8ec;border-radius:14px;padding:12px;background:#fafcfd}.lesson-note-card b{display:block;font-size:15px;margin-bottom:5px}.lesson-note-card span{display:block;font-size:14px;line-height:1.65;color:#617686}
+  .test-type-table{display:grid;gap:9px;max-width:900px;margin:0 auto}.test-type-row{display:grid;grid-template-columns:150px 1fr 120px;gap:10px;align-items:start;padding:13px 14px;border:1px solid #dfe6eb;border-radius:15px;background:#fff;text-align:left}
+  .test-type-row strong{font-size:16px;color:#17364b}.test-type-desc{font-size:14px;line-height:1.7;color:#536b7b}.test-type-who{font-size:14px;font-weight:900;color:#6f3fa0;text-align:right}
+  .test-method-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:900px;margin:0 auto}.test-method-card{border:1px solid #dfe6eb;border-radius:18px;background:#fff;padding:16px;text-align:left}
+  .test-method-card h3{font-size:18px;margin:0 0 8px}.test-method-card p{font-size:14px;line-height:1.7;color:#5c7180;margin:0}.test-method-card li{font-size:14px;line-height:1.65;color:#526a79;margin:4px 0}
+  .test-case-box{max-width:900px;margin:12px auto 0;padding:13px 15px;border-radius:15px;background:#f6f9fb;border:1px solid #dfe6eb;text-align:left}.test-case-box b{font-size:15px}.test-case-box span{font-size:14px;line-height:1.65;color:#5e7382}
+  .testing-practice{max-width:900px;margin:0 auto}.testing-practice-case{padding:15px 16px;border:1px solid #dfe6eb;border-radius:16px;background:#fff;margin-bottom:12px;text-align:left}.testing-practice-case span{display:block;font-size:14px;color:#6b7e8d;font-weight:900}.testing-practice-case b{display:block;font-size:18px;line-height:1.6;margin-top:5px}
+  .testing-choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.testing-choice{border:2px solid #dfe6eb;background:#fff;border-radius:14px;padding:13px;font-size:15px;font-weight:1000;cursor:pointer}.testing-choice.good{border-color:#55bb32;background:#f2fbe9}.testing-choice.bad{border-color:#e46b6b;background:#fff1f1}.testing-progress{font-size:14px;font-weight:900;color:#6f8190;text-align:center;margin-top:12px}
+  @media(max-width:760px){.lesson-study-points,.lesson-note-grid,.test-method-compare,.testing-choice-grid{grid-template-columns:1fr}.test-type-row{grid-template-columns:1fr}.test-type-who{text-align:left}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4061,9 +4207,16 @@
             <div class="planner-row">
               <div class="planner-row-copy">
                 <div class="planner-label">受験予定日</div>
-                <div class="planner-help">未定なら空欄で構いません。</div>
+                <div class="planner-help">設定すると、残り日数と進捗から毎日の学習配分を調整します。</div>
               </div>
               <input class="planner-input" id="examDateSetting" type="date">
+            </div>
+            <div class="planner-row">
+              <div class="planner-row-copy">
+                <div class="planner-label">試験日に合わせて自動調整</div>
+                <div class="planner-help">必要ペースに応じて、今日の目標時間を標準時間から最大120分まで引き上げます。</div>
+              </div>
+              <label class="pace-toggle"><input id="autoPaceSetting" type="checkbox"><span></span></label>
             </div>
             <button class="planner-save" id="savePlanSettings">設定を保存</button>
           </div>
@@ -4090,13 +4243,15 @@
             <div class="pwa-health-note">学習データはこのブラウザ内に保存されています。端末変更やサイトデータ削除に備えて、ときどき書き出しておくと安心です。</div>
           </div>
 
-          <div class="planner-card">
-            <h2>試験まで</h2>
+          <div class="planner-card exam-pace-card">
+            <h2>試験日ペース 📅</h2>
             <div id="countdownBox"></div>
+            <div id="examPacePanel"></div>
           </div>
 
           <div class="planner-card">
             <h2>今日の配分</h2>
+            <div class="sub" id="allocationPaceNote"></div>
             <div id="planAllocation"></div>
           </div>
 
@@ -4357,7 +4512,7 @@
             <div class="lesson-tile-icon">🧪</div>
             <div><div class="lesson-tile-title">テスト工程</div><div class="lesson-tile-cat">システム開発</div></div>
           </div>
-          <div class="lesson-tile-desc">単体・結合・システム・受入テストを、対象範囲が広がるピラミッドで理解します。</div>
+          <div class="lesson-tile-desc">単体・結合・システム・運用テストの目的、担当、テスト技法、回帰テストまで整理します。</div>
           <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="testing" style="width:0%"></div></div><span class="lesson-percent" data-lpt="testing">0%</span></div>
           <button class="lesson-open" data-lesson="testing">学習する</button>
         </div>
@@ -9623,9 +9778,9 @@ const LESSONS = {
   swot:{
     title:'SWOT分析',cat:'経営戦略',skill:'ストラテジ',
     pages:[
-      {headline:'内部と外部、プラスとマイナスで4象限',copy:'Strength・Weaknessは内部環境、Opportunity・Threatは外部環境として整理します。',render:()=>swotView(0)},
-      {headline:'4つの例を仕分ける',copy:'順番に正しい象限を選んでください。',interactive:'swot'},
-      {headline:'S/Wは自社内部、O/Tは外部環境',copy:'戦略を考える材料として、自社の強みを機会に生かすなどの組合せを検討します。',render:()=>swotView(4)},
+      {headline:'内部・外部 × プラス・マイナスで整理する',copy:'SWOTは「自社の内部か、外部環境か」と「好ましい要因か、好ましくない要因か」の2軸で4象限に整理します。',render:()=>swotMatrixView()},
+      {headline:'例を4象限へ仕分ける',copy:'例を読み、S・W・O・Tのどの象限に当てはまるか選んでください。',interactive:'swot'},
+      {headline:'S/Wは内部、O/Tは外部',copy:'Strengthは内部の強み、Weaknessは内部の弱み、Opportunityは外部の機会、Threatは外部の脅威です。',render:()=>swotMatrixView()},
       {headline:'ミニチェック',copy:'SWOT分析で「市場が急成長している」は一般にどれ？',quiz:{options:['Opportunity','Strength','Weakness','Threat'],answer:0,explain:'市場成長は企業外部の好ましい環境なのでOpportunity（機会）です。'}}
     ]
   },
@@ -9688,10 +9843,11 @@ const LESSONS = {
   testing:{
     title:'テスト工程',cat:'システム開発',skill:'マネジメント',
     pages:[
-      {headline:'小さな単位から全体へ広げる',copy:'単体→結合→システム→受入、と対象範囲を広げて確認していきます。',render:()=>testPyramid(0)},
-      {headline:'テスト範囲を1段ずつ広げる',copy:'青く光るテストレベルを見ながら、単体 → 結合 → システム → 受入の順に進めてください。',interactive:'testing'},
-      {headline:'誰が何を確認するかも重要',copy:'単体では部品、結合では部品間、システムでは全体、受入では利用者側の要求を満たすかを確認します。',render:()=>testPyramid(4)},
-      {headline:'ミニチェック',copy:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',quiz:{options:['結合テスト','単体テスト','受入テスト','負荷分散'],answer:0,explain:'結合テストでは複数モジュールを組み合わせ、連携やインタフェースを確認します。'}}
+      {headline:'テストは「仕様・要求どおりに動くか」を確認する',copy:'テストでは不具合を見つけるだけでなく、要件定義や設計で決めた内容が実現できているかを段階的に確認します。',noGuide:true,render:()=>testingOverviewView()},
+      {headline:'単体・結合・システム・運用を役割で区別する',copy:'名前だけでなく「何を対象に、何を確認し、主に誰が行うか」を対応させて覚えます。',render:()=>testingTypesView()},
+      {headline:'ホワイトボックスとブラックボックス',copy:'プログラム内部を見る方法と、入力・出力から機能を確認する方法を区別します。',render:()=>testingMethodsView()},
+      {headline:'状況からテスト工程を判断する',copy:'説明を読み、どのテストに当てはまるかを選んでください。単なるSTEP送りではなく、目的から判断します。',interactive:'testingClassify'},
+      {headline:'ミニチェック',copy:'複数のモジュールを組み合わせ、インタフェースやデータの受渡しを確認するテストは？',quiz:{options:['結合テスト','単体テスト','運用テスト','リグレッションテスト'],answer:0,explain:'結合テストでは、単体テストを終えた複数のプログラムを組み合わせ、インタフェースや連携が正しく機能するかを確認します。'}}
     ]
   },
   criticalpath:{
@@ -9723,9 +9879,9 @@ const LESSONS = {
   breakeven:{
     title:'損益分岐点を動かす',cat:'企業活動',skill:'ストラテジ',
     pages:[
-      {headline:'売上と費用が同じになる地点',copy:'売上高＝総費用となり、利益がちょうど0になる点が損益分岐点です。',render:()=>breakEvenView(false)},
-      {headline:'交点を確認する',copy:'「損益分岐点を表示」を押して、利益が発生する側を確認してください。',interactive:'breakeven'},
-      {headline:'交点より右側では売上が費用を上回る',copy:'売上線と総費用線の関係を見ると、赤字・黒字の境目を視覚的に捉えられます。',render:()=>breakEvenView(true)},
+      {headline:'売上線と総費用線を読む',copy:'売上高は販売量に応じて増え、総費用は固定費があるため0より上から始まります。2本の線が交わる点が損益分岐点です。',render:()=>breakEvenView(false)},
+      {headline:'損益分岐点を確認する',copy:'2本の線が交わる位置を表示し、その左右で利益と損失がどう変わるか確認してください。',interactive:'breakeven'},
+      {headline:'交点の左は赤字、右は黒字',copy:'左側では総費用が売上高を上回り、右側では売上高が総費用を上回ります。',render:()=>breakEvenView(true)},
       {headline:'ミニチェック',copy:'損益分岐点売上高では利益はいくら？',quiz:{options:['0','必ず100万円','必ず赤字','売上高と同額'],answer:0,explain:'損益分岐点は売上高と総費用が等しくなるため、利益は0です。'}}
     ]
   },
@@ -10158,9 +10314,34 @@ function rfpView(mode){
   const items=[['目的・背景','なぜ必要か'],['要求機能','何が必要か'],['納期・条件','いつ・どんな条件か'],['評価方法','どう比較するか']];
   return `<div class="rfp-grid">${items.map((x,i)=>`<div class="rfp-card ${mode==='all'||mode===String(i)?'active':''}"><div class="rfp-title">${x[0]}</div><div class="rfp-desc">${mode==='all'||mode===String(i)?x[1]:'RFPの要素'}</div></div>`).join('')}</div>`;
 }
-function swotView(active){
-  const cells=[['S','Strength','強み・内部'],['W','Weakness','弱み・内部'],['O','Opportunity','機会・外部'],['T','Threat','脅威・外部']];
-  return `<div class="swot-grid">${cells.map((x,i)=>`<div class="swot-cell ${active>i?'active':''}"><div class="swot-letter">${x[0]}</div><div class="swot-name">${x[1]}</div><div>${active>i?x[2]:'？'}</div></div>`).join('')}</div>`;
+function swotMatrixView(examples={},clickable=false){
+  const cells={
+    S:['Strength','強み','内部 × プラス','高い技術力'],
+    W:['Weakness','弱み','内部 × マイナス','知名度が低い'],
+    O:['Opportunity','機会','外部 × プラス','市場が拡大中'],
+    T:['Threat','脅威','外部 × マイナス','競合が新規参入']
+  };
+  const quad=(key)=>{
+    const x=cells[key],ex=examples[key];
+    return `<div class="swot-quad ${clickable?'clickable':''}" data-swot="${key}">
+      <div class="swot-letter">${key}</div>
+      <div class="swot-name">${x[0]}</div>
+      <div class="swot-jp">${x[1]}</div>
+      <div class="swot-rule">${x[2]}</div>
+      ${ex?`<div class="swot-example">例：${escapeHtml(ex)}</div>`:''}
+    </div>`;
+  };
+  return `<div class="swot-matrix">
+    <div class="swot-axis-corner">SWOT</div>
+    <div class="swot-axis-head internal">内部環境</div>
+    <div class="swot-axis-head external">外部環境</div>
+
+    <div class="swot-axis-side plus">プラス要因</div>
+    ${quad('S')}${quad('O')}
+
+    <div class="swot-axis-side minus">マイナス要因</div>
+    ${quad('W')}${quad('T')}
+  </div>`;
 }
 
 function flowState(index,current,total){
@@ -10178,6 +10359,14 @@ function stepPositionNote(label,currentStep=null,totalSteps=null){
 }
 function progressButtonLabel(currentStep,totalSteps,base='▶ 進める'){
   return `${base}（STEP ${currentStep} / ${totalSteps}）`;
+}
+function reversibleStepControls(step,total,opts={}){
+  const prev=opts.prevLabel||'← 前のステップ';
+  const next=step>=total?(opts.doneLabel||'✓ すべて確認'):(opts.nextLabel||'次のステップ →');
+  return `<div class="step-nav-controls">
+    <button class="step-prev-btn" id="${opts.prevId||'stepPrevBtn'}" ${step<=0?'disabled':''}>${prev}</button>
+    <button class="step-next-btn ${step>=total?'done':''}" id="${opts.nextId||'stepNextBtn'}" ${step>=total?'disabled':''}>${next}</button>
+  </div>`;
 }
 
 
@@ -10247,15 +10436,27 @@ function devPipeline(active){
   return `<div class="dev-pipeline">${items.map((x,i)=>`<div class="dev-step ${flowState(i,current,5)}"><div>${x[0]}</div><div class="small">${x[1]}</div></div>`).join('')}</div>
     ${current<5?stepPositionNote(`現在：${items[current][0]}`, current+1, 5):stepPositionNote('開発工程をすべて確認しました')}`;
 }
-function testPyramid(active){
-  const items=['受入テスト','システムテスト','結合テスト','単体テスト'];
-  const current=Math.min(active,4);
-  return `<div class="test-pyramid">${items.map((x,i)=>{
-    const order=3-i;
-    const cls=current>=4?'flow-done':order<current?'flow-done':order===current?'flow-current':'';
-    return `<div class="test-level ${cls}">${x}</div>`;
-  }).join('')}</div>
-  ${current<4?stepPositionNote(`現在：${items[3-current]}`, current+1, 4):stepPositionNote('4段階のテストをすべて確認しました')}`;
+
+function testingOverviewView(){return `<div class="lesson-note-section"><h3>テストの目的</h3><p>プログラミングが終わったら、作成したプログラム単体やシステム全体が、仕様・要求どおりに動作するかを確認します。設計・開発で決めた内容とテストは対応しており、下位の部品から上位の業務要求へ確認範囲を広げていきます。</p><div class="lesson-note-grid"><div class="lesson-note-card"><b>① 不具合を見つける</b><span>誤った処理・連携不良・性能不足などを発見し、修正につなげます。</span></div><div class="lesson-note-card"><b>② 要求を満たすか確かめる</b><span>要件定義や設計で決めた機能・性能・業務条件を満たしているか確認します。</span></div><div class="lesson-note-card"><b>③ 段階的に範囲を広げる</b><span>単体→結合→システム→運用と、部品からシステム全体へ対象を広げます。</span></div><div class="lesson-note-card"><b>④ 修正後も再確認する</b><span>変更によって別の箇所へ不具合が出ていないか、リグレッションテストで確認します。</span></div></div></div>`;}
+function testingTypesView(){const rows=[['単体テスト','個々のプログラムやモジュールに誤りがないか確認します。内部構造を意識したホワイトボックステストが代表的です。','主に開発者'],['結合テスト','単体テスト済みの複数モジュールを組み合わせ、インタフェースやデータの受渡し・連携を確認します。','主に開発者'],['システムテスト','システム全体がシステム要件どおりに動くか確認します。機能だけでなく応答時間などの非機能面も対象になります。','主に開発者'],['運用テスト','本番に近い環境で実際の業務を想定し、業務要件を満たして運用できるか確認します。','主に利用者']];return `<div class="test-type-table">${rows.map(r=>`<div class="test-type-row"><strong>${r[0]}</strong><div class="test-type-desc">${r[1]}</div><div class="test-type-who">${r[2]}</div></div>`).join('')}</div><div class="test-case-box"><b>リグレッションテスト：</b> <span>不具合修正や機能追加のあと、変更していない既存部分へ新しい不具合が混入していないか確認する再テストです。</span></div>`;}
+function testingMethodsView(){return `<div class="test-method-compare"><div class="test-method-card"><h3>ホワイトボックステスト</h3><p>プログラムの内部構造・処理経路を見ながらテストします。</p><ul><li>主に単体テストで利用</li><li>分岐や条件、処理経路をどこまで通したかを意識</li><li>プログラム内部を理解できる開発者向き</li></ul></div><div class="test-method-card"><h3>ブラックボックステスト</h3><p>内部実装を意識せず、入力に対して期待した出力が得られるかを確認します。</p><ul><li>機能仕様を基準にテストケースを作る</li><li>結合・システムなど上位テストで利用しやすい</li><li>同値分割や境界値分析などと関連</li></ul></div></div><div class="test-case-box"><b>テストケース：</b> <span>「どんな入力を与えたとき、どんな結果を期待するか」をあらかじめ定めた組合せです。試験では、網羅性や境界値を意識した設計も問われます。</span></div>`;}
+
+function testScopeView(active=-1){
+  const items=[
+    ['単体テスト','1つのモジュール・部品を確認'],
+    ['結合テスト','モジュール間の連携を確認'],
+    ['システムテスト','システム全体を確認'],
+    ['受入テスト','利用者要求を満たすか確認']
+  ];
+  return `<div class="test-scope-flow">${items.map((x,i)=>{
+    const cls=active<0?'':active>=4?'flow-done':i<active?'flow-done':i===active?'flow-current':'';
+    return `<div class="test-scope-step ${cls}">
+      ${active>=0&&active<4&&i===active?'<span class="test-current-badge">現在</span>':''}
+      <div class="test-scope-no">${active>=0&&i<active?'✓':i+1}</div>
+      <div class="test-scope-name">${x[0]}</div>
+      <div class="test-scope-target">${x[1]}</div>
+    </div>`;
+  }).join('')}</div>`;
 }
 function criticalPathView(show){
   return `<div class="cp-network">
@@ -10294,13 +10495,38 @@ function rightsView(active){
   return `<div class="rights-grid">${items.map((x,i)=>`<div class="right-card2 ${active>i?'active':''}"><div class="right-icon">${x[0]}</div><div class="right-title">${x[1]}</div><div class="right-desc">${active>i?x[2]:'どの権利？'}</div></div>`).join('')}</div>`;
 }
 function breakEvenView(show){
+  // Fixed SVG coordinates keep the marker exactly on the real line intersection.
+  // Sales: (70,280) -> (650,60)
+  // Total cost: (70,220) -> (650,120)
+  // Both pass through (360,170).
   return `<div class="be-chart">
-    <div class="be-line be-sales"></div>
-    <div class="be-line be-cost"></div>
-    <div class="be-point" style="${show?'':'display:none'}"></div>
-    <div class="be-label sales">売上高</div>
-    <div class="be-label cost">総費用</div>
-    ${show?'<div class="be-label point">損益分岐点</div>':''}
+    <svg class="be-svg" viewBox="0 0 720 330" role="img" aria-label="売上高と総費用の損益分岐点グラフ">
+      <line class="be-grid" x1="70" y1="225" x2="650" y2="225"></line>
+      <line class="be-grid" x1="70" y1="170" x2="650" y2="170"></line>
+      <line class="be-grid" x1="70" y1="115" x2="650" y2="115"></line>
+
+      <line class="be-axis" x1="70" y1="30" x2="70" y2="280"></line>
+      <line class="be-axis" x1="70" y1="280" x2="650" y2="280"></line>
+
+      <line class="be-sales-line" x1="70" y1="280" x2="650" y2="60"></line>
+      <line class="be-cost-line" x1="70" y1="220" x2="650" y2="120"></line>
+
+      <text class="be-sales-label" x="566" y="74">売上高</text>
+      <text class="be-cost-label" x="566" y="132">総費用</text>
+      <text class="be-axis-label" x="20" y="40">金額</text>
+      <text class="be-axis-label" x="510" y="314">販売数量・売上規模</text>
+      <text class="be-axis-label" x="84" y="213">固定費</text>
+
+      ${show?`
+        <line class="be-guide" x1="360" y1="170" x2="360" y2="280"></line>
+        <line class="be-guide" x1="70" y1="170" x2="360" y2="170"></line>
+        <circle class="be-point-ring" cx="360" cy="170" r="13"></circle>
+        <circle class="be-point-svg" cx="360" cy="170" r="10"></circle>
+        <text class="be-point-label" x="378" y="160">損益分岐点</text>
+        <text class="be-loss-label" x="185" y="255">赤字</text>
+        <text class="be-profit-label" x="500" y="195">黒字</text>
+      `:''}
+    </svg>
   </div>`;
 }
 
@@ -10482,6 +10708,8 @@ let reliabilitySeen=new Set();
 let backupSeen=new Set();
 let devSteps=0;
 let testSteps=0;
+const LESSON_GUIDES = {"automata":{"lead":"オートマトンは、入力を受け取るたびに「現在の状態」から次の状態へ移るモデルです。状態遷移図や遷移表を読み、入力列を左から順に追えることが重要です。","points":[["状態","処理の途中で機械がどの状況にいるかを表します。"],["遷移","現在状態と入力の組合せによって次状態が決まります。"],["入力列","一文字ずつ順に適用し、途中状態を書き換えながら追跡します。"]],"pitfall":"入力だけを見て答えを決めないこと。同じ入力でも、現在状態が違えば次状態が変わることがあります。"},"memorychips":{"lead":"半導体メモリは「電源断で内容が消えるか」と「通常利用で書き換えられるか」で整理すると混乱しにくくなります。","points":[["RAM","一般に揮発性で読み書き可能。主記憶などに利用されます。"],["ROM","不揮発性で、基本的には読み出し中心の用途に使われます。"],["フラッシュメモリ","不揮発性で電気的に書換え可能。SSDやUSBメモリなどで使われます。"]],"pitfall":"「ROM＝絶対に書換え不能」と丸暗記しないこと。ROM系には書換え可能な種類もあります。"},"filesystem":{"lead":"ファイルシステムは、ファイルやディレクトリを階層構造で管理する仕組みです。位置の表し方として絶対パスと相対パスを区別します。","points":[["ルート","階層構造の最上位です。絶対パスはここを基準に表します。"],["絶対パス","ルートから目的のファイルまでをすべて記述します。"],["相対パス","現在位置を基準に、目的地までの移動だけを表します。"]],"pitfall":"絶対パスと相対パスを混同しないこと。問題では「現在位置」が示されているかを先に確認します。"},"uiux":{"lead":"UIは利用者とシステムの接点、UXは利用を通して得られる体験全体です。試験では使いやすさ・分かりやすさ・アクセシビリティの観点が重要です。","points":[["視認性","十分な文字サイズやコントラストを確保します。"],["操作性","ボタンの目的を分かるラベルにし、押しやすい大きさを確保します。"],["アクセシビリティ","色だけに依存せず、文字や形など複数の手掛かりで伝えます。"]],"pitfall":"「見た目がきれい＝使いやすい」ではありません。利用者が迷わず操作できるかで判断します。"},"multimedia":{"lead":"画像の基本データ量は「横画素数 × 縦画素数 × 1画素当たりのビット数」で求めます。bitとbyteの変換まで一連でできるようにします。","points":[["画素数","横×縦で画像全体のピクセル数を求めます。"],["色深度","1画素を何bitで表すかを示します。"],["圧縮","非圧縮の基本計算と、実ファイルの圧縮後サイズは区別します。"]],"pitfall":"bitをbyteへ直すときは8で割ります。KBやMBまで問われる場合は単位変換も忘れないようにします。"},"devmodel":{"lead":"開発モデルは、要件の安定度や変更への対応方法によって向き不向きがあります。名称だけでなく「どう進めるか」を比較します。","points":[["ウォーターフォール","工程を順番に進め、前工程の成果物を次工程へ引き継ぎます。"],["アジャイル","短い反復を繰り返し、利用者のフィードバックを取り込みながら改善します。"],["選択基準","要件の変化、納期、利用者との協働などを踏まえて適切な方法を選びます。"]],"pitfall":"アジャイルが常に優れているわけではありません。プロジェクト特性に応じて選びます。"},"audit":{"lead":"システム監査は、情報システムやその管理が適切かを客観的に評価し、必要に応じて改善を促す活動です。","points":[["独立性","監査対象から独立した立場で評価することが重要です。"],["監査証拠","判断は記録・ログ・文書などの証拠に基づきます。"],["改善","問題点を指摘するだけでなく、改善につながる助言を行うことがあります。"]],"pitfall":"開発担当者による自己評価と、独立したシステム監査は別物です。"},"businessprocess":{"lead":"業務改善では、まず現状（As-Is）を把握し、理想の業務（To-Be）との差を明確にします。IT導入は目的ではなく改善手段です。","points":[["As-Is","現在の手順・待ち時間・重複作業などを可視化します。"],["To-Be","改善後に実現したい業務の姿を設計します。"],["BPR","業務プロセスを抜本的に見直し、大幅な改善を狙う考え方です。"]],"pitfall":"「新しいシステムを導入した＝業務改善」ではありません。業務の時間・品質・コストがどう変わるかを考えます。"},"procurement":{"lead":"システム調達では、必要なものを明確にし、複数の候補から提案を受けて比較・選定します。文書名と目的を対応させます。","points":[["RFI","情報提供依頼。市場やベンダの情報を広く集める段階で使います。"],["RFP","提案依頼。目的・要件・条件を示して具体的な提案を求めます。"],["評価","機能・費用・納期・体制など、あらかじめ定めた基準で比較します。"]],"pitfall":"RFPは契約書そのものではありません。「どんな提案をしてほしいか」を伝える文書です。"},"swot":{"lead":"SWOT分析は、内部環境と外部環境をそれぞれプラス・マイナスに分け、戦略を考える材料を整理する方法です。","points":[["Strength / Weakness","自社の内部要因。強みと弱みです。"],["Opportunity / Threat","市場・競合・制度などの外部要因。機会と脅威です。"],["クロス分析","強み×機会など、要因を組み合わせて戦略案を考えます。"]],"pitfall":"「良いこと＝Strength」ではありません。外部環境の好材料ならOpportunityです。まず内部か外部かを判定します。"},"iot":{"lead":"IoTは、センサで現実世界の情報を取得し、ネットワークで送信し、処理結果を現実世界へ戻す仕組みとして捉えると分かりやすくなります。","points":[["センサ","温度・位置・加速度など、現実世界の状態を取得します。"],["ネットワーク／クラウド","データを送受信し、保存・分析・判断を行います。"],["アクチュエータ","制御信号を受け、モータや空調など現実世界へ作用します。"]],"pitfall":"センサは「測る側」、アクチュエータは「動かす側」です。"},"finance":{"lead":"利益は一種類ではありません。売上高からどの費用を差し引いた段階かによって、売上総利益・営業利益など名称が変わります。","points":[["売上総利益","売上高 − 売上原価。商品やサービスそのものの粗い収益力を表します。"],["営業利益","売上総利益 − 販売費及び一般管理費。本業で得た利益を表します。"],["計算順序","問題文に出てくる費用がどの段階で差し引かれるかを整理します。"]],"pitfall":"売上高からいきなり販管費だけを引かないこと。利益の種類ごとに計算段階を区別します。"},"os":{"lead":"OSはCPU・メモリ・入出力装置・ファイルなどの資源を管理し、アプリケーションが利用できる実行環境を提供します。","points":[["プロセス管理","複数の処理へCPU時間を割り当てます。"],["メモリ管理","主記憶の割当てや仮想記憶などを管理します。"],["入出力・ファイル管理","装置やファイルへのアクセスを統一的に扱います。"]],"pitfall":"CPUスケジューリングはOSの役割の一部です。OS＝CPU割当てだけ、と狭く覚えないようにします。"},"reliability":{"lead":"システムの稼働率は、装置の接続方法によって計算が変わります。直列と並列を式で区別できることが重要です。","points":[["直列構成","すべての装置が動く必要があるため、各稼働率を掛け合わせます。"],["並列構成","少なくとも1台動けばよい場合、全台停止する確率を1から引きます。"],["稼働率","MTBF ÷（MTBF＋MTTR）でも求められます。"]],"pitfall":"並列構成で単純に稼働率を足さないこと。まず全台停止の確率を考えます。"},"backup":{"lead":"バックアップ方式は「何を保存するか」だけでなく、「バックアップ時間」と「復旧時に何が必要か」の両方で比較します。","points":[["フル","毎回すべてを保存。取得量は大きい一方、復旧は分かりやすい方式です。"],["差分","直近のフルバックアップ以降に変更された全データを保存します。"],["増分","直前のバックアップ以降に変更されたデータだけを保存します。"]],"pitfall":"差分と増分を逆にしないこと。復旧時に必要なバックアップの組合せまで考えると区別しやすくなります。"},"development":{"lead":"システム開発は、何を作るかを定め、構造を設計し、実装・テストを経て本番利用へ移す流れで整理します。","points":[["要件定義","利用者や業務が必要とする機能・性能などを明確にします。"],["設計・実装","要件を実現する構造や処理を設計し、プログラムへ落とします。"],["テスト・移行","要求どおり動くことを確認し、本番環境へ移します。"]],"pitfall":"要件定義は「何が必要か」、設計は「どう実現するか」です。"},"testing":{"lead":"テストは、作ったプログラムやシステムが仕様・要求どおりに動作するかを確認し、不具合を見つけて修正する工程です。","points":[["段階","単体 → 結合 → システム → 運用と、確認対象が部品から業務全体へ広がります。"],["テスト技法","内部構造を見るホワイトボックス、入出力に注目するブラックボックスなどを使います。"],["回帰テスト","修正や機能追加が、既存の正常な部分へ悪影響を与えていないか確認します。"]],"pitfall":"テスト名は「何人で行うか」ではなく「何を対象に、何を確認するか」で区別します。"},"criticalpath":{"lead":"クリティカルパスは、プロジェクト開始から完了までの経路のうち所要時間が最長となる経路です。","points":[["最長経路","経路上の作業時間を合計し、最も長い経路を探します。"],["余裕時間","クリティカルパス上の作業は原則として余裕がありません。"],["納期への影響","この経路の作業が遅れると、全体の完了が遅れます。"]],"pitfall":"「作業数が一番多い経路」ではなく「所要時間の合計が一番長い経路」です。"},"sla":{"lead":"SLAは、サービス提供者と利用者の間で合意するサービス水準です。測定できる指標として定めることが重要です。","points":[["サービス水準","可用性、応答時間、復旧時間などを数値で定めます。"],["サービスデスク","利用者からの問い合わせや障害連絡の窓口を担います。"],["継続的改善","実績を測定し、合意した水準を満たしているか確認します。"]],"pitfall":"SLAは「約束する水準」、サービスデスクは「窓口機能」です。"},"iprights":{"lead":"知的財産権は、発明・デザイン・ブランド・著作物などの成果を保護する権利です。対象と権利名を対応させます。","points":[["特許権","技術的な発明を保護します。"],["意匠権・商標権","物品などのデザイン、商品・サービスを識別する標章を保護します。"],["著作権","プログラムや文章などの著作物を保護します。"]],"pitfall":"物品のデザインは意匠権、ブランド名やマークは商標権です。対象から判断します。"},"breakeven":{"lead":"損益分岐点は、売上高と総費用が等しくなり、利益が0になる売上量・売上高です。","points":[["固定費","売上量にかかわらず一定額発生する費用です。"],["変動費","販売量や生産量に応じて増減する費用です。"],["損益分岐点","交点より売上が小さい側は赤字、大きい側は黒字になります。"]],"pitfall":"グラフでは「売上線と総費用線の交点」を見ます。固定費線との交点ではありません。"},"logic":{"lead":"論理演算は0/1（偽/真）を組み合わせて結果を求めます。AND・OR・NOTは真理値表を自分で書けるようにします。","points":[["AND","両方が1のときだけ1になります。"],["OR","少なくとも一方が1なら1になります。"],["NOT","0と1を反転します。"]],"pitfall":"ORは両方1でも1です。日常語の「どちらか一方」とは違うことがあります。"},"cache":{"lead":"キャッシュメモリは、CPUと主記憶の速度差を埋めるために、よく使うデータを高速な領域へ保持する仕組みです。","points":[["HIT","必要なデータがキャッシュにあり、高速に取得できます。"],["MISS","キャッシュにないため、主記憶などへ取りに行きます。"],["局所性","同じデータや近くのデータが再利用されやすい性質を利用します。"]],"pitfall":"キャッシュ容量だけで性能は決まりません。ヒット率や階層構成も影響します。"},"stackqueue":{"lead":"スタックとキューは、データを「どの順番で取り出すか」が異なる代表的なデータ構造です。","points":[["スタック","LIFO。最後に入れたデータを最初に取り出します。"],["キュー","FIFO。最初に入れたデータを最初に取り出します。"],["操作","スタックはPUSH/POP、キューはENQUEUE/DEQUEUEで整理します。"]],"pitfall":"追加・取り出しのたびに列を書き直すとミスが減ります。"},"sql":{"lead":"SQLのSELECT文は、どの表から（FROM）、どの行を（WHERE）、どの列として取り出すか（SELECT）を読み分けます。","points":[["SELECT","取得する列を指定します。"],["FROM","対象となる表を指定します。"],["WHERE","条件に合う行だけを絞り込みます。"]],"pitfall":"WHEREは列を消すのではなく「行を絞る」句です。SELECTの列指定と混同しないようにします。"},"tcpudp":{"lead":"TCPとUDPはトランスポート層で使われる代表的なプロトコルです。信頼性と軽さの違いで比較します。","points":[["TCP","コネクション型で、順序制御・再送制御などにより信頼性を高めます。"],["UDP","コネクションレス型で、TCPより制御が少なく軽量です。"],["用途","確実な配送を重視する通信と、遅延の小ささを重視する通信で使い分けます。"]],"pitfall":"UDP＝必ず高速、TCP＝必ず遅い、と断定しないこと。主に制御機能の違いを見ます。"},"signature":{"lead":"デジタル署名は、送信者の真正性とデータの改ざん検知に使います。暗号化による機密性とは目的が異なります。","points":[["署名生成","文書のハッシュ値を作り、署名者の秘密鍵を用いて署名します。"],["署名検証","対応する公開鍵で検証し、内容の改ざんや署名者を確認します。"],["ハッシュ","元データの変化を検知するために使います。"]],"pitfall":"署名は秘密鍵、検証は公開鍵です。"},"mutex":{"lead":"排他制御は、複数の処理が同じデータを同時に更新して矛盾することを防ぐ仕組みです。","points":[["LOCK","処理中の資源を他の処理から勝手に変更されないよう占有します。"],["UNLOCK","更新が終わったら資源を解放します。"],["同時実行制御","整合性を保ちながら複数トランザクションを処理します。"]],"pitfall":"ロックを長時間保持すると待ち時間が増え、取り方によってはデッドロックにも注意が必要です。"},"binary":{"lead":"2進数は各桁が2の累乗の重みを持ちます。右から1、2、4、8、16…と重みを書いて変換します。","points":[["桁の重み","各ビットに対応する2の累乗を確認します。"],["2進→10進","1になっている桁の重みを合計します。"],["10進→2進","2の累乗の組合せ、または2で割る方法で表します。"]],"pitfall":"重みは右端から2^0＝1で始まります。"},"quiz":{"lead":"CPUは命令を主記憶から取り出し、命令の意味を解読し、必要な演算や制御を実行するサイクルを繰り返します。","points":[["Fetch","実行する命令を主記憶から取り出します。"],["Decode","命令を解読し、どんな処理をするか判断します。"],["Execute","演算装置などを使って命令を実行します。"]],"pitfall":"Fetch→Decode→Executeの順序を入れ替えないこと。"},"transaction":{"lead":"トランザクションは、データベース上の一連の処理を論理的な1単位として扱う考え方です。","points":[["COMMIT","一連の処理を正常終了として確定します。"],["ROLLBACK","途中で異常が起きた場合、処理開始前の状態へ戻します。"],["ACID","原子性・一貫性・独立性・永続性という性質で信頼性を確保します。"]],"pitfall":"一部だけ更新された状態を残さないことが原子性の要点です。"},"subnet":{"lead":"サブネットマスクは、IPアドレスのどこまでがネットワーク部で、どこからがホスト部かを示します。","points":[["/24","先頭24bitがネットワーク部、残り8bitがホスト部です。"],["ネットワークアドレス","ホスト部をすべて0にしたアドレスです。"],["ブロードキャスト","ホスト部をすべて1にしたアドレスです。"]],"pitfall":"ネットワークアドレスとブロードキャストアドレスは通常ホストへ割り当てません。"},"crypto":{"lead":"公開鍵暗号では、暗号化と復号に異なる鍵を使います。受信者の公開鍵で暗号化し、受信者だけが持つ秘密鍵で復号します。","points":[["公開鍵","他者へ公開してよい鍵。受信者宛ての暗号化などに使います。"],["秘密鍵","所有者だけが厳重に保持する鍵です。"],["使い分け","大容量データでは共通鍵暗号と組み合わせる方式も利用されます。"]],"pitfall":"公開鍵暗号とデジタル署名では鍵の使い方が逆方向になります。目的を先に確認します。"},"binarysearch":{"lead":"二分探索は、整列済みデータの中央と目的値を比較し、探索範囲を半分ずつ捨てていく方法です。","points":[["前提","データが探索キーの順に整列されている必要があります。"],["中央比較","目的値が小さければ左半分、大きければ右半分へ絞ります。"],["効率","探索範囲が半分ずつ減るため、線形探索より効率的です。"]],"pitfall":"未整列データへそのまま二分探索はできません。"}};
+
 let rightsSteps=0;
 let automataIdx=0;
 let memorySeen=new Set();
@@ -10556,7 +10784,7 @@ const INTERACTION_GUIDES={
   reliability:['直列・並列を両方タップ','2種類の稼働率をそれぞれ確認してください。'],
   backup:['増分・差分を両方タップ','2方式の保存範囲の違いを確認してください。'],
   development:['「1 STEP」で進める','開発工程を要件定義から順に進めてください。'],
-  testing:['「1 STEP」で進める','単体 → 結合 → システム → 受入の順に確認してください。'],
+  testingClassify:['ケースを分類','説明から、単体・結合・システム・運用のどれかを判断してください。'],
   criticalpath:['経路を選ぶ','各経路の日数を比べて最長経路を選んでください。'],
   sla:['選択肢をタップ','SLAとして適切な内容を選んでください。'],
   iprights:['ケースをタップ','発明・著作物・商標などを分類してください。'],
@@ -10574,6 +10802,12 @@ function markInteractionGuideDone(){
   root.classList.add('ready');document.getElementById('interactionGuideTitle').textContent='✓ 操作完了';
 }
 
+
+
+function lessonStudyGuide(id){
+  const g=LESSON_GUIDES[id];if(!g)return '';
+  return `<section class="lesson-study-guide"><div class="lesson-study-kicker">要点解説</div><p class="lesson-study-lead">${escapeHtml(g.lead)}</p><div class="lesson-study-points">${g.points.map(p=>`<div class="lesson-study-point"><b>${escapeHtml(p[0])}</b><span>${escapeHtml(p[1])}</span></div>`).join('')}</div><div class="lesson-study-pitfall"><b>混同注意：</b> ${escapeHtml(g.pitfall)}</div></section>`;
+}
 
 // ===== v28: first-page presentation rule =====
 // Page 1 is an overview. It must not look as if a step-by-step exercise has already started.
@@ -10611,10 +10845,12 @@ function renderLesson(){
   lessonInteractiveDone=!page.interactive && !page.quiz;
   lessonQuizDone=!page.quiz;
 
+  const introGuide=(lessonStep===0 && !page.noGuide) ? lessonStudyGuide(activeLesson) : '';
   if(page.render){
     const markup=page.render();
-    stage.innerHTML=lessonStep===0 ? neutralizeFirstPageMarkup(markup) : markup;
-  }
+    const visual=lessonStep===0 ? neutralizeFirstPageMarkup(markup) : markup;
+    stage.innerHTML=introGuide + (lessonStep===0?'<div class="lesson-visual-label">図・例で確認</div>':'') + visual;
+  }else if(introGuide){ stage.innerHTML=introGuide; }
   if(page.interactive) renderInteractive(page.interactive,stage);
   if(page.quiz) renderLessonQuiz(page.quiz,stage);
 
@@ -10662,21 +10898,13 @@ function renderInteractive(type,stage){
   }
 
   if(type==='cpuCycle'){
-    stage.innerHTML=`<div id="cpuDynamic">${cpuFlow(0)}</div><div class="cpu-action"><button class="purple-btn" id="cpuStepBtn">${progressButtonLabel(1,3)}</button></div>`;
-    document.getElementById('cpuStepBtn').addEventListener('click',()=>{
-      cpuStep=Math.min(3,cpuStep+1);
-      document.getElementById('cpuDynamic').innerHTML=cpuFlow(cpuStep);
-      const names=['','Fetchが完了。次はDecodeです。','Decodeが完了。次はExecuteです。','Executeまで完了しました。'];
-      showLessonFeedback(names[cpuStep]);
-      const btn=document.getElementById('cpuStepBtn');
-      if(cpuStep===3){
-        lessonInteractiveDone=true;
-        btn.disabled=true;
-        btn.textContent='✓ 完了';
-      }else{
-        btn.textContent=progressButtonLabel(cpuStep+1,3);
-      }
-    });
+    const draw=()=>{
+      stage.innerHTML=`<div id="cpuDynamic">${cpuFlow(cpuStep)}</div>${reversibleStepControls(cpuStep,3,{prevId:'cpuPrevStep',nextId:'cpuNextStep',nextLabel:'次の処理 →',doneLabel:'✓ 命令サイクル確認済み'})}`;
+      const prev=document.getElementById('cpuPrevStep'),next=document.getElementById('cpuNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{cpuStep=Math.max(0,cpuStep-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{cpuStep=Math.min(3,cpuStep+1);if(cpuStep===3)lessonInteractiveDone=true;draw();};
+    };
+    draw();
   }
 
 
@@ -10742,21 +10970,15 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='crypto'){
-    stage.innerHTML=`<div id="cryptoDynamic">${cryptoView(0)}</div><div class="crypto-actions"><button class="purple-btn" id="cryptoStepBtn">🔒 公開鍵で暗号化</button></div>`;
-    document.getElementById('cryptoStepBtn').addEventListener('click',()=>{
-      cryptoStep++;
-      if(cryptoStep===1){
-        document.getElementById('cryptoDynamic').innerHTML=cryptoView(2);
-        document.getElementById('cryptoStepBtn').textContent='🔑 秘密鍵で復号';
-        showLessonFeedback('暗号文になりました。公開鍵を持っていても、同じ鍵では復号できません。');
-      }else{
-        document.getElementById('cryptoDynamic').innerHTML=cryptoView(3);
-        document.getElementById('cryptoStepBtn').disabled=true;
-        document.getElementById('cryptoStepBtn').textContent='✓ 復号完了';
-        lessonInteractiveDone=true;
-        showLessonFeedback('✅ 対応する受信者の秘密鍵で元のメッセージを復号できました。');
-      }
-    });
+    const draw=()=>{
+      const viewStep=cryptoStep===0?0:cryptoStep===1?2:3;
+      const nextLabel=cryptoStep===0?'🔒 公開鍵で暗号化 →':'🔑 秘密鍵で復号 →';
+      stage.innerHTML=`<div id="cryptoDynamic">${cryptoView(viewStep)}</div>${reversibleStepControls(cryptoStep,2,{prevId:'cryptoPrevStep',nextId:'cryptoNextStep',nextLabel,doneLabel:'✓ 復号完了'})}`;
+      const prev=document.getElementById('cryptoPrevStep'),next=document.getElementById('cryptoNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{cryptoStep=Math.max(0,cryptoStep-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{cryptoStep=Math.min(2,cryptoStep+1);if(cryptoStep===2)lessonInteractiveDone=true;draw();};
+    };
+    draw();
   }
 
 
@@ -10836,26 +11058,14 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='signature'){
-    stage.innerHTML=`<div id="sigDynamic">${signatureView(0)}</div>
-      <div style="text-align:center;margin-top:16px"><button class="purple-btn" id="sigStepBtn">ハッシュを作る →</button></div>`;
-    document.getElementById('sigStepBtn').onclick=()=>{
-      signatureStep++;
-      if(signatureStep===1){
-        document.getElementById('sigDynamic').innerHTML=signatureView(1);
-        document.getElementById('sigStepBtn').textContent='秘密鍵で署名 →';
-        showLessonFeedback('文書からハッシュ値を作りました。');
-      }else if(signatureStep===2){
-        document.getElementById('sigDynamic').innerHTML=signatureView(2);
-        document.getElementById('sigStepBtn').textContent='公開鍵で検証 →';
-        showLessonFeedback('署名者の秘密鍵で署名データを作りました。');
-      }else{
-        document.getElementById('sigDynamic').innerHTML=signatureView(3);
-        document.getElementById('sigStepBtn').disabled=true;
-        document.getElementById('sigStepBtn').textContent='✓ 検証完了';
-        lessonInteractiveDone=true;
-        showLessonFeedback('✅ 署名者の公開鍵で検証しました。文書の改ざんや署名者を確認する仕組みです。');
-      }
+    const labels=['ハッシュを作る →','秘密鍵で署名 →','公開鍵で検証 →'];
+    const draw=()=>{
+      stage.innerHTML=`<div id="sigDynamic">${signatureView(signatureStep)}</div>${reversibleStepControls(signatureStep,3,{prevId:'sigPrevStep',nextId:'sigNextStep',nextLabel:labels[Math.min(signatureStep,2)],doneLabel:'✓ 検証完了'})}`;
+      const prev=document.getElementById('sigPrevStep'),next=document.getElementById('sigNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{signatureStep=Math.max(0,signatureStep-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{signatureStep=Math.min(3,signatureStep+1);if(signatureStep===3)lessonInteractiveDone=true;draw();};
     };
+    draw();
   }
 
   if(type==='mutex'){
@@ -10894,21 +11104,18 @@ function renderTransactionLesson(step, message){
 
   if(type==='automata'){
     const seq=[1,0,1];
-    let state='A';
-    const draw=(lastMsg='')=>{
+    const stateAt=(n)=>{
+      let state='A';
+      for(let i=0;i<n;i++)if(seq[i]===1)state=state==='A'?'B':'A';
+      return state;
+    };
+    const draw=()=>{
+      const state=stateAt(automataIdx);
       const tokens=seq.map((x,i)=>`<div class="fsm-token ${i<automataIdx?'done':i===automataIdx?'current':''}">${x}</div>`).join('<span>→</span>');
-      const done=automataIdx>=seq.length;
-      stage.innerHTML=`<div id="fsmDynamic">${automataView(state)}</div>
-        <div class="fsm-sequence">${tokens}</div>
-        ${done?'':`<button class="fsm-next" id="fsmNext">次の入力 ${seq[automataIdx]} を適用 →</button>`}`;
-      if(lastMsg) showLessonFeedback(lastMsg);
-      if(done){lessonInteractiveDone=true;showLessonFeedback('✅ 入力列 1→0→1 を最後まで追えました。');return;}
-      document.getElementById('fsmNext').onclick=()=>{
-        const input=seq[automataIdx];
-        if(input===1) state=state==='A'?'B':'A';
-        automataIdx++;
-        draw(`入力${input}を適用 → 現在の状態は ${state} です。`);
-      };
+      stage.innerHTML=`<div id="fsmDynamic">${automataView(state)}</div><div class="fsm-sequence">${tokens}</div>${reversibleStepControls(automataIdx,seq.length,{prevId:'fsmPrevStep',nextId:'fsmNextStep',nextLabel:automataIdx<seq.length?`入力 ${seq[automataIdx]} を適用 →`:'',doneLabel:'✓ 入力列を確認済み'})}`;
+      const prev=document.getElementById('fsmPrevStep'),next=document.getElementById('fsmNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{automataIdx=Math.max(0,automataIdx-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{automataIdx=Math.min(seq.length,automataIdx+1);if(automataIdx===seq.length)lessonInteractiveDone=true;draw();};
     };
     draw();
   }
@@ -10933,8 +11140,9 @@ function renderTransactionLesson(step, message){
     const draw=()=>{
       if(fileStep>=steps.length){
         lessonInteractiveDone=true;
-        stage.innerHTML=`${fileTreeView(5)}<div class="file-path-task">${stepStatusCard('到達','絶対パス /home/user/docs/report.pdf を階層順にたどれました。','success')}</div>`;
-        showLessonFeedback('✅ 絶対パスを階層順にたどれました。');
+        stage.innerHTML=`${fileTreeView(5)}<div class="file-path-task">${stepStatusCard('到達','絶対パス /home/user/docs/report.pdf を階層順にたどれました。','success')}</div>${reversibleStepControls(fileStep,steps.length,{prevId:'filePrevStep',nextId:'fileNextStep',doneLabel:'✓ 到達済み'})}`;
+        const prev=document.getElementById('filePrevStep');
+        if(prev&&!prev.disabled)prev.onclick=()=>{fileStep=Math.max(0,fileStep-1);draw();};
         return;
       }
       const s=steps[fileStep];
@@ -10942,7 +11150,10 @@ function renderTransactionLesson(step, message){
         <div class="file-path-current">現在位置：<b>${s.path}</b></div>
         <div class="file-path-label">次に進む名前を選んでください</div>
         <div class="file-path-options">${s.opts.map(x=>`<button class="file-path-option" data-filepart="${x}">${x}</button>`).join('')}</div>
+        ${fileStep>0?'<div class="step-nav-controls"><button class="step-prev-btn" id="filePrevStep">← 1階層戻る</button></div>':''}
       </div>`;
+      const prev=document.getElementById('filePrevStep');
+      if(prev)prev.onclick=()=>{fileStep=Math.max(0,fileStep-1);draw();};
       stage.querySelectorAll('[data-filepart]').forEach(b=>b.onclick=()=>{
         if(b.dataset.filepart===s.correct){b.classList.add('good');fileStep++;setTimeout(draw,220);}
         else{b.classList.add('bad');showLessonFeedback(`「${s.path}」から目的ファイルへ進む次の階層を考えてみましょう。`,true);setTimeout(()=>b.classList.remove('bad'),650);}
@@ -11015,34 +11226,39 @@ function renderTransactionLesson(step, message){
     const cases=[
       ['高い技術力','S'],['知名度が低い','W'],['市場が拡大中','O'],['競合が新規参入','T']
     ];
+    const learned={};
     const draw=()=>{
-      if(swotStep>=cases.length){lessonInteractiveDone=true;stage.innerHTML=swotView(4);showLessonFeedback('✅ 内部S/W、外部O/Tを仕分けできました。');return;}
+      if(swotStep>=cases.length){
+        lessonInteractiveDone=true;
+        stage.innerHTML=`${swotMatrixView(learned,false)}${stepStatusCard('4象限を確認できました','内部/外部とプラス/マイナスの2軸で分類すると、S・W・O・Tの位置が決まります。','success')}`;
+        return;
+      }
       const c=cases[swotStep];
-      stage.innerHTML=`<div style="text-align:center;font-weight:900;font-size:20px;margin-bottom:13px">${c[0]}</div><div class="micro-options">${['S','W','O','T'].map(x=>`<button class="micro-option" data-s="${x}">${x}</button>`).join('')}</div>`;
-      stage.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{
-        if(b.dataset.s===c[1]){b.classList.add('good');swotStep++;showLessonFeedback('⭕ 正しく分類できました。');setTimeout(draw,400);}
-        else{b.classList.add('bad');showLessonFeedback('内部か外部か、プラスかマイナスかで考えてみましょう。',true);setTimeout(()=>b.classList.remove('bad'),600);}
+      stage.innerHTML=`<div class="swot-practice-head"><span>この例はどの象限？</span><b>${c[0]}</b></div>${swotMatrixView(learned,true)}`;
+      stage.querySelectorAll('.swot-quad[data-swot]').forEach(b=>b.onclick=()=>{
+        if(b.dataset.swot===c[1]){
+          b.classList.add('good');
+          learned[c[1]]=c[0];
+          swotStep++;
+          setTimeout(draw,260);
+        }else{
+          b.classList.add('bad');
+          showLessonFeedback('内部か外部か、そのうえでプラス要因かマイナス要因かの順で考えてみましょう。',true);
+          setTimeout(()=>b.classList.remove('bad'),600);
+        }
       });
-    };draw();
+    };
+    draw();
   }
 
   if(type==='iot'){
-    stage.innerHTML=`<div id="iotDynamic">${iotView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="iotStepBtn">${progressButtonLabel(1,4)}</button></div>`;
-    document.getElementById('iotStepBtn').onclick=()=>{
-      iotStep=Math.min(4,iotStep+1);
-      document.getElementById('iotDynamic').innerHTML=iotView(iotStep);
-      const msgs=[
-        '',
-        'センサで取得した温度データをネットワークへ渡します。',
-        'ネットワーク経由でクラウドへデータが届きました。',
-        'クラウドで条件を判定し、アクチュエータへ指示します。',
-        'アクチュエータが空調をONにしました。'
-      ];
-      showLessonFeedback(msgs[iotStep]);
-      const btn=document.getElementById('iotStepBtn');
-      if(iotStep===4){lessonInteractiveDone=true;btn.disabled=true;btn.textContent='✓ 完了';}
-      else{btn.textContent=progressButtonLabel(iotStep+1,4);}
+    const draw=()=>{
+      stage.innerHTML=`<div id="iotDynamic">${iotView(iotStep)}</div>${reversibleStepControls(iotStep,4,{prevId:'iotPrevStep',nextId:'iotNextStep',nextLabel:'データを次へ送る →',doneLabel:'✓ 流れを確認済み'})}`;
+      const prev=document.getElementById('iotPrevStep'),next=document.getElementById('iotNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{iotStep=Math.max(0,iotStep-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{iotStep=Math.min(4,iotStep+1);if(iotStep===4)lessonInteractiveDone=true;draw();};
     };
+    draw();
   }
 
   if(type==='finance'){
@@ -11060,15 +11276,13 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='os'){
-    stage.innerHTML=`<div id="osDynamic">${scheduleView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="osStepBtn">${progressButtonLabel(1,3,'▶ CPUを割り当てる')}</button></div>`;
-    document.getElementById('osStepBtn').onclick=()=>{
-      osSteps=Math.min(3,osSteps+1);
-      document.getElementById('osDynamic').innerHTML=scheduleView(osSteps);
-      showLessonFeedback(`${['','P1','P2','P3'][osSteps]}へCPU時間を割り当てました。`);
-      const btn=document.getElementById('osStepBtn');
-      if(osSteps===3){lessonInteractiveDone=true;btn.disabled=true;btn.textContent='✓ 3プロセス確認';}
-      else btn.textContent=progressButtonLabel(osSteps+1,3,'▶ CPUを割り当てる');
+    const draw=()=>{
+      stage.innerHTML=`<div id="osDynamic">${scheduleView(osSteps)}</div>${reversibleStepControls(osSteps,3,{prevId:'osPrevStep',nextId:'osNextStep',nextLabel:'CPUを次へ割り当てる →',doneLabel:'✓ 3プロセス確認済み'})}`;
+      const prev=document.getElementById('osPrevStep'),next=document.getElementById('osNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{osSteps=Math.max(0,osSteps-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{osSteps=Math.min(3,osSteps+1);if(osSteps===3)lessonInteractiveDone=true;draw();};
     };
+    draw();
   }
 
   if(type==='reliability'){
@@ -11102,29 +11316,19 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='development'){
-    stage.innerHTML=`<div id="devDynamic">${devPipeline(0)}</div><div class="schedule-controls"><button class="purple-btn" id="devStepBtn">${progressButtonLabel(1,5,'▶ 次の工程')}</button></div>`;
-    document.getElementById('devStepBtn').onclick=()=>{
-      devSteps=Math.min(5,devSteps+1);
-      document.getElementById('devDynamic').innerHTML=devPipeline(devSteps);
-      const names=['','要件定義','設計','実装','テスト','移行'];
-      showLessonFeedback(`${names[devSteps]}：${['','何を実現するか明確にします。','実現方法や構造を決めます。','設計をプログラムへ落とします。','要求通り動くか確認します。','本番利用へ切り替えます。'][devSteps]}`);
-      const btn=document.getElementById('devStepBtn');
-      if(devSteps===5){lessonInteractiveDone=true;btn.disabled=true;btn.textContent='✓ 全工程確認';}
-      else btn.textContent=progressButtonLabel(devSteps+1,5,'▶ 次の工程');
+    const draw=()=>{
+      stage.innerHTML=`<div id="devDynamic">${devPipeline(devSteps)}</div>${reversibleStepControls(devSteps,5,{prevId:'devPrevStep',nextId:'devNextStep',nextLabel:'次の工程 →',doneLabel:'✓ 全工程確認済み'})}`;
+      const prev=document.getElementById('devPrevStep'),next=document.getElementById('devNextStep');
+      if(prev&&!prev.disabled)prev.onclick=()=>{devSteps=Math.max(0,devSteps-1);draw();};
+      if(next&&!next.disabled)next.onclick=()=>{devSteps=Math.min(5,devSteps+1);if(devSteps===5)lessonInteractiveDone=true;draw();};
     };
+    draw();
   }
 
-  if(type==='testing'){
-    stage.innerHTML=`<div id="testDynamic">${testPyramid(0)}</div><div class="schedule-controls"><button class="purple-btn" id="testStepBtn">${progressButtonLabel(1,4,'▶ 次のテスト')}</button></div>`;
-    document.getElementById('testStepBtn').onclick=()=>{
-      testSteps=Math.min(4,testSteps+1);
-      document.getElementById('testDynamic').innerHTML=testPyramid(testSteps);
-      const names=['','単体テスト','結合テスト','システムテスト','受入テスト'];
-      showLessonFeedback(`${names[testSteps]}まで確認しました。`);
-      const btn=document.getElementById('testStepBtn');
-      if(testSteps===4){lessonInteractiveDone=true;btn.disabled=true;btn.textContent='✓ 全レベル確認';}
-      else btn.textContent=progressButtonLabel(testSteps+1,4,'▶ 次のテスト');
-    };
+  if(type==='testingClassify'){
+    const cases=[{q:'1つの関数やモジュールの分岐・処理経路に誤りがないか確認する。',a:'単体テスト',exp:'個々のプログラムを対象とするため単体テストです。内部構造を見るホワイトボックステストとも結び付きます。'},{q:'複数のモジュールを接続し、データの受渡しやインタフェースを確認する。',a:'結合テスト',exp:'モジュール同士を組み合わせた連携確認なので結合テストです。'},{q:'システム全体について、機能だけでなく応答時間なども含めて要件を満たすか確認する。',a:'システムテスト',exp:'システム要件全体を対象に確認するためシステムテストです。'},{q:'本番に近い環境で、実際の利用者が業務手順どおり運用できるか確認する。',a:'運用テスト',exp:'利用者が業務要件を満たすか確認する段階なので運用テストです。'}];
+    const opts=['単体テスト','結合テスト','システムテスト','運用テスト'];
+    const draw=()=>{if(testSteps>=cases.length){lessonInteractiveDone=true;stage.innerHTML=`<div class="testing-practice">${stepStatusCard('4種類を目的から判別できました','テスト名ではなく、対象範囲・確認内容・担当者を手掛かりに判断しましょう。','success')}</div>`;return;}const c=cases[testSteps];stage.innerHTML=`<div class="testing-practice"><div class="testing-practice-case"><span>ケース ${testSteps+1} / ${cases.length}</span><b>${c.q}</b></div><div class="testing-choice-grid">${opts.map(x=>`<button class="testing-choice" data-testkind="${x}">${x}</button>`).join('')}</div><div class="testing-progress">${testSteps} / ${cases.length} 完了</div></div>`;stage.querySelectorAll('[data-testkind]').forEach(btn=>btn.onclick=()=>{if(btn.dataset.testkind===c.a){btn.classList.add('good');showLessonFeedback(c.exp);testSteps++;setTimeout(draw,500);}else{btn.classList.add('bad');showLessonFeedback('何を対象に、何を確認している説明なのかを見直してみましょう。',true);setTimeout(()=>btn.classList.remove('bad'),650);}});};draw();
   }
 
   if(type==='criticalpath'){
@@ -11175,11 +11379,14 @@ function renderTransactionLesson(step, message){
   }
 
   if(type==='breakeven'){
-    stage.innerHTML=`<div id="beDynamic">${breakEvenView(false)}</div><div class="be-controls"><button class="purple-btn" id="showBE">売上＝総費用の点を確認</button></div>`;
+    stage.innerHTML=`<div id="beDynamic">${breakEvenView(false)}</div><div class="be-controls"><button class="purple-btn" id="showBE">損益分岐点を表示</button></div>`;
     document.getElementById('showBE').onclick=()=>{
       document.getElementById('beDynamic').innerHTML=breakEvenView(true);
-      document.getElementById('showBE').disabled=true;lessonInteractiveDone=true;
-      showLessonFeedback('✅ 売上高＝総費用となる交点が損益分岐点です。交点より売上が大きい側で利益が出ます。');
+      const btn=document.getElementById('showBE');
+      btn.textContent='✓ 損益分岐点を確認済み';
+      btn.disabled=true;
+      lessonInteractiveDone=true;
+      showLessonFeedback('売上高と総費用が等しい交点では利益は0です。交点より左は赤字、右は黒字になります。');
     };
   }
 
@@ -13548,6 +13755,7 @@ if(!profile.settings) profile.settings={studyMinutes:60,examDate:''};
 if(!profile.dailyPlans) profile.dailyPlans={};
 if(!profile.activity) profile.activity={};
 if(!profile.settings.studyMinutes) profile.settings.studyMinutes=60;
+if(profile.settings.autoPace==null) profile.settings.autoPace=true;
 if(profile.settings.variantReview==null) profile.settings.variantReview=true;
 saveProfile();
 
@@ -13610,13 +13818,73 @@ function calcReadiness(){
   return Math.round(clamp(raw,0,100));
 }
 
+function examDaysRemaining(){
+  const val=profile.settings?.examDate;if(!val)return null;
+  const target=new Date(val+'T12:00:00'),now=new Date();now.setHours(12,0,0,0);
+  return Math.ceil((target-now)/86400000);
+}
+function examStudyPhase(days=examDaysRemaining()){
+  if(days==null)return {id:'normal',name:'通常学習',icon:'📘',ratios:{review:.17,lesson:.33,subjectB:.33,boss:.17}};
+  if(days>90)return {id:'foundation',name:'基礎拡張期',icon:'🌱',ratios:{review:.15,lesson:.35,subjectB:.30,boss:.20}};
+  if(days>30)return {id:'build',name:'実力形成期',icon:'🧩',ratios:{review:.20,lesson:.25,subjectB:.35,boss:.20}};
+  if(days>14)return {id:'finish',name:'仕上げ期',icon:'🎯',ratios:{review:.25,lesson:.15,subjectB:.35,boss:.25}};
+  if(days>6)return {id:'finalPractice',name:'直前演習期',icon:'🏁',ratios:{review:.30,lesson:.10,subjectB:.30,boss:.30}};
+  return {id:'lastCheck',name:'最終確認期',icon:'🔁',ratios:{review:.35,lesson:.05,subjectB:.25,boss:.35}};
+}
+function roundUp5(n){return Math.ceil((Number(n)||0)/5)*5}
+function allocateByRatios(total,ratios){
+  total=Math.max(20,Math.round(Number(total)||60));
+  const keys=['review','lesson','subjectB','boss'],out={};let used=0;
+  keys.forEach((k,i)=>{
+    if(i===keys.length-1){out[k]=Math.max(5,total-used);return;}
+    out[k]=Math.max(5,Math.round(total*(ratios[k]||0)/5)*5);used+=out[k];
+  });
+  while(Object.values(out).reduce((a,b)=>a+b,0)>total){
+    const k=keys.slice(0,-1).sort((a,b)=>out[b]-out[a]).find(k=>out[k]>5);if(!k)break;out[k]-=5;
+  }
+  while(Object.values(out).reduce((a,b)=>a+b,0)<total){
+    const k=[...keys].sort((a,b)=>(ratios[b]||0)-(ratios[a]||0))[0];out[k]+=5;
+  }
+  return out;
+}
+function estimateRemainingStudyMinutes(){
+  let m=0;
+  Object.keys(LESSONS||{}).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*18;});
+  (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;});
+  (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;});
+  (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;});
+  const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length;
+  m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[]).length)*20;
+  const active=Object.values(profile.reviewJourney||{}).filter(x=>x&&x.stage!=='stable').length;
+  m+=Math.min(240,active*8+dueQuestions().length*3);
+  return Math.max(0,Math.round(m));
+}
+function recentCalendarPace(days=14){
+  const today=new Date();today.setHours(12,0,0,0);let total=0,activeDays=0;
+  for(let i=0;i<days;i++){const d=new Date(today);d.setDate(d.getDate()-i);const min=Number(profile.activity?.[dateKey(d)]?.minutes)||0;total+=min;if(min>0)activeDays++;}
+  const existing=Object.keys(profile.activity||{}).filter(k=>(profile.activity[k]?.minutes||0)>0).sort();
+  let observedDays=0;
+  if(existing.length){const first=new Date(existing[0]+'T12:00:00');observedDays=Math.min(days,Math.max(1,Math.floor((today-first)/86400000)+1));}
+  return {total,activeDays,observedDays,enough:activeDays>=3&&observedDays>=4,avg:observedDays?total/observedDays:0};
+}
+function examPaceStatus(){
+  const days=examDaysRemaining(),baseline=Number(profile.settings?.studyMinutes)||60,remaining=estimateRemainingStudyMinutes(),recent=recentCalendarPace(),phase=examStudyPhase(days);
+  if(days==null)return {hasExam:false,baseline,effective:baseline,remaining,recent,phase};
+  if(days<0)return {hasExam:true,expired:true,days,baseline,effective:baseline,remaining,recent,phase};
+  const available=Math.max(1,days),required=remaining/available,currentPace=recent.enough?recent.avg:baseline,paceSource=recent.enough?'recent':'plan';
+  const projectedDays=currentPace>0?Math.ceil(remaining/currentPace):9999,projectedDate=new Date();projectedDate.setHours(12,0,0,0);projectedDate.setDate(projectedDate.getDate()+projectedDays);
+  const slack=available-projectedDays;
+  let status='danger';
+  if(required<=0||currentPace>=required*1.20)status='good';else if(currentPace>=required*.95)status='ok';else if(currentPace>=required*.75)status='warn';
+  const auto=profile.settings?.autoPace!==false,suggested=Math.max(baseline,roundUp5(required*1.10)),effective=auto?Math.min(120,suggested):baseline;
+  const adjustedDays=effective>0?Math.ceil(remaining/effective):9999,maxDate=new Date();maxDate.setHours(12,0,0,0);maxDate.setDate(maxDate.getDate()+Math.ceil(remaining/120));
+  return {hasExam:true,expired:false,days,baseline,remaining,recent,phase,required,currentPace,paceSource,projectedDays,projectedDate,slack,status,auto,effective,canRecover:adjustedDays<=available,maxDate};
+}
+function effectiveStudyMinutes(){const p=examPaceStatus();return p.hasExam&&!p.expired?p.effective:(Number(profile.settings?.studyMinutes)||60);}
 function taskAllocation(total){
-  total=Number(total)||60;
-  // Preserve the agreed 60-minute rhythm and scale cleanly for other durations.
-  if(total===30) return {review:5,lesson:10,subjectB:10,boss:5};
-  if(total===45) return {review:5,lesson:15,subjectB:15,boss:10};
-  if(total===90) return {review:15,lesson:30,subjectB:30,boss:15};
-  return {review:10,lesson:20,subjectB:20,boss:10};
+  total=Number(total)||effectiveStudyMinutes();const days=examDaysRemaining();
+  if(days==null){if(total===30)return {review:5,lesson:10,subjectB:10,boss:5};if(total===45)return {review:5,lesson:15,subjectB:15,boss:10};if(total===90)return {review:15,lesson:30,subjectB:30,boss:15};if(total===60)return {review:10,lesson:20,subjectB:20,boss:10};}
+  return allocateByRatios(total,examStudyPhase(days).ratios);
 }
 
 function weakestSkill(){
@@ -13655,7 +13923,7 @@ function nextBChoice(){
   return {mode:'security',id:sc?.id,title:sc?.title||'セキュリティSCENARIO'};
 }
 function buildTodayTasks(){
-  const alloc=taskAllocation(profile.settings.studyMinutes);
+  const alloc=taskAllocation(effectiveStudyMinutes());
   const due=dueQuestions().length;
   const lesson=nextLessonChoice();
   const b=nextBChoice();
@@ -13706,7 +13974,7 @@ function renderDailyPlan(){
   if(!root) return;
   const rec=getDailyRecord();
   const tasks=buildTodayTasks();
-  const total=Number(profile.settings.studyMinutes)||60;
+  const total=effectiveStudyMinutes();
   const doneTasks=tasks.filter(t=>rec.done[t.type]);
   const doneMinutes=doneTasks.reduce((s,t)=>s+t.minutes,0);
   const pct=Math.min(100,Math.round(doneMinutes/total*100));
@@ -13714,8 +13982,10 @@ function renderDailyPlan(){
   document.getElementById('dailyProgressBar').style.width=pct+'%';
   document.getElementById('dailyProgressLabel').textContent=`${doneMinutes} / ${total}分`;
   document.getElementById('dailyDoneLabel').textContent=`${doneTasks.length} / ${tasks.length} 完了`;
-  document.getElementById('todayPlanMeta').textContent=
-    `標準${total}分・${dueQuestions().length}問が復習待ち・弱点「${weakestSkill()}」`;
+  const pace=examPaceStatus();
+  document.getElementById('todayPlanMeta').textContent=pace.hasExam&&!pace.expired
+    ? `${pace.phase.name}・今日${total}分・復習待ち${dueQuestions().length}問・弱点「${weakestSkill()}」`
+    : `標準${total}分・${dueQuestions().length}問が復習待ち・弱点「${weakestSkill()}」`;
   const ready=calcReadiness();
   document.getElementById('homeReadiness').textContent=ready+'%';
 
@@ -13782,21 +14052,21 @@ function launchDailyTask(t){
 // Wrap existing completion functions rather than duplicating their learning logic.
 const _completeLessonV10=completeLesson;
 completeLesson=function(){
-  const mins=taskAllocation(profile.settings.studyMinutes).lesson;
+  const mins=taskAllocation(effectiveStudyMinutes()).lesson;
   _completeLessonV10();
   markDailyTask('lesson',mins);
 };
 
 const _finishBV10=finishBExercise;
 finishBExercise=function(){
-  const mins=taskAllocation(profile.settings.studyMinutes).subjectB;
+  const mins=taskAllocation(effectiveStudyMinutes()).subjectB;
   _finishBV10();
   markDailyTask('subjectB',mins);
 };
 
 const _finishSecV10=finishSecurityScenario;
 finishSecurityScenario=function(){
-  const mins=taskAllocation(profile.settings.studyMinutes).subjectB;
+  const mins=taskAllocation(effectiveStudyMinutes()).subjectB;
   _finishSecV10();
   markDailyTask('subjectB',mins);
 };
@@ -13806,7 +14076,7 @@ const _finishQuizSessionV10=finishQuizSession;
 finishQuizSession=function(){
   const modeBefore=quizMode;
   _finishQuizSessionV10();
-  const alloc=taskAllocation(profile.settings.studyMinutes);
+  const alloc=taskAllocation(effectiveStudyMinutes());
   if(modeBefore==='review') markDailyTask('review',alloc.review);
   if(modeBefore==='boss') markDailyTask('boss',alloc.boss);
   if(String(modeBefore).startsWith('rx:')) markDailyTask('prescription',alloc.lesson);
@@ -13903,60 +14173,63 @@ function renderReadiness(){
 }
 
 function renderCountdown(){
-  const box=document.getElementById('countdownBox');
-  if(!box) return;
-  const val=profile.settings.examDate;
-  if(!val){
-    box.innerHTML='<div class="countdown-empty">受験予定日を設定すると、<br>ここに残り日数を表示します。</div>';
-    return;
-  }
-  const target=new Date(val+'T12:00:00');
-  const now=new Date(); now.setHours(12,0,0,0);
-  const days=Math.ceil((target-now)/(1000*60*60*24));
-  if(days<0){
-    box.innerHTML='<div class="countdown-empty">設定した受験予定日は過ぎています。<br>新しい日付を設定してください。</div>';
-  }else{
-    box.innerHTML=`<div class="countdown"><div class="countdown-num">${days}</div><div class="countdown-label">日後までに仕上げる</div></div>`;
-  }
+  const box=document.getElementById('countdownBox');if(!box)return;
+  if(!profile.settings.examDate){box.innerHTML='<div class="countdown-empty">受験予定日を設定すると、残り日数・必要ペース・完了見込みを計算します。</div>';return;}
+  const days=examDaysRemaining();
+  if(days<0)box.innerHTML='<div class="countdown-empty">設定した受験予定日は過ぎています。新しい日付を設定してください。</div>';
+  else if(days===0)box.innerHTML='<div class="countdown"><div class="countdown-num">TODAY</div><div class="countdown-label">今日は受験予定日です</div></div>';
+  else box.innerHTML=`<div class="countdown"><div class="countdown-num">${days}</div><div class="countdown-label">日後までに仕上げる</div></div>`;
 }
 
+function paceDateText(d){return d instanceof Date&&!Number.isNaN(d.getTime())?`${d.getMonth()+1}/${d.getDate()}`:'—';}
+function renderExamPace(){
+  const root=document.getElementById('examPacePanel');if(!root)return;const p=examPaceStatus();
+  if(!p.hasExam){root.innerHTML='<div class="pace-note">受験予定日を設定すると、FE QUEST内の残り学習量と最近の学習記録から「このままで間に合うか」を表示します。</div>';return;}
+  if(p.expired){root.innerHTML='<div class="pace-overview warn"><div class="pace-head"><div class="pace-status-icon">📅</div><div class="pace-head-copy"><div class="pace-title">受験予定日を更新してください</div><div class="pace-explain">過去の日付が設定されているため、ペース判定を停止しています。</div></div></div></div>';return;}
+  const sm={good:['✅','余裕をもって進められそうです','good'],ok:['👍','今のペースなら間に合う見込みです','ok'],warn:['⚡','少しペースを上げる必要があります','warn'],danger:['🚨','今のペースでは間に合わない見込みです','danger']};
+  const [icon,title,tone]=sm[p.status]||sm.ok;
+  const current=p.paceSource==='recent'?`直近${p.recent.observedDays}日間の記録から ${Math.round(p.currentPace)}分/日`:`学習履歴がまだ少ないため、設定中の ${p.baseline}分/日 で試算`;
+  const finish=p.remaining<=0?'主要メニューは完了済み':`今のペースなら ${paceDateText(p.projectedDate)}ごろ完了見込み`;
+  let adj='';
+  if(p.auto)adj=p.effective>p.baseline
+    ? (p.canRecover?`<b>自動調整中：</b> 標準${p.baseline}分 → 今日${p.effective}分。試験日に間に合わせるため、目標時間を引き上げています。`:`<b>自動調整中：</b> 上限120分まで引き上げても不足します。受験日の見直しも検討してください。`)
+    : `<b>自動調整ON：</b> 今は標準${p.baseline}分のままで十分です。遅れが出ると翌日以降の目標と配分を自動調整します。`;
+  else adj=`自動調整はOFFです。必要ペースは約${Math.ceil(p.required)}分/日です。`;
+  root.innerHTML=`<div class="pace-overview ${tone}">
+    <div class="pace-head"><div class="pace-status-icon">${icon}</div><div class="pace-head-copy"><div class="pace-phase">${p.phase.icon} ${p.phase.name}</div><div class="pace-title">${title}</div><div class="pace-explain">${current}。${finish}。</div></div></div>
+    <div class="pace-metrics">
+      <div class="pace-metric"><span>FE QUEST内の残り学習量</span><b>${Math.ceil(p.remaining/60)}時間</b></div>
+      <div class="pace-metric"><span>必要ペース</span><b>${Math.ceil(p.required)}分/日</b></div>
+      <div class="pace-metric"><span>現在ペース</span><b>${Math.round(p.currentPace)}分/日</b></div>
+      <div class="pace-metric"><span>今日の目標</span><b>${p.effective}分</b></div>
+    </div>
+    <div class="pace-projection"><b>完了見込み：</b> ${finish}${p.slack>=0?`（試験日の約${p.slack}日前）`:`（試験日より約${Math.abs(p.slack)}日遅れ）`}</div>
+    <div class="pace-adjustment">${adj}</div>
+    ${!p.canRecover&&p.remaining>0?`<div class="pace-note">1日120分で進めた場合でも、最短完了目安は ${paceDateText(p.maxDate)} ごろです。</div>`:''}
+    <div class="pace-note">この判定はFE QUEST内の推奨メニューを終えるための目安で、合格可能性そのものではありません。</div>
+  </div>`;
+}
 function renderAllocation(){
-  const root=document.getElementById('planAllocation');
-  if(!root) return;
-  const a=taskAllocation(profile.settings.studyMinutes);
-  const items=[
-    ['🧠','復習',a.review],
-    ['📘','新規学習',a.lesson],
-    ['💻','科目B',a.subjectB],
-    ['👑','BOSS',a.boss]
-  ];
-  root.innerHTML=items.map(x=>`
-    <div class="planner-row">
-      <div style="font-size:21px">${x[0]}</div>
-      <div class="planner-row-copy"><div class="planner-label">${x[1]}</div></div>
-      <b>${x[2]}分</b>
-    </div>`).join('');
+  const root=document.getElementById('planAllocation');if(!root)return;
+  const total=effectiveStudyMinutes(),p=examPaceStatus(),a=taskAllocation(total);
+  const items=[['🧠','復習',a.review],['📘',p.hasExam&&p.days<=30?'弱点学習':'新規学習',a.lesson],['💻','科目B',a.subjectB],['👑',p.hasExam&&p.days<=14?'総合チェック':'BOSS',a.boss]];
+  const note=document.getElementById('allocationPaceNote');
+  if(note)note.innerHTML=p.hasExam&&!p.expired?`<div class="pace-phase-banner"><b>${p.phase.icon} ${p.phase.name}</b>　今日の目標 ${total}分。試験日が近づくほど、新規学習を減らして復習・科目B・実戦確認へ配分を寄せます。</div>`:'標準学習時間を4つの学習枠に配分します。';
+  root.innerHTML=items.map(x=>`<div class="planner-row"><div style="font-size:21px">${x[0]}</div><div class="planner-row-copy"><div class="planner-label">${x[1]}</div></div><b>${x[2]}分</b></div>`).join('');
 }
 
 function renderPlannerScreen(){
-  const mins=document.getElementById('studyMinutesSetting');
-  const date=document.getElementById('examDateSetting');
-  if(mins) mins.value=String(profile.settings.studyMinutes||60);
-  if(date) date.value=profile.settings.examDate||'';
-  renderRoadmap();
-  renderWeekChart();
-  renderReadiness();
-  renderCountdown();
-  renderAllocation();
-  renderDailyPlan();
+  const mins=document.getElementById('studyMinutesSetting'),date=document.getElementById('examDateSetting'),auto=document.getElementById('autoPaceSetting');
+  if(mins)mins.value=String(profile.settings.studyMinutes||60);if(date)date.value=profile.settings.examDate||'';if(auto)auto.checked=profile.settings.autoPace!==false;
+  renderRoadmap();renderWeekChart();renderReadiness();renderCountdown();renderExamPace();renderAllocation();renderDailyPlan();
 }
 
 document.getElementById('savePlanSettings')?.addEventListener('click',()=>{
   profile.settings.studyMinutes=Number(document.getElementById('studyMinutesSetting').value)||60;
   profile.settings.examDate=document.getElementById('examDateSetting').value||'';
-  saveProfile();
-  renderPlannerScreen();
-  popToast('学習計画を保存しました ✓');
+  profile.settings.autoPace=!!document.getElementById('autoPaceSetting')?.checked;
+  saveProfile();renderPlannerScreen();const p=examPaceStatus();
+  popToast(p.hasExam&&!p.expired?`学習計画を保存しました・今日の目標 ${p.effective}分`:'学習計画を保存しました ✓');
 });
 
 // Keep all planner UI in sync when profile data changes.
@@ -15575,8 +15848,12 @@ function runAppSelfCheck(){
 
     const lessonIds=Object.keys(LESSONS||{});
     assert(lessonIds.length>=30,'At least 30 lessons expected');
+    assert(typeof examPaceStatus==='function' && typeof effectiveStudyMinutes==='function','Exam pace engine missing');
+    assert(typeof estimateRemainingStudyMinutes==='function','Workload estimator missing');
+    assert(lessonIds.every(id=>LESSON_GUIDES[id]),'All lessons need a study guide');
+    assert(lessonIds.every(id=>LESSON_GUIDES[id].points?.length>=3),'Lesson guides need at least 3 key points');
     const pageCounts=lessonIds.map(id=>LESSONS[id].pages.length);
-    assert(pageCounts.every(n=>n===2||n===3),'Lessons should use compact 2/3-page structure');
+    assert(pageCounts.every(n=>n>=3&&n<=5),'Lesson page count should stay within 3-5 pages');
     lessonIds.forEach(id=>{
       const l=LESSONS[id];
       assert(l&&Array.isArray(l.pages)&&l.pages.length>=1,`Lesson ${id}: pages missing`);
@@ -15631,7 +15908,7 @@ function runLessonUXAudit(){
   const interactiveTypes=lessonIds.flatMap(id=>LESSONS[id].pages.filter(p=>p.interactive).map(p=>p.interactive));
   const issues=[];
   if(lessonIds.length!==34)issues.push(`lesson count ${lessonIds.length}`);
-  if(!Object.values(pageCounts).every(n=>n===2||n===3))issues.push('page density');
+  if(!Object.values(pageCounts).every(n=>n>=3&&n<=5))issues.push('page density');
   if(new Set(interactiveTypes).size!==interactiveTypes.length)issues.push('duplicate interactive type');
   const required=['transaction','mutex','filesystem','automata','cache','stackqueue'];
   required.forEach(x=>{if(!interactiveTypes.includes(x))issues.push(`missing ${x}`)});
