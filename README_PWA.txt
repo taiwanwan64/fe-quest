@@ -1,25 +1,22 @@
-FE QUEST PWA v3
+FE QUEST PWA v4
 
-このフォルダは、そのままHTTPS対応のWebサーバーへアップロードできるPWA一式です。
+v4の主な追加:
+- 初回実力診断（12問）
+- 分野別習熟度
+- 苦手分野に応じた「今日のクエスト」の自動調整
+- XP・習熟度・診断結果をlocalStorageへ保存
+- ページを閉じても進捗が同じ端末内に残る
+- PWA / iPhoneホーム画面追加 / オフライン対応はv3から継続
 
-重要:
-- iPhoneの「ファイル」アプリから index.html を直接開く方式ではPWAにはなりません。
-- Service Workerは file:// では動作しません。
-- HTTPSで公開したURLをSafariで開いてください。
+公開方法:
+1. GitHubの fe-quest リポジトリを開く
+2. このZIP内のファイルをすべてアップロードして既存ファイルを上書き
+3. Commit changes
+4. GitHub PagesのURLを再読み込み
+5. iPhoneで古い画面が残る場合は、ホーム画面のFE QUESTを一度終了して再起動
+   それでも更新されない場合は、Safariで公開URLを開き直す
 
-公開後のiPhone操作:
-1. Safariで公開URLを開く
-2. 共有
-3. 「ホーム画面に追加」
-4. 「追加」
-5. ホーム画面のFE QUESTアイコンから起動
-
-ファイル:
-- index.html                アプリ本体
-- manifest.webmanifest      PWA設定
-- sw.js                     オフラインキャッシュ
-- icon-192.png              PWAアイコン
-- icon-512.png              PWAアイコン
-- apple-touch-icon.png      iPhoneホーム画面用
-
-現在のAI講師はモックです。OpenAI API接続は次の開発段階で追加できます。
+注意:
+- AI講師はまだモックです。
+- 診断問題はFE試験分野をもとに作成したオリジナル問題です。
+- 現段階の診断は12問なので「厳密な実力測定」ではなく学習ルート初期化用です。

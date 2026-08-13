@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v3</title>
+<title>FE QUEST PWA v4</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -983,6 +983,92 @@
     }
   }
 
+
+  /* ===== v4: Diagnostic + persistent learning state ===== */
+  .diag-banner{
+    margin-top:18px;
+    background:linear-gradient(135deg,#eaf8ff,#f5fbff);
+    border:1px solid #ccecff;
+    border-radius:22px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .diag-banner.hidden{display:none}
+  .diag-icon{
+    width:50px;height:50px;border-radius:16px;background:white;
+    display:grid;place-items:center;font-size:26px;flex:0 0 auto;
+  }
+  .diag-copy{flex:1}
+  .diag-copy b{display:block;margin-bottom:3px}
+  .diag-start{
+    border:none;background:var(--blue);color:#fff;border-radius:14px;
+    padding:11px 14px;font-weight:900;white-space:nowrap;
+  }
+  .diag-card{
+    background:#fff;border:1px solid var(--line);border-radius:26px;
+    padding:24px;box-shadow:var(--shadow);
+  }
+  .diag-meta{
+    display:flex;justify-content:space-between;gap:12px;align-items:center;
+    margin-bottom:16px;
+  }
+  .diag-category{
+    padding:7px 10px;border-radius:999px;background:var(--blue-soft);
+    color:#087db4;font-weight:900;font-size:12px;
+  }
+  .diag-question{
+    font-size:20px;font-weight:900;line-height:1.55;margin:18px 0;
+  }
+  .diag-options{
+    display:grid;gap:10px;
+  }
+  .diag-option{
+    border:2px solid var(--line);background:#fff;border-radius:16px;
+    padding:14px 15px;text-align:left;font-weight:800;line-height:1.5;
+  }
+  .diag-option:hover{border-color:#c8d4df}
+  .diag-option.selected{border-color:var(--blue);background:var(--blue-soft)}
+  .diag-nav{
+    display:flex;gap:10px;justify-content:flex-end;margin-top:18px;
+  }
+  .diag-result-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;
+  }
+  .diag-result{
+    background:#f8fafc;border:1px solid var(--line);border-radius:17px;padding:14px;
+  }
+  .diag-score{
+    font-size:26px;font-weight:900;margin-top:4px;
+  }
+  .skill-list{display:grid;gap:12px;margin-top:18px}
+  .skill-row{
+    background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;
+  }
+  .skill-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .skill-name{font-weight:900}
+  .skill-value{font-weight:900;color:var(--muted)}
+  .daily-note{
+    margin-top:12px;padding:11px 13px;border-radius:14px;
+    background:#f8fafc;border:1px solid var(--line);
+    color:var(--muted);font-size:13px;line-height:1.55;
+  }
+  .reset-link{
+    margin-top:14px;border:none;background:transparent;color:var(--muted);
+    text-decoration:underline;font-size:12px;
+  }
+  @media(max-width:720px){
+    .diag-banner{align-items:flex-start;flex-wrap:wrap}
+    .diag-copy{min-width:calc(100% - 66px)}
+    .diag-start{width:100%;min-height:46px}
+    .diag-card{padding:18px}
+    .diag-question{font-size:18px}
+    .diag-result-grid{grid-template-columns:1fr}
+    .diag-nav{display:grid;grid-template-columns:1fr 1fr}
+    .diag-nav button{width:100%}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1009,6 +1095,7 @@
     <button class="nav-btn" data-screen="map"><span class="ico">🗺️</span><span>学習</span></button>
     <button class="nav-btn" data-screen="weak"><span class="ico">🧠</span><span>苦手</span></button>
     <button class="nav-btn" data-screen="problems"><span class="ico">📖</span><span>問題</span></button>
+    <button class="nav-btn" data-screen="diagnostic"><span class="ico">🧭</span><span>診断</span></button>
     <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico">⚙️</span><span>設定</span></button>
   </aside>
 
@@ -1030,17 +1117,17 @@
         <div class="quest-list">
           <div class="quest-item">
             <div class="quest-icon green">🧠</div>
-            <div><div class="q-title">記憶の復習</div><div class="sub">CPU・サブネット</div></div>
+            <div><div class="q-title">記憶の復習</div><div class="sub" id="questReviewTopic">CPU・サブネット</div></div>
             <div class="q-time">10分</div>
           </div>
           <div class="quest-item">
             <div class="quest-icon blue">🔎</div>
-            <div><div class="q-title">二分探索</div><div class="sub">NEW STAGE</div></div>
+            <div><div class="q-title" id="questNewTitle">二分探索</div><div class="sub">NEW STAGE</div></div>
             <div class="q-time">20分</div>
           </div>
           <div class="quest-item">
             <div class="quest-icon purple">💻</div>
-            <div><div class="q-title">科目Bトレース</div><div class="sub">配列・ループ</div></div>
+            <div><div class="q-title">科目Bトレース</div><div class="sub" id="questBTopic">配列・ループ</div></div>
             <div class="q-time">20分</div>
           </div>
           <div class="quest-item">
@@ -1051,6 +1138,15 @@
         </div>
 
         <button class="primary" id="startQuest">学習を始める ▶</button>
+      </div>
+
+      <div class="diag-banner" id="diagBanner">
+        <div class="diag-icon">🧭</div>
+        <div class="diag-copy">
+          <b>まず現在の実力を測りましょう</b>
+          <div class="sub">ITパスポートの知識がどれくらい残っているかを短い診断で確認し、今日の学習内容を調整します。</div>
+        </div>
+        <button class="diag-start" id="startDiagnostic">実力診断</button>
       </div>
 
       <div class="install-card" id="installCard">
@@ -1096,12 +1192,9 @@
     <!-- WEAK -->
     <section id="weak" class="screen">
       <h1>苦手分析 🧠</h1>
-      <div class="sub">間違えた理由と復習タイミングをまとめています。</div>
-      <div class="section mini-grid">
-        <div class="mini-card"><div class="big">🔁</div><b>while終了条件</b><div class="sub">要復習・正答率 43%</div></div>
-        <div class="mini-card"><div class="big">🌐</div><b>サブネット</b><div class="sub">3日後に再出題</div></div>
-        <div class="mini-card"><div class="big">🧮</div><b>基数変換</b><div class="sub">理解済み・定着待ち</div></div>
-      </div>
+      <div class="sub">診断・問題演習・復習結果から、現在の習熟度を更新します。</div>
+      <div class="skill-list" id="skillList"></div>
+      <div class="daily-note" id="weakAdvice">実力診断をすると、ここに優先して学ぶ分野が表示されます。</div>
     </section>
 
     <!-- PROBLEMS -->
@@ -1114,6 +1207,50 @@
           <div class="quest-item"><div class="quest-icon green">A</div><div><div class="q-title">科目A 10問</div><div class="sub">弱点中心</div></div><div class="q-time">約15分</div></div>
           <div class="quest-item"><div class="quest-icon purple">B</div><div><div class="q-title">科目B 3問</div><div class="sub">トレース中心</div></div><div class="q-time">約20分</div></div>
         </div>
+      </div>
+    </section>
+
+
+    <!-- DIAGNOSTIC -->
+    <section id="diagnostic" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home">←</button>
+        <div>
+          <h1>初回実力診断 🧭</h1>
+          <div class="sub">オリジナル問題で現在の基礎力をざっくり確認します。結果は端末内に保存されます。</div>
+        </div>
+      </div>
+
+      <div class="diag-card" id="diagIntro">
+        <div class="bot">🧭</div>
+        <h2 style="margin-top:16px">12問・約10分</h2>
+        <div class="sub">基礎理論、コンピュータ、データベース、ネットワーク、セキュリティ、アルゴリズム、マネジメント、ストラテジから出題します。</div>
+        <div class="daily-note">満点を取る必要はありません。忘れている分野を見つけるための診断です。</div>
+        <button class="primary" id="diagBegin" style="margin-top:20px">診断を始める</button>
+      </div>
+
+      <div class="diag-card" id="diagQuiz" style="display:none">
+        <div class="diag-meta">
+          <span class="diag-category" id="diagCategory">カテゴリ</span>
+          <b id="diagCount">1 / 12</b>
+        </div>
+        <div class="progress blue"><div id="diagProgress" style="width:8%"></div></div>
+        <div class="diag-question" id="diagQuestion"></div>
+        <div class="diag-options" id="diagOptions"></div>
+        <div class="diag-nav">
+          <button class="secondary" id="diagPrev">← 戻る</button>
+          <button class="primary" id="diagNext">次へ →</button>
+        </div>
+      </div>
+
+      <div class="diag-card" id="diagResult" style="display:none">
+        <div style="font-size:58px">🎯</div>
+        <h2>診断完了！</h2>
+        <div class="sub">この結果をもとに、今後のクエストを調整します。</div>
+        <div class="diag-result-grid" id="diagResultGrid"></div>
+        <div class="daily-note" id="diagResultAdvice"></div>
+        <button class="primary" id="diagFinish" style="margin-top:20px">ホームへ戻る</button>
+        <button class="reset-link" id="diagRedo">診断をやり直す</button>
       </div>
     </section>
 
@@ -1390,9 +1527,6 @@ document.getElementById('resetTrace').addEventListener('click',()=>{
 });
 
 document.getElementById('finishQuest').addEventListener('click',()=>{
-  document.getElementById('xpTop').textContent = '5,160';
-  const mobileXp = document.getElementById('xpMobile');
-  if(mobileXp) mobileXp.textContent = '5.2k';
   showScreen('result');
 });
 document.getElementById('resultHome').addEventListener('click',()=>showScreen('home'));
@@ -1443,6 +1577,314 @@ document.querySelectorAll('.quick button').forEach(b=>{
     setTimeout(()=>addBubble(mockAnswer(b.dataset.q),'bot'),300);
   });
 });
+
+
+// ===== v4: Persistent learner profile + diagnostic =====
+const STORAGE_KEY = 'fequest_profile_v4';
+
+const DEFAULT_PROFILE = {
+  xp: 4820,
+  streak: 6,
+  diagnosticCompleted: false,
+  diagnosticScores: {},
+  skills: {
+    '基礎理論': 55,
+    'コンピュータ': 65,
+    'データベース': 55,
+    'ネットワーク': 55,
+    'セキュリティ': 65,
+    'アルゴリズム': 45,
+    'マネジメント': 65,
+    'ストラテジ': 70
+  },
+  lastStudyDate: null
+};
+
+function loadProfile(){
+  try{
+    const p = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return p ? {...DEFAULT_PROFILE, ...p, skills:{...DEFAULT_PROFILE.skills, ...(p.skills||{})}} : structuredClone(DEFAULT_PROFILE);
+  }catch(e){
+    return JSON.parse(JSON.stringify(DEFAULT_PROFILE));
+  }
+}
+let profile = loadProfile();
+
+function saveProfile(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  refreshProfileUI();
+}
+
+function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+function refreshProfileUI(){
+  const xpTop = document.getElementById('xpTop');
+  const xpMobile = document.getElementById('xpMobile');
+  const streakTop = document.getElementById('streakTop');
+  const streakMobile = document.getElementById('streakMobile');
+  if(xpTop) xpTop.textContent = profile.xp.toLocaleString('ja-JP');
+  if(xpMobile) xpMobile.textContent = profile.xp >= 1000 ? (profile.xp/1000).toFixed(1)+'k' : profile.xp;
+  if(streakTop) streakTop.textContent = profile.streak;
+  if(streakMobile) streakMobile.textContent = profile.streak;
+
+  const banner = document.getElementById('diagBanner');
+  if(banner) banner.classList.toggle('hidden', profile.diagnosticCompleted);
+
+  renderSkills();
+  buildDailyQuest();
+}
+
+function sortedSkills(){
+  return Object.entries(profile.skills).sort((a,b)=>a[1]-b[1]);
+}
+
+function renderSkills(){
+  const list = document.getElementById('skillList');
+  if(!list) return;
+  list.innerHTML = '';
+  const icons = {
+    '基礎理論':'🧮','コンピュータ':'⚙️','データベース':'🗄️','ネットワーク':'🌐',
+    'セキュリティ':'🛡️','アルゴリズム':'💻','マネジメント':'📋','ストラテジ':'📈'
+  };
+  sortedSkills().forEach(([name,val])=>{
+    const row = document.createElement('div');
+    row.className='skill-row';
+    row.innerHTML = `
+      <div class="skill-head">
+        <div class="skill-name">${icons[name]||'📘'} ${name}</div>
+        <div class="skill-value">${val}%</div>
+      </div>
+      <div class="progress"><div style="width:${val}%"></div></div>
+    `;
+    list.appendChild(row);
+  });
+  const weak = sortedSkills().slice(0,3).map(x=>x[0]);
+  const advice = document.getElementById('weakAdvice');
+  if(advice){
+    advice.textContent = profile.diagnosticCompleted
+      ? `現在の優先分野は「${weak.join('・')}」です。毎日の復習枠に少しずつ入れます。`
+      : '実力診断をすると、ここに優先して学ぶ分野が表示されます。';
+  }
+}
+
+function buildDailyQuest(){
+  const ordered = sortedSkills();
+  const weak1 = ordered[0]?.[0] || 'アルゴリズム';
+  const weak2 = ordered[1]?.[0] || 'ネットワーク';
+  const review = document.getElementById('questReviewTopic');
+  const newTitle = document.getElementById('questNewTitle');
+  const btopic = document.getElementById('questBTopic');
+  if(review) review.textContent = `${weak1}・${weak2}`;
+
+  const newStage = {
+    '基礎理論':'基数変換',
+    'コンピュータ':'CPUとキャッシュ',
+    'データベース':'SQLの基本',
+    'ネットワーク':'IPアドレス',
+    'セキュリティ':'公開鍵暗号',
+    'アルゴリズム':'二分探索',
+    'マネジメント':'プロジェクト管理',
+    'ストラテジ':'経営戦略'
+  };
+  if(newTitle) newTitle.textContent = newStage[weak1] || '二分探索';
+  if(btopic) btopic.textContent = profile.skills['アルゴリズム'] < 70 ? '配列・ループ' : '条件分岐・探索';
+}
+
+// Original diagnostic questions based on FE topic areas; not copied from the books.
+const DIAG_QUESTIONS = [
+  {
+    category:'基礎理論',
+    q:'2進数 1010 を10進数で表すといくつですか？',
+    options:['8','10','12','14'], answer:1
+  },
+  {
+    category:'コンピュータ',
+    q:'CPUと主記憶の速度差を埋めるために使われるものとして最も適切なのは？',
+    options:['キャッシュメモリ','光ディスク','プリンタ','ルータ'], answer:0
+  },
+  {
+    category:'データベース',
+    q:'関係データベースで、表の各行を一意に識別するために使うキーは？',
+    options:['外部キー','主キー','暗号鍵','検索キー'], answer:1
+  },
+  {
+    category:'ネットワーク',
+    q:'インターネット上で機器を識別するために使われる論理的なアドレスは？',
+    options:['MACアドレスだけ','IPアドレス','SSID','URLだけ'], answer:1
+  },
+  {
+    category:'セキュリティ',
+    q:'送信者本人が作成したことと、内容が改ざんされていないことの確認に役立つものは？',
+    options:['デジタル署名','バックアップ','圧縮','ファイアウォールだけ'], answer:0
+  },
+  {
+    category:'アルゴリズム',
+    q:'二分探索を効率よく使うために、探索対象のデータに必要な条件は？',
+    options:['必ず重複している','整列されている','画像データである','暗号化されている'], answer:1
+  },
+  {
+    category:'アルゴリズム',
+    q:'スタックからデータを取り出す順序として正しいものは？',
+    options:['最初に入れたものから','最後に入れたものから','ランダム','値が小さいものから'], answer:1
+  },
+  {
+    category:'マネジメント',
+    q:'プロジェクトで作業の開始・終了予定を管理する対象として最も近いものは？',
+    options:['スケジュール','暗号鍵','IPアドレス','主キー'], answer:0
+  },
+  {
+    category:'ストラテジ',
+    q:'売上高と費用が等しくなり、利益が0になる売上高を何と呼びますか？',
+    options:['損益分岐点','限界利益','営業利益率','流動比率'], answer:0
+  },
+  {
+    category:'ネットワーク',
+    q:'家庭や社内LANで使われることが多く、インターネット上ではそのまま使わないIPアドレスは？',
+    options:['プライベートIPアドレス','グローバルIPアドレス','MACアドレス','URL'], answer:0
+  },
+  {
+    category:'セキュリティ',
+    q:'パスワードそのものではなく、計算結果を保存して照合する用途でよく使われる仕組みは？',
+    options:['ハッシュ','ソート','キャッシュ','ルーティング'], answer:0
+  },
+  {
+    category:'データベース',
+    q:'複数の処理を「すべて成功」または「すべて取り消し」として扱うまとまりは？',
+    options:['トランザクション','サブネット','スレッド','プロトコル'], answer:0
+  }
+];
+
+let diagIndex = 0;
+let diagAnswers = Array(DIAG_QUESTIONS.length).fill(null);
+
+function startDiagnosticFlow(){
+  showScreen('diagnostic');
+  document.getElementById('diagIntro').style.display='block';
+  document.getElementById('diagQuiz').style.display='none';
+  document.getElementById('diagResult').style.display='none';
+}
+
+const startDiagnosticBtn = document.getElementById('startDiagnostic');
+if(startDiagnosticBtn) startDiagnosticBtn.addEventListener('click',startDiagnosticFlow);
+
+const diagBegin = document.getElementById('diagBegin');
+if(diagBegin) diagBegin.addEventListener('click',()=>{
+  diagIndex=0;
+  diagAnswers=Array(DIAG_QUESTIONS.length).fill(null);
+  document.getElementById('diagIntro').style.display='none';
+  document.getElementById('diagQuiz').style.display='block';
+  renderDiagQuestion();
+});
+
+function renderDiagQuestion(){
+  const item = DIAG_QUESTIONS[diagIndex];
+  document.getElementById('diagCategory').textContent=item.category;
+  document.getElementById('diagCount').textContent=`${diagIndex+1} / ${DIAG_QUESTIONS.length}`;
+  document.getElementById('diagProgress').style.width=`${((diagIndex+1)/DIAG_QUESTIONS.length)*100}%`;
+  document.getElementById('diagQuestion').textContent=item.q;
+  const opts=document.getElementById('diagOptions');
+  opts.innerHTML='';
+  item.options.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='diag-option'+(diagAnswers[diagIndex]===i?' selected':'');
+    b.textContent=`${String.fromCharCode(65+i)}. ${op}`;
+    b.addEventListener('click',()=>{
+      diagAnswers[diagIndex]=i;
+      renderDiagQuestion();
+    });
+    opts.appendChild(b);
+  });
+  document.getElementById('diagPrev').disabled=diagIndex===0;
+  document.getElementById('diagNext').textContent=diagIndex===DIAG_QUESTIONS.length-1?'結果を見る':'次へ →';
+}
+
+document.getElementById('diagPrev')?.addEventListener('click',()=>{
+  if(diagIndex>0){diagIndex--;renderDiagQuestion();}
+});
+
+document.getElementById('diagNext')?.addEventListener('click',()=>{
+  if(diagAnswers[diagIndex]===null){
+    popToast('回答を1つ選んでください');
+    return;
+  }
+  if(diagIndex<DIAG_QUESTIONS.length-1){
+    diagIndex++;renderDiagQuestion();
+  }else{
+    finishDiagnostic();
+  }
+});
+
+function finishDiagnostic(){
+  const cats={};
+  DIAG_QUESTIONS.forEach((q,i)=>{
+    if(!cats[q.category]) cats[q.category]={correct:0,total:0};
+    cats[q.category].total++;
+    if(diagAnswers[i]===q.answer) cats[q.category].correct++;
+  });
+
+  const scores={};
+  Object.entries(cats).forEach(([cat,v])=>{
+    scores[cat]=Math.round(v.correct/v.total*100);
+  });
+
+  // Categories with one diagnostic item are softened toward a neutral prior
+  // so one mistake does not create an extreme 0/100 mastery estimate.
+  Object.keys(profile.skills).forEach(cat=>{
+    const raw = scores[cat];
+    if(raw !== undefined){
+      const sampleCount = cats[cat].total;
+      const prior = profile.skills[cat] ?? 60;
+      const weight = sampleCount >= 2 ? 0.65 : 0.45;
+      profile.skills[cat]=Math.round(prior*(1-weight)+raw*weight);
+    }
+  });
+
+  profile.diagnosticCompleted=true;
+  profile.diagnosticScores=scores;
+  profile.xp += 120;
+  saveProfile();
+
+  document.getElementById('diagQuiz').style.display='none';
+  document.getElementById('diagResult').style.display='block';
+
+  const grid=document.getElementById('diagResultGrid');
+  grid.innerHTML='';
+  sortedSkills().forEach(([cat,val])=>{
+    const d=document.createElement('div');
+    d.className='diag-result';
+    d.innerHTML=`<div class="sub">${cat}</div><div class="diag-score">${val}%</div>`;
+    grid.appendChild(d);
+  });
+
+  const weak=sortedSkills().slice(0,3).map(x=>x[0]);
+  document.getElementById('diagResultAdvice').textContent=
+    `まずは「${weak.join('・')}」を重点的に進めます。得意分野は短い復習だけにして、60分を効率よく使います。`;
+}
+
+document.getElementById('diagFinish')?.addEventListener('click',()=>showScreen('home'));
+document.getElementById('diagRedo')?.addEventListener('click',()=>{
+  profile.diagnosticCompleted=false;
+  saveProfile();
+  startDiagnosticFlow();
+});
+
+// Existing learning interactions now update mastery and persist.
+right?.addEventListener('click',()=>{
+  profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||45)+2,0,100);
+  profile.xp += 10;
+  saveProfile();
+});
+
+document.getElementById('finishQuest')?.addEventListener('click',()=>{
+  profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||45)+3,0,100);
+  profile.xp += 40;
+  profile.lastStudyDate = new Date().toISOString().slice(0,10);
+  saveProfile();
+});
+
+// If the current prototype's result handler hard-codes XP, profile refresh will win afterwards.
+setTimeout(refreshProfileUI,0);
+
 
 // ===== PWA support =====
 let deferredInstallPrompt = null;
