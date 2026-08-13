@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v20</title>
+<title>FE QUEST PWA v21</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1273,7 +1273,16 @@
     margin-top:24px;min-height:285px;
     background:#fbfcfd;border:1px solid var(--line);border-radius:22px;padding:20px;
     display:flex;flex-direction:column;justify-content:center;
+    overflow-x:auto;overflow-y:hidden;
   }
+  .lesson-stage > *{max-width:100%}
+  .diagram-scroll{
+    width:100%;overflow-x:auto;overflow-y:hidden;padding-bottom:4px;
+  }
+  .diagram-scroll > *{margin-left:auto;margin-right:auto}
+  .diagram-scroll::-webkit-scrollbar{height:8px}
+  .diagram-scroll::-webkit-scrollbar-thumb{background:#d9e2ea;border-radius:999px}
+  .diagram-scroll::-webkit-scrollbar-track{background:transparent}
   .lesson-nav{
     display:flex;align-items:center;gap:10px;margin-top:18px;
   }
@@ -2321,13 +2330,20 @@
   .swot-name{font-size:12px;color:var(--muted);font-weight:900;margin-bottom:7px}
 
   .iot-flow{
-    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:9px;align-items:center;max-width:780px;margin:0 auto;
+    min-width:700px;
+    display:grid;
+    grid-template-columns:minmax(124px,1fr) 34px minmax(124px,1fr) 34px minmax(124px,1fr) 34px minmax(124px,1fr);
+    gap:12px;align-items:center;max-width:860px;margin:0 auto;
   }
   .iot-card{
     background:#fff;border:2px solid var(--line);border-radius:18px;padding:17px 10px;text-align:center;
+    min-height:132px;display:flex;flex-direction:column;justify-content:center;
   }
   .iot-card.active{border-color:var(--blue);background:var(--blue-soft)}
   .iot-icon{font-size:30px;margin-bottom:5px}
+  .iot-arrow{
+    font-size:26px;color:#a8b4bf;text-align:center;line-height:1;user-select:none;
+  }
 
   .finance-table{
     max-width:620px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;
@@ -2353,8 +2369,14 @@
     .coverage-summary{padding:17px;align-items:flex-start}
     .memory-grid,.model-cards,.rfp-grid,.law-cases{grid-template-columns:1fr}
     .ui-content{grid-template-columns:1fr}
-    .audit-board,.iot-flow{grid-template-columns:1fr}
-    .audit-arrow,.iot-flow>.cpu-arrow{transform:rotate(90deg);text-align:center}
+    .audit-board{grid-template-columns:1fr}
+    .audit-arrow{transform:rotate(90deg);text-align:center}
+    .iot-flow{
+      min-width:0;
+      grid-template-columns:1fr;
+      max-width:360px;
+    }
+    .iot-arrow{transform:rotate(90deg)}
     .swot-grid{grid-template-columns:1fr 1fr}
   }
 
@@ -5805,7 +5827,7 @@ const LESSONS = {
     title:'IoTの流れ',cat:'ビジネスインダストリ',skill:'ストラテジ',
     pages:[
       {headline:'現実世界の情報をデジタルへつなぐ',copy:'温度センサの値をネットワーク経由でクラウドへ送り、条件に応じて空調を動かす例です。',render:()=>iotView(0)},
-      {headline:'データの流れを進める',copy:'1 STEPずつセンサ→通信→クラウド→制御へ進めてください。',interactive:'iot'},
+      {headline:'データの流れを進める',copy:'1 STEPずつ、センサ → ネットワーク → クラウド → アクチュエータの順に進めてください。',interactive:'iot'},
       {headline:'センサとアクチュエータを区別する',copy:'センサは状態を測定し、アクチュエータは指示を受けて現実世界へ作用します。',render:()=>iotView(3)},
       {headline:'ミニチェック',copy:'IoTシステムで温度を測定する装置はどちらに近い？',quiz:{options:['センサ','アクチュエータだけ','DBMS','コンパイラ'],answer:0,explain:'温度などの物理量を取得する装置はセンサです。'}}
     ]
@@ -6322,7 +6344,7 @@ function swotView(active){
 }
 function iotView(step){
   const cards=[['🌡️','センサ','温度を取得'],['📡','ネットワーク','データ送信'],['☁️','クラウド','判断・蓄積'],['❄️','アクチュエータ','空調をON']];
-  return `<div class="iot-flow">${cards.map((x,i)=>`${i?'<div class="cpu-arrow">→</div>':''}<div class="iot-card ${step>=i?'active':''}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div>`;
+  return `<div class="diagram-scroll"><div class="iot-flow">${cards.map((x,i)=>`${i?'<div aria-hidden="true" class="iot-arrow">→</div>':''}<div class="iot-card ${step>=i?'active':''}"><div class="iot-icon">${x[0]}</div><b>${x[1]}</b><div class="sub">${x[2]}</div></div>`).join('')}</div></div>`;
 }
 function financeView(step){
   return `<div class="finance-table">

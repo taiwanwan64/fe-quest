@@ -1,65 +1,30 @@
-FE QUEST PWA v20
+FE QUEST PWA v21
 
-v20の主な変更
+v21の主な変更
 
-1. アプリ内の表現をFE QUEST独自の試験対策UIへ統一
-- 「章」を前提としたカバレッジ表示を廃止
-- 試験の主要分野ごとのEXAM AREA COVERAGEへ変更
-- 学習ロードマップ、模試、問題演習の説明文をFE QUEST独自表現へ統一
-- 配布ファイル内にも教材の出典元を示す表現を置かない
+1. 図解レッスンのレイアウト安定化
+- lesson-stage に横スクロール許可を追加
+- 複雑な図解が狭い幅で崩れにくいよう調整
+- 図解専用の diagram-scroll を追加
 
-2. VARIANT REVIEW拡張
-新たに直接生成対応:
-- サブネット
-- SQL WHERE句
-- SQL集約関数
-- 論理演算 AND / OR / XOR
-- 公開鍵暗号
-- 共通鍵暗号
-- デジタル署名
-- 損益分岐点
+2. IoTレッスンの図解修正
+- 4カード + 3矢印に対して不十分だったレイアウト定義を修正
+- IoTの流れ専用に 7カラム構成へ作り直し
+- センサ → ネットワーク → クラウド → アクチュエータ が1列で安定表示
+- スマホ幅では縦並び表示へ切替
+- カード高さを揃えて視認性を改善
 
-既存対応:
-- 基数変換
-- 16進数
-- システム信頼性
-- 画像データ量
-- 財務
-- キュー
-- スタック
-- 条件分岐
-- 集合
-- スループット
+3. 既存機能は継続
+- EXAM AREA COVERAGE
+- Adaptive Memory / 7日復習予報
+- VARIANT REVIEW
+- ACTIVE RECALL
+- RETRY
 
-3. 復習フォールバック修正
-v19:
-直接生成できない場合、
-同じ論点がなければ同じ分野の別問題を出し、
-元問題の記憶モデルへ記録する場合があった。
-
-v20:
-- 直接生成
-- 同じ論点の別問題
-- 元問題
-の順だけに変更。
-別論点を元問題の定着として誤記録しない。
-
-4. ACTIVE RECALL / RETRY / Adaptive Memoryは継続
-- 選択肢を見る前の想起
-- 初回誤答時に正解を即表示しない
-- sourceId経由で元論点の記憶モデルへ反映
-- stability / due / retention / 7日復習予報
-
-コンテンツ:
-- アプリ内の教材文、問題、数値、選択肢、解説、生成規則はFE QUEST用コンテンツ
-- 問題生成結果もすべてローカルで生成
-
-検証:
+検証
 - index.html JavaScript構文チェック
-- sw.js構文チェック
+- sw.js 構文チェック
 - Node VM起動
-- HALF MOCK開始
-- 全直接生成器を複数回生成
-- 正解index / sourceId / 4択成立を検証
-- Coverage描画
-- Adaptive Memory継続
+- IoTレッスン描画
+- startLesson('iot') で lessonStage へ .iot-flow / .iot-arrow が入ることを確認
+- 既存の variant generator / memory engine 継続確認
