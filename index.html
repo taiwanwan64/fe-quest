@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#58cc02" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>FE QUEST PWA v3</title>
+<style>
+  :root{
+    --bg:#f6f8fb;
+    --panel:#ffffff;
+    --text:#24313d;
+    --muted:#758394;
+    --line:#e8edf2;
+    --green:#58cc02;
+    --green-dark:#46a302;
+    --green-soft:#efffe3;
+    --blue:#1cb0f6;
+    --blue-soft:#eaf8ff;
+    --purple:#9b5de5;
+    --purple-soft:#f3ebff;
+    --yellow:#ffc800;
+    --red:#ff4b4b;
+    --red-soft:#fff0f0;
+    --shadow:0 8px 24px rgba(40, 55, 70, .08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Inter, "Noto Sans JP", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  button,input{font:inherit}
+  button{cursor:pointer}
+  .app{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:90px 1fr 280px;
+    grid-template-rows:76px 1fr;
+  }
+  header{
+    grid-column:1/4;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    gap:20px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .brand{
+    font-weight:900;
+    font-size:24px;
+    letter-spacing:.5px;
+    color:var(--green-dark);
+    white-space:nowrap;
+  }
+  .header-spacer{flex:1}
+  .stat-chip{
+    display:flex;align-items:center;gap:8px;
+    border:1px solid var(--line);
+    background:#fff;
+    padding:9px 13px;
+    border-radius:16px;
+    font-weight:800;
+    font-size:14px;
+  }
+  .avatar{
+    width:40px;height:40px;border-radius:50%;
+    background:var(--green-soft);
+    display:grid;place-items:center;
+    border:2px solid #d7f6bd;
+    font-size:22px;
+  }
+
+  .sidebar{
+    grid-row:2;
+    background:var(--panel);
+    border-right:1px solid var(--line);
+    padding:18px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:sticky;
+    top:76px;
+    height:calc(100vh - 76px);
+  }
+  .nav-btn{
+    border:none;
+    background:transparent;
+    border-radius:18px;
+    padding:12px 6px;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    font-size:12px;
+    font-weight:800;
+  }
+  .nav-btn .ico{font-size:24px}
+  .nav-btn.active{
+    color:var(--green-dark);
+    background:var(--green-soft);
+  }
+  .nav-bottom{margin-top:auto}
+
+  main{
+    grid-row:2;
+    padding:32px 36px 60px;
+    max-width:980px;
+    width:100%;
+    margin:0 auto;
+  }
+  .rightbar{
+    grid-row:2;
+    background:transparent;
+    border-left:1px solid var(--line);
+    padding:26px 22px;
+  }
+  .right-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+
+  h1{font-size:30px;margin:0 0 8px}
+  h2{font-size:23px;margin:0 0 14px}
+  h3{font-size:18px;margin:0 0 10px}
+  .sub{color:var(--muted);font-size:15px}
+  .hero{
+    margin-top:24px;
+    background:linear-gradient(135deg,#fff 0%,#fbfff7 100%);
+    border:2px solid #dff1d0;
+    border-radius:28px;
+    padding:28px;
+    box-shadow:var(--shadow);
+  }
+  .hero-top{
+    display:flex;align-items:flex-start;gap:18px;
+  }
+  .bot{
+    width:72px;height:72px;border-radius:22px;
+    background:var(--green-soft);
+    display:grid;place-items:center;
+    font-size:40px;
+    flex:0 0 auto;
+  }
+  .quest-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin:22px 0;
+  }
+  .quest-item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:15px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .quest-icon{
+    width:40px;height:40px;border-radius:13px;
+    display:grid;place-items:center;
+    font-size:21px;
+  }
+  .green{background:var(--green-soft)}
+  .blue{background:var(--blue-soft)}
+  .purple{background:var(--purple-soft)}
+  .yellow{background:#fff8cf}
+  .q-title{font-weight:900}
+  .q-time{margin-left:auto;color:var(--muted);font-weight:800}
+  .primary{
+    border:none;
+    color:white;
+    background:var(--green);
+    box-shadow:0 5px 0 var(--green-dark);
+    border-radius:16px;
+    padding:15px 22px;
+    font-weight:900;
+    font-size:17px;
+    transition:.12s;
+  }
+  .primary:hover{transform:translateY(-1px)}
+  .primary:active{transform:translateY(4px);box-shadow:0 1px 0 var(--green-dark)}
+  .secondary{
+    border:2px solid var(--line);
+    color:var(--text);
+    background:#fff;
+    border-radius:16px;
+    padding:13px 18px;
+    font-weight:900;
+  }
+  .purple-btn{
+    border:none;background:var(--purple);color:#fff;
+    border-radius:14px;padding:12px 17px;font-weight:900;
+  }
+  .section{margin-top:30px}
+  .mini-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .mini-card{
+    background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:18px;text-align:center;
+  }
+  .mini-card .big{font-size:32px;margin-bottom:8px}
+  .progress{
+    height:13px;background:#edf1f5;border-radius:999px;overflow:hidden;
+  }
+  .progress > div{height:100%;background:var(--green);border-radius:999px}
+  .progress.purple > div{background:var(--purple)}
+  .progress.blue > div{background:var(--blue)}
+
+  .screen{display:none}
+  .screen.active{display:block}
+  .screen-head{
+    display:flex;align-items:center;gap:14px;margin-bottom:20px;
+  }
+  .back{
+    border:none;background:#fff;border:1px solid var(--line);
+    width:42px;height:42px;border-radius:14px;font-size:20px;
+  }
+
+  /* map */
+  .map-wrap{
+    background:#fff;border:1px solid var(--line);border-radius:28px;
+    padding:28px;min-height:650px;box-shadow:var(--shadow);
+  }
+  .map-title{text-align:center;margin-bottom:30px}
+  .path{
+    position:relative;
+    display:flex;flex-direction:column;align-items:center;
+    gap:38px;padding:10px 0 30px;
+  }
+  .path:before{
+    content:"";position:absolute;top:30px;bottom:35px;left:50%;
+    width:8px;transform:translateX(-50%);
+    background:#e9eff4;border-radius:999px;
+  }
+  .node-row{width:100%;display:flex;position:relative;z-index:2}
+  .node-row:nth-child(odd){justify-content:42%}
+  .node-row:nth-child(even){justify-content:58%}
+  .node{
+    width:90px;height:90px;border-radius:50%;
+    border:6px solid #fff;
+    box-shadow:0 5px 0 rgba(0,0,0,.09), 0 0 0 2px #e8edf2;
+    display:grid;place-items:center;
+    font-size:34px;
+    background:#e9eff4;
+    position:relative;
+  }
+  .node.done{background:var(--green);color:#fff}
+  .node.current{background:var(--blue);color:#fff;animation:pulse 1.8s infinite}
+  .node.purple-node{background:var(--purple);color:#fff}
+  .node.locked{filter:grayscale(1);opacity:.65}
+  .node-label{
+    position:absolute;top:96px;left:50%;transform:translateX(-50%);
+    font-size:13px;font-weight:900;white-space:nowrap;
+    background:#fff;padding:4px 8px;border-radius:8px;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 5px 0 rgba(0,0,0,.09),0 0 0 2px #d6eefb}
+    50%{box-shadow:0 5px 0 rgba(0,0,0,.09),0 0 0 10px rgba(28,176,246,.14)}
+  }
+
+  /* lesson */
+  .lesson-card{
+    background:#fff;border:1px solid var(--line);border-radius:28px;
+    padding:28px;box-shadow:var(--shadow);
+  }
+  .lesson-progress{
+    display:flex;gap:8px;margin-bottom:24px;
+  }
+  .lesson-progress span{
+    height:10px;flex:1;background:#edf1f5;border-radius:99px;
+  }
+  .lesson-progress span.on{background:var(--green)}
+  .array{
+    display:flex;gap:10px;justify-content:center;margin:32px auto 26px;flex-wrap:wrap;
+  }
+  .cell{
+    width:62px;height:62px;border:2px solid #dfe6ec;border-radius:16px;
+    background:#fff;display:grid;place-items:center;font-weight:900;font-size:20px;
+    transition:.25s;position:relative;
+  }
+  .cell.mid{border-color:var(--blue);background:var(--blue-soft)}
+  .cell.target{border-color:var(--green);background:var(--green-soft)}
+  .cell.discard{opacity:.22;transform:scale(.94)}
+  .caption{text-align:center;font-weight:900;font-size:20px}
+  .compare{
+    text-align:center;color:var(--muted);margin-top:8px;font-size:17px;
+  }
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+  .choice{
+    padding:16px;border:2px solid var(--line);border-radius:16px;background:#fff;
+    font-weight:900;font-size:16px;
+  }
+  .choice:hover{border-color:#c7d3de}
+  .choice.correct{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .choice.wrong{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+  .feedback{
+    display:none;margin-top:20px;border-radius:18px;padding:18px;
+    background:var(--green-soft);border:1px solid #d6f3c2;
+  }
+  .feedback.show{display:block}
+
+  /* trace */
+  .trace-layout{
+    display:grid;grid-template-columns:1.25fr .75fr;gap:18px;
+  }
+  .codebox,.varbox{
+    background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px;
+  }
+  .code-line{
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    padding:11px 12px;border-radius:10px;
+    margin:4px 0;font-size:16px;
+  }
+  .code-line.active{background:var(--purple-soft);color:#6e33aa;font-weight:900}
+  .vars{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .var{
+    padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--line);
+  }
+  .var-name{color:var(--muted);font-size:13px;font-weight:800}
+  .var-value{font-size:26px;font-weight:900;margin-top:4px}
+  .trace-actions{display:flex;gap:12px;margin-top:18px}
+  .tip{
+    background:var(--purple-soft);border-radius:18px;padding:16px;margin-top:18px;
+    color:#65379a;
+  }
+
+  /* result */
+  .result-card{
+    background:#fff;border:1px solid var(--line);border-radius:28px;
+    padding:34px;text-align:center;box-shadow:var(--shadow);
+  }
+  .result-icon{font-size:72px}
+  .xp{font-size:38px;font-weight:900;color:var(--yellow);text-shadow:0 2px 0 #c49600}
+  .result-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0;
+  }
+  .rbox{background:#f8fafc;border-radius:18px;padding:18px;border:1px solid var(--line)}
+  .rnum{font-size:28px;font-weight:900}
+  .tag{
+    display:inline-block;border-radius:999px;padding:7px 11px;font-weight:900;font-size:13px;
+    margin:4px;
+  }
+  .tag.good{background:var(--green-soft);color:var(--green-dark)}
+  .tag.warn{background:#fff3d6;color:#a76c00}
+
+  /* AI drawer */
+  .ai-fab{
+    position:fixed;right:28px;bottom:28px;z-index:50;
+    border:none;background:var(--green);color:#fff;
+    border-radius:999px;padding:14px 18px;font-weight:900;
+    box-shadow:0 8px 22px rgba(70,163,2,.28);
+  }
+  .drawer{
+    position:fixed;top:0;right:-420px;width:390px;height:100vh;background:#fff;
+    border-left:1px solid var(--line);z-index:80;box-shadow:-10px 0 30px rgba(35,45,55,.12);
+    transition:.25s;display:flex;flex-direction:column;
+  }
+  .drawer.open{right:0}
+  .drawer-head{padding:20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+  .drawer-head .bot{width:48px;height:48px;font-size:28px;border-radius:15px}
+  .drawer-close{margin-left:auto;border:none;background:#f5f7f9;width:36px;height:36px;border-radius:12px}
+  .chat{padding:18px;overflow:auto;flex:1;background:#fbfcfd}
+  .bubble{
+    max-width:88%;padding:12px 14px;border-radius:16px;margin:10px 0;line-height:1.6;font-size:14px;
+  }
+  .bot-bub{background:#fff;border:1px solid var(--line)}
+  .user-bub{margin-left:auto;background:var(--green);color:white}
+  .quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 12px}
+  .quick button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800}
+  .chat-input{padding:14px 16px 18px;border-top:1px solid var(--line);display:flex;gap:8px}
+  .chat-input input{flex:1;border:1px solid var(--line);border-radius:14px;padding:11px 12px;outline:none}
+  .chat-input button{border:none;background:var(--green);color:#fff;border-radius:13px;width:44px;font-weight:900}
+
+  .toast{
+    position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);
+    background:#26313b;color:#fff;padding:12px 18px;border-radius:14px;
+    opacity:0;pointer-events:none;transition:.2s;z-index:100;font-weight:800;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:1100px){
+    .app{grid-template-columns:78px 1fr;grid-template-rows:70px 1fr}
+    header{grid-column:1/3}
+    .rightbar{display:none}
+    .sidebar{top:70px;height:calc(100vh - 70px)}
+    main{padding:26px 24px 60px}
+  }
+  @media (max-width:720px){
+    .app{display:block}
+    header{position:sticky;height:64px;padding:0 16px}
+    .brand{font-size:20px}
+    .stat-chip{display:none}
+    .sidebar{
+      position:fixed;left:0;right:0;bottom:0;top:auto;height:68px;z-index:60;
+      border-right:none;border-top:1px solid var(--line);padding:7px 8px;
+      flex-direction:row;justify-content:space-around;
+    }
+    .nav-btn{flex:1;padding:5px;font-size:10px}
+    .nav-btn .ico{font-size:20px}
+    .nav-bottom{margin-top:0}
+    main{padding:22px 16px 90px}
+    .quest-list,.mini-grid,.choice-grid,.trace-layout,.result-grid{grid-template-columns:1fr}
+    .hero{padding:20px}
+    .hero-top{align-items:center}
+    .bot{width:58px;height:58px;font-size:32px}
+    .drawer{width:100%;right:-100%}
+    .ai-fab{right:18px;bottom:84px}
+    .node-row:nth-child(odd),.node-row:nth-child(even){justify-content:center}
+  }
+
+  /* ===== Smartphone-first refinements (v2) ===== */
+  html{
+    min-height:100%;
+    background:var(--bg);
+  }
+  body{
+    min-height:100dvh;
+    overflow-x:hidden;
+    overscroll-behavior-y:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button{
+    touch-action:manipulation;
+  }
+  .mobile-stats{
+    display:none;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    font-weight:900;
+    white-space:nowrap;
+  }
+
+  @media (max-width:720px){
+    :root{
+      --shadow:0 5px 16px rgba(40,55,70,.07);
+    }
+
+    body{
+      background:#f7f9fb;
+    }
+
+    .app{
+      min-height:100dvh;
+    }
+
+    header{
+      box-sizing:content-box;
+      height:58px;
+      min-height:58px;
+      padding:
+        env(safe-area-inset-top)
+        14px
+        0
+        14px;
+      gap:10px;
+    }
+
+    .brand{
+      font-size:19px;
+      letter-spacing:.2px;
+    }
+
+    .avatar{
+      width:36px;
+      height:36px;
+      font-size:19px;
+      border-width:1px;
+    }
+
+    .mobile-stats{
+      display:flex;
+      color:var(--muted);
+    }
+
+    .mobile-stats .mstat{
+      display:flex;
+      align-items:center;
+      gap:3px;
+    }
+
+    .sidebar{
+      height:calc(64px + env(safe-area-inset-bottom));
+      padding:6px 6px env(safe-area-inset-bottom);
+      background:rgba(255,255,255,.97);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .nav-btn{
+      min-height:52px;
+      border-radius:14px;
+    }
+
+    .nav-btn .ico{
+      line-height:1;
+    }
+
+    .nav-bottom{
+      display:none;
+    }
+
+    main{
+      padding:
+        20px
+        14px
+        calc(96px + env(safe-area-inset-bottom));
+      max-width:560px;
+    }
+
+    h1{
+      font-size:24px;
+      line-height:1.25;
+    }
+
+    h2{
+      font-size:20px;
+    }
+
+    h3{
+      font-size:17px;
+    }
+
+    .sub{
+      font-size:13.5px;
+      line-height:1.55;
+    }
+
+    .hero{
+      margin-top:18px;
+      padding:18px;
+      border-radius:24px;
+    }
+
+    .hero-top{
+      gap:12px;
+    }
+
+    .hero-top h2{
+      margin-bottom:5px;
+    }
+
+    .bot{
+      width:54px;
+      height:54px;
+      border-radius:17px;
+      font-size:30px;
+    }
+
+    .quest-list{
+      grid-template-columns:1fr;
+      gap:9px;
+      margin:17px 0;
+    }
+
+    .quest-item{
+      padding:12px;
+      min-height:68px;
+      border-radius:16px;
+    }
+
+    .quest-icon{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+    }
+
+    .q-title{
+      font-size:15px;
+    }
+
+    .q-time{
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .primary{
+      width:100%;
+      min-height:52px;
+      padding:13px 16px;
+      font-size:16px;
+      border-radius:15px;
+    }
+
+    .secondary,
+    .purple-btn,
+    .choice{
+      min-height:48px;
+    }
+
+    .section{
+      margin-top:24px;
+    }
+
+    /* Horizontal swipe cards fit mobile better than a long vertical list */
+    .mini-grid{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding:2px 2px 10px;
+      margin-left:-2px;
+      scrollbar-width:none;
+    }
+
+    .mini-grid::-webkit-scrollbar{
+      display:none;
+    }
+
+    .mini-card{
+      flex:0 0 76%;
+      min-width:0;
+      padding:16px;
+      scroll-snap-align:start;
+    }
+
+    .mini-card .big{
+      font-size:28px;
+    }
+
+    .screen-head{
+      margin-bottom:16px;
+    }
+
+    .back{
+      min-width:44px;
+      min-height:44px;
+    }
+
+    .lesson-card,
+    .map-wrap,
+    .result-card{
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .lesson-progress{
+      margin-bottom:20px;
+    }
+
+    .caption{
+      font-size:18px;
+    }
+
+    .compare{
+      font-size:15px;
+    }
+
+    /* Keep all seven array cells visible on a normal phone in portrait */
+    .array{
+      flex-wrap:nowrap;
+      gap:5px;
+      margin:25px 0 22px;
+      width:100%;
+    }
+
+    .cell{
+      width:calc((100vw - 72px) / 7);
+      max-width:48px;
+      min-width:33px;
+      height:50px;
+      border-radius:12px;
+      font-size:16px;
+      flex:1 1 0;
+    }
+
+    .choice-grid{
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .choice{
+      padding:13px 10px;
+      border-radius:14px;
+    }
+
+    .feedback{
+      padding:15px;
+    }
+
+    .feedback .purple-btn{
+      width:100%;
+    }
+
+    .trace-layout{
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+
+    .codebox,
+    .varbox{
+      border-radius:20px;
+      padding:15px;
+      min-width:0;
+    }
+
+    .codebox{
+      overflow-x:hidden;
+    }
+
+    .code-line{
+      font-size:14px;
+      padding:9px 8px;
+      white-space:nowrap;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+
+    .code-line::-webkit-scrollbar{
+      display:none;
+    }
+
+    .vars{
+      gap:8px;
+    }
+
+    .var{
+      padding:12px;
+    }
+
+    .var-value{
+      font-size:24px;
+    }
+
+    .trace-actions{
+      display:grid;
+      grid-template-columns:.8fr 1.2fr;
+      gap:8px;
+    }
+
+    .trace-actions button{
+      width:100%;
+    }
+
+    .tip{
+      padding:14px;
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .result-card{
+      padding-top:24px;
+    }
+
+    .result-icon{
+      font-size:58px;
+    }
+
+    .xp{
+      font-size:32px;
+    }
+
+    .result-grid{
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+      margin:20px 0;
+    }
+
+    .rbox{
+      padding:12px 5px;
+      border-radius:14px;
+    }
+
+    .rnum{
+      font-size:20px;
+    }
+
+    .rbox .sub{
+      font-size:11px;
+    }
+
+    .map-wrap{
+      min-height:590px;
+    }
+
+    .path{
+      gap:33px;
+    }
+
+    .node{
+      width:76px;
+      height:76px;
+      font-size:28px;
+    }
+
+    .node-label{
+      top:82px;
+      font-size:12px;
+    }
+
+    /* AI becomes a mobile bottom sheet */
+    .drawer{
+      top:auto;
+      right:0;
+      bottom:-100%;
+      width:100%;
+      height:min(88dvh,760px);
+      border-left:none;
+      border-top:1px solid var(--line);
+      border-radius:26px 26px 0 0;
+      transition:bottom .25s ease;
+      box-shadow:0 -12px 34px rgba(35,45,55,.14);
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .drawer.open{
+      right:0;
+      bottom:0;
+    }
+
+    .drawer:before{
+      content:"";
+      position:absolute;
+      top:7px;
+      left:50%;
+      transform:translateX(-50%);
+      width:42px;
+      height:5px;
+      border-radius:99px;
+      background:#d8dee5;
+    }
+
+    .drawer-head{
+      padding-top:22px;
+    }
+
+    .chat{
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .chat-input input{
+      font-size:16px; /* prevents iOS zoom on focus */
+    }
+
+    .ai-fab{
+      right:14px;
+      bottom:calc(78px + env(safe-area-inset-bottom));
+      padding:12px 15px;
+      font-size:13px;
+      box-shadow:0 7px 20px rgba(70,163,2,.25);
+    }
+
+    .toast{
+      bottom:calc(82px + env(safe-area-inset-bottom));
+      width:max-content;
+      max-width:calc(100vw - 32px);
+      text-align:center;
+      font-size:13px;
+    }
+  }
+
+  @media (max-width:360px){
+    main{
+      padding-left:11px;
+      padding-right:11px;
+    }
+
+    .hero,
+    .lesson-card,
+    .map-wrap,
+    .result-card{
+      padding-left:14px;
+      padding-right:14px;
+    }
+
+    .mobile-stats{
+      gap:7px;
+      font-size:12px;
+    }
+
+    .cell{
+      min-width:30px;
+      height:46px;
+      font-size:14px;
+    }
+
+    .ai-fab{
+      padding:11px 13px;
+    }
+  }
+
+  @media (orientation:landscape) and (max-height:520px){
+    .drawer{
+      height:94dvh;
+    }
+  }
+
+
+  .install-card{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px 17px;
+    background:var(--blue-soft);
+    border:1px solid #cfeeff;
+    border-radius:19px;
+  }
+  .install-card.hidden{display:none}
+  .install-ico{
+    width:44px;height:44px;border-radius:14px;
+    display:grid;place-items:center;
+    background:white;font-size:23px;flex:0 0 auto;
+  }
+  .install-copy{flex:1;min-width:0}
+  .install-title{font-weight:900;font-size:15px}
+  .install-button{
+    border:none;background:var(--blue);color:white;
+    border-radius:13px;padding:10px 13px;
+    font-weight:900;white-space:nowrap;
+  }
+  .pwa-modal-backdrop{
+    position:fixed;inset:0;background:rgba(25,35,45,.42);
+    display:none;align-items:center;justify-content:center;
+    z-index:120;padding:18px;
+  }
+  .pwa-modal-backdrop.open{display:flex}
+  .pwa-modal{
+    width:min(440px,100%);
+    background:white;border-radius:25px;padding:22px;
+    box-shadow:0 20px 55px rgba(20,30,40,.22);
+  }
+  .pwa-modal h2{margin-bottom:7px}
+  .pwa-steps{
+    display:grid;gap:11px;margin:18px 0;
+  }
+  .pwa-step{
+    display:flex;gap:12px;align-items:flex-start;
+    background:#f8fafc;border:1px solid var(--line);
+    border-radius:15px;padding:12px;
+  }
+  .step-num{
+    min-width:29px;height:29px;border-radius:50%;
+    background:var(--green);color:white;
+    display:grid;place-items:center;font-weight:900;
+  }
+  .pwa-close{
+    width:100%;border:none;background:var(--green);color:white;
+    min-height:48px;border-radius:14px;font-weight:900;
+  }
+  .offline-pill{
+    display:none;
+    position:fixed;
+    top:calc(10px + env(safe-area-inset-top));
+    left:50%;transform:translateX(-50%);
+    z-index:150;
+    padding:7px 12px;border-radius:999px;
+    background:#26313b;color:white;
+    font-size:12px;font-weight:900;
+    box-shadow:0 4px 14px rgba(0,0,0,.15);
+  }
+  .offline-pill.show{display:block}
+  @media(max-width:720px){
+    .install-card{
+      align-items:flex-start;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .install-copy{min-width:calc(100% - 60px)}
+    .install-button{width:100%;min-height:45px}
+    .pwa-modal-backdrop{
+      align-items:flex-end;padding:0;
+    }
+    .pwa-modal{
+      border-radius:25px 25px 0 0;
+      padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+      max-height:88dvh;
+      overflow:auto;
+    }
+  }
+
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+<meta name="apple-mobile-web-app-title" content="FE QUEST" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">FE QUEST</div>
+    <div class="header-spacer"></div>
+    <div class="mobile-stats"><span class="mstat">🔥 <span id="streakMobile">6</span></span><span class="mstat">⭐ <span id="xpMobile">4.8k</span></span></div>
+    <div class="stat-chip">🔥 <span id="streakTop">6</span>日</div>
+    <div class="stat-chip">⭐ <span id="xpTop">4,820</span> XP</div>
+    <div class="stat-chip">LV.12</div>
+    <div class="avatar">🙂</div>
+  </header>
+
+  <aside class="sidebar">
+    <button class="nav-btn active" data-screen="home"><span class="ico">🏠</span><span>ホーム</span></button>
+    <button class="nav-btn" data-screen="map"><span class="ico">🗺️</span><span>学習</span></button>
+    <button class="nav-btn" data-screen="weak"><span class="ico">🧠</span><span>苦手</span></button>
+    <button class="nav-btn" data-screen="problems"><span class="ico">📖</span><span>問題</span></button>
+    <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico">⚙️</span><span>設定</span></button>
+  </aside>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="screen active">
+      <h1>今日も少しずつ進めましょう 👋</h1>
+      <div class="sub">60分の学習メニューは、苦手分野と前回の結果から自動で組み立てられます。</div>
+
+      <div class="hero">
+        <div class="hero-top">
+          <div class="bot">🤖</div>
+          <div>
+            <h2>今日のクエスト</h2>
+            <div class="sub">予定学習時間 60分・予想獲得 +320 XP</div>
+          </div>
+        </div>
+
+        <div class="quest-list">
+          <div class="quest-item">
+            <div class="quest-icon green">🧠</div>
+            <div><div class="q-title">記憶の復習</div><div class="sub">CPU・サブネット</div></div>
+            <div class="q-time">10分</div>
+          </div>
+          <div class="quest-item">
+            <div class="quest-icon blue">🔎</div>
+            <div><div class="q-title">二分探索</div><div class="sub">NEW STAGE</div></div>
+            <div class="q-time">20分</div>
+          </div>
+          <div class="quest-item">
+            <div class="quest-icon purple">💻</div>
+            <div><div class="q-title">科目Bトレース</div><div class="sub">配列・ループ</div></div>
+            <div class="q-time">20分</div>
+          </div>
+          <div class="quest-item">
+            <div class="quest-icon yellow">👑</div>
+            <div><div class="q-title">今日のBOSS</div><div class="sub">総復習</div></div>
+            <div class="q-time">10分</div>
+          </div>
+        </div>
+
+        <button class="primary" id="startQuest">学習を始める ▶</button>
+      </div>
+
+      <div class="install-card" id="installCard">
+        <div class="install-ico">📲</div>
+        <div class="install-copy">
+          <div class="install-title">FE QUESTをアプリとして使う</div>
+          <div class="sub">ホーム画面に追加すると、Safariの枠なしで起動できます。</div>
+        </div>
+        <button class="install-button" id="installPwaBtn">追加する</button>
+      </div>
+
+      <div class="section">
+        <h2>今日の復習候補</h2>
+        <div class="mini-grid">
+          <div class="mini-card"><div class="big">🔁</div><b>while</b><div class="sub">習熟度 43%</div><div class="progress" style="margin-top:10px"><div style="width:43%"></div></div></div>
+          <div class="mini-card"><div class="big">⚙️</div><b>CPU</b><div class="sub">習熟度 76%</div><div class="progress blue" style="margin-top:10px"><div style="width:76%"></div></div></div>
+          <div class="mini-card"><div class="big">🌐</div><b>Network</b><div class="sub">習熟度 58%</div><div class="progress purple" style="margin-top:10px"><div style="width:58%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home">←</button>
+        <div><h1>学習マップ</h1><div class="sub">ステージを進めてスキルを解放します。</div></div>
+      </div>
+      <div class="map-wrap">
+        <div class="map-title">
+          <h2>アルゴリズムエリア</h2>
+          <div class="sub">現在 42% 攻略</div>
+        </div>
+        <div class="path">
+          <div class="node-row"><button class="node done" title="配列">✓<span class="node-label">配列</span></button></div>
+          <div class="node-row"><button class="node done" title="スタック">↕<span class="node-label">スタック・キュー</span></button></div>
+          <div class="node-row"><button class="node current" id="mapBinary" title="二分探索">🔎<span class="node-label">二分探索</span></button></div>
+          <div class="node-row"><button class="node purple-node" id="mapTrace" title="科目B">💻<span class="node-label">科目Bトレース</span></button></div>
+          <div class="node-row"><button class="node locked" title="ロック">🔒<span class="node-label">再帰</span></button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEAK -->
+    <section id="weak" class="screen">
+      <h1>苦手分析 🧠</h1>
+      <div class="sub">間違えた理由と復習タイミングをまとめています。</div>
+      <div class="section mini-grid">
+        <div class="mini-card"><div class="big">🔁</div><b>while終了条件</b><div class="sub">要復習・正答率 43%</div></div>
+        <div class="mini-card"><div class="big">🌐</div><b>サブネット</b><div class="sub">3日後に再出題</div></div>
+        <div class="mini-card"><div class="big">🧮</div><b>基数変換</b><div class="sub">理解済み・定着待ち</div></div>
+      </div>
+    </section>
+
+    <!-- PROBLEMS -->
+    <section id="problems" class="screen">
+      <h1>問題演習 📖</h1>
+      <div class="sub">この試作では見た目だけの画面です。</div>
+      <div class="section hero">
+        <h2>おすすめ</h2>
+        <div class="quest-list">
+          <div class="quest-item"><div class="quest-icon green">A</div><div><div class="q-title">科目A 10問</div><div class="sub">弱点中心</div></div><div class="q-time">約15分</div></div>
+          <div class="quest-item"><div class="quest-icon purple">B</div><div><div class="q-title">科目B 3問</div><div class="sub">トレース中心</div></div><div class="q-time">約20分</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LESSON -->
+    <section id="lesson" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home">←</button>
+        <div style="flex:1">
+          <h1>二分探索</h1>
+          <div class="sub">STAGE 3-4</div>
+        </div>
+      </div>
+      <div class="lesson-card">
+        <div class="lesson-progress">
+          <span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span>
+        </div>
+        <div class="caption">37 を探してみましょう</div>
+        <div class="compare">まず中央の値と比べます。</div>
+
+        <div class="array" id="arrayDemo">
+          <div class="cell">3</div>
+          <div class="cell">8</div>
+          <div class="cell">15</div>
+          <div class="cell mid">23</div>
+          <div class="cell target">37</div>
+          <div class="cell">42</div>
+          <div class="cell">61</div>
+        </div>
+
+        <div class="caption">37 ＞ 23</div>
+        <div class="compare">次に調べるのはどちら側でしょう？</div>
+
+        <div class="choice-grid">
+          <button class="choice" id="leftChoice">← 左側</button>
+          <button class="choice" id="rightChoice">右側 →</button>
+        </div>
+
+        <div class="feedback" id="lessonFeedback">
+          <b>✨ 正解です！</b>
+          <div style="margin-top:6px">37 は 23 より大きいので、左半分は探索対象から外せます。</div>
+          <div style="margin-top:14px"><button class="purple-btn" id="goTrace">科目Bトレースへ進む</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACE -->
+    <section id="trace" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="lesson">←</button>
+        <div>
+          <h1>PROGRAM TRACE 💻</h1>
+          <div class="sub">配列とループを1行ずつ追跡します。</div>
+        </div>
+      </div>
+
+      <div class="trace-layout">
+        <div class="codebox">
+          <div class="code-line" data-line="0">1: a ← 0</div>
+          <div class="code-line" data-line="1">2: for i ← 1 to 3</div>
+          <div class="code-line" data-line="2">3: &nbsp;&nbsp;a ← a + i</div>
+          <div class="code-line" data-line="3">4: endfor</div>
+          <div class="code-line" data-line="4">5: a を出力する</div>
+
+          <div class="trace-actions">
+            <button class="secondary" id="resetTrace">↺ リセット</button>
+            <button class="purple-btn" id="stepTrace">▶ 1 STEP</button>
+          </div>
+
+          <div class="tip" id="traceTip">最初は <b>a ← 0</b> です。1 STEP を押してください。</div>
+        </div>
+
+        <div class="varbox">
+          <h3>VARIABLES</h3>
+          <div class="vars">
+            <div class="var"><div class="var-name">a</div><div class="var-value" id="varA">—</div></div>
+            <div class="var"><div class="var-name">i</div><div class="var-value" id="varI">—</div></div>
+          </div>
+          <h3 style="margin-top:22px">PROGRESS</h3>
+          <div class="progress purple"><div id="traceProgress" style="width:0%"></div></div>
+          <button class="primary" id="finishQuest" style="width:100%;margin-top:24px;display:none">クエスト完了 🎉</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" class="screen">
+      <div class="result-card">
+        <div class="result-icon">🏆</div>
+        <h1>QUEST COMPLETE!</h1>
+        <div class="sub">今日の試作クエストを完了しました。</div>
+        <div class="xp">+340 XP</div>
+
+        <div class="result-grid">
+          <div class="rbox"><div class="sub">学習時間</div><div class="rnum">58分</div></div>
+          <div class="rbox"><div class="sub">問題数</div><div class="rnum">22問</div></div>
+          <div class="rbox"><div class="sub">正答率</div><div class="rnum">82%</div></div>
+        </div>
+
+        <h3>今日の習得</h3>
+        <div><span class="tag good">✓ 二分探索</span><span class="tag good">✓ 配列</span><span class="tag good">✓ トレース</span></div>
+        <h3 style="margin-top:18px">次回の復習候補</h3>
+        <div><span class="tag warn">⚠ while終了条件</span><span class="tag warn">⚠ 配列の添字</span></div>
+
+        <div style="margin-top:26px"><button class="primary" id="resultHome">ホームへ戻る</button></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="rightbar">
+    <div class="right-card">
+      <h3>今日の記録</h3>
+      <div class="sub">🔥 6日連続</div>
+      <div style="margin-top:12px"><b>⏱ 0 / 60分</b></div>
+      <div style="margin-top:8px"><b>⭐ +0 XP</b></div>
+    </div>
+
+    <div class="right-card">
+      <h3>試験準備度</h3>
+      <div style="font-size:28px;font-weight:900">37%</div>
+      <div class="progress" style="margin-top:10px"><div style="width:37%"></div></div>
+      <div class="sub" style="margin-top:10px">アルゴリズムを重点強化中</div>
+    </div>
+
+    <div class="right-card">
+      <h3>BIT先生</h3>
+      <div class="sub">分からないときだけ呼べるAI講師です。</div>
+      <button class="secondary" id="openAiSide" style="width:100%;margin-top:12px">🤖 質問する</button>
+    </div>
+  </aside>
+</div>
+
+<button class="ai-fab" id="aiFab">🤖 BIT先生</button>
+
+<div class="drawer" id="aiDrawer">
+  <div class="drawer-head">
+    <div class="bot">🤖</div>
+    <div><b>BIT先生</b><div class="sub">AI講師（試作モック）</div></div>
+    <button class="drawer-close" id="closeAi">×</button>
+  </div>
+  <div class="chat" id="chat">
+    <div class="bubble bot-bub">こんにちは！分からないところがあれば、その画面を見ながら一緒に整理します。</div>
+  </div>
+  <div class="quick">
+    <button data-q="もっと簡単に説明して">もっと簡単に</button>
+    <button data-q="なぜこの答えになるの？">なぜこの答え？</button>
+    <button data-q="図で説明して">図で説明</button>
+    <button data-q="似た問題を出して">似た問題</button>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="質問を入力…" />
+    <button id="sendChat">➤</button>
+  </div>
+</div>
+
+
+<div class="pwa-modal-backdrop" id="pwaModal">
+  <div class="pwa-modal">
+    <h2>📲 iPhoneに追加</h2>
+    <div class="sub">Safariでこのページを開いた状態で、次の操作をしてください。</div>
+    <div class="pwa-steps">
+      <div class="pwa-step">
+        <div class="step-num">1</div>
+        <div><b>共有ボタンをタップ</b><div class="sub">Safariの「共有」メニューを開きます。</div></div>
+      </div>
+      <div class="pwa-step">
+        <div class="step-num">2</div>
+        <div><b>「ホーム画面に追加」</b><div class="sub">共有メニューを下へスクロールすると表示されます。</div></div>
+      </div>
+      <div class="pwa-step">
+        <div class="step-num">3</div>
+        <div><b>「追加」をタップ</b><div class="sub">FE QUESTのアイコンがホーム画面に作成されます。</div></div>
+      </div>
+    </div>
+    <button class="pwa-close" id="closePwaModal">わかりました</button>
+  </div>
+</div>
+
+<div class="offline-pill" id="offlinePill">オフラインモード</div>
+
+<div class="toast" id="toast">保存しました</div>
+
+<script>
+const screens = [...document.querySelectorAll('.screen')];
+const navBtns = [...document.querySelectorAll('.nav-btn[data-screen]')];
+
+function showScreen(id){
+  screens.forEach(s => s.classList.toggle('active', s.id === id));
+  navBtns.forEach(b => b.classList.toggle('active', b.dataset.screen === id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.querySelectorAll('[data-screen]').forEach(btn=>{
+  btn.addEventListener('click',()=>showScreen(btn.dataset.screen));
+});
+
+document.getElementById('startQuest').addEventListener('click',()=>showScreen('lesson'));
+document.getElementById('mapBinary').addEventListener('click',()=>showScreen('lesson'));
+document.getElementById('mapTrace').addEventListener('click',()=>showScreen('trace'));
+document.getElementById('goTrace').addEventListener('click',()=>showScreen('trace'));
+
+const toast = document.getElementById('toast');
+function popToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1600);
+}
+
+document.getElementById('settingsBtn').addEventListener('click',()=>popToast('設定画面は次版で追加予定です'));
+
+const left = document.getElementById('leftChoice');
+const right = document.getElementById('rightChoice');
+const feedback = document.getElementById('lessonFeedback');
+const cells = [...document.querySelectorAll('#arrayDemo .cell')];
+
+left.addEventListener('click',()=>{
+  left.classList.add('wrong');
+  popToast('もう一度考えてみましょう 💡');
+  setTimeout(()=>left.classList.remove('wrong'),900);
+});
+
+right.addEventListener('click',()=>{
+  right.classList.add('correct');
+  left.disabled = true;
+  right.disabled = true;
+  cells.slice(0,4).forEach(c=>c.classList.add('discard'));
+  feedback.classList.add('show');
+  popToast('+10 XP ✨');
+});
+
+const traceStates = [
+  {line:0,a:0,i:'—',tip:'a に 0 が代入されました。'},
+  {line:1,a:0,i:1,tip:'for が開始。i は 1 です。'},
+  {line:2,a:1,i:1,tip:'a ← a + i。0 + 1 で a は 1。'},
+  {line:3,a:1,i:1,tip:'1回目のループ終了。次の i へ。'},
+  {line:1,a:1,i:2,tip:'i が 2 になりました。'},
+  {line:2,a:3,i:2,tip:'1 + 2 で a は 3。'},
+  {line:3,a:3,i:2,tip:'2回目のループ終了。'},
+  {line:1,a:3,i:3,tip:'i が 3 になりました。'},
+  {line:2,a:6,i:3,tip:'3 + 3 で a は 6。'},
+  {line:3,a:6,i:3,tip:'3回目のループ終了。'},
+  {line:4,a:6,i:3,tip:'ループ終了。最終的に a = 6 を出力します。'}
+];
+let traceIndex = -1;
+
+function renderTrace(){
+  document.querySelectorAll('.code-line').forEach(l=>l.classList.remove('active'));
+  if(traceIndex >= 0){
+    const s = traceStates[traceIndex];
+    const line = document.querySelector(`.code-line[data-line="${s.line}"]`);
+    if(line) line.classList.add('active');
+    document.getElementById('varA').textContent = s.a;
+    document.getElementById('varI').textContent = s.i;
+    document.getElementById('traceTip').innerHTML = s.tip;
+    document.getElementById('traceProgress').style.width = ((traceIndex+1)/traceStates.length*100)+'%';
+  }else{
+    document.getElementById('varA').textContent = '—';
+    document.getElementById('varI').textContent = '—';
+    document.getElementById('traceTip').innerHTML = '最初は <b>a ← 0</b> です。1 STEP を押してください。';
+    document.getElementById('traceProgress').style.width = '0%';
+  }
+  document.getElementById('finishQuest').style.display = traceIndex === traceStates.length-1 ? 'block':'none';
+}
+
+document.getElementById('stepTrace').addEventListener('click',()=>{
+  if(traceIndex < traceStates.length-1){
+    traceIndex++;
+    renderTrace();
+  }else popToast('トレース完了です！');
+});
+
+document.getElementById('resetTrace').addEventListener('click',()=>{
+  traceIndex = -1;
+  renderTrace();
+});
+
+document.getElementById('finishQuest').addEventListener('click',()=>{
+  document.getElementById('xpTop').textContent = '5,160';
+  const mobileXp = document.getElementById('xpMobile');
+  if(mobileXp) mobileXp.textContent = '5.2k';
+  showScreen('result');
+});
+document.getElementById('resultHome').addEventListener('click',()=>showScreen('home'));
+
+const aiDrawer = document.getElementById('aiDrawer');
+function openAi(){ aiDrawer.classList.add('open'); }
+function closeAi(){ aiDrawer.classList.remove('open'); }
+document.getElementById('aiFab').addEventListener('click',openAi);
+document.getElementById('openAiSide').addEventListener('click',openAi);
+document.getElementById('closeAi').addEventListener('click',closeAi);
+
+const chat = document.getElementById('chat');
+const input = document.getElementById('chatInput');
+function addBubble(text, type){
+  const d = document.createElement('div');
+  d.className = 'bubble ' + (type === 'user' ? 'user-bub':'bot-bub');
+  d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+}
+function mockAnswer(q){
+  const lower = q.toLowerCase();
+  if(q.includes('二分探索') || q.includes('答え') || q.includes('なぜ')){
+    return '二分探索では、中央の値と目的の値を比べて「半分を捨てる」のがポイントです。37は23より大きいので、23以下の左側は調べなくてよくなります。';
+  }
+  if(q.includes('図')){
+    return 'イメージは「辞書を真ん中から開く」方法です。目的の言葉が後ろなら前半を全部捨て、残った範囲でもまた真ん中を見る、を繰り返します。';
+  }
+  if(q.includes('簡単')){
+    return '「真ん中を見る → 大きいか小さいか判断 → いらない半分を捨てる」。まずはこの3手だけ覚えれば大丈夫です。';
+  }
+  if(q.includes('似た')){
+    return '練習：配列 [2, 5, 9, 14, 21, 30, 44] から30を二分探索するとき、最初に中央の14を見た後、次に残すのは左側・右側のどちらでしょう？';
+  }
+  return 'この試作ではAI APIにはまだ接続していません。本番では、今開いている問題・正解・学習履歴を一緒に渡して、その問題専用の説明を返す予定です。';
+}
+function send(){
+  const q = input.value.trim();
+  if(!q) return;
+  addBubble(q,'user'); input.value='';
+  setTimeout(()=>addBubble(mockAnswer(q),'bot'),350);
+}
+document.getElementById('sendChat').addEventListener('click',send);
+input.addEventListener('keydown',e=>{ if(e.key==='Enter') send(); });
+document.querySelectorAll('.quick button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    addBubble(b.dataset.q,'user');
+    setTimeout(()=>addBubble(mockAnswer(b.dataset.q),'bot'),300);
+  });
+});
+
+// ===== PWA support =====
+let deferredInstallPrompt = null;
+const installCard = document.getElementById('installCard');
+const installPwaBtn = document.getElementById('installPwaBtn');
+const pwaModal = document.getElementById('pwaModal');
+const closePwaModal = document.getElementById('closePwaModal');
+const offlinePill = document.getElementById('offlinePill');
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+function isIOS(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+function refreshInstallCard(){
+  if(isStandalone() && installCard) installCard.classList.add('hidden');
+}
+refreshInstallCard();
+
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+
+if(installPwaBtn){
+  installPwaBtn.addEventListener('click', async ()=>{
+    if(deferredInstallPrompt){
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      refreshInstallCard();
+      return;
+    }
+    pwaModal.classList.add('open');
+  });
+}
+if(closePwaModal) closePwaModal.addEventListener('click',()=>pwaModal.classList.remove('open'));
+if(pwaModal) pwaModal.addEventListener('click',(e)=>{
+  if(e.target === pwaModal) pwaModal.classList.remove('open');
+});
+
+function updateOnlineState(){
+  if(!offlinePill) return;
+  offlinePill.classList.toggle('show', !navigator.onLine);
+}
+window.addEventListener('online',updateOnlineState);
+window.addEventListener('offline',updateOnlineState);
+updateOnlineState();
+
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(err=>{
+      console.warn('Service Worker registration failed:', err);
+    });
+  });
+}
+
+</script>
+</body>
+</html>
