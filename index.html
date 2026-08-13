@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v16</title>
+<title>FE QUEST PWA v17</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2767,6 +2767,39 @@
   .rx-prescription b{color:#b8611a}
   @media(max-width:720px){.rx-banner{padding:11px}.rx-banner-icon{width:38px;height:38px}.rx-timer{min-width:63px;font-size:12px}}
 
+
+  /* ===== v17: technique-specific training UI ===== */
+  .technique-box{margin:0 0 15px;border:1px solid #d8e4ec;border-radius:19px;padding:14px;background:#fbfdff}
+  .technique-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+  .technique-icon{width:40px;height:40px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:21px;flex:0 0 auto}
+  .technique-head b{font-size:14px}
+  .calc-work{width:100%;min-height:78px;resize:vertical;border:2px solid var(--line);border-radius:14px;padding:11px 12px;font:inherit;line-height:1.55;background:#fff}
+  .calc-work:focus{outline:none;border-color:var(--blue)}
+  .technique-checks{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .tech-check{padding:7px 10px;border-radius:999px;background:#f0f4f7;color:var(--muted);font-size:10px;font-weight:900}
+  .tech-check.done{background:var(--green-soft);color:var(--green-dark)}
+  .condition-chips,.finalist-grid{display:flex;gap:8px;flex-wrap:wrap}
+  .condition-chip,.finalist-option{border:2px solid var(--line);background:#fff;border-radius:12px;padding:9px 11px;font-size:12px;font-weight:900}
+  .condition-chip.marked{border-color:#ff9f1c;background:#fff3df;color:#a45a13}
+  .finalist-option{flex:1 1 calc(50% - 8px);text-align:left}
+  .finalist-option.picked{border-color:var(--purple);background:var(--purple-soft);color:#67349b}
+  .finalist-status{margin-top:9px;font-size:11px;color:var(--muted);font-weight:800}
+  .repeat-memory{padding:12px;border-radius:14px;background:#fff7f1;border:1px solid #efd9ca;line-height:1.6;font-size:12px}
+  .repeat-confirm{margin-top:9px;border:2px solid #e8cdb9;background:#fff;border-radius:12px;padding:9px 11px;font-weight:900}
+  .repeat-confirm.done{border-color:var(--green);background:var(--green-soft);color:var(--green-dark)}
+  .pace-wrap{display:grid;grid-template-columns:72px 1fr;gap:11px;align-items:center}
+  .pace-clock{height:58px;border-radius:15px;background:#fff;border:2px solid var(--line);display:grid;place-items:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:18px;font-weight:900}
+  .pace-clock.over{border-color:var(--red);background:var(--red-soft);color:#b53838}
+  .pace-track{height:11px;border-radius:999px;background:#edf1f5;overflow:hidden}
+  .pace-fill{height:100%;border-radius:999px;background:var(--green);width:100%;transition:width 1s linear}
+  .pace-fill.warn{background:var(--yellow)}
+  .pace-fill.over{background:var(--red)}
+  .pace-label{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .retry-note{margin-top:13px;padding:12px 14px;border-radius:15px;background:#fff7d8;border:1px solid #efdb8d;line-height:1.6;font-size:12px}
+  .retry-note b{color:#806000}
+  .quiz-option.first-wrong{border-color:var(--red)!important;background:var(--red-soft)!important;color:#b23838!important}
+  @media(max-width:720px){.technique-box{padding:12px}.finalist-option{flex-basis:100%}.pace-wrap{grid-template-columns:62px 1fr}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3577,6 +3610,18 @@
             <span class="quiz-source">FE QUEST オリジナル</span>
           </div>
           <div class="quiz-question" id="quizQuestion"></div>
+
+          <div class="technique-box" id="rxTechnique" style="display:none">
+            <div class="technique-head">
+              <div class="technique-icon" id="rxTechniqueIcon">🧠</div>
+              <div>
+                <b id="rxTechniqueTitle">解く前の1ステップ</b>
+                <div class="sub" id="rxTechniqueDesc"></div>
+              </div>
+            </div>
+            <div id="rxTechniqueBody"></div>
+          </div>
+
           <div class="quiz-options" id="quizOptions"></div>
 
           <div class="quiz-explain" id="quizExplain">
@@ -3616,8 +3661,9 @@
           <div class="sub" id="sessionComment"></div>
 
           <div class="session-breakdown">
-            <div class="break-card"><div class="sub">正解</div><div class="break-num" id="sessionCorrect">0</div></div>
-            <div class="break-card"><div class="sub">不正解</div><div class="break-num" id="sessionWrong">0</div></div>
+            <div class="break-card"><div class="sub">初回正解</div><div class="break-num" id="sessionCorrect">0</div></div>
+            <div class="break-card"><div class="sub">初回不正解</div><div class="break-num" id="sessionWrong">0</div></div>
+            <div class="break-card" id="sessionRecoveredCard" style="display:none"><div class="sub">再挑戦で正解</div><div class="break-num" id="sessionRecovered">0</div></div>
             <div class="break-card"><div class="sub">獲得XP</div><div class="break-num" id="sessionXp">0</div></div>
           </div>
 
@@ -4650,6 +4696,14 @@ let quizEarnedXp=0;
 let quizMode='random';
 let quizPickedReason=null;
 let sessionLog=[];
+let quizRetryCount=0;
+let quizRecoveredCount=0;
+let quizFirstAttemptWrong=false;
+let rxTechniqueReady=true;
+let rxTechniqueData={};
+let rxPaceHandle=null;
+let rxPaceRemaining=90;
+let rxPaceElapsed=0;
 
 const problemHub=document.getElementById('problemHub');
 const quizSession=document.getElementById('quizSession');
@@ -4688,6 +4742,8 @@ function startQuiz(mode){
   quizWrongCount=0;
   quizEarnedXp=0;
   quizPickedReason=null;
+  quizRecoveredCount=0;
+  stopQuestionPacer();
   sessionLog=[];
 
   problemHub.style.display='none';
@@ -4715,6 +4771,11 @@ function renderQuizQuestion(){
   quizSelected=null;
   quizAnswered=false;
   quizPickedReason=null;
+  quizRetryCount=0;
+  quizFirstAttemptWrong=false;
+  rxTechniqueReady=true;
+  rxTechniqueData={};
+  stopQuestionPacer();
 
   document.getElementById('quizCategory').textContent=`${q.cat}・${q.concept}`;
   document.getElementById('quizDifficulty').textContent=q.difficulty;
@@ -4728,6 +4789,7 @@ function renderQuizQuestion(){
   document.getElementById('quizHintBtn').style.display='block';
 
   document.querySelectorAll('.reason-chip').forEach(c=>c.classList.remove('picked'));
+  renderRxTechnique(q);
 
   const opts=document.getElementById('quizOptions');
   opts.innerHTML='';
@@ -4756,6 +4818,7 @@ document.getElementById('quizSubmit')?.addEventListener('click',()=>{
       popToast('選択肢を1つ選んでください');
       return;
     }
+    if(!validateRxTechniqueBeforeAnswer()) return;
     gradeCurrentQuestion();
   }else{
     if(quizIndex < quizItems.length-1){
@@ -4770,52 +4833,112 @@ document.getElementById('quizSubmit')?.addEventListener('click',()=>{
 function gradeCurrentQuestion(){
   const q=quizItems[quizIndex];
   const ok=quizSelected===q.a;
-  quizAnswered=true;
+  const isRx=String(quizMode).startsWith('rx:');
+  const st=profile.qStats[q.id];
+  const selectedNow=quizSelected;
 
-  document.querySelectorAll('.quiz-option').forEach((b,i)=>{
-    b.disabled=true;
-    b.classList.remove('selected');
-    if(i===q.a) b.classList.add('correct');
-    else if(i===quizSelected && !ok) b.classList.add('wrong');
+  if(isRx && !ok && quizRetryCount===0){
+    quizRetryCount=1;
+    quizFirstAttemptWrong=true;
+    quizWrongCount++;
+
+    st.attempts++;
+    st.last=localDateISO(0);
+    st.streak=0;
+    st.due=localDateISO(1);
+    profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-1,0,100);
+    profile.xp+=2;
+    saveProfile();
+
+    const selectedBtn=document.querySelectorAll('.quiz-option')[selectedNow];
+    if(selectedBtn){
+      selectedBtn.classList.remove('selected');
+      selectedBtn.classList.add('first-wrong');
+      selectedBtn.disabled=true;
+    }
+    quizSelected=null;
+
+    document.getElementById('quizResultTitle').textContent='💡 もう一度考えてみましょう';
+    document.getElementById('quizExplanation').textContent=q.hint;
+    document.getElementById('quizHint').textContent='まだ正解は表示しません。別の根拠で選び直してください。';
+    document.getElementById('quizExplain').classList.add('show');
+    document.getElementById('quizHintBtn').style.display='none';
+    document.getElementById('quizSubmit').textContent='もう一度回答する';
+
+    const explain=document.getElementById('quizExplain');
+    let note=explain.querySelector('.retry-note');
+    if(!note){
+      note=document.createElement('div');
+      note.className='retry-note';
+      explain.appendChild(note);
+    }
+    note.innerHTML='<b>RETRY</b>　最初の誤答は成績に記録しました。正解を見ずに、もう一度考えます。';
+    return;
+  }
+
+  quizAnswered=true;
+  stopQuestionPacer();
+
+  document.querySelectorAll('.quiz-option').forEach((btn,i)=>{
+    btn.disabled=true;
+    btn.classList.remove('selected','first-wrong');
+    if(i===q.a) btn.classList.add('correct');
+    else if(i===selectedNow && !ok) btn.classList.add('wrong');
   });
 
-  const title=document.getElementById('quizResultTitle');
-  title.textContent=ok?'⭕ 正解！':'❌ 不正解';
+  const recovered=ok && quizFirstAttemptWrong;
+  document.getElementById('quizResultTitle').textContent=recovered?'🔄 再挑戦で正解！':ok?'⭕ 正解！':'❌ 不正解';
   document.getElementById('quizExplanation').textContent=q.exp;
   document.getElementById('quizHint').textContent=`覚え方：${q.hint}`;
   document.getElementById('quizExplain').classList.add('show');
   document.getElementById('quizHintBtn').style.display='none';
 
-  if(ok){
-    quizCorrectCount++;
-    quizEarnedXp+=10;
-  }else{
-    quizWrongCount++;
-    document.getElementById('reasonBox').classList.add('show');
+  const retryNote=document.getElementById('quizExplain').querySelector('.retry-note');
+  if(retryNote) retryNote.remove();
+
+  if(!quizFirstAttemptWrong){
+    if(ok){quizCorrectCount++;quizEarnedXp+=10;}
+    else quizWrongCount++;
+  }else if(recovered){
+    quizRecoveredCount++;
   }
 
-  const st=profile.qStats[q.id];
+  if(!ok) document.getElementById('reasonBox').classList.add('show');
+
   st.attempts++;
   st.last=localDateISO(0);
   if(ok){
     st.correct++;
-    st.streak=(st.streak||0)+1;
-    st.due=localDateISO(reviewInterval(st.streak));
-    profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+1,0,100);
+    if(quizFirstAttemptWrong){
+      st.streak=0;
+      st.due=localDateISO(1);
+      profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+0.25,0,100);
+    }else{
+      st.streak=(st.streak||0)+1;
+      st.due=localDateISO(reviewInterval(st.streak));
+      profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+1,0,100);
+    }
   }else{
     st.streak=0;
     st.due=localDateISO(1);
     profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-2,0,100);
   }
 
-  sessionLog.push({id:q.id,cat:q.cat,concept:q.concept,ok});
-  profile.xp += ok ? 10 : 2;
+  sessionLog.push({
+    id:q.id,cat:q.cat,concept:q.concept,
+    ok:!quizFirstAttemptWrong && ok,
+    recovered,
+    technique:String(quizMode).startsWith('rx:')?String(quizMode).split(':')[1]:null,
+    techniqueData:safeTechniqueSnapshot()
+  });
+  profile.xp += ok ? (recovered?5:10) : 2;
   saveProfile();
 
   document.getElementById('quizSubmit').textContent=
     quizIndex===quizItems.length-1 ? '結果を見る' : '次の問題 →';
   document.getElementById('quizProgress').style.width=`${((quizIndex+1)/quizItems.length)*100}%`;
 }
+
 
 document.querySelectorAll('.reason-chip').forEach(chip=>{
   chip.addEventListener('click',()=>{
@@ -4852,7 +4975,10 @@ function finishQuizSession(){
   document.getElementById('sessionScore').textContent=`${rate}%`;
   document.getElementById('sessionCorrect').textContent=quizCorrectCount;
   document.getElementById('sessionWrong').textContent=quizWrongCount;
-  document.getElementById('sessionXp').textContent=`+${quizCorrectCount*10 + quizWrongCount*2}`;
+  document.getElementById('sessionRecovered').textContent=quizRecoveredCount;
+  document.getElementById('sessionRecoveredCard').style.display=quizRecoveredCount?'':'none';
+  document.getElementById('sessionXp').textContent=`+${quizCorrectCount*10 + quizWrongCount*2 + quizRecoveredCount*5}`;
+  recordTechniqueSessionStats();
 
   let comment='いい復習になりました。';
   if(rate>=90) comment='かなり安定しています！次は少し難しい問題へ進めます。';
@@ -8480,6 +8606,203 @@ refreshProfileUI=function(){
 renderWeakDashboard();
 
 
+
+
+// ===== v17: technique-specific problem solving =====
+if(!profile.techniqueStats) profile.techniqueStats={};
+
+function rxKind(){
+  return String(quizMode).startsWith('rx:') ? String(quizMode).split(':')[1] : null;
+}
+function stopQuestionPacer(){
+  if(rxPaceHandle){clearInterval(rxPaceHandle);rxPaceHandle=null;}
+}
+function safeTechniqueSnapshot(){
+  const kind=rxKind();
+  if(!kind) return null;
+  const out={kind};
+  if(kind==='calc') out.work=(rxTechniqueData.work||'').slice(0,120);
+  if(kind==='read') out.marked=[...(rxTechniqueData.marked||[])];
+  if(kind==='contrast') out.finalists=[...(rxTechniqueData.finalists||[])];
+  if(kind==='speed') out.seconds=rxPaceElapsed||0;
+  if(kind==='repeat') out.confirmed=!!rxTechniqueData.confirmed;
+  return out;
+}
+function techniqueStat(kind){
+  if(!profile.techniqueStats[kind]) profile.techniqueStats[kind]={sessions:0,questions:0,recovered:0,firstWrong:0};
+  return profile.techniqueStats[kind];
+}
+function recordTechniqueSessionStats(){
+  const kind=rxKind();
+  if(!kind) return;
+  const st=techniqueStat(kind);
+  st.sessions++;
+  const rows=sessionLog.filter(x=>x.technique===kind);
+  st.questions+=rows.length;
+  st.recovered+=rows.filter(x=>x.recovered).length;
+  st.firstWrong+=rows.filter(x=>!x.ok).length;
+  st.last=localDateISO(0);
+  saveProfile();
+}
+
+function renderRxTechnique(q){
+  const box=document.getElementById('rxTechnique');
+  const body=document.getElementById('rxTechniqueBody');
+  if(!box||!body) return;
+  const kind=rxKind();
+  stopQuestionPacer();
+  rxPaceElapsed=0;
+
+  if(!kind || kind==='knowledge'){
+    box.style.display='none';
+    rxTechniqueReady=true;
+    return;
+  }
+
+  box.style.display='block';
+  const icon=document.getElementById('rxTechniqueIcon');
+  const title=document.getElementById('rxTechniqueTitle');
+  const desc=document.getElementById('rxTechniqueDesc');
+
+  if(kind==='calc'){
+    icon.textContent='🧮';
+    title.textContent='途中式を残してから答える';
+    desc.textContent='頭の中だけで計算せず、式・途中結果・単位のどれかを書きます。';
+    rxTechniqueReady=false;
+    rxTechniqueData={work:''};
+    body.innerHTML=`
+      <textarea class="calc-work" id="rxCalcWork" placeholder="例：0.9 × 0.9 = 0.81&#10;または 200 × 100 × 8 = 160000 bit"></textarea>
+      <div class="technique-checks">
+        <span class="tech-check" id="calcCheckFormula">式を書く</span>
+        <span class="tech-check">桁を確認</span>
+        <span class="tech-check">単位を確認</span>
+      </div>`;
+    document.getElementById('rxCalcWork').addEventListener('input',e=>{
+      rxTechniqueData.work=e.target.value;
+      rxTechniqueReady=e.target.value.trim().length>=2;
+      document.getElementById('calcCheckFormula').classList.toggle('done',rxTechniqueReady);
+    });
+    return;
+  }
+
+  if(kind==='read'){
+    icon.textContent='🔍';
+    title.textContent='条件語を先に拾う';
+    desc.textContent='答えを見る前に、問題文で判断を左右する語を確認します。';
+    const keywords=['最も適切','不適切','適切','以上','以下','未満','超える','最優先','まず','次に','主な','一般に','必ず'];
+    let found=keywords.filter(k=>q.q.includes(k));
+    if(!found.length) found=['何を問われているか確認'];
+    rxTechniqueReady=false;
+    rxTechniqueData={marked:new Set()};
+    body.innerHTML=`<div class="condition-chips">${found.map((k,i)=>`<button class="condition-chip" data-cond="${i}">${k}</button>`).join('')}</div>
+      <div class="finalist-status">少なくとも1つ確認すると回答できます。</div>`;
+    body.querySelectorAll('.condition-chip').forEach((btn,i)=>btn.onclick=()=>{
+      btn.classList.toggle('marked');
+      if(btn.classList.contains('marked')) rxTechniqueData.marked.add(found[i]);
+      else rxTechniqueData.marked.delete(found[i]);
+      rxTechniqueReady=rxTechniqueData.marked.size>0;
+    });
+    return;
+  }
+
+  if(kind==='contrast'){
+    icon.textContent='⚖️';
+    title.textContent='まず2択まで絞る';
+    desc.textContent='最終回答の前に、比較する2候補を明示します。';
+    rxTechniqueReady=false;
+    rxTechniqueData={finalists:new Set()};
+    body.innerHTML=`<div class="finalist-grid">${q.options.map((o,i)=>`<button class="finalist-option" data-finalist="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+      <div class="finalist-status" id="finalistStatus">0 / 2 選択</div>`;
+    body.querySelectorAll('.finalist-option').forEach((btn,i)=>btn.onclick=()=>{
+      if(rxTechniqueData.finalists.has(i)){
+        rxTechniqueData.finalists.delete(i);btn.classList.remove('picked');
+      }else if(rxTechniqueData.finalists.size<2){
+        rxTechniqueData.finalists.add(i);btn.classList.add('picked');
+      }else popToast('比較する候補は2つまでです');
+      rxTechniqueReady=rxTechniqueData.finalists.size===2;
+      document.getElementById('finalistStatus').textContent=`${rxTechniqueData.finalists.size} / 2 選択`;
+    });
+    return;
+  }
+
+  if(kind==='speed'){
+    icon.textContent='⏱️';
+    title.textContent='1問90秒ペース';
+    desc.textContent='90秒を超えたら、いったん判断して見直しへ回す感覚を身につけます。';
+    rxTechniqueReady=true;
+    rxTechniqueData={};
+    rxPaceRemaining=90;
+    rxPaceElapsed=0;
+    body.innerHTML=`<div class="pace-wrap">
+      <div class="pace-clock" id="paceClock">90s</div>
+      <div><div class="pace-track"><div class="pace-fill" id="paceFill"></div></div>
+      <div class="pace-label" id="paceLabel">目安：90秒以内。30秒時点で選択肢を絞り始めます。</div></div>
+    </div>`;
+    rxPaceHandle=setInterval(()=>{
+      rxPaceElapsed++;
+      rxPaceRemaining--;
+      const clock=document.getElementById('paceClock');
+      const fill=document.getElementById('paceFill');
+      const label=document.getElementById('paceLabel');
+      if(!clock||!fill||!label){stopQuestionPacer();return;}
+      if(rxPaceRemaining>=0){
+        clock.textContent=`${rxPaceRemaining}s`;
+        fill.style.width=Math.max(0,rxPaceRemaining/90*100)+'%';
+        fill.classList.toggle('warn',rxPaceRemaining<=30);
+        if(rxPaceRemaining<=30) label.textContent='残り30秒以下：候補を絞り、いったん回答を決めましょう。';
+      }else{
+        clock.textContent=`+${Math.abs(rxPaceRemaining)}s`;
+        clock.classList.add('over');
+        fill.style.width='100%';fill.classList.add('over');
+        label.textContent='90秒を超過。実戦なら見直しフラグへ回す判断も有効です。';
+      }
+    },1000);
+    return;
+  }
+
+  if(kind==='repeat'){
+    icon.textContent='🔁';
+    title.textContent='前回のつまずきを思い出す';
+    desc.textContent='同じ間違いを無意識に繰り返さないため、前回の原因を先に確認します。';
+    const ms=profile.mockMistakeStats?.[q.id];
+    const qs=profile.qStats?.[q.id];
+    const ordinary=Math.max(0,(qs?.attempts||0)-(qs?.correct||0));
+    const misses=Math.max(ms?.misses||0,ordinary);
+    const reason=ms?.lastReason||qs?.lastReason||'原因未記録';
+    rxTechniqueReady=false;
+    rxTechniqueData={confirmed:false};
+    body.innerHTML=`<div class="repeat-memory"><b>この論点の誤答記録：約${misses}回</b><br>直近の原因：${reason}<br>今回は同じ原因を避けて解きます。</div>
+      <button class="repeat-confirm" id="repeatConfirm">前回のつまずきを確認した</button>`;
+    document.getElementById('repeatConfirm').onclick=e=>{
+      rxTechniqueData.confirmed=true;rxTechniqueReady=true;
+      e.currentTarget.classList.add('done');e.currentTarget.textContent='✓ 確認済み';
+    };
+    return;
+  }
+
+  box.style.display='none';
+  rxTechniqueReady=true;
+}
+
+function validateRxTechniqueBeforeAnswer(){
+  const kind=rxKind();
+  if(!kind || kind==='knowledge' || kind==='speed') return true;
+  if(!rxTechniqueReady){
+    const msgs={
+      calc:'途中式を1行だけでも書いてから回答しましょう。',
+      read:'問題文の条件語を1つ確認してから回答しましょう。',
+      contrast:'比較する2つの候補を先に選んでください。',
+      repeat:'前回のつまずきを確認してから回答しましょう。'
+    };
+    popToast(msgs[kind]||'解く前のステップを完了してください');
+    return false;
+  }
+  if(kind==='contrast' && !rxTechniqueData.finalists.has(quizSelected)){
+    popToast('先ほど選んだ2択の中から最終回答を選んでください');
+    return false;
+  }
+  return true;
+}
 
 // ===== v16: adaptive prescription engine =====
 let rxTimerHandle=null;
