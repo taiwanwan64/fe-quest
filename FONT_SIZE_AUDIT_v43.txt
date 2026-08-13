@@ -1,0 +1,33 @@
+FE QUEST v43 — APP-WIDE FONT SIZE AUDIT
+
+Goal
+Visible text should not be smaller than the lesson explanatory copy on mobile.
+Minimum readable size: 14px.
+
+Audit scope
+- Entire index.html, including CSS and JS-generated inline markup
+- Lessons and explanatory cards
+- Question / diagnostic / review UI
+- Subject B TRACE / practical mock / compound / full practice
+- Security scenarios / logs / evidence / reviews
+- Buttons and button helper text
+- Navigation labels / chips / badges / progress metadata
+- <small> elements (browser default shrinking overridden)
+
+Before
+Explicit font-size declarations below 14px: 297
+Breakdown: {'7': 3, '8': 11, '9': 48, '10': 48, '11': 64, '12': 74, '13': 48, '13.5': 1}
+
+After
+Explicit font-size declarations below 14px: 0
+<small> minimum: 14px
+Mobile lesson-copy minimum: 14px
+Desktop lesson-copy: 15px
+
+Responsive adjustment
+Mobile bottom navigation height increased so 14px labels are not squeezed.
+Main bottom padding increased accordingly.
+
+Policy
+Text may be larger than 14px according to hierarchy, but not smaller.
+Icons are not treated as body text.

@@ -1,3 +1,12 @@
+FE QUEST PWA v43
+
+APP-WIDE READABILITY AUDIT
+
+Minimum visible text size: 14px.
+All explicit font sizes below 14px were raised to 14px across lessons, problems, Subject B, security, review, navigation, logs and helper text.
+<small> elements are also fixed at 14px.
+Mobile bottom navigation spacing was enlarged to accommodate readable labels.
+
 FE QUEST PWA v41
 
 ALL LESSON UX AUDIT
