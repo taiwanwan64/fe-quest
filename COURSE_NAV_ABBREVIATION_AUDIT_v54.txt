@@ -1,0 +1,42 @@
+FE QUEST v54 — COURSE NAVIGATION / ABBREVIATION AUDIT
+
+Learning-course navigation
+- Top level is now Subject A / Subject B.
+- Subject A: 21 chapters / 99 topics / optional A labs.
+- Subject B: PROGRAM TRACE / SECURITY SCENARIO / compound & mini mock / full practice.
+- PROGRAM TRACE is removed from the Subject A optional-lab area.
+
+Abbreviation policy
+Learning explanations expand common abbreviations as:
+  abbreviation (official/full name)
+Examples:
+  LIFO (Last In, First Out)
+  FIFO (First In, First Out)
+  CPU (Central Processing Unit)
+  RDBMS (Relational Database Management System)
+  TCP (Transmission Control Protocol)
+  UDP (User Datagram Protocol)
+  SLA (Service Level Agreement)
+  EVM (Earned Value Management)
+
+Expansion is applied to explanatory learning text, not to normal exam choices where
+showing a full name could make a question artificially easier.
+
+Subject A question coverage
+- 160 existing questions retained.
+- 297 topic-linked questions added.
+- Every one of the 99 Core A topics has exactly 3 directly linked questions.
+- Total Question Bank: 457.
+
+The app UI contains no source/reference-book attribution wording.
+
+Runtime regression:
+BOOT_SELF_CHECK_OK
+QUESTION_BANK_457_OK
+CORE_99x3_COVERAGE_OK
+ANSWER_BALANCE_OK 115/114/114/114
+COURSE_A_B_TOGGLE_OK
+ABBREVIATION_EXPANSION_OK
+FULL_MOCK_60_OK
+
+Runtime validation used a Node VM DOM stub, not a real-browser E2E test.
