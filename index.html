@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v7</title>
+<title>FE QUEST PWA v8</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1523,6 +1523,184 @@
     .resource{margin:auto}
   }
 
+
+  /* ===== v8: Subject B Trace Lab ===== */
+  .b-hero{
+    background:linear-gradient(135deg,#f3ebff,#fbf8ff);
+    border:1px solid #e4d5fa;border-radius:26px;padding:22px;
+    display:flex;align-items:center;gap:16px;margin-bottom:20px;
+  }
+  .b-hero-icon{
+    width:62px;height:62px;border-radius:19px;background:#fff;
+    display:grid;place-items:center;font-size:34px;flex:0 0 auto;
+  }
+  .b-hero-copy{flex:1}
+  .b-hero-title{font-size:21px;font-weight:900}
+  .b-hero-progress{font-size:24px;font-weight:900;color:#6f38ac}
+
+  .b-grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+  }
+  .b-card{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);position:relative;
+  }
+  .b-card.done{border-color:#d5efc1;background:#fbfff8}
+  .b-card-top{display:flex;align-items:flex-start;gap:12px}
+  .b-card-icon{
+    width:48px;height:48px;border-radius:15px;background:var(--purple-soft);
+    display:grid;place-items:center;font-size:25px;flex:0 0 auto;
+  }
+  .b-card-title{font-weight:900;font-size:17px}
+  .b-card-meta{font-size:12px;color:var(--muted);font-weight:800;margin-top:3px}
+  .b-card-desc{font-size:13px;line-height:1.55;color:var(--muted);margin:13px 0}
+  .b-card-bottom{display:flex;gap:10px;align-items:center}
+  .difficulty{
+    display:inline-block;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;
+    background:#f2f5f8;color:var(--muted);
+  }
+  .difficulty.medium{background:#fff3d6;color:#9c6500}
+  .difficulty.hard{background:#fff0f0;color:#c73c3c}
+  .b-start{
+    margin-left:auto;border:none;background:var(--purple);color:#fff;
+    border-radius:13px;padding:10px 13px;font-weight:900;
+  }
+  .b-check{color:var(--green-dark);font-weight:900;font-size:13px}
+
+  .b-lab{
+    display:none;
+  }
+  .b-lab.show{display:block}
+  .b-select.hidden{display:none}
+
+  .trace-title-row{
+    display:flex;align-items:center;gap:12px;margin-bottom:16px;
+  }
+  .trace-title-row .back{flex:0 0 auto}
+  .trace-info{flex:1}
+  .trace-info h1{font-size:25px;margin:0 0 3px}
+
+  .trace-workspace{
+    display:grid;grid-template-columns:1.3fr .7fr;gap:15px;
+  }
+  .trace-code-panel,.trace-state-panel{
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    padding:19px;box-shadow:var(--shadow);
+  }
+  .trace-code-title,.trace-state-title{
+    font-size:13px;font-weight:900;color:var(--muted);letter-spacing:.5px;margin-bottom:10px;
+  }
+  .b-code-line{
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    padding:10px 11px;border-radius:10px;margin:3px 0;
+    font-size:15px;line-height:1.45;transition:.18s;
+    white-space:pre-wrap;
+  }
+  .b-code-line.active{
+    background:var(--purple-soft);color:#67339b;font-weight:900;
+    box-shadow:inset 4px 0 0 var(--purple);
+  }
+
+  .state-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:9px;
+  }
+  .state-card{
+    padding:12px;border-radius:15px;background:#f8fafc;border:1px solid var(--line);
+  }
+  .state-key{font-size:11px;color:var(--muted);font-weight:900}
+  .state-value{
+    margin-top:5px;font-size:22px;font-weight:900;
+    word-break:break-word;
+  }
+  .state-value.changed{animation:statePop .3s ease}
+  @keyframes statePop{
+    0%{transform:scale(.92);color:var(--purple)}
+    70%{transform:scale(1.07)}
+    100%{transform:scale(1)}
+  }
+
+  .trace-visual{
+    margin-top:14px;padding:13px;border:1px solid var(--line);
+    border-radius:16px;background:#fbfcfd;min-height:82px;
+  }
+  .trace-array{
+    display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+  }
+  .trace-array-cell{
+    min-width:46px;height:46px;padding:0 8px;border-radius:12px;
+    background:#fff;border:2px solid #dfe6ec;
+    display:grid;place-items:center;font-weight:900;position:relative;
+  }
+  .trace-array-cell.focus{border-color:var(--blue);background:var(--blue-soft)}
+  .trace-array-cell.found{border-color:var(--green);background:var(--green-soft)}
+  .trace-array-index{
+    position:absolute;top:48px;font-size:9px;color:var(--muted);
+  }
+
+  .trace-stack{
+    display:flex;flex-direction:column-reverse;align-items:center;gap:5px;
+    min-height:115px;justify-content:flex-start;
+  }
+  .trace-stack-item{
+    width:100px;height:35px;border-radius:9px;background:var(--purple-soft);
+    border:1px solid #decaf7;color:#66369a;display:grid;place-items:center;font-weight:900;
+  }
+
+  .tree-view{
+    text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    white-space:pre;line-height:1.5;font-size:14px;
+  }
+  .visit-path{
+    margin-top:8px;text-align:center;font-weight:900;color:#6839a0;
+  }
+
+  .trace-message{
+    margin-top:15px;padding:14px;border-radius:16px;
+    background:var(--purple-soft);color:#613494;line-height:1.6;
+  }
+  .trace-controls{
+    display:flex;gap:9px;margin-top:15px;
+  }
+  .trace-controls button{min-height:46px}
+  .trace-controls .step-main{flex:1;border:none;background:var(--purple);color:#fff;border-radius:14px;font-weight:900}
+  .trace-controls .reset-main{border:2px solid var(--line);background:#fff;border-radius:14px;padding:0 13px;font-weight:900}
+
+  .prediction-box{
+    display:none;margin-top:15px;padding:15px;border-radius:17px;
+    background:#fff8dc;border:1px solid #f4df8f;
+  }
+  .prediction-box.show{display:block}
+  .prediction-title{font-weight:900;margin-bottom:8px}
+  .prediction-options{display:flex;flex-wrap:wrap;gap:8px}
+  .prediction-option{
+    border:1px solid #ead68b;background:#fff;border-radius:999px;
+    padding:8px 12px;font-weight:900;
+  }
+  .prediction-option.good{background:var(--green);color:#fff;border-color:var(--green)}
+  .prediction-option.bad{background:var(--red);color:#fff;border-color:var(--red)}
+
+  .b-complete{
+    display:none;text-align:center;background:#fff;border:1px solid var(--line);
+    border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-top:16px;
+  }
+  .b-complete.show{display:block}
+  .b-complete-icon{font-size:64px}
+  .b-xp{font-size:30px;font-weight:900;color:var(--yellow);margin:7px 0}
+
+  @media(max-width:720px){
+    .b-hero{padding:17px;align-items:flex-start}
+    .b-hero-icon{width:52px;height:52px;font-size:29px}
+    .b-hero-progress{font-size:20px}
+    .b-grid{grid-template-columns:1fr}
+    .trace-workspace{grid-template-columns:1fr}
+    .trace-code-panel,.trace-state-panel{padding:15px;border-radius:20px}
+    .b-code-line{font-size:13px;padding:9px 8px}
+    .state-value{font-size:19px}
+    .trace-controls{display:grid;grid-template-columns:.7fr 1.3fr}
+    .trace-array-cell{min-width:40px;height:42px;font-size:13px}
+    .tree-view{font-size:12px;overflow:auto}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1965,39 +2143,64 @@
 
     <!-- TRACE -->
     <section id="trace" class="screen">
-      <div class="screen-head">
-        <button class="back" data-screen="map">←</button>
-        <div>
-          <h1>PROGRAM TRACE 💻</h1>
-          <div class="sub">配列とループを1行ずつ追跡します。</div>
+      <div id="bSelect" class="b-select">
+        <div class="screen-head">
+          <button class="back" data-screen="map">←</button>
+          <div><h1>科目B TRACE LAB 💻</h1><div class="sub">擬似コードを1行ずつ動かし、変数・配列・スタックの変化を追います。</div></div>
         </div>
+
+        <div class="b-hero">
+          <div class="b-hero-icon">🧪</div>
+          <div class="b-hero-copy">
+            <div class="b-hero-title">TRACE TRAINING</div>
+            <div class="sub">予測 → 1 STEP → 状態確認を繰り返して、頭の中でトレースする力を育てます。</div>
+          </div>
+          <div class="b-hero-progress" id="bProgressText">0 / 6</div>
+        </div>
+
+        <div class="b-grid" id="bExerciseGrid"></div>
       </div>
 
-      <div class="trace-layout">
-        <div class="codebox">
-          <div class="code-line" data-line="0">1: a ← 0</div>
-          <div class="code-line" data-line="1">2: for i ← 1 to 3</div>
-          <div class="code-line" data-line="2">3: &nbsp;&nbsp;a ← a + i</div>
-          <div class="code-line" data-line="3">4: endfor</div>
-          <div class="code-line" data-line="4">5: a を出力する</div>
-
-          <div class="trace-actions">
-            <button class="secondary" id="resetTrace">↺ リセット</button>
-            <button class="purple-btn" id="stepTrace">▶ 1 STEP</button>
+      <div id="bLab" class="b-lab">
+        <div class="trace-title-row">
+          <button class="back" id="bBackToList">←</button>
+          <div class="trace-info">
+            <h1 id="bLabTitle">TRACE</h1>
+            <div class="sub" id="bLabMeta"></div>
           </div>
-
-          <div class="tip" id="traceTip">最初は <b>a ← 0</b> です。1 STEP を押してください。</div>
         </div>
 
-        <div class="varbox">
-          <h3>VARIABLES</h3>
-          <div class="vars">
-            <div class="var"><div class="var-name">a</div><div class="var-value" id="varA">—</div></div>
-            <div class="var"><div class="var-name">i</div><div class="var-value" id="varI">—</div></div>
+        <div class="trace-workspace">
+          <div class="trace-code-panel">
+            <div class="trace-code-title">PSEUDOCODE</div>
+            <div id="bCode"></div>
+            <div class="trace-message" id="bTraceMessage">1 STEPで実行してください。</div>
+
+            <div class="prediction-box" id="predictionBox">
+              <div class="prediction-title" id="predictionTitle"></div>
+              <div class="prediction-options" id="predictionOptions"></div>
+            </div>
+
+            <div class="trace-controls">
+              <button class="reset-main" id="bReset">↺ リセット</button>
+              <button class="step-main" id="bStep">▶ 1 STEP</button>
+            </div>
           </div>
-          <h3 style="margin-top:22px">PROGRESS</h3>
-          <div class="progress purple"><div id="traceProgress" style="width:0%"></div></div>
-          <button class="primary" id="finishQuest" style="width:100%;margin-top:24px;display:none">クエスト完了 🎉</button>
+
+          <div class="trace-state-panel">
+            <div class="trace-state-title">STATE</div>
+            <div class="state-grid" id="bStateGrid"></div>
+            <div class="trace-visual" id="bVisual"></div>
+            <div class="progress purple" style="margin-top:14px"><div id="bTraceProgress" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="b-complete" id="bComplete">
+          <div class="b-complete-icon">🏆</div>
+          <h2>TRACE COMPLETE!</h2>
+          <div class="b-xp" id="bCompleteXp">+80 XP</div>
+          <div class="sub" id="bCompleteText"></div>
+          <button class="primary" id="bNextExercise" style="margin-top:18px">一覧へ戻る</button>
         </div>
       </div>
     </section>
@@ -2122,57 +2325,6 @@ function popToast(msg){
 }
 
 document.getElementById('settingsBtn').addEventListener('click',()=>popToast('設定画面は次版で追加予定です'));
-
-const traceStates = [
-  {line:0,a:0,i:'—',tip:'a に 0 が代入されました。'},
-  {line:1,a:0,i:1,tip:'for が開始。i は 1 です。'},
-  {line:2,a:1,i:1,tip:'a ← a + i。0 + 1 で a は 1。'},
-  {line:3,a:1,i:1,tip:'1回目のループ終了。次の i へ。'},
-  {line:1,a:1,i:2,tip:'i が 2 になりました。'},
-  {line:2,a:3,i:2,tip:'1 + 2 で a は 3。'},
-  {line:3,a:3,i:2,tip:'2回目のループ終了。'},
-  {line:1,a:3,i:3,tip:'i が 3 になりました。'},
-  {line:2,a:6,i:3,tip:'3 + 3 で a は 6。'},
-  {line:3,a:6,i:3,tip:'3回目のループ終了。'},
-  {line:4,a:6,i:3,tip:'ループ終了。最終的に a = 6 を出力します。'}
-];
-let traceIndex = -1;
-
-function renderTrace(){
-  document.querySelectorAll('.code-line').forEach(l=>l.classList.remove('active'));
-  if(traceIndex >= 0){
-    const s = traceStates[traceIndex];
-    const line = document.querySelector(`.code-line[data-line="${s.line}"]`);
-    if(line) line.classList.add('active');
-    document.getElementById('varA').textContent = s.a;
-    document.getElementById('varI').textContent = s.i;
-    document.getElementById('traceTip').innerHTML = s.tip;
-    document.getElementById('traceProgress').style.width = ((traceIndex+1)/traceStates.length*100)+'%';
-  }else{
-    document.getElementById('varA').textContent = '—';
-    document.getElementById('varI').textContent = '—';
-    document.getElementById('traceTip').innerHTML = '最初は <b>a ← 0</b> です。1 STEP を押してください。';
-    document.getElementById('traceProgress').style.width = '0%';
-  }
-  document.getElementById('finishQuest').style.display = traceIndex === traceStates.length-1 ? 'block':'none';
-}
-
-document.getElementById('stepTrace').addEventListener('click',()=>{
-  if(traceIndex < traceStates.length-1){
-    traceIndex++;
-    renderTrace();
-  }else popToast('トレース完了です！');
-});
-
-document.getElementById('resetTrace').addEventListener('click',()=>{
-  traceIndex = -1;
-  renderTrace();
-});
-
-document.getElementById('finishQuest').addEventListener('click',()=>{
-  showScreen('result');
-});
-document.getElementById('resultHome').addEventListener('click',()=>showScreen('home'));
 
 const aiDrawer = document.getElementById('aiDrawer');
 function openAi(){ aiDrawer.classList.add('open'); }
@@ -2512,13 +2664,6 @@ document.getElementById('diagRedo')?.addEventListener('click',()=>{
 });
 
 // Lesson interactions are handled by the v6 lesson engine.
-document.getElementById('finishQuest')?.addEventListener('click',()=>{
-  profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||45)+3,0,100);
-  profile.xp += 40;
-  profile.lastStudyDate = new Date().toISOString().slice(0,10);
-  saveProfile();
-});
-
 // If the current prototype's result handler hard-codes XP, profile refresh will win afterwards.
 setTimeout(refreshProfileUI,0);
 
@@ -3527,7 +3672,6 @@ updateCourseUI();
 document.querySelectorAll('.lesson-open[data-lesson]').forEach(btn=>{
   btn.addEventListener('click',()=>startLesson(btn.dataset.lesson));
 });
-document.getElementById('mapTrace')?.addEventListener('click',()=>showScreen('trace'));
 
 function startLesson(id){
   if(!LESSONS[id]) return;
@@ -3906,6 +4050,409 @@ document.getElementById('startQuest')?.addEventListener('click',()=>{
   const weak=sortedSkills()[0]?.[0]||'アルゴリズム';
   startLesson(pickLessonForSkill(weak));
 });
+
+
+
+// ===== v8: Subject B multi-stage trace lab =====
+const B_EXERCISES = [
+  {
+    id:'loop_sum',
+    title:'ループで合計',
+    icon:'➕',
+    level:'基礎',
+    desc:'1から4まで加算し、変数sumの変化を追います。',
+    concept:'ループ・累積',
+    code:[
+      'sum ← 0',
+      'for i ← 1 to 4',
+      '    sum ← sum + i',
+      'endfor',
+      'sum を出力する'
+    ],
+    steps:[
+      {line:0,state:{sum:0,i:'—'},msg:'sumを0で初期化しました。'},
+      {line:1,state:{sum:0,i:1},msg:'ループ開始。i=1です。'},
+      {line:2,state:{sum:1,i:1},msg:'sum = 0 + 1 → 1',predict:{q:'次にiが2のとき、sumはいくつ？',opts:['2','3','4'],a:1}},
+      {line:3,state:{sum:1,i:1},msg:'1回目のループ終了。'},
+      {line:1,state:{sum:1,i:2},msg:'i=2へ進みます。'},
+      {line:2,state:{sum:3,i:2},msg:'sum = 1 + 2 → 3'},
+      {line:3,state:{sum:3,i:2},msg:'2回目のループ終了。'},
+      {line:1,state:{sum:3,i:3},msg:'i=3へ進みます。'},
+      {line:2,state:{sum:6,i:3},msg:'sum = 3 + 3 → 6'},
+      {line:3,state:{sum:6,i:3},msg:'3回目のループ終了。'},
+      {line:1,state:{sum:6,i:4},msg:'i=4へ進みます。'},
+      {line:2,state:{sum:10,i:4},msg:'sum = 6 + 4 → 10'},
+      {line:3,state:{sum:10,i:4},msg:'ループ終了条件に到達。'},
+      {line:4,state:{sum:10,i:4},msg:'最終結果は10です。'}
+    ]
+  },
+  {
+    id:'array_max',
+    title:'配列の最大値',
+    icon:'📊',
+    level:'基礎',
+    desc:'配列を左から比較して最大値maxを更新します。',
+    concept:'配列・比較',
+    code:[
+      'data ← [4, 9, 2, 7]',
+      'max ← data[0]',
+      'for i ← 1 to 3',
+      '    if data[i] > max',
+      '        max ← data[i]',
+      '    endif',
+      'endfor',
+      'max を出力する'
+    ],
+    array:[4,9,2,7],
+    steps:[
+      {line:0,state:{max:'—',i:'—'},focus:-1,msg:'配列を用意しました。'},
+      {line:1,state:{max:4,i:'—'},focus:0,msg:'最初の要素4をmaxにします。'},
+      {line:2,state:{max:4,i:1},focus:1,msg:'i=1、data[1]=9を調べます。',predict:{q:'9 > 4 なので、次のmaxは？',opts:['4','7','9'],a:2}},
+      {line:3,state:{max:4,i:1},focus:1,msg:'9 > 4 は真です。'},
+      {line:4,state:{max:9,i:1},focus:1,msg:'maxを9へ更新。'},
+      {line:2,state:{max:9,i:2},focus:2,msg:'data[2]=2を調べます。'},
+      {line:3,state:{max:9,i:2},focus:2,msg:'2 > 9 は偽なので更新しません。'},
+      {line:2,state:{max:9,i:3},focus:3,msg:'data[3]=7を調べます。'},
+      {line:3,state:{max:9,i:3},focus:3,msg:'7 > 9 は偽です。'},
+      {line:7,state:{max:9,i:3},focus:-1,msg:'最大値は9です。'}
+    ]
+  },
+  {
+    id:'linear_search',
+    title:'線形探索',
+    icon:'🔍',
+    level:'標準',
+    desc:'配列を先頭から順番に調べ、目的値を見つけます。',
+    concept:'探索・条件分岐',
+    code:[
+      'data ← [3, 5, 8, 12, 20]',
+      'target ← 12',
+      'pos ← -1',
+      'for i ← 0 to 4',
+      '    if data[i] = target',
+      '        pos ← i',
+      '        break',
+      '    endif',
+      'endfor',
+      'pos を出力する'
+    ],
+    array:[3,5,8,12,20],
+    target:12,
+    steps:[
+      {line:0,state:{i:'—',pos:'—',target:12},focus:-1,msg:'探索対象の配列です。'},
+      {line:2,state:{i:'—',pos:-1,target:12},focus:-1,msg:'未発見を表すpos=-1で開始。'},
+      {line:3,state:{i:0,pos:-1,target:12},focus:0,msg:'data[0]=3を確認。'},
+      {line:4,state:{i:0,pos:-1,target:12},focus:0,msg:'3=12ではないので続行。'},
+      {line:3,state:{i:1,pos:-1,target:12},focus:1,msg:'data[1]=5を確認。'},
+      {line:4,state:{i:1,pos:-1,target:12},focus:1,msg:'5=12ではありません。'},
+      {line:3,state:{i:2,pos:-1,target:12},focus:2,msg:'data[2]=8を確認。'},
+      {line:4,state:{i:2,pos:-1,target:12},focus:2,msg:'8=12ではありません。'},
+      {line:3,state:{i:3,pos:-1,target:12},focus:3,msg:'data[3]=12を確認。',predict:{q:'一致しました。posに入る値は？',opts:['3','4','12'],a:0}},
+      {line:4,state:{i:3,pos:-1,target:12},focus:3,found:3,msg:'12=12なので条件は真。'},
+      {line:5,state:{i:3,pos:3,target:12},focus:3,found:3,msg:'posに添字3を保存。'},
+      {line:6,state:{i:3,pos:3,target:12},focus:3,found:3,msg:'breakでループを抜けます。'},
+      {line:9,state:{i:3,pos:3,target:12},focus:3,found:3,msg:'出力は3です。'}
+    ]
+  },
+  {
+    id:'stack_ops',
+    title:'スタック操作',
+    icon:'📚',
+    level:'標準',
+    desc:'PUSHとPOPによってスタックの中身がどう変わるか追います。',
+    concept:'スタック・LIFO',
+    code:[
+      'stack ← 空',
+      'PUSH(stack, 2)',
+      'PUSH(stack, 4)',
+      'x ← POP(stack)',
+      'PUSH(stack, 6)',
+      'y ← POP(stack)',
+      'x, y を出力する'
+    ],
+    steps:[
+      {line:0,state:{x:'—',y:'—'},stack:[],msg:'空のスタックで開始。'},
+      {line:1,state:{x:'—',y:'—'},stack:[2],msg:'2をPUSH。'},
+      {line:2,state:{x:'—',y:'—'},stack:[2,4],msg:'4をPUSH。トップは4です。',predict:{q:'ここでPOPすると取り出される値は？',opts:['2','4','6'],a:1}},
+      {line:3,state:{x:4,y:'—'},stack:[2],msg:'LIFOなので4がPOPされ、x=4。'},
+      {line:4,state:{x:4,y:'—'},stack:[2,6],msg:'6をPUSH。'},
+      {line:5,state:{x:4,y:6},stack:[2],msg:'6がPOPされ、y=6。'},
+      {line:6,state:{x:4,y:6},stack:[2],msg:'出力はx=4, y=6です。'}
+    ]
+  },
+  {
+    id:'recursion',
+    title:'再帰呼出し',
+    icon:'🪆',
+    level:'標準',
+    desc:'factorial(4)の呼出しと戻りをコールスタックで可視化します。',
+    concept:'再帰・コールスタック',
+    code:[
+      'function fact(n)',
+      '    if n = 1',
+      '        return 1',
+      '    endif',
+      '    return n × fact(n - 1)',
+      'endfunction',
+      'fact(4) を出力する'
+    ],
+    steps:[
+      {line:6,state:{n:4,result:'—'},stack:['fact(4)'],msg:'fact(4)を呼び出します。'},
+      {line:4,state:{n:4,result:'—'},stack:['fact(4)','fact(3)'],msg:'4×fact(3)が必要なのでfact(3)へ。'},
+      {line:4,state:{n:3,result:'—'},stack:['fact(4)','fact(3)','fact(2)'],msg:'3×fact(2)が必要。'},
+      {line:4,state:{n:2,result:'—'},stack:['fact(4)','fact(3)','fact(2)','fact(1)'],msg:'2×fact(1)が必要。',predict:{q:'fact(1)が返す値は？',opts:['0','1','2'],a:1}},
+      {line:1,state:{n:1,result:'—'},stack:['fact(4)','fact(3)','fact(2)','fact(1)'],msg:'n=1なので基底条件に到達。'},
+      {line:2,state:{n:1,result:1},stack:['fact(4)','fact(3)','fact(2)'],msg:'fact(1)=1を返して1段戻ります。'},
+      {line:4,state:{n:2,result:2},stack:['fact(4)','fact(3)'],msg:'fact(2)=2×1=2。'},
+      {line:4,state:{n:3,result:6},stack:['fact(4)'],msg:'fact(3)=3×2=6。'},
+      {line:4,state:{n:4,result:24},stack:[],msg:'fact(4)=4×6=24。'},
+      {line:6,state:{n:4,result:24},stack:[],msg:'最終出力は24です。'}
+    ]
+  },
+  {
+    id:'tree_dfs',
+    title:'木の深さ優先探索',
+    icon:'🌳',
+    level:'応用',
+    desc:'二分木を「根→左→右」の順にたどる処理を追います。',
+    concept:'木構造・DFS',
+    code:[
+      'procedure visit(node)',
+      '    if node ≠ null',
+      '        node を出力',
+      '        visit(node.left)',
+      '        visit(node.right)',
+      '    endif',
+      'endprocedure',
+      'visit(A)'
+    ],
+    tree:true,
+    steps:[
+      {line:7,state:{node:'A',output:''},visited:[],stack:['A'],msg:'根Aから開始。'},
+      {line:2,state:{node:'A',output:'A'},visited:['A'],stack:['A'],msg:'Aを出力。次は左のBへ。'},
+      {line:3,state:{node:'B',output:'A'},visited:['A'],stack:['A','B'],msg:'Bを訪問。'},
+      {line:2,state:{node:'B',output:'A B'},visited:['A','B'],stack:['A','B'],msg:'Bを出力。次はBの左D。'},
+      {line:3,state:{node:'D',output:'A B'},visited:['A','B'],stack:['A','B','D'],msg:'Dへ移動。',predict:{q:'次に出力されるノードは？',opts:['C','D','E'],a:1}},
+      {line:2,state:{node:'D',output:'A B D'},visited:['A','B','D'],stack:['A','B'],msg:'Dを出力。子がないのでBへ戻る。'},
+      {line:4,state:{node:'E',output:'A B D'},visited:['A','B','D'],stack:['A','B','E'],msg:'Bの右Eへ。'},
+      {line:2,state:{node:'E',output:'A B D E'},visited:['A','B','D','E'],stack:['A'],msg:'Eを出力。Aへ戻ります。'},
+      {line:4,state:{node:'C',output:'A B D E'},visited:['A','B','D','E'],stack:['A','C'],msg:'Aの右Cへ。'},
+      {line:2,state:{node:'C',output:'A B D E C'},visited:['A','B','D','E','C'],stack:[],msg:'Cを出力して完了。'},
+      {line:7,state:{node:'—',output:'A B D E C'},visited:['A','B','D','E','C'],stack:[],msg:'訪問順は A → B → D → E → C です。'}
+    ]
+  }
+];
+
+if(!profile.bProgress) profile.bProgress={};
+B_EXERCISES.forEach(x=>{
+  if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0;
+});
+saveProfile();
+
+let currentB=null;
+let bStepIndex=-1;
+let bPredictionSatisfied=true;
+let lastBState={};
+
+function renderBGrid(){
+  const root=document.getElementById('bExerciseGrid');
+  if(!root) return;
+  root.innerHTML='';
+  let done=0;
+  B_EXERCISES.forEach(ex=>{
+    const pct=profile.bProgress?.[ex.id]||0;
+    if(pct>=100) done++;
+    const card=document.createElement('div');
+    card.className='b-card'+(pct>=100?' done':'');
+    const diffClass=ex.level==='標準'?'medium':ex.level==='応用'?'hard':'';
+    card.innerHTML=`
+      <div class="b-card-top">
+        <div class="b-card-icon">${ex.icon}</div>
+        <div>
+          <div class="b-card-title">${ex.title}</div>
+          <div class="b-card-meta">${ex.concept}</div>
+        </div>
+      </div>
+      <div class="b-card-desc">${ex.desc}</div>
+      <div class="b-card-bottom">
+        <span class="difficulty ${diffClass}">${ex.level}</span>
+        ${pct>=100?'<span class="b-check">✓ CLEAR</span>':''}
+        <button class="b-start" data-bex="${ex.id}">${pct>=100?'もう一度':'開始'}</button>
+      </div>`;
+    root.appendChild(card);
+  });
+  const t=document.getElementById('bProgressText');
+  if(t) t.textContent=`${done} / ${B_EXERCISES.length}`;
+  root.querySelectorAll('[data-bex]').forEach(b=>b.onclick=()=>startBExercise(b.dataset.bex));
+}
+renderBGrid();
+
+document.getElementById('mapTrace')?.addEventListener('click',()=>{
+  showScreen('trace');
+  showBList();
+});
+
+function showBList(){
+  document.getElementById('bSelect').classList.remove('hidden');
+  document.getElementById('bLab').classList.remove('show');
+  renderBGrid();
+}
+document.getElementById('bBackToList')?.addEventListener('click',showBList);
+document.getElementById('bNextExercise')?.addEventListener('click',showBList);
+
+function startBExercise(id){
+  currentB=B_EXERCISES.find(x=>x.id===id);
+  if(!currentB) return;
+  bStepIndex=-1;
+  bPredictionSatisfied=true;
+  lastBState={};
+
+  document.getElementById('bSelect').classList.add('hidden');
+  document.getElementById('bLab').classList.add('show');
+  document.getElementById('bComplete').classList.remove('show');
+  document.getElementById('bLabTitle').textContent=currentB.title;
+  document.getElementById('bLabMeta').textContent=`科目B・${currentB.concept}・${currentB.level}`;
+  document.getElementById('bCode').innerHTML=currentB.code.map((line,i)=>`<div class="b-code-line" data-bline="${i}">${escapeHtml(line)}</div>`).join('');
+  resetBView();
+}
+
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function resetBView(){
+  bStepIndex=-1;
+  bPredictionSatisfied=true;
+  lastBState={};
+  document.querySelectorAll('.b-code-line').forEach(l=>l.classList.remove('active'));
+  document.getElementById('bStateGrid').innerHTML='<div class="sub">まだ実行していません。</div>';
+  document.getElementById('bVisual').innerHTML='<div class="sub" style="text-align:center">1 STEPで状態変化を確認します。</div>';
+  document.getElementById('bTraceMessage').textContent='最初の行から1 STEPずつ実行してください。';
+  document.getElementById('bTraceProgress').style.width='0%';
+  document.getElementById('predictionBox').classList.remove('show');
+  document.getElementById('bStep').disabled=false;
+  document.getElementById('bStep').textContent='▶ 1 STEP';
+  document.getElementById('bComplete').classList.remove('show');
+}
+document.getElementById('bReset')?.addEventListener('click',resetBView);
+
+document.getElementById('bStep')?.addEventListener('click',()=>{
+  if(!currentB) return;
+  if(!bPredictionSatisfied){
+    popToast('予測問題に答えてから進みましょう');
+    return;
+  }
+  if(bStepIndex < currentB.steps.length-1){
+    bStepIndex++;
+    renderBStep(currentB.steps[bStepIndex]);
+  }
+});
+
+function renderBStep(step){
+  document.querySelectorAll('.b-code-line').forEach(l=>l.classList.remove('active'));
+  const active=document.querySelector(`.b-code-line[data-bline="${step.line}"]`);
+  if(active) active.classList.add('active');
+
+  renderBState(step.state||{});
+  renderBVisual(step);
+  document.getElementById('bTraceMessage').textContent=step.msg||'';
+  document.getElementById('bTraceProgress').style.width=`${((bStepIndex+1)/currentB.steps.length)*100}%`;
+
+  if(step.predict){
+    showBPrediction(step.predict);
+  }else{
+    bPredictionSatisfied=true;
+    document.getElementById('predictionBox').classList.remove('show');
+  }
+
+  if(bStepIndex===currentB.steps.length-1 && !step.predict){
+    finishBExercise();
+  }
+}
+
+function renderBState(state){
+  const grid=document.getElementById('bStateGrid');
+  grid.innerHTML='';
+  Object.entries(state).forEach(([k,v])=>{
+    const changed=lastBState[k]!==undefined && String(lastBState[k])!==String(v);
+    const d=document.createElement('div');
+    d.className='state-card';
+    d.innerHTML=`<div class="state-key">${escapeHtml(k)}</div><div class="state-value ${changed?'changed':''}">${escapeHtml(v)}</div>`;
+    grid.appendChild(d);
+  });
+  lastBState={...state};
+}
+
+function renderBVisual(step){
+  const v=document.getElementById('bVisual');
+  if(currentB.array){
+    const arr=currentB.array;
+    v.innerHTML=`<div class="trace-array">${
+      arr.map((x,i)=>`<div class="trace-array-cell ${step.focus===i?'focus':''} ${step.found===i?'found':''}">${x}<span class="trace-array-index">${i}</span></div>`).join('')
+    }</div>${currentB.target!==undefined?`<div class="visit-path">target = ${currentB.target}</div>`:''}`;
+    return;
+  }
+  if(step.stack){
+    v.innerHTML=`<div class="sub" style="text-align:center;margin-bottom:6px">TOP</div><div class="trace-stack">${step.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
+    return;
+  }
+  if(currentB.tree){
+    const visited=step.visited||[];
+    const mark=n=>visited.includes(n)?`[${n}]`:n;
+    v.innerHTML=`<div class="tree-view">       ${mark('A')}
+      /   \\
+    ${mark('B')}     ${mark('C')}
+   / \\
+ ${mark('D')}   ${mark('E')}</div>
+ <div class="visit-path">出力：${escapeHtml(step.state?.output||'—')}</div>`;
+    return;
+  }
+  v.innerHTML='<div class="sub" style="text-align:center">変数の変化を右上のSTATEで追いましょう。</div>';
+}
+
+function showBPrediction(pred){
+  bPredictionSatisfied=false;
+  const box=document.getElementById('predictionBox');
+  box.classList.add('show');
+  document.getElementById('predictionTitle').textContent='⚡ PREDICT：'+pred.q;
+  const root=document.getElementById('predictionOptions');
+  root.innerHTML='';
+  pred.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='prediction-option';
+    b.textContent=o;
+    b.onclick=()=>{
+      if(i===pred.a){
+        b.classList.add('good');
+        bPredictionSatisfied=true;
+        root.querySelectorAll('button').forEach(x=>x.disabled=true);
+        popToast('予測正解！ +5 XP');
+        profile.xp += 5;
+        saveProfile();
+      }else{
+        b.classList.add('bad');
+        popToast('もう一度予測してみましょう');
+        setTimeout(()=>b.classList.remove('bad'),700);
+      }
+    };
+    root.appendChild(b);
+  });
+}
+
+function finishBExercise(){
+  const old=profile.bProgress[currentB.id]||0;
+  profile.bProgress[currentB.id]=100;
+  profile.skills['アルゴリズム']=clamp((profile.skills['アルゴリズム']||50)+(old<100?3:1),0,100);
+  profile.xp += old<100?80:20;
+  saveProfile();
+
+  document.getElementById('bCompleteXp').textContent=`+${old<100?80:20} XP`;
+  document.getElementById('bCompleteText').textContent=`「${currentB.concept}」のトレースを完了しました。`;
+  document.getElementById('bComplete').classList.add('show');
+  document.getElementById('bStep').disabled=true;
+  document.getElementById('bStep').textContent='✓ COMPLETE';
+  renderBGrid();
+}
 
 
 // ===== PWA support =====
