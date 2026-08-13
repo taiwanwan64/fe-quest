@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v12</title>
+<title>FE QUEST PWA v13</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2358,6 +2358,194 @@
     .swot-grid{grid-template-columns:1fr 1fr}
   }
 
+
+  /* ===== v13: Subject A mock exam ===== */
+  .mock-hero{
+    background:linear-gradient(135deg,#eef8ff,#fbfdff);
+    border:1px solid #d5eaf8;border-radius:26px;padding:22px;
+    display:flex;align-items:center;gap:16px;margin:18px 0;
+  }
+  .mock-hero-icon{
+    width:62px;height:62px;border-radius:19px;background:#fff;
+    display:grid;place-items:center;font-size:33px;flex:0 0 auto;
+  }
+  .mock-hero-copy{flex:1}
+  .mock-hero-title{font-size:21px;font-weight:900}
+  .mock-official{
+    font-size:12px;color:var(--muted);line-height:1.55;margin-top:4px;
+  }
+  .mock-cards{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+  }
+  .mock-card{
+    background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;
+    box-shadow:var(--shadow);
+  }
+  .mock-card.featured{border:2px solid #b9e2f8;background:#fbfeff}
+  .mock-card-icon{font-size:31px;margin-bottom:7px}
+  .mock-card-title{font-size:18px;font-weight:900}
+  .mock-card-desc{font-size:13px;color:var(--muted);line-height:1.6;margin:7px 0 13px}
+  .mock-specs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+  .mock-spec{
+    display:inline-flex;padding:6px 9px;border-radius:999px;background:#f2f6f9;
+    color:var(--muted);font-size:11px;font-weight:900;
+  }
+  .mock-start{
+    width:100%;border:none;background:var(--blue);color:#fff;border-radius:14px;
+    min-height:46px;font-weight:900;
+  }
+
+  .mock-history{
+    margin-top:17px;background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:18px;box-shadow:var(--shadow);
+  }
+  .mock-history-row{
+    display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--line);
+  }
+  .mock-history-row:last-child{border-bottom:none}
+  .mock-history-title{font-weight:900;font-size:14px}
+  .mock-history-sub{font-size:11px;color:var(--muted);margin-top:3px}
+  .mock-history-score{font-size:20px;font-weight:900;color:var(--blue)}
+  .mock-history-time{font-size:12px;color:var(--muted);font-weight:800}
+
+  .mock-exam{
+    display:none;
+  }
+  .mock-exam.show{display:block}
+  .mock-menu.hidden{display:none}
+  .mock-topbar{
+    position:sticky;top:0;z-index:20;background:rgba(246,248,251,.96);
+    backdrop-filter:blur(10px);padding:8px 0 12px;margin-bottom:8px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .mock-top-title{flex:1;min-width:0}
+  .mock-top-title b{display:block;font-size:16px}
+  .mock-top-title span{font-size:11px;color:var(--muted)}
+  .mock-timer{
+    min-width:100px;border-radius:14px;background:#fff;border:2px solid var(--line);
+    padding:9px 12px;text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:20px;font-weight:900;
+  }
+  .mock-timer.warn{border-color:var(--yellow);background:#fff9dc;color:#8b6800}
+  .mock-timer.danger{border-color:var(--red);background:var(--red-soft);color:#b53a3a}
+  .mock-finish-btn{
+    border:none;background:var(--red);color:#fff;border-radius:13px;
+    padding:11px 13px;font-weight:900;
+  }
+
+  .mock-layout{
+    display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;
+  }
+  .mock-question-card{
+    background:#fff;border:1px solid var(--line);border-radius:25px;padding:23px;
+    box-shadow:var(--shadow);min-height:500px;
+  }
+  .mock-q-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .mock-q-num{font-weight:900;color:var(--blue);font-size:14px}
+  .mock-q-cat{
+    display:inline-block;padding:6px 9px;border-radius:999px;background:var(--blue-soft);
+    color:#087db4;font-size:11px;font-weight:900;
+  }
+  .mock-q-question{font-size:19px;line-height:1.7;font-weight:900;margin:20px 0}
+  .mock-q-options{display:grid;gap:10px}
+  .mock-q-option{
+    border:2px solid var(--line);background:#fff;border-radius:17px;
+    padding:14px 15px;text-align:left;font-size:14px;font-weight:800;line-height:1.55;
+  }
+  .mock-q-option.selected{border-color:var(--blue);background:var(--blue-soft)}
+  .mock-q-actions{
+    display:flex;align-items:center;gap:9px;margin-top:20px;
+  }
+  .mock-prev,.mock-next,.mock-flag{
+    border:2px solid var(--line);background:#fff;border-radius:13px;padding:10px 13px;font-weight:900;
+  }
+  .mock-next{margin-left:auto;background:var(--blue);border-color:var(--blue);color:#fff}
+  .mock-flag.active{border-color:var(--yellow);background:#fff7cf;color:#876500}
+
+  .mock-nav-panel{
+    background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;
+    box-shadow:var(--shadow);height:max-content;position:sticky;top:84px;
+  }
+  .mock-nav-title{font-size:13px;font-weight:900;color:var(--muted);margin-bottom:10px}
+  .mock-nav-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  }
+  .mock-nav-q{
+    aspect-ratio:1;border:1px solid var(--line);background:#f7f9fb;border-radius:8px;
+    font-size:10px;font-weight:900;color:var(--muted);
+  }
+  .mock-nav-q.answered{background:var(--blue-soft);color:#087db4;border-color:#b5e0f6}
+  .mock-nav-q.flagged:after{content:"★";font-size:7px;color:#9c7500;position:absolute}
+  .mock-nav-q.current{outline:2px solid var(--blue);outline-offset:1px}
+  .mock-nav-q{position:relative}
+  .mock-legend{
+    margin-top:12px;padding-top:11px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--muted);line-height:1.7;
+  }
+
+  .mock-result{
+    display:none;
+  }
+  .mock-result.show{display:block}
+  .mock-result-hero{
+    background:#fff;border:1px solid var(--line);border-radius:27px;padding:27px;
+    box-shadow:var(--shadow);text-align:center;
+  }
+  .mock-result-icon{font-size:64px}
+  .mock-result-score{font-size:48px;font-weight:900;color:var(--blue);margin:4px 0}
+  .mock-result-note{color:var(--muted);font-size:12px;margin-top:4px}
+  .mock-result-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:20px auto 0;max-width:700px;
+  }
+  .mock-stat{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:13px}
+  .mock-stat-val{font-size:22px;font-weight:900}
+  .mock-result-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:16px;
+  }
+  .mock-result-card{
+    background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);
+  }
+  .mock-break-row{
+    display:grid;grid-template-columns:100px 1fr 45px;gap:9px;align-items:center;margin:10px 0;
+  }
+  .mock-break-name{font-size:12px;font-weight:900}
+  .mock-break-pct{text-align:right;font-size:12px;font-weight:900}
+  .mock-review-list{display:grid;gap:8px;margin-top:12px}
+  .mock-review-item{
+    border:1px solid var(--line);background:#f8fafc;border-radius:14px;padding:11px;
+  }
+  .mock-review-item b{font-size:12px}
+  .mock-review-item .sub{font-size:11px;margin-top:3px;line-height:1.45}
+  .mock-result-actions{display:flex;gap:9px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .mock-result-actions button{
+    border:none;border-radius:14px;min-height:46px;padding:0 16px;font-weight:900;
+  }
+  .mock-result-actions .again{background:var(--blue);color:#fff}
+  .mock-result-actions .backmock{background:#edf2f6;color:var(--text)}
+
+  @media(max-width:950px){
+    .mock-layout{grid-template-columns:1fr}
+    .mock-nav-panel{position:static}
+    .mock-nav-grid{grid-template-columns:repeat(10,1fr)}
+  }
+  @media(max-width:720px){
+    .mock-cards,.mock-result-grid{grid-template-columns:1fr}
+    .mock-hero{padding:17px;align-items:flex-start}
+    .mock-topbar{gap:7px}
+    .mock-top-title span{display:none}
+    .mock-timer{min-width:80px;font-size:16px;padding:8px}
+    .mock-finish-btn{padding:9px;font-size:12px}
+    .mock-question-card{padding:17px;min-height:0}
+    .mock-q-question{font-size:17px}
+    .mock-q-actions{display:grid;grid-template-columns:1fr 1fr}
+    .mock-flag{grid-column:1/-1;grid-row:1}
+    .mock-next{margin:0}
+    .mock-nav-grid{grid-template-columns:repeat(10,1fr);gap:4px}
+    .mock-result-stats{grid-template-columns:repeat(2,1fr)}
+    .mock-break-row{grid-template-columns:80px 1fr 40px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -2386,6 +2574,7 @@
     <button class="nav-btn" data-screen="problems"><span class="ico">📖</span><span>問題</span></button>
     <button class="nav-btn" data-screen="plan"><span class="ico">📅</span><span>計画</span></button>
     <button class="nav-btn" data-screen="coverage"><span class="ico">🧭</span><span>範囲</span></button>
+    <button class="nav-btn" data-screen="mock"><span class="ico">📝</span><span>模試</span></button>
     <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico">⚙️</span><span>設定</span></button>
   </aside>
 
@@ -2435,6 +2624,110 @@
           <div class="mini-card"><div class="big">🔁</div><b>while</b><div class="sub">習熟度 43%</div><div class="progress" style="margin-top:10px"><div style="width:43%"></div></div></div>
           <div class="mini-card"><div class="big">⚙️</div><b>CPU</b><div class="sub">習熟度 76%</div><div class="progress blue" style="margin-top:10px"><div style="width:76%"></div></div></div>
           <div class="mini-card"><div class="big">🌐</div><b>Network</b><div class="sub">習熟度 58%</div><div class="progress purple" style="margin-top:10px"><div style="width:58%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOCK -->
+    <section id="mock" class="screen">
+      <div id="mockMenu" class="mock-menu">
+        <div class="screen-head">
+          <button class="back" data-screen="home">←</button>
+          <div><h1>科目A MOCK 📝</h1><div class="sub">FE QUESTオリジナル問題で、本番を意識した時間配分を練習します。</div></div>
+        </div>
+
+        <div class="mock-hero">
+          <div class="mock-hero-icon">⏱️</div>
+          <div class="mock-hero-copy">
+            <div class="mock-hero-title">2026年度 現行形式対応</div>
+            <div class="mock-official">科目A：90分・60問・四肢択一。問題は参考書の模擬問題を転載せず、FE QUEST用に作成しています。</div>
+          </div>
+        </div>
+
+        <div class="mock-cards">
+          <div class="mock-card featured">
+            <div class="mock-card-icon">🏁</div>
+            <div class="mock-card-title">FULL MOCK</div>
+            <div class="mock-card-desc">60問を90分で解く本番形式。途中で問題に★を付けて、後から見直せます。</div>
+            <div class="mock-specs"><span class="mock-spec">60問</span><span class="mock-spec">90分</span><span class="mock-spec">全分野</span></div>
+            <button class="mock-start" data-mock-mode="full">本番形式を始める</button>
+          </div>
+
+          <div class="mock-card">
+            <div class="mock-card-icon">⚡</div>
+            <div class="mock-card-title">HALF MOCK</div>
+            <div class="mock-card-desc">時間がない日の実戦練習。30問・45分で、本番と同じ1問あたりのペースを練習します。</div>
+            <div class="mock-specs"><span class="mock-spec">30問</span><span class="mock-spec">45分</span><span class="mock-spec">全分野</span></div>
+            <button class="mock-start" data-mock-mode="half">ハーフ模試を始める</button>
+          </div>
+        </div>
+
+        <div class="mock-history">
+          <h3>模試履歴</h3>
+          <div id="mockHistoryList"><div class="sub">まだ模試履歴がありません。</div></div>
+        </div>
+      </div>
+
+      <div id="mockExam" class="mock-exam">
+        <div class="mock-topbar">
+          <div class="mock-top-title"><b id="mockExamTitle">FULL MOCK</b><span id="mockExamProgressText">問1 / 60</span></div>
+          <div class="mock-timer" id="mockTimer">90:00</div>
+          <button class="mock-finish-btn" id="mockFinish">終了・採点</button>
+        </div>
+
+        <div class="mock-layout">
+          <div class="mock-question-card">
+            <div class="mock-q-meta">
+              <span class="mock-q-num" id="mockQNum">問1</span>
+              <span class="mock-q-cat" id="mockQCat">分野</span>
+            </div>
+            <div class="mock-q-question" id="mockQuestion"></div>
+            <div class="mock-q-options" id="mockOptions"></div>
+            <div class="mock-q-actions">
+              <button class="mock-prev" id="mockPrev">← 前へ</button>
+              <button class="mock-flag" id="mockFlag">☆ あとで見直す</button>
+              <button class="mock-next" id="mockNext">次へ →</button>
+            </div>
+          </div>
+
+          <div class="mock-nav-panel">
+            <div class="mock-nav-title">QUESTION MAP</div>
+            <div class="mock-nav-grid" id="mockNavGrid"></div>
+            <div class="mock-legend">青＝回答済み　★＝見直し　枠＝現在の問題</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mockResult" class="mock-result">
+        <div class="mock-result-hero">
+          <div class="mock-result-icon" id="mockResultIcon">📊</div>
+          <h1>模試結果</h1>
+          <div class="mock-result-score" id="mockResultScore">0%</div>
+          <div id="mockResultMessage"></div>
+          <div class="mock-result-note">FE QUEST内の正答率です。実際の試験のIRT評価によるスコアとは異なります。</div>
+
+          <div class="mock-result-stats">
+            <div class="mock-stat"><div class="sub">正解</div><div class="mock-stat-val" id="mockStatCorrect">0</div></div>
+            <div class="mock-stat"><div class="sub">不正解</div><div class="mock-stat-val" id="mockStatWrong">0</div></div>
+            <div class="mock-stat"><div class="sub">未回答</div><div class="mock-stat-val" id="mockStatBlank">0</div></div>
+            <div class="mock-stat"><div class="sub">所要時間</div><div class="mock-stat-val" id="mockStatTime">0m</div></div>
+          </div>
+        </div>
+
+        <div class="mock-result-grid">
+          <div class="mock-result-card">
+            <h3>分野別正答率</h3>
+            <div id="mockBreakdown"></div>
+          </div>
+          <div class="mock-result-card">
+            <h3>復習優先</h3>
+            <div class="mock-review-list" id="mockReviewList"></div>
+          </div>
+        </div>
+
+        <div class="mock-result-actions">
+          <button class="backmock" id="mockBackMenu">模試メニューへ</button>
+          <button class="again" id="mockRetry">もう一度挑戦</button>
         </div>
       </div>
     </section>
@@ -3886,6 +4179,38 @@ const QUESTION_BANK = [
   {id:'strat-09',cat:'ストラテジ',concept:'SWOT',difficulty:'基礎',q:'SWOT分析で「競合企業の新規参入」は一般にどれ？',options:['Threat','Strength','Weakness','Opportunity'],a:0,exp:'競合の新規参入は外部環境のマイナス要因なのでThreat（脅威）です。',hint:'外部×マイナスです。'},
   {id:'strat-10',cat:'ストラテジ',concept:'IoT',difficulty:'基礎',q:'IoTで温度などの物理量を取得する装置は？',options:['センサ','アクチュエータだけ','コンパイラ','DBの主キー'],a:0,exp:'現実世界の温度・光・加速度などを取得するのはセンサです。',hint:'測る側です。'},
   {id:'strat-11',cat:'ストラテジ',concept:'財務',difficulty:'基礎',q:'売上高900、売上原価550のとき、売上総利益はいくら？',options:['350','550','900','1,450'],a:0,exp:'売上総利益=売上高900−売上原価550=350です。',hint:'売上高から売上原価を引きます。'}
+,
+  {id:'theory-06',cat:'基礎理論',concept:'データ単位',difficulty:'基礎',q:'1KiBを1024バイトとすると、4KiBは何バイト？',options:['4096','4000','2048','8192'],a:0,exp:'4×1024=4096バイトです。',hint:'KiBでは1024倍します。'},
+  {id:'theory-07',cat:'基礎理論',concept:'16進数',difficulty:'基礎',q:'16進数 1F を10進数で表すと？',options:['31','25','21','35'],a:0,exp:'1×16+15=31です。Fは10進数の15です。',hint:'F=15です。'},
+  {id:'theory-08',cat:'基礎理論',concept:'集合',difficulty:'標準',q:'集合A={1,2,3}、集合B={3,4,5}の共通部分A∩Bは？',options:['{3}','{1,2,3,4,5}','{1,2}','{4,5}'],a:0,exp:'両方の集合に含まれる要素は3だけです。',hint:'共通して含まれるものを探します。'},
+
+  {id:'computer-05',cat:'コンピュータ',concept:'スループット',difficulty:'標準',q:'あるシステムが1分間に120件の処理を完了する。この値が表す性能指標に最も近いものは？',options:['スループット','応答時間だけ','稼働率だけ','故障率'],a:0,exp:'単位時間当たりに処理できる仕事量をスループットと呼びます。',hint:'「1分に何件」のような量です。'},
+  {id:'computer-06',cat:'コンピュータ',concept:'RAID',difficulty:'標準',q:'複数ディスクに同じデータを書き込むミラーリングを利用する代表的なRAIDレベルは？',options:['RAID1','RAID0','RAID5だけ','RAID10以外すべて'],a:0,exp:'RAID1はミラーリングで同じ内容を複数ディスクに保持します。',hint:'1はミラーリング、と整理します。'},
+  {id:'computer-07',cat:'コンピュータ',concept:'入出力',difficulty:'基礎',q:'コンピュータから利用者へ情報を表示する装置はどれ？',options:['ディスプレイ','キーボード','マウス','スキャナ'],a:0,exp:'ディスプレイは出力装置です。',hint:'画面へ情報を出します。'},
+
+  {id:'db-05',cat:'データベース',concept:'外部キー',difficulty:'標準',q:'注文表の顧客IDを顧客表の顧客IDと対応付けるとき、注文表側の顧客IDに設定するキーとして最も適切なのは？',options:['外部キー','主キーでなければならない','暗号鍵','ハッシュ値'],a:0,exp:'他の表の主キーなどを参照して関係を表す属性を外部キーとして設定します。',hint:'別の表を参照するキーです。'},
+  {id:'db-06',cat:'データベース',concept:'SQL集約',difficulty:'標準',q:'表salesのamount列の合計を求めるSQL関数は？',options:['SUM(amount)','COUNT(amount)だけ','AVG(amount)だけ','ORDER(amount)'],a:0,exp:'SUMは指定した数値列の合計を求める集約関数です。',hint:'英語で「合計」です。'},
+  {id:'db-07',cat:'データベース',concept:'インデックス',difficulty:'標準',q:'検索を高速化するために表の列へ設定する索引に最も近いものは？',options:['インデックス','トランザクションだけ','ビューだけ','外部キーだけ'],a:0,exp:'インデックスは検索対象の位置を効率よく探すための索引です。',hint:'本の索引をイメージします。'},
+
+  {id:'net-05',cat:'ネットワーク',concept:'DHCP',difficulty:'基礎',q:'LAN内の端末へIPアドレスなどのネットワーク設定を自動配布するプロトコルは？',options:['DHCP','HTTP','SMTP','FTP'],a:0,exp:'DHCPはIPアドレスやデフォルトゲートウェイ等の設定を端末へ自動配布します。',hint:'端末のIP設定を自動化します。'},
+  {id:'net-06',cat:'ネットワーク',concept:'HTTP',difficulty:'基礎',q:'WebブラウザとWebサーバ間の通信で代表的に用いられるプロトコルは？',options:['HTTP','SMTP','POP3だけ','SNMPだけ'],a:0,exp:'HTTPはWebのデータ転送に使われる代表的なプロトコルです。',hint:'Webページの通信です。'},
+  {id:'net-07',cat:'ネットワーク',concept:'NAT',difficulty:'標準',q:'家庭内の複数端末がプライベートIPアドレスを使い、1つのグローバルIPアドレスを共有してインターネットへ接続する仕組みに関係するものは？',options:['NAPT','DNSSEC','RAID','WBS'],a:0,exp:'NAPTはIPアドレスだけでなくポート番号も変換し、複数端末で1つのグローバルIPを共有できます。',hint:'アドレス＋ポート番号を変換します。'},
+
+  {id:'sec-05',cat:'セキュリティ',concept:'共通鍵暗号',difficulty:'基礎',q:'暗号化と復号に同じ秘密の鍵を使う方式は？',options:['共通鍵暗号方式','公開鍵暗号方式だけ','ハッシュ関数','デジタル署名だけ'],a:0,exp:'共通鍵暗号方式では送受信者が同じ秘密鍵を共有して暗号化・復号します。',hint:'「共通」の鍵を使います。'},
+  {id:'sec-06',cat:'セキュリティ',concept:'マルウェア',difficulty:'標準',q:'利用者に気付かれにくい形で他のプログラムに寄生せず単独でネットワークを介して自己増殖するものに最も近いのは？',options:['ワーム','コンピュータウイルスだけ','SQL','Cookie'],a:0,exp:'ワームは他のプログラムへの寄生を必須とせず、ネットワークなどを介して自己増殖します。',hint:'単独で増殖する点が特徴です。'},
+  {id:'sec-07',cat:'セキュリティ',concept:'バックアップ',difficulty:'基礎',q:'情報セキュリティの可用性向上に寄与する対策として適切なのは？',options:['定期的なバックアップと復元確認','パスワードを公開する','全ログを削除する','アクセス権を全員に付ける'],a:0,exp:'障害時に復旧できるバックアップは、必要なとき利用可能な状態を保つ可用性に寄与します。',hint:'障害から復旧できる対策です。'},
+
+  {id:'algo-05',cat:'アルゴリズム',concept:'キュー',difficulty:'基礎',q:'空のキューへA,B,Cの順にENQUEUEした後、1回DEQUEUEすると取り出されるのは？',options:['A','B','C','取り出せない'],a:0,exp:'キューはFIFOなので最初に入れたAが最初に取り出されます。',hint:'待ち行列と同じです。'},
+  {id:'algo-06',cat:'アルゴリズム',concept:'ソート',difficulty:'標準',q:'配列[5,2,4]を昇順に並べ替えた結果は？',options:['[2,4,5]','[5,4,2]','[4,2,5]','[2,5,4]'],a:0,exp:'昇順は小さい順なので[2,4,5]です。',hint:'小さい値から並べます。'},
+  {id:'algo-07',cat:'アルゴリズム',concept:'条件分岐',difficulty:'基礎',q:'x=7のとき「if x > 5 then y←1 else y←0」を実行した後のyは？',options:['1','0','5','7'],a:0,exp:'7>5は真なのでthen側が実行され、y=1になります。',hint:'条件7>5を評価します。'},
+
+  {id:'mgmt-11',cat:'マネジメント',concept:'WBS',difficulty:'基礎',q:'プロジェクト作業を階層的に細分化した構造は？',options:['WBS','DNS','ER図','NAT'],a:0,exp:'WBSは作業を階層的に分解して整理したものです。',hint:'Work Breakdown Structureです。'},
+  {id:'mgmt-12',cat:'マネジメント',concept:'リスク',difficulty:'標準',q:'プロジェクトリスクに対して、発生確率や影響度を評価する目的として最も適切なのは？',options:['対応の優先順位を判断する','必ず全リスクを発生させる','スケジュールを削除する','品質を無視する'],a:0,exp:'リスク評価は優先して対応すべきものを判断する材料になります。',hint:'確率×影響度を考えます。'},
+  {id:'mgmt-13',cat:'マネジメント',concept:'内部統制',difficulty:'標準',q:'業務が適切に行われるよう、組織内に仕組みやルールを整備・運用する考え方に最も近いのは？',options:['内部統制','外部キー','公開鍵暗号','二分探索'],a:0,exp:'内部統制は業務の有効性・効率性や法令遵守などの目的達成を支える組織内の仕組みです。',hint:'組織内部の業務を適切に保つ仕組みです。'},
+
+  {id:'strat-12',cat:'ストラテジ',concept:'マーケティング',difficulty:'基礎',q:'市場を顧客の属性やニーズで複数のグループへ分ける活動は？',options:['セグメンテーション','デバッグ','正規化','暗号化'],a:0,exp:'市場を同質的な顧客群へ分けることをセグメンテーションと呼びます。',hint:'市場を区分します。'},
+  {id:'strat-13',cat:'ストラテジ',concept:'KPI',difficulty:'標準',q:'最終目標の達成に向けた途中経過を測る重要な指標は？',options:['KPI','CPU','LAN','ROM'],a:0,exp:'KPIはKey Performance Indicatorで、目標達成に向けた重要業績評価指標です。',hint:'Performance Indicatorです。'},
+  {id:'strat-14',cat:'ストラテジ',concept:'法務',difficulty:'標準',q:'他人が作成したプログラムを無断で複製して配布する行為が主に問題となる権利は？',options:['著作権','特許権だけ','商標権だけ','所有権だけ'],a:0,exp:'プログラムは著作物として著作権による保護対象となり得ます。',hint:'プログラムの「表現」を保護する権利です。'}
 ];
 
 function ensureQuestionProfile(){
@@ -7016,6 +7341,298 @@ refreshProfileUI=function(){
   renderCoverage();
 };
 renderCoverage();
+
+
+
+// ===== v13: Subject A full mock exam =====
+if(!profile.mockHistory) profile.mockHistory=[];
+saveProfile();
+
+let mockItems=[];
+let mockAnswers=[];
+let mockFlags=[];
+let mockIndex=0;
+let mockMode='full';
+let mockSeconds=0;
+let mockInitialSeconds=0;
+let mockTimerHandle=null;
+let mockStartedAt=null;
+let mockLastMode='full';
+
+function buildMockQuestions(count){
+  // Balanced draw across the same broad categories used by FE QUEST.
+  const cats=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
+  const pools={};
+  cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c)));
+  const out=[];
+  let cursor=0;
+  while(out.length<count && Object.values(pools).some(p=>p.length)){
+    const c=cats[cursor%cats.length];
+    if(pools[c].length) out.push(pools[c].pop());
+    cursor++;
+  }
+  if(out.length<count){
+    const used=new Set(out.map(q=>q.id));
+    out.push(...shuffled(QUESTION_BANK.filter(q=>!used.has(q.id))).slice(0,count-out.length));
+  }
+  return out.slice(0,count);
+}
+
+function startMock(mode){
+  mockMode=mode;
+  mockLastMode=mode;
+  const count=mode==='full'?60:30;
+  mockInitialSeconds=mode==='full'?90*60:45*60;
+  mockSeconds=mockInitialSeconds;
+  mockItems=buildMockQuestions(count);
+  if(mockItems.length<count){
+    popToast(`問題数が${mockItems.length}問しかないため、この数で開始します`);
+  }
+  mockAnswers=Array(mockItems.length).fill(null);
+  mockFlags=Array(mockItems.length).fill(false);
+  mockIndex=0;
+  mockStartedAt=Date.now();
+
+  document.getElementById('mockMenu').classList.add('hidden');
+  document.getElementById('mockExam').classList.add('show');
+  document.getElementById('mockResult').classList.remove('show');
+  document.getElementById('mockExamTitle').textContent=mode==='full'?'FULL MOCK・科目A':'HALF MOCK・科目A';
+
+  renderMockNavigator();
+  renderMockQuestion();
+  updateMockTimer();
+  if(mockTimerHandle) clearInterval(mockTimerHandle);
+  mockTimerHandle=setInterval(()=>{
+    mockSeconds=Math.max(0,mockSeconds-1);
+    updateMockTimer();
+    if(mockSeconds<=0){
+      clearInterval(mockTimerHandle);
+      mockTimerHandle=null;
+      finishMock(true);
+    }
+  },1000);
+}
+
+document.querySelectorAll('[data-mock-mode]').forEach(b=>{
+  b.addEventListener('click',()=>startMock(b.dataset.mockMode));
+});
+
+function updateMockTimer(){
+  const m=Math.floor(mockSeconds/60);
+  const s=mockSeconds%60;
+  const e=document.getElementById('mockTimer');
+  if(!e) return;
+  e.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  e.classList.toggle('warn',mockSeconds<=15*60 && mockSeconds>5*60);
+  e.classList.toggle('danger',mockSeconds<=5*60);
+}
+
+function renderMockNavigator(){
+  const root=document.getElementById('mockNavGrid');
+  if(!root) return;
+  root.innerHTML='';
+  mockItems.forEach((q,i)=>{
+    const b=document.createElement('button');
+    b.className='mock-nav-q';
+    b.textContent=i+1;
+    b.onclick=()=>{mockIndex=i;renderMockQuestion();};
+    root.appendChild(b);
+  });
+  updateMockNavigator();
+}
+function updateMockNavigator(){
+  document.querySelectorAll('.mock-nav-q').forEach((b,i)=>{
+    b.classList.toggle('answered',mockAnswers[i]!==null);
+    b.classList.toggle('flagged',!!mockFlags[i]);
+    b.classList.toggle('current',i===mockIndex);
+  });
+}
+
+function renderMockQuestion(){
+  const q=mockItems[mockIndex];
+  if(!q) return;
+  document.getElementById('mockQNum').textContent=`問${mockIndex+1}`;
+  document.getElementById('mockQCat').textContent=`${q.cat}・${q.concept}`;
+  document.getElementById('mockQuestion').textContent=q.q;
+  document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`;
+  document.getElementById('mockPrev').disabled=mockIndex===0;
+  document.getElementById('mockNext').textContent=mockIndex===mockItems.length-1?'先頭へ':'次へ →';
+
+  const flag=document.getElementById('mockFlag');
+  flag.classList.toggle('active',mockFlags[mockIndex]);
+  flag.textContent=mockFlags[mockIndex]?'★ 見直し対象':'☆ あとで見直す';
+
+  const root=document.getElementById('mockOptions');
+  root.innerHTML='';
+  q.options.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='mock-q-option'+(mockAnswers[mockIndex]===i?' selected':'');
+    b.textContent=`${String.fromCharCode(65+i)}. ${o}`;
+    b.onclick=()=>{
+      mockAnswers[mockIndex]=i;
+      renderMockQuestion();
+    };
+    root.appendChild(b);
+  });
+  updateMockNavigator();
+}
+
+document.getElementById('mockPrev')?.addEventListener('click',()=>{
+  if(mockIndex>0){mockIndex--;renderMockQuestion();}
+});
+document.getElementById('mockNext')?.addEventListener('click',()=>{
+  mockIndex=mockIndex<mockItems.length-1?mockIndex+1:0;
+  renderMockQuestion();
+});
+document.getElementById('mockFlag')?.addEventListener('click',()=>{
+  mockFlags[mockIndex]=!mockFlags[mockIndex];
+  renderMockQuestion();
+});
+
+document.getElementById('mockFinish')?.addEventListener('click',()=>{
+  const blank=mockAnswers.filter(x=>x===null).length;
+  const msg=blank?`未回答が${blank}問あります。終了して採点しますか？`:'終了して採点しますか？';
+  if(confirm(msg)) finishMock(false);
+});
+
+function formatElapsed(sec){
+  const m=Math.floor(sec/60);
+  const s=sec%60;
+  return `${m}分${String(s).padStart(2,'0')}秒`;
+}
+
+function finishMock(timeup=false){
+  if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
+  const used=Math.min(mockInitialSeconds,Math.max(0,mockInitialSeconds-mockSeconds));
+  let correct=0,blank=0;
+  const byCat={};
+  const wrongs=[];
+
+  mockItems.forEach((q,i)=>{
+    const ans=mockAnswers[i];
+    const ok=ans===q.a;
+    if(ans===null) blank++;
+    if(ok) correct++;
+    if(!byCat[q.cat]) byCat[q.cat]={correct:0,total:0};
+    byCat[q.cat].total++;
+    if(ok) byCat[q.cat].correct++;
+    if(!ok){
+      wrongs.push({q,ans});
+      // Feed mock weaknesses back into spaced review.
+      ensureQuestionProfile();
+      const st=profile.qStats[q.id];
+      if(st){
+        st.attempts=(st.attempts||0)+1;
+        st.last=localDateISO(0);
+        st.streak=0;
+        st.due=localDateISO(1);
+      }
+      profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)-1,0,100);
+    }else{
+      profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+0.35,0,100);
+    }
+  });
+
+  const total=mockItems.length;
+  const rate=total?Math.round(correct/total*100):0;
+  const wrong=total-correct-blank;
+
+  profile.mockHistory.unshift({
+    date:localDateISO(0),
+    mode:mockMode,
+    total,correct,blank,rate,
+    seconds:used
+  });
+  profile.mockHistory=profile.mockHistory.slice(0,15);
+  profile.xp += Math.round(correct*2);
+  saveProfile();
+
+  document.getElementById('mockExam').classList.remove('show');
+  document.getElementById('mockResult').classList.add('show');
+
+  document.getElementById('mockResultScore').textContent=`${rate}%`;
+  document.getElementById('mockStatCorrect').textContent=correct;
+  document.getElementById('mockStatWrong').textContent=wrong;
+  document.getElementById('mockStatBlank').textContent=blank;
+  document.getElementById('mockStatTime').textContent=`${Math.floor(used/60)}m`;
+
+  let message='弱点を見つけられたことが収穫です。';
+  let icon='📚';
+  if(rate>=85){message='かなり安定しています。見直し問題を中心に仕上げましょう。';icon='🏆';}
+  else if(rate>=70){message='良い位置です。誤答分野を復習するとさらに安定します。';icon='🎯';}
+  else if(rate>=55){message='基礎はつながっています。弱点の再学習を優先しましょう。';icon='📈';}
+  if(timeup) message='時間終了です。未回答を含めて、時間配分も復習材料にしましょう。';
+  document.getElementById('mockResultIcon').textContent=icon;
+  document.getElementById('mockResultMessage').textContent=message;
+
+  const breakdown=document.getElementById('mockBreakdown');
+  breakdown.innerHTML='';
+  Object.entries(byCat).sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total)).forEach(([cat,v])=>{
+    const pct=Math.round(v.correct/v.total*100);
+    const d=document.createElement('div');
+    d.className='mock-break-row';
+    d.innerHTML=`<div class="mock-break-name">${cat}</div><div class="progress"><div style="width:${pct}%"></div></div><div class="mock-break-pct">${pct}%</div>`;
+    breakdown.appendChild(d);
+  });
+
+  const review=document.getElementById('mockReviewList');
+  review.innerHTML='';
+  wrongs.slice(0,8).forEach(x=>{
+    const d=document.createElement('div');
+    d.className='mock-review-item';
+    const selected=x.ans===null?'未回答':x.q.options[x.ans];
+    d.innerHTML=`<b>${x.q.cat}・${x.q.concept}</b><div class="sub">${escapeHtml(x.q.q)}<br>あなた：${escapeHtml(selected)} ／ 正解：${escapeHtml(x.q.options[x.q.a])}</div>`;
+    review.appendChild(d);
+  });
+  if(!wrongs.length) review.innerHTML='<div class="sub">全問正解です 🎉</div>';
+
+  renderMockHistory();
+  renderDailyPlan();
+  renderReadiness();
+}
+
+function showMockMenu(){
+  if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
+  document.getElementById('mockMenu').classList.remove('hidden');
+  document.getElementById('mockExam').classList.remove('show');
+  document.getElementById('mockResult').classList.remove('show');
+  renderMockHistory();
+}
+document.getElementById('mockBackMenu')?.addEventListener('click',showMockMenu);
+document.getElementById('mockRetry')?.addEventListener('click',()=>startMock(mockLastMode));
+
+function renderMockHistory(){
+  const root=document.getElementById('mockHistoryList');
+  if(!root) return;
+  const hist=(profile.mockHistory||[]).slice(0,6);
+  if(!hist.length){
+    root.innerHTML='<div class="sub">まだ模試履歴がありません。</div>';
+    return;
+  }
+  root.innerHTML='';
+  hist.forEach(h=>{
+    const d=document.createElement('div');
+    d.className='mock-history-row';
+    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div></div>
+      <div class="mock-history-time">${formatElapsed(h.seconds||0)}</div><div class="mock-history-score">${h.rate}%</div>`;
+    root.appendChild(d);
+  });
+}
+renderMockHistory();
+
+// Planner STEP5 now reflects real mock attempts as well as ordinary problem sessions.
+const _roadmapDataV13=roadmapData;
+roadmapData=function(){
+  const data=_roadmapDataV13();
+  if(data.length){
+    const mockCount=(profile.mockHistory||[]).length;
+    const sessionCount=(profile.sessions||[]).length;
+    const p=Math.min(100,Math.round(((mockCount*2+sessionCount)/12)*100));
+    data[data.length-1].pct=Math.max(data[data.length-1].pct,p);
+    data[data.length-1].desc='弱点演習・復習・科目A MOCK';
+  }
+  return data;
+};
 
 
 // ===== PWA support =====
