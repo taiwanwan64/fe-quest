@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v28</title>
+<title>FE QUEST PWA v30</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3061,6 +3061,34 @@
     display:none!important;
   }
 
+
+  .bank-summary{
+    display:inline-flex;gap:8px;align-items:center;margin-top:10px;
+    padding:6px 10px;border-radius:999px;background:#eef9ff;color:#1679ad;
+    border:1px solid #c8e7fb;font-size:10px;font-weight:1000;
+  }
+
+
+  /* ===== v30: mock blueprint ===== */
+  .mock-blueprint-card{
+    margin:18px 0 20px;padding:18px;border:1px solid #dce7ef;border-radius:22px;
+    background:linear-gradient(135deg,#f8fcff,#fff);
+  }
+  .mock-blueprint-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .mock-blueprint-kicker{font-size:9px;letter-spacing:.12em;font-weight:1000;color:#2582b2;margin-bottom:3px}
+  .mock-blueprint-badge{padding:5px 9px;border-radius:999px;background:#eaf8ff;color:#177bab;font-size:10px;font-weight:1000;white-space:nowrap}
+  .mock-blueprint-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  .mock-blueprint-grid>div{background:#fff;border:1px solid #e2eaf0;border-radius:15px;padding:11px;min-height:84px}
+  .mock-blueprint-grid span{font-size:19px;display:block;margin-bottom:4px}
+  .mock-blueprint-grid b{display:block;font-size:12px}
+  .mock-blueprint-grid small{display:block;color:var(--muted);font-size:9px;line-height:1.45;margin-top:3px}
+  .mock-blueprint-note{margin-top:10px;color:var(--muted);font-size:9px;line-height:1.5}
+  .mock-history-blueprint{font-size:9px;color:#2782ad;margin-top:3px;font-weight:800}
+  @media(max-width:760px){
+    .mock-blueprint-grid{grid-template-columns:1fr 1fr}
+    .mock-blueprint-head{align-items:flex-start}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -3157,12 +3185,29 @@
           </div>
         </div>
 
+        <div class="mock-blueprint-card">
+          <div class="mock-blueprint-head">
+            <div>
+              <div class="mock-blueprint-kicker">FE QUEST MOCK BLUEPRINT</div>
+              <b>毎回の出題バランスを自動調整</b>
+            </div>
+            <span class="mock-blueprint-badge">160問から選出</span>
+          </div>
+          <div class="mock-blueprint-grid">
+            <div><span>🧭</span><b>8分野</b><small>各分野の問題数差を最大1問に抑える</small></div>
+            <div><span>⚖️</span><b>難易度</b><small>基礎40% / 標準60%</small></div>
+            <div><span>🔁</span><b>再出題</b><small>模試で未出題・出題回数が少ない問題を優先</small></div>
+            <div><span>🧩</span><b>論点</b><small>同じ論点への偏りをできるだけ回避</small></div>
+          </div>
+          <div class="mock-blueprint-note">※これはFE QUEST内の模試生成ルールです。公式試験の問題配分を示すものではありません。</div>
+        </div>
+
         <div class="mock-cards">
           <div class="mock-card featured">
             <div class="mock-card-icon">🏁</div>
             <div class="mock-card-title">FULL MOCK</div>
             <div class="mock-card-desc">60問を90分で解く本番形式。途中で問題に★を付けて、後から見直せます。</div>
-            <div class="mock-specs"><span class="mock-spec">60問</span><span class="mock-spec">90分</span><span class="mock-spec">全分野</span></div>
+            <div class="mock-specs"><span class="mock-spec">60問</span><span class="mock-spec">90分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎24 / 標準36</span></div>
             <button class="mock-start" data-mock-mode="full">本番形式を始める</button>
           </div>
 
@@ -3170,7 +3215,7 @@
             <div class="mock-card-icon">⚡</div>
             <div class="mock-card-title">HALF MOCK</div>
             <div class="mock-card-desc">時間がない日の実戦練習。30問・45分で、本番と同じ1問あたりのペースを練習します。</div>
-            <div class="mock-specs"><span class="mock-spec">30問</span><span class="mock-spec">45分</span><span class="mock-spec">全分野</span></div>
+            <div class="mock-specs"><span class="mock-spec">30問</span><span class="mock-spec">45分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎12 / 標準18</span></div>
             <button class="mock-start" data-mock-mode="half">ハーフ模試を始める</button>
           </div>
         </div>
@@ -3821,7 +3866,7 @@
     <!-- PROBLEMS -->
     <section id="problems" class="screen">
       <h1>問題演習 📖</h1>
-      <div class="sub">ここで出題する問題はFE QUESTオリジナル問題です。</div>
+      <div class="sub">8分野×20問、全160問のFE QUESTオリジナル問題から出題します。</div><div class="bank-summary">📚 QUESTION BANK 160</div>
 
       <div class="problem-hub" id="problemHub">
         <div class="problem-mode">
@@ -5871,22 +5916,1369 @@ const QUESTION_BANK = [
     "a": 3,
     "exp": "プログラムは著作物として著作権による保護対象となり得ます。",
     "hint": "プログラムの「表現」を保護する権利です。"
+  },
+  {
+    "id": "theory-09",
+    "cat": "基礎理論",
+    "concept": "ビットシフト",
+    "difficulty": "標準",
+    "q": "8ビットの2進数 00101100 を1ビット左に論理シフトした結果はどれですか？",
+    "options": [
+      "01011000",
+      "00010110",
+      "10110000",
+      "00101101"
+    ],
+    "a": 0,
+    "exp": "左シフトでは各ビットを左へ1桁移し、右端に0を入れます。00101100 → 01011000 です。",
+    "hint": "左へ1桁動かし、空いた右端には0を入れます。"
+  },
+  {
+    "id": "theory-10",
+    "cat": "基礎理論",
+    "concept": "2の補数",
+    "difficulty": "標準",
+    "q": "8ビットの2の補数表現で、10進数の -5 を表すものはどれですか？",
+    "options": [
+      "10000101",
+      "11111011",
+      "00000101",
+      "11111010"
+    ],
+    "a": 1,
+    "exp": "+5 は 00000101 です。全ビットを反転して11111010とし、1を加えると11111011になります。",
+    "hint": "正の5を2進数にし、ビット反転して1を加えます。"
+  },
+  {
+    "id": "theory-11",
+    "cat": "基礎理論",
+    "concept": "論理演算",
+    "difficulty": "標準",
+    "q": "ド・モルガンの法則により、NOT(A AND B) と等価な論理式はどれですか？",
+    "options": [
+      "A AND (NOT B)",
+      "(NOT A) AND (NOT B)",
+      "(NOT A) OR (NOT B)",
+      "A OR B"
+    ],
+    "a": 2,
+    "exp": "AND全体の否定は、それぞれを否定したORに変換できます。したがって (NOT A) OR (NOT B) です。",
+    "hint": "ANDを否定すると、演算子はORへ入れ替わります。"
+  },
+  {
+    "id": "theory-12",
+    "cat": "基礎理論",
+    "concept": "情報量",
+    "difficulty": "基礎",
+    "q": "50通りの状態を、それぞれ異なるビット列で表すために最低何ビット必要ですか？",
+    "options": [
+      "5ビット",
+      "7ビット",
+      "8ビット",
+      "6ビット"
+    ],
+    "a": 3,
+    "exp": "5ビットでは2^5=32通りで不足します。6ビットなら2^6=64通りなので50状態を表せます。",
+    "hint": "2^n が50以上になる最小のnを探します。"
+  },
+  {
+    "id": "theory-13",
+    "cat": "基礎理論",
+    "concept": "確率",
+    "difficulty": "基礎",
+    "q": "互いに独立な事象AとBがあり、P(A)=0.8、P(B)=0.9です。AとBが両方起こる確率は？",
+    "options": [
+      "0.72",
+      "0.80",
+      "0.98",
+      "0.17"
+    ],
+    "a": 0,
+    "exp": "独立な事象が両方起こる確率は積で求めます。0.8×0.9=0.72です。",
+    "hint": "独立なら、両方起こる確率は2つの確率を掛けます。"
+  },
+  {
+    "id": "theory-14",
+    "cat": "基礎理論",
+    "concept": "集合",
+    "difficulty": "基礎",
+    "q": "集合A={1,2,4}、集合B={2,3,4} の和集合 A∪B はどれですか？",
+    "options": [
+      "{1,2,2,3,4,4}",
+      "{1,2,3,4}",
+      "{2,4}",
+      "{1,3}"
+    ],
+    "a": 1,
+    "exp": "和集合はAまたはBの少なくとも一方に含まれる要素の集合です。重複を除くと {1,2,3,4} です。",
+    "hint": "両方の集合に出てくる要素を、重複なしで全部集めます。"
+  },
+  {
+    "id": "theory-15",
+    "cat": "基礎理論",
+    "concept": "パリティ",
+    "difficulty": "標準",
+    "q": "データビット 1011001 に偶数パリティを付加します。パリティビットはいくつですか？",
+    "options": [
+      "1",
+      "2",
+      "0",
+      "判定できない"
+    ],
+    "a": 2,
+    "exp": "1011001 に含まれる1は4個です。すでに偶数なので、偶数パリティを保つためのパリティビットは0です。",
+    "hint": "まず元データに含まれる1の個数を数えます。"
+  },
+  {
+    "id": "theory-16",
+    "cat": "基礎理論",
+    "concept": "16進数",
+    "difficulty": "基礎",
+    "q": "16進数 3A を8ビットの2進数で表したものはどれですか？",
+    "options": [
+      "11101000",
+      "00011010",
+      "00110101",
+      "00111010"
+    ],
+    "a": 3,
+    "exp": "3は0011、Aは1010です。4ビットずつ変換して並べると00111010です。",
+    "hint": "16進数1桁を2進数4ビットへ変換します。"
+  },
+  {
+    "id": "theory-17",
+    "cat": "基礎理論",
+    "concept": "平均",
+    "difficulty": "基礎",
+    "q": "4つの値 12, 15, 18, 25 の算術平均はいくつですか？",
+    "options": [
+      "17.5",
+      "17.0",
+      "16.0",
+      "18.0"
+    ],
+    "a": 0,
+    "exp": "合計は12+15+18+25=70です。70÷4=17.5となります。",
+    "hint": "すべて足して、データの個数4で割ります。"
+  },
+  {
+    "id": "theory-18",
+    "cat": "基礎理論",
+    "concept": "中央値",
+    "difficulty": "基礎",
+    "q": "値 4, 7, 9, 20, 100 の中央値はいくつですか？",
+    "options": [
+      "7",
+      "9",
+      "20",
+      "28"
+    ],
+    "a": 1,
+    "exp": "5個の値はすでに小さい順です。中央の3番目にある9が中央値です。",
+    "hint": "奇数個なら、小さい順に並べた中央の値を選びます。"
+  },
+  {
+    "id": "theory-19",
+    "cat": "基礎理論",
+    "concept": "論理演算",
+    "difficulty": "基礎",
+    "q": "AとBがともに真のとき、A NAND B の結果はどれですか？",
+    "options": [
+      "Aと同じ",
+      "Bと同じ",
+      "偽",
+      "真"
+    ],
+    "a": 2,
+    "exp": "NANDはANDの結果を否定します。真 AND 真は真なので、それを否定した結果は偽です。",
+    "hint": "まずANDを求め、その結果を反転します。"
+  },
+  {
+    "id": "theory-20",
+    "cat": "基礎理論",
+    "concept": "オートマトン",
+    "difficulty": "標準",
+    "q": "状態S0から開始し、入力1のたびにS0とS1を切り替え、入力0では状態を変えないオートマトンがあります。入力列1011を処理した最終状態は？",
+    "options": [
+      "状態を一意に決められない",
+      "S0",
+      "入力途中で停止する",
+      "S1"
+    ],
+    "a": 3,
+    "exp": "S0→(1)S1→(0)S1→(1)S0→(1)S1 と遷移するので、最終状態はS1です。",
+    "hint": "入力を左から1文字ずつ追い、1のときだけ状態を切り替えます。"
+  },
+  {
+    "id": "computer-08",
+    "cat": "コンピュータ",
+    "concept": "CPU性能",
+    "difficulty": "標準",
+    "q": "2GHzのCPUが、平均CPI=2で10億命令を実行します。実行時間はおよそ何秒ですか？",
+    "options": [
+      "1秒",
+      "0.25秒",
+      "0.5秒",
+      "2秒"
+    ],
+    "a": 0,
+    "exp": "必要クロック数は10億命令×2=20億クロックです。2GHzは1秒に20億クロックなので、約1秒です。",
+    "hint": "命令数×CPIで必要クロック数を出し、クロック周波数で割ります。"
+  },
+  {
+    "id": "computer-09",
+    "cat": "コンピュータ",
+    "concept": "キャッシュ",
+    "difficulty": "標準",
+    "q": "キャッシュのヒット率が90%で、ヒット時10ns、ミス時110nsかかるとします。平均アクセス時間は？",
+    "options": [
+      "55ns",
+      "20ns",
+      "100ns",
+      "11ns"
+    ],
+    "a": 1,
+    "exp": "0.9×10 + 0.1×110 = 9 + 11 = 20nsです。",
+    "hint": "ヒット時とミス時の時間を、それぞれの発生確率で重み付けします。"
+  },
+  {
+    "id": "computer-10",
+    "cat": "コンピュータ",
+    "concept": "仮想記憶",
+    "difficulty": "基礎",
+    "q": "仮想記憶で、参照しようとしたページが主記憶上に存在しないときに発生するものは？",
+    "options": [
+      "スプーリング",
+      "キャッシュヒット",
+      "ページフォールト",
+      "デッドロック"
+    ],
+    "a": 2,
+    "exp": "必要なページが主記憶にないとページフォールトが発生し、補助記憶からページを読み込みます。",
+    "hint": "仮想記憶の『ページがメモリにない』場合の用語です。"
+  },
+  {
+    "id": "computer-11",
+    "cat": "コンピュータ",
+    "concept": "プロセス状態",
+    "difficulty": "基礎",
+    "q": "プロセスがディスク入出力の完了を待っており、CPUを使えない状態として最も適切なのは？",
+    "options": [
+      "実行状態",
+      "実行可能状態",
+      "終了状態",
+      "待ち状態"
+    ],
+    "a": 3,
+    "exp": "入出力完了などの事象を待っているプロセスは待ち状態です。CPUを割り当てても処理を再開できません。",
+    "hint": "CPU待ちではなく、入出力などの完了を待っている状態です。"
+  },
+  {
+    "id": "computer-12",
+    "cat": "コンピュータ",
+    "concept": "RAID",
+    "difficulty": "標準",
+    "q": "容量2TBのディスク4台でRAID5を構成したとき、概算の利用可能容量は？",
+    "options": [
+      "6TB",
+      "4TB",
+      "8TB",
+      "2TB"
+    ],
+    "a": 0,
+    "exp": "RAID5では1台分相当をパリティに使うため、利用可能容量は(4-1)×2TB=6TBです。",
+    "hint": "RAID5の容量は、おおむね『台数-1』台分です。"
+  },
+  {
+    "id": "computer-13",
+    "cat": "コンピュータ",
+    "concept": "信頼性",
+    "difficulty": "標準",
+    "q": "MTBFが900時間、MTTRが100時間のシステムの稼働率は？",
+    "options": [
+      "0.99",
+      "0.90",
+      "0.10",
+      "0.81"
+    ],
+    "a": 1,
+    "exp": "稼働率=MTBF÷(MTBF+MTTR)=900÷1000=0.90です。",
+    "hint": "稼働時間を『稼働時間+修復時間』で割ります。"
+  },
+  {
+    "id": "computer-14",
+    "cat": "コンピュータ",
+    "concept": "アドレス空間",
+    "difficulty": "標準",
+    "q": "32ビットのアドレスで1バイト単位に番地を付けるとき、直接表せるアドレス空間は最大で約何GiBですか？",
+    "options": [
+      "2GiB",
+      "8GiB",
+      "4GiB",
+      "32GiB"
+    ],
+    "a": 2,
+    "exp": "32ビットでは2^32通りの番地を表せます。1番地1バイトなので2^32バイト=4GiBです。",
+    "hint": "2^32バイトをGiBへ換算します。"
+  },
+  {
+    "id": "computer-15",
+    "cat": "コンピュータ",
+    "concept": "割込み",
+    "difficulty": "基礎",
+    "q": "割込み処理の説明として最も適切なのはどれですか？",
+    "options": [
+      "主記憶の内容をすべて補助記憶へ移す",
+      "ネットワーク通信を常に暗号化する",
+      "CPUが必ず全プログラムを同時に実行する",
+      "CPUが現在の処理を一時中断し、優先すべき事象の処理へ移る"
+    ],
+    "a": 3,
+    "exp": "割込みが発生すると、CPUは現在の処理状態を保存して割込み処理へ移り、終了後に元の処理へ戻ります。",
+    "hint": "入出力完了など、すぐ対応したい事象をCPUへ知らせる仕組みです。"
+  },
+  {
+    "id": "db-08",
+    "cat": "データベース",
+    "concept": "SQL",
+    "difficulty": "基礎",
+    "q": "employee表から name列とdept列だけを取得するSQLとして適切なのは？",
+    "options": [
+      "SELECT name, dept FROM employee;",
+      "SELECT employee FROM name, dept;",
+      "SELECT * WHERE name, dept FROM employee;",
+      "GET name, dept IN employee;"
+    ],
+    "a": 0,
+    "exp": "取得する列をSELECTの後ろに列挙し、FROMで表名を指定します。",
+    "hint": "SELECT 列1, 列2 FROM 表名 の形です。"
+  },
+  {
+    "id": "db-09",
+    "cat": "データベース",
+    "concept": "SQL",
+    "difficulty": "標準",
+    "q": "employee表から、ageが30以上かつdeptが'営業'の行を抽出するWHERE句は？",
+    "options": [
+      "WHERE age >= 30 OR dept = '営業'",
+      "WHERE age >= 30 AND dept = '営業'",
+      "WHERE age > 30 AND dept <> '営業'",
+      "WHERE age = 30 AND dept LIKE '%営業%'"
+    ],
+    "a": 1,
+    "exp": "2つの条件を両方満たす必要があるのでANDで結びます。30以上は>=です。",
+    "hint": "『かつ』はAND、『30以上』は>=です。"
+  },
+  {
+    "id": "db-10",
+    "cat": "データベース",
+    "concept": "GROUP BY",
+    "difficulty": "標準",
+    "q": "employee表をdeptごとにまとめ、各部門の人数を数えるSQLとして適切なのは？",
+    "options": [
+      "SELECT COUNT(dept) FROM employee WHERE dept;",
+      "SELECT dept FROM employee HAVING COUNT(*);",
+      "SELECT dept, COUNT(*) FROM employee GROUP BY dept;",
+      "SELECT dept, COUNT(*) FROM employee ORDER BY dept;"
+    ],
+    "a": 2,
+    "exp": "部門ごとに集計するのでGROUP BY deptを指定し、COUNT(*)で各グループの行数を数えます。",
+    "hint": "『部門ごと』に集計する場合はGROUP BYを使います。"
+  },
+  {
+    "id": "db-11",
+    "cat": "データベース",
+    "concept": "HAVING",
+    "difficulty": "標準",
+    "q": "deptごとに人数を集計した後、人数が5人以上の部門だけを残したいときに使う句は？",
+    "options": [
+      "GROUP BY COUNT(*) >= 5",
+      "WHERE COUNT(*) >= 5",
+      "ORDER BY COUNT(*) >= 5",
+      "HAVING COUNT(*) >= 5"
+    ],
+    "a": 3,
+    "exp": "集約後のグループに条件を付ける場合はHAVINGを使います。WHEREは集約前の行を絞るための句です。",
+    "hint": "COUNTの結果に条件を付けるのはWHEREではなく別の句です。"
+  },
+  {
+    "id": "db-12",
+    "cat": "データベース",
+    "concept": "JOIN",
+    "difficulty": "標準",
+    "q": "customer表とorders表を、両方にあるcustomer_idで対応付けて結合したい。結合条件として適切なのは？",
+    "options": [
+      "customer.customer_id = orders.customer_id",
+      "customer.customer_id <> orders.customer_id",
+      "customer.name = orders.order_id",
+      "customer.customer_id IS NULL"
+    ],
+    "a": 0,
+    "exp": "同じ顧客を表すキーcustomer_id同士が等しい行を結び付けます。",
+    "hint": "2表で同じ意味を持つキー列同士を=で結びます。"
+  },
+  {
+    "id": "db-13",
+    "cat": "データベース",
+    "concept": "NULL",
+    "difficulty": "基礎",
+    "q": "SQLで、column_a がNULLである行を検索する条件として適切なのは？",
+    "options": [
+      "column_a == NULL",
+      "column_a IS NULL",
+      "column_a LIKE NULL",
+      "column_a = NULL"
+    ],
+    "a": 1,
+    "exp": "SQLではNULLとの比較に=を使わず、IS NULLを使います。",
+    "hint": "NULLは通常の値ではないため、専用の判定構文を使います。"
+  },
+  {
+    "id": "db-14",
+    "cat": "データベース",
+    "concept": "ORDER BY",
+    "difficulty": "基礎",
+    "q": "score列を高い順に並べる指定として適切なのは？",
+    "options": [
+      "SORT score HIGH",
+      "ORDER BY score ASC",
+      "ORDER BY score DESC",
+      "GROUP BY score DESC"
+    ],
+    "a": 2,
+    "exp": "降順はDESC、昇順はASCです。高い値から並べるのでDESCを指定します。",
+    "hint": "高い順は降順です。"
+  },
+  {
+    "id": "db-15",
+    "cat": "データベース",
+    "concept": "トランザクション",
+    "difficulty": "基礎",
+    "q": "トランザクションでCOMMITを実行する主な意味は？",
+    "options": [
+      "それまでの更新を取り消す",
+      "表を削除する",
+      "排他制御を無効にする",
+      "それまでの更新を確定する"
+    ],
+    "a": 3,
+    "exp": "COMMITはトランザクション内で行った更新を確定し、永続的な結果として扱います。",
+    "hint": "ROLLBACKとの違いを考えます。"
+  },
+  {
+    "id": "db-16",
+    "cat": "データベース",
+    "concept": "トランザクション",
+    "difficulty": "基礎",
+    "q": "トランザクション途中の更新を取り消して、開始前の状態へ戻す操作は？",
+    "options": [
+      "ROLLBACK",
+      "CHECKPOINT",
+      "GRANT",
+      "COMMIT"
+    ],
+    "a": 0,
+    "exp": "ROLLBACKは、まだ確定していないトランザクションの更新を取り消します。",
+    "hint": "COMMITの反対の操作を選びます。"
+  },
+  {
+    "id": "db-17",
+    "cat": "データベース",
+    "concept": "分離性",
+    "difficulty": "標準",
+    "q": "あるトランザクションが、別のトランザクションの未COMMITデータを読み取ってしまう現象は？",
+    "options": [
+      "ファントムリード",
+      "ダーティリード",
+      "デッドロック",
+      "ロストアップデート"
+    ],
+    "a": 1,
+    "exp": "未確定の変更を他トランザクションが読み取ることをダーティリードといいます。",
+    "hint": "『まだ確定していない値を読む』現象です。"
+  },
+  {
+    "id": "db-18",
+    "cat": "データベース",
+    "concept": "複合主キー",
+    "difficulty": "標準",
+    "q": "注文明細表で、1つの注文に複数商品が含まれます。各明細を一意に識別する組合せとして適切なのは？",
+    "options": [
+      "注文IDだけ",
+      "商品名と価格",
+      "注文IDと商品ID",
+      "数量だけ"
+    ],
+    "a": 2,
+    "exp": "注文IDだけでは同じ注文内の複数明細を区別できません。注文IDと商品IDの組合せなら各明細を識別できます。",
+    "hint": "1列だけでは重複する場合、複数列を組み合わせます。"
+  },
+  {
+    "id": "db-19",
+    "cat": "データベース",
+    "concept": "第2正規形",
+    "difficulty": "標準",
+    "q": "複合主キーの一部だけに依存する非キー属性を別表へ分離することで満たしやすくなる正規形は？",
+    "options": [
+      "第3正規形",
+      "非正規形",
+      "第1正規形",
+      "第2正規形"
+    ],
+    "a": 3,
+    "exp": "第2正規形では、非キー属性が複合主キーの一部だけに依存する部分関数従属を取り除きます。",
+    "hint": "複合主キーの『一部への依存』を除く段階です。"
+  },
+  {
+    "id": "db-20",
+    "cat": "データベース",
+    "concept": "インデックス",
+    "difficulty": "標準",
+    "q": "データベースのインデックスを増やしすぎた場合に起こり得る欠点は？",
+    "options": [
+      "INSERTやUPDATE時の更新負荷と保存領域が増える",
+      "トランザクションを使用できなくなる",
+      "SELECTが必ず実行できなくなる",
+      "主キーを設定できなくなる"
+    ],
+    "a": 0,
+    "exp": "インデックスは検索を速くできる一方、データ更新時にはインデックス側も更新する必要があり、領域も消費します。",
+    "hint": "検索性能だけでなく、データを書き換えるときのコストを考えます。"
+  },
+  {
+    "id": "net-08",
+    "cat": "ネットワーク",
+    "concept": "OSI参照モデル",
+    "difficulty": "基礎",
+    "q": "IPアドレスを見て異なるネットワーク間へパケットを中継するルータは、主にOSI参照モデルのどの層で動作しますか？",
+    "options": [
+      "物理層",
+      "ネットワーク層",
+      "データリンク層",
+      "トランスポート層"
+    ],
+    "a": 1,
+    "exp": "ルータはIPアドレスに基づいて経路選択を行うため、主に第3層のネットワーク層で動作します。",
+    "hint": "IPを扱う層を考えます。"
+  },
+  {
+    "id": "net-09",
+    "cat": "ネットワーク",
+    "concept": "LANスイッチ",
+    "difficulty": "基礎",
+    "q": "一般的なEthernetのL2スイッチがフレーム転送先の判断に主に使う情報は？",
+    "options": [
+      "ポート番号",
+      "URL",
+      "MACアドレス",
+      "IPアドレス"
+    ],
+    "a": 2,
+    "exp": "L2スイッチはMACアドレステーブルを使ってEthernetフレームを適切なポートへ転送します。",
+    "hint": "L2はデータリンク層で使われるアドレスです。"
+  },
+  {
+    "id": "net-10",
+    "cat": "ネットワーク",
+    "concept": "TCP",
+    "difficulty": "標準",
+    "q": "TCPの接続確立で行われる3ウェイハンドシェイクの順序として正しいものは？",
+    "options": [
+      "FIN → FIN/ACK → ACK",
+      "ACK → SYN → FIN",
+      "SYN → ACK → FIN",
+      "SYN → SYN/ACK → ACK"
+    ],
+    "a": 3,
+    "exp": "TCP接続では、クライアントのSYN、サーバのSYN/ACK、クライアントのACKの3段階で接続を確立します。",
+    "hint": "最初は接続要求を表すSYNです。"
+  },
+  {
+    "id": "net-11",
+    "cat": "ネットワーク",
+    "concept": "HTTPS",
+    "difficulty": "基礎",
+    "q": "HTTPSで一般的に使われる標準ポート番号は？",
+    "options": [
+      "443",
+      "21",
+      "25",
+      "80"
+    ],
+    "a": 0,
+    "exp": "HTTPSの標準ポートは443です。HTTPは一般に80を使います。",
+    "hint": "HTTPの80番と対になる、安全なWeb通信の標準ポートです。"
+  },
+  {
+    "id": "net-12",
+    "cat": "ネットワーク",
+    "concept": "プライベートIP",
+    "difficulty": "基礎",
+    "q": "次のIPv4アドレスのうち、プライベートアドレスはどれですか？",
+    "options": [
+      "172.32.0.1",
+      "192.168.10.20",
+      "224.0.0.1",
+      "11.0.0.1"
+    ],
+    "a": 1,
+    "exp": "192.168.0.0/16はプライベートアドレス範囲です。172系は172.16.0.0〜172.31.255.255が対象です。",
+    "hint": "192.168.x.x は代表的なプライベートアドレス範囲です。"
+  },
+  {
+    "id": "net-13",
+    "cat": "ネットワーク",
+    "concept": "IPv6",
+    "difficulty": "基礎",
+    "q": "IPv6アドレスの長さは何ビットですか？",
+    "options": [
+      "256ビット",
+      "32ビット",
+      "128ビット",
+      "64ビット"
+    ],
+    "a": 2,
+    "exp": "IPv6アドレスは128ビットです。IPv4の32ビットより大幅に広いアドレス空間を持ちます。",
+    "hint": "IPv4は32ビットです。IPv6はその4倍の長さです。"
+  },
+  {
+    "id": "net-14",
+    "cat": "ネットワーク",
+    "concept": "ARP",
+    "difficulty": "標準",
+    "q": "同一LAN内で、宛先IPv4アドレスに対応するMACアドレスを調べるために使われるプロトコルは？",
+    "options": [
+      "DNS",
+      "DHCP",
+      "SMTP",
+      "ARP"
+    ],
+    "a": 3,
+    "exp": "ARPはIPv4アドレスから対応するMACアドレスを解決するために使います。",
+    "hint": "IPとMACを対応付けるプロトコルです。"
+  },
+  {
+    "id": "net-15",
+    "cat": "ネットワーク",
+    "concept": "ICMP",
+    "difficulty": "基礎",
+    "q": "pingコマンドが疎通確認に利用するプロトコルは？",
+    "options": [
+      "ICMP",
+      "SMTP",
+      "ARP",
+      "FTP"
+    ],
+    "a": 0,
+    "exp": "pingはICMP Echo RequestとEcho Replyを使って疎通を確認します。",
+    "hint": "Echo Request / Echo Replyを使うプロトコルです。"
+  },
+  {
+    "id": "net-16",
+    "cat": "ネットワーク",
+    "concept": "電子メール",
+    "difficulty": "基礎",
+    "q": "電子メールを送信側のメールサーバから別のメールサーバへ転送するときに主に使うプロトコルは？",
+    "options": [
+      "SNMP",
+      "SMTP",
+      "POP3",
+      "IMAP"
+    ],
+    "a": 1,
+    "exp": "SMTPは電子メールの送信・転送に使われます。POP3やIMAPは主にメールの受信・参照に使います。",
+    "hint": "メールを『送る』ためのプロトコルです。"
+  },
+  {
+    "id": "net-17",
+    "cat": "ネットワーク",
+    "concept": "IMAP",
+    "difficulty": "標準",
+    "q": "複数端末でメールボックスの既読状態やフォルダを同期しながら利用する用途に向くプロトコルは？",
+    "options": [
+      "SMTP",
+      "ARP",
+      "IMAP",
+      "ICMP"
+    ],
+    "a": 2,
+    "exp": "IMAPはメールをサーバ上で管理し、複数端末から状態を同期しながら参照する用途に適します。",
+    "hint": "サーバ上のメールを複数端末で同期して扱います。"
+  },
+  {
+    "id": "net-18",
+    "cat": "ネットワーク",
+    "concept": "サブネット",
+    "difficulty": "標準",
+    "q": "IPv4の /27 サブネットで、ネットワークアドレスとブロードキャストアドレスを除いて利用できるホストアドレス数は？",
+    "options": [
+      "32",
+      "62",
+      "14",
+      "30"
+    ],
+    "a": 3,
+    "exp": "/27ではホスト部が5ビットなので2^5=32アドレスあります。ネットワークとブロードキャストを除くと30です。",
+    "hint": "ホスト部のビット数は32-27=5です。"
+  },
+  {
+    "id": "net-19",
+    "cat": "ネットワーク",
+    "concept": "デフォルトゲートウェイ",
+    "difficulty": "基礎",
+    "q": "端末が自分と異なるサブネット宛てにパケットを送るとき、通常まず転送先として利用するものは？",
+    "options": [
+      "デフォルトゲートウェイ",
+      "ブロードキャストアドレス",
+      "DNSキャッシュ",
+      "ループバックアドレス"
+    ],
+    "a": 0,
+    "exp": "宛先が同一サブネット外なら、端末は通常デフォルトゲートウェイであるルータへパケットを送ります。",
+    "hint": "外部ネットワークへ出る『出口』を考えます。"
+  },
+  {
+    "id": "net-20",
+    "cat": "ネットワーク",
+    "concept": "NAPT",
+    "difficulty": "標準",
+    "q": "複数のプライベートIP端末が、ポート番号も利用して1つのグローバルIPアドレスを共有する仕組みは？",
+    "options": [
+      "ARP",
+      "NAPT",
+      "DNSラウンドロビン",
+      "VLAN"
+    ],
+    "a": 1,
+    "exp": "NAPTはIPアドレスだけでなくポート番号も変換し、複数端末の通信を1つのグローバルIPで識別します。",
+    "hint": "NATにポート番号の変換も組み合わせる仕組みです。"
+  },
+  {
+    "id": "sec-08",
+    "cat": "セキュリティ",
+    "concept": "機密性",
+    "difficulty": "基礎",
+    "q": "情報セキュリティの機密性（Confidentiality）が主に守ろうとするものは？",
+    "options": [
+      "必要なときにサービスを利用できること",
+      "処理速度を常に最大にすること",
+      "権限のない者に情報を見られないこと",
+      "情報が勝手に書き換えられないこと"
+    ],
+    "a": 2,
+    "exp": "機密性は、許可された者だけが情報へアクセスできる状態を守る性質です。",
+    "hint": "CIAのCは『秘密を守る』観点です。"
+  },
+  {
+    "id": "sec-09",
+    "cat": "セキュリティ",
+    "concept": "完全性",
+    "difficulty": "基礎",
+    "q": "情報セキュリティの完全性（Integrity）の説明として最も適切なのは？",
+    "options": [
+      "通信速度を一定に保つこと",
+      "情報を誰にも開示しないこと",
+      "システムを24時間必ず停止させないこと",
+      "情報が不正に変更・破壊されていないこと"
+    ],
+    "a": 3,
+    "exp": "完全性は、情報が正確で完全な状態に保たれ、不正に変更されていないことを指します。",
+    "hint": "CIAのIは『内容が正しいままか』という観点です。"
+  },
+  {
+    "id": "sec-10",
+    "cat": "セキュリティ",
+    "concept": "可用性",
+    "difficulty": "基礎",
+    "q": "情報セキュリティの可用性（Availability）の説明として最も適切なのは？",
+    "options": [
+      "必要なときに情報やシステムを利用できること",
+      "情報の内容を秘密にすること",
+      "データの改ざんだけを検知すること",
+      "パスワードを毎日変更すること"
+    ],
+    "a": 0,
+    "exp": "可用性は、許可された利用者が必要なときに情報やサービスを利用できる状態を保つことです。",
+    "hint": "CIAのAは『使いたいときに使えるか』です。"
+  },
+  {
+    "id": "sec-11",
+    "cat": "セキュリティ",
+    "concept": "フィッシング",
+    "difficulty": "基礎",
+    "q": "正規サービスを装った偽メールから偽ログイン画面へ誘導し、IDとパスワードを入力させる攻撃は？",
+    "options": [
+      "ブルートフォース攻撃",
+      "フィッシング",
+      "SQLインジェクション",
+      "DoS攻撃"
+    ],
+    "a": 1,
+    "exp": "実在する組織などを装って利用者を偽サイトへ誘導し、認証情報を盗む手口をフィッシングといいます。",
+    "hint": "利用者をだまして偽サイトへ誘導する攻撃です。"
+  },
+  {
+    "id": "sec-12",
+    "cat": "セキュリティ",
+    "concept": "SQLインジェクション",
+    "difficulty": "標準",
+    "q": "WebアプリのSQLインジェクション対策として特に有効なのは？",
+    "options": [
+      "HTMLの文字サイズを固定する",
+      "入力文字列をそのままSQL文へ連結する",
+      "プレースホルダを使ったパラメータ化クエリ",
+      "データベースのポート番号を毎回変える"
+    ],
+    "a": 2,
+    "exp": "パラメータ化クエリでは入力値とSQL構文を分離できるため、入力をSQL命令として解釈されにくくできます。",
+    "hint": "入力値をSQL文の文字列連結で組み立てない方法を選びます。"
+  },
+  {
+    "id": "sec-13",
+    "cat": "セキュリティ",
+    "concept": "XSS",
+    "difficulty": "標準",
+    "q": "掲示板に投稿された文字列をHTMLへ表示するWebアプリで、XSS対策として基本となる処理は？",
+    "options": [
+      "すべての通信をUDPに変更する",
+      "DBの主キーを削除する",
+      "ブラウザの表示倍率を固定する",
+      "出力時にHTMLとして特別な意味を持つ文字を適切にエスケープする"
+    ],
+    "a": 3,
+    "exp": "XSSでは攻撃者の入力がHTMLやJavaScriptとして解釈されることを防ぐため、出力時の適切なエスケープが基本です。",
+    "hint": "投稿内容を『プログラム』ではなく『文字列』として表示させます。"
+  },
+  {
+    "id": "sec-14",
+    "cat": "セキュリティ",
+    "concept": "CSRF",
+    "difficulty": "標準",
+    "q": "ログイン済み利用者のブラウザを悪用して意図しない操作を送信させるCSRFへの対策として適切なのは？",
+    "options": [
+      "推測困難なCSRFトークンを要求し検証する",
+      "すべての画像を削除する",
+      "データベースを読み取り専用にする",
+      "パスワードをURLへ埋め込む"
+    ],
+    "a": 0,
+    "exp": "CSRFトークンをフォームなどに含め、サーバ側で正当な画面からの要求か検証することで攻撃を防ぎやすくなります。",
+    "hint": "攻撃者が用意した外部ページからは作りにくい値を要求します。"
+  },
+  {
+    "id": "sec-15",
+    "cat": "セキュリティ",
+    "concept": "最小権限",
+    "difficulty": "基礎",
+    "q": "利用者やプログラムへ、業務に必要な範囲だけの権限を与える考え方は？",
+    "options": [
+      "可用性最大化の原則",
+      "最小権限の原則",
+      "職務分掌の禁止",
+      "完全公開の原則"
+    ],
+    "a": 1,
+    "exp": "最小権限の原則では、必要以上のアクセス権を与えず、侵害時の影響範囲も抑えます。",
+    "hint": "『必要なものだけ許可する』考え方です。"
+  },
+  {
+    "id": "sec-16",
+    "cat": "セキュリティ",
+    "concept": "デジタル証明書",
+    "difficulty": "標準",
+    "q": "公開鍵証明書を発行する認証局（CA）の主な役割は？",
+    "options": [
+      "利用者の秘密鍵をWeb上で公開する",
+      "すべての通信内容を長期保存する",
+      "公開鍵とその所有者の情報を結び付けて証明する",
+      "パスワードを暗号化せず配布する"
+    ],
+    "a": 2,
+    "exp": "CAは本人確認などを行い、公開鍵と組織名・ドメイン名などの主体情報を結び付けた証明書を発行します。",
+    "hint": "公開鍵が『誰のものか』を第三者として保証します。"
+  },
+  {
+    "id": "sec-17",
+    "cat": "セキュリティ",
+    "concept": "パスワードハッシュ",
+    "difficulty": "標準",
+    "q": "パスワードをハッシュ化して保存するとき、各パスワードにランダムなソルトを加える主な目的は？",
+    "options": [
+      "パスワードを短くして入力しやすくする",
+      "利用者全員で同じハッシュ値を共有する",
+      "ハッシュ値から元パスワードを復号できるようにする",
+      "同じパスワードでも異なるハッシュ値にし、事前計算攻撃を難しくする"
+    ],
+    "a": 3,
+    "exp": "ソルトにより同一パスワードでも保存ハッシュが異なり、レインボーテーブルなどの事前計算結果をそのまま使いにくくします。",
+    "hint": "同じパスワード同士が同じ保存値になることを防ぎます。"
+  },
+  {
+    "id": "sec-18",
+    "cat": "セキュリティ",
+    "concept": "HMAC",
+    "difficulty": "標準",
+    "q": "送信者と受信者が共有する秘密鍵とハッシュ関数を使い、メッセージの改ざんと送信元の正当性を確認する仕組みは？",
+    "options": [
+      "HMAC",
+      "OCR",
+      "RAID",
+      "DHCP"
+    ],
+    "a": 0,
+    "exp": "HMACは秘密鍵とハッシュ関数を組み合わせたメッセージ認証コードで、完全性と共有鍵を知る相手からの生成であることを確認できます。",
+    "hint": "ハッシュに共有秘密鍵を組み合わせる仕組みです。"
+  },
+  {
+    "id": "sec-19",
+    "cat": "セキュリティ",
+    "concept": "ランサムウェア",
+    "difficulty": "標準",
+    "q": "端末でランサムウェア感染が疑われ、共有フォルダのファイルも暗号化され始めています。最初に優先すべき対応は？",
+    "options": [
+      "そのまま業務を続けて様子を見る",
+      "感染端末をネットワークから隔離する",
+      "暗号化されたファイルを全員へメール送信する",
+      "すぐにすべてのログを削除する"
+    ],
+    "a": 1,
+    "exp": "被害拡大を抑えるため、まず感染端末をネットワークから隔離します。その後、報告・調査・復旧へ進みます。",
+    "hint": "最初は『被害をこれ以上広げない』ことを優先します。"
+  },
+  {
+    "id": "sec-20",
+    "cat": "セキュリティ",
+    "concept": "パッチ管理",
+    "difficulty": "基礎",
+    "q": "OSやソフトウェアで公表された脆弱性を修正するために、ベンダが提供する更新プログラムを適用する活動は？",
+    "options": [
+      "正規化",
+      "デフラグ",
+      "パッチ管理",
+      "負荷分散"
+    ],
+    "a": 2,
+    "exp": "脆弱性修正を含む更新プログラムを適切に評価・適用することはパッチ管理の重要な活動です。",
+    "hint": "脆弱性を修正する更新プログラムの管理です。"
+  },
+  {
+    "id": "algo-08",
+    "cat": "アルゴリズム",
+    "concept": "配列トレース",
+    "difficulty": "基礎",
+    "q": "配列A=[2,4,6]で、添字は0から始まります。A[1] ← A[0] + A[2] を実行した後のA[1]は？",
+    "options": [
+      "12",
+      "4",
+      "6",
+      "8"
+    ],
+    "a": 3,
+    "exp": "A[0]=2、A[2]=6なので、A[1]には2+6=8が代入されます。",
+    "hint": "右辺の2要素を先に取り出して足します。"
+  },
+  {
+    "id": "algo-09",
+    "cat": "アルゴリズム",
+    "concept": "二重ループ",
+    "difficulty": "基礎",
+    "q": "外側のループを3回、各外側ループの中で内側のループを2回実行します。内側の処理は合計何回実行されますか？",
+    "options": [
+      "6回",
+      "2回",
+      "3回",
+      "9回"
+    ],
+    "a": 0,
+    "exp": "外側3回のそれぞれで内側を2回実行するので、3×2=6回です。",
+    "hint": "外側の回数×内側の回数です。"
+  },
+  {
+    "id": "algo-10",
+    "cat": "アルゴリズム",
+    "concept": "再帰",
+    "difficulty": "基礎",
+    "q": "factorial(n) が n×factorial(n-1) で定義され、factorial(1)=1 のとき factorial(5) は？",
+    "options": [
+      "60",
+      "120",
+      "125",
+      "25"
+    ],
+    "a": 1,
+    "exp": "5×4×3×2×1=120です。",
+    "hint": "5から1まで順に掛けます。"
+  },
+  {
+    "id": "algo-11",
+    "cat": "アルゴリズム",
+    "concept": "二分探索",
+    "difficulty": "標準",
+    "q": "昇順配列 [1,4,7,9,12,15] から12を二分探索します。中央を切り捨てで選ぶと、比較は何回で見つかりますか？",
+    "options": [
+      "4回",
+      "1回",
+      "2回",
+      "3回"
+    ],
+    "a": 2,
+    "exp": "最初は中央の7と比較して右半分へ進み、次に12と比較して見つかるので2回です。",
+    "hint": "実際に中央要素を順番に書き出してみます。"
+  },
+  {
+    "id": "algo-12",
+    "cat": "アルゴリズム",
+    "concept": "スタック",
+    "difficulty": "基礎",
+    "q": "空のスタックにAをPUSH、BをPUSH、1回POP、CをPUSHした後、さらに1回POPすると取り出されるのは？",
+    "options": [
+      "A",
+      "B",
+      "取り出せない",
+      "C"
+    ],
+    "a": 3,
+    "exp": "A→Bの順に積み、最初のPOPでBを取り出します。その後Cを積むので、次のPOPはCです。",
+    "hint": "スタックは最後に入れたものから取り出すLIFOです。"
+  },
+  {
+    "id": "algo-13",
+    "cat": "アルゴリズム",
+    "concept": "キュー",
+    "difficulty": "基礎",
+    "q": "空のキューへA、B、Cの順にENQUEUEしました。2回目のDEQUEUEで取り出される要素は？",
+    "options": [
+      "B",
+      "C",
+      "取り出せない",
+      "A"
+    ],
+    "a": 0,
+    "exp": "キューは先に入れたものから取り出すFIFOです。1回目がA、2回目がBです。",
+    "hint": "A→B→Cの順に並び、先頭から取り出します。"
+  },
+  {
+    "id": "algo-14",
+    "cat": "アルゴリズム",
+    "concept": "木の走査",
+    "difficulty": "標準",
+    "q": "二分木で、根Aの左子がB、右子がC、Bの左子がD、右子がEです。先行順（preorder）の走査順は？",
+    "options": [
+      "A, C, B, E, D",
+      "A, B, D, E, C",
+      "D, B, E, A, C",
+      "D, E, B, C, A"
+    ],
+    "a": 1,
+    "exp": "先行順は『根→左部分木→右部分木』です。Aの後、Bの部分木D,Eをたどり、最後にCへ進みます。",
+    "hint": "preorderは最初に根を訪れます。"
+  },
+  {
+    "id": "algo-15",
+    "cat": "アルゴリズム",
+    "concept": "木の走査",
+    "difficulty": "標準",
+    "q": "二分木で、根Aの左子がB、右子がC、Bの左子がD、右子がEです。中間順（inorder）の走査順は？",
+    "options": [
+      "A, B, D, E, C",
+      "D, E, B, C, A",
+      "D, B, E, A, C",
+      "C, A, E, B, D"
+    ],
+    "a": 2,
+    "exp": "中間順は『左部分木→根→右部分木』です。Bの左D、B、右E、その後A、Cとなります。",
+    "hint": "inorderでは根を左部分木と右部分木の間で訪れます。"
+  },
+  {
+    "id": "algo-16",
+    "cat": "アルゴリズム",
+    "concept": "バブルソート",
+    "difficulty": "標準",
+    "q": "配列 [5,1,4,2] を昇順のバブルソートで左から右へ1回走査した直後の配列は？",
+    "options": [
+      "[5,1,2,4]",
+      "[1,4,5,2]",
+      "[1,2,4,5]",
+      "[1,4,2,5]"
+    ],
+    "a": 3,
+    "exp": "5と1を交換→[1,5,4,2]、5と4を交換→[1,4,5,2]、5と2を交換→[1,4,2,5]です。",
+    "hint": "隣接要素を左から順に比較し、大きい値が右へ移動します。"
+  },
+  {
+    "id": "algo-17",
+    "cat": "アルゴリズム",
+    "concept": "選択ソート",
+    "difficulty": "標準",
+    "q": "配列 [4,2,5,1] を昇順の選択ソートで、最初の1回の選択・交換を行った直後は？",
+    "options": [
+      "[1,2,5,4]",
+      "[1,4,2,5]",
+      "[2,4,5,1]",
+      "[4,1,5,2]"
+    ],
+    "a": 0,
+    "exp": "未整列部分全体から最小値1を探し、先頭の4と交換するので [1,2,5,4] です。",
+    "hint": "選択ソートの最初の処理では全体から最小値を1つ選びます。"
+  },
+  {
+    "id": "algo-18",
+    "cat": "アルゴリズム",
+    "concept": "計算量",
+    "difficulty": "標準",
+    "q": "要素数nの整列済み配列を二分探索するとき、平均的・最悪時の比較回数の増え方を表すオーダとして適切なのは？",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n²)"
+    ],
+    "a": 1,
+    "exp": "二分探索は比較のたびに探索範囲をほぼ半分にするため、比較回数は対数的に増えます。",
+    "hint": "要素数が2倍になっても比較回数は約1回しか増えません。"
+  },
+  {
+    "id": "algo-19",
+    "cat": "アルゴリズム",
+    "concept": "ユークリッド互除法",
+    "difficulty": "標準",
+    "q": "ユークリッド互除法で48と18の最大公約数を求めるといくつですか？",
+    "options": [
+      "3",
+      "12",
+      "6",
+      "2"
+    ],
+    "a": 2,
+    "exp": "48 mod 18=12、18 mod 12=6、12 mod 6=0なので最大公約数は6です。",
+    "hint": "大きい数を小さい数で割った余りを繰り返します。"
+  },
+  {
+    "id": "algo-20",
+    "cat": "アルゴリズム",
+    "concept": "関数",
+    "difficulty": "基礎",
+    "q": "関数 f(x) が「return x×2+1」と定義されています。f(4) の戻り値は？",
+    "options": [
+      "17",
+      "8",
+      "10",
+      "9"
+    ],
+    "a": 3,
+    "exp": "4×2+1=9です。",
+    "hint": "xに4を代入して式をそのまま計算します。"
+  },
+  {
+    "id": "mgmt-14",
+    "cat": "マネジメント",
+    "concept": "クリティカルパス",
+    "difficulty": "標準",
+    "q": "余裕時間0日のクリティカルパス上にある作業が2日遅れ、他の条件は変わらないとします。プロジェクト完了日は通常どうなりますか？",
+    "options": [
+      "2日遅れる",
+      "変わらない",
+      "1日早まる",
+      "必ず4日遅れる"
+    ],
+    "a": 0,
+    "exp": "クリティカルパス上の作業には余裕がないため、その作業の2日遅延は通常プロジェクト全体の完了を2日遅らせます。",
+    "hint": "余裕時間が0日の経路上の遅れです。"
+  },
+  {
+    "id": "mgmt-15",
+    "cat": "マネジメント",
+    "concept": "EVM",
+    "difficulty": "標準",
+    "q": "EVMでEV=80、AC=100のとき、コスト効率指数CPI=EV/ACはいくつですか？",
+    "options": [
+      "1.0",
+      "0.8",
+      "1.25",
+      "0.2"
+    ],
+    "a": 1,
+    "exp": "CPI=EV÷AC=80÷100=0.8です。1未満なので、得られた価値に対して実コストが大きい状態です。",
+    "hint": "CPIはEVをACで割ります。"
+  },
+  {
+    "id": "mgmt-16",
+    "cat": "マネジメント",
+    "concept": "EVM",
+    "difficulty": "標準",
+    "q": "EVMでEV=80、PV=100のとき、スケジュール効率指数SPI=EV/PVはいくつですか？",
+    "options": [
+      "1.25",
+      "0.2",
+      "0.8",
+      "1.0"
+    ],
+    "a": 2,
+    "exp": "SPI=EV÷PV=80÷100=0.8です。1未満なので、計画より進捗が遅れている状態です。",
+    "hint": "SPIはEVをPVで割ります。"
+  },
+  {
+    "id": "mgmt-17",
+    "cat": "マネジメント",
+    "concept": "リスク対応",
+    "difficulty": "標準",
+    "q": "大きな損失が起きるリスクに対して保険へ加入し、金銭的影響の一部を保険会社へ移す対応は？",
+    "options": [
+      "リスク回避",
+      "リスク受容",
+      "リスク増大",
+      "リスク移転"
+    ],
+    "a": 3,
+    "exp": "保険や契約などを使ってリスクによる影響を第三者へ移す対応をリスク移転といいます。",
+    "hint": "リスクそのものをなくすのではなく、影響を他者へ移します。"
+  },
+  {
+    "id": "mgmt-18",
+    "cat": "マネジメント",
+    "concept": "インシデント管理",
+    "difficulty": "基礎",
+    "q": "サービス障害が発生したとき、原因究明より先に利用者へのサービスをできるだけ早く復旧させることを主目的とする管理活動は？",
+    "options": [
+      "インシデント管理",
+      "構成管理",
+      "財務管理",
+      "問題管理"
+    ],
+    "a": 0,
+    "exp": "インシデント管理はサービスを正常状態へ迅速に戻し、業務への影響を最小化することを重視します。",
+    "hint": "『まずサービスを戻す』活動です。"
+  },
+  {
+    "id": "mgmt-19",
+    "cat": "マネジメント",
+    "concept": "変更管理",
+    "difficulty": "基礎",
+    "q": "本番システムへ機能変更を加える前に、影響やリスクを評価し、承認・実施日程を管理する活動は？",
+    "options": [
+      "リリース後の問題管理だけ",
+      "変更管理",
+      "可用性管理",
+      "容量管理"
+    ],
+    "a": 1,
+    "exp": "変更管理では変更要求を評価し、承認やスケジュールを統制して、変更による障害リスクを抑えます。",
+    "hint": "本番環境を変更する前の評価と承認に注目します。"
+  },
+  {
+    "id": "mgmt-20",
+    "cat": "マネジメント",
+    "concept": "サービスデスク",
+    "difficulty": "基礎",
+    "q": "ITサービス利用者からの問い合わせや障害連絡を受け付ける単一窓口（SPOC）として機能するものは？",
+    "options": [
+      "監査委員会",
+      "データベース管理表",
+      "サービスデスク",
+      "コンパイラ"
+    ],
+    "a": 2,
+    "exp": "サービスデスクは利用者とITサービス提供側の単一窓口となり、問い合わせ・インシデントなどを受け付けます。",
+    "hint": "利用者が困ったときにまず連絡する窓口です。"
+  },
+  {
+    "id": "strat-15",
+    "cat": "ストラテジ",
+    "concept": "KGI/KPI",
+    "difficulty": "標準",
+    "q": "KGIとKPIの関係として最も適切なのは？",
+    "options": [
+      "KPIは法律、KGIはネットワーク規格を表す",
+      "KGIは日々の作業時間だけを表す",
+      "KGIとKPIは常に同じ数値でなければならない",
+      "KGIは最終的な目標達成度、KPIはその達成過程を測る重要指標"
+    ],
+    "a": 3,
+    "exp": "KGIは最終目標の達成度を表し、KPIはKGI達成へ向けた重要なプロセスや中間成果を測ります。",
+    "hint": "ゴールそのものと、ゴールへ向かう途中の指標を区別します。"
+  },
+  {
+    "id": "strat-16",
+    "cat": "ストラテジ",
+    "concept": "ROI",
+    "difficulty": "標準",
+    "q": "100万円を投資し、その投資によって20万円の利益を得たとします。ROIを利益÷投資額で求めると？",
+    "options": [
+      "20%",
+      "120%",
+      "5%",
+      "80%"
+    ],
+    "a": 0,
+    "exp": "ROI=20万円÷100万円×100=20%です。",
+    "hint": "利益を投資額で割って百分率にします。"
+  },
+  {
+    "id": "strat-17",
+    "cat": "ストラテジ",
+    "concept": "PEST分析",
+    "difficulty": "標準",
+    "q": "PEST分析で、事業に影響する法規制の改正は主にどの要因に分類されますか？",
+    "options": [
+      "Economic（経済的要因）",
+      "Political（政治的要因）",
+      "Social（社会的要因）",
+      "Technological（技術的要因）"
+    ],
+    "a": 1,
+    "exp": "法制度・規制・政府方針などはPolitical（政治的要因）に分類します。",
+    "hint": "政府や法律に関わる外部環境です。"
+  },
+  {
+    "id": "strat-18",
+    "cat": "ストラテジ",
+    "concept": "バリューチェーン",
+    "difficulty": "標準",
+    "q": "バリューチェーンで主活動に含まれる組合せとして最も適切なのは？",
+    "options": [
+      "会計監査・法務だけ",
+      "データベース設計・ネットワーク設計・テスト",
+      "購買物流・製造・出荷物流・販売・サービス",
+      "人事管理・技術開発・調達・全社管理"
+    ],
+    "a": 2,
+    "exp": "バリューチェーンの主活動には購買物流、製造、出荷物流、マーケティング・販売、サービスなどがあります。人事や技術開発などは支援活動です。",
+    "hint": "製品やサービスが顧客へ届く流れに直接関わる活動を選びます。"
+  },
+  {
+    "id": "strat-19",
+    "cat": "ストラテジ",
+    "concept": "CRM",
+    "difficulty": "基礎",
+    "q": "CRMを導入する主な目的として最も適切なのは？",
+    "options": [
+      "ネットワークのIPアドレスを暗号化する",
+      "CPUのクロック周波数を上げる",
+      "すべての取引先を一律に削減する",
+      "顧客情報や接点を活用して長期的な顧客関係を強化する"
+    ],
+    "a": 3,
+    "exp": "CRMは顧客との関係を管理し、顧客満足・継続取引・顧客生涯価値などの向上を目指します。",
+    "hint": "Customer Relationship Managementの目的を考えます。"
   }
 ];
 
 
 const QUESTION_QUALITY_AUDIT = {
-  version: 26,
-  audited: 76,
-  substantivelyRevised: 41,
-  answerPositionTarget: [19,19,19,19],
+  version: 29,
+  audited: 160,
+  existingPreserved: 76,
+  added: 84,
+  categoryTarget: 20,
+  answerPositionTarget: [40,40,40,40],
   checks: [
     '問題文の一意性',
     '4択の重複',
     '誤答選択肢の妥当性',
     '解説の根拠',
     'ヒントの有用性',
-    '正解位置の偏り'
+    '正解位置の偏り',
+    '8分野の問題数バランス'
   ]
 };
 
@@ -9812,6 +11204,12 @@ renderCoverage();
 
 // ===== v13: Subject A full mock exam =====
 if(!profile.mockHistory) profile.mockHistory=[];
+if(!profile.mockQuestionStats) profile.mockQuestionStats={};
+QUESTION_BANK.forEach(q=>{
+  if(!profile.mockQuestionStats[q.id]){
+    profile.mockQuestionStats[q.id]={seen:0,correct:0,lastSeen:null};
+  }
+});
 saveProfile();
 
 let mockItems=[];
@@ -9850,32 +11248,126 @@ function recordMockQuestionTime(){
   mockQuestionEnteredAt=now;
 }
 
-function buildMockQuestions(count){
-  // Balanced draw across the same broad categories used by FE QUEST.
-  const cats=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
-  const pools={};
-  cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c)));
+const MOCK_CATEGORIES=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
+const MOCK_BLUEPRINTS={
+  full:{count:60,basic:24,standard:36,time:90*60},
+  half:{count:30,basic:12,standard:18,time:45*60}
+};
+let mockCurrentBlueprint=null;
+
+function mockCategoryQuotas(count){
+  const base=Math.floor(count/MOCK_CATEGORIES.length);
+  const rem=count%MOCK_CATEGORIES.length;
+  const start=(profile.mockHistory?.length||0)%MOCK_CATEGORIES.length;
+  const q=Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,base]));
+  for(let i=0;i<rem;i++) q[MOCK_CATEGORIES[(start+i)%MOCK_CATEGORIES.length]]++;
+  return q;
+}
+function mockSeen(q){
+  return profile.mockQuestionStats?.[q.id]?.seen||0;
+}
+function mockLastSeen(q){
+  return profile.mockQuestionStats?.[q.id]?.lastSeen||'';
+}
+function targetStandardByCategory(quotas,totalStandard){
+  const result={};
+  const limits={};
+  MOCK_CATEGORIES.forEach(cat=>{
+    const quota=quotas[cat];
+    const std=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty==='標準').length;
+    const basic=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty==='基礎').length;
+    const minStd=Math.max(0,quota-basic);
+    const maxStd=Math.min(quota,std);
+    limits[cat]={minStd,maxStd};
+    result[cat]=clamp(Math.round(quota*0.60),minStd,maxStd);
+  });
+  let total=Object.values(result).reduce((a,b)=>a+b,0);
+  while(total<totalStandard){
+    const candidates=MOCK_CATEGORIES
+      .filter(c=>result[c]<limits[c].maxStd)
+      .sort((a,b)=>(result[a]/quotas[a])-(result[b]/quotas[b]) || MOCK_CATEGORIES.indexOf(a)-MOCK_CATEGORIES.indexOf(b));
+    if(!candidates.length)break;
+    result[candidates[0]]++; total++;
+  }
+  while(total>totalStandard){
+    const candidates=MOCK_CATEGORIES
+      .filter(c=>result[c]>limits[c].minStd)
+      .sort((a,b)=>(result[b]/quotas[b])-(result[a]/quotas[a]) || MOCK_CATEGORIES.indexOf(a)-MOCK_CATEGORIES.indexOf(b));
+    if(!candidates.length)break;
+    result[candidates[0]]--; total--;
+  }
+  return result;
+}
+function mockCandidateSort(a,b){
+  const sa=mockSeen(a),sb=mockSeen(b);
+  if(sa!==sb)return sa-sb;
+  const la=mockLastSeen(a),lb=mockLastSeen(b);
+  if(la!==lb)return la.localeCompare(lb);
+  return Math.random()-.5;
+}
+function pickMockPool(pool,n,conceptCounts,conceptCap){
+  const sorted=[...pool].sort(mockCandidateSort);
+  const chosen=[];
+  const used=new Set();
+  for(const q of sorted){
+    const key=`${q.cat}::${q.concept}`;
+    if((conceptCounts[key]||0)>=conceptCap)continue;
+    chosen.push(q);used.add(q.id);conceptCounts[key]=(conceptCounts[key]||0)+1;
+    if(chosen.length>=n)return chosen;
+  }
+  for(const q of sorted){
+    if(used.has(q.id))continue;
+    const key=`${q.cat}::${q.concept}`;
+    chosen.push(q);used.add(q.id);conceptCounts[key]=(conceptCounts[key]||0)+1;
+    if(chosen.length>=n)break;
+  }
+  return chosen;
+}
+function buildMockQuestions(modeOrCount){
+  const mode=typeof modeOrCount==='string'?modeOrCount:(modeOrCount===60?'full':'half');
+  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;
+  const quotas=mockCategoryQuotas(bp.count);
+  const standardByCat=targetStandardByCategory(quotas,bp.standard);
+  const conceptCounts={};
   const out=[];
-  let cursor=0;
-  while(out.length<count && Object.values(pools).some(p=>p.length)){
-    const c=cats[cursor%cats.length];
-    if(pools[c].length) out.push(pools[c].pop());
-    cursor++;
+  MOCK_CATEGORIES.forEach(cat=>{
+    const stdN=standardByCat[cat];
+    const basicN=quotas[cat]-stdN;
+    const cap=mode==='half'?1:2;
+    const stdPool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty==='標準');
+    const basicPool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty==='基礎');
+    out.push(...pickMockPool(stdPool,stdN,conceptCounts,cap));
+    out.push(...pickMockPool(basicPool,basicN,conceptCounts,cap));
+  });
+  const unique=[];
+  const seenIds=new Set();
+  for(const q of out){
+    if(!seenIds.has(q.id)){unique.push(q);seenIds.add(q.id);}
   }
-  if(out.length<count){
-    const used=new Set(out.map(q=>q.id));
-    out.push(...shuffled(QUESTION_BANK.filter(q=>!used.has(q.id))).slice(0,count-out.length));
+  if(unique.length<bp.count){
+    unique.push(...QUESTION_BANK.filter(q=>!seenIds.has(q.id)).sort(mockCandidateSort).slice(0,bp.count-unique.length));
   }
-  return out.slice(0,count).map(randomizeMockQuestion);
+  const picked=shuffled(unique.slice(0,bp.count));
+  const counts={
+    categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])),
+    difficulty:{
+      '基礎':picked.filter(q=>q.difficulty==='基礎').length,
+      '標準':picked.filter(q=>q.difficulty==='標準').length
+    },
+    unseen:picked.filter(q=>mockSeen(q)===0).length
+  };
+  mockCurrentBlueprint={mode,count:bp.count,quotas,standardByCat,counts};
+  return picked.map(randomizeMockQuestion);
 }
 
 function startMock(mode){
   mockMode=mode;
   mockLastMode=mode;
-  const count=mode==='full'?60:30;
-  mockInitialSeconds=mode==='full'?90*60:45*60;
+  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;
+  const count=bp.count;
+  mockInitialSeconds=bp.time;
   mockSeconds=mockInitialSeconds;
-  mockItems=buildMockQuestions(count);
+  mockItems=buildMockQuestions(mode);
   if(mockItems.length<count){
     popToast(`問題数が${mockItems.length}問しかないため、この数で開始します`);
   }
@@ -9945,7 +11437,7 @@ function renderMockQuestion(){
   const q=mockItems[mockIndex];
   if(!q) return;
   document.getElementById('mockQNum').textContent=`問${mockIndex+1}`;
-  document.getElementById('mockQCat').textContent=`${q.cat}・${q.concept}`;
+  document.getElementById('mockQCat').textContent='科目A';
   document.getElementById('mockQuestion').textContent=q.q;
   document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`;
   document.getElementById('mockPrev').disabled=mockIndex===0;
@@ -10012,6 +11504,11 @@ function finishMock(timeup=false){
   mockItems.forEach((q,i)=>{
     const ans=mockAnswers[i];
     const ok=ans===q.a;
+    const sourceId=q.sourceId||q.id;
+    const ms=profile.mockQuestionStats[sourceId]||(profile.mockQuestionStats[sourceId]={seen:0,correct:0,lastSeen:null});
+    ms.seen=(ms.seen||0)+1;
+    if(ok)ms.correct=(ms.correct||0)+1;
+    ms.lastSeen=localDateISO(0);
     if(ans===null) blank++;
     if(ok) correct++;
     if(!byCat[q.cat]) byCat[q.cat]={correct:0,total:0};
@@ -10056,6 +11553,7 @@ function finishMock(timeup=false){
   }));
   lastMockAttempt={
     date:localDateISO(0),mode:mockMode,total,correct,blank,rate,seconds:used,
+    blueprint:mockCurrentBlueprint?structuredClone(mockCurrentBlueprint):null,
     details:attemptDetails
   };
   profile.mockHistory.unshift(lastMockAttempt);
@@ -10135,7 +11633,9 @@ function renderMockHistory(){
   hist.forEach(h=>{
     const d=document.createElement('div');
     d.className='mock-history-row';
-    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div>${h.details?'<button class="mock-history-review">レビュー</button>':''}</div>
+    const bp=h.blueprint?.counts?.difficulty;
+    const bpText=bp?`<div class="mock-history-blueprint">基礎 ${bp['基礎']||0} / 標準 ${bp['標準']||0}</div>`:'';
+    d.innerHTML=`<div><div class="mock-history-title">${h.mode==='full'?'FULL MOCK':'HALF MOCK'}・${h.correct}/${h.total}問</div><div class="mock-history-sub">${h.date}</div>${bpText}${h.details?'<button class="mock-history-review">レビュー</button>':''}</div>
       <div class="mock-history-time">${formatElapsed(h.seconds||0)}</div><div class="mock-history-score">${h.rate}%</div>`;
     d.querySelector('.mock-history-review')?.addEventListener('click',()=>startMockReview(h));
     root.appendChild(d);
@@ -11047,7 +12547,7 @@ function runAppSelfCheck(){
   const assert=(ok,msg)=>{if(!ok)errors.push(msg);};
 
   try{
-    assert(Array.isArray(QUESTION_BANK) && QUESTION_BANK.length===76,'QUESTION_BANK must contain 76 questions');
+    assert(Array.isArray(QUESTION_BANK) && QUESTION_BANK.length===160,'QUESTION_BANK must contain 160 questions');
     assert(new Set(QUESTION_BANK.map(q=>q.id)).size===QUESTION_BANK.length,'Question IDs must be unique');
     assert(new Set(QUESTION_BANK.map(q=>q.q)).size===QUESTION_BANK.length,'Question text must not be duplicated');
     QUESTION_BANK.forEach(q=>{
@@ -11057,7 +12557,9 @@ function runAppSelfCheck(){
     });
 
     const positions=QUESTION_BANK.reduce((a,q)=>(a[q.a]++,a),[0,0,0,0]);
-    assert(positions.every(n=>n===19),`Answer positions should be balanced: ${positions.join('/')}`);
+    assert(positions.every(n=>n===40),`Answer positions should be balanced: ${positions.join('/')}`);
+    const catCounts=QUESTION_BANK.reduce((a,q)=>(a[q.cat]=(a[q.cat]||0)+1,a),{});
+    ['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'].forEach(cat=>assert(catCounts[cat]===20,`Category ${cat} should contain 20 questions`));
 
     const lessonIds=Object.keys(LESSONS||{});
     assert(lessonIds.length>=30,'At least 30 lessons expected');
@@ -11074,6 +12576,10 @@ function runAppSelfCheck(){
       });
     }
 
+    if(typeof MOCK_BLUEPRINTS!=='undefined'){
+      assert(MOCK_BLUEPRINTS.full.count===60 && MOCK_BLUEPRINTS.full.basic===24 && MOCK_BLUEPRINTS.full.standard===36,'FULL mock blueprint invalid');
+      assert(MOCK_BLUEPRINTS.half.count===30 && MOCK_BLUEPRINTS.half.basic===12 && MOCK_BLUEPRINTS.half.standard===18,'HALF mock blueprint invalid');
+    }
     assert(typeof B_EXERCISES==='object' && Object.keys(B_EXERCISES).length>=6,'Subject B exercises missing');
     assert(typeof SECURITY_SCENARIOS==='object' && Object.keys(SECURITY_SCENARIOS).length>=6,'Security scenarios missing');
 
