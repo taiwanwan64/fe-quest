@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v26</title>
+<title>FE QUEST PWA v27</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3062,9 +3062,9 @@
   <header>
     <div class="brand">FE QUEST</div>
     <div class="header-spacer"></div>
-    <div class="mobile-stats"><span class="mstat">🔥 <span id="streakMobile">6</span></span><span class="mstat">⭐ <span id="xpMobile">4.8k</span></span></div>
-    <div class="stat-chip">🔥 <span id="streakTop">6</span>日</div>
-    <div class="stat-chip">⭐ <span id="xpTop">4,820</span> XP</div>
+    <div class="mobile-stats"><span class="mstat">🔥 <span id="streakMobile">0</span></span><span class="mstat">⭐ <span id="xpMobile">0</span></span></div>
+    <div class="stat-chip">🔥 <span id="streakTop">0</span>日</div>
+    <div class="stat-chip">⭐ <span id="xpTop">0</span> XP</div>
     <div class="stat-chip">LV.12</div>
     <div class="avatar">🙂</div>
   </header>
@@ -3367,7 +3367,7 @@
         </div>
 
         <div>
-          <div class="planner-card">
+          <div class="planner-card" id="learningSettingsCard">
             <h2>学習設定</h2>
             <div class="planner-row">
               <div class="planner-row-copy">
@@ -4173,7 +4173,7 @@
       <div class="result-card">
         <div class="result-icon">🏆</div>
         <h1>QUEST COMPLETE!</h1>
-        <div class="sub">今日の試作クエストを完了しました。</div>
+        <div class="sub">今日のクエストを完了しました。</div>
         <div class="xp">+340 XP</div>
 
         <div class="result-grid">
@@ -4220,7 +4220,7 @@
 <div class="drawer" id="aiDrawer">
   <div class="drawer-head">
     <div class="bot">🤖</div>
-    <div><b>BIT先生</b><div class="sub">AI講師（試作モック）</div></div>
+    <div><b>BIT先生</b><div class="sub">AI講師（ローカルデモ）</div></div>
     <button class="drawer-close" id="closeAi">×</button>
   </div>
   <div class="chat" id="chat">
@@ -4287,7 +4287,13 @@ function popToast(msg){
   setTimeout(()=>toast.classList.remove('show'),1600);
 }
 
-document.getElementById('settingsBtn').addEventListener('click',()=>popToast('設定画面は次版で追加予定です'));
+document.getElementById('settingsBtn').addEventListener('click',()=>{
+  showScreen('plan');
+  if(typeof renderPlannerScreen==='function') renderPlannerScreen();
+  setTimeout(()=>{
+    document.getElementById('learningSettingsCard')?.scrollIntoView?.({behavior:'smooth',block:'center'});
+  },80);
+});
 
 const aiDrawer = document.getElementById('aiDrawer');
 function openAi(){ aiDrawer.classList.add('open'); }
@@ -4319,7 +4325,7 @@ function mockAnswer(q){
   if(q.includes('似た')){
     return '練習：配列 [2, 5, 9, 14, 21, 30, 44] から30を二分探索するとき、最初に中央の14を見た後、次に残すのは左側・右側のどちらでしょう？';
   }
-  return 'この試作ではAI APIにはまだ接続していません。本番では、今開いている問題・正解・学習履歴を一緒に渡して、その問題専用の説明を返す予定です。';
+  return '現在のBIT先生はローカルデモです。外部AI APIには接続していません。将来API連携するときは、現在の問題や学習状況に合わせた説明へ拡張できます。';
 }
 function send(){
   const q = input.value.trim();
@@ -4341,19 +4347,19 @@ document.querySelectorAll('.quick button').forEach(b=>{
 const STORAGE_KEY = 'fequest_profile_v4';
 
 const DEFAULT_PROFILE = {
-  xp: 4820,
-  streak: 6,
+  xp: 0,
+  streak: 0,
   diagnosticCompleted: false,
   diagnosticScores: {},
   skills: {
-    '基礎理論': 55,
-    'コンピュータ': 65,
-    'データベース': 55,
-    'ネットワーク': 55,
-    'セキュリティ': 65,
-    'アルゴリズム': 45,
-    'マネジメント': 65,
-    'ストラテジ': 70
+    '基礎理論': 50,
+    'コンピュータ': 50,
+    'データベース': 50,
+    'ネットワーク': 50,
+    'セキュリティ': 50,
+    'アルゴリズム': 50,
+    'マネジメント': 50,
+    'ストラテジ': 50
   },
   lastStudyDate: null
 };
@@ -10999,6 +11005,62 @@ document.getElementById('variantReviewToggle')?.addEventListener('change',e=>{
   popToast(profile.settings.variantReview?'復習で類題を優先します':'元問題をそのまま復習します');
 });
 refreshVariantReviewUI();
+
+
+// ===== v27: structural self-check =====
+function runAppSelfCheck(){
+  const errors=[];
+  const warnings=[];
+  const assert=(ok,msg)=>{if(!ok)errors.push(msg);};
+
+  try{
+    assert(Array.isArray(QUESTION_BANK) && QUESTION_BANK.length===76,'QUESTION_BANK must contain 76 questions');
+    assert(new Set(QUESTION_BANK.map(q=>q.id)).size===QUESTION_BANK.length,'Question IDs must be unique');
+    assert(new Set(QUESTION_BANK.map(q=>q.q)).size===QUESTION_BANK.length,'Question text must not be duplicated');
+    QUESTION_BANK.forEach(q=>{
+      assert(Array.isArray(q.options)&&q.options.length===4,`Question ${q.id}: options must be 4`);
+      assert(Number.isInteger(q.a)&&q.a>=0&&q.a<4,`Question ${q.id}: invalid answer index`);
+      assert(q.exp&&q.hint,`Question ${q.id}: explanation/hint required`);
+    });
+
+    const positions=QUESTION_BANK.reduce((a,q)=>(a[q.a]++,a),[0,0,0,0]);
+    assert(positions.every(n=>n===19),`Answer positions should be balanced: ${positions.join('/')}`);
+
+    const lessonIds=Object.keys(LESSONS||{});
+    assert(lessonIds.length>=30,'At least 30 lessons expected');
+    lessonIds.forEach(id=>{
+      const l=LESSONS[id];
+      assert(l&&Array.isArray(l.pages)&&l.pages.length>=1,`Lesson ${id}: pages missing`);
+    });
+
+    if(typeof EXAM_AREA_COVERAGE!=='undefined'){
+      EXAM_AREA_COVERAGE.forEach(area=>{
+        (area.ids||[]).forEach(id=>{
+          if(!LESSONS[id]) errors.push(`Coverage references unknown lesson: ${id}`);
+        });
+      });
+    }
+
+    assert(typeof B_EXERCISES==='object' && Object.keys(B_EXERCISES).length>=6,'Subject B exercises missing');
+    assert(typeof SECURITY_SCENARIOS==='object' && Object.keys(SECURITY_SCENARIOS).length>=6,'Security scenarios missing');
+
+    const requiredDom=['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'];
+    requiredDom.forEach(id=>assert(!!document.getElementById(id),`Required DOM missing: ${id}`));
+
+    if(typeof validateGeneratedVariants==='function'){
+      const n=validateGeneratedVariants();
+      assert(n>0,'Variant generator validation returned 0');
+    }
+  }catch(e){
+    errors.push('Self-check exception: '+(e?.message||String(e)));
+  }
+
+  return {ok:errors.length===0,errors,warnings,checkedAt:new Date().toISOString()};
+}
+window.FEQUEST_SELF_CHECK=runAppSelfCheck();
+if(!window.FEQUEST_SELF_CHECK.ok){
+  console.warn('FE QUEST self-check failed',window.FEQUEST_SELF_CHECK.errors);
+}
 
 window.FEQUEST_BOOT_OK = true;
 // ===== PWA support =====

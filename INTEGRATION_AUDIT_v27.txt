@@ -1,0 +1,57 @@
+FE QUEST v27 — INTEGRATION / REGRESSION AUDIT
+
+実施結果
+
+INTEGRATION_BOOT_OK
+SELF_CHECK_OK
+ALL_LESSON_PAGES_OK [33m34[39m [33m136[39m
+QUIZ_RANDOM_OK
+REVIEW_ROUTE_OK
+HALF_MOCK_OK
+FULL_MOCK_OK
+SUBJECT_B_ALGO_START_OK [33m6[39m
+SUBJECT_B_SECURITY_START_OK [33m6[39m
+PLANNER_COVERAGE_WEAK_OK
+PERSISTENCE_ROUNDTRIP_OK
+NEUTRAL_NEW_PROFILE_OK
+QUESTION_AUDIT_OK [33m76[39m 19/19/19/19
+
+監査した主要経路
+- 起動 / HOME
+- 全レッスン・全ページのrender
+- RANDOM問題演習 → 結果保存
+- 今日の復習 → 復習問題生成
+- HALF MOCK → 採点・履歴
+- FULL MOCK → 採点・履歴
+- 科目Bアルゴリズム全演習の開始
+- 科目Bセキュリティ全シナリオの開始
+- 学習計画
+- 範囲
+- 苦手分析
+- 記憶ダッシュボード
+- localStorage保存 → loadProfile再読込
+- 問題品質監査条件の維持
+
+今回修正した統合上の問題
+1. 設定ボタン
+   旧: 「設定画面は次版で追加予定」
+   新: 既存の「計画 > 学習設定」へ移動
+
+2. 新規プロフィール
+   旧: 4820XP / 6日連続 / 分野ごとに異なる仮スキル値
+   新: 0XP / 0日 / 全分野50の中立初期値
+   ※保存済みユーザーデータは優先されるため既存進捗は維持
+
+3. 試作表現
+   - 「今日の試作クエスト」を削除
+   - BIT先生は現在の実態に合わせ「ローカルデモ」と明記
+
+4. 自己診断
+   - runAppSelfCheck()を起動時に実行
+   - 問題・レッスン・範囲対応・科目Bデータ・必須DOM・類題生成を監査
+
+ブラウザ試験について
+Chromiumによる実ブラウザ自動操作も試行したが、この実行環境ではheadless Chromiumが
+localhost/fileページで停止するため完走できなかった。
+したがって本レポートはNode VMによる統合・回帰試験であり、
+「実ブラウザE2E完了」とは記載しない。
