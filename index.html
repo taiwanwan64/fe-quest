@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v19</title>
+<title>FE QUEST PWA v20</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2997,7 +2997,7 @@
           <div class="mock-hero-icon">⏱️</div>
           <div class="mock-hero-copy">
             <div class="mock-hero-title">2026年度 現行形式対応</div>
-            <div class="mock-official">科目A：90分・60問・四肢択一。問題は参考書の模擬問題を転載せず、FE QUEST用に作成しています。</div>
+            <div class="mock-official">科目A：90分・60問・四肢択一。FE QUESTオリジナル問題で本番を意識した演習を行います。</div>
           </div>
         </div>
 
@@ -3159,20 +3159,20 @@
     <section id="coverage" class="screen">
       <div class="screen-head">
         <button class="back" data-screen="home">←</button>
-        <div><h1>試験範囲カバレッジ 🧭</h1><div class="sub">参考書の22章を基準に、FE QUEST内の教材・科目B演習の進み具合を確認します。</div></div>
+        <div><h1>試験範囲カバレッジ 🧭</h1><div class="sub">基本情報技術者試験の主要分野について、教材・問題演習・科目B演習の進み具合を確認します。</div></div>
       </div>
 
       <div class="coverage-summary">
         <div class="coverage-icon">📚</div>
         <div class="coverage-copy">
-          <b>CURRICULUM COVERAGE</b>
-          <div class="sub">全22章に対応する学習コンテンツを配置しました。</div>
+          <b>EXAM AREA COVERAGE</b>
+          <div class="sub">主要分野を横断して学習コンテンツの進捗を確認できます。</div>
         </div>
         <div class="coverage-big" id="coverageOverall">0%</div>
       </div>
 
       <div class="coverage-grid" id="coverageGrid"></div>
-      <div class="coverage-legend">この%は「その章に対応するFE QUEST教材をどこまで完了したか」の進捗です。試験での得点率や合格確率を表すものではありません。</div>
+      <div class="coverage-legend">この%は各分野に対応するFE QUEST教材の完了状況です。試験での得点率や合格確率を表すものではありません。</div>
     </section>
 
     <!-- PLAN -->
@@ -3186,7 +3186,7 @@
         <div>
           <div class="planner-card">
             <h2>学習ロードマップ</h2>
-            <div class="sub">参考書の全体構成を、大きな5段階にまとめて進捗管理します。</div>
+            <div class="sub">試験対策全体を5段階にまとめて進捗管理します。</div>
             <div class="roadmap" id="roadmapList"></div>
           </div>
 
@@ -3665,7 +3665,7 @@
     <!-- PROBLEMS -->
     <section id="problems" class="screen">
       <h1>問題演習 📖</h1>
-      <div class="sub">問題はFE QUEST用に作成したオリジナル問題です。参考書の問題文は転載していません。</div>
+      <div class="sub">ここで出題する問題はFE QUESTオリジナル問題です。</div>
 
       <div class="problem-hub" id="problemHub">
         <div class="problem-mode">
@@ -5105,7 +5105,188 @@ function genThroughput(base){
     exp:`${count}÷(${seconds}/60)=${correct}件/分です。`,hint:'時間を1分にそろえます。'};
 }
 
+
+function genSubnet(base){
+  const prefix=[25,26,27][Math.floor(Math.random()*3)];
+  const block=256/Math.pow(2,prefix-24);
+  const third=10+Math.floor(Math.random()*20);
+  const host=1+Math.floor(Math.random()*254);
+  const network=Math.floor(host/block)*block;
+  const broadcast=network+block-1;
+  const correct=`192.168.${third}.${network}`;
+  const p=choicePack(correct,[
+    `192.168.${third}.${broadcast}`,
+    `192.168.${third}.${host}`,
+    `192.168.${third}.0`
+  ]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`IPv4アドレス 192.168.${third}.${host}/${prefix} のネットワークアドレスは？`,
+    options:p.options,a:p.a,
+    exp:`/${prefix}では第4オクテットのブロック幅は${block}です。${host}を含む範囲は${network}〜${broadcast}なので、ネットワークアドレスは${correct}です。`,
+    hint:`/${prefix}のブロック幅 ${block} ごとに区切ります。`
+  };
+}
+
+function genSqlWhere(base){
+  const columns=[
+    ['salary','給与',200000,600000,50000],
+    ['age','年齢',20,60,5],
+    ['score','得点',40,90,10]
+  ];
+  const [col,label,min,max,step]=columns[Math.floor(Math.random()*columns.length)];
+  const threshold=min+Math.floor(Math.random()*((max-min)/step+1))*step;
+  const ge=Math.random()<0.5;
+  const op=ge?'>=':'<';
+  const jp=ge?'以上':'未満';
+  const correct=`WHERE ${col} ${op} ${threshold}`;
+  const p=choicePack(correct,[
+    `WHERE ${col} ${ge?'<=':'>'} ${threshold}`,
+    `WHERE ${col} = ${threshold}`,
+    `WHERE ${col} LIKE ${threshold}`
+  ]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`表 employee から${label}（${col}）が${threshold}${jp}の行を検索したい。適切なWHERE句は？`,
+    options:p.options,a:p.a,
+    exp:`「${jp}」なので演算子は ${op} です。正しくは ${correct} です。`,
+    hint:`「以上」は >=、「未満」は < です。`
+  };
+}
+
+function genSqlAggregate(base){
+  const specs=[
+    ['合計','SUM','amount'],
+    ['平均','AVG','score'],
+    ['最大値','MAX','price'],
+    ['最小値','MIN','price'],
+    ['行数','COUNT','*']
+  ];
+  const [jp,fn,col]=specs[Math.floor(Math.random()*specs.length)];
+  const correct=`${fn}(${col})`;
+  const otherFns=['SUM','AVG','MAX','MIN','COUNT'].filter(x=>x!==fn);
+  const distractors=shuffledCopy(otherFns).slice(0,3).map(x=>`${x}(${col})`);
+  const p=choicePack(correct,distractors);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`SQLで${col==='*'?'表の':col+'列の'}${jp}を求める式は？`,
+    options:p.options,a:p.a,
+    exp:`${jp}を求める集約関数は ${fn} なので ${correct} です。`,
+    hint:`SUM=合計、AVG=平均、MAX=最大、MIN=最小、COUNT=件数です。`
+  };
+}
+
+function genLogic(base){
+  const A=Math.random()<0.5, B=Math.random()<0.5;
+  const ops=['AND','OR','XOR'];
+  const op=ops[Math.floor(Math.random()*ops.length)];
+  let value=false;
+  if(op==='AND') value=A&&B;
+  if(op==='OR') value=A||B;
+  if(op==='XOR') value=(A!==B);
+  const correct=value?'真':'偽';
+  const p=choicePack(correct,[value?'偽':'真','場合による','定義できない']);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:`Aが${A?'真':'偽'}、Bが${B?'真':'偽'}のとき、A ${op} B の結果は？`,
+    options:p.options,a:p.a,
+    exp:`${op}の規則に従うと、${A?'真':'偽'} ${op} ${B?'真':'偽'} は ${correct} です。`,
+    hint:op==='AND'?'両方が真のときだけ真です。':op==='OR'?'どちらか一方でも真なら真です。':'XORは片方だけが真のとき真です。'
+  };
+}
+
+function genPublicKeyCrypto(base){
+  const names=shuffledCopy(['Aさん','Bさん','Cさん','Dさん']).slice(0,2);
+  const sender=names[0],receiver=names[1];
+  const correct=`${receiver}の公開鍵`;
+  const p=choicePack(correct,[
+    `${receiver}の秘密鍵`,
+    `${sender}の公開鍵`,
+    `${sender}の秘密鍵`
+  ]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`${sender}が${receiver}だけに読めるよう公開鍵暗号方式でメッセージを暗号化する。通常、暗号化に使う鍵は？`,
+    options:p.options,a:p.a,
+    exp:`受信者である${receiver}の公開鍵で暗号化し、${receiver}の秘密鍵で復号します。`,
+    hint:'秘密鍵を持つ本人だけが復号できるようにします。'
+  };
+}
+
+function genSymmetricCrypto(base){
+  const correct='暗号化と復号に同じ秘密鍵を使う';
+  const p=choicePack(correct,[
+    '暗号化は公開鍵、復号は秘密鍵を使う',
+    '鍵を使わずハッシュ値だけで復号する',
+    '署名者の秘密鍵だけで通信内容を復号する'
+  ]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'基礎',
+    q:'共通鍵暗号方式の特徴として最も適切なのは？',
+    options:p.options,a:p.a,
+    exp:'共通鍵暗号方式は、暗号化と復号で同じ秘密鍵を共有して使います。',
+    hint:'「共通」の鍵を送信側と受信側で共有します。'
+  };
+}
+
+function genDigitalSignature(base){
+  const names=shuffledCopy(['Aさん','Bさん','Cさん']).slice(0,2);
+  const signer=names[0],receiver=names[1];
+  const askSign=Math.random()<0.5;
+  const correct=askSign?`${signer}の秘密鍵`:`${signer}の公開鍵`;
+  const p=choicePack(correct,[
+    askSign?`${signer}の公開鍵`:`${signer}の秘密鍵`,
+    `${receiver}の公開鍵`,
+    `${receiver}の秘密鍵`
+  ]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:askSign
+      ? `${signer}がデジタル署名を付けて${receiver}へ送る。署名の生成に主に使う鍵は？`
+      : `${signer}が付けたデジタル署名を${receiver}が検証する。検証に主に使う鍵は？`,
+    options:p.options,a:p.a,
+    exp:askSign
+      ? `署名者${signer}は自分の秘密鍵で署名を生成します。`
+      : `検証側は署名者${signer}の公開鍵を使って署名を確認します。`,
+    hint:askSign?'署名者本人しか持たない鍵を使います。':'署名者の公開鍵は検証者が利用できます。'
+  };
+}
+
+function genBreakEven(base){
+  const price=[800,1000,1200,1500][Math.floor(Math.random()*4)];
+  const variable=[300,400,500,600][Math.floor(Math.random()*4)];
+  const margin=Math.max(200,price-variable);
+  const units=[100,150,200,250][Math.floor(Math.random()*4)];
+  const fixed=margin*units;
+  const correct=units;
+  const p=choicePack(correct,[Math.max(1,units-50),units+50,Math.round(fixed/price)]);
+  return {
+    id:variantId(base.id),sourceId:base.id,variant:true,
+    cat:base.cat,concept:base.concept,difficulty:'標準',
+    q:`1個${price}円で販売し、1個当たり変動費が${variable}円、固定費が${fixed}円である。損益分岐点販売数量は？`,
+    options:p.options,a:p.a,
+    exp:`1個当たり限界利益は ${price}-${variable}=${margin}円。固定費${fixed}÷${margin}=${units}個です。`,
+    hint:'固定費 ÷（販売単価－1個当たり変動費）で求めます。'
+  };
+}
+
+
 const VARIANT_GENERATORS=[
+  {match:q=>q.concept==='サブネット',gen:genSubnet},
+  {match:q=>q.concept==='SQL',gen:genSqlWhere},
+  {match:q=>q.concept==='SQL集約',gen:genSqlAggregate},
+  {match:q=>q.concept==='論理演算',gen:genLogic},
+  {match:q=>q.concept==='公開鍵暗号',gen:genPublicKeyCrypto},
+  {match:q=>q.concept==='共通鍵暗号',gen:genSymmetricCrypto},
+  {match:q=>q.concept==='デジタル署名',gen:genDigitalSignature},
+  {match:q=>q.concept==='損益分岐点',gen:genBreakEven},
   {match:q=>q.concept==='基数変換',gen:genBaseConversion},
   {match:q=>q.concept==='16進数',gen:genHexConversion},
   {match:q=>q.concept==='信頼性',gen:genReliability},
@@ -5129,9 +5310,9 @@ function generateVariant(q){
   }catch(e){console.warn('variant generation failed',q.id,e);return null;}
 }
 function siblingVariant(q){
-  const siblings=QUESTION_BANK.filter(x=>x.id!==q.id&&(x.concept===q.concept||x.cat===q.cat));
-  if(!siblings.length)return null;
-  const same=siblings.filter(x=>x.concept===q.concept),pool=same.length?same:siblings,picked=shuffledCopy(pool)[0];
+  const sameConcept=QUESTION_BANK.filter(x=>x.id!==q.id && x.concept===q.concept);
+  if(!sameConcept.length) return null;
+  const picked=shuffledCopy(sameConcept)[0];
   return {...picked,id:variantId(q.id),sourceId:q.id,variant:true,variantSibling:true};
 }
 function buildReviewItem(q){
@@ -8280,39 +8461,29 @@ renderPlannerScreen();
 
 
 
-// ===== v12: curriculum coverage mapped to the textbook's 22 chapters =====
-const CHAPTER_COVERAGE = [
-  {n:1,title:'基礎理論1',ids:['binary']},
-  {n:2,title:'基礎理論2',ids:['logic','automata']},
-  {n:3,title:'アルゴリズムとプログラミング',ids:['binarysearch','stackqueue']},
-  {n:4,title:'コンピュータの構成要素',ids:['cpu','cache']},
-  {n:5,title:'システムの構成要素',ids:['reliability']},
-  {n:6,title:'ソフトウェア',ids:['os','filesystem','backup']},
-  {n:7,title:'ハードウェア',ids:['memorychips']},
-  {n:8,title:'UIとマルチメディア',ids:['uiux','multimedia']},
-  {n:9,title:'データベース',ids:['transaction','sql','mutex']},
-  {n:10,title:'ネットワーク',ids:['subnet','tcpudp']},
-  {n:11,title:'情報セキュリティ',ids:['crypto','signature']},
-  {n:12,title:'システム開発',ids:['development','testing']},
-  {n:13,title:'ソフトウェア開発手法',ids:['devmodel']},
-  {n:14,title:'プロジェクトマネジメント',ids:['criticalpath']},
-  {n:15,title:'サービスマネジメントと監査',ids:['sla','audit']},
-  {n:16,title:'システム戦略',ids:['businessprocess']},
-  {n:17,title:'システム企画',ids:['procurement']},
-  {n:18,title:'経営戦略マネジメント',ids:['swot']},
-  {n:19,title:'ビジネスインダストリ',ids:['iot']},
-  {n:20,title:'企業活動',ids:['breakeven','finance']},
-  {n:21,title:'法務',ids:['iprights']},
-  {n:22,title:'科目B 合格戦略',special:'b'}
+// ===== Exam area coverage =====
+const EXAM_AREA_COVERAGE = [
+  {icon:'🔢',title:'基礎理論',ids:['binary','logic','automata']},
+  {icon:'🧩',title:'アルゴリズム・プログラミング',ids:['binarysearch','stackqueue']},
+  {icon:'⚙️',title:'コンピュータ・システム',ids:['cpu','cache','reliability','os','filesystem','backup','memorychips']},
+  {icon:'🖱️',title:'UI・マルチメディア',ids:['uiux','multimedia']},
+  {icon:'🗃️',title:'データベース',ids:['transaction','sql','mutex']},
+  {icon:'🌐',title:'ネットワーク',ids:['subnet','tcpudp']},
+  {icon:'🛡️',title:'情報セキュリティ',ids:['crypto','signature']},
+  {icon:'🛠️',title:'システム開発',ids:['development','testing','devmodel']},
+  {icon:'📋',title:'マネジメント',ids:['criticalpath','sla','audit']},
+  {icon:'🧭',title:'システム戦略・企画',ids:['businessprocess','procurement']},
+  {icon:'📈',title:'経営・企業活動・法務',ids:['swot','iot','breakeven','finance','iprights']},
+  {icon:'💻',title:'科目B',special:'b'}
 ];
 
-function chapterProgress(ch){
-  if(ch.special==='b'){
+function examAreaProgress(area){
+  if(area.special==='b'){
     const a=objectCompletion(profile.bProgress);
     const s=objectCompletion(profile.securityBProgress);
     return Math.round((a+s)/2);
   }
-  const valid=(ch.ids||[]).filter(id=>LESSONS[id]);
+  const valid=(area.ids||[]).filter(id=>LESSONS[id]);
   if(!valid.length) return 0;
   return Math.round(valid.reduce((sum,id)=>sum+(profile.lessonProgress?.[id]||0),0)/valid.length);
 }
@@ -8321,17 +8492,17 @@ function renderCoverage(){
   if(!root) return;
   root.innerHTML='';
   const vals=[];
-  CHAPTER_COVERAGE.forEach(ch=>{
-    const pct=chapterProgress(ch);vals.push(pct);
+  EXAM_AREA_COVERAGE.forEach(area=>{
+    const pct=examAreaProgress(area); vals.push(pct);
     const d=document.createElement('div');
     d.className='coverage-chapter';
-    d.innerHTML=`<div class="coverage-ch-num">第${ch.n}章</div>
-      <div><div class="coverage-ch-title">${ch.title}</div><div class="coverage-ch-sub">${ch.special==='b'?'TRACE / SECURITY LAB':'対応教材 '+(ch.ids||[]).length+'本'}</div>
+    d.innerHTML=`<div class="coverage-ch-num" style="font-size:20px">${area.icon}</div>
+      <div><div class="coverage-ch-title">${area.title}</div><div class="coverage-ch-sub">${area.special==='b'?'TRACE / SECURITY LAB':'対応教材 '+(area.ids||[]).length+'本'}</div>
       <div class="progress" style="height:8px;margin-top:7px"><div style="width:${pct}%"></div></div></div>
       <div class="coverage-ch-pct">${pct}%</div>`;
     root.appendChild(d);
   });
-  const overall=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+  const overall=Math.round(vals.reduce((a,b)=>a+b,0)/Math.max(1,vals.length));
   document.getElementById('coverageOverall').textContent=overall+'%';
 }
 
@@ -9563,7 +9734,7 @@ function refreshVariantReviewUI(){
   if(t)t.checked=profile.settings.variantReview!==false;
   const c=variantCoverage();
   const e=document.getElementById('variantCoverageText');
-  if(e)e.textContent=`パラメータ生成 ${c.concepts}論点・${c.direct}問を直接対応。その他は同論点/同分野の別問題を優先。`;
+  if(e)e.textContent=`パラメータ生成 ${c.concepts}論点・${c.direct}問を直接対応。その他は同じ論点の別問題を優先し、なければ元問題を復習。`;
 }
 document.getElementById('variantReviewToggle')?.addEventListener('change',e=>{
   profile.settings.variantReview=!!e.target.checked;
