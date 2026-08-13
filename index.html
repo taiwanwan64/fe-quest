@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v10</title>
+<title>FE QUEST PWA v11</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2024,6 +2024,167 @@
     .roadmap-item{grid-template-columns:40px 1fr 42px}
   }
 
+
+  /* ===== v11: systems / development / management / business / law ===== */
+  .sched-lane{
+    display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center;margin:10px 0;
+  }
+  .sched-name{font-weight:900;text-align:right}
+  .sched-bar{
+    height:48px;border-radius:14px;background:#edf1f5;overflow:hidden;
+    display:flex;align-items:center;padding:5px;gap:4px;
+  }
+  .cpu-slice{
+    height:100%;border-radius:9px;background:var(--blue-soft);border:1px solid #a9def6;
+    display:grid;place-items:center;font-weight:900;color:#087db4;min-width:42px;
+  }
+  .cpu-slice.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .schedule-controls{display:flex;gap:8px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+
+  .reliability-layout{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;margin:0 auto;
+  }
+  .rel-card{
+    background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;text-align:center;
+  }
+  .rel-nodes{display:flex;align-items:center;justify-content:center;gap:8px;margin:17px 0}
+  .rel-node{
+    width:72px;height:58px;border-radius:14px;border:2px solid var(--line);
+    background:#fff;display:grid;place-items:center;font-weight:900;
+  }
+  .rel-line{height:4px;width:32px;background:#ccd6df;border-radius:99px}
+  .rel-result{font-size:27px;font-weight:900;color:var(--green-dark)}
+  .rel-parallel{
+    display:grid;grid-template-columns:72px 40px 72px;grid-template-rows:58px 20px 58px;
+    justify-content:center;align-items:center;margin:10px auto 17px;
+  }
+  .rel-parallel .top{grid-column:3;grid-row:1}
+  .rel-parallel .bottom{grid-column:3;grid-row:3}
+  .rel-parallel .source{grid-column:1;grid-row:1/4}
+  .branch-line{grid-column:2;grid-row:1/4;font-size:44px;color:#aab7c3;text-align:center}
+
+  .backup-strip{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:760px;margin:0 auto;
+  }
+  .backup-day{
+    min-height:100px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;text-align:center;
+  }
+  .backup-day b{display:block;margin-bottom:8px}
+  .backup-block{padding:7px 4px;border-radius:9px;font-size:11px;font-weight:900;margin:4px 0}
+  .backup-full{background:var(--purple-soft);color:#66369a}
+  .backup-inc{background:var(--blue-soft);color:#087db4}
+  .backup-diff{background:var(--green-soft);color:var(--green-dark)}
+  .backup-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:15px}
+
+  .dev-pipeline{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch;
+    max-width:850px;margin:0 auto;
+  }
+  .dev-step{
+    border:2px solid var(--line);background:#fff;border-radius:17px;padding:14px 8px;
+    text-align:center;font-weight:900;min-height:90px;display:flex;flex-direction:column;
+    justify-content:center;transition:.2s;
+  }
+  .dev-step.active{border-color:var(--green);background:var(--green-soft);transform:translateY(-2px)}
+  .dev-step .small{font-size:11px;color:var(--muted);margin-top:5px;font-weight:800}
+
+  .test-pyramid{
+    display:flex;flex-direction:column;align-items:center;gap:7px;margin:10px auto;max-width:640px;
+  }
+  .test-level{
+    min-height:48px;border-radius:14px;background:#fff;border:2px solid var(--line);
+    display:grid;place-items:center;text-align:center;font-weight:900;transition:.2s;
+  }
+  .test-level:nth-child(1){width:48%}
+  .test-level:nth-child(2){width:64%}
+  .test-level:nth-child(3){width:80%}
+  .test-level:nth-child(4){width:96%}
+  .test-level.active{border-color:var(--purple);background:var(--purple-soft);color:#66369a}
+
+  .cp-network{
+    display:grid;grid-template-columns:80px 120px 120px 80px;grid-template-rows:70px 70px;
+    gap:18px;justify-content:center;align-items:center;margin:6px auto;
+  }
+  .cp-node{
+    width:70px;height:54px;border-radius:14px;border:2px solid var(--line);
+    display:grid;place-items:center;background:#fff;font-weight:900;text-align:center;
+  }
+  .cp-node.start{grid-column:1;grid-row:1/3}
+  .cp-node.a{grid-column:2;grid-row:1}
+  .cp-node.b{grid-column:2;grid-row:2}
+  .cp-node.c{grid-column:3;grid-row:1}
+  .cp-node.d{grid-column:3;grid-row:2}
+  .cp-node.end{grid-column:4;grid-row:1/3}
+  .cp-node.critical{border-color:var(--red);background:var(--red-soft);color:#b43838}
+  .cp-paths{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .cp-choice{
+    border:2px solid var(--line);background:#fff;border-radius:14px;padding:11px 14px;font-weight:900;
+  }
+
+  .sla-board{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:700px;margin:0 auto;
+  }
+  .ticket{
+    background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;
+  }
+  .ticket-priority{
+    display:inline-block;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:900;
+    background:#fff3d6;color:#936000;margin-bottom:8px;
+  }
+  .ticket-priority.high{background:var(--red-soft);color:#b43838}
+  .ticket-title{font-weight:900}
+  .ticket-meta{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+  .sla-meter{
+    margin-top:10px;height:10px;border-radius:999px;background:#edf1f5;overflow:hidden;
+  }
+  .sla-meter>div{height:100%;background:var(--green);border-radius:999px}
+
+  .be-chart{
+    position:relative;height:260px;max-width:650px;margin:0 auto;
+    background:
+      linear-gradient(to right,transparent 49.7%,#dfe6ec 49.7%,#dfe6ec 50.3%,transparent 50.3%),
+      linear-gradient(to top,transparent 49.7%,#dfe6ec 49.7%,#dfe6ec 50.3%,transparent 50.3%),
+      #fff;
+    border-left:2px solid #9aa8b5;border-bottom:2px solid #9aa8b5;border-radius:8px;
+    overflow:hidden;
+  }
+  .be-line{
+    position:absolute;height:4px;width:130%;left:-15%;top:50%;transform-origin:center;
+    border-radius:999px;
+  }
+  .be-sales{background:var(--blue);transform:rotate(-28deg)}
+  .be-cost{background:var(--red);transform:rotate(-13deg);top:62%}
+  .be-point{
+    position:absolute;left:48%;top:45%;width:18px;height:18px;border-radius:50%;
+    background:var(--yellow);box-shadow:0 0 0 6px rgba(255,200,0,.18);
+  }
+  .be-label{position:absolute;font-size:11px;font-weight:900;background:#fff;padding:3px 6px;border-radius:7px}
+  .be-label.sales{right:8px;top:13px;color:#087db4}
+  .be-label.cost{right:8px;top:86px;color:#b43838}
+  .be-label.point{left:52%;top:39%;color:#7a5d00}
+  .be-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:15px}
+
+  .rights-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:720px;margin:0 auto;
+  }
+  .right-card2{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px;
+    text-align:center;min-height:135px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .right-card2.active{border-color:var(--green);background:var(--green-soft)}
+  .right-icon{font-size:30px;margin-bottom:6px}
+  .right-title{font-weight:900}
+  .right-desc{font-size:12px;color:var(--muted);margin-top:5px}
+
+  @media(max-width:720px){
+    .reliability-layout,.sla-board,.rights-grid{grid-template-columns:1fr}
+    .backup-strip{grid-template-columns:repeat(5,minmax(64px,1fr));overflow:auto}
+    .dev-pipeline{grid-template-columns:1fr}
+    .cp-network{transform:scale(.82);transform-origin:center}
+    .sched-lane{grid-template-columns:65px 1fr}
+    .sched-name{font-size:12px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -2187,7 +2348,7 @@
         <div class="course-overview-icon">🌱</div>
         <div class="course-overview-copy">
           <b>INTERACTIVE COURSE</b>
-          <div class="sub">主要13レッスンを実装しました。</div>
+          <div class="sub">主要21レッスンを実装しました。</div>
         </div>
         <div class="course-percent" id="coursePercent">0%</div>
       </div>
@@ -2322,6 +2483,97 @@
           <div class="lesson-tile-desc">同じデータを2人が同時更新しようとする場面で、LOCKが何を防ぐのかを体験します。</div>
           <div class="lesson-tile-bottom"><div class="progress"><div data-lp="mutex" style="width:0%;background:#ff4b4b"></div></div><span class="lesson-percent" data-lpt="mutex">0%</span></div>
           <button class="lesson-open" data-lesson="mutex">学習する</button>
+        </div>
+
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🧵</div>
+            <div><div class="lesson-tile-title">OSとCPUスケジューリング</div><div class="lesson-tile-cat">ソフトウェア</div></div>
+          </div>
+          <div class="lesson-tile-desc">複数プロセスへCPUを割り当てる様子を動かし、OSの役割を理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="os" style="width:0%"></div></div><span class="lesson-percent" data-lpt="os">0%</span></div>
+          <button class="lesson-open" data-lesson="os">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🏗️</div>
+            <div><div class="lesson-tile-title">直列・並列と信頼性</div><div class="lesson-tile-cat">システム構成</div></div>
+          </div>
+          <div class="lesson-tile-desc">2台の装置を直列・並列に置いたとき、システムが動く確率の違いを比較します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="reliability" style="width:0%"></div></div><span class="lesson-percent" data-lpt="reliability">0%</span></div>
+          <button class="lesson-open" data-lesson="reliability">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">💾</div>
+            <div><div class="lesson-tile-title">バックアップ方式</div><div class="lesson-tile-cat">ソフトウェア</div></div>
+          </div>
+          <div class="lesson-tile-desc">フル・差分・増分バックアップの「何を保存するか」をカレンダーで比較します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="backup" style="width:0%"></div></div><span class="lesson-percent" data-lpt="backup">0%</span></div>
+          <button class="lesson-open" data-lesson="backup">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🛠️</div>
+            <div><div class="lesson-tile-title">システム開発の流れ</div><div class="lesson-tile-cat">システム開発</div></div>
+          </div>
+          <div class="lesson-tile-desc">要件定義→設計→実装→テスト→移行の順序を並べ、各工程の役割を整理します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="development" style="width:0%"></div></div><span class="lesson-percent" data-lpt="development">0%</span></div>
+          <button class="lesson-open" data-lesson="development">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🧪</div>
+            <div><div class="lesson-tile-title">テスト工程</div><div class="lesson-tile-cat">システム開発</div></div>
+          </div>
+          <div class="lesson-tile-desc">単体・結合・システム・受入テストを、対象範囲が広がるピラミッドで理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="testing" style="width:0%"></div></div><span class="lesson-percent" data-lpt="testing">0%</span></div>
+          <button class="lesson-open" data-lesson="testing">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff4b4b;--tile-soft:#fff0f0">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🗓️</div>
+            <div><div class="lesson-tile-title">クリティカルパス</div><div class="lesson-tile-cat">プロジェクトマネジメント</div></div>
+          </div>
+          <div class="lesson-tile-desc">複数の作業経路から、プロジェクト全体の所要日数を決める経路を選びます。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="criticalpath" style="width:0%;background:#ff4b4b"></div></div><span class="lesson-percent" data-lpt="criticalpath">0%</span></div>
+          <button class="lesson-open" data-lesson="criticalpath">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">📞</div>
+            <div><div class="lesson-tile-title">SLAとサービスデスク</div><div class="lesson-tile-cat">サービスマネジメント</div></div>
+          </div>
+          <div class="lesson-tile-desc">障害チケットの重要度とSLAを見比べ、どちらを優先すべきか判断します。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="sla" style="width:0%"></div></div><span class="lesson-percent" data-lpt="sla">0%</span></div>
+          <button class="lesson-open" data-lesson="sla">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">⚖️</div>
+            <div><div class="lesson-tile-title">知的財産権</div><div class="lesson-tile-cat">法務</div></div>
+          </div>
+          <div class="lesson-tile-desc">発明・プログラム・ブランド名などを、どの権利で保護するか仕分けします。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="iprights" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="iprights">0%</span></div>
+          <button class="lesson-open" data-lesson="iprights">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">📈</div>
+            <div><div class="lesson-tile-title">損益分岐点を動かす</div><div class="lesson-tile-cat">企業活動</div></div>
+          </div>
+          <div class="lesson-tile-desc">売上線と費用線の交点を見ながら、利益が0になる境目を理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="breakeven" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="breakeven">0%</span></div>
+          <button class="lesson-open" data-lesson="breakeven">学習する</button>
         </div>
 
         <div class="lesson-tile lesson-special" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
@@ -3301,6 +3553,47 @@ const QUESTION_BANK = [
    options:['特許権','著作権だけ','商号','所有権'],a:0,
    exp:'発明を保護する代表的な権利は特許権です。',
    hint:'新しい技術的アイデア＝発明を保護します。'}
+,
+  {id:'sys-01',cat:'コンピュータ',concept:'OS',difficulty:'基礎',
+   q:'複数のプログラムがCPUや主記憶を利用できるよう、資源を管理するソフトウェアは？',
+   options:['オペレーティングシステム','DNSサーバだけ','データベースの主キー','デジタル署名'],a:0,
+   exp:'OSはCPU・メモリ・入出力などの資源を管理し、アプリケーションの実行環境を提供します。',
+   hint:'WindowsやLinuxが代表例です。'},
+  {id:'sys-02',cat:'コンピュータ',concept:'信頼性',difficulty:'標準',
+   q:'稼働率0.9の装置AとBを直列に接続し、両方が動くときだけシステムが稼働する。システム稼働率は？',
+   options:['0.81','0.90','0.99','1.80'],a:0,
+   exp:'直列では両方の稼働が必要なので、0.9×0.9=0.81です。',
+   hint:'「AもBも稼働」の確率です。'},
+  {id:'mgmt-05',cat:'マネジメント',concept:'システム開発',difficulty:'基礎',
+   q:'利用者が必要とする機能や性能を明確にする工程として最も適切なのは？',
+   options:['要件定義','実装','廃棄','バックアップだけ'],a:0,
+   exp:'要件定義では、システムが満たすべき機能・性能・制約などを整理します。',
+   hint:'「何を作るか」を決める工程です。'},
+  {id:'mgmt-06',cat:'マネジメント',concept:'テスト',difficulty:'標準',
+   q:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',
+   options:['結合テスト','単体テスト','受入テストだけ','監査'],a:0,
+   exp:'結合テストでは複数モジュールを組み合わせ、連携部分を確認します。',
+   hint:'単体より一段広い範囲です。'},
+  {id:'mgmt-07',cat:'マネジメント',concept:'クリティカルパス',difficulty:'標準',
+   q:'プロジェクトの複数経路のうち、全体の最短完了日数を決める最長経路は？',
+   options:['クリティカルパス','ハッシュ値','主キー','キャッシュライン'],a:0,
+   exp:'クリティカルパスは所要時間が最長となる経路で、余裕がなければその遅延が全体へ影響します。',
+   hint:'「一番時間がかかる経路」です。'},
+  {id:'mgmt-08',cat:'マネジメント',concept:'SLA',difficulty:'基礎',
+   q:'サービス提供者と利用者の間で、可用性や応答時間などのサービス水準を合意するものは？',
+   options:['SLA','WBSだけ','SQL','DNS'],a:0,
+   exp:'SLAは提供するサービス水準についての合意です。',
+   hint:'Service Level Agreement の略です。'},
+  {id:'strat-05',cat:'ストラテジ',concept:'知的財産',difficulty:'基礎',
+   q:'技術的な発明を保護する代表的な産業財産権は？',
+   options:['特許権','著作権だけ','商標権だけ','所有権だけ'],a:0,
+   exp:'発明を保護する代表的な権利は特許権です。',
+   hint:'新しい技術的アイデアを保護します。'},
+  {id:'strat-06',cat:'ストラテジ',concept:'損益分岐点',difficulty:'基礎',
+   q:'売上高と総費用が等しくなる損益分岐点で、利益はいくらですか？',
+   options:['0','売上高と同額','必ずマイナス','固定費と同額'],a:0,
+   exp:'売上高－総費用が利益なので、両者が等しい損益分岐点では利益は0です。',
+   hint:'売上高 = 総費用です。'}
 ];
 
 function ensureQuestionProfile(){
@@ -3642,6 +3935,89 @@ openProblemsHub();
 
 // ===== v6: Interactive lesson engine =====
 const LESSONS = {
+
+  os:{
+    title:'OSとCPUスケジューリング',cat:'ソフトウェア',skill:'コンピュータ',
+    pages:[
+      {headline:'OSはハードウェアとアプリの仲介役',copy:'CPU・メモリ・入出力装置などの資源を管理し、複数のプログラムが使えるよう調整します。',render:()=>scheduleView(0)},
+      {headline:'CPUを順番に割り当ててみる',copy:'P1・P2・P3へ1タイムスライスずつCPUを割り当てます。3回進めてください。',interactive:'os'},
+      {headline:'短時間ずつ切り替えることで複数処理を進められる',copy:'実際にはスケジューリング方式によって優先度や待ち時間の考え方が異なりますが、OSがCPU利用を調整する点が重要です。',render:()=>scheduleView(3)},
+      {headline:'ミニチェック',copy:'OSの役割として最も適切なのは？',quiz:{options:['CPUやメモリなどの資源を管理する','必ずWebページを作成する','データベースの表だけを保存する','LANケーブルの長さを決める'],answer:0,explain:'OSはCPU・メモリ・入出力などのコンピュータ資源を管理し、アプリケーションの実行環境を提供します。'}}
+    ]
+  },
+  reliability:{
+    title:'直列・並列と信頼性',cat:'システム構成',skill:'コンピュータ',
+    pages:[
+      {headline:'直列は「全部動く」が必要',copy:'稼働率0.9の装置A・Bを直列につなぐと、両方が稼働して初めてシステムが動きます。',render:()=>reliabilityView('series')},
+      {headline:'並列なら片方が動けばよい',copy:'直列と並列の稼働率を比較してください。',interactive:'reliability'},
+      {headline:'直列0.81、並列0.99',copy:'直列は0.9×0.9=0.81。並列は「両方故障」の確率0.1×0.1=0.01を1から引いて0.99です。',render:()=>reliabilityView('both')},
+      {headline:'ミニチェック',copy:'稼働率0.8の同一装置2台を直列に接続した場合の稼働率は？',quiz:{options:['0.64','0.80','0.96','1.60'],answer:0,explain:'直列では両方稼働する必要があるので0.8×0.8=0.64です。'}}
+    ]
+  },
+  backup:{
+    title:'バックアップ方式',cat:'ソフトウェア',skill:'コンピュータ',
+    pages:[
+      {headline:'フル・増分・差分は「どこからの変更か」が違う',copy:'日曜にフルバックアップを取り、月〜木にデータが変化するとします。',render:()=>backupView('full')},
+      {headline:'増分と差分を切り替えて比較',copy:'ボタンで方式を切り替え、毎日どの変更を保存するか確認してください。',interactive:'backup'},
+      {headline:'増分は前回バックアップ以降、差分は直近フル以降',copy:'増分は日々の保存量を抑えやすく、差分は復元時にフル＋最新差分で済みやすい、という違いがあります。',render:()=>backupView('compare')},
+      {headline:'ミニチェック',copy:'日曜にフル、月〜水は増分バックアップを取った。水曜終了時点へ戻すとき一般に必要なのは？',quiz:{options:['日曜フル＋月・火・水の増分','水曜増分だけ','日曜フルだけ','月曜増分だけ'],answer:0,explain:'増分方式では直近フルと、それ以降の各増分バックアップを順に使って復元します。'}}
+    ]
+  },
+  development:{
+    title:'システム開発の流れ',cat:'システム開発',skill:'マネジメント',
+    pages:[
+      {headline:'作る前に「何を作るか」を決める',copy:'開発は、要件定義→設計→実装→テスト→移行という大きな流れで整理できます。',render:()=>devPipeline(0)},
+      {headline:'工程を順に進めてみる',copy:'「次の工程」を押して、各段階の役割を確認してください。',interactive:'development'},
+      {headline:'上流で決めた内容が下流の基準になる',copy:'要件が曖昧なまま実装へ進むと、後で大きな手戻りにつながりやすくなります。',render:()=>devPipeline(5)},
+      {headline:'ミニチェック',copy:'利用者がシステムに求める機能・性能などを明確にする工程は？',quiz:{options:['要件定義','実装だけ','運用終了','廃棄だけ'],answer:0,explain:'システム要件定義では、実現すべき機能や性能、制約などを明確にします。'}}
+    ]
+  },
+  testing:{
+    title:'テスト工程',cat:'システム開発',skill:'マネジメント',
+    pages:[
+      {headline:'小さな単位から全体へ広げる',copy:'単体→結合→システム→受入、と対象範囲を広げて確認していきます。',render:()=>testPyramid(0)},
+      {headline:'テスト範囲を1段ずつ広げる',copy:'1 STEPで次のテストレベルへ進んでください。',interactive:'testing'},
+      {headline:'誰が何を確認するかも重要',copy:'単体では部品、結合では部品間、システムでは全体、受入では利用者側の要求を満たすかを確認します。',render:()=>testPyramid(4)},
+      {headline:'ミニチェック',copy:'複数のモジュールを組み合わせ、インタフェースや連携を確認するテストは？',quiz:{options:['結合テスト','単体テスト','受入テストだけ','負荷分散'],answer:0,explain:'結合テストでは複数モジュールを組み合わせ、連携やインタフェースを確認します。'}}
+    ]
+  },
+  criticalpath:{
+    title:'クリティカルパス',cat:'プロジェクトマネジメント',skill:'マネジメント',
+    pages:[
+      {headline:'一番時間がかかる経路が全体を決める',copy:'開始→A(3日)→C(4日)→終了と、開始→B(2日)→D(3日)→終了の2経路を比べます。',render:()=>criticalPathView(false)},
+      {headline:'クリティカルパスを選ぶ',copy:'どちらの経路がプロジェクト全体の最短完了日数を決めますか？',interactive:'criticalpath'},
+      {headline:'A→Cは7日、B→Dは5日',copy:'長いA→C側がクリティカルパスです。この経路の遅延は全体の完了に直接影響します。',render:()=>criticalPathView(true)},
+      {headline:'ミニチェック',copy:'クリティカルパス上の作業が1日遅れ、余裕時間がない場合、一般にどうなる？',quiz:{options:['プロジェクト完了も1日遅れる','必ず影響しない','作業日数が自動で0になる','コストが必ず半減する'],answer:0,explain:'余裕のないクリティカルパス上の作業が遅れると、全体の完了時期にも影響します。'}}
+    ]
+  },
+  sla:{
+    title:'SLAとサービスデスク',cat:'サービスマネジメント',skill:'マネジメント',
+    pages:[
+      {headline:'すべての問い合わせを同じ優先度にはしない',copy:'影響範囲・緊急度・合意したサービス水準を考慮して対応します。',render:()=>slaView('idle')},
+      {headline:'どちらを先に対応する？',copy:'2件のチケットを見比べて、先に対応すべき方を選んでください。',interactive:'sla'},
+      {headline:'SLAはサービス水準の合意',copy:'可用性・応答時間・復旧時間など、提供者と利用者の間で合意した基準を管理します。',render:()=>slaView('priority')},
+      {headline:'ミニチェック',copy:'SLAの説明として最も適切なのは？',quiz:{options:['提供するサービス水準についての合意','CPU内部のレジスタ','暗号鍵の種類','データベースの主キー'],answer:0,explain:'SLAはサービス提供者と利用者の間で、可用性や応答時間などのサービス水準を合意したものです。'}}
+    ]
+  },
+  iprights:{
+    title:'知的財産権',cat:'法務',skill:'ストラテジ',
+    pages:[
+      {headline:'「何を守るか」で権利が違う',copy:'発明、作品・プログラム、商品やサービスの目印など、保護対象を整理します。',render:()=>rightsView(0)},
+      {headline:'3つの対象を仕分ける',copy:'対象を見て、最も近い権利を選んでください。',interactive:'iprights'},
+      {headline:'発明＝特許、著作物＝著作権、ブランドの目印＝商標',copy:'実際の権利成立条件や保護範囲には細かなルールがありますが、まず対象の違いを押さえます。',render:()=>rightsView(3)},
+      {headline:'ミニチェック',copy:'新しい機械の技術的な発明を保護する代表的な権利は？',quiz:{options:['特許権','著作権だけ','商標権だけ','所有権だけ'],answer:0,explain:'技術的な発明を保護する代表的な産業財産権は特許権です。'}}
+    ]
+  },
+  breakeven:{
+    title:'損益分岐点を動かす',cat:'企業活動',skill:'ストラテジ',
+    pages:[
+      {headline:'売上と費用が同じになる地点',copy:'売上高＝総費用となり、利益がちょうど0になる点が損益分岐点です。',render:()=>breakEvenView(false)},
+      {headline:'交点を確認する',copy:'「損益分岐点を表示」を押して、利益が発生する側を確認してください。',interactive:'breakeven'},
+      {headline:'交点より右側では売上が費用を上回る',copy:'売上線と総費用線の関係を見ると、赤字・黒字の境目を視覚的に捉えられます。',render:()=>breakEvenView(true)},
+      {headline:'ミニチェック',copy:'損益分岐点売上高では利益はいくら？',quiz:{options:['0','必ず100万円','必ず赤字','売上高と同額'],answer:0,explain:'損益分岐点は売上高と総費用が等しくなるため、利益は0です。'}}
+    ]
+  },
+
 
   logic:{
     title:'AND / OR 論理演算', cat:'基礎理論', skill:'基礎理論',
@@ -3992,6 +4368,98 @@ const LESSONS = {
 };
 
 
+
+function scheduleView(step){
+  const labels=['P1','P2','P3'];
+  return `<div>${labels.map((p,i)=>`
+    <div class="sched-lane">
+      <div class="sched-name">${p}</div>
+      <div class="sched-bar">${[0,1,2].map(s=>`<div class="cpu-slice ${s<step&&s%3===i?'active':''}">${s%3===i&&s<step?'CPU':''}</div>`).join('')}</div>
+    </div>`).join('')}</div>
+    <div class="lesson-copy" style="margin-top:12px">CPUを短い時間単位で複数プロセスへ割り当てるイメージです。</div>`;
+}
+function reliabilityView(mode){
+  const showSeries=mode==='series'||mode==='both';
+  const showParallel=mode==='parallel'||mode==='both';
+  return `<div class="reliability-layout">
+    <div class="rel-card">
+      <b>直列システム</b>
+      <div class="rel-nodes"><div class="rel-node">A<br>0.9</div><div class="rel-line"></div><div class="rel-node">B<br>0.9</div></div>
+      <div class="rel-result">${showSeries?'0.81':'?'}</div>
+      <div class="sub">両方稼働が必要</div>
+    </div>
+    <div class="rel-card">
+      <b>並列システム</b>
+      <div class="rel-parallel"><div class="rel-node source">入力</div><div class="branch-line">≺</div><div class="rel-node top">A 0.9</div><div class="rel-node bottom">B 0.9</div></div>
+      <div class="rel-result">${showParallel?'0.99':'?'}</div>
+      <div class="sub">片方が稼働すればよい</div>
+    </div>
+  </div>`;
+}
+function backupView(mode){
+  const days=['日','月','火','水','木'];
+  const changes=['FULL','A','B','C','D'];
+  const full=days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':'<div class="backup-block backup-inc">変更 '+changes[i]+'</div>'}</div>`).join('');
+  if(mode==='full') return `<div class="backup-strip">${full}</div><div class="lesson-copy" style="margin-top:13px">日曜に全データを保存し、月曜以降にA〜Dの変更が発生したとします。</div>`;
+  if(mode==='incremental') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-inc">${changes[i]}のみ</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">増分：前回バックアップ以降の変更だけ。</div>`;
+  if(mode==='differential') return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-diff">${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div><div class="lesson-copy" style="margin-top:13px">差分：直近のフル以降の変更を毎回まとめて保存。</div>`;
+  return `<div class="backup-strip">${days.map((d,i)=>`<div class="backup-day"><b>${d}</b>${i===0?'<div class="backup-block backup-full">FULL</div>':`<div class="backup-block backup-inc">増分 ${changes[i]}</div><div class="backup-block backup-diff">差分 ${changes.slice(1,i+1).join('+')}</div>`}</div>`).join('')}</div>`;
+}
+function devPipeline(active){
+  const items=[['要件定義','何を作る？'],['設計','どう作る？'],['実装','コード化'],['テスト','確認'],['移行','利用開始']];
+  return `<div class="dev-pipeline">${items.map((x,i)=>`<div class="dev-step ${active>i?'active':''}"><div>${x[0]}</div><div class="small">${x[1]}</div></div>`).join('')}</div>`;
+}
+function testPyramid(active){
+  const items=['受入テスト','システムテスト','結合テスト','単体テスト'];
+  return `<div class="test-pyramid">${items.map((x,i)=>`<div class="test-level ${active>=(4-i)?'active':''}">${x}</div>`).join('')}</div>`;
+}
+function criticalPathView(show){
+  return `<div class="cp-network">
+    <div class="cp-node start">開始</div>
+    <div class="cp-node a ${show?'critical':''}">A<br>3日</div>
+    <div class="cp-node b">B<br>2日</div>
+    <div class="cp-node c ${show?'critical':''}">C<br>4日</div>
+    <div class="cp-node d">D<br>3日</div>
+    <div class="cp-node end">終了</div>
+  </div>
+  <div class="lesson-copy">${show?'A→C = 7日 が最長経路です。':'上段A→Cと下段B→Dを比較します。'}</div>`;
+}
+function slaView(mode){
+  return `<div class="sla-board">
+    <div class="ticket">
+      <span class="ticket-priority high">高</span>
+      <div class="ticket-title">全社の勤怠システム停止</div>
+      <div class="ticket-meta">影響：全社員<br>目標復旧：2時間以内</div>
+      <div class="sla-meter"><div style="width:${mode==='priority'?'80':'25'}%"></div></div>
+    </div>
+    <div class="ticket">
+      <span class="ticket-priority">低</span>
+      <div class="ticket-title">1名の表示レイアウト崩れ</div>
+      <div class="ticket-meta">影響：1名<br>回避策あり</div>
+      <div class="sla-meter"><div style="width:${mode==='priority'?'25':'25'}%"></div></div>
+    </div>
+  </div>`;
+}
+function rightsView(active){
+  const items=[
+    ['💡','発明','特許権'],
+    ['💻','プログラム作品','著作権'],
+    ['🏷️','ブランド名・マーク','商標権'],
+    ['🎨','物品のデザイン','意匠権']
+  ];
+  return `<div class="rights-grid">${items.map((x,i)=>`<div class="right-card2 ${active>i?'active':''}"><div class="right-icon">${x[0]}</div><div class="right-title">${x[1]}</div><div class="right-desc">${active>i?x[2]:'どの権利？'}</div></div>`).join('')}</div>`;
+}
+function breakEvenView(show){
+  return `<div class="be-chart">
+    <div class="be-line be-sales"></div>
+    <div class="be-line be-cost"></div>
+    <div class="be-point" style="${show?'':'display:none'}"></div>
+    <div class="be-label sales">売上高</div>
+    <div class="be-label cost">総費用</div>
+    ${show?'<div class="be-label point">損益分岐点</div>':''}
+  </div>`;
+}
+
 function logicTableView(){
   return `<table class="logic-table">
     <tr><th>A</th><th>B</th><th>A AND B</th><th>A OR B</th></tr>
@@ -4108,6 +4576,12 @@ let dsSeen=new Set();
 let protocolSeen=new Set();
 let signatureStep=0;
 let mutexStep=0;
+let osSteps=0;
+let reliabilitySeen=new Set();
+let backupSeen=new Set();
+let devSteps=0;
+let testSteps=0;
+let rightsSteps=0;
 let lessonCompleteMode=false;
 
 function updateCourseUI(){
@@ -4141,7 +4615,7 @@ function startLesson(id){
 function resetLessonState(){
   lessonInteractiveDone=false;
   lessonQuizDone=false;
-  cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;
+  cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;osSteps=0;reliabilitySeen=new Set();backupSeen=new Set();devSteps=0;testSteps=0;rightsSteps=0;
 }
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
@@ -4399,6 +4873,124 @@ function renderInteractive(type,stage){
       document.getElementById('unlockA').disabled=true;
       lessonInteractiveDone=true;
       showLessonFeedback('✅ Aの処理後にBが在庫0を確認できます。同時更新による矛盾を防げました。');
+    };
+  }
+
+
+  if(type==='os'){
+    stage.innerHTML=`<div id="osDynamic">${scheduleView(0)}</div><div class="schedule-controls"><button class="purple-btn" id="osStepBtn">▶ CPUを割り当てる</button></div>`;
+    document.getElementById('osStepBtn').onclick=()=>{
+      osSteps=Math.min(3,osSteps+1);
+      document.getElementById('osDynamic').innerHTML=scheduleView(osSteps);
+      showLessonFeedback(`${['','P1','P2','P3'][osSteps]}へCPU時間を割り当てました。`);
+      if(osSteps===3){lessonInteractiveDone=true;document.getElementById('osStepBtn').disabled=true;document.getElementById('osStepBtn').textContent='✓ 3プロセス確認';}
+    };
+  }
+
+  if(type==='reliability'){
+    stage.innerHTML=`<div id="relDynamic">${reliabilityView('none')}</div>
+      <div class="txn-buttons"><button class="secondary" id="relSeries">直列を計算</button><button class="purple-btn" id="relParallel">並列を計算</button></div>`;
+    document.getElementById('relSeries').onclick=()=>{
+      reliabilitySeen.add('series');document.getElementById('relDynamic').innerHTML=reliabilityView('series');
+      showLessonFeedback('直列：0.9 × 0.9 = 0.81');
+      if(reliabilitySeen.size>=2) lessonInteractiveDone=true;
+    };
+    document.getElementById('relParallel').onclick=()=>{
+      reliabilitySeen.add('parallel');document.getElementById('relDynamic').innerHTML=reliabilityView('parallel');
+      showLessonFeedback('並列：1 − (0.1 × 0.1) = 0.99');
+      if(reliabilitySeen.size>=2) lessonInteractiveDone=true;
+    };
+  }
+
+  if(type==='backup'){
+    stage.innerHTML=`<div id="backupDynamic">${backupView('full')}</div>
+      <div class="backup-controls"><button class="secondary" id="showInc">増分を見る</button><button class="purple-btn" id="showDiff">差分を見る</button></div>`;
+    document.getElementById('showInc').onclick=()=>{
+      backupSeen.add('inc');document.getElementById('backupDynamic').innerHTML=backupView('incremental');
+      showLessonFeedback('増分は「前回バックアップ後に変わった分」だけを保存します。');
+      if(backupSeen.size>=2) lessonInteractiveDone=true;
+    };
+    document.getElementById('showDiff').onclick=()=>{
+      backupSeen.add('diff');document.getElementById('backupDynamic').innerHTML=backupView('differential');
+      showLessonFeedback('差分は「直近フルバックアップ後の変更を全部」毎回保存します。');
+      if(backupSeen.size>=2) lessonInteractiveDone=true;
+    };
+  }
+
+  if(type==='development'){
+    stage.innerHTML=`<div id="devDynamic">${devPipeline(0)}</div><div class="schedule-controls"><button class="purple-btn" id="devStepBtn">▶ 次の工程</button></div>`;
+    document.getElementById('devStepBtn').onclick=()=>{
+      devSteps=Math.min(5,devSteps+1);
+      document.getElementById('devDynamic').innerHTML=devPipeline(devSteps);
+      const names=['','要件定義','設計','実装','テスト','移行'];
+      showLessonFeedback(`${names[devSteps]}：${['','何を実現するか明確にします。','実現方法や構造を決めます。','設計をプログラムへ落とします。','要求通り動くか確認します。','本番利用へ切り替えます。'][devSteps]}`);
+      if(devSteps===5){lessonInteractiveDone=true;document.getElementById('devStepBtn').disabled=true;document.getElementById('devStepBtn').textContent='✓ 全工程確認';}
+    };
+  }
+
+  if(type==='testing'){
+    stage.innerHTML=`<div id="testDynamic">${testPyramid(0)}</div><div class="schedule-controls"><button class="purple-btn" id="testStepBtn">▶ テスト範囲を広げる</button></div>`;
+    document.getElementById('testStepBtn').onclick=()=>{
+      testSteps=Math.min(4,testSteps+1);
+      document.getElementById('testDynamic').innerHTML=testPyramid(testSteps);
+      const names=['','単体テスト','結合テスト','システムテスト','受入テスト'];
+      showLessonFeedback(`${names[testSteps]}まで確認しました。`);
+      if(testSteps===4){lessonInteractiveDone=true;document.getElementById('testStepBtn').disabled=true;document.getElementById('testStepBtn').textContent='✓ 全レベル確認';}
+    };
+  }
+
+  if(type==='criticalpath'){
+    stage.innerHTML=`${criticalPathView(false)}<div class="cp-paths"><button class="cp-choice" data-path="ac">A→C（7日）</button><button class="cp-choice" data-path="bd">B→D（5日）</button></div>`;
+    stage.querySelectorAll('.cp-choice').forEach(b=>b.onclick=()=>{
+      if(b.dataset.path==='ac'){
+        b.classList.add('good');lessonInteractiveDone=true;
+        stage.querySelector('.cp-network').outerHTML=criticalPathView(true).split('<div class="lesson-copy">')[0];
+        showLessonFeedback('⭕ 正解。7日のA→Cが最長なのでクリティカルパスです。');
+      }else{
+        b.classList.add('bad');showLessonFeedback('5日より7日の経路の方が全体完了を制約します。',true);
+        setTimeout(()=>b.classList.remove('bad'),700);
+      }
+    });
+  }
+
+  if(type==='sla'){
+    stage.innerHTML=`${slaView('idle')}<div class="micro-options"><button class="micro-option" data-ticket="major">全社停止を先に対応</button><button class="micro-option" data-ticket="minor">表示崩れを先に対応</button></div>`;
+    stage.querySelectorAll('.micro-option').forEach(b=>b.onclick=()=>{
+      if(b.dataset.ticket==='major'){
+        b.classList.add('good');lessonInteractiveDone=true;
+        showLessonFeedback('⭕ 影響範囲と緊急度が大きく、目標復旧時間も厳しい全社停止を優先します。');
+      }else{
+        b.classList.add('bad');showLessonFeedback('影響範囲・緊急度・SLAを見比べましょう。',true);
+        setTimeout(()=>b.classList.remove('bad'),700);
+      }
+    });
+  }
+
+  if(type==='iprights'){
+    const cases=[
+      {q:'新しい省エネ機構の発明',a:'特許権'},
+      {q:'自作したゲームプログラム',a:'著作権'},
+      {q:'新商品のブランドロゴ',a:'商標権'}
+    ];
+    const rights=['特許権','著作権','商標権','意匠権'];
+    const draw=()=>{
+      const c=cases[rightsSteps];
+      if(!c){lessonInteractiveDone=true;stage.innerHTML=rightsView(3);showLessonFeedback('✅ 3つ仕分けできました。');return;}
+      stage.innerHTML=`<div style="text-align:center;font-size:20px;font-weight:900;margin-bottom:14px">${c.q}</div><div class="micro-options">${rights.map(r=>`<button class="micro-option" data-r="${r}">${r}</button>`).join('')}</div>`;
+      stage.querySelectorAll('.micro-option').forEach(b=>b.onclick=()=>{
+        if(b.dataset.r===c.a){b.classList.add('good');rightsSteps++;showLessonFeedback(`⭕ ${c.a} が最も近い分類です。`);setTimeout(draw,450);}
+        else{b.classList.add('bad');showLessonFeedback('保護したい対象が「発明・著作物・ブランド」のどれか考えてみましょう。',true);setTimeout(()=>b.classList.remove('bad'),650);}
+      });
+    };
+    draw();
+  }
+
+  if(type==='breakeven'){
+    stage.innerHTML=`<div id="beDynamic">${breakEvenView(false)}</div><div class="be-controls"><button class="purple-btn" id="showBE">交点を表示</button></div>`;
+    document.getElementById('showBE').onclick=()=>{
+      document.getElementById('beDynamic').innerHTML=breakEvenView(true);
+      document.getElementById('showBE').disabled=true;lessonInteractiveDone=true;
+      showLessonFeedback('✅ 売上高＝総費用となる交点が損益分岐点です。交点より売上が大きい側で利益が出ます。');
     };
   }
 
@@ -5589,13 +6181,18 @@ finishQuizSession=function(){
 };
 
 function roadmapData(){
-  const basicsIds=['binary','logic','cpu','cache','binarysearch','stackqueue'];
-  const techIds=['transaction','sql','mutex','subnet','tcpudp','crypto','signature'];
+  const basicsIds=['binary','logic','cpu','cache','os','reliability','backup','binarysearch','stackqueue'];
+  const techIds=['transaction','sql','mutex','subnet','tcpudp','crypto','signature','development','testing'];
   const basics=lessonCompletionAverage(basicsIds.filter(id=>LESSONS[id]));
   const tech=lessonCompletionAverage(techIds.filter(id=>LESSONS[id]));
   const bAlgo=objectCompletion(profile.bProgress);
   const bSec=objectCompletion(profile.securityBProgress);
-  const practice=Math.min(100,Math.round(((profile.sessions||[]).length/10)*100));
+  const mgmtIds=['development','testing','criticalpath','sla'].filter(id=>LESSONS[id]);
+  const stratIds=['iprights','breakeven'].filter(id=>LESSONS[id]);
+  const mgmt=lessonCompletionAverage(mgmtIds);
+  const strat=lessonCompletionAverage(stratIds);
+  const exerciseBase=Math.min(100,Math.round(((profile.sessions||[]).length/10)*100));
+  const practice=Math.round(exerciseBase*.5 + mgmt*.3 + strat*.2);
   return [
     {icon:'🌱',title:'STEP 1　基礎固め',desc:'基礎理論・CPU・基本アルゴリズム',pct:basics},
     {icon:'🧩',title:'STEP 2　テクノロジ中核',desc:'DB・ネットワーク・セキュリティ',pct:tech},
