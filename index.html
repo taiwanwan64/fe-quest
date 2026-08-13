@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#58cc02" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v6</title>
+<title>FE QUEST PWA v7</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1406,6 +1406,123 @@
     .search-cell{width:calc((100vw - 70px)/7);max-width:48px;min-width:34px;height:48px;font-size:14px}
   }
 
+
+  /* ===== v7 additional interactive concepts ===== */
+  .logic-table{
+    width:min(520px,100%);margin:0 auto;border-collapse:separate;border-spacing:7px;
+  }
+  .logic-table th,.logic-table td{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:12px;text-align:center;font-weight:900;
+  }
+  .logic-switches{
+    display:flex;justify-content:center;gap:18px;align-items:center;flex-wrap:wrap;margin:18px 0;
+  }
+  .logic-switch{
+    border:2px solid var(--line);background:#fff;border-radius:16px;
+    min-width:86px;padding:14px;font-weight:900;
+  }
+  .logic-switch.on{background:var(--green);border-color:var(--green);color:white}
+  .logic-out{
+    display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;
+    background:#edf1f5;font-size:26px;font-weight:900;
+  }
+  .logic-out.on{background:var(--yellow);color:#6d5300;box-shadow:0 0 0 8px rgba(255,200,0,.16)}
+
+  .cache-demo{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;
+    gap:9px;max-width:760px;margin:0 auto;
+  }
+  .cache-box{
+    background:#fff;border:2px solid var(--line);border-radius:18px;
+    padding:18px 10px;text-align:center;min-height:105px;transition:.25s;
+  }
+  .cache-box.hot{border-color:var(--green);background:var(--green-soft)}
+  .cache-box.slow{border-color:#d4dce4;background:#f7f9fb}
+  .cache-clock{font-size:26px;font-weight:900;margin-top:6px}
+  .cache-msg{text-align:center;margin-top:16px;font-weight:900}
+
+  .ds-stage{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto;
+  }
+  .ds-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px}
+  .ds-items{min-height:190px;display:flex;gap:8px;align-items:center;justify-content:center}
+  .stack-items{flex-direction:column-reverse}
+  .queue-items{flex-direction:row}
+  .ds-item{
+    min-width:52px;height:48px;border-radius:13px;background:var(--purple-soft);
+    color:#623296;display:grid;place-items:center;font-weight:900;border:1px solid #dfccf8;
+  }
+  .ds-controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .ds-controls button{border:none;border-radius:13px;padding:10px 12px;font-weight:900}
+  .ds-label{text-align:center;font-weight:900;margin-bottom:8px}
+
+  .sql-table{
+    width:min(620px,100%);margin:0 auto;border-collapse:collapse;background:#fff;
+    border-radius:15px;overflow:hidden;border:1px solid var(--line);
+  }
+  .sql-table th,.sql-table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}
+  .sql-table th{background:#f3f6f9}
+  .sql-table tr.filtered{opacity:.2}
+  .sql-code{
+    margin:14px auto 0;max-width:620px;background:#26313b;color:#f6f8fb;
+    border-radius:15px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    overflow:auto;
+  }
+
+  .protocol-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:15px;max-width:730px;margin:0 auto;
+  }
+  .protocol-card{
+    background:#fff;border:2px solid var(--line);border-radius:20px;padding:18px;text-align:center;
+  }
+  .protocol-card.active{border-color:var(--blue);background:var(--blue-soft)}
+  .packet-row{display:flex;gap:5px;justify-content:center;margin:14px 0}
+  .packet{
+    width:36px;height:36px;border-radius:9px;background:#e8edf2;display:grid;place-items:center;font-weight:900;font-size:12px;
+  }
+  .packet.ok{background:var(--green-soft);color:var(--green-dark)}
+  .packet.lost{background:var(--red-soft);color:var(--red);text-decoration:line-through}
+  .packet.resent{background:var(--blue-soft);color:#087db4}
+
+  .signature-flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;
+    gap:9px;max-width:790px;margin:0 auto;
+  }
+  .sig-card{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:17px 10px;
+    text-align:center;min-height:112px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .sig-card.active{border-color:var(--purple);background:var(--purple-soft)}
+  .sig-hash{
+    display:inline-block;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    background:#f4f6f8;padding:6px 9px;border-radius:9px;margin-top:6px;font-size:12px;
+  }
+
+  .lock-demo{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;max-width:720px;margin:0 auto;
+  }
+  .worker{
+    background:#fff;border:2px solid var(--line);border-radius:18px;padding:17px;text-align:center;
+  }
+  .worker.wait{opacity:.55}
+  .resource{
+    width:130px;min-height:130px;border-radius:22px;background:#fff;border:3px solid var(--yellow);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:10px;
+  }
+  .resource.locked{border-color:var(--red);background:var(--red-soft)}
+  .lock-icon{font-size:34px}
+  .lock-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+
+  @media(max-width:720px){
+    .cache-demo,.signature-flow{grid-template-columns:1fr}
+    .cache-demo>.cpu-arrow,.signature-flow>.cpu-arrow{transform:rotate(90deg)}
+    .ds-stage,.protocol-grid{grid-template-columns:1fr}
+    .queue-items{flex-wrap:wrap}
+    .lock-demo{grid-template-columns:1fr}
+    .resource{margin:auto}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -1516,7 +1633,7 @@
         <div class="course-overview-icon">🌱</div>
         <div class="course-overview-copy">
           <b>INTERACTIVE COURSE</b>
-          <div class="sub">まずは6つの基本ステージを実装しました。</div>
+          <div class="sub">主要13レッスンを実装しました。</div>
         </div>
         <div class="course-percent" id="coursePercent">0%</div>
       </div>
@@ -1580,6 +1697,77 @@
           <div class="lesson-tile-desc">中央と比較して半分を捨てる、という二分探索の核心を配列操作で理解します。</div>
           <div class="lesson-tile-bottom"><div class="progress"><div data-lp="binarysearch" style="width:0%"></div></div><span class="lesson-percent" data-lpt="binarysearch">0%</span></div>
           <button class="lesson-open" data-lesson="binarysearch">学習する</button>
+        </div>
+
+
+        <div class="lesson-tile" style="--tile-color:#ffc800;--tile-soft:#fff8cf">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🔀</div>
+            <div><div class="lesson-tile-title">AND / OR 論理演算</div><div class="lesson-tile-cat">基礎理論</div></div>
+          </div>
+          <div class="lesson-tile-desc">AとBのスイッチを切り替え、ANDとORの出力がどう変わるかを実験します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="logic" style="width:0%;background:#ffc800"></div></div><span class="lesson-percent" data-lpt="logic">0%</span></div>
+          <button class="lesson-open" data-lesson="logic">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#58cc02;--tile-soft:#efffe3">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🚀</div>
+            <div><div class="lesson-tile-title">キャッシュ HIT / MISS</div><div class="lesson-tile-cat">コンピュータ</div></div>
+          </div>
+          <div class="lesson-tile-desc">CPUが欲しいデータをキャッシュで見つけた場合と、主記憶まで取りに行く場合を比較します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="cache" style="width:0%"></div></div><span class="lesson-percent" data-lpt="cache">0%</span></div>
+          <button class="lesson-open" data-lesson="cache">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">📚</div>
+            <div><div class="lesson-tile-title">スタック・キュー</div><div class="lesson-tile-cat">アルゴリズム</div></div>
+          </div>
+          <div class="lesson-tile-desc">PUSH / POP と ENQUEUE / DEQUEUEを実際に操作して、LIFOとFIFOの違いを理解します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="stackqueue" style="width:0%"></div></div><span class="lesson-percent" data-lpt="stackqueue">0%</span></div>
+          <button class="lesson-open" data-lesson="stackqueue">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff9f1c;--tile-soft:#fff3df">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🧾</div>
+            <div><div class="lesson-tile-title">SQL WHEREを動かす</div><div class="lesson-tile-cat">データベース</div></div>
+          </div>
+          <div class="lesson-tile-desc">社員表から条件に合う行だけを残し、SELECTとWHEREの役割を視覚的に確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="sql" style="width:0%;background:#ff9f1c"></div></div><span class="lesson-percent" data-lpt="sql">0%</span></div>
+          <button class="lesson-open" data-lesson="sql">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#1cb0f6;--tile-soft:#eaf8ff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">📡</div>
+            <div><div class="lesson-tile-title">TCPとUDP</div><div class="lesson-tile-cat">ネットワーク</div></div>
+          </div>
+          <div class="lesson-tile-desc">パケット損失時の再送を動かし、信頼性を重視するTCPと軽量なUDPを比較します。</div>
+          <div class="lesson-tile-bottom"><div class="progress blue"><div data-lp="tcpudp" style="width:0%"></div></div><span class="lesson-percent" data-lpt="tcpudp">0%</span></div>
+          <button class="lesson-open" data-lesson="tcpudp">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">✍️</div>
+            <div><div class="lesson-tile-title">デジタル署名</div><div class="lesson-tile-cat">セキュリティ</div></div>
+          </div>
+          <div class="lesson-tile-desc">ハッシュ値を作り、送信者の秘密鍵で署名し、公開鍵で検証する流れを確認します。</div>
+          <div class="lesson-tile-bottom"><div class="progress purple"><div data-lp="signature" style="width:0%"></div></div><span class="lesson-percent" data-lpt="signature">0%</span></div>
+          <button class="lesson-open" data-lesson="signature">学習する</button>
+        </div>
+
+        <div class="lesson-tile" style="--tile-color:#ff4b4b;--tile-soft:#fff0f0">
+          <div class="lesson-tile-top">
+            <div class="lesson-tile-icon">🔒</div>
+            <div><div class="lesson-tile-title">排他制御</div><div class="lesson-tile-cat">データベース</div></div>
+          </div>
+          <div class="lesson-tile-desc">同じデータを2人が同時更新しようとする場面で、LOCKが何を防ぐのかを体験します。</div>
+          <div class="lesson-tile-bottom"><div class="progress"><div data-lp="mutex" style="width:0%;background:#ff4b4b"></div></div><span class="lesson-percent" data-lpt="mutex">0%</span></div>
+          <button class="lesson-open" data-lesson="mutex">学習する</button>
         </div>
 
         <div class="lesson-tile lesson-special" style="--tile-color:#9b5de5;--tile-soft:#f3ebff">
@@ -2855,6 +3043,189 @@ openProblemsHub();
 
 // ===== v6: Interactive lesson engine =====
 const LESSONS = {
+
+  logic:{
+    title:'AND / OR 論理演算', cat:'基礎理論', skill:'基礎理論',
+    pages:[
+      {
+        headline:'ANDは「両方」、ORは「どちらか」',
+        copy:'2つの入力A・Bを0/1で考えます。ANDは両方1のときだけ1、ORは少なくとも一方が1なら1です。',
+        render:()=>logicTableView()
+      },
+      {
+        headline:'スイッチを切り替えて実験',
+        copy:'AとBをON/OFFして、ANDとORの出力を見比べてください。',
+        interactive:'logic'
+      },
+      {
+        headline:'真理値表にすると規則が見える',
+        copy:'論理演算は暗記だけでなく、4通りの入力を書き出すと整理しやすくなります。',
+        render:()=>logicTableView()
+      },
+      {
+        headline:'ミニチェック',
+        copy:'A=1、B=0 のとき A OR B は？',
+        quiz:{options:['0','1','AとBで決まらない','エラー'],answer:1,explain:'ORは少なくとも一方が1なら1です。Aが1なので結果は1です。'}
+      }
+    ]
+  },
+
+  cache:{
+    title:'キャッシュ HIT / MISS', cat:'コンピュータ', skill:'コンピュータ',
+    pages:[
+      {
+        headline:'CPUの近くに高速な「よく使う物置」',
+        copy:'キャッシュは、CPUが頻繁に使うデータを高速な場所に置き、主記憶へ行く回数を減らします。',
+        render:()=>cacheView('idle')
+      },
+      {
+        headline:'HITとMISSを比較',
+        copy:'まずHIT、次にMISSを押して、データ取得経路の違いを見てみましょう。',
+        interactive:'cache'
+      },
+      {
+        headline:'HITが多いほど平均アクセス時間は短くなる',
+        copy:'欲しいデータがキャッシュにあれば高速。なければ主記憶へ取りに行くため時間がかかります。',
+        render:()=>cacheView('hit')
+      },
+      {
+        headline:'ミニチェック',
+        copy:'キャッシュミスが起きた場合、一般に次に参照するのは？',
+        quiz:{options:['主記憶','必ずSSDだけ','プリンタ','DNSサーバ'],answer:0,explain:'キャッシュに目的データがなければ、通常はより下位の記憶階層である主記憶などへアクセスします。'}
+      }
+    ]
+  },
+
+  stackqueue:{
+    title:'スタック・キュー', cat:'アルゴリズム', skill:'アルゴリズム',
+    pages:[
+      {
+        headline:'スタックはLIFO、キューはFIFO',
+        copy:'スタックは最後に入れたものから取り出し、キューは最初に入れたものから取り出します。',
+        render:()=>dataStructureView(['A','B','C'],['A','B','C'])
+      },
+      {
+        headline:'実際に取り出して比べる',
+        copy:'スタックからPOP、キューからDEQUEUEをそれぞれ1回実行してください。',
+        interactive:'stackqueue'
+      },
+      {
+        headline:'同じA→B→Cでも出てくる順番が違う',
+        copy:'スタックならCが先、キューならAが先。構造の違いが処理順に直結します。',
+        render:()=>dataStructureView(['A','B'],['B','C'])
+      },
+      {
+        headline:'ミニチェック',
+        copy:'A→B→Cの順にPUSHしたスタックから最初にPOPされるのは？',
+        quiz:{options:['A','B','C','取り出せない'],answer:2,explain:'スタックは後入れ先出し（LIFO）なので、最後にPUSHしたCが最初です。'}
+      }
+    ]
+  },
+
+  sql:{
+    title:'SQL WHEREを動かす', cat:'データベース', skill:'データベース',
+    pages:[
+      {
+        headline:'SELECTは「何を見るか」、WHEREは「どの行か」',
+        copy:'社員表から、給与が30万円以上の社員だけを取り出す例で確認します。',
+        render:()=>sqlView(false)
+      },
+      {
+        headline:'WHERE salary >= 300000 を実行',
+        copy:'ボタンを押すと、条件に合わない行が薄くなります。',
+        interactive:'sql'
+      },
+      {
+        headline:'条件を満たす行だけが結果になる',
+        copy:'WHERE句は行を絞り込みます。比較演算子 >= は「以上」です。',
+        render:()=>sqlView(true)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'年齢が40未満の行を選ぶWHERE句は？',
+        quiz:{options:['WHERE age < 40','WHERE age > 40','WHERE age = 40','WHERE age <= 0'],answer:0,explain:'40未満は40を含まないため、< 40 を使います。'}
+      }
+    ]
+  },
+
+  tcpudp:{
+    title:'TCPとUDP', cat:'ネットワーク', skill:'ネットワーク',
+    pages:[
+      {
+        headline:'TCPは確実さ、UDPは軽さ',
+        copy:'TCPは再送・順序制御などで信頼性を高めます。UDPは処理が軽く、多少の欠落を許容できる用途で使われます。',
+        render:()=>protocolView('idle')
+      },
+      {
+        headline:'パケット2が消えたらどうなる？',
+        copy:'TCPとUDPそれぞれの挙動をボタンで確認してください。',
+        interactive:'tcpudp'
+      },
+      {
+        headline:'TCPは再送、UDPは基本的にそのまま',
+        copy:'TCPは欠落を検出すると再送して整えます。UDP自体にはTCPのような再送制御はありません。',
+        render:()=>protocolView('tcp')
+      },
+      {
+        headline:'ミニチェック',
+        copy:'信頼性よりリアルタイム性や軽量さを重視する場面で使われやすいのは？',
+        quiz:{options:['UDP','TCPだけ','SQL','DNSだけ'],answer:0,explain:'UDPは再送や接続管理の負担が小さく、リアルタイム通信などで利用されます。'}
+      }
+    ]
+  },
+
+  signature:{
+    title:'デジタル署名', cat:'セキュリティ', skill:'セキュリティ',
+    pages:[
+      {
+        headline:'「秘密にする暗号化」と目的が違う',
+        copy:'デジタル署名は主に、送信者本人であることと内容が改ざんされていないことの確認に使います。',
+        render:()=>signatureView(0)
+      },
+      {
+        headline:'署名を作って検証してみる',
+        copy:'ハッシュ→秘密鍵で署名→公開鍵で検証、の順に進めます。',
+        interactive:'signature'
+      },
+      {
+        headline:'署名者の秘密鍵で作り、公開鍵で確かめる',
+        copy:'秘密鍵を持つ本人だけが署名を作れ、対応する公開鍵を使って他者が検証できます。',
+        render:()=>signatureView(3)
+      },
+      {
+        headline:'ミニチェック',
+        copy:'デジタル署名を作成するとき、署名者が使用する鍵は？',
+        quiz:{options:['署名者の秘密鍵','署名者の公開鍵','受信者の秘密鍵','共通鍵だけ'],answer:0,explain:'署名者本人だけが持つ秘密鍵で署名し、署名者の公開鍵で検証します。'}
+      }
+    ]
+  },
+
+  mutex:{
+    title:'排他制御', cat:'データベース', skill:'データベース',
+    pages:[
+      {
+        headline:'同じデータを同時に書き換えると危険',
+        copy:'在庫が1個だけなのに、2人が同時に「まだ1個ある」と読んで購入処理すると矛盾が起こり得ます。',
+        render:()=>lockView('idle')
+      },
+      {
+        headline:'LOCKしてから更新する',
+        copy:'利用者Aが在庫データをLOCKし、その間Bを待たせる流れを体験します。',
+        interactive:'mutex'
+      },
+      {
+        headline:'排他制御で競合を避ける',
+        copy:'共有データへ同時に矛盾した更新が入らないよう、一方の処理中は他方を待機させます。',
+        render:()=>lockView('locked')
+      },
+      {
+        headline:'ミニチェック',
+        copy:'排他制御の主な目的として最も適切なのは？',
+        quiz:{options:['同時更新によるデータ不整合を防ぐ','通信を暗号化する','CPUを高速化する','ファイルを圧縮する'],answer:0,explain:'排他制御は共有資源への競合アクセスを制御し、データ不整合などを防ぎます。'}
+      }
+    ]
+  },
+
   binary:{
     title:'2進数を触って理解', cat:'基礎理論', skill:'基礎理論',
     pages:[
@@ -3021,6 +3392,71 @@ const LESSONS = {
   }
 };
 
+
+function logicTableView(){
+  return `<table class="logic-table">
+    <tr><th>A</th><th>B</th><th>A AND B</th><th>A OR B</th></tr>
+    <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+  </table>`;
+}
+function cacheView(mode){
+  const hit=mode==='hit';
+  const miss=mode==='miss';
+  return `<div class="cache-demo">
+    <div class="cache-box hot"><div style="font-size:28px">⚡</div><b>CPU</b><div class="cache-clock">1</div><div class="sub">要求</div></div>
+    <div class="cpu-arrow">→</div>
+    <div class="cache-box ${hit?'hot':''}"><div style="font-size:28px">🚀</div><b>CACHE</b><div class="cache-clock">${hit?'HIT':miss?'MISS':'?'}</div></div>
+    <div class="cpu-arrow">→</div>
+    <div class="cache-box slow ${miss?'hot':''}"><div style="font-size:28px">🧠</div><b>主記憶</b><div class="cache-clock">${miss?'取得':'待機'}</div></div>
+  </div>`;
+}
+function dataStructureView(stack,queue){
+  return `<div class="ds-stage">
+    <div class="ds-panel"><div class="ds-label">STACK（LIFO）</div><div class="ds-items stack-items">${stack.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
+    <div class="ds-panel"><div class="ds-label">QUEUE（FIFO）</div><div class="ds-items queue-items">${queue.map(x=>`<div class="ds-item">${x}</div>`).join('')}</div></div>
+  </div>`;
+}
+function sqlView(filtered){
+  const rows=[['佐藤',280000],['鈴木',320000],['田中',410000],['高橋',260000]];
+  return `<table class="sql-table"><tr><th>name</th><th>salary</th></tr>${
+    rows.map(r=>`<tr class="${filtered&&r[1]<300000?'filtered':''}"><td>${r[0]}</td><td>${r[1].toLocaleString()}</td></tr>`).join('')
+  }</table>
+  <div class="sql-code">SELECT name, salary<br>FROM employee<br>WHERE salary &gt;= 300000;</div>`;
+}
+function protocolView(mode){
+  const tcp = mode==='tcp';
+  const udp = mode==='udp';
+  const packets=(resend)=>[1,2,3,4].map(n=>{
+    if(n===2 && !resend) return `<div class="packet lost">2</div>`;
+    if(n===2 && resend) return `<div class="packet resent">2↻</div>`;
+    return `<div class="packet ok">${n}</div>`;
+  }).join('');
+  return `<div class="protocol-grid">
+    <div class="protocol-card ${tcp?'active':''}"><b>TCP</b><div class="packet-row">${packets(tcp)}</div><div class="sub">${tcp?'2を再送して1,2,3,4をそろえる':'欠落を検出したら再送できる'}</div></div>
+    <div class="protocol-card ${udp?'active':''}"><b>UDP</b><div class="packet-row">${packets(false)}</div><div class="sub">${udp?'2が欠けたまま到着':'再送制御を持たない'}</div></div>
+  </div>`;
+}
+function signatureView(active){
+  return `<div class="signature-flow">
+    <div class="sig-card ${active>=1?'active':''}"><div style="font-size:28px">📄</div><b>文書をハッシュ</b><span class="sig-hash">A7C4...</span></div>
+    <div class="cpu-arrow">→</div>
+    <div class="sig-card ${active>=2?'active':''}"><div style="font-size:28px">✍️</div><b>秘密鍵で署名</b><div class="sub">署名データを作る</div></div>
+    <div class="cpu-arrow">→</div>
+    <div class="sig-card ${active>=3?'active':''}"><div style="font-size:28px">✅</div><b>公開鍵で検証</b><div class="sub">本人性・改ざん確認</div></div>
+  </div>`;
+}
+function lockView(mode){
+  const locked=mode==='locked';
+  return `<div class="lock-demo">
+    <div class="worker"><div style="font-size:28px">👤</div><b>利用者A</b><div class="sub">${locked?'更新中':'購入したい'}</div></div>
+    <div class="resource ${locked?'locked':''}"><div class="lock-icon">${locked?'🔒':'📦'}</div><b>在庫：1</b><div class="sub">${locked?'AがLOCK中':'共有データ'}</div></div>
+    <div class="worker ${locked?'wait':''}"><div style="font-size:28px">👤</div><b>利用者B</b><div class="sub">${locked?'待機中…':'購入したい'}</div></div>
+  </div>`;
+}
+
 function cpuFlow(active){
   const labels=[['📥','FETCH','命令を取り出す'],['🧠','DECODE','命令を解読'],['⚡','EXECUTE','命令を実行']];
   return `<div class="cpu-flow">${
@@ -3067,6 +3503,12 @@ let lessonQuizDone=false;
 let cpuStep=0;
 let txnState=0;
 let cryptoStep=0;
+let logicSeen=new Set();
+let cacheSeen=new Set();
+let dsSeen=new Set();
+let protocolSeen=new Set();
+let signatureStep=0;
+let mutexStep=0;
 let lessonCompleteMode=false;
 
 function updateCourseUI(){
@@ -3101,7 +3543,7 @@ function startLesson(id){
 function resetLessonState(){
   lessonInteractiveDone=false;
   lessonQuizDone=false;
-  cpuStep=0;txnState=0;cryptoStep=0;
+  cpuStep=0;txnState=0;cryptoStep=0;logicSeen=new Set();cacheSeen=new Set();dsSeen=new Set();protocolSeen=new Set();signatureStep=0;mutexStep=0;
 }
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
@@ -3221,6 +3663,147 @@ function renderInteractive(type,stage){
     });
   }
 
+
+  if(type==='logic'){
+    let A=0,B=0;
+    const draw=()=>{
+      const andv=A&&B?1:0, orv=A||B?1:0;
+      stage.innerHTML=`<div class="logic-switches">
+        <button class="logic-switch ${A?'on':''}" id="logicA">A = ${A}</button>
+        <button class="logic-switch ${B?'on':''}" id="logicB">B = ${B}</button>
+        <div style="text-align:center"><div class="sub">AND</div><div class="logic-out ${andv?'on':''}">${andv}</div></div>
+        <div style="text-align:center"><div class="sub">OR</div><div class="logic-out ${orv?'on':''}">${orv}</div></div>
+      </div><div class="lesson-copy">4通りすべて試してみましょう。</div>`;
+      document.getElementById('logicA').onclick=()=>{A=A?0:1;logicSeen.add(`${A}${B}`);draw();check();};
+      document.getElementById('logicB').onclick=()=>{B=B?0:1;logicSeen.add(`${A}${B}`);draw();check();};
+    };
+    const check=()=>{
+      logicSeen.add(`${A}${B}`);
+      if(logicSeen.size>=4){
+        lessonInteractiveDone=true;
+        showLessonFeedback('✅ 4通り確認できました。ANDは11だけ1、ORは00だけ0です。');
+      }
+    };
+    logicSeen.add('00');draw();
+  }
+
+  if(type==='cache'){
+    stage.innerHTML=`<div id="cacheDynamic">${cacheView('idle')}</div>
+      <div class="txn-buttons"><button class="secondary" id="cacheHit">⚡ HITを見る</button><button class="purple-btn" id="cacheMiss">🐢 MISSを見る</button></div>`;
+    document.getElementById('cacheHit').onclick=()=>{
+      cacheSeen.add('hit');
+      document.getElementById('cacheDynamic').innerHTML=cacheView('hit');
+      showLessonFeedback('⚡ HIT：キャッシュにデータがあり、主記憶まで行かずに取得できました。');
+      if(cacheSeen.size>=2) lessonInteractiveDone=true;
+    };
+    document.getElementById('cacheMiss').onclick=()=>{
+      cacheSeen.add('miss');
+      document.getElementById('cacheDynamic').innerHTML=cacheView('miss');
+      showLessonFeedback('🐢 MISS：キャッシュになかったので、主記憶へ取りに行きました。');
+      if(cacheSeen.size>=2) lessonInteractiveDone=true;
+    };
+  }
+
+  if(type==='stackqueue'){
+    let stack=['A','B','C'], queue=['A','B','C'];
+    const draw=()=>{
+      stage.innerHTML=`${dataStructureView(stack,queue)}
+      <div class="ds-controls">
+        <button class="purple-btn" id="popStack">STACK: POP</button>
+        <button class="secondary" id="deqQueue">QUEUE: DEQUEUE</button>
+      </div>`;
+      document.getElementById('popStack').onclick=()=>{
+        if(stack.length){
+          const x=stack.pop(); dsSeen.add('stack'); draw();
+          showLessonFeedback(`STACKでは <b>${x}</b> が出ました。最後に入れたCから取り出すLIFOです。`);
+          if(dsSeen.size>=2) lessonInteractiveDone=true;
+        }
+      };
+      document.getElementById('deqQueue').onclick=()=>{
+        if(queue.length){
+          const x=queue.shift(); dsSeen.add('queue'); draw();
+          showLessonFeedback(`QUEUEでは <b>${x}</b> が出ました。最初に入れたAから取り出すFIFOです。`);
+          if(dsSeen.size>=2) lessonInteractiveDone=true;
+        }
+      };
+    };
+    draw();
+  }
+
+  if(type==='sql'){
+    stage.innerHTML=`<div id="sqlDynamic">${sqlView(false)}</div>
+      <div style="text-align:center;margin-top:15px"><button class="purple-btn" id="runSql">▶ WHEREを実行</button></div>`;
+    document.getElementById('runSql').onclick=()=>{
+      document.getElementById('sqlDynamic').innerHTML=sqlView(true);
+      document.getElementById('runSql').disabled=true;
+      lessonInteractiveDone=true;
+      showLessonFeedback('✅ salaryが300000未満の佐藤さん・高橋さんが除外されました。');
+    };
+  }
+
+  if(type==='tcpudp'){
+    stage.innerHTML=`<div id="protocolDynamic">${protocolView('idle')}</div>
+      <div class="txn-buttons"><button class="secondary" id="showTcp">TCPの挙動</button><button class="purple-btn" id="showUdp">UDPの挙動</button></div>`;
+    document.getElementById('showTcp').onclick=()=>{
+      protocolSeen.add('tcp');
+      document.getElementById('protocolDynamic').innerHTML=protocolView('tcp');
+      showLessonFeedback('TCP：欠けた2番を再送し、データをそろえます。');
+      if(protocolSeen.size>=2) lessonInteractiveDone=true;
+    };
+    document.getElementById('showUdp').onclick=()=>{
+      protocolSeen.add('udp');
+      document.getElementById('protocolDynamic').innerHTML=protocolView('udp');
+      showLessonFeedback('UDP：UDP自体は再送制御を行わないため、欠落した状態でも先へ進めます。');
+      if(protocolSeen.size>=2) lessonInteractiveDone=true;
+    };
+  }
+
+  if(type==='signature'){
+    stage.innerHTML=`<div id="sigDynamic">${signatureView(0)}</div>
+      <div style="text-align:center;margin-top:16px"><button class="purple-btn" id="sigStepBtn">① ハッシュを作る</button></div>`;
+    document.getElementById('sigStepBtn').onclick=()=>{
+      signatureStep++;
+      if(signatureStep===1){
+        document.getElementById('sigDynamic').innerHTML=signatureView(1);
+        document.getElementById('sigStepBtn').textContent='② 秘密鍵で署名';
+        showLessonFeedback('文書からハッシュ値を作りました。');
+      }else if(signatureStep===2){
+        document.getElementById('sigDynamic').innerHTML=signatureView(2);
+        document.getElementById('sigStepBtn').textContent='③ 公開鍵で検証';
+        showLessonFeedback('署名者の秘密鍵で署名データを作りました。');
+      }else{
+        document.getElementById('sigDynamic').innerHTML=signatureView(3);
+        document.getElementById('sigStepBtn').disabled=true;
+        document.getElementById('sigStepBtn').textContent='✓ 検証完了';
+        lessonInteractiveDone=true;
+        showLessonFeedback('✅ 署名者の公開鍵で検証しました。文書の改ざんや署名者を確認する仕組みです。');
+      }
+    };
+  }
+
+  if(type==='mutex'){
+    stage.innerHTML=`<div id="lockDynamic">${lockView('idle')}</div>
+      <div class="lock-controls"><button class="purple-btn" id="lockA">① AがLOCK</button><button class="secondary" id="unlockA" disabled>② Aが更新完了・UNLOCK</button></div>`;
+    document.getElementById('lockA').onclick=()=>{
+      mutexStep=1;
+      document.getElementById('lockDynamic').innerHTML=lockView('locked');
+      document.getElementById('lockA').disabled=true;
+      document.getElementById('unlockA').disabled=false;
+      showLessonFeedback('🔒 AがLOCK中なので、Bは同じ在庫を勝手に更新せず待機します。');
+    };
+    document.getElementById('unlockA').onclick=()=>{
+      mutexStep=2;
+      document.getElementById('lockDynamic').innerHTML=`<div class="lock-demo">
+        <div class="worker"><div style="font-size:28px">👤</div><b>利用者A</b><div class="sub">購入完了</div></div>
+        <div class="resource"><div class="lock-icon">📦</div><b>在庫：0</b><div class="sub">UNLOCK</div></div>
+        <div class="worker"><div style="font-size:28px">👤</div><b>利用者B</b><div class="sub">在庫0を確認</div></div>
+      </div>`;
+      document.getElementById('unlockA').disabled=true;
+      lessonInteractiveDone=true;
+      showLessonFeedback('✅ Aの処理後にBが在庫0を確認できます。同時更新による矛盾を防げました。');
+    };
+  }
+
   if(type==='binarysearch'){
     stage.innerHTML=`${searchView(false)}
       <div class="micro-options"><button class="micro-option" data-side="left">← 左側を残す</button><button class="micro-option" data-side="right">右側を残す →</button></div>`;
@@ -3314,17 +3897,14 @@ function completeLesson(){
 }
 
 // Home main quest starts the weakest matching implemented lesson.
+function pickLessonForSkill(skill){
+  const ids=Object.keys(LESSONS).filter(id=>LESSONS[id].skill===skill);
+  const incomplete=ids.find(id=>(profile.lessonProgress?.[id]||0)<100);
+  return incomplete || ids[0] || 'binarysearch';
+}
 document.getElementById('startQuest')?.addEventListener('click',()=>{
   const weak=sortedSkills()[0]?.[0]||'アルゴリズム';
-  const map={
-    '基礎理論':'binary',
-    'コンピュータ':'cpu',
-    'データベース':'transaction',
-    'ネットワーク':'subnet',
-    'セキュリティ':'crypto',
-    'アルゴリズム':'binarysearch'
-  };
-  startLesson(map[weak]||'binarysearch');
+  startLesson(pickLessonForSkill(weak));
 });
 
 
