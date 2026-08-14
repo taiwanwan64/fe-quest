@@ -30,3 +30,6 @@ FE QUEST v117 — 起動・保存停止ループ修正監査
 データ不変
 - QUESTION_BANK / CORE_A_CURRICULUM / SECURITY_SCENARIOS / B_EXERCISES / B_COMPOUND_SETS はv116とSHA-256一致
 - Profile Schema v5のまま
+
+公開
+- GitHub Pagesがv117の最終mainを確実に再取得するよう、v117リリース後に明示的なPages再デプロイ用コミットを追加。
