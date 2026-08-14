@@ -1,0 +1,67 @@
+name: FE QUEST v119 UI fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply v119 UI fixes
+        run: |
+          base64 -d tools/v118_to_v119.patch.b64 > /tmp/v119.patch
+          git apply /tmp/v119.patch
+
+      - name: Verify syntax and version
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, json
+          s=Path('index.html').read_text()
+          assert "const APP_VERSION = 'v119'" in s
+          assert 'exercise-session-active' in s
+          assert 'single-primary' in s
+          js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
+          Path('/tmp/feq119.js').write_text(js)
+          json.loads(Path('manifest.webmanifest').read_text())
+          PY
+          node --check /tmp/feq119.js
+          node --check sw.js
+
+      - name: Add v119 audit and commit
+        run: |
+          cat > audits/MOBILE_FOCUS_AND_CTA_ALIGNMENT_AUDIT_v119.txt <<'EOF'
+          FE QUEST v119 — スマホ横スクロール / 演習集中表示 / CTA配置監査
+
+          対象
+          - 科目A教材などで通常本文を読むために右スクロールが必要になる。
+          - 演習開始後も演習ハブの説明、おすすめ、ショートカットが残る。
+          - ヒント非表示後の「もう一度回答する」「結果を見る」が左側へ自動配置される。
+          - 問題上部のバッジ列が狭い画面で右へはみ出す。
+
+          修正
+          1. 通常教材は横スクロール禁止。コード・比較表・明示的図だけ内部スクロールを許可。
+          2. exercise-session-active を追加し、演習中はハブUIを隠して問題／結果だけ表示。
+          3. single-primary で単独前進CTAをスマホ右側へ統一。
+          4. quiz-top を折返し可能にし、問題バッジの右はみ出しを防止。
+          5. 科目Bセキュリティの単独次アクションも右側へ統一。
+
+          検証
+          - MAIN_JS_SYNTAX_OK
+          - SW_SYNTAX_OK
+          - MANIFEST_JSON_OK
+          - Profile Schema v5維持
+          - 問題・教材データ変更なし
+          EOF
+          git rm .github/workflows/v119-ui-fix.yml tools/v118_to_v119.patch.b64
+          git add index.html manifest.webmanifest sw.js audits/MOBILE_FOCUS_AND_CTA_ALIGNMENT_AUDIT_v119.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Release FE QUEST v119 mobile focus fixes"
+          git push
