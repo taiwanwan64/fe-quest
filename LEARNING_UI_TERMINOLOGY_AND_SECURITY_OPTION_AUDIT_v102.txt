@@ -1,0 +1,106 @@
+FE QUEST PWA v102
+Learning UI terminology + security option quality audit
+Date: 2026-08-14
+
+Purpose
+- Continue v101's mobile/readability work.
+- Remove remaining overtly game-like user-facing terminology while preserving the FE QUEST brand and light gamification such as XP/streaks.
+- Audit all 15 Subject B security case exercises (45 questions) and strengthen questions where distractors were too obviously wrong.
+- Preserve the existing question bank and learning curriculum outside the security-case option edits.
+
+1. Learning-app terminology, second pass
+User-facing wording changed:
+- 今日のクエスト -> 今日の学習
+- クエスト完了 -> 今日の学習完了
+- 今後のクエスト -> 今後の学習
+- 今日のBOSS / 直前BOSS -> 今日の総合チェック / 直前総合チェック (v101, retained)
+- シナリオ -> ケース演習 / 演習 (v101, retained)
+- MASTER -> 習得 / 習得状態
+- 総仕上げゲート -> 総仕上げ基準
+
+Visible-markup audit:
+- 今日のクエスト: 0
+- クエスト完了: 0
+- BOSS: 0
+- シナリオ: 0
+- MASTER: 0
+- 総仕上げゲート: 0
+
+Notes:
+- Technical terms such as デフォルトゲートウェイ are untouched.
+- Internal variable/function names can still contain historical names (e.g. boss/master) because they are not shown to learners and changing them would add migration/regression risk without UI benefit.
+- FE QUEST brand name, XP and streak remain. These are light gamification rather than the overt role-play/game terminology the user asked to remove.
+
+2. Subject B security case option-quality audit
+Scope:
+- 15 cases
+- 45 questions
+- All 45 reviewed
+- 17 questions had distractor sets rewritten
+
+Rewritten groups include:
+- ransomware: backup/recovery, investigation evidence
+- access control: recurrence prevention
+- suspicious login: follow-up evidence
+- risk management: prioritization factors
+- SQL injection: parameterization and least privilege
+- XSS: output controls
+- password spray: compromised-account response and prevention
+- unknown USB: preventive controls and safe inspection
+- data exfiltration: first response, prevention and investigation scope
+- password storage: password hashing alternatives
+- patch management: pre-deployment considerations
+
+Design goal:
+- Wrong choices should often represent incomplete, secondary, or locally useful actions rather than obviously nonsensical actions.
+- There must still be one best answer under the stated conditions.
+- Correct-answer indices, question stems, explanations and hints were kept unchanged for the rewritten questions.
+
+Correct-answer position balance across the 45 security questions:
+- A: 12
+- B: 11
+- C: 11
+- D: 11
+
+3. Content-regression guard
+SHA-256 block comparison v101 -> v102:
+- QUESTION_BANK: unchanged
+- CORE_A_CURRICULUM: unchanged
+- B_EXERCISES: unchanged
+- B_COMPOUND_SETS: unchanged
+- SECURITY_SCENARIOS: intentionally changed (option wording only for 17 questions)
+
+4. Version / persistence
+- App version: v102
+- Profile Schema: v5 (unchanged)
+- No new migration required.
+- manifest.webmanifest updated to v102.
+- Service Worker APP_VERSION/CACHE_NAME updated to v102.
+
+5. Validation
+Passed:
+- Main inline JavaScript syntax: OK (Node --check)
+- Service Worker syntax: OK (Node --check)
+- Manifest JSON: OK
+- Security cases: 15
+- Security questions: 45
+- Modified security option sets: 17
+- Correct-answer positions unchanged
+- Major non-security learning datasets unchanged
+- Old overt game terms absent from visible HTML markup
+
+Real-browser test status:
+- A headless Chromium E2E attempt was made against the local v102 build.
+- The managed execution environment blocks 127.0.0.1 pages with "Your organization doesn’t allow you to view this site", so this cannot honestly be marked as a successful browser E2E run.
+- Static layout contracts and syntax/data checks were completed instead.
+
+Planned later pass (requested by user)
+A separate whole-app daily-use UX audit should be done after the current terminology/question-quality cleanup:
+- Can the learner start today's study with minimal taps?
+- Is the next action obvious on every screen?
+- Are there duplicate/low-value labels, cards or explanatory text?
+- Does every completion screen route naturally to the next useful action?
+- Can routine study be resumed quickly after reopening the PWA?
+- Are advanced/recovery/settings features visually secondary to normal study?
+- Are phone layouts usable without page-level horizontal scrolling?
+This should be treated as a cross-screen workflow audit rather than isolated CSS edits.

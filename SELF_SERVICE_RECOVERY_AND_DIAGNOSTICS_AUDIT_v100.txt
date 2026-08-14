@@ -1,0 +1,275 @@
+FE QUEST v100 — 復旧センター・選択復元・自己診断 横断監査
+
+目的
+v99までで、原子的profile保存、revision＋writer lease、画面復帰時の再検証、
+更新直前の保存確認、最大4件のIndexedDB復旧点まで実装した。
+
+v100では「内部では復旧できる」だけでなく、実際に長期間使う本人が
+異常を感じたときに、現在状態と過去状態を確認し、安全に選んで戻せることを主眼にした。
+
+今回もiPhone Safariホーム画面PWAでの実機E2Eではない。
+JS/SW構文、manifest、v99互換コード比較、実v100関数を使ったNode復元テスト、
+主要学習データブロックのSHA-256完全比較を中心に確認した。
+
+────────────────────
+1. Profile Schemaはv5を維持
+────────────────────
+
+APP_VERSION = v100
+PROFILE_SCHEMA_VERSION = 5
+
+v100では学習履歴のデータ構造自体は変更していないため、schema更新は行わない。
+
+v99とv100で次の互換性の中核関数がバイト単位で同一であることを確認した。
+
+- migrateProfileData
+- normalizeProfileData
+- stableJson
+- fnv1a32
+- profileIntegrityChecksum
+- decodeBackupPayload
+
+したがってv99のschema v5 current profile / backup checksum契約を維持する。
+
+V99_TO_V100_PROFILE_COMPAT_CODE_OK
+
+さらにv99形式のschema v5 backupをv100実関数でdecodeし、
+XP・lessonProgress・schemaを保持できることをNodeで確認した。
+
+V99_TO_V100_BACKUP_COMPAT_OK
+
+────────────────────
+2. 「復旧センター」を追加
+────────────────────
+
+設定 → アプリ・データに「復旧センター」を追加した。
+
+表示対象:
+- localStorageに保持する一世代前の正常データ
+- IndexedDBに保持する最大4件の長期復旧点
+
+各候補について、復元前に次を表示する。
+
+- 作成日時
+- 作成理由
+  - 手動作成
+  - 自動保護
+  - アプリ更新前
+  - バックアップ読込前/後
+  - バージョン初回
+  - 手動復元前 など
+- XP
+- 科目A完了テーマ数
+- 演習済み問題数
+- 科目B進捗
+
+checksum検証に失敗した復旧点は「使用できません」と表示し、復元ボタンを出さない。
+現在profileとchecksumが同じ候補についても「現在と同じ」と表示し、不要な復元ボタンを出さない。
+
+V100_RECOVERY_CENTER_CONTRACT_OK
+
+────────────────────
+3. 復旧点をユーザーが選んで戻せる
+────────────────────
+
+v99までは通常データが壊れた場合に最新の有効IndexedDB復旧点へ自動復旧できたが、
+「データ自体は正常だが、数日前の状態へ戻したい」という操作経路はなかった。
+
+v100では候補ごとに「この状態を確認・復元」を追加した。
+
+復元時は、確認ダイアログに
+
+現在: XP / 科目A完了 / 演習済み問題数 / 科目B
+復元先: 同じ指標
+
+を並べ、何へ戻るのかを確認してから実行する。
+
+復元処理は古いrevisionをそのまま書くのではなく、現在の最新revisionより新しい世代として保存する。
+そのため、過去状態への復元であっても保存世代は前進する。
+
+Node実関数テスト:
+- current XP=100を保存
+- 一世代前候補 XP=50を準備
+- restoreRecoveryCandidate()を実行
+- atomic currentはXP=50へ変更
+- revisionは復元前より増加
+
+V100_SELECTED_RECOVERY_APPLY_OK
+V100_RECOVERY_REVISION_FORWARD_OK
+
+────────────────────
+4. 手動復元そのものを1回取り消せる
+────────────────────
+
+過去データへ戻す操作自体が新しい事故点にならないよう、復元直前に現在profileを
+PRE_MANUAL_RESTORE_PROFILE_KEYへchecksum付きbackup payloadとして1回分退避する。
+
+さらに可能ならIndexedDBにも
+reason = pre-manual-restore
+の長期復旧点を作成してから復元する。
+
+復元後は「直前の手動復元前へ戻す」を表示する。
+この操作を使うと、手動復元前の状態へ戻せる。
+一度戻した後は一時rollbackを消費し、同じボタンは消える。
+
+Node実関数テスト:
+- XP=100 → XP=50の復旧点へ手動復元
+- PRE_MANUAL_RESTOREからXP=100が復号できる
+- restorePreManualProfile()でXP=100へ戻る
+- rollback keyが削除される
+
+V100_PRE_MANUAL_RESTORE_ROLLBACK_OK
+V100_MANUAL_RESTORE_UNDO_OK
+V100_MANUAL_RESTORE_UNDO_CONSUMES_ROLLBACK_OK
+
+────────────────────
+5. 複数画面競合中・保存停止中は手動復元しない
+────────────────────
+
+手動復元は強い書込み操作なので、次の場合は拒否する。
+
+- profileWriteBlocked=true
+- profileConflictBlocked=true
+- future schemaを古いruntimeが検出中
+- writer leaseを別画面が保持中
+- 復元直前にrevision競合を検出
+
+復旧操作だからといってv98/v99の競合防止を迂回しない。
+別画面に新しい状態がある場合は、まず最新状態を読み込ませる。
+
+────────────────────
+6. 「安全性チェック」を追加
+────────────────────
+
+学習profileそのものを意図的に書き換えず、保存機構を確認する「安全性チェック」を追加した。
+
+確認項目:
+1. 現在データの整合性
+2. localStorageの一時キーで書込・読込・削除
+3. 一時IndexedDBで書込・読込
+4. Service Workerの制御状態（補助情報）
+
+localStorageテストは終了時に一時キーを削除する。
+IndexedDBテストは専用の一時DBを使い、終了後に削除する。
+既存の学習profileや既存復旧点をテストデータとして書き換えない。
+
+初回保存前は「データが存在しない正常な初期状態」として扱い、
+それだけを理由に安全性チェックを失敗扱いにはしない。
+
+────────────────────
+7. 診断レポートを書き出せる
+────────────────────
+
+「診断レポートを書き出す」を追加した。
+
+書き出すのは復旧・保存状態を確認するための集計情報であり、問題ごとの回答内容そのものは出さない。
+
+主な内容:
+- APP_VERSION / profile schema
+- revision
+- data integrity表示
+- writeBlocked / conflictBlocked
+- recovery source
+- 最終保存失敗の有無
+- XP・完了数・演習済み数などの集計
+- 使用可能/破損復旧候補数
+- 読込前rollback / 手動復元前rollbackの有無
+- Service Worker制御状態
+- persistent storage状態
+- storage usage / quota
+
+障害発生時に「何が壊れたか分からない」状態を減らすための情報である。
+
+────────────────────
+8. 自動復旧時の破損元データをユーザーが保全できる
+────────────────────
+
+v97以降、current profileの整合性異常を検出した場合は元rawを
+CORRUPT_PROFILE_KEYへ退避していたが、UIから取り出す方法がなかった。
+
+v100ではこの退避rawが存在すると「破損データを保全」を表示する。
+
+押すと、FE QUESTが勝手に正規化・修正せず、保全されているraw文字列をそのままtxtへ書き出す。
+通常利用で必要な操作ではないが、自動復旧でも救えなかったデータを後から解析する最後の退避経路になる。
+
+────────────────────
+9. 学習内容は変更していない
+────────────────────
+
+v99とv100の主要学習データブロックを完全比較した。
+
+QUESTION_BANK
+cb5b0aa0147f84e615b55418cb5a739dd4c757c0d068e8cdb5795f68fbaa8523
+UNCHANGED_OK
+
+CORE_A_CURRICULUM
+ee9b3346b51d716e027a641cfba31f0895fb4d15169a746cab7173c932ce1fdc
+UNCHANGED_OK
+
+B_EXERCISES
+129a417f8cb6a091ac83638175ac79076108f11b7580f512ac5592935bc97896
+UNCHANGED_OK
+
+B_COMPOUND_SETS
+bd634fb8ae8da25f40bb8780fa31ff08cbb43a46166f4ab3ee20b619b6af6332
+UNCHANGED_OK
+
+SECURITY_SCENARIOS
+69d30daab57d1442c4b3a6cd0c73d0ebf0c4fda2b08bde7323dafa052314bf04
+UNCHANGED_OK
+
+したがって、
+- 科目A 710問
+- 想起166 / 適用323 / 判断221
+- 正解位置 A178 / B178 / C177 / D177
+- 章末統合
+- MASTER
+- 総仕上げ8ゲート
+- 科目B
+- v96の直前7日テーパリング
+はv99から変更していない。
+
+────────────────────
+10. 最終検証
+────────────────────
+
+JS_SYNTAX_OK
+SW_SYNTAX_OK
+MANIFEST_JSON_OK
+VERSION_SW_MANIFEST_SYNC_OK
+APP_SHELL_FILES_OK
+
+V100_RECOVERY_CENTER_CONTRACT_OK
+V99_TO_V100_PROFILE_COMPAT_CODE_OK
+V99_TO_V100_BACKUP_COMPAT_OK
+V100_RECOVERY_SUMMARY_OK
+V100_SELECTED_RECOVERY_APPLY_OK
+V100_PRE_MANUAL_RESTORE_ROLLBACK_OK
+V100_RECOVERY_REVISION_FORWARD_OK
+V100_MANUAL_RESTORE_UNDO_OK
+V100_MANUAL_RESTORE_UNDO_CONSUMES_ROLLBACK_OK
+
+QUESTION_BANK_UNCHANGED_OK
+CORE_A_CURRICULUM_UNCHANGED_OK
+B_EXERCISES_UNCHANGED_OK
+B_COMPOUND_SETS_UNCHANGED_OK
+SECURITY_SCENARIOS_UNCHANGED_OK
+
+────────────────────
+11. 残る実機確認
+────────────────────
+
+v100で「壊れにくくする」だけでなく「本人が戻せる」操作まで用意したが、
+実際のiPhoneホーム画面PWAでの操作感・IndexedDB挙動はまだ実機確認していない。
+
+特に確認価値が高いもの:
+1. 数日学習して復旧点が複数できた状態で復旧センターを開く
+2. 古い復旧点へ戻す → XP/進捗が意図した状態になる
+3. 「直前の手動復元前へ戻す」で元状態へ戻る
+4. 機内モードでも復旧候補一覧が読める
+5. Safariとホーム画面PWAを同時に開いた状態では復元が競合保護される
+6. 「安全性チェック」の一時IndexedDBがiOSでも正常に作成・削除される
+7. 自動復旧が起きたケースで「破損データを保全」が表示される
+
+v100はここまでを想定したコード・保存契約・UIを実装した段階であり、
+実機E2E済みとは扱わない。

@@ -1,0 +1,303 @@
+FE QUEST v99 — 画面復帰・保存失敗・安全更新・復旧操作 横断監査
+
+目的
+v98では、原子的profile envelope、revision＋writer lease、migration journal、
+IndexedDB最大4復旧点、persistent storage確認まで実装した。
+
+v99では、実際に数か月使うと起きやすい「保存そのもの」以外の境界を監査した。
+
+1. iPhone/PWAがバックグラウンドから戻ったとき、storageイベントを取り逃しても古い画面を保護できるか
+2. 保存領域不足などで保存に失敗した後、画面上だけ進捗が進んだように見え続けないか
+3. Service Worker更新直前に未保存状態を残したまま切り替わらないか
+4. 更新直後にも復旧点を確保できるか
+5. ユーザー自身が現在の保存状態を確認・復旧点作成できるか
+6. より新しいschemaを検出した古い画面が、更新そのものを妨げたり空データを書き出したりしないか
+
+今回もiPhone Safari実機E2Eではない。
+Node VMでの共有localStorage競合検証、v98実コード互換検証、構文・manifest・Service Worker同期検査、
+データブロックSHA-256比較を中心に確認した。
+Chromiumでの実ブラウザ起動も試行したが、この実行環境ではURL navigationが
+ERR_BLOCKED_BY_ADMINISTRATORとなり、setContentによる2.6MB単一HTML全体の起動も実行時間上限内に完了しなかった。
+したがって「Chromium E2E済み」とは扱わない。
+
+────────────────────
+1. Profile Schemaはv5を維持
+────────────────────
+
+APP_VERSION = v99
+PROFILE_SCHEMA_VERSION = 5
+
+v99は学習データ構造そのものを増やしていないため、不要なschema更新は行っていない。
+v98のschema v5 profileをそのまま読み込める。
+
+実v98コードでXP=77、schema=5、revision=1のatomic profileを作成し、
+同じlocalStorageをv99コードで開いた結果、
+XP=77、schema=5、revision=1を維持した。
+
+V98_TO_V99_PROFILE_COMPAT_OK
+
+────────────────────
+2. 保存失敗時に「画面だけ進む」を戻す
+────────────────────
+
+v98では、profileを先にメモリ上で変更してからsaveProfile()する箇所が多い。
+そのためlocalStorage書込みが失敗すると、保存されていないXPや進捗が
+現在画面のメモリ上だけ残る可能性があった。
+
+v99では最後に正常保存できたprofileを
+profileCommittedSnapshot
+としてメモリにも保持する。
+
+保存成功:
+  現在profileをcommitted snapshotへ更新
+
+保存失敗 / stale tab / writer conflict:
+  未保存のメモリ変更を破棄
+  最後のcommitted snapshotへ戻す
+
+実保存エラーではさらにprofileWriteBlocked=trueとし、
+「保存を停止しました」と表示する。
+
+Node VMテスト:
+- XP=11まで正常保存
+- 次にXP=12345へ変更
+- atomic setItemだけQuotaExceeded相当で失敗させる
+
+結果:
+- saveProfile() = false
+- 画面メモリXP = 11へ復帰
+- committed XP = 11
+- profileWriteBlocked = true
+
+V99_COMMITTED_ROLLBACK_OK
+V99_STORAGE_FAILURE_BLOCK_OK
+
+────────────────────
+3. 画面復帰時にも保存世代を再検証
+────────────────────
+
+storageイベントだけに依存すると、OSがWebViewを凍結していた間やBFCache復帰時に
+古い画面が外部更新を即時認識できない可能性がある。
+
+v99ではrevalidateProfileFreshness()を追加し、
+
+- focus
+- visibilitychangeでvisibleへ復帰
+- pageshow
+- pageshow.persisted（BFCache相当）
+
+でatomic envelopeを再確認する。
+
+確認項目:
+- revisionが自分のprofileBaseRevisionより新しい
+- revisionが巻き戻っている
+- 同revisionなのにchecksumが変化している
+
+外部writerによる新世代、世代巻戻り、同世代内容差異を検出した場合、
+古い画面をread-only相当にして保存を止める。
+
+共有localStorage VMで、
+A: revision 3 / XP=11
+B: revision 2 / XP=10
+の状態からBが復帰再検証したところ、Bは競合を検出。
+その後BでXP=999へ変更してsaveProfile()してもfalseとなり、
+BのメモリXPは最後の確定値10へ戻った。
+
+V99_RESUME_FRESHNESS_GUARD_OK
+
+────────────────────
+4. 更新適用前に保存と復旧点を確認
+────────────────────
+
+v98の更新ボタンはUI位置を保存してSKIP_WAITINGしていたが、
+「現在profileが正常保存できること」までは更新直前に確認していなかった。
+
+v99のapplyPendingUpdateSafely()では、
+
+1. 別画面競合中なら更新適用を止める
+2. profile保存停止中なら通常更新適用を止める
+3. persistProfileSilently()で現在profileの保存を確認
+4. IndexedDBへ pre-update 強制復旧点を可能なら作成
+5. UI復帰位置を保存
+6. SKIP_WAITING
+
+の順にした。
+
+Node関数テスト:
+- 通常更新: save 1回 + pre-update checkpoint 1回 + SKIP_WAITING
+- 競合中: SKIP_WAITINGしない
+
+V99_PRE_UPDATE_SAVE_CHECKPOINT_OK
+V99_CONFLICT_UPDATE_BLOCK_OK
+
+────────────────────
+5. future schema時は更新を塞がない
+────────────────────
+
+v98→v99監査中に重要な境界を発見した。
+
+古いFE QUESTが「自分より新しいschema」を検出した場合、
+profileWriteBlocked=trueにするのは正しい。
+しかし更新適用側も一律にprofileWriteBlockedを拒否すると、
+
+「最新版へ更新しないと読めない」
+のに
+「保存停止中だから最新版へ更新できない」
+
+という行き止まりになり得る。
+
+v99ではprofileRecoverySource==='future'の場合だけ特別扱いし、
+古いruntimeからprofileへ一切書き込まず、waiting Service Workerの適用を許可する。
+新しい形式のprofileは既にlocalStorageに存在するため、これが安全な復帰経路になる。
+
+V99_FUTURE_SCHEMA_UPDATE_ESCAPE_OK
+
+またfuture schema検出中に「学習データを書き出す」を押した場合、
+古いruntimeのDEFAULT_PROFILEを誤ってバックアップしないよう書出しを停止し、
+最新版への更新を案内する。
+
+────────────────────
+6. future schemaの読込前復帰も修正
+────────────────────
+
+v98の「直前の読込前データへ戻す」で、退避データが未来schemaだった場合、
+compatibility mirrorへ未来schemaを書き戻しても、
+現在のatomic envelopeが残っていると次回起動はatomicを優先するため、
+実際には未来schema状態へ戻らない可能性があった。
+
+v99では未来schemaへ正確に戻す場合、
+
+- STORAGE_KEYへ退避rawを書戻す
+- checksum mirrorを削除
+- PROFILE_ATOMIC_KEYを削除
+
+とし、次回起動時に未来schema mirrorを正しく検出させる。
+古いruntimeはそのデータを変換・上書きしない。
+
+FUTURE_SCHEMA_PREIMPORT_ROLLBACK_ATOMIC_CLEAR_OK
+
+────────────────────
+7. バージョン更新後の最初の起動で復旧点を作る
+────────────────────
+
+PROFILE_VERSION_CHECKPOINT_KEYを追加。
+
+現在APP_VERSIONの長期復旧点をまだ作っていない場合、起動後に
+reason = version-v99
+のIndexedDB復旧点を強制作成する。
+
+成功した場合だけv99作成済みを記録するため、
+IndexedDBが一時的に使えなければ次回起動で再試行できる。
+
+VERSION_RECOVERY_POINT_CONTRACT_OK
+
+────────────────────
+8. 「アプリ・データ」を復旧センター化
+────────────────────
+
+設定画面に追加:
+
+保存状態
+- revision番号
+- 最終atomic保存時刻
+- 競合停止 / 保存停止も表示
+
+データ整合性
+- atomic envelope
+- compatibility mirror
+- checksum
+を軽量検査し「正常 / 要確認」を表示
+
+外部バックアップ
+- 未作成
+- 今日
+- N日前
+を表示
+- 14日を超えると注意表示
+
+新しい操作:
+- データを検査
+- 復旧点を今作る
+
+「データを検査」はatomicとmirrorの整合性、長期復旧点数、一世代前退避の有無を確認する。
+「復旧点を今作る」は、まず現在profileを正常保存できることを確認してから
+IndexedDBへmanual recovery pointを作成する。
+
+────────────────────
+9. 学習内容は変更していない
+────────────────────
+
+v98とv99の主要データブロックをSHA-256で完全比較。
+
+QUESTION_BANK
+bf602ac000a6b3f4032dabe8e8ff3e232d6e46e921c85690f4fc3acc2e3f0794
+UNCHANGED_OK
+
+CORE_A_CURRICULUM
+f02a15b015bf53f2d10d846e238d56dd534dc7b61a78677388d8eeedb57100ba
+UNCHANGED_OK
+
+B_EXERCISES
+c127cb2516c1e931756791a15133ba8121dd42c8f55e41379b02b5fc7986c4cf
+UNCHANGED_OK
+
+B_COMPOUND_SETS
+28d4b472514806ee1674ce79ee7fd63472527d1987842a9b5954e7934337c71f
+UNCHANGED_OK
+
+SECURITY_SCENARIOS
+758a8dd204f01c9c6a6878fb0d29f297494a4ddb6048bb9d1bf1efc1f706dbeb
+UNCHANGED_OK
+
+したがって、
+- 科目A 710問
+- 想起166 / 適用323 / 判断221
+- 正解位置 A178 / B178 / C177 / D177
+- 章末統合
+- MASTER
+- 総仕上げ8ゲート
+- 科目B
+- v96の直前7日テーパリング
+の学習設計はv98から変更していない。
+
+────────────────────
+10. 最終検証
+────────────────────
+
+VERSION_SW_MANIFEST_SYNC_OK
+APP_SHELL_FILES_OK
+JS_SYNTAX_OK
+SW_SYNTAX_OK
+MANIFEST_JSON_OK
+
+V98_TO_V99_PROFILE_COMPAT_OK
+V99_COMMITTED_ROLLBACK_OK
+V99_STORAGE_FAILURE_BLOCK_OK
+V99_RESUME_FRESHNESS_GUARD_OK
+V99_PRE_UPDATE_SAVE_CHECKPOINT_OK
+V99_CONFLICT_UPDATE_BLOCK_OK
+V99_FUTURE_SCHEMA_UPDATE_ESCAPE_OK
+FUTURE_SCHEMA_PREIMPORT_ROLLBACK_ATOMIC_CLEAR_OK
+VERSION_RECOVERY_POINT_CONTRACT_OK
+
+QUESTION_BANK_UNCHANGED_OK
+CORE_A_CURRICULUM_UNCHANGED_OK
+B_EXERCISES_UNCHANGED_OK
+B_COMPOUND_SETS_UNCHANGED_OK
+SECURITY_SCENARIOS_UNCHANGED_OK
+
+────────────────────
+11. 残る実機確認
+────────────────────
+
+コード上の保存・更新境界はかなり詰めたが、次は実機確認の価値が高い。
+特にiPhoneのホーム画面PWAで、次を確認したい。
+
+1. 1問回答 → ホームへ → 数時間後に再開 → 正答履歴が残る
+2. PWAを開いたままSafari側でもFE QUESTを開き、一方で回答 → もう一方へ戻る
+3. 機内モードで終了 → PWA再起動 → 学習画面へ入れる
+4. オンライン復帰 → 更新確認 → 新版適用 → 同じ学習位置へ戻る
+5. バックアップ書出し → 読込 → 読込前へ戻す
+6. iOSがPWAプロセスを終了した後の復帰
+
+v99では、この実機確認で問題が見つかっても、設定画面から現在の保存revision・整合性・復旧点を確認しやすくした。

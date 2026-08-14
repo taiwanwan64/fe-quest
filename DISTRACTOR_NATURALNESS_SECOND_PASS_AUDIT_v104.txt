@@ -1,0 +1,48 @@
+FE QUEST PWA v104
+Distractor naturalness second-pass audit
+
+Purpose
+- Continue the v103 distractor-quality work.
+- Remove another common test-writing clue: incorrect choices that openly announce their incompleteness through wording such as “do X and omit Y”, “leave Y unchanged”, “delay Y”, or similar patterns.
+- Make learners reject distractors because the priority, scope, timing, mechanism, or target is wrong—not because the sentence sounds intentionally careless.
+
+What changed
+1. Subject A judgment questions
+- Reworked affected distractors involving transactions, concurrent updates, deadlock, OSS licensing, communication management, and SLA improvement.
+- Replaced intentionally careless choices with technically plausible but still inferior alternatives.
+
+2. Subject B security case questions
+- Reworked affected distractors in ransomware response, backup/recovery, suspicious-login response, risk treatment, SQL injection, XSS, password spraying, removable-media control, data exfiltration, password-hash leakage, signed software updates, and patch management.
+- Incorrect choices now more often represent:
+  * a reasonable action in the wrong order,
+  * a mitigation that does not solve the root problem,
+  * a narrower control than the question requires,
+  * a related security mechanism aimed at another threat,
+  * an over-broad or under-scoped response.
+
+3. Correct-answer stylistic cue
+- Shortened one Subject A network-management correct option that was materially longer than all three distractors.
+- High-risk correct-answer length outliers are now 0 under the v104 heuristic.
+
+Regression rules
+- Retains the v103 check against “○○だけ…” and gratuitous absolute wording.
+- Adds a second check for action-oriented distractors that reveal themselves through explicit omission/delay wording.
+
+Validation
+- Subject A base bank: 160 questions; answer keys unchanged.
+- Subject A linked questions: 390 questions; answer keys unchanged.
+- Subject A challenge questions: 160 questions; answer keys unchanged.
+- Subject A total: 710 questions.
+- Security: 15 cases / 45 questions; answer keys unchanged.
+- Judgment giveaway cue flags: 0.
+- Security giveaway cue flags: 0.
+- Judgment incomplete-action cue flags: 0.
+- Security incomplete-action cue flags: 0.
+- High-risk correct-answer length outliers: 0.
+- Profile Schema: v5 unchanged.
+- MAIN_JS_SYNTAX_OK
+- SW_SYNTAX_OK
+- MANIFEST_JSON_OK
+
+Design principle going forward
+A distractor should look like something a learner with partial knowledge could genuinely choose. It should usually fail because of subject-matter reasoning, not because it contains a conspicuous phrase such as “only”, “do nothing”, “ignore”, or “leave unchanged”.

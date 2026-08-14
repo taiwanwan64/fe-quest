@@ -1,0 +1,343 @@
+FE QUEST v98 — 複数画面・原子的保存・更新途中・保存領域 横断監査
+
+目的
+v97では、checksum、一世代ロールバック、IndexedDB最大4復旧点、schema移行、未来schema保護、MASTER復帰を実装した。
+
+v98では、数か月の実利用で残るデータ耐久性のリスクを次の4点から監査した。
+
+1. 同じFE QUESTを複数タブ・複数画面で開いたとき、古い画面が新しい学習履歴を上書きしないか
+2. localStorageへの保存途中でアプリやブラウザが終了しても、データ本体とchecksumが食い違わないか
+3. v97→v98の移行途中で終了しても、移行前または移行後の正常状態へ戻れるか
+4. ブラウザ保存領域が逼迫したとき、復旧用データのために本体保存を圧迫しないか
+
+今回も実ブラウザE2Eではない。
+Nodeの複数VMコンテキスト＋共有localStorage模擬、構文検査、v97実コードとのchecksum比較、静的契約検査を中心に確認した。
+
+────────────────────
+1. Profile Schema v5
+────────────────────
+
+v97:
+PROFILE_SCHEMA_VERSION = 4
+APP_VERSION = v97
+
+v98:
+PROFILE_SCHEMA_VERSION = 5
+APP_VERSION = v98
+
+profileMetaへ追加:
+- revision
+- lastWriterId
+
+revisionは保存成功ごとに増える。
+lastWriterIdは、どの画面がそのrevisionを書いたかを識別する。
+
+v98は互換ミラー fequest_profile_v4 にもschema v5を書き込む。
+このため、古いv97がv98保存データを開いた場合は「未来schema」と判定し、従来どおり保存を停止する。
+
+PROFILE_SCHEMA_V5_OK
+FUTURE_DOWNGRADE_GUARD_MAINTAINED
+
+────────────────────
+2. データ本体＋checksumを1回の原子的保存へ
+────────────────────
+
+v97では通常保存が、
+
+fequest_profile_v4
+fequest_profile_checksum_v1
+
+の2つのlocalStorage項目に分かれていた。
+
+localStorage.setItem自体は同期処理だが、2回の書込みの間でWebView/ブラウザプロセスが終了すると、
+「新しいprofile＋古いchecksum」またはその逆が理論上起こり得る。
+
+v98では新たに、
+
+fequest_profile_atomic_v1
+
+を追加。
+
+1個のJSON envelope内に、
+- profile
+- checksum
+- schema
+- revision
+- writerId
+- savedAt
+
+をまとめて1回のsetItemで保存する。
+
+起動時はatomic envelopeを最優先で読み、checksumを検証する。
+fequest_profile_v4 / checksum は旧版保護用の互換ミラーとして残す。
+
+テスト:
+1. XP=7を保存
+2. 互換ミラーだけを壊れたJSON＋古いchecksumへ変更
+3. 新しい起動コンテキストでload
+
+結果:
+atomic envelopeのXP=7を採用
+→ 壊れた互換ミラーをXP=7へ修復
+
+ATOMIC_TORN_MIRROR_RECOVERY_OK
+
+────────────────────
+3. 複数画面のstale writeを禁止
+────────────────────
+
+v97はstorageイベントで
+「別の画面で更新されました。再読み込みできます」
+と通知するだけだった。
+
+そのため、通知後も古いタブで操作を続けると、古いメモリ上のprofileをsaveProfile()して新しい履歴を上書きする余地があった。
+
+v98では二重防御にした。
+
+A. revision競合検出
+各画面は読み込んだrevisionをprofileBaseRevisionとして保持。
+保存直前にatomic envelopeの最新revisionを再確認する。
+
+最新revision > 自分が読み込んだrevision
+かつ
+writerIdが自分ではない
+
+なら保存を拒否する。
+
+B. writer lease
+fequest_profile_writer_lease_v1 を短時間だけ取得してから保存する。
+別画面が保存中なら同時保存へ入らない。
+
+Nodeで共有localStorageを持つA/B/Cの3コンテキストを作成。
+
+A: XP=1 保存 revision 1
+B: revision 1を読込
+A: XP=2 保存 revision 2
+B: 古い状態からXP=999を保存しようとする
+
+結果:
+B saveProfile() = false
+最終XP = 2
+B profileConflictBlocked = true
+
+MULTITAB_STALE_WRITE_BLOCK_OK
+
+さらに、別writerの有効なleaseがある状態では保存へ入らないことも確認。
+
+WRITER_LEASE_GUARD_OK
+
+────────────────────
+4. storageイベント後は古い画面をread-only化
+────────────────────
+
+別画面のatomic/profile変更をstorageイベントで検出すると、
+単なる「再読み込み推奨」ではなく、その画面の保存を停止する。
+
+表示:
+「別の画面の学習データを保護しました」
+「古い状態で上書きしないよう、この画面からの保存を停止しました」
+
+ユーザーは「最新状態を読み込む」でreloadする。
+
+MULTITAB_READONLY_AFTER_EXTERNAL_CHANGE_OK
+
+────────────────────
+5. lifecycle保存は変更があるときだけ
+────────────────────
+
+複数タブ対策を入れた状態で、画面を隠すたびに無条件保存すると、
+何も学習していないタブがrevisionだけ進め、メイン画面をstale扱いにしてしまう。
+
+そこでv98ではprofileCommittedChecksumを保持。
+
+pagehide / beforeunload / hidden時のsilent saveは、
+現在メモリのchecksum == 最終commit checksum
+なら何も書かない。
+
+テスト:
+保存済みrevision 1
+→ 変更なしsilent save
+→ revision 1のまま
+→ XPを未保存変更
+→ silent save
+→ revision 2
+
+LIFECYCLE_DIRTY_SAVE_ONLY_OK
+
+────────────────────
+6. 更新・schema移行途中で終了した場合
+────────────────────
+
+v98では移行開始前に
+
+fequest_profile_migration_journal_v1
+
+へ次を記録する。
+
+- fromSchema
+- toSchema
+- 移行前raw
+- 移行前checksum
+- startedAt
+
+次回起動時にjournalが残っていた場合:
+
+A. 有効なschema v5 atomic envelopeがある
+→ 移行はcommit済みと判断
+→ v5を維持
+→ journalを削除
+
+B. 有効なv5 atomicがない
+→ journal内の移行前raw/checksumを検証
+→ 移行前へ戻す
+→ 改めて通常移行
+
+テストでは、
+古いschema4をjournalへ残したまま、有効なXP=42のschema5 atomicを用意。
+再起動後もXP=42を維持し、journalだけ削除することを確認。
+
+INTERRUPTED_MIGRATION_COMMIT_DETECTION_OK
+
+────────────────────
+7. v97 checksumとの完全互換
+────────────────────
+
+schema v5へnormalizeしてからv97バックアップのchecksumを計算すると一致しないため、
+v98にv97と同じschema v4正規化関数を追加した。
+
+normalizeProfileDataV4ForChecksum()
+profileIntegrityChecksumV4()
+
+実際のv97 index.htmlから抽出したprofileIntegrityChecksum()と、
+v98のlegacy v4 checksumを同一sampleで比較。
+
+v97        fnv1a32:9f805880
+v98 legacy fnv1a32:9f805880
+
+完全一致。
+
+V97_CHECKSUM_COMPAT_EXACT_OK
+
+v96 schema v3互換関数も維持。
+したがってv98は、
+- v96 schema3 backup
+- v97 schema4 backup
+- v98 schema5 backup
+を段階的に読める。
+
+────────────────────
+8. 保存領域の逼迫
+────────────────────
+
+設定 → アプリ・データへ「保存保護」を追加。
+
+navigator.storage.persisted() が利用できる環境:
+- 永続化済み
+- 標準保護
+を表示。
+
+persist()が利用できる場合は、ユーザー操作の
+「保存保護を強化」
+からpersistent storageを要求できる。
+
+これは容量を増やす機能ではない。
+ブラウザ/OSによる自動削除の対象になりにくくするための保護。
+対応可否・許可可否はブラウザ側に依存する。
+
+また navigator.storage.estimate() で使用率90%以上の場合、
+通常の30分ごとのIndexedDB復旧点追加を抑制する。
+
+優先順位:
+1. 現在の学習データ本体
+2. 一世代ロールバック
+3. 既存長期復旧点
+4. 新しい自動長期復旧点
+
+90%以上では4を止め、本体保存を優先する。
+強制復旧点（backup import前後など）は維持。
+
+STORAGE_PRESSURE_AUTOCHECKPOINT_THROTTLE_OK
+PERSISTENT_STORAGE_UI_OK
+
+────────────────────
+9. Service Worker更新途中の監査
+────────────────────
+
+sw.jsはv98へ更新。
+
+APP_VERSION = v98
+CACHE_NAME = fe-quest-v98-1
+
+installはevent.waitUntil(cache.addAll(APP_SHELL))。
+App Shell全体のcache追加が成功しない限り、新しいService Workerのinstallは完了しない。
+activateで旧cacheを削除するのはinstall完了後のライフサイクル。
+
+したがって、更新ファイル取得の途中でアプリを閉じた場合も、
+「半分だけ入った新cacheを正式版としてactivateする」構造にはなっていない。
+
+画面APP_VERSIONとService Worker APP_VERSIONが不一致の場合の更新警告も維持。
+
+SW_SYNTAX_OK
+SW_INSTALL_ATOMIC_SHELL_CONTRACT_OK
+
+────────────────────
+10. 学習内容はv97から変更していない
+────────────────────
+
+今回の変更対象はデータ耐久性とPWA運用。
+問題・教材そのものは変更していない。
+
+v97 / v98 の定義ブロックSHA-256比較:
+
+QUESTION_BANK        UNCHANGED_OK
+CORE_A_CURRICULUM    UNCHANGED_OK
+B_EXERCISES          UNCHANGED_OK
+B_COMPOUND_SETS      UNCHANGED_OK
+SECURITY_SCENARIOS   UNCHANGED_OK
+
+科目A 710問、認知別配分、章末統合、MASTER、総仕上げ8ゲート、科目B構成、v96テーパリングは維持。
+
+────────────────────
+11. 最終検証
+────────────────────
+
+JS_SYNTAX_OK
+SW_SYNTAX_OK
+MANIFEST_JSON_OK
+
+V97_TO_V98_MIGRATION_OK
+V97_CHECKSUM_COMPAT_EXACT_OK
+ATOMIC_TORN_MIRROR_RECOVERY_OK
+MULTITAB_STALE_WRITE_BLOCK_OK
+WRITER_LEASE_GUARD_OK
+MULTITAB_READONLY_AFTER_EXTERNAL_CHANGE_OK
+INTERRUPTED_MIGRATION_COMMIT_DETECTION_OK
+LIFECYCLE_DIRTY_SAVE_ONLY_OK
+STORAGE_PRESSURE_AUTOCHECKPOINT_THROTTLE_OK
+PERSISTENT_STORAGE_UI_OK
+SW_INSTALL_ATOMIC_SHELL_CONTRACT_OK
+
+QUESTION_BANK_UNCHANGED_OK
+CORE_A_CURRICULUM_UNCHANGED_OK
+B_EXERCISES_UNCHANGED_OK
+B_COMPOUND_SETS_UNCHANGED_OK
+SECURITY_SCENARIOS_UNCHANGED_OK
+
+制約
+- 実Safari / iPhoneホーム画面PWA / ChromeでのE2Eは未実施
+- navigator.storage.persist() の挙動はブラウザ依存
+- localStorage item単位のsetItemを原子的な保存境界として利用しているが、OS・ブラウザ実装そのものの永続化保証をFE QUEST側だけで完全保証することはできない
+- 複数タブの「完全な分散トランザクション」ではなく、revision検出＋短期lease＋外部変更後read-only化で実用上の上書き事故を防ぐ設計
+
+結論
+v97は「壊れたら戻せる」耐久性を中心にした。
+v98はさらに「そもそも古い画面・中断更新・分割保存で壊しにくい」方向へ進めた。
+
+次に監査する価値が高いのは、実機PWAでの長時間運用そのもの。
+特にiPhoneホーム画面PWAで、
+- オフライン起動
+- 数日後の再開
+- OSによるWebView終了後の復帰
+- v97保存データからv98への実移行
+- 2画面を開いたときのstorageイベント
+を実ブラウザで確認する段階。

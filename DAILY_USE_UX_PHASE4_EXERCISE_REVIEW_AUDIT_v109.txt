@@ -1,0 +1,60 @@
+FE QUEST PWA v109
+Daily-use UX audit — Phase 4: exercise / review flow
+
+Purpose
+- Reduce decision fatigue when opening the exercise screen.
+- Make the next action obvious after a wrong answer and after a session.
+- Keep advanced controls available without showing them at the same visual priority as everyday study actions.
+
+Changes
+1. One recommended exercise at the top
+- Added a single “次におすすめ” card.
+- Priority: actionable review journey -> due review -> today’s pending short final check -> adaptive practice / weak practice.
+- Only one primary start button is shown at this level.
+
+2. Progressive disclosure on the exercise hub
+- “その他の演習” contains weak 10 / adaptive practice / random 10.
+- Review scheduling details are in “復習の状況”.
+- Variant-review setting is in “復習の出題設定”.
+- Recent session history is collapsed under “最近の演習”.
+- The 710-question bank count is retained as secondary information rather than a headline.
+
+3. Wrong-answer flow simplified
+- Wrong-answer cause tagging is explicitly marked optional.
+- It is clear that skipping the tag does not block progression.
+- The large three-step review-route diagram is no longer injected after every wrong answer.
+- Instead, a compact note confirms that the item was added to review and says where detailed routing can be seen.
+
+4. Session-result next action
+- If actionable review routes exist: “復習を続ける” is primary.
+- Otherwise, if today’s study plan has an unfinished task: “今日の学習を続ける” is primary.
+- Otherwise: returning to the exercise list becomes the primary action.
+- This avoids two competing primary-looking buttons.
+
+5. Result statistics layout
+- Session result stat cards now use a responsive grid, including the optional recovered-on-retry metric.
+
+Validation
+- MAIN_JS_SYNTAX_OK
+- SW_SYNTAX_OK
+- MANIFEST_JSON_OK
+- VERSION_SYNC_v109_OK
+- EXERCISE_NEXT_CARD_OK
+- PROGRESSIVE_DISCLOSURE_OK
+- OPTIONAL_REASON_TAG_OK
+- COMPACT_INLINE_REVIEW_ROUTE_OK
+- RESULT_NEXT_ACTION_PRIORITY_OK
+- INITIALIZATION_GUARD_OK
+- QUESTION_BANK_UNCHANGED_OK
+- CORE_A_CURRICULUM_UNCHANGED_OK
+- CORE_A_CHAPTER_EXTRA_QUESTIONS_UNCHANGED_OK
+- SECURITY_SCENARIOS_UNCHANGED_OK
+- B_EXERCISES_UNCHANGED_OK
+- B_COMPOUND_SETS_UNCHANGED_OK
+
+Profile / durability
+- PROFILE_SCHEMA_VERSION remains 5.
+- v100 recovery-center and v97-v99 durability protections are preserved.
+
+Limitation
+- Real iPhone/Safari home-screen PWA E2E has not been run in this environment.

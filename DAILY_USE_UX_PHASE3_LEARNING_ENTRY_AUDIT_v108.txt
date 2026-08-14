@@ -1,0 +1,59 @@
+FE QUEST PWA v108
+Daily-use UX audit — Phase 3: learning entry and navigation hierarchy implementation
+
+Goals
+- Make the 学習 screen answer “what should I continue?” before showing large course lists.
+- Reduce daily navigation decisions to four primary destinations while keeping advanced screens available.
+- Preserve the final-week taper: the learning screen must not encourage unfinished/new教材 during the last three days when the daily plan says not to.
+
+Changes
+1. Primary navigation actually reduced to four items
+- ホーム / 学習 / 演習 / 計画
+- 苦手分析 and 科目A模試 are now secondary destinations under 演習.
+- 学習分析 and 試験範囲の進捗 are secondary destinations under 計画.
+- Parent primary tab remains highlighted on secondary screens.
+
+2. Learning screen gets a single priority card
+- If an unfinished 科目A lesson was opened previously (outside the last three days), “前回の続き” is shown first.
+- Otherwise the incomplete “learn” slot from today’s saved daily plan is shown as the one recommended action.
+- If today’s learning slot is already complete, the app does not encourage extra study; it points back to Home for remaining review/practice.
+- During the final three days, unfinished old lessons never override the taper plan.
+
+3. Course list remains available without competing with the recommendation
+- A small “一覧から選ぶ” label separates the recommended action from free browsing.
+- 科目A tab shows completed教材 count.
+- 科目B tab shows completed basic exercises across algorithm + security.
+- The first unfinished 科目A chapter is opened and the unfinished row is marked, but the badge is neutral “未完了” rather than another competing recommendation.
+- If today’s recommended learning slot is 科目B, the matching B course card is visually highlighted.
+
+4. Navigation back destinations aligned
+- 苦手分析 / 科目A模試 → 演習
+- 学習分析 / 試験範囲の進捗 → 計画
+
+5. Version consistency
+- Corrected the stale in-page version marker and synchronized index / service worker / manifest to v108.
+- Profile Schema remains v5; no profile migration was added.
+
+Learning/data preservation
+- QUESTION_BANK: UNCHANGED_OK
+- CORE_A_CURRICULUM: UNCHANGED_OK
+- SECURITY_SCENARIOS: UNCHANGED_OK
+- B_EXERCISES: UNCHANGED_OK
+- B_COMPOUND_SETS: UNCHANGED_OK
+
+Validation
+- MAIN_JS_SYNTAX_OK
+- SW_SYNTAX_OK
+- MANIFEST_JSON_OK
+- STATIC_DUPLICATE_IDS: 0
+- PRIMARY_NAV: home / map / problems / plan
+- PRIMARY_NAV_4_OK: True
+- LEARNING_ENTRY_CARD_CONTRACT_OK
+- SECONDARY_ROUTE_CONTRACT_OK
+- TAPER_RESUME_GUARD_OK (static contract)
+
+Browser status
+- Static/Node validation only. Real iPhone/Safari PWA E2E is still not executed in this environment.
+
+Next UX phase
+- Problem / review flow: reduce choices at session start, make the next action after answering/reviewing obvious, and remove duplicate or low-priority controls from the primary path.
