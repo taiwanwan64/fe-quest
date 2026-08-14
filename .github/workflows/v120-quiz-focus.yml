@@ -1,0 +1,169 @@
+name: FE QUEST v120 quiz focus
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply v120 quiz focus fixes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+
+          p=Path('index.html')
+          s=p.read_text()
+          assert "const APP_VERSION = 'v119';" in s, 'Expected v119 base'
+
+          s=s.replace('<title>FE QUEST PWA v119</title>','<title>FE QUEST PWA v120</title>')
+          s=s.replace("const APP_VERSION = 'v119';","const APP_VERSION = 'v120';")
+          s=s.replace("assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v119','v119 version/schema contract drift');","assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v120','v120 version/schema contract drift');")
+
+          # Remove generic gray source label from the visible metadata row.
+          source='            <span class="quiz-source">問題</span>\n'
+          assert source in s
+          s=s.replace(source,'',1)
+
+          # Retry logic remains, but its scoring/process explanation should not interrupt the question.
+          retry="""    const explain=document.getElementById('quizExplain');
+              let note=explain.querySelector('.retry-note');
+              if(!note){
+                note=document.createElement('div');
+                note.className='retry-note';
+                explain.appendChild(note);
+              }
+              note.innerHTML='<b>再挑戦</b>　最初の回答だけを成績に記録します。正解はまだ表示しません。';
+          """
+          if retry not in s:
+              retry="""    const explain=document.getElementById('quizExplain');
+              let note=explain.querySelector('.retry-note');
+              if(!note){
+                note=document.createElement('div');
+                note.className='retry-note';
+                explain.appendChild(note);
+              }
+              note.innerHTML='<b>再挑戦</b>　最初の回答だけを成績に記録します。正解はまだ表示しません。';
+          """
+          # Whitespace-tolerant removal for current bundle.
+          s,n=re.subn(r"\n\s*const explain=document\.getElementById\('quizExplain'\);\n\s*let note=explain\.querySelector\('\.retry-note'\);\n\s*if\(!note\)\{\n\s*note=document\.createElement\('div'\);\n\s*note\.className='retry-note';\n\s*explain\.appendChild\(note\);\n\s*\}\n\s*note\.innerHTML='<b>再挑戦</b>　最初の回答だけを成績に記録します。正解はまだ表示しません。';",'',s,count=1)
+          assert n==1, 'retry status block not found'
+
+          # Review journey continues to be registered silently; no process card inside the question.
+          s,n=re.subn(r"\n\s*if\(quizFirstAttemptWrong\) renderInlineReviewRoute\(q\);", "\n  // v120: review journey is registered silently; surface it later, not inside the current question.", s, count=1)
+          assert n==1, 'inline review route call not found'
+
+          css=r'''
+
+          /* ===== v120: quiz metadata alignment + focus-first feedback ===== */
+          .quiz-top{
+            justify-content:flex-start;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:8px;
+          }
+          .quiz-top .quiz-badge,
+          .quiz-top .variant-badge{
+            display:inline-flex;
+            align-items:center;
+            min-height:36px;
+            max-width:100%;
+            margin-left:0!important;
+            padding:7px 11px;
+            border-radius:999px;
+            font-size:13px;
+            line-height:1.25;
+            font-weight:850;
+            white-space:normal;
+            overflow-wrap:anywhere;
+          }
+          .quiz-top .quiz-badge{flex:0 1 auto;}
+          .quiz-top .variant-badge{flex:0 0 auto;}
+          .quiz-source{display:none!important;}
+          #quizWrap .retry-note,
+          #quizWrap .review-route-inline{display:none!important;}
+          @media(max-width:720px){
+            .quiz-top{gap:7px;align-items:center;}
+            .quiz-top .quiz-badge,
+            .quiz-top .variant-badge{
+              min-height:34px;
+              padding:6px 10px;
+              font-size:12px;
+              line-height:1.25;
+            }
+          }
+          '''
+          assert 'v120: quiz metadata alignment + focus-first feedback' not in s
+          s=s.replace('</style>',css+'\n</style>',1)
+          p.write_text(s)
+
+          mp=Path('manifest.webmanifest')
+          m=json.loads(mp.read_text())
+          m['name']='FE QUEST v120'
+          m['description']='基本情報技術者試験向けPWA。v120では問題画面のメタ情報タグを同じ高さ・余白で整列し、意味の薄い「問題」表示を削除。誤答時の再挑戦ルールや復習登録の処理説明を問題画面から外し、学習者が問題・ヒント・解説に集中できる表示へ整理。v119までのスマホ横スクロール対策、演習集中表示、CTA配置、問題・教材データを維持。'
+          mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+
+          sp=Path('sw.js')
+          sw=sp.read_text()
+          assert "const APP_VERSION = 'v119';" in sw
+          sw=sw.replace("const APP_VERSION = 'v119';","const APP_VERSION = 'v120';")
+          sw=re.sub(r"const CACHE_NAME = 'fe-quest-v119-[^']+';", "const CACHE_NAME = 'fe-quest-v120-1';", sw, count=1)
+          sp.write_text(sw)
+          PY
+
+      - name: Verify syntax and contracts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, json
+          s=Path('index.html').read_text()
+          assert "const APP_VERSION = 'v120';" in s
+          assert '<span class="quiz-source">問題</span>' not in s
+          assert "renderInlineReviewRoute(q);" not in s
+          assert "note.innerHTML='<b>再挑戦</b>" not in s
+          assert 'v120: quiz metadata alignment + focus-first feedback' in s
+          js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
+          Path('/tmp/feq120.js').write_text(js)
+          json.loads(Path('manifest.webmanifest').read_text())
+          PY
+          node --check /tmp/feq120.js
+          node --check sw.js
+
+      - name: Add audit and release
+        run: |
+          cat > audits/QUIZ_FOCUS_METADATA_AUDIT_v120.txt <<'EOF'
+          FE QUEST v120 — 問題メタ情報 / 集中表示監査
+
+          対象
+          - 問題上部のカテゴリ・復習種別・難易度タグで高さ/余白が揃わず、視覚的にずれて見える。
+          - 末尾の薄い灰色「問題」が意味の薄いラベルとして残る。
+          - 初回誤答時に「再挑戦」の採点ルール説明が大きく表示される。
+          - 最終回答後に「復習に追加しました」のワークフロー説明が問題画面へ挿入される。
+
+          修正
+          1. quiz-badge / variant-badge の高さ・padding・font-size・line-heightを統一。
+          2. 汎用の薄い灰色「問題」ラベルを問題ヘッダーから削除。
+          3. 再挑戦ルールの黄色ステータスカードを廃止。再挑戦ロジック/初回回答のみ採点の仕様は維持。
+          4. 復習登録の紫ステータスカードを問題画面から廃止。復習登録/復習ジャーニー自体は維持し、演習トップや結果側で確認する。
+          5. 防御的CSSでも retry-note / review-route-inline を問題画面では非表示。
+
+          検証
+          - MAIN_JS_SYNTAX_OK
+          - SW_SYNTAX_OK
+          - MANIFEST_JSON_OK
+          - Profile Schema v5維持
+          - 問題・教材データ変更なし
+          EOF
+          git rm .github/workflows/v120-quiz-focus.yml
+          git add index.html manifest.webmanifest sw.js audits/QUIZ_FOCUS_METADATA_AUDIT_v120.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Release FE QUEST v120 quiz focus polish"
+          git push
