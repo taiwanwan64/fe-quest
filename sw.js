@@ -1,5 +1,5 @@
-const APP_VERSION = 'v116';
-const CACHE_NAME = 'fe-quest-v116-1';
+const APP_VERSION = 'v117';
+const CACHE_NAME = 'fe-quest-v117-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
@@ -11,6 +11,8 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
+  // v117 emergency hotfix: activate immediately so v116's false save-block loop is escaped with one normal reload.
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
       cache.addAll(APP_SHELL.map(url => new Request(url,{cache:'reload'})))
