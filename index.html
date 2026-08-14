@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v118</title>
+<title>FE QUEST PWA v119</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -4549,6 +4549,55 @@
     .weak-detail-fold > .weak-section,
     .weak-detail-fold > .weak-two-col{margin-left:10px;margin-right:10px;}
   }
+
+
+  /* ===== v119: mobile overflow + focused exercise flow + CTA alignment ===== */
+  #problems.exercise-session-active > h1,
+  #problems.exercise-session-active > .sub,
+  #problems.exercise-session-active > .exercise-next-card,
+  #problems.exercise-session-active > .section-shortcuts,
+  #problems.exercise-session-active > .problem-hub{display:none!important;}
+
+  @media(max-width:720px){
+    /* Normal reading screens must fit the viewport. Only explicit code/table scrollers may scroll sideways. */
+    html,body,.app,main,.screen{max-width:100%;overflow-x:hidden;}
+    #lesson .interactive-shell,
+    #lesson .lesson-stage,
+    #lesson .core-article,
+    #lesson .core-article-beginner,
+    #lesson .beginner-term-list,
+    #lesson .beginner-term,
+    #lesson .core-article-section,
+    #lesson .core-article-pitfall,
+    #lesson .lesson-study-guide,
+    #lesson .lesson-note-section{width:100%;max-width:100%;min-width:0;}
+    #lesson .lesson-stage{overflow-x:hidden;overflow-y:visible;}
+    #lesson .lesson-stage :where(p,li,b,span,h1,h2,h3,h4,div){max-width:100%;overflow-wrap:anywhere;}
+    #lesson .diagram-scroll,
+    #lesson .core-compare-wrap,
+    #lesson pre,
+    #lesson .code-box{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+    #quizSession,#quizResultScreen,.quiz-card,.quiz-options,.quiz-option,.quiz-explain,.choice-explanations,.choice-explanation{max-width:100%;min-width:0;}
+    .quiz-top{flex-wrap:wrap;align-items:flex-start;}
+    .quiz-top > *{min-width:0;max-width:100%;}
+    .quiz-badge,.variant-badge,.quiz-source{white-space:normal;overflow-wrap:anywhere;}
+    .quiz-source{margin-left:0;}
+    .quiz-question,.quiz-option,.choice-explanation-head,.choice-explanation-body{overflow-wrap:anywhere;}
+
+    /* When hint/secondary action disappears, keep the sole forward CTA on the right. */
+    .quiz-actions.single-primary{display:flex;justify-content:flex-end;align-items:center;}
+    .quiz-actions.single-primary #quizSubmit{width:min(62%,260px);min-width:160px;margin-left:auto;}
+    .sec-next{width:min(62%,260px);min-width:160px;margin-left:auto;margin-right:0;}
+
+    /* A focused question starts immediately below its own header, not below the exercise hub. */
+    #problems.exercise-session-active #quizSession,
+    #problems.exercise-session-active #quizResultScreen{margin-top:0;}
+  }
+
+  @media(max-width:360px){
+    .quiz-actions.single-primary #quizSubmit,.sec-next{width:min(68%,240px);min-width:150px;}
+  }
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -6501,7 +6550,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v118';
+const APP_VERSION = 'v119';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -12207,6 +12256,7 @@ function renderExerciseEntry(){
   action.onclick=()=>profile.sessions?.length?startRecommendedPrescription():startQuiz('weak');
 }
 function openProblemsHub(){
+  document.getElementById('problems')?.classList.remove('exercise-session-active');
   if(problemHub) problemHub.style.display='grid';
   if(quizSession) quizSession.style.display='none';
   if(quizResultScreen) quizResultScreen.style.display='none';
@@ -12744,6 +12794,7 @@ function startQuiz(mode){
   stopQuestionPacer();
   sessionLog=[];
 
+  document.getElementById('problems')?.classList.add('exercise-session-active');
   problemHub.style.display='none';
   quizResultScreen.style.display='none';
   quizSession.style.display='block';
@@ -12768,6 +12819,7 @@ function startQuiz(mode){
     :'科目A 問題演習';
   configurePrescriptionUI(mode);
   renderQuizQuestion();
+  requestAnimationFrame(()=>document.getElementById('quizSession')?.scrollIntoView({block:'start',behavior:'auto'}));
 }
 
 document.querySelectorAll('.problem-mode button[data-mode]').forEach(b=>{
@@ -12808,6 +12860,7 @@ function renderQuizQuestion(){
   document.getElementById('quizSubmit').textContent='回答する';
   document.getElementById('quizSubmit').disabled=false;
   document.getElementById('quizHintBtn').style.display='block';
+  document.querySelector('.quiz-actions')?.classList.remove('single-primary');
 
   document.querySelectorAll('.reason-chip').forEach(c=>c.classList.remove('picked'));
   renderRxTechnique(q);
@@ -12921,6 +12974,7 @@ function gradeCurrentQuestion(){
     document.getElementById('quizHint').textContent='まだ正解は表示しません。ヒントを使って、別の根拠で選び直してください。';
     document.getElementById('quizExplain').classList.add('show');
     document.getElementById('quizHintBtn').style.display='none';
+    document.querySelector('.quiz-actions')?.classList.add('single-primary');
     document.getElementById('quizSubmit').textContent='もう一度回答する';
 
     const explain=document.getElementById('quizExplain');
@@ -12951,6 +13005,7 @@ function gradeCurrentQuestion(){
   document.getElementById('quizHint').textContent=finalHint;
   document.getElementById('quizExplain').classList.add('show');
   document.getElementById('quizHintBtn').style.display='none';
+  document.querySelector('.quiz-actions')?.classList.add('single-primary');
 
   const answerExplain=document.getElementById('quizExplain');
   answerExplain.querySelector('.variant-source-note')?.remove();
@@ -13043,8 +13098,10 @@ function finishQuizSession(){
   profile.lastStudyDate=localDateISO(0);
   saveProfile();
 
+  document.getElementById('problems')?.classList.add('exercise-session-active');
   quizSession.style.display='none';
   quizResultScreen.style.display='block';
+  requestAnimationFrame(()=>quizResultScreen?.scrollIntoView({block:'start',behavior:'auto'}));
 
   document.getElementById('sessionScore').textContent=`${rate}%`;
   document.getElementById('sessionCorrect').textContent=quizCorrectCount;
@@ -20504,7 +20561,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v118','v118 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v119','v119 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
@@ -20528,6 +20585,8 @@ function runAppSelfCheck(){
     assert(document.querySelector('#coverage .coverage-summary-compact')?.textContent.includes('教材の総合進捗'),'v114 coverage duplicate summary reduction missing');
     assert(typeof CORE_A_IDS!=='undefined'&&CORE_A_IDS.length===130&&typeof finalizeAppBoot==='function'&&String(finalizeAppBoot).includes('FEQUEST_DAILY_PLAN_READY=true'),'v115/v117 daily-plan boot barrier missing');
     assert(document.querySelector('header #aiFab.ai-header-btn'),'v115 BIT先生 must live in the top-right header');
+    assert(typeof openProblemsHub==='function'&&document.getElementById('problems'),'v119 focused exercise flow contract missing');
+    assert(document.querySelector('.quiz-actions')&&document.getElementById('quizSubmit'),'v119 right-aligned single CTA contract missing');
     assert(typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function','v110 Subject B guided entry missing');
     assert(!!document.getElementById('subjectBNextCard')&&!!document.getElementById('subjectBProgressStrip'),'v110 Subject B hub UI missing');
     assert(document.querySelectorAll('.b-mode-switcher').length===4,'v110 Subject B mode switchers must be progressive disclosure');
