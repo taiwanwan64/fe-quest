@@ -1,0 +1,196 @@
+FE QUEST v88 — 科目A 21章 章末12問・統合演習監査
+
+目的
+v87までで、各テーマの解説、問題文の手掛かり、注意を整えた。
+v88では21章すべての章末チェックを、
+「ランダムに12問を拾う」方式から
+「その章全体を理解したか確認する統合演習」へ再設計した。
+
+1. v87までの章末選択ロジックの問題
+旧ロジック:
+- 実戦4・標準6・基礎2を優先してランダム抽出
+- 同一テーマは原則2問まで
+
+これだけでは、テーマ数の多い章で全テーマを保証できなかった。
+
+2000回相当の事前シミュレーションで確認した例:
+- Ch02 9テーマ: 最少6テーマしか出ない場合あり
+- Ch09 8テーマ: 最少6テーマ
+- Ch10 10テーマ: 最少6テーマ
+- Ch11 8テーマ: 最少6テーマ
+- Ch12 8テーマ: 最少6テーマ
+- Ch14 10テーマ: 最少6テーマ
+- Ch18 8テーマ: 最少6テーマ
+
+つまり「章末12問を解いたのに、その章の3〜4テーマが一度も出ない」
+可能性があった。
+
+2. v88: 全テーマを必ず最低1問
+buildCoreChapterQuiz()を再設計。
+
+選択順:
+1) 近い概念を見分ける比較問題を最大3問優先
+2) 計算問題が存在する章は計算問題を最低1問確保
+3) その章の未出テーマを一つずつ埋め、全テーマを最低1回扱う
+4) 残り枠を難易度目標に合わせて補う
+5) 同じテーマへの偏りが小さくなる問題を優先
+
+最大10テーマの章でも12問以内なので、
+21章すべてで全テーマを扱える。
+
+3. 難易度を「章末統合」向けへ変更
+通常章:
+- 基礎 1
+- 標準 6
+- 実戦 5
+
+旧構成の基礎2・標準6・実戦4より、
+単純な用語再確認を1問減らし、
+知識を使う実戦問題を1問増やした。
+
+実戦問題が不足する小章は自動調整:
+- Ch07: 基礎2 / 標準8 / 実戦2
+- Ch13: 基礎1 / 標準7 / 実戦4
+- Ch16: 基礎1 / 標準7 / 実戦4
+- Ch17: 基礎2 / 標準7 / 実戦3
+
+4. 比較問題を章末へ集約
+v84で1テーマ直後から除外した challenge_cmp_* は、
+章末で使う設計を維持。
+
+v88では比較問題を「偶然出る」ものではなく優先枠にした。
+- 各章: 存在する範囲で最大3問
+- Ch01とCh13には比較問題を1問ずつ新規追加
+- Ch01: 論理右シフト vs 算術右シフト
+- Ch13: 構成管理 vs 変更管理
+
+これにより21章すべてで比較問題が2問以上、
+多くの章で3問以上入る。
+
+5. 計算問題を必ず使わせる章
+計算問題がプールに存在する章では、
+章末12問の中に最低1問を必須化。
+
+対象:
+Ch01 / Ch02 / Ch04 / Ch05 / Ch08 / Ch10 / Ch14 / Ch20
+
+例:
+- 基数・2進数
+- 確率/情報量等
+- CPU/記憶
+- 性能/信頼性
+- マルチメディア
+- サブネット
+- クリティカルパス/EVM
+- 損益分岐点/財務
+
+「公式を読んだだけ」で章を終えない。
+
+6. テーマ偏りを制御
+1000回×21章 = 21,000回のランダム生成監査を実施。
+
+保証:
+- 全21章: 12問
+- 全21章: 全テーマを最低1問
+- 6テーマ以上の章: 同一テーマ最大2問
+- 4〜5テーマの章: 同一テーマ最大3問
+- 2テーマだけのCh07/Ch17は、利用可能問題数に応じて配分
+
+7. 未回答問題を優先
+同じ条件の候補が複数ある場合は、
+profile.qStats上で未回答の問題を優先する。
+
+そのため、テーマ演習を済ませた後の章末では
+challenge_cmp_* や章末専用問題を先に使いやすい。
+
+ただし、章末問題を「全て新規問題」にしたわけではない。
+既習問題の再出題も、定着確認として残している。
+特にCh07/Ch17は利用可能プールが12問であり、12問すべてを使う。
+
+8. 章末専用問題の品質
+章末専用問題:
+v87 7問 → v88 9問
+
+追加:
+- Ch01 シフト演算の比較
+- Ch13 構成管理/変更管理の比較
+
+既存7問を含む9問すべてに:
+- 4選択肢
+- 正解根拠
+- 3誤答を含む4選択肢個別解説
+- 正解テキスト契約
+を付与。
+
+長さだけで正解が推測できる問題も再調整。
+章末専用9問の「正解だけ明らかに長い」判定 = 0。
+
+9. UI
+章末ボタン:
+旧:
+「第n章を12問で確認（テーマ比較を含む）」
+
+v88:
+「第n章：全Xテーマ＋比較を12問で確認」
+
+演習画面の副題も:
+「科目A 章末統合演習・全Xテーマ」
+と表示する。
+
+10. 21章の最終ポリシー
+Ch01  themes= 7  pool=34  difficulty=基礎1/標準6/実戦5  comparisons>=2  calculation=必須1+
+Ch02  themes= 9  pool=38  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=必須1+
+Ch03  themes= 5  pool=22  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch04  themes= 6  pool=26  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=必須1+
+Ch05  themes= 4  pool=18  difficulty=基礎1/標準6/実戦5  comparisons>=2  calculation=必須1+
+Ch06  themes= 6  pool=24  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch07  themes= 2  pool=12  difficulty=基礎2/標準8/実戦2  comparisons>=3  calculation=-
+Ch08  themes= 4  pool=17  difficulty=基礎1/標準6/実戦5  comparisons>=2  calculation=必須1+
+Ch09  themes= 8  pool=35  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch10  themes=10  pool=42  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=必須1+
+Ch11  themes= 8  pool=34  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch12  themes= 8  pool=32  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch13  themes= 4  pool=17  difficulty=基礎1/標準7/実戦4  comparisons>=2  calculation=-
+Ch14  themes=10  pool=42  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=必須1+
+Ch15  themes= 8  pool=32  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch16  themes= 4  pool=16  difficulty=基礎1/標準7/実戦4  comparisons>=3  calculation=-
+Ch17  themes= 2  pool=12  difficulty=基礎2/標準7/実戦3  comparisons>=2  calculation=-
+Ch18  themes= 8  pool=33  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch19  themes= 4  pool=17  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+Ch20  themes= 7  pool=31  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=必須1+
+Ch21  themes= 6  pool=25  difficulty=基礎1/標準6/実戦5  comparisons>=3  calculation=-
+
+11. 問題数・回帰確認
+- メイン科目A QUESTION_BANK: 710
+- 章末専用: 9
+- 追跡対象科目A: 719
+- メイン710問の正解位置: A178 / B178 / C177 / D177
+- 選択肢の丁寧語: 0
+- 正解長さ手掛かり: 0
+- QUESTION_SEMANTIC_VALIDATOR: PASS
+
+科目B:
+- トレース: 20
+- セキュリティ: 15
+- 複合: 15
+- 本番型アルゴリズム: 40
+- SUBJECT_B_SEMANTIC_VALIDATOR: PASS
+
+最終検証
+JS_SW_SYNTAX_OK
+TRACKED_SUBJECT_A_719_OK
+CHAPTER_EXTRA_9_CONTRACTS_OK
+TRACKED_OPTION_PLAIN_STYLE_OK
+TRACKED_OPTION_LENGTH_CLUE_0_OK
+CORE_A_21_CHAPTER_1000X_POLICY_OK
+QUESTION_SEMANTIC_VALIDATOR_OK
+SUBJECT_B_SEMANTIC_VALIDATOR_OK
+SUBJECT_B_COUNTS_OK 20 / 15 / 15 / 40
+VERSION_V88_OK
+CHAPTER_ALL_TOPIC_UI_OK
+NO_REFERENCE_ATTRIBUTION_UI_OK
+
+1000回×21章の生成監査は、
+章末問題のランダム選択がどの乱数順でも設計条件を満たすかを
+Node上で反復検証したもの。
+実ブラウザE2Eではない。
