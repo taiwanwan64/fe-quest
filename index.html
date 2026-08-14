@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v120</title>
+<title>FE QUEST PWA v121</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -6589,7 +6589,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v120';
+const APP_VERSION = 'v121';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -12982,6 +12982,7 @@ function gradeCurrentQuestion(){
   const attemptSeconds=Math.max(1,Math.round((Date.now()-quizQuestionStartedAt)/1000));
 
   // 通常演習ではすべて「初回誤答→ヒント→1回だけ再挑戦」に統一する。
+  // v121: 誤答時はヒント本文だけを表示し、採点ルールやメタ説明は出さない。
   // 模試は別の試験UIなので、この関数を通らない。
   if(!ok && quizRetryCount===0){
     quizRetryCount=1;
@@ -13008,9 +13009,9 @@ function gradeCurrentQuestion(){
     quizSelected=null;
     quizQuestionStartedAt=Date.now();
 
-    document.getElementById('quizResultTitle').textContent='💡 もう一度考えてみましょう';
+    document.getElementById('quizResultTitle').textContent='💡 ヒント';
     document.getElementById('quizExplanation').textContent=q.hint;
-    document.getElementById('quizHint').textContent='まだ正解は表示しません。ヒントを使って、別の根拠で選び直してください。';
+    document.getElementById('quizHint').textContent='';
     document.getElementById('quizExplain').classList.add('show');
     document.getElementById('quizHintBtn').style.display='none';
     document.querySelector('.quiz-actions')?.classList.add('single-primary');
@@ -20591,7 +20592,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v120','v120 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v121','v121 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
