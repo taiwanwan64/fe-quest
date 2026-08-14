@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v115</title>
+<title>FE QUEST PWA v116</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -6498,7 +6498,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v115';
+const APP_VERSION = 'v116';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -20482,7 +20482,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v115','v115 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v116','v116 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
@@ -20532,7 +20532,7 @@ function runAppSelfCheck(){
     assert(typeof rememberCommittedProfile==='function'&&typeof restoreCommittedProfileInMemory==='function','v99 committed-state rollback missing');
     assert(typeof revalidateProfileFreshness==='function'&&String(revalidateProfileFreshness).includes('profileBaseRevision'),'v99 resume freshness guard missing');
     assert(typeof applyPendingUpdateSafely==='function'&&String(applyPendingUpdateSafely).includes('pre-update'),'v99 safe-update checkpoint missing');
-    assert(String(applyPendingUpdateSafely).includes("profileRecoverySource==='future'")&&String(applyPendingUpdateSafely).includes('SKIP_WAITING'),'v99 future-schema update escape missing');
+    assert(typeof activatePendingUpdateOrReload==='function'&&String(activatePendingUpdateOrReload).includes('SKIP_WAITING')&&String(applyPendingUpdateSafely).includes('profileConflictBlocked||profileWriteBlocked'),'v116 one-tap safe-update path missing');
     assert(String(restorePreImportProfile).includes('localStorage.removeItem(PROFILE_ATOMIC_KEY)'),'v99 future-schema pre-import rollback must clear atomic authority');
     assert(String(exportLearningData).includes("profileRecoverySource==='future'"),'v99 must not export empty fallback profile over future-schema data');
     assert(typeof verifyProfileDurability==='function'&&typeof createRecoveryPointNow==='function'&&typeof ensureVersionRecoveryCheckpoint==='function','v99 recovery operations missing');
@@ -20775,34 +20775,36 @@ window.addEventListener('online',()=>updateOnlineState(true));
 window.addEventListener('offline',()=>updateOnlineState(true));
 updateOnlineState(false);
 
-async function applyPendingUpdateSafely(){
-  if(profileConflictBlocked){
-    showAppNotice('error','先に最新の学習データを読み込んでください','別の画面で更新された学習データがあるため、この古い画面からは更新を適用しません。','最新状態を読み込む',()=>location.reload());return false;
-  }
-  if(profileWriteBlocked&&profileRecoverySource==='future'){
-    // The newer-format data is already stored. Never overwrite it with this older runtime;
-    // applying a waiting service worker is the recovery path itself.
-    persistResilientUiState();
-    const futureWorker=pendingUpdateRegistration?.waiting;
-    if(futureWorker)futureWorker.postMessage({type:'SKIP_WAITING'});else location.reload();
-    return true;
-  }
-  if(profileWriteBlocked){
-    showAppNotice('error','保存を確認してから更新してください','学習データへの保存が停止しています。現在の確定済みデータを書き出すか再読み込みしてから更新してください。','再読み込み',()=>location.reload());return false;
-  }
-  if(!persistProfileSilently()){
-    showAppNotice('error','更新前の保存を確認できませんでした','未保存のままアプリを切り替えないよう更新を停止しました。再読み込みまたはデータ書き出し後にもう一度お試しください。');return false;
-  }
-  try{await Promise.race([writeRecoveryCheckpoint(profile,'pre-update',true),new Promise(resolve=>setTimeout(()=>resolve(false),1800))]);}catch(_e){}
+function activatePendingUpdateOrReload(){
+  // v116: updating is always a one-tap operation.  A blocked/conflicting screen has
+  // already rolled in-memory data back to the last committed snapshot, so it must
+  // not ask the learner to manually export/reload before installing a safer runtime.
   persistResilientUiState();
   const worker=pendingUpdateRegistration?.waiting;
   if(worker)worker.postMessage({type:'SKIP_WAITING'});
   else location.reload();
   return true;
 }
+async function applyPendingUpdateSafely(){
+  // If this tab is stale, conflicted, or write-blocked, do not write from it.
+  // Simply activate the waiting app and let the new runtime load the authoritative
+  // committed profile. This avoids the previous manual reload/export loop.
+  if(profileConflictBlocked||profileWriteBlocked){
+    return activatePendingUpdateOrReload();
+  }
+  const saved=persistProfileSilently();
+  if(!saved){
+    // persistProfileSilently rolls the profile back to the committed snapshot on
+    // failure/conflict.  Proceeding with the app update is therefore safer than
+    // trapping the learner in a recovery workflow.
+    return activatePendingUpdateOrReload();
+  }
+  try{await Promise.race([writeRecoveryCheckpoint(profile,'pre-update',true),new Promise(resolve=>setTimeout(()=>resolve(false),1800))]);}catch(_e){}
+  return activatePendingUpdateOrReload();
+}
 function showUpdateAvailable(reg){
   pendingUpdateRegistration=reg;
-  showAppNotice('update','新しいFE QUESTがあります','更新前に学習データの保存を確認し、可能なら長期復旧点を作ってから最新版へ切り替えます。','更新する',()=>applyPendingUpdateSafely());
+  showAppNotice('update','FE QUESTを更新できます','学習データを保護して、自動で最新版へ切り替えます。','今すぐ更新',()=>applyPendingUpdateSafely());
   refreshPwaHealth();
 }
 
