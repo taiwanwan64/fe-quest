@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v119</title>
+<title>FE QUEST PWA v120</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -4598,6 +4598,46 @@
   @media(max-width:360px){
     .quiz-actions.single-primary #quizSubmit,.sec-next{width:min(68%,240px);min-width:150px;}
   }
+
+
+/* ===== v120: quiz metadata alignment + focus-first feedback ===== */
+.quiz-top{
+  justify-content:flex-start;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.quiz-top .quiz-badge,
+.quiz-top .variant-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  max-width:100%;
+  margin-left:0!important;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:13px;
+  line-height:1.25;
+  font-weight:850;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.quiz-top .quiz-badge{flex:0 1 auto;}
+.quiz-top .variant-badge{flex:0 0 auto;}
+.quiz-source{display:none!important;}
+#quizWrap .retry-note,
+#quizWrap .review-route-inline{display:none!important;}
+@media(max-width:720px){
+  .quiz-top{gap:7px;align-items:center;}
+  .quiz-top .quiz-badge,
+  .quiz-top .variant-badge{
+    min-height:34px;
+    padding:6px 10px;
+    font-size:12px;
+    line-height:1.25;
+  }
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -5430,7 +5470,6 @@
             <span class="quiz-badge" id="quizCategory">分野</span>
             <span class="variant-badge" id="variantBadge" style="display:none">バリエーション復習</span>
             <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
-            <span class="quiz-source">問題</span>
           </div>
           <div class="quiz-question" id="quizQuestion"></div>
 
@@ -6550,7 +6589,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v119';
+const APP_VERSION = 'v120';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -12976,15 +13015,6 @@ function gradeCurrentQuestion(){
     document.getElementById('quizHintBtn').style.display='none';
     document.querySelector('.quiz-actions')?.classList.add('single-primary');
     document.getElementById('quizSubmit').textContent='もう一度回答する';
-
-    const explain=document.getElementById('quizExplain');
-    let note=explain.querySelector('.retry-note');
-    if(!note){
-      note=document.createElement('div');
-      note.className='retry-note';
-      explain.appendChild(note);
-    }
-    note.innerHTML='<b>再挑戦</b>　最初の回答だけを成績に記録します。正解はまだ表示しません。';
     return;
   }
 
@@ -13059,7 +13089,7 @@ function gradeCurrentQuestion(){
   });
 
   // 誤答時は、答えを確認した直後に次の学習段階を見えるようにする。
-  if(quizFirstAttemptWrong) renderInlineReviewRoute(q);
+  // v120: review journey is registered silently; surface it later, not inside the current question.
 
   saveProfile();
   document.getElementById('quizSubmit').textContent=
@@ -20561,7 +20591,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v119','v119 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v120','v120 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
