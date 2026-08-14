@@ -1,0 +1,63 @@
+name: FE QUEST v118 UI fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply v118 UI fixes
+        run: git apply -p1 tools/v117_to_v118.patch
+      - name: Verify syntax and version
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, json
+          s=Path('index.html').read_text()
+          assert "const APP_VERSION = 'v118'" in s
+          assert 'padding-bottom:24px' in s
+          assert '復習タイミング：今' in s
+          assert '次回の復習：明日' in s
+          js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
+          Path('/tmp/feq118.js').write_text(js)
+          json.loads(Path('manifest.webmanifest').read_text())
+          PY
+          node --check /tmp/feq118.js
+          node --check sw.js
+      - name: Add v118 audit and commit
+        run: |
+          cat > audits/SUBJECT_B_TRACE_AND_REVIEW_TIMING_UI_AUDIT_v118.txt <<'EOF'
+          FE QUEST v118 — 科目Bトレース表示 / 復習タイミングUI監査
+
+          修正1: 科目Bトレースの文字重なり
+          - 原因: 配列添字がposition:absoluteでセル外へ描画される一方、親要素の高さに添字行が含まれず、直後のtarget表示と重なっていた。
+          - trace-arrayに添字用の下余白24pxを確保。
+          - 添字位置を固定top値からセル高さ基準のcalc(100% + 4px)へ変更し、モバイル時のセル高さ変更にも追従。
+
+          修正2: 「復習期限 ○%」を廃止
+          - ○%は実際には100-推定保持率であり、「期限」と割合を組み合わせた表現が直感的ではなかった。
+          - 復習日が今日以前: 「復習タイミング：今」
+          - 明日: 「次回の復習：明日」
+          - それ以降: 「次回の復習：N日後」
+          - 期限未設定: 「復習タイミング：自動調整」
+          - 推定保持率と進捗バーは維持し、「どれくらい覚えているか」と「いつ復習するか」を分離して表示。
+
+          検証
+          - MAIN_JS_SYNTAX_OK
+          - SW_SYNTAX_OK
+          - MANIFEST_JSON_OK
+          - Profile Schema v5維持
+          - QUESTION_BANK / CORE_A_CURRICULUM / CORE_A_CHAPTER_EXTRA_QUESTIONS / SECURITY_SCENARIOS / B_EXERCISES / B_COMPOUND_SETS はv117比で変更なし
+          EOF
+          git rm .github/workflows/v118-ui-fix.yml tools/v117_to_v118.patch
+          git add index.html manifest.webmanifest sw.js audits/SUBJECT_B_TRACE_AND_REVIEW_TIMING_UI_AUDIT_v118.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Release FE QUEST v118 UI clarity fixes"
+          git push
