@@ -1,0 +1,73 @@
+name: FE QUEST v117 startup hotfix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply v117 startup/save fix
+        run: git apply tools/v116_to_v117.patch
+      - name: Verify syntax and version
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, json
+          s=Path('index.html').read_text()
+          assert "const APP_VERSION = 'v117'" in s
+          assert 'function finalizeAppBoot()' in s
+          assert 'if(!appBootComplete){bootProfileSavePending=true;return true;}' in s
+          js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
+          Path('/tmp/feq117.js').write_text(js)
+          json.loads(Path('manifest.webmanifest').read_text())
+          PY
+          node --check /tmp/feq117.js
+          node --check sw.js
+      - name: Add v117 audit and commit
+        run: |
+          cat > audits/RUNTIME_BOOT_SAVE_FIX_AUDIT_v117.txt <<'EOF'
+          FE QUEST v117 — 起動・保存停止ループ修正監査
+
+          対象
+          - v116で、再読み込み後に「画面の処理で問題が発生しました」→「保存を停止しました」と表示される
+          - 「設定を開く」を押しても実用的な復旧導線にならない
+
+          原因
+          - index.htmlは単一スクリプト内で多数の教材・科目B・弱点分析・PWAモジュールを順に宣言している。
+          - v116ではスクリプト途中の saveProfile() が refreshProfileUI() まで実行してしまい、まだ宣言前の B_EXERCISES / WEAK_CATEGORIES 等を参照して ReferenceError が発生した。
+          - saveProfile() の try 範囲にUI描画も含まれていたため、保存自体は成功していてもUIのReferenceErrorを「保存失敗」と誤判定し profileWriteBlocked=true になっていた。
+          - v115の初期描画位置も WEAK_CATEGORIES 宣言前だったため、起動順序の安全化が不完全だった。
+
+          修正
+          1. appBootComplete / bootProfileSavePending を導入。全モジュール宣言完了前の saveProfile / persistProfileSilently は書込み・全画面描画を行わず、最終起動時へ集約。
+          2. finalizeAppBoot() をスクリプト末尾へ配置し、全データ・全レンダラ・PWAモジュール宣言後に一度だけ初期保存・初期描画。
+          3. saveProfile() で「ストレージ書込み」と「復旧点キュー／UI再描画」を分離。UI描画エラーで保存停止状態へ入らない。
+          4. 通知の操作ボタンは通知を閉じてからアクションを実行し、例外も捕捉。
+          5. v117 Service Workerは今回の緊急修正に限り install 時に skipWaiting() を行い、v116からの復旧を簡単にする。
+
+          実行テスト
+          - Chromium CDP + localStorageモックで起動完了を確認
+          - FEQUEST_APP_BOOT_COMPLETE=true
+          - FEQUEST_DAILY_PLAN_READY=true
+          - profileWriteBlocked=false
+          - profileConflictBlocked=false
+          - saveProfile() 後も保存停止へ入らない
+          - 通知の「設定を開く」相当操作で計画画面へ遷移し通知が閉じる
+          - Runtime.exceptionThrown 0件
+
+          データ不変
+          - QUESTION_BANK / CORE_A_CURRICULUM / SECURITY_SCENARIOS / B_EXERCISES / B_COMPOUND_SETS はv116とSHA-256一致
+          - Profile Schema v5のまま
+          EOF
+          git rm .github/workflows/v117-hotfix.yml tools/v116_to_v117.patch
+          git add index.html manifest.webmanifest sw.js audits/RUNTIME_BOOT_SAVE_FIX_AUDIT_v117.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Release FE QUEST v117 startup/save hotfix"
+          git push
