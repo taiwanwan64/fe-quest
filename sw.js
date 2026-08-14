@@ -1,5 +1,5 @@
-const APP_VERSION = 'v114';
-const CACHE_NAME = 'fe-quest-v114-1';
+const APP_VERSION = 'v115';
+const CACHE_NAME = 'fe-quest-v115-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
@@ -67,7 +67,6 @@ self.addEventListener('fetch', event => {
   if(request.method !== 'GET' || request.headers.has('range')) return;
   const url=new URL(request.url);
   if(url.origin !== self.location.origin) return;
-
   if(request.mode === 'navigate'){
     event.respondWith(navigationResponse(request));
     return;

@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v114",
+  "name": "FE QUEST v115",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v114では日常利用UXの第9段階として、ホーム冒頭の重複案内を削除し、科目A模試の設計説明・履歴、苦手分析の詳細情報を必要時だけ開く構成へ整理。試験範囲画面の重複説明も圧縮し、主要CTAをより早く視認できる情報階層へ改善。v113までのスマホ操作性・アクセシビリティ・学習導線・問題データ・データ保護・試験直前調整を維持。",
+  "description": "基本情報技術者試験向けPWA。v115では起動時の初期化順序を修正し、ホーム・学習・演習・計画の主要CTAが実際に動作する状態へ復旧。図解・操作ラボの内容描画も復旧し、BIT先生は画面を遮らないヘッダー右上へ移動。v114までの日常利用UX、問題・教材データ、データ保護、試験直前調整を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
@@ -10,26 +10,11 @@
   "orientation": "any",
   "background_color": "#f6f8fb",
   "theme_color": "#58cc02",
-  "categories": [
-    "education"
-  ],
+  "categories": ["education"],
   "icons": [
-    {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ],
-  "display_override": [
-    "standalone",
-    "browser"
-  ],
+  "display_override": ["standalone","browser"],
   "prefer_related_applications": false
 }

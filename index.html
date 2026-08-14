@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v114</title>
+<title>FE QUEST PWA v115</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -4499,6 +4499,17 @@
   }
 
 
+  /* ===== v115: runtime recovery + BIT先生 header placement ===== */
+  .ai-header-btn{
+    appearance:none;-webkit-appearance:none;padding:0;cursor:pointer;color:inherit;
+    box-shadow:none;flex:0 0 auto;
+  }
+  .ai-header-btn:hover{background:#e9fbdc}
+  body.ai-open .ai-header-btn{opacity:.45}
+  @media(max-width:720px){
+    .ai-header-btn{width:44px;height:44px;min-width:44px;min-height:44px;font-size:22px}
+  }
+
   /* ===== v114: daily-use UX phase 9 (reduction / information hierarchy) ===== */
   .ux-secondary-details{
     margin-top:16px;
@@ -4552,7 +4563,7 @@
     <div class="mobile-stats"><span class="mstat">🔥 <span id="streakMobile">0</span></span><span class="mstat">⭐ <span id="xpMobile">0</span></span></div>
     <div class="stat-chip">🔥 <span id="streakTop">0</span>日</div>
     <div class="stat-chip">⭐ <span id="xpTop">0</span> XP</div>
-    <div class="avatar">🙂</div>
+    <button class="avatar ai-header-btn" id="aiFab" type="button" aria-label="BIT先生に質問する" aria-expanded="false" aria-controls="aiDrawer" title="BIT先生"><span aria-hidden="true">🤖</span></button>
   </header>
 
   <aside class="sidebar" role="navigation" aria-label="メインナビゲーション">
@@ -6226,7 +6237,7 @@
   </aside>
 </div>
 
-<button class="ai-fab" id="aiFab" aria-label="BIT先生に質問する" aria-expanded="false" aria-controls="aiDrawer"><span aria-hidden="true">🤖</span><span class="ai-fab-label">BIT先生</span></button>
+
 
 <div class="drawer-backdrop" id="aiBackdrop" aria-hidden="true"></div>
 <div class="drawer" id="aiDrawer" role="dialog" aria-modal="true" aria-labelledby="aiDrawerTitle" aria-describedby="aiDrawerDesc" aria-hidden="true" inert>
@@ -6487,7 +6498,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v114';
+const APP_VERSION = 'v115';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -13113,9 +13124,8 @@ refreshProfileUI = function(){
   renderExerciseEntry();
   if(document.getElementById('history')?.classList.contains('active') && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
 };
-refreshProfileUI();
-openProblemsHub();
-
+// v115: daily-plan dependent UI must not render until Core A / Subject B datasets are initialized.
+// The first full refresh is intentionally deferred to the planner-ready point below.
 
 
 // ===== v6: Interactive lesson engine =====
@@ -18429,9 +18439,12 @@ document.getElementById('planDetailsToggle')?.addEventListener('click',()=>{
   setPlanDetailsOpen(document.getElementById('plan')?.classList.contains('plan-compact'));
 });
 
-renderDailyPlan();
-renderPlannerScreen();
-
+// v115: first safe full UI initialization.  CORE_A_IDS, Subject B datasets, and
+// the daily-plan engine are all defined by this point, so CTA handlers can be attached safely.
+window.FEQUEST_DAILY_PLAN_READY=true;
+refreshProfileUI();
+openProblemsHub();
+renderLearningEntry();
 
 
 // ===== Exam area coverage =====
@@ -20469,7 +20482,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v114','v114 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v115','v115 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
@@ -20491,6 +20504,8 @@ function runAppSelfCheck(){
     assert(!!document.querySelector('#weak > .weak-detail-fold')&&document.querySelector('#weak > .weak-detail-fold')?.contains(document.getElementById('weakCategoryGrid')),'v114 weak-analysis details must be secondary');
     assert(!!document.getElementById('weakTopAction'),'v114 weak-analysis priority must have a direct action');
     assert(document.querySelector('#coverage .coverage-summary-compact')?.textContent.includes('教材の総合進捗'),'v114 coverage duplicate summary reduction missing');
+    assert(window.FEQUEST_DAILY_PLAN_READY===true&&typeof CORE_A_IDS!=='undefined'&&CORE_A_IDS.length===130,'v115 daily-plan UI must initialize only after Core A data is ready');
+    assert(document.querySelector('header #aiFab.ai-header-btn'),'v115 BIT先生 must live in the top-right header');
     assert(typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function','v110 Subject B guided entry missing');
     assert(!!document.getElementById('subjectBNextCard')&&!!document.getElementById('subjectBProgressStrip'),'v110 Subject B hub UI missing');
     assert(document.querySelectorAll('.b-mode-switcher').length===4,'v110 Subject B mode switchers must be progressive disclosure');
