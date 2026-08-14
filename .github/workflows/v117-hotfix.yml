@@ -13,7 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Apply v117 startup/save fix
-        run: git apply tools/v116_to_v117.patch
+        run: |
+          git apply --include=index.html tools/v116_to_v117.patch
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('manifest.webmanifest')
+          s=p.read_text()
+          s=s.replace('FE QUEST v116','FE QUEST v117')
+          s=s.replace('v116ではアプリ更新を1タップ化し、保存停止・別画面競合・更新待機時でも手動の再読み込みやバックアップ操作を要求せず、安全な確定済み学習データを保ったまま最新版へ切り替える更新導線へ改善。','v117では起動途中の保存処理が未初期化モジュールを参照して保存停止扱いになる不具合を修正。全モジュール宣言後に一度だけ初期保存・描画する起動バリアを導入し、UI描画エラーを保存失敗として扱わないよう分離。v116の1タップ更新導線も維持。')
+          p.write_text(s)
+
+          p=Path('sw.js')
+          s=p.read_text()
+          s=s.replace("const APP_VERSION = 'v116';","const APP_VERSION = 'v117';")
+          s=s.replace("const CACHE_NAME = 'fe-quest-v116-1';","const CACHE_NAME = 'fe-quest-v117-1';")
+          s=s.replace("self.addEventListener('install', event => {\n  event.waitUntil(","self.addEventListener('install', event => {\n  // v117 emergency hotfix: activate immediately so v116's false save-block loop is escaped with one normal reload.\n  self.skipWaiting();\n  event.waitUntil(")
+          p.write_text(s)
+          PY
       - name: Verify syntax and version
         run: |
           python - <<'PY'
@@ -25,7 +41,9 @@ jobs:
           assert 'if(!appBootComplete){bootProfileSavePending=true;return true;}' in s
           js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
           Path('/tmp/feq117.js').write_text(js)
-          json.loads(Path('manifest.webmanifest').read_text())
+          m=json.loads(Path('manifest.webmanifest').read_text())
+          assert m['name']=='FE QUEST v117'
+          assert "const APP_VERSION = 'v117';" in Path('sw.js').read_text()
           PY
           node --check /tmp/feq117.js
           node --check sw.js
