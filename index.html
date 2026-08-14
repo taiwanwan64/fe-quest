@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v110</title>
+<title>FE QUEST PWA v114</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -2697,6 +2697,7 @@
   .weak-hero-label{font-size:14px;font-weight:900;color:#bf6b22;letter-spacing:.7px}
   .weak-hero-title{font-size:23px;font-weight:900;margin-top:3px}
   .weak-hero-sub{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .weak-top-action{margin-top:10px;min-height:44px;border:0;border-radius:12px;padding:9px 14px;background:var(--blue);color:#fff;font-weight:800;cursor:pointer}
   .weak-priority-score{
     width:82px;height:82px;border-radius:50%;background:#fff;border:7px solid #ffd7b4;
     display:flex;flex-direction:column;align-items:center;justify-content:center;flex:0 0 auto;
@@ -4404,6 +4405,136 @@
     .b-final-info-fold .bfinal-spec{grid-template-columns:1fr 1fr}
   }
 
+
+  /* ===== v111: daily-use UX phase 6 (results / plan / analytics / recovery) ===== */
+  .ux-focus-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff,#f8fff4);border:2px solid #dcefd0;border-radius:22px;padding:17px 18px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .ux-focus-icon{width:48px;height:48px;border-radius:15px;background:var(--green-soft);display:grid;place-items:center;font-size:25px;flex:0 0 auto}
+  .ux-focus-copy{min-width:0;flex:1}.ux-focus-kicker{font-size:14px;font-weight:900;color:var(--green-dark)}.ux-focus-title{font-size:18px;font-weight:900;margin-top:2px}.ux-focus-desc{font-size:14px;color:var(--muted);line-height:1.55;margin-top:3px}
+  .ux-focus-action{border:none;background:var(--green);color:#fff;border-radius:13px;padding:11px 14px;font-weight:900;white-space:nowrap}
+  .ux-section-toggle{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;min-height:46px;padding:9px 13px;font-weight:900;color:#5f7180;margin:0 0 14px}
+  #plan.plan-compact #roadmapCard,#plan.plan-compact #weekPlanCard,#plan.plan-compact #memoryHealthCard,#plan.plan-compact #learningSettingsCard,#plan.plan-compact #pwaHealthCard,#plan.plan-compact #reviewForecastCard{display:none}
+  #plan .exam-pace-card.hidden-by-plan{display:none}
+  .analytics-priority-card{border-color:#dcefd0;background:linear-gradient(135deg,#fbfff8,#fff)}
+  #history.analytics-compact .analytics-grid,#history.analytics-compact #analyticsCategoryCard,#history.analytics-compact #analyticsJourneyGrid{display:none}
+  .data-maintenance-fold,.recovery-fold,.result-more-actions{margin-top:10px;border:1px solid var(--line);border-radius:14px;background:#fafcfd},.result-detail-fold{margin-top:12px;border:1px solid var(--line);border-radius:16px;background:#fff}
+  .data-maintenance-fold>summary,.recovery-fold>summary,.result-more-actions>summary,.result-detail-fold>summary{cursor:pointer;padding:11px 13px;font-weight:900;color:#5e7180;list-style:none}
+  .data-maintenance-fold>summary::-webkit-details-marker,.recovery-fold>summary::-webkit-details-marker,.result-more-actions>summary::-webkit-details-marker,.result-detail-fold>summary::-webkit-details-marker{display:none}
+  .data-maintenance-fold>summary:after,.recovery-fold>summary:after,.result-more-actions>summary:after,.result-detail-fold>summary:after{content:'＋';float:right;color:var(--muted)}
+  .data-maintenance-fold[open]>summary:after,.recovery-fold[open]>summary:after,.result-more-actions[open]>summary:after,.result-detail-fold[open]>summary:after{content:'−'}
+  .pwa-health-actions-advanced{display:flex;gap:8px;flex-wrap:wrap;padding:0 10px 12px}
+  .recovery-fold .recovery-center{margin:0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent}.result-detail-fold>.mock-result-grid,.result-detail-fold>.bfinal-diagnosis,.result-detail-fold>.bfinal-format-breakdown,.result-detail-fold>.bmock-breakdown,.result-detail-fold>.secmock-breakdown,.result-detail-fold>.bcompound-review,.result-detail-fold>.bmock-review-head,.result-detail-fold>.bmock-review-list,.result-detail-fold>.bfinal-review-list,.result-detail-fold>.secmock-review-list{margin-left:12px;margin-right:12px}.result-detail-fold>:last-child{margin-bottom:12px}
+  .mock-result-actions .primary-action{background:var(--purple);color:#fff;border-color:var(--purple)}
+  .mock-result-actions .result-more-actions{width:100%;max-width:310px;margin-top:2px}
+  .mock-result-actions .result-more-actions button{width:100%;margin:0 0 10px}
+  .bmock-result-actions .result-more-actions{width:100%;max-width:300px}.bmock-result-actions .result-more-actions button{width:calc(100% - 20px);margin:0 10px 10px}
+  @media(max-width:720px){.ux-focus-card{align-items:flex-start;flex-wrap:wrap}.ux-focus-action{width:100%;margin-left:62px}.section-shortcuts{grid-template-columns:1fr 1fr}.pwa-health-actions{display:grid;grid-template-columns:1fr}.pwa-health-actions>button,.pwa-health-actions>details{width:100%}.pwa-health-actions-advanced{display:grid;grid-template-columns:1fr}.mock-result-actions,.bmock-result-actions{flex-direction:column;align-items:stretch}.mock-result-actions>button,.mock-result-actions>details,.bmock-result-actions>button,.bmock-result-actions>details{width:100%;max-width:none}.ux-focus-action{margin-left:0}}
+
+
+  /* ===== v112: daily-use UX phase 7 (onboarding / install / cross-session flow) ===== */
+  #home.home-onboarding>h1{margin-bottom:5px}
+  #home.home-onboarding>.today-plan,#home.home-onboarding>.home-secondary{display:none}
+  #home.home-onboarding .diag-banner{margin-top:18px;border-width:2px;box-shadow:var(--shadow)}
+  .diag-banner.hidden{display:none!important}
+  .settings-install-card{margin:14px 0 4px;box-shadow:none;background:#fbfff8}
+  .settings-install-card .install-button{white-space:nowrap}
+  .right-daily-next{font-size:14px;line-height:1.55;color:var(--muted);margin-top:7px}
+  .right-daily-action{width:100%;margin-top:11px;border:none;background:var(--green);color:#fff;border-radius:12px;padding:10px 12px;font-weight:900}
+  .right-daily-action:disabled{background:#d9e1e6;color:#71808b}
+  @media(max-width:720px){#home.home-onboarding .diag-banner{margin-top:14px}.settings-install-card{padding:14px}.settings-install-card .install-button{width:100%}}
+
+
+  /* ===== v113: daily-use UX phase 8 (mobile interaction / accessibility) ===== */
+  .sr-only{
+    position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+    overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+  }
+  :where(button,input,select,textarea,summary,[tabindex]):focus-visible{
+    outline:3px solid var(--blue);outline-offset:3px;
+  }
+  .drawer-backdrop{
+    position:fixed;inset:0;z-index:79;background:rgba(24,35,45,.32);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  body.ai-open .drawer-backdrop{opacity:1;pointer-events:auto}
+  body.ai-open .ai-fab{opacity:0;pointer-events:none;transform:translateY(6px)}
+  .ai-fab{display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:opacity .18s ease,transform .18s ease}
+  .screen[aria-hidden="true"]{visibility:hidden}
+
+  @media(max-width:720px){
+    /* One consistent minimum target size for thumb use. */
+    button,details>summary{min-height:44px}
+    .back{width:44px!important;min-width:44px!important;height:44px!important;flex:0 0 44px}
+    .drawer-close,.chat-input button,.app-notice-close{min-width:44px!important;min-height:44px!important}
+    .app-notice-close{width:44px!important;height:44px!important}
+    .app-notice-actions button.primary{min-width:72px}
+    .bcompound-qnav button{width:44px;height:44px}
+    .tiny-button{min-height:44px;min-width:44px;padding:6px}
+
+    /* BIT先生 stays available without covering a large part of the lesson/answer area. */
+    .ai-fab{
+      left:12px;right:auto;bottom:calc(76px + env(safe-area-inset-bottom));
+      width:50px;height:50px;padding:0;border-radius:50%;font-size:22px;
+    }
+    .ai-fab-label{display:none}
+
+    /* Compact repeated chrome while keeping content readable. */
+    .screen-head{margin-bottom:14px}
+    .screen-head h1{font-size:22px;line-height:1.3}
+    .result-card{padding:20px 16px}
+    .result-icon{font-size:52px}
+    .ux-focus-card,.course-next-card,.subject-b-next-card,.b-mode-next-card,.bfinal-readiness{margin-bottom:12px}
+    .drawer-head{padding-left:16px;padding-right:14px}
+    .quick{padding-left:14px;padding-right:14px}
+    .chat-input{padding-left:14px;padding-right:14px}
+  }
+
+  @media(max-width:360px){
+    .screen-head h1{font-size:21px}
+    .ai-fab{width:48px;height:48px;font-size:21px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto!important}
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  }
+
+
+  /* ===== v114: daily-use UX phase 9 (reduction / information hierarchy) ===== */
+  .ux-secondary-details{
+    margin-top:16px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:var(--card);
+    overflow:hidden;
+  }
+  .ux-secondary-details > summary{
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    font-weight:700;
+    cursor:pointer;
+    list-style:none;
+  }
+  .ux-secondary-details > summary::-webkit-details-marker{display:none;}
+  .ux-secondary-details > summary::after{content:'＋';margin-left:auto;font-size:20px;line-height:1;}
+  .ux-secondary-details[open] > summary::after{content:'−';}
+  .mock-secondary-details .mock-blueprint-card{margin:0 14px 14px;}
+  .mock-history-details .mock-history{margin:0 14px 14px;}
+  .weak-detail-fold > .weak-section,
+  .weak-detail-fold > .weak-two-col{margin-left:14px;margin-right:14px;}
+  .weak-detail-fold > .weak-two-col:last-of-type{margin-bottom:14px;}
+  .coverage-summary-compact{align-items:center;}
+  @media(max-width:720px){
+    #home > .diag-banner:first-of-type,
+    #home > .today-plan:first-of-type{margin-top:0;}
+    .ux-secondary-details{border-radius:14px;}
+    .ux-secondary-details > summary{min-height:44px;padding:0 13px;}
+    .mock-secondary-details .mock-blueprint-card,
+    .mock-history-details .mock-history{margin-left:10px;margin-right:10px;}
+    .weak-detail-fold > .weak-section,
+    .weak-detail-fold > .weak-two-col{margin-left:10px;margin-right:10px;}
+  }
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4424,19 +4555,27 @@
     <div class="avatar">🙂</div>
   </header>
 
-  <aside class="sidebar">
-    <button class="nav-btn active" data-screen="home"><span class="ico">🏠</span><span>ホーム</span></button>
-    <button class="nav-btn" data-screen="map"><span class="ico">📚</span><span>学習</span></button>
-    <button class="nav-btn" data-screen="problems"><span class="ico">✏️</span><span>演習</span></button>
-    <button class="nav-btn" data-screen="plan"><span class="ico">📅</span><span>計画</span></button>
-    <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico">⚙️</span><span>設定</span></button>
+  <aside class="sidebar" role="navigation" aria-label="メインナビゲーション">
+    <button class="nav-btn active" data-screen="home" aria-current="page"><span class="ico" aria-hidden="true">🏠</span><span>ホーム</span></button>
+    <button class="nav-btn" data-screen="map"><span class="ico" aria-hidden="true">📚</span><span>学習</span></button>
+    <button class="nav-btn" data-screen="problems"><span class="ico" aria-hidden="true">✏️</span><span>演習</span></button>
+    <button class="nav-btn" data-screen="plan"><span class="ico" aria-hidden="true">📅</span><span>計画</span></button>
+    <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico" aria-hidden="true">⚙️</span><span>設定</span></button>
   </aside>
 
-  <main>
+  <main id="mainContent">
     <!-- HOME -->
     <section id="home" class="screen active">
-      <h1>今日も少しずつ進めましょう 👋</h1>
-      <div class="sub">復習予定・苦手分野・学習進捗から、今日やる内容を自動で組み立てます。</div>
+      <h1 class="sr-only">ホーム</h1>
+
+      <div class="diag-banner" id="diagBanner">
+        <div class="diag-icon">🧭</div>
+        <div class="diag-copy">
+          <b>はじめに現在の実力を確認</b>
+          <div class="sub">12問・3〜5分ほど。結果から最初の学習内容を調整します。</div>
+        </div>
+        <button class="diag-start" id="startDiagnostic">実力診断を始める →</button>
+      </div>
 
       <div class="today-plan" id="todayPlan">
         <div class="today-plan-head">
@@ -4455,24 +4594,6 @@
         <div class="daily-tasks" id="dailyTaskList"></div>
       </div>
 
-      <div class="diag-banner" id="diagBanner">
-        <div class="diag-icon">🧭</div>
-        <div class="diag-copy">
-          <b>まず現在の実力を測りましょう</b>
-          <div class="sub">ITパスポートの知識がどれくらい残っているかを短い診断で確認し、今日の学習内容を調整します。</div>
-        </div>
-        <button class="diag-start" id="startDiagnostic">実力診断</button>
-      </div>
-
-      <div class="install-card" id="installCard">
-        <div class="install-ico">📲</div>
-        <div class="install-copy">
-          <div class="install-title">FE QUESTをアプリとして使う</div>
-          <div class="sub">ホーム画面に追加すると、Safariの枠なしで起動できます。</div>
-        </div>
-        <button class="install-button" id="installPwaBtn">追加する</button>
-      </div>
-
       <details class="home-secondary" id="homeReviewDetails">
         <summary>復習候補を見る</summary>
         <div class="mini-grid" id="homeReviewCandidates">
@@ -4485,7 +4606,7 @@
     <section id="mock" class="screen">
       <div id="mockMenu" class="mock-menu">
         <div class="screen-head">
-          <button class="back" data-screen="problems">←</button>
+          <button class="back" data-screen="problems" aria-label="前の画面に戻る">←</button>
           <div><h1>科目A 模試 📝</h1><div class="sub">本番を意識した時間配分を練習します。</div></div>
         </div>
 
@@ -4497,7 +4618,9 @@
           </div>
         </div>
 
-        <div class="mock-blueprint-card">
+        <details class="ux-secondary-details mock-secondary-details">
+          <summary>模試の出題設計を見る</summary>
+          <div class="mock-blueprint-card">
           <div class="mock-blueprint-head">
             <div>
               <div class="mock-blueprint-kicker">FE QUEST 模試設計</div>
@@ -4514,6 +4637,7 @@
           </div>
           <div class="mock-blueprint-note">※これはFE QUEST内の模試生成ルールです。公式試験の問題配分を示すものではありません。</div>
         </div>
+        </details>
 
         <div class="mock-cards">
           <div class="mock-card featured">
@@ -4533,10 +4657,12 @@
           </div>
         </div>
 
-        <div class="mock-history">
-          <h3>模試履歴</h3>
-          <div id="mockHistoryList"><div class="sub">まだ模試履歴がありません。</div></div>
-        </div>
+        <details class="ux-secondary-details mock-history-details">
+          <summary>模試履歴を見る</summary>
+          <div class="mock-history">
+            <div id="mockHistoryList"><div class="sub">まだ模試履歴がありません。</div></div>
+          </div>
+        </details>
       </div>
 
       <div id="mockExam" class="mock-exam">
@@ -4587,27 +4713,24 @@
 
         <div class="mock-diagnosis" id="mockDiagnosis"></div>
 
-        <div class="mock-result-grid">
-          <div class="mock-result-card">
-            <h3>分野別正答率</h3>
-            <div id="mockBreakdown"></div>
-          </div>
-          <div class="mock-result-card">
-            <h3>復習優先</h3>
-            <div class="mock-review-list" id="mockReviewList"></div>
-          </div>
+        <div class="mock-result-actions">
+          <button class="reviewwrong" id="mockStartReview">誤答・見直しを確認 →</button>
+          <button class="backmock" id="mockBackMenu">演習へ戻る</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="again" id="mockRetry">同じ形式をもう一度解く</button></details>
         </div>
 
-        <div class="mock-result-actions">
-          <button class="backmock" id="mockBackMenu">模試メニューへ</button>
-          <button class="reviewwrong" id="mockStartReview">誤答を復習する</button>
-          <button class="again" id="mockRetry">もう一度解く</button>
-        </div>
+        <details class="result-detail-fold">
+          <summary>分野別結果・復習候補を見る</summary>
+          <div class="mock-result-grid">
+            <div class="mock-result-card"><h3>分野別正答率</h3><div id="mockBreakdown"></div></div>
+            <div class="mock-result-card"><h3>復習優先</h3><div class="mock-review-list" id="mockReviewList"></div></div>
+          </div>
+        </details>
       </div>
 
       <div id="mockReviewMode" class="mock-review-mode">
         <div class="review-head">
-          <button class="back" id="reviewExit">←</button>
+          <button class="back" id="reviewExit" aria-label="前の画面に戻る">←</button>
           <div class="review-head-copy">
             <h1>模試レビュー 🔍</h1>
             <div class="review-progress-text" id="reviewProgressText">1 / 1</div>
@@ -4687,16 +4810,13 @@
     <!-- COVERAGE -->
     <section id="coverage" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="plan">←</button>
+        <button class="back" data-screen="plan" aria-label="前の画面に戻る">←</button>
         <div><h1>試験範囲カバレッジ 🧭</h1><div class="sub">基本情報技術者試験の主要分野について、教材・問題演習・科目B演習の進み具合を確認します。</div></div>
       </div>
 
-      <div class="coverage-summary">
+      <div class="coverage-summary coverage-summary-compact">
         <div class="coverage-icon">📚</div>
-        <div class="coverage-copy">
-          <b>試験範囲カバレッジ</b>
-          <div class="sub">主要分野を横断して学習コンテンツの進捗を確認できます。</div>
-        </div>
+        <div class="coverage-copy"><b>教材の総合進捗</b></div>
         <div class="coverage-big" id="coverageOverall">0%</div>
       </div>
 
@@ -4707,7 +4827,7 @@
     <!-- PLAN -->
     <section id="plan" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="home">←</button>
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
         <div><h1>学習計画 📅</h1><div class="sub">1日の学習時間と現在の実力から、FE QUESTが優先順位を組み立てます。</div></div>
       </div>
 
@@ -4716,15 +4836,22 @@
         <button class="section-shortcut" data-screen="coverage"><span>🧭</span><b>試験範囲の進捗</b><small>分野別に確認</small></button>
       </div>
 
+      <div class="ux-focus-card" id="planFocusCard">
+        <div class="ux-focus-icon" id="planFocusIcon">📅</div>
+        <div class="ux-focus-copy"><div class="ux-focus-kicker">今日の計画</div><div class="ux-focus-title" id="planFocusTitle">学習状況を確認中…</div><div class="ux-focus-desc" id="planFocusDesc"></div></div>
+        <button class="ux-focus-action" id="planFocusAction">今日の学習へ →</button>
+      </div>
+      <button class="ux-section-toggle" id="planDetailsToggle" aria-expanded="false">進捗・設定の詳細を表示</button>
+
       <div class="plan-screen-grid">
         <div>
-          <div class="planner-card">
+          <div class="planner-card" id="roadmapCard">
             <h2>学習ロードマップ</h2>
             <div class="sub">試験対策全体を5段階にまとめて進捗管理します。</div>
             <div class="roadmap" id="roadmapList"></div>
           </div>
 
-          <div class="planner-card">
+          <div class="planner-card" id="weekPlanCard">
             <h2>今週の学習</h2>
             <div class="sub">完了した「今日の学習」に割り当てられた時間の合計です。実際の経過時間ではありません。</div>
             <div class="week-chart" id="weekChart"></div>
@@ -4748,7 +4875,7 @@
             <button class="planner-save" id="finalFocusAction">次の仕上げへ</button>
           </div>
 
-          <div class="planner-card">
+          <div class="planner-card" id="memoryHealthCard">
             <h2>記憶の健康状態 🧠</h2>
             <div class="sub">一度学習した問題が、今どのくらい記憶に残っていそうかを推定します。</div>
             <div class="memory-health-layout">
@@ -4798,6 +4925,14 @@
           <div class="planner-card" id="pwaHealthCard">
             <h2>アプリ・データ</h2>
             <div class="sub">更新状態と、この端末に保存されている学習データを確認できます。</div>
+            <div class="install-card settings-install-card" id="installCard">
+              <div class="install-ico">📲</div>
+              <div class="install-copy">
+                <div class="install-title">ホーム画面から起動する</div>
+                <div class="sub">必要ならFE QUESTをアプリとしてホーム画面に追加できます。</div>
+              </div>
+              <button class="install-button" id="installPwaBtn">追加方法を見る</button>
+            </div>
             <div class="pwa-health-grid">
               <div class="pwa-health-item"><span>アプリ</span><b id="pwaVersionStatus">--</b></div>
               <div class="pwa-health-item"><span>接続</span><b id="pwaNetworkStatus">確認中</b></div>
@@ -4817,17 +4952,24 @@
             </div>
             <div class="pwa-health-actions">
               <button class="primary" id="checkAppUpdate">更新を確認</button>
-              <button id="requestPersistentStorage">保存保護を強化</button>
-              <button id="verifyProfileData">データを検査</button>
-              <button id="runStorageSelfTest">安全性チェック</button>
-              <button id="createRecoveryPoint">復旧点を今作る</button>
-              <button id="exportProfile">学習データを書き出す</button>
-              <button id="importProfile">学習データを読み込む</button>
-              <button id="restorePreImport" class="hidden">直前の読込前データへ戻す</button>
-              <button id="exportCorruptProfile" class="hidden">破損データを保全</button>
+              <button id="exportProfile">バックアップを書き出す</button>
+              <details class="data-maintenance-fold">
+                <summary>その他のデータ操作</summary>
+                <div class="pwa-health-actions-advanced">
+                  <button id="requestPersistentStorage">保存保護を強化</button>
+                  <button id="verifyProfileData">データを検査</button>
+                  <button id="runStorageSelfTest">安全性チェック</button>
+                  <button id="createRecoveryPoint">復旧点を今作る</button>
+                  <button id="importProfile">バックアップを読み込む</button>
+                  <button id="restorePreImport" class="hidden">直前の読込前データへ戻す</button>
+                  <button id="exportCorruptProfile" class="hidden">破損データを保全</button>
+                </div>
+              </details>
             </div>
             <input id="profileImportInput" type="file" accept="application/json,.json" hidden>
-            <div class="recovery-center" id="recoveryCenter">
+            <details class="recovery-fold">
+              <summary>復旧センター（トラブル時）</summary>
+              <div class="recovery-center" id="recoveryCenter">
               <div class="recovery-center-head">
                 <div><b>復旧センター</b><span>過去の正常な状態を確認し、必要なときだけ選んで戻せます。</span></div>
                 <button id="refreshRecoveryCenter">復旧候補を確認</button>
@@ -4838,11 +4980,12 @@
                 <button id="restorePreManual" class="hidden">直前の手動復元前へ戻す</button>
                 <button id="exportRecoveryDiagnostics">診断レポートを書き出す</button>
               </div>
-            </div>
-            <div class="pwa-health-note">学習データはこのブラウザ内に保存されます。v108では、保存・復旧・安全更新の保護機能を維持しつつ、日常利用のナビゲーションを4項目へ整理し、学習画面には「前回の続き／今日の学習枠」を1つだけ優先表示する導線を追加しました。端末変更やサイトデータ削除に備えて、外部バックアップも定期的に書き出してください。</div>
+              </div>
+            </details>
+            <div class="pwa-health-note">学習データはこのブラウザ内に保存されます。通常はバックアップの書き出しだけで十分です。検査・読み込み・復旧は、保存状態に問題があるときだけ開いて使ってください。</div>
           </div>
 
-          <div class="planner-card exam-pace-card">
+          <div class="planner-card exam-pace-card" id="examPaceCard">
             <h2>試験日ペース 📅</h2>
             <div id="countdownBox"></div>
             <div id="examPacePanel"></div>
@@ -4856,7 +4999,7 @@
             <div class="plan-snapshot-note">完了済みの項目は固定したまま、未完了分だけ現在の弱点・試験日設定に合わせて組み直します。</div>
           </div>
 
-          <div class="planner-card">
+          <div class="planner-card" id="reviewForecastCard">
             <h2>7日間の復習予報 🔁</h2>
             <div class="sub">現在の記憶間隔から、復習に戻ってくる問題数を予測します。</div>
             <div class="review-forecast" id="reviewForecast"></div>
@@ -4870,7 +5013,7 @@
     <!-- LEARNING ANALYTICS -->
     <section id="history" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="plan">←</button>
+        <button class="back" data-screen="plan" aria-label="前の画面に戻る">←</button>
         <div><h1>学習分析 📈</h1><div class="sub">学習量だけでなく、伸び・停滞・定着・科目Bの得意な問題形式まで確認します。</div></div>
       </div>
 
@@ -4881,6 +5024,12 @@
         <div class="analytics-stat"><span>進行中</span><b id="analyticsActiveRoutes">0</b><small>復習ルート</small></div>
       </div>
       <div class="analytics-note">記録学習時間は、今日の学習で完了した学習項目に割り当てた時間を集計したものです。実際の経過時間そのものではありません。</div>
+
+      <div class="analytics-card analytics-priority-card">
+        <div class="analytics-card-head"><div><h2>次に伸ばすポイント</h2><div class="sub">最初に見るべき1つだけを表示します。</div></div></div>
+        <div class="analytics-next" id="analyticsNext"></div>
+      </div>
+      <button class="ux-section-toggle" id="analyticsDetailsToggle" aria-expanded="false">詳しい分析を表示</button>
 
       <div class="analytics-grid analytics-grid-top">
         <div class="analytics-card">
@@ -4893,7 +5042,7 @@
         </div>
       </div>
 
-      <div class="analytics-card">
+      <div class="analytics-card" id="analyticsCategoryCard">
         <div class="analytics-card-head">
           <div><h2>8分野の現在地</h2><div class="sub">累積正答率・習熟度・最近の変化を並べて確認します。</div></div>
           <div class="analytics-legend">↑ 改善　→ 横ばい　↓ 要注意</div>
@@ -4901,7 +5050,7 @@
         <div class="analytics-category-list" id="analyticsCategories"></div>
       </div>
 
-      <div class="analytics-grid">
+      <div class="analytics-grid" id="analyticsJourneyGrid">
         <div class="analytics-card">
           <div class="analytics-card-head"><div><h2>復習で定着した論点 🔁</h2><div class="sub">教材→類題→後日復習を完了した論点です。</div></div><div class="analytics-total" id="analyticsStableTotal">0</div></div>
           <div class="analytics-stage-grid" id="analyticsJourneyStages"></div>
@@ -4913,16 +5062,13 @@
         </div>
       </div>
 
-      <div class="analytics-card">
-        <div class="analytics-card-head"><div><h2>次に伸ばすポイント</h2><div class="sub">現在のデータから、優先度の高い1つを提案します。</div></div></div>
-        <div class="analytics-next" id="analyticsNext"></div>
-      </div>
+
     </section>
 
     <!-- MAP -->
     <section id="map" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="home">←</button>
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
         <div><h1>学習 📚</h1><div class="sub">まず1つだけおすすめを表示します。別のテーマを選びたいときは、その下の一覧から探せます。</div></div>
       </div>
 
@@ -5028,7 +5174,7 @@
     <!-- WEAK -->
     <section id="weak" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="problems">←</button>
+        <button class="back" data-screen="problems" aria-label="前の画面に戻る">←</button>
         <div>
           <h1>苦手分析 🧠</h1>
           <div class="sub">習熟度だけでなく、正答率・誤答理由・回答時間・繰り返し誤答をまとめて分析します。</div>
@@ -5041,10 +5187,13 @@
           <div class="weak-hero-label">次の優先項目</div>
           <div class="weak-hero-title" id="weakTopTitle">学習データを分析中</div>
           <div class="weak-hero-sub" id="weakTopSub"></div>
+          <button class="weak-top-action" id="weakTopAction">10問で確認 →</button>
         </div>
         <div class="weak-priority-score"><span id="weakTopScore">0</span><small>優先度</small></div>
       </div>
 
+      <details class="ux-secondary-details weak-detail-fold">
+        <summary>詳しい苦手分析を見る</summary>
       <div class="weak-section">
         <div class="weak-section-head">
           <div><h2>分野別分析</h2><div class="sub">優先度が高い順です。</div></div>
@@ -5078,6 +5227,7 @@
           <div id="slowQuestionList" class="weak-list"></div>
         </div>
       </div>
+      </details>
 
       <!-- Keep legacy nodes for existing profile refresh logic -->
       <div id="skillList" style="display:none"></div>
@@ -5197,7 +5347,7 @@
 
       <div id="quizSession" style="display:none">
         <div class="screen-head">
-          <button class="back" id="quitQuiz">←</button>
+          <button class="back" id="quitQuiz" aria-label="前の画面に戻る">←</button>
           <div style="flex:1">
             <h1 id="quizSessionTitle">問題演習</h1>
             <div class="sub" id="quizSessionSub">科目A 問題演習</div>
@@ -5291,7 +5441,7 @@
     <!-- DIAGNOSTIC -->
     <section id="diagnostic" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="home">←</button>
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
         <div>
           <h1>初回実力診断 🧭</h1>
           <div class="sub">短い診断で現在の基礎力をざっくり確認します。結果は端末内に保存されます。</div>
@@ -5300,7 +5450,7 @@
 
       <div class="diag-card" id="diagIntro">
         <div class="bot">🧭</div>
-        <h2 style="margin-top:16px">12問・約10分</h2>
+        <h2 style="margin-top:16px">12問・3〜5分ほど</h2>
         <div class="sub">基礎理論、コンピュータ、データベース、ネットワーク、セキュリティ、アルゴリズム、マネジメント、ストラテジから出題します。</div>
         <div class="daily-note">満点を取る必要はありません。忘れている分野を見つけるための診断です。</div>
         <button class="primary" id="diagBegin" style="margin-top:20px">診断を始める</button>
@@ -5326,7 +5476,7 @@
         <div class="sub">この結果をもとに、今後の学習を調整します。</div>
         <div class="diag-result-grid" id="diagResultGrid"></div>
         <div class="daily-note" id="diagResultAdvice"></div>
-        <button class="primary" id="diagFinish" style="margin-top:20px">ホームへ戻る</button>
+        <button class="primary" id="diagFinish" style="margin-top:20px">診断結果を反映して学習を始める →</button>
         <button class="reset-link" id="diagRedo">診断をやり直す</button>
       </div>
     </section>
@@ -5334,7 +5484,7 @@
     <!-- LESSON -->
     <section id="lesson" class="screen">
       <div class="screen-head">
-        <button class="back" data-screen="map">←</button>
+        <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
         <div style="flex:1">
           <h1 id="lessonTitle">インタラクティブ学習</h1>
           <div class="sub" id="lessonCategory">レッスン</div>
@@ -5366,7 +5516,7 @@
     <section id="trace" class="screen">
       <div id="bSelect" class="b-select">
         <div class="screen-head">
-          <button class="back" data-screen="map">←</button>
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
           <div><h1>科目B プログラムトレース 💻</h1><div class="sub">擬似コードを1行ずつ追い、基礎から二次元配列・リスト・再帰まで段階的に鍛えます。</div></div>
         </div>
 
@@ -5423,7 +5573,7 @@
 
       <div id="bLab" class="b-lab">
         <div class="trace-title-row">
-          <button class="back" id="bBackToList">←</button>
+          <button class="back" id="bBackToList" aria-label="前の画面に戻る">←</button>
           <div class="trace-info">
             <h1 id="bLabTitle">トレース</h1>
             <div class="sub" id="bLabMeta"></div>
@@ -5468,7 +5618,7 @@
 
       <div id="bFinalSelect" class="bfinal-select hidden">
         <div class="screen-head">
-          <button class="back" data-screen="map">←</button>
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
           <div>
             <h1>科目B 総合実戦 📝</h1>
             <div class="sub">アルゴリズムと情報セキュリティを混ぜた20問を、100分で解きます。</div>
@@ -5543,7 +5693,7 @@
 
       <div id="bFinalExam" class="bfinal-exam">
         <div class="bfinal-topbar">
-          <button class="back" id="bFinalExit">×</button>
+          <button class="back" id="bFinalExit" aria-label="終了して戻る">×</button>
           <div class="bfinal-top-copy">
             <b>科目B 総合実戦</b>
             <span id="bFinalTopMeta">問題 1 / 20</span>
@@ -5630,24 +5780,23 @@
           </div>
         </div>
 
-        <div class="bfinal-diagnosis" id="bFinalDiagnosis"></div>
-        <div class="bfinal-format-breakdown" id="bFinalFormatBreakdown"></div>
-
-        <div class="bmock-review-head">
-          <h2>全20問レビュー</h2>
-          <div class="sub">誤答は、どの読み方で崩れたかまで確認できます。</div>
-        </div>
-        <div class="bfinal-review-list" id="bFinalReviewList"></div>
-
         <div class="bmock-result-actions">
-          <button class="secondary" id="bFinalBackMenu">総合実戦メニューへ</button>
-          <button class="primary" id="bFinalRetry">もう一度解く</button>
+          <button class="primary" id="bFinalBackMenu">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bFinalRetry">総合実戦をもう一度解く</button></details>
         </div>
+
+        <details class="result-detail-fold">
+          <summary>詳しい結果・全20問レビューを見る</summary>
+          <div class="bfinal-diagnosis" id="bFinalDiagnosis"></div>
+          <div class="bfinal-format-breakdown" id="bFinalFormatBreakdown"></div>
+          <div class="bmock-review-head"><h2>全20問レビュー</h2><div class="sub">誤答は、どの読み方で崩れたかまで確認できます。</div></div>
+          <div class="bfinal-review-list" id="bFinalReviewList"></div>
+        </details>
       </div>
 
       <div id="bMockSelect" class="bmock-select hidden">
         <div class="screen-head">
-          <button class="back" data-screen="map">←</button>
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
           <div><h1>科目B 実戦演習 🧩</h1><div class="sub">複合問題とアルゴリズム ミニ模試で、ヒントなしでも読み切れるか確認します。</div></div>
         </div>
         <details class="b-mode-switcher">
@@ -5730,7 +5879,7 @@
 
       <div id="bCompoundExam" class="bcompound-exam">
         <div class="bmock-topbar">
-          <button class="back" id="bCompoundExit">×</button>
+          <button class="back" id="bCompoundExit" aria-label="終了して戻る">×</button>
           <div class="bmock-top-title"><b>複合問題</b><span>長文1題・設問3問</span></div>
           <div class="bmock-timer" id="bCompoundTimer">20:00</div>
           <button class="bmock-submit-top" id="bCompoundSubmit">提出</button>
@@ -5769,16 +5918,16 @@
           <div><span id="bCompoundBlank">0</span><b>未回答</b></div>
           <div><span id="bCompoundTime">00:00</span><b>所要時間</b></div>
         </div>
-        <div class="bcompound-review" id="bCompoundReview"></div>
         <div class="bmock-result-actions">
-          <button class="secondary" id="bCompoundBackMenu">実戦メニューへ</button>
-          <button class="primary" id="bCompoundRetry">別の複合問題へ</button>
+          <button class="primary" id="bCompoundBackMenu">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bCompoundRetry">別の複合問題を解く</button></details>
         </div>
+        <details class="result-detail-fold"><summary>解答レビューを見る</summary><div class="bcompound-review" id="bCompoundReview"></div></details>
       </div>
 
       <div id="bMockExam" class="bmock-exam">
         <div class="bmock-topbar">
-          <button class="back" id="bMockExit">×</button>
+          <button class="back" id="bMockExit" aria-label="終了して戻る">×</button>
           <div class="bmock-top-title"><b>アルゴリズム ミニ模試</b><span>8問・ヒントなし</span></div>
           <div class="bmock-timer" id="bMockTimer">40:00</div>
           <button class="bmock-submit-top" id="bMockSubmitTop">提出</button>
@@ -5834,23 +5983,21 @@
           <div><span id="bMockStatTime">00:00</span><b>所要時間</b></div>
         </div>
 
-        <div class="bmock-breakdown" id="bMockBreakdown"></div>
-
-        <div class="bmock-review-head">
-          <h2>解答レビュー</h2>
-          <div class="sub">提出後だけ正解と理由を確認できます。</div>
-        </div>
-        <div class="bmock-review-list" id="bMockReviewList"></div>
-
         <div class="bmock-result-actions">
-          <button class="secondary" id="bMockResultList">実戦メニューへ</button>
-          <button class="primary" id="bMockRetry">もう一度解く</button>
+          <button class="primary" id="bMockResultList">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bMockRetry">ミニ模試をもう一度解く</button></details>
         </div>
+        <details class="result-detail-fold">
+          <summary>詳しい結果・解答レビューを見る</summary>
+          <div class="bmock-breakdown" id="bMockBreakdown"></div>
+          <div class="bmock-review-head"><h2>解答レビュー</h2><div class="sub">提出後だけ正解と理由を確認できます。</div></div>
+          <div class="bmock-review-list" id="bMockReviewList"></div>
+        </details>
       </div>
 
       <div id="secSelect" class="sec-select hidden">
         <div class="screen-head">
-          <button class="back" data-screen="map">←</button>
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
           <div><h1>科目B セキュリティ演習 🛡️</h1><div class="sub">状況・証拠・ログを読み、最も適切な判断を選びます。</div></div>
         </div>
 
@@ -5913,7 +6060,7 @@
 
       <div id="secMockExam" class="secmock-exam">
         <div class="bmock-topbar">
-          <button class="back" id="secMockExit">×</button>
+          <button class="back" id="secMockExit" aria-label="終了して戻る">×</button>
           <div class="bmock-top-title"><b>セキュリティ ミニ模試</b><span>8問・ヒントなし</span></div>
           <div class="secmock-timer" id="secMockTimer">20:00</div>
           <button class="secmock-submit-top" id="secMockSubmitTop">提出</button>
@@ -5971,23 +6118,21 @@
           <div><span id="secMockTime">00:00</span><b>所要時間</b></div>
         </div>
 
-        <div class="secmock-breakdown" id="secMockBreakdown"></div>
-
-        <div class="bmock-review-head">
-          <h2>解答レビュー</h2>
-          <div class="sub">提出後にだけ正解・解説を表示します。</div>
-        </div>
-        <div class="secmock-review-list" id="secMockReviewList"></div>
-
         <div class="bmock-result-actions">
-          <button class="secondary" id="secMockBackList">セキュリティ一覧へ</button>
-          <button class="primary" id="secMockRetry">もう一度解く</button>
+          <button class="primary" id="secMockBackList">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="secMockRetry">ミニ模試をもう一度解く</button></details>
         </div>
+        <details class="result-detail-fold">
+          <summary>詳しい結果・解答レビューを見る</summary>
+          <div class="secmock-breakdown" id="secMockBreakdown"></div>
+          <div class="bmock-review-head"><h2>解答レビュー</h2><div class="sub">提出後にだけ正解・解説を表示します。</div></div>
+          <div class="secmock-review-list" id="secMockReviewList"></div>
+        </details>
       </div>
 
       <div id="secLab" class="sec-lab">
         <div class="trace-title-row">
-          <button class="back" id="secBackToList">←</button>
+          <button class="back" id="secBackToList" aria-label="前の画面に戻る">←</button>
           <div class="trace-info">
             <h1 id="secLabTitle">セキュリティ ケース演習</h1>
             <div class="sub" id="secLabMeta">セキュリティ ケース演習</div>
@@ -6060,10 +6205,10 @@
 
   <aside class="rightbar">
     <div class="right-card">
-      <h3>今日の記録</h3>
-      <div class="sub">🔥 6日連続</div>
-      <div style="margin-top:12px"><b>⏱ 0 / 60分</b></div>
-      <div style="margin-top:8px"><b>⭐ +0 XP</b></div>
+      <h3>今日の学習</h3>
+      <div class="sub" id="rightDailyProgress">今日の計画を確認しています。</div>
+      <div class="right-daily-next" id="rightDailyNext">次にやる内容を確認しています。</div>
+      <button class="right-daily-action" id="rightDailyAction">続きから再開 →</button>
     </div>
 
     <div class="right-card">
@@ -6081,15 +6226,16 @@
   </aside>
 </div>
 
-<button class="ai-fab" id="aiFab">🤖 BIT先生</button>
+<button class="ai-fab" id="aiFab" aria-label="BIT先生に質問する" aria-expanded="false" aria-controls="aiDrawer"><span aria-hidden="true">🤖</span><span class="ai-fab-label">BIT先生</span></button>
 
-<div class="drawer" id="aiDrawer">
+<div class="drawer-backdrop" id="aiBackdrop" aria-hidden="true"></div>
+<div class="drawer" id="aiDrawer" role="dialog" aria-modal="true" aria-labelledby="aiDrawerTitle" aria-describedby="aiDrawerDesc" aria-hidden="true" inert>
   <div class="drawer-head">
-    <div class="bot">🤖</div>
-    <div><b>BIT先生</b><div class="sub">AI講師（ローカルデモ）</div></div>
-    <button class="drawer-close" id="closeAi">×</button>
+    <div class="bot" aria-hidden="true">🤖</div>
+    <div><b id="aiDrawerTitle">BIT先生</b><div class="sub" id="aiDrawerDesc">AI講師（ローカルデモ）</div></div>
+    <button class="drawer-close" id="closeAi" aria-label="BIT先生を閉じる">×</button>
   </div>
-  <div class="chat" id="chat">
+  <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions">
     <div class="bubble bot-bub">こんにちは！分からないところがあれば、その画面を見ながら一緒に整理します。</div>
   </div>
   <div class="quick">
@@ -6099,15 +6245,15 @@
     <button data-q="似た問題を出して">似た問題</button>
   </div>
   <div class="chat-input">
-    <input id="chatInput" placeholder="質問を入力…" />
-    <button id="sendChat">➤</button>
+    <input id="chatInput" placeholder="質問を入力…" aria-label="BIT先生への質問" enterkeyhint="send" />
+    <button id="sendChat" aria-label="質問を送信">➤</button>
   </div>
 </div>
 
 
-<div class="pwa-modal-backdrop" id="pwaModal">
+<div class="pwa-modal-backdrop" id="pwaModal" role="dialog" aria-modal="true" aria-labelledby="pwaModalTitle" aria-hidden="true">
   <div class="pwa-modal">
-    <h2>📲 iPhoneに追加</h2>
+    <h2 id="pwaModalTitle">📲 iPhoneに追加</h2>
     <div class="sub">Safariでこのページを開いた状態で、次の操作をしてください。</div>
     <div class="pwa-steps">
       <div class="pwa-step">
@@ -6133,16 +6279,28 @@
   <div class="app-notice-actions"><button class="primary" id="appNoticeAction">実行</button><button class="app-notice-close" id="appNoticeClose" aria-label="閉じる">×</button></div>
 </div>
 
-<div class="offline-pill" id="offlinePill">オフライン — 学習データは端末に保存されます</div>
+<div class="offline-pill" id="offlinePill" role="status" aria-live="polite">オフライン — 学習データは端末に保存されます</div>
 
-<div class="toast" id="toast">保存しました</div>
+<div class="toast" id="toast" role="status" aria-live="polite">保存しました</div>
 
 <script>
 const screens = [...document.querySelectorAll('.screen')];
 const navBtns = [...document.querySelectorAll('.nav-btn[data-screen]')];
 const UI_STATE_KEY='fequest_ui_state_v2';
-const SAFE_RESUME_SCREENS=new Set(['home','map','weak','problems','plan','coverage','mock','history']);
+const SAFE_RESUME_SCREENS=new Set(['home','map','problems','plan']);
 let restoringUiState=false;
+
+function initializeAccessibility(){
+  screens.forEach(screen=>screen.setAttribute('aria-hidden',screen.classList.contains('active')?'false':'true'));
+  navBtns.forEach(btn=>{
+    if(btn.classList.contains('active'))btn.setAttribute('aria-current','page');
+    btn.querySelector('.ico')?.setAttribute('aria-hidden','true');
+  });
+  document.querySelectorAll('button.back').forEach(btn=>{
+    if(!btn.hasAttribute('aria-label'))btn.setAttribute('aria-label',btn.textContent.trim()==='×'?'終了して戻る':'前の画面に戻る');
+  });
+}
+initializeAccessibility();
 
 function readUiState(){
   try{return JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}')}catch(e){return {}}
@@ -6182,9 +6340,17 @@ function showScreen(id,opts={}){
   const exists=screens.some(s=>s.id===id);
   if(!exists)id='home';
   const prev=activeScreenId();
-  screens.forEach(s => s.classList.toggle('active', s.id === id));
+  screens.forEach(s => {
+    const active=s.id===id;
+    s.classList.toggle('active',active);
+    s.setAttribute('aria-hidden',active?'false':'true');
+  });
   const navRoot=primaryNavScreen(id);
-  navBtns.forEach(b => b.classList.toggle('active', b.dataset.screen === navRoot));
+  navBtns.forEach(b => {
+    const active=b.dataset.screen===navRoot;
+    b.classList.toggle('active',active);
+    if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+  });
   if(id==='history' && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
   if(id==='map' && typeof renderLearningEntry==='function') renderLearningEntry();
   rememberScreen(id);
@@ -6223,17 +6389,41 @@ function popToast(msg){
 document.getElementById('settingsBtn').addEventListener('click',()=>{
   showScreen('plan');
   if(typeof renderPlannerScreen==='function') renderPlannerScreen();
+  if(typeof setPlanDetailsOpen==='function') setPlanDetailsOpen(true);
   setTimeout(()=>{
     document.getElementById('learningSettingsCard')?.scrollIntoView?.({behavior:'smooth',block:'center'});
   },80);
 });
 
 const aiDrawer = document.getElementById('aiDrawer');
-function openAi(){ aiDrawer.classList.add('open'); }
-function closeAi(){ aiDrawer.classList.remove('open'); }
-document.getElementById('aiFab').addEventListener('click',openAi);
+const aiFab = document.getElementById('aiFab');
+const aiBackdrop = document.getElementById('aiBackdrop');
+let aiReturnFocus=null;
+function openAi(){
+  aiReturnFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
+  aiDrawer.removeAttribute('inert');
+  aiDrawer.setAttribute('aria-hidden','false');
+  aiDrawer.classList.add('open');
+  aiFab?.setAttribute('aria-expanded','true');
+  aiBackdrop?.setAttribute('aria-hidden','false');
+  document.body.classList.add('ai-open');
+  requestAnimationFrame(()=>document.getElementById('chatInput')?.focus({preventScroll:true}));
+}
+function closeAi(){
+  aiDrawer.classList.remove('open');
+  aiDrawer.setAttribute('aria-hidden','true');
+  aiDrawer.setAttribute('inert','');
+  aiFab?.setAttribute('aria-expanded','false');
+  aiBackdrop?.setAttribute('aria-hidden','true');
+  document.body.classList.remove('ai-open');
+  const target=aiReturnFocus;aiReturnFocus=null;
+  requestAnimationFrame(()=>target?.focus?.({preventScroll:true}));
+}
+aiFab.addEventListener('click',openAi);
 document.getElementById('openAiSide').addEventListener('click',openAi);
 document.getElementById('closeAi').addEventListener('click',closeAi);
+aiBackdrop?.addEventListener('click',closeAi);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&aiDrawer.classList.contains('open')){e.preventDefault();closeAi();}});
 
 const chat = document.getElementById('chat');
 const input = document.getElementById('chatInput');
@@ -6297,7 +6487,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v110';
+const APP_VERSION = 'v114';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -6874,6 +7064,8 @@ function refreshProfileUI(){
 
   const banner = document.getElementById('diagBanner');
   if(banner) banner.classList.toggle('hidden', profile.diagnosticCompleted);
+  const home=document.getElementById('home');
+  if(home)home.classList.toggle('home-onboarding',!profile.diagnosticCompleted);
 
   renderSkills();
   buildDailyQuest();
@@ -7002,24 +7194,26 @@ const DIAG_QUESTIONS = [
 let diagIndex = 0;
 let diagAnswers = Array(DIAG_QUESTIONS.length).fill(null);
 
-function startDiagnosticFlow(){
+function startDiagnosticFlow(skipIntro=false){
   showScreen('diagnostic');
-  document.getElementById('diagIntro').style.display='block';
-  document.getElementById('diagQuiz').style.display='none';
   document.getElementById('diagResult').style.display='none';
+  if(skipIntro){
+    diagIndex=0;
+    diagAnswers=Array(DIAG_QUESTIONS.length).fill(null);
+    document.getElementById('diagIntro').style.display='none';
+    document.getElementById('diagQuiz').style.display='block';
+    renderDiagQuestion();
+  }else{
+    document.getElementById('diagIntro').style.display='block';
+    document.getElementById('diagQuiz').style.display='none';
+  }
 }
 
 const startDiagnosticBtn = document.getElementById('startDiagnostic');
-if(startDiagnosticBtn) startDiagnosticBtn.addEventListener('click',startDiagnosticFlow);
+if(startDiagnosticBtn) startDiagnosticBtn.addEventListener('click',()=>startDiagnosticFlow(true));
 
 const diagBegin = document.getElementById('diagBegin');
-if(diagBegin) diagBegin.addEventListener('click',()=>{
-  diagIndex=0;
-  diagAnswers=Array(DIAG_QUESTIONS.length).fill(null);
-  document.getElementById('diagIntro').style.display='none';
-  document.getElementById('diagQuiz').style.display='block';
-  renderDiagQuestion();
-});
+if(diagBegin) diagBegin.addEventListener('click',()=>startDiagnosticFlow(true));
 
 function renderDiagQuestion(){
   const item = DIAG_QUESTIONS[diagIndex];
@@ -7103,14 +7297,14 @@ function finishDiagnostic(){
 
   const weak=sortedSkills().slice(0,3).map(x=>x[0]);
   document.getElementById('diagResultAdvice').textContent=
-    `まずは「${weak.join('・')}」を重点的に進めます。得意分野は短い復習だけにして、60分を効率よく使います。`;
+    `まずは「${weak.join('・')}」を重点的に進めます。今日の学習は${effectiveStudyMinutes()}分を目安に自動調整します。`;
 }
 
-document.getElementById('diagFinish')?.addEventListener('click',()=>showScreen('home'));
+document.getElementById('diagFinish')?.addEventListener('click',()=>{showScreen('home');refreshProfileUI();setTimeout(()=>document.getElementById('todayResumeBtn')?.click(),0)});
 document.getElementById('diagRedo')?.addEventListener('click',()=>{
   profile.diagnosticCompleted=false;
   saveProfile();
-  startDiagnosticFlow();
+  startDiagnosticFlow(true);
 });
 
 // Lesson interactions are handled by the v6 lesson engine.
@@ -15525,7 +15719,7 @@ function updateCompoundTimer(){const t=document.getElementById('bCompoundTimer')
 function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class="bcompound-kind">${escapeHtml(q.kind||'トレース')}</span> <span class="bcompound-kind ${diffClass}">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class="bmock-option ${ans===i?'selected':''}" data-copt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class="${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}" data-cq="${i}">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})}
 function askSubmitCompound(){const blank=bCompoundAnswers.filter(x=>x===null).length;if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishCompoundChallenge(false)}
 function finishCompoundChallenge(timeUp=false){if(!bCompoundSet)return;stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);profile.bCompoundHistory=[{date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details},...(profile.bCompoundHistory||[])].slice(0,20);saveProfile();document.getElementById('bCompoundExam')?.classList.remove('show');document.getElementById('bCompoundResult')?.classList.add('show');document.getElementById('bCompoundResultScore').textContent=`${correct} / 3`;document.getElementById('bCompoundResultMessage').textContent=correct===3?`長いコードを最後まで読み切れています。+${earned} XP`:correct===2?`あと一歩です。間違えた設問の途中状態を確認しましょう。+${earned} XP`:`紙に途中値を書きながら再挑戦するのがおすすめです。+${earned} XP`;document.getElementById('bCompoundCorrect').textContent=correct;document.getElementById('bCompoundWrong').textContent=3-correct-blank;document.getElementById('bCompoundBlank').textContent=blank;document.getElementById('bCompoundTime').textContent=bMockFormatTime(used);document.getElementById('bCompoundReview').innerHTML=details.map((d,i)=>`<div class="bcompound-review-item ${d.ok?'correct':'wrong'}"><b>設問${i+1} ${d.ok?'✓ 正解':'✕ 要確認'}</b><div class="bcompound-review-meta"><span>${escapeHtml(d.kind)}</span><span>${escapeHtml(d.qlevel)}</span></div><div class="bcompound-review-q">${escapeHtml(d.q)}</div><div class="bcompound-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bcompound-review-box"><b>考え方</b><span>${escapeHtml(d.exp)}</span></div><div class="bcompound-review-box"><b>見るポイント</b><span>${escapeHtml(d.point)}</span></div><div class="bcompound-review-box pitfall"><b>間違えやすい点</b><span>${escapeHtml(d.pitfall)}</span></div></div>`).join('')}
-document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');showBMockMenu()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}});
+document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}});
 
 const B_MOCK_COUNT=8;
 const B_MOCK_SECONDS=40*60;
@@ -15778,7 +15972,7 @@ function renderBMockResult(attempt,earned){
 
 document.getElementById('bMockStart')?.addEventListener('click',startBMiniMock);
 document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock);
-document.getElementById('bMockResultList')?.addEventListener('click',showBMockMenu);
+document.getElementById('bMockResultList')?.addEventListener('click',continueSubjectBFlow);
 document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock);
 document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}});
 document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();});
@@ -16538,7 +16732,7 @@ function renderBFinalResult(a,earned){
 
 document.getElementById('bFinalStart')?.addEventListener('click',startBFinal);
 document.getElementById('bFinalRetry')?.addEventListener('click',startBFinal);
-document.getElementById('bFinalBackMenu')?.addEventListener('click',showBFinalMenu);
+document.getElementById('bFinalBackMenu')?.addEventListener('click',continueSubjectBFlow);
 document.getElementById('bFinalSubmit')?.addEventListener('click',askSubmitBFinal);
 document.getElementById('bFinalPrev')?.addEventListener('click',()=>{if(bFinalIndex>0){bFinalIndex--;renderBFinalQuestion()}});
 document.getElementById('bFinalNext')?.addEventListener('click',()=>{if(bFinalIndex<bFinalItems.length-1){bFinalIndex++;renderBFinalQuestion()}else askSubmitBFinal()});
@@ -16723,7 +16917,7 @@ function finishSecurityMock(timeUp=false){
 
 document.getElementById('secMockStartMenu')?.addEventListener('click',startSecurityMock);
 document.getElementById('secMockRetry')?.addEventListener('click',startSecurityMock);
-document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');setBMode('security')});
+document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');continueSubjectBFlow()});
 document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock);
 document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}});
 document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()});
@@ -17848,6 +18042,11 @@ function renderDailyPlan(){
       resume.onclick=null;
     }
   }
+  const rightProgress=document.getElementById('rightDailyProgress'),rightNext=document.getElementById('rightDailyNext'),rightAction=document.getElementById('rightDailyAction');
+  const nextTask=tasks.find(t=>!dailyTaskDone(rec,t));
+  if(rightProgress)rightProgress.textContent=`${doneTasks.length}/${tasks.length}完了・${doneMinutes}/${total}分`;
+  if(rightNext)rightNext.textContent=nextTask?`次は「${nextTask.title}」・目安${nextTask.minutes}分`:'今日の計画は完了しています。';
+  if(rightAction){rightAction.disabled=!nextTask;rightAction.textContent=nextTask?'続きから再開 →':'今日の学習は完了 ✓';rightAction.onclick=nextTask?()=>launchDailyTask(nextTask):null;}
 }
 
 function launchDailyTask(t){
@@ -18180,10 +18379,19 @@ function renderAllocation(){
   }
   root.innerHTML=items.map(x=>`<div class="planner-row"><div style="font-size:21px">${x[0]}</div><div class="planner-row-copy"><div class="planner-label">${x[1]}</div></div><b>${x[2]}分</b></div>`).join('');
 }
+function renderPlanFocus(){
+  const title=document.getElementById('planFocusTitle'),desc=document.getElementById('planFocusDesc'),action=document.getElementById('planFocusAction'),icon=document.getElementById('planFocusIcon');
+  if(!title||!desc||!action)return;
+  const rec=getDailyRecord(),tasks=ensureTodayPlanSnapshot();
+  const done=tasks.filter(t=>dailyTaskDone(rec,t)).length,next=tasks.find(t=>!dailyTaskDone(rec,t));
+  if(next){title.textContent=`${done}/${tasks.length}完了・次は「${next.title}」`;desc.textContent=`今日の計画の残りを優先します。目安 ${next.minutes}分。`;icon.textContent=next.icon||'📅';action.textContent='次を始める →';action.disabled=false;action.onclick=()=>launchDailyTask(next);}
+  else{title.textContent='今日の計画は完了しています';desc.textContent='追加で詰め込まず、必要なら演習や分析を確認できます。';icon.textContent='✓';action.textContent='ホームへ →';action.disabled=false;action.onclick=()=>showScreen('home');}
+}
 function renderPlannerScreen(){
   const mins=document.getElementById('studyMinutesSetting'),date=document.getElementById('examDateSetting'),auto=document.getElementById('autoPaceSetting');
   if(mins)mins.value=String(profile.settings.studyMinutes||60);if(date)date.value=profile.settings.examDate||'';if(auto)auto.checked=profile.settings.autoPace!==false;
-  renderRoadmap();renderWeekChart();renderReadiness();renderCountdown();renderExamPace();renderAllocation();renderDailyPlan();
+  renderRoadmap();renderWeekChart();renderReadiness();renderCountdown();renderExamPace();renderAllocation();renderDailyPlan();renderPlanFocus();
+  document.getElementById('examPaceCard')?.classList.toggle('hidden-by-plan',!profile.settings.examDate);
 }
 
 document.getElementById('savePlanSettings')?.addEventListener('click',()=>{
@@ -18208,6 +18416,18 @@ refreshProfileUI=function(){
   renderDailyPlan();
   renderPlannerScreen();
 };
+
+function setPlanDetailsOpen(open){
+  const screen=document.getElementById('plan'),btn=document.getElementById('planDetailsToggle');
+  if(!screen||!btn)return;
+  screen.classList.toggle('plan-compact',!open);
+  btn.setAttribute('aria-expanded',String(!!open));
+  btn.textContent=open?'進捗・設定の詳細を閉じる':'進捗・設定の詳細を表示';
+}
+setPlanDetailsOpen(false);
+document.getElementById('planDetailsToggle')?.addEventListener('click',()=>{
+  setPlanDetailsOpen(document.getElementById('plan')?.classList.contains('plan-compact'));
+});
 
 renderDailyPlan();
 renderPlannerScreen();
@@ -18765,6 +18985,8 @@ function finishMock(timeup=false){
   if(reviewBtn){
     const hasReview=reviewCandidates(lastMockAttempt).length>0;
     reviewBtn.style.display=hasReview?'':'none';
+    reviewBtn.classList.toggle('primary-action',hasReview);
+    document.getElementById('mockBackMenu')?.classList.toggle('primary-action',!hasReview);
   }
   renderMockHistory();
   renderDailyPlan();
@@ -18779,7 +19001,7 @@ function showMockMenu(){
   document.getElementById('mockReviewMode')?.classList.remove('show');
   renderMockHistory();
 }
-document.getElementById('mockBackMenu')?.addEventListener('click',showMockMenu);
+document.getElementById('mockBackMenu')?.addEventListener('click',()=>{showMockMenu();showScreen('problems');});
 document.getElementById('mockRetry')?.addEventListener('click',()=>startMock(mockLastMode));
 
 function renderMockHistory(){
@@ -19153,9 +19375,9 @@ function renderAnalyticsBFormats(){
 function renderAnalyticsNext(snaps){
   const root=document.getElementById('analyticsNext');if(!root)return;
   const active=activeReviewJourneys();
-  if(active.length){const j=active[0];root.innerHTML=`<div class="analytics-next-icon">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button id="analyticsNextAction">復習を続ける →</button></div>`;document.getElementById('analyticsNextAction').onclick=()=>startJourneyAction(j.id);return;}
+  if(active.length){const j=active[0];root.innerHTML=`<div class="analytics-next-icon">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button data-analytics-next-action>復習を続ける →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>startJourneyAction(j.id);return;}
   const attempted=snaps.filter(x=>x.attempts>=3&&x.accuracy!=null);
-  if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accuracy-b.accuracy||a.mastery-b.mastery)[0];root.innerHTML=`<div class="analytics-next-icon">🎯</div><div><b>${weak.cat}を10問で確認</b><span>累積正答率 ${weak.accuracy}%・習熟度 ${weak.mastery}%です。現在もっとも確認効果が高い分野です。</span><button id="analyticsNextAction">苦手画面で確認 →</button></div>`;document.getElementById('analyticsNextAction').onclick=()=>showScreen('weak');return;}
+  if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accuracy-b.accuracy||a.mastery-b.mastery)[0];root.innerHTML=`<div class="analytics-next-icon">🎯</div><div><b>${weak.cat}を10問で確認</b><span>累積正答率 ${weak.accuracy}%・習熟度 ${weak.mastery}%です。現在もっとも確認効果が高い分野です。</span><button data-analytics-next-action>苦手画面で確認 →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>showScreen('weak');return;}
   root.innerHTML='<div class="analytics-next-icon">🌱</div><div><b>まず演習データを集める</b><span>まだ分析に必要な回答数が少ないため、今日の学習やランダム問題を進めると分析精度が上がります。</span></div>';
 }
 function renderLearningAnalytics(){
@@ -19170,6 +19392,11 @@ function renderLearningAnalytics(){
   const snaps=ANALYTICS_CATEGORIES.map(analyticsCategorySnapshot);
   renderAnalyticsSignals(snaps);renderAnalyticsCategories(snaps);renderAnalyticsJourneys();renderAnalyticsBFormats();renderAnalyticsNext(snaps);
 }
+document.getElementById('history')?.classList.add('analytics-compact');
+document.getElementById('analyticsDetailsToggle')?.addEventListener('click',()=>{
+  const screen=document.getElementById('history'),btn=document.getElementById('analyticsDetailsToggle');
+  const compact=screen.classList.toggle('analytics-compact');btn.setAttribute('aria-expanded',String(!compact));btn.textContent=compact?'詳しい分析を表示':'詳しい分析を閉じる';
+});
 
 
 // ===== v15: deep weakness analytics =====
@@ -19292,6 +19519,11 @@ function renderWeakDashboard(){
   document.getElementById('weakTopScore').textContent=top.priority;
   document.getElementById('weakTopSub').textContent=
     `習熟度 ${top.mastery}%・正答率 ${top.accuracy}%・弱い思考：${top.weakestCognitive}${top.weakestCognitiveScore==null?'':` ${top.weakestCognitiveScore}%`}・${top.dominant==='データ不足'?'誤答理由はまだ未記録':`主なつまずき：${top.dominant}`}`;
+  const weakTopAction=document.getElementById('weakTopAction');
+  if(weakTopAction){
+    weakTopAction.textContent=`${top.cat}を10問で確認 →`;
+    weakTopAction.onclick=()=>{showScreen('problems');startQuiz(`cogcat:${top.cat}:${top.weakestCognitive}`);};
+  }
 
   grid.innerHTML='';
   analytics.forEach((a,idx)=>{
@@ -20237,7 +20469,28 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v110','v110 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v114','v114 version/schema contract drift');
+    assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
+    assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
+    assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
+    assert(document.querySelectorAll('.result-detail-fold').length>=5&&document.querySelectorAll('.result-more-actions').length>=5,'v111 result next-action / details hierarchy missing');
+    assert(typeof continueSubjectBFlow==='function'&&document.getElementById('bMockResultList')?.textContent.includes('次の科目B'),'v111 Subject B results must expose one primary next action');
+    assert(SAFE_RESUME_SCREENS.size===4&&!SAFE_RESUME_SCREENS.has('history')&&!SAFE_RESUME_SCREENS.has('mock'),'v112 safe resume should keep only primary hubs');
+    assert(typeof uiStateIsToday==='function'&&String(restoreResilientUiState).includes('uiStateIsToday'),'v112 next-day home reset missing');
+    assert(document.getElementById('home')?.classList&&document.getElementById('startDiagnostic')?.textContent.includes('始める'),'v112 onboarding primary action missing');
+    assert(document.getElementById('installCard')?.closest('#pwaHealthCard'),'v112 install guidance must live in settings/data, not home');
+    assert(typeof setPlanDetailsOpen==='function'&&String(document.getElementById('settingsBtn')?.onclick||'')!==null,'v112 settings detail helper missing');
+    assert(!!document.getElementById('rightDailyAction')&&!!document.getElementById('rightDailyProgress'),'v112 desktop daily side action missing');
+    assert(document.getElementById('aiDrawer')?.getAttribute('role')==='dialog'&&document.getElementById('aiFab')?.getAttribute('aria-controls')==='aiDrawer','v113 BIT先生 dialog semantics missing');
+    assert(document.getElementById('aiDrawer')?.hasAttribute('inert')&&!!document.getElementById('aiBackdrop'),'v113 closed BIT先生 must be non-interactive');
+    assert([...document.querySelectorAll('button.back')].every(b=>b.hasAttribute('aria-label')),'v113 icon-only back buttons need accessible names');
+    assert(document.getElementById('toast')?.getAttribute('aria-live')==='polite'&&document.getElementById('offlinePill')?.getAttribute('role')==='status','v113 live status semantics missing');
+    assert(document.querySelector('.sidebar')?.getAttribute('role')==='navigation','v113 main navigation landmark missing');
+    assert(document.querySelector('#home > h1')?.classList.contains('sr-only'),'v114 home must put the first actionable card before decorative intro copy');
+    assert(!!document.querySelector('#mockMenu > .mock-secondary-details')&&!!document.querySelector('#mockMenu > .mock-history-details')&&document.querySelector('#mockMenu > .mock-history-details')?.contains(document.getElementById('mockHistoryList')),'v114 mock design/history progressive disclosure missing');
+    assert(!!document.querySelector('#weak > .weak-detail-fold')&&document.querySelector('#weak > .weak-detail-fold')?.contains(document.getElementById('weakCategoryGrid')),'v114 weak-analysis details must be secondary');
+    assert(!!document.getElementById('weakTopAction'),'v114 weak-analysis priority must have a direct action');
+    assert(document.querySelector('#coverage .coverage-summary-compact')?.textContent.includes('教材の総合進捗'),'v114 coverage duplicate summary reduction missing');
     assert(typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function','v110 Subject B guided entry missing');
     assert(!!document.getElementById('subjectBNextCard')&&!!document.getElementById('subjectBProgressStrip'),'v110 Subject B hub UI missing');
     assert(document.querySelectorAll('.b-mode-switcher').length===4,'v110 Subject B mode switchers must be progressive disclosure');
@@ -20381,6 +20634,11 @@ function revalidateProfileFreshness(reason='画面復帰'){
   }
 }
 
+function uiStateIsToday(state){
+  const ts=Number(state?.updatedAt)||0;if(!ts)return false;
+  const a=new Date(ts),b=new Date();
+  return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+}
 function restoreResilientUiState(){
   restoringUiState=true;
   try{
@@ -20390,6 +20648,11 @@ function restoreResilientUiState(){
       return 'bfinal';
     }
     const state=readUiState();
+    if(!uiStateIsToday(state)){
+      showScreen('home',{noHistory:true,instant:true});
+      appHistoryReplace('home',0);
+      return 'home';
+    }
     if(state.screen==='lesson'&&state.lessonId&&LESSONS[state.lessonId]){
       activeLesson=state.lessonId;
       lessonStep=Math.max(0,Math.min(LESSONS[activeLesson].pages.length-1,Number(state.lessonStep)||0));
@@ -20440,7 +20703,7 @@ function isStandalone(){
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
 }
 function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
-function refreshInstallCard(){ if(isStandalone()&&installCard)installCard.classList.add('hidden'); }
+function refreshInstallCard(){ if(installCard)installCard.classList.toggle('hidden',isStandalone()); }
 refreshInstallCard();
 
 function showAppNotice(kind,title,body,actionLabel='',action=null){
@@ -20459,16 +20722,29 @@ function hideAppNotice(){ if(appNotice)appNotice.className='app-notice'; }
 appNoticeClose?.addEventListener('click',hideAppNotice);
 
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;});
+let pwaReturnFocus=null;
+function openPwaGuide(){
+  if(!pwaModal)return;
+  pwaReturnFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
+  pwaModal.classList.add('open');pwaModal.setAttribute('aria-hidden','false');
+  requestAnimationFrame(()=>closePwaModal?.focus({preventScroll:true}));
+}
+function closePwaGuide(){
+  if(!pwaModal)return;
+  pwaModal.classList.remove('open');pwaModal.setAttribute('aria-hidden','true');
+  const target=pwaReturnFocus;pwaReturnFocus=null;requestAnimationFrame(()=>target?.focus?.({preventScroll:true}));
+}
 installPwaBtn?.addEventListener('click',async()=>{
   if(deferredInstallPrompt){
     deferredInstallPrompt.prompt();
     await deferredInstallPrompt.userChoice;
     deferredInstallPrompt=null;refreshInstallCard();return;
   }
-  pwaModal?.classList.add('open');
+  openPwaGuide();
 });
-closePwaModal?.addEventListener('click',()=>pwaModal?.classList.remove('open'));
-pwaModal?.addEventListener('click',e=>{if(e.target===pwaModal)pwaModal.classList.remove('open')});
+closePwaModal?.addEventListener('click',closePwaGuide);
+pwaModal?.addEventListener('click',e=>{if(e.target===pwaModal)closePwaGuide()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pwaModal?.classList.contains('open')){e.preventDefault();closePwaGuide();}});
 
 function updateOnlineState(showTransition=true){
   const online=navigator.onLine;
