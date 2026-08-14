@@ -16,7 +16,16 @@ jobs:
       - name: Apply v119 UI fixes
         run: |
           base64 -d tools/v118_to_v119.patch.b64 > /tmp/v119.patch
-          git apply /tmp/v119.patch
+          git apply --exclude=manifest.webmanifest /tmp/v119.patch
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('manifest.webmanifest')
+          data=json.loads(p.read_text())
+          data['name']='FE QUEST v119'
+          data['description']='基本情報技術者試験向けPWA。v119ではスマホの通常教材・演習画面での横スクロールを抑止し、演習開始中は演習ハブの説明やおすすめカードを隠して問題へ集中できる表示に変更。単独の前進ボタンは右側へ統一し、問題上部のバッジも狭い画面で折り返す。v118までの復習タイミング表示、科目Bトレース、保存安定化、問題・教材データを維持。'
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          PY
 
       - name: Verify syntax and version
         run: |
@@ -29,7 +38,8 @@ jobs:
           assert 'single-primary' in s
           js=re.search(r'<script>([\s\S]*)</script>\s*</body>',s).group(1)
           Path('/tmp/feq119.js').write_text(js)
-          json.loads(Path('manifest.webmanifest').read_text())
+          m=json.loads(Path('manifest.webmanifest').read_text())
+          assert m['name']=='FE QUEST v119'
           PY
           node --check /tmp/feq119.js
           node --check sw.js
