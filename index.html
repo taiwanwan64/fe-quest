@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v68</title>
+<title>FE QUEST PWA v69</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -4067,6 +4067,43 @@
     .course-overview-side{font-size:16px}
   }
 
+
+  /* ===== v69: Core A single-page article ===== */
+  .core-article{
+    max-width:880px;margin:0 auto;text-align:left;color:#243f52;padding:2px 4px 8px;
+  }
+  .core-article-lead{
+    margin:0 0 20px;font-size:16px;line-height:1.9;font-weight:650;color:#334f61;
+  }
+  .core-article-section{
+    padding:19px 0;border-top:1px solid #e1e8ed;
+  }
+  .core-article-section h2,.core-article-pitfall h2{
+    margin:0 0 11px;font-size:19px;line-height:1.4;color:#17364b;
+  }
+  .core-article-section p,.core-article-pitfall p{
+    margin:0;font-size:15px;line-height:1.85;color:#405b6c;
+  }
+  .core-article-points,.core-article-extra{
+    margin:0;padding-left:1.35em;display:grid;gap:8px;
+  }
+  .core-article-points li,.core-article-extra li{
+    font-size:15px;line-height:1.8;color:#405b6c;padding-left:3px;
+  }
+  .core-article-extra{margin-top:12px}
+  .core-article-section p + p{margin-top:12px}
+  .core-article-pitfall{
+    margin-top:4px;padding:16px 18px;border-radius:15px;border:1px solid #efd49c;background:#fff9ed;
+  }
+  .core-article-pitfall h2{color:#71530f}
+  .core-article-pitfall p{color:#665833}
+  @media(max-width:720px){
+    .core-article{padding:0}
+    .core-article-section{padding:17px 0}
+    .core-article-lead{font-size:15px;line-height:1.85}
+    .core-article-section h2,.core-article-pitfall h2{font-size:18px}
+  }
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest" />
@@ -4575,7 +4612,7 @@
       <div id="subjectACoursePanel" role="tabpanel" aria-hidden="false">
         <div class="course-overview core-overview course-paired-overview">
           <div class="course-overview-icon">📘</div>
-          <div class="course-overview-copy"><b>科目A コアコース</b><div class="sub"><span id="coreLessonCount">130</span>テーマ・全780ページ。全テーマを解説・例題・演習まで一貫して学びます。計算・重要論点は意味回帰チェック済みです。</div></div>
+          <div class="course-overview-copy"><b>科目A コアコース</b><div class="sub"><span id="coreLessonCount">130</span>テーマ。各テーマの解説を1画面にまとめ、学習後はそのまま問題演習へ進みます。</div></div>
           <div class="course-overview-side course-percent" id="coursePercent">0%</div>
         </div>
         <div class="core-course-tools">
@@ -5775,7 +5812,7 @@ const LAST_GOOD_PROFILE_KEY = 'fequest_profile_last_good_v1';
 const PRE_IMPORT_PROFILE_KEY = 'fequest_profile_pre_import_v1';
 const LEGACY_STORAGE_KEYS = ['fequest_profile_v3','fequest_profile_v2','fequest_profile_v1'];
 const PROFILE_SCHEMA_VERSION = 2;
-const APP_VERSION = 'v68';
+const APP_VERSION = 'v69';
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
 
@@ -10868,12 +10905,7 @@ const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId).
 
 function coreTopicPages(t){
   return [
-    {headline:'このテーマの全体像',copy:t.lead,noGuide:true,render:()=>coreTopicOverviewView(t.id)},
-    {headline:'重要ポイントを整理する',copy:'用語を単独で暗記せず、仕組み・用途・違いを対応させて理解します。',noGuide:true,render:()=>coreTopicDetailView(t.id)},
-    {headline:'具体例で確認する',copy:'試験で問われる形を意識し、数値・状況・処理の流れへ当てはめます。',noGuide:true,render:()=>coreTopicExampleView(t.id)},
-    {headline:'例題と解き方',copy:'実際の問題形式で、条件の拾い方・計算・比較の考え方まで確認します。',noGuide:true,render:()=>coreTopicWorkedExampleView(t.id)},
-    {headline:'試験での見分け方',copy:'よく混同する点と、問題文で見るべき手掛かりを確認します。',noGuide:true,render:()=>coreTopicExamView(t.id)},
-    {headline:'ミニチェック',copy:t.quiz.q,noGuide:true,quiz:{options:t.quiz.options,answer:t.quiz.answer,explain:t.quiz.explain}}
+    {headline:'',copy:'',noGuide:true,compactCore:true,render:()=>coreTopicArticleView(t.id)}
   ];
 }
 CORE_A_CURRICULUM.forEach(t=>{LESSONS[t.id]={title:t.title,cat:`第${t.chapter}章 ${t.chapterTitle}`,skill:t.skill,core:true,code:t.code,pages:coreTopicPages(t)};});
@@ -11130,44 +11162,34 @@ function lessonStudyGuide(id){
 const CORE_A_CONTENT_ENRICHMENT={"core_17_02":{"deep":"調達は「安い製品を買う」だけではなく、必要性の整理、候補先への情報収集、提案依頼、評価、契約、受入れまでを一連で管理します。RFIは市場や候補ベンダの情報を得る段階、RFPは具体的な要件を示して提案を求める段階です。選定では価格だけでなく、機能、納期、品質、保守、体制、実績などを共通の基準で評価します。","extra":["評価基準は提案を受けた後で都合よく変えるのではなく、原則として事前に定めて公平に比較する","契約後は納品物・検収条件・責任分界・変更手続など、合意内容を管理する"]},"core_20_01":{"deep":"企業活動では、ヒト・モノ・カネ・情報などの経営資源を投入し、製品やサービスという価値へ変換します。企業の目的は短期的な利益だけではなく、顧客への価値提供、継続的な成長、社会的責任なども含みます。経営理念や経営目標は、その後の戦略・組織・業務の方向をそろえる基準になります。","extra":["経営理念は企業が何を大切にするかという長期的な考え方、経営目標は達成したい具体的な状態として整理する","経営資源は限られているため、どこへ配分するかという意思決定が経営の重要な役割になる"]},"core_02_03":{"deep":"式の表記法は、演算子をどこに置くかで中置・前置・後置に分かれます。後置記法では括弧や優先順位を明示しなくても、左から読みながらスタックを使って評価できます。オペランドをスタックへ積み、演算子が現れたら必要な数だけ取り出して計算結果を戻す、という手順を理解すると変換問題と評価問題の両方に対応できます。","extra":["二項演算では後置式を評価するとき、先に取り出した値を右オペランド、次に取り出した値を左オペランドとして扱う","構文木では前順・間順・後順のたどり方が前置・中置・後置記法と対応する"]},"core_21_01":{"deep":"知的財産権は、人の創作や営業上の信用などを法的に保護する仕組みです。大きく、著作物を保護する著作権と、特許・実用新案・意匠・商標などの産業財産権を区別します。試験では「何を保護したいのか」を先に見抜くのがコツで、技術的発明、物品等のデザイン、名称・ロゴ、プログラムや文章をそれぞれ別の権利へ対応させます。","extra":["著作権は原則として創作した時点で発生するのに対し、産業財産権は原則として出願・登録の手続を伴う","同じ製品でも、技術・外観・名称・説明書など複数の権利が別々に成立し得る"]},"core_09_02":{"deep":"関係データベースでは、データを表として扱い、行をレコード、列を属性として表現します。表同士は共通するキーで関連付けます。主キーは行を一意に識別し、外部キーは別表の主キーなどを参照して表同士の関係を表します。NULLは値が0や空文字であることとは異なり、「値がない・不明」といった状態を表す点にも注意します。","extra":["候補キーは行を一意に識別できる最小の属性集合で、その中から主キーを選ぶ","外部キー制約は存在しない参照先を登録しないようにするなど、参照整合性の維持に使われる"]},"core_15_02":{"deep":"サービスレベル管理では、サービス提供者と利用者の間で期待する品質を明確にし、その実績を継続的に測定します。SLAには可用性、応答時間、障害時の復旧時間、問い合わせへの対応時間など、測定可能な指標を設定します。目標を定めるだけでなく、実績との差を確認し、必要ならサービス改善へつなげるところまでが重要です。","extra":["SLAは曖昧な『なるべく早く』ではなく、測定・判定できる数値や条件として定義する","利用者側の責任や対象時間帯など、サービス水準の前提条件も合意しておく"]},"core_15_05":{"deep":"システム監査は、情報システムやその企画・開発・運用・管理が適切かを、監査対象から独立した立場で点検・評価する活動です。監査人は自分の感想ではなく、ログ、承認記録、規程、設定、インタビュー結果などの監査証拠に基づいて判断します。監査結果は問題点の指摘だけでなく、改善につながる助言へ結び付けます。","extra":["監査計画では対象・目的・範囲・方法・時期などを定め、必要な証拠を効率的に収集する","監査人が監査対象業務の当事者になると客観性が損なわれるため、独立性が重要になる"]},"core_19_02":{"deep":"エンジニアリングシステムは、設計・解析・製造などの技術業務をITで支援します。CADは設計、CAEは解析・シミュレーション、CAMは製造工程を支援し、これらを連携すると設計変更を後工程へ反映しやすくなります。さらにCIMは、生産に関わる情報を統合して工場全体を効率化する考え方です。","extra":["CADで作った設計データをCAMへ受け渡すと、設計から製造までの情報を一貫して利用しやすい","CAEは試作前に強度・熱・流体などを解析し、物理試作の回数やコストを減らす用途がある"]},"core_18_02":{"deep":"全社戦略は、企業全体としてどの事業へ資源を配分し、どの領域で成長するかを決める上位の戦略です。複数事業を持つ企業では、各事業の市場成長性や競争力を比較し、投資・維持・縮小などの方向を判断します。個々の製品の販売方法を考える事業戦略やマーケティングより、一段上の視点で経営資源を配分します。","extra":["事業ポートフォリオでは複数事業を同じ軸で比較し、限られた資金や人材の配分を検討する","全社戦略と事業戦略は階層が異なり、全社の方向性を各事業の具体的な競争戦略へ落とし込む"]},"core_16_04":{"deep":"システムは導入しただけでは価値を生みません。利用率、処理時間、エラー件数、コスト削減額、顧客満足度など、導入目的に対応する指標を使って効果を確認します。期待した効果が出なければ、教育不足、業務手順との不一致、機能不足など原因を分析し、改善して再評価します。","extra":["評価指標はシステムの稼働率だけでなく、導入目的である業務・経営上の成果まで含めて設定する","利用促進ではマニュアル配布だけでなく、教育、問い合わせ支援、UI改善、運用ルール整備などを組み合わせる"]},"core_14_03":{"deep":"プロジェクト資源マネジメントでは、必要な人員・設備・資材などを見積もり、適切な時期に確保して活用します。人員については人数だけでなく、必要なスキル、役割、責任、チーム内のコミュニケーションまで考えます。特定の人へ作業が集中すると遅延や品質低下の原因になるため、負荷の平準化も重要です。","extra":["責任分担を明確にするには、誰が実行・承認・相談・報告を担うかを整理する方法が使われる","チーム形成では技術力だけでなく、情報共有・対立解消・動機付けも成果へ影響する"]},"core_19_01":{"deep":"ビジネスシステムは、販売・営業・在庫・物流・顧客管理など日常業務を情報システムで効率化します。POSは販売時点で商品・数量・時刻などを記録し、在庫や分析へ連携できます。SFAは営業活動、CRMは顧客との関係管理を支援するなど、システム名を『どの業務を支援するか』と対応させて覚えます。","extra":["業務システムは単独で使うだけでなく、会計・在庫・顧客管理など他システムとデータを連携することが多い","導入目的は入力の電子化だけでなく、情報共有・意思決定・顧客対応の改善まで考える"]},"core_14_05":{"deep":"プロジェクトコストマネジメントでは、必要な費用を見積もり、予算を設定し、実績を監視します。EVMではPV（計画価値）、EV（出来高）、AC（実コスト）を同じ時点で比較し、進捗とコストを定量的に判断します。SVが負なら予定より遅れ、CVが負なら使った費用に対して出来高が不足しています。","extra":["SPI＝EV÷PVはスケジュール効率、CPI＝EV÷ACはコスト効率で、1を基準に良否を判断する","予算超過かどうかだけでなく、その費用でどれだけの作業を完了できたかを見るのがEVMの特徴"]},"core_15_04":{"deep":"ファシリティマネジメントは、情報システムを支える建物・設備・電源・空調・防災などの物理環境を適切に管理する活動です。サーバやネットワーク機器が正常でも、停電、過熱、浸水、火災などでサービスは停止するため、UPS、非常用電源、温湿度管理、入退室管理などを組み合わせます。","extra":["UPSは瞬停や停電直後の給電を支援するが、長時間運転には非常用発電機など別の対策が必要になる","物理的な可用性・安全性も情報システムの継続運用を支える重要な要素である"]},"core_08_02":{"deep":"UI設計では、利用者が迷わず・誤りにくく・効率よく操作できることを重視します。画面間で配置や用語を統一し、操作結果をフィードバックし、誤操作から戻れるようにします。また色覚・視力・身体能力など利用者の多様性を考慮し、色だけに情報を依存させないなどアクセシビリティにも配慮します。","extra":["重要な操作では現在状態や処理結果を利用者へ知らせ、システムが何をしているか分からない状態を避ける","入力ミスは利用者の責任とせず、入力制約・例示・確認・取消しなどでエラーを予防する"]},"core_11_04":{"deep":"情報セキュリティのリスクは、守るべき情報資産に対して脅威が存在し、脆弱性を突かれることで損失が生じる可能性として考えます。リスクアセスメントでは資産・脅威・脆弱性・影響を整理し、リスクの大きさを評価します。その後、回避・低減・移転・保有などの対応を選びます。","extra":["リスク低減は対策で発生確率や影響を小さくし、移転は保険や外部委託などで損失負担を他者へ移す","対策後にも残るリスクを残留リスクといい、受容可能かを継続的に見直す"]},"core_11_05":{"deep":"情報セキュリティマネジメントは、個別の暗号技術だけではなく、組織として方針・体制・教育・運用・評価・改善を継続する仕組みです。経営層が方針を示し、責任者や手順を定め、従業員教育や事故対応を行い、監視・監査結果を次の改善へ反映します。","extra":["技術対策だけでなく、人・規程・物理環境を含む複数の管理策を組み合わせる","一度対策を実施して終わりではなく、脅威や事業環境の変化に応じて継続的に見直す"]},"core_18_03":{"deep":"事業戦略は、特定の事業領域で競合に対してどのように優位性を作るかを決めます。低コスト、差別化、特定市場への集中など、顧客へどんな価値を提供するかを明確にし、その方針に合わせて製品・価格・販売・業務能力を整えます。全社戦略より具体的で、マーケティング施策より上位の考え方です。","extra":["競争優位は一つの施策ではなく、企業の資源・能力・市場環境を組み合わせて持続できる形にする","戦略と実際の業務・KPIが一致しているかを確認し、成果に応じて見直す"]},"core_14_02":{"deep":"スコープは、プロジェクトで『何を作るか・何をやるか』の範囲です。要望を無制限に受け入れると納期や費用が膨らむため、成果物と作業範囲を明確にし、WBSへ分解します。途中の追加要求は、影響を評価して正式な変更手続を通すことでスコープクリープを防ぎます。","extra":["WBSは成果物や作業を管理可能な単位まで階層的に分解し、見積り・担当・日程管理の基礎にする","『対象外とするもの』も明確にすると、関係者間の期待のずれを減らせる"]},"core_16_02":{"deep":"業務プロセス改善では、現状のAs-Isを可視化し、待ち時間・重複入力・承認の滞留・手戻りなどの問題を見つけます。そのうえでTo-Beを設計し、必要ならシステム化します。BPRは既存手順の小さな改善ではなく、業務の目的から抜本的に再設計して大幅な成果を狙う考え方です。","extra":["システム化の前に不要な業務そのものをなくせないか検討し、非効率な手順をそのまま電子化しない","改善効果は処理時間、コスト、品質、顧客満足などの指標で測定する"]},"core_09_04":{"deep":"DBMSは、複数のアプリケーションからデータを安全かつ効率的に利用するための共通機能を提供します。データ定義、検索・更新、アクセス制御、同時実行制御、障害回復、バックアップなどを担い、アプリが記憶装置の細かな実装を直接意識しなくてもよいようにします。","extra":["データの論理的な見え方と物理的な格納方法を分離することで、格納方法の変更がアプリへ与える影響を小さくできる","DBMSは整合性制約や権限管理によって、誤ったデータや不正なアクセスを防ぐ役割も持つ"]},"core_18_04":{"deep":"戦略を実行できているか確認するには、目標を測定可能な指標へ落とし込みます。KGIは最終的に達成したい成果、KPIはその達成に向けた途中の重要指標として使われます。KPIを増やし過ぎると行動が分散するため、戦略上重要で、行動につなげられる指標を選びます。","extra":["目標値だけでなく測定方法・期間・責任者を決めると、継続的に評価しやすい","KPIが改善してもKGIへつながらない場合、指標の選び方や戦略の仮説を見直す必要がある"]},"core_20_06":{"deep":"固定資産は長期間利用するため、購入額を取得年度だけの費用とせず、利用期間へ配分する減価償却を行います。定額法では原則として毎期ほぼ一定額を費用化します。帳簿価額は取得原価から減価償却累計額などを差し引いた金額であり、市場価格そのものではありません。","extra":["土地のように通常は時間経過で価値が消費されると考えない資産は、一般に減価償却の対象外となる","取得原価、耐用年数、残存価額など問題文の条件を整理してから式へ代入する"]},"core_01_03":{"deep":"基数変換の本質は『各桁の値＝数字×基数の累乗』です。整数部は右端から0乗、小数部は小数点の直後から-1乗になります。この原理を理解していれば2進数だけでなく任意のn進数を10進数へ変換できます。逆変換では整数部と小数部で手順が異なる点も重要です。","extra":["整数の10進→n進変換ではnで繰り返し割り、余りを下から読む","小数の10進→n進変換ではn倍を繰り返し、現れた整数部を上から読む"]},"core_12_02":{"deep":"システム要件定義では、利用者や事業が必要とする機能・性能・可用性・セキュリティ・操作性などを明確にします。要望をそのまま列挙するのではなく、目的・制約・優先順位を整理し、後で検証できる表現にすることが重要です。要件が曖昧だと設計・テストの基準も曖昧になります。","extra":["機能要件はシステムが何を行うか、非機能要件は性能・信頼性・セキュリティなど品質や制約を表す","要件には追跡可能性を持たせ、設計・テストのどこで実現・確認するか対応付ける"]},"core_15_06":{"deep":"内部統制は、組織が業務を適正かつ効率的に行い、財務報告の信頼性や法令順守、資産保全などを確保するための仕組みです。職務分掌、承認、照合、アクセス制御、記録保存などを組み合わせ、誤りや不正が起きにくく、起きても発見できる状態を作ります。","extra":["一人が申請・承認・支払まで全て行わないよう権限を分けることは、不正防止の代表的な考え方","統制は作っただけでは不十分で、実際に機能しているか評価し、不備を改善する"]},"core_18_01":{"deep":"経営戦略は、外部環境と自社の強み・弱みを踏まえ、長期的にどこでどのように価値を生み出すかを決める方針です。限られた経営資源を全ての分野へ均等に配るのではなく、重点領域を選択します。そのためSWOTなどの分析は戦略そのものではなく、戦略を考える材料として利用します。","extra":["戦略は目標だけでなく『どこに資源を集中し、何をしないか』という選択を含む","外部環境の変化や実績に応じ、戦略とKPIを定期的に見直す"]},"core_18_06":{"deep":"経営管理システムは、企業内の情報を部門ごとに分断せず、意思決定や業務効率化へ活用します。ERPは企業資源を統合的に管理し、CRMは顧客関係、SCMは調達から販売までの供給連鎖を最適化するなど、対象範囲が異なります。略語と対象業務を対応させることが重要です。","extra":["ERP導入では業務を標準プロセスへ合わせるか、システムを個別業務へ合わせるかという検討が必要になる","複数システムを連携すると、同じデータを二重入力する手間や不整合を減らせる"]},"core_16_01":{"deep":"情報システム戦略は、経営戦略を実現するためにITをどこへどう活用するかを定めます。個別システムの機能を決める前に、業務やデータの全体像、投資優先順位、将来のアーキテクチャなどを整理します。経営目標とIT施策が結び付いていることが重要です。","extra":["現場の個別要望を全て別システムで実現すると全体最適を損なうため、共通化・標準化の視点を持つ","投資効果、リスク、緊急性、依存関係などを考慮してシステム化の優先順位を決める"]},"core_17_01":{"deep":"システム企画では、経営・業務上の課題を整理し、システム化の目的、対象範囲、費用、効果、スケジュール、リスクなどを検討します。その後の要件定義では、利用者が必要とする内容を具体化します。『何のために導入するか』を曖昧にしたまま製品選定へ進まないことが重要です。","extra":["企画段階では複数の実現案を比較し、IT以外の業務改善で解決できないかも検討する","費用対効果は導入費だけでなく運用・保守などライフサイクル全体で考える"]},"core_03_03":{"deep":"アルゴリズムは、探索・整列・文字列処理・数値計算など目的によって分類できます。同じ結果を得る方法でも、データ件数や事前条件によって処理時間や必要メモリが大きく変わります。試験ではアルゴリズム名だけでなく、整列済みか、追加削除が多いかなど条件から適切な方法を選びます。","extra":["線形探索は未整列でも使えるが最大で全要素を確認し、二分探索は整列済みで探索範囲を半分ずつ減らす","計算量は入力件数nが増えたとき処理量がどう増えるかを表し、定数倍より増え方の違いを見る"]},"core_12_01":{"deep":"システム開発は、企画・要件・設計・実装・テスト・導入・保守というライフサイクルで捉えます。各工程の成果物は次工程の入力となり、要件とテスト結果を追跡できることが重要です。開発モデルによって工程の回し方は違っても、何を決め、何を確認するかという基本的な責任は残ります。","extra":["上流工程の誤りは後工程ほど修正コストが大きくなりやすいため、レビューや早期確認が重要になる","変更が発生したら、関連する要件・設計・プログラム・テストへの影響を確認する"]},"core_06_05":{"deep":"OSSはソースコードが公開され、ライセンスで定められた条件の下で利用・改変・再配布できます。無料で入手できることと、自由に何をしてもよいことは同じではありません。利用時には著作権表示、ライセンス文の同梱、改変物のソース公開など、ライセンスごとの条件を確認します。","extra":["OSSを利用するときも脆弱性・保守状況・サポート体制を確認し、依存する版を管理する","複数OSSを組み合わせる場合はライセンス条件同士の整合にも注意する"]},"core_07_02":{"deep":"電子回路は、トランジスタなどの素子を使って信号を処理します。デジタル回路では電圧の範囲を0/1へ対応させ、論理ゲートを組み合わせて演算・記憶・制御機能を実現します。組合せ回路は現在の入力で出力が決まり、順序回路はフリップフロップなどで過去の状態を保持する点が違います。","extra":["フリップフロップは1bitの状態を保持する基本素子で、レジスタやカウンタなどに利用される","アナログ信号をデジタル処理する場合はA/D変換、逆方向ではD/A変換が必要になる"]},"core_11_03":{"deep":"デジタル署名では、文書そのものを秘密鍵で暗号化するのではなく、通常は文書のハッシュ値へ署名処理を行います。受信者は署名者の公開鍵で検証し、文書から計算したハッシュ値と照合します。公開鍵証明書は、その公開鍵が本当に対象者のものかを認証局が証明する役割を持ちます。","extra":["デジタル署名は改ざん検知・送信者確認・否認防止に役立つが、本文を秘密にする機密性は別途暗号化で確保する","証明書の有効期限や失効状態、認証局への信頼も公開鍵を信用するための確認点になる"]},"core_20_02":{"deep":"組織形態は、業務の専門性・製品・地域・プロジェクトなど、何を軸に人をまとめるかで特徴が変わります。職能別組織は専門性を高めやすく、事業部制は事業ごとの責任を明確にしやすい一方、機能重複が起こる場合があります。マトリックス組織は複数の指揮系統を持つため調整が重要です。","extra":["組織形態には一長一短があり、企業規模や事業の多様性、環境変化の速さに応じて選ぶ","権限委譲では意思決定を現場へ近づけられるが、責任と統制の範囲も明確にする"]},"core_01_06":{"deep":"2進数の筆算は10進数と同じ桁ごとの考え方ですが、基数が2なので繰上がり・借りの単位が2になります。固定bit長では計算結果が表現範囲を超えることがあり、単に筆算が合っているかだけでなくオーバーフローの有無を確認します。2の補数を使うと減算を加算として処理できます。","extra":["符号なしn bitで表せる範囲は0～2^n-1で、これを超える結果は桁あふれする","符号付き2の補数では同符号の数を加えて結果の符号が不自然に変わった場合など、オーバーフローに注意する"]},"core_02_04":{"deep":"有限オートマトンでは、取り得る状態を有限個用意し、現在状態と入力に応じて次状態を決めます。入力列を最初から一文字ずつ適用し、最後に受理状態へいるかで文字列を判定する問題が典型です。状態遷移図と状態遷移表は同じ規則を別の形で表したものです。","extra":["決定性有限オートマトンでは、ある状態と入力の組合せに対する次状態が一意に決まる","状態名そのものに意味を推測せず、与えられた遷移規則を機械的に追うとミスが減る"]},"core_06_03":{"deep":"バックアップは障害時にデータを復元できることが目的なので、取得方式と復元手順をセットで理解します。フルは全データ、差分は直近フル以降の変更分すべて、増分は直前バックアップ以降の変更分を保存します。増分は取得量を小さくしやすい一方、復元時に複数世代が必要です。","extra":["バックアップ媒体を同じ場所だけに置くと災害で同時に失うため、遠隔地や別系統へ保管する考え方がある","RPOは許容できるデータ損失時点、RTOは目標復旧時間として災害対策の設計に使う"]},"core_07_01":{"deep":"半導体メモリは、揮発性、読み書き方法、速度、容量、用途で比較します。DRAMは電荷を保持するためリフレッシュが必要で主記憶に広く使われ、SRAMは高速でリフレッシュ不要ですが高価なためキャッシュなどに使われます。ROM系は不揮発性で、フラッシュメモリは電気的に書換え可能です。","extra":["DRAMは1bit当たりの回路が比較的単純で大容量化しやすく、SRAMは高速性を重視する用途に向く","SSDやUSBメモリで使うフラッシュメモリは、電源を切っても内容を保持する不揮発性メモリである"]},"core_10_01":{"deep":"通信回線では、伝送速度、伝送方式、交換方式などを整理します。伝送時間は基本的にデータ量÷実効伝送速度で求めますが、実際にはヘッダや制御情報、再送などのオーバーヘッドがあります。回線交換は通信中に経路を占有し、パケット交換はデータを小さな単位へ分けて共有回線で送ります。","extra":["bpsは1秒当たりのbit数なので、byte単位のデータ量は8倍してbitへ合わせてから計算する","実効速度が理論速度の何%か与えられる問題では、先に実効伝送速度を求める"]},"core_02_02":{"deep":"論理回路問題は、回路図を一気に読むのではなく、各ゲートの出力を途中変数として順番に求めます。AND、OR、NOTに加え、NAND、NOR、XORの真理値表を理解すると複合回路にも対応できます。半加算器ではXORが和、ANDが桁上がりを作ります。","extra":["NANDはANDの結果を反転、NORはORの結果を反転するため、まずAND/ORを求めてからNOTすると考える","XORは入力が異なると1で、2進加算の和のbitを作る回路として使われる"]},"core_20_04":{"deep":"損益分岐点では、売上高と総費用が一致して利益が0になる販売量・売上高を求めます。総費用は固定費＋変動費で、1個売るごとに固定費回収へ貢献する金額が限界利益です。販売価格－単位変動費が1個当たり限界利益なので、固定費をこれで割ると損益分岐点数量になります。","extra":["変動費率が与えられる場合は、1－変動費率で限界利益率を求め、固定費÷限界利益率で損益分岐点売上高を求める","損益分岐点より販売量が大きければ利益、小さければ損失になる"]},"core_14_06":{"deep":"プロジェクトリスクは、将来起こるか不確実で、起きると目標へ影響する事象です。発生確率と影響度から優先順位を付け、回避・低減・移転・受容などの対応を計画します。対応後にもリスクは残るため、プロジェクト中に監視して状況変化を反映します。","extra":["リスクは問題が発生してから対処するのではなく、事前に識別して対応策や責任者を準備する","好機となるプラスの不確実性もリスクとして扱う考え方があり、活用・強化などの対応を取る場合がある"]},"core_09_03":{"deep":"データベース設計では、業務で扱う実体と関係を整理し、表へ変換します。正規化は、一つの表へ異なる事実を重複して持たせることで生じる更新・追加・削除時の不整合を減らします。主キー・外部キーを用いて分割後の表を正しく関連付けることが重要です。","extra":["第1正規形は繰返し項目をなくし、第2・第3正規形では主キーへの依存関係を整理して冗長性を減らす","正規化し過ぎると結合が増える場合もあるため、実際の設計では性能要件とのバランスを考える"]},"core_09_01":{"deep":"データベースは、組織で共有するデータを一定の規則で蓄積し、必要なときに検索・更新できるようにしたものです。個別ファイルを各部門で別々に持つ方式では、重複や不整合、アクセス制御のばらつきが起きやすいため、DBMSで一元的に管理する利点があります。","extra":["データベースではデータそのものに加え、項目名・型・制約などデータを説明するメタデータも管理する","複数利用者で共有するため、同時実行制御・障害回復・権限管理が重要になる"]}};
 function coreTopicEnrichment(id){return CORE_A_CONTENT_ENRICHMENT[id]||null;}
 
-function coreTopicOverviewView(id){
-  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
-  return `<div class="core-text-page"><section class="core-text-hero"><div class="core-text-code">${t.code}・第${t.chapter}章</div><div class="core-text-title">${learningHtml(t.title)}</div><div class="core-text-lead">${learningHtml(t.lead)}</div><div class="core-point-list">${t.points.map((p,i)=>`<div class="core-point"><div class="core-point-no">${i+1}</div><div class="core-point-text">${learningHtml(p)}</div></div>`).join('')}</div></section></div>`;
-}
-function coreTopicDetailView(id){
+function coreTopicArticleView(id){
   const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
   const e=coreTopicEnrichment(id);
-  return `<div class="core-text-page">
-    <section class="core-detail-card"><h3>試験で押さえるポイント</h3><ul>${t.points.map(p=>`<li>${learningHtml(p)}</li>`).join('')}</ul></section>
-    ${e?`<section class="core-deep-card"><div class="core-deep-kicker">もう一段深く</div><p>${learningHtml(e.deep)}</p><div class="core-deep-extra">${e.extra.map(x=>`<div><span>＋</span><p>${learningHtml(x)}</p></div>`).join('')}</div></section>`:''}
-    <section class="core-detail-card core-exam"><h3>問題文で見る手掛かり</h3><ul>${t.cues.map(c=>`<li>${learningHtml(c)}</li>`).join('')}</ul></section>
-  </div>`;
-}
-function coreTopicExampleView(id){
-  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
-  return `<div class="core-text-page"><section class="core-detail-card core-example"><h3>具体例</h3><p>${learningHtml(t.example)}</p></section><div class="core-mini-banner">例を読んだら、用語名だけでなく「なぜその答えになるのか」を1文で説明できる状態を目標にしてください。</div></div>`;
-}
+  return `<article class="core-article">
+    <p class="core-article-lead">${learningHtml(t.lead)}</p>
 
-function coreTopicWorkedExampleView(id){
-  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
-  const priority={calculation:0,scenario:1,trace:2,interpretation:3,comparison:4};
-  const qs=CORE_A_CHALLENGE_QUESTIONS.filter(q=>q.coreTopicId===id)
-    .sort((a,b)=>(priority[a.angle]??9)-(priority[b.angle]??9)).slice(0,2);
-  if(!qs.length)return '';
-  const angleLabel={calculation:'計算',scenario:'状況判断',trace:'操作追跡',interpretation:'読解',comparison:'比較'};
-  return `<div class="core-text-page">${qs.map((q,i)=>`<section class="core-worked-example">
-    <div class="core-worked-head"><span>例題${qs.length>1?i+1:''}</span><b>${angleLabel[q.angle]||'実戦'}</b></div>
-    <div class="core-worked-question">${learningHtml(q.q)}</div>
-    <div class="core-worked-options">${q.options.map((op,idx)=>`<div class="core-worked-option ${idx===q.a?'correct':''}"><span>${String.fromCharCode(65+idx)}</span>${learningHtml(op)}</div>`).join('')}</div>
-    <div class="core-worked-reason"><b>考え方</b><p>${learningHtml(q.hint)}</p></div>
-    <div class="core-worked-answer"><b>正解：${String.fromCharCode(65+q.a)}. ${learningHtml(q.options[q.a])}</b><p>${learningHtml(q.exp)}</p></div>
-  </section>`).join('')}</div>`;
-}
+    <section class="core-article-section">
+      <h2>重要事項</h2>
+      <ul class="core-article-points">${t.points.map(p=>`<li>${learningHtml(p)}</li>`).join('')}</ul>
+    </section>
 
-function coreTopicExamView(id){
-  const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
-  const related=[t.skill,t.chapterTitle,t.title].filter(Boolean);
-  return `<div class="core-text-page"><section class="core-detail-card core-pitfall"><h3>混同注意</h3><p>${learningHtml(t.pitfall)}</p></section><section class="core-detail-card"><h3>このテーマのゴール</h3><p>定義を選べるだけでなく、具体例・計算・状況判断へ当てはめられることが科目A対策では重要です。</p><div class="core-related">${related.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div></section></div>`;
+    <section class="core-article-section">
+      <h2>仕組み・適用</h2>
+      <p>${learningHtml(t.example)}</p>
+      ${e?`<p>${learningHtml(e.deep)}</p>
+      <ul class="core-article-extra">${e.extra.map(x=>`<li>${learningHtml(x)}</li>`).join('')}</ul>`:''}
+    </section>
+
+    <section class="core-article-section">
+      <h2>問題文の手掛かり</h2>
+      <ul class="core-article-points">${t.cues.map(c=>`<li>${learningHtml(c)}</li>`).join('')}</ul>
+    </section>
+
+    <aside class="core-article-pitfall">
+      <h2>混同注意</h2>
+      <p>${learningHtml(t.pitfall)}</p>
+    </aside>
+  </article>`;
 }
 
 // ===== v28: first-page presentation rule =====
@@ -11185,13 +11207,21 @@ function neutralizeFirstPageMarkup(markup){
 function renderLesson(){
   const lesson=LESSONS[activeLesson];
   const page=lesson.pages[lessonStep];
+  const isCore=!!lesson.core;
   document.getElementById('lessonTitle').textContent=lesson.title;
   document.getElementById('lessonCategory').textContent=`${lesson.cat}・レッスン`;
-  document.getElementById('lessonHeadline').textContent=expandLearningAbbreviations(page.headline);
-  document.getElementById('lessonCopy').textContent=expandLearningAbbreviations(page.copy);
+  const headline=document.getElementById('lessonHeadline');
+  const copy=document.getElementById('lessonCopy');
+  headline.textContent=expandLearningAbbreviations(page.headline||'');
+  copy.textContent=expandLearningAbbreviations(page.copy||'');
+  headline.style.display=isCore?'none':'';
+  copy.style.display=isCore?'none':'';
   updateInteractionGuide(page);
-  document.getElementById('lessonStepLabel').textContent=`${lessonStep+1} / ${lesson.pages.length}`;
+  const stepLabel=document.getElementById('lessonStepLabel');
+  stepLabel.textContent=`${lessonStep+1} / ${lesson.pages.length}`;
+  stepLabel.style.display=isCore?'none':'';
   const dots=document.getElementById('lessonDots');
+  dots.style.display=isCore?'none':'';
   if(dots.children.length!==lesson.pages.length){
     dots.innerHTML=Array.from({length:lesson.pages.length},()=>'<span></span>').join('');
   }
@@ -11210,17 +11240,18 @@ function renderLesson(){
   if(page.render){
     const markup=page.render();
     const visual=lessonStep===0 ? neutralizeFirstPageMarkup(markup) : markup;
-    stage.innerHTML=introGuide + (lessonStep===0?'<div class="lesson-visual-label">図・例で確認</div>':'') + visual;
+    stage.innerHTML=introGuide + visual;
   }else if(introGuide){ stage.innerHTML=introGuide; }
   if(page.interactive) renderInteractive(page.interactive,stage);
   if(page.quiz) renderLessonQuiz(page.quiz,stage);
 
-  // First page has nowhere to go back to, so do not show a disabled Back button.
   const prev=document.getElementById('lessonPrev');
-  prev.style.display=lessonStep===0?'none':'';
-  prev.disabled=lessonStep===0;
+  prev.style.display=(isCore||lessonStep===0)?'none':'';
+  prev.disabled=isCore||lessonStep===0;
   const next=document.getElementById('lessonNext');
-  if(lessonStep===lesson.pages.length-1){
+  if(isCore){
+    next.textContent='学習完了 → 問題演習';
+  }else if(lessonStep===lesson.pages.length-1){
     next.textContent='レッスン完了 ✨';
   }else{
     next.textContent='次へ →';
@@ -11829,8 +11860,25 @@ function completeLesson(){
 
   const reviewLessonCompleted=activeReviewJourneyId?markJourneyLessonDone(activeReviewJourneyId,activeLesson):false;
   const reviewJourneyId=reviewLessonCompleted?activeReviewJourneyId:null;
-  document.getElementById('lessonHeadline').textContent='LESSON COMPLETE!';
-  document.getElementById('lessonCopy').textContent=reviewLessonCompleted?'理解を整理できました。次は条件を変えた類題で確認します。':'今日の理解を、問題演習と数日後の復習で定着させます。';
+
+  if(lesson.core){
+    const completedId=activeLesson;
+    const earned=old<100?50:15;
+    lessonCompleteMode=false;
+    popToast(`${lesson.title} 学習完了　+${earned} XP`);
+    if(reviewLessonCompleted){
+      activeReviewJourneyId=null;
+      showScreen('problems');
+      startQuiz('journey:'+reviewJourneyId);
+    }else{
+      showScreen('problems');
+      startQuiz('coretopic:'+completedId);
+    }
+    return;
+  }
+
+  document.getElementById('lessonHeadline').textContent='レッスン完了！';
+  document.getElementById('lessonCopy').textContent=reviewLessonCompleted?'次は類題へ進みます。':'';
   document.getElementById('lessonStage').innerHTML=`
     <div class="lesson-complete">
       <div class="lesson-complete-icon">🏆</div>
@@ -15587,6 +15635,7 @@ function runAppSelfCheck(){
       assert(count>=12,`Chapter ${ch} needs at least 12 available questions`);
     }
     assert(CORE_A_IDS.every(id=>CORE_A_TOPIC_QUESTION_COUNTS[id]===3),'Every Core A topic needs exactly 3 linked questions');
+    assert(CORE_A_IDS.every(id=>LESSONS[id].pages.every(p=>!p.quiz&&!p.interactive)),'Core A lesson pages must contain explanation only');
 
     const lessonIds=Object.keys(LESSONS||{});
     assert(lessonIds.length>=30,'At least 30 lessons expected');
@@ -15598,7 +15647,7 @@ function runAppSelfCheck(){
     assert(Object.keys(CORE_A_CONTENT_ENRICHMENT).length===46,'Content enrichment should cover 46 previously thin topics');
     assert(CORE_A_IDS.every(id=>{const t=CORE_A_TOPIC_MAP[id];const e=CORE_A_CONTENT_ENRICHMENT[id];return (t.lead.length+t.points.join('').length+t.example.length+t.pitfall.length+t.cues.join('').length+(e?e.deep.length+e.extra.join('').length:0))>=200;}),'Every Core A topic should meet the content-depth floor');
     const pageCounts=lessonIds.map(id=>LESSONS[id].pages.length);
-    assert(CORE_A_IDS.every(id=>LESSONS[id].pages.length===6),'Core A lessons should have 6 pages');
+    assert(CORE_A_IDS.every(id=>LESSONS[id].pages.length===1),'Core A lessons should use one content page');
     assert(FE_SYLLABUS_VERSION==='9.2','FE syllabus version should be 9.2');
     assert(FE_SYLLABUS_V92_COVERAGE.length===96,'FE Ver.9.2 coverage should contain 96 small categories');
     assert(FE_SYLLABUS_V92_COVERAGE.every(x=>x.topicIds.length&&x.topicIds.every(id=>CORE_A_IDS.includes(id))),'Every syllabus category must map to existing Core A topics');

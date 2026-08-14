@@ -1,0 +1,66 @@
+FE QUEST v69 — 科目Aレッスン全面再構成
+
+結論
+科目Aの各テーマを6ページに分ける設計を廃止し、1テーマ＝1画面の解説記事へ変更した。
+静的な説明を読むためだけのページ送りをなくし、学習内容と問題演習を明確に分離した。
+
+削除した共通テンプレート
+- 「このテーマの全体像」
+- 「図・例で確認」
+- 「重要ポイントを整理する」
+- 「用語を単独で暗記せず〜」
+- 「具体例で確認する」
+- 「試験で問われる形を意識し〜」
+- 「例を読んだら〜1文で説明〜」
+- 「例題と解き方」
+- 「試験での見分け方」
+- 「このテーマのゴール」
+- Core Aの進捗ドット / 1/6表示 / 静的ページ用の戻る・次へ操作
+
+問題の先出しを解消
+- 旧「例題と解き方」はCORE_A_CHALLENGE_QUESTIONSから実際の後続演習問題を取得し、
+  正解選択肢と解説まで表示していたため、完全撤去。
+- 旧「ミニチェック」は130テーマ中129テーマでQUESTION_BANKの問題文と完全一致していたため、
+  Core Aレッスンから完全撤去。
+- レッスン本文にはquiz/interactiveを置かず、解説完了後にcoretopic:<id>へ直接遷移する。
+
+新しい1画面構成
+- 導入説明
+- 重要事項
+- 仕組み・適用
+- 問題文の手掛かり
+- 混同注意
+
+「具体例」という曖昧な独立ページは作らず、
+既存のexample情報は「仕組み・適用」の本文材料として統合した。
+
+操作
+- Core Aではページ送りなし。
+- 下部操作は「学習完了 → 問題演習」の1つだけ。
+- 押すと進捗・XPを保存し、そのテーマの独立問題演習へ直行。
+- 復習ルート中は対応する類題へ直行。
+
+維持
+- 130テーマ
+- QUESTION_BANK 710問
+- 各テーマ4問以上
+- 21章の章末12問
+- 科目A模試
+- 科目B
+- 学習履歴 / XP / 復習 / 試験準備度
+- v68の第7章・第17章章末専用補助問題
+
+最終Node VM回帰
+BOOT_SELF_CHECK_OK
+CORE_A_130_SINGLE_PAGE_RENDER_OK
+CORE_A_GENERIC_CHROME_HIDDEN_OK
+WORKED_EXAMPLE_REVEAL_REMOVED_OK
+MINI_CHECK_LESSON_OVERLAP_REMOVED_OK
+CORE_TOPIC_130_PRACTICE_ROUTES_OK
+CORE_COMPLETION_DIRECT_TO_PRACTICE_OK
+CHAPTER_21x12_OK
+QUESTION_BANK_710_OK
+VERSION_V69_OK
+
+注記:
+Runtime validationはNode VM DOM stubであり、実ブラウザE2Eではない。
