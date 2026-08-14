@@ -1,0 +1,182 @@
+name: FE QUEST v115 repository cleanup
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Upgrade app to v115 and compact repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Apply the tested v114 -> v115 runtime/UI patch.
+          git apply --check tools/v114_to_v115.patch
+          git apply tools/v114_to_v115.patch
+
+          # Keep the PWA metadata exactly on v115.
+          cat > manifest.webmanifest <<'EOF_MANIFEST'
+          {
+            "id": "./",
+            "name": "FE QUEST v115",
+            "short_name": "FE QUEST",
+            "description": "基本情報技術者試験向けPWA。v115では起動時の初期化順序を修正し、ホーム・学習・演習・計画の主要CTAが実際に動作する状態へ復旧。図解・操作ラボの内容描画も復旧し、BIT先生は画面を遮らないヘッダー右上へ移動。v114までの日常利用UX、問題・教材データ、データ保護、試験直前調整を維持。",
+            "lang": "ja",
+            "start_url": "./",
+            "scope": "./",
+            "display": "standalone",
+            "orientation": "any",
+            "background_color": "#f6f8fb",
+            "theme_color": "#58cc02",
+            "categories": ["education"],
+            "icons": [
+              {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+              {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+            ],
+            "display_override": ["standalone","browser"],
+            "prefer_related_applications": false
+          }
+          EOF_MANIFEST
+
+          cat > sw.js <<'EOF_SW'
+          const APP_VERSION = 'v115';
+          const CACHE_NAME = 'fe-quest-v115-1';
+          const CACHE_PREFIX = 'fe-quest-';
+          const APP_SHELL = [
+            './',
+            './index.html',
+            './manifest.webmanifest',
+            './icon-192.png',
+            './icon-512.png',
+            './apple-touch-icon.png'
+          ];
+
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME).then(cache =>
+                cache.addAll(APP_SHELL.map(url => new Request(url,{cache:'reload'})))
+              )
+            );
+          });
+
+          self.addEventListener('activate', event => {
+            event.waitUntil(
+              caches.keys()
+                .then(keys => Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map(k => caches.delete(k))))
+                .then(() => self.clients.claim())
+            );
+          });
+
+          self.addEventListener('message', event => {
+            if(event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+            if(event.data?.type === 'GET_VERSION') event.source?.postMessage?.({type:'APP_VERSION',version:APP_VERSION});
+          });
+
+          function networkWithTimeout(request, timeoutMs=4000){
+            return Promise.race([
+              fetch(request),
+              new Promise((_,reject)=>setTimeout(()=>reject(new Error('network timeout')),timeoutMs))
+            ]);
+          }
+
+          async function navigationResponse(request){
+            try{
+              const response = await networkWithTimeout(request,4000);
+              if(response && response.ok){
+                const cache = await caches.open(CACHE_NAME);
+                cache.put('./index.html',response.clone()).catch(()=>{});
+              }
+              return response;
+            }catch(e){
+              return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+            }
+          }
+
+          async function staleWhileRevalidate(request){
+            const cached = await caches.match(request);
+            const network = fetch(request).then(response => {
+              if(response && response.ok && response.type !== 'opaque'){
+                caches.open(CACHE_NAME).then(cache=>cache.put(request,response.clone())).catch(()=>{});
+              }
+              return response;
+            }).catch(()=>null);
+            return cached || (await network) || Response.error();
+          }
+
+          self.addEventListener('fetch', event => {
+            const request=event.request;
+            if(request.method !== 'GET' || request.headers.has('range')) return;
+            const url=new URL(request.url);
+            if(url.origin !== self.location.origin) return;
+            if(request.mode === 'navigate'){
+              event.respondWith(navigationResponse(request));
+              return;
+            }
+            event.respondWith(staleWhileRevalidate(request));
+          });
+          EOF_SW
+
+          # Consolidate all historical root-level text reports before removing them.
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile
+
+          audit_dir = Path('audits')
+          audit_dir.mkdir(exist_ok=True)
+          latest = audit_dir / 'DAILY_USE_UX_PHASE10_RUNTIME_FIX_AUDIT_v115.txt'
+          historical = sorted(Path('.').glob('*.txt'), key=lambda p: p.name.lower())
+          sources = historical + ([latest] if latest.exists() else [])
+
+          history = audit_dir / 'DEVELOPMENT_AUDIT_HISTORY_v115.txt'
+          with history.open('w', encoding='utf-8') as out:
+              out.write('FE QUEST — DEVELOPMENT / AUDIT HISTORY through v115\n')
+              out.write('=' * 72 + '\n\n')
+              for p in sources:
+                  out.write(f'===== {p.as_posix()} =====\n')
+                  out.write(p.read_text(encoding='utf-8', errors='replace'))
+                  out.write('\n\n')
+
+          archive = audit_dir / 'FE_QUEST_v115_REPORTS_ARCHIVE.zip'
+          with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED) as z:
+              for p in sources:
+                  z.write(p, arcname=p.name)
+          PY
+
+          # Final repository content: six PWA runtime files + audits + this temporary workflow.
+          find . -maxdepth 1 -type f \
+            ! -name 'index.html' \
+            ! -name 'manifest.webmanifest' \
+            ! -name 'sw.js' \
+            ! -name 'icon-192.png' \
+            ! -name 'icon-512.png' \
+            ! -name 'apple-touch-icon.png' \
+            -delete
+          rm -rf tools
+
+          # Basic release guards before committing.
+          grep -q "FE QUEST PWA v115" index.html
+          grep -q "const APP_VERSION = 'v115'" index.html
+          grep -q "header #aiFab.ai-header-btn" index.html
+          grep -q '"name": "FE QUEST v115"' manifest.webmanifest
+          grep -q "fe-quest-v115-1" sw.js
+          test -s audits/DEVELOPMENT_AUDIT_HISTORY_v115.txt
+          test -s audits/FE_QUEST_v115_REPORTS_ARCHIVE.zip
+          test -s audits/DAILY_USE_UX_PHASE10_RUNTIME_FIX_AUDIT_v115.txt
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Publish FE QUEST v115 and compact audit files'
+          git push origin HEAD:main
