@@ -9,5 +9,6 @@
   "release_shell_from": "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');",
   "release_shell_to_v152": "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v152','v152 version/schema contract drift');",
   "production_bundled": false,
-  "release_only": true
+  "release_only": true,
+  "release_shell_template": "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='{{VERSION}}','{{VERSION}} version/schema contract drift');"
 }
