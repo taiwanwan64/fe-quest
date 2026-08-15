@@ -1,0 +1,35 @@
+// ===== FE QUEST stable diagnostic contract data facade (v156) =====
+// Archival v148-v152 data constants remain private to runtime-current-diagnostics.txt.
+(() => {
+  const historicalNames=Object.freeze([
+    'V148_EXTRA_UI_CONTRACTS','V149_LEGACY_ASSERT_INVENTORY','V150_CI_ONLY_SENTINEL_GROUPS',
+    'V150_CRITICAL_CURRICULUM_SPEC','V151_RELEASE_SENTINEL_SPEC','V152_LEGACY_FIXTURE_SPEC'
+  ]);
+  const missing=historicalNames.filter(name=>typeof globalThis[name]==='undefined');
+  if(missing.length) throw new Error(`FE QUEST diagnostic data facade source missing: ${missing.join(',')}`);
+
+  const data=Object.freeze({
+    browserUiAdditions:globalThis.V148_EXTRA_UI_CONTRACTS,
+    legacyAssertionInventory:globalThis.V149_LEGACY_ASSERT_INVENTORY,
+    ciSentinelGroups:globalThis.V150_CI_ONLY_SENTINEL_GROUPS,
+    criticalCurriculumSpec:globalThis.V150_CRITICAL_CURRICULUM_SPEC,
+    releaseSentinelSpec:globalThis.V151_RELEASE_SENTINEL_SPEC,
+    legacyFixtureSpec:globalThis.V152_LEGACY_FIXTURE_SPEC
+  });
+  const provenance=Object.freeze({
+    module:'app/runtime-current-diagnostics.txt',
+    browserUiAdditions:Object.freeze({archivalGlobal:'V148_EXTRA_UI_CONTRACTS',sourceVersion:'v148'}),
+    legacyAssertionInventory:Object.freeze({archivalGlobal:'V149_LEGACY_ASSERT_INVENTORY',sourceVersion:'v149'}),
+    ciSentinelGroups:Object.freeze({archivalGlobal:'V150_CI_ONLY_SENTINEL_GROUPS',sourceVersion:'v150'}),
+    criticalCurriculumSpec:Object.freeze({archivalGlobal:'V150_CRITICAL_CURRICULUM_SPEC',sourceVersion:'v150'}),
+    releaseSentinelSpec:Object.freeze({archivalGlobal:'V151_RELEASE_SENTINEL_SPEC',sourceVersion:'v151'}),
+    legacyFixtureSpec:Object.freeze({archivalGlobal:'V152_LEGACY_FIXTURE_SPEC',sourceVersion:'v152'})
+  });
+
+  Object.defineProperty(globalThis,'FEQ_DIAGNOSTIC_CONTRACT_DATA',{value:data,writable:false,enumerable:true,configurable:false});
+  Object.defineProperty(globalThis,'FEQ_DIAGNOSTIC_DATA_PROVENANCE',{value:provenance,writable:false,enumerable:true,configurable:false});
+  Object.defineProperty(globalThis,'FEQ_RETIRED_DIAGNOSTIC_DATA_GLOBALS',{value:historicalNames,writable:false,enumerable:true,configurable:false});
+
+  // v156 compatibility boundary: archival data globals remain as backing storage for the existing stable helper implementation.
+  // New production consumers must use FEQ_DIAGNOSTIC_CONTRACT_DATA; physical backing-global removal is deferred.
+})();
