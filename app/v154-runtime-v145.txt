@@ -1,0 +1,103 @@
+// ===== v145 three-layer self-check architecture =====
+(() => {
+  const HISTORICAL_METADATA_ERRORS = new Set([
+    'v89 linked stem diversification count drift',
+    'Every application question needs an application demand type',
+    'v92 pass application count drift',
+    'v93 application demand distribution drift',
+    'v131 answer-cue overrides must be applied',
+    'v130 same-topic overrides must be applied',
+    'v129 same-topic overrides must be applied',
+    'v128 quality overrides must be applied'
+  ]);
+  const SUPERSEDED_SEMANTIC_PREFIX = 'Semantic question contracts:';
+  const UI_MESSAGES = new Set((globalThis.V144_UI_CONTRACTS||[]).map(c=>String(c.message)));
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+
+  const currentCheck = (id, message, test) => ({id,message,test});
+
+  function v145EvaluateCurrentContract(){
+    const genericChoicePhrases = [
+      'この定義・性質と一致しない',
+      'この問題で求める内容とは一致しない',
+      '問題文の条件または定義と一致しない'
+    ];
+    const obviousLengthOutlier = q => {
+      const lens=(q.options||[]).map(x=>String(x).length);
+      if(lens.length!==4) return false;
+      const correctLen=lens[q.a];
+      return correctLen===Math.max(...lens)
+        && lens.filter(x=>x===correctLen).length===1
+        && (Math.max(...lens)-Math.min(...lens)>=10)
+        && correctLen>=Math.min(...lens)*1.6;
+    };
+    const hardSemanticErrors = () => {
+      if(typeof validateQuestionSemanticContracts!=='function') return ['validator missing'];
+      const semantic=validateQuestionSemanticContracts();
+      const superseded=/plain answer contract drift|application explanation binding drift|discrimination explanation binding drift|same-topic comparison explanation drift/;
+      return (semantic.errors||[]).filter(e=>!superseded.test(String(e)));
+    };
+
+    const checks = [
+      currentCheck('version-schema','Current version/schema contract',()=>PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v145'),
+      currentCheck('question-count','Subject A question count must be 710',()=>Array.isArray(QUESTION_BANK)&&QUESTION_BANK.length===710),
+      currentCheck('question-id-unique','Subject A question IDs must be unique',()=>new Set(QUESTION_BANK.map(q=>q.id)).size===QUESTION_BANK.length),
+      currentCheck('question-stem-unique','Subject A question stems must be unique',()=>new Set(QUESTION_BANK.map(q=>q.q)).size===QUESTION_BANK.length),
+      currentCheck('option-set-unique','Subject A option sets must be unique',()=>new Set(QUESTION_BANK.map(q=>JSON.stringify(q.options))).size===QUESTION_BANK.length),
+      currentCheck('answer-balance','Answer positions must remain 178/178/177/177',()=>[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length).join(',')==='178,178,177,177'),
+      currentCheck('cognitive-balance','Cognitive levels must remain 166/323/221',()=>['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length).join(',')==='166,323,221'),
+      currentCheck('question-shape','Every question needs four unique options, a valid answer, explanation and hint',()=>QUESTION_BANK.every(q=>Array.isArray(q.options)&&q.options.length===4&&new Set(q.options).size===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&!!q.exp&&!!q.hint)),
+      currentCheck('option-wording','Options must not use artificial trailing だけ/のみ or polite-form cues',()=>QUESTION_BANK.every(q=>!q.options.some(x=>/(だけ|のみ)$/.test(String(x).trim())||/(です|ます|ません|ですが|ますが|でしょう|ください)/.test(String(x))))),
+      currentCheck('option-length-balance','Correct options must not be obvious length outliers',()=>QUESTION_BANK.every(q=>!obviousLengthOutlier(q))),
+      currentCheck('category-coverage','Every major Subject A category needs at least 20 questions',()=>{
+        const counts=QUESTION_BANK.reduce((a,q)=>(a[q.cat]=(a[q.cat]||0)+1,a),{});
+        return ['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'].every(cat=>(counts[cat]||0)>=20);
+      }),
+      currentCheck('cognitive-demand-metadata','Recall/application/judgment questions need a current demand type',()=>{
+        const recall=new Set(['用語・役割','原則・関係','式・構文','規格・定数']);
+        const application=new Set(['状況適用','規則適用','役割選択','具体例選択','用語対応','概念判別','同一論点適用','同一論点判別','計算・変換','手順追跡']);
+        const judgment=new Set(['計算・変換','状態追跡','二条件分類','複数条件','文脈比較']);
+        return QUESTION_BANK.every(q=>q.cognitiveLevel==='想起'?recall.has(q.recallDemand):q.cognitiveLevel==='適用'?application.has(q.applicationDemand):q.cognitiveLevel==='判断'?judgment.has(q.judgmentDemand):false);
+      }),
+      currentCheck('tracked-review-routing','Tracked Subject A review routes must remain complete',()=>{
+        if(typeof trackedQuestionPool!=='function'||typeof lessonForQuestion!=='function') return false;
+        const tracked=trackedQuestionPool();
+        return tracked.length===719&&new Set(tracked.map(q=>q.id)).size===tracked.length&&tracked.every(q=>!!lessonForQuestion(q))&&tracked.every(q=>QUESTION_BANK.some(x=>x.id!==q.id&&lessonForQuestion(x)===lessonForQuestion(q)));
+      }),
+      currentCheck('review-engine','Current review/mastery helpers must exist',()=>typeof actionableReviewJourneys==='function'&&typeof reviewWorkloadCount==='function'&&typeof coreTopicLearningState==='function'&&typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'),
+      currentCheck('core-pool-shape','Core-linked/challenge pools must remain 390/160 with 159 practical challenges',()=>CORE_A_LINKED_QUESTIONS.length===390&&CORE_A_CHALLENGE_QUESTIONS.length===160&&CORE_A_CHALLENGE_QUESTIONS.filter(q=>q.difficulty==='実戦').length===159),
+      currentCheck('practical-metadata','Every practical question needs audit and reasoning-depth metadata',()=>QUESTION_BANK.filter(q=>q.difficulty==='実戦').every(q=>q.practicalAudit&&q.examDepth)),
+      currentCheck('core-topic-coverage','Every Core A topic needs practical, total and immediate-practice coverage',()=>CORE_A_IDS.every(id=>QUESTION_BANK.some(q=>q.coreTopicId===id&&q.difficulty==='実戦'))&&CORE_A_IDS.every(id=>(CORE_A_TOPIC_TOTAL_QUESTION_COUNTS[id]||0)>=4)&&CORE_A_IDS.every(id=>(CORE_A_TOPIC_PRACTICE_COUNTS[id]||0)>=3)),
+      currentCheck('core-explanation-depth','Every Core A topic needs sufficient explanation, cues and caution guidance',()=>CORE_A_IDS.every(id=>coreTopicExplanationVolume(id)>=540)&&CORE_A_IDS.every(id=>Array.isArray(CORE_A_EXAM_CUE_GUIDES[id])&&CORE_A_EXAM_CUE_GUIDES[id].length===2)&&CORE_A_IDS.every(id=>String(CORE_A_CAUTION_GUIDES[id]||'').length>=30)),
+      currentCheck('core-prose-quality','Core A prose must avoid overlong sentences and templated filler',()=>CORE_A_IDS.every(id=>coreTopicMaxSentenceLength(id)<=80)&&CORE_A_IDS.every(id=>!coreTopicHasTemplatedFiller(id))),
+      currentCheck('current-linked-stem-coverage','Current linked-stem diversification coverage must remain 260',()=>CORE_A_LINKED_QUESTIONS.filter(q=>['v89-varied','v128-normalized'].includes(q.stemAudit)).length===260),
+      currentCheck('semantic-hard-contract','No hard semantic contract errors may remain',()=>hardSemanticErrors().length===0),
+      currentCheck('distractor-explanation-quality','Removed generic distractor phrases and full correct-explanation copies must stay absent',()=>{
+        const generic=QUESTION_BANK.some(q=>(q.choiceExps||[]).some(x=>genericChoicePhrases.some(p=>String(x).includes(p))));
+        const fullCopy=QUESTION_BANK.some(q=>{
+          const exp=String(q.exp||'').trim();
+          return exp&&(q.choiceExps||[]).some((x,i)=>i!==q.a&&String(x||'').includes(exp));
+        });
+        const exactWrongDup=QUESTION_BANK.some(q=>{
+          if(!Array.isArray(q.choiceExps)||q.choiceExps.length!==4) return true;
+          const wrong=q.choiceExps.filter((_,i)=>i!==q.a).map(String);
+          return new Set(wrong).size!==wrong.length;
+        });
+        return !generic&&!fullCopy&&!exactWrongDup;
+      }),
+      currentCheck('v143-data-quality','Current option/depth/judgment quality gates must stay clean',()=>{
+        const a=globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT;
+        return !!a&&a.optionOutliersAfter.length===0&&a.depthShortAfter.length===0&&!QUESTION_BANK.find(q=>q.id==='challenge_033')?.options.some(x=>String(x).includes('だけ確認する'));
+      })
+    ];
+
+    const results=checks.map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test()};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error)};}
+    });
+    const failed=results.filter(r=>!r.pass);
+    return {mode:'current-contract',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message)};
+  }
+
+  globalThis.v145EvaluateCurrentContract=v145EvaluateCurrentContract;
+})();
