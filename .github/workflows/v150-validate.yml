@@ -1,0 +1,72 @@
+name: Validate FE QUEST v150
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v150-validate.yml'
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare clean validation workspace
+        run: |
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v150.zip
+
+      - name: Validate source contracts
+        run: |
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v150' index.html
+          grep -q "APP_VERSION = 'v150'" sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v150-1'" sw.js
+          grep -q 'FE QUEST v150' manifest.webmanifest
+          grep -q '{% capture v150block %}' index.html
+          grep -q 'runV150SelfCheck()' index.html
+          grep -q 'v150 critical-curriculum declarative contract / CI sentinel decomposition' app/v150-block-00.txt
+          grep -q "architecture:'v150-critical-curriculum-ci-contract'" app/v150-block-00.txt
+          grep -q 'runV150CriticalCurriculumAudit' app/v150-block-00.txt
+          cp app/v150-block-00.txt /tmp/v150-check.js
+          node --check /tmp/v150-check.js
+          python -m py_compile tools/v150_validate.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA, DOM contracts, current contract, critical curriculum and legacy shadow
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v150</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v150';" _site/index.html
+          grep -q 'runV150SelfCheck' _site/index.html
+          grep -q "APP_VERSION = 'v150'" _site/sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v150-1'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python tools/v150_validate.py
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          test -f _site/apple-touch-icon.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v150.zip .)
+
+      - name: Upload standalone v150 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v150
+          path: FE_QUEST_PWA_v150.zip
+          retention-days: 90
