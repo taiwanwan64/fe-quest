@@ -5,23 +5,25 @@ Repository: taiwanwan64/fe-quest
 
 PURPOSE
 - Remove the legacy runAppSelfCheck() implementation from the production expanded HTML.
-- Preserve the old 293-assert evaluator as a release-only regression fixture.
+- Preserve the historical 293-assert evaluator as a release-only regression source range rather than a second copied implementation.
 - Keep current/browser/declarative contracts as the production safety layer.
-- Preserve the ability of release validation to execute the historical shadow evaluator explicitly.
+- Preserve release validation of the historical evaluator without shipping it to learners.
 
 SOURCE BOUNDARY
 - Historical source: app/base-v131.html
-- Extracted fixture: _regression/legacy-run-app-self-check-v131.txt
-- Fixture SHA-256: ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5
-- Fixture UTF-8 bytes: 49655
-- Fixture assert() calls: 293
-- Fixture is an exact single substring of app/base-v131.html.
-- Jekyll assembler captures the fixture and removes it from base before producing the production page.
-- _regression/ is underscore-prefixed so it is not part of the generated Pages site.
+- Fixture specification: _regression/legacy-run-app-self-check-v131.fixture.json
+- Start marker: function runAppSelfCheck(){
+- End marker: function runLessonUXAudit(){
+- Pinned source-range SHA-256: b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+- Pinned source-range UTF-8 bytes: 49657
+- Pinned source-range assert() calls: 293
+- The fixture spec contains only the source range contract; it does not duplicate the ~49.7KB evaluator.
+- The Jekyll assembler splits app/base-v131.html at the two pinned markers and rebuilds productionBase without that range.
+- _regression/ is underscore-prefixed and is not part of the generated Pages site.
 
 PRODUCTION CONTRACT
-- Expanded production HTML contains 0 occurrences of: function runAppSelfCheck(){
-- Expanded production HTML contains 0 legacy boot calls.
+- Expanded production HTML has no actual runAppSelfCheck() function declaration.
+- Expanded production HTML has no legacy self-check boot call.
 - Boot target: runV152SelfCheck()
 - APP_VERSION: v152
 - Service Worker cache: fe-quest-v152-1
@@ -34,10 +36,11 @@ PRODUCTION CONTRACT
 - legacy classification: 293 / 293 exact, no gap, no overlap
 
 RELEASE-ONLY LEGACY SHADOW
-- Validation reads the fixture directly from repository source.
-- It applies only the historical release-shell version substitution v131 -> v152, matching the old assembler behavior.
-- The fixture is loaded only after the production bundle has completed its own self-check.
-- runV149LegacyShadowAudit() then executes the historical evaluator.
+- Validation reads _regression/legacy-run-app-self-check-v131.fixture.json.
+- It extracts the exact pinned range from app/base-v131.html and verifies SHA-256, UTF-8 byte length and 293 assert calls before execution.
+- It applies only the historical release-shell version substitution v131 -> v152, matching the former assembler behavior.
+- The extracted evaluator is loaded only after the production bundle has completed its own v152 self-check.
+- runV149LegacyShadowAudit() then executes the historical evaluator explicitly.
 - Expected legacy shadow result:
   raw errors: 22
   historical metadata: 8
@@ -61,7 +64,13 @@ LOCAL SIMULATED BUILD VALIDATION
 - FEQUEST_V152_RELEASE_FIXTURE_OK legacy=293 raw=22 residual=0
 - FEQUEST_V152_RUNTIME_OK current=69/69 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
 
+GITHUB PAGES BUILD
+- Corrected range-extraction assembler commit: 8a53297c559ff16c059c007ec8c089ff65b8f2af
+- Pages build ID: 1153083647
+- Pages build result: built
+- Build error: none
+
 NEXT
-- Validate the real GitHub/Jekyll build with the same v152 validator.
-- After successful release validation, remove temporary validator/workflow from main.
-- Confirm the cleanup commit itself receives a successful GitHub Pages build and Pages status remains built.
+- Run the same v152 validator against a real Jekyll _site build in release validation.
+- Remove any temporary validator/workflow after validation.
+- Confirm the final cleanup commit itself receives a successful GitHub Pages build and Pages status remains built.
