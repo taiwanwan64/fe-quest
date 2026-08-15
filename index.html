@@ -3,8 +3,9 @@
 {% capture base %}{% include_relative app/base-v131.html %}{% endcapture %}
 {% capture v132block %}{% include_relative app/v132-block-00.txt %}{% include_relative app/v132-block-01.txt %}{% include_relative app/v132-block-02.txt %}{% include_relative app/v132-block-03.txt %}{% include_relative app/v132-block-04.txt %}{% include_relative app/v132-block-05.txt %}{% include_relative app/v132-block-06.txt %}{% include_relative app/v132-block-07.txt %}{% endcapture %}
 {% capture v133block %}{% include_relative app/v133-block-00.txt %}{% include_relative app/v133-block-01.txt %}{% include_relative app/v133-block-02.txt %}{% include_relative app/v133-block-03.txt %}{% include_relative app/v133-block-04.txt %}{% include_relative app/v133-block-05.txt %}{% endcapture %}
-{% assign s1 = base | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v133</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v133';" %}
-{% assign s3 = s2 | replace: "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');", "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v133','v133 version/schema contract drift');" %}
-{% capture insertion %}{{ v132block }}{{ v133block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v134block %}{% include_relative app/v134-block-00.txt %}{% include_relative app/v134-block-01.txt %}{% include_relative app/v134-block-02.txt %}{% include_relative app/v134-block-03.txt %}{% include_relative app/v134-block-04.txt %}{% include_relative app/v134-block-05.txt %}{% include_relative app/v134-block-06.txt %}{% endcapture %}
+{% assign s1 = base | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v134</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v134';" %}
+{% assign s3 = s2 | replace: "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');", "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v134','v134 version/schema contract drift');" %}
+{% capture insertion %}{{ v132block }}{{ v133block }}{{ v134block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
