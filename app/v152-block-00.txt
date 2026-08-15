@@ -1,0 +1,128 @@
+// ===== v152 production / legacy-regression fixture boundary =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const V152_LEGACY_FIXTURE_SPEC=Object.freeze({
+    path:'_regression/legacy-run-app-self-check-v131.txt',
+    sourceVersion:'v131',
+    assertCount:293,
+    byteLength:49655,
+    sha256:'ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5',
+    productionBundled:false,
+    releaseOnly:true
+  });
+
+  function v152LegacyClassificationAudit(){
+    const buckets={
+      currentContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.currentContractCovered.ranges),
+      browserContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.browserContractCovered.ranges),
+      historicalMetadata:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.historicalMetadata.ranges),
+      ciOnlyLegacySentinels:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges)
+    };
+    const all=Object.values(buckets).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=Array.from({length:V149_LEGACY_ASSERT_INVENTORY.total},(_,i)=>i+1);
+    return {
+      total:V149_LEGACY_ASSERT_INVENTORY.total,
+      classified:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n),
+      declaredCountsOk:Object.entries(buckets).every(([name,values])=>values.length===V149_LEGACY_ASSERT_INVENTORY[name].count),
+      bucketCounts:Object.fromEntries(Object.entries(buckets).map(([name,values])=>[name,values.length]))
+    };
+  }
+
+  function v152AdditionalCurrentChecks(){
+    return [
+      currentCheck('legacy-self-check-production-excluded','The 293-assert legacy evaluator must be absent from the production runtime while its classification remains exact',()=>{
+        const a=v152LegacyClassificationAudit();
+        return typeof runAppSelfCheck==='undefined'&&v149LegacyInventoryAudit().sourceAssertCalls===0&&
+          a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
+      },293),
+      currentCheck('legacy-regression-fixture-contract','The release-only legacy regression fixture must remain pinned for CI compatibility auditing',()=>{
+        const c=v151DeclarativeCiCoverage();
+        return V152_LEGACY_FIXTURE_SPEC.path==='_regression/legacy-run-app-self-check-v131.txt'&&
+          V152_LEGACY_FIXTURE_SPEC.assertCount===293&&V152_LEGACY_FIXTURE_SPEC.byteLength===49655&&
+          V152_LEGACY_FIXTURE_SPEC.sha256==='ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5'&&
+          V152_LEGACY_FIXTURE_SPEC.productionBundled===false&&V152_LEGACY_FIXTURE_SPEC.releaseOnly===true&&
+          c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;
+      },293)
+    ];
+  }
+
+  function v152EvaluateCurrentContract(){
+    const base=v151EvaluateCurrentContract();
+    const classification=v152LegacyClassificationAudit();
+    const baseResults=(base.results||[]).map(r=>{
+      if(r.id==='version-schema'){
+        return {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v152',error:undefined};
+      }
+      if(r.id==='legacy-assert-inventory'){
+        return {...r,message:'Legacy assertion classification must remain exact with the evaluator moved to a release-only fixture',
+          pass:classification.total===293&&classification.classified===293&&classification.unique===293&&classification.duplicateCount===0&&classification.exactCoverage&&classification.declaredCountsOk&&typeof runAppSelfCheck==='undefined',
+          error:undefined};
+      }
+      return {...r};
+    });
+    const extras=v152AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras],failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-production-fixture-boundary',
+      total:results.length,passed:results.length-failed.length,failed:failed.length,results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,newContractCount:extras.length
+    };
+  }
+
+  function runV152SelfCheck(){
+    const current=v152EvaluateCurrentContract();
+    const historical=v149CollectHistoricalDiagnostics();
+    const browserUi=v148EvaluateBrowserUiLayer();
+    const errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const legacyInventory=v149LegacyInventoryAudit();
+    const classification=v152LegacyClassificationAudit();
+    const sentinelInventory=v150ExpandSentinelGroups();
+    const declarativeCoverage=v151DeclarativeCiCoverage();
+    return {
+      ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),
+      architecture:'v152-production-legacy-fixture-boundary',
+      currentContract:current,historicalDiagnostics:historical,browserUiContract:browserUi,
+      historicalMetadataWarnings:[],supersededSemanticWarnings:[],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],
+      v152RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',
+      v149LegacyInventory:legacyInventory,
+      v150CiSentinelInventory:sentinelInventory,
+      v151DeclarativeCiCoverage:declarativeCoverage,
+      v152LegacyClassification:classification,
+      v152LegacyFixturePolicy:{
+        productionFunctionPresent:typeof runAppSelfCheck==='function',
+        productionSourceAssertCalls:legacyInventory.sourceAssertCalls,
+        releaseFixturePath:V152_LEGACY_FIXTURE_SPEC.path,
+        releaseFixtureAssertions:V152_LEGACY_FIXTURE_SPEC.assertCount,
+        releaseFixtureSha256:V152_LEGACY_FIXTURE_SPEC.sha256,
+        releaseCiExecutesLegacy:true,
+        productionExecutesLegacy:false
+      },
+      v152DiagnosticContract:{
+        currentFailed:current.failed,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        productionLegacyAbsent:typeof runAppSelfCheck==='undefined',
+        classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,
+        declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.V152_LEGACY_FIXTURE_SPEC=V152_LEGACY_FIXTURE_SPEC;
+  globalThis.v152LegacyClassificationAudit=v152LegacyClassificationAudit;
+  globalThis.v152AdditionalCurrentChecks=v152AdditionalCurrentChecks;
+  globalThis.v152EvaluateCurrentContract=v152EvaluateCurrentContract;
+  globalThis.runV152SelfCheck=runV152SelfCheck;
+})();
