@@ -1,0 +1,77 @@
+name: Validate FE QUEST v139
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v139-validate.yml'
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate source contracts
+        run: |
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v139' index.html
+          grep -q "APP_VERSION = 'v139'" sw.js
+          grep -q 'FE QUEST v139' manifest.webmanifest
+          grep -q 'SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS.length===0' app/v139-block-01.txt
+          for f in app/v139-block-*.txt; do
+            cp "$f" /tmp/v139-check.js
+            node --check /tmp/v139-check.js
+          done
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v139</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v139';" _site/index.html
+          grep -q 'v139-distractor-specificity-pass' _site/index.html
+          grep -q "APP_VERSION = 'v139'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python - <<'PY'
+          import re, pathlib, subprocess, tempfile
+          html=pathlib.Path('_site/index.html').read_text()
+          scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',html,re.S|re.I)
+          js='\n'.join(s for s in scripts if s.strip() and not s.lstrip().startswith('{'))
+          pathlib.Path('/tmp/fe-v139-inline.js').write_text(js)
+          subprocess.run(['node','--check','/tmp/fe-v139-inline.js'],check=True)
+          PY
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v139.zip .)
+
+      - name: Upload standalone v139 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v139
+          path: FE_QUEST_PWA_v139.zip
+          retention-days: 90
+
+      - name: Clean temporary validation workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .github/workflows/v139-validate.yml
+          git add -A
+          git commit -m 'Finalize FE QUEST v139 release'
+          git push origin HEAD:main
