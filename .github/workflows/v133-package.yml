@@ -1,0 +1,59 @@
+name: Package FE QUEST v133
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v133-package.yml'
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assemble standalone v133
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json, shutil
+          base=Path('app/base-v131.html').read_text()
+          v132=''.join(Path(f'app/v132-block-{i:02d}.txt').read_text() for i in range(8))
+          v133=''.join(Path(f'app/v133-block-{i:02d}.txt').read_text() for i in range(6))
+          s=base.replace('<title>FE QUEST PWA v131</title>','<title>FE QUEST PWA v133</title>')
+          s=s.replace("const APP_VERSION = 'v131';","const APP_VERSION = 'v133';")
+          s=s.replace("assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');","assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v133','v133 version/schema contract drift');")
+          marker='const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)'
+          assert marker in s
+          s=s.replace(marker,v132+v133+marker,1)
+          out=Path('/tmp/FE_QUEST_PWA_v133'); out.mkdir()
+          (out/'index.html').write_text(s)
+          for f in ['manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']:
+              shutil.copy2(f,out/f)
+          scripts=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',s)
+          Path('/tmp/app.js').write_text('\n'.join(scripts))
+          assert "const APP_VERSION = 'v133';" in s
+          assert 'const PROFILE_SCHEMA_VERSION = 5;' in s
+          assert s.count("qualityAudit:'v133-semantic-uniqueness-pass'")==6
+          assert json.loads((out/'manifest.webmanifest').read_text())['name']=='FE QUEST v133'
+          PY
+          node --check /tmp/app.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+          cd /tmp && zip -qr FE_QUEST_PWA_v133.zip FE_QUEST_PWA_v133
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v133
+          path: /tmp/FE_QUEST_PWA_v133.zip
+          if-no-files-found: error
+      - name: Cleanup packaging workflow
+        run: |
+          rm -f .github/workflows/v133-package.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Clean up FE QUEST v133 packaging workflow'
+          git push
