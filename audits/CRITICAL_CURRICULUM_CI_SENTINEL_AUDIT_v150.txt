@@ -1,0 +1,116 @@
+FE QUEST v150 — critical curriculum / CI sentinel decomposition 二十一次監査
+作成日: 2026-08-15
+
+目的
+- v149でCI-only legacy sentinelに分類した84 assertを内容別に再編する。
+- 個別の重要用語・定義・比較・計算式・手順を、legacy assert本文の位置に依存しない宣言的critical curriculum contractへ移す。
+- production起動時には84件のlegacy sentinel全実行を行わず、release CIで宣言的critical curriculum auditと旧293 assert shadowを明示実行する。
+- 問題データ、正答、問題ID、認知レベル、Profile Schema、UI外観は変更しない。
+
+v150 CI-only sentinel decomposition
+- total: 84
+1. qualityCaps: 2
+   legacy 53-54
+   章別想起比率上限、問題文テンプレート反復上限
+2. articleTeachingStructure: 4
+   legacy 80-83
+   試験手掛かり、注意文密度、記事の教授順序
+3. criticalCurriculum: 56
+   legacy 86-93,125-172
+   重要用語・定義・比較・計算式・手順
+4. assessmentStructure: 17
+   legacy 94-110
+   比較challenge、章追加問題、章別設計、linked question構造
+5. lessonPages: 1
+   legacy 176
+6. referenceAnchors: 2
+   legacy 200-201
+7. settingsHelper: 1
+   legacy 224
+8. requiredDom: 1
+   legacy 292
+
+decomposition audit
+- classified: 84
+- unique: 84
+- gaps: 0
+- overlaps: 0
+- exact coverage of v149 ciOnlyLegacySentinels: yes
+
+critical curriculum declarative contract
+- legacy assertions mapped: 56
+- unique mapping: 56
+- gaps: 0
+- overlaps: 0
+- declaration categories:
+  * glossary definition contains
+  * first-use abbreviation expansion
+  * beginner terms required / forbidden
+  * comparison guide required labels / row counts
+  * calculation guide required phrases / line counts
+  * guide object minimum coverage
+  * all-topic beginner/overview minimums
+  * explicit beginner-term overrides
+  * topic-specific beginner-term minimums
+
+representative protected curriculum
+- As-Is / To-Be
+- CPI = Cycles Per Instruction
+- WAF、IDS / IPS、問題管理、Targeting、DHCP
+- 独立事象、期待値、相対誤差、クロック周波数 ÷ CPI、スループット、候補キー、並列経路
+- EVM、ROA、ROE
+- 業務プロセス、BPM
+- B/S、P/L、C/F
+- OR = Operations Research
+- 中置/前置/後置記法、自己情報量/エントロピー/ハフマン符号
+- ALU / クロック周波数 / MIPS
+- 共有ロック / 排他ロック / デッドロック
+- DHCP / CIDR / MACアドレス
+- 境界値分析 / 同値分割 / リグレッションテスト
+- PEST / SWOT、CSR / ガバナンス / PDCA
+- クライアントサーバ / 3層構造 / クラスタ / 水平分散 / 垂直分散
+
+production policy
+- window.FEQUEST_SELF_CHECK = runV150SelfCheck()
+- production bootではrunAppSelfCheck()を実行しない。
+- production bootではrunV150CriticalCurriculumAudit()全件も実行しない。
+- current-contractはv149の63契約を継承し、以下2契約を追加する。
+  1) ci-sentinel-subinventory
+  2) critical-curriculum-declarative-coverage
+- current-contract total: 65
+- browser UI contracts: 23
+
+release CI policy
+- 完成PWAをNode最小DOMで起動し、current-contract 65/65を要求する。
+- CI-only sentinel 84件のsubinventoryがexact coverageであることを要求する。
+- runV150CriticalCurriculumAudit()を明示実行し56/56 PASSを要求する。
+- runV149LegacyShadowAudit()も明示実行し旧293 assertのcompatibility residual 0を要求する。
+- 完成HTML静的DOMは23/23 PASSを要求する。
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI外観変更: 0
+
+v150期待値
+- architecture: v150-critical-curriculum-ci-contract
+- currentContract: 65 / 65 PASS
+- CI-only sentinel decomposition: 84 / 84 exact
+- critical curriculum declarative audit: 56 / 56 PASS
+- browser contracts: 23 / 23 PASS
+- legacy source asserts: 293
+- explicit legacy shadow residual active errors: 0
+- production boot legacy execution: false
+- production boot critical curriculum full audit: false
+
+次段階
+- v151では残るCI-only sentinel 28件（quality/article/assessment/lesson/reference/settings/required-DOM）を宣言的release contractへ移す。
+- 84件すべてが旧runAppSelfCheckから独立した段階で、旧関数をproduction bundleから物理的に分離する準備に入る。
