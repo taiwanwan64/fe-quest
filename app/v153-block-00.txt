@@ -1,0 +1,212 @@
+// ===== v153 diagnostic-helper inventory / production call-boundary =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const V153_DIAGNOSTIC_HELPER_INVENTORY=Object.freeze({
+    scope:'v145-v152 exported diagnostic functions',
+    productionRuntime:Object.freeze([
+      'v145EvaluateCurrentContract',
+      'v146AdditionalCurrentChecks','v146EvaluateCurrentContract',
+      'v147AdditionalCurrentChecks','v147EvaluateCurrentContract',
+      'v148CueAudit','v148AdditionalCurrentChecks','v148EvaluateCurrentContract','v148EvaluateBrowserUiContracts','v148EvaluateBrowserUiLayer',
+      'v149ExpandRanges',
+      'v150ExpandSentinelGroups','v150CriticalCurriculumLegacyIndices',
+      'v151ReleaseSentinelLegacyIndices','v151ExpectedReleaseSentinelIndices','v151DeclarativeCiCoverage',
+      'v152LegacyClassificationAudit'
+    ]),
+    releaseOnly:Object.freeze([
+      'v145CollectHistoricalDiagnostics','v146CollectHistoricalDiagnostics','v147CollectHistoricalDiagnostics','v148CollectHistoricalDiagnostics',
+      'runV149LegacyShadowAudit',
+      'v150CriticalCurriculumResults','runV150CriticalCurriculumAudit',
+      'v151ChapterAuditRows','v151ReleaseSentinelResults','runV151ReleaseSentinelAudit'
+    ]),
+    compatibilityOnly:Object.freeze([
+      'v145EvaluateBrowserUiLayer','runV145SelfCheck','runV146SelfCheck','runV147SelfCheck','runV148SelfCheck',
+      'v149LegacyInventoryAudit','v149CollectHistoricalDiagnostics','v149AdditionalCurrentChecks','v149EvaluateCurrentContract','runV149SelfCheck',
+      'v150AdditionalCurrentChecks','v150EvaluateCurrentContract','runV150SelfCheck',
+      'v151AdditionalCurrentChecks','v151EvaluateCurrentContract','runV151SelfCheck',
+      'v152AdditionalCurrentChecks','v152EvaluateCurrentContract','runV152SelfCheck'
+    ])
+  });
+
+  function v153DiagnosticHelperAudit(){
+    const groups={
+      productionRuntime:[...V153_DIAGNOSTIC_HELPER_INVENTORY.productionRuntime],
+      releaseOnly:[...V153_DIAGNOSTIC_HELPER_INVENTORY.releaseOnly],
+      compatibilityOnly:[...V153_DIAGNOSTIC_HELPER_INVENTORY.compatibilityOnly]
+    };
+    const all=Object.values(groups).flat();
+    const unique=[...new Set(all)];
+    const missing=all.filter(name=>typeof globalThis[name]!=='function');
+    return {
+      total:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      productionRuntime:groups.productionRuntime.length,
+      releaseOnly:groups.releaseOnly.length,
+      compatibilityOnly:groups.compatibilityOnly.length,
+      missing,
+      allAvailable:missing.length===0,
+      exactInventory:all.length===46&&unique.length===46&&groups.productionRuntime.length===17&&groups.releaseOnly.length===10&&groups.compatibilityOnly.length===19
+    };
+  }
+
+  function v153ProductionCallBoundaryAudit(){
+    const forbidden=[...V153_DIAGNOSTIC_HELPER_INVENTORY.releaseOnly,...V153_DIAGNOSTIC_HELPER_INVENTORY.compatibilityOnly];
+    const runtimeNames=['runV153SelfCheck','v153EvaluateCurrentContract',...V153_DIAGNOSTIC_HELPER_INVENTORY.productionRuntime];
+    const violations=[];
+    runtimeNames.forEach(owner=>{
+      const fn=globalThis[owner];
+      if(typeof fn!=='function'){
+        violations.push({owner,callee:'<missing>'});
+        return;
+      }
+      const src=String(fn);
+      forbidden.forEach(callee=>{
+        if(src.includes(callee)) violations.push({owner,callee});
+      });
+    });
+    return {runtimeNames,forbiddenCount:forbidden.length,violations,ok:violations.length===0};
+  }
+
+  function v153ReplacementChecks(){
+    return [
+      currentCheck('legacy-assert-inventory','Legacy assertion classification must remain exact without executing legacy shadow helpers',()=>{
+        const a=v152LegacyClassificationAudit();
+        return a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk&&typeof runAppSelfCheck==='undefined';
+      },293),
+      currentCheck('production-shadow-policy','Production diagnostics must not execute the legacy regression shadow',()=>
+        typeof runAppSelfCheck==='undefined'&&V152_LEGACY_FIXTURE_SPEC.releaseOnly===true&&V152_LEGACY_FIXTURE_SPEC.productionBundled===false,0),
+      currentCheck('ci-sentinel-subinventory','All 84 CI-only legacy sentinels must remain decomposed into explicit no-gap/no-overlap groups',()=>{
+        const a=v150ExpandSentinelGroups();
+        return a.classified===84&&a.unique===84&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
+      },84),
+      currentCheck('critical-curriculum-declarative-coverage','The 56 critical curriculum sentinels must retain an exact declarative map independent of the release-only executor',()=>{
+        const expected=v149ExpandRanges(V150_CI_ONLY_SENTINEL_GROUPS.criticalCurriculum.ranges).sort((a,b)=>a-b);
+        const got=v150CriticalCurriculumLegacyIndices();
+        return got.length===56&&new Set(got).size===56&&got.every((n,i)=>n===expected[i]);
+      },56),
+      currentCheck('release-sentinel-declarative-coverage','The remaining 28 CI-only sentinels must retain an exact declarative map independent of the release-only executor',()=>{
+        const expected=v151ExpectedReleaseSentinelIndices();
+        const got=v151ReleaseSentinelLegacyIndices();
+        return got.length===28&&new Set(got).size===28&&got.every((n,i)=>n===expected[i]);
+      },28),
+      currentCheck('ci-sentinel-declarative-complete','All 84 CI-only legacy sentinels must remain covered by the two declarative contracts',()=>{
+        const c=v151DeclarativeCiCoverage();
+        return c.critical===56&&c.release===28&&c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;
+      },84),
+      currentCheck('legacy-self-check-production-excluded','The 293-assert evaluator must remain physically absent from production',()=>{
+        const a=v152LegacyClassificationAudit();
+        return typeof runAppSelfCheck==='undefined'&&a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
+      },293),
+      currentCheck('legacy-regression-fixture-contract','The release-only source-range fixture contract must remain pinned',()=>{
+        const c=v151DeclarativeCiCoverage();
+        return V152_LEGACY_FIXTURE_SPEC.path==='_regression/legacy-run-app-self-check-v131.fixture.json'&&
+          V152_LEGACY_FIXTURE_SPEC.sourcePath==='app/base-v131.html'&&
+          V152_LEGACY_FIXTURE_SPEC.startMarker==='function runAppSelfCheck(){'&&V152_LEGACY_FIXTURE_SPEC.endMarker==='function runLessonUXAudit(){'&&
+          V152_LEGACY_FIXTURE_SPEC.assertCount===293&&V152_LEGACY_FIXTURE_SPEC.byteLength===49657&&
+          V152_LEGACY_FIXTURE_SPEC.sha256==='b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36'&&
+          V152_LEGACY_FIXTURE_SPEC.productionBundled===false&&V152_LEGACY_FIXTURE_SPEC.releaseOnly===true&&
+          c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;
+      },293)
+    ];
+  }
+
+  function v153AdditionalCurrentChecks(){
+    return [
+      currentCheck('diagnostic-helper-inventory-exact','The v145-v152 diagnostic helper surface must be completely classified before physical pruning',()=>{
+        const a=v153DiagnosticHelperAudit();
+        return a.total===46&&a.unique===46&&a.duplicateCount===0&&a.productionRuntime===17&&a.releaseOnly===10&&a.compatibilityOnly===19&&a.allAvailable&&a.exactInventory;
+      },0),
+      currentCheck('production-diagnostic-call-boundary','The v153 production diagnostic call graph must not invoke release-only or compatibility-only helpers',()=>v153ProductionCallBoundaryAudit().ok,0)
+    ];
+  }
+
+  function v153EvaluateCurrentContract(){
+    const base=v148EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v153',error:undefined}
+      : {...r});
+    const migrated=v153ReplacementChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const extras=v153AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...migrated,...extras],failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-diagnostic-runtime-boundary',
+      total:results.length,passed:results.length-failed.length,failed:failed.length,results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedThroughV148:baseResults.length,
+      rewrittenV149ToV152Checks:migrated.length,
+      newV153Checks:extras.length
+    };
+  }
+
+  function v153ProductionDiagnosticMetadata(){
+    return {
+      mode:'production-current-diagnostics-only',
+      legacyShadowExecution:false,
+      legacyShadowLocation:'release-validation-only',
+      legacyFixturePath:V152_LEGACY_FIXTURE_SPEC.path,
+      releaseOnlyHelperCount:V153_DIAGNOSTIC_HELPER_INVENTORY.releaseOnly.length,
+      compatibilityOnlyHelperCount:V153_DIAGNOSTIC_HELPER_INVENTORY.compatibilityOnly.length
+    };
+  }
+
+  function runV153SelfCheck(){
+    const current=v153EvaluateCurrentContract();
+    const browserUi=v148EvaluateBrowserUiLayer();
+    const errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const helperInventory=v153DiagnosticHelperAudit();
+    const callBoundary=v153ProductionCallBoundaryAudit();
+    const classification=v152LegacyClassificationAudit();
+    const sentinelInventory=v150ExpandSentinelGroups();
+    const declarativeCoverage=v151DeclarativeCiCoverage();
+    const historical=v153ProductionDiagnosticMetadata();
+    return {
+      ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),
+      architecture:'v153-diagnostic-runtime-boundary-inventory',
+      currentContract:current,historicalDiagnostics:historical,browserUiContract:browserUi,
+      historicalMetadataWarnings:[],supersededSemanticWarnings:[],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],
+      v153RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',
+      v150CiSentinelInventory:sentinelInventory,
+      v151DeclarativeCiCoverage:declarativeCoverage,
+      v152LegacyClassification:classification,
+      v153DiagnosticHelperInventory:helperInventory,
+      v153ProductionCallBoundary:callBoundary,
+      v153LegacyFixturePolicy:{
+        productionFunctionPresent:typeof runAppSelfCheck==='function',
+        releaseFixturePath:V152_LEGACY_FIXTURE_SPEC.path,
+        releaseFixtureAssertions:V152_LEGACY_FIXTURE_SPEC.assertCount,
+        releaseCiExecutesLegacy:true,
+        productionExecutesLegacy:false
+      },
+      v153DiagnosticContract:{
+        currentFailed:current.failed,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        productionLegacyAbsent:typeof runAppSelfCheck==='undefined',
+        helperInventoryExact:helperInventory.exactInventory&&helperInventory.allAvailable,
+        productionCallBoundaryClean:callBoundary.ok,
+        classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,
+        declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.V153_DIAGNOSTIC_HELPER_INVENTORY=V153_DIAGNOSTIC_HELPER_INVENTORY;
+  globalThis.v153DiagnosticHelperAudit=v153DiagnosticHelperAudit;
+  globalThis.v153ProductionCallBoundaryAudit=v153ProductionCallBoundaryAudit;
+  globalThis.v153ReplacementChecks=v153ReplacementChecks;
+  globalThis.v153AdditionalCurrentChecks=v153AdditionalCurrentChecks;
+  globalThis.v153EvaluateCurrentContract=v153EvaluateCurrentContract;
+  globalThis.v153ProductionDiagnosticMetadata=v153ProductionDiagnosticMetadata;
+  globalThis.runV153SelfCheck=runV153SelfCheck;
+})();
