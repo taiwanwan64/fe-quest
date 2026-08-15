@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v143",
+  "name": "FE QUEST v144",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v143では科目A710問のactive data-qualityとruntime-mode separationを十四次監査し、正答だけが長い9問の選択肢を改善、Core Aの100文字未満depth文章32論点を0へ、challenge_033の露骨な『だけ確認する』誤答cueを除去。Node最小DOMではUI専用13契約をbrowser検証へ分離し、データ/runtime self-checkはerror 0。問題数710、正答位置、認知レベル、Profile Schema v5は維持。",
+  "description": "基本情報技術者試験向けPWA。v144ではv143でNode最小DOMから分離したv110〜v114のUI専用13契約を完成DOMで再監査し13/13 PASS。画面を不要に変更せず、現行UI契約を明示的なbrowser DOM self-checkへ固定した。legacy warning 9件はhistorical metadata 8件と現行semantic検査へ移行済み1件に分類し、通常warningsから開発履歴ノイズを除去。科目A710問、正答位置、認知レベル、Profile Schema v5は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
