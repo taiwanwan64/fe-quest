@@ -1,0 +1,72 @@
+name: Validate FE QUEST v144
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v144-validate.yml'
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare clean validation workspace
+        run: |
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v144.zip
+
+      - name: Validate source contracts
+        run: |
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v144' index.html
+          grep -q "APP_VERSION = 'v144'" sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v144-1'" sw.js
+          grep -q 'FE QUEST v144' manifest.webmanifest
+          grep -q '{% capture v144block %}' index.html
+          grep -q 'v144NormalizeSelfCheck(runAppSelfCheck())' index.html
+          grep -q 'v144 browser DOM contract' app/v144-block-00.txt
+          grep -q "id:'v110-subject-b-mode-folds'" app/v144-block-00.txt
+          grep -q "UI_CONTRACTS.length" app/v144-block-00.txt
+          cp app/v144-block-00.txt /tmp/v144-check.js
+          node --check /tmp/v144-check.js
+          python -m py_compile tools/v144_validate.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA, DOM contracts and runtime
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v144</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v144';" _site/index.html
+          grep -q 'v144EvaluateBrowserUiContracts' _site/index.html
+          grep -q "APP_VERSION = 'v144'" _site/sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v144-1'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python tools/v144_validate.py
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          test -f _site/apple-touch-icon.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v144.zip .)
+
+      - name: Upload standalone v144 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v144
+          path: FE_QUEST_PWA_v144.zip
+          retention-days: 90
