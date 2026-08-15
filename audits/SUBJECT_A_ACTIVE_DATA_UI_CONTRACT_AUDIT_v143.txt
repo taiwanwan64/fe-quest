@@ -1,0 +1,64 @@
+FE QUEST v143 — 科目A active data-quality / runtime-mode separation 十四次監査
+作成日: 2026-08-15
+
+目的
+- v142の自己診断でlegacy warningへ整理した項目とは別に、現在もactive errorとして残るデータ品質項目を修正する。
+- 正答だけが明らかに長い9問の選択肢長バランスを改善する。
+- Core A 130論点のdepth文章で100文字未満だった32論点を補強する。
+- challenge_033の「だけ確認する」による露骨な誤答手掛かりを除去する。
+- Node最小DOMのruntime smokeでは評価できないUI契約を、データ/runtime契約と明確に分離する。
+
+選択肢長バランス
+- v142 active error: 9問
+- 対象: coreq_02_06_3 / coreq_04_01_3 / coreq_06_02_3 / coreq_06_05_2 / coreq_09_01_2 / coreq_14_02_3 / coreq_14_07_2 / coreq_16_04_3 / challenge_v92_12_08
+- v143では正答位置を変えず、誤答を同一論点のもっともらしい誤解として具体化して長さを整えた。
+- v143適用後、既存self-checkのobvious length outlier判定: 0問。
+
+代表例
+- 相関係数: 「90%の確率で引き起こす」「平均値が等しくなる」「外れ値がない」まで主語と条件を明示し、正答だけが説明文の長さで目立たないようにした。
+- CPU性能: クロック周波数だけで判断する誤り、両者2.5G命令/秒とする計算誤り、CPIを使えないとする誤りを同程度の情報量で提示。
+- WBS: 組織図、ガントチャート、コスト集計との取り違えを、各手法の役割が見える文へ整理。
+- リグレッションテスト: 負荷テストの選択肢を「応答時間や処理件数を確認」と具体化し、正答だけが長くならないようにした。
+
+Core A depth文章
+- v142時点で100文字未満: 32論点
+- v143適用後100文字未満: 0論点
+- 補強は単なる水増しではなく、試験時の判断軸・計算の見方・混同しやすい概念差を1文ずつ追加した。
+- 例: 稼働率はMTBF↑/MTTR↓で高くなる方向性、サブネットはホストbitとブロック境界、PERTは並列経路の最長経路、産業財産権は技術/形状構造/デザイン/名称ロゴで切り分ける、など。
+
+challenge_033
+- 旧誤答: 「更新後に競合がなかったかだけ確認する」
+- 問題点: 「だけ」が不完全行動を露骨に示し、知識がなくても排除しやすい。
+- 新誤答: 「更新後に監査ログを調べ、競合更新が起きた取引だけを再処理する」
+- 新解説: 事後検出と再処理は、競合更新そのものを発生前に防ぐ排他制御ではないことを説明。
+- 「だけ確認する」cue残存: 0件。
+
+runtime-mode separation
+- v142のNode最小DOMでは、実DOMが存在しないためv110〜v114のUI契約13件がactive errorに見えていた。
+- v143では `__FEQUEST_RUNTIME_SMOKE__` がtrueのときだけ、次のUI専用契約を `browser DOM contract deferred in node smoke` warningへ分類する。
+- 実ブラウザではこの降格を行わず、UI契約は従来どおりactive errorとして評価される。
+- これによりNode smokeは710問データ・監査契約・JavaScript実行を検証し、ブラウザDOM契約は実DOM環境で検証する責務分離になる。
+
+v143 Node runtime smoke期待値
+- FEQUEST_SELF_CHECK.ok: true
+- errors: 0
+- legacyWarnings: 9
+- uiDeferredWarnings: 13
+- v143DataContract.optionOutlierCount: 0
+- v143DataContract.depthShortCount: 0
+- v143DataContract.judgmentGiveawayCount: 0
+- v143DataContract.dataErrorCount: 0
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 正答位置・問題ID・認知レベルは変更なし。
+- 9問では誤答選択肢の表現を改善し、challenge_033では1誤答選択肢と対応解説を改善した。
+
+次段階
+- v144では、実ブラウザDOMでv110〜v114のUI契約13件を再監査する。
+- 現在のUIが契約を満たしているのに旧self-checkのDOM探索が古い場合は検査側を更新し、本当に不足している場合はUI側を修正する。
+- あわせてlegacy warning 9件を、歴史的メタデータとして残すものと、現行の意味ある検査へ移行できるものに分ける。
