@@ -4,8 +4,8 @@
 
   const V155_SEMANTIC_DIAGNOSTIC_SPEC=Object.freeze({
     stableRuntimeModule:'app/runtime-current-diagnostics.txt',
-    stableRuntimeSha256:'2493dafe66bfad28bde8f39e0dcd922d4ae1715b96007fc4cf259c748290447f',
-    stableRuntimeUtf8Bytes:54897,
+    stableRuntimeSha256:'12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658',
+    stableRuntimeUtf8Bytes:54898,
     semanticFixtureManifest:'_regression/semantic-diagnostic-runtime-v155.fixture.json',
     releaseFixtureManifest:'_regression/diagnostic-helper-boundary-v154.fixture.json',
     stableRuntime:Object.freeze([
@@ -98,8 +98,8 @@
       },0),
       currentCheck('semantic-diagnostic-module-contract','The semantic diagnostic module and release provenance boundary must remain pinned',()=>
         V155_SEMANTIC_DIAGNOSTIC_SPEC.stableRuntimeModule==='app/runtime-current-diagnostics.txt'&&
-        V155_SEMANTIC_DIAGNOSTIC_SPEC.stableRuntimeSha256==='2493dafe66bfad28bde8f39e0dcd922d4ae1715b96007fc4cf259c748290447f'&&
-        V155_SEMANTIC_DIAGNOSTIC_SPEC.stableRuntimeUtf8Bytes===54897&&
+        V155_SEMANTIC_DIAGNOSTIC_SPEC.stableRuntimeSha256==='12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658'&&
+        V155_SEMANTIC_DIAGNOSTIC_SPEC.stableRuntimeUtf8Bytes===54898&&
         V155_SEMANTIC_DIAGNOSTIC_SPEC.semanticFixtureManifest==='_regression/semantic-diagnostic-runtime-v155.fixture.json'&&
         V155_SEMANTIC_DIAGNOSTIC_SPEC.releaseFixtureManifest==='_regression/diagnostic-helper-boundary-v154.fixture.json',0)
     ];
