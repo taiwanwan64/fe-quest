@@ -1,0 +1,263 @@
+// ===== v151 remaining release-sentinel declarative contract =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const V151_RELEASE_SENTINEL_SPEC=Object.freeze({
+    qualityCaps:Object.freeze([
+      Object.freeze({legacy:53,kind:'chapterRecallRatioMax',max:0.3000001}),
+      Object.freeze({legacy:54,kind:'stemTemplateRepeatMax',max:15})
+    ]),
+    articleTeachingStructure:Object.freeze([
+      Object.freeze({legacy:80,kind:'examCueShape',rowsPerTopic:2,minTriggerLength:6,minActionLength:12}),
+      Object.freeze({legacy:81,kind:'examCueUnique',rowsPerTopic:2}),
+      Object.freeze({legacy:82,kind:'cautionLengthMin',min:30}),
+      Object.freeze({legacy:83,kind:'articleHeadingOrder',headings:Object.freeze(['まずここから','用語','解説','仕組み','重要','問題文の手掛かり','注意'])})
+    ]),
+    assessmentStructure:Object.freeze([
+      Object.freeze({legacy:94,kind:'comparisonChallengeCount',count:69}),
+      Object.freeze({legacy:95,kind:'comparisonChallengesNotImmediate'}),
+      Object.freeze({legacy:96,kind:'chapterExtrasCount',count:9}),
+      Object.freeze({legacy:97,kind:'chapterExtrasUniqueIds'}),
+      Object.freeze({legacy:98,kind:'chapterExtrasFourChoicesAndExplanations'}),
+      Object.freeze({legacy:99,kind:'chapterExtraAnswerContracts'}),
+      Object.freeze({legacy:100,kind:'chapterExtraRequired',id:'chapterextra_01_01',angle:'comparison'}),
+      Object.freeze({legacy:101,kind:'chapterExtraRequired',id:'chapterextra_13_01',angle:'comparison'}),
+      Object.freeze({legacy:102,kind:'chapterPoolMinimum',min:12}),
+      Object.freeze({legacy:103,kind:'chapterQuizTotal',count:12}),
+      Object.freeze({legacy:104,kind:'chapterQuizTopicCoverage'}),
+      Object.freeze({legacy:105,kind:'chapterQuizComparisonCoverage',cap:3}),
+      Object.freeze({legacy:106,kind:'chapterQuizCalculationCoverage'}),
+      Object.freeze({legacy:107,kind:'chapterQuizDifficultyBalance'}),
+      Object.freeze({legacy:108,kind:'chapterQuizMaxPerTopic',minTopicTotal:6,max:2}),
+      Object.freeze({legacy:109,kind:'chapterQuizMaxPerTopic',minTopicTotal:4,maxTopicTotal:5,max:3}),
+      Object.freeze({legacy:110,kind:'linkedQuestionsPerTopic',count:3})
+    ]),
+    lessonPages:Object.freeze([
+      Object.freeze({legacy:176,kind:'allLessonsHavePages',min:1})
+    ]),
+    referenceAnchors:Object.freeze([
+      Object.freeze({legacy:200,kind:'referenceAnchorImmediatePracticeMin',min:3}),
+      Object.freeze({legacy:201,kind:'referenceAnchorAppliedPractice',angles:Object.freeze(['application','scenario','calculation','interpretation','trace'])})
+    ]),
+    settingsHelper:Object.freeze([
+      Object.freeze({legacy:224,kind:'settingsDetailHelper'})
+    ]),
+    requiredDom:Object.freeze([
+      Object.freeze({legacy:292,kind:'requiredDomIds',ids:Object.freeze(['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'])})
+    ])
+  });
+
+  function v151ReleaseSentinelLegacyIndices(){
+    return Object.values(V151_RELEASE_SENTINEL_SPEC).flatMap(rows=>rows.map(r=>r.legacy)).sort((a,b)=>a-b);
+  }
+
+  function v151ExpectedReleaseSentinelIndices(){
+    return Object.entries(V150_CI_ONLY_SENTINEL_GROUPS)
+      .filter(([name])=>name!=='criticalCurriculum')
+      .flatMap(([_name,row])=>v149ExpandRanges(row.ranges))
+      .sort((a,b)=>a-b);
+  }
+
+  function v151ChapterAuditRows(){
+    const rows=[];
+    for(let ch=1;ch<=21;ch++){
+      const topics=CORE_A_CURRICULUM.filter(t=>t.chapter===ch);
+      const ids=topics.map(t=>t.id);
+      const pool=[...QUESTION_BANK.filter(q=>q.coreTopicId&&ids.includes(q.coreTopicId)),...(CORE_A_CHAPTER_EXTRA_QUESTIONS[ch]||[])];
+      const items=buildCoreChapterQuiz(ch);
+      const audit=coreChapterQuizAudit(ch,items);
+      const target=coreChapterDifficultyTarget(pool);
+      const expectedComparisons=Math.min(3,pool.filter(q=>String(q.id||'').startsWith('challenge_cmp_')||q.angle==='comparison').length);
+      rows.push({ch,topics,ids,pool,items,audit,target,expectedComparisons});
+    }
+    return rows;
+  }
+
+  function v151ReleaseSentinelResults(){
+    const out=[];
+    let chapterRows=null;
+    const chapters=()=>chapterRows||(chapterRows=v151ChapterAuditRows());
+    const chapterExtras=()=>Object.values(CORE_A_CHAPTER_EXTRA_QUESTIONS).flat();
+    const add=(row,test,detail='')=>{
+      let pass=false,error='';
+      try{pass=!!test();}catch(e){error=String(e?.message||e);}
+      out.push({legacy:row.legacy,id:`${row.kind}:${row.legacy}`,pass,detail,error:error||undefined});
+    };
+
+    V151_RELEASE_SENTINEL_SPEC.qualityCaps.forEach(row=>{
+      if(row.kind==='chapterRecallRatioMax') add(row,()=>{
+        for(let ch=1;ch<=21;ch++){
+          const ids=new Set(CORE_A_CURRICULUM.filter(t=>t.chapter===ch).map(t=>t.id));
+          const qs=QUESTION_BANK.filter(q=>ids.has(q.coreTopicId||q.explainTopicId));
+          const recall=qs.filter(q=>q.cognitiveLevel==='想起').length;
+          if(!(qs.length&&recall/qs.length<=row.max)) return false;
+        }
+        return true;
+      },`max:${row.max}`);
+      if(row.kind==='stemTemplateRepeatMax') add(row,()=>{
+        const counts=QUESTION_BANK.reduce((a,q)=>{
+          const k=String(q.q).replace(/「[^」]+」/g,'「X」').replace(/\d+(?:\.\d+)?/g,'N');
+          a[k]=(a[k]||0)+1;return a;
+        },{});
+        return Math.max(...Object.values(counts))<=row.max;
+      },`max:${row.max}`);
+    });
+
+    V151_RELEASE_SENTINEL_SPEC.articleTeachingStructure.forEach(row=>{
+      if(row.kind==='examCueShape') add(row,()=>CORE_A_IDS.every(id=>{
+        const rows=CORE_A_EXAM_CUE_GUIDES[id];
+        return Array.isArray(rows)&&rows.length===row.rowsPerTopic&&rows.every(x=>Array.isArray(x)&&x.length===2&&String(x[0]).length>=row.minTriggerLength&&String(x[1]).length>=row.minActionLength);
+      }));
+      if(row.kind==='examCueUnique') add(row,()=>CORE_A_IDS.every(id=>{
+        const rows=CORE_A_EXAM_CUE_GUIDES[id]||[];
+        return rows.length===row.rowsPerTopic&&new Set(rows.map(x=>x.join('||'))).size===row.rowsPerTopic;
+      }));
+      if(row.kind==='cautionLengthMin') add(row,()=>CORE_A_IDS.every(id=>String(CORE_A_CAUTION_GUIDES[id]||'').length>=row.min),`min:${row.min}`);
+      if(row.kind==='articleHeadingOrder') add(row,()=>CORE_A_IDS.every(id=>{
+        const html=coreTopicArticleView(id);let last=-1;
+        return row.headings.every(h=>{const p=html.indexOf(`<h2>${h}</h2>`);const ok=p>last;last=p;return ok;});
+      }),row.headings.join('>'));
+    });
+
+    V151_RELEASE_SENTINEL_SPEC.assessmentStructure.forEach(row=>{
+      if(row.kind==='comparisonChallengeCount') add(row,()=>CORE_A_CHALLENGE_QUESTIONS.filter(q=>String(q.id).startsWith('challenge_cmp_')).length===row.count,`count:${row.count}`);
+      if(row.kind==='comparisonChallengesNotImmediate') add(row,()=>CORE_A_CHALLENGE_QUESTIONS.filter(q=>String(q.id).startsWith('challenge_cmp_')).every(q=>!isCoreTopicImmediatePracticeQuestion(q)));
+      if(row.kind==='chapterExtrasCount') add(row,()=>chapterExtras().length===row.count,`count:${row.count}`);
+      if(row.kind==='chapterExtrasUniqueIds') add(row,()=>{const xs=chapterExtras();return new Set(xs.map(q=>q.id)).size===xs.length;});
+      if(row.kind==='chapterExtrasFourChoicesAndExplanations') add(row,()=>chapterExtras().every(q=>Array.isArray(q.options)&&q.options.length===4&&Array.isArray(q.choiceExps)&&q.choiceExps.length===4));
+      if(row.kind==='chapterExtraAnswerContracts') add(row,()=>chapterExtras().every(q=>CORE_A_CHAPTER_EXTRA_CONTRACTS[q.id]===q.options[q.a]));
+      if(row.kind==='chapterExtraRequired') add(row,()=>chapterExtras().some(q=>q.id===row.id&&q.angle===row.angle),`${row.id}:${row.angle}`);
+      if(row.kind==='chapterPoolMinimum') add(row,()=>chapters().every(x=>x.pool.length>=row.min),`min:${row.min}`);
+      if(row.kind==='chapterQuizTotal') add(row,()=>chapters().every(x=>x.audit.total===row.count),`count:${row.count}`);
+      if(row.kind==='chapterQuizTopicCoverage') add(row,()=>chapters().every(x=>x.audit.covered===x.audit.topicTotal));
+      if(row.kind==='chapterQuizComparisonCoverage') add(row,()=>chapters().every(x=>x.audit.comparisons>=x.expectedComparisons),`cap:${row.cap}`);
+      if(row.kind==='chapterQuizCalculationCoverage') add(row,()=>chapters().every(x=>!x.pool.some(q=>q.angle==='calculation')||x.audit.calculations>=1));
+      if(row.kind==='chapterQuizDifficultyBalance') add(row,()=>chapters().every(x=>CORE_A_DIFFICULTY_LEVELS.every(level=>x.audit.difficulty[level]===x.target[level])));
+      if(row.kind==='chapterQuizMaxPerTopic') add(row,()=>chapters().filter(x=>x.audit.topicTotal>=row.minTopicTotal&&(row.maxTopicTotal===undefined||x.audit.topicTotal<=row.maxTopicTotal)).every(x=>x.audit.maxPerTopic<=row.max),`topics:${row.minTopicTotal}-${row.maxTopicTotal??'∞'},max:${row.max}`);
+      if(row.kind==='linkedQuestionsPerTopic') add(row,()=>CORE_A_IDS.every(id=>CORE_A_TOPIC_QUESTION_COUNTS[id]===row.count),`count:${row.count}`);
+    });
+
+    V151_RELEASE_SENTINEL_SPEC.lessonPages.forEach(row=>add(row,()=>Object.keys(LESSONS||{}).every(id=>{const l=LESSONS[id];return l&&Array.isArray(l.pages)&&l.pages.length>=row.min;}),`min:${row.min}`));
+
+    V151_RELEASE_SENTINEL_SPEC.referenceAnchors.forEach(row=>{
+      if(row.kind==='referenceAnchorImmediatePracticeMin') add(row,()=>[...CORE_A_REFERENCE_PRACTICE_ANCHORS].every(id=>QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q)).length>=row.min),`min:${row.min}`);
+      if(row.kind==='referenceAnchorAppliedPractice') add(row,()=>[...CORE_A_REFERENCE_PRACTICE_ANCHORS].every(id=>QUESTION_BANK.some(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q)&&row.angles.includes(q.angle))),row.angles.join(','));
+    });
+
+    V151_RELEASE_SENTINEL_SPEC.settingsHelper.forEach(row=>add(row,()=>typeof setPlanDetailsOpen==='function'&&String(document.getElementById('settingsBtn')?.onclick||'')!==null));
+    V151_RELEASE_SENTINEL_SPEC.requiredDom.forEach(row=>add(row,()=>row.ids.every(id=>!!document.getElementById(id)),row.ids.join(',')));
+
+    return out.sort((a,b)=>a.legacy-b.legacy);
+  }
+
+  function runV151ReleaseSentinelAudit(){
+    const results=v151ReleaseSentinelResults();
+    const expected=v151ExpectedReleaseSentinelIndices();
+    const indices=results.map(r=>r.legacy);
+    const unique=[...new Set(indices)];
+    const coverageExact=indices.length===expected.length&&unique.length===expected.length&&expected.every((n,i)=>indices[i]===n);
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'declarative-release-sentinel-ci-contract',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      legacyAssertionsCovered:indices.length,
+      coverageExact,
+      results,
+      errors:failed.map(r=>`${r.legacy}:${r.id}${r.error?` (${r.error})`:''}`)
+    };
+  }
+
+  function v151DeclarativeCiCoverage(){
+    const critical=v150CriticalCurriculumLegacyIndices();
+    const release=v151ReleaseSentinelLegacyIndices();
+    const all=[...critical,...release].sort((a,b)=>a-b);
+    const unique=[...new Set(all)];
+    const expected=v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
+    return {
+      critical:critical.length,
+      release:release.length,
+      total:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n)
+    };
+  }
+
+  function v151AdditionalCurrentChecks(){
+    return [
+      currentCheck('release-sentinel-declarative-coverage','The remaining 28 CI-only legacy sentinels must have an exact declarative release-contract map',()=>{
+        const expected=v151ExpectedReleaseSentinelIndices();
+        const got=v151ReleaseSentinelLegacyIndices();
+        return got.length===28&&new Set(got).size===28&&got.every((n,i)=>n===expected[i])&&typeof runV151ReleaseSentinelAudit==='function';
+      },28),
+      currentCheck('ci-sentinel-declarative-complete','All 84 CI-only legacy sentinels must now be covered by the two declarative release contracts',()=>{
+        const c=v151DeclarativeCiCoverage();
+        return c.critical===56&&c.release===28&&c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;
+      },84)
+    ];
+  }
+
+  function v151EvaluateCurrentContract(){
+    const base=v150EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v151',error:undefined}
+      : {...r});
+    const extras=v151AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras],failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-full-ci-sentinel-declarative-coverage',
+      total:results.length,passed:results.length-failed.length,failed:failed.length,results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,newContractCount:extras.length
+    };
+  }
+
+  function runV151SelfCheck(){
+    const current=v151EvaluateCurrentContract();
+    const historical=v149CollectHistoricalDiagnostics();
+    const browserUi=v148EvaluateBrowserUiLayer();
+    const errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const sentinelInventory=v150ExpandSentinelGroups();
+    const declarativeCoverage=v151DeclarativeCiCoverage();
+    return {
+      ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),
+      architecture:'v151-full-ci-sentinel-declarative-contract',
+      currentContract:current,historicalDiagnostics:historical,browserUiContract:browserUi,
+      historicalMetadataWarnings:[],supersededSemanticWarnings:[],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],
+      v151RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',
+      v149LegacyInventory:v149LegacyInventoryAudit(),
+      v150CiSentinelInventory:sentinelInventory,
+      v151DeclarativeCiCoverage:declarativeCoverage,
+      v151ReleaseSentinelPolicy:{productionExecutesFullAudit:false,releaseCiExecutesFullAudit:true,legacyAssertionsCovered:28,auditFunction:'runV151ReleaseSentinelAudit'},
+      v151CriticalCurriculumPolicy:{productionExecutesFullAudit:false,releaseCiExecutesFullAudit:true,legacyAssertionsCovered:56,auditFunction:'runV150CriticalCurriculumAudit'},
+      v151DiagnosticContract:{
+        currentFailed:current.failed,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        ciSentinelInventoryExact:sentinelInventory.exactCoverage&&sentinelInventory.duplicateCount===0,
+        declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,
+        criticalCurriculumMapped:56,
+        remainingReleaseSentinelsMapped:28,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.V151_RELEASE_SENTINEL_SPEC=V151_RELEASE_SENTINEL_SPEC;
+  globalThis.v151ReleaseSentinelLegacyIndices=v151ReleaseSentinelLegacyIndices;
+  globalThis.v151ExpectedReleaseSentinelIndices=v151ExpectedReleaseSentinelIndices;
+  globalThis.v151ChapterAuditRows=v151ChapterAuditRows;
+  globalThis.v151ReleaseSentinelResults=v151ReleaseSentinelResults;
+  globalThis.runV151ReleaseSentinelAudit=runV151ReleaseSentinelAudit;
+  globalThis.v151DeclarativeCiCoverage=v151DeclarativeCiCoverage;
+  globalThis.v151AdditionalCurrentChecks=v151AdditionalCurrentChecks;
+  globalThis.v151EvaluateCurrentContract=v151EvaluateCurrentContract;
+  globalThis.runV151SelfCheck=runV151SelfCheck;
+})();
