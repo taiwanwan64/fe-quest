@@ -116,7 +116,7 @@
       },
       v152DiagnosticContract:{
         currentFailed:current.failed,
-        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[])].length:0,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
         uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
         productionLegacyAbsent:typeof runAppSelfCheck==='undefined',
         classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,
