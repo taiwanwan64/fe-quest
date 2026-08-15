@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v122</title>
+<title>FE QUEST PWA v123</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -3845,7 +3845,7 @@
   /* ===== v53: 99-topic core course ===== */
   .core-overview{margin-bottom:14px}
   .core-course-tools{display:flex;gap:12px;align-items:center;margin:0 0 14px}
-  .core-course-search{flex:1;min-height:48px;border:1px solid #dce4e9;border-radius:14px;padding:10px 14px;font-size:14px;background:#fff;color:var(--text)}
+  .core-course-search{flex:1;width:100%;max-width:100%;min-width:0;box-sizing:border-box;min-height:48px;border:1px solid #dce4e9;border-radius:14px;padding:10px 14px;font-size:15px;background:#fff;color:var(--text)}
   .core-course-stats{font-size:14px;font-weight:1000;color:#607586;white-space:nowrap}
   .core-course-chapters{display:grid;gap:12px}
   .core-chapter{border:1px solid #dfe6eb;border-radius:19px;background:#fff;overflow:hidden}
@@ -3876,7 +3876,7 @@
   .core-example{background:#f3f9ff;border-color:#cfe2ef}.core-pitfall{background:#fff8e9;border-color:#ecd8a7}.core-exam{background:#f8f3fd;border-color:#dfd0ec}
   .core-related{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.core-related span{font-size:14px;border-radius:999px;background:#eef2f4;padding:6px 9px;color:#5c7180;font-weight:900}
   .core-mini-banner{margin-top:12px;padding:12px 14px;border-radius:14px;background:#f2faec;border:1px solid #cfe7c4;font-size:14px;line-height:1.65;color:#426d3a}
-  @media(max-width:660px){.core-course-tools{display:block}.core-course-stats{margin-top:8px}.core-chapter-head{grid-template-columns:48px 1fr}.core-chapter-progress{grid-column:2;text-align:left}.core-topic-row{grid-template-columns:58px 1fr}.core-topic-pct{grid-column:2;text-align:left}.core-text-title{font-size:20px}}
+  @media(max-width:660px){.core-course-tools{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%}.core-course-search{width:100%;font-size:16px}.core-course-stats{margin-top:0;padding-left:2px}.core-chapter-head{grid-template-columns:48px 1fr}.core-chapter-progress{grid-column:2;text-align:left}.core-topic-row{grid-template-columns:58px 1fr}.core-topic-pct{grid-column:2;text-align:left}.core-text-title{font-size:20px}}
 
 
   /* ===== v54: A/B course selector ===== */
@@ -5206,7 +5206,7 @@
           <div class="course-overview-side course-percent" id="coursePercent">0%</div>
         </div>
         <div class="core-course-tools">
-          <input id="coreCourseSearch" class="core-course-search" type="search" placeholder="用語・テーマを検索（例：正規化、DNS、EVM）">
+          <input id="coreCourseSearch" class="core-course-search" type="search" placeholder="用語・テーマを検索" aria-label="科目Aの用語・テーマを検索" autocomplete="off">
           <div class="core-course-stats"><span id="coreDoneCount">0</span> / 130 教材完了</div>
         </div>
         <div id="coreCourseChapters" class="core-course-chapters"></div>
@@ -6591,7 +6591,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v122';
+const APP_VERSION = 'v123';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -20642,7 +20642,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v122','v122 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v123','v123 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
