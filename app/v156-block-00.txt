@@ -1,0 +1,91 @@
+// ===== v156 stable semantic diagnostic data facade =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const FEQ_DIAGNOSTIC_RUNTIME_SPEC=Object.freeze({
+    stableRuntimeModule:'app/runtime-current-diagnostics.txt',
+    stableRuntimeSha256:'12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658',
+    stableRuntimeUtf8Bytes:54898,
+    semanticFixtureManifest:'_regression/semantic-diagnostic-runtime-v155.fixture.json',
+    releaseFixtureManifest:'_regression/diagnostic-helper-boundary-v154.fixture.json',
+    stableRuntime:Object.freeze([
+      'feqEvaluateDataIntegrityContract','feqLearningRuntimeChecks','feqEvaluateLearningRuntimeContract','feqPersistenceSafetyChecks','feqEvaluatePersistenceSafetyContract','feqQuestionCueAudit','feqQualityUxChecks','feqEvaluateQualityUxContract','feqEvaluateBrowserUiContracts','feqEvaluateBrowserUiLayer','feqExpandLegacyRanges','feqExpandCiSentinelGroups','feqCriticalCurriculumLegacyIndices','feqReleaseSentinelLegacyIndices','feqExpectedReleaseSentinelIndices','feqDeclarativeCiCoverage','feqLegacyClassificationAudit'
+    ]),
+    retiredVersioned:Object.freeze([
+      'v145EvaluateCurrentContract','v145CollectHistoricalDiagnostics','v145EvaluateBrowserUiLayer','runV145SelfCheck','v146AdditionalCurrentChecks','v146EvaluateCurrentContract','v146CollectHistoricalDiagnostics','runV146SelfCheck','v147AdditionalCurrentChecks','v147EvaluateCurrentContract','v147CollectHistoricalDiagnostics','runV147SelfCheck','v148CueAudit','v148AdditionalCurrentChecks','v148EvaluateCurrentContract','v148EvaluateBrowserUiContracts','v148EvaluateBrowserUiLayer','v148CollectHistoricalDiagnostics','runV148SelfCheck','v149ExpandRanges','v149LegacyInventoryAudit','runV149LegacyShadowAudit','v149CollectHistoricalDiagnostics','v149AdditionalCurrentChecks','v149EvaluateCurrentContract','runV149SelfCheck','v150ExpandSentinelGroups','v150CriticalCurriculumLegacyIndices','v150CriticalCurriculumResults','runV150CriticalCurriculumAudit','v150AdditionalCurrentChecks','v150EvaluateCurrentContract','runV150SelfCheck','v151ReleaseSentinelLegacyIndices','v151ExpectedReleaseSentinelIndices','v151ChapterAuditRows','v151ReleaseSentinelResults','runV151ReleaseSentinelAudit','v151DeclarativeCiCoverage','v151AdditionalCurrentChecks','v151EvaluateCurrentContract','runV151SelfCheck','v152LegacyClassificationAudit','v152AdditionalCurrentChecks','v152EvaluateCurrentContract','runV152SelfCheck'
+    ])
+  });
+
+  const FEQ_DIAGNOSTIC_DATA_FACADE_SPEC=Object.freeze({
+    module:'app/runtime-diagnostic-contract-data.txt',
+    moduleSha256:'4e6842da696c5f5b8c041bde416e5e35d41898baa05b46ae70b06f7c39913868',
+    moduleUtf8Bytes:2416,
+    fixtureManifest:'_regression/semantic-diagnostic-data-v156.fixture.json',
+    facadeGlobal:'FEQ_DIAGNOSTIC_CONTRACT_DATA',
+    provenanceGlobal:'FEQ_DIAGNOSTIC_DATA_PROVENANCE',
+    retiredNamesGlobal:'FEQ_RETIRED_DIAGNOSTIC_DATA_GLOBALS',
+    semanticKeys:Object.freeze(['browserUiAdditions','legacyAssertionInventory','ciSentinelGroups','criticalCurriculumSpec','releaseSentinelSpec','legacyFixtureSpec']),
+    compatibilityBackingGlobals:Object.freeze(['V148_EXTRA_UI_CONTRACTS','V149_LEGACY_ASSERT_INVENTORY','V150_CI_ONLY_SENTINEL_GROUPS','V150_CRITICAL_CURRICULUM_SPEC','V151_RELEASE_SENTINEL_SPEC','V152_LEGACY_FIXTURE_SPEC'])
+  });
+
+  function v156SemanticRuntimeBoundaryAudit(){
+    const stable=[...FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntime],retired=[...FEQ_DIAGNOSTIC_RUNTIME_SPEC.retiredVersioned];
+    const presentStable=stable.filter(name=>typeof globalThis[name]==='function');
+    const leakedRetired=retired.filter(name=>typeof globalThis[name]==='function');
+    return {stable:stable.length,retired:retired.length,uniqueStable:new Set(stable).size,uniqueRetired:new Set(retired).size,presentStable:presentStable.length,leakedRetired,exactInventory:stable.length===17&&new Set(stable).size===17&&retired.length===46&&new Set(retired).size===46,ok:presentStable.length===17&&leakedRetired.length===0};
+  }
+
+  function v156DiagnosticDataFacadeAudit(){
+    const spec=FEQ_DIAGNOSTIC_DATA_FACADE_SPEC,data=globalThis[spec.facadeGlobal],provenance=globalThis[spec.provenanceGlobal];
+    const retired=[...spec.compatibilityBackingGlobals],missingBacking=retired.filter(name=>typeof globalThis[name]==='undefined');
+    const keys=data?Object.keys(data).sort():[],expected=[...spec.semanticKeys].sort();
+    const provenanceKeys=provenance?Object.keys(provenance).filter(k=>k!=='module').sort():[];
+    return {semantic:expected.length,retired:retired.length,keys:keys.length,provenanceKeys:provenanceKeys.length,missingBacking,exactKeys:keys.length===expected.length&&keys.every((k,i)=>k===expected[i]),exactProvenance:provenanceKeys.length===expected.length&&provenanceKeys.every((k,i)=>k===expected[i]),structural:!!data&&Array.isArray(data.browserUiAdditions)&&data.browserUiAdditions.length===10&&data.legacyAssertionInventory?.total===293&&data.ciSentinelGroups?.criticalCurriculum?.count===56&&Object.values(data.criticalCurriculumSpec||{}).flat().length===56&&Object.values(data.releaseSentinelSpec||{}).flat().length===28&&data.legacyFixtureSpec?.assertCount===293&&data.legacyFixtureSpec?.productionBundled===false&&data.legacyFixtureSpec?.releaseOnly===true,backingIdentity:!!data&&data.browserUiAdditions===globalThis.V148_EXTRA_UI_CONTRACTS&&data.legacyAssertionInventory===globalThis.V149_LEGACY_ASSERT_INVENTORY&&data.ciSentinelGroups===globalThis.V150_CI_ONLY_SENTINEL_GROUPS&&data.criticalCurriculumSpec===globalThis.V150_CRITICAL_CURRICULUM_SPEC&&data.releaseSentinelSpec===globalThis.V151_RELEASE_SENTINEL_SPEC&&data.legacyFixtureSpec===globalThis.V152_LEGACY_FIXTURE_SPEC,ok:expected.length===6&&retired.length===6&&missingBacking.length===0&&keys.length===6&&provenanceKeys.length===6&&keys.every((k,i)=>k===expected[i])&&provenanceKeys.every((k,i)=>k===expected[i])};
+  }
+
+  function v156ReplacementChecks(){
+    const data=FEQ_DIAGNOSTIC_CONTRACT_DATA;
+    return [
+      currentCheck('legacy-assert-inventory','Legacy assertion classification must remain exact without historical diagnostic globals',()=>{const a=feqLegacyClassificationAudit();return a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk&&typeof runAppSelfCheck==='undefined';},293),
+      currentCheck('production-shadow-policy','Production diagnostics must not execute or expose the legacy regression shadow',()=>typeof runAppSelfCheck==='undefined'&&typeof runV149LegacyShadowAudit==='undefined'&&data.legacyFixtureSpec.releaseOnly===true&&data.legacyFixtureSpec.productionBundled===false,0),
+      currentCheck('ci-sentinel-subinventory','All 84 CI-only legacy sentinels must remain decomposed into explicit no-gap/no-overlap groups',()=>{const a=feqExpandCiSentinelGroups();return a.classified===84&&a.unique===84&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;},84),
+      currentCheck('critical-curriculum-declarative-coverage','The 56 critical curriculum sentinels must retain an exact declarative map without release executors',()=>{const expected=feqExpandLegacyRanges(data.ciSentinelGroups.criticalCurriculum.ranges).sort((a,b)=>a-b),got=feqCriticalCurriculumLegacyIndices();return got.length===56&&new Set(got).size===56&&got.every((n,i)=>n===expected[i]);},56),
+      currentCheck('release-sentinel-declarative-coverage','The remaining 28 CI-only sentinels must retain an exact declarative map without release executors',()=>{const expected=feqExpectedReleaseSentinelIndices(),got=feqReleaseSentinelLegacyIndices();return got.length===28&&new Set(got).size===28&&got.every((n,i)=>n===expected[i]);},28),
+      currentCheck('ci-sentinel-declarative-complete','All 84 CI-only legacy sentinels must remain covered by the two declarative contracts',()=>{const c=feqDeclarativeCiCoverage();return c.critical===56&&c.release===28&&c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;},84),
+      currentCheck('legacy-self-check-production-excluded','The 293-assert evaluator must remain physically absent from production',()=>{const a=feqLegacyClassificationAudit();return typeof runAppSelfCheck==='undefined'&&a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;},293),
+      currentCheck('legacy-regression-fixture-contract','The release-only legacy source-range fixture contract must remain pinned',()=>{const c=feqDeclarativeCiCoverage(),f=data.legacyFixtureSpec;return f.path==='_regression/legacy-run-app-self-check-v131.fixture.json'&&f.sourcePath==='app/base-v131.html'&&f.startMarker==='function runAppSelfCheck(){'&&f.endMarker==='function runLessonUXAudit(){'&&f.assertCount===293&&f.byteLength===49657&&f.sha256==='b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36'&&f.productionBundled===false&&f.releaseOnly===true&&c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;},293)
+    ];
+  }
+
+  function v156AdditionalCurrentChecks(){
+    return [
+      currentCheck('semantic-diagnostic-runtime-contract','Production diagnostics must keep the stable 17-helper runtime and pinned archival provenance',()=>{const a=v156SemanticRuntimeBoundaryAudit();return a.stable===17&&a.retired===46&&a.uniqueStable===17&&a.uniqueRetired===46&&a.presentStable===17&&a.leakedRetired.length===0&&a.exactInventory&&a.ok&&FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntimeModule==='app/runtime-current-diagnostics.txt'&&FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntimeSha256==='12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658'&&FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntimeUtf8Bytes===54898&&FEQ_DIAGNOSTIC_RUNTIME_SPEC.semanticFixtureManifest==='_regression/semantic-diagnostic-runtime-v155.fixture.json';},0),
+      currentCheck('semantic-diagnostic-data-facade','Production diagnostic data must use the six-key stable facade with all six versioned backing globals isolated behind the semantic facade',()=>{const a=v156DiagnosticDataFacadeAudit(),s=FEQ_DIAGNOSTIC_DATA_FACADE_SPEC;return a.semantic===6&&a.retired===6&&a.keys===6&&a.provenanceKeys===6&&a.missingBacking.length===0&&a.exactKeys&&a.exactProvenance&&a.structural&&a.backingIdentity&&a.ok&&s.module==='app/runtime-diagnostic-contract-data.txt'&&s.moduleSha256==='4e6842da696c5f5b8c041bde416e5e35d41898baa05b46ae70b06f7c39913868'&&s.moduleUtf8Bytes===2416&&s.fixtureManifest==='_regression/semantic-diagnostic-data-v156.fixture.json';},0)
+    ];
+  }
+
+  function v156EvaluateCurrentContract(){
+    const base=feqEvaluateQualityUxContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'?{...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v156',error:undefined}:{...r});
+    const migrated=v156ReplacementChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}});
+    const extras=v156AdditionalCurrentChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}});
+    const results=[...baseResults,...migrated,...extras],failed=results.filter(r=>!r.pass);
+    return {mode:'current-contract-semantic-diagnostic-data-facade',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),semanticBaseCount:baseResults.length,rewrittenReleaseBoundaryChecks:migrated.length,semanticBoundaryChecks:extras.length};
+  }
+
+  function runV156SelfCheck(){
+    const current=v156EvaluateCurrentContract(),browserUi=feqEvaluateBrowserUiLayer(),errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const semanticBoundary=v156SemanticRuntimeBoundaryAudit(),dataBoundary=v156DiagnosticDataFacadeAudit(),classification=feqLegacyClassificationAudit(),sentinelInventory=feqExpandCiSentinelGroups(),declarativeCoverage=feqDeclarativeCiCoverage();
+    return {ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),architecture:'v156-stable-semantic-diagnostic-data-facade',currentContract:current,browserUiContract:browserUi,historicalDiagnostics:{mode:'release-fixture-only',productionHistoricalGlobals:false,fixture:FEQ_DIAGNOSTIC_RUNTIME_SPEC.releaseFixtureManifest},historicalMetadataWarnings:[],supersededSemanticWarnings:[],uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],v156RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',ciSentinelInventory:sentinelInventory,declarativeCiCoverage:declarativeCoverage,legacyClassification:classification,semanticRuntimeBoundary:semanticBoundary,semanticDataBoundary:dataBoundary,diagnosticContract:{currentFailed:current.failed,uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,productionLegacyAbsent:typeof runAppSelfCheck==='undefined',semanticRuntimeExact:semanticBoundary.ok,semanticDataFacadeExact:dataBoundary.ok,retiredVersionedFunctionGlobalsPresent:semanticBoundary.leakedRetired.length,compatibilityBackingGlobalsPresent:dataBoundary.retired-dataBoundary.missingBacking.length,classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,activeErrorCount:errors.length}};
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_RUNTIME_SPEC=FEQ_DIAGNOSTIC_RUNTIME_SPEC;
+  globalThis.FEQ_DIAGNOSTIC_DATA_FACADE_SPEC=FEQ_DIAGNOSTIC_DATA_FACADE_SPEC;
+  globalThis.v156SemanticRuntimeBoundaryAudit=v156SemanticRuntimeBoundaryAudit;
+  globalThis.v156DiagnosticDataFacadeAudit=v156DiagnosticDataFacadeAudit;
+  globalThis.v156ReplacementChecks=v156ReplacementChecks;
+  globalThis.v156AdditionalCurrentChecks=v156AdditionalCurrentChecks;
+  globalThis.v156EvaluateCurrentContract=v156EvaluateCurrentContract;
+  globalThis.runV156SelfCheck=runV156SelfCheck;
+})();
