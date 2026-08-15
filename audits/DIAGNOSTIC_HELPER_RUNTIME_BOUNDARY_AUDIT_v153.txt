@@ -1,0 +1,135 @@
+FE QUEST v153 — DIAGNOSTIC HELPER RUNTIME BOUNDARY AUDIT
+Date: 2026-08-15
+Version: v153
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Mechanically inventory the diagnostic helper surface introduced across v145-v152 before physical pruning.
+- Stop the v153 production current-contract path from executing the v149-v152 historical evaluator chain.
+- Separate production runtime diagnostics from release-only legacy/shadow audit machinery at the call-graph level.
+- Preserve all existing learning data, UI behavior and release regression coverage.
+
+HELPER INVENTORY
+Scope: exported diagnostic functions from app/v145-block-00.txt through app/v152-block-00.txt.
+Total classified helpers: 46
+- production runtime: 17
+- release-only: 10
+- compatibility-only / superseded: 19
+- duplicate classifications: 0
+- missing helpers: 0
+
+PRODUCTION RUNTIME 17
+- v145EvaluateCurrentContract
+- v146AdditionalCurrentChecks
+- v146EvaluateCurrentContract
+- v147AdditionalCurrentChecks
+- v147EvaluateCurrentContract
+- v148CueAudit
+- v148AdditionalCurrentChecks
+- v148EvaluateCurrentContract
+- v148EvaluateBrowserUiContracts
+- v148EvaluateBrowserUiLayer
+- v149ExpandRanges
+- v150ExpandSentinelGroups
+- v150CriticalCurriculumLegacyIndices
+- v151ReleaseSentinelLegacyIndices
+- v151ExpectedReleaseSentinelIndices
+- v151DeclarativeCiCoverage
+- v152LegacyClassificationAudit
+
+RELEASE-ONLY 10
+- v145CollectHistoricalDiagnostics
+- v146CollectHistoricalDiagnostics
+- v147CollectHistoricalDiagnostics
+- v148CollectHistoricalDiagnostics
+- runV149LegacyShadowAudit
+- v150CriticalCurriculumResults
+- runV150CriticalCurriculumAudit
+- v151ChapterAuditRows
+- v151ReleaseSentinelResults
+- runV151ReleaseSentinelAudit
+
+COMPATIBILITY-ONLY / SUPERSEDED 19
+- v145EvaluateBrowserUiLayer
+- runV145SelfCheck
+- runV146SelfCheck
+- runV147SelfCheck
+- runV148SelfCheck
+- v149LegacyInventoryAudit
+- v149CollectHistoricalDiagnostics
+- v149AdditionalCurrentChecks
+- v149EvaluateCurrentContract
+- runV149SelfCheck
+- v150AdditionalCurrentChecks
+- v150EvaluateCurrentContract
+- runV150SelfCheck
+- v151AdditionalCurrentChecks
+- v151EvaluateCurrentContract
+- runV151SelfCheck
+- v152AdditionalCurrentChecks
+- v152EvaluateCurrentContract
+- runV152SelfCheck
+
+CURRENT-CONTRACT REWIRE
+- v153EvaluateCurrentContract() now inherits only through v148EvaluateCurrentContract().
+- The eight v149-v152 current checks are restated as v153 replacement checks.
+- The restated checks use declarative inventory/spec data and no longer execute v149-v152 self-check wrappers or historical collectors.
+- Two v153 checks were added: exact 46-helper classification and clean production call boundary.
+- current-contract: 69 -> 71.
+
+PRODUCTION CALL BOUNDARY
+- runV153SelfCheck() no longer calls v149CollectHistoricalDiagnostics().
+- Production historicalDiagnostics is now a lightweight v153ProductionDiagnosticMetadata() object.
+- The 17 runtime helpers plus runV153SelfCheck()/v153EvaluateCurrentContract() are source-audited against all 29 non-runtime helpers.
+- forbidden helper references found: 0.
+- Legacy runAppSelfCheck() remains physically absent from production.
+
+RELEASE FIXTURE
+- Legacy source-range fixture remains 49,657 UTF-8 bytes / 293 assert calls.
+- SHA-256 remains b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36.
+- Added generic release_shell_template to the fixture spec so future release validators can adapt the historical v131 version-shell assertion without adding one field per release.
+- _regression remains excluded from the Pages output.
+
+INVARIANTS
+- Subject A questions: 710
+- Unique IDs: 710
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive levels: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- Browser UI contracts: 23
+- Critical curriculum release audit: 56 / 56
+- Remaining release sentinel audit: 28 / 28
+- Declarative CI-only sentinel coverage: 84 / 84 exact
+- Release-only legacy shadow: 293 assert / raw errors 22 / residual active errors 0
+- No question wording, options, answers, IDs, cognition or visible UI design changed in v153.
+
+LOCAL VALIDATION
+- FEQUEST_V153_FIXTURE_BOUNDARY_OK production=excluded fixture=293
+- FEQUEST_V153_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V153_PRODUCTION_RUNTIME_OK current=71/71 helpers=46 runtime=17 release=10 compat=19 critical=56/56 release-sentinel=28/28 ci=84 legacy-bundled=0
+- FEQUEST_V153_RELEASE_FIXTURE_OK legacy=293 raw=22 residual=0
+- FEQUEST_V153_RUNTIME_OK current=71/71 helpers=46 runtime=17 release-only=10 compat=19 critical=56/56 release-sentinel=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+REAL JEKYLL RELEASE VALIDATION
+- Validation run: 31889874521
+- Validation job: 95024462413
+- Jekyll build: success
+- Validator: success
+- Production runtime: current 71/71, helper inventory 46 exact, runtime 17, release-only 10, compatibility 19, call-boundary violations 0.
+- Browser DOM: 23/23 + required DOM.
+- Critical curriculum: 56/56.
+- Remaining release sentinel: 28/28.
+- Declarative CI coverage: 84/84.
+- Release-only legacy shadow: 293 assert, raw 22, residual 0.
+
+CLEANUP
+- Temporary validation workflow removed: d4d06945fa65ce1906627732f05311441d1e351a
+- Temporary repository validator removed: 818079a2eb555a64b04e0382f3d7f576340339a2
+- Validator retained only in the v153 handoff package.
+
+NEXT — v154
+- Use the v153 17/10/19 inventory as the exact pruning contract.
+- Physically remove the 10 release-only and 19 compatibility-only helpers from the production expanded HTML while retaining release validation ability.
+- Prefer a small release-only diagnostic fixture/module boundary instead of ad-hoc string deletion.
+- Keep current 71, browser 23, critical 56, release sentinel 28, CI 84/84 and legacy 293 residual 0 unchanged.
+- Require a real Jekyll release validation before cleanup.
