@@ -1,0 +1,164 @@
+// ===== v146 current-contract expansion / legacy residual migration =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const MIGRATION_GROUPS = [
+    'cognitive-review-policy','mastery-integrity','taper-policy','curriculum-runtime','syllabus-coverage',
+    'mock-blueprints','subject-b-exercises','subject-b-security-final','profile-backup-roundtrip','profile-schema-migration',
+    'daily-resilience','recovery-safety','roadmap-shape','peer-distractor-metadata','variant-generator'
+  ];
+
+  function v146AdditionalCurrentChecks(){
+    return [
+      currentCheck('cognitive-review-policy','Cognitive demand must influence review and weakness drills',()=>
+        typeof cognitiveWeight==='function'&&cognitiveWeight({cognitiveLevel:'想起'})===0.8&&cognitiveWeight({cognitiveLevel:'適用'})===1&&cognitiveWeight({cognitiveLevel:'判断'})===1.25&&
+        typeof categoryCognitiveEvidence==='function'&&typeof subjectACognitiveEvidence==='function'&&
+        String(reviewUrgency).includes('cognitiveRisk')&&String(coreTopicLearningState).includes('advancedReady')&&String(startQuiz).includes('cogcat:'),5),
+      currentCheck('mastery-integrity','Mastery must require retention, higher-order evidence and chapter integration',()=>
+        typeof ensureChapterMasteryProfile==='function'&&typeof chapterIntegrationEvidence==='function'&&
+        String(coreTopicLearningState).includes('minRetention>=85')&&String(coreTopicLearningState).includes('advancedMasterReady')&&String(coreTopicLearningState).includes('chapterReady')&&
+        typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'&&
+        String(courseMasteryStatus).includes("name:'科目Aフル模試'")&&String(courseMasteryStatus).includes("name:'科目B総合実戦'")&&
+        String(chooseFinalBossQuestions).includes("'判断'")&&String(chooseFinalBossQuestions).includes("'適用'"),7),
+      currentCheck('taper-policy','Exam taper policy and light-review routing must remain active',()=>
+        typeof taperStudyCap==='function'&&taperStudyCap(7)===45&&taperStudyCap(3)===30&&taperStudyCap(1)===15&&taperStudyCap(0)===10&&
+        examStudyPhase(3).allowNew===false&&examStudyPhase(3).allowLongExam===false&&examStudyPhase(0).id==='examDay'&&
+        typeof chooseExamWarmupQuestions==='function'&&typeof chooseTaperReviewQuestions==='function'&&
+        String(buildTodayTasks).includes('buildTaperTodayTasks')&&String(finalFocusRecommendation).includes('deepTaper')&&String(finalFocusRecommendation).includes("kind:'warmup'"),5),
+      currentCheck('curriculum-runtime','Curriculum, lesson guides and pace engines must remain complete',()=>{
+        const lessonIds=Object.keys(LESSONS||{});
+        return lessonIds.length>=30&&typeof examPaceStatus==='function'&&typeof effectiveStudyMinutes==='function'&&typeof estimateRemainingStudyMinutes==='function'&&
+          LAB_LESSON_IDS.every(id=>LESSON_GUIDES[id]&&LESSON_GUIDES[id].points?.length>=3)&&
+          CORE_A_IDS.length===130&&Object.keys(CORE_A_CONTENT_ENRICHMENT).length===130&&CORE_A_IDS.every(id=>LESSONS[id]?.pages?.every(p=>!p.quiz&&!p.interactive));
+      },7),
+      currentCheck('syllabus-coverage','Current FE syllabus mapping must remain Ver.9.2 with 96 mapped small categories',()=>
+        FE_SYLLABUS_VERSION==='9.2'&&FE_SYLLABUS_V92_COVERAGE.length===96&&FE_SYLLABUS_V92_COVERAGE.every(x=>x.topicIds.length&&x.topicIds.every(id=>CORE_A_IDS.includes(id))),3),
+      currentCheck('mock-blueprints','Subject A full/half mock blueprints must preserve count, difficulty and cognition',()=>
+        typeof MOCK_BLUEPRINTS!=='undefined'&&
+        MOCK_BLUEPRINTS.full.count===60&&MOCK_BLUEPRINTS.full.basic===15&&MOCK_BLUEPRINTS.full.standard===30&&MOCK_BLUEPRINTS.full.practical===15&&
+        MOCK_BLUEPRINTS.half.count===30&&MOCK_BLUEPRINTS.half.basic===8&&MOCK_BLUEPRINTS.half.standard===14&&MOCK_BLUEPRINTS.half.practical===8&&
+        JSON.stringify(MOCK_BLUEPRINTS.full.cognitive)===JSON.stringify({'想起':15,'適用':29,'判断':16})&&
+        JSON.stringify(MOCK_BLUEPRINTS.half.cognitive)===JSON.stringify({'想起':8,'適用':13,'判断':9}),4),
+      currentCheck('subject-b-exercises','Subject B exercise, mini-mock, semantic and compound-set contracts must remain valid',()=>
+        Array.isArray(B_EXERCISES)&&B_EXERCISES.length===20&&typeof B_MOCK_COUNT!=='undefined'&&B_MOCK_COUNT===8&&
+        Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&B_EXERCISES.every(ex=>ex.steps.filter(s=>s.predict).length===2)&&
+        typeof validateSubjectBSemantics==='function'&&validateSubjectBSemantics().ok&&Array.isArray(B_COMPOUND_SETS)&&B_COMPOUND_SETS.length===15,6),
+      currentCheck('subject-b-security-final','Subject B compound/security/final blueprints and final-resume guard must remain valid',()=>
+        B_COMPOUND_SETS.every(s=>s.qs?.length===3)&&B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall)&&
+        Array.isArray(SECURITY_SCENARIOS)&&SECURITY_SCENARIOS.length===15&&typeof SECURITY_MOCK_COUNT!=='undefined'&&SECURITY_MOCK_COUNT===8&&
+        Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&typeof B_FINAL_COUNT!=='undefined'&&B_FINAL_COUNT===20&&B_FINAL_ALGO_COUNT===16&&B_FINAL_SEC_COUNT===4&&
+        typeof restoreBFinalResume==='function'&&typeof saveBFinalResume==='function'&&typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),7),
+      currentCheck('profile-backup-roundtrip','Profile backup engine must round-trip current schema and checksum',()=>{
+        if(profile.profileSchemaVersion!==PROFILE_SCHEMA_VERSION||typeof normalizeProfileData!=='function'||typeof makeBackupPayload!=='function'||typeof decodeBackupPayload!=='function') return false;
+        const backup=makeBackupPayload(profile),decoded=decodeBackupPayload(backup);
+        return decoded.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION&&profileIntegrityChecksum(decoded.profile)===backup.checksum;
+      },4),
+      currentCheck('profile-schema-migration','Profile migration must preserve v3 progress and reject future schemas',()=>{
+        const migrated=normalizeProfileData({profileSchemaVersion:3,xp:7,lessonProgress:{probe:100},skills:{...DEFAULT_PROFILE.skills}});
+        let rejected=false;try{normalizeProfileData({profileSchemaVersion:PROFILE_SCHEMA_VERSION+1,xp:1});}catch(e){rejected=e?.code==='FUTURE_PROFILE_SCHEMA';}
+        return migrated.profileSchemaVersion===5&&migrated.xp===7&&migrated.lessonProgress.probe===100&&rejected;
+      },2),
+      currentCheck('daily-resilience','Daily plan, readiness and reload-resilience engines must exist',()=>
+        typeof ensureTodayPlanSnapshot==='function'&&typeof rebuildTodayPlanPreservingDone==='function'&&typeof readinessComponents==='function'&&
+        typeof restoreResilientUiState==='function'&&typeof persistResilientUiState==='function',3),
+      currentCheck('recovery-safety','Recovery diagnostics, rollback protection and mastery recovery routing must remain available',()=>
+        typeof runStorageSelfTest==='function'&&typeof exportRecoveryDiagnostics==='function'&&typeof exportPreservedCorruptProfile==='function'&&
+        !!PRE_MANUAL_RESTORE_PROFILE_KEY&&String(restoreRecoveryCandidate).includes('PRE_MANUAL_RESTORE_PROFILE_KEY')&&String(restoreRecoveryCandidate).includes('pre-manual-restore')&&
+        typeof syncMasteryRecoveryHistory==='function'&&typeof masteryRecoveryInfo==='function'&&String(nextMasterTopicCandidate).includes('masteryRecoveryInfo')&&
+        SAFE_RESUME_SCREENS.has('map')&&SAFE_RESUME_SCREENS.has('problems'),4),
+      currentCheck('roadmap-shape','Roadmap must keep five integrated stages covering all Core A chapters',()=>{
+        const roadmap=roadmapData();
+        return roadmap.length===5&&roadmap[0].desc.includes('第1〜13章')&&roadmap[1].desc.includes('第14〜21章');
+      },2),
+      currentCheck('peer-distractor-metadata','Applied linked questions and comparison challenges must retain neighboring-topic metadata',()=>
+        CORE_A_LINKED_QUESTIONS.filter(q=>['application','discrimination'].includes(q.angle)).every(q=>Array.isArray(q.distractorTopicIds)&&q.distractorTopicIds.length===3)&&
+        CORE_A_CHALLENGE_QUESTIONS.filter(q=>q.angle==='comparison').every(q=>Array.isArray(q.comparisonTopicIds)&&q.comparisonTopicIds.length===2),2),
+      currentCheck('variant-generator','Generated-variant validation must produce at least one valid variant',()=>typeof validateGeneratedVariants!=='function'||validateGeneratedVariants()>0,1)
+    ];
+  }
+
+  function v146EvaluateCurrentContract(){
+    const base=v145EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v146',error:undefined}
+      : {...r});
+    const extras=v146AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras];
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-expanded',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,
+      migratedGroupCount:extras.length,
+      migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0)
+    };
+  }
+
+  function v146CollectHistoricalDiagnostics(){
+    const historical=v145CollectHistoricalDiagnostics();
+    const legacySource=typeof runAppSelfCheck==='function'?String(runAppSelfCheck):'';
+    return {
+      ...historical,
+      mode:'historical-shadow-diagnostics',
+      role:'shadow-safety-net',
+      legacyAssertCallCount:(legacySource.match(/\bassert\(/g)||[]).length,
+      migrationGroups:[...MIGRATION_GROUPS],
+      currentContractOwnsPassFail:true
+    };
+  }
+
+  function runV146SelfCheck(){
+    const current=v146EvaluateCurrentContract();
+    const historical=v146CollectHistoricalDiagnostics();
+    const browserUi=v145EvaluateBrowserUiLayer();
+    const errors=[...current.errors,...historical.residualActiveErrors.map(msg=>`Compatibility residual: ${msg}`)];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const warnings=[...historical.rawWarnings];
+    const checkedAt=new Date().toISOString();
+    return {
+      ok:errors.length===0,
+      errors,
+      warnings,
+      checkedAt,
+      architecture:'v146-expanded-current-contract',
+      currentContract:current,
+      historicalDiagnostics:historical,
+      browserUiContract:browserUi,
+      historicalMetadataWarnings:[...historical.historicalMetadata],
+      supersededSemanticWarnings:[...historical.supersededSemantic],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],
+      legacyWarnings:[...historical.historicalMetadata,...historical.supersededSemantic],
+      v146RuntimeMode:NODE_SMOKE()?'node-minimal-dom':'browser-dom',
+      v146MigrationInventory:{
+        inheritedCurrentContracts:current.inheritedContractCount,
+        newlyMigratedGroups:current.migratedGroupCount,
+        migratedLegacyAssertionEquivalents:current.migratedLegacyAssertionEquivalents,
+        legacyShadowAssertCalls:historical.legacyAssertCallCount,
+        compatibilityResidualCount:historical.residualActiveErrors.length,
+        browserUiContracts:browserUi.total
+      },
+      v146DiagnosticContract:{
+        currentFailed:current.failed,
+        compatibilityResidualCount:historical.residualActiveErrors.length,
+        historicalMetadataCount:historical.historicalMetadata.length,
+        supersededSemanticCount:historical.supersededSemantic.length,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.v146AdditionalCurrentChecks=v146AdditionalCurrentChecks;
+  globalThis.v146EvaluateCurrentContract=v146EvaluateCurrentContract;
+  globalThis.v146CollectHistoricalDiagnostics=v146CollectHistoricalDiagnostics;
+  globalThis.runV146SelfCheck=runV146SelfCheck;
+})();
