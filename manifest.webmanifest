@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v145",
+  "name": "FE QUEST v146",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v145では自己診断をcurrent-contract / historical-diagnostics / browser-UI-contractの3層へ再構成。現行23契約を独立評価し23/23 PASS、旧runAppSelfCheckは歴史診断と未移行active errorのcompatibility residual gateへ限定。historical metadata 8件、superseded semantic 1件、Node最小DOM由来UI 13件を現行合否から分離し、compatibility residualは0。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
+  "description": "基本情報技術者試験向けPWA。v146では自己診断のcurrent-contractを23→38契約へ拡張し、旧runAppSelfCheckに残っていたreview/mastery/taper、教材・シラバス、模試、科目B、プロファイル・復旧、ロードマップ、問題メタデータなど15グループ・62個のassert相当を現行機能契約へ移行。Node runtimeで38/38 PASS、compatibility residual 0、browser UI 13契約は独立維持。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
