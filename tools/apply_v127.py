@@ -1,47 +1,113 @@
 from pathlib import Path
-import re,json,gzip,base64
-ROOT=Path('.')
-idx=ROOT/'index.html'
-s=idx.read_text()
-ov_json=gzip.decompress(base64.b64decode('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[...TRUNCATED BASE64...]')).decode()
-anchors=['core_01_04','core_01_06','core_02_01','core_02_02','core_02_04','core_02_05','core_03_01','core_03_02','core_03_03','core_03_05','core_04_02','core_04_03','core_04_05','core_05_03','core_05_04','core_06_01','core_06_03','core_06_05','core_07_02','core_08_03','core_09_03','core_09_04','core_09_06','core_10_01','core_10_04','core_10_06','core_10_08','core_11_01','core_11_02','core_11_03','core_11_05','core_11_06','core_12_03','core_12_04','core_12_05','core_13_01','core_14_06','core_15_04','core_15_06','core_16_02','core_16_04','core_17_02','core_18_02','core_18_04','core_18_06','core_19_02','core_19_04','core_20_02','core_20_03','core_20_06','core_21_04']
-js_template='\n// ===== v127: reference-aligned lesson -> practice bridge =====\n// The attached textbook inserts "出る順！過去問＆完全解説" at these section boundaries.\n// They are used only as practice anchors; no textbook question text is copied.\nconst CORE_A_REFERENCE_PRACTICE_ANCHORS=new Set(__ANCHORS__);\nconst CORE_A_REFERENCE_BRIDGE_OVERRIDES=__OV__;\nfor(const q of CORE_A_LINKED_QUESTIONS){\n  const patch=CORE_A_REFERENCE_BRIDGE_OVERRIDES[q.id];\n  if(!patch)continue;\n  Object.assign(q,patch,{angle:\'scenario\',referenceBridgeAudit:\'v127\',applicationAudit:\'v127-reference-bridge\',applicationDemand:\'状況適用\'});\n  delete q.distractorTopicIds;\n  delete q.distractorMode;\n}\nfunction orderCoreTopicPracticeQuestions(pool){\n  const difficultyRank={基礎:0,標準:1,実戦:2};\n  const angleRank={knowledge:0,application:1,scenario:2,discrimination:3,calculation:4,interpretation:4,trace:4,comparison:5};\n  return [...pool].sort((a,b)=>\n    (difficultyRank[a.difficulty]??9)-(difficultyRank[b.difficulty]??9) ||\n    (angleRank[a.angle]??5)-(angleRank[b.angle]??5) ||\n    String(a.id).localeCompare(String(b.id),\'ja\')\n  );\n}\n'
-js=js_template.replace('__ANCHORS__',json.dumps(anchors,ensure_ascii=False,separators=(',',':'))).replace('__OV__',ov_json)
-marker='QUESTION_BANK.push(...CORE_A_LINKED_QUESTIONS);'
+import re, json, gzip, base64
+
+ROOT = Path('.')
+idx = ROOT / 'index.html'
+s = idx.read_text()
+
+b64 = ''.join((ROOT / f'tools/v127_part{i}.txt').read_text().strip() for i in range(1, 5))
+ov_json = gzip.decompress(base64.b64decode(b64)).decode()
+ov = json.loads(ov_json)
+assert len(ov) == 33, f'expected 33 bridge overrides, got {len(ov)}'
+
+anchors = [
+    'core_01_04','core_01_06','core_02_01','core_02_02','core_02_04','core_02_05',
+    'core_03_01','core_03_02','core_03_03','core_03_05','core_04_02','core_04_03',
+    'core_04_05','core_05_03','core_05_04','core_06_01','core_06_03','core_06_05',
+    'core_07_02','core_08_03','core_09_03','core_09_04','core_09_06','core_10_01',
+    'core_10_04','core_10_06','core_10_08','core_11_01','core_11_02','core_11_03',
+    'core_11_05','core_11_06','core_12_03','core_12_04','core_12_05','core_13_01',
+    'core_14_06','core_15_04','core_15_06','core_16_02','core_16_04','core_17_02',
+    'core_18_02','core_18_04','core_18_06','core_19_02','core_19_04','core_20_02',
+    'core_20_03','core_20_06','core_21_04'
+]
+assert len(anchors) == 51
+
+js_template = r'''
+// ===== v127: reference-aligned lesson -> practice bridge =====
+// The attached textbook inserts "出る順！過去問＆完全解説" at these section boundaries.
+// They are used only as practice anchors; no textbook question text is copied.
+const CORE_A_REFERENCE_PRACTICE_ANCHORS=new Set(__ANCHORS__);
+const CORE_A_REFERENCE_BRIDGE_OVERRIDES=__OV__;
+for(const q of CORE_A_LINKED_QUESTIONS){
+  const patch=CORE_A_REFERENCE_BRIDGE_OVERRIDES[q.id];
+  if(!patch)continue;
+  Object.assign(q,patch,{angle:'scenario',referenceBridgeAudit:'v127',applicationAudit:'v127-reference-bridge',applicationDemand:'状況適用'});
+  delete q.distractorTopicIds;
+  delete q.distractorMode;
+}
+function orderCoreTopicPracticeQuestions(pool){
+  const difficultyRank={基礎:0,標準:1,実戦:2};
+  const angleRank={knowledge:0,application:1,scenario:2,discrimination:3,calculation:4,interpretation:4,trace:4,comparison:5};
+  return [...pool].sort((a,b)=>
+    (difficultyRank[a.difficulty]??9)-(difficultyRank[b.difficulty]??9) ||
+    (angleRank[a.angle]??5)-(angleRank[b.angle]??5) ||
+    String(a.id).localeCompare(String(b.id),'ja')
+  );
+}
+'''
+js = js_template.replace('__ANCHORS__', json.dumps(anchors, ensure_ascii=False, separators=(',', ':')))
+js = js.replace('__OV__', json.dumps(ov, ensure_ascii=False, separators=(',', ':')))
+
+marker = 'QUESTION_BANK.push(...CORE_A_LINKED_QUESTIONS);'
 if 'const CORE_A_REFERENCE_PRACTICE_ANCHORS=' not in s:
-    if marker not in s: raise SystemExit('linked push marker missing')
-    s=s.replace(marker,js+'\n'+marker,1)
-old="""    const pool=QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q));
+    if marker not in s:
+        raise SystemExit('linked push marker missing')
+    s = s.replace(marker, js + '\n' + marker, 1)
+
+old = """    const pool=QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q));
     const levels=['基礎','標準','実戦'];
     quizItems=levels.flatMap(level=>shuffled(pool.filter(q=>q.difficulty===level)));
     quizItems.push(...shuffled(pool.filter(q=>!levels.includes(q.difficulty))));"""
-new="""    const pool=QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q));
+new = """    const pool=QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q));
     // v127: after a lesson, questions progress from foundation -> concrete application -> harder evidence.
     // Random ordering made the bridge inconsistent and could surface a generic discrimination item before an applied check.
     quizItems=orderCoreTopicPracticeQuestions(pool);"""
-if old in s: s=s.replace(old,new,1)
-elif 'quizItems=orderCoreTopicPracticeQuestions(pool);' not in s: raise SystemExit('coretopic ordering block missing')
-s=re.sub(r'<title>FE QUEST PWA v\d+</title>','<title>FE QUEST PWA v127</title>',s,count=1)
-s=re.sub(r"const APP_VERSION = 'v\d+';","const APP_VERSION = 'v127';",s,count=1)
-s=re.sub(r"assert\(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v\d+','v\d+ version/schema contract drift'\);","assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v127','v127 version/schema contract drift');",s,count=1)
-checks="""
+if old in s:
+    s = s.replace(old, new, 1)
+elif 'quizItems=orderCoreTopicPracticeQuestions(pool);' not in s:
+    raise SystemExit('core topic ordering block missing')
+
+s = re.sub(r'<title>FE QUEST PWA v\d+</title>', '<title>FE QUEST PWA v127</title>', s, count=1)
+s = re.sub(r"const APP_VERSION = 'v\d+';", "const APP_VERSION = 'v127';", s, count=1)
+s = re.sub(
+    r"assert\(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v\d+','v\d+ version/schema contract drift'\);",
+    "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v127','v127 version/schema contract drift');",
+    s,
+    count=1,
+)
+
+checks = """
     assert(CORE_A_REFERENCE_PRACTICE_ANCHORS.size===51,'v127 reference practice anchors must remain 51');
     assert(Object.keys(CORE_A_REFERENCE_BRIDGE_OVERRIDES).length===33,'v127 reference bridge override count drift');
     assert(Object.keys(CORE_A_REFERENCE_BRIDGE_OVERRIDES).every(qid=>{const q=QUESTION_BANK.find(x=>x.id===qid);return q&&q.referenceBridgeAudit==='v127'&&q.cognitiveLevel==='適用';}),'v127 bridge questions must be applied and preserve cognitive totals');
     assert([...CORE_A_REFERENCE_PRACTICE_ANCHORS].every(id=>QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q)).length>=3),'v127 reference anchors need immediate topic practice');
     assert([...CORE_A_REFERENCE_PRACTICE_ANCHORS].every(id=>QUESTION_BANK.some(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q)&&['application','scenario','calculation','interpretation','trace'].includes(q.angle))),'v127 reference anchors need a concrete applied question');"""
 if 'v127 reference practice anchors must remain 51' not in s:
-    needle="    assert(typeof renderPlanFocus==='function'"
-    pos=s.find(needle)
-    if pos<0: raise SystemExit('selfcheck insertion point missing')
-    s=s[:pos]+checks+'\n'+s[pos:]
+    needle = "    assert(typeof renderPlanFocus==='function'"
+    pos = s.find(needle)
+    if pos < 0:
+        raise SystemExit('self-check insertion point missing')
+    s = s[:pos] + checks + '\n' + s[pos:]
+
 idx.write_text(s)
-mp=ROOT/'manifest.webmanifest'; mm=json.loads(mp.read_text()); mm['name']='FE QUEST v127'; mm['description']='基本情報技術者試験向けPWA。v127では添付参考書の「出る順！過去問＆完全解説」の配置を練習アンカーとして、科目Aの教材→問題接続を横断監査。接続が弱かった33テーマの抽象的な確認問題を具体的な状況・計算・判断問題へ差し替え、710問・正答位置・認知レベル総数は維持。'; mp.write_text(json.dumps(mm,ensure_ascii=False,indent=2)+'\n')
-swp=ROOT/'sw.js'; w=swp.read_text(); w=re.sub(r"const APP_VERSION = 'v\d+';","const APP_VERSION = 'v127';",w,count=1); w=re.sub(r"const CACHE_NAME = 'fe-quest-v\d+-\d+';","const CACHE_NAME = 'fe-quest-v127-1';",w,count=1); swp.write_text(w)
+
+mp = ROOT / 'manifest.webmanifest'
+mm = json.loads(mp.read_text())
+mm['name'] = 'FE QUEST v127'
+mm['description'] = '基本情報技術者試験向けPWA。v127では添付参考書の「出る順！過去問＆完全解説」の配置を練習アンカーとして、科目Aの教材→問題接続を横断監査。接続が弱かった33テーマの抽象的な確認問題を具体的な状況・計算・判断問題へ差し替え、710問・正答位置・認知レベル総数は維持。'
+mp.write_text(json.dumps(mm, ensure_ascii=False, indent=2) + '\n')
+
+swp = ROOT / 'sw.js'
+w = swp.read_text()
+w = re.sub(r"const APP_VERSION = 'v\d+';", "const APP_VERSION = 'v127';", w, count=1)
+w = re.sub(r"const CACHE_NAME = 'fe-quest-v\d+-\d+';", "const CACHE_NAME = 'fe-quest-v127-1';", w, count=1)
+swp.write_text(w)
+
 assert '<title>FE QUEST PWA v127</title>' in s
 assert "const APP_VERSION = 'v127';" in s
 assert 'CORE_A_REFERENCE_BRIDGE_OVERRIDES' in s
 assert 'quizItems=orderCoreTopicPracticeQuestions(pool);' in s
-assert mm['name']=='FE QUEST v127'
-assert "const APP_VERSION = 'v127';" in w and "fe-quest-v127-1" in w
+assert mm['name'] == 'FE QUEST v127'
+assert "const APP_VERSION = 'v127';" in w and 'fe-quest-v127-1' in w
 print('APPLY_V127_OK')
