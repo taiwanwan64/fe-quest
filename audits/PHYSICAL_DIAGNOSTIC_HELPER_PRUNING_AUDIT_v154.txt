@@ -1,0 +1,159 @@
+FE QUEST v154 — PHYSICAL DIAGNOSTIC HELPER PRUNING AUDIT
+Date: 2026-08-15
+Version: v154
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Complete the physical production separation prepared by v153.
+- Keep only the diagnostic helpers that are genuinely required by the production self-check path.
+- Remove release-only and compatibility-only diagnostic helpers from the generated production HTML.
+- Preserve the removed release diagnostics as an explicitly manifested release-only regression input.
+- Preserve all learning content, user-facing UI behavior, saved-data schema and regression guarantees.
+
+V153 PRUNING CONTRACT
+The v153 inventory classified 46 diagnostic helpers across app/v145-block-00.txt through app/v152-block-00.txt:
+- production runtime: 17
+- release-only: 10
+- compatibility-only / superseded: 19
+- production-absent target: 29
+- duplicate classifications: 0
+- unclassified helpers: 0
+
+V154 PRODUCTION MODULE BOUNDARY
+Production no longer includes the complete v145-v153 diagnostic blocks.
+Instead, the Jekyll assembler includes eight production-only runtime projections:
+- app/v154-runtime-v145.txt
+- app/v154-runtime-v146.txt
+- app/v154-runtime-v147.txt
+- app/v154-runtime-v148.txt
+- app/v154-runtime-v149.txt
+- app/v154-runtime-v150.txt
+- app/v154-runtime-v151.txt
+- app/v154-runtime-v152.txt
+
+Exactly 17 diagnostic helpers remain available in the production runtime:
+- v145EvaluateCurrentContract
+- v146AdditionalCurrentChecks
+- v146EvaluateCurrentContract
+- v147AdditionalCurrentChecks
+- v147EvaluateCurrentContract
+- v148CueAudit
+- v148AdditionalCurrentChecks
+- v148EvaluateCurrentContract
+- v148EvaluateBrowserUiContracts
+- v148EvaluateBrowserUiLayer
+- v149ExpandRanges
+- v150ExpandSentinelGroups
+- v150CriticalCurriculumLegacyIndices
+- v151ReleaseSentinelLegacyIndices
+- v151ExpectedReleaseSentinelIndices
+- v151DeclarativeCiCoverage
+- v152LegacyClassificationAudit
+
+The following 29 diagnostic helpers are physically absent from the generated production runtime.
+Release-only 10:
+- v145CollectHistoricalDiagnostics
+- v146CollectHistoricalDiagnostics
+- v147CollectHistoricalDiagnostics
+- v148CollectHistoricalDiagnostics
+- runV149LegacyShadowAudit
+- v150CriticalCurriculumResults
+- runV150CriticalCurriculumAudit
+- v151ChapterAuditRows
+- v151ReleaseSentinelResults
+- runV151ReleaseSentinelAudit
+
+Compatibility-only / superseded 19:
+- v145EvaluateBrowserUiLayer
+- runV145SelfCheck
+- runV146SelfCheck
+- runV147SelfCheck
+- runV148SelfCheck
+- v149LegacyInventoryAudit
+- v149CollectHistoricalDiagnostics
+- v149AdditionalCurrentChecks
+- v149EvaluateCurrentContract
+- runV149SelfCheck
+- v150AdditionalCurrentChecks
+- v150EvaluateCurrentContract
+- runV150SelfCheck
+- v151AdditionalCurrentChecks
+- v151EvaluateCurrentContract
+- runV151SelfCheck
+- v152AdditionalCurrentChecks
+- v152EvaluateCurrentContract
+- runV152SelfCheck
+
+RELEASE-ONLY DIAGNOSTIC FIXTURE
+- Manifest: _regression/diagnostic-helper-boundary-v154.fixture.json
+- Mode: manifested-source-concat
+- Original source blocks remain in GitHub as archival/release regression inputs, but the v154 assembler does not include them in production.
+- Exact concatenated v145-v152 release source SHA-256: 77407c61fc519154715ad3775992dc011a6b2ec16cf29a3d2562a1cc6774a81a
+- Exact concatenated UTF-8 bytes: 99,656
+- The manifest pins each original v145-v152 block by SHA-256 and byte length.
+- _regression remains underscore-prefixed and is not deployed by GitHub Pages/Jekyll.
+
+LEGACY 293-ASSERT FIXTURE
+- Manifest: _regression/legacy-run-app-self-check-v131.fixture.json
+- Source range: app/base-v131.html from function runAppSelfCheck(){ up to function runLessonUXAudit(){
+- SHA-256: b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+- UTF-8 bytes: 49,657
+- assert calls: 293
+- Production contains no runAppSelfCheck() implementation and does not execute the legacy shadow.
+
+CURRENT CONTRACT
+- v154EvaluateCurrentContract() inherits through v148EvaluateCurrentContract().
+- The eight v149-v152 contracts are restated without relying on the pruned compatibility evaluators.
+- Two v154 boundary checks enforce exact physical pruning and the release-fixture contract.
+- current-contract remains 71 / 71.
+- Production self-check architecture: v154-physical-diagnostic-helper-pruning.
+
+INVARIANTS
+- Subject A questions: 710
+- Unique IDs: 710
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive levels: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- Browser UI contracts: 23 / 23 plus required DOM sentinel
+- Critical curriculum declarative mapping: 56
+- Remaining release sentinel declarative mapping: 28
+- Declarative CI-only coverage: 84 / 84 exact
+- Release critical curriculum audit: 56 / 56
+- Release remaining sentinel audit: 28 / 28
+- Release-only legacy shadow: 293 assert / raw errors 22 / residual active errors 0
+- Production legacy evaluator bundled: 0
+- Production pruned diagnostic helpers leaked: 0
+- No question wording, options, answers, IDs, cognition, Profile Schema or visible learning UI design changed in v154.
+
+REAL GITHUB / JEKYLL RELEASE VALIDATION
+- Validation workflow run: 31891567197
+- Validation job: 95028479880
+- Validation head SHA: fd4f76cdc7ac7a70872baf82c4fe9957ccc4f5ea
+- Jekyll build: success
+- Validator: success
+- FEQUEST_V154_FIXTURE_BOUNDARY_OK production=excluded fixture=293
+- FEQUEST_V154_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V154_PRODUCTION_RUNTIME_OK current=71/71 helpers=46 runtime=17 pruned=29 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V154_RELEASE_FIXTURE_OK diagnostic=29 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V154_RUNTIME_OK current=71/71 helpers=46 runtime=17 pruned=29 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMALLY VALIDATED ARTIFACT
+- Artifact ID: 9248675353
+- Artifact name: fe-quest-v154-standalone
+- Artifact outer ZIP SHA-256: 1231e6a66b90d9a26c6c2c59a409c9c63f532f7b20ab9139420a3f8354952bb4
+- Artifact contains FE_QUEST_PWA_v154.zip built from the validated _site output.
+- Inner deployable PWA ZIP SHA-256: 12fe21f57a44c45cd2c20aa43d026f147f95423db1c4b62404f583b6ad03dac2
+- Deployable PWA contains only index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png and apple-touch-icon.png.
+
+CLEANUP
+- Temporary release workflow removed in commit e2ac90bcdf48885d225b832cf90173dec3af1720.
+- Temporary repository validator removed in commit c1dbc05c77cd821026f764d3760096f67dc9f019.
+- The validator is retained only in the v154 handoff package for reproducibility.
+- The release-only source manifests remain intentionally in _regression/.
+
+NEXT — v155
+- Now that the 29 release/compatibility helpers are physically absent from production, reduce version-label coupling in the 17 retained runtime helpers.
+- Prefer a permanent semantic current-contract module hierarchy with stable names instead of retaining v145-v152 labels forever.
+- Preserve the release fixture manifest so old source provenance remains auditable.
+- Keep current 71, browser 23, critical 56, release sentinel 28, CI 84/84 and legacy 293 residual 0 while performing the rename/consolidation.
+- Require real Jekyll release validation before cleanup and final Pages verification.
