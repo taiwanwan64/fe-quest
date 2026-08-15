@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v121</title>
+<title>FE QUEST PWA v122</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -1141,11 +1141,13 @@
     display:none;margin-top:18px;padding:17px;border-radius:18px;
     background:#f8fafc;border:1px solid var(--line);line-height:1.65;
   }
-  .quiz-explain.show{display:block}
+  .quiz-explain.show{display:flow-root;height:auto!important;min-height:0!important;align-self:flex-start}
   .quiz-explain h3{margin-bottom:7px}
+  .quiz-explain h3:empty,.quiz-explanation:empty,.quiz-hint:empty{display:none}
   .quiz-hint{
-    margin-top:10px;color:var(--muted);font-size:14px;
+    margin-top:10px;color:var(--muted);font-size:14px;height:auto;min-height:0;
   }
+  .quiz-explain > *:last-child{margin-bottom:0}
   .reason-box{
     display:none;margin-top:14px;padding:15px;border-radius:18px;
     background:#fff6f6;border:1px solid #ffd9d9;
@@ -6589,7 +6591,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v121';
+const APP_VERSION = 'v122';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -12891,6 +12893,8 @@ function renderQuizQuestion(){
   document.getElementById('quizProgress').style.width=`${(quizIndex/quizItems.length)*100}%`;
   const quizExplain=document.getElementById('quizExplain');
   quizExplain.classList.remove('show');
+  quizExplain.style.height='auto';
+  quizExplain.style.minHeight='0';
   quizExplain.querySelectorAll('.memory-next-note,.variant-source-note,.retry-note,.review-route-inline').forEach(x=>x.remove());
   document.getElementById('quizResultTitle').textContent='';
   document.getElementById('quizExplanation').textContent='';
@@ -14696,7 +14700,7 @@ function renderCoreCourseMap(filter=''){
     const settled=all.filter(t=>['stable','master'].includes(coreTopicLearningState(t.id).key)).length;
     const pct=Math.round(all.reduce((s,t)=>s+(profile.lessonProgress?.[t.id]||0),0)/Math.max(1,all.length));
 
-    output+=`<section class="core-chapter ${(q||ch===focusChapter)?'open':''}">
+    output+=`<section class="core-chapter ${q?'open':''}">
       <div class="core-chapter-head" data-core-chapter="${ch}">
         <div class="core-chapter-no">${ch}</div>
         <div>
@@ -14955,6 +14959,52 @@ function coreTopicHasTemplatedFiller(id){
   return coreTopicProseParts(id).some(x=>String(x).includes('という関係まで説明できるように整理する'));
 }
 
+// ===== v122: Core A prose tone normalization =====
+// Explanatory prose is shown in です・ます調. Formulae, labels, and short non-sentence fragments remain unchanged.
+function politeCoreSentence(sentence){
+  let src=String(sentence??'').trim();
+  if(!src)return '';
+  const hadStop=src.endsWith('。');
+  let body=hadStop?src.slice(0,-1):src;
+  if(/(?:です|ます|ません|でしょう|ください|しましょう)$/.test(body))return body+'。';
+
+  const fixed=[
+    ['とは限らない','とは限りません'],['わけではない','わけではありません'],['ではない','ではありません'],
+    ['とはいえない','とはいえません'],['いえない','いえません'],['できない','できません'],
+    ['必要がない','必要がありません'],['意味がない','意味がありません'],['値がない','値がありません'],['余裕がない','余裕がありません'],
+    ['必要がある','必要があります'],['可能性がある','可能性があります'],['ことがある','ことがあります'],['ことが多い','ことが多いです'],
+    ['である','です'],['という','といいます'],['し得る','する場合があります'],['得る','得ます'],
+    ['となる','となります'],['になる','になります'],['ある','あります'],['いる','います'],['できる','できます'],
+    ['られる','られます'],['れる','れます'],['せる','せます'],['する','します']
+  ];
+  for(const [from,to] of fixed){if(body.endsWith(from)){body=body.slice(0,-from.length)+to;return body+'。';}}
+
+  const negative=[['しない','しません'],['わない','いません'],['かない','きません'],['さない','しません'],['たない','ちません'],['ばない','びません'],['まない','みません'],['らない','りません']];
+  for(const [from,to] of negative){if(body.endsWith(from)){body=body.slice(0,-from.length)+to;return body+'。';}}
+  if(body.endsWith('くない'))return body.slice(0,-3)+'くありません。';
+  if(body.endsWith('ない'))return body.slice(0,-2)+'ません。';
+
+  const ruGodan=['入る','走る','帰る','切る','知る','要る','減る','滑る','喋る','焦る','限る','握る','参る','混じる','交じる','返る','散る','照る','練る','捻る','蹴る','湿る','茂る','覆る','蘇る','遮る','陥る','至る','渡る','上がる','下がる','変わる','つながる','異なる','決まる','残る','守る','作る','取る','割る','測る','絞る','戻る','終わる','始まる','高まる','分かる','起こる','当たる','かかる','関わる','広がる','下回る','上回る'];
+  if(body.endsWith('る')){
+    if(ruGodan.some(v=>body.endsWith(v)))return body.slice(0,-1)+'ります。';
+    const prev=body.at(-2)||'';
+    if('いきぎしじちぢにひびぴみりえけげせぜてでねへべぺめれ'.includes(prev))return body.slice(0,-1)+'ます。';
+    return body.slice(0,-1)+'ります。';
+  }
+  const godan=[['う','います'],['く','きます'],['ぐ','ぎます'],['す','します'],['つ','ちます'],['ぬ','にます'],['ぶ','びます'],['む','みます']];
+  for(const [from,to] of godan){if(body.endsWith(from))return body.slice(0,-1)+to+'。';}
+
+  if(body.endsWith('い'))return body+'です。';
+  if(body.endsWith('だ'))return body.slice(0,-1)+'です。';
+  if(/[ぁ-んァ-ヶ一-龠]$/.test(body))return body+'です。';
+  return body+(hadStop?'。':'');
+}
+function politeCoreProse(text){
+  const parts=String(text??'').match(/[^。]+。?/g)||[];
+  return parts.map(p=>politeCoreSentence(p)).join('');
+}
+function politeCoreHtml(text){return learningHtml(politeCoreProse(text));}
+
 function coreTopicArticleView(id){
   const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
   const e=coreTopicEnrichment(id);
@@ -14962,20 +15012,20 @@ function coreTopicArticleView(id){
   return `<article class="core-article">
     <section class="core-article-beginner">
       <h2>まずここから</h2>
-      <p>${learningHtml(beginner)}</p>
+      <p>${politeCoreHtml(beginner)}</p>
     </section>
 
     ${coreTopicBeginnerTermView(t)}
 
     <section class="core-article-section">
       <h2>解説</h2>
-      <p>${learningHtml(e.deep)}</p>
-      <ul class="core-article-extra">${e.extra.map(x=>`<li>${learningHtml(x)}</li>`).join('')}</ul>
+      <p>${politeCoreHtml(e.deep)}</p>
+      <ul class="core-article-extra">${e.extra.map(x=>`<li>${politeCoreHtml(x)}</li>`).join('')}</ul>
     </section>
 
     <section class="core-article-section">
       <h2>仕組み</h2>
-      <p>${learningHtml(t.example)}</p>
+      <p>${politeCoreHtml(t.example)}</p>
     </section>
 
     ${coreTopicComparisonView(id)}
@@ -14991,7 +15041,7 @@ function coreTopicArticleView(id){
 
     <aside class="core-article-pitfall">
       <h2>注意</h2>
-      <p>${learningHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}</p>
+      <p>${politeCoreHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}</p>
     </aside>
   </article>`;
 }
@@ -20592,7 +20642,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v121','v121 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v122','v122 version/schema contract drift');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
     assert(!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle'),'v111 analytics priority / progressive disclosure missing');
     assert(!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold'),'v111 data/recovery progressive disclosure missing');
@@ -20616,6 +20666,8 @@ function runAppSelfCheck(){
     assert(document.querySelector('#coverage .coverage-summary-compact')?.textContent.includes('教材の総合進捗'),'v114 coverage duplicate summary reduction missing');
     assert(typeof CORE_A_IDS!=='undefined'&&CORE_A_IDS.length===130&&typeof finalizeAppBoot==='function'&&String(finalizeAppBoot).includes('FEQUEST_DAILY_PLAN_READY=true'),'v115/v117 daily-plan boot barrier missing');
     assert(document.querySelector('header #aiFab.ai-header-btn'),'v115 BIT先生 must live in the top-right header');
+    assert(!String(renderCoreCourseMap).includes("ch===focusChapter)?'open'"),'v122 Core A chapters must not auto-expand the first incomplete chapter');
+    assert(politeCoreProse('CPU性能はクロック周波数だけでは決まらない。').endsWith('決まりません。'),'v122 Core A polite prose normalization missing');
     assert(typeof openProblemsHub==='function'&&document.getElementById('problems'),'v119 focused exercise flow contract missing');
     assert(document.querySelector('.quiz-actions')&&document.getElementById('quizSubmit'),'v119 right-aligned single CTA contract missing');
     assert(typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function','v110 Subject B guided entry missing');
