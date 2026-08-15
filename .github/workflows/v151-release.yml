@@ -1,45 +1,72 @@
-name: FE QUEST v151 release apply and validate
+name: Validate FE QUEST v151
 
 on:
   push:
     branches: [main]
     paths:
-      - 'app/v151-block-00.txt'
-      - 'audits/RELEASE_SENTINEL_DECLARATIVE_AUDIT_v151.txt'
-      - 'tools/v151_apply.py'
-      - 'tools/v151_validate.py'
       - '.github/workflows/v151-release.yml'
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
 
 jobs:
-  apply-validate:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Apply v151 production patch
-        run: python tools/v151_apply.py
-      - name: Build validation site
+
+      - name: Prepare clean validation workspace
         run: |
-          rm -rf _site
-          mkdir _site
-          cp index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png _site/
-      - name: Validate v151 release
-        run: python tools/v151_validate.py
-      - name: Commit validated v151 production files
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v151.zip
+
+      - name: Validate source contracts
         run: |
-          git config user.name "taiwanwan64"
-          git config user.email "taiwanwan64@gmail.com"
-          git add index.html manifest.webmanifest sw.js
-          git diff --cached --exit-code && exit 1 || true
-          git commit -m "Release FE QUEST v151 declarative sentinel contract"
-          git push origin HEAD:main
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v151' index.html
+          grep -q "APP_VERSION = 'v151'" sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v151-1'" sw.js
+          grep -q 'FE QUEST v151' manifest.webmanifest
+          grep -q '{% capture v151block %}' index.html
+          grep -q 'runV151SelfCheck()' index.html
+          grep -q 'V151_RELEASE_SENTINEL_SPEC' app/v151-block-00.txt
+          grep -q "architecture:'v151-full-ci-sentinel-declarative-contract'" app/v151-block-00.txt
+          grep -q 'runV151ReleaseSentinelAudit' app/v151-block-00.txt
+          cp app/v151-block-00.txt /tmp/v151-check.js
+          node --check /tmp/v151-check.js
+          python -m py_compile tools/v151_validate.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA and release contracts
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v151</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v151';" _site/index.html
+          grep -q 'runV151SelfCheck' _site/index.html
+          grep -q "APP_VERSION = 'v151'" _site/sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v151-1'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python tools/v151_validate.py
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          test -f _site/apple-touch-icon.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v151.zip .)
+
+      - name: Upload standalone v151 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v151
+          path: FE_QUEST_PWA_v151.zip
+          retention-days: 90
