@@ -1,0 +1,127 @@
+{
+  "name": "diagnostic-v145-v152-full",
+  "version": "v154",
+  "runtime_helpers": [
+    "v145EvaluateCurrentContract",
+    "v146AdditionalCurrentChecks",
+    "v146EvaluateCurrentContract",
+    "v147AdditionalCurrentChecks",
+    "v147EvaluateCurrentContract",
+    "v148AdditionalCurrentChecks",
+    "v148CueAudit",
+    "v148EvaluateBrowserUiContracts",
+    "v148EvaluateBrowserUiLayer",
+    "v148EvaluateCurrentContract",
+    "v149ExpandRanges",
+    "v150CriticalCurriculumLegacyIndices",
+    "v150ExpandSentinelGroups",
+    "v151DeclarativeCiCoverage",
+    "v151ExpectedReleaseSentinelIndices",
+    "v151ReleaseSentinelLegacyIndices",
+    "v152LegacyClassificationAudit"
+  ],
+  "release_only_helpers": [
+    "runV149LegacyShadowAudit",
+    "runV150CriticalCurriculumAudit",
+    "runV151ReleaseSentinelAudit",
+    "v145CollectHistoricalDiagnostics",
+    "v146CollectHistoricalDiagnostics",
+    "v147CollectHistoricalDiagnostics",
+    "v148CollectHistoricalDiagnostics",
+    "v150CriticalCurriculumResults",
+    "v151ChapterAuditRows",
+    "v151ReleaseSentinelResults"
+  ],
+  "compatibility_only_helpers": [
+    "runV145SelfCheck",
+    "runV146SelfCheck",
+    "runV147SelfCheck",
+    "runV148SelfCheck",
+    "runV149SelfCheck",
+    "runV150SelfCheck",
+    "runV151SelfCheck",
+    "runV152SelfCheck",
+    "v145EvaluateBrowserUiLayer",
+    "v149AdditionalCurrentChecks",
+    "v149CollectHistoricalDiagnostics",
+    "v149EvaluateCurrentContract",
+    "v149LegacyInventoryAudit",
+    "v150AdditionalCurrentChecks",
+    "v150EvaluateCurrentContract",
+    "v151AdditionalCurrentChecks",
+    "v151EvaluateCurrentContract",
+    "v152AdditionalCurrentChecks",
+    "v152EvaluateCurrentContract"
+  ],
+  "expected_counts": {
+    "total": 46,
+    "runtime": 17,
+    "release_only": 10,
+    "compatibility_only": 19,
+    "production_absent": 29
+  },
+  "source_blocks": [
+    {
+      "path": "app/v145-block-00.txt",
+      "sha256": "7e349dcf4631cbb20eb44152dc40998bd45dcf77b29bed8f6bb6a68f6f990ce2",
+      "utf8_bytes": 12796,
+      "functions": ["v145EvaluateCurrentContract","v145CollectHistoricalDiagnostics","v145EvaluateBrowserUiLayer","runV145SelfCheck"],
+      "removed_from_production": ["v145CollectHistoricalDiagnostics","v145EvaluateBrowserUiLayer","runV145SelfCheck"]
+    },
+    {
+      "path": "app/v146-block-00.txt",
+      "sha256": "75a7409724005f248de6582f556d5147c331ddc5be53e646823074f392528fb1",
+      "utf8_bytes": 12787,
+      "functions": ["v146AdditionalCurrentChecks","v146EvaluateCurrentContract","v146CollectHistoricalDiagnostics","runV146SelfCheck"],
+      "removed_from_production": ["v146CollectHistoricalDiagnostics","runV146SelfCheck"]
+    },
+    {
+      "path": "app/v147-block-00.txt",
+      "sha256": "9f6066a0a6c8fbb8de437dd72aaa36c545672a2541fb81d29b2c38abf066d562",
+      "utf8_bytes": 13209,
+      "functions": ["v147AdditionalCurrentChecks","v147EvaluateCurrentContract","v147CollectHistoricalDiagnostics","runV147SelfCheck"],
+      "removed_from_production": ["v147CollectHistoricalDiagnostics","runV147SelfCheck"]
+    },
+    {
+      "path": "app/v148-block-00.txt",
+      "sha256": "b3368d6464c7db2c8e071b8c2bd5de136e03b9d706ed05ea8901802c43490c9f",
+      "utf8_bytes": 13872,
+      "functions": ["v148CueAudit","v148AdditionalCurrentChecks","v148EvaluateCurrentContract","v148EvaluateBrowserUiContracts","v148EvaluateBrowserUiLayer","v148CollectHistoricalDiagnostics","runV148SelfCheck"],
+      "removed_from_production": ["v148CollectHistoricalDiagnostics","runV148SelfCheck"]
+    },
+    {
+      "path": "app/v149-block-00.txt",
+      "sha256": "438b25588e2c73630de7605eca0c8214e633ca2a06b744b634fccfac6519a91e",
+      "utf8_bytes": 8436,
+      "functions": ["v149ExpandRanges","v149LegacyInventoryAudit","runV149LegacyShadowAudit","v149CollectHistoricalDiagnostics","v149AdditionalCurrentChecks","v149EvaluateCurrentContract","runV149SelfCheck"],
+      "removed_from_production": ["v149LegacyInventoryAudit","runV149LegacyShadowAudit","v149CollectHistoricalDiagnostics","v149AdditionalCurrentChecks","v149EvaluateCurrentContract","runV149SelfCheck"]
+    },
+    {
+      "path": "app/v150-block-00.txt",
+      "sha256": "cfc9d68ad3bfd5cfbd2908d5095dfbb6737dced7a94c210cf9d8de83321999a8",
+      "utf8_bytes": 14722,
+      "functions": ["v150ExpandSentinelGroups","v150CriticalCurriculumLegacyIndices","v150CriticalCurriculumResults","runV150CriticalCurriculumAudit","v150AdditionalCurrentChecks","v150EvaluateCurrentContract","runV150SelfCheck"],
+      "removed_from_production": ["v150CriticalCurriculumResults","runV150CriticalCurriculumAudit","v150AdditionalCurrentChecks","v150EvaluateCurrentContract","runV150SelfCheck"]
+    },
+    {
+      "path": "app/v151-block-00.txt",
+      "sha256": "8092728354d0707b4361b81cd1e58b423aef5646223f4df6fb0d68d02a7c3295",
+      "utf8_bytes": 16203,
+      "functions": ["v151ReleaseSentinelLegacyIndices","v151ExpectedReleaseSentinelIndices","v151ChapterAuditRows","v151ReleaseSentinelResults","runV151ReleaseSentinelAudit","v151DeclarativeCiCoverage","v151AdditionalCurrentChecks","v151EvaluateCurrentContract","runV151SelfCheck"],
+      "removed_from_production": ["v151ChapterAuditRows","v151ReleaseSentinelResults","runV151ReleaseSentinelAudit","v151AdditionalCurrentChecks","v151EvaluateCurrentContract","runV151SelfCheck"]
+    },
+    {
+      "path": "app/v152-block-00.txt",
+      "sha256": "e0a71aeb89106d0115a869d2e1a9692a0f2435c4d072e1344421be35559ec4f2",
+      "utf8_bytes": 7631,
+      "functions": ["v152LegacyClassificationAudit","v152AdditionalCurrentChecks","v152EvaluateCurrentContract","runV152SelfCheck"],
+      "removed_from_production": ["v152AdditionalCurrentChecks","v152EvaluateCurrentContract","runV152SelfCheck"]
+    }
+  ],
+  "release_source_concat_sha256": "77407c61fc519154715ad3775992dc011a6b2ec16cf29a3d2562a1cc6774a81a",
+  "release_source_concat_utf8_bytes": 99656,
+  "release_module_mode": "manifested-source-concat",
+  "production_modules": [
+    "app/v154-runtime-v145.txt","app/v154-runtime-v146.txt","app/v154-runtime-v147.txt","app/v154-runtime-v148.txt","app/v154-runtime-v149.txt","app/v154-runtime-v150.txt","app/v154-runtime-v151.txt","app/v154-runtime-v152.txt"
+  ]
+}
