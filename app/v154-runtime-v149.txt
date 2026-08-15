@@ -1,0 +1,28 @@
+// ===== v149 legacy-assert inventory / CI-shadow production policy =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const V149_LEGACY_ASSERT_INVENTORY = Object.freeze({
+    total:293,
+    currentContractCovered:Object.freeze({count:147,ranges:'1-11,15-16,18-36,39,42-43,48-49,55,59-70,73-79,84-85,111-124,173-175,177-194,220-221,236,238-243,245-246,249-268,271-291,293'}),
+    browserContractCovered:Object.freeze({count:24,ranges:'215-219,222-223,225-235,237,244,247-248,269-270',browserContracts:23,note:'legacy wording pair 269-270 is represented by one visible-copy browser contract'}),
+    historicalMetadata:Object.freeze({count:38,ranges:'12-14,17,37-38,40-41,44-47,50-52,56-58,71-72,195-199,202-214'}),
+    ciOnlyLegacySentinels:Object.freeze({count:84,ranges:'53-54,80-83,86-110,125-172,176,200-201,224,292'})
+  });
+
+  function v149ExpandRanges(spec){
+    const out=[];
+    String(spec||'').split(',').map(x=>x.trim()).filter(Boolean).forEach(part=>{
+      const m=part.match(/^(\d+)(?:-(\d+))?$/);
+      if(!m) throw new Error(`Invalid legacy assertion range: ${part}`);
+      const a=Number(m[1]),b=Number(m[2]||m[1]);
+      if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<a) throw new Error(`Invalid legacy assertion bounds: ${part}`);
+      for(let n=a;n<=b;n++) out.push(n);
+    });
+    return out;
+  }
+
+  globalThis.V149_LEGACY_ASSERT_INVENTORY=V149_LEGACY_ASSERT_INVENTORY;
+  globalThis.v149ExpandRanges=v149ExpandRanges;
+})();
