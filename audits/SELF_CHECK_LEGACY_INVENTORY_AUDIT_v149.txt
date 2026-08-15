@@ -1,0 +1,110 @@
+FE QUEST v149 — legacy-assert inventory / CI-shadow production policy 二十次監査
+作成日: 2026-08-15
+
+目的
+- 旧 runAppSelfCheck() に残る 293 個の assert 呼び出しを機械的に全件棚卸しし、現行契約・ブラウザ契約・歴史メタデータ・CI専用legacy sentinelの4群へ分類する。
+- productionブラウザ起動時には旧293 assertを全実行せず、v149 current-contract + browser-contractを主判定とする。
+- 旧293 assertは削除せず、release CIで runV149LegacyShadowAudit() を明示実行して回帰安全網を維持する。
+- 問題データ、正答、問題ID、認知レベル、Profile Schema、UI外観は変更しない。
+
+v149 assertion inventory
+- runAppSelfCheck source assert calls: 293
+- classified calls: 293
+- unique classified calls: 293
+- gaps: 0
+- overlaps: 0
+
+分類
+1. current-contract covered: 147 legacy assert
+   ranges: 1-11,15-16,18-36,39,42-43,48-49,55,59-70,73-79,84-85,111-124,173-175,177-194,220-221,236,238-243,245-246,249-268,271-291,293
+   - 現在のデータ品質、認知レベル、復習、習得判定、taper、教材構造、模試、科目B、保存・復旧、更新安全、問題ヒント等で同等以上のcurrent-contractを持つ。
+2. browser-contract covered: 24 legacy assert / 23 browser contracts
+   ranges: 215-219,222-223,225-235,237,244,247-248,269-270
+   - 269/270の旧クエスト文言2 assertは、可視本文に旧2文言がないことを確認する1 browser contractへ統合。
+3. historical metadata: 38 legacy assert
+   ranges: 12-14,17,37-38,40-41,44-47,50-52,56-58,71-72,195-199,202-214
+   - v80/v89/v90/v91/v92/v93/v125/v127〜v131の監査マーカー件数・旧rewrite/pass分布など。現在の正しさではなく変更履歴を表す条件。
+4. CI-only legacy sentinels: 84 legacy assert
+   ranges: 53-54,80-83,86-110,125-172,176,200-201,224,292
+   - 章別比率、テンプレート反復、教材内の個別重要語・式・手順、章別問題構造、required DOM総覧など、release時には有用だがproduction起動ごとに293全件を走らせる必要はない静的回帰sentinel。
+
+production policy
+- window.FEQUEST_SELF_CHECK は runV149SelfCheck() を使用。
+- runV149SelfCheck() は runAppSelfCheck() を呼ばない。
+- production historicalDiagnostics.mode = deferred-to-ci
+- production historicalDiagnostics.executed = false
+- production boot legacy execution = 0
+- active pass/fail owner:
+  1) current-contract
+  2) browser UI contract
+- full legacy shadowは明示関数 runV149LegacyShadowAudit() に移動。
+
+release CI safety
+- CIでは完成PWAをNode最小DOMで起動し、v149主自己診断が旧legacyを実行せず63/63 PASSすることを確認する。
+- その後 runV149LegacyShadowAudit() を明示実行し、旧293 assertを全実行する。
+- v148互換の実測期待値:
+  raw legacy errors: 22
+  historical metadata errors: 8
+  superseded semantic aggregate: 1
+  Node DOM由来legacy UI signals: 13
+  compatibility residual active errors: 0
+- residualActiveErrorsが1件でも発生したreleaseはCI失敗とする。
+
+v149 current-contract
+- v148 inherited: 61
+- new: 2
+  1. legacy-assert-inventory
+     - source assert count 293
+     - four buckets total 293
+     - unique coverage 293
+     - gap/overlap 0
+  2. production-shadow-policy
+     - production self-check pathがrunAppSelfCheckを直接実行しない
+     - explicit CI legacy audit関数が存在
+     - production historical diagnosticsがdeferred-to-ci
+- total: 63
+- local Node runtime simulation: 63 / 63 PASS
+
+browser UI
+- v148の23 browser contractsをそのまま継承。
+- 完成HTML静的DOM監査をrelease CIで23/23要求。
+- production実DOMでは従来どおりbrowser-contract失敗をactive errorとする。
+
+legacy explicit shadow local simulation
+- runV149LegacyShadowAudit() executed: true
+- raw errors: 22
+- historical metadata: 8
+- superseded semantic: 1
+- legacy UI signals: 13
+- residual active errors: 0
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI外観変更: 0
+
+v149期待値
+- architecture: v149-inventory-ci-shadow-policy
+- currentContract: 63 / 63 PASS
+- legacy source asserts: 293
+- current-covered legacy asserts: 147
+- browser-covered legacy asserts: 24
+- historical-only legacy asserts: 38
+- CI-only legacy sentinels: 84
+- production boot legacy execution: false
+- browser contracts: 23
+- release explicit legacy raw errors: 22
+- release explicit compatibility residual: 0
+
+次段階
+- v150ではCI-only legacy sentinels 84件を内容別に再編する。
+- 特に教材の個別重要語・式・手順を「critical curriculum contract」として宣言的データへ移し、旧runAppSelfCheck本文から静的教材assertを削除できる状態を作る。
+- 目標は旧関数をrelease regression fixtureへ完全隔離し、production bundleから将来的に除去可能な構造へ進めること。
