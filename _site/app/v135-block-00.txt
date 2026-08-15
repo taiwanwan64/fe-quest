@@ -1,0 +1,84 @@
+// ===== v135 concept-boundary / distractor-learning pass =====
+(() => {
+  const topicConcept = new Map();
+  const topicQuestions = new Map();
+  QUESTION_BANK.forEach(q => {
+    if(!q.coreTopicId) return;
+    if(!topicConcept.has(q.coreTopicId)) topicConcept.set(q.coreTopicId, q.concept || '関連概念');
+    if(!topicQuestions.has(q.coreTopicId)) topicQuestions.set(q.coreTopicId, []);
+    topicQuestions.get(q.coreTopicId).push(q);
+  });
+
+  const keypoint = (topicId, fallback='') => {
+    const qs = topicQuestions.get(topicId) || [];
+    const kq = qs.find(q => q.angle === 'knowledge') || qs[0];
+    if(!kq) return String(fallback || '').trim().replace(/。$/,'');
+    const hint = String(kq.hint || '').trim().replace(/。$/,'');
+    if(hint.length >= 5) return hint;
+    const parts = String(kq.exp || '').split(/(?<=[。！？])\s*/).map(x => x.trim().replace(/[。！？]$/,'')).filter(Boolean);
+    return parts.find(x => !x.includes('正解です') && !x.includes('が正解') && x.length >= 8) || String(fallback || kq.exp || '').trim().replace(/。$/,'');
+  };
+
+  const touched = new Set();
+  let genericBefore = 0;
+  let changedChoices = 0;
+
+  QUESTION_BANK.forEach(q => {
+    const before = Array.isArray(q.choiceExps) ? q.choiceExps.slice() : [];
+    genericBefore += before.filter(x => String(x).includes('この内容は「')).length;
+    if(!Array.isArray(q.distractorTopicIds) || !before.some(x => String(x).includes('この内容は「'))) return;
+
+    const wrongIndexes = q.options.map((_, i) => i).filter(i => i !== q.a);
+    if(q.distractorTopicIds.length !== wrongIndexes.length) return;
+    const topicByChoice = new Map(wrongIndexes.map((idx, i) => [idx, q.distractorTopicIds[i]]));
+    const target = q.concept || 'この論点';
+    const targetKey = keypoint(q.coreTopicId, q.hint || '');
+    const after = before.slice();
+
+    before.forEach((text, i) => {
+      if(!String(text).includes('この内容は「')) return;
+      const topicId = topicByChoice.get(i);
+      const matched = String(text).match(/この内容は「([^」]+)」/);
+      const distractorConcept = topicConcept.get(topicId) || (matched ? matched[1] : '別の論点');
+      after[i] = `「${q.options[i]}」は「${distractorConcept}」で扱う内容です。一方、この設問の「${target}」では『${targetKey}』を手掛かりに判断します。`;
+    });
+
+    after.forEach((text, i) => { if(text !== before[i]) changedChoices++; });
+    if(after.some((text, i) => text !== before[i])) {
+      q.choiceExps = after;
+      q.qualityAudit = 'v135-concept-boundary-pass';
+      touched.add(q.id);
+    }
+  });
+
+  const manual = {
+    'net-03': [
+      '192.168.10.255は/24ネットワーク192.168.10.0/24のブロードキャストアドレスです。ネットワークアドレスではありません。',
+      '192.168.10.24は端末の下位8bitを0にしていないため、/24のネットワークアドレスではありません。/24では下位8bitをすべて0にします。',
+      '/24では先頭24bitがネットワーク部です。192.168.10.25の下位8bitを0にすると192.168.10.0になります。',
+      '192.168.0.0は第3オクテットが10ではなく0です。/24では192.168.10までがネットワーク部なので一致しません。'
+    ],
+    'sec-03': [
+      '署名者の公開鍵は署名を付ける鍵ではなく、受信者などが署名を検証するときに使います。',
+      '受信者の公開鍵は受信者宛ての暗号化などに使う鍵であり、送信者本人の署名を生成する鍵ではありません。',
+      'デジタル署名は署名者本人だけが保持する秘密鍵で生成し、署名者の公開鍵で検証します。',
+      '受信者の秘密鍵は受信者が自分宛ての暗号文を復号する場合などに使うもので、送信者の署名生成には使いません。'
+    ]
+  };
+
+  Object.entries(manual).forEach(([qid, after]) => {
+    const q = QUESTION_BANK.find(x => x.id === qid);
+    if(!q) throw new Error(`v135 missing manual question: ${qid}`);
+    const before = q.choiceExps.slice();
+    after.forEach((text, i) => { if(text !== before[i]) changedChoices++; });
+    q.choiceExps = after;
+    q.qualityAudit = 'v135-concept-boundary-pass';
+    touched.add(qid);
+  });
+
+  const genericAfter = QUESTION_BANK.reduce((n, q) => n + (q.choiceExps || []).filter(x => String(x).includes('この内容は「')).length, 0);
+  if(genericBefore !== 413) throw new Error(`v135 generic-before drift: ${genericBefore}`);
+  if(genericAfter !== 0) throw new Error(`v135 generic-after drift: ${genericAfter}`);
+  if(touched.size !== 139) throw new Error(`v135 touched-question drift: ${touched.size}`);
+  if(changedChoices !== 419) throw new Error(`v135 changed-choice drift: ${changedChoices}`);
+})();

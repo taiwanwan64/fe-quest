@@ -1,0 +1,6 @@
+// ===== v138 audit assertions =====
+const SUBJECT_A_V138_IDS=[...SUBJECT_A_V138_IDS_0,...SUBJECT_A_V138_IDS_1,...SUBJECT_A_V138_IDS_2,...SUBJECT_A_V138_IDS_3,...SUBJECT_A_V138_IDS_4,...SUBJECT_A_V138_IDS_5,...SUBJECT_A_V138_IDS_6,...SUBJECT_A_V138_IDS_7];
+assert(SUBJECT_A_V138_IDS.length===110,'v138 question count drift');
+assert(new Set(SUBJECT_A_V138_IDS).size===110,'v138 duplicate audit id');
+assert(QUESTION_BANK.reduce((n,q)=>n+(q.choiceExps||[]).filter(x=>String(x).includes('問題文の条件または定義と一致しない')).length,0)===0,'v138 generic condition mismatch remains');
+assert(QUESTION_BANK.filter(q=>q.qualityAudit==='v138-condition-specific-pass').length===110,'v138 application count drift');

@@ -1,0 +1,12 @@
+の指揮命令関係を示すのは組織図などの役割です。","日程の並びはガントチャートなどで表します。","コスト実績の集計だけがWBSの目的ではありません。","成果物や作業を階層化して、必要な作業範囲を明確にします。"]},"coreq_21_04_3":{"options":["契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する","受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する","発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する","作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する"],"exp":"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。","choiceExps":["契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。","成果物責任だけでは、指揮命令の実態を判断できません。","契約名と実態が一致しているか、指揮命令関係などを確認します。","雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。"]}};
+const SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS=Object.keys(SUBJECT_A_V132_STYLE_CUE_OVERRIDES);
+SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS.forEach(qid=>{
+  const q=QUESTION_BANK.find(x=>x.id===qid);
+  if(!q)return;
+  const answerBefore=q.a;
+  const patch=SUBJECT_A_V132_STYLE_CUE_OVERRIDES[qid];
+  Object.assign(q,patch);
+  q.styleCueAudit='v132-style-cue-pass';
+  if(q.a!==answerBefore) throw new Error(`v132 answer-index drift: ${qid}`);
+});
+
