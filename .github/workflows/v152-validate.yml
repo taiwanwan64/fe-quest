@@ -39,4 +39,13 @@ jobs:
           print('::warning title=FE QUEST v152 build probe::'+msg)
           PY
       - name: Validate FE QUEST v152
-        run: python3 tools/v152_validate.py
+        run: |
+          set +e
+          python3 tools/v152_validate.py > /tmp/fequest-v152-validation.log 2>&1
+          status=$?
+          cat /tmp/fequest-v152-validation.log
+          if [ "$status" -ne 0 ]; then
+            msg=$(tail -n 12 /tmp/fequest-v152-validation.log | tr '\n' '|' | sed 's/%/%25/g; s/\r/%0D/g')
+            echo "::error title=FE QUEST v152 validator::${msg}"
+            exit "$status"
+          fi
