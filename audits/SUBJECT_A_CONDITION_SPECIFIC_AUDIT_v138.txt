@@ -54,6 +54,14 @@ FE QUEST v138 — 科目A 710問 条件・定義不一致型・誤答解説 九�
 - 今回は問題・選択肢を増やさず、アプリ独自問題の誤答解説だけを改善した。
 - 参考書・問題集の独自問題文の転載は行っていない。
 
+リリース検証
+- Release FE QUEST v138 workflow: success
+- standalone artifact: FE_QUEST_PWA_v138
+- artifact SHA-256: 33d25ec29b7280dc590746336261b9f0a8da01311d05b45dd76bac3fb559553c
+- release commit: 88d296eab827037974a6d6d58d32f077869a256e
+- JavaScript構文、Service Worker構文、manifest JSON、v138監査契約をリリース時に検証済み。
+- 一時workflowおよびpayload staging filesはリリース処理後に削除済み。
+
 次段階
 - v139では定型文を単純に消す監査から一段進め、科目A710問のchoiceExps全体を対象に「正答解説の言い換えだけで、誤答固有の情報がない」選択肢を検出する。
 - 特に同じ説明が複数誤答へコピーされている箇所、誤答の値・用語・手順に一度も触れていない箇所を重点監査する。
