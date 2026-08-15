@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="FE QUEST" />
 <meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<title>FE QUEST PWA v125</title>
+<title>FE QUEST PWA v126</title>
 <style>
   :root{
     --bg:#f6f8fb;
@@ -4515,6 +4515,17 @@
     .ai-header-btn{width:44px;height:44px;min-width:44px;min-height:44px;font-size:22px}
   }
 
+
+  /* ===== v126: Core A explanation-depth balance ===== */
+  .core-optional-depth{margin:14px 0;border:1px solid #dfe6eb;border-radius:16px;background:#fbfcfd;overflow:hidden}
+  .core-optional-depth>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;padding:13px 15px;font-weight:900;color:#426177;list-style:none}
+  .core-optional-depth>summary::-webkit-details-marker{display:none}
+  .core-optional-depth>summary::after{content:'＋';font-size:18px;color:#8394a2}
+  .core-optional-depth[open]>summary::after{content:'−'}
+  .core-optional-depth-body{padding:0 15px 5px}
+  .core-optional-depth-body>.core-article-section{margin-left:0;margin-right:0}
+  @media(max-width:720px){.core-optional-depth>summary{min-height:44px;padding:11px 13px}.core-optional-depth-body{padding:0 12px 4px}}
+
   /* ===== v114: daily-use UX phase 9 (reduction / information hierarchy) ===== */
   .ux-secondary-details{
     margin-top:16px;
@@ -6591,7 +6602,7 @@ const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
 const PROFILE_SCHEMA_VERSION = 5;
-const APP_VERSION = 'v125';
+const APP_VERSION = 'v126';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
 let profileRecoverySource = '';
@@ -15055,11 +15066,45 @@ function readableCoreExtras(id,items){
 function politeCoreHtml(text){return learningHtml(readableCoreProse(text));}
 function politeCoreCautionHtml(text){return learningHtml(readableCoreCautionProse(text));}
 
+
+// ===== v126: Core A explanation-depth balance =====
+// The reference textbook's 21-chapter / 99 matching topic structure is used as a coverage baseline.
+// Supplemental text below is presentation-only: source curriculum/question keys remain unchanged.
+const CORE_A_DEPTH_SUPPLEMENTS={
+  "core_01_05":"2の補数は、必ず同じbit長の中で考えます。最上位bitが1なら負数として読む場面があり、n bitでは表現範囲が-2^(n-1)〜2^(n-1)-1になる点も一緒に確認します。",
+  "core_03_02":"アルゴリズムは、入力を受け取り、分岐・繰返し・代入などの基本処理を組み合わせて結果を得る手順です。問題では変数の値を表に書き、処理を上から順に追うと判断しやすくなります。",
+  "core_04_02":"命令実行は、主記憶から命令を取り出すフェッチ、命令の意味を読み取るデコード、実際に処理する実行の流れで考えます。プログラムカウンタや命令レジスタなど、どの情報を保持するレジスタかも対応させます。",
+  "core_06_02":"ファイルシステムは、ファイル名やディレクトリ構造だけでなく、記憶領域の管理やアクセス権限にも関係します。順次アクセスと直接アクセスの違いは、データを先頭から読むか、目的位置へ直接移動できるかで整理します。",
+  "core_12_03":"設計では、要件を実装できる形へ具体化します。外部設計は画面・帳票・外部インタフェースなど利用者から見える仕様、内部設計はモジュール構造・データ構造・内部処理など実装側の仕様を中心に決めます。",
+  "core_14_02":"スコープは、プロジェクトで実施する範囲と実施しない範囲を明確にする考え方です。WBSで成果物や作業へ分解し、途中で範囲を変える場合は影響を確認して正式な変更手続で管理します。",
+  "core_14_06":"リスク管理は、リスクの特定、分析、対応方針の決定、監視という流れで進めます。発生確率と影響度を組み合わせて優先順位を付け、回避・低減・移転・受容などの対応を選びます。",
+  "core_15_03":"サービスデスクは利用者との単一窓口として、問い合わせや障害報告を記録・分類し、一次対応または適切な担当へエスカレーションします。根本原因を調べる問題管理とは役割が異なります。",
+  "core_16_03":"ソリューションビジネスでは、製品を売ること自体ではなく顧客の課題解決を起点に考えます。必要に応じて製品、クラウド、開発、教育、運用支援などを組み合わせ、導入後の効果まで含めて提案します。",
+  "core_19_03":"e-ビジネスは、インターネットなどを使って商取引やサービスを行う形態です。BtoB・BtoC・CtoCは売り手と買い手の組合せで区別し、電子決済やECモールなど周辺の仕組みと結び付けて整理します。",
+  "core_19_04":"IoTは、センサで現実の情報を取得し、ネットワークで送信し、処理結果を表示やアクチュエータ制御へつなげます。組込みシステムでは限られたCPU・メモリ・電力の中で、リアルタイム性や信頼性を満たすことが重要です。",
+  "core_21_02":"著作権は原則として創作時に発生し、産業財産権は出願・登録を基本とします。営業秘密は、秘密として管理され、事業に有用で、公然と知られていないことなどが保護の重要な条件です。",
+  "core_04_06":"バスはCPU・主記憶・入出力装置などの間で情報を運ぶ共通経路です。データを運ぶデータバス、場所を指定するアドレスバス、読書きなどの制御信号を運ぶ制御バスを役割で区別します。",
+  "core_12_06":"実装・構築では、設計内容をプログラムや設定として形にします。コーディング規約、ライブラリや依存関係、ビルド手順、構成情報をそろえ、同じソースから再現できる状態を保つことが大切です。",
+  "core_12_07":"導入・受入れでは、完成したシステムを本番環境へ移し、利用者が業務で使えることを確認します。データ移行、操作教育、運用手順、受入れ条件を事前に決め、切替後の支援まで準備します。",
+  "core_13_03":"開発環境では、OS・言語処理系・ライブラリ・設定などの違いが再現性に影響します。開発・テスト・本番の差を把握し、依存関係やバージョンを管理して同じ条件を再現できるようにします。",
+  "core_14_08":"ステークホルダごとに必要な情報、伝える頻度、手段は異なります。誰がどの意思決定に関わるかを整理し、報告だけでなく質問や合意形成など双方向のコミュニケーションを設計します。",
+  "core_20_07":"データ分析では、まず目的に合う指標とデータを選びます。欠損・重複・表記揺れなどの品質を確認し、集計や可視化の結果を業務上の判断へつなげます。相関が見えても、それだけで因果関係とは断定しません。"
+};
+const CORE_A_OPTIONAL_DETAIL_TOPICS=new Set(['core_20_05','core_16_02']);
+function coreTopicSecondaryDepthView(id){
+  const details=`${coreTopicComparisonView(id)}${coreTopicCalcGuideView(id)}`;
+  if(!details)return '';
+  if(!CORE_A_OPTIONAL_DETAIL_TOPICS.has(id))return details;
+  return `<details class="core-optional-depth"><summary>詳しい比較・手順を見る</summary><div class="core-optional-depth-body">${details}</div></details>`;
+}
+
 function coreTopicArticleView(id){
   const t=CORE_A_TOPIC_MAP[id];if(!t)return '';
   const e=coreTopicEnrichment(id);
   const beginner=CORE_A_BEGINNER_OVERVIEWS[id]||t.lead;
   const displayExtras=readableCoreExtras(id,e.extra);
+  const depthSupplement=CORE_A_DEPTH_SUPPLEMENTS[id]||'';
+  const deepText=[e.deep,depthSupplement].filter(Boolean).join(' ');
   return `<article class="core-article">
     <section class="core-article-beginner">
       <h2>まずここから</h2>
@@ -15070,7 +15115,7 @@ function coreTopicArticleView(id){
 
     <section class="core-article-section">
       <h2>解説</h2>
-      <p>${politeCoreHtml(e.deep)}</p>
+      <p>${politeCoreHtml(deepText)}</p>
       <ul class="core-article-extra">${displayExtras.map(x=>`<li>${politeCoreHtml(x)}</li>`).join('')}</ul>
     </section>
 
@@ -15079,9 +15124,7 @@ function coreTopicArticleView(id){
       <p>${politeCoreHtml(t.example)}</p>
     </section>
 
-    ${coreTopicComparisonView(id)}
-
-    ${coreTopicCalcGuideView(id)}
+    ${CORE_A_OPTIONAL_DETAIL_TOPICS.has(id)?'':coreTopicSecondaryDepthView(id)}
 
     <section class="core-article-section">
       <h2>重要</h2>
@@ -15089,6 +15132,8 @@ function coreTopicArticleView(id){
     </section>
 
     ${coreTopicExamCueView(id)}
+
+    ${CORE_A_OPTIONAL_DETAIL_TOPICS.has(id)?coreTopicSecondaryDepthView(id):''}
 
     <aside class="core-article-pitfall">
       <h2>注意</h2>
@@ -20693,7 +20738,7 @@ function runAppSelfCheck(){
     const backupSelf=makeBackupPayload(profile),decodedSelf=decodeBackupPayload(backupSelf);
     assert(decodedSelf.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION,'Backup roundtrip schema');
     assert(profileIntegrityChecksum(decodedSelf.profile)===backupSelf.checksum,'Backup checksum roundtrip');
-    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v125','v125 version/schema contract drift');
+    assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v126','v126 version/schema contract drift');
     assert(Object.keys(CORE_A_READABILITY_EXACT_OVERRIDES).length>=70,'v125 Core A readability override coverage');
     assert(Object.keys(CORE_A_REDUNDANT_EXTRA_INDEXES).length>=20,'v125 curated duplicate-extra map coverage');
     assert(typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle'),'v111 plan next-action / compact details missing');
