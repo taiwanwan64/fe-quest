@@ -69,13 +69,13 @@ v147 current-contract expansion
 
 legacy shadow diagnostics
 - String(runAppSelfCheck)上のassert call: 293。
-- APP_VERSIONがv147になったことで、旧runAppSelfCheck内部の「v146 version/schema contract drift」が新たに1件発生する。
-- これはv146リリース時点のshell assertionであり、v147ではreleaseShellMetadataとして歴史診断へ明示分類する。
-- Node runtime smokeの旧raw error: 23件。
-  - historical metadata: 9（従来8 + v146 release-shell 1）
+- Jekyllのversion/schema置換は旧runAppSelfCheck内のrelease-shell assertionにも適用されるため、v147完成HTMLではversion driftは新規発生しない。
+- Node runtime smokeの旧raw error: 22件。
+  - historical metadata: 8
   - superseded semantic aggregate: 1
   - Node最小DOM由来legacy UI signal: 13
   - compatibility residual active error: 0
+- v147のreleaseShellMetadata分類は将来、旧shell assertionが残留した場合の防御として保持するが、現時点では0件。
 - 分類不能なresidualActiveErrorsが将来1件でも出た場合は、引き続きv147 active errorへ昇格する。
 
 browser UI
@@ -103,8 +103,8 @@ v147期待値
 - newly migrated groups: 15
 - migrated legacy assertion equivalents: 22
 - legacy shadow assert calls: 293
-- legacy raw errors: 23
-- historical metadata: 9
+- legacy raw errors: 22
+- historical metadata: 8
 - superseded semantic: 1
 - legacy UI signals: 13
 - compatibility residual: 0
