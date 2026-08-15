@@ -1,0 +1,115 @@
+FE QUEST v147 — persistence / update / resume safety contract migration 十八次監査
+作成日: 2026-08-15
+
+目的
+- v146で38契約まで拡張したcurrent-contractへ、v98〜v117に集中していた保存・復旧・更新・boot安全機構を追加移行する。
+- 旧runAppSelfCheckをshadow safety netとして残しつつ、日常利用で学習履歴を失わないための重要条件を現行契約として直接評価する。
+- 併せてSubject Bの非DOM誘導ロジックをcurrent-contractへ移す。
+- 問題データ、正答、問題ID、認知レベル、UI外観は変更しない。
+
+v147 current-contract expansion
+- v146 current-contract: 38契約。
+- v147追加: 15グループ。
+- 合計: 53契約。
+- Node runtime smoke実測: 53 / 53 PASS。
+- v147追加15グループは旧runAppSelfCheck内の22個の個別assert相当を、現在の安全意味単位へまとめて移行した。
+
+追加移行した15グループ
+1. daily-plan-versioning
+   - v98 planVersionを使った日次プラン移行
+   - 完了済みslotを保持した再構築
+2. legacy-backup-compatibility
+   - checksum-valid v96 backupをschema v5へ移行
+   - checksum-valid v97 backupをschema v5へ移行
+3. atomic-profile-roundtrip
+   - fequest-profile-atomic-v1 envelope
+   - schema / revision / checksum付きroundtrip
+4. local-rollback-generations
+   - writeCurrentProfile前の前世代保全
+   - atomic current profileとcompatibility mirrorの書込経路
+5. multi-tab-write-safety
+   - write lease
+   - revision conflict検出
+   - conflict時の保存ブロック
+6. migration-journal
+   - interrupted migration journal
+   - rollback時に旧atomic authorityを除去
+7. indexeddb-recovery
+   - IndexedDB checkpoint engine
+   - backup payload保存 / decode復旧
+8. committed-state-rollback
+   - 最終commit済みin-memory snapshot
+   - 保存失敗時の巻戻し
+9. resume-freshness
+   - profileBaseRevision
+   - same-revision checksum drift
+   - 外部更新検出時のconflict block
+10. safe-update-path
+   - pre-update recovery checkpoint
+   - blocked/conflicted tabからの安全なone-tap更新
+   - SKIP_WAITING
+11. boot-barrier
+   - FEQUEST_APP_BOOT_COMPLETE / FEQUEST_DAILY_PLAN_READY
+   - bundle初期化中のsaveProfile / persistProfileSilently延期
+12. future-schema-guard
+   - future-schema rollback時のatomic authority除去
+   - 古い画面から空fallbackを書き出さない
+   - durability検査もfuture schemaへ非破壊対応
+13. recovery-operations
+   - durability verification / manual recovery point / version checkpoint
+   - selectable recovery center
+   - pre-manual-restore rollback protection
+14. resilient-resume-policy
+   - SAFE_RESUME_SCREENSを主要4画面へ限定
+   - 翌日はhomeへ戻す
+   - 科目B総合実戦resumeを先に復元
+15. subject-b-guided-flow
+   - recommendation → launch → continue の1本化
+   - finalAllowedと試験3日前taper guard
+
+legacy shadow diagnostics
+- String(runAppSelfCheck)上のassert call: 293。
+- APP_VERSIONがv147になったことで、旧runAppSelfCheck内部の「v146 version/schema contract drift」が新たに1件発生する。
+- これはv146リリース時点のshell assertionであり、v147ではreleaseShellMetadataとして歴史診断へ明示分類する。
+- Node runtime smokeの旧raw error: 23件。
+  - historical metadata: 9（従来8 + v146 release-shell 1）
+  - superseded semantic aggregate: 1
+  - Node最小DOM由来legacy UI signal: 13
+  - compatibility residual active error: 0
+- 分類不能なresidualActiveErrorsが将来1件でも出た場合は、引き続きv147 active errorへ昇格する。
+
+browser UI
+- v144で確立した13 browser DOM contractsを独立層として維持。
+- Node minimal DOM: 13件deferred。
+- 完成HTML静的DOM監査: 13/13 PASS。
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI見た目変更: 0
+
+v147期待値
+- architecture: v147-safety-current-contract
+- currentContract: 53 / 53 PASS
+- inherited current contracts: 38
+- newly migrated groups: 15
+- migrated legacy assertion equivalents: 22
+- legacy shadow assert calls: 293
+- legacy raw errors: 23
+- historical metadata: 9
+- superseded semantic: 1
+- legacy UI signals: 13
+- compatibility residual: 0
+- browser UI contract: 13
+
+次段階
+- v148では旧runAppSelfCheckの残りから、問題品質のv104〜v109系cue検査、UIではなく機能ロジックとして残す価値のあるv110〜v123系契約を棚卸しする。
+- current-contract側で同等以上の検査が済んだものはshadow側の依存を段階的に縮小し、旧runAppSelfCheckの実行コストと保守負債を減らす。
