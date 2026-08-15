@@ -1,0 +1,72 @@
+name: FE QUEST v126 explanation-depth retry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v126-release-retry.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply v126 core changes
+        run: |
+          git apply --check tools/v126_retry.patch
+          git apply tools/v126_retry.patch
+
+      - name: Normalize version metadata
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+          p=Path('index.html')
+          s=p.read_text()
+          s=re.sub(r"assert\(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v125','v125 version/schema contract drift'\);",
+                   "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v126','v126 version/schema contract drift');",s)
+          anchor="assert(Object.keys(CORE_A_REDUNDANT_EXTRA_INDEXES).length===20,'v125 curated duplicate-extra map coverage');"
+          if "v126 explanation-depth supplement coverage" not in s and anchor in s:
+              s=s.replace(anchor,anchor+"\n    assert(Object.keys(CORE_A_DEPTH_SUPPLEMENTS).length===18,'v126 explanation-depth supplement coverage');\n    assert(CORE_A_OPTIONAL_DETAIL_TOPICS.size===2,'v126 optional-depth topic coverage');")
+          p.write_text(s)
+          mp=Path('manifest.webmanifest')
+          m=json.loads(mp.read_text())
+          m['name']='FE QUEST v126'
+          m['description']='基本情報技術者試験向けPWA。v126では参考書の21章・主要トピック構成とアプリ内問題実績を基準に、科目A130テーマの説明量を横断監査。説明不足18テーマを補強し、特に長い2テーマは詳細比較・手順を任意展開へ移して初学者向けの情報量を調整。問題・正解キー・教材原文データは維持。'
+          mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+          PY
+
+      - name: Verify v126
+        run: |
+          python3 - <<'PY'
+          import re, pathlib, json
+          s=pathlib.Path('index.html').read_text()
+          scripts=re.findall(r'<script[^>]*>([\s\S]*?)</script>',s)
+          pathlib.Path('/tmp/app.js').write_text('\n'.join(scripts))
+          ids=re.findall(r'\bid="([^"]+)"',s)
+          assert len(ids)==len(set(ids)), 'duplicate HTML IDs'
+          assert "const APP_VERSION = 'v126';" in s
+          assert 'CORE_A_DEPTH_SUPPLEMENTS' in s
+          assert "new Set(['core_20_05','core_16_02'])" in s
+          m=json.load(open('manifest.webmanifest'))
+          assert m['name']=='FE QUEST v126'
+          PY
+          node --check /tmp/app.js
+          node --check sw.js
+          grep -q "fe-quest-v126-1" sw.js
+
+      - name: Commit v126
+        run: |
+          rm -f tools/v125_to_v126.patch tools/v126_retry.patch .github/workflows/v126-release.yml .github/workflows/v126-release-retry.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release FE QUEST v126 explanation depth audit"
+          git push
