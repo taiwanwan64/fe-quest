@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v153",
+  "name": "FE QUEST v154",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v153ではv145〜v152の診断helper 46関数をproduction runtime 17・release-only 10・互換専用19へ機械的に棚卸しし、current-contractをv149〜v152旧評価器の実行鎖から切り離した。production bootはrelease-only/互換helperを呼ばず、current 71、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI-only宣言coverage 84/84、release-only legacy shadow 293 assert residual 0を維持。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は変更なし。",
+  "description": "基本情報技術者試験向けPWA。v154ではv153で分類した診断helper 46関数のうち、release-only 10件とcompatibility-only 19件の計29件をproduction完成HTMLから物理的に除外。productionには必要な17 runtime helperだけを統合moduleとして残し、29件はrelease-only fixtureで回帰検証する。current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
