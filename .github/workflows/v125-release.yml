@@ -1,0 +1,71 @@
+name: FE QUEST v125 readability release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/v125-release.yml
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply v125
+        shell: bash
+        run: |
+          git apply tools/v124_to_v125_index.patch
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          m=Path('manifest.webmanifest')
+          obj=json.loads(m.read_text(encoding='utf-8'))
+          if obj.get('name')!='FE QUEST v124':
+              raise SystemExit(f"unexpected manifest version: {obj.get('name')}")
+          obj['name']='FE QUEST v125'
+          obj['description']='基本情報技術者試験向けPWA。v125では科目Aコアコース130テーマを読みやすさ・冗長性の観点で横断監査し、長文分割、定型的なメタ表現の削減、重複補足の表示整理を実施。元教材データ・問題・正解キーは維持。'
+          m.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          sw=Path('sw.js')
+          s=sw.read_text(encoding='utf-8')
+          if "const APP_VERSION = 'v124';" not in s or "const CACHE_NAME = 'fe-quest-v124-1';" not in s:
+              raise SystemExit('unexpected service worker version')
+          s=s.replace("const APP_VERSION = 'v124';","const APP_VERSION = 'v125';",1)
+          s=s.replace("const CACHE_NAME = 'fe-quest-v124-1';","const CACHE_NAME = 'fe-quest-v125-1';",1)
+          sw.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Verify v125
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,re
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert "const APP_VERSION = 'v125';" in s
+          assert "APP_VERSION==='v125'" in s
+          assert 'CORE_A_READABILITY_EXACT_OVERRIDES' in s
+          assert 'CORE_A_REDUNDANT_EXTRA_INDEXES' in s
+          assert json.loads(Path('manifest.webmanifest').read_text(encoding='utf-8'))['name']=='FE QUEST v125'
+          assert Path('audits/CORE_A_130_THEME_READABILITY_AUDIT_v125.txt').exists()
+          scripts=re.findall(r'<script[^>]*>([\s\S]*?)</script>',s)
+          Path('/tmp/feq-v125-main.js').write_text('\n'.join(scripts),encoding='utf-8')
+          PY
+          node --check /tmp/feq-v125-main.js
+          node --check sw.js
+
+      - name: Commit v125
+        shell: bash
+        run: |
+          rm -f tools/v124_to_v125_index.patch .github/workflows/v125-release.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m 'Release FE QUEST v125 Core A readability audit'
+          git push
