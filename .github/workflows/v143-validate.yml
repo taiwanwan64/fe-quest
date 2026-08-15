@@ -1,0 +1,73 @@
+name: Validate FE QUEST v143
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v143-validate.yml'
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare clean validation workspace
+        run: |
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v143.zip
+
+      - name: Validate source contracts
+        run: |
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v143' index.html
+          grep -q "APP_VERSION = 'v143'" sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v143-1'" sw.js
+          grep -q 'FE QUEST v143' manifest.webmanifest
+          grep -q '{% capture v143block %}' index.html
+          grep -q 'applyV143LateFixes();window.FEQUEST_SELF_CHECK=v143NormalizeSelfCheck(runAppSelfCheck());' index.html
+          grep -q 'v143-option-balance-pass' app/v143-block-00.txt
+          grep -q 'depthShortBefore.length===32' app/v143-block-00.txt
+          grep -q 'optionOutliersBefore.length===9' app/v143-block-00.txt
+          grep -q '__FEQUEST_RUNTIME_SMOKE__' app/v143-block-00.txt
+          cp app/v143-block-00.txt /tmp/v143-check.js
+          node --check /tmp/v143-check.js
+          python -m py_compile tools/v143_runtime_smoke.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA and runtime
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v143</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v143';" _site/index.html
+          grep -q 'v143-option-balance-pass' _site/index.html
+          grep -q "APP_VERSION = 'v143'" _site/sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v143-1'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python tools/v143_runtime_smoke.py
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          test -f _site/apple-touch-icon.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v143.zip .)
+
+      - name: Upload standalone v143 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v143
+          path: FE_QUEST_PWA_v143.zip
+          retention-days: 90
