@@ -1,6 +1,8 @@
 ---
 ---
 {% capture base %}{% include_relative app/base-v131.html %}{% endcapture %}
+{% capture legacySelfCheckFixture %}{% include_relative _regression/legacy-run-app-self-check-v131.txt %}{% endcapture %}
+{% assign productionBase = base | remove: legacySelfCheckFixture %}
 {% capture runtimeGuard %}function assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}{% endcapture %}
 {% capture v132block %}{% include_relative app/v132-block-00.txt %}{% include_relative app/v132-block-01.txt %}{% include_relative app/v132-block-02.txt %}{% include_relative app/v132-block-03.txt %}{% include_relative app/v132-block-04.txt %}{% include_relative app/v132-block-05.txt %}{% include_relative app/v132-block-06.txt %}{% include_relative app/v132-block-07.txt %}{% endcapture %}
 {% capture v133block %}{% include_relative app/v133-block-00.txt %}{% include_relative app/v133-block-01.txt %}{% include_relative app/v133-block-02.txt %}{% include_relative app/v133-block-03.txt %}{% include_relative app/v133-block-04.txt %}{% include_relative app/v133-block-05.txt %}{% endcapture %}
@@ -22,9 +24,9 @@
 {% capture v149block %}{% include_relative app/v149-block-00.txt %}{% endcapture %}
 {% capture v150block %}{% include_relative app/v150-block-00.txt %}{% endcapture %}
 {% capture v151block %}{% include_relative app/v151-block-00.txt %}{% endcapture %}
-{% assign s1 = base | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v151</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v151';" %}
-{% assign s3 = s2 | replace: "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');", "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v151','v151 version/schema contract drift');" %}
-{% assign s4 = s3 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV151SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ v145block }}{{ v146block }}{{ v147block }}{{ v148block }}{{ v149block }}{{ v150block }}{{ v151block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
-{{ s4 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
+{% capture v152block %}{% include_relative app/v152-block-00.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v152</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v152';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV152SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ v145block }}{{ v146block }}{{ v147block }}{{ v148block }}{{ v149block }}{{ v150block }}{{ v151block }}{{ v152block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
