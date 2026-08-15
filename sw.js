@@ -1,5 +1,5 @@
-const APP_VERSION = 'v131';
-const CACHE_NAME = 'fe-quest-v131-1';
+const APP_VERSION = 'v132';
+const CACHE_NAME = 'fe-quest-v132-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
@@ -11,7 +11,8 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  // v117 emergency hotfix: activate immediately so v116's false save-block loop is escaped with one normal reload.
+  // v117 emergency hotfix: v116 can enter a false save-block loop during startup.
+  // Activate this release immediately so the learner only needs one normal reload.
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
@@ -69,6 +70,7 @@ self.addEventListener('fetch', event => {
   if(request.method !== 'GET' || request.headers.has('range')) return;
   const url=new URL(request.url);
   if(url.origin !== self.location.origin) return;
+
   if(request.mode === 'navigate'){
     event.respondWith(navigationResponse(request));
     return;
