@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v152",
+  "name": "FE QUEST v153",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v152では旧runAppSelfCheck()（293 assert、約49.7KB）をproduction完成HTMLから物理的に除外し、GitHub source上のrelease-only regression fixtureへ分離。productionではcurrent/browser/declarative contractのみを実行し、release CIがfixtureを明示読み込みして旧293 assertのshadow互換性（residual 0）を検証する。current-contractは67→69。科目A710問、正答位置、認知レベル、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28は維持。",
+  "description": "基本情報技術者試験向けPWA。v153ではv145〜v152の診断helper 46関数をproduction runtime 17・release-only 10・互換専用19へ機械的に棚卸しし、current-contractをv149〜v152旧評価器の実行鎖から切り離した。production bootはrelease-only/互換helperを呼ばず、current 71、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI-only宣言coverage 84/84、release-only legacy shadow 293 assert residual 0を維持。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は変更なし。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
