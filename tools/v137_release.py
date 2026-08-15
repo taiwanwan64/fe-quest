@@ -1,0 +1,347 @@
+from pathlib import Path
+from collections import defaultdict, Counter
+import json, re, shutil, zipfile
+
+PAT = 'この問題で求める内容とは一致しない。'
+
+
+def extract_json_after(src, marker):
+    pos = src.index(marker) + len(marker)
+    while pos < len(src) and src[pos].isspace():
+        pos += 1
+    if pos < len(src) and src[pos] == '=':
+        pos += 1
+        while pos < len(src) and src[pos].isspace():
+            pos += 1
+    opener = src[pos]
+    closer = {'[': ']', '{': '}'}[opener]
+    depth = 0
+    in_str = False
+    esc = False
+    for j in range(pos, len(src)):
+        ch = src[j]
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == '\\':
+                esc = True
+            elif ch == '"':
+                in_str = False
+        else:
+            if ch == '"':
+                in_str = True
+            elif ch == opener:
+                depth += 1
+            elif ch == closer:
+                depth -= 1
+                if depth == 0:
+                    return json.loads(src[pos:j + 1])
+    raise AssertionError(marker)
+
+
+def blocks(version):
+    nums = {'v132': 8, 'v133': 6, 'v134': 7, 'v135': 1, 'v136': 8, 'v137': 1}
+    return ''.join(Path(f'app/{version}-block-{i:02d}.txt').read_text() for i in range(nums[version]))
+
+
+def assemble(version, include_v137=False):
+    base = Path('app/base-v131.html').read_text()
+    insertion = blocks('v132') + blocks('v133') + blocks('v134') + blocks('v135') + blocks('v136')
+    if include_v137:
+        insertion += blocks('v137')
+    s = base.replace('<title>FE QUEST PWA v131</title>', f'<title>FE QUEST PWA {version}</title>', 1)
+    s = s.replace("const APP_VERSION = 'v131';", f"const APP_VERSION = '{version}';", 1)
+    s = s.replace(
+        "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');",
+        f"assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='{version}','{version} version/schema contract drift');",
+        1,
+    )
+    marker = 'const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)'
+    assert marker in s
+    return s.replace(marker, insertion + marker, 1)
+
+
+def final_bank(src, include_v137=False):
+    q0 = extract_json_after(src, 'const QUESTION_BANK ')
+    linked = extract_json_after(src, 'const CORE_A_LINKED_QUESTIONS')
+    challenge = extract_json_after(src, 'const CORE_A_CHALLENGE_QUESTIONS')
+    bank = [dict(q) for q in q0 + linked + challenge]
+    byid = {q['id']: q for q in bank}
+    assert len(bank) == 710 and len(byid) == 710
+
+    for m in re.finditer(r'const\s+(SUBJECT_A_V(?:128|129|130|131|132|133|134)_[A-Z0-9_]+)\s*=', src):
+        name = m.group(1)
+        if name.endswith('_IDS') or name.endswith('_CANDIDATES'):
+            continue
+        try:
+            obj = extract_json_after(src, 'const ' + name)
+        except Exception:
+            continue
+        if not isinstance(obj, dict):
+            continue
+        for qid, patch in obj.items():
+            if qid in byid and isinstance(patch, dict):
+                byid[qid].update(patch)
+
+    topic_concept = {}
+    topic_questions = defaultdict(list)
+    for q in bank:
+        tid = q.get('coreTopicId')
+        if tid:
+            topic_concept.setdefault(tid, q.get('concept') or '関連概念')
+            topic_questions[tid].append(q)
+
+    def keypoint(tid, fallback=''):
+        qs = topic_questions.get(tid, [])
+        kq = next((q for q in qs if q.get('angle') == 'knowledge'), qs[0] if qs else None)
+        if not kq:
+            return str(fallback or '').strip().rstrip('。')
+        hint = str(kq.get('hint') or '').strip().rstrip('。')
+        if len(hint) >= 5:
+            return hint
+        parts = [
+            x.strip().rstrip('。！？')
+            for x in re.split(r'(?<=[。！？])\s*', str(kq.get('exp') or ''))
+            if x.strip()
+        ]
+        return next(
+            (x for x in parts if '正解です' not in x and 'が正解' not in x and len(x) >= 8),
+            str(fallback or kq.get('exp') or '').strip().rstrip('。'),
+        )
+
+    for q in bank:
+        before = list(q.get('choiceExps') or [])
+        if not isinstance(q.get('distractorTopicIds'), list) or not any('この内容は「' in str(x) for x in before):
+            continue
+        wrong = [i for i in range(len(q['options'])) if i != q['a']]
+        if len(q['distractorTopicIds']) != len(wrong):
+            continue
+        mapping = dict(zip(wrong, q['distractorTopicIds']))
+        target = q.get('concept') or 'この論点'
+        target_key = keypoint(q.get('coreTopicId'), q.get('hint') or '')
+        after = before[:]
+        for i, text in enumerate(before):
+            if 'この内容は「' not in str(text):
+                continue
+            mm = re.search(r'この内容は「([^」]+)」', str(text))
+            dconcept = topic_concept.get(mapping.get(i)) or (mm.group(1) if mm else '別の論点')
+            after[i] = f'「{q["options"][i]}」は「{dconcept}」で扱う内容です。一方、この設問の「{target}」では『{target_key}』を手掛かりに判断します。'
+        q['choiceExps'] = after
+
+    manual = {
+        'net-03': [
+            '192.168.10.255は/24ネットワーク192.168.10.0/24のブロードキャストアドレスです。ネットワークアドレスではありません。',
+            '192.168.10.24は端末の下位8bitを0にしていないため、/24のネットワークアドレスではありません。/24では下位8bitをすべて0にします。',
+            '/24では先頭24bitがネットワーク部です。192.168.10.25の下位8bitを0にすると192.168.10.0になります。',
+            '192.168.0.0は第3オクテットが10ではなく0です。/24では192.168.10までがネットワーク部なので一致しません。',
+        ],
+        'sec-03': [
+            '署名者の公開鍵は署名を付ける鍵ではなく、受信者などが署名を検証するときに使います。',
+            '受信者の公開鍵は受信者宛ての暗号化などに使う鍵であり、送信者本人の署名を生成する鍵ではありません。',
+            'デジタル署名は署名者本人だけが保持する秘密鍵で生成し、署名者の公開鍵で検証します。',
+            '受信者の秘密鍵は受信者が自分宛ての暗号文を復号する場合などに使うもので、送信者の署名生成には使いません。',
+        ],
+    }
+    for qid, ce in manual.items():
+        byid[qid]['choiceExps'] = ce
+
+    versions = ['136'] + (['137'] if include_v137 else [])
+    for ver in versions:
+        for m in re.finditer(rf'const\s+(SUBJECT_A_V{ver}_[A-Z0-9_]+)\s*=', src):
+            name = m.group(1)
+            if name.endswith('_IDS'):
+                continue
+            obj = extract_json_after(src, 'const ' + name)
+            if isinstance(obj, dict):
+                for qid, patch in obj.items():
+                    if qid in byid and isinstance(patch, dict):
+                        byid[qid].update(patch)
+    return bank, byid
+
+
+def clean(x):
+    return re.sub(r'\s+', ' ', str(x or '')).strip()
+
+
+def target_axis(q):
+    hint = clean(q.get('hint'))
+    if hint:
+        return hint.rstrip('。')
+    corr = (q.get('choiceExps') or [''] * 4)[q['a']]
+    corr = re.sub(r'^「[^」]+」が正解です。\s*', '', clean(corr))
+    p = re.split(r'(?<=[。！？])\s*', corr)[0].rstrip('。！？')
+    return p or clean(q.get('exp')).rstrip('。')
+
+
+v136_src = assemble('v136', False)
+bank, byid = final_bank(v136_src, False)
+patches = {}
+choice_counts = Counter()
+question_counts = Counter()
+changed = 0
+
+for q in bank:
+    ces = list(q.get('choiceExps') or [])
+    if not any(PAT in str(x) for x in ces):
+        continue
+    ans = q['options'][q['a']]
+    axis = target_axis(q)
+    new = ces[:]
+    for i, text in enumerate(ces):
+        if PAT not in str(text):
+            continue
+        prefix = clean(str(text).replace(PAT, ''))
+        if prefix and not prefix.endswith(('。', '！', '？')):
+            prefix += '。'
+        new[i] = (prefix + f' この設問では「{axis}」が判断軸で、該当するのは「{ans}」です。').strip()
+        changed += 1
+        choice_counts[q['cat']] += 1
+    patches[q['id']] = {'choiceExps': new}
+    question_counts[q['cat']] += 1
+
+assert len(patches) == 87, len(patches)
+assert changed == 146, changed
+assert dict(question_counts) == {
+    'コンピュータ': 11,
+    'データベース': 9,
+    'ネットワーク': 15,
+    'セキュリティ': 9,
+    'アルゴリズム': 3,
+    'マネジメント': 22,
+    'ストラテジ': 16,
+    '基礎理論': 2,
+}
+assert dict(choice_counts) == {
+    'コンピュータ': 20,
+    'データベース': 15,
+    'ネットワーク': 23,
+    'セキュリティ': 18,
+    'アルゴリズム': 5,
+    'マネジメント': 36,
+    'ストラテジ': 25,
+    '基礎理論': 4,
+}
+
+body = '// ===== v137 requested-content mismatch explanation pass =====\n'
+body += 'const SUBJECT_A_V137_CONTEXT_OVERRIDES=' + json.dumps(patches, ensure_ascii=False, separators=(',', ':')) + ';\n'
+body += "Object.keys(SUBJECT_A_V137_CONTEXT_OVERRIDES).forEach(qid=>{const q=QUESTION_BANK.find(x=>x.id===qid);if(!q)throw new Error(`v137 missing question: ${qid}`);const patch=SUBJECT_A_V137_CONTEXT_OVERRIDES[qid];const answerBefore=q.a;const idBefore=q.id;Object.assign(q,patch,{qualityAudit:'v137-context-mismatch-pass'});if(q.a!==answerBefore)throw new Error(`v137 answer-index drift: ${qid}`);if(q.id!==idBefore)throw new Error(`v137 id drift: ${qid}`);});\n"
+ids = list(patches)
+body += 'const SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS=' + json.dumps(ids, ensure_ascii=False, separators=(',', ':')) + ';\n'
+body += "assert(SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS.length===87,'v137 context override count drift');\n"
+body += "assert(SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS.every(id=>QUESTION_BANK.some(q=>q.id===id&&q.qualityAudit==='v137-context-mismatch-pass')),'v137 context override application drift');\n"
+body += "assert(QUESTION_BANK.reduce((n,q)=>n+(q.choiceExps||[]).filter(x=>String(x).includes('この問題で求める内容とは一致しない')).length,0)===0,'v137 generic mismatch explanation drift');\n"
+Path('app/v137-block-00.txt').write_text(body)
+
+v137_src = assemble('v137', True)
+final, _ = final_bank(v137_src, True)
+assert sum(PAT in str(x) for q in final for x in (q.get('choiceExps') or [])) == 0
+assert Counter(q.get('cognitiveLevel') for q in final) == Counter({'適用': 323, '判断': 221, '想起': 166})
+assert Counter(q['a'] for q in final) == Counter({0: 178, 1: 178, 2: 177, 3: 177})
+assert len(final) == 710 and len({q['id'] for q in final}) == 710
+
+idx = Path('index.html').read_text()
+needle = '{% capture v136block %}{% include_relative app/v136-block-00.txt %}{% include_relative app/v136-block-01.txt %}{% include_relative app/v136-block-02.txt %}{% include_relative app/v136-block-03.txt %}{% include_relative app/v136-block-04.txt %}{% include_relative app/v136-block-05.txt %}{% include_relative app/v136-block-06.txt %}{% include_relative app/v136-block-07.txt %}{% endcapture %}'
+replacement = needle + '\n{% capture v137block %}{% include_relative app/v137-block-00.txt %}{% endcapture %}'
+assert needle in idx
+idx = idx.replace(needle, replacement, 1)
+idx = idx.replace('FE QUEST PWA v136', 'FE QUEST PWA v137')
+idx = idx.replace("APP_VERSION = 'v136'", "APP_VERSION = 'v137'")
+idx = idx.replace("APP_VERSION==='v136','v136 version/schema contract drift", "APP_VERSION==='v137','v137 version/schema contract drift")
+old_insert = '{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS'
+new_insert = '{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS'
+assert old_insert in idx
+idx = idx.replace(old_insert, new_insert, 1)
+assert 'v137block' in idx and 'FE QUEST PWA v137' in idx and "APP_VERSION = 'v137'" in idx
+Path('index.html').write_text(idx)
+
+manifest = json.loads(Path('manifest.webmanifest').read_text())
+manifest['name'] = 'FE QUEST v137'
+manifest['description'] = '基本情報技術者試験向けPWA。v137では科目A710問の文脈不一致型誤答解説を八次監査し、87問・146選択肢の「この問題で求める内容とは一致しない」型を、誤答の意味と設問の判断軸を対比する説明へ改善。問題数710、認知レベル分布、正答位置、Profile Schema v5は維持。'
+Path('manifest.webmanifest').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+
+sw = Path('sw.js').read_text()
+assert "const APP_VERSION = 'v136';" in sw and "const CACHE_NAME = 'fe-quest-v136-1';" in sw
+sw = sw.replace("const APP_VERSION = 'v136';", "const APP_VERSION = 'v137';", 1)
+sw = sw.replace("const CACHE_NAME = 'fe-quest-v136-1';", "const CACHE_NAME = 'fe-quest-v137-1';", 1)
+Path('sw.js').write_text(sw)
+
+report = '''FE QUEST v137 — 科目A 710問 文脈不一致型・誤答解説 八次監査
+作成日: 2026-08-15
+
+目的
+- v136の誤答理由具体化監査に続き、「この問題で求める内容とは一致しない」で終わる誤答解説を710問横断で確認する。
+- 誤答用語の意味を示すだけで終わらず、現在の設問では何を判断軸にし、どの役割・概念が問われているかまで1回の復習で分かる状態を目指す。
+- 問題文、選択肢、正答位置、問題ID、認知レベル、既存学習履歴のキーは維持する。
+
+監査結果
+- 科目A問題数: 710
+- v137修正対象: 87問
+- choiceExps修正: 146選択肢
+- v136時点の「この問題で求める内容とは一致しない」型: 146件
+- v137適用後の同型表現: 0件
+- 正答位置変更: 0問
+- 問題ID変更: 0問
+- 問題文変更: 0問
+- 選択肢変更: 0問
+- 認知レベル変更: 0問
+- Profile Schema: v5維持
+- 認知レベル: 想起166 / 適用323 / 判断221を維持
+- 正答位置: A178 / B178 / C177 / D177を維持
+
+カテゴリ別修正
+- 基礎理論: 2問 / 4選択肢
+- アルゴリズム: 3問 / 5選択肢
+- コンピュータ: 11問 / 20選択肢
+- データベース: 9問 / 15選択肢
+- ネットワーク: 15問 / 23選択肢
+- セキュリティ: 9問 / 18選択肢
+- マネジメント: 22問 / 36選択肢
+- ストラテジ: 16問 / 25選択肢
+
+変更方針
+- 旧: 誤答用語の意味を説明した後、「この問題で求める内容とは一致しない」で終了。
+- 新: 誤答用語の意味を残した上で、設問のhint・判断軸と正答概念を併記する。
+- 「なぜ違うか」を、誤答側の役割と現在問われている役割の対比で理解できるようにする。
+- v132〜v136の既存差分を維持し、v137ではchoiceExpsのみを上書きする。
+
+主な改善例
+- キャッシュ: 主記憶・CPUという用語説明だけでなく、「CPUと主記憶の速度差を埋める」が判断軸であることを明示。
+- 主キー/外部キー: 外部キーは表間参照、主キーは行を一意に識別するという役割差を設問の判断軸と結び付ける。
+- DNS/NAT: NATはアドレス変換、DNSは名前解決という違いを問題文の条件へ結び付ける。
+- TCP/UDP: UDPの低遅延・簡略制御と、TCPの到達確認・再送による信頼性を設問目的で比較。
+- ハッシュ/暗号/署名: 「固定長の指紋を作る」がハッシュの判断軸であることを明示。
+- WBS/PERT: PERTは日程分析、WBSは作業の階層分解という目的差を直接比較。
+- 特許権/商標権: 商標は名称・ロゴ、特許は技術的発明という保護対象の違いを設問の判断軸へ接続。
+
+互換性
+- 問題文変更: 0問
+- 選択肢変更: 0問
+- 正答位置変更: 0問
+- 問題ID変更: 0問
+- 認知レベル変更: 0問
+- Profile Schema変更: なし
+
+教材との整合
+- 既存の130コアテーマ分類および令和8年度向け教材との対応関係は変更していない。
+- 今回は問題・選択肢を増やさず、アプリ独自問題の誤答解説だけを改善した。
+- 参考書・問題集の独自問題文の転載は行っていない。
+
+次段階
+- v138では「問題文の条件または定義と一致しない」型の残存説明を監査する。
+- v137適用後もこの型は110問・261選択肢に残るため、数値・役割・手順・用語のどこが条件から外れるかを直接説明する。
+'''
+Path('audits/SUBJECT_A_CONTEXT_MISMATCH_AUDIT_v137.txt').write_text(report)
+
+scripts = re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>', v137_src, re.S | re.I)
+Path('/tmp/v137-app.js').write_text('\n;\n'.join(scripts))
+out = Path('/tmp/FE_QUEST_PWA_v137')
+shutil.rmtree(out, ignore_errors=True)
+out.mkdir()
+(out / 'index.html').write_text(v137_src)
+for f in ['manifest.webmanifest', 'sw.js', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png']:
+    shutil.copy2(f, out / f)
+with zipfile.ZipFile('/tmp/FE_QUEST_PWA_v137.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+    for p in out.iterdir():
+        z.write(p, f'FE_QUEST_PWA_v137/{p.name}')
+
+print(f'v137 generated: {len(patches)} questions / {changed} choices')
