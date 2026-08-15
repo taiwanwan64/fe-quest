@@ -1,0 +1,172 @@
+// ===== v149 legacy-assert inventory / CI-shadow production policy =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const V149_LEGACY_ASSERT_INVENTORY = Object.freeze({
+    total:293,
+    currentContractCovered:Object.freeze({count:147,ranges:'1-11,15-16,18-36,39,42-43,48-49,55,59-70,73-79,84-85,111-124,173-175,177-194,220-221,236,238-243,245-246,249-268,271-291,293'}),
+    browserContractCovered:Object.freeze({count:24,ranges:'215-219,222-223,225-235,237,244,247-248,269-270',browserContracts:23,note:'legacy wording pair 269-270 is represented by one visible-copy browser contract'}),
+    historicalMetadata:Object.freeze({count:38,ranges:'12-14,17,37-38,40-41,44-47,50-52,56-58,71-72,195-199,202-214'}),
+    ciOnlyLegacySentinels:Object.freeze({count:84,ranges:'53-54,80-83,86-110,125-172,176,200-201,224,292'})
+  });
+
+  function v149ExpandRanges(spec){
+    const out=[];
+    String(spec||'').split(',').map(x=>x.trim()).filter(Boolean).forEach(part=>{
+      const m=part.match(/^(\d+)(?:-(\d+))?$/);
+      if(!m) throw new Error(`Invalid legacy assertion range: ${part}`);
+      const a=Number(m[1]),b=Number(m[2]||m[1]);
+      if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<a) throw new Error(`Invalid legacy assertion bounds: ${part}`);
+      for(let n=a;n<=b;n++) out.push(n);
+    });
+    return out;
+  }
+
+  function v149LegacyInventoryAudit(){
+    const source=typeof runAppSelfCheck==='function'?String(runAppSelfCheck):'';
+    const sourceAssertCalls=(source.match(/\bassert\s*\(/g)||[]).length;
+    const buckets={
+      currentContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.currentContractCovered.ranges),
+      browserContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.browserContractCovered.ranges),
+      historicalMetadata:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.historicalMetadata.ranges),
+      ciOnlyLegacySentinels:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges)
+    };
+    const all=Object.values(buckets).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=Array.from({length:V149_LEGACY_ASSERT_INVENTORY.total},(_,i)=>i+1);
+    const exactCoverage=unique.length===expected.length&&unique.every((n,i)=>n===expected[i]);
+    const duplicateCount=all.length-unique.length;
+    const declaredCountsOk=Object.entries(buckets).every(([name,values])=>values.length===V149_LEGACY_ASSERT_INVENTORY[name].count);
+    return {
+      sourceAssertCalls,
+      declaredTotal:V149_LEGACY_ASSERT_INVENTORY.total,
+      classifiedCalls:all.length,
+      uniqueClassifiedCalls:unique.length,
+      duplicateCount,
+      exactCoverage,
+      declaredCountsOk,
+      bucketCounts:Object.fromEntries(Object.entries(buckets).map(([name,values])=>[name,values.length])),
+      productionBootLegacyExecution:false,
+      ciShadowRequired:true
+    };
+  }
+
+  function runV149LegacyShadowAudit(){
+    const historical=v148CollectHistoricalDiagnostics();
+    return {
+      ...historical,
+      mode:'ci-explicit-legacy-shadow',
+      role:'release-regression-sentinel-only',
+      inventory:v149LegacyInventoryAudit(),
+      executed:true
+    };
+  }
+
+  function v149CollectHistoricalDiagnostics(){
+    return {
+      mode:'deferred-to-ci',
+      role:'production-boot-does-not-execute-legacy-runAppSelfCheck',
+      source:'legacy-runAppSelfCheck',
+      executed:false,
+      rawErrorCount:null,
+      rawWarningCount:null,
+      historicalMetadata:[],
+      supersededSemantic:[],
+      legacyUiSignals:[],
+      residualActiveErrors:[],
+      rawWarnings:[],
+      legacyAssertCallCount:V149_LEGACY_ASSERT_INVENTORY.total,
+      inventory:v149LegacyInventoryAudit(),
+      ciAuditFunction:'runV149LegacyShadowAudit'
+    };
+  }
+
+  function v149AdditionalCurrentChecks(){
+    return [
+      currentCheck('legacy-assert-inventory','All 293 legacy assertions must remain mechanically classified with no gap or overlap',()=>{
+        const a=v149LegacyInventoryAudit();
+        return a.sourceAssertCalls===293&&a.classifiedCalls===293&&a.uniqueClassifiedCalls===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
+      },293),
+      currentCheck('production-shadow-policy','Production boot must defer the full legacy self-check to explicit CI diagnostics',()=>
+        typeof runV149LegacyShadowAudit==='function'&&typeof v149CollectHistoricalDiagnostics==='function'&&
+        v149CollectHistoricalDiagnostics().executed===false&&v149CollectHistoricalDiagnostics().mode==='deferred-to-ci'&&
+        !String(runV149SelfCheck).includes('runAppSelfCheck(')&&!String(runV149SelfCheck).includes('v148CollectHistoricalDiagnostics('),0)
+    ];
+  }
+
+  function v149EvaluateCurrentContract(){
+    const base=v148EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v149',error:undefined}
+      : {...r});
+    const extras=v149AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras];
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-inventory-policy-expanded',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,
+      newContractCount:extras.length
+    };
+  }
+
+  function runV149SelfCheck(){
+    const current=v149EvaluateCurrentContract();
+    const historical=v149CollectHistoricalDiagnostics();
+    const browserUi=v148EvaluateBrowserUiLayer();
+    const errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const inventory=v149LegacyInventoryAudit();
+    return {
+      ok:errors.length===0,
+      errors,
+      warnings:[],
+      checkedAt:new Date().toISOString(),
+      architecture:'v149-inventory-ci-shadow-policy',
+      currentContract:current,
+      historicalDiagnostics:historical,
+      browserUiContract:browserUi,
+      historicalMetadataWarnings:[],
+      supersededSemanticWarnings:[],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],
+      legacyWarnings:[],
+      v149RuntimeMode:NODE_SMOKE()?'node-minimal-dom':'browser-dom',
+      v149LegacyInventory:inventory,
+      v149ShadowPolicy:{
+        productionBootExecutesLegacy:false,
+        releaseCiExecutesLegacy:true,
+        explicitAuditFunction:'runV149LegacyShadowAudit',
+        currentCovered:V149_LEGACY_ASSERT_INVENTORY.currentContractCovered.count,
+        browserCovered:V149_LEGACY_ASSERT_INVENTORY.browserContractCovered.count,
+        historicalOnly:V149_LEGACY_ASSERT_INVENTORY.historicalMetadata.count,
+        ciOnlySentinels:V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.count,
+        total:V149_LEGACY_ASSERT_INVENTORY.total
+      },
+      v149DiagnosticContract:{
+        currentFailed:current.failed,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        productionLegacyExecuted:false,
+        inventoryExact:inventory.exactCoverage&&inventory.duplicateCount===0&&inventory.sourceAssertCalls===293,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.V149_LEGACY_ASSERT_INVENTORY=V149_LEGACY_ASSERT_INVENTORY;
+  globalThis.v149ExpandRanges=v149ExpandRanges;
+  globalThis.v149LegacyInventoryAudit=v149LegacyInventoryAudit;
+  globalThis.runV149LegacyShadowAudit=runV149LegacyShadowAudit;
+  globalThis.v149CollectHistoricalDiagnostics=v149CollectHistoricalDiagnostics;
+  globalThis.v149AdditionalCurrentChecks=v149AdditionalCurrentChecks;
+  globalThis.v149EvaluateCurrentContract=v149EvaluateCurrentContract;
+  globalThis.runV149SelfCheck=runV149SelfCheck;
+})();
