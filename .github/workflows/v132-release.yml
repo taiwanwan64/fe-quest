@@ -1,0 +1,52 @@
+name: FE QUEST v132 style-cue release
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v132-release.yml'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild release script
+        run: |
+          cat tools/v132_payload.part0 tools/v132_payload.part1 > /tmp/v132.b64
+          echo '1db8b104ee3793165a60d733bb279c7bce78c5eba443c2a7eb0d1bc183c90274  /tmp/v132.b64' | sha256sum -c -
+          base64 -d /tmp/v132.b64 | gzip -d > /tmp/release_v132.py
+          echo '53d11df9152591fdcd7f9f1a42358ec8099228472d129fb9a99317d3de45f35a  /tmp/release_v132.py' | sha256sum -c -
+      - name: Apply v132
+        run: python3 /tmp/release_v132.py
+      - name: Verify v132
+        run: |
+          python3 - <<'PY2'
+          from pathlib import Path
+          import re,json
+          s=Path('index.html').read_text()
+          scripts=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',s)
+          Path('/tmp/app.js').write_text('\n'.join(scripts))
+          assert "const APP_VERSION = 'v132';" in s
+          assert 'const PROFILE_SCHEMA_VERSION = 5;' in s
+          assert 'SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS.length===23' in s
+          assert json.loads(Path('manifest.webmanifest').read_text())['name']=='FE QUEST v132'
+          a=Path('audits/SUBJECT_A_STYLE_CUE_AUDIT_v132.txt').read_text()
+          assert 'v132修正: 23問' in a and '0問' in a
+          PY2
+          node --check /tmp/app.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+      - name: Commit v132
+        run: |
+          rm -rf tools
+          rm -f .github/workflows/v132-release.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Release FE QUEST v132 weak style-cue audit'
+          git push
