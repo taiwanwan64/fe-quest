@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v141",
+  "name": "FE QUEST v142",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v141では科目A710問の解説密度とランタイム契約を十二次監査し、103問・282誤答解説から正答総合解説の重複を除去して14,467文字（47.7%）削減。各誤答の取り違えを先に読める構造へ整理するとともに、グローバルassertとv135互換条件を修復しruntime smoke testを追加。問題数710、認知レベル分布、正答位置、Profile Schema v5は維持。",
+  "description": "基本情報技術者試験向けPWA。v142では科目A710問の解説密度と自己診断互換性を十三次監査し、正答総合解説が誤答1件だけに残っていた19問・19解説を整理して1,000文字削減。誤答内の正答総合解説全文コピーを0件にし、旧監査メタデータ由来の自己診断誤検知を現行契約へ正規化。問題数710、認知レベル分布、正答位置、Profile Schema v5は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
@@ -10,26 +10,11 @@
   "orientation": "any",
   "background_color": "#f6f8fb",
   "theme_color": "#58cc02",
-  "categories": [
-    "education"
-  ],
+  "categories": ["education"],
   "icons": [
-    {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ],
-  "display_override": [
-    "standalone",
-    "browser"
-  ],
+  "display_override": ["standalone","browser"],
   "prefer_related_applications": false
 }
