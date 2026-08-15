@@ -1,0 +1,33 @@
+{
+  "name": "semantic-diagnostic-data-facade-v156",
+  "version": "v156",
+  "module": "app/runtime-diagnostic-contract-data.txt",
+  "module_sha256": "4e6842da696c5f5b8c041bde416e5e35d41898baa05b46ae70b06f7c39913868",
+  "module_utf8_bytes": 2416,
+  "facade_global": "FEQ_DIAGNOSTIC_CONTRACT_DATA",
+  "provenance_global": "FEQ_DIAGNOSTIC_DATA_PROVENANCE",
+  "retired_names_global": "FEQ_RETIRED_DIAGNOSTIC_DATA_GLOBALS",
+  "semantic_keys": [
+    "browserUiAdditions",
+    "legacyAssertionInventory",
+    "ciSentinelGroups",
+    "criticalCurriculumSpec",
+    "releaseSentinelSpec",
+    "legacyFixtureSpec"
+  ],
+  "counts": {
+    "semantic": 6,
+    "compatibility_backing": 6
+  },
+  "archival_runtime_module": "app/runtime-current-diagnostics.txt",
+  "archival_runtime_sha256": "12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658",
+  "production_policy": "stable-semantic-facade-with-versioned-compatibility-backing",
+  "compatibility_backing_globals": [
+    "V148_EXTRA_UI_CONTRACTS",
+    "V149_LEGACY_ASSERT_INVENTORY",
+    "V150_CI_ONLY_SENTINEL_GROUPS",
+    "V150_CRITICAL_CURRICULUM_SPEC",
+    "V151_RELEASE_SENTINEL_SPEC",
+    "V152_LEGACY_FIXTURE_SPEC"
+  ]
+}
