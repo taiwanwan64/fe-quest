@@ -1,0 +1,106 @@
+FE QUEST v148 — question-cue / functional-UX / browser-contract migration 十九次監査
+作成日: 2026-08-15
+
+目的
+- v147で53契約まで拡張したcurrent-contractへ、旧runAppSelfCheckに残っていたv104〜v105の正答ヒント／誤答露骨さ検査と、v119〜v124の非DOM機能契約を追加移行する。
+- v144で13件だったbrowser UI契約を、v111〜v119の未収載UI要件と旧「クエスト」文言除去を含む23契約へ拡張する。
+- 旧runAppSelfCheckはshadow safety netとして残し、分類不能なresidual errorは引き続きactive errorへ昇格する。
+- 問題データ、正答、問題ID、認知レベル、Profile Schema、UI外観は変更しない。
+
+v148 current-contract expansion
+- v147 current-contract: 53契約。
+- v148追加: 8グループ。
+- 合計: 61契約。
+- Node runtime smoke実測: 61 / 61 PASS。
+- v148追加8グループは旧runAppSelfCheck内の15個の個別assert相当を、現在の意味単位へまとめて移行した。
+
+追加移行した8グループ
+1. judgment-distractor-cue
+   - 判断問題の誤答で「必ず／常に／絶対／だけ」等の露骨な誤答ヒントを禁止。
+   - 「確認しない／後回し／省略」等の意図的な不完全行動による誤答ヒントを禁止。
+2. security-distractor-cue
+   - 科目Bセキュリティシナリオでも同じ絶対表現・不完全行動ヒントを禁止。
+3. structural-answer-cue
+   - 正答だけが列挙要素を3個以上含む包括リストになる構造を禁止。
+   - 正答だけに「など」が付く構造を禁止。
+4. strong-answer-length-cue
+   - v131で使った強い正答長ヒント基準を710問全体へ拡張し、正答だけ極端に長い／短い問題を0件で維持。
+5. focused-exercise-flow
+   - openProblemsHub / startQuizを現行機能契約として監視。
+   - 問題ハブが演習入口を再描画する経路を維持。
+6. core-course-map-behavior
+   - Core Aの最初の未完了章を勝手に自動展開しない契約を維持。
+7. core-polite-prose
+   - Core A解説の丁寧語変換、下一段活用、注意文、接続表現の正規化を維持。
+8. plan-interaction-helpers
+   - 学習計画の最優先カード描画と詳細開閉ヘルパーを現行機能契約へ移行。
+
+v148 cue audit 実測
+- 判断問題 absolute/giveaway cue: 0
+- セキュリティ absolute/giveaway cue: 0
+- 判断問題 incomplete-action cue: 0
+- セキュリティ incomplete-action cue: 0
+- correct-only comprehensive-list cue: 0
+- correct-only 「など」 cue: 0
+- strong correct-vs-distractor length cue: 0
+
+browser UI contract expansion
+- v144から継承: 13契約。
+- v148追加: 10契約。
+- 合計: 23契約。
+- 完成HTML静的DOM監査: 23 / 23 PASS。
+
+追加した10 UI契約
+1. 学習計画: planFocusCard + planDetailsToggle
+2. 学習分析: analytics-priority-card + analyticsDetailsToggle
+3. データ/復旧: data-maintenance-fold + recovery-fold
+4. 戻るボタン: button.backのaria-label
+5. 弱点分析: weakTopAction
+6. デスクトップ: rightDailyAction + rightDailyProgress
+7. BIT先生: header内 #aiFab.ai-header-btn
+8. 演習: problems + quiz-actions + quizSubmit
+9. 科目B: subjectBNextCard / subjectBProgressStrip / 3つのnext-action card
+10. 旧UI文言: 「今日のクエスト」「クエスト完了」が可視本文に残らない
+
+legacy shadow diagnostics
+- String(runAppSelfCheck)上のassert call: 293。
+- Node runtime smokeの旧raw error: 22件。
+  - historical metadata: 8
+  - superseded semantic aggregate: 1
+  - Node最小DOM由来legacy UI signal: 13
+  - compatibility residual active error: 0
+- v148で追加移行した品質・非DOM契約はcurrent-contract側で直接評価し、旧関数の結果文字列には依存しない。
+- 分類不能なresidualActiveErrorsが将来1件でも発生した場合はv148 active errorへ昇格する。
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI外観変更: 0
+
+v148期待値
+- architecture: v148-quality-ux-current-contract
+- currentContract: 61 / 61 PASS
+- inherited current contracts: 53
+- newly migrated groups: 8
+- migrated legacy assertion equivalents: 15
+- legacy shadow assert calls: 293
+- legacy raw errors: 22
+- historical metadata: 8
+- superseded semantic: 1
+- legacy UI signals: 13
+- compatibility residual: 0
+- browser UI contract: 23
+- inherited browser UI contracts: 13
+- new browser UI contracts: 10
+
+次段階
+- v149では旧runAppSelfCheckの残りを「現行契約に移行済み」「歴史メタデータ」「現在もshadowでしか見ていない」の3群へ機械的に棚卸しする。
+- current-contractとbrowser-contractで同等以上に覆えているassertは、productionブラウザで毎回旧runAppSelfCheckを全実行する必要がないようshadow実行ポリシーを縮小する。
