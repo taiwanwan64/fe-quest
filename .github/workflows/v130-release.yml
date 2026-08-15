@@ -1,0 +1,52 @@
+name: FE QUEST v130 same-topic distractor release
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v130-release.yml'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild release script
+        run: |
+          cat tools/v130_payload.part0 tools/v130_payload.part1 tools/v130_payload.part2 tools/v130_payload.part3 > /tmp/v130.b64
+          echo 'cf4e805e5afb97d8a32ef33766cc8bfb4d4259ea14b45de3bae1463fd2c10363  /tmp/v130.b64' | sha256sum -c -
+          base64 -d /tmp/v130.b64 | gzip -d > /tmp/release_v130.py
+          echo 'e2eb855e20ab8712891bbc271a5b162770572ecb6432aad169856c0bd4a0abe6  /tmp/release_v130.py' | sha256sum -c -
+      - name: Apply v130
+        run: python3 /tmp/release_v130.py
+      - name: Verify v130
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,json
+          s=Path('index.html').read_text()
+          scripts=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',s)
+          Path('/tmp/app.js').write_text('\n'.join(scripts))
+          assert "const APP_VERSION = 'v130';" in s
+          assert 'const PROFILE_SCHEMA_VERSION = 5;' in s
+          assert json.loads(Path('manifest.webmanifest').read_text())['name']=='FE QUEST v130'
+          a=Path('audits/SUBJECT_A_SAME_TOPIC_DISTRACTOR_AUDIT_v130.txt').read_text()
+          assert '155問 → 0問' in a
+          PY
+          node --check /tmp/app.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+      - name: Commit v130
+        run: |
+          rm -f SUBJECT_A_SAME_TOPIC_DISTRACTOR_AUDIT_v130.txt
+          rm -rf tools
+          rm -f .github/workflows/v130-release.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Release FE QUEST v130 complete distractor redesign'
+          git push
