@@ -1,0 +1,69 @@
+name: FE QUEST v127 verified reference bridge release
+
+on:
+  push:
+    paths:
+      - '.github/workflows/v127-release-retry2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify payload fragments
+        run: |
+          test "$(git hash-object tools/v127_p1_1.txt)" = "b89f955835d2076ea9cb625687daede9aa9ba099"
+          test "$(git hash-object tools/v127_p1_2.txt)" = "8b25ce81774a9601c7df0034cac52e0daa6f8dc9"
+          test "$(git hash-object tools/v127_p1_3.txt)" = "bdaf22365ecb371830ca1a91ac35562f08c7db8a"
+          test "$(git hash-object tools/v127_p1_4.txt)" = "c70823fa821b8b7cc8c3db2552333f206e4e86d6"
+          test "$(git hash-object tools/v127_part2.txt)" = "a4ff59f8303971dcb4574b2808b871c467771648"
+          test "$(git hash-object tools/v127_part3.txt)" = "6e133ba74258c9bb19617ad69005f83054a3c7ee"
+          test "$(git hash-object tools/v127_part4.txt)" = "d69d457c500c6ab3912639d51fff4ab7613c2dea"
+          echo VERIFIED_FRAGMENT_HASHES_OK
+
+      - name: Assemble and apply v127
+        run: python tools/apply_v127_fixed.py
+
+      - name: Verify v127
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re,json
+          s=Path('index.html').read_text()
+          scripts=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',s,re.I)
+          Path('/tmp/feq-v127.js').write_text('\n'.join(scripts))
+          assert '<title>FE QUEST PWA v127</title>' in s
+          assert "const APP_VERSION = 'v127';" in s
+          assert 'v127 reference practice anchors must remain 51' in s
+          assert "referenceBridgeAudit:'v127'" in s
+          assert 'quizItems=orderCoreTopicPracticeQuestions(pool);' in s
+          assert json.loads(Path('manifest.webmanifest').read_text())['name']=='FE QUEST v127'
+          w=Path('sw.js').read_text()
+          assert "const APP_VERSION = 'v127';" in w and 'fe-quest-v127-1' in w
+          print('STATIC_V127_OK')
+          PY
+          node --check /tmp/feq-v127.js
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+
+      - name: Commit v127
+        run: |
+          rm -f \
+            tools/apply_v127.py tools/apply_v127_fixed.py \
+            tools/v127_part1.txt tools/v127_part2.txt tools/v127_part3.txt tools/v127_part4.txt \
+            tools/v127_p1_1.txt tools/v127_p1_2.txt tools/v127_p1_3.txt tools/v127_p1_4.txt \
+            .github/workflows/v127-release.yml \
+            .github/workflows/v127-release-retry.yml \
+            .github/workflows/v127-release-retry2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release FE QUEST v127 reference bridge audit"
+          git push
