@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v150",
+  "name": "FE QUEST v151",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v150ではv149でCI-only legacy sentinelに分類した84 assertを8群へ再編し、そのうち重要用語・定義・比較・計算式・手順を守る56 assertを宣言的critical curriculum contractへ移行。current-contractを63→65契約へ拡張し、84件のsubinventory exact coverageと56件のdeclarative mappingをproductionで監視。release CIではcritical curriculum 56/56、旧293 assert shadow residual 0、browser UI 23/23を明示検証。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
+  "description": "基本情報技術者試験向けPWA。v151ではv150で残っていたCI-only legacy sentinel 28件（品質上限、教材構造、章別演習、レッスン、参照アンカー、設定補助、required DOM）を宣言的release contractへ移行。critical curriculum 56件と合わせて84/84を旧runAppSelfCheck本文から独立した宣言マップで完全被覆し、current-contractを65→67契約へ拡張。release CIではcritical curriculum 56/56、remaining release sentinel 28/28、旧293 assert shadow residual 0、browser UI 23/23を明示検証。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
