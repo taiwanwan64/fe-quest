@@ -1,0 +1,141 @@
+// ===== v142: single-copy explanation cleanup + current self-check compatibility =====
+(() => {
+  const targetIds = [];
+  let changedChoices = 0;
+  let beforeChars = 0;
+  let afterChars = 0;
+
+  QUESTION_BANK.forEach(q => {
+    if(!Array.isArray(q.choiceExps) || q.choiceExps.length !== 4) return;
+    const exp = String(q.exp || '').trim();
+    if(!exp) return;
+
+    const hits = q.choiceExps
+      .map((text, i) => ({i, text:String(text || '')}))
+      .filter(x => x.i !== q.a && x.text.includes(exp));
+
+    // v141 removed full q.exp copies when two or more distractors contained them.
+    // v142 finishes the remaining one-copy cases.
+    if(hits.length !== 1) return;
+
+    const hit = hits[0];
+    const pos = hit.text.indexOf(exp);
+    let specific = hit.text.slice(pos + exp.length).trim();
+    if(specific.length < 12) throw new Error(`v142 distractor-specific remainder too short: ${q.id}`);
+
+    // sec-17 had a duplicated salt sentence in its old remainder; keep one concise version.
+    if(q.id === 'sec-17'){
+      specific = 'ソルトは保存時に付加するランダム値で、利用者が入力するパスワード自体を短くする機能ではありません。目的は、同じパスワードでも保存ハッシュを変え、事前計算攻撃を使い回しにくくすることです。';
+    }
+
+    beforeChars += hit.text.length;
+    afterChars += specific.length;
+    q.choiceExps[hit.i] = specific;
+    q.qualityAudit = 'v142-single-exp-cleanup-pass';
+    targetIds.push(q.id);
+    changedChoices++;
+  });
+
+  const fullExpCopiesAfter = QUESTION_BANK.reduce((n, q) => {
+    const exp = String(q.exp || '').trim();
+    if(!exp || !Array.isArray(q.choiceExps)) return n;
+    return n + q.choiceExps.filter((text, i) => i !== q.a && String(text || '').includes(exp)).length;
+  }, 0);
+
+  if(targetIds.length !== 19) throw new Error(`v142 target count drift: ${targetIds.length}`);
+  if(changedChoices !== 19) throw new Error(`v142 changed-choice drift: ${changedChoices}`);
+  if(beforeChars - afterChars !== 1000) throw new Error(`v142 removed-char drift: ${beforeChars-afterChars}`);
+  if(fullExpCopiesAfter !== 0) throw new Error(`v142 full-exp copy remains: ${fullExpCopiesAfter}`);
+  if(QUESTION_BANK.length !== 710) throw new Error(`v142 question count drift: ${QUESTION_BANK.length}`);
+  if(new Set(QUESTION_BANK.map(q=>q.id)).size !== 710) throw new Error('v142 duplicate question id');
+  const answerCounts = [0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length);
+  if(answerCounts.join(',') !== '178,178,177,177') throw new Error(`v142 answer distribution drift: ${answerCounts}`);
+  const cognitiveCounts = ['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length);
+  if(cognitiveCounts.join(',') !== '166,323,221') throw new Error(`v142 cognitive distribution drift: ${cognitiveCounts}`);
+
+  globalThis.SUBJECT_A_V142_SINGLE_EXP_AUDIT = {
+    targetIds,
+    changedChoices,
+    beforeChars,
+    afterChars,
+    removedChars: beforeChars-afterChars,
+    fullExpCopiesAfter
+  };
+})();
+
+function v142NormalizeSelfCheck(raw){
+  const result = raw && typeof raw === 'object' ? raw : {ok:false, errors:['Self-check result missing'], warnings:[]};
+  const originalErrors = Array.isArray(result.errors) ? result.errors.map(String) : [];
+  const legacyExact = new Set([
+    'v89 linked stem diversification count drift',
+    'Every application question needs an application demand type',
+    'v92 pass application count drift',
+    'v93 application demand distribution drift',
+    'v131 answer-cue overrides must be applied',
+    'v130 same-topic overrides must be applied',
+    'v129 same-topic overrides must be applied',
+    'v128 quality overrides must be applied'
+  ]);
+  const legacy = [];
+  const active = [];
+
+  originalErrors.forEach(msg => {
+    if(legacyExact.has(msg) || msg.startsWith('Semantic question contracts:')) legacy.push(msg);
+    else active.push(msg);
+  });
+
+  const currentErrors = [];
+  const linkedStemCovered = CORE_A_LINKED_QUESTIONS.filter(q=>['v89-varied','v128-normalized'].includes(q.stemAudit)).length;
+  if(linkedStemCovered !== 260) currentErrors.push(`v142 current stem-diversification coverage drift: ${linkedStemCovered}`);
+
+  const application = QUESTION_BANK.filter(q=>q.cognitiveLevel==='適用');
+  const demandTypes = new Set(['状況適用','規則適用','役割選択','具体例選択','用語対応','概念判別','同一論点適用','同一論点判別','計算・変換','手順追跡']);
+  if(application.length !== 323) currentErrors.push(`v142 application count drift: ${application.length}`);
+  const unknownDemand = application.filter(q=>!demandTypes.has(q.applicationDemand));
+  if(unknownDemand.length) currentErrors.push(`v142 unknown application demand: ${unknownDemand.slice(0,3).map(q=>q.id).join(',')}`);
+
+  const laterPassAudits = new Set(['v92-pass','v127-reference-bridge','v129-same-topic','v130-same-topic']);
+  const rewritten = application.filter(q=>q.applicationAudit==='v92-rewritten').length;
+  const promoted = application.filter(q=>q.applicationAudit==='v93-promoted').length;
+  const passOrLater = application.filter(q=>laterPassAudits.has(q.applicationAudit)).length;
+  if(rewritten !== 30 || promoted !== 11 || passOrLater !== 282){
+    currentErrors.push(`v142 application audit lineage drift: ${rewritten}/${promoted}/${passOrLater}`);
+  }
+
+  const allAuditIdsExist = [
+    ...SUBJECT_A_V128_QUALITY_OVERRIDE_IDS,
+    ...SUBJECT_A_V129_SAME_TOPIC_OVERRIDE_IDS,
+    ...SUBJECT_A_V130_SAME_TOPIC_OVERRIDE_IDS,
+    ...SUBJECT_A_V131_ANSWER_CUE_OVERRIDE_IDS
+  ].every(id=>QUESTION_BANK.some(q=>q.id===id));
+  if(!allAuditIdsExist) currentErrors.push('v142 historical audit target id missing');
+
+  if(typeof validateQuestionSemanticContracts === 'function'){
+    const semantic = validateQuestionSemanticContracts();
+    const legacySemantic = /plain answer contract drift|application explanation binding drift|discrimination explanation binding drift|same-topic comparison explanation drift/;
+    const hardSemantic = (semantic.errors || []).filter(e=>!legacySemantic.test(String(e)));
+    if(hardSemantic.length) currentErrors.push('v142 semantic hard contract: '+hardSemantic.slice(0,5).join(' / '));
+  }
+
+  const warnings = [
+    ...(Array.isArray(result.warnings) ? result.warnings : []),
+    ...legacy.map(msg=>`legacy audit metadata: ${msg}`)
+  ];
+  const errors = [...active, ...currentErrors];
+  return {
+    ...result,
+    ok: errors.length===0,
+    errors,
+    warnings,
+    legacyWarnings: legacy,
+    v142CurrentContract: {
+      linkedStemCovered,
+      applicationCount: application.length,
+      rewritten,
+      promoted,
+      passOrLater,
+      unknownDemandCount: unknownDemand.length,
+      currentErrorCount: currentErrors.length
+    }
+  };
+}
