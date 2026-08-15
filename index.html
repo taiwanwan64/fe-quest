@@ -6,8 +6,9 @@
 {% capture v134block %}{% include_relative app/v134-block-00.txt %}{% include_relative app/v134-block-01.txt %}{% include_relative app/v134-block-02.txt %}{% include_relative app/v134-block-03.txt %}{% include_relative app/v134-block-04.txt %}{% include_relative app/v134-block-05.txt %}{% include_relative app/v134-block-06.txt %}{% endcapture %}
 {% capture v135block %}{% include_relative app/v135-block-00.txt %}{% endcapture %}
 {% capture v136block %}{% include_relative app/v136-block-00.txt %}{% include_relative app/v136-block-01.txt %}{% include_relative app/v136-block-02.txt %}{% include_relative app/v136-block-03.txt %}{% include_relative app/v136-block-04.txt %}{% include_relative app/v136-block-05.txt %}{% include_relative app/v136-block-06.txt %}{% include_relative app/v136-block-07.txt %}{% endcapture %}
-{% assign s1 = base | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v136</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v136';" %}
-{% assign s3 = s2 | replace: "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');", "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v136','v136 version/schema contract drift');" %}
-{% capture insertion %}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v137block %}{% include_relative app/v137-block-00.txt %}{% endcapture %}
+{% assign s1 = base | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v137</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v137';" %}
+{% assign s3 = s2 | replace: "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');", "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v137','v137 version/schema contract drift');" %}
+{% capture insertion %}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
