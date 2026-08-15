@@ -30,8 +30,9 @@
 {% capture v150block %}{% include_relative app/v150-block-00.txt %}{% endcapture %}
 {% capture v151block %}{% include_relative app/v151-block-00.txt %}{% endcapture %}
 {% capture v152block %}{% include_relative app/v152-block-00.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v152</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v152';" %}
-{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV152SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ v145block }}{{ v146block }}{{ v147block }}{{ v148block }}{{ v149block }}{{ v150block }}{{ v151block }}{{ v152block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v153block %}{% include_relative app/v153-block-00.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v153</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v153';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV153SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ v145block }}{{ v146block }}{{ v147block }}{{ v148block }}{{ v149block }}{{ v150block }}{{ v151block }}{{ v152block }}{{ v153block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
