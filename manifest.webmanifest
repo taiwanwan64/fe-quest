@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v142",
+  "name": "FE QUEST v143",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v142では科目A710問の解説密度と自己診断互換性を十三次監査し、正答総合解説が誤答1件だけに残っていた19問・19解説を整理して1,000文字削減。誤答内の正答総合解説全文コピーを0件にし、旧監査メタデータ由来の自己診断誤検知を現行契約へ正規化。問題数710、認知レベル分布、正答位置、Profile Schema v5は維持。",
+  "description": "基本情報技術者試験向けPWA。v143では科目A710問のactive data-qualityとruntime-mode separationを十四次監査し、正答だけが長い9問の選択肢を改善、Core Aの100文字未満depth文章32論点を0へ、challenge_033の露骨な『だけ確認する』誤答cueを除去。Node最小DOMではUI専用13契約をbrowser検証へ分離し、データ/runtime self-checkはerror 0。問題数710、正答位置、認知レベル、Profile Schema v5は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
