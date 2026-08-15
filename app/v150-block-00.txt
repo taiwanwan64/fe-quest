@@ -98,7 +98,9 @@
 
   function v150ExpandSentinelGroups(){
     const groups={};
-    Object.entries(V150_CI_ONLY_SENTINEL_GROUPS).forEach(([name,row])=>{ groups[name]=v149ExpandRanges(row.ranges); });
+    Object.entries(V150_CI_ONLY_SENTINEL_GROUPS).forEach(([name,row])=>{
+      groups[name]=v149ExpandRanges(row.ranges);
+    });
     const all=Object.values(groups).flat();
     const unique=[...new Set(all)].sort((a,b)=>a-b);
     const expected=v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
@@ -113,6 +115,12 @@
     };
   }
 
+  function v150CriticalCurriculumLegacyIndices(){
+    return Object.values(V150_CRITICAL_CURRICULUM_SPEC)
+      .flatMap(rows=>rows.map(r=>r.legacy))
+      .sort((a,b)=>a-b);
+  }
+
   function v150CriticalCurriculumResults(){
     const out=[];
     const add=(legacy,id,test,detail='')=>{
@@ -122,14 +130,23 @@
     };
     V150_CRITICAL_CURRICULUM_SPEC.definitionContains.forEach(r=>add(r.legacy,`definition:${r.topic}:${r.term}`,()=>String(coreTopicGlossaryDefinition(r.topic,r.term)||'').includes(r.needle),r.needle));
     V150_CRITICAL_CURRICULUM_SPEC.abbreviations.forEach(r=>add(r.legacy,'abbreviations:first-use',()=>r.terms.every(x=>!!LEARNING_ABBREVIATIONS[x]),r.terms.join(',')));
-    V150_CRITICAL_CURRICULUM_SPEC.beginnerTermsRequired.forEach(r=>add(r.legacy,`beginner-terms:${r.topic}`,()=>{ const terms=coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]); return r.terms.every(x=>terms.includes(x)); },r.terms.join(',')));
+    V150_CRITICAL_CURRICULUM_SPEC.beginnerTermsRequired.forEach(r=>add(r.legacy,`beginner-terms:${r.topic}`,()=>{
+      const terms=coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]); return r.terms.every(x=>terms.includes(x));
+    },r.terms.join(',')));
     V150_CRITICAL_CURRICULUM_SPEC.beginnerTermsForbidden.forEach(r=>add(r.legacy,`forbidden-term:${r.topic}:${r.term}`,()=>!coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]).includes(r.term)));
-    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowsRequired.forEach(r=>add(r.legacy,`comparison-labels:${r.topic}`,()=>{ const rows=CORE_A_COMPARISON_GUIDES[r.topic]?.rows||[]; return r.labels.every(x=>rows.some(row=>row[0]===x)); },r.labels.join(',')));
-    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowCounts.forEach(r=>add(r.legacy,`comparison-count:${r.topic}`,()=>{ const n=CORE_A_COMPARISON_GUIDES[r.topic]?.rows?.length||0; return r.op==='exact'?n===r.count:n>=r.count; },`${r.op}:${r.count}`));
+    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowsRequired.forEach(r=>add(r.legacy,`comparison-labels:${r.topic}`,()=>{
+      const rows=CORE_A_COMPARISON_GUIDES[r.topic]?.rows||[]; return r.labels.every(x=>rows.some(row=>row[0]===x));
+    },r.labels.join(',')));
+    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowCounts.forEach(r=>add(r.legacy,`comparison-count:${r.topic}`,()=>{
+      const n=CORE_A_COMPARISON_GUIDES[r.topic]?.rows?.length||0; return r.op==='exact'?n===r.count:n>=r.count;
+    },`${r.op}:${r.count}`));
     V150_CRITICAL_CURRICULUM_SPEC.calcLineContains.forEach(r=>add(r.legacy,`calc-contains:${r.topic}`,()=> (CORE_A_CALC_GUIDES[r.topic]?.lines||[]).some(x=>String(x).includes(r.needle)),r.needle));
     V150_CRITICAL_CURRICULUM_SPEC.calcLineCounts.forEach(r=>add(r.legacy,`calc-count:${r.topic}`,()=> (CORE_A_CALC_GUIDES[r.topic]?.lines?.length||0)>=r.min,`min:${r.min}`));
     V150_CRITICAL_CURRICULUM_SPEC.guideObjectCounts.forEach(r=>add(r.legacy,`guide-count:${r.kind}`,()=>Object.keys(r.kind==='calc'?CORE_A_CALC_GUIDES:CORE_A_COMPARISON_GUIDES).length>=r.min,`min:${r.min}`));
-    V150_CRITICAL_CURRICULUM_SPEC.allTopicMinimums.forEach(r=>add(r.legacy,`all-topic-min:${r.kind}`,()=>{ if(r.kind==='overviewLength') return CORE_A_IDS.every(id=>String(CORE_A_BEGINNER_OVERVIEWS[id]||'').length>=r.min); return CORE_A_IDS.every(id=>coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[id]).length>=r.min); },`min:${r.min}`));
+    V150_CRITICAL_CURRICULUM_SPEC.allTopicMinimums.forEach(r=>add(r.legacy,`all-topic-min:${r.kind}`,()=>{
+      if(r.kind==='overviewLength') return CORE_A_IDS.every(id=>String(CORE_A_BEGINNER_OVERVIEWS[id]||'').length>=r.min);
+      return CORE_A_IDS.every(id=>coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[id]).length>=r.min);
+    },`min:${r.min}`));
     V150_CRITICAL_CURRICULUM_SPEC.beginnerOverrideTerms.forEach(r=>add(r.legacy,`beginner-override:${r.topic}:${r.term}`,()=> (CORE_A_BEGINNER_TERM_OVERRIDES[r.topic]||[]).includes(r.term)));
     V150_CRITICAL_CURRICULUM_SPEC.topicBeginnerTermCounts.forEach(r=>add(r.legacy,`topic-term-count:${r.topic}`,()=>coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]).length>=r.min,`min:${r.min}`));
     return out.sort((a,b)=>a.legacy-b.legacy);
@@ -161,9 +178,8 @@
         return a.classified===84&&a.unique===84&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
       },84),
       currentCheck('critical-curriculum-declarative-coverage','The 56 critical curriculum legacy sentinels must have an exact declarative contract map',()=>{
-        const results=v150CriticalCurriculumResults();
         const expected=v149ExpandRanges(V150_CI_ONLY_SENTINEL_GROUPS.criticalCurriculum.ranges).sort((a,b)=>a-b);
-        const got=results.map(r=>r.legacy);
+        const got=v150CriticalCurriculumLegacyIndices();
         return got.length===56&&new Set(got).size===56&&got.every((n,i)=>n===expected[i])&&typeof runV150CriticalCurriculumAudit==='function';
       },56)
     ];
@@ -218,6 +234,7 @@
   globalThis.V150_CI_ONLY_SENTINEL_GROUPS=V150_CI_ONLY_SENTINEL_GROUPS;
   globalThis.V150_CRITICAL_CURRICULUM_SPEC=V150_CRITICAL_CURRICULUM_SPEC;
   globalThis.v150ExpandSentinelGroups=v150ExpandSentinelGroups;
+  globalThis.v150CriticalCurriculumLegacyIndices=v150CriticalCurriculumLegacyIndices;
   globalThis.v150CriticalCurriculumResults=v150CriticalCurriculumResults;
   globalThis.runV150CriticalCurriculumAudit=runV150CriticalCurriculumAudit;
   globalThis.v150AdditionalCurrentChecks=v150AdditionalCurrentChecks;
