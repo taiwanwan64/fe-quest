@@ -1,0 +1,80 @@
+name: Package FE QUEST v136
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v136-package.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Assemble and validate standalone v136
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json, shutil
+
+          base = Path('app/base-v131.html').read_text()
+          v132 = ''.join(Path(f'app/v132-block-{i:02d}.txt').read_text() for i in range(8))
+          v133 = ''.join(Path(f'app/v133-block-{i:02d}.txt').read_text() for i in range(6))
+          v134 = ''.join(Path(f'app/v134-block-{i:02d}.txt').read_text() for i in range(7))
+          v135 = Path('app/v135-block-00.txt').read_text()
+          v136 = ''.join(Path(f'app/v136-block-{i:02d}.txt').read_text() for i in range(8))
+
+          s = base.replace('<title>FE QUEST PWA v131</title>', '<title>FE QUEST PWA v136</title>', 1)
+          s = s.replace("const APP_VERSION = 'v131';", "const APP_VERSION = 'v136';", 1)
+          s = s.replace(
+              "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');",
+              "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v136','v136 version/schema contract drift');", 1)
+          marker = 'const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)'
+          assert marker in s
+          s = s.replace(marker, v132 + v133 + v134 + v135 + v136 + marker, 1)
+
+          out = Path('/tmp/FE_QUEST_PWA_v136')
+          out.mkdir()
+          (out/'index.html').write_text(s)
+          for f in ['manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']:
+              shutil.copy2(f, out/f)
+
+          scripts = re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>', s)
+          Path('/tmp/app-v136.js').write_text('\n'.join(scripts))
+
+          manifest = json.loads((out/'manifest.webmanifest').read_text())
+          assert manifest['name'] == 'FE QUEST v136'
+          assert "const APP_VERSION = 'v136';" in s
+          assert 'const PROFILE_SCHEMA_VERSION = 5;' in s
+          assert 'SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS.length===61' in s
+          assert "'v136-specific-distractor-pass'" in s
+          assert 'この定義・性質と一致しない' in base
+          assert "includes('この定義・性質と一致しない')" in v136
+          PY
+          node --check /tmp/app-v136.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+          cd /tmp && zip -qr FE_QUEST_PWA_v136.zip FE_QUEST_PWA_v136
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v136
+          path: /tmp/FE_QUEST_PWA_v136.zip
+          if-no-files-found: error
+
+      - name: Cleanup packaging workflow
+        run: |
+          rm -f .github/workflows/v136-package.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Clean up FE QUEST v136 packaging workflow'
+          git push
