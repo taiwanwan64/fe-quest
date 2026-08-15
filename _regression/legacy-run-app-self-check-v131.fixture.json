@@ -1,0 +1,13 @@
+{
+  "name": "legacy-run-app-self-check-v131",
+  "source": "app/base-v131.html",
+  "start_marker": "function runAppSelfCheck(){",
+  "end_marker": "function runLessonUXAudit(){",
+  "range_sha256": "b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36",
+  "range_utf8_bytes": 49657,
+  "assert_calls": 293,
+  "release_shell_from": "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');",
+  "release_shell_to_v152": "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v152','v152 version/schema contract drift');",
+  "production_bundled": false,
+  "release_only": true
+}
