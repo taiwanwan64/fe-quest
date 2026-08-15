@@ -1,0 +1,67 @@
+FE QUEST v152 — PRODUCTION / LEGACY REGRESSION FIXTURE BOUNDARY AUDIT
+Date: 2026-08-15
+Version: v152
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove the legacy runAppSelfCheck() implementation from the production expanded HTML.
+- Preserve the old 293-assert evaluator as a release-only regression fixture.
+- Keep current/browser/declarative contracts as the production safety layer.
+- Preserve the ability of release validation to execute the historical shadow evaluator explicitly.
+
+SOURCE BOUNDARY
+- Historical source: app/base-v131.html
+- Extracted fixture: _regression/legacy-run-app-self-check-v131.txt
+- Fixture SHA-256: ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5
+- Fixture UTF-8 bytes: 49655
+- Fixture assert() calls: 293
+- Fixture is an exact single substring of app/base-v131.html.
+- Jekyll assembler captures the fixture and removes it from base before producing the production page.
+- _regression/ is underscore-prefixed so it is not part of the generated Pages site.
+
+PRODUCTION CONTRACT
+- Expanded production HTML contains 0 occurrences of: function runAppSelfCheck(){
+- Expanded production HTML contains 0 legacy boot calls.
+- Boot target: runV152SelfCheck()
+- APP_VERSION: v152
+- Service Worker cache: fe-quest-v152-1
+- current-contract: 69
+- browser UI contracts: 23
+- v150 critical curriculum release audit: 56
+- v151 remaining release sentinel audit: 28
+- declarative CI-only legacy sentinel coverage: 84 / 84
+- production legacy source assert calls: 0
+- legacy classification: 293 / 293 exact, no gap, no overlap
+
+RELEASE-ONLY LEGACY SHADOW
+- Validation reads the fixture directly from repository source.
+- It applies only the historical release-shell version substitution v131 -> v152, matching the old assembler behavior.
+- The fixture is loaded only after the production bundle has completed its own self-check.
+- runV149LegacyShadowAudit() then executes the historical evaluator.
+- Expected legacy shadow result:
+  raw errors: 22
+  historical metadata: 8
+  superseded semantic: 1
+  legacy UI signals: 13
+  residual active errors: 0
+  fixture assert inventory: 293
+
+INVARIANTS
+- Subject A questions: 710
+- Unique IDs: 710
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive levels: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- No question wording, options, answers, IDs, cognitive levels, or visible UI design changed in v152.
+
+LOCAL SIMULATED BUILD VALIDATION
+- FEQUEST_V152_FIXTURE_BOUNDARY_OK production=excluded fixture=293
+- FEQUEST_V152_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V152_PRODUCTION_RUNTIME_OK current=69/69 critical=56/56 release=28/28 ci=84 legacy-bundled=0
+- FEQUEST_V152_RELEASE_FIXTURE_OK legacy=293 raw=22 residual=0
+- FEQUEST_V152_RUNTIME_OK current=69/69 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+NEXT
+- Validate the real GitHub/Jekyll build with the same v152 validator.
+- After successful release validation, remove temporary validator/workflow from main.
+- Confirm the cleanup commit itself receives a successful GitHub Pages build and Pages status remains built.
