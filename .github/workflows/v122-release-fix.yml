@@ -1,0 +1,58 @@
+name: FE QUEST v122 release fix
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/v122-release-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply v122 patch
+        shell: bash
+        run: |
+          git apply --check tools/v121_to_v122.patch
+          git apply tools/v121_to_v122.patch
+
+      - name: Verify
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          s = Path('index.html').read_text(encoding='utf-8')
+          assert "const APP_VERSION = 'v122';" in s
+          assert "APP_VERSION==='v122'" in s
+          assert "output+=`<section class=\"core-chapter ${q?'open':''}\">" in s
+          assert '.quiz-explain.show{display:flow-root;height:auto!important;min-height:0!important;align-self:flex-start}' in s
+          assert 'function politeCoreProse(text)' in s
+          assert '<p>${politeCoreHtml(e.deep)}</p>' in s
+          scripts = re.findall(r'<script[^>]*>([\s\S]*?)</script>', s)
+          Path('/tmp/feq-v122-main.js').write_text('\n'.join(scripts), encoding='utf-8')
+          manifest = json.loads(Path('manifest.webmanifest').read_text(encoding='utf-8'))
+          assert manifest['name'] == 'FE QUEST v122'
+          assert Path('audits/CORE_A_LAYOUT_AND_TONE_AUDIT_v122.txt').exists()
+          PY
+          node --check /tmp/feq-v122-main.js
+          node --check sw.js
+
+      - name: Commit release
+        shell: bash
+        run: |
+          rm -f .github/workflows/v122-layout-tone.yml
+          rm -f .github/workflows/v122-release-fix.yml
+          rm -f tools/v121_to_v122.patch
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m 'Release FE QUEST v122 layout and tone polish'
+          git push
