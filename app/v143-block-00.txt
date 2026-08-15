@@ -1,0 +1,212 @@
+// ===== v143 active data-quality / self-check runtime-mode separation =====
+(() => {
+  const optionPatches = {
+    'coreq_02_06_3': [
+      '強い正の線形な関係がみられるが、因果関係までは断定できない',
+      '相関係数0.9は、一方が他方を90%の確率で引き起こすことを意味する',
+      '相関係数0.9なら、二つの変数の平均値はほぼ等しくなる',
+      '相関係数0.9なら、外れ値が存在しないことまで保証される'
+    ],
+    'coreq_04_01_3': [
+      'CPU Aはクロック周波数3GHzの方が高いので、CPIに関係なく必ず速い',
+      'AとBはどちらも約2.5G命令/秒なので、実行性能は同じである',
+      'Bは約2.5G命令/秒、Aは約2.0G命令/秒なのでBが速い',
+      'CPIは命令実行性能の比較には使えないため、クロック周波数だけでは比較不能'
+    ],
+    'coreq_06_02_3': [
+      '現在ディレクトリなどの基準位置から目的のファイルまでの位置を表す',
+      '相対パスは常にルートディレクトリから目的位置までの経路を表す',
+      '相対パスはファイル拡張子を使って保存場所までの位置を表す',
+      '相対パスは記憶装置の物理セクタ番号を直接指定して位置を表す'
+    ],
+    'coreq_06_05_2': [
+      'ソースコードが公開されていれば著作権は自動的に消滅する',
+      'OSSはライセンスの種類に関係なく、必ず無償で再配布しなければならない',
+      'OSSは入手した時点で、利用・改変・再配布に関する条件はすべてなくなる',
+      '利用しているOSSのライセンス条件を確認し、再配布時の義務に従う'
+    ],
+    'coreq_09_01_2': [
+      'データを一元管理し、同時利用時の整合性維持や障害回復を支援できる',
+      '各部署が同じ顧客情報を別々のファイルへ重複保存しやすくなる',
+      'DBMSを使えば、データの構造や制約をあらかじめ定義する必要がなくなる',
+      'すべての検索が索引なしでも必ず一定時間で終わる'
+    ],
+    'coreq_14_02_3': [
+      'WBSは組織内の部署や担当者の指揮命令関係を階層的に表すために使う',
+      'WBSは各作業の開始日と終了日を時系列に並べ、進捗日程を表示するために使う',
+      'WBSは作業ごとの予算額と実績額だけを階層的に集計するために使う',
+      'WBSは成果物や作業を階層的に分解し、プロジェクトの作業範囲を明確にする'
+    ],
+    'coreq_14_07_2': [
+      '追加機能の変更要求は開発工数を基準に承認し、納期・品質・コストへの影響は承認後に各担当が調整する。',
+      '統合マネジメントではスコープ・日程・コストを独立に最適化し、相互影響は評価しない。',
+      '追加機能の要望に対して、開発工数だけでなく納期・テスト量・費用・リスクまで合わせて判断するのが統合的な管理である。',
+      '変更要求は承認前に実装を開始し、完成後にスコープ・日程・コストとの整合性をまとめて確認する。'
+    ],
+    'coreq_16_04_3': [
+      '導入前後の利用者満足度を同じアンケートで比較する',
+      '導入前後の1日当たり処理件数を比較する',
+      '導入前後の運用コストだけを同じ期間で比較する',
+      '導入前後の処理時間を同じ条件で測定し、目標との差を確認する'
+    ],
+    'challenge_v92_12_08': [
+      '利用者が業務要件を満たすか確認する受入れテスト',
+      '高負荷時の応答時間や処理件数を確認する負荷テスト',
+      '修正した決済機能だけを同じ条件で再実行する再テスト',
+      '変更による既存機能への副作用を確認するリグレッションテスト'
+    ]
+  };
+
+  const obviousLengthOutlier = q => {
+    const lens=q.options.map(x=>String(x).length);
+    const correctLen=lens[q.a];
+    return correctLen===Math.max(...lens)
+      && lens.filter(x=>x===correctLen).length===1
+      && (Math.max(...lens)-Math.min(...lens)>=10)
+      && correctLen>=Math.min(...lens)*1.6;
+  };
+
+  const optionOutliersBefore = QUESTION_BANK.filter(obviousLengthOutlier).map(q=>q.id);
+  Object.entries(optionPatches).forEach(([id, options]) => {
+    const q=QUESTION_BANK.find(x=>x.id===id);
+    if(!q) throw new Error(`v143 option target missing: ${id}`);
+    if(q.options.length!==4 || options.length!==4) throw new Error(`v143 option shape drift: ${id}`);
+    q.options=[...options];
+    q.qualityAudit='v143-option-balance-pass';
+  });
+  const optionOutliersAfter = QUESTION_BANK.filter(obviousLengthOutlier).map(q=>q.id);
+
+  const judgment = QUESTION_BANK.find(q=>q.id==='challenge_033');
+  if(!judgment) throw new Error('v143 challenge_033 missing');
+  const oldJudgmentOption=judgment.options[3];
+  judgment.options[3]='更新後に監査ログを調べ、競合更新が起きた取引だけを再処理する';
+  judgment.choiceExps[3]='監査ログによる事後検出と再処理は、競合更新そのものを発生前に防ぐ排他制御ではありません。';
+  judgment.qualityAudit='v143-judgment-cue-pass';
+
+  const deepAdditions = {
+    'core_02_08':'試験では、確率から情報量を求める計算と、符号化方式の目的を切り分けて判断する。',
+    'core_04_02':'設問では、各レジスタが「次の命令」と「現在の命令」のどちらを扱うかを区別する。',
+    'core_04_05':'入力か出力かに加え、文字・マーク・コードなど何を読み取る装置かまで確認する。',
+    'core_04_06':'DMAでは転送主体に注目し、CPUが1語ずつ転送する方式との違いを押さえる。',
+    'core_05_04':'MTBFが長いほど、MTTRが短いほど稼働率は高くなるという方向性も確認する。',
+    'core_06_02':'「どこを基準に経路を書くか」を先に決めると、絶対パスと相対パスを判別しやすい。',
+    'core_06_04':'問題では、編集・翻訳・結合・実行時解析のどの工程を支えるツールかを対応付ける。',
+    'core_08_01':'使いやすさでは、見た目だけでなく操作結果が分かるフィードバックや誤操作防止も重要になる。',
+    'core_09_06':'排他制御では、誰が何を保持し、どの処理を待っているかを時系列で追うと整理しやすい。',
+    'core_10_03':'サブネット計算では、プレフィックス長からホスト部のbit数とブロック境界を求める。',
+    'core_11_07':'診断は弱点の発見、侵入テストは攻撃成立性と影響確認という目的差を軸に判断する。',
+    'core_12_06':'再現可能な開発環境にするには、ソースだけでなく依存関係や設定値の版も管理する。',
+    'core_12_07':'移行方式は停止時間・安全性・コストのトレードオフを比較し、切戻し方法まで準備する。',
+    'core_13_03':'環境差による不具合を減らすには、依存関係と実行環境を構成情報として固定・共有する。',
+    'core_13_04':'構成管理は成果物の状態、変更管理は変更の判断プロセスを管理する点を区別する。',
+    'core_14_04':'並列経路がある場合は各経路の所要時間を合計し、最長経路をクリティカルパスとして探す。',
+    'core_14_07':'変更要求では一領域だけを見るのではなく、全体への波及を評価してから承認可否を決める。',
+    'core_14_08':'誰に、何を、いつ、どの手段で伝えるかを整理し、情報過多と情報不足の両方を避ける。',
+    'core_14_10':'契約形態は、作業範囲の確定度と費用リスクを発注側・受注側のどちらが負うかで比較する。',
+    'core_15_01':'安定運用だけでなく、利用者価値を測りながら継続的に改善することがサービス管理の要点になる。',
+    'core_15_03':'一次解決率だけでなく、解決時間・再発率・満足度など複数の指標で窓口品質を評価する。',
+    'core_15_07':'改善では対策を実施して終わりにせず、同じ指標で効果を再測定して次の改善へつなげる。',
+    'core_15_08':'復旧を急ぐインシデント管理と、再発防止を狙う問題管理では優先する成果が異なる。',
+    'core_16_03':'提案では製品名より先に顧客課題と期待効果を整理し、必要なサービスを組み合わせる。',
+    'core_18_07':'研究テーマは技術的魅力だけでなく、事業への寄与と実現時期を含めて優先順位を付ける。',
+    'core_18_08':'市場・製品・技術の時間軸を対応させると、必要技術をいつ獲得すべきか判断しやすい。',
+    'core_19_03':'分類問題ではサービス名に引っ張られず、売り手と買い手が企業か消費者かを先に確認する。',
+    'core_20_03':'手法名を暗記するだけでなく、最適化・待ち行列・作業改善など解きたい課題との対応を見る。',
+    'core_20_07':'分析結果は相関や傾向を示しても直ちに因果を意味しないため、データの前提と偏りも確認する。',
+    'core_21_02':'対象が技術・形状構造・デザイン・名称ロゴのどれかを見れば、4権利を切り分けやすい。',
+    'core_21_03':'違法行為の名称を探すより、保護対象がアクセス・個人情報・電子署名のどれかを先に見る。',
+    'core_21_05':'法令遵守を満たしていても、利用者への影響や説明責任まで考えるのが技術者倫理の判断になる。'
+  };
+
+  let lateApplied=false;
+  let depthShortBefore=[];
+  let depthShortAfter=[];
+
+  function applyV143LateFixes(){
+    if(lateApplied) return globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT;
+    depthShortBefore = CORE_A_IDS.filter(id=>String(CORE_A_CONTENT_ENRICHMENT[id]?.deep||'').length<100);
+    Object.entries(deepAdditions).forEach(([id, addition])=>{
+      const e=CORE_A_CONTENT_ENRICHMENT[id];
+      if(!e) throw new Error(`v143 enrichment target missing: ${id}`);
+      if(String(e.deep).length>=100) throw new Error(`v143 enrichment target no longer short: ${id}`);
+      e.deep = `${String(e.deep).trim()} ${addition}`;
+    });
+    depthShortAfter = CORE_A_IDS.filter(id=>String(CORE_A_CONTENT_ENRICHMENT[id]?.deep||'').length<100);
+
+    const answerDistribution=[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length);
+    const cognitiveDistribution={
+      想起:QUESTION_BANK.filter(q=>q.cognitiveLevel==='想起').length,
+      適用:QUESTION_BANK.filter(q=>q.cognitiveLevel==='適用').length,
+      判断:QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').length
+    };
+
+    assert(optionOutliersBefore.length===9,`v143 option outlier baseline drift: ${optionOutliersBefore.length}`);
+    assert(Object.keys(optionPatches).length===9,'v143 option patch count drift');
+    assert(optionOutliersAfter.length===0,`v143 option outlier remains: ${optionOutliersAfter.join(',')}`);
+    assert(depthShortBefore.length===32,`v143 depth-short baseline drift: ${depthShortBefore.length}`);
+    assert(Object.keys(deepAdditions).length===32,'v143 enrichment patch count drift');
+    assert(depthShortAfter.length===0,`v143 depth-short remains: ${depthShortAfter.join(',')}`);
+    assert(oldJudgmentOption.includes('だけ確認する'),'v143 challenge_033 baseline cue drift');
+    assert(!judgment.options.some(x=>String(x).includes('だけ確認する')),'v143 challenge_033 giveaway cue remains');
+    assert(QUESTION_BANK.length===710,'v143 question count drift');
+    assert(new Set(QUESTION_BANK.map(q=>q.id)).size===710,'v143 question id uniqueness drift');
+    assert(answerDistribution.join(',')==='178,178,177,177',`v143 answer distribution drift: ${answerDistribution.join(',')}`);
+    assert(cognitiveDistribution.想起===166&&cognitiveDistribution.適用===323&&cognitiveDistribution.判断===221,
+      `v143 cognitive distribution drift: ${JSON.stringify(cognitiveDistribution)}`);
+
+    lateApplied=true;
+    globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT={
+      optionOutliersBefore,
+      optionOutliersAfter,
+      depthShortBefore,
+      depthShortAfter,
+      oldJudgmentOption,
+      newJudgmentOption:judgment.options[3]
+    };
+    return globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT;
+  }
+
+  function v143NormalizeSelfCheck(raw){
+    const result=v142NormalizeSelfCheck(raw);
+    const nodeMinimalDom=globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+    const uiOnly=new Set([
+      'v111 result next-action / details hierarchy missing',
+      'v111 Subject B results must expose one primary next action',
+      'v112 onboarding primary action missing',
+      'v112 install guidance must live in settings/data, not home',
+      'v113 BIT先生 dialog semantics missing',
+      'v113 closed BIT先生 must be non-interactive',
+      'v113 live status semantics missing',
+      'v113 main navigation landmark missing',
+      'v114 home must put the first actionable card before decorative intro copy',
+      'v114 mock design/history progressive disclosure missing',
+      'v114 weak-analysis details must be secondary',
+      'v114 coverage duplicate summary reduction missing',
+      'v110 Subject B mode switchers must be progressive disclosure'
+    ]);
+    const deferred=[];
+    const active=[];
+    (result.errors||[]).forEach(msg=>{
+      if(nodeMinimalDom && uiOnly.has(String(msg))) deferred.push(String(msg));
+      else active.push(String(msg));
+    });
+    const warnings=[...(result.warnings||[]),...deferred.map(msg=>`browser DOM contract deferred in node smoke: ${msg}`)];
+    return {
+      ...result,
+      ok:active.length===0,
+      errors:active,
+      warnings,
+      uiDeferredWarnings:deferred,
+      v143RuntimeMode:nodeMinimalDom?'node-minimal-dom':'browser',
+      v143DataContract:{
+        optionOutlierCount:optionOutliersAfter.length,
+        depthShortCount:depthShortAfter.length,
+        judgmentGiveawayCount:judgment.options.filter(x=>String(x).includes('だけ確認する')).length,
+        dataErrorCount:active.filter(msg=>!uiOnly.has(msg)).length
+      }
+    };
+  }
+
+  globalThis.applyV143LateFixes=applyV143LateFixes;
+  globalThis.v143NormalizeSelfCheck=v143NormalizeSelfCheck;
+})();
