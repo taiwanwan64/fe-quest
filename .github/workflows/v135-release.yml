@@ -1,0 +1,331 @@
+name: Release FE QUEST v135
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v135-release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate, apply and validate FE QUEST v135
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from collections import defaultdict, Counter
+          import json, re, copy, shutil
+
+          CATS = ['基礎理論','アルゴリズム','コンピュータ','データベース','ネットワーク','セキュリティ','マネジメント','ストラテジ']
+
+          def extract_json_after(src, marker_text):
+              pos = src.index(marker_text) + len(marker_text)
+              while pos < len(src) and src[pos].isspace():
+                  pos += 1
+              if pos < len(src) and src[pos] == '=':
+                  pos += 1
+                  while src[pos].isspace():
+                      pos += 1
+              opener = src[pos]
+              closer = {'[': ']', '{': '}'}[opener]
+              depth = 0
+              in_str = False
+              esc = False
+              for j in range(pos, len(src)):
+                  ch = src[j]
+                  if in_str:
+                      if esc:
+                          esc = False
+                      elif ch == '\\':
+                          esc = True
+                      elif ch == '"':
+                          in_str = False
+                  else:
+                      if ch == '"':
+                          in_str = True
+                      elif ch == opener:
+                          depth += 1
+                      elif ch == closer:
+                          depth -= 1
+                          if depth == 0:
+                              return json.loads(src[pos:j+1])
+              raise AssertionError(marker_text)
+
+          def assemble(version, extra=''):
+              base = Path('app/base-v131.html').read_text()
+              v132 = ''.join(Path(f'app/v132-block-{i:02d}.txt').read_text() for i in range(8))
+              v133 = ''.join(Path(f'app/v133-block-{i:02d}.txt').read_text() for i in range(6))
+              v134 = ''.join(Path(f'app/v134-block-{i:02d}.txt').read_text() for i in range(7))
+              s = base.replace('<title>FE QUEST PWA v131</title>', f'<title>FE QUEST PWA {version}</title>', 1)
+              s = s.replace("const APP_VERSION = 'v131';", f"const APP_VERSION = '{version}';", 1)
+              s = s.replace(
+                  "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');",
+                  f"assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='{version}','{version} version/schema contract drift');", 1)
+              marker = 'const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)'
+              assert marker in s
+              s = s.replace(marker, v132 + v133 + v134 + extra + marker, 1)
+              return s
+
+          def final_bank(src, include_v135=False):
+              q0 = extract_json_after(src, 'const QUESTION_BANK ')
+              linked = extract_json_after(src, 'const CORE_A_LINKED_QUESTIONS')
+              challenge = extract_json_after(src, 'const CORE_A_CHALLENGE_QUESTIONS')
+              bank = [dict(q) for q in (q0 + linked + challenge)]
+              byid = {q['id']: q for q in bank}
+              assert len(bank) == 710 and len(byid) == 710
+
+              def apply(name):
+                  obj = extract_json_after(src, 'const ' + name)
+                  assert isinstance(obj, dict)
+                  for qid, patch in obj.items():
+                      assert qid in byid
+                      byid[qid].update(patch)
+                  return obj
+
+              apply('SUBJECT_A_V132_STYLE_CUE_OVERRIDES')
+              for i in range(6):
+                  apply(f'SUBJECT_A_V133_SEMANTIC_OVERRIDES_{i}')
+              for i in range(6):
+                  apply(f'SUBJECT_A_V134_LEARNING_OVERRIDES_{i}')
+              if include_v135:
+                  for i in range(8):
+                      apply(f'SUBJECT_A_V135_BOUNDARY_OVERRIDES_{i}')
+              return bank, byid
+
+          # ----- scan all 710 questions at the v134 state -----
+          v134_src = assemble('v134')
+          bank, byid = final_bank(v134_src)
+
+          topic_concept = {}
+          topic_questions = defaultdict(list)
+          for q in bank:
+              tid = q.get('coreTopicId')
+              if tid:
+                  topic_concept.setdefault(tid, q.get('concept'))
+                  topic_questions[tid].append(q)
+
+          def keypoint(tid, fallback=''):
+              qs = topic_questions.get(tid, [])
+              kq = next((q for q in qs if q.get('angle') == 'knowledge'), qs[0] if qs else None)
+              if not kq:
+                  return fallback.strip().rstrip('。')
+              hint = (kq.get('hint') or '').strip().rstrip('。')
+              if len(hint) >= 5:
+                  return hint
+              exp = (kq.get('exp') or '').strip()
+              parts = [x.strip().rstrip('。！？') for x in re.split(r'(?<=[。！？])\s*', exp) if x.strip()]
+              for part in parts:
+                  if '正解です' not in part and 'が正解' not in part and len(part) >= 8:
+                      return part
+              return fallback.strip().rstrip('。') or exp.rstrip('。')
+
+          patches = defaultdict(dict)
+          generic_before = 0
+
+          for q in bank:
+              ces = list(q.get('choiceExps') or [])
+              generic_before += sum('この内容は「' in x for x in ces)
+              if 'distractorTopicIds' not in q or not any('この内容は「' in x for x in ces):
+                  continue
+              wrong = [i for i in range(len(q['options'])) if i != q['a']]
+              tids = q.get('distractorTopicIds', [])
+              if len(tids) != len(wrong):
+                  continue
+              mapping = dict(zip(wrong, tids))
+              target = q.get('concept', 'この論点')
+              target_key = keypoint(q.get('coreTopicId'), q.get('hint') or '')
+              new = list(ces)
+              for i, ce in enumerate(ces):
+                  if 'この内容は「' not in ce:
+                      continue
+                  dconcept = topic_concept.get(mapping.get(i))
+                  if not dconcept:
+                      m = re.search(r'この内容は「([^」]+)」', ce)
+                      dconcept = m.group(1) if m else '別の論点'
+                  new[i] = f'「{q["options"][i]}」は「{dconcept}」で扱う内容です。一方、この設問の「{target}」では『{target_key}』を手掛かりに判断します。'
+              if new != ces:
+                  patches[q['cat']][q['id']] = {'choiceExps': new}
+
+          # Two explanations were not backed by distractorTopicIds, so explain the actual reason directly.
+          patches['ネットワーク']['net-03'] = {'choiceExps': [
+              '192.168.10.255は/24ネットワーク192.168.10.0/24のブロードキャストアドレスです。ネットワークアドレスではありません。',
+              '192.168.10.24は端末の下位8bitを0にしていないため、/24のネットワークアドレスではありません。/24では下位8bitをすべて0にします。',
+              '/24では先頭24bitがネットワーク部です。192.168.10.25の下位8bitを0にすると192.168.10.0になります。',
+              '192.168.0.0は第3オクテットが10ではなく0です。/24では192.168.10までがネットワーク部なので一致しません。'
+          ]}
+          patches['セキュリティ']['sec-03'] = {'choiceExps': [
+              '署名者の公開鍵は署名を付ける鍵ではなく、受信者などが署名を検証するときに使います。',
+              '受信者の公開鍵は受信者宛ての暗号化などに使う鍵であり、送信者本人の署名を生成する鍵ではありません。',
+              'デジタル署名は署名者本人だけが保持する秘密鍵で生成し、署名者の公開鍵で検証します。',
+              '受信者の秘密鍵は受信者が自分宛ての暗号文を復号する場合などに使うもので、送信者の署名生成には使いません。'
+          ]}
+
+          assert generic_before == 413
+          counts = {cat: len(patches[cat]) for cat in CATS}
+          assert counts == {'基礎理論':23,'アルゴリズム':6,'コンピュータ':25,'データベース':5,'ネットワーク':11,'セキュリティ':7,'マネジメント':35,'ストラテジ':27}
+          assert sum(counts.values()) == 139
+
+          changed_choices = 0
+          for cat in CATS:
+              for qid, patch in patches[cat].items():
+                  before = byid[qid]
+                  changed_choices += sum(a != b for a, b in zip(before['choiceExps'], patch['choiceExps']))
+          assert changed_choices == 419
+
+          # ----- write v135 blocks -----
+          for i, cat in enumerate(CATS):
+              name = f'SUBJECT_A_V135_BOUNDARY_OVERRIDES_{i}'
+              body = f'// ===== v135 concept-boundary pass: {cat} =====\n'
+              body += f'const {name}=' + json.dumps(patches[cat], ensure_ascii=False, separators=(',', ':')) + ';\n'
+              body += f"Object.keys({name}).forEach(qid=>{{const q=QUESTION_BANK.find(x=>x.id===qid);if(!q)throw new Error(`v135 missing question: ${{qid}}`);const patch={name}[qid];const answerBefore=q.a;const idBefore=q.id;Object.assign(q,patch,{{qualityAudit:'v135-concept-boundary-pass'}});if(q.a!==answerBefore)throw new Error(`v135 answer-index drift: ${{qid}}`);if(q.id!==idBefore)throw new Error(`v135 id drift: ${{qid}}`);}});\n"
+              Path(f'app/v135-block-{i:02d}.txt').write_text(body)
+
+          report = """FE QUEST v135 — 科目A 710問 概念境界・誤答学習 六次監査
+          作成日: 2026-08-15
+
+          目的
+          - v134の学習効果・解説品質監査に続き、概念問題の誤答解説が「別テーマである」と分類するだけで終わっていないかを710問横断で確認する。
+          - 特に用語対応・概念判別問題で、誤答がどの論点に属し、正答側では何を手掛かりに見分けるかを1回の復習で整理できる状態を目指す。
+          - 問題文、選択肢、正答位置、問題ID、認知レベル、既存学習履歴のキーは維持する。
+
+          結果
+          - 科目A問題数: 710
+          - v135修正対象: 139問
+          - choiceExps修正: 419選択肢
+          - 正答位置変更: 0問
+          - 問題ID変更: 0問
+          - Profile Schema: v5維持
+          - 認知レベル: 想起166 / 適用323 / 判断221を維持
+          - 正答位置: A178 / B178 / C177 / D177を維持
+          - v134時点の「この内容は『別テーマ』で扱う事項」とだけ分類する汎用説明: 413件
+          - v135適用後の同型汎用説明: 0件
+
+          カテゴリ別修正
+          - 基礎理論: 23問 / 69選択肢
+          - アルゴリズム: 6問 / 18選択肢
+          - コンピュータ: 25問 / 75選択肢
+          - データベース: 5問 / 15選択肢
+          - ネットワーク: 11問 / 34選択肢
+          - セキュリティ: 7問 / 22選択肢
+          - マネジメント: 35問 / 105選択肢
+          - ストラテジ: 27問 / 81選択肢
+
+          主な改善
+          - 誤答の所属テーマだけでなく、現在の設問で見るべき判断手掛かりを併記する形式へ変更。
+          - 基数変換周辺では、データ単位、2進四則演算、2の補数、16進変換の判断軸を整理。
+          - CPU周辺では、CPU本体、命令サイクル、バス、入出力装置・インタフェースを区別。
+          - データベース周辺では、関係モデル、設計、排他制御、DBMSの論点を分ける。
+          - プロジェクト管理では、スコープ、資源、リスク、品質、調達などを設問中の手掛かりで判別できる形へ改善。
+          - net-03は/24の誤答理由をネットワーク部の不一致として直接説明。
+          - sec-03は秘密鍵で署名・公開鍵で検証という鍵の役割差を直接説明。
+
+          互換性
+          - 問題文変更: 0問
+          - 選択肢変更: 0問
+          - 正答位置変更: 0問
+          - 問題ID変更: 0問
+          - 認知レベル変更: 0問
+          - Profile Schema変更: なし
+          - v132〜v134の差分を維持した上にv135のchoiceExps差分を重ねる構成。
+
+          教材との整合
+          - 既存の130コアテーマ分類と令和8年度向け教材との対応関係は変更していない。
+          - 今回は問題・選択肢を増やさず、アプリ独自問題の誤答解説を改善した。
+          - 参考書・問題集の独自問題文の転載は行っていない。
+
+          次段階
+          - 残る「この定義・性質と一致しない」型の汎用誤答説明を重点監査する。
+          - v135適用後も同型表現は61問・133選択肢に残るため、v136では数値・用語ごとに「どこを取り違えたか」を直接説明する。
+          """
+          report = '\n'.join(line[10:] if line.startswith('          ') else line for line in report.splitlines()) + '\n'
+          Path('audits/SUBJECT_A_CONCEPT_BOUNDARY_AUDIT_v135.txt').write_text(report)
+
+          # ----- update Pages template, manifest and Service Worker -----
+          p = Path('index.html')
+          s = p.read_text()
+          v134_capture = "{% capture v134block %}{% include_relative app/v134-block-00.txt %}{% include_relative app/v134-block-01.txt %}{% include_relative app/v134-block-02.txt %}{% include_relative app/v134-block-03.txt %}{% include_relative app/v134-block-04.txt %}{% include_relative app/v134-block-05.txt %}{% include_relative app/v134-block-06.txt %}{% endcapture %}\n"
+          v135_capture = "{% capture v135block %}{% include_relative app/v135-block-00.txt %}{% include_relative app/v135-block-01.txt %}{% include_relative app/v135-block-02.txt %}{% include_relative app/v135-block-03.txt %}{% include_relative app/v135-block-04.txt %}{% include_relative app/v135-block-05.txt %}{% include_relative app/v135-block-06.txt %}{% include_relative app/v135-block-07.txt %}{% endcapture %}\n"
+          assert v134_capture in s and 'capture v135block' not in s
+          s = s.replace(v134_capture, v134_capture + v135_capture, 1)
+          s = s.replace('<title>FE QUEST PWA v134</title>', '<title>FE QUEST PWA v135</title>', 1)
+          s = s.replace("const APP_VERSION = 'v134';", "const APP_VERSION = 'v135';", 1)
+          s = s.replace("assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v134','v134 version/schema contract drift');",
+                        "assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v135','v135 version/schema contract drift');", 1)
+          old = "{{ v132block }}{{ v133block }}{{ v134block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)"
+          new = "{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)"
+          assert old in s
+          p.write_text(s.replace(old, new, 1))
+
+          manifest_path = Path('manifest.webmanifest')
+          manifest = json.loads(manifest_path.read_text())
+          assert manifest['name'] == 'FE QUEST v134'
+          manifest['name'] = 'FE QUEST v135'
+          manifest['description'] = '基本情報技術者試験向けPWA。v135では科目A710問の概念境界・誤答学習を六次監査し、139問・419選択肢の「別テーマである」だけの汎用解説を、誤答の所属論点と正答側の判断手掛かりが分かる解説へ改善。問題数710、認知レベル分布、正答位置、Profile Schema v5は維持。'
+          manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+
+          sw_path = Path('sw.js')
+          sw = sw_path.read_text()
+          assert "const APP_VERSION = 'v134';" in sw
+          assert "const CACHE_NAME = 'fe-quest-v134-1';" in sw
+          sw = sw.replace("const APP_VERSION = 'v134';", "const APP_VERSION = 'v135';", 1)
+          sw = sw.replace("const CACHE_NAME = 'fe-quest-v134-1';", "const CACHE_NAME = 'fe-quest-v135-1';", 1)
+          sw_path.write_text(sw)
+
+          # ----- assemble and verify v135 -----
+          v135 = ''.join(Path(f'app/v135-block-{i:02d}.txt').read_text() for i in range(8))
+          v135_src = assemble('v135', v135)
+          final_list, final = final_bank(v135_src, include_v135=True)
+
+          before_answers = {q['id']: q['a'] for q in bank}
+          assert all(final[qid]['a'] == a for qid, a in before_answers.items())
+          assert sum('この内容は「' in x for q in final.values() for x in q.get('choiceExps', [])) == 0
+          assert sum('この定義・性質と一致しない' in x for q in final.values() for x in q.get('choiceExps', [])) == 133
+          assert Counter(q.get('cognitiveLevel') for q in final.values()) == Counter({'適用':323,'判断':221,'想起':166})
+          assert [sum(q['a'] == i for q in final.values()) for i in range(4)] == [178,178,177,177]
+
+          scripts = re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>', v135_src)
+          Path('/tmp/app.js').write_text('\n'.join(scripts))
+          out = Path('/tmp/FE_QUEST_PWA_v135')
+          out.mkdir(exist_ok=True)
+          (out / 'index.html').write_text(v135_src)
+          for f in ['manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']:
+              shutil.copy2(f, out / f)
+          print('v135 audit OK: 710 questions / 139 updated / 419 choice explanations / generic other-topic 0 / generic definition mismatch 133')
+          PY
+
+          node --check /tmp/app.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+          git diff --check
+          cd /tmp && zip -qr FE_QUEST_PWA_v135.zip FE_QUEST_PWA_v135
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v135
+          path: /tmp/FE_QUEST_PWA_v135.zip
+          if-no-files-found: error
+
+      - name: Commit FE QUEST v135
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/v135-block-*.txt audits/SUBJECT_A_CONCEPT_BOUNDARY_AUDIT_v135.txt
+          git commit -m 'Release FE QUEST v135 concept-boundary pass'
+          git push
+
+      - name: Clean up release workflow
+        run: |
+          rm -f .github/workflows/v135-release.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git add -A
+          git commit -m 'Clean up FE QUEST v135 release workflow'
+          git push
