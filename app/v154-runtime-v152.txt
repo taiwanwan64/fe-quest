@@ -1,0 +1,41 @@
+// ===== v152 production / legacy-regression fixture boundary =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const V152_LEGACY_FIXTURE_SPEC=Object.freeze({
+    path:'_regression/legacy-run-app-self-check-v131.fixture.json',
+    sourcePath:'app/base-v131.html',
+    sourceVersion:'v131',
+    startMarker:'function runAppSelfCheck(){',
+    endMarker:'function runLessonUXAudit(){',
+    assertCount:293,
+    byteLength:49657,
+    sha256:'b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36',
+    productionBundled:false,
+    releaseOnly:true
+  });
+
+  function v152LegacyClassificationAudit(){
+    const buckets={
+      currentContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.currentContractCovered.ranges),
+      browserContractCovered:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.browserContractCovered.ranges),
+      historicalMetadata:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.historicalMetadata.ranges),
+      ciOnlyLegacySentinels:v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges)
+    };
+    const all=Object.values(buckets).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=Array.from({length:V149_LEGACY_ASSERT_INVENTORY.total},(_,i)=>i+1);
+    return {
+      total:V149_LEGACY_ASSERT_INVENTORY.total,
+      classified:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n),
+      declaredCountsOk:Object.entries(buckets).every(([name,values])=>values.length===V149_LEGACY_ASSERT_INVENTORY[name].count),
+      bucketCounts:Object.fromEntries(Object.entries(buckets).map(([name,values])=>[name,values.length]))
+    };
+  }
+
+  globalThis.V152_LEGACY_FIXTURE_SPEC=V152_LEGACY_FIXTURE_SPEC;
+  globalThis.v152LegacyClassificationAudit=v152LegacyClassificationAudit;
+})();
