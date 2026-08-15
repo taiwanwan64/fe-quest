@@ -1,0 +1,72 @@
+name: Validate FE QUEST v149
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v149-validate.yml'
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare clean validation workspace
+        run: |
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v149.zip
+
+      - name: Validate source contracts
+        run: |
+          set -euo pipefail
+          node --check sw.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          grep -q 'FE QUEST PWA v149' index.html
+          grep -q "APP_VERSION = 'v149'" sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v149-1'" sw.js
+          grep -q 'FE QUEST v149' manifest.webmanifest
+          grep -q '{% capture v149block %}' index.html
+          grep -q 'runV149SelfCheck()' index.html
+          grep -q 'v149 legacy-assert inventory / CI-shadow production policy' app/v149-block-00.txt
+          grep -q "architecture:'v149-inventory-ci-shadow-policy'" app/v149-block-00.txt
+          grep -q 'runV149LegacyShadowAudit' app/v149-block-00.txt
+          cp app/v149-block-00.txt /tmp/v149-check.js
+          node --check /tmp/v149-check.js
+          python -m py_compile tools/v149_validate.py
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate built PWA, DOM contracts, production policy and explicit legacy shadow
+        run: |
+          set -euo pipefail
+          grep -q '<title>FE QUEST PWA v149</title>' _site/index.html
+          grep -q "const APP_VERSION = 'v149';" _site/index.html
+          grep -q 'runV149SelfCheck' _site/index.html
+          grep -q "APP_VERSION = 'v149'" _site/sw.js
+          grep -q "CACHE_NAME = 'fe-quest-v149-1'" _site/sw.js
+          python -m json.tool _site/manifest.webmanifest >/dev/null
+          python tools/v149_validate.py
+          test -f _site/icon-192.png
+          test -f _site/icon-512.png
+          test -f _site/apple-touch-icon.png
+          (cd _site && zip -qr ../FE_QUEST_PWA_v149.zip .)
+
+      - name: Upload standalone v149 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v149
+          path: FE_QUEST_PWA_v149.zip
+          retention-days: 90
