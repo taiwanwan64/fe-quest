@@ -34,7 +34,7 @@ jobs:
           assert 'SUBJECT_A_V131_ANSWER_CUE_OVERRIDE_IDS.length===23' in s
           assert json.loads(Path('manifest.webmanifest').read_text())['name']=='FE QUEST v131'
           a=Path('audits/SUBJECT_A_ANSWER_CUE_UNIQUENESS_AUDIT_v131.txt').read_text()
-          assert '23問' in a and '0件' in a
+          assert '23問' in a and '0問' in a
           PY2
           node --check /tmp/app.js
           node --check sw.js
