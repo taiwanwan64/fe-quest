@@ -1,0 +1,45 @@
+name: FE QUEST v151 release apply and validate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/v151-block-00.txt'
+      - 'audits/RELEASE_SENTINEL_DECLARATIVE_AUDIT_v151.txt'
+      - 'tools/v151_apply.py'
+      - 'tools/v151_validate.py'
+      - '.github/workflows/v151-release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply v151 production patch
+        run: python tools/v151_apply.py
+      - name: Build validation site
+        run: |
+          rm -rf _site
+          mkdir _site
+          cp index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png _site/
+      - name: Validate v151 release
+        run: python tools/v151_validate.py
+      - name: Commit validated v151 production files
+        run: |
+          git config user.name "taiwanwan64"
+          git config user.email "taiwanwan64@gmail.com"
+          git add index.html manifest.webmanifest sw.js
+          git diff --cached --exit-code && exit 1 || true
+          git commit -m "Release FE QUEST v151 declarative sentinel contract"
+          git push origin HEAD:main
