@@ -1,0 +1,96 @@
+FE QUEST v145 — three-layer self-check architecture 十六次監査
+作成日: 2026-08-15
+
+目的
+- v144までの「巨大な旧runAppSelfCheckを実行し、後段normalizeで歴史的な誤検知を補正する」構造を整理する。
+- 自己診断を current-contract / historical-diagnostics / browser-UI-contract の3層へ分離する。
+- 古いv89〜v131監査文字列が後続改善で上書きされても、現在の合否を直接左右しない構造へ移行する。
+- 旧runAppSelfCheckは、未移行のactive errorを取りこぼさないためのcompatibility residual gateと、歴史診断の収集元として当面残す。
+- 問題データ、画面UI、Profile Schemaは変更しない。
+
+v145 current-contract
+- 23個の現行契約を独立定義。
+- Node runtime smoke実測: 23 / 23 PASS。
+- 主な契約:
+  - APP_VERSION v145 / Profile Schema v5
+  - 科目A710問 / unique ID / unique問題文 / unique選択肢集合
+  - 正答位置 A178/B178/C177/D177
+  - 認知レベル 想起166/適用323/判断221
+  - 4択形状、正答index、解説・ヒント必須
+  - 語尾だけ/のみ・丁寧語による選択肢cueなし
+  - 正答だけが明らかに長い選択肢outlierなし
+  - 主要8カテゴリ各20問以上
+  - 想起/適用/判断のcurrent demand metadata
+  - tracked Subject A 719問のlesson route / same-topic peer
+  - review/mastery helper存在
+  - Core-linked 390 / challenge 160 / practical challenge 159
+  - 実戦問題のpracticalAudit / examDepth
+  - Core A各論点の実戦問題・総問題数・即時演習数
+  - Core A解説量、exam cue、注意文、文章品質
+  - linked stem current coverage 260
+  - hard semantic error 0
+  - v135〜v142で除去したgeneric誤答解説・q.exp全文コピー・完全重複の再発なし
+  - v143 option/depth/judgment quality gate維持
+
+historical-diagnostics
+- 旧runAppSelfCheckのraw errorを、現行合否とは別の診断層へ分類。
+- Node runtime smokeでのraw error: 22件。
+- historical metadata: 8件。
+  - v89 linked stem diversification count drift
+  - Every application question needs an application demand type
+  - v92 pass application count drift
+  - v93 application demand distribution drift
+  - v131 answer-cue overrides must be applied
+  - v130 same-topic overrides must be applied
+  - v129 same-topic overrides must be applied
+  - v128 quality overrides must be applied
+- superseded semantic aggregate: 1件。
+- Node最小DOM由来のlegacy UI signal: 13件。
+- 上記を除いたcompatibility residual active error: 0件。
+- compatibility residualが将来1件でも出た場合は、v145のactive errorとして扱うため、旧検査でしか検出できない本物の退行は隠さない。
+
+browser-UI-contract
+- v144で確立した13件のUI契約を独立したbrowser UI layerとして利用。
+- Node最小DOMでは13件をdeferredとし、実DOMがないことによる偽失敗を作らない。
+- 完成HTML静的DOM監査ではv144と同じ13/13 PASSを維持。
+- 実ブラウザではv144EvaluateBrowserUiContracts()のfailureをactive errorへ昇格する。
+
+構造上の改善
+- window.FEQUEST_SELF_CHECKの主判定は `runV145SelfCheck()` に変更。
+- `runV145SelfCheck()` は次の3レポートを明示的に返す。
+  1. currentContract
+  2. historicalDiagnostics
+  3. browserUiContract
+- top-level `ok/errors/warnings` は既存の利用箇所との互換性を維持。
+- historical metadataはtop-level warningsへ混ぜない。
+- 旧v142/v143/v144 normalize chainは定義を残すが、v145の主自己診断経路から外す。
+- これにより、旧監査文字列を後段で毎回打ち消すことがv145の主要判定ロジックではなくなった。
+
+Node runtime smoke期待値
+- architecture: v145-three-layer
+- currentContract: 23/23 PASS
+- active errors: 0
+- compatibility residual: 0
+- historicalMetadata: 8
+- supersededSemantic: 1
+- legacyUiSignals: 13
+- browserUiContract.mode: deferred-to-browser-dom
+- uiDeferredWarnings: 13
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI見た目変更: 0
+
+次段階
+- v146ではcompatibility residual gateとして残している旧runAppSelfCheckの非歴史的チェックを棚卸しする。
+- current-contractへ既に移行済みのチェックと、まだ旧runAppSelfCheckにしか存在しない有効チェックを分類する。
+- 重要な未移行チェックをcurrent-contractへ移した後、旧runAppSelfCheckを「履歴診断専用」にさらに近づける。
