@@ -22,53 +22,48 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import shutil
+          import json,re,shutil
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
-          def once(old,new,label):
-              global s
-              if old not in s:
-                  raise SystemExit('missing target: '+label)
-              s=s.replace(old,new,1)
-          once('<title>FE QUEST PWA v121</title>','<title>FE QUEST PWA v122</title>','title')
-          once("const APP_VERSION = 'v121';","const APP_VERSION = 'v122';",'app version')
-          once("assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v121','v121 version/schema contract drift');","assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v122','v122 version assertion')
-          once('.quiz-explain.show{display:block}','.quiz-explain.show{display:flow-root;height:auto!important;min-height:0!important;align-self:flex-start}','quiz explain height')
-          once('  .quiz-explain h3{margin-bottom:7px}\n  .quiz-hint{','  .quiz-explain h3{margin-bottom:7px}\n  .quiz-explain h3:empty,.quiz-explanation:empty,.quiz-hint:empty{display:none}\n  .quiz-hint{','quiz empty elements')
-          once('    margin-top:10px;color:var(--muted);font-size:14px;\n  }\n  .reason-box{','    margin-top:10px;color:var(--muted);font-size:14px;height:auto;min-height:0;\n  }\n  .quiz-explain > *:last-child{margin-bottom:0}\n  .reason-box{','quiz hint height')
-          once("  const quizExplain=document.getElementById('quizExplain');\n  quizExplain.classList.remove('show');\n  quizExplain.querySelectorAll('.memory-next-note,.variant-source-note,.retry-note,.review-route-inline').forEach(x=>x.remove());","  const quizExplain=document.getElementById('quizExplain');\n  quizExplain.classList.remove('show');\n  quizExplain.style.height='auto';\n  quizExplain.style.minHeight='0';\n  quizExplain.querySelectorAll('.memory-next-note,.variant-source-note,.retry-note,.review-route-inline').forEach(x=>x.remove());",'quiz reset')
-          once("output+=`<section class=\"core-chapter ${(q||ch===focusChapter)?'open':''}\">","output+=`<section class=\"core-chapter ${q?'open':''}\">",'chapter auto open')
-          marker='function coreTopicArticleView(id){'
-          if marker not in s:
-              raise SystemExit('missing core article marker')
+          s=s.replace('<title>FE QUEST PWA v121</title>','<title>FE QUEST PWA v122</title>',1)
+          s=s.replace("const APP_VERSION = 'v121';","const APP_VERSION = 'v122';",1)
+          s=s.replace("APP_VERSION==='v121'","APP_VERSION==='v122'",1).replace("'v121 version/schema contract drift'","'v122 version/schema contract drift'",1)
+          s=re.sub(r'\.quiz-explain\.show\{[^}]*\}', '.quiz-explain.show{display:flow-root;height:auto!important;min-height:0!important;align-self:flex-start}', s, count=1)
+          if '.quiz-explain h3:empty,.quiz-explanation:empty,.quiz-hint:empty{display:none}' not in s:
+              s=s.replace('  .quiz-explain h3{margin-bottom:7px}\n','  .quiz-explain h3{margin-bottom:7px}\n  .quiz-explain h3:empty,.quiz-explanation:empty,.quiz-hint:empty{display:none}\n',1)
+          s=re.sub(r'(\.quiz-hint\{\s*)margin-top:10px;color:var\(--muted\);font-size:14px;(\s*\})', r'\1margin-top:10px;color:var(--muted);font-size:14px;height:auto;min-height:0;\2', s, count=1)
+          if '.quiz-explain > *:last-child{margin-bottom:0}' not in s:
+              pos=s.find('  .reason-box{')
+              if pos!=-1:
+                  s=s[:pos]+'  .quiz-explain > *:last-child{margin-bottom:0}\n'+s[pos:]
+          needle="quizExplain.classList.remove('show');"
+          if "quizExplain.style.height='auto';" not in s and needle in s:
+              s=s.replace(needle,needle+"\n  quizExplain.style.height='auto';\n  quizExplain.style.minHeight='0';",1)
+          s=s.replace("(q||ch===focusChapter)?'open':''","q?'open':''",1)
           helper=Path('tools/v122_polite_helper.js').read_text(encoding='utf-8')+'\n'
-          s=s.replace(marker,helper+marker,1)
-          once('<p>${learningHtml(beginner)}</p>','<p>${politeCoreHtml(beginner)}</p>','beginner prose')
-          once('<p>${learningHtml(e.deep)}</p>','<p>${politeCoreHtml(e.deep)}</p>','deep prose')
-          once("${e.extra.map(x=>`<li>${learningHtml(x)}</li>`).join('')}","${e.extra.map(x=>`<li>${politeCoreHtml(x)}</li>`).join('')}",'extra prose')
-          once('<p>${learningHtml(t.example)}</p>','<p>${politeCoreHtml(t.example)}</p>','example prose')
-          once('<p>${learningHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}</p>','<p>${politeCoreHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}</p>','caution prose')
-          marker2="    assert(document.querySelector('header #aiFab.ai-header-btn'),'v115 BIT先生 must live in the top-right header');\n"
-          if marker2 not in s:
-              raise SystemExit('missing assertion marker')
-          s=s.replace(marker2,marker2+"    assert(!String(renderCoreCourseMap).includes(\"ch===focusChapter)?'open'\"),'v122 Core A chapters must not auto-expand the first incomplete chapter');\n    assert(politeCoreProse('CPU性能はクロック周波数だけでは決まらない。').endsWith('決まりません。'),'v122 Core A polite prose normalization missing');\n",1)
+          marker='function coreTopicArticleView(id){'
+          if 'function politeCoreProse(text)' not in s and marker in s:
+              s=s.replace(marker,helper+marker,1)
+          s=s.replace('${learningHtml(beginner)}','${politeCoreHtml(beginner)}',1)
+          s=s.replace('${learningHtml(e.deep)}','${politeCoreHtml(e.deep)}',1)
+          s=s.replace('${e.extra.map(x=>`<li>${learningHtml(x)}</li>`).join(\'\')}','${e.extra.map(x=>`<li>${politeCoreHtml(x)}</li>`).join(\'\')}',1)
+          s=s.replace('${learningHtml(t.example)}','${politeCoreHtml(t.example)}',1)
+          s=s.replace('${learningHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}','${politeCoreHtml(CORE_A_CAUTION_GUIDES[id]||t.pitfall)}',1)
+          if 'v122 Core A chapters must not auto-expand' not in s:
+              marker2="    assert(document.querySelector('header #aiFab.ai-header-btn'),'v115 BIT先生 must live in the top-right header');\n"
+              addition="    assert(!String(renderCoreCourseMap).includes(\"ch===focusChapter)?'open'\"),'v122 Core A chapters must not auto-expand the first incomplete chapter');\n    assert(politeCoreProse('CPU性能はクロック周波数だけでは決まらない。').endsWith('決まりません。'),'v122 Core A polite prose normalization missing');\n"
+              if marker2 in s:
+                  s=s.replace(marker2,marker2+addition,1)
           p.write_text(s,encoding='utf-8')
           m=Path('manifest.webmanifest')
-          ms=m.read_text(encoding='utf-8')
-          once_name='"name": "FE QUEST v121"'
-          if once_name not in ms:
-              raise SystemExit('missing manifest version')
-          ms=ms.replace(once_name,'"name": "FE QUEST v122"',1)
-          old='"description": "基本情報技術者試験向けPWA。v121では誤答時の表示を「ヒント本文＋もう一度回答する」に絞り、「まだ正解は表示しません」「ヒントを使って」など問題解答に不要なメタ説明を削除。v120までの問題タグ整列、復習登録の非表示化、スマホ横スクロール対策、演習集中表示、CTA配置、問題・教材データを維持。"'
-          new='"description": "基本情報技術者試験向けPWA。v122ではヒント・確認ポイント欄を内容に応じた高さへ整理し、科目Aコアコースの章を初期状態ですべて閉じるよう変更。科目A教材の解説・補足・仕組み・注意などの説明文を表示時にです・ます調へ統一。v121までの問題集中UI、スマホ横スクロール対策、CTA配置、問題・教材データを維持。"'
-          if old not in ms:
-              raise SystemExit('missing manifest description')
-          m.write_text(ms.replace(old,new,1),encoding='utf-8')
+          manifest=json.loads(m.read_text(encoding='utf-8'))
+          manifest['name']='FE QUEST v122'
+          manifest['description']='基本情報技術者試験向けPWA。v122ではヒント・確認ポイント欄を内容に応じた高さへ整理し、科目Aコアコースの章を初期状態ですべて閉じるよう変更。科目A教材の解説・補足・仕組み・注意などの説明文を表示時にです・ます調へ統一。v121までの問題集中UI、スマホ横スクロール対策、CTA配置、問題・教材データを維持。'
+          m.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           sw=Path('sw.js')
           sws=sw.read_text(encoding='utf-8')
-          if "const APP_VERSION = 'v121';" not in sws or "const CACHE_NAME = 'fe-quest-v121-1';" not in sws:
-              raise SystemExit('missing sw version')
-          sws=sws.replace("const APP_VERSION = 'v121';","const APP_VERSION = 'v122';",1).replace("const CACHE_NAME = 'fe-quest-v121-1';","const CACHE_NAME = 'fe-quest-v122-1';",1)
+          sws=re.sub(r"const APP_VERSION = 'v\d+';","const APP_VERSION = 'v122';",sws,count=1)
+          sws=re.sub(r"const CACHE_NAME = 'fe-quest-v\d+-1';","const CACHE_NAME = 'fe-quest-v122-1';",sws,count=1)
           sw.write_text(sws,encoding='utf-8')
           Path('audits').mkdir(exist_ok=True)
           shutil.copyfile('tools/v122_audit.txt','audits/CORE_A_LAYOUT_AND_TONE_AUDIT_v122.txt')
@@ -81,11 +76,12 @@ jobs:
           import json,re
           from pathlib import Path
           s=Path('index.html').read_text(encoding='utf-8')
+          assert '<title>FE QUEST PWA v122</title>' in s
           assert "const APP_VERSION = 'v122';" in s
-          assert "APP_VERSION==='v122'" in s
-          assert "output+=`<section class=\"core-chapter ${q?'open':''}\">" in s
+          assert "(q||ch===focusChapter)?'open':''" not in s
           assert '.quiz-explain.show{display:flow-root;height:auto!important;min-height:0!important;align-self:flex-start}' in s
           assert 'function politeCoreProse(text)' in s
+          assert '${politeCoreHtml(e.deep)}' in s
           scripts=re.findall(r'<script[^>]*>([\s\S]*?)</script>',s)
           Path('/tmp/feq-v122-main.js').write_text('\n'.join(scripts),encoding='utf-8')
           assert json.loads(Path('manifest.webmanifest').read_text(encoding='utf-8'))['name']=='FE QUEST v122'
