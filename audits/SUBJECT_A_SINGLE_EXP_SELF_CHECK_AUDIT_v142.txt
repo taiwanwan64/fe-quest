@@ -1,0 +1,68 @@
+FE QUEST v142 — 科目A 710問 解説密度・自己診断互換性 十三次監査
+作成日: 2026-08-15
+
+目的
+- v141で「正答総合解説q.expが2つ以上の誤答choiceExpsへ丸ごと残る」103問・282件を整理した後、1つの誤答だけに残るケースを仕上げる。
+- 旧バージョンの監査メタデータが後続監査で正当に上書きされた結果、runAppSelfCheckが誤って失敗扱いする条件を、現在の問題バンクに対する実質的な不変条件へ置き換える。
+- 問題文、選択肢、正答位置、問題ID、認知レベル、Profile Schemaは変更しない。
+
+解説密度監査結果
+- 科目A問題数: 710
+- v142対象: 19問
+- 修正した誤答choiceExps: 19選択肢
+- 対象19解説の総文字数: 2,591文字 -> 1,591文字
+- 削減: 1,000文字（38.6%）
+- v142適用後、誤答choiceExpsに正答総合解説q.exp全文が残る件数: 0
+- 正答choiceExps変更: 0
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答位置変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+
+カテゴリ別対象
+- コンピュータ: 3問
+- データベース: 2問
+- ネットワーク: 5問
+- セキュリティ: 2問
+- マネジメント: 2問
+- ストラテジ: 5問
+
+対象19問
+- computer-02 / net-04 / mgmt-03 / strat-01 / sys-01 / mgmt-06 / strat-06 / hardware-01 / strat-07 / db-07 / net-05 / net-07 / strat-13 / strat-14 / db-20 / net-14 / net-20 / sec-17 / sec-18
+
+代表的な改善
+- computer-02: キャッシュの正答総合説明を再掲せず、「補助記憶容量は増えない」という誤答固有理由から開始。
+- net-04: TCPの説明全文を外し、ICMPは制御・疎通確認であり再送・順序制御を提供しない点を直接説明。
+- mgmt-03: SLAの全文再掲を外し、OLAは内部部門間の合意で当事者が異なることを直接説明。
+- sec-17: 正答全文を外すと同時に、残っていたソルト説明の重複文も1本へ整理。
+
+自己診断互換性の修復
+- v89のstemAuditは後続v128で68件がv128-normalizedへ更新されているため、「v89-variedだけで260件」を要求する旧条件を現在の実質的な260件カバレッジへ正規化。
+- 適用323問のapplicationDemandは、v127/v129/v130で「同一論点適用」「同一論点判別」「計算・変換」「手順追跡」が追加されているため、現行10分類を有効な分類として確認。
+- applicationAuditはv92-passの一部がv127-reference-bridge / v129-same-topic / v130-same-topicへ後続監査で更新されたため、v92-rewritten 30、v93-promoted 11、passまたは後続監査 282という系譜で確認。
+- v128〜v131のqualityAudit文字列は後続監査で正当に上書きされるため、古い文字列そのものではなく対象IDの存在と既存の実質的な品質条件を利用。
+- validateQuestionSemanticContractsのうち、後続のoptions/exp改善で古くなったplain/application/discrimination binding driftはlegacy warningへ移し、missing・expected answer・context-dependentなどのhard semantic errorは引き続きerrorとする。
+- v142NormalizeSelfCheckは既存runAppSelfCheckの結果を受け取り、上記の歴史的メタデータ誤検知だけをwarningへ分類する。その他のactive errorは隠さない。
+
+現行契約の実測
+- linked stem coverage: v89-varied 192 + v128-normalized 68 = 260
+- cognitiveLevel適用: 323
+- applicationAudit: v92-rewritten 30 / v93-promoted 11 / v92-passまたは後続監査 282
+- unknown applicationDemand: 0
+- v142 current-contract error: 0
+
+互換性
+- 科目A: 710問
+- 認知レベル: 想起166 / 適用323 / 判断221
+- 正答位置: A178 / B178 / C177 / D177
+- Profile Schema: v5
+- 学習履歴キーに使う問題IDは変更なし。
+
+残存するactive self-check項目
+- v142は自己診断を「緑に見せる」ための抑制は行わない。最小DOMのruntime smokeではDOM依存UI検査は環境上失敗する。
+- データ側では、より厳しい既存の選択肢長チェックで9問、Core A depth paragraph、challenge_033の「だけ確認する」型誤答がactive errorとして残る。これらはlegacy metadataではないためv142ではwarningへ降格していない。
+
+次段階
+- v143ではactive data-quality errorを対象に、9問の選択肢長バランス、Core A depth paragraph、challenge_033の不自然な「だけ」誤答を個別監査する。
+- UI依存self-checkはブラウザDOMとNode最小DOMを区別し、runtime smokeで意味のあるdata/runtime契約と、実ブラウザでのみ意味のあるUI契約を分離する。
