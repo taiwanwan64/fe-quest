@@ -1,0 +1,117 @@
+// ===== v147 persistence / update / resume safety contract migration =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const MIGRATION_GROUPS = [
+    'daily-plan-versioning','legacy-backup-compatibility','atomic-profile-roundtrip','local-rollback-generations',
+    'multi-tab-write-safety','migration-journal','indexeddb-recovery','committed-state-rollback','resume-freshness',
+    'safe-update-path','boot-barrier','future-schema-guard','recovery-operations','resilient-resume-policy','subject-b-guided-flow'
+  ];
+
+  function v147AdditionalCurrentChecks(){
+    return [
+      currentCheck('daily-plan-versioning','Daily plan migration must preserve completed work and stamp the current plan version',()=>
+        typeof ensureTodayPlanSnapshot==='function'&&typeof rebuildTodayPlanPreservingDone==='function'&&
+        String(ensureTodayPlanSnapshot).includes("planVersion!=='v98'")&&String(ensureTodayPlanSnapshot).includes("rec.planVersion='v98'")&&
+        String(rebuildTodayPlanPreservingDone).includes("rec.planVersion='v98'")&&String(rebuildTodayPlanPreservingDone).includes('done[slot]'),1),
+
+      currentCheck('legacy-backup-compatibility','Checksum-valid v96/v97 backups must still migrate safely to schema v5',()=>{
+        const v96Profile={profileSchemaVersion:3,xp:12,skills:{...DEFAULT_PROFILE.skills},lessonProgress:{legacyV96Probe:100}};
+        const v96Payload={format:'fequest-backup-v2',appVersion:'v96',profileSchemaVersion:3,exportedAt:'2026-08-14T00:00:00.000Z',checksum:profileIntegrityChecksumV3(v96Profile),profile:v96Profile};
+        const v96=decodeBackupPayload(v96Payload);
+        const v97Profile=normalizeProfileDataV4ForChecksum({profileSchemaVersion:4,xp:13,skills:{...DEFAULT_PROFILE.skills},lessonProgress:{legacyV97Probe:100},profileMeta:{createdAt:null,updatedAt:null,lastAppVersion:'v97',migratedFromSchema:3},masteryHistory:{}});
+        const v97Payload={format:'fequest-backup-v2',appVersion:'v97',profileSchemaVersion:4,exportedAt:'2026-08-14T00:00:00.000Z',checksum:profileIntegrityChecksumV4(v97Profile),profile:v97Profile};
+        const v97=decodeBackupPayload(v97Payload);
+        return v96.profile.profileSchemaVersion===5&&v96.profile.lessonProgress.legacyV96Probe===100&&v97.profile.profileSchemaVersion===5&&v97.profile.lessonProgress.legacyV97Probe===100;
+      },2),
+
+      currentCheck('atomic-profile-roundtrip','Atomic profile envelope must be self-validating and schema-aware',()=>{
+        if(typeof atomicProfileEnvelope!=='function'||typeof decodeAtomicProfileEnvelope!=='function'||!PROFILE_ATOMIC_KEY) return false;
+        const env=atomicProfileEnvelope(profile,{revision:7,writerId:'v147-self-check'});
+        const decoded=decodeAtomicProfileEnvelope(JSON.stringify(env));
+        return env.format==='fequest-profile-atomic-v1'&&env.profileSchemaVersion===PROFILE_SCHEMA_VERSION&&decoded.revision===7&&decoded.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION;
+      },1),
+
+      currentCheck('local-rollback-generations','Current-profile writes must preserve a valid previous generation before replacement',()=>
+        typeof writeCurrentProfile==='function'&&typeof preservePreviousProfileIfValid==='function'&&
+        String(writeCurrentProfile).includes('preservePreviousProfileIfValid')&&String(writeCurrentProfile).includes('PROFILE_ATOMIC_KEY'),1),
+
+      currentCheck('multi-tab-write-safety','Multi-tab writes must use a lease, revision check and conflict block',()=>
+        typeof acquireProfileWriteLease==='function'&&typeof assertNoExternalProfileConflict==='function'&&typeof markProfileConflict==='function'&&
+        String(acquireProfileWriteLease).includes('PROFILE_WRITER_LEASE_KEY')&&String(assertNoExternalProfileConflict).includes('PROFILE_REVISION_CONFLICT')&&String(markProfileConflict).includes('profileConflictBlocked=true'),1),
+
+      currentCheck('migration-journal','Interrupted profile migration must retain a rollback journal and clear atomic authority when restoring',()=>
+        typeof recoverInterruptedMigrationIfNeeded==='function'&&!!PROFILE_MIGRATION_JOURNAL_KEY&&
+        String(recoverInterruptedMigrationIfNeeded).includes('fequest-migration-v1')&&String(recoverInterruptedMigrationIfNeeded).includes('PROFILE_ATOMIC_KEY'),1),
+
+      currentCheck('indexeddb-recovery','Long-term recovery checkpoints must remain available through IndexedDB',()=>
+        typeof openRecoveryDb==='function'&&typeof writeRecoveryCheckpoint==='function'&&typeof recoverLatestIndexedDbCheckpoint==='function'&&
+        String(writeRecoveryCheckpoint).includes('makeBackupPayload')&&String(recoverLatestIndexedDbCheckpoint).includes('decodeBackupPayload'),1),
+
+      currentCheck('committed-state-rollback','In-memory state must retain and restore the last committed profile snapshot',()=>
+        typeof rememberCommittedProfile==='function'&&typeof restoreCommittedProfileInMemory==='function'&&
+        String(rememberCommittedProfile).includes('profileCommittedChecksum')&&String(restoreCommittedProfileInMemory).includes('profileCommittedSnapshot'),1),
+
+      currentCheck('resume-freshness','Returning to a tab must detect external revision changes before allowing new writes',()=>
+        typeof revalidateProfileFreshness==='function'&&String(revalidateProfileFreshness).includes('profileBaseRevision')&&
+        String(revalidateProfileFreshness).includes('sameRevisionChanged')&&String(revalidateProfileFreshness).includes('markProfileConflict'),1),
+
+      currentCheck('safe-update-path','App updates must checkpoint safe state and remain one-tap even from blocked/conflicted tabs',()=>
+        typeof applyPendingUpdateSafely==='function'&&typeof activatePendingUpdateOrReload==='function'&&
+        String(applyPendingUpdateSafely).includes('pre-update')&&String(applyPendingUpdateSafely).includes('profileConflictBlocked||profileWriteBlocked')&&
+        String(activatePendingUpdateOrReload).includes('SKIP_WAITING')&&String(activatePendingUpdateOrReload).includes('persistResilientUiState'),2),
+
+      currentCheck('boot-barrier','No profile save or full render may run before the one-file bundle finishes booting',()=>
+        typeof appBootComplete==='boolean'&&typeof finalizeAppBoot==='function'&&
+        String(finalizeAppBoot).includes('appBootComplete=true')&&String(finalizeAppBoot).includes('FEQUEST_APP_BOOT_COMPLETE=true')&&String(finalizeAppBoot).includes('FEQUEST_DAILY_PLAN_READY=true')&&
+        String(saveProfile).includes('if(!appBootComplete)')&&String(persistProfileSilently).includes('if(!appBootComplete)'),3),
+
+      currentCheck('future-schema-guard','Future-schema data must not be overwritten, exported as fallback, or hidden by an old atomic envelope',()=>
+        String(restorePreImportProfile).includes('localStorage.removeItem(PROFILE_ATOMIC_KEY)')&&
+        String(exportLearningData).includes("profileRecoverySource==='future'")&&String(verifyProfileDurability).includes("profileRecoverySource==='future'"),2),
+
+      currentCheck('recovery-operations','Durability checks, manual recovery points and selectable recovery center must remain available',()=>
+        typeof verifyProfileDurability==='function'&&typeof createRecoveryPointNow==='function'&&typeof ensureVersionRecoveryCheckpoint==='function'&&
+        typeof renderRecoveryCenter==='function'&&typeof restoreRecoveryCandidate==='function'&&typeof restorePreManualProfile==='function'&&
+        String(renderRecoveryCenter).includes("profileRecoverySource==='future'")&&String(restoreRecoveryCandidate).includes('pre-manual-restore'),2),
+
+      currentCheck('resilient-resume-policy','Reload resume must reset stale-day UI and limit automatic resume to safe primary screens',()=>
+        SAFE_RESUME_SCREENS.size===4&&!SAFE_RESUME_SCREENS.has('history')&&!SAFE_RESUME_SCREENS.has('mock')&&
+        typeof uiStateIsToday==='function'&&typeof restoreResilientUiState==='function'&&
+        String(restoreResilientUiState).includes('uiStateIsToday')&&String(restoreResilientUiState).includes("showScreen('home'")&&String(restoreResilientUiState).includes('restoreBFinalResume'),2),
+
+      currentCheck('subject-b-guided-flow','Subject B must keep one guided recommendation path and safe final-exam taper routing',()=>
+        typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function'&&typeof continueSubjectBFlow==='function'&&
+        String(subjectBHubRecommendation).includes('finalAllowed')&&String(launchSubjectBRecommendation).includes("rec.mode==='final'")&&String(continueSubjectBFlow).includes('launchSubjectBRecommendation')&&
+        typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),1)
+    ];
+  }
+
+  function v147EvaluateCurrentContract(){
+    const base=v146EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v147',error:undefined}
+      : {...r});
+    const extras=v147AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras];
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-safety-expanded',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,
+      migratedGroupCount:extras.length,
+      migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0)
+    };
+  }
+
+  globalThis.v147AdditionalCurrentChecks=v147AdditionalCurrentChecks;
+  globalThis.v147EvaluateCurrentContract=v147EvaluateCurrentContract;
+})();
