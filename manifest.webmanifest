@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v148",
+  "name": "FE QUEST v149",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v148ではcurrent-contractを53→61契約へ拡張し、v104〜v105の誤答露骨さ・正答構造ヒント検査、v119〜v124の非DOM機能契約を8グループ・15個のlegacy assert相当として現行契約へ移行。判断/セキュリティの絶対表現・不完全行動、正答だけの包括列挙/『など』、強い正答長ヒントを0件で監視。browser UI契約も13→23へ拡張し、学習計画・分析・データ/復旧・戻るボタン・弱点主動線・デスクトップ日次行動・BIT先生配置・演習CTA・科目B次行動・旧クエスト文言を完成HTMLで監査。Node runtimeで61/61 PASS、compatibility residual 0。科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
+  "description": "基本情報技術者試験向けPWA。v149では旧runAppSelfCheckの293 assertを全件棚卸しし、current-contract 147、browser-contract 24、historical metadata 38、CI-only legacy sentinel 84へ機械分類。current-contractを61→63契約へ拡張し、production起動時の旧293 assert全実行を停止して主診断をcurrent/browser契約へ一本化。旧legacy shadowはrunV149LegacyShadowAuditとしてrelease CIで明示実行し、293 assert全件とcompatibility residual 0を継続検証。browser UI 23契約、科目A710問、正答位置、認知レベル、Profile Schema v5、UI外観は維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
