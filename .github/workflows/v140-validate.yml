@@ -79,7 +79,8 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           rm -f .github/workflows/v140-validate.yml
-          rm -rf _site FE_QUEST_PWA_v139.zip FE_QUEST_PWA_v140.zip
+          sudo rm -rf _site
+          rm -f FE_QUEST_PWA_v139.zip FE_QUEST_PWA_v140.zip
           git add -A
           git commit -m 'Finalize FE QUEST v140 release'
           git push origin HEAD:main
