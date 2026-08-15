@@ -1,0 +1,226 @@
+// ===== v150 critical-curriculum declarative contract / CI sentinel decomposition =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const V150_CI_ONLY_SENTINEL_GROUPS=Object.freeze({
+    qualityCaps:Object.freeze({count:2,ranges:'53-54',role:'chapter recall ratio and stem-template repetition'}),
+    articleTeachingStructure:Object.freeze({count:4,ranges:'80-83',role:'exam cues, caution depth and article teaching order'}),
+    criticalCurriculum:Object.freeze({count:56,ranges:'86-93,125-172',role:'critical terms, definitions, distinctions, formulas and procedures'}),
+    assessmentStructure:Object.freeze({count:17,ranges:'94-110',role:'comparison/chapter-extra/chapter-design and linked-question structure'}),
+    lessonPages:Object.freeze({count:1,ranges:'176',role:'lesson page integrity'}),
+    referenceAnchors:Object.freeze({count:2,ranges:'200-201',role:'reference-anchor immediate applied practice'}),
+    settingsHelper:Object.freeze({count:1,ranges:'224',role:'settings detail helper'}),
+    requiredDom:Object.freeze({count:1,ranges:'292',role:'legacy required-DOM aggregate'})
+  });
+
+  const V150_CRITICAL_CURRICULUM_SPEC=Object.freeze({
+    definitionContains:Object.freeze([
+      {legacy:86,topic:'core_17_01',term:'As-Is',needle:'現状'},
+      {legacy:88,topic:'core_17_01',term:'To-Be',needle:'目指'},
+      {legacy:130,topic:'core_04_01',term:'CPI',needle:'Cycles Per Instruction'},
+      {legacy:141,topic:'core_16_02',term:'プロセス',needle:'業務の流れ'},
+      {legacy:155,topic:'core_20_03',term:'OR',needle:'Operations Research'}
+    ]),
+    abbreviations:Object.freeze([
+      {legacy:87,terms:Object.freeze(['IT','DB','MAC','ID','QC','RFC','FW','SLM','EC','OCR','OMR','MICR','NFC','NAT','NAPT','JPEG','PNG','GPS','IC','FEC','ER','DRAM','SRAM','A/D','D/A','PID','L2'])}
+    ]),
+    beginnerTermsRequired:Object.freeze([
+      {legacy:89,topic:'core_11_06',terms:Object.freeze(['WAF'])},
+      {legacy:134,topic:'core_12_08',terms:Object.freeze(['リグレッションテスト'])},
+      {legacy:142,topic:'core_16_02',terms:Object.freeze(['As-Is'])},
+      {legacy:143,topic:'core_16_02',terms:Object.freeze(['To-Be'])},
+      {legacy:144,topic:'core_16_02',terms:Object.freeze(['BPM'])},
+      {legacy:147,topic:'core_20_05',terms:Object.freeze(['B/S','P/L','C/F','ROA','ROE'])},
+      {legacy:154,topic:'core_02_05',terms:Object.freeze(['クラスタリング'])},
+      {legacy:157,topic:'core_02_03',terms:Object.freeze(['中置記法','前置記法','後置記法'])},
+      {legacy:158,topic:'core_02_08',terms:Object.freeze(['自己情報量','エントロピー','ハフマン符号'])},
+      {legacy:159,topic:'core_04_01',terms:Object.freeze(['ALU','クロック周波数','MIPS'])},
+      {legacy:160,topic:'core_09_06',terms:Object.freeze(['共有ロック','排他ロック','デッドロック'])},
+      {legacy:161,topic:'core_10_03',terms:Object.freeze(['DHCP','CIDR','MACアドレス'])},
+      {legacy:162,topic:'core_12_05',terms:Object.freeze(['境界値分析','同値分割','リグレッションテスト'])},
+      {legacy:163,topic:'core_18_01',terms:Object.freeze(['PEST','SWOT'])},
+      {legacy:164,topic:'core_20_01',terms:Object.freeze(['CSR','ガバナンス','PDCA'])}
+    ]),
+    beginnerTermsForbidden:Object.freeze([
+      {legacy:151,topic:'core_10_04',term:'CI'},
+      {legacy:152,topic:'core_10_07',term:'AR'},
+      {legacy:153,topic:'core_02_05',term:'クラス'}
+    ]),
+    comparisonRowsRequired:Object.freeze([
+      {legacy:90,topic:'core_11_06',labels:Object.freeze(['IDS','IPS'])},
+      {legacy:91,topic:'core_15_01',labels:Object.freeze(['問題管理'])},
+      {legacy:92,topic:'core_18_05',labels:Object.freeze(['Targeting'])},
+      {legacy:133,topic:'core_10_07',labels:Object.freeze(['DHCP'])}
+    ]),
+    comparisonRowCounts:Object.freeze([
+      {legacy:140,topic:'core_11_08',op:'min',count:5},
+      {legacy:145,topic:'core_16_02',op:'exact',count:4},
+      {legacy:148,topic:'core_20_05',op:'exact',count:5}
+    ]),
+    calcLineContains:Object.freeze([
+      {legacy:126,topic:'core_02_06',needle:'独立'},
+      {legacy:127,topic:'core_02_06',needle:'期待値'},
+      {legacy:128,topic:'core_02_07',needle:'相対誤差'},
+      {legacy:129,topic:'core_04_01',needle:'クロック周波数 ÷ CPI'},
+      {legacy:131,topic:'core_05_03',needle:'スループット ='},
+      {legacy:132,topic:'core_09_03',needle:'候補キー'},
+      {legacy:135,topic:'core_14_04',needle:'並列'},
+      {legacy:149,topic:'core_20_05',needle:'ROA'},
+      {legacy:150,topic:'core_20_05',needle:'ROE'}
+    ]),
+    calcLineCounts:Object.freeze([
+      {legacy:93,topic:'core_17_01',min:5},
+      {legacy:125,topic:'core_05_04',min:5},
+      {legacy:138,topic:'core_09_03',min:4},
+      {legacy:139,topic:'core_14_05',min:5},
+      {legacy:146,topic:'core_16_02',min:5}
+    ]),
+    guideObjectCounts:Object.freeze([
+      {legacy:136,kind:'calc',min:30},
+      {legacy:137,kind:'comparison',min:35}
+    ]),
+    allTopicMinimums:Object.freeze([
+      {legacy:156,kind:'beginnerTerms',min:3},
+      {legacy:165,kind:'overviewLength',min:35},
+      {legacy:166,kind:'beginnerTerms',min:1}
+    ]),
+    beginnerOverrideTerms:Object.freeze([
+      {legacy:167,topic:'core_05_02',term:'クライアントサーバ'},
+      {legacy:168,topic:'core_05_02',term:'3層構造'},
+      {legacy:169,topic:'core_05_02',term:'クラスタ'},
+      {legacy:170,topic:'core_05_02',term:'水平分散'},
+      {legacy:171,topic:'core_05_02',term:'垂直分散'}
+    ]),
+    topicBeginnerTermCounts:Object.freeze([
+      {legacy:172,topic:'core_05_02',min:13}
+    ])
+  });
+
+  function v150ExpandSentinelGroups(){
+    const groups={};
+    Object.entries(V150_CI_ONLY_SENTINEL_GROUPS).forEach(([name,row])=>{ groups[name]=v149ExpandRanges(row.ranges); });
+    const all=Object.values(groups).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=v149ExpandRanges(V149_LEGACY_ASSERT_INVENTORY.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
+    return {
+      groups,
+      bucketCounts:Object.fromEntries(Object.entries(groups).map(([k,v])=>[k,v.length])),
+      classified:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&unique.every((n,i)=>n===expected[i]),
+      declaredCountsOk:Object.entries(groups).every(([name,values])=>values.length===V150_CI_ONLY_SENTINEL_GROUPS[name].count)
+    };
+  }
+
+  function v150CriticalCurriculumResults(){
+    const out=[];
+    const add=(legacy,id,test,detail='')=>{
+      let pass=false,error='';
+      try{pass=!!test();}catch(e){error=String(e?.message||e);}
+      out.push({legacy,id,pass,detail,error:error||undefined});
+    };
+    V150_CRITICAL_CURRICULUM_SPEC.definitionContains.forEach(r=>add(r.legacy,`definition:${r.topic}:${r.term}`,()=>String(coreTopicGlossaryDefinition(r.topic,r.term)||'').includes(r.needle),r.needle));
+    V150_CRITICAL_CURRICULUM_SPEC.abbreviations.forEach(r=>add(r.legacy,'abbreviations:first-use',()=>r.terms.every(x=>!!LEARNING_ABBREVIATIONS[x]),r.terms.join(',')));
+    V150_CRITICAL_CURRICULUM_SPEC.beginnerTermsRequired.forEach(r=>add(r.legacy,`beginner-terms:${r.topic}`,()=>{ const terms=coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]); return r.terms.every(x=>terms.includes(x)); },r.terms.join(',')));
+    V150_CRITICAL_CURRICULUM_SPEC.beginnerTermsForbidden.forEach(r=>add(r.legacy,`forbidden-term:${r.topic}:${r.term}`,()=>!coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]).includes(r.term)));
+    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowsRequired.forEach(r=>add(r.legacy,`comparison-labels:${r.topic}`,()=>{ const rows=CORE_A_COMPARISON_GUIDES[r.topic]?.rows||[]; return r.labels.every(x=>rows.some(row=>row[0]===x)); },r.labels.join(',')));
+    V150_CRITICAL_CURRICULUM_SPEC.comparisonRowCounts.forEach(r=>add(r.legacy,`comparison-count:${r.topic}`,()=>{ const n=CORE_A_COMPARISON_GUIDES[r.topic]?.rows?.length||0; return r.op==='exact'?n===r.count:n>=r.count; },`${r.op}:${r.count}`));
+    V150_CRITICAL_CURRICULUM_SPEC.calcLineContains.forEach(r=>add(r.legacy,`calc-contains:${r.topic}`,()=> (CORE_A_CALC_GUIDES[r.topic]?.lines||[]).some(x=>String(x).includes(r.needle)),r.needle));
+    V150_CRITICAL_CURRICULUM_SPEC.calcLineCounts.forEach(r=>add(r.legacy,`calc-count:${r.topic}`,()=> (CORE_A_CALC_GUIDES[r.topic]?.lines?.length||0)>=r.min,`min:${r.min}`));
+    V150_CRITICAL_CURRICULUM_SPEC.guideObjectCounts.forEach(r=>add(r.legacy,`guide-count:${r.kind}`,()=>Object.keys(r.kind==='calc'?CORE_A_CALC_GUIDES:CORE_A_COMPARISON_GUIDES).length>=r.min,`min:${r.min}`));
+    V150_CRITICAL_CURRICULUM_SPEC.allTopicMinimums.forEach(r=>add(r.legacy,`all-topic-min:${r.kind}`,()=>{ if(r.kind==='overviewLength') return CORE_A_IDS.every(id=>String(CORE_A_BEGINNER_OVERVIEWS[id]||'').length>=r.min); return CORE_A_IDS.every(id=>coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[id]).length>=r.min); },`min:${r.min}`));
+    V150_CRITICAL_CURRICULUM_SPEC.beginnerOverrideTerms.forEach(r=>add(r.legacy,`beginner-override:${r.topic}:${r.term}`,()=> (CORE_A_BEGINNER_TERM_OVERRIDES[r.topic]||[]).includes(r.term)));
+    V150_CRITICAL_CURRICULUM_SPEC.topicBeginnerTermCounts.forEach(r=>add(r.legacy,`topic-term-count:${r.topic}`,()=>coreTopicBeginnerTerms(CORE_A_TOPIC_MAP[r.topic]).length>=r.min,`min:${r.min}`));
+    return out.sort((a,b)=>a.legacy-b.legacy);
+  }
+
+  function runV150CriticalCurriculumAudit(){
+    const results=v150CriticalCurriculumResults();
+    const expected=v149ExpandRanges(V150_CI_ONLY_SENTINEL_GROUPS.criticalCurriculum.ranges).sort((a,b)=>a-b);
+    const indices=results.map(r=>r.legacy);
+    const unique=[...new Set(indices)];
+    const coverageExact=indices.length===expected.length&&unique.length===expected.length&&expected.every((n,i)=>indices[i]===n);
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'declarative-critical-curriculum-ci-contract',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      legacyAssertionsCovered:indices.length,
+      coverageExact,
+      results,
+      errors:failed.map(r=>`${r.legacy}:${r.id}${r.error?` (${r.error})`:''}`)
+    };
+  }
+
+  function v150AdditionalCurrentChecks(){
+    return [
+      currentCheck('ci-sentinel-subinventory','All 84 CI-only legacy sentinels must be decomposed into explicit no-gap/no-overlap groups',()=>{
+        const a=v150ExpandSentinelGroups();
+        return a.classified===84&&a.unique===84&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
+      },84),
+      currentCheck('critical-curriculum-declarative-coverage','The 56 critical curriculum legacy sentinels must have an exact declarative contract map',()=>{
+        const results=v150CriticalCurriculumResults();
+        const expected=v149ExpandRanges(V150_CI_ONLY_SENTINEL_GROUPS.criticalCurriculum.ranges).sort((a,b)=>a-b);
+        const got=results.map(r=>r.legacy);
+        return got.length===56&&new Set(got).size===56&&got.every((n,i)=>n===expected[i])&&typeof runV150CriticalCurriculumAudit==='function';
+      },56)
+    ];
+  }
+
+  function v150EvaluateCurrentContract(){
+    const base=v149EvaluateCurrentContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v150',error:undefined}
+      : {...r});
+    const extras=v150AdditionalCurrentChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras],failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-ci-sentinel-decomposition',
+      total:results.length,passed:results.length-failed.length,failed:failed.length,results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,newContractCount:extras.length
+    };
+  }
+
+  function runV150SelfCheck(){
+    const current=v150EvaluateCurrentContract();
+    const historical=v149CollectHistoricalDiagnostics();
+    const browserUi=v148EvaluateBrowserUiLayer();
+    const errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const sentinelInventory=v150ExpandSentinelGroups();
+    return {
+      ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),
+      architecture:'v150-critical-curriculum-ci-contract',
+      currentContract:current,historicalDiagnostics:historical,browserUiContract:browserUi,
+      historicalMetadataWarnings:[],supersededSemanticWarnings:[],
+      uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],
+      v150RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',
+      v149LegacyInventory:v149LegacyInventoryAudit(),
+      v150CiSentinelInventory:sentinelInventory,
+      v150CriticalCurriculumPolicy:{productionExecutesFullAudit:false,releaseCiExecutesFullAudit:true,legacyAssertionsCovered:56,auditFunction:'runV150CriticalCurriculumAudit'},
+      v150DiagnosticContract:{
+        currentFailed:current.failed,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
+        ciSentinelCoverageExact:sentinelInventory.exactCoverage&&sentinelInventory.duplicateCount===0,
+        criticalCurriculumMapped:56,
+        activeErrorCount:errors.length
+      }
+    };
+  }
+
+  globalThis.V150_CI_ONLY_SENTINEL_GROUPS=V150_CI_ONLY_SENTINEL_GROUPS;
+  globalThis.V150_CRITICAL_CURRICULUM_SPEC=V150_CRITICAL_CURRICULUM_SPEC;
+  globalThis.v150ExpandSentinelGroups=v150ExpandSentinelGroups;
+  globalThis.v150CriticalCurriculumResults=v150CriticalCurriculumResults;
+  globalThis.runV150CriticalCurriculumAudit=runV150CriticalCurriculumAudit;
+  globalThis.v150AdditionalCurrentChecks=v150AdditionalCurrentChecks;
+  globalThis.v150EvaluateCurrentContract=v150EvaluateCurrentContract;
+  globalThis.runV150SelfCheck=runV150SelfCheck;
+})();
