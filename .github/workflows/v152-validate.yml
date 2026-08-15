@@ -22,5 +22,22 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Probe built boundary
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          h=Path('_site/index.html').read_text(encoding='utf-8')
+          manifest=Path('_site/manifest.webmanifest')
+          sw=Path('_site/sw.js')
+          fixture=list(Path('_site').rglob('legacy-run-app-self-check-v131.fixture.json'))
+          msg=(f"bytes={len(h.encode('utf-8'))} "
+               f"legacyDecl={len(re.findall(r'(?m)^\\s*function runAppSelfCheck\\(\\)\\{{',h))} "
+               f"oldBoot={h.count('window.FEQUEST_SELF_CHECK=runAppSelfCheck();')} "
+               f"newBoot={h.count('window.FEQUEST_SELF_CHECK=runV152SelfCheck();')} "
+               f"version={h.count(\"const APP_VERSION = 'v152';\")} "
+               f"manifest={manifest.exists()} sw={sw.exists()} fixtureDeployed={len(fixture)}")
+          print('::warning title=FE QUEST v152 build probe::'+msg)
+          PY
       - name: Validate FE QUEST v152
         run: python3 tools/v152_validate.py
