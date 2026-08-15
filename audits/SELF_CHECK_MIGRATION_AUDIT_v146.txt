@@ -1,0 +1,131 @@
+FE QUEST v146 — current-contract expansion / legacy residual migration 十七次監査
+作成日: 2026-08-15
+
+目的
+- v145で3層化した自己診断のうち、旧runAppSelfCheckに残っていた「現在も意味のある機能安全チェック」をcurrent-contractへ追加移行する。
+- review/mastery/taper、教材・シラバス、模試、科目B、プロファイル・復旧、ロードマップ、問題メタデータなどを、旧バージョン番号ではなく現在の機能契約として評価する。
+- 旧runAppSelfCheckはshadow safety netとして残し、未知のresidual errorが出た場合は引き続きactive errorへ昇格する。
+- 問題データ、正答、問題ID、認知レベル、UI外観は変更しない。
+
+v146 current-contract expansion
+- v145 current-contract: 23契約。
+- v146追加: 15グループ。
+- 合計: 38契約。
+- Node runtime smoke実測: 38 / 38 PASS。
+- 追加15グループは旧runAppSelfCheck内の62個の個別assert相当を、現在の意味単位へまとめて移行した。
+
+追加移行した15グループ
+1. cognitive-review-policy
+   - cognitiveWeight 0.8 / 1.0 / 1.25
+   - 認知レベル別evidence helper
+   - reviewUrgencyのcognitiveRisk
+   - coreTopicLearningStateのhigher-cognitive判定
+   - cognitive-targeted weakness drill
+2. mastery-integrity
+   - chapter integration evidence
+   - retention 85%以上
+   - higher-order retention
+   - chapter integration
+   - course mastery helper
+   - 科目Aフル模試 / 科目B総合実戦のfinal gate
+   - final bossで判断・適用を優先
+3. taper-policy
+   - 7日前45分 / 3日前30分 / 前日15分 / 当日10分
+   - 3日前以降の新規・長時間模試抑制
+   - warmup / taper review helper
+   - buildTodayTasksのtaper route
+   - deep taper final focus
+4. curriculum-runtime
+   - lesson数、exam pace、workload estimator
+   - lab lesson guideとkey points
+   - Core A 130論点 / enrichment 130
+   - Core A lesson pageにquiz/interactiveを混在させない
+5. syllabus-coverage
+   - FE Ver.9.2
+   - 96小分類
+   - 全分類が既存Core A topicへmapping
+6. mock-blueprints
+   - 科目A full 60問 / half 30問
+   - 難易度配分
+   - 認知レベル配分
+7. subject-b-exercises
+   - 20 exercises
+   - mini mock 8問とquota
+   - 各exercise 2 prediction checkpoints
+   - Subject B semantic validation
+   - compound set 15
+8. subject-b-security-final
+   - compound 3問/セットとquality metadata
+   - security scenario 15 / mini mock 8
+   - final 20 = algorithm 16 + security 4
+   - final resume / last-three-day readiness guard
+9. profile-backup-roundtrip
+   - current profile schema
+   - backup encode/decode
+   - schema roundtrip
+   - checksum roundtrip
+10. profile-schema-migration
+   - v3→v5でXP/進捗保持
+   - future schema downgrade拒否
+11. daily-resilience
+   - today plan snapshot / rebuild
+   - readiness component
+   - resilient UI state restore/persist
+12. recovery-safety
+   - storage self test / diagnostics / corrupt profile export
+   - manual restore前rollback protection
+   - mastery recovery routing
+   - safe resume screens
+13. roadmap-shape
+   - 5 integrated stages
+   - 第1〜13章 / 第14〜21章のcoverage
+14. peer-distractor-metadata
+   - linked application/discriminationのneighbor topic 3件
+   - comparison challengeのtwo-topic scope
+15. variant-generator
+   - variant validationが1件以上生成できること
+
+legacy shadow inventory
+- String(runAppSelfCheck)上のassert call: 293。
+- v146では旧関数を主判定には使わず、historical shadow diagnostics / compatibility residual safety netとして利用。
+- Node runtime smokeで旧関数のraw error: 22件。
+  - historical metadata: 8
+  - superseded semantic aggregate: 1
+  - Node最小DOM由来のlegacy UI signal: 13
+  - compatibility residual active error: 0
+- residualActiveErrorsが将来1件でも発生した場合はv146のactive errorとして扱う。
+
+browser UI
+- v144の13 browser DOM contractsをそのまま独立層として維持。
+- Node minimal DOM: 13件deferred。
+- 完成HTML静的DOM: 13/13 PASSをリリース検証で確認する。
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI見た目変更: 0
+
+v146期待値
+- architecture: v146-expanded-current-contract
+- currentContract: 38 / 38 PASS
+- inherited current contracts: 23
+- newly migrated groups: 15
+- migrated legacy assertion equivalents: 62
+- legacy shadow assert calls: 293
+- compatibility residual: 0
+- historical metadata: 8
+- superseded semantic: 1
+- legacy UI signals: 13
+- browser UI contract: 13
+
+次段階
+- v147では旧runAppSelfCheckの残りを、特にv98〜v117の永続化・原子的保存・複数タブ競合・更新復旧・boot barrierの安全契約と、Subject B導線の非DOMロジックへ分解する。
+- 重要な安全契約をcurrent-contractへ移した後、旧runAppSelfCheckのresidual gateへの依存をさらに減らす。
