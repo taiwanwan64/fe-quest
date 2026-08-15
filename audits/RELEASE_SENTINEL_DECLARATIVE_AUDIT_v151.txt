@@ -1,0 +1,115 @@
+FE QUEST v151 — remaining release-sentinel declarative contract 二十二次監査
+作成日: 2026-08-15
+
+目的
+- v150でCI-only legacy sentinel 84件のうちcritical curriculum 56件を宣言化した後に残った28件を、旧runAppSelfCheck本文のassert位置に依存しない宣言的release contractへ移す。
+- 28件は品質上限、教材の教授構造、章別演習構造、レッスンページ、参照アンカー、設定補助、required DOMを対象とする。
+- v150 critical curriculum 56件とv151 remaining release sentinel 28件を合わせ、CI-only legacy sentinel 84/84を宣言マップでexact coverageする。
+- production起動時には56件・28件のfull release auditを実行せず、mapping exact coverageのみcurrent-contractで確認する。
+- release CIでは両方のfull auditと旧293 assert shadowを明示実行する。
+- 問題データ、正答、問題ID、認知レベル、Profile Schema、UI外観は変更しない。
+
+v151 remaining release sentinel decomposition
+- total: 28
+1. qualityCaps: 2
+   legacy 53-54
+   - 章別想起比率 <= 30%
+   - 問題文テンプレート最大反復 <= 15
+2. articleTeachingStructure: 4
+   legacy 80-83
+   - 問題文の手掛かり2件/テーマの形状
+   - 同一テーマ内の手掛かり重複禁止
+   - 注意文30文字以上
+   - 記事見出しの教授順序
+3. assessmentStructure: 17
+   legacy 94-110
+   - 横断比較challenge 69件と即時演習からの分離
+   - chapter-only supplement 9問、ID一意、4択＋選択肢解説、正答contract
+   - 第1章・第13章のcomparison追加問
+   - 全21章のpool >= 12、章別quiz 12問、全topic coverage、comparison/calculation coverage
+   - difficulty target一致、topic偏り上限、Core A各topic linked question 3問
+4. lessonPages: 1
+   legacy 176
+   - 全LESSONSに1ページ以上
+5. referenceAnchors: 2
+   legacy 200-201
+   - 参照アンカーに即時topic practice 3問以上
+   - application/scenario/calculation/interpretation/traceの具体的適用問を1問以上
+6. settingsHelper: 1
+   legacy 224
+   - setPlanDetailsOpen helper存在
+7. requiredDom: 1
+   legacy 292
+   - home/map/weak/problems/plan/coverage/mock/lesson/trace/settingsBtn
+
+宣言的contract
+- V151_RELEASE_SENTINEL_SPECに28件をlegacy index付きで宣言。
+- evaluatorはkindごとの共通ロジックで検証し、旧assert本文の順序や行位置に依存しない。
+- v151ReleaseSentinelLegacyIndices(): 28 unique
+- v151ExpectedReleaseSentinelIndices(): v150のcriticalCurriculum以外7群から28件を算出
+- runV151ReleaseSentinelAudit(): 28/28 full release audit
+- v151DeclarativeCiCoverage(): critical 56 + release 28 = 84 unique / exact
+
+production policy
+- window.FEQUEST_SELF_CHECK = runV151SelfCheck()
+- production bootではrunAppSelfCheck()を実行しない。
+- production bootではrunV150CriticalCurriculumAudit() full 56件を実行しない。
+- production bootではrunV151ReleaseSentinelAudit() full 28件を実行しない。
+- production current-contractでは宣言マップのexact coverageを確認する。
+
+v151 current-contract
+- v150 inherited: 65
+- v151追加: 2
+  1) release-sentinel-declarative-coverage
+     - remaining 28件のexact declarative mapping
+  2) ci-sentinel-declarative-complete
+     - critical 56 + remaining 28 = 84 unique / exact coverage
+- total: 67
+
+release CI policy
+- 完成PWAの静的DOMでbrowser UI contracts 23/23を要求する。
+- required DOM sentinelの10 IDが完成HTMLに存在することを追加確認する。
+- 完成PWAをNode最小DOMで起動し、current-contract 67/67を要求する。
+- v150 CI sentinel subinventory 84件がexact coverageであることを要求する。
+- declarative CI coverageが56+28=84 unique / exactであることを要求する。
+- runV150CriticalCurriculumAudit()を明示実行し56/56 PASSを要求する。
+- runV151ReleaseSentinelAudit()を明示実行し28/28 PASSを要求する。
+- runV149LegacyShadowAudit()も明示実行し旧293 assert compatibility residual 0を要求する。
+
+ローカルrelease validation実測
+- browser DOM: 23/23 PASS + required DOM sentinel PASS
+- current-contract: 67/67 PASS
+- critical curriculum: 56/56 PASS
+- remaining release sentinel: 28/28 PASS
+- declarative CI coverage: 84/84 exact
+- old legacy assert inventory: 293 exact
+- legacy compatibility residual active error: 0
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文変更: 0
+- 選択肢変更: 0
+- 正答変更: 0
+- 問題ID変更: 0
+- 認知レベル変更: 0
+- UI外観変更: 0
+
+v151期待値
+- architecture: v151-full-ci-sentinel-declarative-contract
+- currentContract: 67 / 67 PASS
+- critical curriculum declarative audit: 56 / 56 PASS
+- remaining release sentinel declarative audit: 28 / 28 PASS
+- declarative CI-only coverage: 84 / 84 exact
+- browser contracts: 23 / 23 PASS
+- legacy source asserts: 293
+- explicit legacy shadow residual active errors: 0
+- production boot legacy execution: false
+- production boot release full-audit execution: false
+
+次段階
+- v152では、CI-only legacy sentinel 84件すべてが宣言的release contractへ独立したことを前提に、旧runAppSelfCheck()をproduction bundleから物理的に分離する設計へ進む。
+- 最初の安全な段階として、旧関数の実体をrelease regression fixtureへ移し、production indexにはcurrent/browser/declarative contractだけを残せるかを検証する。
