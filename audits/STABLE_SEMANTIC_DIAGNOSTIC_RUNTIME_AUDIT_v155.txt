@@ -1,0 +1,145 @@
+FE QUEST v155 — STABLE SEMANTIC DIAGNOSTIC RUNTIME AUDIT
+Date: 2026-08-16 JST
+Version: v155
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove historical version labels from the 17 diagnostic helpers that remained in production after v154.
+- Replace the v145-v152 production diagnostic API with stable, role-based semantic helper names.
+- Preserve all current-contract, browser, CI-sentinel and release-only legacy regression coverage.
+- Preserve the original v145-v152 source provenance behind release-only fixtures.
+- Make future releases independent of carrying v145/v146/... function names in the production runtime.
+
+V154 BASELINE
+- Production diagnostic helper inventory: 17 runtime helpers.
+- Release-only helpers: 10.
+- Compatibility-only helpers: 19.
+- Total historical v145-v152 diagnostic helper names: 46.
+- Production-absent historical helpers at v154: 29.
+- Current contract: 71 / 71.
+- Browser contracts: 23 plus required DOM sentinel.
+- Critical curriculum release audit: 56 / 56.
+- Remaining release sentinel audit: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Legacy runAppSelfCheck source-range fixture: 293 assert calls / residual active errors 0.
+
+V155 STABLE SEMANTIC MODULE
+Production now includes one stable module:
+- app/runtime-current-diagnostics.txt
+
+Actual GitHub source identity:
+- SHA-256: 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658
+- UTF-8 bytes: 54,898
+
+The stable production helper surface is exactly 17 functions:
+- feqEvaluateDataIntegrityContract
+- feqLearningRuntimeChecks
+- feqEvaluateLearningRuntimeContract
+- feqPersistenceSafetyChecks
+- feqEvaluatePersistenceSafetyContract
+- feqQuestionCueAudit
+- feqQualityUxChecks
+- feqEvaluateQualityUxContract
+- feqEvaluateBrowserUiContracts
+- feqEvaluateBrowserUiLayer
+- feqExpandLegacyRanges
+- feqExpandCiSentinelGroups
+- feqCriticalCurriculumLegacyIndices
+- feqReleaseSentinelLegacyIndices
+- feqExpectedReleaseSentinelIndices
+- feqDeclarativeCiCoverage
+- feqLegacyClassificationAudit
+
+RETIRED VERSIONED PRODUCTION GLOBALS
+- All 46 historical v145-v152 diagnostic function names are now absent from the generated production runtime.
+- This includes the former 17 runtime names as well as the 29 release/compatibility-only names already pruned in v154.
+- Production no longer exposes v145EvaluateCurrentContract, v146AdditionalCurrentChecks, v147EvaluateCurrentContract, v148CueAudit, v149ExpandRanges, v150ExpandSentinelGroups, v151DeclarativeCiCoverage, v152LegacyClassificationAudit, or any other v145-v152 diagnostic function global.
+- Old source blocks remain in GitHub only as release regression/provenance inputs.
+
+ASSEMBLER CHANGE
+- GitHub index.html remains a Liquid/Jekyll assembler source, not the compiled standalone HTML.
+- The assembler no longer includes the eight v154 runtime projection modules.
+- The assembler includes app/runtime-current-diagnostics.txt and app/v155-block-00.txt.
+- Production boot is applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV155SelfCheck();
+- Production does not include runV154SelfCheck(), runV153SelfCheck(), runAppSelfCheck(), or the v145-v152 diagnostic helper globals.
+
+SEMANTIC RUNTIME FIXTURE
+- Manifest: _regression/semantic-diagnostic-runtime-v155.fixture.json
+- Stable helper count: 17.
+- Retired historical helper count: 46.
+- Module SHA-256: 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658.
+- Module UTF-8 bytes: 54,898.
+- Release provenance manifest remains _regression/diagnostic-helper-boundary-v154.fixture.json.
+- _regression remains excluded from the deployed GitHub Pages site.
+
+RELEASE PROVENANCE PRESERVED
+- v154 historical diagnostic source concat SHA-256: 77407c61fc519154715ad3775992dc011a6b2ec16cf29a3d2562a1cc6774a81a.
+- Historical diagnostic source concat bytes: 99,656.
+- Historical helper inventory: 46 = runtime 17 + release-only 10 + compatibility-only 19.
+- Legacy runAppSelfCheck source-range SHA-256: b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36.
+- Legacy source-range bytes: 49,657.
+- Legacy assert calls: 293.
+
+CURRENT CONTRACT
+- v155EvaluateCurrentContract() inherits from feqEvaluateQualityUxContract().
+- The eight post-v148 release-boundary checks remain restated using stable semantic helper names.
+- Two v155 semantic-boundary checks enforce exact stable/retired inventories and the pinned semantic module identity.
+- Current-contract total remains 71.
+- Production self-check architecture: v155-stable-semantic-diagnostic-runtime.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56.
+- Remaining release sentinel declarative mapping: 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release critical curriculum audit: 56 / 56.
+- Release remaining sentinel audit: 28 / 28.
+- Release-only legacy shadow: 293 assert / raw errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Retired v145-v152 diagnostic globals bundled: 0.
+- No question wording, options, answers, IDs, cognition, Profile Schema or visible learning UI design changed in v155.
+
+VALIDATION NOTE
+- The first two v155 formal validation attempts stopped before runtime validation because the semantic module identity was initially pinned to a locally generated 54,897-byte source image.
+- A real GitHub runner probe established the repository source as 54,898 bytes with SHA-256 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658.
+- The one-byte discrepancy came from the manually created GitHub module text layout and did not represent a runtime or learning-content defect.
+- The semantic spec and fixture were corrected to the actual GitHub source identity before the successful formal release validation.
+
+FORMAL GITHUB / JEKYLL RELEASE VALIDATION
+- Successful validation workflow run: 31893568097.
+- Validation job: 95033332598.
+- Validation head SHA: ff94638028072ebbc0b46e1260f1156e34c27d8b.
+- Jekyll build: success.
+- Validator: success.
+- FEQUEST_V155_FIXTURE_BOUNDARY_OK production=excluded fixture=293.
+- FEQUEST_V155_STATIC_DOM_OK 23/23 + required-dom.
+- FEQUEST_V155_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired=46 critical-map=56 release-map=28 ci=84 legacy-bundled=0.
+- FEQUEST_V155_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0.
+- FEQUEST_V155_RUNTIME_OK current=71/71 stable=17 retired=46 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0.
+
+FORMALLY VALIDATED ARTIFACT
+- Artifact ID: 9249184977.
+- Artifact name: fe-quest-v155-standalone.
+- Artifact outer ZIP SHA-256: 063a5dc395f8b866f2ff62eaf7cb7879bea9d52e110f5945e49b042473bac179.
+- Inner deployable PWA ZIP SHA-256: fc3508b596082bff6e80e5a84fbd10256cace9f34836e7162cca2f6c65a312c0.
+- Deployable PWA contains only index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png and apple-touch-icon.png.
+
+CLEANUP
+- Temporary release workflow removed in commit 30632a4eacb27ba50da47a55435999907a1ad513.
+- Temporary base validator removed in commit 471d655cf7de6efeda84db53b9e88a905c9b398c.
+- Temporary validator adapter removed in commit 00fe8b1e0450da8b3a06461fa4d867face584516.
+- A corrected standalone validator is retained only in the v155 handoff package for reproducibility.
+- Release provenance fixtures remain intentionally under _regression/.
+
+NEXT — v156
+- Reduce the remaining historical version-label coupling in diagnostic data constants while preserving source provenance.
+- Candidate stable semantic data facade: browser UI contract additions, legacy assertion inventory, CI-only sentinel groups, critical curriculum spec, remaining release sentinel spec and legacy fixture spec.
+- Prefer a stable semantic contract namespace/facade rather than immediately rewriting archival source data.
+- Keep current 71, browser 23, critical 56, release sentinel 28, CI 84/84 and legacy 293 residual 0 unchanged.
+- Do not alter learning content or visible UI as part of this architecture migration.
+- Require real Jekyll release validation, cleanup and final Pages verification.
