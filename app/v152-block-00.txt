@@ -3,11 +3,14 @@
   const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
 
   const V152_LEGACY_FIXTURE_SPEC=Object.freeze({
-    path:'_regression/legacy-run-app-self-check-v131.txt',
+    path:'_regression/legacy-run-app-self-check-v131.fixture.json',
+    sourcePath:'app/base-v131.html',
     sourceVersion:'v131',
+    startMarker:'function runAppSelfCheck(){',
+    endMarker:'function runLessonUXAudit(){',
     assertCount:293,
-    byteLength:49655,
-    sha256:'ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5',
+    byteLength:49657,
+    sha256:'b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36',
     productionBundled:false,
     releaseOnly:true
   });
@@ -40,11 +43,13 @@
         return typeof runAppSelfCheck==='undefined'&&v149LegacyInventoryAudit().sourceAssertCalls===0&&
           a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;
       },293),
-      currentCheck('legacy-regression-fixture-contract','The release-only legacy regression fixture must remain pinned for CI compatibility auditing',()=>{
+      currentCheck('legacy-regression-fixture-contract','The release-only legacy regression range fixture must remain pinned for CI compatibility auditing',()=>{
         const c=v151DeclarativeCiCoverage();
-        return V152_LEGACY_FIXTURE_SPEC.path==='_regression/legacy-run-app-self-check-v131.txt'&&
-          V152_LEGACY_FIXTURE_SPEC.assertCount===293&&V152_LEGACY_FIXTURE_SPEC.byteLength===49655&&
-          V152_LEGACY_FIXTURE_SPEC.sha256==='ba045a3f576793f5fc114554841b996fcc0b650f397c359bb7997d2d3da9b9c5'&&
+        return V152_LEGACY_FIXTURE_SPEC.path==='_regression/legacy-run-app-self-check-v131.fixture.json'&&
+          V152_LEGACY_FIXTURE_SPEC.sourcePath==='app/base-v131.html'&&
+          V152_LEGACY_FIXTURE_SPEC.startMarker==='function runAppSelfCheck(){'&&V152_LEGACY_FIXTURE_SPEC.endMarker==='function runLessonUXAudit(){'&&
+          V152_LEGACY_FIXTURE_SPEC.assertCount===293&&V152_LEGACY_FIXTURE_SPEC.byteLength===49657&&
+          V152_LEGACY_FIXTURE_SPEC.sha256==='b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36'&&
           V152_LEGACY_FIXTURE_SPEC.productionBundled===false&&V152_LEGACY_FIXTURE_SPEC.releaseOnly===true&&
           c.total===84&&c.unique===84&&c.duplicateCount===0&&c.exactCoverage;
       },293)
@@ -59,7 +64,7 @@
         return {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v152',error:undefined};
       }
       if(r.id==='legacy-assert-inventory'){
-        return {...r,message:'Legacy assertion classification must remain exact with the evaluator moved to a release-only fixture',
+        return {...r,message:'Legacy assertion classification must remain exact with the evaluator moved to a release-only range fixture',
           pass:classification.total===293&&classification.classified===293&&classification.unique===293&&classification.duplicateCount===0&&classification.exactCoverage&&classification.declaredCountsOk&&typeof runAppSelfCheck==='undefined',
           error:undefined};
       }
@@ -103,6 +108,7 @@
         productionFunctionPresent:typeof runAppSelfCheck==='function',
         productionSourceAssertCalls:legacyInventory.sourceAssertCalls,
         releaseFixturePath:V152_LEGACY_FIXTURE_SPEC.path,
+        releaseFixtureSource:V152_LEGACY_FIXTURE_SPEC.sourcePath,
         releaseFixtureAssertions:V152_LEGACY_FIXTURE_SPEC.assertCount,
         releaseFixtureSha256:V152_LEGACY_FIXTURE_SPEC.sha256,
         releaseCiExecutesLegacy:true,
@@ -110,7 +116,7 @@
       },
       v152DiagnosticContract:{
         currentFailed:current.failed,
-        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,
+        uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[])].length:0,
         uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,
         productionLegacyAbsent:typeof runAppSelfCheck==='undefined',
         classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,
