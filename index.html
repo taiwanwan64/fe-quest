@@ -22,10 +22,10 @@
 {% capture v142block %}{% include_relative app/v142-block-00.txt %}{% endcapture %}
 {% capture v143block %}{% include_relative app/v143-block-00.txt %}{% endcapture %}
 {% capture v144block %}{% include_relative app/v144-block-00.txt %}{% endcapture %}
-{% capture v154runtime %}{% include_relative app/v154-runtime-v145.txt %}{% include_relative app/v154-runtime-v146.txt %}{% include_relative app/v154-runtime-v147.txt %}{% include_relative app/v154-runtime-v148.txt %}{% include_relative app/v154-runtime-v149.txt %}{% include_relative app/v154-runtime-v150.txt %}{% include_relative app/v154-runtime-v151.txt %}{% include_relative app/v154-runtime-v152.txt %}{% endcapture %}
-{% capture v154block %}{% include_relative app/v154-block-00.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v154</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v154';" %}
-{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV154SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ v154runtime }}{{ v154block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture semanticRuntime %}{% include_relative app/runtime-current-diagnostics.txt %}{% endcapture %}
+{% capture v155block %}{% include_relative app/v155-block-00.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v155</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v155';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV155SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ semanticRuntime }}{{ v155block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
