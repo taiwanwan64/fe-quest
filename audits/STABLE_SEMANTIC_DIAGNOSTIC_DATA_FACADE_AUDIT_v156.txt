@@ -1,0 +1,159 @@
+FE QUEST v156 — STABLE SEMANTIC DIAGNOSTIC DATA FACADE AUDIT
+Date: 2026-08-16 JST
+Version: v156
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Reduce historical version-label coupling in production diagnostic data without rewriting archival source provenance.
+- Introduce one stable semantic facade for the six v148-v152 diagnostic data structures still consumed by the stable runtime.
+- Keep the six historical globals only as a compatibility backing layer because existing stable helper closures still resolve them at call time.
+- Move all new v156 production-contract consumers to stable semantic keys.
+- Preserve current learning content, visible UI, question bank, profile schema and release regression coverage.
+
+V155 BASELINE
+- Stable production diagnostic helper functions: 17.
+- Retired v145-v152 diagnostic function globals absent from production: 46.
+- Versioned diagnostic data globals still present: 6.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum release audit: 56 / 56.
+- Remaining release sentinel audit: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Legacy source-range fixture: 293 assert calls / raw errors 22 / residual active errors 0.
+
+V156 STABLE DATA FACADE
+New production module:
+- app/runtime-diagnostic-contract-data.txt
+
+Pinned module identity:
+- SHA-256: 4e6842da696c5f5b8c041bde416e5e35d41898baa05b46ae70b06f7c39913868
+- UTF-8 bytes: 2,416
+
+Stable production facade:
+- FEQ_DIAGNOSTIC_CONTRACT_DATA
+
+Stable semantic keys:
+- browserUiAdditions
+- legacyAssertionInventory
+- ciSentinelGroups
+- criticalCurriculumSpec
+- releaseSentinelSpec
+- legacyFixtureSpec
+
+Provenance facade:
+- FEQ_DIAGNOSTIC_DATA_PROVENANCE
+
+Compatibility backing names inventory:
+- FEQ_RETIRED_DIAGNOSTIC_DATA_GLOBALS
+
+COMPATIBILITY BACKING POLICY
+The following six historical globals intentionally remain in production as backing storage in v156:
+- V148_EXTRA_UI_CONTRACTS
+- V149_LEGACY_ASSERT_INVENTORY
+- V150_CI_ONLY_SENTINEL_GROUPS
+- V150_CRITICAL_CURRICULUM_SPEC
+- V151_RELEASE_SENTINEL_SPEC
+- V152_LEGACY_FIXTURE_SPEC
+
+Why they remain:
+- Existing stable helper functions in app/runtime-current-diagnostics.txt still resolve some of these global names at call time.
+- Deleting them in v156 would break the already-stable helper runtime even though the new v156 contract code itself can use semantic keys.
+- v156 therefore establishes the stable data API first and defers physical backing-global removal until helper dependencies are rewired.
+
+NEW CONSUMER POLICY
+- All new v156 release-boundary checks use FEQ_DIAGNOSTIC_CONTRACT_DATA rather than directly referencing versioned diagnostic constants.
+- The facade entries are identity-equal to their backing structures, so no diagnostic data is copied or forked.
+- The facade and provenance objects are immutable production globals.
+- Archival source provenance remains pinned behind _regression manifests.
+
+RUNTIME FUNCTION BOUNDARY PRESERVED
+Stable runtime module:
+- app/runtime-current-diagnostics.txt
+- SHA-256: 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658
+- UTF-8 bytes: 54,898
+
+- Stable semantic helper functions remain exactly 17.
+- All 46 v145-v152 historical diagnostic function globals remain absent.
+- No v155 self-check block is bundled in production.
+- Production boot target is runV156SelfCheck().
+
+V156 CURRENT CONTRACT
+- v156EvaluateCurrentContract() inherits the stable feqEvaluateQualityUxContract() base.
+- The eight release-boundary checks are restated using the semantic data facade where diagnostic data is required.
+- Two semantic-boundary checks preserve the total current-contract count at 71:
+  1. stable semantic runtime helper/provenance contract
+  2. stable semantic diagnostic data facade contract
+- Production self-check architecture: v156-stable-semantic-diagnostic-data-facade.
+
+SEMANTIC DATA FIXTURE
+Manifest:
+- _regression/semantic-diagnostic-data-v156.fixture.json
+
+Pinned facts:
+- semantic keys: 6
+- compatibility backing globals: 6
+- facade module SHA-256: 4e6842da696c5f5b8c041bde416e5e35d41898baa05b46ae70b06f7c39913868
+- facade module UTF-8 bytes: 2,416
+- archival runtime SHA-256: 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658
+- production policy: stable-semantic-facade-with-versioned-compatibility-backing
+- _regression remains excluded from deployed GitHub Pages output.
+
+ASSEMBLER / PWA
+- GitHub index.html remains a Liquid/Jekyll assembler source.
+- It includes app/runtime-current-diagnostics.txt, then app/runtime-diagnostic-contract-data.txt, then app/v156-block-00.txt.
+- APP_VERSION is v156.
+- Production boot is applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV156SelfCheck();
+- manifest.webmanifest name is FE QUEST v156.
+- sw.js APP_VERSION is v156 and CACHE_NAME is fe-quest-v156-1.
+
+FORMAL GITHUB / REAL JEKYLL RELEASE VALIDATION
+- Successful validation workflow run: 31914159087.
+- Validation job: 95083504448.
+- Validation head SHA: 8b6979070e13472255df6d95887c9b8974c2c5a3.
+- Jekyll build: success.
+- Validator: success.
+- FEQUEST_V156_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data-facade=6.
+- FEQUEST_V156_STATIC_DOM_OK 23/23 + required-dom.
+- FEQUEST_V156_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data-facade=6 backing=6 critical-map=56 release-map=28 ci=84 legacy-bundled=0.
+- FEQUEST_V156_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0.
+- FEQUEST_V156_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data-facade=6 backing=6 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0.
+
+FORMALLY VALIDATED ARTIFACT
+- Artifact ID: 9254469434.
+- Artifact name: fe-quest-v156-standalone.
+- Artifact outer ZIP SHA-256: 6f0f240a861f2d22e096bd5fe718bb239a2fd0bb9840b5354288c9782622b267.
+- Inner deployable PWA ZIP SHA-256: 668117fd774a6f62fa5861b2226404bb1673d4528808ce3429b5c884f67b4353.
+- Inner deployable PWA ZIP bytes: 765,671.
+- Deployable PWA contains only index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png and apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56.
+- Remaining release sentinel declarative mapping: 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release critical curriculum audit: 56 / 56.
+- Release remaining sentinel audit: 28 / 28.
+- Release-only legacy shadow: 293 assert / raw errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Retired v145-v152 diagnostic function globals bundled: 0.
+- Compatibility backing diagnostic data globals intentionally bundled: 6.
+- No question wording, options, answers, IDs, cognition, Profile Schema or visible learning UI design changed in v156.
+
+CLEANUP
+- Temporary release workflow removed in commit ee9b6ee553a37e23bab90f7f8d398a4e27cce944.
+- Temporary v156 validator removed in commit 171bb44d9e2bc042f8ab373f6d744707414c15af.
+- A reproduction copy of the validator belongs only in the v156 handoff package.
+- Release provenance fixtures remain intentionally under _regression/.
+
+NEXT — v157
+- Rewire the stable helper implementations so they consume FEQ_DIAGNOSTIC_CONTRACT_DATA or lexical semantic data directly instead of resolving the six historical backing globals.
+- After dependency rewiring is proven exact, physically remove the six V148/V149/V150/V151/V152 diagnostic data globals from production.
+- Preserve archival originals and provenance in _regression.
+- Keep current 71, browser 23, critical 56, release sentinel 28, CI 84/84, legacy 293 residual 0, Subject A 710 and Profile Schema v5 unchanged.
+- Do not alter learning content or visible UI as part of the architecture migration.
+- Require real Jekyll validation, temporary-tool cleanup and final Pages verification.
