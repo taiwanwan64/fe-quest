@@ -1,0 +1,66 @@
+name: Package FE QUEST v135
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v135-package.yml'
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assemble and validate v135
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json, shutil
+          base=Path('app/base-v131.html').read_text()
+          v132=''.join(Path(f'app/v132-block-{i:02d}.txt').read_text() for i in range(8))
+          v133=''.join(Path(f'app/v133-block-{i:02d}.txt').read_text() for i in range(6))
+          v134=''.join(Path(f'app/v134-block-{i:02d}.txt').read_text() for i in range(7))
+          v135=Path('app/v135-block-00.txt').read_text()
+          s=base.replace('<title>FE QUEST PWA v131</title>','<title>FE QUEST PWA v135</title>')
+          s=s.replace("const APP_VERSION = 'v131';","const APP_VERSION = 'v135';")
+          s=s.replace("assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v131','v131 version/schema contract drift');","assert(PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v135','v135 version/schema contract drift');")
+          marker='const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)'
+          assert marker in s
+          s=s.replace(marker,v132+v133+v134+v135+marker,1)
+          assert "const APP_VERSION = 'v135';" in s
+          assert 'const PROFILE_SCHEMA_VERSION = 5;' in s
+          assert "genericBefore !== 413" in s
+          assert "touched.size !== 139" in s
+          assert "changedChoices !== 419" in s
+          out=Path('/tmp/FE_QUEST_PWA_v135'); out.mkdir()
+          (out/'index.html').write_text(s)
+          for f in ['manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']:
+              shutil.copy2(f,out/f)
+          scripts=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',s)
+          Path('/tmp/app.js').write_text('\n'.join(scripts))
+          m=json.loads((out/'manifest.webmanifest').read_text())
+          assert m['name']=='FE QUEST v135'
+          assert Path('audits/SUBJECT_A_CONCEPT_BOUNDARY_AUDIT_v135.txt').exists()
+          PY
+          node --check /tmp/app.js
+          node --check sw.js
+          python3 -m json.tool manifest.webmanifest >/dev/null
+          git diff --check
+          cd /tmp && zip -qr FE_QUEST_PWA_v135.zip FE_QUEST_PWA_v135
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FE_QUEST_PWA_v135
+          path: /tmp/FE_QUEST_PWA_v135.zip
+          if-no-files-found: error
+      - name: Cleanup packaging workflow
+        run: |
+          rm -f .github/workflows/v135-package.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Clean up FE QUEST v135 packaging workflow'
+          git push
