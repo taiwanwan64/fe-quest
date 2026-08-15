@@ -22,12 +22,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Probe semantic module
-        run: |
-          sha256sum app/runtime-current-diagnostics.txt
-          wc -c app/runtime-current-diagnostics.txt
       - name: Validate FE QUEST v155
-        run: python3 tools/v155_validate.py
+        run: python3 tools/v155_validate_actual.py
       - name: Package FE QUEST v155
         run: |
           cd _site
