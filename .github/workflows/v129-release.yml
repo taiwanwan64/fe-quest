@@ -1,0 +1,53 @@
+name: FE QUEST v129 same-topic distractor release
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/v129-release.yml'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild release script
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, zlib
+          parts = [Path(f'tools/v129_payload_{i}.txt') for i in range(4)]
+          payload = ''.join(''.join(p.read_text().split()) for p in parts)
+          script = zlib.decompress(base64.b64decode(payload))
+          Path('/tmp/apply_v129.py').write_bytes(script)
+          print('script bytes', len(script))
+          PY
+      - name: Apply v129
+        run: python /tmp/apply_v129.py
+      - name: Verify JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text()
+          Path('/tmp/fequest.js').write_text('\n'.join(re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S)))
+          PY
+          node --check /tmp/fequest.js
+      - name: Verify release metadata
+        run: |
+          grep -q "const APP_VERSION = 'v129';" index.html
+          grep -q "FE QUEST v129" manifest.webmanifest
+          grep -q "fe-quest-v129-1" sw.js
+          grep -q "SUBJECT_A_V129_SAME_TOPIC_OVERRIDE_IDS.length===63" index.html
+          test -f audits/SUBJECT_A_SAME_TOPIC_DISTRACTOR_AUDIT_v129.txt
+      - name: Commit v129
+        run: |
+          rm -f tools/v129_payload_*.txt .github/workflows/v129-release.yml
+          rmdir tools 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release FE QUEST v129 same-topic distractor pass"
+          git push
