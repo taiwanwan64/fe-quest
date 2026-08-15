@@ -1,0 +1,127 @@
+// ===== v144 browser DOM contract / diagnostic classification audit =====
+(() => {
+  const UI_CONTRACTS = [
+    {
+      id:'v111-result-hierarchy',
+      message:'v111 result next-action / details hierarchy missing',
+      test:()=>document.querySelectorAll('.result-detail-fold').length>=5&&document.querySelectorAll('.result-more-actions').length>=5
+    },
+    {
+      id:'v111-subject-b-result-next',
+      message:'v111 Subject B results must expose one primary next action',
+      test:()=>document.getElementById('bMockResultList')?.textContent.includes('次の科目B')===true
+    },
+    {
+      id:'v112-onboarding-primary',
+      message:'v112 onboarding primary action missing',
+      test:()=>!!document.getElementById('home')?.classList&&document.getElementById('startDiagnostic')?.textContent.includes('始める')===true
+    },
+    {
+      id:'v112-install-location',
+      message:'v112 install guidance must live in settings/data, not home',
+      test:()=>!!document.getElementById('installCard')?.closest('#pwaHealthCard')
+    },
+    {
+      id:'v113-ai-dialog',
+      message:'v113 BIT先生 dialog semantics missing',
+      test:()=>document.getElementById('aiDrawer')?.getAttribute('role')==='dialog'&&document.getElementById('aiFab')?.getAttribute('aria-controls')==='aiDrawer'
+    },
+    {
+      id:'v113-ai-inert',
+      message:'v113 closed BIT先生 must be non-interactive',
+      test:()=>document.getElementById('aiDrawer')?.hasAttribute('inert')===true&&!!document.getElementById('aiBackdrop')
+    },
+    {
+      id:'v113-live-status',
+      message:'v113 live status semantics missing',
+      test:()=>document.getElementById('toast')?.getAttribute('aria-live')==='polite'&&document.getElementById('offlinePill')?.getAttribute('role')==='status'
+    },
+    {
+      id:'v113-navigation-landmark',
+      message:'v113 main navigation landmark missing',
+      test:()=>document.querySelector('.sidebar')?.getAttribute('role')==='navigation'
+    },
+    {
+      id:'v114-home-action-first',
+      message:'v114 home must put the first actionable card before decorative intro copy',
+      test:()=>document.querySelector('#home > h1')?.classList.contains('sr-only')===true
+    },
+    {
+      id:'v114-mock-disclosure',
+      message:'v114 mock design/history progressive disclosure missing',
+      test:()=>!!document.querySelector('#mockMenu > .mock-secondary-details')&&!!document.querySelector('#mockMenu > .mock-history-details')&&document.querySelector('#mockMenu > .mock-history-details')?.contains(document.getElementById('mockHistoryList'))===true
+    },
+    {
+      id:'v114-weak-disclosure',
+      message:'v114 weak-analysis details must be secondary',
+      test:()=>!!document.querySelector('#weak > .weak-detail-fold')&&document.querySelector('#weak > .weak-detail-fold')?.contains(document.getElementById('weakCategoryGrid'))===true
+    },
+    {
+      id:'v114-coverage-summary',
+      message:'v114 coverage duplicate summary reduction missing',
+      test:()=>document.querySelector('#coverage .coverage-summary-compact')?.textContent.includes('教材の総合進捗')===true
+    },
+    {
+      id:'v110-subject-b-mode-folds',
+      message:'v110 Subject B mode switchers must be progressive disclosure',
+      test:()=>document.querySelectorAll('.b-mode-switcher').length===4
+    }
+  ];
+
+  function v144EvaluateBrowserUiContracts(){
+    const results=UI_CONTRACTS.map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test()};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error)};}
+    });
+    const failed=results.filter(r=>!r.pass);
+    const report={mode:'browser-dom',total:results.length,passed:results.length-failed.length,failed:failed.length,results};
+    globalThis.FEQUEST_V144_UI_CONTRACT=report;
+    return report;
+  }
+
+  function v144NormalizeSelfCheck(raw){
+    const result=v143NormalizeSelfCheck(raw);
+    const nodeMinimalDom=result.v143RuntimeMode==='node-minimal-dom';
+    const legacy=Array.isArray(result.legacyWarnings)?result.legacyWarnings.map(String):[];
+    const historicalMetadataWarnings=legacy.filter(msg=>!msg.startsWith('Semantic question contracts:'));
+    const supersededSemanticWarnings=legacy.filter(msg=>msg.startsWith('Semantic question contracts:'));
+    const warningPrefixLegacy='legacy audit metadata: ';
+    const warningPrefixUi='browser DOM contract deferred in node smoke: ';
+    const warnings=(result.warnings||[]).filter(msg=>{
+      const s=String(msg);
+      return !s.startsWith(warningPrefixLegacy)&&!s.startsWith(warningPrefixUi);
+    });
+    const errors=[...(result.errors||[])];
+    const uiReport=nodeMinimalDom
+      ? {mode:'deferred-to-browser-dom',total:UI_CONTRACTS.length,passed:null,failed:null,results:[],deferredMessages:[...(result.uiDeferredWarnings||[])]}
+      : v144EvaluateBrowserUiContracts();
+
+    if(!nodeMinimalDom){
+      uiReport.results.filter(r=>!r.pass).forEach(r=>{
+        if(!errors.includes(r.message)) errors.push(r.message);
+      });
+    }
+
+    return {
+      ...result,
+      ok:errors.length===0,
+      errors,
+      warnings,
+      historicalMetadataWarnings,
+      supersededSemanticWarnings,
+      uiDeferredWarnings:nodeMinimalDom?[...(result.uiDeferredWarnings||[])]:[],
+      v144RuntimeMode:nodeMinimalDom?'node-minimal-dom':'browser-dom',
+      v144UiContract:uiReport,
+      v144DiagnosticContract:{
+        historicalMetadataCount:historicalMetadataWarnings.length,
+        supersededSemanticCount:supersededSemanticWarnings.length,
+        activeErrorCount:errors.length,
+        visibleWarningCount:warnings.length
+      }
+    };
+  }
+
+  globalThis.V144_UI_CONTRACTS=UI_CONTRACTS;
+  globalThis.v144EvaluateBrowserUiContracts=v144EvaluateBrowserUiContracts;
+  globalThis.v144NormalizeSelfCheck=v144NormalizeSelfCheck;
+})();
