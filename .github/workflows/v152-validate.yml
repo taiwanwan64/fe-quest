@@ -28,15 +28,14 @@ jobs:
           from pathlib import Path
           import re
           h=Path('_site/index.html').read_text(encoding='utf-8')
-          manifest=Path('_site/manifest.webmanifest')
-          sw=Path('_site/sw.js')
-          fixture=list(Path('_site').rglob('legacy-run-app-self-check-v131.fixture.json'))
-          msg=(f"bytes={len(h.encode('utf-8'))} "
-               f"legacyDecl={len(re.findall(r'(?m)^\\s*function runAppSelfCheck\\(\\)\\{{',h))} "
-               f"oldBoot={h.count('window.FEQUEST_SELF_CHECK=runAppSelfCheck();')} "
-               f"newBoot={h.count('window.FEQUEST_SELF_CHECK=runV152SelfCheck();')} "
-               f"version={h.count(\"const APP_VERSION = 'v152';\")} "
-               f"manifest={manifest.exists()} sw={sw.exists()} fixtureDeployed={len(fixture)}")
+          legacy_decl=len(re.findall(r'(?m)^\s*function runAppSelfCheck\(\)\{',h))
+          old_boot=h.count('window.FEQUEST_SELF_CHECK=runAppSelfCheck();')
+          new_boot=h.count('window.FEQUEST_SELF_CHECK=runV152SelfCheck();')
+          version=h.count("const APP_VERSION = 'v152';")
+          manifest=Path('_site/manifest.webmanifest').exists()
+          sw=Path('_site/sw.js').exists()
+          fixture=len(list(Path('_site').rglob('legacy-run-app-self-check-v131.fixture.json')))
+          msg='bytes={} legacyDecl={} oldBoot={} newBoot={} version={} manifest={} sw={} fixtureDeployed={}'.format(len(h.encode('utf-8')),legacy_decl,old_boot,new_boot,version,manifest,sw,fixture)
           print('::warning title=FE QUEST v152 build probe::'+msg)
           PY
       - name: Validate FE QUEST v152
