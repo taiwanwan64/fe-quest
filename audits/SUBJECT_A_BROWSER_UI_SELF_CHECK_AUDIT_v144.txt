@@ -1,0 +1,65 @@
+FE QUEST v144 — browser DOM / self-check diagnostic classification 十五次監査
+作成日: 2026-08-15
+
+目的
+- v143でNode最小DOMから分離したv110〜v114のUI専用13契約を、完成済みv143 HTMLの実DOM構造に対して再監査する。
+- UIが既に契約を満たしている場合は不要な画面変更を行わず、現行DOM契約をv144の明示的な自己診断として固定する。
+- legacy warning 9件を「歴史的メタデータ」と「現行semantic検査へ移行済みの集約警告」に分類し、通常のwarnings表示から開発履歴ノイズを除く。
+- 問題バンク、正答位置、問題ID、認知レベル、Profile Schemaは変更しない。
+
+UI 13契約の再監査
+- v111 result next-action / details hierarchy: PASS（result-detail-fold 5 / result-more-actions 5）
+- v111 Subject B results primary next action: PASS（bMockResultListに「次の科目Bへ」）
+- v112 onboarding primary action: PASS（startDiagnosticに「始める」）
+- v112 install guidance location: PASS（installCardはpwaHealthCard配下）
+- v113 BIT先生 dialog semantics: PASS（role=dialog / aria-controls=aiDrawer）
+- v113 closed BIT先生 inert/backdrop: PASS
+- v113 live status semantics: PASS（toast aria-live=polite / offlinePill role=status）
+- v113 main navigation landmark: PASS（sidebar role=navigation）
+- v114 home action-first hierarchy: PASS（home直下h1はsr-only）
+- v114 mock progressive disclosure: PASS（設計詳細・履歴details、履歴リストの内包関係を確認）
+- v114 weak-analysis progressive disclosure: PASS（weakCategoryGridはweak-detail-fold配下）
+- v114 coverage compact summary: PASS（「教材の総合進捗」）
+- v110 Subject B mode switchers: PASS（4個）
+- 合計: 13 / 13 PASS
+
+判断
+- v143でNode smoke上のみdeferred warningとなっていた13件は、現在の完成DOMではすべて満たされている。
+- よってv144ではUIの見た目・配置を変更しない。不要な再設計より、現在の良好なUI契約を明示的に検査する方が安全。
+- v144EvaluateBrowserUiContracts() を追加し、実ブラウザでは13契約を一括評価して FEQUEST_V144_UI_CONTRACT に結果を保存する。
+- Node最小DOMでは従来どおり13件をdeferred扱いにし、実DOMがない環境で偽失敗を作らない。
+
+legacy warning 9件の整理
+- historical metadata: 8件
+  - v89 linked stem diversification count drift
+  - Every application question needs an application demand type
+  - v92 pass application count drift
+  - v93 application demand distribution drift
+  - v131 answer-cue overrides must be applied
+  - v130 same-topic overrides must be applied
+  - v129 same-topic overrides must be applied
+  - v128 quality overrides must be applied
+- superseded semantic aggregate: 1件
+  - Semantic question contracts: ...
+- 上記semantic集約はv142ですでにvalidateQuestionSemanticContracts()を再実行し、古いbinding driftを除外しつつhard semantic errorだけをactive errorへ戻す現行検査へ移行済み。
+- v144ではこの9件を通常warningsから除外し、historicalMetadataWarnings / supersededSemanticWarningsとして診断情報に保持する。
+- active errorは一切抑制しない。
+
+互換性
+- 科目A問題数: 710
+- unique ID: 710
+- 正答位置: A178 / B178 / C177 / D177
+- 認知レベル: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- 問題文・選択肢・正答・問題ID・認知レベルの変更: 0
+
+v144期待値
+- Browser DOM: UI contract 13/13 PASS、UI active error 0
+- Node minimal DOM: UI 13件はdeferred、data/runtime active error 0
+- historicalMetadataWarnings: 8
+- supersededSemanticWarnings: 1
+- 通常warningsにはlegacy metadata / deferred DOMノイズを混ぜない
+
+次段階
+- v145では「自己診断の古い監査名を後段normalizeで補正する」構造そのものを整理する。
+- runAppSelfCheckを current-contract / historical-diagnostics / browser-UI-contract の3層へ分割できるか監査し、将来のv150以降でも旧バージョン文字列の上書きで誤検知しない構造へ近づける。
