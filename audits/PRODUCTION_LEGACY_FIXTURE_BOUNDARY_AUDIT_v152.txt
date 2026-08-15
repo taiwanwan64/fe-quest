@@ -64,13 +64,22 @@ LOCAL SIMULATED BUILD VALIDATION
 - FEQUEST_V152_RELEASE_FIXTURE_OK legacy=293 raw=22 residual=0
 - FEQUEST_V152_RUNTIME_OK current=69/69 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
 
-GITHUB PAGES BUILD
-- Corrected range-extraction assembler commit: 8a53297c559ff16c059c007ec8c089ff65b8f2af
-- Pages build ID: 1153083647
-- Pages build result: built
-- Build error: none
+REAL JEKYLL RELEASE VALIDATION
+- A first real-build validation exposed that the reconstructed runLessonUXAudit() function boundary was missing its opening brace after the source-range split. This did not affect the source-range concept, but it made the generated JavaScript syntactically invalid.
+- The assembler was corrected by pinning lessonUxHead = "function runLessonUXAudit(){" and rebuilding the production base from that literal plus the post-fixture tail.
+- Corrected assembler commit: 26d23fd1e33f0a0f7da78d0a5180128e3de72603
+- Temporary validation run: 31888873575
+- Validation job: 95022025009
+- Result: success
+- Jekyll build: success
+- Built production probe: legacy declaration 0, legacy boot 0, v152 boot 1, v152 APP_VERSION 1, manifest present, sw present, fixture deployed 0.
+- Full validator: success, including static DOM 23/23, required DOM, Node syntax, production runtime 69/69, critical 56/56, release sentinel 28/28, declarative CI coverage 84/84, release-only legacy 293 assert shadow residual 0.
+
+CLEANUP
+- Temporary validation workflow removed in commit 3e521a8c1512bf51f232f2bd9d660ede84f34ab9.
+- Temporary repository validator removed in commit c55ba7a8b1c4af074a407e235f94b5b24a1b22a7.
+- The validator is retained only in the v152 handoff package for future reproduction.
 
 NEXT
-- Run the same v152 validator against a real Jekyll _site build in release validation.
-- Remove any temporary validator/workflow after validation.
-- Confirm the final cleanup commit itself receives a successful GitHub Pages build and Pages status remains built.
+- Confirm the final cleanup/audit commit receives a successful GitHub Pages build and Pages API remains built.
+- v153 can simplify the inherited v145-v151 diagnostic compatibility layers now that production no longer carries the old 293-assert evaluator.
