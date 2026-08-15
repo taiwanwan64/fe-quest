@@ -1,0 +1,68 @@
+// ===== v141 explanation-density / concise distractor pass =====
+(() => {
+  const targetIds = [];
+  let changedChoices = 0;
+  let beforeChars = 0;
+  let afterChars = 0;
+
+  QUESTION_BANK.forEach(q => {
+    if(!Array.isArray(q.choiceExps) || q.choiceExps.length !== 4) return;
+    const exp = String(q.exp || '').trim();
+    if(!exp) return;
+
+    const hitIndexes = q.choiceExps
+      .map((text, i) => ({i, text:String(text || '')}))
+      .filter(x => x.i !== q.a && x.text.includes(exp))
+      .map(x => x.i);
+
+    // v141 targets questions where the same full correct explanation is
+    // redundantly repeated in at least two distractor explanations.
+    if(hitIndexes.length < 2) return;
+
+    targetIds.push(q.id);
+
+    hitIndexes.forEach(i => {
+      const current = String(q.choiceExps[i] || '');
+      const pos = current.indexOf(exp);
+      const specific = current.slice(pos + exp.length).trim();
+      if(specific.length < 12){
+        throw new Error(`v141 distractor-specific remainder too short: ${q.id}/${i}`);
+      }
+      beforeChars += current.length;
+      afterChars += specific.length;
+      q.choiceExps[i] = specific;
+      changedChoices++;
+    });
+
+    q.qualityAudit = 'v141-explanation-density-pass';
+  });
+
+  const answerDistribution = [0,1,2,3].map(i => QUESTION_BANK.filter(q => q.a === i).length);
+  const cognitiveDistribution = {
+    想起: QUESTION_BANK.filter(q => q.cognitiveLevel === '想起').length,
+    適用: QUESTION_BANK.filter(q => q.cognitiveLevel === '適用').length,
+    判断: QUESTION_BANK.filter(q => q.cognitiveLevel === '判断').length
+  };
+
+  assert(QUESTION_BANK.length === 710, 'v141 question count drift');
+  assert(new Set(QUESTION_BANK.map(q => q.id)).size === 710, 'v141 question id uniqueness drift');
+  assert(targetIds.length === 103, `v141 target count drift: ${targetIds.length}`);
+  assert(changedChoices === 282, `v141 changed-choice count drift: ${changedChoices}`);
+  assert(beforeChars - afterChars === 14467, `v141 removed-character drift: ${beforeChars-afterChars}`);
+  assert(answerDistribution.join(',') === '178,178,177,177', `v141 answer distribution drift: ${answerDistribution.join(',')}`);
+  assert(cognitiveDistribution.想起 === 166 && cognitiveDistribution.適用 === 323 && cognitiveDistribution.判断 === 221,
+    `v141 cognitive distribution drift: ${JSON.stringify(cognitiveDistribution)}`);
+  assert(targetIds.every(id => {
+    const q = QUESTION_BANK.find(x => x.id === id);
+    const exp = String(q.exp || '').trim();
+    return q.choiceExps.every((text, i) => i === q.a || !exp || !String(text).includes(exp));
+  }), 'v141 repeated full correct explanation remains in target distractors');
+
+  globalThis.SUBJECT_A_V141_DENSITY_AUDIT = {
+    targetIds,
+    changedChoices,
+    beforeChars,
+    afterChars,
+    removedChars: beforeChars - afterChars
+  };
+})();
