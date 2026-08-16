@@ -1,11 +1,17 @@
-// ===== FE QUEST release-specific diagnostic metadata =====
-globalThis.FEQ_RELEASE_DIAGNOSTIC_SPEC=Object.freeze({
-  modulePath:'app/runtime-release-diagnostic-spec.txt',
-  policy:'single-release-specific-diagnostic-metadata-module',
-  releaseVersion:'v179',
-  currentReleaseAdapter:'runV179SelfCheck',
-  archiveBoundaryFixture:'_regression/diagnostic-archive-inventory.fixture.json',
-  archivedSourceCount:58,
-  retiredReleaseAdapterCount:19,
-  retiredReleaseAdapters:Object.freeze(['runV160SelfCheck','runV161SelfCheck','runV162SelfCheck','runV163SelfCheck','runV164SelfCheck','runV165SelfCheck','runV166SelfCheck','runV167SelfCheck','runV168SelfCheck','runV169SelfCheck','runV170SelfCheck','runV171SelfCheck','runV172SelfCheck','runV173SelfCheck','runV174SelfCheck','runV175SelfCheck','runV176SelfCheck','runV177SelfCheck','runV178SelfCheck'])
-});
+// ===== FE QUEST derived release diagnostic metadata =====
+(() => {
+  const releaseVersion='v180';
+  const releaseNumber=Number(releaseVersion.slice(1));
+  if(!Number.isInteger(releaseNumber)||releaseNumber<160) throw new Error('FE QUEST release version invalid');
+  const retiredReleaseAdapters=Object.freeze(Array.from({length:releaseNumber-160},(_,i)=>`runV${160+i}SelfCheck`));
+  globalThis.FEQ_RELEASE_DIAGNOSTIC_SPEC=Object.freeze({
+    modulePath:'app/runtime-release-diagnostic-spec.txt',
+    policy:'single-release-specific-diagnostic-metadata-module',
+    releaseVersion,
+    currentReleaseAdapter:`runV${releaseNumber}SelfCheck`,
+    archiveBoundaryFixture:'_regression/diagnostic-archive-inventory.fixture.json',
+    archivedSourceCount:58,
+    retiredReleaseAdapterCount:retiredReleaseAdapters.length,
+    retiredReleaseAdapters
+  });
+})();

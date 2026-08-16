@@ -1,0 +1,94 @@
+{
+  "name": "derived-release-diagnostic-metadata-v180",
+  "version": "v180",
+  "scope": "derive-release-adapter-inventory-from-single-release-version-literal",
+  "parent_release": {
+    "version": "v179",
+    "main_sha": "cd65d500ab0eab81cf44a975a138025eac7b950d",
+    "tree": "7d701728391e12ba4191bb9fa701b8621d88aa7d"
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19860,
+    "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "parent_byte_identical_expected": true
+  },
+  "stable_release_adapter": {
+    "path": "app/runtime-release-adapter.txt",
+    "utf8_bytes": 211,
+    "sha256": "795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248",
+    "parent_byte_identical_expected": true
+  },
+  "stable_diagnostic_archive_inventory": {
+    "path": "_regression/diagnostic-archive-inventory.fixture.json",
+    "utf8_bytes": 17671,
+    "sha256": "b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250",
+    "archive_entry_count": 58,
+    "parent_byte_identical_expected": true
+  },
+  "release_metadata_module": {
+    "path": "app/runtime-release-diagnostic-spec.txt",
+    "utf8_bytes": 855,
+    "sha256": "1198b6dc92617027da4e3be2b35de3dc7daebb7671ddaa2848a5ccfbbda4615c",
+    "release_version_literal": "v180",
+    "derived_current_adapter": "runV180SelfCheck",
+    "derived_retired_adapter_count": 20,
+    "explicit_retired_adapter_literals": 0
+  },
+  "release_specific_archive_boundary": {
+    "path": "_regression/production-source-archive-boundary-v180.fixture.json",
+    "exists": false,
+    "created": false
+  },
+  "diagnostic_archive": {
+    "previous_count": 58,
+    "current_count": 58,
+    "growth": 0
+  },
+  "production_versioned_adapter_source_count": 0,
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "candidate_generated_index": {
+      "utf8_bytes": 3475515,
+      "sha256": "e43c77803e714b733244f80b13a6c939bc8ef7ee405363963ab25babf20ef89b"
+    },
+    "reference_generated_index": {
+      "utf8_bytes": 3475533,
+      "sha256": "c386b1327d564fec32a2a892b8537cecbe1b44042fca9a9ac15edf380cdc0ae0"
+    },
+    "generated_html_equal_after_release_metadata_module_normalization": true,
+    "candidate_runtime_snapshot": {
+      "sha256": "47cfd810d8751539d51a693ba0b69a1d81e72a0aa2ef75c315a2417b8435564f",
+      "utf8_bytes": 1055219
+    },
+    "reference_runtime_snapshot": {
+      "sha256": "47cfd810d8751539d51a693ba0b69a1d81e72a0aa2ef75c315a2417b8435564f",
+      "utf8_bytes": 1055219
+    },
+    "canonical_runtime_equality": true,
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "architecture_normalization_fields": [],
+    "wrapper_byte_identical_to_v179_parent": true,
+    "stable_adapter_byte_identical_to_v179_parent": true,
+    "stable_inventory_byte_identical_to_v179_parent": true,
+    "diagnostic_archive_growth": 0,
+    "release_specific_v180_archive_boundary_created": false,
+    "production_versioned_adapter_source_count": 0,
+    "learner_facing_change": false
+  }
+}
