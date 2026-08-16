@@ -25,6 +25,9 @@ jobs:
       - name: Materialize v171 stable learning source boundary
         run: python3 tools/v171_materialize.py
 
+      - name: Align v171 wrapper set cardinality
+        run: python3 tools/v171_patch_wrapper.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
