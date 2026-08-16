@@ -1,0 +1,104 @@
+{
+  "name": "subject-a-repairs-v195",
+  "version": "v195",
+  "previous_version": "v194",
+  "parent_main_sha": "b82c1a0d113b01b18020610bacfcc0d00e6e8eda",
+  "scope": "explicit-high-severity-subject-a-content-repair",
+  "manifest": {
+    "path": "_release/content-change-v195.json",
+    "utf8_bytes": 1091,
+    "sha256": "96051f48e441f7ce659e6c71812f56d7f4da1446ffb34add9f3ad429eb08ca29"
+  },
+  "source_quality_audit": {
+    "path": "_regression/subject-a-quality-audit-v194.fixture.json",
+    "utf8_bytes": 7919,
+    "sha256": "89af1bb9754d4035a3a14bf93c2259af8163e335028f9f7f60b4ed0697475cc9"
+  },
+  "source_priority_tier": "medium",
+  "content_files": [
+    {
+      "path": "app/learning-quality-overrides-v195.txt",
+      "utf8_bytes": 6704,
+      "sha256": "be9f82149b84b5b77c0980fa4a443121cd97dcf1961b77e776e865137ddbf1ac"
+    }
+  ],
+  "changed_question_count": 4,
+  "changed_question_ids": [
+    "coreq_11_02_3",
+    "coreq_12_01_3",
+    "coreq_16_01_3",
+    "coreq_17_02_3"
+  ],
+  "changed_fields": {
+    "coreq_11_02_3": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_12_01_3": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_16_01_3": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_17_02_3": [
+      "choiceExps",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ]
+  },
+  "answer_distribution": [
+    178,
+    178,
+    177,
+    177
+  ],
+  "cognitive_distribution": {
+    "想起": 166,
+    "適用": 323,
+    "判断": 221
+  },
+  "question_count": 710,
+  "unique_ids": 710,
+  "content_release_tooling": [
+    {
+      "path": ".github/content-release/prepare_reference.py",
+      "utf8_bytes": 3297,
+      "sha256": "014dc710077bb97680845d31f4e80ef8c202a9b10e6244a208078a118d88515d",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/content-release/validate_content.py",
+      "utf8_bytes": 9171,
+      "sha256": "d5d0cde6e74e33383cd4f4105b1a1fb299963c34edeafe58e6810c34e449022b",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/workflows/content-release-validate.yml",
+      "utf8_bytes": 4011,
+      "sha256": "e5eb6d6fe51af746d85378eac57d0bde6f86a79ac265589eed6131d194284ec0",
+      "parent_byte_identical": true
+    }
+  ],
+  "standard_release_architecture_byte_identical_to_parent": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "parent_runtime_comparison": true,
+  "learner_facing_change": true,
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration",
+  "status": "passed"
+}
