@@ -1,0 +1,123 @@
+{
+  "name": "subject-b-prediction-quality-v199",
+  "release": "v199",
+  "source_release": "v198",
+  "source_main_sha": "3c30f3a193990542a0dfad83af617771ded231bb",
+  "source_tree": "57f57fcc06b2e01e56c7fa1c2ba202405de883e8",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集"
+    ],
+    "observations": [
+      "科目Bの擬似言語はプログラムのトレース技能を中心に問う。",
+      "擬似言語の主要学習領域として文法、一次元配列、二次元配列、再帰、木構造、オブジェクト指向、リスト、スタック・キュー、ビット列が整理されている。",
+      "令和8年度向け問題集では、科目Bは擬似言語16問と情報セキュリティ4問の構成として整理されている。",
+      "同問題集は現行科目Bの情報セキュリティでは暗号、デジタル署名・証明書等の認証、PKI、セキュアプロトコルを出題範囲外とし、人・組織による管理面、事故対応、現場ケースの判断を重視している。"
+    ],
+    "copyright": "scope/structure/difficulty calibration only; no proprietary question wording copied"
+  },
+  "inventory": {
+    "b_exercises": {
+      "count": 20,
+      "prediction_steps": 40,
+      "prediction_steps_per_exercise": 2,
+      "levels": {"基礎": 4, "標準": 11, "応用": 5},
+      "answer_positions": [10, 10, 10, 10],
+      "ids": ["loop_sum", "array_max", "linear_search", "stack_ops", "recursion", "tree_dfs", "count_even", "array_reverse", "nested_loop", "binary_search_b", "bubble_sort_b", "selection_sort_b", "matrix_sum", "matrix_find", "queue_ops", "linked_list", "bit_mask", "object_counter", "gcd_euclid", "recursive_fib"]
+    },
+    "compound_sets": {
+      "count": 15,
+      "questions_per_set": 3,
+      "question_count": 45,
+      "levels": {"標準": 7, "応用": 8},
+      "question_kinds": {"トレース": 31, "空欄補充": 7, "変更予測": 5, "処理理解": 2},
+      "qlevels": {"基礎": 5, "標準": 30, "応用": 10},
+      "answer_positions": [12, 11, 11, 11]
+    },
+    "security_scenarios": {
+      "count": 15,
+      "question_count": 45,
+      "levels": {"基礎": 4, "標準": 8, "応用": 3},
+      "answer_positions": [12, 11, 11, 11],
+      "ids": ["phishing", "ransomware", "access", "logs", "certificate", "risk", "sql_injection", "xss", "password_spray", "usb_malware", "exfiltration", "crypto_choice", "password_hash", "signed_update", "patch"]
+    },
+    "mini_mock": {
+      "algorithm_count": 8,
+      "algorithm_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+      "security_count": 8,
+      "security_quotas": {"基礎": 2, "標準": 4, "応用": 2}
+    },
+    "final": {"count": 20, "algorithm": 16, "security": 4}
+  },
+  "coverage": {
+    "major_pseudocode_domains": {
+      "grammar_control_flow": true,
+      "one_dimensional_array": true,
+      "two_dimensional_array": true,
+      "recursion": true,
+      "tree": true,
+      "object_oriented": true,
+      "list": true,
+      "stack_queue": true,
+      "bit_string": true
+    },
+    "compound_extensions": ["insertion sort", "postfix stack evaluation", "BFS", "matrix transpose", "sorted merge", "sentinel search", "recursive tree height"],
+    "assessment": "major algorithm/pseudocode coverage is broad; no major domain gap found"
+  },
+  "prediction_authenticity": {
+    "medium_ids": ["loop_sum", "stack_ops", "count_even", "matrix_sum", "queue_ops", "object_counter"],
+    "medium_reasons": {
+      "loop_sum": "two checkpoints are straightforward accumulation; the second is essentially the final arithmetic step",
+      "stack_ops": "both checkpoints ask the same LIFO POP rule with minimal intervening state reasoning",
+      "count_even": "both checkpoints explicitly state that the value is even and only ask count+1",
+      "matrix_sum": "both checkpoints are direct addition; the second is the final total",
+      "queue_ops": "both checkpoints repeat the same FIFO DEQUEUE rule",
+      "object_counter": "both checkpoints repeat the same one-step inc() update"
+    },
+    "watch_ids": ["array_max", "linked_list", "bit_mask", "gcd_euclid", "selection_sort_b"],
+    "final_or_last_worded_checkpoint_count": 6,
+    "assessment": "basic progression is useful, but six exercises under-train the intended trace skill because their paired checkpoints are redundant or nearly mechanical"
+  },
+  "compound_quality": {
+    "high_ids": [],
+    "medium_ids": [],
+    "assessment": "15 sets x 3 questions provide useful progression; no catastrophic duplicate/template defect found"
+  },
+  "security_quality": {
+    "high_ids": ["certificate", "crypto_choice", "password_hash", "signed_update"],
+    "high_reason": "current Subject B scope mismatch against the attached 令和8年度 Subject B reference",
+    "high_details": {
+      "certificate": "digital certificate / CA mechanics are explicitly in the excluded authentication/PKI area",
+      "crypto_choice": "symmetric/public-key cryptography selection and key transport are in the excluded cryptography area",
+      "password_hash": "hash/salt password storage is technical cryptography knowledge rather than the current management/case-study emphasis",
+      "signed_update": "digital-signature verification and public/private-key roles are in the excluded authentication/signature area"
+    },
+    "scope_risk_count": 4,
+    "scope_risk_ratio": 0.2667,
+    "final_exam_risk": "final practice selects security cases from the same 15-scenario pool, so out-of-scope cases can enter the 4-question security portion and reduce exam realism"
+  },
+  "explanation_feedback": {
+    "medium_ids": ["loop_sum", "stack_ops", "count_even", "matrix_sum", "queue_ops", "object_counter"],
+    "reason": "the six weak basic exercises explain only the immediate arithmetic/operation and do not teach a richer trace table or divergence point",
+    "exam_mode_hints": "algorithm mini-mock candidate objects omit hint fields and present code/state/question/options without training hints; explanations appear in review"
+  },
+  "manual_priority_review": {
+    "high": ["certificate", "crypto_choice", "password_hash", "signed_update"],
+    "medium": ["loop_sum", "stack_ops", "count_even", "matrix_sum", "queue_ops", "object_counter"],
+    "low_watch": ["array_max", "linked_list", "bit_mask", "gcd_euclid", "selection_sort_b"]
+  },
+  "recommended_v200": {
+    "scope": "replace the four out-of-scope security scenarios first; do not mix algorithm checkpoint rewrites into the same batch",
+    "ids": ["certificate", "crypto_choice", "password_hash", "signed_update"],
+    "engineering_prerequisite": "current content-release validator dumps and diffs only QUESTION_BANK (Subject A); v200 must add a narrow Subject B content-release validation path for SECURITY_SCENARIOS before learner edits",
+    "validation_requirements": [
+      "exactly declared security scenario IDs may change",
+      "SECURITY_SCENARIOS remains 15",
+      "security mock quotas remain 2/4/2 and final remains 16 algorithm + 4 security",
+      "no unrelated B_EXERCISES/B_COMPOUND_SETS/Subject A drift"
+    ]
+  },
+  "status": "audit_complete"
+}
