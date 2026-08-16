@@ -1,0 +1,103 @@
+FE QUEST v162 — STABLE SEMANTIC RUNTIME PATHS AUDIT
+Date: 2026-08-16 JST
+Version: v162
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove the historical v159 release label from the nine production semantic diagnostic runtime part paths.
+- Preserve the exact validated runtime bytes and behavior.
+- Retain the v159-named copies only as archival/regression provenance.
+- Keep learning content, question data, Profile Schema, visible UI, diagnostic semantics, and PWA behavior unchanged.
+
+V161 BASELINE
+- Production semantic runtime consisted of nine direct materialized source parts named app/runtime-semantic-diagnostics-v159-00.txt through -08.txt.
+- Concatenated runtime: 55,525 UTF-8 bytes / SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- Production already used stable diagnostic data module paths and a stable six-function diagnostic wrapper.
+
+V162 ARCHITECTURE
+- Production now directly includes these stable paths:
+  app/runtime-semantic-diagnostics-00.txt
+  app/runtime-semantic-diagnostics-01.txt
+  app/runtime-semantic-diagnostics-02.txt
+  app/runtime-semantic-diagnostics-03.txt
+  app/runtime-semantic-diagnostics-04.txt
+  app/runtime-semantic-diagnostics-05.txt
+  app/runtime-semantic-diagnostics-06.txt
+  app/runtime-semantic-diagnostics-07.txt
+  app/runtime-semantic-diagnostics-08.txt
+- Each stable path is byte-exact with the corresponding v159 archival path.
+- The concatenated stable runtime remains exactly 55,525 bytes / SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- index.html no longer references any runtime-semantic-diagnostics-v159-XX production path.
+- The old v159 paths remain in the repository only as provenance/regression inputs.
+- Stable runtime path policy: stable-semantic-runtime-part-paths-v162.
+- Production policy: stable-semantic-runtime-part-paths-direct-materialized-runtime.
+
+RUNTIME CONTRACT
+- Stable semantic diagnostic helpers: 17 / 17 present.
+- Retired v145-v152 versioned diagnostic function globals: 46 / 46 absent.
+- Stable wrapper globals: 6 / 6 present.
+- Retired v159 wrapper globals: 6 / 6 absent.
+- Retired release adapters runV160SelfCheck and runV161SelfCheck: absent.
+- v162 release adapter: runV162SelfCheck only.
+- Semantic diagnostic data keys: 6.
+- Versioned diagnostic backing globals: 0.
+- Stable data lifecycle modules remain app/runtime-diagnostic-data-prelude.txt and app/runtime-diagnostic-data-finalize.txt.
+
+REGRESSION FIXTURE
+- _regression/stable-semantic-diagnostic-runtime-v162.fixture.json pins all nine stable paths, archival counterparts, individual SHA-256/byte counts, byte-exact parity, concatenated identity, wrapper inventory, release adapter, and production policy.
+
+SERVICE WORKER SAFETY
+- During pre-release validation, an intermediate staging-only sw.js revision accidentally simplified existing fetch/update behavior.
+- This was detected before v162 was moved to main and did not become a released main build.
+- sw.js was restored to v161 behavior with only APP_VERSION/CACHE_NAME updated to v162.
+- The authoritative validation explicitly checks GET_VERSION messaging, networkWithTimeout, staleWhileRevalidate, and range-request handling.
+- Final v162 sw.js: 2,514 bytes / SHA-256 1b439e06133532b9495f3aae9630e70a991f754fc960edb39b3eafdf239b447a.
+
+FORMAL REAL-JEKYLL VALIDATION
+- Authoritative workflow run: 31922051473.
+- Validation job: 95103386286.
+- Validation head SHA: d87751cb0f92d31cb46051730df09298782d89c8.
+- GitHub Pages / Jekyll 3.10.0 build: success.
+- FEQUEST_V162_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 retired-adapter=2 adapter=1 stable-data=2 stable-runtime=9
+- FEQUEST_V162_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V162_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime=9 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V162_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V162_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime=9 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMAL ARTIFACT
+- Artifact ID: 9256645360.
+- Artifact name: fe-quest-v162-standalone.
+- Outer artifact ZIP size: 766,806 bytes.
+- Outer artifact ZIP SHA-256: 317aff2ad8201f5d7eef10add41cde269d52b4dfa0c768ff296b4b3cf856fa31.
+- Inner deployable FE_QUEST_PWA_v162.zip size: 766,930 bytes.
+- Inner deployable SHA-256: bf3c4a518ef1f0f27e2e9cd9ccd26d631a031e9b1eb418081a8f47d19c76d44a.
+- Expanded production index.html: 3,473,723 bytes / SHA-256 e08d3f8859fd07eb3c8eae0ea5d1957a22f278a3882de60c09ff6e1b4a5400f5.
+- Deployable PWA contains exactly six files: index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56 / 56.
+- Remaining release sentinel mapping: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release-only legacy shadow: 293 asserts / raw historical errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Versioned diagnostic backing globals bundled: 0.
+- No question wording, choices, answers, IDs, cognitive levels, Profile Schema, or visible learning UI changed in v162.
+
+CLEANUP
+- Temporary .github/workflows/v162-validate.yml removed after authoritative validation success.
+- Temporary tools/v162_validate.py removed after authoritative validation success.
+- Temporary tools/v162_runtime_stub.py removed after authoritative validation success.
+- Reproduction copies belong only in the handoff package.
+
+NEXT — v163
+- Consider consolidating the nine stable semantic runtime parts into one stable app/runtime-semantic-diagnostics.txt production module.
+- First prove the single file is byte-exact with the current 55,525-byte concatenation and pin its identity in a new fixture.
+- Keep the nine stable parts and v159 archival parts as provenance until the single-module migration is fully validated.
+- Preserve all current invariants and PWA behavior.
