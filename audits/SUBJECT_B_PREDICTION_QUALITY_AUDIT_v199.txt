@@ -1,0 +1,160 @@
+FE QUEST v199 — Subject B Intermediate-State Prediction Quality Audit
+====================================================================
+
+Scope
+-----
+Audit-only. No learner-facing content changes.
+
+Reference calibration
+---------------------
+The attached Subject B textbook and prediction/past-question book were inspected for
+scope, structure and difficulty.
+
+Key reference points:
+- Subject B pseudocode is fundamentally a trace-skill exam rather than a vocabulary test.
+- Major practice domains include grammar/control flow, 1D/2D arrays, recursion, trees,
+  object orientation, lists, stack/queue and bit strings.
+- The current exam structure is treated as 16 pseudocode/algorithm questions + 4 security questions.
+- The current Subject B security emphasis is case-study/management judgment.
+- The attached 令和8年度 problem book explicitly removes cryptography, digital
+  signature/certificate authentication, PKI and secure-protocol mechanics from the
+  current Subject B security scope.
+
+Runtime inventory
+-----------------
+B_EXERCISES: 20
+Prediction checkpoints: 40 (exactly 2 per exercise)
+Prediction answer positions: 10 / 10 / 10 / 10
+Exercise levels: 基礎4 / 標準11 / 応用5
+
+B_COMPOUND_SETS: 15
+Questions: 45 (3 per set)
+Kinds: トレース31 / 空欄補充7 / 変更予測5 / 処理理解2
+Question levels: 基礎5 / 標準30 / 応用10
+Answer positions: 12 / 11 / 11 / 11
+
+SECURITY_SCENARIOS: 15
+Security questions: 45
+Levels: 基礎4 / 標準8 / 応用3
+Answer positions: 12 / 11 / 11 / 11
+
+Mini mock:
+- algorithm 8, quotas 基礎2 / 標準4 / 応用2
+- security 8, quotas 基礎2 / 標準4 / 応用2
+
+Final:
+20 questions = algorithm16 + security4
+
+Algorithm coverage
+------------------
+No major coverage gap found.
+All major domains emphasized by the attached Subject B textbook are represented:
+control flow, 1D/2D arrays, recursion, tree, object, list, stack/queue and bit operations.
+Compound sets broaden practice with insertion sort, postfix evaluation, BFS, transpose,
+merge, sentinel search and recursive tree height.
+
+High findings — security scope
+------------------------------
+4 / 15 security scenarios are not well aligned with the current Subject B security scope:
+
+1. certificate
+   Digital certificate / CA mechanics are in the excluded authentication/PKI area.
+
+2. crypto_choice
+   Symmetric/public-key cryptography and key transport are in the excluded cryptography area.
+
+3. password_hash
+   Hash/salt storage mechanics are technical cryptographic knowledge, not the current
+   management/case-study emphasis.
+
+4. signed_update
+   Digital-signature verification and private/public key roles are in the excluded
+   signature/authentication area.
+
+This is the most important v199 finding because the final Subject B practice draws security
+questions from the same 15-scenario pool. An out-of-scope scenario can therefore occupy part
+of the four-question security portion and reduce exam realism.
+
+Medium findings — prediction authenticity
+------------------------------------------
+Six basic trace exercises have two checkpoints, but the pair does not add enough
+intermediate-state reasoning:
+
+- loop_sum: repeated simple accumulation; second checkpoint is nearly the final arithmetic step
+- stack_ops: POP rule is asked twice
+- count_even: both questions already tell the learner the number is even; only count+1 remains
+- matrix_sum: direct addition twice; second is final total
+- queue_ops: DEQUEUE rule is asked twice
+- object_counter: identical inc() state update twice
+
+These remain pedagogically useful introductions, so they are Medium rather than High.
+They should later be rewritten so the first checkpoint establishes an intermediate state
+and the second requires a different consequence of that state.
+
+Watch only
+----------
+array_max, linked_list, bit_mask, gcd_euclid and selection_sort_b contain somewhat simple
+or final-state checkpoints, but manual review did not find enough learner-value loss to
+place them in the active repair queue.
+
+Compound sets
+-------------
+No High/Medium defect.
+The 15 compound sets provide useful progression beyond the 20 basic exercises.
+Some revisit the same algorithm families, but currently add length, blanks or change
+prediction rather than merely changing constants.
+
+Security strengths
+------------------
+phishing, ransomware, access, logs, risk, password_spray, usb_malware, exfiltration and
+patch are good examples of operational evidence and response judgment.
+SQL injection/XSS are more technical, but they are not placed in the High scope-mismatch
+group by this audit.
+
+Explanation / exam-mode check
+-----------------------------
+The algorithm mini-mock converts exercise checkpoints into code/state/question/options and
+does not expose the training hint while answering. Explanations are shown in review.
+This preserves the intended no-hint exam-like flow.
+
+The six Medium basic exercises have explanations that are correct but too local:
+they explain the immediate operation rather than reconstructing a meaningful trace/divergence.
+
+Priority
+--------
+High: 4
+- certificate
+- crypto_choice
+- password_hash
+- signed_update
+
+Medium: 6
+- loop_sum
+- stack_ops
+- count_even
+- matrix_sum
+- queue_ops
+- object_counter
+
+Recommended v200
+----------------
+Fix only the four High security-scope scenarios first.
+
+Replace them with original FE QUEST case studies centered on current-scope themes such as:
+- information-asset classification / inventory / handling
+- account lifecycle and access review after transfer/contract completion
+- physical/office security and confidential-material handling
+- incident escalation, evidence preservation and organizational controls
+
+Do not mix the six algorithm checkpoint rewrites into the same v200 batch.
+
+Engineering prerequisite:
+The current content-release validator serializes/diffs only Subject A QUESTION_BANK.
+Before changing SECURITY_SCENARIOS, v200 needs a narrow Subject B content-release validator
+that proves only manifest-listed security scenario IDs changed and that B_EXERCISES,
+B_COMPOUND_SETS, Subject A and stable architecture did not drift.
+
+Decision
+--------
+v199 learner-facing change: none.
+Next: v200 security-scope correction batch after safe Subject B content-release validation.
