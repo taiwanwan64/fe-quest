@@ -1,0 +1,5 @@
+// ===== FE QUEST stable release adapter =====
+(() => {
+  const adapterName='runV'+APP_VERSION.slice(1)+'SelfCheck';
+  globalThis[adapterName]=function(){return feqRunSelfCheck(APP_VERSION,adapterName);};
+})();

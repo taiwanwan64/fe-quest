@@ -1,0 +1,79 @@
+{
+  "name": "stable-release-adapter-v176",
+  "version": "v176",
+  "scope": "versionless-current-release-adapter-materialization",
+  "policy": "derive-current-adapter-name-from-app-version-with-zero-versioned-production-adapter-source",
+  "parent_release": {
+    "version": "v175",
+    "main_sha": "f61e6032aad53109284b9a24ba43191e4447944d",
+    "tree": "9c00a408580de94fdab252e10d2cbb4860cb4d41"
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19860,
+    "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "expected_unchanged": true
+  },
+  "stable_release_adapter": {
+    "path": "app/runtime-release-adapter.txt",
+    "utf8_bytes": 211,
+    "sha256": "795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248",
+    "derived_global_expression": "runV + APP_VERSION.slice(1) + SelfCheck",
+    "expected_future_byte_stable": true
+  },
+  "retired_versioned_adapter": {
+    "path": "_regression/archive/diagnostics/v175-block-00.txt",
+    "utf8_bytes": 190,
+    "sha256": "707b61634f3583ccbfadc5698f9028a01151c729df160886247f223f8c38706d",
+    "name": "runV175SelfCheck"
+  },
+  "release_metadata_module": {
+    "path": "app/runtime-release-diagnostic-spec.txt",
+    "utf8_bytes": 806,
+    "sha256": "203d841015b79a952f8154a3dc0057fee5b8c1c98f6384736143acbeb88240af",
+    "release_version": "v176",
+    "retired_release_adapter_count": 16,
+    "diagnostic_archive_count": 58
+  },
+  "production_versioned_adapter_source_count": 0,
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "candidate_generated_index": {
+      "utf8_bytes": 3475466,
+      "sha256": "e44487e132986eafc0b06e21846493812483bd368b07d3a15fc108f2b865d209"
+    },
+    "reference_generated_index": {
+      "utf8_bytes": 3475410,
+      "sha256": "8a2087fa4947fec5ce65048ed10ad2f55a18e3a4abec4f7347ea6f2afbb27c96"
+    },
+    "generated_html_byte_equality": false,
+    "candidate_runtime_snapshot": {
+      "sha256": "3d8d0c57acf0b78796ddda9c632acacf5faa16923f582694f156ab6198dd10c5",
+      "utf8_bytes": 1050705
+    },
+    "reference_runtime_snapshot": {
+      "sha256": "3d8d0c57acf0b78796ddda9c632acacf5faa16923f582694f156ab6198dd10c5",
+      "utf8_bytes": 1050705
+    },
+    "canonical_runtime_equality": true,
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "wrapper_byte_identical_to_parent": true,
+    "production_versioned_adapter_source_count": 0,
+    "learner_facing_change": false
+  }
+}

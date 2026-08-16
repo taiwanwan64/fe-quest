@@ -1,0 +1,41 @@
+FE QUEST v176 — Stable Release Adapter Audit
+==============================================
+
+Scope
+-----
+v176 replaces the per-release app/vXXX-block-00.txt production adapter with one versionless app/runtime-release-adapter.txt. The stable adapter derives the expected public runV{version}SelfCheck global name from APP_VERSION and delegates to feqRunSelfCheck without changing the stable diagnostic wrapper.
+
+Pinned stable wrapper
+---------------------
+UTF-8 bytes: 19,860
+SHA-256: 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Changed by v176: no
+
+Candidate stable adapter
+------------------------
+Path: app/runtime-release-adapter.txt
+UTF-8 bytes: 211
+SHA-256: 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Versioned production adapter sources: 0
+Current public adapter derived at runtime: runV176SelfCheck
+Retired adapter inventory: 16 (runV160SelfCheck through runV175SelfCheck)
+Diagnostic/provenance archive count: 58
+
+Validation status
+-----------------
+passed
+Candidate real Jekyll index: 3,475,466 bytes / e44487e132986eafc0b06e21846493812483bd368b07d3a15fc108f2b865d209
+Reference versioned-adapter index: 3,475,410 bytes / 8a2087fa4947fec5ce65048ed10ad2f55a18e3a4abec4f7347ea6f2afbb27c96
+Generated HTML byte equality: no (expected source-layout difference)
+Canonical runtime snapshot: 3d8d0c57acf0b78796ddda9c632acacf5faa16923f582694f156ab6198dd10c5 / 1,050,705 bytes
+Candidate/reference canonical runtime equality: yes
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Stable wrapper byte-identical to v175: yes
+Versioned production adapter sources: 0
+Temporary release metadata global leaked: no
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual 0
