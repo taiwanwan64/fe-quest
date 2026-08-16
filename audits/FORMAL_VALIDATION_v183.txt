@@ -1,0 +1,77 @@
+FE QUEST v183 — Formal Validation
+=================================
+
+Release decision
+----------------
+The single-source outer version shell candidate was technically build-equivalent but was not adopted. It requires manifest.webmanifest and sw.js source files to become Jekyll/Liquid templates with front matter. The conventional source keeps manifest.webmanifest directly valid JSON and sw.js directly executable JavaScript while changing only index.html, manifest.webmanifest and sw.js per ordinary release.
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v183 outer version shell feasibility validation
+Workflow ID: 335438772
+Run ID: 31935238292
+Job ID: 95135982010
+Conclusion: success
+Trigger SHA: 4ed07b513d7221e0c8c0eeacf843abb99e314d35
+Validated/materialized SHA: d82afbc983ad5e72c03dabcaf7b5e0e4c0ddf9a2
+Validated/materialized tree: 853fb9410097d7ff6c4224c17a4241f0d34b6736
+Real builder: ghcr.io/actions/jekyll-build-pages:v1.0.13 / GitHub Pages v232 / Jekyll 3.10.0
+
+Candidate proof
+---------------
+Single version source candidate: _data/release.yml
+Candidate templated files: index.html, manifest.webmanifest, sw.js
+Candidate and conventional generated six-file release output: byte-identical
+Candidate source manifest directly valid JSON: no
+Candidate source sw.js directly executable without Jekyll: no
+Production source manifest directly valid JSON: yes
+Production source sw.js directly executable: yes
+Decision: candidate not adopted; retain conventional explicit three-file shell.
+
+Stable architecture
+-------------------
+app/runtime-diagnostic-wrapper.txt: 19,860 bytes / SHA-256 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+app/runtime-release-adapter.txt: 211 bytes / SHA-256 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+app/runtime-release-diagnostic-spec.txt: 859 bytes / SHA-256 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2
+_regression/diagnostic-archive-inventory.fixture.json: 17,671 bytes / SHA-256 b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+All four are byte-identical to v182. Release-specific diagnostic architecture changed files: 0.
+
+Runtime and contracts
+---------------------
+APP_VERSION / releaseVersion: v183
+Current adapter: runV183SelfCheck
+Retired adapters: 23 (runV160SelfCheck through runV182SelfCheck)
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Stable runtime helpers: 17
+Retired historical function globals: 46
+Stable wrapper globals: 6
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy: 293 / raw 22 / residual 0
+Question bank: 710 / unique 710
+Answer distribution: A178/B178/C177/D177
+Cognitive distribution: 想起166/適用323/判断221
+Diagnostic archive: 58 / growth 0
+Versioned production adapter source: 0
+Release-specific archive boundary: absent
+Learner-facing change: none
+
+Generated production
+--------------------
+index.html: 3,475,519 bytes / SHA-256 2307d09cea0b2931845c6b905b1b659840b05d416a569c1f26073a2132296849
+Canonical runtime: 1,055,276 bytes / SHA-256 320e764dbfc4fa45981624b2d6d7a4b7cbce452447a02cab990221cc3c90e4d3
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+manifest.webmanifest SHA-256: 4c230aff80179421c3f6b222723ff8ab38fbbeb07432f9c315668856ef180f0e
+sw.js SHA-256: 439f42432049e82d2144b03a9d37a5997724a777ff7c53b885f457bcf22e1674
+
+Package
+-------
+FE_QUEST_PWA_v183.zip: 767,363 bytes / SHA-256 43b52df3b6919618226a5f1f185aee7fa4758f89f7f61305b3210931adc12aaa
+GitHub artifact ID: 9260444033
+Artifact wrapper: 767,242 bytes / SHA-256 47c2f22dda5896360249086344fbe12746511334a4b9c83a44bb201fc0ddabed
+
+Validation result
+-----------------
+PASSED. Keep the simpler conventional outer version shell. No diagnostic architecture migration was made.
