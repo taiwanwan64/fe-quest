@@ -1,13 +1,13 @@
 ---
 ---
-{% capture base %}{% include_relative app/base-v131.html %}{% endcapture %}
-{% assign legacyStartParts = base | split: "function runAppSelfCheck(){" %}
-{% assign productionBaseHead = legacyStartParts | first %}
-{% assign legacyTail = legacyStartParts | last %}
-{% assign legacyEndParts = legacyTail | split: "function runLessonUXAudit(){" %}
-{% assign productionBaseTail = legacyEndParts | last %}
-{% assign lessonUxHead = "function runLessonUXAudit(){" %}
-{% capture productionBase %}{{ productionBaseHead }}{{ lessonUxHead }}{{ productionBaseTail }}{% endcapture %}
+{% capture productionBase %}{% include_relative app/base-stable.html %}{% endcapture %}
+
+
+
+
+
+
+
 {% capture runtimeGuard %}function assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}{% endcapture %}
 {% capture learningPatches %}{% include_relative app/learning-patches.txt %}{% endcapture %}
 
@@ -26,9 +26,9 @@
 {% capture diagnosticDataPrelude %}{% include_relative app/runtime-diagnostic-data-prelude.txt %}{% endcapture %}
 {% capture diagnosticDataFinalize %}{% include_relative app/runtime-diagnostic-data-finalize.txt %}{% endcapture %}
 {% capture diagnosticWrapper %}{% include_relative app/runtime-diagnostic-wrapper.txt %}{% endcapture %}
-{% capture v171block %}{% include_relative app/v171-block-00.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v171</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v171';" %}
-{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV171SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ diagnosticWrapper }}{{ v171block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v172block %}{% include_relative app/v172-block-00.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v172</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v172';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV172SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ diagnosticWrapper }}{{ v172block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}

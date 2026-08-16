@@ -1,0 +1,76 @@
+{
+  "name": "production-base-stabilization-v172",
+  "version": "v172",
+  "scope": "materialized-production-base-after-release-only-legacy-evaluator-exclusion",
+  "policy": "byte-exact-liquid-projection-to-stable-physical-base-no-semantic-rewrite",
+  "parent_release": {
+    "version": "v171",
+    "main_sha": "fccf3f55c476f0d46b89363e786be6dca37af0dc"
+  },
+  "historical_base": {
+    "path": "app/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a",
+    "role": "immutable-evidence-retained-in-app",
+    "production_included": false
+  },
+  "legacy_range": {
+    "path": "_regression/archive/learning-base/runAppSelfCheck-v131.txt",
+    "utf8_bytes": 49657,
+    "sha256": "b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36",
+    "start_marker": "function runAppSelfCheck(){",
+    "end_marker": "function runLessonUXAudit(){",
+    "assert_count": 293,
+    "source_path": "app/base-v131.html",
+    "source_start_byte": 2936878,
+    "source_end_byte": 2986535
+  },
+  "stable_active_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac",
+    "materialization": "base-prefix-plus-end-marker-and-tail",
+    "production_include_count": 1,
+    "legacy_evaluator_function_count": 0
+  },
+  "byte_arithmetic": {
+    "historical_base_utf8_bytes": 3041328,
+    "excluded_legacy_utf8_bytes": 49657,
+    "stable_base_utf8_bytes": 2991671,
+    "exact_subtraction": true
+  },
+  "production_assembler": {
+    "dynamic_legacy_split_count": 0,
+    "stable_base_include_count": 1,
+    "historical_base_include_count": 0
+  },
+  "validation": {
+    "status": "passed",
+    "built_html_byte_exact": true,
+    "canonical_runtime_snapshot_equal": true,
+    "stable_build": {
+      "path": "_site/index.html",
+      "utf8_bytes": 3474210,
+      "sha256": "0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f"
+    },
+    "legacy_liquid_reference_build": {
+      "path": "_site_reference/index.html",
+      "utf8_bytes": 3474210,
+      "sha256": "0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "8cbb6b3fdb8ad763a505b9b746cec820813c6508935e95495896813ffdadff7d",
+      "utf8_bytes": 1050705
+    },
+    "canonical_snapshot_excluded_volatile_fields": [
+      "FEQUEST_SELF_CHECK.checkedAt"
+    ],
+    "historical_base_unchanged": true,
+    "legacy_range_archived_byte_exact": true,
+    "stable_base_matches_liquid_projection": true,
+    "learning_source_boundary_unchanged": true,
+    "semantic_runtime_unchanged": true,
+    "automatic_semantic_deletion_authorized": false
+  },
+  "automatic_semantic_deletion_authorized": false
+}

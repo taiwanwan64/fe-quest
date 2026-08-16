@@ -1,0 +1,56 @@
+FE QUEST v172 — Stable Production Base Boundary Audit
+=======================================================
+
+Scope
+-----
+v172 materializes the exact production-base projection that v171 generated in Liquid by excluding the release-only runAppSelfCheck() evaluator from app/base-v131.html.
+Production now includes app/base-stable.html directly; the historical base remains immutable evidence and the excluded evaluator range is preserved byte-exact under _regression/archive/learning-base/.
+
+Stable active base
+------------------
+Path: app/base-stable.html
+UTF-8 bytes: 2,991,671
+SHA-256: c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Historical base: 3,041,328 bytes / 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Excluded legacy evaluator: 49,657 bytes / b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+Exact subtraction: yes
+Production dynamic legacy split operations: 0
+Production stable base includes: 1
+
+Real Jekyll equivalence
+-----------------------
+Stable-base build bytes: 3,474,210
+Stable-base build SHA-256: 0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f
+Legacy-Liquid reference build bytes: 3,474,210
+Legacy-Liquid reference build SHA-256: 0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f
+Generated HTML byte equality: true
+Canonical runtime snapshot SHA-256: 8cbb6b3fdb8ad763a505b9b746cec820813c6508935e95495896813ffdadff7d
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Canonical runtime equality: true
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Learner-facing invariants
+-------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw errors 22 / residual 0
+Stable learning module: 405,723 bytes / 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+
+Release/archive boundary
+------------------------
+Diagnostic/provenance archive count: 54
+Learning provenance archive count: 48
+Current adapter: runV172SelfCheck
+Retired adapter inventory: 12 (runV160SelfCheck through runV171SelfCheck)
+Leaked retired adapters: 0
+
+Policy
+------
+This release changes the physical base-source boundary only. It does not change learner content, remove learning behavior, or authorize semantic deletion of historical code.
