@@ -1,0 +1,66 @@
+name: FE QUEST v166 release validation
+
+on:
+  push:
+    branches: [v166-staging]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: read
+
+concurrency:
+  group: fe-quest-v166-validation
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize v166 source boundary
+        run: python3 tools/v166_materialize.py
+
+      - name: Commit materialized source when needed
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A app _regression index.html manifest.webmanifest sw.js
+          if git diff --cached --quiet; then
+            echo "FEQUEST_V166_SOURCE_ALREADY_COMMITTED"
+          else
+            git commit -m "Materialize FE QUEST v166 production archive boundary"
+            git push origin HEAD:v166-staging
+          fi
+          echo "FEQUEST_V166_VALIDATION_HEAD=$(git rev-parse HEAD)"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Validate FE QUEST v166
+        run: python3 tools/v166_validate.py
+
+      - name: Package FE QUEST v166
+        run: |
+          cd _site
+          zip ../FE_QUEST_PWA_v166.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          cd ..
+          sha256sum FE_QUEST_PWA_v166.zip
+
+      - name: Upload FE QUEST v166
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-v166-standalone
+          path: FE_QUEST_PWA_v166.zip
+          if-no-files-found: error
