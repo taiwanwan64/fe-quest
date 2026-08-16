@@ -1,0 +1,110 @@
+{
+  "name": "outer-version-shell-feasibility-v183",
+  "version": "v183",
+  "scope": "compare-single-source-jekyll-template-candidate-with-conventional-three-file-version-shell-and-retain-lower-complexity-source",
+  "parent_release": {
+    "version": "v182",
+    "main_sha": "91b445285be486a320d925ddbcf8b4f238c56766"
+  },
+  "stable_modules": [
+    {
+      "path": "app/runtime-diagnostic-wrapper.txt",
+      "utf8_bytes": 19860,
+      "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+      "parent_byte_identical": true
+    },
+    {
+      "path": "app/runtime-release-adapter.txt",
+      "utf8_bytes": 211,
+      "sha256": "795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248",
+      "parent_byte_identical": true
+    },
+    {
+      "path": "app/runtime-release-diagnostic-spec.txt",
+      "utf8_bytes": 859,
+      "sha256": "8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2",
+      "parent_byte_identical": true,
+      "version_source": "APP_VERSION"
+    },
+    {
+      "path": "_regression/diagnostic-archive-inventory.fixture.json",
+      "utf8_bytes": 17671,
+      "sha256": "b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250",
+      "parent_byte_identical": true,
+      "archive_entry_count": 58
+    }
+  ],
+  "release_specific_diagnostic_architecture_changed_files": 0,
+  "expected_runtime": {
+    "releaseVersion": "v183",
+    "currentReleaseAdapter": "runV183SelfCheck",
+    "retiredReleaseAdapterCount": 23,
+    "retiredReleaseAdapterRange": "runV160SelfCheck..runV182SelfCheck"
+  },
+  "diagnostic_archive": {
+    "previous_count": 58,
+    "current_count": 58,
+    "growth": 0
+  },
+  "release_specific_archive_boundary": {
+    "path": "_regression/production-source-archive-boundary-v183.fixture.json",
+    "exists": false
+  },
+  "production_versioned_adapter_source_count": 0,
+  "outer_shell": {
+    "conventional_release_files": [
+      "index.html",
+      "manifest.webmanifest",
+      "sw.js"
+    ],
+    "candidate_version_source": "_data/release.yml",
+    "candidate_requires_jekyll_front_matter": [
+      "manifest.webmanifest",
+      "sw.js"
+    ],
+    "candidate_standalone_source_manifest_valid_json": false,
+    "candidate_standalone_source_sw_directly_executable": false,
+    "adopted": false,
+    "decision": "retain-conventional-explicit-three-file-shell-to-preserve-static-source-portability-and-minimize-build-coupling",
+    "candidate_generated_output_equivalent": true,
+    "candidate_release_file_count": 6,
+    "production_manifest_direct_json": true,
+    "production_sw_direct_js": true
+  },
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "generated_index": {
+      "utf8_bytes": 3475519,
+      "sha256": "2307d09cea0b2931845c6b905b1b659840b05d416a569c1f26073a2132296849"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "320e764dbfc4fa45981624b2d6d7a4b7cbce452447a02cab990221cc3c90e4d3",
+      "utf8_bytes": 1055276
+    },
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "wrapper_byte_identical_to_v181_parent": true,
+    "stable_adapter_byte_identical_to_v181_parent": true,
+    "stable_release_metadata_byte_identical_to_v181_parent": true,
+    "stable_inventory_byte_identical_to_v181_parent": true,
+    "release_specific_diagnostic_architecture_changed_files": 0,
+    "diagnostic_archive_growth": 0,
+    "release_specific_v183_archive_boundary_created": false,
+    "production_versioned_adapter_source_count": 0,
+    "learner_facing_change": false
+  }
+}
