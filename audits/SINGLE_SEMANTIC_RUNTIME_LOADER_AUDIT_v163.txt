@@ -1,0 +1,44 @@
+FE QUEST v163 — SINGLE SEMANTIC RUNTIME LOADER AUDIT
+Date: 2026-08-16 JST
+
+Goal
+- Reduce the production assembler semantic-runtime boundary from nine direct includes to one stable loader module.
+- Preserve the exact 55,525-byte validated semantic runtime generated from the nine stable v162 parts.
+- Keep v159 versioned parts as provenance/regression material.
+
+Production loader
+- app/runtime-semantic-diagnostics.txt
+- Source count seen by top-level index assembler: 1
+- The loader contains exactly nine zero-whitespace include_relative directives for the stable v162 runtime parts.
+- The top-level index no longer names the nine split runtime parts directly.
+
+Rendered runtime identity
+- Concatenated stable runtime bytes: 55,525
+- SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+- This remains byte-exact with the validated v162 concatenated runtime, v159 materialized runtime, and v158 projected runtime.
+
+Runtime boundary
+- Stable semantic helpers: 17
+- Retired historical helper functions absent: 46
+- Stable wrapper globals: 6
+- Retired v159 wrapper globals absent: 6
+- Retired release adapters absent: runV160SelfCheck, runV161SelfCheck, runV162SelfCheck
+- v163 release adapter: runV163SelfCheck only
+- Semantic data keys: 6
+- Versioned data backing globals: 0
+
+Release invariants
+- Current contract: 71/71
+- Browser UI: 23/23 + required DOM
+- Critical curriculum: 56/56
+- Remaining release sentinel: 28/28
+- CI declarative coverage: 84/84
+- Legacy fixture: 293 assertions, 22 raw legacy errors, 0 residual active errors
+- Question bank: 710 unique IDs
+- Answers: A178 / B178 / C177 / D177
+- Cognitive: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+
+Scope
+- No question wording, options, answers, cognition metadata, Profile Schema, or visible learning UI changes.
+- The nine stable runtime parts remain source backing for the loader in v163; physical single-blob materialization is intentionally deferred until it can be performed without weakening the validated release process.
