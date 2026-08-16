@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "policy": "explicit-current-scope-subject-b-security-scenario-overrides-only",
+  "release": "v200",
+  "previous_release": "v199",
+  "parent_main_sha": "bdfc9dba706751e700c85094b3fbfaf4076a0630",
+  "source_quality_audit": "_regression/subject-b-prediction-quality-v199.fixture.json",
+  "source_priority_tier": "high",
+  "allowed_security_ids": [
+    "certificate",
+    "crypto_choice",
+    "password_hash",
+    "signed_update"
+  ],
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-security-overrides-v200.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "quality_audit_marker": "v200-current-scope-security",
+  "legacy_id_policy": "preserve internal scenario IDs for profile/progress compatibility while replacing learner-facing scope and semantic contracts",
+  "preserve": {
+    "security_level_distribution": {"基礎": 4, "標準": 8, "応用": 3},
+    "security_answer_distribution": [12, 11, 11, 11],
+    "security_mock_count": 8,
+    "security_mock_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+    "final_counts": [20, 16, 4]
+  },
+  "reference_scope": {
+    "excluded_mechanics": ["暗号方式", "デジタル署名・デジタル証明書等の認証", "PKI", "セキュアプロトコル"],
+    "replacement_emphasis": ["情報資産管理", "アクセス権ライフサイクル", "物理的セキュリティ", "インシデント対応・証拠保全"]
+  },
+  "copyright_policy": "Original FE QUEST wording only. Attached Subject B books are used only for scope, structure, terminology and difficulty calibration; proprietary question wording is not copied."
+}
