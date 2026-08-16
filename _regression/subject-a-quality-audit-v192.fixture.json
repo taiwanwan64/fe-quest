@@ -1,0 +1,140 @@
+{
+  "name": "subject-a-quality-audit-v192",
+  "release": "v192",
+  "source_release": {
+    "version": "v191",
+    "main_sha": "51d8130f962585b084c4cf4a15c8ed02b4de3fa0",
+    "tree": "57db5a4d0f42334046811a61f3a9703f7895027f",
+    "generated_index_bytes": 3496898,
+    "generated_index_sha256": "df1ad353769cc2650db0933372d9174b1cc0d60be77e2c6acc1da9d02cc335ad"
+  },
+  "scope": "audit-only; no learner-facing question edits",
+  "reference_basis": [
+    {
+      "title": "【令和８年度】 いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集",
+      "use": "chapter/topic coverage, emphasis markers, terminology and difficulty framing only",
+      "copyright_policy": "do not copy proprietary question text"
+    },
+    {
+      "title": "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "use": "latest syllabus 9 framing, standard keywords and FE-level difficulty calibration only",
+      "copyright_policy": "do not copy proprietary question text"
+    }
+  ],
+  "corpus": {
+    "questions": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178, 178, 177, 177],
+    "cognitive_distribution": {"想起": 166, "適用": 323, "判断": 221},
+    "difficulty_distribution": {"基礎": 206, "標準": 345, "実戦": 159},
+    "category_distribution": {"基礎理論": 91, "アルゴリズム": 42, "コンピュータ": 113, "データベース": 55, "ネットワーク": 62, "セキュリティ": 54, "マネジメント": 142, "ストラテジ": 151}
+  },
+  "coverage": {
+    "curriculum_chapters": 21,
+    "curriculum_topics": 130,
+    "covered_topics": 130,
+    "uncovered_topics": 0,
+    "min_questions_per_topic": 4,
+    "max_questions_per_topic": 12,
+    "topics_with_4_questions": 59,
+    "topics_with_9_or_more_questions": 11,
+    "technology_management_strategy_questions": {"technology": 470, "management": 90, "strategy": 150},
+    "finding": "Coverage is unchanged; all 130 mapped Subject A topics remain covered with at least four questions."
+  },
+  "heuristic_comparison": {
+    "v188": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 34, "similarity_gte_0_80": 15},
+      "answer_length_cue_flagged_questions": 19,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "v190_reaudit_of_v189": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 29, "similarity_gte_0_80": 12},
+      "answer_length_cue_flagged_questions": 16,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "v192_reaudit_of_v191": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 28, "similarity_gte_0_80": 11},
+      "answer_length_cue_flagged_questions": 14,
+      "absolute_word_asymmetry_flagged_questions": 29
+    },
+    "delta_v190_to_v192": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic_gte_0_72": -1,
+      "near_duplicate_pairs_same_topic_gte_0_80": -1,
+      "answer_length_cue_flagged_questions": -2,
+      "absolute_word_asymmetry_flagged_questions": -2
+    },
+    "delta_v188_to_v192": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic_gte_0_72": -6,
+      "near_duplicate_pairs_same_topic_gte_0_80": -4,
+      "answer_length_cue_flagged_questions": -5,
+      "absolute_word_asymmetry_flagged_questions": -2
+    },
+    "near_duplicate_pairs_removed_by_v191": [
+      ["computer-13", "coreq_05_04_2"]
+    ],
+    "answer_length_flags_removed_by_v191": ["coreq_02_04_2", "coreq_05_02_1"],
+    "absolute_word_flags_removed_by_v191": ["coreq_06_05_1", "coreq_21_04_1"],
+    "remaining_repaired_ids_still_hit_by_absolute_word_heuristic": ["coreq_02_04_2", "coreq_06_05_2"],
+    "heuristic_note": "The two remaining heuristic hits use だけ inside plausible misconception distractors; manual review no longer treats them as High-severity giveaway wording. Heuristics are screening signals, not automatic severity labels."
+  },
+  "manual_priority_review": {
+    "unique_candidates": 24,
+    "high_unique_ids": 0,
+    "medium_unique_ids": 24,
+    "high": [],
+    "medium": [
+      "challenge_036",
+      "challenge_044",
+      "challenge_046",
+      "challenge_v92_01_07",
+      "challenge_v92_02_08",
+      "coreq_09_02_2",
+      "coreq_09_02_3",
+      "coreq_10_04_2",
+      "coreq_11_02_2",
+      "coreq_11_02_3",
+      "coreq_12_01_2",
+      "coreq_12_01_3",
+      "coreq_14_10_2",
+      "coreq_14_10_3",
+      "coreq_15_08_2",
+      "coreq_15_08_3",
+      "coreq_16_01_2",
+      "coreq_16_01_3",
+      "coreq_17_02_2",
+      "coreq_17_02_3",
+      "media-01",
+      "net-03",
+      "net-12",
+      "theory-06"
+    ],
+    "resolved_v190_high": [
+      "computer-13",
+      "coreq_02_04_2",
+      "coreq_05_02_1",
+      "coreq_05_04_2",
+      "coreq_06_05_1",
+      "coreq_06_05_2",
+      "coreq_21_04_1"
+    ],
+    "medium_priority_groups": [
+      {"kind": "template-repetition", "ids": ["coreq_09_02_2", "coreq_09_02_3", "coreq_11_02_2", "coreq_11_02_3", "coreq_12_01_2", "coreq_12_01_3", "coreq_14_10_2", "coreq_14_10_3", "coreq_15_08_2", "coreq_15_08_3", "coreq_16_01_2", "coreq_16_01_3", "coreq_17_02_2", "coreq_17_02_3"], "reason": "same-topic term/description templates remain highly similar but are not severe enough to justify broad rewrites"},
+      {"kind": "cognitive-label-review", "ids": ["theory-06", "media-01", "net-12"], "reason": "simple conversion/calculation/identification tasks labeled 判断 still merit later paired relabel review"},
+      {"kind": "difficulty-review", "ids": ["challenge_044", "challenge_046", "challenge_v92_01_07", "challenge_v92_02_08"], "reason": "marked 実戦 but currently require only one-step application or recognition"},
+      {"kind": "near-duplicate-calculation", "ids": ["net-03", "coreq_10_04_2", "challenge_036"], "reason": "three subnet network-address questions still use essentially the same procedure"}
+    ],
+    "finding": "All seven v190 High IDs were materially improved by v191. No High-severity learner-content defect remains in the current manual queue; the next repair batch should be selected from Medium only after value-based review."
+  },
+  "decision": {
+    "v192_learner_facing_change": false,
+    "release_architecture_change": false,
+    "release_tooling_change": false,
+    "content_release_tooling_change": false,
+    "recommended_v193": "Select a small Medium-only batch, prioritizing repeated subnet calculations and the clearest repeated term/description templates. Do not edit cognitive labels in the same batch unless paired changes preserve the 166/323/221 invariant."
+  }
+}
