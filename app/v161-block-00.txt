@@ -1,0 +1,5 @@
+// ===== FE QUEST v161 release adapter =====
+(() => {
+  function runV161SelfCheck(){return feqRunSelfCheck('v161','runV161SelfCheck');}
+  globalThis.runV161SelfCheck=runV161SelfCheck;
+})();
