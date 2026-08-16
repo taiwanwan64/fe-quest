@@ -1,0 +1,86 @@
+{
+  "name": "subject-a-quality-audit-v198",
+  "release": "v198",
+  "source_release": {
+    "version": "v197",
+    "main_sha": "969d52afe4e2e6da794bae12d605e44ca2db6d64",
+    "tree": "ddf8d0f5d23c1188b3345f8b176914145f3a41a6",
+    "generated_index_bytes": 3520897,
+    "generated_index_sha256": "cfef190ceb6d46b423efceeedf61cd5c59ccc7b3a28a102b1a84e612adeaa48c"
+  },
+  "scope": "audit-only closure review; no learner-facing question edits",
+  "corpus": {
+    "questions": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178, 178, 177, 177],
+    "cognitive_distribution": {"想起": 166, "適用": 323, "判断": 221},
+    "difficulty_distribution": {"基礎": 206, "標準": 345, "実戦": 159}
+  },
+  "coverage": {
+    "curriculum_chapters": 21,
+    "curriculum_topics": 130,
+    "covered_topics": 130,
+    "uncovered_topics": 0,
+    "finding": "Taxonomy fields were unchanged by v197; all 130 mapped Subject A topics remain covered."
+  },
+  "heuristic_method": {
+    "topic_key": "coreTopicId || explainTopicId || concept",
+    "stem_normalization": "NFKC; remove whitespace and common Japanese/ASCII punctuation; lowercase",
+    "near_duplicate_similarity": "difflib SequenceMatcher ratio",
+    "answer_length_rule": "correct option length >=2.5x or <=0.4x median distractor length",
+    "absolute_word_cues": ["必ず", "常に", "だけ", "のみ", "絶対", "一切", "すべて", "全て", "例外なく", "完全に", "唯一"],
+    "note": "Heuristics are screening signals only; manual review controls severity."
+  },
+  "heuristic_comparison": {
+    "v188": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 34, "similarity_gte_0_80": 15}, "answer_length_cue_flagged_questions": 19, "absolute_word_asymmetry_flagged_questions": 31},
+    "v190": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 29, "similarity_gte_0_80": 12}, "answer_length_cue_flagged_questions": 16, "absolute_word_asymmetry_flagged_questions": 31},
+    "v192": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 28, "similarity_gte_0_80": 11}, "answer_length_cue_flagged_questions": 14, "absolute_word_asymmetry_flagged_questions": 29},
+    "v194": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 22, "similarity_gte_0_80": 6}, "answer_length_cue_flagged_questions": 14, "absolute_word_asymmetry_flagged_questions": 29},
+    "v196": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 18, "similarity_gte_0_80": 6}, "answer_length_cue_flagged_questions": 14, "absolute_word_asymmetry_flagged_questions": 29},
+    "v198": {"exact_normalized_question_duplicates": 0, "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 18, "similarity_gte_0_80": 6}, "answer_length_cue_flagged_questions": 14, "absolute_word_asymmetry_flagged_questions": 29},
+    "delta_v196_to_v198": {"near_duplicate_pairs_same_topic_gte_0_72": 0, "near_duplicate_pairs_same_topic_gte_0_80": 0, "answer_length_cue_flagged_questions": 0, "absolute_word_asymmetry_flagged_questions": 0},
+    "delta_v188_to_v198": {"near_duplicate_pairs_same_topic_gte_0_72": -16, "near_duplicate_pairs_same_topic_gte_0_80": -9, "answer_length_cue_flagged_questions": -5, "absolute_word_asymmetry_flagged_questions": -2},
+    "new_near_duplicate_pairs_created_by_v197": [],
+    "answer_length_flags_added_by_v197": [],
+    "absolute_word_flags_added_by_v197": []
+  },
+  "v197_target_recheck": {
+    "questions": [
+      {"id": "theory-06", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "基礎"}, "finding": "Now requires distinguishing KiB from kB in context before calculating 4 KiB; demand is appropriate for a basic contextual judgment.", "correct_answer": "4096", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "media-01", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "標準"}, "finding": "Now requires selecting the stored grayscale condition rather than blindly using the original 24-bit image before calculating data size.", "correct_answer": "160,000", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "net-12", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "基礎"}, "finding": "Now uses a NAT/LAN context and requires selecting the RFC1918 private host address from plausible address classes.", "correct_answer": "192.168.10.20", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "challenge_044", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "実戦"}, "finding": "Now requires recomputing two project paths after separate delays and determining the project-level completion effect.", "correct_answer": "2日遅れる", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "challenge_046", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "実戦"}, "finding": "Now requires deriving earned value from completed work packages before calculating CPI; the planned-work count acts as a competing metric.", "correct_answer": "1.2", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "challenge_v92_01_07", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "実戦"}, "finding": "Now requires checking the least-significant-bit condition to choose the shift direction, then carrying out the logical shift.", "correct_answer": "00011010", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true},
+      {"id": "challenge_v92_02_08", "existing_labels": {"cognitiveLevel": "判断", "difficulty": "実戦"}, "finding": "Now requires deriving P(101)=1/8 from three independent fair bits before applying self-information.", "correct_answer": "3bit", "new_near_duplicate": false, "answer_length_cue": false, "absolute_word_cue": false, "distractors_same_domain": true, "resolved": true}
+    ],
+    "resolved_count": 7,
+    "unresolved_count": 0,
+    "finding": "All seven v197 demand-alignment repairs now match their existing cognitive/difficulty labels and introduce no new screening regression."
+  },
+  "manual_priority_review": {
+    "unique_candidates": 0,
+    "high_unique_ids": 0,
+    "medium_unique_ids": 0,
+    "high": [],
+    "medium": [],
+    "resolved_v196_medium_ids": ["theory-06", "media-01", "net-12", "challenge_044", "challenge_046", "challenge_v92_01_07", "challenge_v92_02_08"],
+    "residual_screening_flags": {
+      "near_duplicate_pairs_gte_0_72": 18,
+      "near_duplicate_pairs_gte_0_80": 6,
+      "answer_length_flags": 14,
+      "absolute_word_asymmetry_flags": 29,
+      "disposition": "unchanged from v196; these were already outside the active High/Medium queue and v197 created no new flag. No further learner-value edit is justified by these heuristics alone."
+    }
+  },
+  "decision": {
+    "v198_learner_facing_change": false,
+    "release_architecture_change": false,
+    "release_tooling_change": false,
+    "content_release_tooling_change": false,
+    "subject_a_quality_program_status": "closed",
+    "closure_reason": "High=0, Medium=0, v197 target recheck passed 7/7, no heuristic regression, 130/130 mapped topics remain covered, and all corpus distributions remain valid.",
+    "recommended_next_learning_area": "Subject B intermediate-state prediction quality and coverage",
+    "recommended_next_release": "v199 audit-first; inspect Subject B intermediate-state prediction exercises, compound sets, and security scenarios before learner-facing edits."
+  }
+}
