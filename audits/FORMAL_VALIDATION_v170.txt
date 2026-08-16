@@ -1,0 +1,145 @@
+FE QUEST v170 — Formal Release Validation Audit
+===============================================
+
+Release scope
+-------------
+v170 is a semantic-preserving physical compaction release. It replaces the production assembler's 47 direct v132-v144 learning-patch includes with one byte-exact learning bundle while retaining all 47 original patch files unchanged as source-level provenance and regression evidence. No learner-facing behavior, question content, answer, cognitive label, or Profile Schema data is removed or rewritten.
+
+Authoritative validation workflow
+---------------------------------
+Workflow: FE QUEST v170 learning compaction validation
+Workflow ID: 335372823
+Authoritative successful run ID: 31927253350
+Authoritative successful job ID: 95116673972
+Triggering source commit: 08d35b219cf010960d1d5c26dab7e791c70596e2
+Materialized validation head logged by workflow: 1055e2356126efc48cd261ce415bf1f83a561e73
+Materialized source tree: 55617793f0c7dd50f15e612e28d2edf0563f2dd9
+Conclusion: success
+
+Build environment
+-----------------
+GitHub Pages action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages gem: github-pages v232
+Jekyll: v3.10.0
+Runner: Ubuntu 24.04
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V170_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V170_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=10 adapter=1 data=6 backing=0 archive=52 app-residual=0 patch-sources=47 learning-modules=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V170_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V170_COMPACTION_EQUIVALENCE_OK html-byte-exact=1 runtime-snapshot=1 fragments=47 modules=1 bundle=405723 snapshot=0bc31b6875b815d9671c21eec1e52e9f1e4c3dc373df7f1b9b17c556fd4d90bc
+FEQUEST_V170_PATCH_INVENTORY_OK versions=13 source-fragments=47 production-learning-modules=1 unchanged-learning-source=1
+FEQUEST_V170_ARCHIVE_BOUNDARY_OK archive=52 app-residual=0 deployed-archive=0 runtime=55525
+FEQUEST_V170_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=10 adapter=1 data=6 backing=0 archive=52 app-residual=0 patch-sources=47 learning-modules=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Learning source compaction
+--------------------------
+Base source: app/base-v131.html
+Base UTF-8 bytes: 3,041,328
+Base SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+
+Original active patch range: v132-v144
+Original active patch versions: 13
+Original physical patch files: 47
+Canonical patch concat UTF-8 bytes: 405,723
+Canonical patch concat SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+
+New production learning bundle: app/learning-patches-v170.txt
+Bundle UTF-8 bytes: 405,723
+Bundle SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Bundle construction: exact byte concatenation of the 47 canonical source fragments in the v167 declared assembler order
+Production learning include count: 47 -> 1
+Original 47 source fragments retained unchanged in repository: yes
+Automatic behavior removal authorized: false
+
+Real Jekyll assembler equivalence
+---------------------------------
+The compact production assembler and an expanded-reference assembler retaining all 47 direct includes were built independently with the real GitHub Pages/Jekyll action.
+
+Compact generated index.html UTF-8 bytes: 3,474,172
+Compact generated index.html SHA-256: 3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3
+Expanded-reference index.html UTF-8 bytes: 3,474,172
+Expanded-reference index.html SHA-256: 3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3
+Generated HTML byte equality: true
+
+During validation, changing 13 Liquid capture statements to one capture initially removed 12 otherwise-no-op newline bytes from generated HTML. v170 deliberately preserves those 12 newlines so the compact and expanded assemblers emit literally identical deployment HTML, not merely semantically equivalent JavaScript.
+
+Canonical runtime equivalence
+-----------------------------
+Canonical runtime snapshot SHA-256: 0bc31b6875b815d9671c21eec1e52e9f1e4c3dc373df7f1b9b17c556fd4d90bc
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Compact/reference canonical runtime equality: true
+
+The canonical snapshot excludes exactly one volatile metadata field: FEQUEST_SELF_CHECK.checkedAt. A diagnostic comparison before exclusion proved that generated HTML was already byte-identical and that checkedAt was the sole differing top-level self-check field; QUESTION_BANK, current contract, browser UI contract, diagnostic data/provenance, semantic boundaries, global surface, answer distribution, cognitive distribution, and every other self-check field were identical. checkedAt is generated from execution time and is therefore not semantic state. The actual self-check result still had to be present and ok=true in both runs.
+
+Learner-facing invariants
+-------------------------
+Question bank: 710 questions / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Current contract: 71/71
+Browser UI contract: 23/23 + required DOM
+Stable semantic runtime helpers: 17
+Retired historical runtime globals: 46 absent from production
+Stable wrapper globals: 6
+Retired wrapper globals leaked: 0
+Semantic diagnostic data keys: 6
+Versioned diagnostic backing globals leaked: 0
+Critical curriculum: 56/56
+Remaining release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy regression fixture: 293 assertions / raw errors 22 / residual active errors 0
+Production legacy evaluator: absent
+
+Semantic runtime / archive boundary
+-----------------------------------
+Active semantic runtime: app/runtime-semantic-diagnostics.txt
+Semantic runtime UTF-8 bytes: 55,525
+Semantic runtime SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Archived historical diagnostic/provenance sources: 52
+Historical diagnostic/versioned residual in app/: 0
+Current release adapter: app/v170-block-00.txt / runV170SelfCheck
+Retired release-adapter inventory: 10 (runV160SelfCheck through runV169SelfCheck)
+Leaked retired release adapters in production: 0
+v169 release adapter moved byte-identically to _regression/archive/diagnostics/v169-block-00.txt
+
+Standalone artifact
+-------------------
+Artifact name: fe-quest-v170-standalone
+Artifact ID: 9258215043
+Artifact uploaded size: 766,983 bytes
+Artifact archive digest SHA-256: 8e05f57a26a7160ea112358007b749e2332f59a0ccfc88c2e5b0488e826c9ca3
+Nested deployable ZIP: FE_QUEST_PWA_v170.zip
+Nested deployable ZIP size: 767,103 bytes
+Nested deployable ZIP SHA-256: 1f122361687dca9b65406615506144ff178ca1a4ba4fc47c51b3de56b8c90f07
+Nested deployable ZIP contains exactly six release files.
+
+Generated deployable identities
+-------------------------------
+index.html: 3,474,172 bytes
+index.html SHA-256: 3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3
+manifest.webmanifest: 1,270 bytes
+manifest.webmanifest SHA-256: 727f8a40679ab7b8f7a8f07e530dc8629d9a19171127a636066906035853181c
+sw.js: 2,514 bytes
+sw.js SHA-256: 61143b9e8a139f1e2dfcbf15f2bf02abc55f4481602a9b9e9dae3aa549b7f16a
+icon-192.png SHA-256: 3e8c30ab9f94e969e9cfa6c81d90311c2bf5f464b7f86c18dc107e2fd84f83d4
+icon-512.png SHA-256: cf019a9eeed736ff6643ff2053f810b1c124b36a6c86eb47ec4c60e5adca2a25
+apple-touch-icon.png SHA-256: f4914b5bab7128dd3007d8327f4f6a6ce233825f9dc141897d5a2118e23b7dca
+
+Service-worker parity
+---------------------
+APP_VERSION: v170
+Cache: fe-quest-v170-1
+GET_VERSION messaging: preserved
+networkWithTimeout: preserved
+staleWhileRevalidate: preserved
+Range request bypass: preserved
+
+Cleanup / release policy
+------------------------
+Temporary v170 validation workflow and tools are removed before main is advanced. Cleanup must not modify app/, the v170 regression fixtures, audits/LEARNING_COMPACTION_AUDIT_v170.txt, index.html, manifest.webmanifest, or sw.js. This formal validation audit is retained as release evidence.
+
+Next architecture direction
+---------------------------
+v170 proves that the 47-file learning patch chain can be represented by one production learning module without changing a single generated HTML byte or canonical runtime state. A future architecture pass can now treat app/learning-patches-v170.txt as the stable active learning source while retaining the 47 original fragments only as provenance/regression inputs, then separately evaluate whether base-v131 and the stable bundle should be materialized into a simpler standalone production source. That later step should again require byte/runtime equivalence before changing production assembly.
