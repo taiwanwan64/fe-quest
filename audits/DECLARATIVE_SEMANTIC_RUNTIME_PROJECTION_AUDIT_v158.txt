@@ -1,0 +1,98 @@
+FE QUEST v158 — DECLARATIVE SEMANTIC RUNTIME PROJECTION AUDIT
+Date: 2026-08-16 JST
+Version: v158
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove the long historical-name replacement chain from the top-level Liquid/Jekyll assembler.
+- Keep the archival stable diagnostic runtime source unchanged for provenance.
+- Move the six logical semantic data migrations into one isolated, declarative build projection module.
+- Preserve the generated production runtime exactly while reducing assembler coupling and review noise.
+- Do not change learning content, question data, profile schema or visible UI.
+
+V157 BASELINE
+- index.html contained the deterministic semantic runtime projection as a long sequence of Liquid assign/replace steps.
+- Generated production already had zero V148-V152 diagnostic backing globals.
+- Stable production diagnostic helper surface: 17.
+- Retired v145-v152 diagnostic function globals: 46 absent.
+- Semantic diagnostic data: 6 keys / versioned backing globals 0.
+
+V158 ARCHITECTURE
+Top-level assembler:
+- index.html now captures app/runtime-current-diagnostics.txt once as semanticRuntimeRaw.
+- It delegates transformation to app/runtime-semantic-projection-v158.txt.
+- No V148/V149/V150/V151/V152 diagnostic data names or semanticRuntime01...semanticRuntime17 rewrite chain remain in index.html.
+
+Projection module:
+- Path: app/runtime-semantic-projection-v158.txt
+- SHA-256: 785dbef88c66fa4880bbaeb33029c7299f71d55d511d6da4b4ec022b6841045a
+- UTF-8 bytes: 2,494
+- Logical migrations: 6
+- Liquid replace filters: 18
+
+Projection fixture:
+- Path: _regression/semantic-diagnostic-projection-v158.fixture.json
+- SHA-256: af038d7eb7946bf1aab507dfe057bf4ca3b54f1c00d309a8b67af7d659bc037d
+- Archival runtime SHA-256: 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658
+- Archival runtime bytes: 54,898
+- Projected runtime SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+- Projected runtime bytes: 55,525
+- The projected runtime remains byte-exact with the v157 generated semantic runtime.
+
+PRODUCTION SELF-CHECK
+- Production boot target: runV158SelfCheck().
+- Architecture marker: v158-declarative-semantic-runtime-projection.
+- Current contract remains 71 / 71.
+- Stable semantic diagnostic helpers remain 17.
+- Retired v145-v152 diagnostic function globals remain 46 / 46 absent.
+- Semantic diagnostic data remains 6 keys.
+- Versioned V148-V152 diagnostic backing globals remain 0.
+
+FORMAL REAL-JEKYLL VALIDATION
+- Workflow run: 31917982999
+- Job: 95092992397
+- Validation head SHA: 733394fcab6d148d310097ebf2c907c65854546f
+- Jekyll: GitHub Pages / Jekyll 3.10.0
+- Conclusion: success
+- FEQUEST_V158_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0
+- FEQUEST_V158_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V158_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data=6 backing=0 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V158_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V158_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data=6 backing=0 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMAL ARTIFACT
+- Artifact ID: 9255485347
+- Artifact name: fe-quest-v158-standalone
+- Outer artifact ZIP SHA-256: 63b7f3e6a9faab21d5e22bec26a2d4c934ff26f21a31a686c226c16157a76ad1
+- Inner deployable PWA ZIP SHA-256: 3376a402c73dea1e9b7be67ae18f33817d851b410cec96a3f7a5f5e1bc41c43b
+- Inner deployable PWA ZIP bytes: 766,068
+- Compiled index.html bytes: 3,470,073
+- Deployable PWA files: index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56 / 56.
+- Remaining release sentinel mapping: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release-only legacy shadow: 293 assert / raw 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Versioned diagnostic backing globals bundled: 0.
+- No question wording, options, answers, IDs, cognition, Profile Schema or visible learning UI design changed in v158.
+
+CLEANUP
+- Temporary workflow .github/workflows/v158-validate.yml removed after successful validation.
+- Temporary tools/v158_validate.py removed after successful validation.
+- Temporary tools/v158_runtime_stub.py removed after successful validation.
+- Reproduction copies of validation tooling belong only in the v158 handoff package.
+
+NEXT — v159
+- Use the now-isolated projection contract to materialize a stable semantic runtime source module whose bytes are exactly the validated projected runtime.
+- Stop applying historical-name rewrites during production Jekyll assembly entirely.
+- Preserve app/runtime-current-diagnostics.txt as archival provenance input or move it behind regression-only provenance once the source-level parity contract is proven.
+- Keep current 71, browser 23, helpers 17, data 6/backing 0, critical 56, release 28, CI 84, legacy 293 residual 0, Subject A 710 and Profile Schema v5 unchanged.
+- Require real Jekyll validation, cleanup of temporary tools and final Pages verification.
