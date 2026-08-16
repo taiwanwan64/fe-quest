@@ -1,0 +1,464 @@
+{
+  "name": "production-learning-source-boundary-v171",
+  "version": "v171",
+  "scope": "stable-active-learning-module-and-build-excluded-provenance",
+  "policy": "single-versionless-active-learning-module-with-byte-exact-regression-archive",
+  "parent_release": {
+    "version": "v170",
+    "main_sha": "1f028dab4d12364dd5bddf19831618da1c3dc5d1"
+  },
+  "source_inventory": {
+    "path": "_regression/production-patch-chain-v167.fixture.json",
+    "utf8_bytes": 40326,
+    "sha256": "a9cef4b42015a6adb0e64b1383fdfc77537f6ac943ad8f74b9b12caf870d543e"
+  },
+  "parent_compaction_fixture": {
+    "path": "_regression/production-learning-compaction-v170.fixture.json",
+    "utf8_bytes": 4125,
+    "sha256": "54e32234b79b7119625c10c383d1357fee349f32d7ab9f9caf9c800cf42ff076"
+  },
+  "base": {
+    "path": "app/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a"
+  },
+  "stable_active_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8",
+    "source_fragment_count": 47,
+    "materialization": "byte-exact-concatenation",
+    "production_include_count": 1
+  },
+  "archive_root": "_regression/archive/learning-patches",
+  "archived_source_count": 48,
+  "archive_entries": [
+    {
+      "role": "source-fragment",
+      "name": "v132-block-00.txt",
+      "old_path": "app/v132-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-00.txt",
+      "utf8_bytes": 4802,
+      "sha256": "a6a1b49952caab2772bbbd08de2eb2c41f731f625449e06b8e90fa6d4221cd60"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-01.txt",
+      "old_path": "app/v132-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-01.txt",
+      "utf8_bytes": 5222,
+      "sha256": "8571fbe5be90703f22df2177c07187a1a2b8cd953ba4915d527294b1ddf4ca75"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-02.txt",
+      "old_path": "app/v132-block-02.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-02.txt",
+      "utf8_bytes": 4832,
+      "sha256": "6905d829d415c5e1a05594b97339e816ea8a525878a4520d32eba5a7237d0101"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-03.txt",
+      "old_path": "app/v132-block-03.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-03.txt",
+      "utf8_bytes": 4844,
+      "sha256": "4492495305c1d81e962feb91a1a151a92d6f8dc04a1e21ab9ef749c9ba1ba8e5"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-04.txt",
+      "old_path": "app/v132-block-04.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-04.txt",
+      "utf8_bytes": 5190,
+      "sha256": "ad9946fbc45395e01e1edaaf10584f91f41a6cd0f9209aa252a6e13b1dd9f240"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-05.txt",
+      "old_path": "app/v132-block-05.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-05.txt",
+      "utf8_bytes": 5186,
+      "sha256": "e639253629d4975086b713164a6048121969c717c7827149e7ef9c2a32852489"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-06.txt",
+      "old_path": "app/v132-block-06.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-06.txt",
+      "utf8_bytes": 5082,
+      "sha256": "f3a474c82d88bdc1f4d6640697a21b64941d9642bf936c74dd0ebf0f22c86f88"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v132-block-07.txt",
+      "old_path": "app/v132-block-07.txt",
+      "archive_path": "_regression/archive/learning-patches/v132-block-07.txt",
+      "utf8_bytes": 1817,
+      "sha256": "4eff1f31536e79ff7555629ff3d0fa8d264f8bf250e45ae6d092ac8130d6cac3"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-00.txt",
+      "old_path": "app/v133-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-00.txt",
+      "utf8_bytes": 7572,
+      "sha256": "ffc0bbbb6b8141970da3af37dd1832ecf088b55c32ea0451eaa503a047a64d2f"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-01.txt",
+      "old_path": "app/v133-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-01.txt",
+      "utf8_bytes": 6190,
+      "sha256": "44f13479d88d460980e00ae890b99a1147eb73feddec498c95a4aef37a4ea22a"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-02.txt",
+      "old_path": "app/v133-block-02.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-02.txt",
+      "utf8_bytes": 3807,
+      "sha256": "cf20560e5f7c49bd3db4cfbadad1b6863b2f07eb9eb53fd04087cf9fdf86f70f"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-03.txt",
+      "old_path": "app/v133-block-03.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-03.txt",
+      "utf8_bytes": 3757,
+      "sha256": "a5a7fa90779c0f7b26dd923dbd62297b8d9d6c97aa35008e17239552b94c0662"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-04.txt",
+      "old_path": "app/v133-block-04.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-04.txt",
+      "utf8_bytes": 4044,
+      "sha256": "12adc3474ab927f881aafac3581831f3cdeda1aaf74ef332458df41356b8f885"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v133-block-05.txt",
+      "old_path": "app/v133-block-05.txt",
+      "archive_path": "_regression/archive/learning-patches/v133-block-05.txt",
+      "utf8_bytes": 4149,
+      "sha256": "c9292ad868f40a5c71a4bfcf4c765e488b9df23f46bbe67e39e1ab4e1f3ba32e"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-00.txt",
+      "old_path": "app/v134-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-00.txt",
+      "utf8_bytes": 4935,
+      "sha256": "0ab35c298b19077896a312760db7f579a1436e2652e66af162f182b74731a7a0"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-01.txt",
+      "old_path": "app/v134-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-01.txt",
+      "utf8_bytes": 4343,
+      "sha256": "d527d15afde06b5db06bc1874533b1b028875545d859aed6bea33c1412e84986"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-02.txt",
+      "old_path": "app/v134-block-02.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-02.txt",
+      "utf8_bytes": 3965,
+      "sha256": "af319c483528aa34e1c890d84ca213bc1174b5d7a661732642d465201da9421b"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-03.txt",
+      "old_path": "app/v134-block-03.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-03.txt",
+      "utf8_bytes": 4872,
+      "sha256": "a655bce419fb53c207c4cc6d422b4cf3feae2fd0517b8ba0734331835609d637"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-04.txt",
+      "old_path": "app/v134-block-04.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-04.txt",
+      "utf8_bytes": 4848,
+      "sha256": "00ef149ea12e89cc7b0ccaa2fb1f6c2fb88605e656d597c139b29d0a576f2782"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-05.txt",
+      "old_path": "app/v134-block-05.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-05.txt",
+      "utf8_bytes": 3340,
+      "sha256": "581e8a086db12bfe70a3c0b61b155d4e4791ffcc660e0eccc44de728cbf61b57"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v134-block-06.txt",
+      "old_path": "app/v134-block-06.txt",
+      "archive_path": "_regression/archive/learning-patches/v134-block-06.txt",
+      "utf8_bytes": 1727,
+      "sha256": "83cb4ca8d1e366c2ce95857e847f5fbd742c29c571f8d51f7f3e099a0a728fcc"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v135-block-00.txt",
+      "old_path": "app/v135-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v135-block-00.txt",
+      "utf8_bytes": 2195,
+      "sha256": "ad8988b7f3967974d4032065d561224058ceed9d3af50a90c4c85ad33fbc3dc2"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-00.txt",
+      "old_path": "app/v136-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-00.txt",
+      "utf8_bytes": 4703,
+      "sha256": "03bfe2cf975a00849c7ab8d776ef50065c4799cd86ef62cf6e7897328638ff33"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-01.txt",
+      "old_path": "app/v136-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-01.txt",
+      "utf8_bytes": 2709,
+      "sha256": "bb4730b002b57885ffde325997c04cd35792517509376eaf541e64b69ca555ea"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-02.txt",
+      "old_path": "app/v136-block-02.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-02.txt",
+      "utf8_bytes": 7649,
+      "sha256": "c8a407700ee8ab9c2974fdde1a7f0f74dbe9f4a9bbe0bab2c6402e4f05a81876"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-03.txt",
+      "old_path": "app/v136-block-03.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-03.txt",
+      "utf8_bytes": 3817,
+      "sha256": "2dde77331bcb5a5183d3a6d36f41338f9327a017e1298a38ed906dbec7b3575b"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-04.txt",
+      "old_path": "app/v136-block-04.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-04.txt",
+      "utf8_bytes": 3151,
+      "sha256": "86064ed189c79ed8a2698bf1be74655eab3458c83eb62a390d47129144a17eb9"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-05.txt",
+      "old_path": "app/v136-block-05.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-05.txt",
+      "utf8_bytes": 2899,
+      "sha256": "b1f623fbf5fe4e9da1072096743165292dcd51be11db2817df3fe99dd0d86c36"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-06.txt",
+      "old_path": "app/v136-block-06.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-06.txt",
+      "utf8_bytes": 13162,
+      "sha256": "d22b79f5e7b02b66d515ad995d61e6dce275fce9809b7797869e0d68e8708cf5"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v136-block-07.txt",
+      "old_path": "app/v136-block-07.txt",
+      "archive_path": "_regression/archive/learning-patches/v136-block-07.txt",
+      "utf8_bytes": 12326,
+      "sha256": "6cf25af0b32453ba97cc024fba4d43d907e3606bac59db5329e233e764a40f15"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v137-block-00.txt",
+      "old_path": "app/v137-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v137-block-00.txt",
+      "utf8_bytes": 88253,
+      "sha256": "8683fa6f25c941d0d68fa30795ae4a777e5048f2531f581073bb419fb05f0718"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-00.txt",
+      "old_path": "app/v138-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-00.txt",
+      "utf8_bytes": 10378,
+      "sha256": "68d37dacaadf8fe5de1c3ef39f0a8838cb260789ba55d393c00fad6f551fa657"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-01.txt",
+      "old_path": "app/v138-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-01.txt",
+      "utf8_bytes": 12845,
+      "sha256": "3902766cb5cf3cabff4c7d881c5bea9f908f750ffe9d782d4ce72082ea0243fb"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-02.txt",
+      "old_path": "app/v138-block-02.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-02.txt",
+      "utf8_bytes": 15993,
+      "sha256": "ad009a22a6fbce295b51f25b831df960913f0771be46fc0b20104552e3d26104"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-03.txt",
+      "old_path": "app/v138-block-03.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-03.txt",
+      "utf8_bytes": 16308,
+      "sha256": "21ac8a3964fbf6c5d35f374cfc502e6fa3010c0e88f9e806fe55139ceb1b9a68"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-04.txt",
+      "old_path": "app/v138-block-04.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-04.txt",
+      "utf8_bytes": 18277,
+      "sha256": "4ea4f16ff230af518a8cdebae4b75157cd9cf36492b2fec91d5475bf592cf49a"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-05.txt",
+      "old_path": "app/v138-block-05.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-05.txt",
+      "utf8_bytes": 9904,
+      "sha256": "01611d499ed89801a20a40bc37abd2c2fbdfc9c6ad6cc0bf5a053d08c7a6e09c"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-06.txt",
+      "old_path": "app/v138-block-06.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-06.txt",
+      "utf8_bytes": 17186,
+      "sha256": "ebbadcc83858948a61ee52591daf0177d71276d343d8e9fcdef01c8ba2fe26e1"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-07.txt",
+      "old_path": "app/v138-block-07.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-07.txt",
+      "utf8_bytes": 15004,
+      "sha256": "167024232c1709a2801fdb5b1d95b56bcf3432f67609f8056347f416d2896112"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v138-block-08.txt",
+      "old_path": "app/v138-block-08.txt",
+      "archive_path": "_regression/archive/learning-patches/v138-block-08.txt",
+      "utf8_bytes": 725,
+      "sha256": "909c856f66e2d0a7d0b808793961165c162cffee1ea4146efabdadcbfbd07317"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v139-block-00.txt",
+      "old_path": "app/v139-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v139-block-00.txt",
+      "utf8_bytes": 6369,
+      "sha256": "dde1cb86b8fdee01b4b1606874c1b02c314bb183f2ec4ccf2763193c85362df1"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v139-block-01.txt",
+      "old_path": "app/v139-block-01.txt",
+      "archive_path": "_regression/archive/learning-patches/v139-block-01.txt",
+      "utf8_bytes": 6377,
+      "sha256": "eadbcc38c02acabcaea01d36af9fdfce94778fb2890e5a7ed73bdd3647362cd8"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v140-block-00.txt",
+      "old_path": "app/v140-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v140-block-00.txt",
+      "utf8_bytes": 10776,
+      "sha256": "976fb0bcf5cce255285152ff2c659f74bdac226652138ddc41f952a08e48baac"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v141-block-00.txt",
+      "old_path": "app/v141-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v141-block-00.txt",
+      "utf8_bytes": 2856,
+      "sha256": "222f835e1821ab25fb35cf5f753e45006b6dc55f4196173e410909486874a878"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v142-block-00.txt",
+      "old_path": "app/v142-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v142-block-00.txt",
+      "utf8_bytes": 6815,
+      "sha256": "d4f81eb993043900d79c3a35c8c0ce506bc4112437dbad46995cc8a1491bdd73"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v143-block-00.txt",
+      "old_path": "app/v143-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v143-block-00.txt",
+      "utf8_bytes": 14695,
+      "sha256": "4fd7ccab919bfbd8f36b6f904fcd4b07002de3edeef463d541164d81b2840bfb"
+    },
+    {
+      "role": "source-fragment",
+      "name": "v144-block-00.txt",
+      "old_path": "app/v144-block-00.txt",
+      "archive_path": "_regression/archive/learning-patches/v144-block-00.txt",
+      "utf8_bytes": 5827,
+      "sha256": "f56b98d5348fdab7fcb471808301f96bd78547e8063eeef5575b2789c46c6795"
+    },
+    {
+      "role": "superseded-versioned-bundle",
+      "name": "learning-patches-v170.txt",
+      "old_path": "app/learning-patches-v170.txt",
+      "archive_path": "_regression/archive/learning-patches/learning-patches-v170.txt",
+      "utf8_bytes": 405723,
+      "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+    }
+  ],
+  "reconstruction": {
+    "fragment_count": 47,
+    "concat_utf8_bytes": 405723,
+    "concat_sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8",
+    "stable_module_equals_fragment_concat": true,
+    "archived_v170_bundle_equals_stable_module": true
+  },
+  "production_app": {
+    "active_learning_modules": [
+      "app/learning-patches.txt"
+    ],
+    "versioned_fragment_residual_count": 0,
+    "versioned_bundle_residual_count": 0
+  },
+  "validation": {
+    "status": "passed",
+    "built_html_byte_exact": true,
+    "canonical_runtime_snapshot_equal": true,
+    "stable_build": {
+      "path": "_site/index.html",
+      "utf8_bytes": 3474191,
+      "sha256": "51e0cbdc057d602972b29f2103d4ecb00f1e7b9690d2307003a58eeaa0736d4b"
+    },
+    "versioned_reference_build": {
+      "path": "_site_reference/index.html",
+      "utf8_bytes": 3474191,
+      "sha256": "51e0cbdc057d602972b29f2103d4ecb00f1e7b9690d2307003a58eeaa0736d4b"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "cb56ceb96a2fcb588d3ecf43bc8612128194f9f77f22ca45a2c60e5d74628b75",
+      "utf8_bytes": 1050705
+    },
+    "canonical_snapshot_excluded_volatile_fields": [
+      "FEQUEST_SELF_CHECK.checkedAt"
+    ],
+    "source_fragments_archived_byte_exact": true,
+    "stable_module_reconstructed_from_archived_fragments": true,
+    "archived_v170_bundle_equals_stable_module": true,
+    "semantic_runtime_unchanged": true,
+    "base_unchanged": true,
+    "automatic_behavior_removal_authorized": false
+  },
+  "automatic_behavior_removal_authorized": false
+}

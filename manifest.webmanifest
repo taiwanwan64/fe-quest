@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v170",
+  "name": "FE QUEST v171",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v170では、v132〜v144の47個の学習パッチを内容・順序を一切変えず405,723バイトの単一learning bundleへbyte-exactに統合し、従来の47 include assemblerと新しい1 include assemblerを実Jekyll buildで比較する。QUESTION_BANK・self-check・DOM・diagnostic contractのcanonical runtime snapshotが一致した場合のみ新assemblerを採用し、元の47 source fragmentは回帰証拠として保持する。current-contract 71、科目A710問、browser UI 23、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v171では、v170でbyte-exact統合した405,723バイトの学習パッチ群をversionlessな安定モジュール app/learning-patches.txt に昇格し、元のv132〜v144 47 source fragmentとv170版bundleをbuild-excluded regression archiveへbyte-exactに移動する。production app/には単一の安定学習モジュールだけを残し、実Jekyll buildとcanonical runtime snapshotで旧versioned bundle境界との完全同値を検証する。current-contract 71、科目A710問、browser UI 23、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",

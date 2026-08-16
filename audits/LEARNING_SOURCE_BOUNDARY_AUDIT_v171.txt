@@ -1,0 +1,65 @@
+FE QUEST v171 — Stable Learning Source Boundary Audit
+=======================================================
+
+Scope
+-----
+v171 promotes the v170 byte-exact learning bundle to the versionless production path app/learning-patches.txt.
+The 47 original v132-v144 source fragments and the superseded versioned bundle app/learning-patches-v170.txt are retained byte-exactly under _regression/archive/learning-patches/ and are excluded from deployment.
+
+Stable active learning module
+-----------------------------
+Path: app/learning-patches.txt
+UTF-8 bytes: 405,723
+SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Source fragments represented: 47
+Production learning modules: 1
+
+Learning provenance archive
+---------------------------
+Archive root: _regression/archive/learning-patches
+Archived source files: 48
+- canonical v132-v144 source fragments: 47
+- superseded v170 bundle: 1
+Reconstructed 47-fragment concat equals stable module: yes
+Archived v170 bundle equals stable module: yes
+Versioned v132-v144 fragment residual in app/: 0
+Versioned learning bundle residual in app/: 0
+Archive deployed by Jekyll: no
+
+Real Jekyll equivalence
+-----------------------
+Stable-path build bytes: 3,474,191
+Stable-path build SHA-256: 51e0cbdc057d602972b29f2103d4ecb00f1e7b9690d2307003a58eeaa0736d4b
+Versioned-boundary reference build bytes: 3,474,191
+Versioned-boundary reference build SHA-256: 51e0cbdc057d602972b29f2103d4ecb00f1e7b9690d2307003a58eeaa0736d4b
+Generated HTML byte equality: true
+Canonical runtime snapshot SHA-256: cb56ceb96a2fcb588d3ecf43bc8612128194f9f77f22ca45a2c60e5d74628b75
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Canonical runtime equality: true
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Learner-facing invariants
+-------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw errors 22 / residual 0
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Base v131: 3,041,328 bytes / 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+
+Release/archive boundary
+------------------------
+Diagnostic/provenance archive count: 53
+Current adapter: runV171SelfCheck
+Retired adapter inventory: 11 (runV160SelfCheck through runV170SelfCheck)
+Leaked retired adapters: 0
+
+Policy
+------
+This release changes physical source placement only. It does not remove learner behavior or authorize semantic patch deletion.
+The immutable v167 patch inventory retains the historical original paths; v171's learning-source-boundary fixture is the authoritative mapping from those paths to build-excluded archived provenance.
