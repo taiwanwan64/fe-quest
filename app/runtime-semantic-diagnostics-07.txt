@@ -1,0 +1,82 @@
+// ===== v151 remaining release-sentinel declarative contract =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const releaseSentinelSpec=Object.freeze({
+    qualityCaps:Object.freeze([
+      Object.freeze({legacy:53,kind:'chapterRecallRatioMax',max:0.3000001}),
+      Object.freeze({legacy:54,kind:'stemTemplateRepeatMax',max:15})
+    ]),
+    articleTeachingStructure:Object.freeze([
+      Object.freeze({legacy:80,kind:'examCueShape',rowsPerTopic:2,minTriggerLength:6,minActionLength:12}),
+      Object.freeze({legacy:81,kind:'examCueUnique',rowsPerTopic:2}),
+      Object.freeze({legacy:82,kind:'cautionLengthMin',min:30}),
+      Object.freeze({legacy:83,kind:'articleHeadingOrder',headings:Object.freeze(['まずここから','用語','解説','仕組み','重要','問題文の手掛かり','注意'])})
+    ]),
+    assessmentStructure:Object.freeze([
+      Object.freeze({legacy:94,kind:'comparisonChallengeCount',count:69}),
+      Object.freeze({legacy:95,kind:'comparisonChallengesNotImmediate'}),
+      Object.freeze({legacy:96,kind:'chapterExtrasCount',count:9}),
+      Object.freeze({legacy:97,kind:'chapterExtrasUniqueIds'}),
+      Object.freeze({legacy:98,kind:'chapterExtrasFourChoicesAndExplanations'}),
+      Object.freeze({legacy:99,kind:'chapterExtraAnswerContracts'}),
+      Object.freeze({legacy:100,kind:'chapterExtraRequired',id:'chapterextra_01_01',angle:'comparison'}),
+      Object.freeze({legacy:101,kind:'chapterExtraRequired',id:'chapterextra_13_01',angle:'comparison'}),
+      Object.freeze({legacy:102,kind:'chapterPoolMinimum',min:12}),
+      Object.freeze({legacy:103,kind:'chapterQuizTotal',count:12}),
+      Object.freeze({legacy:104,kind:'chapterQuizTopicCoverage'}),
+      Object.freeze({legacy:105,kind:'chapterQuizComparisonCoverage',cap:3}),
+      Object.freeze({legacy:106,kind:'chapterQuizCalculationCoverage'}),
+      Object.freeze({legacy:107,kind:'chapterQuizDifficultyBalance'}),
+      Object.freeze({legacy:108,kind:'chapterQuizMaxPerTopic',minTopicTotal:6,max:2}),
+      Object.freeze({legacy:109,kind:'chapterQuizMaxPerTopic',minTopicTotal:4,maxTopicTotal:5,max:3}),
+      Object.freeze({legacy:110,kind:'linkedQuestionsPerTopic',count:3})
+    ]),
+    lessonPages:Object.freeze([
+      Object.freeze({legacy:176,kind:'allLessonsHavePages',min:1})
+    ]),
+    referenceAnchors:Object.freeze([
+      Object.freeze({legacy:200,kind:'referenceAnchorImmediatePracticeMin',min:3}),
+      Object.freeze({legacy:201,kind:'referenceAnchorAppliedPractice',angles:Object.freeze(['application','scenario','calculation','interpretation','trace'])})
+    ]),
+    settingsHelper:Object.freeze([
+      Object.freeze({legacy:224,kind:'settingsDetailHelper'})
+    ]),
+    requiredDom:Object.freeze([
+      Object.freeze({legacy:292,kind:'requiredDomIds',ids:Object.freeze(['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'])})
+    ])
+  });
+
+  function feqReleaseSentinelLegacyIndices(){
+    return Object.values(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec).flatMap(rows=>rows.map(r=>r.legacy)).sort((a,b)=>a-b);
+  }
+
+  function feqExpectedReleaseSentinelIndices(){
+    return Object.entries(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups)
+      .filter(([name])=>name!=='criticalCurriculum')
+      .flatMap(([_name,row])=>feqExpandLegacyRanges(row.ranges))
+      .sort((a,b)=>a-b);
+  }
+
+  function feqDeclarativeCiCoverage(){
+    const critical=feqCriticalCurriculumLegacyIndices();
+    const release=feqReleaseSentinelLegacyIndices();
+    const all=[...critical,...release].sort((a,b)=>a-b);
+    const unique=[...new Set(all)];
+    const expected=feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
+    return {
+      critical:critical.length,
+      release:release.length,
+      total:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n)
+    };
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec=releaseSentinelSpec;
+  globalThis.feqReleaseSentinelLegacyIndices=feqReleaseSentinelLegacyIndices;
+  globalThis.feqExpectedReleaseSentinelIndices=feqExpectedReleaseSentinelIndices;
+globalThis.feqDeclarativeCiCoverage=feqDeclarativeCiCoverage;
+})();
+
