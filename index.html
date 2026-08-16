@@ -22,13 +22,13 @@
 {% capture v142block %}{% include_relative app/v142-block-00.txt %}{% endcapture %}
 {% capture v143block %}{% include_relative app/v143-block-00.txt %}{% endcapture %}
 {% capture v144block %}{% include_relative app/v144-block-00.txt %}{% endcapture %}
-{% capture semanticRuntime %}{% include_relative app/runtime-semantic-diagnostics-00.txt %}{% include_relative app/runtime-semantic-diagnostics-01.txt %}{% include_relative app/runtime-semantic-diagnostics-02.txt %}{% include_relative app/runtime-semantic-diagnostics-03.txt %}{% include_relative app/runtime-semantic-diagnostics-04.txt %}{% include_relative app/runtime-semantic-diagnostics-05.txt %}{% include_relative app/runtime-semantic-diagnostics-06.txt %}{% include_relative app/runtime-semantic-diagnostics-07.txt %}{% include_relative app/runtime-semantic-diagnostics-08.txt %}{% endcapture %}
+{% capture semanticRuntime %}{% include_relative app/runtime-semantic-diagnostics.txt %}{% endcapture %}
 {% capture diagnosticDataPrelude %}{% include_relative app/runtime-diagnostic-data-prelude.txt %}{% endcapture %}
 {% capture diagnosticDataFinalize %}{% include_relative app/runtime-diagnostic-data-finalize.txt %}{% endcapture %}
 {% capture diagnosticWrapper %}{% include_relative app/runtime-diagnostic-wrapper.txt %}{% endcapture %}
-{% capture v162block %}{% include_relative app/v162-block-00.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v162</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v162';" %}
-{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV162SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ diagnosticWrapper }}{{ v162block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v163block %}{% include_relative app/v163-block-00.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v163</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v163';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV163SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ diagnosticWrapper }}{{ v163block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
