@@ -53,7 +53,17 @@ jobs:
           verbose: true
 
       - name: Prepare approved-content reference and parent reference
-        run: python3 .github/content-release/prepare_reference.py
+        shell: bash
+        run: |
+          set +e
+          python3 .github/content-release/prepare_reference.py 2>prepare-reference.err
+          rc=$?
+          if [[ $rc -ne 0 ]]; then
+            msg="$(tr '\n' ' ' < prepare-reference.err | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')"
+            echo "::error file=.github/content-release/prepare_reference.py,line=1::${msg}"
+            cat prepare-reference.err >&2
+            exit $rc
+          fi
 
       - name: Build approved-content reference
         uses: actions/jekyll-build-pages@v1
