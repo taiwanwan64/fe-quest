@@ -1,0 +1,19 @@
+FE QUEST v157 FINAL RELEASE MARKER
+Date: 2026-08-16 JST
+
+- v157 formal validation succeeded: run 31917397116 / job 95091491233.
+- current-contract 71/71.
+- stable diagnostic helpers 17.
+- retired versioned diagnostic function globals 46/46 absent from production.
+- semantic diagnostic data keys 6.
+- versioned diagnostic backing globals 6/6 absent from production.
+- browser UI contracts 23/23 plus required DOM.
+- critical curriculum 56/56.
+- remaining release sentinel 28/28.
+- declarative CI-only coverage 84/84 exact.
+- legacy release-only shadow 293 asserts / raw errors 22 / residual active errors 0.
+- Subject A 710 questions / unique IDs 710 / answers A178 B178 C177 D177 / cognition 想起166 適用323 判断221.
+- Profile Schema v5.
+- Temporary v157 validation workflow, validator and runtime smoke stub have been removed from main.
+- Detailed architecture audit: audits/SEMANTIC_DIAGNOSTIC_DATA_BACKING_REMOVAL_AUDIT_v157.txt.
+- This marker is intentionally source-neutral and exists so the final cleaned release commit itself can receive an isolated GitHub Pages build/deploy verification.
