@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v167",
+  "name": "FE QUEST v168",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v167ではbase-v131に対してproductionで順番に適用されているv132〜v144の47個の学習機能パッチを宣言的なsource inventoryとして固定し、各blockのハッシュ・バイト数・宣言シンボル・assembly順を回帰検証可能にした。学習UI・問題文・選択肢・正答・Profile Schema・現行semantic runtimeは変更せず、current-contract 71、科目A710問、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v168ではv167で固定したv132〜v144・47個のproduction学習パッチを変更せず、patch間の宣言・参照・write chain・effect markerをsource-level dependency mapとして追加した。自動的な削除判定は行わず、統合候補は必ず同値性テスト対象として扱う。current-contract 71、科目A710問、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",

@@ -1,0 +1,142 @@
+FE QUEST v168 — Patch Effect / Dependency Audit
+================================================
+
+Scope
+-----
+v168 analyzes the already-frozen v132-v144 production learning patch chain without changing any learning block. This is source-level dependency/effect inventory only. It is not a semantic proof and it does not authorize removal of any block.
+
+Source inventory
+----------------
+Patch source fixture: _regression/production-patch-chain-v167.fixture.json
+Versions: 13
+Blocks: 47
+Patch concat bytes: 405723
+Patch concat SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Base SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+
+Dependency/effect summary
+-------------------------
+Patch-to-patch dependency edges: 18
+Dependency provider blocks: 14
+Effect-marker-bearing blocks: 40
+Rewrite-chain review blocks: 39
+Patch-local leaf review blocks: 7
+Repeated definition chains: 20
+Repeated exact write chains: 21
+Equivalence-test candidates: 46
+Automatic removal candidates: 0
+
+Effect marker counts
+--------------------
+- assignment_write_marker: 8
+- audit_contract_reference: 7
+- dom_reference: 1
+- global_export_write: 4
+- late_fix_or_boot: 1
+- question_bank_reference: 39
+
+Repeated definition chains
+--------------------------
+- a: app/v138-block-00.txt -> app/v138-block-01.txt -> app/v138-block-02.txt -> app/v138-block-03.txt -> app/v138-block-04.txt -> app/v138-block-05.txt -> app/v138-block-06.txt -> app/v138-block-07.txt -> app/v139-block-00.txt -> app/v139-block-01.txt -> app/v140-block-00.txt
+- active: app/v142-block-00.txt -> app/v143-block-00.txt
+- afterChars: app/v141-block-00.txt -> app/v142-block-00.txt
+- answerBefore: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- answerDistribution: app/v141-block-00.txt -> app/v143-block-00.txt
+- beforeChars: app/v141-block-00.txt -> app/v142-block-00.txt
+- changedChoices: app/v141-block-00.txt -> app/v142-block-00.txt
+- cognitiveDistribution: app/v141-block-00.txt -> app/v143-block-00.txt
+- errors: app/v142-block-00.txt -> app/v144-block-00.txt
+- exp: app/v141-block-00.txt -> app/v142-block-00.txt
+- idBefore: app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- legacy: app/v142-block-00.txt -> app/v144-block-00.txt
+- nodeMinimalDom: app/v143-block-00.txt -> app/v144-block-00.txt
+- patch: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- pos: app/v141-block-00.txt -> app/v142-block-00.txt
+- q: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v134-block-06.txt -> app/v135-block-00.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt -> app/v138-block-00.txt -> app/v138-block-01.txt -> app/v138-block-02.txt -> app/v138-block-03.txt -> app/v138-block-04.txt -> app/v138-block-05.txt -> app/v138-block-06.txt -> app/v138-block-07.txt -> app/v139-block-00.txt -> app/v139-block-01.txt -> app/v140-block-00.txt -> app/v141-block-00.txt -> app/v143-block-00.txt
+- result: app/v142-block-00.txt -> app/v143-block-00.txt -> app/v144-block-00.txt
+- specific: app/v141-block-00.txt -> app/v142-block-00.txt
+- targetIds: app/v141-block-00.txt -> app/v142-block-00.txt
+- warnings: app/v142-block-00.txt -> app/v143-block-00.txt -> app/v144-block-00.txt
+
+Repeated exact write chains
+---------------------------
+- assign:q.qualityAudit: app/v135-block-00.txt -> app/v139-block-00.txt -> app/v139-block-01.txt -> app/v141-block-00.txt -> app/v142-block-00.txt -> app/v143-block-00.txt
+- lexical:a: app/v138-block-00.txt -> app/v138-block-01.txt -> app/v138-block-02.txt -> app/v138-block-03.txt -> app/v138-block-04.txt -> app/v138-block-05.txt -> app/v138-block-06.txt -> app/v138-block-07.txt -> app/v139-block-00.txt -> app/v139-block-01.txt -> app/v140-block-00.txt
+- lexical:active: app/v142-block-00.txt -> app/v143-block-00.txt
+- lexical:afterChars: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:answerBefore: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- lexical:answerDistribution: app/v141-block-00.txt -> app/v143-block-00.txt
+- lexical:beforeChars: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:changedChoices: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:cognitiveDistribution: app/v141-block-00.txt -> app/v143-block-00.txt
+- lexical:errors: app/v142-block-00.txt -> app/v144-block-00.txt
+- lexical:exp: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:idBefore: app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- lexical:legacy: app/v142-block-00.txt -> app/v144-block-00.txt
+- lexical:nodeMinimalDom: app/v143-block-00.txt -> app/v144-block-00.txt
+- lexical:patch: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt
+- lexical:pos: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:q: app/v132-block-07.txt -> app/v133-block-00.txt -> app/v133-block-01.txt -> app/v133-block-02.txt -> app/v133-block-03.txt -> app/v133-block-04.txt -> app/v133-block-05.txt -> app/v134-block-00.txt -> app/v134-block-01.txt -> app/v134-block-02.txt -> app/v134-block-03.txt -> app/v134-block-04.txt -> app/v134-block-05.txt -> app/v134-block-06.txt -> app/v135-block-00.txt -> app/v136-block-00.txt -> app/v136-block-01.txt -> app/v136-block-02.txt -> app/v136-block-03.txt -> app/v136-block-04.txt -> app/v136-block-05.txt -> app/v136-block-06.txt -> app/v136-block-07.txt -> app/v137-block-00.txt -> app/v138-block-00.txt -> app/v138-block-01.txt -> app/v138-block-02.txt -> app/v138-block-03.txt -> app/v138-block-04.txt -> app/v138-block-05.txt -> app/v138-block-06.txt -> app/v138-block-07.txt -> app/v139-block-00.txt -> app/v139-block-01.txt -> app/v140-block-00.txt -> app/v141-block-00.txt -> app/v143-block-00.txt
+- lexical:result: app/v142-block-00.txt -> app/v143-block-00.txt -> app/v144-block-00.txt
+- lexical:specific: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:targetIds: app/v141-block-00.txt -> app/v142-block-00.txt
+- lexical:warnings: app/v142-block-00.txt -> app/v143-block-00.txt -> app/v144-block-00.txt
+
+Blocks flagged for future equivalence testing
+---------------------------------------------
+- app/v132-block-00.txt: patch-local-leaf-review
+- app/v132-block-01.txt: patch-local-leaf-review
+- app/v132-block-02.txt: patch-local-leaf-review
+- app/v132-block-03.txt: patch-local-leaf-review
+- app/v132-block-04.txt: patch-local-leaf-review
+- app/v132-block-05.txt: patch-local-leaf-review
+- app/v132-block-06.txt: patch-local-leaf-review
+- app/v132-block-07.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-00.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-01.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-02.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-03.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-04.txt: rewrite-chain-review, effect-marker-bearing
+- app/v133-block-05.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-00.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-01.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-02.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-03.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-04.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-05.txt: rewrite-chain-review, effect-marker-bearing
+- app/v134-block-06.txt: rewrite-chain-review, effect-marker-bearing
+- app/v135-block-00.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-00.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-01.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-02.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-03.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-04.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-05.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-06.txt: rewrite-chain-review, effect-marker-bearing
+- app/v136-block-07.txt: rewrite-chain-review, effect-marker-bearing
+- app/v137-block-00.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-00.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-01.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-02.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-03.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-04.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-05.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-06.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v138-block-07.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v139-block-00.txt: dependency-provider, rewrite-chain-review, effect-marker-bearing
+- app/v139-block-01.txt: dependency-consumer, rewrite-chain-review, effect-marker-bearing
+- app/v140-block-00.txt: dependency-provider, dependency-consumer, rewrite-chain-review, effect-marker-bearing
+- app/v141-block-00.txt: dependency-provider, dependency-consumer, rewrite-chain-review, effect-marker-bearing
+- app/v142-block-00.txt: dependency-provider, dependency-consumer, rewrite-chain-review, effect-marker-bearing
+- app/v143-block-00.txt: dependency-provider, dependency-consumer, rewrite-chain-review, effect-marker-bearing
+- app/v144-block-00.txt: dependency-consumer, rewrite-chain-review, effect-marker-bearing
+
+Interpretation policy
+---------------------
+A dependency edge means a later patch references a symbol defined by an earlier patch, with the nearest prior patch definition selected as provider. Effect markers are lexical source markers and do not prove top-level execution. A patch-local leaf may still be consumed by base-v131 code or by runtime behavior not represented by patch-to-patch symbol edges. A rewrite-chain member may still perform required intermediate work.
+
+Therefore v168 sets automatic_removal_candidate=false for every block. Any future consolidation must first create explicit generated-output/runtime equivalence tests for the candidate group being changed.
+
+Release policy
+--------------
+No question text, choices, answers, cognitive-level labels, Profile Schema data, base learning source, v132-v144 learning blocks, or stable semantic runtime are changed in v168.

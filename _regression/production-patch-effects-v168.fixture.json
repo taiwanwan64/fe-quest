@@ -1,0 +1,2886 @@
+{
+  "name": "production-patch-effects-v168",
+  "version": "v168",
+  "scope": "active-learning-patch-chain-v132-v144",
+  "policy": "analysis-only-no-consolidation-no-automatic-removal",
+  "source_inventory": {
+    "path": "_regression/production-patch-chain-v167.fixture.json",
+    "utf8_bytes": 40326,
+    "sha256": "a9cef4b42015a6adb0e64b1383fdfc77537f6ac943ad8f74b9b12caf870d543e"
+  },
+  "base": {
+    "path": "app/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a"
+  },
+  "patch_concat": {
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "analysis_method": {
+    "kind": "deterministic-source-level-lexical-effect-dependency-analysis",
+    "dependency_scope": "v132-v144 patch-defined symbols only; nearest prior patch definition is selected as provider",
+    "effect_scope": "explicit source markers only; presence does not imply top-level execution",
+    "strings_comments": "removed before dependency token analysis",
+    "semantic_proof": false,
+    "automatic_redundancy_decisions": false,
+    "removal_requires_equivalence_test": true
+  },
+  "summary": {
+    "version_count": 13,
+    "block_count": 47,
+    "dependency_edges": 18,
+    "dependency_provider_blocks": 14,
+    "effect_marker_blocks": 40,
+    "rewrite_review_blocks": 39,
+    "patch_local_leaf_review_blocks": 7,
+    "definition_chains": 20,
+    "write_chains": 21,
+    "equivalence_test_candidates": 46,
+    "automatic_removal_candidates": 0,
+    "effect_category_counts": {
+      "assignment_write_marker": 8,
+      "audit_contract_reference": 7,
+      "dom_reference": 1,
+      "global_export_write": 4,
+      "late_fix_or_boot": 1,
+      "question_bank_reference": 39
+    }
+  },
+  "dependency_edges": [
+    {
+      "provider": "app/v138-block-00.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_0"
+    },
+    {
+      "provider": "app/v138-block-01.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_1"
+    },
+    {
+      "provider": "app/v138-block-02.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_2"
+    },
+    {
+      "provider": "app/v138-block-03.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_3"
+    },
+    {
+      "provider": "app/v138-block-04.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_4"
+    },
+    {
+      "provider": "app/v138-block-05.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_5"
+    },
+    {
+      "provider": "app/v138-block-06.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_6"
+    },
+    {
+      "provider": "app/v138-block-07.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "SUBJECT_A_V138_IDS_7"
+    },
+    {
+      "provider": "app/v138-block-07.txt",
+      "consumer": "app/v138-block-08.txt",
+      "symbol": "q"
+    },
+    {
+      "provider": "app/v139-block-00.txt",
+      "consumer": "app/v139-block-01.txt",
+      "symbol": "SUBJECT_A_V139_IDS_0"
+    },
+    {
+      "provider": "app/v137-block-00.txt",
+      "consumer": "app/v140-block-00.txt",
+      "symbol": "patch"
+    },
+    {
+      "provider": "app/v140-block-00.txt",
+      "consumer": "app/v141-block-00.txt",
+      "symbol": "a"
+    },
+    {
+      "provider": "app/v140-block-00.txt",
+      "consumer": "app/v142-block-00.txt",
+      "symbol": "a"
+    },
+    {
+      "provider": "app/v141-block-00.txt",
+      "consumer": "app/v142-block-00.txt",
+      "symbol": "q"
+    },
+    {
+      "provider": "app/v140-block-00.txt",
+      "consumer": "app/v143-block-00.txt",
+      "symbol": "a"
+    },
+    {
+      "provider": "app/v142-block-00.txt",
+      "consumer": "app/v143-block-00.txt",
+      "symbol": "errors"
+    },
+    {
+      "provider": "app/v142-block-00.txt",
+      "consumer": "app/v143-block-00.txt",
+      "symbol": "v142NormalizeSelfCheck"
+    },
+    {
+      "provider": "app/v143-block-00.txt",
+      "consumer": "app/v144-block-00.txt",
+      "symbol": "v143NormalizeSelfCheck"
+    }
+  ],
+  "definition_chains": [
+    {
+      "symbol": "a",
+      "blocks": [
+        "app/v138-block-00.txt",
+        "app/v138-block-01.txt",
+        "app/v138-block-02.txt",
+        "app/v138-block-03.txt",
+        "app/v138-block-04.txt",
+        "app/v138-block-05.txt",
+        "app/v138-block-06.txt",
+        "app/v138-block-07.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v140-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "active",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "afterChars",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "answerBefore",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "answerDistribution",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "beforeChars",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "changedChoices",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "cognitiveDistribution",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "errors",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "exp",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "idBefore",
+      "blocks": [
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "legacy",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "nodeMinimalDom",
+      "blocks": [
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "patch",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "pos",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "q",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v134-block-06.txt",
+        "app/v135-block-00.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt",
+        "app/v138-block-00.txt",
+        "app/v138-block-01.txt",
+        "app/v138-block-02.txt",
+        "app/v138-block-03.txt",
+        "app/v138-block-04.txt",
+        "app/v138-block-05.txt",
+        "app/v138-block-06.txt",
+        "app/v138-block-07.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v140-block-00.txt",
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "result",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "specific",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "targetIds",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "symbol": "warnings",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    }
+  ],
+  "write_chains": [
+    {
+      "target": "assign:q.qualityAudit",
+      "blocks": [
+        "app/v135-block-00.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:a",
+      "blocks": [
+        "app/v138-block-00.txt",
+        "app/v138-block-01.txt",
+        "app/v138-block-02.txt",
+        "app/v138-block-03.txt",
+        "app/v138-block-04.txt",
+        "app/v138-block-05.txt",
+        "app/v138-block-06.txt",
+        "app/v138-block-07.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v140-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:active",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:afterChars",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:answerBefore",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:answerDistribution",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:beforeChars",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:changedChoices",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:cognitiveDistribution",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:errors",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:exp",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:idBefore",
+      "blocks": [
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:legacy",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:nodeMinimalDom",
+      "blocks": [
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:patch",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:pos",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:q",
+      "blocks": [
+        "app/v132-block-07.txt",
+        "app/v133-block-00.txt",
+        "app/v133-block-01.txt",
+        "app/v133-block-02.txt",
+        "app/v133-block-03.txt",
+        "app/v133-block-04.txt",
+        "app/v133-block-05.txt",
+        "app/v134-block-00.txt",
+        "app/v134-block-01.txt",
+        "app/v134-block-02.txt",
+        "app/v134-block-03.txt",
+        "app/v134-block-04.txt",
+        "app/v134-block-05.txt",
+        "app/v134-block-06.txt",
+        "app/v135-block-00.txt",
+        "app/v136-block-00.txt",
+        "app/v136-block-01.txt",
+        "app/v136-block-02.txt",
+        "app/v136-block-03.txt",
+        "app/v136-block-04.txt",
+        "app/v136-block-05.txt",
+        "app/v136-block-06.txt",
+        "app/v136-block-07.txt",
+        "app/v137-block-00.txt",
+        "app/v138-block-00.txt",
+        "app/v138-block-01.txt",
+        "app/v138-block-02.txt",
+        "app/v138-block-03.txt",
+        "app/v138-block-04.txt",
+        "app/v138-block-05.txt",
+        "app/v138-block-06.txt",
+        "app/v138-block-07.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v140-block-00.txt",
+        "app/v141-block-00.txt",
+        "app/v143-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:result",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:specific",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:targetIds",
+      "blocks": [
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt"
+      ]
+    },
+    {
+      "target": "lexical:warnings",
+      "blocks": [
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt",
+        "app/v144-block-00.txt"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "path": "app/v132-block-00.txt",
+      "version": "v132",
+      "block": "v132-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V132_STYLE_CUE_OVERRIDES"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V132_STYLE_CUE_OVERRIDES"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-01.txt",
+      "version": "v132",
+      "block": "v132-block-01.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-02.txt",
+      "version": "v132",
+      "block": "v132-block-02.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-03.txt",
+      "version": "v132",
+      "block": "v132-block-03.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-04.txt",
+      "version": "v132",
+      "block": "v132-block-04.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-05.txt",
+      "version": "v132",
+      "block": "v132-block-05.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-06.txt",
+      "version": "v132",
+      "block": "v132-block-06.txt",
+      "definitions": [],
+      "write_targets": [],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "patch-local-leaf-review"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v132-block-07.txt",
+      "version": "v132",
+      "block": "v132-block-07.txt",
+      "definitions": [
+        "SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "assign:q.styleCueAudit",
+        "lexical:SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-00.txt",
+      "version": "v133",
+      "block": "v133-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_0",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_0",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-01.txt",
+      "version": "v133",
+      "block": "v133-block-01.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_1",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_1",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-02.txt",
+      "version": "v133",
+      "block": "v133-block-02.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_2",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_2",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-03.txt",
+      "version": "v133",
+      "block": "v133-block-03.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_3",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_3",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-04.txt",
+      "version": "v133",
+      "block": "v133-block-04.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_4",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_4",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v133-block-05.txt",
+      "version": "v133",
+      "block": "v133-block-05.txt",
+      "definitions": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_5",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_5",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-00.txt",
+      "version": "v134",
+      "block": "v134-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_0",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_0",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-01.txt",
+      "version": "v134",
+      "block": "v134-block-01.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_1",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_1",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-02.txt",
+      "version": "v134",
+      "block": "v134-block-02.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_2",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_2",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-03.txt",
+      "version": "v134",
+      "block": "v134-block-03.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_3",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_3",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-04.txt",
+      "version": "v134",
+      "block": "v134-block-04.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_4",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_4",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-05.txt",
+      "version": "v134",
+      "block": "v134-block-05.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_5",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_5",
+        "lexical:answerBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v134-block-06.txt",
+      "version": "v134",
+      "block": "v134-block-06.txt",
+      "definitions": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDE_IDS",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDE_IDS",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "exp"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v135-block-00.txt",
+      "version": "v135",
+      "block": "v135-block-00.txt",
+      "definitions": [
+        "manual",
+        "q",
+        "residual"
+      ],
+      "write_targets": [
+        "assign:q.choiceExps",
+        "assign:q.qualityAudit",
+        "lexical:manual",
+        "lexical:q",
+        "lexical:residual"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-00.txt",
+      "version": "v136",
+      "block": "v136-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_0",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_0",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-01.txt",
+      "version": "v136",
+      "block": "v136-block-01.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_1",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_1",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-02.txt",
+      "version": "v136",
+      "block": "v136-block-02.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_2",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_2",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-03.txt",
+      "version": "v136",
+      "block": "v136-block-03.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_3",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_3",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-04.txt",
+      "version": "v136",
+      "block": "v136-block-04.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_4",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_4",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-05.txt",
+      "version": "v136",
+      "block": "v136-block-05.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_5",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_5",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-06.txt",
+      "version": "v136",
+      "block": "v136-block-06.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_6",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_6",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v136-block-07.txt",
+      "version": "v136",
+      "block": "v136-block-07.txt",
+      "definitions": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_7",
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_7",
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v137-block-00.txt",
+      "version": "v137",
+      "block": "v137-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V137_CONTEXT_OVERRIDES",
+        "SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V137_CONTEXT_OVERRIDES",
+        "lexical:SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS",
+        "lexical:answerBefore",
+        "lexical:idBefore",
+        "lexical:patch",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [
+        "patch"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-00.txt",
+      "version": "v138",
+      "block": "v138-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_0",
+        "SUBJECT_A_V138_OVERRIDES_0",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_0",
+        "lexical:SUBJECT_A_V138_OVERRIDES_0",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_0"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-01.txt",
+      "version": "v138",
+      "block": "v138-block-01.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_1",
+        "SUBJECT_A_V138_OVERRIDES_1",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_1",
+        "lexical:SUBJECT_A_V138_OVERRIDES_1",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_1"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-02.txt",
+      "version": "v138",
+      "block": "v138-block-02.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_2",
+        "SUBJECT_A_V138_OVERRIDES_2",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_2",
+        "lexical:SUBJECT_A_V138_OVERRIDES_2",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_2"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-03.txt",
+      "version": "v138",
+      "block": "v138-block-03.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_3",
+        "SUBJECT_A_V138_OVERRIDES_3",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_3",
+        "lexical:SUBJECT_A_V138_OVERRIDES_3",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_3"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-04.txt",
+      "version": "v138",
+      "block": "v138-block-04.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_4",
+        "SUBJECT_A_V138_OVERRIDES_4",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_4",
+        "lexical:SUBJECT_A_V138_OVERRIDES_4",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_4"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-05.txt",
+      "version": "v138",
+      "block": "v138-block-05.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_5",
+        "SUBJECT_A_V138_OVERRIDES_5",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_5",
+        "lexical:SUBJECT_A_V138_OVERRIDES_5",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_5"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-06.txt",
+      "version": "v138",
+      "block": "v138-block-06.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_6",
+        "SUBJECT_A_V138_OVERRIDES_6",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_6",
+        "lexical:SUBJECT_A_V138_OVERRIDES_6",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_6"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-07.txt",
+      "version": "v138",
+      "block": "v138-block-07.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS_7",
+        "SUBJECT_A_V138_OVERRIDES_7",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS_7",
+        "lexical:SUBJECT_A_V138_OVERRIDES_7",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V138_IDS_7",
+        "q"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 2,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v138-block-08.txt",
+      "version": "v138",
+      "block": "v138-block-08.txt",
+      "definitions": [
+        "SUBJECT_A_V138_IDS"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V138_IDS"
+      ],
+      "patch_symbol_references": [
+        "SUBJECT_A_V138_IDS_0",
+        "SUBJECT_A_V138_IDS_1",
+        "SUBJECT_A_V138_IDS_2",
+        "SUBJECT_A_V138_IDS_3",
+        "SUBJECT_A_V138_IDS_4",
+        "SUBJECT_A_V138_IDS_5",
+        "SUBJECT_A_V138_IDS_6",
+        "SUBJECT_A_V138_IDS_7",
+        "q"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [
+        "SUBJECT_A_V138_IDS_0",
+        "SUBJECT_A_V138_IDS_1",
+        "SUBJECT_A_V138_IDS_2",
+        "SUBJECT_A_V138_IDS_3",
+        "SUBJECT_A_V138_IDS_4",
+        "SUBJECT_A_V138_IDS_5",
+        "SUBJECT_A_V138_IDS_6",
+        "SUBJECT_A_V138_IDS_7",
+        "q"
+      ],
+      "dependency_edge_count_in": 9,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-consumer",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": false,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v139-block-00.txt",
+      "version": "v139",
+      "block": "v139-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V139_IDS_0",
+        "SUBJECT_A_V139_SUFFIXES_0",
+        "a",
+        "q"
+      ],
+      "write_targets": [
+        "assign:q.qualityAudit",
+        "lexical:SUBJECT_A_V139_IDS_0",
+        "lexical:SUBJECT_A_V139_SUFFIXES_0",
+        "lexical:a",
+        "lexical:q"
+      ],
+      "patch_symbol_references": [
+        "s"
+      ],
+      "provided_to_later_symbols": [
+        "SUBJECT_A_V139_IDS_0"
+      ],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-provider",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v139-block-01.txt",
+      "version": "v139",
+      "block": "v139-block-01.txt",
+      "definitions": [
+        "SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS",
+        "SUBJECT_A_V139_IDS",
+        "SUBJECT_A_V139_IDS_1",
+        "SUBJECT_A_V139_SUFFIXES_1",
+        "a",
+        "q",
+        "wrong"
+      ],
+      "write_targets": [
+        "assign:q.qualityAudit",
+        "lexical:SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS",
+        "lexical:SUBJECT_A_V139_IDS",
+        "lexical:SUBJECT_A_V139_IDS_1",
+        "lexical:SUBJECT_A_V139_SUFFIXES_1",
+        "lexical:a",
+        "lexical:q",
+        "lexical:wrong"
+      ],
+      "patch_symbol_references": [
+        "SUBJECT_A_V139_IDS_0",
+        "s"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [
+        "SUBJECT_A_V139_IDS_0"
+      ],
+      "dependency_edge_count_in": 1,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": false,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v140-block-00.txt",
+      "version": "v140",
+      "block": "v140-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V140_IDS",
+        "SUBJECT_A_V140_OVERRIDES",
+        "a",
+        "q",
+        "touched"
+      ],
+      "write_targets": [
+        "lexical:SUBJECT_A_V140_IDS",
+        "lexical:SUBJECT_A_V140_OVERRIDES",
+        "lexical:a",
+        "lexical:q",
+        "lexical:touched"
+      ],
+      "patch_symbol_references": [
+        "patch"
+      ],
+      "provided_to_later_symbols": [
+        "a"
+      ],
+      "consumed_from_prior_symbols": [
+        "patch"
+      ],
+      "dependency_edge_count_in": 1,
+      "dependency_edge_count_out": 3,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": false,
+        "assignment_write_marker": false
+      },
+      "roles": [
+        "dependency-provider",
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v141-block-00.txt",
+      "version": "v141",
+      "block": "v141-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V141_DENSITY_AUDIT",
+        "afterChars",
+        "answerDistribution",
+        "beforeChars",
+        "changedChoices",
+        "cognitiveDistribution",
+        "current",
+        "exp",
+        "hitIndexes",
+        "pos",
+        "q",
+        "specific",
+        "targetIds"
+      ],
+      "write_targets": [
+        "assign:globalThis.SUBJECT_A_V141_DENSITY_AUDIT",
+        "assign:q.qualityAudit",
+        "global:SUBJECT_A_V141_DENSITY_AUDIT",
+        "lexical:afterChars",
+        "lexical:answerDistribution",
+        "lexical:beforeChars",
+        "lexical:changedChoices",
+        "lexical:cognitiveDistribution",
+        "lexical:current",
+        "lexical:exp",
+        "lexical:hitIndexes",
+        "lexical:pos",
+        "lexical:q",
+        "lexical:specific",
+        "lexical:targetIds"
+      ],
+      "patch_symbol_references": [
+        "a"
+      ],
+      "provided_to_later_symbols": [
+        "q"
+      ],
+      "consumed_from_prior_symbols": [
+        "a"
+      ],
+      "dependency_edge_count_in": 1,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": true,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-provider",
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v142-block-00.txt",
+      "version": "v142",
+      "block": "v142-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V142_SINGLE_EXP_AUDIT",
+        "active",
+        "afterChars",
+        "allAuditIdsExist",
+        "answerCounts",
+        "application",
+        "beforeChars",
+        "changedChoices",
+        "cognitiveCounts",
+        "currentErrors",
+        "demandTypes",
+        "errors",
+        "exp",
+        "fullExpCopiesAfter",
+        "hardSemantic",
+        "hit",
+        "hits",
+        "laterPassAudits",
+        "legacy",
+        "legacyExact",
+        "legacySemantic",
+        "linkedStemCovered",
+        "originalErrors",
+        "passOrLater",
+        "pos",
+        "promoted",
+        "result",
+        "rewritten",
+        "semantic",
+        "specific",
+        "targetIds",
+        "unknownDemand",
+        "v142NormalizeSelfCheck",
+        "warnings"
+      ],
+      "write_targets": [
+        "assign:globalThis.SUBJECT_A_V142_SINGLE_EXP_AUDIT",
+        "assign:q.qualityAudit",
+        "assign:specific",
+        "function:v142NormalizeSelfCheck",
+        "global:SUBJECT_A_V142_SINGLE_EXP_AUDIT",
+        "lexical:active",
+        "lexical:afterChars",
+        "lexical:allAuditIdsExist",
+        "lexical:answerCounts",
+        "lexical:application",
+        "lexical:beforeChars",
+        "lexical:changedChoices",
+        "lexical:cognitiveCounts",
+        "lexical:currentErrors",
+        "lexical:demandTypes",
+        "lexical:errors",
+        "lexical:exp",
+        "lexical:fullExpCopiesAfter",
+        "lexical:hardSemantic",
+        "lexical:hit",
+        "lexical:hits",
+        "lexical:laterPassAudits",
+        "lexical:legacy",
+        "lexical:legacyExact",
+        "lexical:legacySemantic",
+        "lexical:linkedStemCovered",
+        "lexical:originalErrors",
+        "lexical:passOrLater",
+        "lexical:pos",
+        "lexical:promoted",
+        "lexical:result",
+        "lexical:rewritten",
+        "lexical:semantic",
+        "lexical:specific",
+        "lexical:targetIds",
+        "lexical:unknownDemand",
+        "lexical:warnings"
+      ],
+      "patch_symbol_references": [
+        "a",
+        "e",
+        "q"
+      ],
+      "provided_to_later_symbols": [
+        "errors",
+        "v142NormalizeSelfCheck"
+      ],
+      "consumed_from_prior_symbols": [
+        "a",
+        "q"
+      ],
+      "dependency_edge_count_in": 2,
+      "dependency_edge_count_out": 2,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": true,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-provider",
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v143-block-00.txt",
+      "version": "v143",
+      "block": "v143-block-00.txt",
+      "definitions": [
+        "SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+        "__FEQUEST_RUNTIME_SMOKE__",
+        "active",
+        "answerDistribution",
+        "applyV143LateFixes",
+        "cognitiveDistribution",
+        "correctLen",
+        "deepAdditions",
+        "deferred",
+        "depthShortAfter",
+        "depthShortBefore",
+        "e",
+        "judgment",
+        "lateApplied",
+        "lens",
+        "nodeMinimalDom",
+        "obviousLengthOutlier",
+        "oldJudgmentOption",
+        "optionOutliersAfter",
+        "optionOutliersBefore",
+        "optionPatches",
+        "q",
+        "result",
+        "uiOnly",
+        "v143NormalizeSelfCheck",
+        "warnings"
+      ],
+      "write_targets": [
+        "assign:depthShortAfter",
+        "assign:depthShortBefore",
+        "assign:e.deep",
+        "assign:globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+        "assign:globalThis.applyV143LateFixes",
+        "assign:globalThis.v143NormalizeSelfCheck",
+        "assign:judgment.qualityAudit",
+        "assign:lateApplied",
+        "assign:q.options",
+        "assign:q.qualityAudit",
+        "function:applyV143LateFixes",
+        "function:v143NormalizeSelfCheck",
+        "global:SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+        "global:__FEQUEST_RUNTIME_SMOKE__",
+        "global:applyV143LateFixes",
+        "global:v143NormalizeSelfCheck",
+        "lexical:active",
+        "lexical:answerDistribution",
+        "lexical:cognitiveDistribution",
+        "lexical:correctLen",
+        "lexical:deepAdditions",
+        "lexical:deferred",
+        "lexical:depthShortAfter",
+        "lexical:depthShortBefore",
+        "lexical:e",
+        "lexical:judgment",
+        "lexical:lateApplied",
+        "lexical:lens",
+        "lexical:nodeMinimalDom",
+        "lexical:obviousLengthOutlier",
+        "lexical:oldJudgmentOption",
+        "lexical:optionOutliersAfter",
+        "lexical:optionOutliersBefore",
+        "lexical:optionPatches",
+        "lexical:q",
+        "lexical:result",
+        "lexical:uiOnly",
+        "lexical:warnings"
+      ],
+      "patch_symbol_references": [
+        "a",
+        "errors",
+        "v142NormalizeSelfCheck"
+      ],
+      "provided_to_later_symbols": [
+        "v143NormalizeSelfCheck"
+      ],
+      "consumed_from_prior_symbols": [
+        "a",
+        "errors",
+        "v142NormalizeSelfCheck"
+      ],
+      "dependency_edge_count_in": 3,
+      "dependency_edge_count_out": 1,
+      "effect_flags": {
+        "dom_reference": false,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": true,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": true,
+        "global_export_write": true,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-provider",
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    },
+    {
+      "path": "app/v144-block-00.txt",
+      "version": "v144",
+      "block": "v144-block-00.txt",
+      "definitions": [
+        "FEQUEST_V144_UI_CONTRACT",
+        "UI_CONTRACTS",
+        "V144_UI_CONTRACTS",
+        "errors",
+        "failed",
+        "historicalMetadataWarnings",
+        "legacy",
+        "nodeMinimalDom",
+        "report",
+        "result",
+        "results",
+        "s",
+        "supersededSemanticWarnings",
+        "uiReport",
+        "v144EvaluateBrowserUiContracts",
+        "v144NormalizeSelfCheck",
+        "warningPrefixLegacy",
+        "warningPrefixUi",
+        "warnings"
+      ],
+      "write_targets": [
+        "assign:globalThis.FEQUEST_V144_UI_CONTRACT",
+        "assign:globalThis.V144_UI_CONTRACTS",
+        "assign:globalThis.v144EvaluateBrowserUiContracts",
+        "assign:globalThis.v144NormalizeSelfCheck",
+        "function:v144EvaluateBrowserUiContracts",
+        "function:v144NormalizeSelfCheck",
+        "global:FEQUEST_V144_UI_CONTRACT",
+        "global:V144_UI_CONTRACTS",
+        "global:v144EvaluateBrowserUiContracts",
+        "global:v144NormalizeSelfCheck",
+        "lexical:UI_CONTRACTS",
+        "lexical:errors",
+        "lexical:failed",
+        "lexical:historicalMetadataWarnings",
+        "lexical:legacy",
+        "lexical:nodeMinimalDom",
+        "lexical:report",
+        "lexical:result",
+        "lexical:results",
+        "lexical:s",
+        "lexical:supersededSemanticWarnings",
+        "lexical:uiReport",
+        "lexical:warningPrefixLegacy",
+        "lexical:warningPrefixUi",
+        "lexical:warnings"
+      ],
+      "patch_symbol_references": [
+        "v143NormalizeSelfCheck"
+      ],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [
+        "v143NormalizeSelfCheck"
+      ],
+      "dependency_edge_count_in": 1,
+      "dependency_edge_count_out": 0,
+      "effect_flags": {
+        "dom_reference": true,
+        "dom_write": false,
+        "event_listener": false,
+        "storage_reference": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_or_boot": false,
+        "render_navigation_reference": false,
+        "timer_async_reference": false,
+        "audit_contract_reference": false,
+        "global_export_write": true,
+        "assignment_write_marker": true
+      },
+      "roles": [
+        "dependency-consumer",
+        "rewrite-chain-review",
+        "effect-marker-bearing"
+      ],
+      "equivalence_test_candidate": true,
+      "automatic_removal_candidate": false
+    }
+  ]
+}
