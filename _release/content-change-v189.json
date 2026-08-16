@@ -4,41 +4,20 @@
   "previous_release": "v188",
   "parent_main_sha": "0affd1520d556b7869a8d1496e2fe5c191073591",
   "policy": "explicit-subject-a-question-field-overrides-only",
-  "content_files": [
-    "app/learning-quality-overrides.txt"
-  ],
-  "assembly_files": [
-    "index.html"
-  ],
-  "allowed_question_ids": [
-    "theory-10",
-    "theory-07",
-    "challenge_025",
-    "coreq_14_02_1",
-    "coreq_06_05_1",
-    "coreq_15_01_1",
-    "coreq_18_02_1",
-    "coreq_15_07_1",
-    "challenge_v92_12_06",
-    "strat-06"
-  ],
-  "allowed_changed_question_fields": [
-    "q",
-    "options",
-    "exp",
-    "hint",
-    "choiceExps",
-    "qualityAudit"
-  ],
+  "quality_audit_marker": "v189-high-severity-repair",
+  "content_files": ["app/learning-quality-overrides.txt"],
+  "assembly_files": ["index.html"],
+  "allowed_question_ids": ["theory-10","theory-07","challenge_025","coreq_14_02_1","coreq_06_05_1","coreq_15_01_1","coreq_18_02_1","coreq_15_07_1","challenge_v92_12_06","strat-06"],
+  "allowed_changed_question_fields": ["q","options","exp","hint","choiceExps","qualityAudit"],
   "preserve": {
     "question_count": 710,
     "unique_ids": 710,
-    "answer_distribution": [178, 178, 177, 177],
-    "cognitive_distribution": [166, 323, 221],
+    "answer_distribution": [178,178,177,177],
+    "cognitive_distribution": [166,323,221],
     "answer_index_per_question": true,
     "cognitive_level_per_question": true,
     "category_per_question": true,
     "concept_per_question": true
   },
-  "copyright_policy": "original-fe-quest-wording-only; attached books used only for scope, terminology, emphasis and difficulty calibration"
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration"
 }
