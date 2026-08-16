@@ -1,0 +1,140 @@
+FE QUEST v172 — Formal Validation / Release Evidence
+=====================================================
+
+Release scope
+-------------
+v172 stabilizes the production base-source boundary. The v171 assembler dynamically projected app/base-v131.html by removing the release-only runAppSelfCheck() evaluator during Liquid rendering. v172 materializes that exact projection as app/base-stable.html and includes it directly in production.
+No learner-facing content, question, answer, cognitive metadata, learning behavior, or semantic learning patch was removed or rewritten.
+
+Authoritative parent
+--------------------
+Parent release: v171
+Parent main SHA: fccf3f55c476f0d46b89363e786be6dca37af0dc
+Parent tree: 5d8cb992c3113f7e6fcd83d7fd5dd620270b1027
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v172 stable base validation
+Workflow ID: 335390080
+Run ID: 31929276326
+Run number: 5
+Job ID: 95121564269
+Trigger head SHA: 1c3be04f30b81297cebd84c87b6e09d0abec6c97
+Conclusion: success
+Validated/materialized head SHA: 9c40a7e8bec7e0d7988633e6a7207cf2f871308d
+Validated/materialized tree: 7dce9a24d0178cbaf9b39633e00534ea03044827
+
+Exploratory runs 1–4 were superseded and are not release evidence. They exposed two source-boundary details that were corrected before the authoritative run: (1) the legacy Liquid projection emitted seven structural leading newlines, which v172 now preserves byte-exactly; (2) the semantic wrapper's archive-boundary assertions required the v172 fixture/count to be updated in both metadata and executable contract checks.
+
+Stable production base
+----------------------
+Historical evidence source: app/base-v131.html
+Historical base UTF-8 bytes: 3,041,328
+Historical base SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Historical base remains byte-exact and retained as immutable evidence.
+
+Excluded release-only evaluator range:
+Start marker: function runAppSelfCheck(){
+End marker: function runLessonUXAudit(){
+UTF-8 bytes: 49,657
+SHA-256: b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+Assertions: 293
+Archived byte-exact at: _regression/archive/learning-base/runAppSelfCheck-v131.txt
+Production bundled: false
+
+Stable active base: app/base-stable.html
+UTF-8 bytes: 2,991,671
+SHA-256: c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Derivation: exact base prefix + exact end marker/tail after the 49,657-byte legacy evaluator range
+Exact arithmetic: 3,041,328 - 49,657 = 2,991,671
+Production dynamic legacy split operations: 0
+Production stable base include count: 1
+
+Real GitHub Pages / Jekyll equivalence
+--------------------------------------
+Stable-base generated index.html bytes: 3,474,210
+Stable-base generated index.html SHA-256: 0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f
+Legacy-Liquid reference generated index.html bytes: 3,474,210
+Legacy-Liquid reference generated index.html SHA-256: 0bfb9d18908be9560d402bcadc097577fef50921159a2040003d25ec65aab88f
+Generated HTML byte equality: true
+
+Canonical runtime snapshot SHA-256: 8cbb6b3fdb8ad763a505b9b746cec820813c6508935e95495896813ffdadff7d
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Canonical runtime equality: true
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Stable learning/runtime boundaries
+----------------------------------
+Stable learning module: app/learning-patches.txt
+UTF-8 bytes: 405,723
+SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Source fragments represented: 47
+Active production learning modules: 1
+Learning provenance archive count: 48
+
+Stable semantic runtime: app/runtime-semantic-diagnostics.txt
+UTF-8 bytes: 55,525
+SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Stable runtime helpers: 17
+Retired historical function globals: 46, leaked 0
+Stable wrapper globals: 6
+Retired wrapper globals: 6, leaked 0
+Semantic diagnostic data: 6, versioned backing leaked 0
+
+Release/archive boundary
+------------------------
+Diagnostic/provenance archive count: 54
+Current release adapter: runV172SelfCheck
+Retired release adapter inventory: 12 (runV160SelfCheck through runV171SelfCheck)
+Leaked retired release adapters: 0
+Current release adapters: 1
+Regression archives deployed by Jekyll: 0
+
+Learner-facing / release invariants
+-----------------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Profile Schema: v5
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V172_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V172_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=12 adapter=1 data=6 backing=0 diagnostic-archive=54 learning-archive=48 active-learning=1 active-base=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V172_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V172_BASE_BOUNDARY_OK html-byte-exact=1 runtime-snapshot=1 stable-base=2991671 stable-base-sha=c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac legacy-archive=49657 snapshot=8cbb6b3fdb8ad763a505b9b746cec820813c6508935e95495896813ffdadff7d
+FEQUEST_V172_LEARNING_BOUNDARY_OK stable-learning=405723 learning-archive=48 active-learning-modules=1
+FEQUEST_V172_ARCHIVE_BOUNDARY_OK diagnostic-archive=54 learning-archive=48 base-provenance=1 deployed-archive=0 runtime=55525
+FEQUEST_V172_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=12 adapter=1 data=6 backing=0 diagnostic-archive=54 learning-archive=48 active-learning=1 active-base=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Package from authoritative validation run
+-----------------------------------------
+Inner release ZIP: FE_QUEST_PWA_v172.zip
+Inner release ZIP SHA-256: b4faea0d426258a49ea909085d1387ead61745ab26b1597cd578eeb154644b95
+GitHub Actions artifact name: fe-quest-v172-standalone
+Artifact ID: 9258802765
+Uploaded artifact size: 767,034 bytes
+Artifact wrapper digest SHA-256: de0ec962b49fbecbc02b39790da9cdc47ff9f6c31c55d2cb646ad932a13262d4
+Retention: 90 days
+
+Service worker
+--------------
+APP_VERSION: v172
+Cache: fe-quest-v172-1
+GET_VERSION preserved: yes
+networkWithTimeout preserved: yes
+staleWhileRevalidate preserved: yes
+Range bypass preserved: yes
+
+Release policy
+--------------
+v172 is a physical source-boundary stabilization release. The release-only legacy evaluator remains preserved as regression evidence; app/base-v131.html remains immutable evidence; app/base-stable.html is the single active production base projection. No semantic behavior deletion is authorized by this release.
