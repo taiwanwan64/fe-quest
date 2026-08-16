@@ -1,0 +1,51 @@
+FE QUEST v161 FORMAL VALIDATION
+Date: 2026-08-16 JST
+Repository: taiwanwan64/fe-quest
+Version: v161
+
+Formal real-Jekyll validation
+- Run ID: 31921395188
+- Job ID: 95101696677
+- Validation head SHA: bd9464b8c30676ce659f5e38213a213b747a8bbe
+- Conclusion: success
+- GitHub Pages / Jekyll: github-pages v232 / Jekyll 3.10.0
+
+Validated production contract
+- current: 71/71
+- browser UI: 23/23 + required DOM
+- stable semantic runtime helpers: 17
+- retired versioned diagnostic functions: 46 absent
+- stable wrapper globals: 6
+- retired v159 wrapper globals: 0 in production
+- retired release adapter runV160SelfCheck: 0 in production
+- v161 release adapter: runV161SelfCheck only
+- semantic diagnostic data keys: 6
+- versioned backing globals: 0
+- stable data modules: 2
+- critical curriculum mapping: 56/56
+- remaining release mapping: 28/28
+- CI-only coverage: 84/84
+- legacy fixture: 293 asserts / raw 22 / residual 0
+- production legacy evaluator: 0
+- Subject A: 710 unique questions
+- answers: A178 / B178 / C177 / D177
+- cognitive: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+
+Artifact
+- ID: 9256451840
+- Name: fe-quest-v161-standalone
+- Outer ZIP: 766,616 bytes
+- Outer SHA-256: 030ca1db0c52ee243f2190aeee42ce808d41ab3596f14ec5d2f72ca115be550c
+- Inner FE_QUEST_PWA_v161.zip: 766,735 bytes
+- Inner SHA-256: 5eebf8febf6f524f3db7eb72a469f155e817289d1d04b1725ae87a6e4ad11b29
+- Expanded index.html: 3,473,024 bytes
+- Expanded index SHA-256: 9baef89e02417ce582d6f929224a42d1997ec36e6ce819ca5ffd7fbf136e5418
+- PWA files: exactly 6
+
+Cleanup
+- Temporary workflow removed.
+- Temporary validator removed.
+- Temporary runtime smoke stub removed.
+
+The release commit containing this record is intended to be fast-forwarded to main. Exact final-main Pages build/deploy and Pages API built status are verified after main is moved.
