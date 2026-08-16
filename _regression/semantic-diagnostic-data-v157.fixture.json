@@ -1,0 +1,47 @@
+{
+  "name": "semantic-diagnostic-data-v157",
+  "version": "v157",
+  "archival_runtime": {
+    "path": "app/runtime-current-diagnostics.txt",
+    "sha256": "12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658",
+    "utf8_bytes": 54898
+  },
+  "projection": {
+    "mode": "jekyll-semantic-data-projection-v157",
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "utf8_bytes": 55525,
+    "replacement_count": 6
+  },
+  "prelude": {
+    "path": "app/runtime-diagnostic-data-prelude-v157.txt",
+    "sha256": "318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92",
+    "utf8_bytes": 235
+  },
+  "finalize": {
+    "path": "app/runtime-diagnostic-data-finalize-v157.txt",
+    "sha256": "730d29dfd37a2047d1027aad5cab326eeb5cc4340f6c4e31b7265ead5f3a2520",
+    "utf8_bytes": 1246
+  },
+  "semantic_keys": [
+    "browserUiAdditions",
+    "legacyAssertionInventory",
+    "ciSentinelGroups",
+    "criticalCurriculumSpec",
+    "releaseSentinelSpec",
+    "legacyFixtureSpec"
+  ],
+  "retired_backing_globals": [
+    "V148_EXTRA_UI_CONTRACTS",
+    "V149_LEGACY_ASSERT_INVENTORY",
+    "V150_CI_ONLY_SENTINEL_GROUPS",
+    "V150_CRITICAL_CURRICULUM_SPEC",
+    "V151_RELEASE_SENTINEL_SPEC",
+    "V152_LEGACY_FIXTURE_SPEC"
+  ],
+  "counts": {
+    "semantic": 6,
+    "retired_backing": 6
+  },
+  "production_policy": "semantic-projection-no-versioned-backing-globals",
+  "previous_facade_fixture": "_regression/semantic-diagnostic-data-v156.fixture.json"
+}
