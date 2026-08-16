@@ -1,0 +1,103 @@
+// ===== FE QUEST v202 Subject B intermediate-state prediction repairs =====
+(() => {
+  const audit='v202-intermediate-state-authenticity';
+  const legacyIds=['loop_sum','stack_ops','count_even','matrix_sum','queue_ops','object_counter'];
+  const get=id=>{
+    const ex=B_EXERCISES.find(x=>x.id===id);
+    if(!ex) throw new Error('FE QUEST v202 Subject B exercise missing: '+id);
+    return ex;
+  };
+  const setPred=(id,n,p)=>{
+    const ex=get(id), preds=ex.steps.filter(s=>s.predict).map(s=>s.predict);
+    if(preds.length!==2) throw new Error('FE QUEST v202 prediction count drift: '+id);
+    Object.assign(preds[n-1],p);
+    B_PREDICTION_CONTRACTS[`${id}:${n}`]=String(preds[n-1].opts[preds[n-1].a]);
+  };
+
+  setPred('loop_sum',1,{
+    q:'現在はi=1の加算後でsum=1です。i=2の反復を最後まで実行した直後の状態は？',
+    opts:['i=2, sum=3','i=3, sum=3','i=2, sum=2','i=3, sum=6'],a:0,
+    explain:'現在のsum=1を保持したまま次の反復でi=2となり、加算行で1+2=3へ更新します。2回目の反復を終えた時点なので、状態はi=2, sum=3です。',
+    hint:'ループ変数iの更新と、sumの加算を順番に追います。'
+  });
+  setPred('loop_sum',2,{
+    q:'現在はi=4、加算前のsum=6です。この反復からfor文を抜けるまでの流れは？',
+    opts:['sum=8となりi=5でも加算する','sum=9となりその場で終了する','sum=12となりi=4のまま終了する','sum=10となり、その後for文を終了する'],a:3,
+    explain:'まず加算行でsumは6→10（6+4）になります。i=4の反復を終えると次は上限4を超えるため、追加の加算は行わずfor文を終了します。',
+    hint:'加算を実行してから、次の反復が存在するかを確認します。'
+  });
+
+  setPred('stack_ops',1,{
+    q:'stack=[2,4]から x ← POP(stack) を実行した直後の組合せは？',
+    opts:['x=2, stack=[4]','x=4, stack=[2]','x=4, stack=[2,4]','x=2, stack=[2]'],a:1,
+    explain:'LIFOなのでトップの4が取り出されてx=4になります。同時に4はスタックから消えるため、残る内容は[2]です。返り値とスタック本体を両方更新します。',
+    hint:'POPはトップを返すだけでなく、その要素をスタックから取り除きます。'
+  });
+  setPred('stack_ops',2,{
+    q:'x=4、stack=[2,6]の状態から y ← POP(stack) を実行した直後の全体状態は？',
+    opts:['x=6, y=4, stack=[2]','x=4, y=2, stack=[6]','x=4, y=6, stack=[]','x=4, y=6, stack=[2]'],a:3,
+    explain:'最初のPOPで得たx=4はそのまま保持されます。現在のトップ6を次のPOPで取り出すのでy=6となり、スタックには最初から残っている2だけが残ります。',
+    hint:'前の操作で確定したxと、現在のスタック[2,6]を同時に追います。'
+  });
+
+  setPred('count_even',1,{
+    q:'data[0]からdata[2]まで（3, 8, 11）を処理し終えた直後の状態は？',
+    opts:['i=2, count=0','i=2, count=1','i=3, count=2','i=2, count=2'],a:1,
+    explain:'3は奇数なのでcount=0のまま、8は偶数なので0→1、11は奇数なので1のままです。したがってi=2の処理終了時はcount=1です。',
+    hint:'3つの値を先頭から順に見て、偶数のときだけcountを増やします。'
+  });
+  setPred('count_even',2,{
+    q:'data[4]=20まで全要素を処理し終えたとき、countと増加が起きた添字の組合せは？',
+    opts:['count=2, i=1,3','count=4, i=0,1,3,4','count=3, i=0,2,4','count=3, i=1,3,4'],a:3,
+    explain:'配列[3,8,11,14,20]で偶数なのは8,14,20です。添字ではi=1,3,4の3回だけcountが増えるため、最終状態はcount=3です。',
+    hint:'最終要素だけでなく、どの反復で条件が真だったかを最初から並べます。'
+  });
+
+  setPred('matrix_sum',1,{
+    q:'現在はm[0][0]=1の加算後です。1行目（r=0）をすべて処理し終えた直後の状態は？',
+    opts:['r=1, c=0, sum=3','r=0, c=1, sum=1','r=0, c=1, sum=3','r=1, c=1, sum=4'],a:2,
+    explain:'r=0ではc=0の1に続いてc=1の2を加えます。sumは1→3となり、1行目の最後に処理した位置はr=0,c=1なので、その直後はr=0,c=1,sum=3です。',
+    hint:'内側ループのcを最後まで進めてから、外側ループのrが変わります。'
+  });
+  setPred('matrix_sum',2,{
+    q:'現在はm[1][0]=3の加算後でsum=6です。次の内側ループで、加算行を実行する直前の状態は？',
+    opts:['r=0, c=1, sum=6','r=1, c=1, sum=6','r=1, c=1, sum=10','r=2, c=0, sum=6'],a:1,
+    explain:'同じr=1の行で内側ループのcだけが0→1へ進みます。まだm[1][1]=4を加えていないのでsumは6のままです。次の加算直前はr=1,c=1,sum=6です。',
+    hint:'ループ変数が進む時点と、要素をsumへ加える時点を分けて考えます。'
+  });
+
+  setPred('queue_ops',1,{
+    q:'queue=[3,5]から x ← DEQUEUE(queue) を実行した直後の組合せは？',
+    opts:['x=5, queue=[3]','x=3, queue=[3,5]','x=3, queue=[5]','x=5, queue=[5]'],a:2,
+    explain:'FIFOなので先頭の3が取り出されてx=3になります。同時に3はキューから除かれるため、残るキューは[5]です。返り値とキュー本体を両方更新します。',
+    hint:'DEQUEUEは先頭要素を返し、その要素をキューから取り除きます。'
+  });
+  setPred('queue_ops',2,{
+    q:'x=3、queue=[5,7]の状態から y ← DEQUEUE(queue) を実行した直後の全体状態は？',
+    opts:['x=3, y=5, queue=[7]','x=3, y=7, queue=[5]','x=5, y=7, queue=[]','x=3, y=5, queue=[]'],a:0,
+    explain:'最初のDEQUEUEで得たx=3は保持されます。その後7は末尾に追加されているので、次に取り出す先頭は5です。よってy=5となり、queueには[7]が残ります。',
+    hint:'前のxを保持しつつ、5と7のどちらが先にキューへ入っていたかを確認します。'
+  });
+
+  const obj=get('object_counter');
+  obj.desc='複数のオブジェクトを生成し、メソッド呼出しがそれぞれのフィールドへ与える変化を追います。';
+  obj.code=['class Counter','    value','    procedure inc()','        value ← value + 1','    endprocedure','endclass','a ← Counter(value=2)','b ← Counter(value=5)','a.inc()','b.inc()','a.inc()','a.value, b.value を出力する'];
+  obj.objectName='Counter a / Counter b';
+  obj.steps=[
+    {line:6,state:{'a.value':2,'b.value':'—'},object:{'a.value':2,'b.value':'—'},msg:'aをvalue=2で生成。'},
+    {line:7,state:{'a.value':2,'b.value':5},object:{'a.value':2,'b.value':5},msg:'bをvalue=5で生成。aとbは別々のオブジェクトです。'},
+    {line:8,state:{'a.value':2,'b.value':5},object:{'a.value':2,'b.value':5},msg:'a.inc()を呼び出します。',predict:{q:'a.inc()を1回実行した直後の2つのオブジェクトの状態は？',opts:['a.value=2, b.value=6','a.value=3, b.value=5','a.value=3, b.value=6','a.value=5, b.value=3'],a:1,explain:'inc()の呼出し先はaなので、a.valueだけが2→3になります。bにはメソッドを呼んでいないためb.value=5のままです。',hint:'どのオブジェクトに対してメソッドを呼び出したかを区別します。'}},
+    {line:3,state:{'a.value':3,'b.value':5},object:{'a.value':3,'b.value':5},msg:'a.value=3、b.value=5。'},
+    {line:9,state:{'a.value':3,'b.value':5},object:{'a.value':3,'b.value':5},msg:'次にb.inc()を呼び出します。',predict:{q:'このb.inc()を実行し、その次のa.inc()まで終えた後の状態は？',opts:['a.value=3, b.value=6','a.value=4, b.value=6','a.value=4, b.value=5','a.value=5, b.value=7'],a:1,explain:'現在はa=3,b=5です。まずb.inc()でbだけが5→6、続くa.inc()でaだけが3→4になります。別オブジェクトのフィールドは共有されないので最終的にa=4,b=6です。',hint:'bへの呼出しとaへの呼出しを、対象ごとに1回ずつ反映します。'}},
+    {line:3,state:{'a.value':3,'b.value':6},object:{'a.value':3,'b.value':6},msg:'b.inc()後はa.value=3、b.value=6。'},
+    {line:10,state:{'a.value':3,'b.value':6},object:{'a.value':3,'b.value':6},msg:'続いてa.inc()を呼び出します。'},
+    {line:3,state:{'a.value':4,'b.value':6},object:{'a.value':4,'b.value':6},msg:'a.value=4、b.value=6。'},
+    {line:11,state:{'a.value':4,'b.value':6},object:{'a.value':4,'b.value':6},msg:'出力はa.value=4, b.value=6です。'}
+  ];
+  obj.steps.filter(s=>s.predict).forEach((s,i)=>{B_PREDICTION_CONTRACTS[`object_counter:${i+1}`]=String(s.predict.opts[s.predict.a]);});
+
+  const contractKeys=legacyIds.flatMap(id=>[`${id}:1`,`${id}:2`]);
+  globalThis.SUBJECT_B_ALGORITHM_V202_SPEC=Object.freeze({
+    policy:'intermediate-state-prediction-authenticity',legacyIds:Object.freeze([...legacyIds]),contractKeys:Object.freeze(contractKeys),qualityAudit:audit
+  });
+})();

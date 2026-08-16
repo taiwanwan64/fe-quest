@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "policy": "explicit-subject-b-algorithm-intermediate-state-overrides-only",
+  "release": "v202",
+  "previous_release": "v201",
+  "parent_main_sha": "4d09a506eb001f660ad012048060830f72822981",
+  "source_quality_audit": "_regression/subject-b-prediction-quality-v199.fixture.json",
+  "source_priority_tier": "medium",
+  "allowed_exercise_ids": [
+    "loop_sum",
+    "stack_ops",
+    "count_even",
+    "matrix_sum",
+    "queue_ops",
+    "object_counter"
+  ],
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-algorithm-overrides-v202.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "quality_audit_marker": "v202-intermediate-state-authenticity",
+  "legacy_id_policy": "preserve internal exercise IDs and level slots for profile/progress compatibility while replacing learner-facing trace checkpoints and semantic prediction contracts",
+  "preserve": {
+    "exercise_count": 20,
+    "prediction_steps": 40,
+    "prediction_steps_per_exercise": 2,
+    "exercise_level_distribution": {"基礎": 4, "標準": 11, "応用": 5},
+    "prediction_answer_distribution": [10, 10, 10, 10],
+    "compound_set_count": 15,
+    "compound_question_count": 45,
+    "algorithm_mock_count": 8,
+    "algorithm_mock_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+    "security_scenario_count": 15,
+    "security_question_count": 45,
+    "security_level_distribution": {"基礎": 4, "標準": 8, "応用": 3},
+    "security_answer_distribution": [12, 11, 11, 11],
+    "security_mock_count": 8,
+    "security_mock_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+    "final_counts": [20, 16, 4]
+  },
+  "repair_goal": "Each paired checkpoint should require meaningful intermediate-state tracking: the first establishes or advances state and the second tests a different consequence, branch, traversal boundary, or object/container state rather than repeating the same one-step rule.",
+  "copyright_policy": "Original FE QUEST wording only. Attached Subject B books are used only for scope, structure, terminology and difficulty calibration; proprietary question wording is not copied."
+}
