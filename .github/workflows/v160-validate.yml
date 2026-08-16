@@ -1,0 +1,36 @@
+name: FE QUEST v160 release validation
+
+on:
+  push:
+    branches: [v160-staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Validate FE QUEST v160
+        run: python3 tools/v160_validate.py
+      - name: Package FE QUEST v160
+        run: |
+          cd _site
+          zip ../FE_QUEST_PWA_v160.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+      - name: Upload FE QUEST v160
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-v160-standalone
+          path: FE_QUEST_PWA_v160.zip
+          if-no-files-found: error
