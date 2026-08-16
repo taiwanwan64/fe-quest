@@ -1,0 +1,73 @@
+{
+  "name": "subject-b-algorithm-repairs-v202",
+  "version": "v202",
+  "previous_version": "v201",
+  "parent_main_sha": "4d09a506eb001f660ad012048060830f72822981",
+  "changed_exercise_ids": [
+    "loop_sum",
+    "stack_ops",
+    "count_even",
+    "matrix_sum",
+    "queue_ops",
+    "object_counter"
+  ],
+  "changed_exercise_count": 6,
+  "unaffected_exercises_deep_identical_to_parent": true,
+  "subject_a_deep_identical_to_parent": true,
+  "b_compound_sets_deep_identical_to_parent": true,
+  "security_scenarios_deep_identical_to_parent": true,
+  "exercise_count": 20,
+  "prediction_steps": 40,
+  "exercise_level_distribution": {
+    "基礎": 4,
+    "標準": 11,
+    "応用": 5
+  },
+  "prediction_answer_distribution": [
+    10,
+    10,
+    10,
+    10
+  ],
+  "semantic_contract_migration": {
+    "keys": [
+      "count_even:1",
+      "count_even:2",
+      "loop_sum:1",
+      "loop_sum:2",
+      "matrix_sum:1",
+      "matrix_sum:2",
+      "object_counter:1",
+      "object_counter:2",
+      "queue_ops:1",
+      "queue_ops:2",
+      "stack_ops:1",
+      "stack_ops:2"
+    ],
+    "bindings_valid": true
+  },
+  "algorithm_mock_quotas": {
+    "基礎": 2,
+    "標準": 4,
+    "応用": 2
+  },
+  "security_mock_quotas": {
+    "基礎": 2,
+    "標準": 4,
+    "応用": 2
+  },
+  "final_counts": [
+    20,
+    16,
+    4
+  ],
+  "subject_b_semantic_validator_ok": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "source_quality_audit": {
+    "path": "_regression/subject-b-prediction-quality-v199.fixture.json",
+    "utf8_bytes": 7367,
+    "sha256": "de81f0bd36f59e554b6fa6916c86b66b2096a82a8d3a4d748f6fdc693fcadbd6"
+  },
+  "learner_facing_change": true,
+  "status": "passed"
+}

@@ -1,0 +1,13 @@
+FE QUEST v202 — Subject B Algorithm Intermediate-State Repair Audit
+
+PASSED
+Previous: v201
+Changed IDs: loop_sum, stack_ops, count_even, matrix_sum, queue_ops, object_counter
+
+Isolation: Subject A unchanged; unaffected B_EXERCISES 14/14 unchanged; B_COMPOUND_SETS unchanged; SECURITY_SCENARIOS unchanged.
+Invariants: B_EXERCISES=20, checkpoints=40, levels={'基礎': 4, '標準': 11, '応用': 5}, answer positions=[10, 10, 10, 10].
+Semantic contracts: exactly 12 declared keys migrated and rebound. Subject B semantic validation: OK.
+Mocks/final: algorithm 8 quotas {'基礎': 2, '標準': 4, '応用': 2}; security 8 quotas {'基礎': 2, '標準': 4, '応用': 2}; final [20, 16, 4].
+Candidate/reference six-file equality: yes.
+Pedagogy: paired checkpoints now require distinct intermediate-state tracking and explanations reconstruct state transitions rather than repeating one immediate operation.
+Policy: Original FE QUEST wording only; references used only for scope, structure and difficulty calibration.
