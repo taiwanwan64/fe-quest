@@ -1,0 +1,33 @@
+FE QUEST v197 — Subject A High-Severity Repair Audit
+=========================================================
+
+Scope
+-----
+Previous: v196
+Parent main: 3eeb55f04e4aa126c25f2b2229c087b7c6f7cd54
+Changed questions: 7
+Source audit: _regression/subject-a-quality-audit-v196.fixture.json / tier=medium
+Allowed fields: choiceExps, exp, hint, options, q, qualityAudit
+
+Changed IDs
+-----------
+- theory-06: choiceExps, exp, hint, options, q, qualityAudit
+- media-01: choiceExps, exp, hint, options, q, qualityAudit
+- net-12: choiceExps, exp, hint, options, q, qualityAudit
+- challenge_044: choiceExps, exp, hint, options, q, qualityAudit
+- challenge_046: choiceExps, exp, hint, q, qualityAudit
+- challenge_v92_01_07: choiceExps, exp, hint, q, qualityAudit
+- challenge_v92_02_08: choiceExps, exp, hint, q, qualityAudit
+
+Invariants
+----------
+Questions: 710 / unique 710
+Answer distribution: [178, 178, 177, 177]
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Standard release architecture/tooling: byte-identical to parent
+Candidate/reference six-file equality: yes
+Parent/candidate runtime question diff restricted to manifest IDs: yes
+
+Policy
+------
+Original FE QUEST wording only. Attached books are used only for scope, terminology, emphasis and difficulty calibration.
