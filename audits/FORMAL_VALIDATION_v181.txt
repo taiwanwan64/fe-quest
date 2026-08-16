@@ -1,0 +1,110 @@
+FE QUEST v181 — Formal Validation
+=================================
+
+Release
+-------
+Version: v181
+Parent main: 00aa8cad9c4a4c2d1ede729635e47d89bd59a6b6
+Validated/materialized commit: 7b171086f47db79e7bce23d5529eedf81b7171c6
+Validated/materialized tree: fe960af35fde835f53bce8c63617d7520ea1da18
+
+Primary result
+--------------
+`app/runtime-release-diagnostic-spec.txt` is now APP_VERSION-driven and intended to remain byte-stable across ordinary releases.
+
+Stable release diagnostic metadata module:
+- 859 bytes
+- SHA-256 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2
+- version source: APP_VERSION
+- embedded v181 literals: 0
+- explicit adapter literals: 0
+- derived current adapter: runV181SelfCheck
+- derived retired adapters: 21 (runV160SelfCheck through runV180SelfCheck)
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v181 stable release diagnostic metadata validation
+Workflow ID: 335433057
+Run ID: 31934543656
+Job ID: 95134325084
+Trigger SHA: 36ad47f033c0002f36974e14156c27db8832bad2
+Conclusion: success
+Real GitHub Pages/Jekyll: github-pages v232 / Jekyll 3.10.0
+
+Candidate/reference proof
+-------------------------
+Candidate: APP_VERSION-driven stable metadata module.
+Reference: same derived algorithm with literal releaseVersion='v181'.
+Candidate generated index:
+- 3,475,519 bytes
+- SHA-256 241e44cfa3c10fac8d58b0eabf656166954b1530b0c5ce696002569b4cf3211d
+Reference generated index:
+- 3,475,530 bytes
+- SHA-256 eb69d76ad7d2dd91e36766a3f9d36f945bdc6ff99f4645b6525bdc4e93363928
+Generated HTML is equal after replacing only the release metadata source module with one placeholder.
+
+Canonical runtime snapshots are exactly equal:
+- 1,055,238 bytes
+- SHA-256 1bafafb23128ddc3ef396a2376f1a4dfbbf86e138317fb0ce84dbcea07966132
+- only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+- architecture normalization fields: none
+
+Pinned stable architecture
+--------------------------
+Diagnostic wrapper:
+- 19,860 bytes
+- SHA-256 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Stable release adapter:
+- 211 bytes
+- SHA-256 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Stable diagnostic archive inventory:
+- 17,671 bytes
+- SHA-256 b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+- 58 entries
+Diagnostic archive: 58 / growth 0
+Release-specific archive boundary: absent
+Versioned production adapter source: 0
+Stable base / learning / semantic runtime: unchanged
+
+Release contract
+----------------
+Static/browser UI: 23/23 + required DOM
+Current contract: 71/71
+Stable runtime helpers: 17
+Retired historical function globals: 46
+Stable wrapper globals: 6
+Retired adapter inventory: 21
+Leaked retired adapters: 0
+Current adapter global: 1
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy classification: 293
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+Question corpus: 710 / unique IDs 710
+Answer distribution: A178/B178/C177/D177
+Cognitive levels: 想起166/適用323/判断221
+Profile Schema: v5
+Learner-facing changes: none
+
+Release package from authoritative run
+--------------------------------------
+FE_QUEST_PWA_v181.zip
+- 767,308 bytes
+- SHA-256 8e2bf7560c36a8e4e72536b8177aec00e4b6bbe766d0276744a60fcc5a6f6936
+Generated shell:
+- index 241e44cfa3c10fac8d58b0eabf656166954b1530b0c5ce696002569b4cf3211d
+- manifest 84d2a4cb39020dce35a3ba6ca04c4368ba937c1966de67c1fdc480fd037b3202
+- sw 0d2b5002e5042ede40c625f19c0dea82aefa44cc428178a7d4161a75f10f0e0a
+
+Release policy after v181
+-------------------------
+For an ordinary release, do not modify the following unless release-independent behavior genuinely changes:
+- app/runtime-diagnostic-wrapper.txt
+- app/runtime-release-adapter.txt
+- app/runtime-release-diagnostic-spec.txt
+- _regression/diagnostic-archive-inventory.fixture.json
+
+The stable release metadata module should remain 859 bytes / SHA-256 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2.
