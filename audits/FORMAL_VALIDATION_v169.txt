@@ -1,0 +1,126 @@
+FE QUEST v169 — Formal Release Validation Audit
+===============================================
+
+Release scope
+-------------
+v169 is a consolidation-preflight architecture release. It does not remove, rewrite, or reorder any active v132-v144 learning patch. It refines the v168 candidate inventory by testing complete JavaScript syntactic units and quality-audit write-chain candidates against a canonical counterfactual runtime snapshot.
+
+Authoritative validation workflow
+---------------------------------
+Workflow: FE QUEST v169 equivalence preflight validation
+Workflow ID: 335366842
+Authoritative successful run ID: 31926402623
+Authoritative successful job ID: 95114615868
+Triggering source commit: 9621edb6a80b46ae49dbb2a498c9eb805b60c2ee
+Materialized validation head logged by workflow: 49381403cae63fa6afcec0da9b1138f8b452ff4e
+Materialized source tree: b1fc3d4fd174f7a4c920c80361ab46ba7207cc24
+Conclusion: success
+
+Earlier v169 runs are not release evidence. The initial run treated physical v132 source chunks as independent removal candidates. Inspection showed v132-block-00 through v132-block-07 are fragments of one JavaScript declaration/application unit. Subsequent refinement runs were used to correct the harness and one otherwise-valid run encountered a branch-advance push conflict. The authoritative run above uses the final syntactic-unit-aware methodology and completed validation, materialization, packaging, and artifact upload successfully.
+
+Build environment
+-----------------
+GitHub Pages action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages gem: github-pages v232
+Jekyll: v3.10.0
+Runner: Ubuntu 24.04
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V169_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V169_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=9 adapter=1 data=6 backing=0 archive=51 app-residual=0 patches=47 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V169_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V169_EQUIVALENCE_RESULT fragment-controls=8 fragment-syntax=6 semantic=8 equivalent=0 non-equivalent=8 runtime-errors=7 v132-unit=0 quality-group=0 automatic-removal=0
+FEQUEST_V169_PATCH_INVENTORY_OK versions=13 blocks=47 assembler=47 base=1 unchanged-learning-source=1
+FEQUEST_V169_ARCHIVE_BOUNDARY_OK archive=51 app-residual=0 deployed-archive=0 runtime=55525
+FEQUEST_V169_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=9 adapter=1 data=6 backing=0 archive=51 app-residual=0 patches=47 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Counterfactual equivalence result
+---------------------------------
+Baseline canonical snapshot SHA-256: fd561ca3b63faeaf3218c46a200611d85644e4225780adec638b4a6b9d1c6471
+Baseline canonical snapshot UTF-8 bytes: 1,050,743
+Baseline self-check: ok
+
+Physical v132 fragmentation controls: 8
+Physical-fragment syntax failures: 6
+Semantic candidate variants: 8
+Semantic-equivalent variants: 0
+Semantic-non-equivalent variants: 8
+Semantic runtime-error variants: 7
+Complete v132 style-cue unit equivalent: false
+Quality write-chain group equivalent: false
+Automatic production removal authorized: false
+
+The physical source split must not be confused with semantic modularity. v132-block-00 through v132-block-07 together form one 36,975-byte syntactic unit (SHA-256 600cd340b22aaab59e104ac55387668bc9202c93d37dc27817b23d7d0e4d0a00). Six of eight single-fragment controls fail syntax, one control executes with a changed runtime state, and one control reaches runtime failure. Therefore the former v168 'leaf block' candidates are not independent removable modules.
+
+The complete v132 style-cue unit is required by the measured production startup/runtime contract: removing the full syntactic unit is not equivalent to baseline. The q.qualityAudit write-chain candidates are also retained: removing v135, v139-00, v139-01, v141, v142, or v143 individually, or removing the whole six-block write chain, produced no baseline-equivalent semantic variant. v142 removal executed but produced a different canonical snapshot; the other seven semantic candidates produced runtime errors. No active learning patch is removed in v169.
+
+Stable production boundaries
+----------------------------
+Active learning patch range: v132-v144
+Active patch versions: 13
+Active physical blocks: 47
+Patch concat UTF-8 bytes: 405,723
+Patch concat SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Base source SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Active semantic runtime: app/runtime-semantic-diagnostics.txt
+Semantic runtime UTF-8 bytes: 55,525
+Semantic runtime SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Archived historical diagnostic/provenance sources: 51
+Historical diagnostic/versioned residual in app/: 0
+Current release adapter: app/v169-block-00.txt / runV169SelfCheck
+Retired release-adapter inventory: 9 (runV160SelfCheck through runV168SelfCheck), leaked in production: 0
+
+Learner-facing invariants
+-------------------------
+Question bank: 710 questions / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Current contract: 71/71
+Browser UI contract: 23/23 + required DOM
+Critical curriculum: 56/56
+Remaining release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy regression fixture: 293 assertions / raw errors 22 / residual active errors 0
+Production legacy evaluator: absent
+No question wording, choices, correct answers, cognitive labels, Profile Schema data, base learning source, active v132-v144 learning blocks, or stable semantic runtime were changed by v169.
+
+Standalone artifact
+-------------------
+Artifact name: fe-quest-v169-standalone
+Artifact ID: 9257969216
+Artifact uploaded size: 766,995 bytes
+Artifact archive digest SHA-256: 3a50a27e036a096cc071f34b6a79ade5f29aab567c7711ebb858a319bdcb9988
+Nested deployable ZIP: FE_QUEST_PWA_v169.zip
+Nested deployable ZIP size: 767,122 bytes
+Nested deployable ZIP SHA-256: 0f319550f092d3827abacd0e498f0fe92c0566982436371cb788769b11833cb1
+Nested deployable ZIP contains exactly six release files.
+
+Generated deployable identities
+-------------------------------
+index.html: 3,474,150 bytes
+index.html SHA-256: e9e3fe9e1972e61261823bb2cc3a064116f76464e8650e515e246e499101cf87
+manifest.webmanifest: 1,283 bytes
+manifest.webmanifest SHA-256: 8eee7e1b4015e4b32132769db668c3a8580cfdb51e8abe3e4ac372ef705a9d5a
+sw.js: 2,514 bytes
+sw.js SHA-256: 9c4243fe9f9ac407b056c7edcae28a6a2781494f9bdcebe80a719be63b1b2fd3
+icon-192.png SHA-256: 3e8c30ab9f94e969e9cfa6c81d90311c2bf5f464b7f86c18dc107e2fd84f83d4
+icon-512.png SHA-256: cf019a9eeed736ff6643ff2053f810b1c124b36a6c86eb47ec4c60e5adca2a25
+apple-touch-icon.png SHA-256: f4914b5bab7128dd3007d8327f4f6a6ce233825f9dc141897d5a2118e23b7dca
+
+Service-worker parity
+---------------------
+APP_VERSION: v169
+Cache: fe-quest-v169-1
+GET_VERSION messaging: preserved
+networkWithTimeout: preserved
+staleWhileRevalidate: preserved
+Range request bypass: preserved
+
+Cleanup / release policy
+------------------------
+Temporary v169 validation workflow and tooling are removed before main is advanced. Cleanup must not modify app/, _regression/production-equivalence-plan-v169.fixture.json, _regression/production-equivalence-results-v169.fixture.json, _regression/production-source-archive-boundary-v169.fixture.json, audits/EQUIVALENCE_PREFLIGHT_AUDIT_v169.txt, index.html, manifest.webmanifest, or sw.js. The formal validation audit is retained as release evidence.
+
+Next architecture direction
+---------------------------
+The v169 evidence rejects dead-code-style removal of the tested candidates. v170 should therefore move from deletion search to semantic-preserving compaction: materialize the unchanged base-v131 + all 47 active v132-v144 patches into a stable generated learning source (or a small number of syntactic modules), then prove canonical QUESTION_BANK/runtime/DOM/current-contract equivalence before changing the production assembler. No active behavior should be discarded merely to reduce physical patch count.
