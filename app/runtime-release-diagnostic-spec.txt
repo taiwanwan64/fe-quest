@@ -1,0 +1,11 @@
+// ===== FE QUEST release-specific diagnostic metadata =====
+globalThis.FEQ_RELEASE_DIAGNOSTIC_SPEC=Object.freeze({
+  modulePath:'app/runtime-release-diagnostic-spec.txt',
+  policy:'single-release-specific-diagnostic-metadata-module',
+  releaseVersion:'v174',
+  currentReleaseAdapter:'runV174SelfCheck',
+  archiveBoundaryFixture:'_regression/production-source-archive-boundary-v174.fixture.json',
+  archivedSourceCount:56,
+  retiredReleaseAdapterCount:14,
+  retiredReleaseAdapters:Object.freeze(['runV160SelfCheck','runV161SelfCheck','runV162SelfCheck','runV163SelfCheck','runV164SelfCheck','runV165SelfCheck','runV166SelfCheck','runV167SelfCheck','runV168SelfCheck','runV169SelfCheck','runV170SelfCheck','runV171SelfCheck','runV172SelfCheck','runV173SelfCheck'])
+});

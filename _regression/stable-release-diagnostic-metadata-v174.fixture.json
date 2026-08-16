@@ -1,0 +1,105 @@
+{
+  "name": "stable-release-diagnostic-metadata-v174",
+  "version": "v174",
+  "scope": "release-specific-diagnostic-metadata-extraction-from-stable-wrapper",
+  "policy": "one-time-wrapper-stabilization-plus-single-small-release-metadata-module",
+  "parent_release": {
+    "version": "v173",
+    "main_sha": "32cc7c00e607a9f274fca7b7b4f226590d8c626e"
+  },
+  "parent_wrapper": {
+    "path_at_parent": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19486,
+    "sha256": "09c8d3771098ff3298d63ad10a09e7a418bff0d2d73167a675dc9a5941b07b13"
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19860,
+    "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "release_specific_literals_absent": true
+  },
+  "release_metadata_module": {
+    "path": "app/runtime-release-diagnostic-spec.txt",
+    "utf8_bytes": 768,
+    "sha256": "5d228836ccf1a483c0628c69e680b095a587e9cb831d2d1a4b67d8bb1663c855",
+    "release_version": "v174",
+    "current_adapter": "runV174SelfCheck",
+    "retired_adapter_count": 14,
+    "diagnostic_archive_count": 56
+  },
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "assembler": {
+    "release_metadata_include_count": 1,
+    "stable_wrapper_include_count": 1,
+    "current_adapter_include_count": 1
+  },
+  "release_metadata": {
+    "archive_boundary_fixture": "_regression/production-source-archive-boundary-v174.fixture.json",
+    "archived_source_count": 56,
+    "retired_release_adapters": [
+      "runV160SelfCheck",
+      "runV161SelfCheck",
+      "runV162SelfCheck",
+      "runV163SelfCheck",
+      "runV164SelfCheck",
+      "runV165SelfCheck",
+      "runV166SelfCheck",
+      "runV167SelfCheck",
+      "runV168SelfCheck",
+      "runV169SelfCheck",
+      "runV170SelfCheck",
+      "runV171SelfCheck",
+      "runV172SelfCheck",
+      "runV173SelfCheck"
+    ],
+    "retired_release_adapter_count": 14
+  },
+  "validation": {
+    "status": "passed",
+    "reference_mode": "v174-old-inline-metadata-wrapper-derived-from-v173-parent",
+    "candidate_generated_index": {
+      "utf8_bytes": 3475372,
+      "sha256": "6e0105b47ca988726b6dd11503c3f67c9b8bd4e3b4f088b7b91557dc9aa8c89d"
+    },
+    "reference_generated_index": {
+      "utf8_bytes": 3474249,
+      "sha256": "d272df47ec872db2c415c9844a96e436ab78eec8e7a35af12ba24a7687aca15e"
+    },
+    "generated_index_byte_exact": false,
+    "canonical_runtime_candidate": {
+      "sha256": "b763f881baa846ad9e5721543df9225832ca27708ea9c7eb2269972f7ca25f11",
+      "utf8_bytes": 1050705
+    },
+    "canonical_runtime_reference": {
+      "sha256": "b763f881baa846ad9e5721543df9225832ca27708ea9c7eb2269972f7ca25f11",
+      "utf8_bytes": 1050705
+    },
+    "canonical_runtime_equal": true,
+    "canonical_runtime_excluded_fields": [
+      "FEQUEST_SELF_CHECK.checkedAt"
+    ],
+    "stable_wrapper_release_specific_literals_absent": true,
+    "temporary_release_metadata_global_leaked": false,
+    "current_contract": "71/71",
+    "browser_ui": "23/23 + required DOM",
+    "critical_curriculum": "56/56",
+    "release_sentinel": "28/28",
+    "ci_coverage": "84/84",
+    "legacy_fixture": "293 assertions / raw 22 / residual 0"
+  },
+  "automatic_behavior_removal_authorized": false
+}

@@ -1,0 +1,66 @@
+FE QUEST v174 — Release Diagnostic Metadata Boundary Audit
+==========================================================
+
+Scope
+-----
+v174 performs a one-time stabilization of app/runtime-diagnostic-wrapper.txt. Release-varying diagnostic metadata is moved to app/runtime-release-diagnostic-spec.txt. The wrapper now reads that small module, copies the required values into the existing FEQ_DIAGNOSTIC_RUNTIME_SPEC contract, validates release coherence, and deletes the temporary metadata global after initialization.
+
+Stable wrapper
+--------------
+Path: app/runtime-diagnostic-wrapper.txt
+UTF-8 bytes: 19,860
+SHA-256: 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Parent v173 wrapper UTF-8 bytes: 19,486
+Parent v173 wrapper SHA-256: 09c8d3771098ff3298d63ad10a09e7a418bff0d2d73167a675dc9a5941b07b13
+Release-specific v174 fixture/count/adapter literals remaining in stable wrapper: 0
+
+Release metadata module
+-----------------------
+Path: app/runtime-release-diagnostic-spec.txt
+UTF-8 bytes: 768
+SHA-256: 5d228836ccf1a483c0628c69e680b095a587e9cb831d2d1a4b67d8bb1663c855
+Release: v174
+Current adapter: runV174SelfCheck
+Retired adapter inventory: 14 (runV160SelfCheck through runV173SelfCheck)
+Diagnostic/provenance archive count: 56
+Archive fixture: _regression/production-source-archive-boundary-v174.fixture.json
+Temporary metadata global after wrapper initialization: absent
+
+Counterfactual reference proof
+------------------------------
+Reference mode: old v173 inline-metadata wrapper advanced directly to v174
+Candidate generated index.html bytes: 3,475,372
+Candidate SHA-256: 6e0105b47ca988726b6dd11503c3f67c9b8bd4e3b4f088b7b91557dc9aa8c89d
+Reference generated index.html bytes: 3,474,249
+Reference SHA-256: d272df47ec872db2c415c9844a96e436ab78eec8e7a35af12ba24a7687aca15e
+Generated HTML byte equality: false (expected because JavaScript source layout changed)
+Canonical runtime candidate: b763f881baa846ad9e5721543df9225832ca27708ea9c7eb2269972f7ca25f11 / 1,050,705 bytes
+Canonical runtime reference: b763f881baa846ad9e5721543df9225832ca27708ea9c7eb2269972f7ca25f11 / 1,050,705 bytes
+Canonical runtime equality: true
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Stable learner/runtime boundaries
+---------------------------------
+Stable base: 2,991,671 bytes / c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Stable learning module: 405,723 bytes / 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Learning-patch provenance archive count: 48
+Learning-base archive count: 2
+
+Release invariants
+------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Profile Schema: v5
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw errors 22 / residual 0
+Production legacy evaluator: absent
+
+Policy
+------
+Future releases should update the small release metadata module and thin current adapter, while keeping app/runtime-diagnostic-wrapper.txt byte-stable unless its release-independent behavior genuinely changes. No learner-facing content or behavior removal is authorized by v174.

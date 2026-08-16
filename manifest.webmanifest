@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v173",
+  "name": "FE QUEST v174",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v173では、v172でproductionから独立済みの歴史的v131フルベースをリポジトリ参照棚卸し後にbuild-excluded regression archiveへbyte-exact移動する。productionは引き続き安定base-stable、learning-patches、semantic runtimeのみを使用し、real Jekyll生成HTMLとcanonical runtimeの同値、科目A710問・current contract 71・browser UI 23・CI 84/84・legacy 293 residual 0を検証する。",
+  "description": "基本情報技術者試験向けPWA。v174では、診断wrapperに毎リリース埋め込んでいたarchive fixture・archive件数・retired adapter一覧などを単一のrelease-specific metadata moduleへ分離し、runtime-diagnostic-wrapperをrelease非依存のstable層へ移行する。学習内容・科目A710問・stable base/learning/runtime・Profile Schema v5は変更せず、旧inline-metadata referenceとのcanonical runtime同値をreal Jekyll buildで検証する。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",

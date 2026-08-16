@@ -1,0 +1,5 @@
+// ===== FE QUEST v174 release adapter =====
+(() => {
+  function runV174SelfCheck(){return feqRunSelfCheck('v174','runV174SelfCheck');}
+  globalThis.runV174SelfCheck=runV174SelfCheck;
+})();
