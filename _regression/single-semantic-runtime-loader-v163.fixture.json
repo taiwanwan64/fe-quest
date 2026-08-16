@@ -1,0 +1,86 @@
+{
+  "name": "single-semantic-runtime-loader-v163",
+  "version": "v163",
+  "loader": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "sha256": "6835c6489a035effebff9c026c948a195b147d2e5146ddc6154067641104aac1",
+    "utf8_bytes": 558,
+    "source_count": 1,
+    "include_count": 9,
+    "stable_path_policy": "single-semantic-runtime-loader-v163"
+  },
+  "rendered_runtime": {
+    "parts": [
+      {
+        "path": "app/runtime-semantic-diagnostics-00.txt",
+        "sha256": "e9bd016368d37fecf34f27262ecb8125f03ce4616cfc01fe6b5c07bdcd0033b0",
+        "utf8_bytes": 162
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-01.txt",
+        "sha256": "32bf6f1831dc47a39ab778888ca6b8e67825769d610e14a4b48ae33da3841750",
+        "utf8_bytes": 9307
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-02.txt",
+        "sha256": "1d0bb9639cf8d752ffb75bfc29cc9981210963a72e5cd5f1e45939a164dd49c6",
+        "utf8_bytes": 10073
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-03.txt",
+        "sha256": "970ea988a4364631743e100c3ddedcdd364d2f636a96208e58cc217026488e04",
+        "utf8_bytes": 10260
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-04.txt",
+        "sha256": "d73bf99af9fdbf318d530d120a01932ca3e286ff79f3dae5ff91f335ccf187c0",
+        "utf8_bytes": 10264
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-05.txt",
+        "sha256": "69db95859e04d4343f87456798dafa27a39fe1ee7f9b621240dfe4d7115df9ce",
+        "utf8_bytes": 1701
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-06.txt",
+        "sha256": "0ca899977f79d0c144c64098718b34b16f14cbfde74481262dd064120966fe97",
+        "utf8_bytes": 7106
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-07.txt",
+        "sha256": "531c351f7cae3643b16e9badd0768a909478d24769776c075ec46c8f224964c6",
+        "utf8_bytes": 4428
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-08.txt",
+        "sha256": "0109680c18ef1709f4cca5fb5dcd9b31e048652d33fcf4a1917fef3432837619",
+        "utf8_bytes": 2224
+      }
+    ],
+    "part_count": 9,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "utf8_bytes": 55525,
+    "byte_exact_with_v162_concatenated_runtime": true
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "stable_global_count": 6,
+    "retired_v159_wrapper_global_count": 6,
+    "retired_release_adapters": [
+      "runV160SelfCheck",
+      "runV161SelfCheck",
+      "runV162SelfCheck"
+    ],
+    "sha256": "137ceebf9e64a80c66bd7139545e5e4e1d465ac89ae360e9cedd6919e404bfd8",
+    "utf8_bytes": 19144
+  },
+  "release_adapter": {
+    "path": "app/v163-block-00.txt",
+    "allowed_versioned_global": "runV163SelfCheck",
+    "sha256": "23a74c8e30125f7a75dad9527216a68dfe76dfecc3dd18eec1ed763eeeb848d3",
+    "utf8_bytes": 190
+  },
+  "previous_runtime_fixture": "_regression/stable-semantic-diagnostic-runtime-v162.fixture.json",
+  "previous_data_fixture": "_regression/stable-diagnostic-data-modules-v161.fixture.json",
+  "production_policy": "single-semantic-runtime-loader-over-byte-exact-stable-parts"
+}
