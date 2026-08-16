@@ -1,0 +1,82 @@
+FE QUEST v167 — Formal Release Validation Audit
+===============================================
+
+Validation workflow
+-------------------
+Workflow: FE QUEST v167 release validation
+Workflow ID: 335357774
+Successful run ID: 31925094252
+Successful job ID: 95111298559
+Conclusion: success
+Triggering source commit: 81b4d424c5aead9cc80a2c1c8bbba19eed777c08
+Materialized validation head logged by workflow: aac8bbd031ad3feb339a4b4fbbae528e729ba21e
+Materialized source tree: 26e6ff7b63cccb5d3844511e35a744797ab07000
+
+The workflow materialized and committed the v167 patch-inventory/archive-boundary source before the official Jekyll build and validation steps. The workflow run metadata head_sha therefore identifies the triggering pre-materialization commit, while FEQUEST_V167_VALIDATION_HEAD identifies the source actually built and validated.
+
+Build environment
+-----------------
+GitHub Pages action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages gem: github-pages v232
+Jekyll: v3.10.0
+Runner: Ubuntu 24.04
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V167_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V167_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=7 adapter=1 data=6 backing=0 archive=49 app-residual=0 patches=47 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V167_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V167_PATCH_INVENTORY_OK versions=13 blocks=47 assembler=47 base=1 unchanged-learning-source=1
+FEQUEST_V167_ARCHIVE_BOUNDARY_OK archive=49 app-residual=0 deployed-archive=0 runtime=55525
+FEQUEST_V167_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=7 adapter=1 data=6 backing=0 archive=49 app-residual=0 patches=47 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Standalone artifact
+-------------------
+Artifact name: fe-quest-v167-standalone
+Artifact ID: 9257580310
+Artifact uploaded size: 766,970 bytes
+Artifact archive digest: sha256:dfa81b9f540e327e45dfafdab84d0abe566ea63f47e770512b9250cd1a3d23da
+Nested deployable ZIP: FE_QUEST_PWA_v167.zip
+Nested deployable ZIP size: 767,100 bytes
+Nested deployable ZIP SHA-256: 9ee65ce3325bb61731e93019397f116e2954cc936dee319efaf298b26304b19f
+Nested deployable ZIP contains exactly 6 release files.
+
+Generated deployable identities
+-------------------------------
+index.html: 3,474,112 bytes
+index.html SHA-256: 8651548d288d563706ed1492f79961966c860154db8eb6718e0c0090012a9ad0
+manifest.webmanifest: 1,253 bytes
+manifest.webmanifest SHA-256: 0a83f3f1a3c06220e279bb846584f9d8bb860c63afad7d5536f37eac65f99410
+sw.js: 2,514 bytes
+sw.js SHA-256: f71545bb034d06def369f738af611ce9050a7d1b899c948f6a85ddbb32cfff6d
+icon-192.png SHA-256: 3e8c30ab9f94e969e9cfa6c81d90311c2bf5f464b7f86c18dc107e2fd84f83d4
+icon-512.png SHA-256: cf019a9eeed736ff6643ff2053f810b1c124b36a6c86eb47ec4c60e5adca2a25
+apple-touch-icon.png SHA-256: f4914b5bab7128dd3007d8327f4f6a6ce233825f9dc141897d5a2118e23b7dca
+
+Patch inventory identity
+------------------------
+Active patch range: v132–v144
+Versions: 13
+Blocks: 47
+Patch concat bytes: 405,723
+Patch concat SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Base source bytes: 3,041,328
+Base source SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Learning source unchanged against parent main: validated
+
+Service-worker parity
+---------------------
+APP_VERSION: v167
+Cache: fe-quest-v167-1
+GET_VERSION messaging: preserved
+networkWithTimeout: preserved
+staleWhileRevalidate: preserved
+Range request bypass: preserved
+
+Release conclusion
+------------------
+The v167 materialized production source passed the full current contract, browser/DOM contract, stable semantic runtime boundary, archive-source boundary, release-only historical fixture execution, exact v132–v144 patch-chain inventory, and legacy regression boundary. The active learner patch chain and base learning source were verified unchanged from v166.
+
+Final cleanup policy
+--------------------
+Temporary validation-only files (.github/workflows/v167-validate.yml, tools/v167_materialize.py, tools/v167_validate.py, tools/v167_runtime_stub.py) are removed before main is advanced. That cleanup does not modify app/, _regression/production-patch-chain-v167.fixture.json, _regression/production-source-archive-boundary-v167.fixture.json, index.html, manifest.webmanifest, or sw.js. The v167 patch-inventory and formal-validation audit documents are retained as release evidence.

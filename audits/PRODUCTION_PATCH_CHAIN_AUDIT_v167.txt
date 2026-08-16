@@ -1,0 +1,99 @@
+FE QUEST v167 — Production Patch Chain Inventory Audit
+====================================================
+
+Scope
+-----
+v167 is an inventory-only architecture release. It does not consolidate, rewrite, or remove the learner-facing v132–v144 patch chain. Instead it makes the production patch chain explicit and regression-testable before any future stable-base consolidation.
+
+Validated source identity
+-------------------------
+Parent release: v166 main 8be08ae9d027bfb3c25d83d1c5fdd64000a89907
+Materialized v167 source commit: aac8bbd031ad3feb339a4b4fbbae528e729ba21e
+Materialized v167 source tree: 26e6ff7b63cccb5d3844511e35a744797ab07000
+
+Base source
+-----------
+Path: app/base-v131.html
+UTF-8 bytes: 3,041,328
+SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+
+Active production patch chain
+-----------------------------
+Range: v132 through v144
+Versions represented: 13
+Total physical blocks: 47
+Total concatenated UTF-8 bytes: 405,723
+Concatenated SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+
+Exact block counts by release:
+v132: 8
+v133: 6
+v134: 7
+v135: 1
+v136: 8
+v137: 1
+v138: 9
+v139: 2
+v140: 1
+v141: 1
+v142: 1
+v143: 1
+v144: 1
+
+The declarative fixture records every block path, byte length, SHA-256, function declarations, lexical declarations, class declarations, global exports, assignment targets, selected source flags, and exact assembler order.
+
+Declaration inventory summary
+-----------------------------
+Unique named function declarations: 5
+Unique lexical declarations: 122
+Unique class declarations: 0
+Unique global exports: 10
+Unique assignment targets: 19
+
+Named function declarations discovered by the inventory:
+- applyV143LateFixes
+- v142NormalizeSelfCheck
+- v143NormalizeSelfCheck
+- v144EvaluateBrowserUiContracts
+- v144NormalizeSelfCheck
+
+Inventory fixture
+-----------------
+Path: _regression/production-patch-chain-v167.fixture.json
+Policy: inventory-only-no-consolidation
+Assembler patch includes: 47/47, in exact v132→v144 block order
+
+Regression guarantee
+--------------------
+The v167 validator compares the materialized branch against origin/main and rejects any modification to:
+- app/base-v131.html
+- any app/v132-block-*.txt through app/v144-block-*.txt
+- app/runtime-semantic-diagnostics.txt
+
+The successful release run emitted:
+FEQUEST_V167_PATCH_INVENTORY_OK versions=13 blocks=47 assembler=47 base=1 unchanged-learning-source=1
+
+This proves that v167 inventories the existing learner patch chain without altering it.
+
+Archive boundary continuation
+-----------------------------
+The retired v166 release adapter was moved from app/v166-block-00.txt to _regression/archive/diagnostics/v166-block-00.txt.
+Archived diagnostic/provenance source count is now 49.
+Historical diagnostic/versioned residual in app/: 0.
+Current production release adapter: app/v167-block-00.txt / runV167SelfCheck.
+
+Stable diagnostic runtime
+-------------------------
+app/runtime-semantic-diagnostics.txt remains byte-identical:
+UTF-8 bytes: 55,525
+SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+
+The stable wrapper was changed only to advance archive-boundary metadata from v166 to v167 and to classify runV166SelfCheck as a retired adapter. The retired release-adapter inventory is now 7 and no retired adapter is exposed in production.
+
+Learner-facing policy
+---------------------
+No question text, choices, correct answers, cognitive-level labels, Profile Schema data, base learning source, v132–v144 learning blocks, or stable semantic diagnostic runtime were changed by this release.
+
+Consolidation policy
+--------------------
+v167 deliberately stops at source inventory. No patch is declared redundant merely because a later patch exists. Effect-level overwrite/dependency classification and any stable-base consolidation must be performed in a later release under explicit equivalence tests.
