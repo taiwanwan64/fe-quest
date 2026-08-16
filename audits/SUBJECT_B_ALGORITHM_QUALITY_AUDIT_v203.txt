@@ -1,0 +1,71 @@
+FE QUEST v203 — Subject B Algorithm Prediction Quality Audit
+==============================================================
+
+Scope
+-----
+Audit-only release. No learner-facing content is changed in v203.
+Source release: v202
+Source main: e804b3db4b4aac98981d9dd960ae5dea28affaa3
+Source tree: 5c4e3fa815fb76e55170a470a4c3fda0c1b5c203
+
+Reference policy
+----------------
+Attached Subject B references are used only for scope, structure, terminology and difficulty calibration.
+The review criterion is whether the learner must trace pseudocode state across meaningful intermediate steps, rather than solve two near-identical one-step operations.
+No proprietary question wording is copied.
+
+v202 Medium repair recheck
+--------------------------
+PASSED 6/6.
+
+- loop_sum: tracks i + sum and then loop-exit consequence; old repeated accumulation defect resolved.
+- stack_ops: tracks POP result + residual stack + retained x; old repeated LIFO-rule defect resolved.
+- count_even: tracks a mixed prefix and the indices at which count changes; old explicit-even +1 repetition resolved.
+- matrix_sum: tracks r/c/sum and separates loop-variable advance from the following addition; old direct-addition repetition resolved.
+- queue_ops: tracks DEQUEUE result + residual queue + retained x; old repeated FIFO-rule defect resolved.
+- object_counter: tracks independent a/b object fields across multiple calls; old single-object inc() repetition resolved.
+
+Former v199 watch review
+------------------------
+array_max: RESOLVED
+  The pair intentionally covers opposite branches: update max when 9>4 is true, then preserve max when 7>9 is false. Appropriate for a basic exercise.
+
+bit_mask: RESOLVED
+  The pair has distinct stages: compute the AND result, then feed that result into y != 0000 to decide flag. Not a duplicate operation.
+
+linked_list: LOW WATCH
+  Correct and not an exact duplicate: it progresses B subtotal -> C/final total. The arithmetic is more prominent than p.next/null state for an applied-level exercise, so pointer-state depth could be strengthened in a future redesign.
+
+gcd_euclid: LOW WATCH
+  Correct and sequential: 48 mod 18 -> state updates -> 12 mod 6 -> termination. Both questions are still remainder-heavy, so an a/b/r state-table checkpoint could deepen the trace later.
+
+selection_sort_b: LOW WATCH
+  Correct and meaningfully progressive: minPos becomes 1, then the rest of the unsorted range is scanned to final minPos=3. The second explanation could narrate j=2 no-update -> j=3 update more explicitly.
+
+All 20 B_EXERCISES
+------------------
+Reviewed: 20/20
+Prediction checkpoints: 40, exactly 2 per exercise
+Levels: basic 4 / standard 11 / applied 5
+Answer positions: 10 / 10 / 10 / 10
+
+High findings: 0
+Medium findings: 0
+Substantive duplicate pairs: 0
+
+No obvious incorrect answer, broken trace, or pair that is merely the same one-step question with a constant swapped was found at the current severity threshold.
+The three LOW WATCH exercises remain optional future depth improvements rather than release-blocking learner defects.
+
+Assessment structure
+--------------------
+Algorithm mini mock: 8, quotas 2/4/2
+Security mini mock: 8, quotas 2/4/2
+Final practice: 20 = algorithm 16 + security 4
+These invariants were already proven by the v202 Subject B content validator and are not changed by this audit-only release.
+
+Decision
+--------
+PASSED.
+
+The v202 repair batch is complete. No immediate v204 learner-content repair is required.
+Recommended v204 scope: audit Subject B mini-mock and final-practice composition for within-session near-duplicate topics, difficulty progression, review explanation quality, and exam-like presentation. Promote linked_list, gcd_euclid, or selection_sort_b only if that composition audit shows a real learner-facing impact.

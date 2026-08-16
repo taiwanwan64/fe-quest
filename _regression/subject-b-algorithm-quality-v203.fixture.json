@@ -1,0 +1,190 @@
+{
+  "name": "subject-b-algorithm-quality-v203",
+  "release": "v203",
+  "source_release": "v202",
+  "source_main_sha": "e804b3db4b4aac98981d9dd960ae5dea28affaa3",
+  "source_tree": "5c4e3fa815fb76e55170a470a4c3fda0c1b5c203",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集"
+    ],
+    "observations": [
+      "科目Bの擬似言語は、コードを上から追って変数・配列・データ構造・呼出し状態の変化を予測するトレース技能を中心に評価する。",
+      "主要学習領域として、制御構造、一次元・二次元配列、探索・整列、再帰、木、オブジェクト指向、リスト、スタック・キュー、ビット列を広く扱う。",
+      "単一演習内の二つの予測チェックポイントは、同じ一手の規則を繰り返すより、途中状態の確立と、その後の別の帰結・分岐・終了条件を結び付ける方が本番技能に近い。",
+      "参考書の独自問題文は転載せず、スコープ、構造、用語、難易度の校正にのみ利用する。"
+    ],
+    "copyright": "scope/structure/terminology/difficulty calibration only; original FE QUEST wording"
+  },
+  "repair_chain": {
+    "v199_medium_ids": [
+      "loop_sum",
+      "stack_ops",
+      "count_even",
+      "matrix_sum",
+      "queue_ops",
+      "object_counter"
+    ],
+    "v202_repair_fixture": "_regression/subject-b-algorithm-repairs-v202.fixture.json",
+    "v202_repair_status": "passed",
+    "v202_changed_ids_exact": true,
+    "legacy_ids_levels_and_answer_positions_preserved": true,
+    "semantic_prediction_contract_keys_migrated": 12
+  },
+  "runtime_inventory": {
+    "b_exercises": 20,
+    "prediction_checkpoints": 40,
+    "prediction_checkpoints_per_exercise": 2,
+    "levels": {
+      "基礎": 4,
+      "標準": 11,
+      "応用": 5
+    },
+    "answer_positions": [
+      10,
+      10,
+      10,
+      10
+    ],
+    "ids": [
+      "loop_sum",
+      "array_max",
+      "linear_search",
+      "stack_ops",
+      "recursion",
+      "tree_dfs",
+      "count_even",
+      "array_reverse",
+      "nested_loop",
+      "binary_search_b",
+      "bubble_sort_b",
+      "selection_sort_b",
+      "matrix_sum",
+      "matrix_find",
+      "queue_ops",
+      "linked_list",
+      "bit_mask",
+      "object_counter",
+      "gcd_euclid",
+      "recursive_fib"
+    ]
+  },
+  "v202_repair_recheck": {
+    "resolved_ids": [
+      "loop_sum",
+      "stack_ops",
+      "count_even",
+      "matrix_sum",
+      "queue_ops",
+      "object_counter"
+    ],
+    "unresolved_ids": [],
+    "per_id": {
+      "loop_sum": "iとsumを同時に保持し、後段では加算後に次反復が存在するかまで判断するため、旧来の単純な加算2回から分離できている。",
+      "stack_ops": "POPの返り値だけでなく残存stackと既確定のxを同時に追うため、同じLIFO規則の反復ではなく状態保持を要求する。",
+      "count_even": "混在する奇数・偶数のprefixを通したcountと、増加が起きた添字集合を追うため、明示された偶数に+1するだけの構造を解消した。",
+      "matrix_sum": "r/c/sumの複合状態と、ループ変数が進む時点・加算する時点の違いを問うため、直接加算2回から二重ループの状態予測へ改善した。",
+      "queue_ops": "DEQUEUEの返り値、残存queue、既確定のxを同時に追い、追加後の次の取り出しまでつなぐため、FIFO規則の単純反復を解消した。",
+      "object_counter": "aとbの独立したフィールド状態を複数回のメソッド呼出しにまたがって追うため、単一objectのinc()反復からオブジェクト状態の区別へ改善した。"
+    },
+    "assessment": "v199でMediumだった6件はすべてv202で意図した中間状態予測へ移行しており、再修正を要する欠陥は見つからない。"
+  },
+  "former_watch_review": {
+    "ids": [
+      "array_max",
+      "linked_list",
+      "bit_mask",
+      "gcd_euclid",
+      "selection_sort_b"
+    ],
+    "resolved_watch_ids": [
+      "array_max",
+      "bit_mask"
+    ],
+    "remaining_low_watch_ids": [
+      "linked_list",
+      "gcd_euclid",
+      "selection_sort_b"
+    ],
+    "medium_ids": [],
+    "per_id": {
+      "array_max": {
+        "decision": "resolved",
+        "assessment": "第1チェックは9>4でmaxを更新する真分岐、第2チェックは7>9で更新しない偽分岐を扱う。基礎レベルとして二つの分岐結果が明確に分かれており、同じ更新を二度繰り返していない。"
+      },
+      "linked_list": {
+        "decision": "low_watch",
+        "assessment": "Bでの途中sumとCまで進んだ最終sumを問うため誤りや完全重複はない。一方、応用レベルとしてはp.next/nullの状態そのものより算術合計が前面に出るため、将来の教材再設計時にはポインタ遷移をより直接問う余地がある。現時点でMedium修正を強制するほどの欠陥ではない。"
+      },
+      "bit_mask": {
+        "decision": "resolved",
+        "assessment": "第1チェックでAND結果0100を作り、第2チェックでその結果を条件式y≠0000へ渡してflagを決定する。演算結果→分岐結果の二段階が明確で、役割が重複していない。"
+      },
+      "gcd_euclid": {
+        "decision": "low_watch",
+        "assessment": "二つとも剰余計算が中心だが、48 mod 18=12から状態更新を経て12 mod 6=0と終了条件へ到達する流れは連続している。応用レベルとしてa/b/rの同時状態を直接問う余地はあるが、正しさ・進行・終了理解は保たれている。"
+      },
+      "selection_sort_b": {
+        "decision": "low_watch",
+        "assessment": "第1チェックはminPosを1へ更新し、第2チェックは未整列部分を最後まで走査してminPos=3を求めるため、同一の一手を二度問うだけではない。ただし第2解説はj=2で更新なし→j=3で更新という途中経過を明示するとさらに良い。"
+      }
+    },
+    "assessment": "旧watch 5件にHigh/Medium相当の欠陥はない。array_maxとbit_maskはwatch解除、linked_list・gcd_euclid・selection_sort_bは低優先度の改善候補として残す。"
+  },
+  "all_exercises_review": {
+    "reviewed_count": 20,
+    "correctness_high_findings": [],
+    "prediction_authenticity_medium_findings": [],
+    "substantive_duplicate_pairs": [],
+    "paired_checkpoint_count": 20,
+    "pairs_with_exactly_two_checkpoints": 20,
+    "assessment": "20/20で二つの予測チェックポイントを維持し、明白な誤答・破綻・実質同一問題の定数差し替えは見つからない。v202修正6件は現在の品質基準を満たす。残るlow-watch 3件は将来の深度改善候補であり、直ちに学習者向け修正を要するMediumではない。"
+  },
+  "explanation_review": {
+    "v202_repaired_trace_depth": "pass",
+    "high_findings": [],
+    "medium_findings": [],
+    "low_watch": {
+      "linked_list": "pの遷移をより明示できる",
+      "gcd_euclid": "a,b,rの更新表をより明示できる",
+      "selection_sort_b": "j=2で更新なし、j=3で更新という比較履歴をより明示できる"
+    },
+    "assessment": "全体として正答根拠は成立。v202の6件は状態遷移を明示する解説へ改善済み。旧watchの3件には説明深度の追加余地があるが、現在の解説でも正答理由は一意に復元できる。"
+  },
+  "assessment_structure": {
+    "algorithm_mock_count": 8,
+    "algorithm_mock_quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "security_mock_count": 8,
+    "security_mock_quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "final": {
+      "count": 20,
+      "algorithm": 16,
+      "security": 4
+    },
+    "assessment": "v202 content validatorで構造不変を証明済み。v203は監査専用のため構成変更なし。"
+  },
+  "decision": {
+    "status": "passed",
+    "high_findings": [],
+    "medium_findings": [],
+    "remaining_low_watch_ids": [
+      "linked_list",
+      "gcd_euclid",
+      "selection_sort_b"
+    ],
+    "v202_repair_complete": true,
+    "learner_repair_required_next": false,
+    "recommended_v204": "科目Bのミニ模試・総合実戦を対象に、出題組合せ、同一セッション内の類題重複、難易度勾配、レビュー解説、本番近似性を監査する。low-watch 3件はその監査で実害が確認された場合だけ修正対象へ昇格する。"
+  },
+  "status": "audit_complete"
+}
