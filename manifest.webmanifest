@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v165",
+  "name": "FE QUEST v166",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v165では検証済み55,525 bytes / SHA-256 88db8212…be50のsemantic runtimeをapp/runtime-semantic-diagnostics.txtへ物理単一ソース化し、9分割stable backingをproduction sourceから除去。stable wrapper 6、stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v166ではproduction sourceの診断系アーカイブ境界を整理し、app/から48個のhistorical diagnostic/provenance sourceを_regression/archive/diagnosticsへ移動。build対象のapp/には現行semantic runtime・stable data modules・stable wrapper・v166 adapterと学習機能ブロックだけを残す。current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
