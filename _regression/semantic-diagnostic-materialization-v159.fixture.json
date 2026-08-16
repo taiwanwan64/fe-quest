@@ -1,0 +1,41 @@
+{
+  "name": "semantic-diagnostic-materialization-v159",
+  "version": "v159",
+  "materialized_runtime": {
+    "parts": [
+      {"path":"app/runtime-semantic-diagnostics-v159-00.txt","sha256":"e9bd016368d37fecf34f27262ecb8125f03ce4616cfc01fe6b5c07bdcd0033b0","utf8_bytes":162},
+      {"path":"app/runtime-semantic-diagnostics-v159-01.txt","sha256":"32bf6f1831dc47a39ab778888ca6b8e67825769d610e14a4b48ae33da3841750","utf8_bytes":9307},
+      {"path":"app/runtime-semantic-diagnostics-v159-02.txt","sha256":"1d0bb9639cf8d752ffb75bfc29cc9981210963a72e5cd5f1e45939a164dd49c6","utf8_bytes":10073},
+      {"path":"app/runtime-semantic-diagnostics-v159-03.txt","sha256":"970ea988a4364631743e100c3ddedcdd364d2f636a96208e58cc217026488e04","utf8_bytes":10260},
+      {"path":"app/runtime-semantic-diagnostics-v159-04.txt","sha256":"d73bf99af9fdbf318d530d120a01932ca3e286ff79f3dae5ff91f335ccf187c0","utf8_bytes":10264},
+      {"path":"app/runtime-semantic-diagnostics-v159-05.txt","sha256":"69db95859e04d4343f87456798dafa27a39fe1ee7f9b621240dfe4d7115df9ce","utf8_bytes":1701},
+      {"path":"app/runtime-semantic-diagnostics-v159-06.txt","sha256":"0ca899977f79d0c144c64098718b34b16f14cbfde74481262dd064120966fe97","utf8_bytes":7106},
+      {"path":"app/runtime-semantic-diagnostics-v159-07.txt","sha256":"531c351f7cae3643b16e9badd0768a909478d24769776c075ec46c8f224964c6","utf8_bytes":4428},
+      {"path":"app/runtime-semantic-diagnostics-v159-08.txt","sha256":"0109680c18ef1709f4cca5fb5dcd9b31e048652d33fcf4a1917fef3432837619","utf8_bytes":2224}
+    ],
+    "part_count": 9,
+    "concatenated_sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "concatenated_utf8_bytes": 55525,
+    "stable_helper_count": 17,
+    "retired_versioned_function_count": 46
+  },
+  "equivalence": {
+    "previous_projection_fixture": "_regression/semantic-diagnostic-projection-v158.fixture.json",
+    "previous_projected_sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "previous_projected_utf8_bytes": 55525,
+    "byte_exact_with_v158_projected_runtime": true
+  },
+  "archival_provenance": {
+    "runtime_path": "app/runtime-current-diagnostics.txt",
+    "runtime_sha256": "12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658",
+    "runtime_utf8_bytes": 54898,
+    "projection_module_path": "app/runtime-semantic-projection-v158.txt",
+    "projection_module_sha256": "785dbef88c66fa4880bbaeb33029c7299f71d55d511d6da4b4ec022b6841045a",
+    "projection_module_utf8_bytes": 2494,
+    "logical_migrations": 6,
+    "replace_filters": 18
+  },
+  "semantic_keys": ["browserUiAdditions","legacyAssertionInventory","ciSentinelGroups","criticalCurriculumSpec","releaseSentinelSpec","legacyFixtureSpec"],
+  "retired_backing_globals": ["V148_EXTRA_UI_CONTRACTS","V149_LEGACY_ASSERT_INVENTORY","V150_CI_ONLY_SENTINEL_GROUPS","V150_CRITICAL_CURRICULUM_SPEC","V151_RELEASE_SENTINEL_SPEC","V152_LEGACY_FIXTURE_SPEC"],
+  "production_policy": "direct-materialized-semantic-runtime-parts-no-liquid-rewrite"
+}
