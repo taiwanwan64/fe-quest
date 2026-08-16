@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v157",
+  "name": "FE QUEST v158",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v157では診断データ6系統をJekyll semantic projectionでstable facadeへ直結し、旧V148〜V152のversioned backing data global 6個をproductionから完全撤去。stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v158ではindex.htmlに直書きされていた6系統・18段のhistorical-name置換を専用のdeclarative semantic projection moduleへ分離し、assembler本体を簡潔化。productionではversioned diagnostic backing global 0、stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
