@@ -1,0 +1,165 @@
+{
+  "name": "subject-b-security-quality-v201",
+  "release": "v201",
+  "source_release": "v200",
+  "source_main_sha": "7f2e94cf0335c471157311f8bc091929433ef440",
+  "source_tree": "57c57435dff20e25bb89064ca55ab8eaaa003203",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集"
+    ],
+    "observations": [
+      "科目Bの情報セキュリティは、現場のケースを読み、人・組織・運用・事故対応の観点から判断する力を重視する。",
+      "令和8年度向け問題集では科目Bを擬似言語16問と情報セキュリティ4問として整理している。",
+      "同問題集では暗号方式、デジタル署名・証明書等の認証、PKI、セキュアプロトコルの詳細メカニズムを現行科目Bの対象外として扱っている。",
+      "参考書の独自問題文は転載せず、FE QUESTの学習内容はスコープ、構造、用語、難易度の校正にのみ利用する。"
+    ],
+    "copyright": "scope/structure/terminology/difficulty calibration only; original FE QUEST wording"
+  },
+  "repair_chain": {
+    "v199_high_scope_mismatch_ids": [
+      "certificate",
+      "crypto_choice",
+      "password_hash",
+      "signed_update"
+    ],
+    "v200_repair_fixture": "_regression/subject-b-security-repairs-v200.fixture.json",
+    "v200_repair_status": "passed",
+    "v200_changed_ids_exact": true,
+    "legacy_ids_and_level_slots_preserved": true
+  },
+  "runtime_inventory": {
+    "security_scenarios": 15,
+    "security_questions": 45,
+    "questions_per_scenario": 3,
+    "levels": {
+      "基礎": 4,
+      "標準": 8,
+      "応用": 3
+    },
+    "answer_positions": [12, 11, 11, 11],
+    "ids": [
+      "phishing",
+      "ransomware",
+      "access",
+      "logs",
+      "certificate",
+      "risk",
+      "sql_injection",
+      "xss",
+      "password_spray",
+      "usb_malware",
+      "exfiltration",
+      "crypto_choice",
+      "password_hash",
+      "signed_update",
+      "patch"
+    ]
+  },
+  "scope_review": {
+    "aligned_ids": [
+      "phishing",
+      "ransomware",
+      "access",
+      "logs",
+      "certificate",
+      "risk",
+      "sql_injection",
+      "xss",
+      "password_spray",
+      "usb_malware",
+      "exfiltration",
+      "crypto_choice",
+      "password_hash",
+      "signed_update",
+      "patch"
+    ],
+    "out_of_scope_ids": [],
+    "former_high_replacements": {
+      "certificate": "情報資産管理・機密区分・管理責任・アクセス範囲・廃棄",
+      "crypto_choice": "契約終了・異動に連動したアカウントライフサイクルとアクセス権見直し",
+      "password_hash": "物理的セキュリティ、画面ロック、紙資料、持出し管理",
+      "signed_update": "インシデント初動、被害拡大防止、証拠保全、組織的エスカレーション"
+    },
+    "unchanged_manual_review": {
+      "phishing": "フィッシングの兆候、資格情報保護、報告・MFAの運用判断",
+      "ransomware": "端末隔離、バックアップ・復元、ログによる事故対応",
+      "access": "最小権限とアクセス権棚卸し",
+      "logs": "異常ログインの相関確認、本人確認、アカウント保護と影響調査",
+      "risk": "発生可能性・影響度・許容水準・残留リスクによるリスク管理",
+      "sql_injection": "Webアプリの入力処理、最小権限、事故・対策判断。暗号・PKI詳細ではない",
+      "xss": "Web出力処理、影響範囲のログ確認、対策判断。暗号・PKI詳細ではない",
+      "password_spray": "認証攻撃の兆候、アカウント保護、MFA・監視の運用",
+      "usb_malware": "外部媒体管理、隔離・報告、安全な検査手順",
+      "exfiltration": "退職予定者の大量取得、ログ保全、権限ライフサイクル、持出し経路確認",
+      "patch": "脆弱性管理、変更管理、暫定対策と残留リスク"
+    },
+    "assessment": "15/15が現行科目Bの管理・運用・事故対応・現場ケース判断として利用可能。v199で問題となった暗号・署名・証明書・PKIの詳細メカニズムは、v200で置換した4シナリオの学習内容から除去済み。"
+  },
+  "story_distinctness": {
+    "titles_unique": true,
+    "incident_titles_unique": true,
+    "substantive_duplicate_pairs": [],
+    "semantic_anchors": {
+      "phishing": "social-engineering credential incident",
+      "ransomware": "malware containment and recovery",
+      "access": "least-privilege access review",
+      "logs": "abnormal-login investigation",
+      "certificate": "information-asset handling",
+      "risk": "risk prioritization and residual risk",
+      "sql_injection": "server-side input/query handling",
+      "xss": "browser-side output handling and impact review",
+      "password_spray": "distributed authentication attack",
+      "usb_malware": "removable-media governance",
+      "exfiltration": "insider/data-exfiltration investigation",
+      "crypto_choice": "account lifecycle after contract completion",
+      "password_hash": "physical office/confidential-material security",
+      "signed_update": "endpoint incident escalation and evidence preservation",
+      "patch": "vulnerability and patch management"
+    },
+    "overlap_watch": [
+      {
+        "ids": ["logs", "exfiltration", "signed_update"],
+        "assessment": "いずれもログ・事故対応を扱うが、対象は不審ログイン、内部持出し、不審端末通信であり、判断対象と再発防止が分離されているためテンプレート重複ではない。"
+      },
+      {
+        "ids": ["access", "crypto_choice"],
+        "assessment": "双方が権限管理を扱うが、accessは過大権限の是正、crypto_choiceは契約終了に伴うライフサイクル管理を問うため役割が異なる。"
+      }
+    ],
+    "assessment": "同一ストーリーの定数差し替えや、同じ判断手順を別名で反復する実質重複は見つからない。"
+  },
+  "final_practice_review": {
+    "count": 20,
+    "algorithm": 16,
+    "security": 4,
+    "security_selection": "SECURITY_SCENARIOSからlogあり2件 + logなし2件を選び、makeFinalSecurityで現在のscenario objectから出題する",
+    "secondary_legacy_security_pool": false,
+    "all_current_pool_ids_aligned": true,
+    "out_of_scope_final_candidates": [],
+    "assessment": "最終演習のセキュリティ4問は現在の15シナリオ以外から生成されず、15/15がスコープ適合のため、v199で問題になった対象外テーマが最終演習へ混入する経路は解消済み。"
+  },
+  "deferred_v202": {
+    "medium_algorithm_ids": [
+      "loop_sum",
+      "stack_ops",
+      "count_even",
+      "matrix_sum",
+      "queue_ops",
+      "object_counter"
+    ],
+    "learner_content_changed_in_v201": false,
+    "decision": "v201では触らない。v202で中間状態予測の二段階性と説明のトレース深度を個別に改善する。"
+  },
+  "decision": {
+    "status": "passed",
+    "high_findings": [],
+    "medium_findings": [],
+    "security_scope_repair_complete": true,
+    "next_release": "v202",
+    "next_scope": "six deferred Medium algorithm checkpoint rewrites only"
+  },
+  "status": "audit_complete"
+}

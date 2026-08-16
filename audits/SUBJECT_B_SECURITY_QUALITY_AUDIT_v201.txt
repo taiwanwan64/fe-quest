@@ -1,0 +1,171 @@
+FE QUEST v201 — Subject B Security Post-Repair Quality Audit
+============================================================
+
+Scope
+-----
+Audit-only. No learner-facing content changes.
+Source release: v200
+Source main: 7f2e94cf0335c471157311f8bc091929433ef440
+
+Purpose
+-------
+v199 identified four Subject B security scenarios whose learner-facing content was outside
+the current examination emphasis. v200 replaced only those four scenarios while preserving
+their persistence IDs and difficulty slots. v201 verifies the resulting 15-scenario pool as
+a whole before moving on to the six deferred algorithm checkpoint improvements.
+
+Reference calibration
+---------------------
+The attached Subject B textbook and prediction/past-question book are used only to calibrate
+scope, structure, terminology and difficulty. Proprietary question wording is not copied.
+
+The audit follows the same reference interpretation used in v199/v200:
+- Subject B security is primarily case-study judgment about people, organizations,
+  operations and incident response.
+- The current practice structure is 16 pseudocode/algorithm questions + 4 security questions.
+- Detailed cryptography, digital-signature/certificate authentication, PKI and secure-
+  protocol mechanics are not used as the target knowledge of the current Subject B
+  security practice.
+
+Runtime inventory
+-----------------
+SECURITY_SCENARIOS: 15
+Security questions: 45 (3 per scenario)
+Levels: 基礎4 / 標準8 / 応用3
+Answer positions: 12 / 11 / 11 / 11
+
+IDs:
+phishing, ransomware, access, logs, certificate, risk, sql_injection, xss,
+password_spray, usb_malware, exfiltration, crypto_choice, password_hash,
+signed_update, patch
+
+Post-v200 scope review — 15 / 15 aligned
+-----------------------------------------
+1. phishing
+   Social-engineering evidence, credential protection, reporting and MFA operation.
+
+2. ransomware
+   Malware containment, backup/recovery and incident-log investigation.
+
+3. access
+   Least privilege and periodic access-right review.
+
+4. logs
+   Abnormal-login correlation, user verification, account protection and impact review.
+
+5. certificate — v200 replacement
+   Information-asset ownership, confidentiality classification, access range and disposal.
+   The legacy ID remains only for saved-state compatibility; certificate/CA mechanics are
+   no longer the learner-facing topic.
+
+6. risk
+   Likelihood/impact prioritization, risk tolerance and residual-risk management.
+
+7. sql_injection
+   Operational Web-application input/query handling and least-privilege decisions.
+   This remains a technical security case, but does not test the excluded cryptography/PKI
+   mechanics identified in the attached current-scope reference.
+
+8. xss
+   Output handling, affected-user/period investigation and mitigation judgment.
+   Like SQL injection, this is retained as an application-security case rather than an
+   excluded cryptography/authentication-mechanics question.
+
+9. password_spray
+   Authentication-attack evidence, successful-account protection, MFA and monitoring.
+
+10. usb_malware
+    Removable-media governance, isolation/reporting and safe inspection procedures.
+
+11. exfiltration
+    Unusual bulk download by a departing employee, evidence preservation, lifecycle access
+    review and transfer-path investigation.
+
+12. crypto_choice — v200 replacement
+    Account lifecycle after contract completion, immediate removal of unnecessary rights
+    and linkage between contract/transfer events and permission review.
+    The legacy ID remains only for saved-state compatibility; encryption selection and key
+    transport are no longer the learner-facing topic.
+
+13. password_hash — v200 replacement
+    Physical/office security: screen locking, printed confidential material, storage and
+    controlled removal from the workplace.
+    The legacy ID remains only for saved-state compatibility; hash/salt mechanics are no
+    longer the learner-facing topic.
+
+14. signed_update — v200 replacement
+    Endpoint incident response, containment, evidence preservation and organizational
+    escalation.
+    The legacy ID remains only for saved-state compatibility; signature/public-private-key
+    mechanics are no longer the learner-facing topic.
+
+15. patch
+    Vulnerability prioritization, change management, temporary mitigation and residual risk.
+
+Result: out-of-scope scenario IDs = 0.
+
+Story/template duplication audit
+--------------------------------
+Titles are unique and incident titles are unique.
+No substantive duplicate pair was found.
+
+There are intentional neighboring skills, but the learner decisions remain different:
+- logs / exfiltration / signed_update all use operational evidence, but respectively test
+  suspicious account access, insider/data removal, and endpoint incident escalation/evidence.
+- access / crypto_choice both involve permissions, but access repairs an over-broad current
+  permission while crypto_choice tests lifecycle removal after contract completion.
+- ransomware / usb_malware / signed_update all contain incident-response elements, but their
+  initial evidence and required control decisions are different.
+
+This is useful reinforcement rather than a template with only names or constants changed.
+
+Final-practice path audit
+-------------------------
+The final Subject B practice remains 20 questions = algorithm16 + security4.
+
+The security path uses the current SECURITY_SCENARIOS objects directly:
+- 2 scenarios with log evidence
+- 2 scenarios without log evidence
+- makeFinalSecurity() converts the selected current scenario/step into the final item
+
+No secondary legacy security-question pool is used by this path. Because the current
+SECURITY_SCENARIOS pool is now 15 / 15 scope-aligned, the four-question final security
+portion has no remaining candidate corresponding to the v199 out-of-scope content.
+
+v200 repair-chain verification
+------------------------------
+v199 High IDs:
+- certificate
+- crypto_choice
+- password_hash
+- signed_update
+
+v200 repair fixture status: passed
+Exactly those four learner-facing scenario objects changed in v200.
+Their IDs and level slots were preserved, while Subject A, B_EXERCISES and B_COMPOUND_SETS
+were held deep-identical to the parent release.
+
+Deferred Medium algorithm findings
+----------------------------------
+The following six v199 Medium items are deliberately unchanged in v201:
+- loop_sum
+- stack_ops
+- count_even
+- matrix_sum
+- queue_ops
+- object_counter
+
+They remain the next active quality queue. Their issue is not coverage or correctness; it is
+that the pair of checkpoints can be too mechanical or redundant to train meaningful
+intermediate-state prediction.
+
+Decision
+--------
+v201 security audit: PASS
+High findings: 0
+Medium security findings: 0
+Learner-facing change: none
+
+The v199 security-scope defect is closed. Do not broaden v201 into algorithm edits.
+Next recommended release: v202, limited to the six deferred Medium algorithm checkpoint
+rewrites and richer trace/divergence explanations.
