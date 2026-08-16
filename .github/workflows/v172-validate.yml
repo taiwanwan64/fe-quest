@@ -44,6 +44,23 @@ jobs:
           print('FEQUEST_V172_LIQUID_WHITESPACE_ALIGNED structural-newlines=7')
           PY
 
+      - name: Instrument self-check failure detail
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tools/v172_validate.py')
+          s=p.read_text()
+          old="const __feqSelfRaw=globalThis.FEQUEST_SELF_CHECK;if(!__feqSelfRaw)throw new Error('snapshot self-check missing');"
+          new=old+"console.log('__FEQ_SELF_ERRORS__ '+JSON.stringify(__feqSelfRaw.errors||[]));"
+          if old in s and '__FEQ_SELF_ERRORS__' not in s: s=s.replace(old,new,1)
+          if '__FEQ_SELF_ERRORS__' not in s: raise AssertionError('self-check instrumentation')
+          old2="req(m.group(3)=='1',label+' self-check')"
+          new2="\n    if m.group(3)!='1':\n        print(z.stdout)\n    req(m.group(3)=='1',label+' self-check')"
+          if old2 in s: s=s.replace(old2,new2,1)
+          p.write_text(s)
+          PY
+
       - name: Materialize v172 stable production base
         run: python3 tools/v172_materialize.py
 
@@ -75,8 +92,6 @@ jobs:
           a=Path('_site/index.html').read_bytes(); b=Path('_site_reference/index.html').read_bytes()
           n=min(len(a),len(b)); i=next((i for i in range(n) if a[i]!=b[i]),n)
           print('FEQUEST_V172_FIRST_DIFF',i,'len-a',len(a),'len-b',len(b),'equal',a==b)
-          print('A',repr(a[max(0,i-120):i+240]))
-          print('B',repr(b[max(0,i-120):i+240]))
           PY
 
       - name: Validate FE QUEST v172 base equivalence
