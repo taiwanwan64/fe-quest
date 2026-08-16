@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v156",
+  "name": "FE QUEST v157",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v156ではv148〜v152由来の6個の診断データをstable semantic data facadeへ集約し、新しいproduction診断契約はversion付き定数を直接参照しない構造へ移行。既存helper互換のため6個のbacking globalは内部互換層として維持。current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v157では診断データ6系統をJekyll semantic projectionでstable facadeへ直結し、旧V148〜V152のversioned backing data global 6個をproductionから完全撤去。stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
@@ -10,11 +10,26 @@
   "orientation": "any",
   "background_color": "#f6f8fb",
   "theme_color": "#58cc02",
-  "categories": ["education"],
-  "icons": [
-    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  "categories": [
+    "education"
   ],
-  "display_override": ["standalone","browser"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
   "prefer_related_applications": false
 }
