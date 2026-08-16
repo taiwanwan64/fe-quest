@@ -1,0 +1,104 @@
+{
+  "name": "physical-semantic-runtime-source-v165",
+  "version": "v165",
+  "physical_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "utf8_bytes": 55525,
+    "source_count": 1,
+    "liquid_include_count": 0,
+    "byte_exact_with_v164_rendered_runtime": true,
+    "stable_runtime_path_policy": "single-physical-semantic-runtime-source",
+    "materialization_mode": "byte-exact-physical-semantic-runtime-source"
+  },
+  "retired_stable_loader": {
+    "fixture": "_regression/single-semantic-runtime-loader-v163.fixture.json",
+    "loader_sha256": "6835c6489a035effebff9c026c948a195b147d2e5146ddc6154067641104aac1",
+    "loader_utf8_bytes": 558,
+    "backing_part_count": 9,
+    "production_paths_absent": true
+  },
+  "archival_versioned_runtime": {
+    "parts": [
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-00.txt",
+        "sha256": "e9bd016368d37fecf34f27262ecb8125f03ce4616cfc01fe6b5c07bdcd0033b0",
+        "utf8_bytes": 162
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-01.txt",
+        "sha256": "32bf6f1831dc47a39ab778888ca6b8e67825769d610e14a4b48ae33da3841750",
+        "utf8_bytes": 9307
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-02.txt",
+        "sha256": "1d0bb9639cf8d752ffb75bfc29cc9981210963a72e5cd5f1e45939a164dd49c6",
+        "utf8_bytes": 10073
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-03.txt",
+        "sha256": "970ea988a4364631743e100c3ddedcdd364d2f636a96208e58cc217026488e04",
+        "utf8_bytes": 10260
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-04.txt",
+        "sha256": "d73bf99af9fdbf318d530d120a01932ca3e286ff79f3dae5ff91f335ccf187c0",
+        "utf8_bytes": 10264
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-05.txt",
+        "sha256": "69db95859e04d4343f87456798dafa27a39fe1ee7f9b621240dfe4d7115df9ce",
+        "utf8_bytes": 1701
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-06.txt",
+        "sha256": "0ca899977f79d0c144c64098718b34b16f14cbfde74481262dd064120966fe97",
+        "utf8_bytes": 7106
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-07.txt",
+        "sha256": "531c351f7cae3643b16e9badd0768a909478d24769776c075ec46c8f224964c6",
+        "utf8_bytes": 4428
+      },
+      {
+        "path": "app/runtime-semantic-diagnostics-v159-08.txt",
+        "sha256": "0109680c18ef1709f4cca5fb5dcd9b31e048652d33fcf4a1917fef3432837619",
+        "utf8_bytes": 2224
+      }
+    ],
+    "part_count": 9,
+    "concatenated_sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "concatenated_utf8_bytes": 55525,
+    "byte_exact_with_physical_runtime": true
+  },
+  "active_provenance": {
+    "finalizer_path": "app/runtime-diagnostic-data-finalize.txt",
+    "finalizer_sha256": "df1b9caab6cf990bb43e9199227a200bda6202442b06bce4c9cd1af6d9cb2645",
+    "finalizer_utf8_bytes": 1255,
+    "sourceModule": "app/runtime-semantic-diagnostics.txt",
+    "projectionMode": "stable-physical-semantic-runtime-source"
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "sha256": "e291730f6fe069d77b191ceafecc8bcadc124e48f08a8022230f72d30c71db49",
+    "utf8_bytes": 18563,
+    "stable_global_count": 6,
+    "retired_v159_wrapper_global_count": 6,
+    "retired_release_adapters": [
+      "runV160SelfCheck",
+      "runV161SelfCheck",
+      "runV162SelfCheck",
+      "runV163SelfCheck",
+      "runV164SelfCheck"
+    ]
+  },
+  "release_adapter": {
+    "path": "app/v165-block-00.txt",
+    "allowed_versioned_global": "runV165SelfCheck",
+    "sha256": "d8f242d01d0bcc6ed1f3fa95175b892d20561e95dd953990ecdb55c90f83f645",
+    "utf8_bytes": 190
+  },
+  "previous_provenance_fixture": "_regression/stable-semantic-provenance-v164.fixture.json",
+  "previous_runtime_fixture": "_regression/single-semantic-runtime-loader-v163.fixture.json",
+  "production_policy": "byte-exact-single-physical-semantic-runtime-source"
+}

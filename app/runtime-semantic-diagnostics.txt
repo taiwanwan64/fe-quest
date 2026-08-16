@@ -1,1 +1,687 @@
-{% include_relative app/runtime-semantic-diagnostics-00.txt %}{% include_relative app/runtime-semantic-diagnostics-01.txt %}{% include_relative app/runtime-semantic-diagnostics-02.txt %}{% include_relative app/runtime-semantic-diagnostics-03.txt %}{% include_relative app/runtime-semantic-diagnostics-04.txt %}{% include_relative app/runtime-semantic-diagnostics-05.txt %}{% include_relative app/runtime-semantic-diagnostics-06.txt %}{% include_relative app/runtime-semantic-diagnostics-07.txt %}{% include_relative app/runtime-semantic-diagnostics-08.txt %}
+// ===== FE QUEST stable semantic diagnostic runtime (v155) =====
+// Renamed from the v154 runtime projections; source provenance remains pinned in _regression.
+
+// ===== v145 three-layer self-check architecture =====
+(() => {
+  const HISTORICAL_METADATA_ERRORS = new Set([
+    'v89 linked stem diversification count drift',
+    'Every application question needs an application demand type',
+    'v92 pass application count drift',
+    'v93 application demand distribution drift',
+    'v131 answer-cue overrides must be applied',
+    'v130 same-topic overrides must be applied',
+    'v129 same-topic overrides must be applied',
+    'v128 quality overrides must be applied'
+  ]);
+  const SUPERSEDED_SEMANTIC_PREFIX = 'Semantic question contracts:';
+  const UI_MESSAGES = new Set((globalThis.V144_UI_CONTRACTS||[]).map(c=>String(c.message)));
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+
+  const currentCheck = (id, message, test) => ({id,message,test});
+
+  function feqEvaluateDataIntegrityContract(){
+    const genericChoicePhrases = [
+      'この定義・性質と一致しない',
+      'この問題で求める内容とは一致しない',
+      '問題文の条件または定義と一致しない'
+    ];
+    const obviousLengthOutlier = q => {
+      const lens=(q.options||[]).map(x=>String(x).length);
+      if(lens.length!==4) return false;
+      const correctLen=lens[q.a];
+      return correctLen===Math.max(...lens)
+        && lens.filter(x=>x===correctLen).length===1
+        && (Math.max(...lens)-Math.min(...lens)>=10)
+        && correctLen>=Math.min(...lens)*1.6;
+    };
+    const hardSemanticErrors = () => {
+      if(typeof validateQuestionSemanticContracts!=='function') return ['validator missing'];
+      const semantic=validateQuestionSemanticContracts();
+      const superseded=/plain answer contract drift|application explanation binding drift|discrimination explanation binding drift|same-topic comparison explanation drift/;
+      return (semantic.errors||[]).filter(e=>!superseded.test(String(e)));
+    };
+
+    const checks = [
+      currentCheck('version-schema','Current version/schema contract',()=>PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v145'),
+      currentCheck('question-count','Subject A question count must be 710',()=>Array.isArray(QUESTION_BANK)&&QUESTION_BANK.length===710),
+      currentCheck('question-id-unique','Subject A question IDs must be unique',()=>new Set(QUESTION_BANK.map(q=>q.id)).size===QUESTION_BANK.length),
+      currentCheck('question-stem-unique','Subject A question stems must be unique',()=>new Set(QUESTION_BANK.map(q=>q.q)).size===QUESTION_BANK.length),
+      currentCheck('option-set-unique','Subject A option sets must be unique',()=>new Set(QUESTION_BANK.map(q=>JSON.stringify(q.options))).size===QUESTION_BANK.length),
+      currentCheck('answer-balance','Answer positions must remain 178/178/177/177',()=>[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length).join(',')==='178,178,177,177'),
+      currentCheck('cognitive-balance','Cognitive levels must remain 166/323/221',()=>['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length).join(',')==='166,323,221'),
+      currentCheck('question-shape','Every question needs four unique options, a valid answer, explanation and hint',()=>QUESTION_BANK.every(q=>Array.isArray(q.options)&&q.options.length===4&&new Set(q.options).size===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&!!q.exp&&!!q.hint)),
+      currentCheck('option-wording','Options must not use artificial trailing だけ/のみ or polite-form cues',()=>QUESTION_BANK.every(q=>!q.options.some(x=>/(だけ|のみ)$/.test(String(x).trim())||/(です|ます|ません|ですが|ますが|でしょう|ください)/.test(String(x))))),
+      currentCheck('option-length-balance','Correct options must not be obvious length outliers',()=>QUESTION_BANK.every(q=>!obviousLengthOutlier(q))),
+      currentCheck('category-coverage','Every major Subject A category needs at least 20 questions',()=>{
+        const counts=QUESTION_BANK.reduce((a,q)=>(a[q.cat]=(a[q.cat]||0)+1,a),{});
+        return ['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'].every(cat=>(counts[cat]||0)>=20);
+      }),
+      currentCheck('cognitive-demand-metadata','Recall/application/judgment questions need a current demand type',()=>{
+        const recall=new Set(['用語・役割','原則・関係','式・構文','規格・定数']);
+        const application=new Set(['状況適用','規則適用','役割選択','具体例選択','用語対応','概念判別','同一論点適用','同一論点判別','計算・変換','手順追跡']);
+        const judgment=new Set(['計算・変換','状態追跡','二条件分類','複数条件','文脈比較']);
+        return QUESTION_BANK.every(q=>q.cognitiveLevel==='想起'?recall.has(q.recallDemand):q.cognitiveLevel==='適用'?application.has(q.applicationDemand):q.cognitiveLevel==='判断'?judgment.has(q.judgmentDemand):false);
+      }),
+      currentCheck('tracked-review-routing','Tracked Subject A review routes must remain complete',()=>{
+        if(typeof trackedQuestionPool!=='function'||typeof lessonForQuestion!=='function') return false;
+        const tracked=trackedQuestionPool();
+        return tracked.length===719&&new Set(tracked.map(q=>q.id)).size===tracked.length&&tracked.every(q=>!!lessonForQuestion(q))&&tracked.every(q=>QUESTION_BANK.some(x=>x.id!==q.id&&lessonForQuestion(x)===lessonForQuestion(q)));
+      }),
+      currentCheck('review-engine','Current review/mastery helpers must exist',()=>typeof actionableReviewJourneys==='function'&&typeof reviewWorkloadCount==='function'&&typeof coreTopicLearningState==='function'&&typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'),
+      currentCheck('core-pool-shape','Core-linked/challenge pools must remain 390/160 with 159 practical challenges',()=>CORE_A_LINKED_QUESTIONS.length===390&&CORE_A_CHALLENGE_QUESTIONS.length===160&&CORE_A_CHALLENGE_QUESTIONS.filter(q=>q.difficulty==='実戦').length===159),
+      currentCheck('practical-metadata','Every practical question needs audit and reasoning-depth metadata',()=>QUESTION_BANK.filter(q=>q.difficulty==='実戦').every(q=>q.practicalAudit&&q.examDepth)),
+      currentCheck('core-topic-coverage','Every Core A topic needs practical, total and immediate-practice coverage',()=>CORE_A_IDS.every(id=>QUESTION_BANK.some(q=>q.coreTopicId===id&&q.difficulty==='実戦'))&&CORE_A_IDS.every(id=>(CORE_A_TOPIC_TOTAL_QUESTION_COUNTS[id]||0)>=4)&&CORE_A_IDS.every(id=>(CORE_A_TOPIC_PRACTICE_COUNTS[id]||0)>=3)),
+      currentCheck('core-explanation-depth','Every Core A topic needs sufficient explanation, cues and caution guidance',()=>CORE_A_IDS.every(id=>coreTopicExplanationVolume(id)>=540)&&CORE_A_IDS.every(id=>Array.isArray(CORE_A_EXAM_CUE_GUIDES[id])&&CORE_A_EXAM_CUE_GUIDES[id].length===2)&&CORE_A_IDS.every(id=>String(CORE_A_CAUTION_GUIDES[id]||'').length>=30)),
+      currentCheck('core-prose-quality','Core A prose must avoid overlong sentences and templated filler',()=>CORE_A_IDS.every(id=>coreTopicMaxSentenceLength(id)<=80)&&CORE_A_IDS.every(id=>!coreTopicHasTemplatedFiller(id))),
+      currentCheck('current-linked-stem-coverage','Current linked-stem diversification coverage must remain 260',()=>CORE_A_LINKED_QUESTIONS.filter(q=>['v89-varied','v128-normalized'].includes(q.stemAudit)).length===260),
+      currentCheck('semantic-hard-contract','No hard semantic contract errors may remain',()=>hardSemanticErrors().length===0),
+      currentCheck('distractor-explanation-quality','Removed generic distractor phrases and full correct-explanation copies must stay absent',()=>{
+        const generic=QUESTION_BANK.some(q=>(q.choiceExps||[]).some(x=>genericChoicePhrases.some(p=>String(x).includes(p))));
+        const fullCopy=QUESTION_BANK.some(q=>{
+          const exp=String(q.exp||'').trim();
+          return exp&&(q.choiceExps||[]).some((x,i)=>i!==q.a&&String(x||'').includes(exp));
+        });
+        const exactWrongDup=QUESTION_BANK.some(q=>{
+          if(!Array.isArray(q.choiceExps)||q.choiceExps.length!==4) return true;
+          const wrong=q.choiceExps.filter((_,i)=>i!==q.a).map(String);
+          return new Set(wrong).size!==wrong.length;
+        });
+        return !generic&&!fullCopy&&!exactWrongDup;
+      }),
+      currentCheck('v143-data-quality','Current option/depth/judgment quality gates must stay clean',()=>{
+        const a=globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT;
+        return !!a&&a.optionOutliersAfter.length===0&&a.depthShortAfter.length===0&&!QUESTION_BANK.find(q=>q.id==='challenge_033')?.options.some(x=>String(x).includes('だけ確認する'));
+      })
+    ];
+
+    const results=checks.map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test()};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error)};}
+    });
+    const failed=results.filter(r=>!r.pass);
+    return {mode:'current-contract',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message)};
+  }
+
+  globalThis.feqEvaluateDataIntegrityContract=feqEvaluateDataIntegrityContract;
+})();
+
+// ===== v146 current-contract expansion / legacy residual migration =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const MIGRATION_GROUPS = [
+    'cognitive-review-policy','mastery-integrity','taper-policy','curriculum-runtime','syllabus-coverage',
+    'mock-blueprints','subject-b-exercises','subject-b-security-final','profile-backup-roundtrip','profile-schema-migration',
+    'daily-resilience','recovery-safety','roadmap-shape','peer-distractor-metadata','variant-generator'
+  ];
+
+  function feqLearningRuntimeChecks(){
+    return [
+      currentCheck('cognitive-review-policy','Cognitive demand must influence review and weakness drills',()=>
+        typeof cognitiveWeight==='function'&&cognitiveWeight({cognitiveLevel:'想起'})===0.8&&cognitiveWeight({cognitiveLevel:'適用'})===1&&cognitiveWeight({cognitiveLevel:'判断'})===1.25&&
+        typeof categoryCognitiveEvidence==='function'&&typeof subjectACognitiveEvidence==='function'&&
+        String(reviewUrgency).includes('cognitiveRisk')&&String(coreTopicLearningState).includes('advancedReady')&&String(startQuiz).includes('cogcat:'),5),
+      currentCheck('mastery-integrity','Mastery must require retention, higher-order evidence and chapter integration',()=>
+        typeof ensureChapterMasteryProfile==='function'&&typeof chapterIntegrationEvidence==='function'&&
+        String(coreTopicLearningState).includes('minRetention>=85')&&String(coreTopicLearningState).includes('advancedMasterReady')&&String(coreTopicLearningState).includes('chapterReady')&&
+        typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'&&
+        String(courseMasteryStatus).includes("name:'科目Aフル模試'")&&String(courseMasteryStatus).includes("name:'科目B総合実戦'")&&
+        String(chooseFinalBossQuestions).includes("'判断'")&&String(chooseFinalBossQuestions).includes("'適用'"),7),
+      currentCheck('taper-policy','Exam taper policy and light-review routing must remain active',()=>
+        typeof taperStudyCap==='function'&&taperStudyCap(7)===45&&taperStudyCap(3)===30&&taperStudyCap(1)===15&&taperStudyCap(0)===10&&
+        examStudyPhase(3).allowNew===false&&examStudyPhase(3).allowLongExam===false&&examStudyPhase(0).id==='examDay'&&
+        typeof chooseExamWarmupQuestions==='function'&&typeof chooseTaperReviewQuestions==='function'&&
+        String(buildTodayTasks).includes('buildTaperTodayTasks')&&String(finalFocusRecommendation).includes('deepTaper')&&String(finalFocusRecommendation).includes("kind:'warmup'"),5),
+      currentCheck('curriculum-runtime','Curriculum, lesson guides and pace engines must remain complete',()=>{
+        const lessonIds=Object.keys(LESSONS||{});
+        return lessonIds.length>=30&&typeof examPaceStatus==='function'&&typeof effectiveStudyMinutes==='function'&&typeof estimateRemainingStudyMinutes==='function'&&
+          LAB_LESSON_IDS.every(id=>LESSON_GUIDES[id]&&LESSON_GUIDES[id].points?.length>=3)&&
+          CORE_A_IDS.length===130&&Object.keys(CORE_A_CONTENT_ENRICHMENT).length===130&&CORE_A_IDS.every(id=>LESSONS[id]?.pages?.every(p=>!p.quiz&&!p.interactive));
+      },7),
+      currentCheck('syllabus-coverage','Current FE syllabus mapping must remain Ver.9.2 with 96 mapped small categories',()=>
+        FE_SYLLABUS_VERSION==='9.2'&&FE_SYLLABUS_V92_COVERAGE.length===96&&FE_SYLLABUS_V92_COVERAGE.every(x=>x.topicIds.length&&x.topicIds.every(id=>CORE_A_IDS.includes(id))),3),
+      currentCheck('mock-blueprints','Subject A full/half mock blueprints must preserve count, difficulty and cognition',()=>
+        typeof MOCK_BLUEPRINTS!=='undefined'&&
+        MOCK_BLUEPRINTS.full.count===60&&MOCK_BLUEPRINTS.full.basic===15&&MOCK_BLUEPRINTS.full.standard===30&&MOCK_BLUEPRINTS.full.practical===15&&
+        MOCK_BLUEPRINTS.half.count===30&&MOCK_BLUEPRINTS.half.basic===8&&MOCK_BLUEPRINTS.half.standard===14&&MOCK_BLUEPRINTS.half.practical===8&&
+        JSON.stringify(MOCK_BLUEPRINTS.full.cognitive)===JSON.stringify({'想起':15,'適用':29,'判断':16})&&
+        JSON.stringify(MOCK_BLUEPRINTS.half.cognitive)===JSON.stringify({'想起':8,'適用':13,'判断':9}),4),
+      currentCheck('subject-b-exercises','Subject B exercise, mini-mock, semantic and compound-set contracts must remain valid',()=>
+        Array.isArray(B_EXERCISES)&&B_EXERCISES.length===20&&typeof B_MOCK_COUNT!=='undefined'&&B_MOCK_COUNT===8&&
+        Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&B_EXERCISES.every(ex=>ex.steps.filter(s=>s.predict).length===2)&&
+        typeof validateSubjectBSemantics==='function'&&validateSubjectBSemantics().ok&&Array.isArray(B_COMPOUND_SETS)&&B_COMPOUND_SETS.length===15,6),
+      currentCheck('subject-b-security-final','Subject B compound/security/final blueprints and final-resume guard must remain valid',()=>
+        B_COMPOUND_SETS.every(s=>s.qs?.length===3)&&B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall)&&
+        Array.isArray(SECURITY_SCENARIOS)&&SECURITY_SCENARIOS.length===15&&typeof SECURITY_MOCK_COUNT!=='undefined'&&SECURITY_MOCK_COUNT===8&&
+        Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&typeof B_FINAL_COUNT!=='undefined'&&B_FINAL_COUNT===20&&B_FINAL_ALGO_COUNT===16&&B_FINAL_SEC_COUNT===4&&
+        typeof restoreBFinalResume==='function'&&typeof saveBFinalResume==='function'&&typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),7),
+      currentCheck('profile-backup-roundtrip','Profile backup engine must round-trip current schema and checksum',()=>{
+        if(profile.profileSchemaVersion!==PROFILE_SCHEMA_VERSION||typeof normalizeProfileData!=='function'||typeof makeBackupPayload!=='function'||typeof decodeBackupPayload!=='function') return false;
+        const backup=makeBackupPayload(profile),decoded=decodeBackupPayload(backup);
+        return decoded.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION&&profileIntegrityChecksum(decoded.profile)===backup.checksum;
+      },4),
+      currentCheck('profile-schema-migration','Profile migration must preserve v3 progress and reject future schemas',()=>{
+        const migrated=normalizeProfileData({profileSchemaVersion:3,xp:7,lessonProgress:{probe:100},skills:{...DEFAULT_PROFILE.skills}});
+        let rejected=false;try{normalizeProfileData({profileSchemaVersion:PROFILE_SCHEMA_VERSION+1,xp:1});}catch(e){rejected=e?.code==='FUTURE_PROFILE_SCHEMA';}
+        return migrated.profileSchemaVersion===5&&migrated.xp===7&&migrated.lessonProgress.probe===100&&rejected;
+      },2),
+      currentCheck('daily-resilience','Daily plan, readiness and reload-resilience engines must exist',()=>
+        typeof ensureTodayPlanSnapshot==='function'&&typeof rebuildTodayPlanPreservingDone==='function'&&typeof readinessComponents==='function'&&
+        typeof restoreResilientUiState==='function'&&typeof persistResilientUiState==='function',3),
+      currentCheck('recovery-safety','Recovery diagnostics, rollback protection and mastery recovery routing must remain available',()=>
+        typeof runStorageSelfTest==='function'&&typeof exportRecoveryDiagnostics==='function'&&typeof exportPreservedCorruptProfile==='function'&&
+        !!PRE_MANUAL_RESTORE_PROFILE_KEY&&String(restoreRecoveryCandidate).includes('PRE_MANUAL_RESTORE_PROFILE_KEY')&&String(restoreRecoveryCandidate).includes('pre-manual-restore')&&
+        typeof syncMasteryRecoveryHistory==='function'&&typeof masteryRecoveryInfo==='function'&&String(nextMasterTopicCandidate).includes('masteryRecoveryInfo')&&
+        SAFE_RESUME_SCREENS.has('map')&&SAFE_RESUME_SCREENS.has('problems'),4),
+      currentCheck('roadmap-shape','Roadmap must keep five integrated stages covering all Core A chapters',()=>{
+        const roadmap=roadmapData();
+        return roadmap.length===5&&roadmap[0].desc.includes('第1〜13章')&&roadmap[1].desc.includes('第14〜21章');
+      },2),
+      currentCheck('peer-distractor-metadata','Applied linked questions and comparison challenges must retain neighboring-topic metadata',()=>
+        CORE_A_LINKED_QUESTIONS.filter(q=>['application','discrimination'].includes(q.angle)).every(q=>Array.isArray(q.distractorTopicIds)&&q.distractorTopicIds.length===3)&&
+        CORE_A_CHALLENGE_QUESTIONS.filter(q=>q.angle==='comparison').every(q=>Array.isArray(q.comparisonTopicIds)&&q.comparisonTopicIds.length===2),2),
+      currentCheck('variant-generator','Generated-variant validation must produce at least one valid variant',()=>typeof validateGeneratedVariants!=='function'||validateGeneratedVariants()>0,1)
+    ];
+  }
+
+  function feqEvaluateLearningRuntimeContract(){
+    const base=feqEvaluateDataIntegrityContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v146',error:undefined}
+      : {...r});
+    const extras=feqLearningRuntimeChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras];
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-expanded',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,
+      migratedGroupCount:extras.length,
+      migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0)
+    };
+  }
+
+  globalThis.feqLearningRuntimeChecks=feqLearningRuntimeChecks;
+  globalThis.feqEvaluateLearningRuntimeContract=feqEvaluateLearningRuntimeContract;
+})();
+
+// ===== v147 persistence / update / resume safety contract migration =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const MIGRATION_GROUPS = [
+    'daily-plan-versioning','legacy-backup-compatibility','atomic-profile-roundtrip','local-rollback-generations',
+    'multi-tab-write-safety','migration-journal','indexeddb-recovery','committed-state-rollback','resume-freshness',
+    'safe-update-path','boot-barrier','future-schema-guard','recovery-operations','resilient-resume-policy','subject-b-guided-flow'
+  ];
+
+  function feqPersistenceSafetyChecks(){
+    return [
+      currentCheck('daily-plan-versioning','Daily plan migration must preserve completed work and stamp the current plan version',()=>
+        typeof ensureTodayPlanSnapshot==='function'&&typeof rebuildTodayPlanPreservingDone==='function'&&
+        String(ensureTodayPlanSnapshot).includes("planVersion!=='v98'")&&String(ensureTodayPlanSnapshot).includes("rec.planVersion='v98'")&&
+        String(rebuildTodayPlanPreservingDone).includes("rec.planVersion='v98'")&&String(rebuildTodayPlanPreservingDone).includes('done[slot]'),1),
+
+      currentCheck('legacy-backup-compatibility','Checksum-valid v96/v97 backups must still migrate safely to schema v5',()=>{
+        const v96Profile={profileSchemaVersion:3,xp:12,skills:{...DEFAULT_PROFILE.skills},lessonProgress:{legacyV96Probe:100}};
+        const v96Payload={format:'fequest-backup-v2',appVersion:'v96',profileSchemaVersion:3,exportedAt:'2026-08-14T00:00:00.000Z',checksum:profileIntegrityChecksumV3(v96Profile),profile:v96Profile};
+        const v96=decodeBackupPayload(v96Payload);
+        const v97Profile=normalizeProfileDataV4ForChecksum({profileSchemaVersion:4,xp:13,skills:{...DEFAULT_PROFILE.skills},lessonProgress:{legacyV97Probe:100},profileMeta:{createdAt:null,updatedAt:null,lastAppVersion:'v97',migratedFromSchema:3},masteryHistory:{}});
+        const v97Payload={format:'fequest-backup-v2',appVersion:'v97',profileSchemaVersion:4,exportedAt:'2026-08-14T00:00:00.000Z',checksum:profileIntegrityChecksumV4(v97Profile),profile:v97Profile};
+        const v97=decodeBackupPayload(v97Payload);
+        return v96.profile.profileSchemaVersion===5&&v96.profile.lessonProgress.legacyV96Probe===100&&v97.profile.profileSchemaVersion===5&&v97.profile.lessonProgress.legacyV97Probe===100;
+      },2),
+
+      currentCheck('atomic-profile-roundtrip','Atomic profile envelope must be self-validating and schema-aware',()=>{
+        if(typeof atomicProfileEnvelope!=='function'||typeof decodeAtomicProfileEnvelope!=='function'||!PROFILE_ATOMIC_KEY) return false;
+        const env=atomicProfileEnvelope(profile,{revision:7,writerId:'v147-self-check'});
+        const decoded=decodeAtomicProfileEnvelope(JSON.stringify(env));
+        return env.format==='fequest-profile-atomic-v1'&&env.profileSchemaVersion===PROFILE_SCHEMA_VERSION&&decoded.revision===7&&decoded.profile.profileSchemaVersion===PROFILE_SCHEMA_VERSION;
+      },1),
+
+      currentCheck('local-rollback-generations','Current-profile writes must preserve a valid previous generation before replacement',()=>
+        typeof writeCurrentProfile==='function'&&typeof preservePreviousProfileIfValid==='function'&&
+        String(writeCurrentProfile).includes('preservePreviousProfileIfValid')&&String(writeCurrentProfile).includes('PROFILE_ATOMIC_KEY'),1),
+
+      currentCheck('multi-tab-write-safety','Multi-tab writes must use a lease, revision check and conflict block',()=>
+        typeof acquireProfileWriteLease==='function'&&typeof assertNoExternalProfileConflict==='function'&&typeof markProfileConflict==='function'&&
+        String(acquireProfileWriteLease).includes('PROFILE_WRITER_LEASE_KEY')&&String(assertNoExternalProfileConflict).includes('PROFILE_REVISION_CONFLICT')&&String(markProfileConflict).includes('profileConflictBlocked=true'),1),
+
+      currentCheck('migration-journal','Interrupted profile migration must retain a rollback journal and clear atomic authority when restoring',()=>
+        typeof recoverInterruptedMigrationIfNeeded==='function'&&!!PROFILE_MIGRATION_JOURNAL_KEY&&
+        String(recoverInterruptedMigrationIfNeeded).includes('fequest-migration-v1')&&String(recoverInterruptedMigrationIfNeeded).includes('PROFILE_ATOMIC_KEY'),1),
+
+      currentCheck('indexeddb-recovery','Long-term recovery checkpoints must remain available through IndexedDB',()=>
+        typeof openRecoveryDb==='function'&&typeof writeRecoveryCheckpoint==='function'&&typeof recoverLatestIndexedDbCheckpoint==='function'&&
+        String(writeRecoveryCheckpoint).includes('makeBackupPayload')&&String(recoverLatestIndexedDbCheckpoint).includes('decodeBackupPayload'),1),
+
+      currentCheck('committed-state-rollback','In-memory state must retain and restore the last committed profile snapshot',()=>
+        typeof rememberCommittedProfile==='function'&&typeof restoreCommittedProfileInMemory==='function'&&
+        String(rememberCommittedProfile).includes('profileCommittedChecksum')&&String(restoreCommittedProfileInMemory).includes('profileCommittedSnapshot'),1),
+
+      currentCheck('resume-freshness','Returning to a tab must detect external revision changes before allowing new writes',()=>
+        typeof revalidateProfileFreshness==='function'&&String(revalidateProfileFreshness).includes('profileBaseRevision')&&
+        String(revalidateProfileFreshness).includes('sameRevisionChanged')&&String(revalidateProfileFreshness).includes('markProfileConflict'),1),
+
+      currentCheck('safe-update-path','App updates must checkpoint safe state and remain one-tap even from blocked/conflicted tabs',()=>
+        typeof applyPendingUpdateSafely==='function'&&typeof activatePendingUpdateOrReload==='function'&&
+        String(applyPendingUpdateSafely).includes('pre-update')&&String(applyPendingUpdateSafely).includes('profileConflictBlocked||profileWriteBlocked')&&
+        String(activatePendingUpdateOrReload).includes('SKIP_WAITING')&&String(activatePendingUpdateOrReload).includes('persistResilientUiState'),2),
+
+      currentCheck('boot-barrier','No profile save or full render may run before the one-file bundle finishes booting',()=>
+        typeof appBootComplete==='boolean'&&typeof finalizeAppBoot==='function'&&
+        String(finalizeAppBoot).includes('appBootComplete=true')&&String(finalizeAppBoot).includes('FEQUEST_APP_BOOT_COMPLETE=true')&&String(finalizeAppBoot).includes('FEQUEST_DAILY_PLAN_READY=true')&&
+        String(saveProfile).includes('if(!appBootComplete)')&&String(persistProfileSilently).includes('if(!appBootComplete)'),3),
+
+      currentCheck('future-schema-guard','Future-schema data must not be overwritten, exported as fallback, or hidden by an old atomic envelope',()=>
+        String(restorePreImportProfile).includes('localStorage.removeItem(PROFILE_ATOMIC_KEY)')&&
+        String(exportLearningData).includes("profileRecoverySource==='future'")&&String(verifyProfileDurability).includes("profileRecoverySource==='future'"),2),
+
+      currentCheck('recovery-operations','Durability checks, manual recovery points and selectable recovery center must remain available',()=>
+        typeof verifyProfileDurability==='function'&&typeof createRecoveryPointNow==='function'&&typeof ensureVersionRecoveryCheckpoint==='function'&&
+        typeof renderRecoveryCenter==='function'&&typeof restoreRecoveryCandidate==='function'&&typeof restorePreManualProfile==='function'&&
+        String(renderRecoveryCenter).includes("profileRecoverySource==='future'")&&String(restoreRecoveryCandidate).includes('pre-manual-restore'),2),
+
+      currentCheck('resilient-resume-policy','Reload resume must reset stale-day UI and limit automatic resume to safe primary screens',()=>
+        SAFE_RESUME_SCREENS.size===4&&!SAFE_RESUME_SCREENS.has('history')&&!SAFE_RESUME_SCREENS.has('mock')&&
+        typeof uiStateIsToday==='function'&&typeof restoreResilientUiState==='function'&&
+        String(restoreResilientUiState).includes('uiStateIsToday')&&String(restoreResilientUiState).includes("showScreen('home'")&&String(restoreResilientUiState).includes('restoreBFinalResume'),2),
+
+      currentCheck('subject-b-guided-flow','Subject B must keep one guided recommendation path and safe final-exam taper routing',()=>
+        typeof subjectBHubRecommendation==='function'&&typeof renderSubjectBHub==='function'&&typeof launchSubjectBRecommendation==='function'&&typeof continueSubjectBFlow==='function'&&
+        String(subjectBHubRecommendation).includes('finalAllowed')&&String(launchSubjectBRecommendation).includes("rec.mode==='final'")&&String(continueSubjectBFlow).includes('launchSubjectBRecommendation')&&
+        typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),1)
+    ];
+  }
+
+  function feqEvaluatePersistenceSafetyContract(){
+    const base=feqEvaluateLearningRuntimeContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'
+      ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v147',error:undefined}
+      : {...r});
+    const extras=feqPersistenceSafetyChecks().map(c=>{
+      try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}
+      catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}
+    });
+    const results=[...baseResults,...extras];
+    const failed=results.filter(r=>!r.pass);
+    return {
+      mode:'current-contract-safety-expanded',
+      total:results.length,
+      passed:results.length-failed.length,
+      failed:failed.length,
+      results,
+      errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),
+      inheritedContractCount:baseResults.length,
+      migratedGroupCount:extras.length,
+      migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0)
+    };
+  }
+
+  globalThis.feqPersistenceSafetyChecks=feqPersistenceSafetyChecks;
+  globalThis.feqEvaluatePersistenceSafetyContract=feqEvaluatePersistenceSafetyContract;
+})();
+
+// ===== v148 question-cue / functional-UX / browser-contract migration =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const MIGRATION_GROUPS = [
+    'judgment-distractor-cue','security-distractor-cue','structural-answer-cue','strong-answer-length-cue',
+    'focused-exercise-flow','core-course-map-behavior','core-polite-prose','plan-interaction-helpers'
+  ];
+
+  const browserUiAdditions = [
+    {id:'v111-plan-priority',message:'v111 plan next-action / compact details missing',test:()=>typeof renderPlanFocus==='function'&&!!document.getElementById('planFocusCard')&&!!document.getElementById('planDetailsToggle')},
+    {id:'v111-analytics-priority',message:'v111 analytics priority / progressive disclosure missing',test:()=>!!document.querySelector('#history .analytics-priority-card')&&!!document.getElementById('analyticsDetailsToggle')},
+    {id:'v111-data-recovery-folds',message:'v111 data/recovery progressive disclosure missing',test:()=>!!document.querySelector('#pwaHealthCard .data-maintenance-fold')&&!!document.querySelector('#pwaHealthCard .recovery-fold')},
+    {id:'v113-back-accessibility',message:'v113 icon-only back buttons need accessible names',test:()=>[...document.querySelectorAll('button.back')].every(b=>b.hasAttribute('aria-label'))},
+    {id:'v114-weak-primary-action',message:'v114 weak-analysis priority must have a direct action',test:()=>!!document.getElementById('weakTopAction')},
+    {id:'v112-desktop-daily-action',message:'v112 desktop daily side action missing',test:()=>!!document.getElementById('rightDailyAction')&&!!document.getElementById('rightDailyProgress')},
+    {id:'v115-ai-header-location',message:'v115 BIT先生 must live in the top-right header',test:()=>!!document.querySelector('header #aiFab.ai-header-btn')},
+    {id:'v119-focused-exercise-cta',message:'v119 focused exercise CTA contract missing',test:()=>!!document.getElementById('problems')&&!!document.querySelector('.quiz-actions')&&!!document.getElementById('quizSubmit')},
+    {id:'v110-subject-b-next-cards',message:'v110 Subject B next-action cards missing',test:()=>!!document.getElementById('subjectBNextCard')&&!!document.getElementById('subjectBProgressStrip')&&!!document.getElementById('bTraceNextCard')&&!!document.getElementById('secNextCard')&&!!document.getElementById('bPracticeNextCard')},
+    {id:'v102-legacy-quest-copy',message:'v102 legacy quest wording remains visible',test:()=>!document.body.innerText.includes('今日のクエスト')&&!document.body.innerText.includes('クエスト完了')}
+  ];
+
+  function feqQuestionCueAudit(){
+    const giveawayActionCue=/(だけを(?:確認|変更|実施|行|監視|見る|使|管理|再実行)|だけで(?:判断|決定|対応|運用)|だけ(?:確認|変更|実施|監視|を見る|を使う)|必ず|常に|一切|無条件|絶対)/;
+    const incompleteActionCue=/(?:確認|調査|対応|変更|保全|隔離|復元|管理|実施|適用|監視).{0,14}(?:は行わない|を行わない|しない|後回し|省略)|(?:だけ|のみ).{0,14}(?:確認|調査|対応|変更|判断|実施|監視)/;
+    const judgmentOptions=QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').flatMap(q=>(q.options||[]).map((o,i)=>({id:q.id,i,o,a:q.a})));
+    const securityOptions=SECURITY_SCENARIOS.flatMap(s=>s.steps.flatMap((q,qi)=>q.options.map((o,i)=>({id:s.id+':'+qi,i,o,a:q.a}))));
+    const judgmentGiveaways=judgmentOptions.filter(x=>x.i!==x.a&&giveawayActionCue.test(String(x.o)));
+    const securityGiveaways=securityOptions.filter(x=>x.i!==x.a&&giveawayActionCue.test(String(x.o)));
+    const judgmentIncomplete=judgmentOptions.filter(x=>x.i!==x.a&&incompleteActionCue.test(String(x.o)));
+    const securityIncomplete=securityOptions.filter(x=>x.i!==x.a&&incompleteActionCue.test(String(x.o)));
+    const optionComponentCount=o=>(String(o).match(/[、・]|など|および|ならびに/g)||[]).length;
+    const judgmentAndSecurity=[...QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').map(q=>({id:q.id,options:q.options,a:q.a})),...SECURITY_SCENARIOS.flatMap(s=>s.steps.map((q,qi)=>({id:s.id+':'+qi,options:q.options,a:q.a})))];
+    const structuralCueFlags=judgmentAndSecurity.filter(x=>{const cs=x.options.map(optionComponentCount);return cs[x.a]>=3&&Math.max(...cs.filter((_,i)=>i!==x.a))<=1;});
+    const correctOnlyNado=judgmentAndSecurity.filter(x=>String(x.options[x.a]).includes('など')&&x.options.every((o,i)=>i===x.a||!String(o).includes('など')));
+    const strongLengthCue=QUESTION_BANK.filter(q=>{
+      const lens=q.options.map(x=>String(x).replace(/\s+/g,'').length);
+      const correct=lens[q.a];const other=lens.filter((_x,i)=>i!==q.a);const avg=other.reduce((a,b)=>a+b,0)/Math.max(1,other.length);
+      return (correct>=avg*1.5&&correct-avg>=15)||(avg>=correct*1.65&&avg-correct>=18);
+    });
+    return {judgmentGiveaways,securityGiveaways,judgmentIncomplete,securityIncomplete,structuralCueFlags,correctOnlyNado,strongLengthCue};
+  }
+
+  function feqQualityUxChecks(){
+    return [
+      currentCheck('judgment-distractor-cue','Judgment distractors must not expose wrong answers through absolute or deliberately incomplete action wording',()=>{const a=feqQuestionCueAudit();return a.judgmentGiveaways.length===0&&a.judgmentIncomplete.length===0;},2),
+      currentCheck('security-distractor-cue','Security distractors must not expose wrong answers through absolute or deliberately incomplete action wording',()=>{const a=feqQuestionCueAudit();return a.securityGiveaways.length===0&&a.securityIncomplete.length===0;},2),
+      currentCheck('structural-answer-cue','Judgment/security correct answers must not be uniquely signaled by comprehensive-list structure or 「など」',()=>{const a=feqQuestionCueAudit();return a.structuralCueFlags.length===0&&a.correctOnlyNado.length===0;},2),
+      currentCheck('strong-answer-length-cue','No Subject A answer should retain a strong correct-vs-distractor length cue',()=>feqQuestionCueAudit().strongLengthCue.length===0,1),
+      currentCheck('focused-exercise-flow','Focused exercise hub logic must remain available as the primary practice entry',()=>typeof openProblemsHub==='function'&&typeof startQuiz==='function'&&String(openProblemsHub).includes("getElementById('problems')")&&String(openProblemsHub).includes('renderExerciseEntry'),1),
+      currentCheck('core-course-map-behavior','Core A course map must not auto-expand the first incomplete chapter',()=>typeof renderCoreCourseMap==='function'&&!String(renderCoreCourseMap).includes("ch===focusChapter)?'open'"),1),
+      currentCheck('core-polite-prose','Core A explanatory prose must retain polite-form and caution normalization',()=>typeof politeCoreProse==='function'&&typeof politeCoreCautionProse==='function'&&politeCoreProse('CPU性能はクロック周波数だけでは決まらない。').endsWith('決まりません。')&&politeCoreProse('違いを見る。')==='違いを見ます。'&&politeCoreCautionProse('用語を混同しない。')==='用語を混同しないようにします。'&&!politeCoreProse('処理は高速だが、条件を確認する。').includes('だが、'),4),
+      currentCheck('plan-interaction-helpers','Plan priority rendering and compact-detail toggling must remain functional',()=>typeof renderPlanFocus==='function'&&typeof setPlanDetailsOpen==='function'&&String(renderPlanFocus).includes("getElementById('planFocusTitle')")&&String(setPlanDetailsOpen).includes("getElementById('planDetailsToggle')"),2)
+    ];
+  }
+
+  function feqEvaluateQualityUxContract(){
+    const base=feqEvaluatePersistenceSafetyContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'?{...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v148',error:undefined}:{...r});
+    const extras=feqQualityUxChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}});
+    const results=[...baseResults,...extras];const failed=results.filter(r=>!r.pass);
+    return {mode:'current-contract-quality-ux-expanded',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),inheritedContractCount:baseResults.length,migratedGroupCount:extras.length,migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0)};
+  }
+
+  function feqEvaluateBrowserUiContracts(){
+    const base=Array.isArray(globalThis.V144_UI_CONTRACTS)?globalThis.V144_UI_CONTRACTS:[];const contracts=[...base,...globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions];
+    const results=contracts.map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test()};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error)};}});const failed=results.filter(r=>!r.pass);
+    const report={mode:'browser-dom',total:results.length,passed:results.length-failed.length,failed:failed.length,results};globalThis.FEQUEST_V148_UI_CONTRACT=report;return report;
+  }
+
+  function feqEvaluateBrowserUiLayer(){
+    const total=(globalThis.V144_UI_CONTRACTS||[]).length+globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions.length;
+    if(NODE_SMOKE()) return {mode:'deferred-to-browser-dom',total,passed:null,failed:null,results:[],deferredMessages:[...(globalThis.V144_UI_CONTRACTS||[]).map(c=>String(c.message)),...globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions.map(c=>String(c.message))]};
+    return feqEvaluateBrowserUiContracts();
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions=browserUiAdditions;
+  globalThis.feqQuestionCueAudit=feqQuestionCueAudit;
+  globalThis.feqQualityUxChecks=feqQualityUxChecks;
+  globalThis.feqEvaluateQualityUxContract=feqEvaluateQualityUxContract;
+  globalThis.feqEvaluateBrowserUiContracts=feqEvaluateBrowserUiContracts;
+  globalThis.feqEvaluateBrowserUiLayer=feqEvaluateBrowserUiLayer;
+})();
+
+// ===== v149 legacy-assert inventory / CI-shadow production policy =====
+(() => {
+  const NODE_SMOKE = () => globalThis.__FEQUEST_RUNTIME_SMOKE__===true || /node-runtime-smoke/i.test(String(globalThis.navigator?.userAgent||''));
+  const currentCheck = (id,message,test,legacyAssertions=0) => ({id,message,test,legacyAssertions});
+
+  const legacyAssertionInventory = Object.freeze({
+    total:293,
+    currentContractCovered:Object.freeze({count:147,ranges:'1-11,15-16,18-36,39,42-43,48-49,55,59-70,73-79,84-85,111-124,173-175,177-194,220-221,236,238-243,245-246,249-268,271-291,293'}),
+    browserContractCovered:Object.freeze({count:24,ranges:'215-219,222-223,225-235,237,244,247-248,269-270',browserContracts:23,note:'legacy wording pair 269-270 is represented by one visible-copy browser contract'}),
+    historicalMetadata:Object.freeze({count:38,ranges:'12-14,17,37-38,40-41,44-47,50-52,56-58,71-72,195-199,202-214'}),
+    ciOnlyLegacySentinels:Object.freeze({count:84,ranges:'53-54,80-83,86-110,125-172,176,200-201,224,292'})
+  });
+
+  function feqExpandLegacyRanges(spec){
+    const out=[];
+    String(spec||'').split(',').map(x=>x.trim()).filter(Boolean).forEach(part=>{
+      const m=part.match(/^(\d+)(?:-(\d+))?$/);
+      if(!m) throw new Error(`Invalid legacy assertion range: ${part}`);
+      const a=Number(m[1]),b=Number(m[2]||m[1]);
+      if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<a) throw new Error(`Invalid legacy assertion bounds: ${part}`);
+      for(let n=a;n<=b;n++) out.push(n);
+    });
+    return out;
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory=legacyAssertionInventory;
+  globalThis.feqExpandLegacyRanges=feqExpandLegacyRanges;
+})();
+
+// ===== v150 critical-curriculum declarative contract / CI sentinel decomposition =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const ciSentinelGroups=Object.freeze({
+    qualityCaps:Object.freeze({count:2,ranges:'53-54',role:'chapter recall ratio and stem-template repetition'}),
+    articleTeachingStructure:Object.freeze({count:4,ranges:'80-83',role:'exam cues, caution depth and article teaching order'}),
+    criticalCurriculum:Object.freeze({count:56,ranges:'86-93,125-172',role:'critical terms, definitions, distinctions, formulas and procedures'}),
+    assessmentStructure:Object.freeze({count:17,ranges:'94-110',role:'comparison/chapter-extra/chapter-design and linked-question structure'}),
+    lessonPages:Object.freeze({count:1,ranges:'176',role:'lesson page integrity'}),
+    referenceAnchors:Object.freeze({count:2,ranges:'200-201',role:'reference-anchor immediate applied practice'}),
+    settingsHelper:Object.freeze({count:1,ranges:'224',role:'settings detail helper'}),
+    requiredDom:Object.freeze({count:1,ranges:'292',role:'legacy required-DOM aggregate'})
+  });
+
+  const criticalCurriculumSpec=Object.freeze({
+    definitionContains:Object.freeze([
+      {legacy:86,topic:'core_17_01',term:'As-Is',needle:'現状'},
+      {legacy:88,topic:'core_17_01',term:'To-Be',needle:'目指'},
+      {legacy:130,topic:'core_04_01',term:'CPI',needle:'Cycles Per Instruction'},
+      {legacy:141,topic:'core_16_02',term:'プロセス',needle:'業務の流れ'},
+      {legacy:155,topic:'core_20_03',term:'OR',needle:'Operations Research'}
+    ]),
+    abbreviations:Object.freeze([
+      {legacy:87,terms:Object.freeze(['IT','DB','MAC','ID','QC','RFC','FW','SLM','EC','OCR','OMR','MICR','NFC','NAT','NAPT','JPEG','PNG','GPS','IC','FEC','ER','DRAM','SRAM','A/D','D/A','PID','L2'])}
+    ]),
+    beginnerTermsRequired:Object.freeze([
+      {legacy:89,topic:'core_11_06',terms:Object.freeze(['WAF'])},
+      {legacy:134,topic:'core_12_08',terms:Object.freeze(['リグレッションテスト'])},
+      {legacy:142,topic:'core_16_02',terms:Object.freeze(['As-Is'])},
+      {legacy:143,topic:'core_16_02',terms:Object.freeze(['To-Be'])},
+      {legacy:144,topic:'core_16_02',terms:Object.freeze(['BPM'])},
+      {legacy:147,topic:'core_20_05',terms:Object.freeze(['B/S','P/L','C/F','ROA','ROE'])},
+      {legacy:154,topic:'core_02_05',terms:Object.freeze(['クラスタリング'])},
+      {legacy:157,topic:'core_02_03',terms:Object.freeze(['中置記法','前置記法','後置記法'])},
+      {legacy:158,topic:'core_02_08',terms:Object.freeze(['自己情報量','エントロピー','ハフマン符号'])},
+      {legacy:159,topic:'core_04_01',terms:Object.freeze(['ALU','クロック周波数','MIPS'])},
+      {legacy:160,topic:'core_09_06',terms:Object.freeze(['共有ロック','排他ロック','デッドロック'])},
+      {legacy:161,topic:'core_10_03',terms:Object.freeze(['DHCP','CIDR','MACアドレス'])},
+      {legacy:162,topic:'core_12_05',terms:Object.freeze(['境界値分析','同値分割','リグレッションテスト'])},
+      {legacy:163,topic:'core_18_01',terms:Object.freeze(['PEST','SWOT'])},
+      {legacy:164,topic:'core_20_01',terms:Object.freeze(['CSR','ガバナンス','PDCA'])}
+    ]),
+    beginnerTermsForbidden:Object.freeze([
+      {legacy:151,topic:'core_10_04',term:'CI'},
+      {legacy:152,topic:'core_10_07',term:'AR'},
+      {legacy:153,topic:'core_02_05',term:'クラス'}
+    ]),
+    comparisonRowsRequired:Object.freeze([
+      {legacy:90,topic:'core_11_06',labels:Object.freeze(['IDS','IPS'])},
+      {legacy:91,topic:'core_15_01',labels:Object.freeze(['問題管理'])},
+      {legacy:92,topic:'core_18_05',labels:Object.freeze(['Targeting'])},
+      {legacy:133,topic:'core_10_07',labels:Object.freeze(['DHCP'])}
+    ]),
+    comparisonRowCounts:Object.freeze([
+      {legacy:140,topic:'core_11_08',op:'min',count:5},
+      {legacy:145,topic:'core_16_02',op:'exact',count:4},
+      {legacy:148,topic:'core_20_05',op:'exact',count:5}
+    ]),
+    calcLineContains:Object.freeze([
+      {legacy:126,topic:'core_02_06',needle:'独立'},
+      {legacy:127,topic:'core_02_06',needle:'期待値'},
+      {legacy:128,topic:'core_02_07',needle:'相対誤差'},
+      {legacy:129,topic:'core_04_01',needle:'クロック周波数 ÷ CPI'},
+      {legacy:131,topic:'core_05_03',needle:'スループット ='},
+      {legacy:132,topic:'core_09_03',needle:'候補キー'},
+      {legacy:135,topic:'core_14_04',needle:'並列'},
+      {legacy:149,topic:'core_20_05',needle:'ROA'},
+      {legacy:150,topic:'core_20_05',needle:'ROE'}
+    ]),
+    calcLineCounts:Object.freeze([
+      {legacy:93,topic:'core_17_01',min:5},
+      {legacy:125,topic:'core_05_04',min:5},
+      {legacy:138,topic:'core_09_03',min:4},
+      {legacy:139,topic:'core_14_05',min:5},
+      {legacy:146,topic:'core_16_02',min:5}
+    ]),
+    guideObjectCounts:Object.freeze([
+      {legacy:136,kind:'calc',min:30},
+      {legacy:137,kind:'comparison',min:35}
+    ]),
+    allTopicMinimums:Object.freeze([
+      {legacy:156,kind:'beginnerTerms',min:3},
+      {legacy:165,kind:'overviewLength',min:35},
+      {legacy:166,kind:'beginnerTerms',min:1}
+    ]),
+    beginnerOverrideTerms:Object.freeze([
+      {legacy:167,topic:'core_05_02',term:'クライアントサーバ'},
+      {legacy:168,topic:'core_05_02',term:'3層構造'},
+      {legacy:169,topic:'core_05_02',term:'クラスタ'},
+      {legacy:170,topic:'core_05_02',term:'水平分散'},
+      {legacy:171,topic:'core_05_02',term:'垂直分散'}
+    ]),
+    topicBeginnerTermCounts:Object.freeze([
+      {legacy:172,topic:'core_05_02',min:13}
+    ])
+  });
+
+  function feqExpandCiSentinelGroups(){
+    const groups={};
+    Object.entries(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups).forEach(([name,row])=>{groups[name]=feqExpandLegacyRanges(row.ranges);});
+    const all=Object.values(groups).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
+    return {groups,bucketCounts:Object.fromEntries(Object.entries(groups).map(([k,v])=>[k,v.length])),classified:all.length,unique:unique.length,duplicateCount:all.length-unique.length,exactCoverage:unique.length===expected.length&&unique.every((n,i)=>n===expected[i]),declaredCountsOk:Object.entries(groups).every(([name,values])=>values.length===globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups[name].count)};
+  }
+
+  function feqCriticalCurriculumLegacyIndices(){
+    return Object.values(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec).flatMap(rows=>rows.map(r=>r.legacy)).sort((a,b)=>a-b);
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups=ciSentinelGroups;
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec=criticalCurriculumSpec;
+  globalThis.feqExpandCiSentinelGroups=feqExpandCiSentinelGroups;
+  globalThis.feqCriticalCurriculumLegacyIndices=feqCriticalCurriculumLegacyIndices;
+})();
+
+// ===== v151 remaining release-sentinel declarative contract =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const releaseSentinelSpec=Object.freeze({
+    qualityCaps:Object.freeze([
+      Object.freeze({legacy:53,kind:'chapterRecallRatioMax',max:0.3000001}),
+      Object.freeze({legacy:54,kind:'stemTemplateRepeatMax',max:15})
+    ]),
+    articleTeachingStructure:Object.freeze([
+      Object.freeze({legacy:80,kind:'examCueShape',rowsPerTopic:2,minTriggerLength:6,minActionLength:12}),
+      Object.freeze({legacy:81,kind:'examCueUnique',rowsPerTopic:2}),
+      Object.freeze({legacy:82,kind:'cautionLengthMin',min:30}),
+      Object.freeze({legacy:83,kind:'articleHeadingOrder',headings:Object.freeze(['まずここから','用語','解説','仕組み','重要','問題文の手掛かり','注意'])})
+    ]),
+    assessmentStructure:Object.freeze([
+      Object.freeze({legacy:94,kind:'comparisonChallengeCount',count:69}),
+      Object.freeze({legacy:95,kind:'comparisonChallengesNotImmediate'}),
+      Object.freeze({legacy:96,kind:'chapterExtrasCount',count:9}),
+      Object.freeze({legacy:97,kind:'chapterExtrasUniqueIds'}),
+      Object.freeze({legacy:98,kind:'chapterExtrasFourChoicesAndExplanations'}),
+      Object.freeze({legacy:99,kind:'chapterExtraAnswerContracts'}),
+      Object.freeze({legacy:100,kind:'chapterExtraRequired',id:'chapterextra_01_01',angle:'comparison'}),
+      Object.freeze({legacy:101,kind:'chapterExtraRequired',id:'chapterextra_13_01',angle:'comparison'}),
+      Object.freeze({legacy:102,kind:'chapterPoolMinimum',min:12}),
+      Object.freeze({legacy:103,kind:'chapterQuizTotal',count:12}),
+      Object.freeze({legacy:104,kind:'chapterQuizTopicCoverage'}),
+      Object.freeze({legacy:105,kind:'chapterQuizComparisonCoverage',cap:3}),
+      Object.freeze({legacy:106,kind:'chapterQuizCalculationCoverage'}),
+      Object.freeze({legacy:107,kind:'chapterQuizDifficultyBalance'}),
+      Object.freeze({legacy:108,kind:'chapterQuizMaxPerTopic',minTopicTotal:6,max:2}),
+      Object.freeze({legacy:109,kind:'chapterQuizMaxPerTopic',minTopicTotal:4,maxTopicTotal:5,max:3}),
+      Object.freeze({legacy:110,kind:'linkedQuestionsPerTopic',count:3})
+    ]),
+    lessonPages:Object.freeze([
+      Object.freeze({legacy:176,kind:'allLessonsHavePages',min:1})
+    ]),
+    referenceAnchors:Object.freeze([
+      Object.freeze({legacy:200,kind:'referenceAnchorImmediatePracticeMin',min:3}),
+      Object.freeze({legacy:201,kind:'referenceAnchorAppliedPractice',angles:Object.freeze(['application','scenario','calculation','interpretation','trace'])})
+    ]),
+    settingsHelper:Object.freeze([
+      Object.freeze({legacy:224,kind:'settingsDetailHelper'})
+    ]),
+    requiredDom:Object.freeze([
+      Object.freeze({legacy:292,kind:'requiredDomIds',ids:Object.freeze(['home','map','weak','problems','plan','coverage','mock','lesson','trace','settingsBtn'])})
+    ])
+  });
+
+  function feqReleaseSentinelLegacyIndices(){
+    return Object.values(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec).flatMap(rows=>rows.map(r=>r.legacy)).sort((a,b)=>a-b);
+  }
+
+  function feqExpectedReleaseSentinelIndices(){
+    return Object.entries(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups)
+      .filter(([name])=>name!=='criticalCurriculum')
+      .flatMap(([_name,row])=>feqExpandLegacyRanges(row.ranges))
+      .sort((a,b)=>a-b);
+  }
+
+  function feqDeclarativeCiCoverage(){
+    const critical=feqCriticalCurriculumLegacyIndices();
+    const release=feqReleaseSentinelLegacyIndices();
+    const all=[...critical,...release].sort((a,b)=>a-b);
+    const unique=[...new Set(all)];
+    const expected=feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges).sort((a,b)=>a-b);
+    return {
+      critical:critical.length,
+      release:release.length,
+      total:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n)
+    };
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec=releaseSentinelSpec;
+  globalThis.feqReleaseSentinelLegacyIndices=feqReleaseSentinelLegacyIndices;
+  globalThis.feqExpectedReleaseSentinelIndices=feqExpectedReleaseSentinelIndices;
+globalThis.feqDeclarativeCiCoverage=feqDeclarativeCiCoverage;
+})();
+
+// ===== v152 production / legacy-regression fixture boundary =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const legacyFixtureSpec=Object.freeze({
+    path:'_regression/legacy-run-app-self-check-v131.fixture.json',
+    sourcePath:'app/base-v131.html',
+    sourceVersion:'v131',
+    startMarker:'function runAppSelfCheck(){',
+    endMarker:'function runLessonUXAudit(){',
+    assertCount:293,
+    byteLength:49657,
+    sha256:'b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36',
+    productionBundled:false,
+    releaseOnly:true
+  });
+
+  function feqLegacyClassificationAudit(){
+    const buckets={
+      currentContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.currentContractCovered.ranges),
+      browserContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.browserContractCovered.ranges),
+      historicalMetadata:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.historicalMetadata.ranges),
+      ciOnlyLegacySentinels:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges)
+    };
+    const all=Object.values(buckets).flat();
+    const unique=[...new Set(all)].sort((a,b)=>a-b);
+    const expected=Array.from({length:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.total},(_,i)=>i+1);
+    return {
+      total:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.total,
+      classified:all.length,
+      unique:unique.length,
+      duplicateCount:all.length-unique.length,
+      exactCoverage:unique.length===expected.length&&expected.every((n,i)=>unique[i]===n),
+      declaredCountsOk:Object.entries(buckets).every(([name,values])=>values.length===globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory[name].count),
+      bucketCounts:Object.fromEntries(Object.entries(buckets).map(([name,values])=>[name,values.length]))
+    };
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyFixtureSpec=legacyFixtureSpec;
+  globalThis.feqLegacyClassificationAudit=feqLegacyClassificationAudit;
+})();

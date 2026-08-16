@@ -7,7 +7,7 @@
   Object.freeze(data);
   const provenance=Object.freeze({
     sourceModule:'app/runtime-semantic-diagnostics.txt',
-    projectionMode:'stable-semantic-runtime-loader',
+    projectionMode:'stable-physical-semantic-runtime-source',
     browserUiAdditions:Object.freeze({sourceVersion:'v148'}),
     legacyAssertionInventory:Object.freeze({sourceVersion:'v149'}),
     ciSentinelGroups:Object.freeze({sourceVersion:'v150'}),
