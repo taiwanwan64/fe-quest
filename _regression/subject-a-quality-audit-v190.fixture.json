@@ -1,0 +1,143 @@
+{
+  "name": "subject-a-quality-audit-v190",
+  "release": "v190",
+  "source_release": {
+    "version": "v189",
+    "main_sha": "486e5c7d8a8e335d75978c9f6c4059437f23c02d",
+    "tree": "4ef6a41209397297f526b90ddedaa87544ae918b",
+    "generated_index_bytes": 3487035,
+    "generated_index_sha256": "3f4be4fe3a7d4761ba99535681408cae7b0b249f5385aee663a293ba5ea7b308"
+  },
+  "scope": "audit-only; no learner-facing question edits",
+  "reference_basis": [
+    {
+      "title": "【令和８年度】 いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集",
+      "use": "chapter/topic coverage, emphasis markers, terminology and difficulty framing only",
+      "copyright_policy": "do not copy proprietary question text"
+    },
+    {
+      "title": "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "use": "latest syllabus 9 framing, standard keywords and difficulty calibration only",
+      "copyright_policy": "do not copy proprietary question text"
+    }
+  ],
+  "corpus": {
+    "questions": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178, 178, 177, 177],
+    "cognitive_distribution": {"想起": 166, "適用": 323, "判断": 221},
+    "difficulty_distribution": {"基礎": 206, "標準": 345, "実戦": 159},
+    "category_distribution": {"基礎理論": 91, "アルゴリズム": 42, "コンピュータ": 113, "データベース": 55, "ネットワーク": 62, "セキュリティ": 54, "マネジメント": 142, "ストラテジ": 151}
+  },
+  "coverage": {
+    "curriculum_chapters": 21,
+    "curriculum_topics": 130,
+    "covered_topics": 130,
+    "uncovered_topics": 0,
+    "min_questions_per_topic": 4,
+    "max_questions_per_topic": 12,
+    "topics_with_4_questions": 59,
+    "technology_management_strategy_questions": {"technology": 470, "management": 90, "strategy": 150},
+    "finding": "Coverage is unchanged from v188/v189; all 130 mapped topics remain covered with at least four questions."
+  },
+  "heuristic_comparison": {
+    "v188": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 34, "similarity_gte_0_80": 15},
+      "answer_length_cue_flagged_questions": 19,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "v190_reaudit_of_v189": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 29, "similarity_gte_0_80": 12},
+      "answer_length_cue_flagged_questions": 16,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "delta": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic_gte_0_72": -5,
+      "near_duplicate_pairs_same_topic_gte_0_80": -3,
+      "answer_length_cue_flagged_questions": -3,
+      "absolute_word_asymmetry_flagged_questions": 0
+    },
+    "near_duplicate_pairs_removed": [
+      ["theory-03", "theory-10"],
+      ["theory-07", "coreq_01_02_1"],
+      ["computer-13", "challenge_025"],
+      ["coreq_05_04_2", "challenge_025"],
+      ["coreq_06_05_1", "coreq_06_05_2"]
+    ],
+    "answer_length_flags_removed": ["challenge_v92_12_06", "coreq_15_01_1", "strat-06"],
+    "absolute_word_flags_removed": ["coreq_15_07_1"],
+    "absolute_word_flags_added": ["coreq_06_05_1"],
+    "note": "Heuristics are screening signals only. The absolute-word count did not improve in net terms because one repaired OSS distractor introduced a new 必ず asymmetry while coreq_15_07_1 was cleared."
+  },
+  "manual_priority_review": {
+    "unique_candidates": 31,
+    "high_unique_ids": 7,
+    "medium_unique_ids": 24,
+    "high": [
+      "computer-13",
+      "coreq_02_04_2",
+      "coreq_05_02_1",
+      "coreq_05_04_2",
+      "coreq_06_05_1",
+      "coreq_06_05_2",
+      "coreq_21_04_1"
+    ],
+    "medium": [
+      "challenge_036",
+      "challenge_044",
+      "challenge_046",
+      "challenge_v92_01_07",
+      "challenge_v92_02_08",
+      "coreq_09_02_2",
+      "coreq_09_02_3",
+      "coreq_10_04_2",
+      "coreq_11_02_2",
+      "coreq_11_02_3",
+      "coreq_12_01_2",
+      "coreq_12_01_3",
+      "coreq_14_10_2",
+      "coreq_14_10_3",
+      "coreq_15_08_2",
+      "coreq_15_08_3",
+      "coreq_16_01_2",
+      "coreq_16_01_3",
+      "coreq_17_02_2",
+      "coreq_17_02_3",
+      "media-01",
+      "net-03",
+      "net-12",
+      "theory-06"
+    ],
+    "high_priority_groups": [
+      {"kind": "semantic-repetition/difficulty", "ids": ["computer-13", "coreq_05_04_2"], "reason": "two direct availability-formula drills remain strongly similar after challenge_025 was diversified"},
+      {"kind": "answer-length/absolute-cue", "ids": ["coreq_02_04_2"], "reason": "one-character correct state is conspicuous beside verbose distractors; one distractor also uses 必ず"},
+      {"kind": "distractor-domain-quality", "ids": ["coreq_05_02_1"], "reason": "the correct architecture term is much longer and the three distractors are weakly related to system architecture"},
+      {"kind": "absolute-word/distractor-quality", "ids": ["coreq_06_05_1", "coreq_06_05_2"], "reason": "OSS distractors still lean on absolute claims such as 必ず/すべて; coreq_06_05_1 is a new heuristic regression from v189"},
+      {"kind": "wording/distractor-quality", "ids": ["coreq_21_04_1"], "reason": "terse stem and implausible distractors remain easy to eliminate without domain knowledge"}
+    ],
+    "resolved_or_dropped_from_v188_high": [
+      "challenge_025",
+      "challenge_v92_12_06",
+      "coreq_01_02_1",
+      "coreq_14_02_1",
+      "coreq_15_01_1",
+      "coreq_15_07_1",
+      "coreq_18_02_1",
+      "mgmt-01",
+      "strat-06",
+      "theory-03",
+      "theory-07",
+      "theory-10"
+    ],
+    "finding": "v189 materially reduced true duplicate and answer-length issues. The next batch should target the seven remaining High IDs first; do not rewrite resolved partner questions merely because they were High in v188."
+  },
+  "decision": {
+    "v190_learner_facing_change": false,
+    "release_architecture_change": false,
+    "release_tooling_change": false,
+    "recommended_v191": "Repair the seven current High IDs, then select at most three Medium IDs with the clearest difficulty/cognitive or repeated-template defect. Preserve 710/710 IDs, answer distribution and cognitive counts."
+  }
+}
