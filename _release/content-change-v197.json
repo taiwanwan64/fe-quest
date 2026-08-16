@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "release": "v197",
+  "previous_release": "v196",
+  "parent_main_sha": "3eeb55f04e4aa126c25f2b2229c087b7c6f7cd54",
+  "policy": "explicit-subject-a-question-field-overrides-only",
+  "quality_audit_marker": "v197-demand-alignment",
+  "source_quality_audit": "_regression/subject-a-quality-audit-v196.fixture.json",
+  "source_priority_tier": "medium",
+  "content_files": ["app/learning-quality-overrides-v197.txt"],
+  "assembly_files": ["index.html"],
+  "allowed_question_ids": ["theory-06","media-01","net-12","challenge_044","challenge_046","challenge_v92_01_07","challenge_v92_02_08"],
+  "allowed_changed_question_fields": ["q","options","exp","hint","choiceExps","qualityAudit"],
+  "preserve": {
+    "question_count": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178,178,177,177],
+    "cognitive_distribution": [166,323,221],
+    "difficulty_distribution": [206,345,159],
+    "answer_index_per_question": true,
+    "cognitive_level_per_question": true,
+    "difficulty_per_question": true,
+    "category_per_question": true,
+    "concept_per_question": true
+  },
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration"
+}
