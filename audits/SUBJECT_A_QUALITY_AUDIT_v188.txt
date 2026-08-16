@@ -1,0 +1,84 @@
+FE QUEST v188 — Subject A 710-question Quality Audit
+======================================================
+
+Purpose
+-------
+Audit only. No learner-facing question text, answers, explanations, difficulty labels,
+or cognitive labels are changed in v188.
+
+Reference basis
+---------------
+The attached 2026/令和8年度 textbook is used for the Subject A chapter/topic structure,
+terminology and the book's "出る順" emphasis. The attached 2026 problem book is used
+for latest-syllabus framing and difficulty calibration. Proprietary question text is not
+copied into FE QUEST.
+
+Corpus
+------
+Questions: 710 / unique IDs: 710
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Difficulty: 基礎206 / 標準345 / 実戦159
+
+Coverage
+--------
+21 chapters / 130 mapped curriculum topics
+Covered topics: 130 / 130
+Minimum questions per topic: 4
+Maximum questions per topic: 12
+Technology / Management / Strategy: 470 / 90 / 150
+
+No high-severity coverage gap was found. Every mapped topic has at least four questions.
+The current curriculum covers the textbook's Subject A chapter structure and also keeps
+additional syllabus-level subdivisions already present in FE QUEST.
+
+Automated screening
+-------------------
+Exact normalized question duplicates: 0
+Same-topic near-duplicate pairs: similarity >=0.72: 34 / >=0.80: 15
+Answer-length cue heuristic flags: 19
+Distractor-only absolute-word asymmetry flags: 31
+
+These counts are screening signals, not automatic defects. Calculation variants,
+complementary comparison questions and short symbolic answers can be intentional.
+
+Manual priority review
+----------------------
+43 unique question IDs were placed into the review queue:
+- High: 19
+- Medium: 24
+
+High-priority semantic repetition:
+- theory-03 / theory-10
+- theory-07 / coreq_01_02_1
+- computer-13 / coreq_05_04_2 / challenge_025
+- mgmt-01 / coreq_14_02_1
+- coreq_06_05_1 / coreq_06_05_2
+
+High-priority distractor/style issues:
+- coreq_15_01_1
+- coreq_18_02_1
+- coreq_15_07_1
+- coreq_05_02_1
+- coreq_21_04_1
+- challenge_v92_12_06
+- coreq_02_04_2
+- strat-06
+
+Medium-priority themes:
+- repeated same-topic "用語と説明" templates
+- cognitive-label review for simple conversion/calculation questions labeled 判断
+- a small number of 実戦 questions that currently demand only one-step calculation
+- repeated subnet/network-address calculation patterns
+
+Decision
+--------
+Do not rewrite the bank in v188.
+Keep release/runtime architecture and all learner invariants unchanged.
+Use this audit as the fixed queue for v189+.
+
+Recommended v189
+----------------
+Start with a small high-severity batch. Prefer replacing weak distractors and true semantic
+duplicates with new original questions that test the same syllabus point at FE-level depth.
+Preserve 710 IDs, A/B/C/D=178/178/177/177, and cognitive 166/323/221.
