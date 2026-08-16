@@ -1,0 +1,123 @@
+FE QUEST v204 — Subject B Integrated Session Quality Audit
+===========================================================
+
+Result
+------
+AUDIT COMPLETE WITH ONE MEDIUM FINDING.
+Learner-facing content was not changed in v204.
+
+Purpose
+-------
+v203 confirmed that all 20 B_EXERCISES are correct enough for use and that the v202 six-item intermediate-state repair is complete. v204 moves one level higher: it audits the actual Subject B assessment sessions rather than isolated questions.
+
+Reference boundary
+------------------
+The attached FE materials are used only to calibrate Subject B scope, terminology, structure, difficulty, and exam-like practice. Proprietary question wording is not copied. The references provide dedicated Subject B strategy/public-question/mock-practice material, so this audit treats breadth across one sitting, difficulty switching, and review quality as first-class assessment concerns.
+
+1. Algorithm mini mock — 8 questions / 40 minutes
+------------------------------------------------
+Runtime contract:
+- B_MOCK_COUNT = 8
+- B_MOCK_SECONDS = 40 * 60
+- quota = basic 2 / standard 4 / applied 2
+- at most one prediction checkpoint is candidate-selected from each B_EXERCISE
+- candidates are prioritized by least seen, oldest lastSeen, then random tie-break
+- selected items are shuffled
+
+PASS:
+- exact 2/4/2 difficulty balance
+- unique exercise IDs within a session
+- exposure fairness favors less-seen/older items
+- review shows the question, learner answer, correct answer, and explanation
+- every wrong item can jump back to its exact B_EXERCISE for line-by-line trace review
+
+MEDIUM — algorithm_mini_intra_session_family_balance
+The selector has no topic/family diversity term and no per-family cap. Therefore the four standard slots can legally be filled by:
+- linear_search
+- binary_search_b
+- bubble_sort_b
+- selection_sort_b
+
+That is four of eight questions from one broad search/sort family. Every individual item remains valid and the 2/4/2 quota still passes, but the mini mock can under-represent the breadth of Subject B in a single readiness check.
+
+Decision:
+Do not rewrite questions in v204. Repair only selection logic in v205 while preserving IDs, 8 questions, 2/4/2 difficulty, and seen/lastSeen fairness.
+
+2. Security mini mock — 8 questions / 20 minutes
+------------------------------------------------
+Runtime contract:
+- SECURITY_MOCK_COUNT = 8
+- SECURITY_MOCK_SECONDS = 20 * 60
+- quota = basic 2 / standard 4 / applied 2
+- unique scenario IDs are enforced
+- applied-step selection avoids the first simple attack-name question and chooses a later judgment step
+- log-bearing scenarios are deliberately secured from standard and applied pools before quota fill, guaranteeing at least two log-reading cases where the configured pools are available
+
+PASS:
+- v201 already confirmed all 15 current SECURITY_SCENARIOS are Subject-B scope-aligned
+- difficulty balance is explicit
+- repeated scenario IDs are blocked
+- operational/log judgment is represented
+- wrong-answer review routes to the exact security scenario
+
+No High or Medium session-level defect found.
+
+3. Final practice — 20 questions
+--------------------------------
+Runtime contract:
+- 20 total = algorithm 16 + security 4
+- B_EXAM_ALGO_ITEMS pool = 40
+- algorithm target = standard 8 + applied 8
+- all ten algorithm domains are represented at least once before remaining slots are filled
+- algorithm IDs are unique
+- current format representation is considered while filling remaining slots
+- least-seen / oldest-seen history is considered
+- security = 2 log scenarios + 2 non-log scenarios, unique IDs
+- whole 20-question set is shuffled
+
+Ten algorithm domains:
+control, one-dimensional arrays, two-dimensional arrays, recursion/functions, trees, object orientation, lists, stack/queue, bit strings, search/sort.
+
+Current 40-item format inventory:
+- processing result: 16
+- intermediate state: 8
+- execution count: 7
+- blank completion: 7
+- change prediction: 2
+
+PASS:
+- 16+4 structure is preserved
+- all ten algorithm domains receive representation in every constructed final practice
+- standard/applied algorithm balance is exactly 8/8
+- no duplicate algorithm IDs
+- format diversity is actively preferred
+- security forces two log and two non-log cases without a secondary legacy pool
+
+Review/diagnosis PASS:
+- algorithm and security scores are separated
+- weak format and weak domain are diagnosed
+- repeated misses are surfaced
+- learner can classify an error as trace mistake, code-understanding issue, misread, knowledge gap, or time pressure
+- security mistakes route to the exact scenario
+- exam-only algorithm mistakes route to a representative trace exercise for the weak domain
+
+No High or Medium final-practice defect found.
+
+Low fidelity watch
+------------------
+The 40 final algorithm items are compact independent items: code length ranges from 3 to 16 lines, average 7.85. This is not a correctness or structure defect. The current pool has strong breadth, difficulty, and format controls. A future fidelity phase may add a small number of denser contexts/state presentations without changing the 16+4 contract.
+
+v203 Low Watch recheck
+----------------------
+linked_list, gcd_euclid, and selection_sort_b remain Low only.
+- They can each appear at most once in an algorithm mini session because exercise IDs are unique.
+- They are not members of the final B_EXAM_ALGO_ITEMS pool.
+- v204 therefore finds no integrated-session evidence that would justify promoting them to Medium.
+
+Decision
+--------
+High findings: 0
+Medium findings: 1
+Learner-facing changes in v204: 0
+
+v205 should be a narrow learner-facing repair of buildBMock selection diversity only. Preserve the existing questions, saved-state IDs, 8-question count, basic2/standard4/applied2 quota, and exposure fairness. Add a stable broad-family classification and prefer under-represented families so that a family does not occupy three or more slots when a quota-compatible alternative exists.

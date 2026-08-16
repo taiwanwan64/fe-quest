@@ -1,0 +1,184 @@
+{
+  "name": "subject-b-session-quality-v204",
+  "release": "v204",
+  "source_release": "v203",
+  "source_main_sha": "5b5576558c1b69d90f879192b15f08684fbc0c12",
+  "source_tree": "00d4034272993422a851d9bb02f1cf0bc86f7508",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集",
+      "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集 令和8年度"
+    ],
+    "observations": [
+      "科目Bはアルゴリズムとプログラミングを中心に、情報セキュリティを組み合わせた実戦演習として評価する。",
+      "令和8年度向け教材は科目B専用の合格戦略、公開問題、複数の模擬問題を用意しており、単問品質だけでなく一回の演習としての範囲・難易度・判断の切替えが重要である。",
+      "FE QUESTの監査では参考書の独自問題文を転載せず、スコープ、構造、用語、難易度、本番近似性の校正にのみ利用する。"
+    ],
+    "copyright": "scope/structure/terminology/difficulty/fidelity calibration only; original FE QUEST wording"
+  },
+  "audit_scope": {
+    "algorithm_mini_mock": true,
+    "security_mini_mock": true,
+    "final_practice_20": true,
+    "review_and_remediation": true,
+    "question_content_rewrite": false,
+    "v203_low_watch_repair": false
+  },
+  "algorithm_mini_mock": {
+    "count": 8,
+    "time_seconds": 2400,
+    "level_quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "candidate_mechanics": "各B_EXERCISEから予測チェックポイントを1件候補化し、難易度ごとにseenが少ないもの、lastSeenが古いもの、乱数の順で優先する。",
+    "unique_exercise_ids_per_session": true,
+    "difficulty_balance": "pass",
+    "exposure_fairness": "pass",
+    "within_session_family_diversity_guard": false,
+    "structural_cluster_example": [
+      "linear_search",
+      "binary_search_b",
+      "bubble_sort_b",
+      "selection_sort_b"
+    ],
+    "cluster_example_assessment": "4件はいずれも標準レベルであるため、標準4枠をすべて探索・整列系で占める組合せが選択ロジック上成立する。",
+    "review": {
+      "shows_question": true,
+      "shows_selected_answer": true,
+      "shows_correct_answer": true,
+      "shows_explanation": true,
+      "wrong_answer_routes_to_exact_exercise_trace": true
+    },
+    "assessment": "難易度配分、未出題優先、復習導線は良好。一方、同一セッション内の分野多様性を選択条件に含めていないため、8問の幅を測るミニ模試としてはMediumの偏りリスクが残る。"
+  },
+  "security_mini_mock": {
+    "count": 8,
+    "time_seconds": 1200,
+    "level_quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "unique_scenario_ids_per_session": true,
+    "applied_step_selection": "各シナリオの先頭の名称当てを避け、2問目以降の判断系ステップを候補にする。",
+    "log_reading_floor": "標準と応用からlog付きシナリオを先に確保し、少なくとも2件のログ読解を含める。",
+    "scope_alignment_dependency": "v201でSECURITY_SCENARIOS 15/15の科目Bスコープ適合を確認済み。",
+    "review": {
+      "shows_explanation": true,
+      "wrong_answer_routes_to_exact_security_scenario": true
+    },
+    "assessment": "難易度、ログ読解、シナリオ重複回避、復習導線が組み合わされており、統合セッションとしてHigh/Mediumの欠陥は見つからない。"
+  },
+  "final_practice": {
+    "count": 20,
+    "algorithm": 16,
+    "security": 4,
+    "algorithm_pool_count": 40,
+    "algorithm_domain_count": 10,
+    "algorithm_domains": [
+      "制御",
+      "一次元配列",
+      "二次元配列",
+      "再帰・関数",
+      "木構造",
+      "オブジェクト指向",
+      "リスト",
+      "スタック・キュー",
+      "ビット列",
+      "探索・整列"
+    ],
+    "algorithm_selection": {
+      "all_10_domains_represented_at_least_once": true,
+      "standard_count": 8,
+      "applied_count": 8,
+      "unique_algorithm_ids": true,
+      "format_diversity_preference": true,
+      "least_seen_and_oldest_seen_preference": true
+    },
+    "algorithm_pool_formats": {
+      "処理結果": 16,
+      "途中状態": 8,
+      "実行回数": 7,
+      "空欄補充": 7,
+      "変更予測": 2
+    },
+    "algorithm_code_line_stats": {
+      "min": 3,
+      "max": 16,
+      "average": 7.85,
+      "assessment": "独立した短中量の問題としては扱いやすい。将来の本番近似性強化では一部により密度の高い文脈を加える余地があるが、現時点の構造欠陥とは判定しない。"
+    },
+    "security_selection": {
+      "unique_scenario_ids": true,
+      "log_scenarios": 2,
+      "non_log_scenarios": 2,
+      "secondary_legacy_pool": false
+    },
+    "whole_session_shuffle": true,
+    "review_and_diagnosis": {
+      "algorithm_and_security_scores_separated": true,
+      "weak_format_diagnosis": true,
+      "weak_domain_diagnosis": true,
+      "repeat_miss_detection": true,
+      "mistake_reason_capture": [
+        "トレースミス",
+        "コード理解",
+        "読み違い",
+        "知識不足",
+        "時間不足"
+      ],
+      "security_routes_to_exact_scenario": true,
+      "exam_algorithm_routes_to_domain_representative_trace": true
+    },
+    "v203_low_watch_in_final_algorithm_pool": false,
+    "assessment": "16+4、10領域網羅、標準8+応用8、ID重複なし、形式多様性、ログ系2+非ログ系2、誤答診断まで揃っており、総合実戦としてHigh/Mediumの欠陥は見つからない。"
+  },
+  "v203_low_watch_recheck": {
+    "ids": [
+      "linked_list",
+      "gcd_euclid",
+      "selection_sort_b"
+    ],
+    "promoted_to_medium": [],
+    "remaining_low_watch_ids": [
+      "linked_list",
+      "gcd_euclid",
+      "selection_sort_b"
+    ],
+    "assessment": "3件はアルゴリズムミニ模試で各最大1件だけ出題され得るが、個別品質はv203でLow判定であり、総合実戦のB_EXAM_ALGO_ITEMSには入らない。今回の統合監査でMediumへ昇格させる実害は確認できない。"
+  },
+  "findings": {
+    "high": [],
+    "medium": [
+      {
+        "id": "algorithm_mini_intra_session_family_balance",
+        "severity": "Medium",
+        "evidence": "buildBMockは難易度quotaとseen/lastSeenによる露出公平性で選ぶが、family/domainの比較条件や同系統上限を持たない。標準4枠をlinear_search、binary_search_b、bubble_sort_b、selection_sort_bが同時に占めることが構造上可能。",
+        "impact": "8問のうち半数が探索・整列系に偏るセッションが成立し、学習者の科目B全体の準備度を短時間で確認するミニ模試としての範囲代表性が弱くなる。",
+        "defer_to": "v205",
+        "repair_boundary": "選択ロジックのみ。問題本文、既存ID、8問、基礎2/標準4/応用2、seen/lastSeen公平性を維持する。"
+      }
+    ],
+    "low": [
+      {
+        "id": "final_algorithm_context_density",
+        "assessment": "総合実戦の40問プールはコード3〜16行、平均7.85行の独立問題で構成される。現状の範囲・難易度・形式構造は良好だが、将来の本番近似性向上では一部により密度の高い問題文・状態表現を追加する余地がある。"
+      }
+    ]
+  },
+  "decision": {
+    "status": "audit_complete_with_medium_finding",
+    "high_findings": 0,
+    "medium_findings": 1,
+    "learner_change_in_v204": false,
+    "next_release": "v205",
+    "next_scope": "algorithm mini mock selection diversity only",
+    "v205_goal": "難易度quotaと露出公平性を保ったまま、同一の広義familyが1セッションで3件以上に偏ることを可能な限り避ける。"
+  },
+  "status": "audit_complete"
+}
