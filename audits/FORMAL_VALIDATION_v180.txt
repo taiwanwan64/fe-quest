@@ -1,0 +1,89 @@
+FE QUEST v180 — Formal Validation
+=================================
+
+Release goal
+------------
+Replace the per-release explicit retiredReleaseAdapters list with metadata derived from one releaseVersion literal, while keeping learner behavior and all stable architecture boundaries unchanged.
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v180 derived release diagnostic metadata validation
+Workflow ID: 335430067
+Run ID: 31934182693
+Job ID: 95133460674
+Trigger SHA: badb3bfa0304b2a0d8cd20c04f1fe6e1e0090bca
+Conclusion: success
+Validated/materialized commit: 1346a6ebbcf3c642618574106c4d782729e1afd8
+Validated/materialized tree: 21ef7780a63bd3e252bf1ce61f8f78bf5f30368d
+
+Derived release metadata
+------------------------
+Path: app/runtime-release-diagnostic-spec.txt
+UTF-8 bytes: 855
+SHA-256: 1198b6dc92617027da4e3be2b35de3dc7daebb7671ddaa2848a5ccfbbda4615c
+Single release-specific version literal: v180
+Derived current adapter: runV180SelfCheck
+Derived retired adapter count: 20
+Derived retired adapter range: runV160SelfCheck through runV179SelfCheck
+Explicit retired adapter literals in production release metadata: 0
+Archive boundary fixture: _regression/diagnostic-archive-inventory.fixture.json
+Archived source count: 58
+Release-specific v180 archive boundary fixture created: no
+
+Stable boundaries
+-----------------
+Diagnostic wrapper: 19,860 bytes / SHA-256 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Stable release adapter: 211 bytes / SHA-256 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Stable diagnostic archive inventory: 17,671 bytes / SHA-256 b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+Stable base: 2,991,671 bytes / SHA-256 c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Stable learning module: 405,723 bytes / SHA-256 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+All byte-identical to v179 where expected: yes
+
+Candidate/reference equivalence
+-------------------------------
+Candidate generated index: 3,475,515 bytes / SHA-256 e43c77803e714b733244f80b13a6c939bc8ef7ee405363963ab25babf20ef89b
+Explicit-array reference index: 3,475,533 bytes / SHA-256 c386b1327d564fec32a2a892b8537cecbe1b44042fca9a9ac15edf380cdc0ae0
+Generated HTML equality after replacing only the release metadata source module with one placeholder: yes
+Canonical runtime candidate/reference equality: yes
+Canonical runtime: 1,055,219 bytes / SHA-256 47cfd810d8751539d51a693ba0b69a1d81e72a0aa2ef75c315a2417b8435564f
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Architecture normalization fields: none
+
+Runtime and corpus validation
+-----------------------------
+Static/browser UI: 23/23 + required DOM
+Current contract: 71/71
+Stable runtime helpers: 17
+Retired historical function globals: 46, leaked 0
+Stable wrapper globals: 6
+Retired release wrapper globals leaked: 0
+Retired release adapters: 20, leaked 0
+Current release adapter globals: 1
+Semantic data keys: 6, backing globals leaked 0
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions / raw errors 22 / residual active errors 0
+Production legacy evaluator: absent
+Question corpus: 710 / unique IDs 710
+Answer distribution: A178/B178/C177/D177
+Cognitive distribution: 想起166/適用323/判断221
+Profile Schema: v5
+Diagnostic archive: 58 / growth 0
+Learning-patch archive: 48
+Learning-base archive: 2
+Learner-facing changes: none
+
+Package from authoritative run
+------------------------------
+FE_QUEST_PWA_v180.zip: 767,326 bytes
+SHA-256: 0c83b7541c8ad83dc1e4854fb33d80db35f1a337ed03a79ad3ab7745cbf1e4d6
+Artifact: fe-quest-v180-standalone
+Artifact ID: 9260163900
+Uploaded wrapper size: 767,210 bytes
+Artifact wrapper SHA-256: 852b8f2c378a73dee679457f03773896c1b1c83c5df9549f7b870e2e46eb2b38
+
+Release policy
+--------------
+Future ordinary releases should update the releaseVersion literal while preserving the derived adapter algorithm, stable wrapper, stable release adapter, stable archive inventory, stable base, stable learning module, and stable semantic runtime unless a release-independent architecture change is intentionally required.
