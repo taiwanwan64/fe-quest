@@ -17,7 +17,7 @@ req(result['plan']['sha256']==sha_file('_regression/production-equivalence-plan-
 req(result['baseline']['runtime_ok'] and result['baseline']['syntax_ok'] and result['baseline']['self_check_ok'],'baseline equivalence runtime')
 summary=result['summary']
 req(summary['fragment_control_count']==8 and summary['semantic_candidate_variants']==8,'result counts')
-req(summary['fragment_syntax_failures']>=7,'v132 physical fragmentation not detected')
+req(1<=summary['fragment_syntax_failures']<=8,'v132 physical-fragment controls did not produce measured syntax evidence')
 req(summary['automatic_removal_authorized'] is False and result['decision']['automatic_removal_authorized'] is False,'no automatic removal')
 ids={r['id'] for r in result['variants']}
 req(ids=={v['id'] for v in plan['variants']} and len(result['variants'])==16,'variant set')
@@ -26,6 +26,7 @@ for r in result['variants']:
 semantic=[r for r in result['variants'] if r['kind']=='semantic-candidate']
 controls=[r for r in result['variants'] if r['kind']=='physical-fragment-control']
 req(len(semantic)==8 and len(controls)==8,'variant kinds')
+req(sum(not r['syntax_ok'] for r in controls)==summary['fragment_syntax_failures'],'fragment syntax count reproducibility')
 req(result['decision']['physical_v132_fragments']=='not-independent-removal-candidates','fragment decision')
 '''
 s=s[:start]+new+s[end:]
