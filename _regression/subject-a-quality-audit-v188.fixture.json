@@ -1,0 +1,80 @@
+{
+  "name": "subject-a-quality-audit-v188",
+  "release": "v188",
+  "source_release": {
+    "version": "v187",
+    "main_sha": "d555979c4d0806902dec36cd6a4b1f40c70cedac",
+    "tree": "033b4e536ddc9b7b036c71fc174604956e5af761",
+    "generated_index_bytes": 3475519,
+    "generated_index_sha256": "7aa31a0a0e4581e80be0fc48ec2a95813ff6d3d897a4058b940df5f683f45aa3"
+  },
+  "scope": "audit-only; no learner-facing question edits",
+  "reference_basis": [
+    {
+      "title": "【令和８年度】 いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集",
+      "use": "chapter/topic coverage, emphasis markers, terminology and difficulty framing only",
+      "copyright_policy": "do not copy proprietary question text"
+    },
+    {
+      "title": "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "use": "latest syllabus 9 framing, standard keywords, public R7 and mock-set difficulty calibration only",
+      "copyright_policy": "do not copy proprietary mock-question text"
+    }
+  ],
+  "corpus": {
+    "questions": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178, 178, 177, 177],
+    "cognitive_distribution": {"想起": 166, "適用": 323, "判断": 221},
+    "difficulty_distribution": {"基礎": 206, "標準": 345, "実戦": 159},
+    "category_distribution": {"基礎理論": 91, "アルゴリズム": 42, "コンピュータ": 113, "データベース": 55, "ネットワーク": 62, "セキュリティ": 54, "マネジメント": 142, "ストラテジ": 151}
+  },
+  "coverage": {
+    "curriculum_chapters": 21,
+    "curriculum_topics": 130,
+    "covered_topics": 130,
+    "uncovered_topics": 0,
+    "min_questions_per_topic": 4,
+    "max_questions_per_topic": 12,
+    "topics_with_4_questions": 59,
+    "topics_with_9_or_more_questions": 11,
+    "technology_management_strategy_questions": {"technology": 470, "management": 90, "strategy": 150},
+    "finding": "No high-severity coverage gap against the 21-chapter Subject A reference structure; all mapped topics have at least four questions."
+  },
+  "heuristic_scans": {
+    "exact_normalized_question_duplicates": 0,
+    "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 34, "similarity_gte_0_80": 15},
+    "answer_length_cue": {"rule": "correct option length >=2.5x or <=0.4x median distractor length", "flagged_questions": 19},
+    "absolute_word_asymmetry": {"cue_words": ["必ず", "常に", "だけ", "のみ", "絶対", "一切", "すべて", "全て", "例外なく", "完全に", "唯一"], "distractor_only_flagged_questions": 31},
+    "note": "Heuristics are screening signals only; calculation variants and short symbolic answers may be intentional."
+  },
+  "manual_priority_review": {
+    "unique_candidates": 43,
+    "high_unique_ids": 19,
+    "medium_unique_ids": 24,
+    "high": ["challenge_025", "challenge_v92_12_06", "computer-13", "coreq_01_02_1", "coreq_02_04_2", "coreq_05_02_1", "coreq_05_04_2", "coreq_06_05_1", "coreq_06_05_2", "coreq_14_02_1", "coreq_15_01_1", "coreq_15_07_1", "coreq_18_02_1", "coreq_21_04_1", "mgmt-01", "strat-06", "theory-03", "theory-07", "theory-10"],
+    "medium": ["challenge_036", "challenge_044", "challenge_046", "challenge_v92_01_07", "challenge_v92_02_08", "coreq_09_02_2", "coreq_09_02_3", "coreq_10_04_2", "coreq_11_02_2", "coreq_11_02_3", "coreq_12_01_2", "coreq_12_01_3", "coreq_14_10_2", "coreq_14_10_3", "coreq_15_08_2", "coreq_15_08_3", "coreq_16_01_2", "coreq_16_01_3", "coreq_17_02_2", "coreq_17_02_3", "media-01", "net-03", "net-12", "theory-06"],
+    "high_priority_groups": [
+      {"kind": "semantic-repetition", "ids": ["theory-03", "theory-10"], "reason": "same 8-bit two's-complement -5 task and same correct result"},
+      {"kind": "semantic-repetition", "ids": ["theory-07", "coreq_01_02_1"], "reason": "nearly identical hexadecimal-to-decimal conversion drill"},
+      {"kind": "semantic-repetition/difficulty", "ids": ["computer-13", "coreq_05_04_2", "challenge_025"], "reason": "same availability formula with scaled numbers; the practical variant adds little extra reasoning"},
+      {"kind": "semantic-repetition", "ids": ["mgmt-01", "coreq_14_02_1"], "reason": "both directly ask the WBS definition"},
+      {"kind": "semantic-repetition", "ids": ["coreq_06_05_1", "coreq_06_05_2"], "reason": "very similar OSS redistribution/license-compliance task"},
+      {"kind": "distractor-quality", "ids": ["coreq_15_01_1", "coreq_18_02_1", "coreq_15_07_1", "coreq_05_02_1"], "reason": "weak or unrelated distractors make the correct choice conspicuous"},
+      {"kind": "wording-quality", "ids": ["coreq_21_04_1"], "reason": "terse legal stem and unnatural distractor wording"},
+      {"kind": "answer-length/style-cue", "ids": ["challenge_v92_12_06", "coreq_02_04_2", "strat-06"], "reason": "correct answer is conspicuously shorter than distractors"}
+    ],
+    "medium_priority_groups": [
+      {"kind": "template-repetition", "ids": ["coreq_09_02_2", "coreq_09_02_3", "coreq_11_02_2", "coreq_11_02_3", "coreq_12_01_2", "coreq_12_01_3", "coreq_14_10_2", "coreq_14_10_3", "coreq_15_08_2", "coreq_15_08_3", "coreq_16_01_2", "coreq_16_01_3", "coreq_17_02_2", "coreq_17_02_3"], "reason": "same-topic 'term/description' templates are highly similar"},
+      {"kind": "cognitive-label-review", "ids": ["theory-06", "theory-07", "media-01", "net-12"], "reason": "simple conversion/calculation/identification tasks are labeled 判断 and merit manual relabel review"},
+      {"kind": "difficulty-review", "ids": ["challenge_044", "challenge_046", "challenge_v92_01_07", "challenge_v92_02_08"], "reason": "marked 実戦 but currently require only one-step application or recognition"},
+      {"kind": "near-duplicate-calculation", "ids": ["net-03", "coreq_10_04_2", "challenge_036"], "reason": "three subnet network-address questions use essentially the same procedure"}
+    ]
+  },
+  "decision": {
+    "v188_learner_facing_change": false,
+    "release_architecture_change": false,
+    "release_tooling_change": false,
+    "recommended_v189": "Rewrite a small batch of high-severity candidates, prioritizing distractor quality and true semantic duplicates while preserving 710/710 IDs, answer-position distribution and cognitive-count invariants."
+  }
+}
