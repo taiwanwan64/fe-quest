@@ -1,0 +1,79 @@
+name: FE QUEST v174 release metadata boundary validation
+
+on:
+  push:
+    branches: [v174-staging]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: read
+
+concurrency:
+  group: fe-quest-v174-validation
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize v174 release metadata boundary
+        run: python3 tools/v174_materialize.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build release-metadata-module candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Prepare old-inline-metadata reference
+        run: python3 tools/v174_prepare_reference.py
+
+      - name: Build old-inline-metadata reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_v174_reference_src
+          destination: ./_site_reference
+
+      - name: Validate FE QUEST v174 release metadata boundary
+        run: python3 tools/v174_validate.py
+
+      - name: Commit validated materialized source and evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A app _regression audits index.html manifest.webmanifest sw.js
+          if git diff --cached --quiet; then
+            echo "FEQUEST_V174_SOURCE_ALREADY_COMMITTED"
+          else
+            git commit -m "Stabilize FE QUEST v174 diagnostic wrapper metadata boundary"
+            git push origin HEAD:v174-staging
+          fi
+          echo "FEQUEST_V174_VALIDATION_HEAD=$(git rev-parse HEAD)"
+          echo "FEQUEST_V174_VALIDATION_TREE=$(git rev-parse HEAD^{tree})"
+
+      - name: Package FE QUEST v174
+        run: |
+          cd _site
+          zip ../FE_QUEST_PWA_v174.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          cd ..
+          wc -c FE_QUEST_PWA_v174.zip
+          sha256sum FE_QUEST_PWA_v174.zip
+          sha256sum _site/index.html _site/manifest.webmanifest _site/sw.js _site/icon-192.png _site/icon-512.png _site/apple-touch-icon.png
+
+      - name: Upload FE QUEST v174
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-v174-standalone
+          path: FE_QUEST_PWA_v174.zip
+          if-no-files-found: error
+          retention-days: 90
