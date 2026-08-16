@@ -1,0 +1,366 @@
+{
+  "name": "production-base-archive-boundary-v173",
+  "version": "v173",
+  "scope": "historical-v131-full-base-relocation-after-v172-stable-base-materialization",
+  "policy": "byte-exact-archive-move-no-production-or-semantic-learning-change",
+  "parent_release": {
+    "version": "v172",
+    "main_sha": "6fee64d6225debb1f3cf2549b722ee18c0ee0556"
+  },
+  "historical_base": {
+    "original_path": "app/base-v131.html",
+    "archive_path": "_regression/archive/learning-base/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a",
+    "original_path_present_after_move": false,
+    "archive_byte_exact": true,
+    "production_included": false
+  },
+  "stable_active_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac",
+    "production_include_count": 1
+  },
+  "legacy_evaluator_range": {
+    "path": "_regression/archive/learning-base/runAppSelfCheck-v131.txt",
+    "utf8_bytes": 49657,
+    "sha256": "b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36",
+    "assert_count": 293,
+    "source_start_byte": 2936878,
+    "source_end_byte": 2986535
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "reference_inventory_before_move": [
+    {
+      "path": "_regression/archive/diagnostics/runtime-current-diagnostics.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/runtime-semantic-diagnostics-v159-08.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v152-block-00.txt",
+      "occurrences": 2,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v153-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v154-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v154-runtime-v152.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v155-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v156-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v157-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v158-block-01.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v159-block-01.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/legacy-run-app-self-check-v131.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-base-stabilization-v172.fixture.json",
+      "occurrences": 2,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-learning-compaction-v170.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-learning-source-boundary-v171.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-patch-chain-v167.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-patch-effects-v168.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "app/runtime-diagnostic-wrapper.txt",
+      "occurrences": 1,
+      "classification": "runtime-historical-provenance-literal"
+    },
+    {
+      "path": "app/runtime-semantic-diagnostics.txt",
+      "occurrences": 1,
+      "classification": "runtime-historical-provenance-literal"
+    },
+    {
+      "path": "audits/BASE_SOURCE_BOUNDARY_AUDIT_v172.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v170.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v171.txt",
+      "occurrences": 2,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v172.txt",
+      "occurrences": 3,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/LEARNING_COMPACTION_AUDIT_v170.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PHYSICAL_DIAGNOSTIC_HELPER_PRUNING_AUDIT_v154.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PRODUCTION_LEGACY_FIXTURE_BOUNDARY_AUDIT_v152.txt",
+      "occurrences": 3,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PRODUCTION_PATCH_CHAIN_AUDIT_v167.txt",
+      "occurrences": 2,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "occurrences": 1,
+      "classification": "release-description"
+    }
+  ],
+  "reference_inventory_after_move": [
+    {
+      "path": "_regression/archive/diagnostics/runtime-current-diagnostics.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/runtime-semantic-diagnostics-v159-08.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v152-block-00.txt",
+      "occurrences": 2,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v153-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v154-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v154-runtime-v152.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v155-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v156-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v157-block-00.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v158-block-01.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/archive/diagnostics/v159-block-01.txt",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/legacy-run-app-self-check-v131.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-base-archive-boundary-v173.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-base-stabilization-v172.fixture.json",
+      "occurrences": 2,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-learning-compaction-v170.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-learning-source-boundary-v171.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-patch-chain-v167.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "_regression/production-patch-effects-v168.fixture.json",
+      "occurrences": 1,
+      "classification": "historical-regression-evidence"
+    },
+    {
+      "path": "app/runtime-diagnostic-wrapper.txt",
+      "occurrences": 1,
+      "classification": "runtime-historical-provenance-literal"
+    },
+    {
+      "path": "app/runtime-semantic-diagnostics.txt",
+      "occurrences": 1,
+      "classification": "runtime-historical-provenance-literal"
+    },
+    {
+      "path": "audits/BASE_SOURCE_BOUNDARY_AUDIT_v172.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v170.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v171.txt",
+      "occurrences": 2,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v172.txt",
+      "occurrences": 3,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/LEARNING_COMPACTION_AUDIT_v170.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PHYSICAL_DIAGNOSTIC_HELPER_PRUNING_AUDIT_v154.txt",
+      "occurrences": 1,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PRODUCTION_LEGACY_FIXTURE_BOUNDARY_AUDIT_v152.txt",
+      "occurrences": 3,
+      "classification": "historical-audit-documentation"
+    },
+    {
+      "path": "audits/PRODUCTION_PATCH_CHAIN_AUDIT_v167.txt",
+      "occurrences": 2,
+      "classification": "historical-audit-documentation"
+    }
+  ],
+  "reference_policy": {
+    "runtime_historical_provenance_literals_allowed": true,
+    "historical_regression_and_audit_literals_allowed": true,
+    "unclassified_reference_count_after_move": 0,
+    "production_assembler_historical_base_include_count": 0,
+    "production_assembler_stable_base_include_count": 1
+  },
+  "validation": {
+    "status": "passed",
+    "generated_index_byte_exact": true,
+    "app_shell_byte_exact": true,
+    "canonical_runtime_snapshot_equal": true,
+    "candidate_build": {
+      "path": "_site/index.html",
+      "utf8_bytes": 3474229,
+      "sha256": "b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720"
+    },
+    "restored_historical_base_reference_build": {
+      "path": "_site_reference/index.html",
+      "utf8_bytes": 3474229,
+      "sha256": "b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "67d1633b2be5b9d3162844137d4b5453906286e4f9d2477242aeaed2cfa48987",
+      "utf8_bytes": 1050705
+    },
+    "canonical_snapshot_excluded_volatile_fields": [
+      "FEQUEST_SELF_CHECK.checkedAt"
+    ],
+    "historical_base_archive_byte_exact": true,
+    "stable_base_projection_exact": true,
+    "candidate_deployed_historical_base": false,
+    "reference_deployed_historical_base": true,
+    "regression_archive_deployed": false,
+    "unclassified_historical_base_reference_count": 0,
+    "learning_source_boundary_unchanged": true,
+    "semantic_runtime_unchanged": true,
+    "automatic_semantic_deletion_authorized": false
+  }
+}

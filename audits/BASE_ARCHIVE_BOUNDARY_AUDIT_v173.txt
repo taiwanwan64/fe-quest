@@ -1,0 +1,93 @@
+FE QUEST v173 — Historical Base Archive Boundary Audit
+=========================================================
+
+Scope
+-----
+v173 relocates the historical v131 full base out of app/ after v172 proved that production uses app/base-stable.html directly. The historical full base is preserved byte-exact under build-excluded _regression/archive/learning-base/. No learner-facing content or active learning/runtime behavior is changed.
+
+Historical full base
+--------------------
+Original path: app/base-v131.html
+Archive path: _regression/archive/learning-base/base-v131.html
+UTF-8 bytes: 3,041,328
+SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Original app path present: false
+Archive identity: byte-exact
+
+Stable active base
+------------------
+Path: app/base-stable.html
+UTF-8 bytes: 2,991,671
+SHA-256: c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Exact historical projection after excluding legacy evaluator: true
+Legacy evaluator archive: 49,657 bytes / b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+
+Reference inventory
+-------------------
+The original path literal may remain only as immutable historical provenance/evidence. No index assembler dependency remains.
+- _regression/archive/diagnostics/runtime-current-diagnostics.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/runtime-semantic-diagnostics-v159-08.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v152-block-00.txt | occurrences=2 | historical-regression-evidence
+- _regression/archive/diagnostics/v153-block-00.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v154-block-00.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v154-runtime-v152.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v155-block-00.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v156-block-00.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v157-block-00.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v158-block-01.txt | occurrences=1 | historical-regression-evidence
+- _regression/archive/diagnostics/v159-block-01.txt | occurrences=1 | historical-regression-evidence
+- _regression/legacy-run-app-self-check-v131.fixture.json | occurrences=1 | historical-regression-evidence
+- _regression/production-base-archive-boundary-v173.fixture.json | occurrences=1 | historical-regression-evidence
+- _regression/production-base-stabilization-v172.fixture.json | occurrences=2 | historical-regression-evidence
+- _regression/production-learning-compaction-v170.fixture.json | occurrences=1 | historical-regression-evidence
+- _regression/production-learning-source-boundary-v171.fixture.json | occurrences=1 | historical-regression-evidence
+- _regression/production-patch-chain-v167.fixture.json | occurrences=1 | historical-regression-evidence
+- _regression/production-patch-effects-v168.fixture.json | occurrences=1 | historical-regression-evidence
+- app/runtime-diagnostic-wrapper.txt | occurrences=1 | runtime-historical-provenance-literal
+- app/runtime-semantic-diagnostics.txt | occurrences=1 | runtime-historical-provenance-literal
+- audits/BASE_SOURCE_BOUNDARY_AUDIT_v172.txt | occurrences=1 | historical-audit-documentation
+- audits/FORMAL_VALIDATION_v170.txt | occurrences=1 | historical-audit-documentation
+- audits/FORMAL_VALIDATION_v171.txt | occurrences=2 | historical-audit-documentation
+- audits/FORMAL_VALIDATION_v172.txt | occurrences=3 | historical-audit-documentation
+- audits/LEARNING_COMPACTION_AUDIT_v170.txt | occurrences=1 | historical-audit-documentation
+- audits/PHYSICAL_DIAGNOSTIC_HELPER_PRUNING_AUDIT_v154.txt | occurrences=1 | historical-audit-documentation
+- audits/PRODUCTION_LEGACY_FIXTURE_BOUNDARY_AUDIT_v152.txt | occurrences=3 | historical-audit-documentation
+- audits/PRODUCTION_PATCH_CHAIN_AUDIT_v167.txt | occurrences=2 | historical-audit-documentation
+Unclassified references: 0
+
+Real Jekyll archive-independence proof
+-------------------------------------
+Candidate generated index.html bytes: 3,474,229
+Candidate SHA-256: b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720
+Reference generated index.html bytes: 3,474,229
+Reference SHA-256: b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720
+Generated index equality: true
+App-shell equality: true
+Candidate deployed app/base-v131.html: false
+Reference deployed app/base-v131.html: true
+Regression archive deployed: false
+Canonical runtime snapshot: 67d1633b2be5b9d3162844137d4b5453906286e4f9d2477242aeaed2cfa48987 / 1,050,705 bytes
+Canonical runtime equality: true
+
+Release invariants
+------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw errors 22 / residual 0
+Stable learning module: 405,723 bytes / 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Diagnostic/provenance archive count: 55
+Learning-patch provenance archive count: 48
+Learning-base archive count: 2
+Retired release adapter inventory: 13 (runV160SelfCheck through runV172SelfCheck)
+Current adapter: runV173SelfCheck
+
+Policy
+------
+This is a physical provenance relocation only. Historical source strings remain historical provenance where contractually pinned. No semantic deletion is authorized.
