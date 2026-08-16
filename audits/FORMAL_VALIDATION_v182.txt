@@ -1,0 +1,95 @@
+FE QUEST v182 — Formal Validation
+=================================
+
+Release goal
+------------
+Prove the steady-state diagnostic release cadence established in v181: an ordinary release advances only the outer version shell while the four diagnostic architecture modules remain byte-exact to the v181 final main.
+
+Validated/materialized source
+-----------------------------
+SHA: f4fd14fa37f894b0700cada28f2cfb641a55ac0a
+Tree: b3ccbac0a780fa7254800c0bf70986f7e5bc330d
+Parent final v181: 846f91009dc61fdc86a1547577ead2e8daced355
+
+Authoritative GitHub Actions validation
+---------------------------------------
+Workflow: FE QUEST v182 steady-state diagnostic architecture validation
+Workflow ID: 335435746
+Run ID: 31934859962
+Job ID: 95135074603
+Trigger SHA: 79a440271c76a55f1730f51d8967b31e80c71c21
+Conclusion: success
+Real Jekyll image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages: v232 / Jekyll 3.10.0
+
+Pinned architecture — all byte-identical to v181
+--------------------------------------------------
+app/runtime-diagnostic-wrapper.txt
+  19,860 bytes
+  SHA-256 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+app/runtime-release-adapter.txt
+  211 bytes
+  SHA-256 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+app/runtime-release-diagnostic-spec.txt
+  859 bytes
+  SHA-256 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2
+  version source APP_VERSION
+_regression/diagnostic-archive-inventory.fixture.json
+  17,671 bytes / 58 entries
+  SHA-256 b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+
+Steady-state proof
+------------------
+Release-specific diagnostic architecture changed files: 0
+APP_VERSION / releaseVersion: v182
+Current adapter: runV182SelfCheck
+Retired adapters: 22 (runV160SelfCheck through runV181SelfCheck)
+Leaked retired adapters: 0
+Diagnostic archive: 58 -> 58 / growth 0
+Release-specific archive boundary: not created
+Versioned production adapter source: 0
+
+Generated release
+-----------------
+_site/index.html
+  3,475,519 bytes
+  SHA-256 8c419c9609187ab83ba85a4a334442ed5c8df43ff5839950d07bb535336bdbfa
+Canonical runtime snapshot
+  1,055,257 bytes
+  SHA-256 c4e7cadc5253618f73bc2b39e2a43c415ec58ec41b8fa37ef7792ac972e05b1e
+  only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Release contracts
+-----------------
+Static/browser DOM: 23/23 + required DOM
+Current contract: 71/71
+Stable runtime helpers: 17
+Retired historical function globals: 46
+Stable wrapper globals: 6
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual active 0
+Production legacy evaluator: absent
+Question corpus: 710 / unique IDs 710
+Answer distribution: A178/B178/C177/D177
+Cognitive distribution: 想起166/適用323/判断221
+Profile Schema: v5
+Learning archive: 48
+Learning-base archive: 2
+Learner-facing change: none
+
+Artifact
+--------
+FE_QUEST_PWA_v182.zip
+  767,345 bytes
+  SHA-256 a7e98a29ae06d0a90d15a2a6d108707a1c5146726f0160f9e77c6ff1c7daa8a8
+GitHub Actions artifact
+  ID 9260342999
+  wrapper size 767,218 bytes
+  wrapper SHA-256 e65910d9933ded272e2d58c207d577e0de5c55b648f37143b579d57140d32bb4
+  retention 90 days
+
+Conclusion
+----------
+v182 proves the steady-state diagnostic architecture cadence. The wrapper, release adapter, APP_VERSION-driven release metadata module, and archive inventory all remain byte-exact across an ordinary release while the runtime advances correctly to v182. Ordinary diagnostic releases no longer require architecture source changes.
