@@ -1,0 +1,137 @@
+{
+  "name": "subject-a-repairs-v191",
+  "version": "v191",
+  "previous_version": "v190",
+  "parent_main_sha": "9957fdae7e3de226ba1da62573b5acd5c32a9be2",
+  "scope": "explicit-high-severity-subject-a-content-repair",
+  "manifest": {
+    "path": "_release/content-change-v191.json",
+    "utf8_bytes": 1193,
+    "sha256": "056bc2cc38866e02662e896d6c6b13d2b436090111c2739d300deaac4c01f320"
+  },
+  "source_quality_audit": {
+    "path": "_regression/subject-a-quality-audit-v190.fixture.json",
+    "utf8_bytes": 6304,
+    "sha256": "3721ab33b1e775d3ced51ff677ad18121b48d10c40448fbf72ee6ce501d9b474"
+  },
+  "source_priority_tier": "high",
+  "content_files": [
+    {
+      "path": "app/learning-quality-overrides-v191.txt",
+      "utf8_bytes": 8772,
+      "sha256": "508830a08cf99ef155f4cfa5d3927e87f36bccfb02bb20811dcb9620bb5dfac0"
+    },
+    {
+      "path": "app/learning-quality-overrides-v191-contract.txt",
+      "utf8_bytes": 1089,
+      "sha256": "4f6dfcd21f04cdb87d2034b155a1a1d488052b663e9d2608ff196975731dbc27"
+    }
+  ],
+  "changed_question_count": 7,
+  "changed_question_ids": [
+    "computer-13",
+    "coreq_02_04_2",
+    "coreq_05_02_1",
+    "coreq_05_04_2",
+    "coreq_06_05_1",
+    "coreq_06_05_2",
+    "coreq_21_04_1"
+  ],
+  "changed_fields": {
+    "computer-13": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_02_04_2": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_05_02_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_05_04_2": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_06_05_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_06_05_2": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_21_04_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ]
+  },
+  "answer_distribution": [
+    178,
+    178,
+    177,
+    177
+  ],
+  "cognitive_distribution": {
+    "想起": 166,
+    "適用": 323,
+    "判断": 221
+  },
+  "question_count": 710,
+  "unique_ids": 710,
+  "content_release_tooling": [
+    {
+      "path": ".github/content-release/prepare_reference.py",
+      "utf8_bytes": 3297,
+      "sha256": "014dc710077bb97680845d31f4e80ef8c202a9b10e6244a208078a118d88515d",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/content-release/validate_content.py",
+      "utf8_bytes": 9171,
+      "sha256": "d5d0cde6e74e33383cd4f4105b1a1fb299963c34edeafe58e6810c34e449022b",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/workflows/content-release-validate.yml",
+      "utf8_bytes": 4011,
+      "sha256": "e5eb6d6fe51af746d85378eac57d0bde6f86a79ac265589eed6131d194284ec0",
+      "parent_byte_identical": true
+    }
+  ],
+  "standard_release_architecture_byte_identical_to_parent": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "parent_runtime_comparison": true,
+  "learner_facing_change": true,
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration",
+  "status": "passed"
+}
