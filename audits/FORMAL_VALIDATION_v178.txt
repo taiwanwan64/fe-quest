@@ -1,0 +1,159 @@
+FE QUEST v178 — Formal Validation / Release Evidence
+=====================================================
+
+Release scope
+-------------
+v178 freezes the unchanged 58-entry diagnostic/provenance archive inventory into one versionless stable fixture, `_regression/diagnostic-archive-inventory.fixture.json`. The per-release `_regression/production-source-archive-boundary-v178.fixture.json` becomes a compact reference/proof and embeds zero archive entries.
+No learner-facing content, question, answer, cognitive metadata, Profile Schema, stable base, stable learning module, stable semantic runtime, stable diagnostic wrapper, or stable release adapter behavior is changed.
+
+Authoritative parent
+--------------------
+Parent release: v177
+Parent main SHA: bc55752aaae3bafb7a561b84be7a07e68222c557
+Parent tree: 573dd00565daa0b36635b101ae30981c1e85584f
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v178 stable diagnostic archive inventory validation
+Workflow ID: 335423379
+Run ID: 31933357601
+Run number: 1
+Job ID: 95131433419
+Trigger head SHA: 1d00aeefe297f5abe4a4894889764f9e4eb35f1e
+Conclusion: success
+Validated/materialized head SHA: 844e363e141414f014ac0669b5c2045da492dc63
+Validated/materialized tree: 78f66542939498e6cf33976a4adf9250035b324b
+
+Stable production architecture
+------------------------------
+Stable base: 2,991,671 bytes / c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Stable learning module: 405,723 bytes / 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Stable diagnostic wrapper: 19,860 bytes / 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Stable release adapter: 211 bytes / 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Wrapper byte-identical to v177 parent: yes
+Release adapter byte-identical to v177 parent: yes
+Versioned production adapter sources: 0
+
+Stable diagnostic archive inventory
+-----------------------------------
+Path: _regression/diagnostic-archive-inventory.fixture.json
+UTF-8 bytes: 17,671
+SHA-256: b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+Archive entries: 58
+Physical diagnostic archive files: 58
+Archive growth in v178: 0
+Authority release: v177
+Authority path: _regression/production-source-archive-boundary-v177.fixture.json
+Authority UTF-8 bytes: 20,567
+Authority SHA-256: 30a1a4a1c6530b61089b2c6ef05f188fbf50b6296c507df540908116cbf7b522
+Stable inventory entry list matches v177 authority exactly: yes
+Every stable inventory byte/sha archive identity matches its physical archived source: yes
+
+Compact v178 release boundary
+-----------------------------
+Path: _regression/production-source-archive-boundary-v178.fixture.json
+UTF-8 bytes: 583
+SHA-256: e1c6c60a6a8b5558121622ab57cb6a505bb0b5cb7bc99ae4ce5e6c4bf53b1815
+Embedded archive entries: 0
+Stable inventory reference count: 1
+Full v177 boundary -> compact v178 boundary reduction: 20,567 -> 583 bytes (19,984 bytes removed from the per-release duplicate, about 97.17%).
+
+Dependency audit
+----------------
+Pre-migration exact references to `_regression/production-source-archive-boundary-v177.fixture.json`: 4 occurrences across 3 tracked files.
+- app/runtime-release-diagnostic-spec.txt: production-release-metadata, 1
+- tools/v178_materialize.py: temporary tooling/documentation, 2
+- tools/v178_validate.py: temporary tooling/documentation, 1
+The production release metadata advances to the compact v178 boundary; temporary v178 tools are removed during final cleanup.
+
+Release-specific metadata
+-------------------------
+Path: app/runtime-release-diagnostic-spec.txt
+UTF-8 bytes: 844
+SHA-256: 445184ce7aa150662cc4aa90141a3fbea2fae780b999e90ea912e5a4f59a9161
+Release version: v178
+Current adapter: runV178SelfCheck
+Retired release adapter inventory: 18 (runV160SelfCheck through runV177SelfCheck)
+Diagnostic archive count: 58
+Temporary FEQ_RELEASE_DIAGNOSTIC_SPEC global after wrapper initialization: absent
+
+Counterfactual real-Jekyll equivalence proof
+--------------------------------------------
+Candidate mode: compact v178 release boundary referencing the stable 58-entry inventory.
+Reference mode: counterfactual full v178 boundary with all 58 entries re-expanded from the stable inventory.
+GitHub Pages/Jekyll image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages: github-pages v232
+Jekyll: 3.10.0
+Candidate generated index.html: 3,475,504 bytes / 21d071335a2d54a068cdf786d144bc3a4f45111a8754d8ee53612d46a0b49bbd
+Reference generated index.html: 3,475,504 bytes / 21d071335a2d54a068cdf786d144bc3a4f45111a8754d8ee53612d46a0b49bbd
+Generated HTML byte equality: true
+Canonical runtime candidate: 1,050,705 bytes / 7371195d080fddb07c2bf90162f1f4767288a416911cd86b62bbf1edde78df7d
+Canonical runtime reference: 1,050,705 bytes / 7371195d080fddb07c2bf90162f1f4767288a416911cd86b62bbf1edde78df7d
+Canonical runtime equality: true
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Learner-facing / release invariants
+-----------------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Profile Schema: v5
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Stable runtime helpers: 17
+Retired historical function globals: 46, leaked 0
+Stable wrapper globals: 6
+Retired wrapper globals: 6, leaked 0
+Semantic diagnostic data: 6, versioned backing leaked 0
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+Learning-patch archive count: 48
+Learning-base archive count: 2
+Diagnostic archive count: 58
+Regression deployed to Pages output: 0
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V178_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V178_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=18 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 compact-boundary=1 embedded-entries=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V178_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V178_STABLE_ARCHIVE_INVENTORY_OK html-byte-exact=1 runtime-equivalent=1 stable-inventory=17671 stable-inventory-sha=b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250 compact-boundary=583 embedded-entries=0 diagnostic-archive=58 archive-growth=0 snapshot=7371195d080fddb07c2bf90162f1f4767288a416911cd86b62bbf1edde78df7d
+FEQUEST_V178_ARCHIVE_BOUNDARY_OK diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 compact-boundary=1 embedded-entries=0 learning-archive=48 base-archive=2 deployed-regression=0 runtime=55525
+FEQUEST_V178_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=18 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 compact-boundary=1 embedded-entries=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Package from authoritative validation run
+-----------------------------------------
+Inner release ZIP: FE_QUEST_PWA_v178.zip
+Inner release ZIP size: 767,295 bytes
+Inner release ZIP SHA-256: 105a8f1cdaf06fbf27213bd542ebbab33f877c235be3ea6105e18f317888e609
+Generated index.html SHA-256: 21d071335a2d54a068cdf786d144bc3a4f45111a8754d8ee53612d46a0b49bbd
+Generated manifest.webmanifest SHA-256: c00170c62f11118296f8d019d803f0e87bdef1fa560809d9b41a0f4a8a709c66
+Generated sw.js SHA-256: d6593e647ac7ee07a27fefbc1cd89dfbad51d567b5838fdc9bd54aeb8429960e
+GitHub Actions artifact name: fe-quest-v178-standalone
+Artifact ID: 9259931987
+Uploaded artifact size: 767,165 bytes
+Artifact wrapper digest SHA-256: bcd70108348a00db33d3fe71ecef899c9a721e1e77a9da915a34e8724ec71705
+Retention: 90 days
+
+Service worker
+--------------
+APP_VERSION: v178
+Cache: fe-quest-v178-1
+GET_VERSION preserved: yes
+networkWithTimeout preserved: yes
+staleWhileRevalidate preserved: yes
+Range bypass preserved: yes
+
+Finalization policy
+-------------------
+The final release commit removes only temporary v178 validation workflow/tools and adds this formal evidence file. It must not modify app/, _regression/, index.html, manifest.webmanifest, sw.js, stable inventory, stable wrapper/adapter, stable learning/runtime sources, or learner-facing source after the validated/materialized tree.
+
+Release policy
+--------------
+v178 proves that the unchanged 58-entry diagnostic provenance inventory can be frozen once and referenced from a compact per-release boundary without changing generated HTML or canonical runtime behavior. Future ordinary releases should keep the stable archive inventory byte-identical while advancing only compact release evidence and release metadata/version shell unless the physical diagnostic archive itself genuinely changes.
