@@ -1,0 +1,46 @@
+FE QUEST v204 — Release Tooling Cadence Audit
+====================================================
+
+Result
+------
+PASSED real GitHub Pages/Jekyll candidate/reference validation.
+
+Versionless tooling
+-------------------
+Branch-derived target: v204
+Previous release inferred and required: v203
+Stable tooling files: 5
+Adoption release: no
+Release-specific validation workflow/tool source files: 0
+Stable tooling deployed by Jekyll: no
+
+Reference proof
+---------------
+A mechanical conventional reference was created from origin/main and advanced from v203 to v204.
+Candidate and reference generated six release files are byte-identical: yes
+Production manifest remains direct JSON: yes
+Production sw.js remains direct JavaScript: yes
+
+Runtime
+-------
+Current adapter: runV204SelfCheck
+Retired adapters: 44 (runV160SelfCheck through runV203SelfCheck)
+Canonical runtime: 1,062,462 bytes / SHA-256 846d70dd0e4a62b185a1b34beae330ec1eacf2914ab3b900b75ee786e5e9294b
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Diagnostic archive: 58 / growth 0
+
+Generated HTML
+--------------
+3,544,742 bytes / SHA-256 ff20f7404746642cc7444f0c46ff61bb08c10c8a4de890c0b9b4fdeb35d73ff4
+
+Contracts
+---------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw22 / residual0
+Questions 710 / unique710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221
