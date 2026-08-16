@@ -1,0 +1,163 @@
+{
+  "name": "subject-a-quality-audit-v194",
+  "release": "v194",
+  "source_release": {
+    "version": "v193",
+    "main_sha": "6f3848e4a2505752aec9d51fe4b87ceee70513cb",
+    "tree": "b883ae29929b63eceee24025961587210ab847ca",
+    "generated_index_bytes": 3505884,
+    "generated_index_sha256": "e00bff34cb647859f85ac7f4c1d5a234514100ae225aa63357e51271ae6a57e6"
+  },
+  "scope": "audit-only; no learner-facing question edits",
+  "reference_basis": [
+    {
+      "title": "【令和８年度】 いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集",
+      "use": "chapter/topic coverage, emphasis markers, terminology and difficulty framing only",
+      "copyright_policy": "do not copy proprietary question text"
+    },
+    {
+      "title": "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "use": "latest syllabus 9 framing, standard keywords and FE-level difficulty calibration only",
+      "copyright_policy": "do not copy proprietary mock-question text"
+    }
+  ],
+  "corpus": {
+    "questions": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178, 178, 177, 177],
+    "cognitive_distribution": {"想起": 166, "適用": 323, "判断": 221},
+    "difficulty_distribution": {"基礎": 206, "標準": 345, "実戦": 159},
+    "category_distribution": {"基礎理論": 91, "アルゴリズム": 42, "コンピュータ": 113, "データベース": 55, "ネットワーク": 62, "セキュリティ": 54, "マネジメント": 142, "ストラテジ": 151}
+  },
+  "coverage": {
+    "curriculum_chapters": 21,
+    "curriculum_topics": 130,
+    "covered_topics": 130,
+    "uncovered_topics": 0,
+    "min_questions_per_topic": 4,
+    "max_questions_per_topic": 12,
+    "topics_with_4_questions": 59,
+    "topics_with_9_or_more_questions": 11,
+    "technology_management_strategy_questions": {"technology": 470, "management": 90, "strategy": 150},
+    "finding": "Coverage remains unchanged after v193; all 130 mapped Subject A topics retain at least four questions."
+  },
+  "heuristic_method": {
+    "topic_key": "coreTopicId || explainTopicId || concept",
+    "stem_normalization": "NFKC; remove whitespace and common Japanese/ASCII punctuation; lowercase",
+    "near_duplicate_similarity": "difflib SequenceMatcher ratio",
+    "answer_length_rule": "correct option length >=2.5x or <=0.4x median distractor length",
+    "absolute_word_cues": ["必ず", "常に", "だけ", "のみ", "絶対", "一切", "すべて", "全て", "例外なく", "完全に", "唯一"],
+    "note": "Heuristics are screening signals only; manual review controls severity."
+  },
+  "heuristic_comparison": {
+    "v188": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 34, "similarity_gte_0_80": 15},
+      "answer_length_cue_flagged_questions": 19,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "v190_reaudit_of_v189": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 29, "similarity_gte_0_80": 12},
+      "answer_length_cue_flagged_questions": 16,
+      "absolute_word_asymmetry_flagged_questions": 31
+    },
+    "v192_reaudit_of_v191": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 28, "similarity_gte_0_80": 11},
+      "answer_length_cue_flagged_questions": 14,
+      "absolute_word_asymmetry_flagged_questions": 29
+    },
+    "v194_reaudit_of_v193": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic": {"similarity_gte_0_72": 22, "similarity_gte_0_80": 6},
+      "answer_length_cue_flagged_questions": 14,
+      "absolute_word_asymmetry_flagged_questions": 29
+    },
+    "delta_v192_to_v194": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic_gte_0_72": -6,
+      "near_duplicate_pairs_same_topic_gte_0_80": -5,
+      "answer_length_cue_flagged_questions": 0,
+      "absolute_word_asymmetry_flagged_questions": 0
+    },
+    "delta_v188_to_v194": {
+      "exact_normalized_question_duplicates": 0,
+      "near_duplicate_pairs_same_topic_gte_0_72": -12,
+      "near_duplicate_pairs_same_topic_gte_0_80": -9,
+      "answer_length_cue_flagged_questions": -5,
+      "absolute_word_asymmetry_flagged_questions": -2
+    },
+    "near_duplicate_pairs_removed_by_v193": [
+      ["challenge_036", "coreq_10_04_2"],
+      ["challenge_036", "net-03"],
+      ["coreq_10_04_2", "net-03"],
+      ["coreq_09_02_2", "coreq_09_02_3"],
+      ["coreq_14_10_2", "coreq_14_10_3"],
+      ["coreq_15_08_2", "coreq_15_08_3"]
+    ],
+    "new_near_duplicate_pairs_created_by_v193": [],
+    "answer_length_flags_added_by_v193": [],
+    "absolute_word_flags_added_by_v193": []
+  },
+  "v193_target_recheck": {
+    "subnet_cluster": [
+      {"ids": ["net-03", "coreq_10_04_2"], "similarity_v192": 0.8116, "similarity_v194": 0.5435, "resolved": true},
+      {"ids": ["net-03", "challenge_036"], "similarity_v192": 0.8182, "similarity_v194": 0.3125, "resolved": true},
+      {"ids": ["coreq_10_04_2", "challenge_036"], "similarity_v192": 0.8169, "similarity_v194": 0.3590, "resolved": true}
+    ],
+    "template_pairs": [
+      {"ids": ["coreq_09_02_2", "coreq_09_02_3"], "similarity_v192": 0.8197, "similarity_v194": 0.2281, "resolved": true},
+      {"ids": ["coreq_14_10_2", "coreq_14_10_3"], "similarity_v192": 0.7937, "similarity_v194": 0.4667, "resolved": true},
+      {"ids": ["coreq_15_08_2", "coreq_15_08_3"], "similarity_v192": 0.8308, "similarity_v194": 0.2617, "resolved": true}
+    ],
+    "finding": "All six intended near-duplicate relationships moved below the 0.72 screening threshold and no replacement near-duplicate pair was introduced."
+  },
+  "manual_priority_review": {
+    "unique_candidates": 15,
+    "high_unique_ids": 0,
+    "medium_unique_ids": 15,
+    "high": [],
+    "medium": [
+      "challenge_044",
+      "challenge_046",
+      "challenge_v92_01_07",
+      "challenge_v92_02_08",
+      "coreq_11_02_2",
+      "coreq_11_02_3",
+      "coreq_12_01_2",
+      "coreq_12_01_3",
+      "coreq_16_01_2",
+      "coreq_16_01_3",
+      "coreq_17_02_2",
+      "coreq_17_02_3",
+      "media-01",
+      "net-12",
+      "theory-06"
+    ],
+    "resolved_v192_medium_ids": [
+      "challenge_036",
+      "coreq_09_02_2",
+      "coreq_09_02_3",
+      "coreq_10_04_2",
+      "coreq_14_10_2",
+      "coreq_14_10_3",
+      "coreq_15_08_2",
+      "coreq_15_08_3",
+      "net-03"
+    ],
+    "medium_priority_groups": [
+      {"kind": "template-repetition", "ids": ["coreq_11_02_2", "coreq_11_02_3", "coreq_12_01_2", "coreq_12_01_3", "coreq_16_01_2", "coreq_16_01_3", "coreq_17_02_2", "coreq_17_02_3"], "reason": "four untouched same-topic term/description pairs remain strongly similar"},
+      {"kind": "cognitive-label-review", "ids": ["theory-06", "media-01", "net-12"], "reason": "simple conversion/calculation/identification tasks labeled 判断 still merit a dedicated paired relabel review"},
+      {"kind": "difficulty-review", "ids": ["challenge_044", "challenge_046", "challenge_v92_01_07", "challenge_v92_02_08"], "reason": "marked 実戦 but currently require only one-step application or recognition"}
+    ],
+    "finding": "v193 resolved all nine IDs whose Medium reason was subnet or selected term/description repetition. High remains zero; 15 Medium IDs remain in untouched categories."
+  },
+  "decision": {
+    "v194_learner_facing_change": false,
+    "release_architecture_change": false,
+    "release_tooling_change": false,
+    "content_release_tooling_change": false,
+    "recommended_v195": "Select the next small Medium-only batch only after value review. The four untouched template pairs are the lowest-risk content targets; keep cognitive-label and difficulty-label changes separate because they affect global invariants and practical-question contracts."
+  }
+}
