@@ -25,6 +25,9 @@ jobs:
       - name: Materialize v168 effect dependency map
         run: python3 tools/v168_materialize.py
 
+      - name: Refresh v168 persistent-symbol effect map
+        run: python3 tools/v168_refresh_effects.py
+
       - name: Commit materialized source when needed
         shell: bash
         run: |

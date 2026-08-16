@@ -64,19 +64,20 @@ def _effect_flags(text,row):
 
 def analyze_patch_effects(patch_fixture):
     rows=patch_fixture['blocks']
-    # Only symbols introduced by the patch chain are used for patch-to-patch dependency edges.
+    # Cross-block dependencies intentionally exclude ordinary local lexical variables.
     defs_by_symbol={}
     exact_writes={}
     normalized=[]
     for idx,row in enumerate(rows):
-        named=set(row.get('function_declarations',[]))|set(row.get('lexical_declarations',[]))|set(row.get('class_declarations',[]))|set(row.get('global_exports',[]))
-        simple_assign={x for x in row.get('assignment_targets',[]) if re.fullmatch(r'[A-Za-z_$][A-Za-z0-9_$]*',x)}
+        persistent_lexical={x for x in row.get('lexical_declarations',[]) if re.fullmatch(r'[A-Z][A-Z0-9_$]*',x) or re.match(r'^(?:SUBJECT|FEQUEST|CORE|V\d+)_',x)}
+        named=set(row.get('function_declarations',[]))|persistent_lexical|set(row.get('class_declarations',[]))|set(row.get('global_exports',[]))
+        simple_assign={x for x in row.get('assignment_targets',[]) if re.fullmatch(r'[A-Z][A-Z0-9_$]*',x) or re.match(r'^(?:SUBJECT|FEQUEST|CORE|V\d+)_',x)}
         named |= simple_assign
         for sym in named:
             defs_by_symbol.setdefault(sym,[]).append(idx)
         writes=set()
         writes.update('function:'+x for x in row.get('function_declarations',[]))
-        writes.update('lexical:'+x for x in row.get('lexical_declarations',[]))
+        writes.update('lexical:'+x for x in persistent_lexical)
         writes.update('class:'+x for x in row.get('class_declarations',[]))
         writes.update('global:'+x for x in row.get('global_exports',[]))
         writes.update('assign:'+x for x in row.get('assignment_targets',[]))
@@ -169,7 +170,7 @@ def analyze_patch_effects(patch_fixture):
     return {
         'analysis_method':{
             'kind':'deterministic-source-level-lexical-effect-dependency-analysis',
-            'dependency_scope':'v132-v144 patch-defined symbols only; nearest prior patch definition is selected as provider',
+            'dependency_scope':'v132-v144 patch-defined persistent symbols only (named functions/classes/global exports and uppercase/versioned lexical symbols); nearest prior patch definition is selected as provider',
             'effect_scope':'explicit source markers only; presence does not imply top-level execution',
             'strings_comments':'removed before dependency token analysis',
             'semantic_proof':False,
