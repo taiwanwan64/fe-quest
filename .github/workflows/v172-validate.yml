@@ -43,6 +43,20 @@ jobs:
           source: ./_v172_reference_src
           destination: ./_site_reference
 
+      - name: Diagnose generated HTML byte boundary
+        shell: bash
+        run: |
+          wc -c _site/index.html _site_reference/index.html
+          sha256sum _site/index.html _site_reference/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          a=Path('_site/index.html').read_bytes(); b=Path('_site_reference/index.html').read_bytes()
+          n=min(len(a),len(b)); i=next((i for i in range(n) if a[i]!=b[i]),n)
+          print('FEQUEST_V172_FIRST_DIFF',i,'len-a',len(a),'len-b',len(b))
+          print('A',repr(a[max(0,i-120):i+240]))
+          print('B',repr(b[max(0,i-120):i+240]))
+          PY
+
       - name: Validate FE QUEST v172 base equivalence
         run: python3 tools/v172_validate.py
 
