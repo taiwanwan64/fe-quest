@@ -1,0 +1,143 @@
+FE QUEST v177 — Formal Validation / Release Evidence
+=====================================================
+
+Release scope
+-------------
+v177 is the first ordinary release after v176 introduced the versionless stable release adapter. Both app/runtime-diagnostic-wrapper.txt and app/runtime-release-adapter.txt remain byte-identical to the final v176 main. Release-specific metadata advances to v177, but no versioned adapter source is created and no diagnostic archive entry is added; the diagnostic archive therefore remains at 58 while the retired adapter contract advances through runV176SelfCheck.
+No learner-facing content, question, answer, cognitive metadata, learning behavior, stable base, stable learning patch, Profile Schema, semantic learning runtime, stable wrapper behavior, or stable adapter behavior is changed.
+
+Authoritative parent
+--------------------
+Parent release: v176
+Parent main SHA: 391d930f75e8a0997ab3ad486cf313f47e502800
+Parent tree: a14223315c76ab5953d23510f8c9e56081fcf197
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v177 stable release cadence validation
+Workflow ID: 335420056
+Run ID: 31932955359
+Run number: 1
+Job ID: 95130432904
+Trigger head SHA: 28368d23d58ef383b570d03663e130e5eeb11d80
+Conclusion: success
+Validated/materialized head SHA: 6e34217b8af53eb125cb02e050255ba5510ddde7
+Validated/materialized tree: a0ad212947d566bdf244b3f23390525723256288
+
+Stable diagnostic wrapper
+-------------------------
+Path: app/runtime-diagnostic-wrapper.txt
+UTF-8 bytes: 19,860
+SHA-256: 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Parent v176 bytes: identical
+Changed by v177: no
+
+Stable release adapter
+----------------------
+Path: app/runtime-release-adapter.txt
+UTF-8 bytes: 211
+SHA-256: 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Parent v176 bytes: identical
+Changed by v177: no
+Current public adapter produced from APP_VERSION: runV177SelfCheck
+Versioned production adapter source count: 0
+
+Release-specific diagnostic metadata
+------------------------------------
+Path: app/runtime-release-diagnostic-spec.txt
+UTF-8 bytes: 825
+SHA-256: 63e08672323d18f73018793186be64ac9a771b2cf8a82047faeff605de830e8f
+Release version: v177
+Current adapter contract: runV177SelfCheck
+Retired adapter inventory: 17 (runV160SelfCheck through runV176SelfCheck)
+Diagnostic/provenance archive count: 58
+Archive growth from v176: 0
+Temporary FEQ_RELEASE_DIAGNOSTIC_SPEC global after wrapper initialization: absent
+
+Real GitHub Pages / Jekyll validation
+-------------------------------------
+GitHub Pages/Jekyll action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages: github-pages v232
+Jekyll: 3.10.0
+Generated index.html UTF-8 bytes: 3,475,485
+Generated index.html SHA-256: e619a4882b99bb0ce4e9fac17a124bad0e1e769a4f9ac5b4c24250a52b4a5856
+Canonical runtime snapshot SHA-256: 679357bd52c180faf776ac1df1b74e652dfb8ef2e7dd4a252a9eaab28620bca8
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Stable learner/runtime boundaries
+---------------------------------
+Stable active base: 2,991,671 bytes / c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Stable learning module: 405,723 bytes / 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Stable semantic runtime: 55,525 bytes / 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Learning-patch provenance archive count: 48
+Learning-base archive count: 2
+Diagnostic/provenance archive count: 58
+Diagnostic archive growth: 0
+Current release adapter global: runV177SelfCheck
+Retired release adapters: 17, leaked 0
+Current release adapters: 1
+Stable release adapter sources: 1
+Versioned production adapter sources: 0
+Release metadata modules: 1
+
+Learner-facing / release invariants
+-----------------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Profile Schema: v5
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Stable runtime helpers: 17
+Retired historical function globals: 46, leaked 0
+Stable wrapper globals: 6
+Retired wrapper globals: 6, leaked 0
+Semantic diagnostic data: 6, versioned backing leaked 0
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V177_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V177_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=17 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V177_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V177_STABLE_CADENCE_OK wrapper-byte-stable=1 adapter-byte-stable=1 stable-adapter=211 stable-adapter-sha=795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248 versioned-adapter-source=0 retired-adapter-inventory=17 diagnostic-archive=58 archive-growth=0 snapshot=679357bd52c180faf776ac1df1b74e652dfb8ef2e7dd4a252a9eaab28620bca8
+FEQUEST_V177_ARCHIVE_BOUNDARY_OK diagnostic-archive=58 archive-growth=0 learning-archive=48 base-archive=2 deployed-regression=0 runtime=55525
+FEQUEST_V177_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=17 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Package from authoritative validation run
+-----------------------------------------
+Inner release ZIP: FE_QUEST_PWA_v177.zip
+Inner release ZIP size: 767,326 bytes
+Inner release ZIP SHA-256: 73c5aca937c4e1eb6ed0e8f5e7ef7b4f00a8a9d4884bdcd7e1881b28fff5c2ff
+Generated index.html SHA-256: e619a4882b99bb0ce4e9fac17a124bad0e1e769a4f9ac5b4c24250a52b4a5856
+Generated manifest.webmanifest SHA-256: 6136625430bdbd18e973e7b138f9560b42322495acdc0b3342627ab185317b36
+Generated sw.js SHA-256: 6986f713b786c41b3dc91fe470da5497a8f46f904e520df9bd1ce048e2c3fe54
+GitHub Actions artifact name: fe-quest-v177-standalone
+Artifact ID: 9259822542
+Uploaded artifact size: 767,196 bytes
+Artifact wrapper digest SHA-256: a0b15c050945f2bf1cec12dbd601042190ab5b4f46695770f26a4ef686894a33
+Retention: 90 days
+
+Service worker
+--------------
+APP_VERSION: v177
+Cache: fe-quest-v177-1
+GET_VERSION preserved: yes
+networkWithTimeout preserved: yes
+staleWhileRevalidate preserved: yes
+Range bypass preserved: yes
+
+Finalization policy
+-------------------
+The final release commit removes only temporary v177 validation workflow/tools and adds this formal evidence file. It must not modify app/, _regression/, index.html, manifest.webmanifest, sw.js, stable wrapper/adapter sources, stable learning/runtime sources, or learner-facing source after the validated/materialized tree.
+
+Release policy
+--------------
+v177 proves the steady-state ordinary release cadence: both stable wrapper and stable release adapter can remain byte-identical while release metadata advances, and the diagnostic archive no longer grows merely because a new release is cut. Future ordinary releases should keep wrapper and adapter pinned, keep diagnostic archive at 58 unless genuine provenance sources are newly retired, and update only release metadata/evidence plus the version shell. No semantic deletion or learner-facing behavior change is authorized by this release.
