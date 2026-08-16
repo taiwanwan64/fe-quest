@@ -25,6 +25,9 @@ jobs:
       - name: Materialize v170 learning bundle
         run: python3 tools/v170_materialize.py
 
+      - name: Preserve expanded assembler output whitespace
+        run: python3 tools/v170_preserve_liquid_whitespace.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
