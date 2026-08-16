@@ -1,0 +1,68 @@
+FE QUEST v196 — Subject A post-v195 quality audit
+==================================================
+Scope: audit-only; no learner-facing edits.
+
+Trend
+-----
+Exact duplicates:
+v188 0 -> v190 0 -> v192 0 -> v194 0 -> v196 0
+
+Near-duplicate pairs >=0.72:
+34 -> 29 -> 28 -> 22 -> 18
+
+Near-duplicate pairs >=0.80:
+15 -> 12 -> 11 -> 6 -> 6
+
+Answer-length cue flags:
+19 -> 16 -> 14 -> 14 -> 14
+
+Distractor-only absolute-word asymmetry:
+31 -> 31 -> 29 -> 29 -> 29
+
+v195 effect
+-----------
+All four intended template pairs are resolved below 0.72:
+- coreq_11_02_2/_3: 0.7333 -> 0.2581
+- coreq_12_01_2/_3: 0.7273 -> 0.3030
+- coreq_16_01_2/_3: 0.7907 -> 0.2892
+- coreq_17_02_2/_3: 0.7241 -> 0.2500
+
+New near-duplicate pairs: 0
+New answer-length cue flags: 0
+New absolute-word flags: 0
+
+Manual queue
+------------
+High: 0
+Medium: 7
+
+Cognitive-demand mismatch:
+- theory-06
+- media-01
+- net-12
+
+These are genuinely simple one-step conversion/calculation/identification questions
+despite cognitiveLevel=判断 / judgmentDemand=文脈比較.
+
+Difficulty-demand mismatch:
+- challenge_044
+- challenge_046
+- challenge_v92_01_07
+- challenge_v92_02_08
+
+These are marked 実戦 but currently require only a one-step consequence, formula,
+logical shift or self-information calculation.
+
+Decision
+--------
+Do not perform artificial label swaps merely to preserve global counts.
+The safer v197 strategy is to rewrite these seven questions so their actual reasoning
+demand matches the existing labels, while preserving:
+- 710 questions / 710 unique IDs
+- answers A178/B178/C177/D177
+- cognitive 想起166/適用323/判断221
+- difficulty 基礎206/標準345/実戦159
+- id/a/cognitiveLevel/difficulty/cat/concept per changed question when possible
+
+The attached books remain scope/terminology/difficulty calibration references only.
+No proprietary question text is copied.
