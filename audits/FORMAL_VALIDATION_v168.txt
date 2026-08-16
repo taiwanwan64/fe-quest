@@ -1,0 +1,105 @@
+FE QUEST v168 — Formal Release Validation Audit
+===============================================
+
+Validation workflow
+-------------------
+Workflow: FE QUEST v168 release validation
+Workflow ID: 335361412
+Authoritative successful run ID: 31925649055
+Authoritative successful job ID: 95112685166
+Conclusion: success
+Triggering source commit: 7b5a6abd989b9ee7453eb67f839a98a385f5a69c
+Materialized validation head logged by workflow: 84fc99067ff686f90c4bb3e61a425766ae4c06f5
+Materialized source tree: 60301f1415bc4a028f2ecf211b4e77e817f4d36d
+
+An earlier exploratory v168 run (31925517714 / job 95112359268) succeeded technically but used an intentionally superseded broad lexical analysis that treated ordinary local variable names as cross-block candidates. The authoritative run above uses the refined persistent-symbol analysis, excluding ordinary local variables from cross-block dependency/write classification. Only the second run is release evidence.
+
+Build environment
+-----------------
+GitHub Pages action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages gem: github-pages v232
+Jekyll: v3.10.0
+Runner: Ubuntu 24.04
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V168_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V168_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=8 adapter=1 data=6 backing=0 archive=50 app-residual=0 patches=47 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V168_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V168_PATCH_EFFECTS_OK versions=13 blocks=47 edges=11 providers=11 effects=40 rewrite-review=6 leaf-review=7 equivalence-candidates=13 automatic-removal=0
+FEQUEST_V168_PATCH_INVENTORY_OK versions=13 blocks=47 assembler=47 base=1 unchanged-learning-source=1
+FEQUEST_V168_ARCHIVE_BOUNDARY_OK archive=50 app-residual=0 deployed-archive=0 runtime=55525
+FEQUEST_V168_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=8 adapter=1 data=6 backing=0 archive=50 app-residual=0 patches=47 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Patch effect/dependency analysis
+--------------------------------
+Scope: active v132-v144 learning patch chain
+Versions: 13
+Blocks: 47
+Patch concat UTF-8 bytes: 405,723
+Patch concat SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Base source SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Patch-to-patch persistent-symbol dependency edges: 11
+Dependency provider blocks: 11
+Effect-marker-bearing blocks: 40
+Rewrite-chain review blocks: 6
+Patch-local leaf review blocks: 7
+Repeated definition chains: 0
+Repeated exact write chains: 1
+Equivalence-test candidates: 13
+Automatic removal candidates: 0
+
+The sole repeated exact write chain is q.qualityAudit across v135, v139 (2 blocks), v141, v142, and v143. The seven v132 blocks 00-06 are patch-local leaf review candidates. These classifications are conservative review targets only, not redundancy/removal decisions. Every block remains in production.
+
+Stable runtime / archive boundary
+---------------------------------
+Active semantic runtime: app/runtime-semantic-diagnostics.txt
+UTF-8 bytes: 55,525
+SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Archived historical diagnostic/provenance sources: 50
+Historical diagnostic/versioned residual in app/: 0
+Current release adapter: app/v168-block-00.txt / runV168SelfCheck
+Retired release-adapter inventory: 8 (runV160SelfCheck through runV167SelfCheck), leaked in production: 0
+
+Standalone artifact
+-------------------
+Artifact name: fe-quest-v168-standalone
+Artifact ID: 9257744609
+Artifact uploaded size: 766,925 bytes
+Artifact archive digest: sha256:117b13aaec10a6265dd34223209fb0262f9fb0bddc5af2939b4bc6c5d47aa3b9
+Nested deployable ZIP: FE_QUEST_PWA_v168.zip
+Nested deployable ZIP SHA-256: 98a125ff2b2443ae38704b9bcde87361f5be6af79218524ecaf17846c0043960
+Nested deployable ZIP contains exactly 6 release files.
+
+Generated deployable identities
+-------------------------------
+index.html: 3,474,131 bytes
+index.html SHA-256: 698571c61595da1031ca796d16c25d569451068cf101577192d0a985ff400abc
+manifest.webmanifest: 1,183 bytes
+manifest.webmanifest SHA-256: da46785d8e7f00ac435f5d1a067a046aa7e9ab3f6ec1d2ce430d3fec1eb89548
+sw.js: 2,514 bytes
+sw.js SHA-256: 986311771da5f41717d4d6adafa001bf4f911b6a6464cbe5996a1e5a3f4d5b2e
+icon-192.png SHA-256: 3e8c30ab9f94e969e9cfa6c81d90311c2bf5f464b7f86c18dc107e2fd84f83d4
+icon-512.png SHA-256: cf019a9eeed736ff6643ff2053f810b1c124b36a6c86eb47ec4c60e5adca2a25
+apple-touch-icon.png SHA-256: f4914b5bab7128dd3007d8327f4f6a6ce233825f9dc141897d5a2118e23b7dca
+
+Service-worker parity
+---------------------
+APP_VERSION: v168
+Cache: fe-quest-v168-1
+GET_VERSION messaging: preserved
+networkWithTimeout: preserved
+staleWhileRevalidate: preserved
+Range request bypass: preserved
+
+Learner-facing parity
+---------------------
+No question text, choices, correct answers, question IDs, cognitive-level labels, Profile Schema data, base learning source, v132-v144 learning blocks, or stable semantic runtime were changed by v168. QUESTION_BANK remains 710 unique IDs with answer distribution 178/178/177/177 and cognitive-level distribution 166/323/221.
+
+Release conclusion
+------------------
+v168 passed the full current contract, browser/DOM contract, stable semantic runtime boundary, archive-source boundary, release-only historical fixture execution, exact v132-v144 patch-chain inventory, and deterministic persistent-symbol effect/dependency analysis. The release identifies 13 blocks/groups for future equivalence testing while deliberately authorizing zero automatic removals.
+
+Final cleanup policy
+--------------------
+Temporary validation-only files (.github/workflows/v168-validate.yml, tools/v168_effect_lib.py, tools/v168_materialize.py, tools/v168_validate.py, tools/v168_runtime_stub.py, tools/v168_refresh_effects.py) are removed before main is advanced. That cleanup does not modify app/, _regression/production-patch-chain-v167.fixture.json, _regression/production-patch-effects-v168.fixture.json, _regression/production-source-archive-boundary-v168.fixture.json, audits/PATCH_EFFECT_DEPENDENCY_AUDIT_v168.txt, index.html, manifest.webmanifest, or sw.js. This formal validation audit is retained as release evidence.
