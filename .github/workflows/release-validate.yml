@@ -1,0 +1,99 @@
+name: FE QUEST release validation
+
+on:
+  push:
+    branches: ['v*-staging']
+
+permissions:
+  contents: write
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release target
+        id: release
+        shell: bash
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+-staging$ ]]; then
+            echo "Invalid release branch: $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+          VERSION="${GITHUB_REF_NAME%-staging}"
+          NUMBER="${VERSION#v}"
+          PREVIOUS="v$((NUMBER-1))"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
+          echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          echo "FEQUEST_RELEASE_TARGET version=$VERSION previous=$PREVIOUS"
+
+      - name: Materialize release with stable tooling
+        run: python3 .github/release/release_materialize.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build candidate release
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Prepare mechanical conventional reference
+        run: python3 .github/release/prepare_reference.py
+
+      - name: Build reference release
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_reference
+          destination: ./_site_reference
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Validate release and stable tooling
+        run: python3 .github/release/release_validate.py
+
+      - name: Commit validated materialized source and evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A _regression audits index.html manifest.webmanifest sw.js
+          if git diff --cached --quiet; then
+            echo "FEQUEST_RELEASE_SOURCE_ALREADY_COMMITTED"
+          else
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} with stable release tooling"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
+          echo "FEQUEST_RELEASE_VALIDATION_HEAD=$(git rev-parse HEAD)"
+          echo "FEQUEST_RELEASE_VALIDATION_TREE=$(git rev-parse HEAD^{tree})"
+
+      - name: Package release
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          cd _site
+          zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          cd ..
+          wc -c "FE_QUEST_PWA_${VERSION}.zip"
+          sha256sum "FE_QUEST_PWA_${VERSION}.zip"
+          sha256sum _site/index.html _site/manifest.webmanifest _site/sw.js _site/icon-192.png _site/icon-512.png _site/apple-touch-icon.png
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-${{ steps.release.outputs.version }}-standalone
+          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          if-no-files-found: error
+          retention-days: 90
