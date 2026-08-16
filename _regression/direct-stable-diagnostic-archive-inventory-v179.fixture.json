@@ -1,0 +1,128 @@
+{
+  "name": "direct-stable-diagnostic-archive-inventory-v179",
+  "version": "v179",
+  "scope": "ordinary-release-without-release-specific-diagnostic-archive-boundary-fixture",
+  "parent_release": {
+    "version": "v178",
+    "main_sha": "5b33fd69705aaf87532050e5981ee568d8d41dd1",
+    "tree": "200127682bde447f9ac51d85480a005638d4afe7"
+  },
+  "searched_literal": "_regression/production-source-archive-boundary-v178.fixture.json",
+  "pre_migration_references": [
+    {
+      "path": "_regression/diagnostic-archive-inventory-dependency-v178.fixture.json",
+      "classification": "regression-evidence",
+      "occurrences": 1
+    },
+    {
+      "path": "_regression/stable-diagnostic-archive-inventory-v178.fixture.json",
+      "classification": "regression-evidence",
+      "occurrences": 1
+    },
+    {
+      "path": "app/runtime-release-diagnostic-spec.txt",
+      "classification": "production-release-metadata",
+      "occurrences": 1
+    },
+    {
+      "path": "audits/FORMAL_VALIDATION_v178.txt",
+      "classification": "historical-audit",
+      "occurrences": 2
+    },
+    {
+      "path": "audits/STABLE_DIAGNOSTIC_ARCHIVE_INVENTORY_AUDIT_v178.txt",
+      "classification": "historical-audit",
+      "occurrences": 1
+    },
+    {
+      "path": "tools/v179_materialize.py",
+      "classification": "tooling-or-documentation",
+      "occurrences": 2
+    }
+  ],
+  "pre_migration_reference_count": 8,
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19860,
+    "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "parent_byte_identical_expected": true
+  },
+  "stable_release_adapter": {
+    "path": "app/runtime-release-adapter.txt",
+    "utf8_bytes": 211,
+    "sha256": "795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248",
+    "parent_byte_identical_expected": true
+  },
+  "stable_diagnostic_archive_inventory": {
+    "path": "_regression/diagnostic-archive-inventory.fixture.json",
+    "utf8_bytes": 17671,
+    "sha256": "b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250",
+    "archive_entry_count": 58,
+    "parent_byte_identical_expected": true
+  },
+  "release_metadata_module": {
+    "path": "app/runtime-release-diagnostic-spec.txt",
+    "utf8_bytes": 852,
+    "sha256": "1b79a7f76ffd7362ab9e1b3d396db9084252c4fa4bc261cf2d6dd42ad78d5644",
+    "release_version": "v179",
+    "retired_release_adapter_count": 19,
+    "diagnostic_archive_count": 58,
+    "archive_boundary_fixture": "_regression/diagnostic-archive-inventory.fixture.json"
+  },
+  "release_specific_archive_boundary": {
+    "path": "_regression/production-source-archive-boundary-v179.fixture.json",
+    "exists": false,
+    "created": false
+  },
+  "diagnostic_archive": {
+    "previous_count": 58,
+    "current_count": 58,
+    "growth": 0
+  },
+  "production_versioned_adapter_source_count": 0,
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "candidate_generated_index": {
+      "utf8_bytes": 3475512,
+      "sha256": "243f686a5037995cebc61a4368298bc00b106c0ca3acdd7e457afb5cf8086fcf"
+    },
+    "reference_generated_index": {
+      "utf8_bytes": 3475523,
+      "sha256": "a5f3c1e1b530fc60673d501c8a679348b86aabf0028ebfb6b626d9af926875a9"
+    },
+    "generated_html_equal_after_single_archive_boundary_literal_normalization": true,
+    "candidate_runtime_snapshot": {
+      "sha256": "320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5",
+      "utf8_bytes": 1055176
+    },
+    "reference_runtime_snapshot": {
+      "sha256": "320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5",
+      "utf8_bytes": 1055176
+    },
+    "normalized_canonical_runtime_equality": true,
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "only_normalized_architecture_field": "FEQ_DIAGNOSTIC_RUNTIME_SPEC.archiveBoundaryFixture",
+    "wrapper_byte_identical_to_v178_parent": true,
+    "stable_adapter_byte_identical_to_v178_parent": true,
+    "stable_inventory_byte_identical_to_v178_parent": true,
+    "diagnostic_archive_growth": 0,
+    "release_specific_v179_archive_boundary_created": false,
+    "production_versioned_adapter_source_count": 0,
+    "learner_facing_change": false
+  }
+}

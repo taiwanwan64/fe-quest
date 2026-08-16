@@ -1,0 +1,43 @@
+FE QUEST v179 — Direct Stable Diagnostic Archive Inventory Audit
+================================================================
+
+Scope
+-----
+v179 removes the ordinary-release-specific diagnostic archive boundary fixture. Production release metadata points directly at the versionless stable 58-entry diagnostic archive inventory.
+
+Pinned stable architecture
+--------------------------
+Wrapper: 19,860 bytes / 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Release adapter: 211 bytes / 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Stable archive inventory: 17,671 bytes / b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+All changed by v179: no
+
+Archive cadence
+---------------
+Stable inventory path: _regression/diagnostic-archive-inventory.fixture.json
+Physical diagnostic archive: 58
+Archive growth: 0
+Release-specific v179 archive boundary created: no
+Production release metadata archiveBoundaryFixture: _regression/diagnostic-archive-inventory.fixture.json
+
+Validation status
+-----------------
+passed
+Candidate real Jekyll index: 3,475,512 bytes / 243f686a5037995cebc61a4368298bc00b106c0ca3acdd7e457afb5cf8086fcf
+Counterfactual compact-reference index: 3,475,523 bytes / a5f3c1e1b530fc60673d501c8a679348b86aabf0028ebfb6b626d9af926875a9
+Generated HTML equal after normalizing exactly archiveBoundaryFixture literal: yes
+Normalized canonical runtime snapshot: 320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5 / 1,055,176 bytes
+Candidate/reference normalized runtime equality: yes
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Only normalized architecture field: FEQ_DIAGNOSTIC_RUNTIME_SPEC.archiveBoundaryFixture
+Stable wrapper byte-identical to v178 parent: yes
+Stable adapter byte-identical to v178 parent: yes
+Stable archive inventory byte-identical to v178 parent: yes
+Diagnostic archive: 58 -> 58 (growth 0)
+Release-specific v179 archive boundary created: no
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual 0

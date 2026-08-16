@@ -2,10 +2,10 @@
 globalThis.FEQ_RELEASE_DIAGNOSTIC_SPEC=Object.freeze({
   modulePath:'app/runtime-release-diagnostic-spec.txt',
   policy:'single-release-specific-diagnostic-metadata-module',
-  releaseVersion:'v178',
-  currentReleaseAdapter:'runV178SelfCheck',
-  archiveBoundaryFixture:'_regression/production-source-archive-boundary-v178.fixture.json',
+  releaseVersion:'v179',
+  currentReleaseAdapter:'runV179SelfCheck',
+  archiveBoundaryFixture:'_regression/diagnostic-archive-inventory.fixture.json',
   archivedSourceCount:58,
-  retiredReleaseAdapterCount:18,
-  retiredReleaseAdapters:Object.freeze(['runV160SelfCheck','runV161SelfCheck','runV162SelfCheck','runV163SelfCheck','runV164SelfCheck','runV165SelfCheck','runV166SelfCheck','runV167SelfCheck','runV168SelfCheck','runV169SelfCheck','runV170SelfCheck','runV171SelfCheck','runV172SelfCheck','runV173SelfCheck','runV174SelfCheck','runV175SelfCheck','runV176SelfCheck','runV177SelfCheck'])
+  retiredReleaseAdapterCount:19,
+  retiredReleaseAdapters:Object.freeze(['runV160SelfCheck','runV161SelfCheck','runV162SelfCheck','runV163SelfCheck','runV164SelfCheck','runV165SelfCheck','runV166SelfCheck','runV167SelfCheck','runV168SelfCheck','runV169SelfCheck','runV170SelfCheck','runV171SelfCheck','runV172SelfCheck','runV173SelfCheck','runV174SelfCheck','runV175SelfCheck','runV176SelfCheck','runV177SelfCheck','runV178SelfCheck'])
 });
