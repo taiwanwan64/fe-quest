@@ -1,0 +1,61 @@
+// ===== v158 isolated declarative semantic runtime projection =====
+(() => {
+  const currentCheck=(id,message,test,legacyAssertions=0)=>({id,message,test,legacyAssertions});
+
+  const FEQ_DIAGNOSTIC_RUNTIME_SPEC=Object.freeze({
+    archivalRuntimeModule:'app/runtime-current-diagnostics.txt',
+    archivalRuntimeSha256:'12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658',
+    archivalRuntimeUtf8Bytes:54898,
+    projectionModule:'app/runtime-semantic-projection-v158.txt',
+    projectionModuleSha256:'785dbef88c66fa4880bbaeb33029c7299f71d55d511d6da4b4ec022b6841045a',
+    projectionModuleUtf8Bytes:2494,
+    logicalProjectionMigrations:6,
+    projectionReplaceFilters:18,
+    projectedRuntimeSha256:'88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50',
+    projectedRuntimeUtf8Bytes:55525,
+    projectionMode:'isolated-declarative-liquid-projection-v158',
+    semanticFixtureManifest:'_regression/semantic-diagnostic-projection-v158.fixture.json',
+    releaseFixtureManifest:'_regression/diagnostic-helper-boundary-v154.fixture.json',
+    stableRuntime:Object.freeze(['feqEvaluateDataIntegrityContract','feqLearningRuntimeChecks','feqEvaluateLearningRuntimeContract','feqPersistenceSafetyChecks','feqEvaluatePersistenceSafetyContract','feqQuestionCueAudit','feqQualityUxChecks','feqEvaluateQualityUxContract','feqEvaluateBrowserUiContracts','feqEvaluateBrowserUiLayer','feqExpandLegacyRanges','feqExpandCiSentinelGroups','feqCriticalCurriculumLegacyIndices','feqReleaseSentinelLegacyIndices','feqExpectedReleaseSentinelIndices','feqDeclarativeCiCoverage','feqLegacyClassificationAudit']),
+    retiredVersioned:Object.freeze(['v145EvaluateCurrentContract','v145CollectHistoricalDiagnostics','v145EvaluateBrowserUiLayer','runV145SelfCheck','v146AdditionalCurrentChecks','v146EvaluateCurrentContract','v146CollectHistoricalDiagnostics','runV146SelfCheck','v147AdditionalCurrentChecks','v147EvaluateCurrentContract','v147CollectHistoricalDiagnostics','runV147SelfCheck','v148CueAudit','v148AdditionalCurrentChecks','v148EvaluateCurrentContract','v148EvaluateBrowserUiContracts','v148EvaluateBrowserUiLayer','v148CollectHistoricalDiagnostics','runV148SelfCheck','v149ExpandRanges','v149LegacyInventoryAudit','runV149LegacyShadowAudit','v149CollectHistoricalDiagnostics','v149AdditionalCurrentChecks','v149EvaluateCurrentContract','runV149SelfCheck','v150ExpandSentinelGroups','v150CriticalCurriculumLegacyIndices','v150CriticalCurriculumResults','runV150CriticalCurriculumAudit','v150AdditionalCurrentChecks','v150EvaluateCurrentContract','runV150SelfCheck','v151ReleaseSentinelLegacyIndices','v151ExpectedReleaseSentinelIndices','v151ChapterAuditRows','v151ReleaseSentinelResults','runV151ReleaseSentinelAudit','v151DeclarativeCiCoverage','v151AdditionalCurrentChecks','v151EvaluateCurrentContract','runV151SelfCheck','v152LegacyClassificationAudit','v152AdditionalCurrentChecks','v152EvaluateCurrentContract','runV152SelfCheck'])
+  });
+
+  const FEQ_DIAGNOSTIC_DATA_RUNTIME_SPEC=Object.freeze({
+    preludeModule:'app/runtime-diagnostic-data-prelude-v157.txt',
+    preludeSha256:'318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92',preludeUtf8Bytes:235,
+    finalizeModule:'app/runtime-diagnostic-data-finalize-v157.txt',
+    finalizeSha256:'730d29dfd37a2047d1027aad5cab326eeb5cc4340f6c4e31b7265ead5f3a2520',finalizeUtf8Bytes:1246,
+    fixtureManifest:'_regression/semantic-diagnostic-data-v157.fixture.json',
+    previousFacadeFixture:'_regression/semantic-diagnostic-data-v156.fixture.json',
+    semanticKeys:Object.freeze(['browserUiAdditions','legacyAssertionInventory','ciSentinelGroups','criticalCurriculumSpec','releaseSentinelSpec','legacyFixtureSpec']),
+    retiredBackingCount:6,
+    policy:'semantic-projection-no-versioned-backing-globals'
+  });
+
+  function v158RetiredDiagnosticDataNames(){
+    return [
+      ['V148','EXTRA_UI_CONTRACTS'].join('_'),
+      ['V149','LEGACY_ASSERT_INVENTORY'].join('_'),
+      ['V150','CI_ONLY_SENTINEL_GROUPS'].join('_'),
+      ['V150','CRITICAL_CURRICULUM_SPEC'].join('_'),
+      ['V151','RELEASE_SENTINEL_SPEC'].join('_'),
+      ['V152','LEGACY_FIXTURE_SPEC'].join('_')
+    ];
+  }
+
+  function v158SemanticRuntimeBoundaryAudit(){
+    const stable=[...FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntime],retired=[...FEQ_DIAGNOSTIC_RUNTIME_SPEC.retiredVersioned];
+    const presentStable=stable.filter(name=>typeof globalThis[name]==='function');
+    const leakedRetired=retired.filter(name=>typeof globalThis[name]==='function');
+    return {stable:stable.length,retired:retired.length,uniqueStable:new Set(stable).size,uniqueRetired:new Set(retired).size,presentStable:presentStable.length,leakedRetired,exactInventory:stable.length===17&&new Set(stable).size===17&&retired.length===46&&new Set(retired).size===46,ok:presentStable.length===17&&leakedRetired.length===0};
+  }
+
+  function v158DiagnosticDataBoundaryAudit(){
+    const spec=FEQ_DIAGNOSTIC_DATA_RUNTIME_SPEC,data=globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA,provenance=globalThis.FEQ_DIAGNOSTIC_DATA_PROVENANCE;
+    const retired=v158RetiredDiagnosticDataNames(),leakedBacking=retired.filter(name=>typeof globalThis[name]!=='undefined');
+    const keys=data?Object.keys(data).sort():[],expected=[...spec.semanticKeys].sort();
+    const provenanceKeys=provenance?Object.keys(provenance).filter(k=>!['sourceModule','projectionMode'].includes(k)).sort():[];
+    const structural=!!data&&Array.isArray(data.browserUiAdditions)&&data.browserUiAdditions.length===10&&data.legacyAssertionInventory?.total===293&&data.ciSentinelGroups?.criticalCurriculum?.count===56&&Object.values(data.criticalCurriculumSpec||{}).flat().length===56&&Object.values(data.releaseSentinelSpec||{}).flat().length===28&&data.legacyFixtureSpec?.assertCount===293&&data.legacyFixtureSpec?.productionBundled===false&&data.legacyFixtureSpec?.releaseOnly===true;
+    return {semantic:expected.length,retired:retired.length,keys:keys.length,provenanceKeys:provenanceKeys.length,leakedBacking,exactKeys:keys.length===expected.length&&keys.every((k,i)=>k===expected[i]),exactProvenance:provenanceKeys.length===expected.length&&provenanceKeys.every((k,i)=>k===expected[i]),structural,frozen:Object.isFrozen(data),legacyNamesListGlobalAbsent:typeof globalThis.FEQ_RETIRED_DIAGNOSTIC_DATA_GLOBALS==='undefined',ok:expected.length===6&&retired.length===6&&leakedBacking.length===0&&keys.length===6&&provenanceKeys.length===6&&keys.every((k,i)=>k===expected[i])&&provenanceKeys.every((k,i)=>k===expected[i])&&structural&&Object.isFrozen(data)};
+  }
+
