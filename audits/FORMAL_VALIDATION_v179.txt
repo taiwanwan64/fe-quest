@@ -1,0 +1,149 @@
+FE QUEST v179 — Formal Validation
+=================================
+
+Release scope
+-------------
+v179 removes the ordinary-release-specific diagnostic archive boundary fixture. app/runtime-release-diagnostic-spec.txt now points archiveBoundaryFixture directly at the versionless stable _regression/diagnostic-archive-inventory.fixture.json. No learner-facing content, question corpus, answer distribution, cognitive distribution, Profile Schema, stable learning module, stable semantic runtime, stable diagnostic wrapper, or stable release adapter behavior is changed.
+
+Parent release
+--------------
+v178 final main: 5b33fd69705aaf87532050e5981ee568d8d41dd1
+v178 final tree: 200127682bde447f9ac51d85480a005638d4afe7
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v179 direct stable diagnostic archive inventory validation
+Workflow ID: 335426831
+Run ID: 31933765899
+Job ID: 95132451682
+Trigger SHA: 06bcdc0e909f05517d4472dfd52484507110f5ce
+Conclusion: success
+Validated/materialized SHA: fbf02ff8373ee1357359b0542b11e5a9b7ebd360
+Validated/materialized tree: d114e6e71e0a730b03f9a1e801edd8e8dc1791b1
+Real GitHub Pages/Jekyll: github-pages v232 / Jekyll 3.10.0 / ghcr.io/actions/jekyll-build-pages:v1.0.13
+
+Stable architecture identities
+------------------------------
+app/base-stable.html
+- 2,991,671 bytes
+- SHA-256 c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+
+app/learning-patches.txt
+- 405,723 bytes
+- SHA-256 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+
+app/runtime-semantic-diagnostics.txt
+- 55,525 bytes
+- SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+
+app/runtime-diagnostic-wrapper.txt
+- 19,860 bytes
+- SHA-256 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+- byte-identical to v178 parent: yes
+
+app/runtime-release-adapter.txt
+- 211 bytes
+- SHA-256 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+- byte-identical to v178 parent: yes
+- versioned production adapter sources: 0
+
+Stable diagnostic archive inventory
+-----------------------------------
+_regression/diagnostic-archive-inventory.fixture.json
+- 17,671 bytes
+- SHA-256 b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+- archive entries: 58
+- byte-identical to v178 parent: yes
+- physical diagnostic archive count: 58
+- archive growth: 0
+
+Release-specific archive boundary
+---------------------------------
+_regression/production-source-archive-boundary-v179.fixture.json
+- created: no
+- exists in candidate/materialized tree: no
+
+Production release metadata
+---------------------------
+app/runtime-release-diagnostic-spec.txt
+- 852 bytes
+- SHA-256 1b79a7f76ffd7362ab9e1b3d396db9084252c4fa4bc261cf2d6dd42ad78d5644
+- releaseVersion: v179
+- currentReleaseAdapter: runV179SelfCheck
+- archiveBoundaryFixture: _regression/diagnostic-archive-inventory.fixture.json
+- archivedSourceCount: 58
+- retiredReleaseAdapterCount: 19
+- retired adapters: runV160SelfCheck through runV178SelfCheck
+
+Candidate/reference equivalence
+-------------------------------
+Candidate uses direct stable inventory path.
+Reference is counterfactual and creates a compact v179 boundary only under the temporary _reference tree.
+
+Candidate generated index.html
+- 3,475,512 bytes
+- SHA-256 243f686a5037995cebc61a4368298bc00b106c0ca3acdd7e457afb5cf8086fcf
+
+Counterfactual compact-boundary reference index.html
+- 3,475,523 bytes
+- SHA-256 a5f3c1e1b530fc60673d501c8a679348b86aabf0028ebfb6b626d9af926875a9
+
+Raw generated HTML differs because the diagnostic metadata path literal is intentionally different. After normalizing exactly one field, FEQ_DIAGNOSTIC_RUNTIME_SPEC.archiveBoundaryFixture, generated HTML is byte-identical. No other generated-HTML difference is permitted.
+
+Normalized canonical runtime snapshot
+- candidate: 1,055,176 bytes / SHA-256 320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5
+- reference: 1,055,176 bytes / SHA-256 320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5
+- equality: true
+- excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+- normalized architecture field: FEQ_DIAGNOSTIC_RUNTIME_SPEC.archiveBoundaryFixture
+
+Runtime / curriculum invariants
+-------------------------------
+- Subject A questions: 710 / 710 unique IDs
+- Answers: A178 / B178 / C177 / D177
+- Cognitive levels: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+- Current contract: 71/71
+- Browser UI contract: 23/23 + required DOM
+- Stable runtime helpers: 17
+- Retired historical function globals: 46, leaked 0
+- Stable wrapper globals: 6
+- Retired wrapper globals: 6, leaked 0
+- Retired release adapter inventory: 19, leaked 0
+- Current release adapter: runV179SelfCheck, one current global
+- Semantic diagnostic data keys: 6, backing globals leaked 0
+- Critical curriculum: 56/56
+- Release sentinel: 28/28
+- Declarative CI coverage: 84/84
+- Legacy fixture: 293 assertions
+- Legacy raw errors: 22
+- Legacy residual active errors: 0
+- Production legacy evaluator: absent
+- Diagnostic archive: 58, growth 0
+- Learning-patch archive: 48
+- Learning-base archive: 2
+- _regression deployed: no
+
+Authoritative markers
+---------------------
+FEQUEST_V179_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V179_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=19 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 release-boundary-created=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V179_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V179_DIRECT_STABLE_ARCHIVE_OK runtime-equivalent=1 html-single-literal-normalized=1 stable-inventory=17671 stable-inventory-sha=b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250 release-boundary-created=0 diagnostic-archive=58 archive-growth=0 snapshot=320f02d64698dbe71db989285eb0bf7a99e3b98316cfd82b6c7fa50ee21eb9c5
+FEQUEST_V179_ARCHIVE_BOUNDARY_OK diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 release-boundary-created=0 learning-archive=48 base-archive=2 deployed-regression=0 runtime=55525
+FEQUEST_V179_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=19 adapter=1 data=6 backing=0 diagnostic-archive=58 archive-growth=0 stable-archive-inventory=1 release-boundary-created=0 learning-archive=48 base-archive=2 active-learning=1 active-base=1 stable-adapter=1 versioned-adapter-source=0 release-metadata=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Package from authoritative run
+------------------------------
+GitHub Actions artifact: fe-quest-v179-standalone
+Artifact ID: 9260048727
+Uploaded artifact wrapper: 767,156 bytes
+Artifact wrapper SHA-256: bf46f5e953b7fff2caddbefde1d215c1baf564b038e924ab07fa4f23779ba187
+Inner FE_QUEST_PWA_v179.zip: 767,284 bytes
+Inner SHA-256: bc5323daee2bee5f83cbb9eb7c6b8ba9dd4ba50188c49ca2ccd9a08d22f03fda
+Generated manifest SHA-256: 89b88f4105153e1eca37b7d30733b842d842914d6e6768211c52ef68aeb77238
+Generated sw.js SHA-256: 8e54f1f985b7697197689c539e83782907a911d01a041fc334b9eef49e3ea757
+
+Finalization policy
+-------------------
+After authoritative validation, only temporary v179 workflow/tools are removed and this formal validation record is added. No app/, _regression/, index.html, manifest.webmanifest, sw.js, learner-facing source, stable wrapper, stable adapter, or stable archive inventory content is changed after the validated/materialized commit.
