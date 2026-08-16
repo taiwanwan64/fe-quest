@@ -1,0 +1,150 @@
+FE QUEST v194 — Subject A Post-v193 Quality Re-audit
+======================================================
+
+Purpose
+-------
+Audit only. v194 does not change learner-facing question text, answers, explanations,
+difficulty labels, cognitive labels, release architecture or content-release tooling.
+
+Source release
+--------------
+v193 main: 6f3848e4a2505752aec9d51fe4b87ceee70513cb
+tree: b883ae29929b63eceee24025961587210ab847ca
+generated index: 3,505,884 bytes
+SHA-256: e00bff34cb647859f85ac7f4c1d5a234514100ae225aa63357e51271ae6a57e6
+
+Reference basis
+---------------
+The attached 2026/令和8年度 textbook and problem book remain calibration references
+for chapter/topic coverage, terminology, emphasis and FE-level difficulty only.
+Proprietary question text is not copied into FE QUEST.
+
+Corpus / coverage
+-----------------
+Questions: 710 / unique IDs: 710
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Difficulty: 基礎206 / 標準345 / 実戦159
+Categories: 基礎理論91 / アルゴリズム42 / コンピュータ113 / データベース55 /
+            ネットワーク62 / セキュリティ54 / マネジメント142 / ストラテジ151
+
+21 chapters / 130 mapped topics
+Covered topics: 130 / 130
+Minimum questions per topic: 4
+Maximum questions per topic: 12
+Topics with exactly four questions: 59
+Topics with nine or more questions: 11
+Technology / Management / Strategy: 470 / 90 / 150
+
+Screening method
+----------------
+Same-topic key: coreTopicId || explainTopicId || concept
+Stem normalization: NFKC, remove whitespace and common Japanese/ASCII punctuation, lowercase
+Near-duplicate similarity: difflib SequenceMatcher ratio
+Answer-length cue: correct option length >=2.5x or <=0.4x median distractor length
+Absolute-word cues: 必ず / 常に / だけ / のみ / 絶対 / 一切 / すべて / 全て /
+                    例外なく / 完全に / 唯一
+
+Heuristics remain screening signals only. Manual review determines severity.
+
+v188 -> v190 -> v192 -> v194 screening comparison
+--------------------------------------------------
+Exact normalized stem duplicates:       0 -> 0  -> 0  -> 0
+Same-topic near duplicates >=0.72:      34 -> 29 -> 28 -> 22
+Same-topic near duplicates >=0.80:      15 -> 12 -> 11 -> 6
+Answer-length cue flags:                19 -> 16 -> 14 -> 14
+Distractor-only absolute-word flags:    31 -> 31 -> 29 -> 29
+
+Effect of the v193 five-question batch
+---------------------------------------
+Near-duplicate pairs >=0.72 removed: 6
+Near-duplicate pairs >=0.80 removed: 5
+New near-duplicate pairs created: 0
+New answer-length cue flags: 0
+New absolute-word asymmetry flags: 0
+
+Net improvement from the v188 baseline:
+- near-duplicate pairs >=0.72: -12
+- near-duplicate pairs >=0.80: -9
+- answer-length cue flags: -5
+- absolute-word asymmetry flags: -2
+
+v193 target re-check
+--------------------
+Subnet cluster:
+- net-03 / coreq_10_04_2:      0.8116 -> 0.5435
+- net-03 / challenge_036:      0.8182 -> 0.3125
+- coreq_10_04_2 / challenge_036: 0.8169 -> 0.3590
+
+The three questions now serve different learning roles:
+- net-03 remains the direct baseline network-address calculation.
+- coreq_10_04_2 asks for a usable host in the same /26 subnet.
+- challenge_036 derives /26 from host capacity and then identifies a route network.
+
+Template pairs:
+- coreq_09_02_2 / coreq_09_02_3: 0.8197 -> 0.2281
+- coreq_14_10_2 / coreq_14_10_3: 0.7937 -> 0.4667
+- coreq_15_08_2 / coreq_15_08_3: 0.8308 -> 0.2617
+
+Changing only the _3 side was sufficient in all three pairs. All six intended relationships
+are now below the 0.72 screening threshold.
+
+Current High queue
+------------------
+0 IDs.
+
+Current Medium queue
+--------------------
+15 IDs remain:
+- challenge_044
+- challenge_046
+- challenge_v92_01_07
+- challenge_v92_02_08
+- coreq_11_02_2
+- coreq_11_02_3
+- coreq_12_01_2
+- coreq_12_01_3
+- coreq_16_01_2
+- coreq_16_01_3
+- coreq_17_02_2
+- coreq_17_02_3
+- media-01
+- net-12
+- theory-06
+
+Resolved from the v192 Medium queue: 9 IDs
+-----------------------------------------
+- challenge_036
+- coreq_09_02_2
+- coreq_09_02_3
+- coreq_10_04_2
+- coreq_14_10_2
+- coreq_14_10_3
+- coreq_15_08_2
+- coreq_15_08_3
+- net-03
+
+Remaining Medium themes
+-----------------------
+1. Template repetition
+   Four untouched same-topic term/description pairs remain:
+   coreq_11_02_2/_3, coreq_12_01_2/_3,
+   coreq_16_01_2/_3, coreq_17_02_2/_3.
+
+2. Cognitive-label review
+   theory-06, media-01 and net-12 remain comparatively simple tasks labeled 判断.
+   Handle any relabeling in a dedicated paired batch so the 166/323/221 invariant stays exact.
+
+3. Difficulty review
+   challenge_044, challenge_046, challenge_v92_01_07 and challenge_v92_02_08 are marked 実戦
+   but remain closer to one-step application or recognition.
+
+Decision
+--------
+v193 produced the largest near-duplicate reduction of the recent repair batches while adding
+no new answer-length or absolute-word cue flags. High remains zero and the Medium queue is now 15.
+
+Do not repair questions in v194.
+For v195, prefer another compact Medium-only content batch from the four untouched template pairs.
+Keep cognitive-label and difficulty-label work separate because those changes interact with global
+cognitive counts and practical-question contracts.
