@@ -23,29 +23,12 @@
 {% capture v143block %}{% include_relative app/v143-block-00.txt %}{% endcapture %}
 {% capture v144block %}{% include_relative app/v144-block-00.txt %}{% endcapture %}
 {% capture semanticRuntimeRaw %}{% include_relative app/runtime-current-diagnostics.txt %}{% endcapture %}
-{% assign semanticRuntime01 = semanticRuntimeRaw | replace: "  const V148_EXTRA_UI_CONTRACTS = [", "  const browserUiAdditions = [" %}
-{% assign semanticRuntime02 = semanticRuntime01 | replace: "  globalThis.V148_EXTRA_UI_CONTRACTS=V148_EXTRA_UI_CONTRACTS;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions=browserUiAdditions;" %}
-{% assign semanticRuntime03 = semanticRuntime02 | replace: "V148_EXTRA_UI_CONTRACTS", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions" %}
-{% assign semanticRuntime04 = semanticRuntime03 | replace: "  const V149_LEGACY_ASSERT_INVENTORY = Object.freeze({", "  const legacyAssertionInventory = Object.freeze({" %}
-{% assign semanticRuntime05 = semanticRuntime04 | replace: "  globalThis.V149_LEGACY_ASSERT_INVENTORY=V149_LEGACY_ASSERT_INVENTORY;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory=legacyAssertionInventory;" %}
-{% assign semanticRuntime06 = semanticRuntime05 | replace: "V149_LEGACY_ASSERT_INVENTORY", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory" %}
-{% assign semanticRuntime07 = semanticRuntime06 | replace: "  const V150_CI_ONLY_SENTINEL_GROUPS=Object.freeze({", "  const ciSentinelGroups=Object.freeze({" %}
-{% assign semanticRuntime08 = semanticRuntime07 | replace: "  globalThis.V150_CI_ONLY_SENTINEL_GROUPS=V150_CI_ONLY_SENTINEL_GROUPS;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups=ciSentinelGroups;" %}
-{% assign semanticRuntime09 = semanticRuntime08 | replace: "V150_CI_ONLY_SENTINEL_GROUPS", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups" %}
-{% assign semanticRuntime10 = semanticRuntime09 | replace: "  const V150_CRITICAL_CURRICULUM_SPEC=Object.freeze({", "  const criticalCurriculumSpec=Object.freeze({" %}
-{% assign semanticRuntime11 = semanticRuntime10 | replace: "  globalThis.V150_CRITICAL_CURRICULUM_SPEC=V150_CRITICAL_CURRICULUM_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec=criticalCurriculumSpec;" %}
-{% assign semanticRuntime12 = semanticRuntime11 | replace: "V150_CRITICAL_CURRICULUM_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec" %}
-{% assign semanticRuntime13 = semanticRuntime12 | replace: "  const V151_RELEASE_SENTINEL_SPEC=Object.freeze({", "  const releaseSentinelSpec=Object.freeze({" %}
-{% assign semanticRuntime14 = semanticRuntime13 | replace: "  globalThis.V151_RELEASE_SENTINEL_SPEC=V151_RELEASE_SENTINEL_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec=releaseSentinelSpec;" %}
-{% assign semanticRuntime15 = semanticRuntime14 | replace: "V151_RELEASE_SENTINEL_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec" %}
-{% assign semanticRuntime16 = semanticRuntime15 | replace: "  const V152_LEGACY_FIXTURE_SPEC=Object.freeze({", "  const legacyFixtureSpec=Object.freeze({" %}
-{% assign semanticRuntime17 = semanticRuntime16 | replace: "  globalThis.V152_LEGACY_FIXTURE_SPEC=V152_LEGACY_FIXTURE_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyFixtureSpec=legacyFixtureSpec;" %}
-{% assign semanticRuntime = semanticRuntime17 | replace: "V152_LEGACY_FIXTURE_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyFixtureSpec" %}
+{% capture semanticRuntime %}{% include_relative app/runtime-semantic-projection-v158.txt source=semanticRuntimeRaw %}{% endcapture %}
 {% capture diagnosticDataPrelude %}{% include_relative app/runtime-diagnostic-data-prelude-v157.txt %}{% endcapture %}
 {% capture diagnosticDataFinalize %}{% include_relative app/runtime-diagnostic-data-finalize-v157.txt %}{% endcapture %}
-{% capture v157block %}{% include_relative app/v157-block-00.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v157</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v157';" %}
-{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV157SelfCheck();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ v157block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture v158block %}{% include_relative app/v158-block-00.txt %}{% include_relative app/v158-block-01.txt %}{% include_relative app/v158-block-02.txt %}{% endcapture %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v158</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v158';" %}
+{% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=runV158SelfCheck();" %}
+{% capture insertion %}{{ runtimeGuard }}{{ v132block }}{{ v133block }}{{ v134block }}{{ v135block }}{{ v136block }}{{ v137block }}{{ v138block }}{{ v139block }}{{ v140block }}{{ v141block }}{{ v142block }}{{ v143block }}{{ v144block }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ v158block }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
