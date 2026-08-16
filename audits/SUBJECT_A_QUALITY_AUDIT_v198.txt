@@ -1,0 +1,122 @@
+FE QUEST v198 — Subject A Quality Program Closure Audit
+========================================================
+
+Scope
+-----
+Audit-only closure review against the actual v197 runtime.
+No learner-facing question content is changed in v198.
+
+Runtime source
+--------------
+v197 final main:
+969d52afe4e2e6da794bae12d605e44ca2db6d64
+tree:
+ddf8d0f5d23c1188b3345f8b176914145f3a41a6
+
+Generated v197 index:
+3,520,897 bytes
+SHA-256 cfef190ceb6d46b423efceeedf61cd5c59ccc7b3a28a102b1a84e612adeaa48c
+
+Corpus
+------
+710 questions / 710 unique IDs
+answers A178/B178/C177/D177
+cognitive 想起166/適用323/判断221
+difficulty 基礎206/標準345/実戦159
+coverage 21 chapters / 130 topics / uncovered 0
+
+Quality trend
+-------------
+v188 -> v190 -> v192 -> v194 -> v196 -> v198
+
+Exact normalized duplicate stems:
+0 -> 0 -> 0 -> 0 -> 0 -> 0
+
+Same-topic near duplicates >=0.72:
+34 -> 29 -> 28 -> 22 -> 18 -> 18
+
+Same-topic near duplicates >=0.80:
+15 -> 12 -> 11 -> 6 -> 6 -> 6
+
+Answer-length cue flags:
+19 -> 16 -> 14 -> 14 -> 14 -> 14
+
+Distractor-only absolute-word asymmetry:
+31 -> 31 -> 29 -> 29 -> 29 -> 29
+
+Net improvement from v188:
+- near duplicate >=0.72: -16
+- near duplicate >=0.80: -9
+- answer-length cue flags: -5
+- absolute-word asymmetry flags: -2
+
+v197 regression check
+---------------------
+New near-duplicate pairs: 0
+New answer-length cue flags: 0
+New absolute-word flags: 0
+
+Final seven Medium recheck
+--------------------------
+theory-06:
+KiB/kB context comparison now requires interpreting which unit definition applies
+before calculation. Existing 判断 / 基礎 labels are appropriate. Resolved.
+
+media-01:
+Learner must distinguish original 24-bit color data from the stored 8-bit grayscale
+data before calculating size. Existing 判断 / 標準 labels are appropriate. Resolved.
+
+net-12:
+NAT/LAN context now requires RFC1918 address judgment rather than direct vocabulary
+recognition. Existing 判断 / 基礎 labels are appropriate. Resolved.
+
+challenge_044:
+Two project paths and separate delays must be recomputed before determining completion
+delay. Existing 判断 / 実戦 labels are appropriate. Resolved.
+
+challenge_046:
+Earned value must first be derived from completed work packages, then CPI is calculated.
+The planned count is a competing metric. Existing 判断 / 実戦 labels are appropriate. Resolved.
+
+challenge_v92_01_07:
+The least-significant bit must be checked to choose the shift direction before carrying
+out the logical shift. Existing 判断 / 実戦 labels are appropriate. Resolved.
+
+challenge_v92_02_08:
+The probability of the specific 3-bit sequence must be derived before self-information
+is calculated. Existing 判断 / 実戦 labels are appropriate. Resolved.
+
+All seven keep their historical correct-answer strings and introduce no new heuristic cue.
+
+Manual queue
+------------
+High: 0
+Medium: 0
+
+The remaining 18 near-duplicate pairs, 14 answer-length flags and 29 absolute-word
+asymmetry flags are unchanged from v196. They were already outside the active High/Medium
+manual queue and v197 created none of them. Because the heuristics are screening signals,
+editing solely to force these raw counts toward zero would risk lowering question quality.
+
+Closure decision
+----------------
+subject_a_quality_program_status: closed
+
+The v188 Subject A quality-repair program is closed because:
+- High = 0
+- Medium = 0
+- all seven v197 demand-alignment targets passed manual recheck
+- v197 created no new near-duplicate or answer-cue regression
+- all 130 mapped Subject A topics remain covered
+- question, answer-position, cognitive and difficulty distributions remain valid
+
+Next learning-value area
+------------------------
+Do not continue optimizing these same heuristics.
+
+Recommended next area:
+Subject B intermediate-state prediction quality and coverage.
+
+v199 should be audit-first and examine the actual Subject B exercises, compound sets,
+security scenarios, and intermediate-state prediction demands before changing learner-facing
+content.
