@@ -1,0 +1,70 @@
+FE QUEST v166 — Production Source Archive Boundary Audit
+=======================================================
+
+Scope
+-----
+v166 reorganizes historical diagnostic/provenance source files without changing learner-facing behavior. Files that are retained only for regression, provenance, or release-only historical diagnostics are moved out of app/ and into the Jekyll-build-excluded regression archive.
+
+Validated source identity
+-------------------------
+Materialized source commit: 790705f873923a6c3f72764c4d3b8377bd8f487c
+Materialized source tree: a800dfe79f7fe8c32a1c7d860778e2091acec477
+Parent release: v165 main fe389341222feae4e86d83a16cf69bdaf13e587d
+
+Archive boundary
+----------------
+Archive root: _regression/archive/diagnostics
+Historical diagnostic/provenance sources moved from app/: 48
+Historical diagnostic/versioned source residual in app/: 0
+Archived sources present in generated _site: 0
+Policy: historical-diagnostics-build-excluded-regression-archive
+
+The 48 moved files include historical diagnostic blocks v145-v165, v154 compatibility runtime projections, v159 semantic runtime parts, old diagnostic data modules, old current-diagnostics, and old semantic projection sources. Git recorded these as content-preserving renames where applicable. Historical fixture content is retained; historical manifests are not silently rewritten to pretend their original source paths were different.
+
+Active production diagnostics
+-----------------------------
+Physical semantic runtime: app/runtime-semantic-diagnostics.txt
+Runtime UTF-8 bytes: 55,525
+Runtime SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Stable wrapper: app/runtime-diagnostic-wrapper.txt
+Wrapper UTF-8 bytes: 19,350
+Wrapper SHA-256: c6acbe6e77d9d4b2b8a98131660eb06e9dd195932671a83b05cb870eba08e2cf
+Current release adapter: app/v166-block-00.txt
+Adapter UTF-8 bytes: 190
+Adapter SHA-256: 01c47ed6036de6eed73cba2d75248e75b40ea4d1ecfff3e918b84f6a9e904a3b
+Allowed versioned release global: runV166SelfCheck
+Retired release adapters tracked: runV160SelfCheck through runV165SelfCheck
+
+Archive contract fixture
+------------------------
+Fixture: _regression/production-source-archive-boundary-v166.fixture.json
+Archived entries: 48
+Each archived entry records original path, archive path, UTF-8 byte length, and SHA-256.
+The wrapper declares the fixture path, archive root, and archivedSourceCount=48 as part of the current semantic boundary contract.
+
+Preserved learning and runtime contracts
+----------------------------------------
+Current contract: 71/71
+Browser UI: 23/23 plus required DOM
+Stable semantic runtime helpers: 17
+Historical runtime function globals absent from production: 46
+Stable wrapper globals: 6
+Retired wrapper globals present in production: 0
+Retired release adapters present in production: 0
+Semantic data keys: 6
+Versioned data backing globals: 0
+Critical curriculum sentinels: 56/56
+Remaining release sentinels: 28/28
+Declarative CI coverage: 84/84
+Legacy regression fixture assertions: 293
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+Subject A question IDs: 710 unique
+Subject A answer distribution: A 178 / B 178 / C 177 / D 177
+Cognitive levels: 想起 166 / 適用 323 / 判断 221
+Profile Schema: v5
+
+Scope guard
+-----------
+No question wording, choices, answers, cognitive metadata, Profile Schema, or visible learning UI is intentionally changed in v166. The active semantic runtime remains byte-for-byte identical to v165. The release changes source ownership and build exclusion only.

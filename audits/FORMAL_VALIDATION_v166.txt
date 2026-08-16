@@ -1,0 +1,67 @@
+FE QUEST v166 — Formal Release Validation Audit
+===============================================
+
+Validation workflow
+-------------------
+Workflow: FE QUEST v166 release validation
+Workflow ID: 335353734
+Successful run ID: 31924632931
+Successful job ID: 95110134936
+Conclusion: success
+Triggering source commit: 6d9312b1b1b247db9dddec7e877f115ecb0272a9
+Materialized validation head logged by workflow: 790705f873923a6c3f72764c4d3b8377bd8f487c
+Materialized source tree: a800dfe79f7fe8c32a1c7d860778e2091acec477
+
+The workflow materialized and committed the v166 source boundary before the official Jekyll build and validation steps. The run metadata head_sha therefore identifies the triggering pre-materialization commit, while the validation log explicitly records FEQUEST_V166_VALIDATION_HEAD=790705f873923a6c3f72764c4d3b8377bd8f487c and subsequent build/validation used that updated working tree.
+
+Build environment
+-----------------
+GitHub Pages action image: ghcr.io/actions/jekyll-build-pages:v1.0.13
+GitHub Pages gem: github-pages v232
+Jekyll: v3.10.0
+Runner: Ubuntu 24.04
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V166_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V166_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 archive=48 app-residual=0 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V166_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V166_ARCHIVE_BOUNDARY_OK archive=48 app-residual=0 deployed-archive=0 runtime=55525
+FEQUEST_V166_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 archive=48 app-residual=0 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Standalone artifact
+-------------------
+Artifact name: fe-quest-v166-standalone
+Artifact ID: 9257446047
+Artifact uploaded size: 766,940 bytes
+Artifact archive digest: sha256:43d2083c20e5e8e3ce99b3be1614d9843c5109b3a62c27f8d883ab0df9957c84
+Nested deployable ZIP: FE_QUEST_PWA_v166.zip
+Nested deployable ZIP size: 767,048 bytes
+Nested deployable ZIP SHA-256: f9d0d97f4b9354c87907fd2038174697c5d6e1c36d91a43845954fe812b9f68f
+Nested deployable ZIP contains exactly 6 release files.
+
+Generated deployable identities
+-------------------------------
+index.html: 3,474,093 bytes
+index.html SHA-256: 349348b7dda860771de22e5d42baf22863def0921af4238e1eb210eb833b35d1
+manifest.webmanifest: 1,220 bytes
+manifest.webmanifest SHA-256: 772f22916504f6c69db5738593f4c2418f6466d40e43172172698d3a59e6d50f
+sw.js: 2,514 bytes
+sw.js SHA-256: a23e51802db7182081f1fe5559be3cfad743358e84e1bb25c6f492b043691ee3
+
+Service-worker parity
+---------------------
+APP_VERSION: v166
+Cache: fe-quest-v166-1
+GET_VERSION messaging: preserved
+networkWithTimeout: preserved
+staleWhileRevalidate: preserved
+Range request bypass: preserved
+
+Release conclusion
+------------------
+The v166 materialized production source passed the full current contract, browser/DOM contract, stable semantic runtime boundary, archive-source boundary, release-only historical fixture execution, and legacy regression boundary. The build also proved that _regression/archive/diagnostics is not shipped into the generated site.
+
+Final cleanup policy
+--------------------
+Temporary validation-only files (.github/workflows/v166-validate.yml, tools/v166_materialize.py, tools/v166_validate.py, tools/v166_runtime_stub.py) are removed before main is advanced. That cleanup does not modify app/, _regression/production-source-archive-boundary-v166.fixture.json, index.html, manifest.webmanifest, or sw.js. The v166 source-boundary and formal-validation audit documents are retained as release evidence.
