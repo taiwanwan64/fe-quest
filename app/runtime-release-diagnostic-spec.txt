@@ -1,6 +1,6 @@
-// ===== FE QUEST derived release diagnostic metadata =====
+// ===== FE QUEST stable release diagnostic metadata =====
 (() => {
-  const releaseVersion='v180';
+  const releaseVersion=APP_VERSION;
   const releaseNumber=Number(releaseVersion.slice(1));
   if(!Number.isInteger(releaseNumber)||releaseNumber<160) throw new Error('FE QUEST release version invalid');
   const retiredReleaseAdapters=Object.freeze(Array.from({length:releaseNumber-160},(_,i)=>`runV${160+i}SelfCheck`));

@@ -1,0 +1,49 @@
+FE QUEST v181 — Derived Release Diagnostic Metadata Audit
+==========================================================
+
+Result
+------
+PASSED authoritative GitHub Pages/Jekyll candidate/reference validation.
+
+Architecture
+------------
+Candidate metadata module: 859 bytes / SHA-256 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2
+Single releaseVersion literal: v181
+Derived current adapter: runV181SelfCheck
+Derived retired adapters: 21 (runV160SelfCheck through runV179SelfCheck)
+Explicit retired adapter name literals in candidate source: 0
+Release-specific diagnostic archive boundary created: no
+Diagnostic archive: 58 / growth 0
+
+Stable boundaries
+-----------------
+Wrapper: 19,860 / 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Release adapter: 211 / 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Stable diagnostic archive inventory: 17,671 / b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+All byte-identical to v179: yes
+
+Generated HTML
+--------------
+Candidate: 3,475,519 bytes / 241e44cfa3c10fac8d58b0eabf656166954b1530b0c5ce696002569b4cf3211d
+Explicit-array reference: 3,475,530 bytes / eb69d76ad7d2dd91e36766a3f9d36f945bdc6ff99f4645b6525bdc4e93363928
+Equal after replacing only the release metadata source module with one placeholder: yes
+
+Canonical runtime
+-----------------
+Candidate/reference exact equality: yes
+UTF-8 bytes: 1,055,238
+SHA-256: 1bafafb23128ddc3ef396a2376f1a4dfbbf86e138317fb0ce84dbcea07966132
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Architecture normalization fields: none
+
+Release contract
+----------------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw 22 / residual 0
+Questions 710 / unique 710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221
