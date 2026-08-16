@@ -52,6 +52,9 @@ jobs:
       - name: Diagnose generated HTML delta
         run: python3 tools/v170_diff_debug.py
 
+      - name: Stabilize canonical runtime snapshot
+        run: python3 tools/v170_stabilize_snapshot.py
+
       - name: Validate FE QUEST v170 compaction equivalence
         run: python3 tools/v170_validate.py
 
