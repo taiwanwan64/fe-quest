@@ -1,0 +1,1387 @@
+{
+  "name": "production-patch-chain-v167",
+  "version": "v167",
+  "scope": "active-learning-patch-chain-v132-v144",
+  "policy": "inventory-only-no-consolidation",
+  "base": {
+    "path": "app/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a"
+  },
+  "patch_range": {
+    "first_version": "v132",
+    "last_version": "v144",
+    "version_count": 13,
+    "block_count": 47,
+    "expected_block_counts": {
+      "v132": 8,
+      "v133": 6,
+      "v134": 7,
+      "v135": 1,
+      "v136": 8,
+      "v137": 1,
+      "v138": 9,
+      "v139": 2,
+      "v140": 1,
+      "v141": 1,
+      "v142": 1,
+      "v143": 1,
+      "v144": 1
+    },
+    "concat_utf8_bytes": 405723,
+    "concat_sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "assembler": {
+    "path": "index.html",
+    "utf8_bytes": 4737,
+    "sha256": "1b073d2b6f2dd9c1caed76e9ad64a454115185443797db56a429f022324f20f8",
+    "patch_include_count": 47,
+    "assembly_order": [
+      "app/v132-block-00.txt",
+      "app/v132-block-01.txt",
+      "app/v132-block-02.txt",
+      "app/v132-block-03.txt",
+      "app/v132-block-04.txt",
+      "app/v132-block-05.txt",
+      "app/v132-block-06.txt",
+      "app/v132-block-07.txt",
+      "app/v133-block-00.txt",
+      "app/v133-block-01.txt",
+      "app/v133-block-02.txt",
+      "app/v133-block-03.txt",
+      "app/v133-block-04.txt",
+      "app/v133-block-05.txt",
+      "app/v134-block-00.txt",
+      "app/v134-block-01.txt",
+      "app/v134-block-02.txt",
+      "app/v134-block-03.txt",
+      "app/v134-block-04.txt",
+      "app/v134-block-05.txt",
+      "app/v134-block-06.txt",
+      "app/v135-block-00.txt",
+      "app/v136-block-00.txt",
+      "app/v136-block-01.txt",
+      "app/v136-block-02.txt",
+      "app/v136-block-03.txt",
+      "app/v136-block-04.txt",
+      "app/v136-block-05.txt",
+      "app/v136-block-06.txt",
+      "app/v136-block-07.txt",
+      "app/v137-block-00.txt",
+      "app/v138-block-00.txt",
+      "app/v138-block-01.txt",
+      "app/v138-block-02.txt",
+      "app/v138-block-03.txt",
+      "app/v138-block-04.txt",
+      "app/v138-block-05.txt",
+      "app/v138-block-06.txt",
+      "app/v138-block-07.txt",
+      "app/v138-block-08.txt",
+      "app/v139-block-00.txt",
+      "app/v139-block-01.txt",
+      "app/v140-block-00.txt",
+      "app/v141-block-00.txt",
+      "app/v142-block-00.txt",
+      "app/v143-block-00.txt",
+      "app/v144-block-00.txt"
+    ]
+  },
+  "declaration_summary": {
+    "function_declarations_unique": 5,
+    "lexical_declarations_unique": 122,
+    "class_declarations_unique": 0,
+    "global_exports_unique": 10,
+    "assignment_targets_unique": 19,
+    "functions": [
+      "applyV143LateFixes",
+      "v142NormalizeSelfCheck",
+      "v143NormalizeSelfCheck",
+      "v144EvaluateBrowserUiContracts",
+      "v144NormalizeSelfCheck"
+    ],
+    "global_exports": [
+      "FEQUEST_V144_UI_CONTRACT",
+      "SUBJECT_A_V141_DENSITY_AUDIT",
+      "SUBJECT_A_V142_SINGLE_EXP_AUDIT",
+      "SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+      "V144_UI_CONTRACTS",
+      "__FEQUEST_RUNTIME_SMOKE__",
+      "applyV143LateFixes",
+      "v143NormalizeSelfCheck",
+      "v144EvaluateBrowserUiContracts",
+      "v144NormalizeSelfCheck"
+    ]
+  },
+  "blocks": [
+    {
+      "version": "v132",
+      "block": "v132-block-00.txt",
+      "path": "app/v132-block-00.txt",
+      "utf8_bytes": 4802,
+      "sha256": "a6a1b49952caab2772bbbd08de2eb2c41f731f625449e06b8e90fa6d4221cd60",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V132_STYLE_CUE_OVERRIDES"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-01.txt",
+      "path": "app/v132-block-01.txt",
+      "utf8_bytes": 5222,
+      "sha256": "8571fbe5be90703f22df2177c07187a1a2b8cd953ba4915d527294b1ddf4ca75",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-02.txt",
+      "path": "app/v132-block-02.txt",
+      "utf8_bytes": 4832,
+      "sha256": "6905d829d415c5e1a05594b97339e816ea8a525878a4520d32eba5a7237d0101",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-03.txt",
+      "path": "app/v132-block-03.txt",
+      "utf8_bytes": 4844,
+      "sha256": "4492495305c1d81e962feb91a1a151a92d6f8dc04a1e21ab9ef749c9ba1ba8e5",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-04.txt",
+      "path": "app/v132-block-04.txt",
+      "utf8_bytes": 5190,
+      "sha256": "ad9946fbc45395e01e1edaaf10584f91f41a6cd0f9209aa252a6e13b1dd9f240",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-05.txt",
+      "path": "app/v132-block-05.txt",
+      "utf8_bytes": 5186,
+      "sha256": "e639253629d4975086b713164a6048121969c717c7827149e7ef9c2a32852489",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-06.txt",
+      "path": "app/v132-block-06.txt",
+      "utf8_bytes": 5082,
+      "sha256": "f3a474c82d88bdc1f4d6640697a21b64941d9642bf936c74dd0ebf0f22c86f88",
+      "function_declarations": [],
+      "lexical_declarations": [],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v132",
+      "block": "v132-block-07.txt",
+      "path": "app/v132-block-07.txt",
+      "utf8_bytes": 1817,
+      "sha256": "4eff1f31536e79ff7555629ff3d0fa8d264f8bf250e45ae6d092ac8130d6cac3",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [
+        "q.styleCueAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-00.txt",
+      "path": "app/v133-block-00.txt",
+      "utf8_bytes": 7572,
+      "sha256": "ffc0bbbb6b8141970da3af37dd1832ecf088b55c32ea0451eaa503a047a64d2f",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_0",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-01.txt",
+      "path": "app/v133-block-01.txt",
+      "utf8_bytes": 6190,
+      "sha256": "44f13479d88d460980e00ae890b99a1147eb73feddec498c95a4aef37a4ea22a",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_1",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-02.txt",
+      "path": "app/v133-block-02.txt",
+      "utf8_bytes": 3807,
+      "sha256": "cf20560e5f7c49bd3db4cfbadad1b6863b2f07eb9eb53fd04087cf9fdf86f70f",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_2",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-03.txt",
+      "path": "app/v133-block-03.txt",
+      "utf8_bytes": 3757,
+      "sha256": "a5a7fa90779c0f7b26dd923dbd62297b8d9d6c97aa35008e17239552b94c0662",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_3",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-04.txt",
+      "path": "app/v133-block-04.txt",
+      "utf8_bytes": 4044,
+      "sha256": "12adc3474ab927f881aafac3581831f3cdeda1aaf74ef332458df41356b8f885",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_4",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v133",
+      "block": "v133-block-05.txt",
+      "path": "app/v133-block-05.txt",
+      "utf8_bytes": 4149,
+      "sha256": "c9292ad868f40a5c71a4bfcf4c765e488b9df23f46bbe67e39e1ab4e1f3ba32e",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_5",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-00.txt",
+      "path": "app/v134-block-00.txt",
+      "utf8_bytes": 4935,
+      "sha256": "0ab35c298b19077896a312760db7f579a1436e2652e66af162f182b74731a7a0",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_0",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-01.txt",
+      "path": "app/v134-block-01.txt",
+      "utf8_bytes": 4343,
+      "sha256": "d527d15afde06b5db06bc1874533b1b028875545d859aed6bea33c1412e84986",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_1",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-02.txt",
+      "path": "app/v134-block-02.txt",
+      "utf8_bytes": 3965,
+      "sha256": "af319c483528aa34e1c890d84ca213bc1174b5d7a661732642d465201da9421b",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_2",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-03.txt",
+      "path": "app/v134-block-03.txt",
+      "utf8_bytes": 4872,
+      "sha256": "a655bce419fb53c207c4cc6d422b4cf3feae2fd0517b8ba0734331835609d637",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_3",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-04.txt",
+      "path": "app/v134-block-04.txt",
+      "utf8_bytes": 4848,
+      "sha256": "00ef149ea12e89cc7b0ccaa2fb1f6c2fb88605e656d597c139b29d0a576f2782",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_4",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-05.txt",
+      "path": "app/v134-block-05.txt",
+      "utf8_bytes": 3340,
+      "sha256": "581e8a086db12bfe70a3c0b61b155d4e4791ffcc660e0eccc44de728cbf61b57",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_5",
+        "answerBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v134",
+      "block": "v134-block-06.txt",
+      "path": "app/v134-block-06.txt",
+      "utf8_bytes": 1727,
+      "sha256": "83cb4ca8d1e366c2ce95857e847f5fbd742c29c571f8d51f7f3e099a0a728fcc",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V134_LEARNING_OVERRIDE_IDS",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v135",
+      "block": "v135-block-00.txt",
+      "path": "app/v135-block-00.txt",
+      "utf8_bytes": 2195,
+      "sha256": "ad8988b7f3967974d4032065d561224058ceed9d3af50a90c4c85ad33fbc3dc2",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "manual",
+        "q",
+        "residual"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [
+        "q.choiceExps",
+        "q.qualityAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-00.txt",
+      "path": "app/v136-block-00.txt",
+      "utf8_bytes": 4703,
+      "sha256": "03bfe2cf975a00849c7ab8d776ef50065c4799cd86ef62cf6e7897328638ff33",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_0",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-01.txt",
+      "path": "app/v136-block-01.txt",
+      "utf8_bytes": 2709,
+      "sha256": "bb4730b002b57885ffde325997c04cd35792517509376eaf541e64b69ca555ea",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_1",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-02.txt",
+      "path": "app/v136-block-02.txt",
+      "utf8_bytes": 7649,
+      "sha256": "c8a407700ee8ab9c2974fdde1a7f0f74dbe9f4a9bbe0bab2c6402e4f05a81876",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_2",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-03.txt",
+      "path": "app/v136-block-03.txt",
+      "utf8_bytes": 3817,
+      "sha256": "2dde77331bcb5a5183d3a6d36f41338f9327a017e1298a38ed906dbec7b3575b",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_3",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-04.txt",
+      "path": "app/v136-block-04.txt",
+      "utf8_bytes": 3151,
+      "sha256": "86064ed189c79ed8a2698bf1be74655eab3458c83eb62a390d47129144a17eb9",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_4",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-05.txt",
+      "path": "app/v136-block-05.txt",
+      "utf8_bytes": 2899,
+      "sha256": "b1f623fbf5fe4e9da1072096743165292dcd51be11db2817df3fe99dd0d86c36",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_5",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-06.txt",
+      "path": "app/v136-block-06.txt",
+      "utf8_bytes": 13162,
+      "sha256": "d22b79f5e7b02b66d515ad995d61e6dce275fce9809b7797869e0d68e8708cf5",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_6",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v136",
+      "block": "v136-block-07.txt",
+      "path": "app/v136-block-07.txt",
+      "utf8_bytes": 12326,
+      "sha256": "6cf25af0b32453ba97cc024fba4d43d907e3606bac59db5329e233e764a40f15",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_7",
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v137",
+      "block": "v137-block-00.txt",
+      "path": "app/v137-block-00.txt",
+      "utf8_bytes": 88253,
+      "sha256": "8683fa6f25c941d0d68fa30795ae4a777e5048f2531f581073bb419fb05f0718",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V137_CONTEXT_OVERRIDES",
+        "SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS",
+        "answerBefore",
+        "idBefore",
+        "patch",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-00.txt",
+      "path": "app/v138-block-00.txt",
+      "utf8_bytes": 10378,
+      "sha256": "68d37dacaadf8fe5de1c3ef39f0a8838cb260789ba55d393c00fad6f551fa657",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_0",
+        "SUBJECT_A_V138_OVERRIDES_0",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-01.txt",
+      "path": "app/v138-block-01.txt",
+      "utf8_bytes": 12845,
+      "sha256": "3902766cb5cf3cabff4c7d881c5bea9f908f750ffe9d782d4ce72082ea0243fb",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_1",
+        "SUBJECT_A_V138_OVERRIDES_1",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-02.txt",
+      "path": "app/v138-block-02.txt",
+      "utf8_bytes": 15993,
+      "sha256": "ad009a22a6fbce295b51f25b831df960913f0771be46fc0b20104552e3d26104",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_2",
+        "SUBJECT_A_V138_OVERRIDES_2",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-03.txt",
+      "path": "app/v138-block-03.txt",
+      "utf8_bytes": 16308,
+      "sha256": "21ac8a3964fbf6c5d35f374cfc502e6fa3010c0e88f9e806fe55139ceb1b9a68",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_3",
+        "SUBJECT_A_V138_OVERRIDES_3",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-04.txt",
+      "path": "app/v138-block-04.txt",
+      "utf8_bytes": 18277,
+      "sha256": "4ea4f16ff230af518a8cdebae4b75157cd9cf36492b2fec91d5475bf592cf49a",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_4",
+        "SUBJECT_A_V138_OVERRIDES_4",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-05.txt",
+      "path": "app/v138-block-05.txt",
+      "utf8_bytes": 9904,
+      "sha256": "01611d499ed89801a20a40bc37abd2c2fbdfc9c6ad6cc0bf5a053d08c7a6e09c",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_5",
+        "SUBJECT_A_V138_OVERRIDES_5",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-06.txt",
+      "path": "app/v138-block-06.txt",
+      "utf8_bytes": 17186,
+      "sha256": "ebbadcc83858948a61ee52591daf0177d71276d343d8e9fcdef01c8ba2fe26e1",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_6",
+        "SUBJECT_A_V138_OVERRIDES_6",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-07.txt",
+      "path": "app/v138-block-07.txt",
+      "utf8_bytes": 15004,
+      "sha256": "167024232c1709a2801fdb5b1d95b56bcf3432f67609f8056347f416d2896112",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS_7",
+        "SUBJECT_A_V138_OVERRIDES_7",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v138",
+      "block": "v138-block-08.txt",
+      "path": "app/v138-block-08.txt",
+      "utf8_bytes": 725,
+      "sha256": "909c856f66e2d0a7d0b808793961165c162cffee1ea4146efabdadcbfbd07317",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V138_IDS"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v139",
+      "block": "v139-block-00.txt",
+      "path": "app/v139-block-00.txt",
+      "utf8_bytes": 6369,
+      "sha256": "dde1cb86b8fdee01b4b1606874c1b02c314bb183f2ec4ccf2763193c85362df1",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V139_IDS_0",
+        "SUBJECT_A_V139_SUFFIXES_0",
+        "a",
+        "q"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [
+        "q.qualityAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v139",
+      "block": "v139-block-01.txt",
+      "path": "app/v139-block-01.txt",
+      "utf8_bytes": 6377,
+      "sha256": "eadbcc38c02acabcaea01d36af9fdfce94778fb2890e5a7ed73bdd3647362cd8",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS",
+        "SUBJECT_A_V139_IDS",
+        "SUBJECT_A_V139_IDS_1",
+        "SUBJECT_A_V139_SUFFIXES_1",
+        "a",
+        "q",
+        "wrong"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [
+        "q.qualityAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v140",
+      "block": "v140-block-00.txt",
+      "path": "app/v140-block-00.txt",
+      "utf8_bytes": 10776,
+      "sha256": "976fb0bcf5cce255285152ff2c659f74bdac226652138ddc41f952a08e48baac",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "SUBJECT_A_V140_IDS",
+        "SUBJECT_A_V140_OVERRIDES",
+        "a",
+        "q",
+        "touched"
+      ],
+      "class_declarations": [],
+      "global_exports": [],
+      "assignment_targets": [],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v141",
+      "block": "v141-block-00.txt",
+      "path": "app/v141-block-00.txt",
+      "utf8_bytes": 2856,
+      "sha256": "222f835e1821ab25fb35cf5f753e45006b6dc55f4196173e410909486874a878",
+      "function_declarations": [],
+      "lexical_declarations": [
+        "afterChars",
+        "answerDistribution",
+        "beforeChars",
+        "changedChoices",
+        "cognitiveDistribution",
+        "current",
+        "exp",
+        "hitIndexes",
+        "pos",
+        "q",
+        "specific",
+        "targetIds"
+      ],
+      "class_declarations": [],
+      "global_exports": [
+        "SUBJECT_A_V141_DENSITY_AUDIT"
+      ],
+      "assignment_targets": [
+        "globalThis.SUBJECT_A_V141_DENSITY_AUDIT",
+        "q.qualityAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v142",
+      "block": "v142-block-00.txt",
+      "path": "app/v142-block-00.txt",
+      "utf8_bytes": 6815,
+      "sha256": "d4f81eb993043900d79c3a35c8c0ce506bc4112437dbad46995cc8a1491bdd73",
+      "function_declarations": [
+        "v142NormalizeSelfCheck"
+      ],
+      "lexical_declarations": [
+        "active",
+        "afterChars",
+        "allAuditIdsExist",
+        "answerCounts",
+        "application",
+        "beforeChars",
+        "changedChoices",
+        "cognitiveCounts",
+        "currentErrors",
+        "demandTypes",
+        "errors",
+        "exp",
+        "fullExpCopiesAfter",
+        "hardSemantic",
+        "hit",
+        "hits",
+        "laterPassAudits",
+        "legacy",
+        "legacyExact",
+        "legacySemantic",
+        "linkedStemCovered",
+        "originalErrors",
+        "passOrLater",
+        "pos",
+        "promoted",
+        "result",
+        "rewritten",
+        "semantic",
+        "specific",
+        "targetIds",
+        "unknownDemand",
+        "warnings"
+      ],
+      "class_declarations": [],
+      "global_exports": [
+        "SUBJECT_A_V142_SINGLE_EXP_AUDIT"
+      ],
+      "assignment_targets": [
+        "globalThis.SUBJECT_A_V142_SINGLE_EXP_AUDIT",
+        "q.qualityAudit",
+        "specific"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    },
+    {
+      "version": "v143",
+      "block": "v143-block-00.txt",
+      "path": "app/v143-block-00.txt",
+      "utf8_bytes": 14695,
+      "sha256": "4fd7ccab919bfbd8f36b6f904fcd4b07002de3edeef463d541164d81b2840bfb",
+      "function_declarations": [
+        "applyV143LateFixes",
+        "v143NormalizeSelfCheck"
+      ],
+      "lexical_declarations": [
+        "active",
+        "answerDistribution",
+        "cognitiveDistribution",
+        "correctLen",
+        "deepAdditions",
+        "deferred",
+        "depthShortAfter",
+        "depthShortBefore",
+        "e",
+        "judgment",
+        "lateApplied",
+        "lens",
+        "nodeMinimalDom",
+        "obviousLengthOutlier",
+        "oldJudgmentOption",
+        "optionOutliersAfter",
+        "optionOutliersBefore",
+        "optionPatches",
+        "q",
+        "result",
+        "uiOnly",
+        "warnings"
+      ],
+      "class_declarations": [],
+      "global_exports": [
+        "SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+        "__FEQUEST_RUNTIME_SMOKE__",
+        "applyV143LateFixes",
+        "v143NormalizeSelfCheck"
+      ],
+      "assignment_targets": [
+        "depthShortAfter",
+        "depthShortBefore",
+        "e.deep",
+        "globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
+        "globalThis.applyV143LateFixes",
+        "globalThis.v143NormalizeSelfCheck",
+        "judgment.qualityAudit",
+        "lateApplied",
+        "q.options",
+        "q.qualityAudit"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": true,
+        "profile_schema_reference": false,
+        "late_fix_reference": true
+      }
+    },
+    {
+      "version": "v144",
+      "block": "v144-block-00.txt",
+      "path": "app/v144-block-00.txt",
+      "utf8_bytes": 5827,
+      "sha256": "f56b98d5348fdab7fcb471808301f96bd78547e8063eeef5575b2789c46c6795",
+      "function_declarations": [
+        "v144EvaluateBrowserUiContracts",
+        "v144NormalizeSelfCheck"
+      ],
+      "lexical_declarations": [
+        "UI_CONTRACTS",
+        "errors",
+        "failed",
+        "historicalMetadataWarnings",
+        "legacy",
+        "nodeMinimalDom",
+        "report",
+        "result",
+        "results",
+        "s",
+        "supersededSemanticWarnings",
+        "uiReport",
+        "warningPrefixLegacy",
+        "warningPrefixUi",
+        "warnings"
+      ],
+      "class_declarations": [],
+      "global_exports": [
+        "FEQUEST_V144_UI_CONTRACT",
+        "V144_UI_CONTRACTS",
+        "v144EvaluateBrowserUiContracts",
+        "v144NormalizeSelfCheck"
+      ],
+      "assignment_targets": [
+        "globalThis.FEQUEST_V144_UI_CONTRACT",
+        "globalThis.V144_UI_CONTRACTS",
+        "globalThis.v144EvaluateBrowserUiContracts",
+        "globalThis.v144NormalizeSelfCheck"
+      ],
+      "source_flags": {
+        "dom_write": false,
+        "event_listener": false,
+        "storage_access": false,
+        "question_bank_reference": false,
+        "profile_schema_reference": false,
+        "late_fix_reference": false
+      }
+    }
+  ]
+}
