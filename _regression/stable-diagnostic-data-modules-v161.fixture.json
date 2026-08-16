@@ -1,0 +1,42 @@
+{
+  "name": "stable-diagnostic-data-modules-v161",
+  "version": "v161",
+  "stable_modules": {
+    "prelude": {
+      "path": "app/runtime-diagnostic-data-prelude.txt",
+      "sha256": "318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92",
+      "utf8_bytes": 235,
+      "archival_path": "app/runtime-diagnostic-data-prelude-v157.txt",
+      "archival_sha256": "318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92",
+      "archival_utf8_bytes": 235,
+      "byte_exact_with_archival": true
+    },
+    "finalize": {
+      "path": "app/runtime-diagnostic-data-finalize.txt",
+      "sha256": "9d9c00d0bfe445ffc0f666250b4d7daca3abb612e6cb019d5ee9e886b8d79927",
+      "utf8_bytes": 1264,
+      "archival_path": "app/runtime-diagnostic-data-finalize-v159.txt",
+      "archival_sha256": "9d9c00d0bfe445ffc0f666250b4d7daca3abb612e6cb019d5ee9e886b8d79927",
+      "archival_utf8_bytes": 1264,
+      "byte_exact_with_archival": true
+    }
+  },
+  "wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "sha256": "731997ba669fd67135f5fa7b6d18ebf935eb175bd2668626d8625c592f7cfb50",
+    "utf8_bytes": 18272,
+    "stable_global_count": 6,
+    "retired_v159_wrapper_global_count": 6,
+    "retired_release_adapters": [
+      "runV160SelfCheck"
+    ]
+  },
+  "release_adapter": {
+    "path": "app/v161-block-00.txt",
+    "sha256": "e7675011374cf11ea0fe395401412a071b12ebaa8c71aa28684366a84b6dbf11",
+    "utf8_bytes": 190,
+    "allowed_versioned_global": "runV161SelfCheck"
+  },
+  "production_policy": "stable-diagnostic-data-module-paths-direct-materialized-runtime",
+  "previous_wrapper_fixture": "_regression/stable-semantic-diagnostic-wrapper-v160.fixture.json"
+}
