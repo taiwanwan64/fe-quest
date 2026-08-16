@@ -73,3 +73,4 @@ jobs:
           name: fe-quest-v169-standalone
           path: FE_QUEST_PWA_v169.zip
           if-no-files-found: error
+          retention-days: 90
