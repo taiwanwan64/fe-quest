@@ -1,0 +1,78 @@
+FE QUEST v162 FORMAL VALIDATION
+Date: 2026-08-16 JST
+Repository: taiwanwan64/fe-quest
+Version: v162
+
+AUTHORITATIVE VALIDATION
+- Workflow: FE QUEST v162 release validation.
+- Run ID: 31922051473.
+- Job ID: 95103386286.
+- Validation head SHA: d87751cb0f92d31cb46051730df09298782d89c8.
+- Result: completed / success.
+- Real GitHub Pages Jekyll version: 3.10.0.
+- Jekyll build: success.
+- Static DOM validation: success.
+- Production runtime smoke: success.
+- Release-only historical fixture runtime: success.
+- PWA packaging/upload: success.
+
+SUCCESS SENTINELS
+FEQUEST_V162_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 retired-adapter=2 adapter=1 stable-data=2 stable-runtime=9
+FEQUEST_V162_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V162_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime=9 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V162_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+FEQUEST_V162_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime=9 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+STABLE RUNTIME PATH VALIDATION
+- Nine production semantic runtime parts use stable names runtime-semantic-diagnostics-00.txt through -08.txt.
+- No production assembler reference to runtime-semantic-diagnostics-v159-XX remains.
+- Every stable part is byte-exact with its archival v159 counterpart.
+- Concatenated production runtime: 55,525 bytes.
+- Concatenated SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+
+PWA BEHAVIOR VALIDATION
+- APP_VERSION v162 and cache fe-quest-v162-1 verified.
+- Existing service-worker GET_VERSION handling verified.
+- Existing networkWithTimeout behavior verified.
+- Existing staleWhileRevalidate behavior verified.
+- Existing range-request bypass verified.
+- Final sw.js: 2,514 bytes / SHA-256 1b439e06133532b9495f3aae9630e70a991f754fc960edb39b3eafdf239b447a.
+
+FORMAL ARTIFACT
+- Artifact ID: 9256645360.
+- Artifact name: fe-quest-v162-standalone.
+- Outer Actions artifact ZIP: 766,806 bytes / SHA-256 317aff2ad8201f5d7eef10add41cde269d52b4dfa0c768ff296b4b3cf856fa31.
+- Inner deployable FE_QUEST_PWA_v162.zip: 766,930 bytes / SHA-256 bf3c4a518ef1f0f27e2e9cd9ccd26d631a031e9b1eb418081a8f47d19c76d44a.
+- Expanded production index.html: 3,473,723 bytes / SHA-256 e08d3f8859fd07eb3c8eae0ea5d1957a22f278a3882de60c09ff6e1b4a5400f5.
+- manifest.webmanifest: 1,121 bytes / SHA-256 bebb9aba21385b0b1babc1be2771e77863454d55eccecc008fdabc795d1adf40.
+- sw.js: 2,514 bytes / SHA-256 1b439e06133532b9495f3aae9630e70a991f754fc960edb39b3eafdf239b447a.
+- Inner PWA file count: exactly 6.
+
+INVARIANTS
+- Subject A: 710 questions / 710 unique IDs.
+- Answers: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Current contract: 71 / 71.
+- Browser UI: 23 / 23 plus required DOM.
+- Stable diagnostic runtime helpers: 17 / 17.
+- Retired v145-v152 diagnostic globals absent: 46 / 46.
+- Stable wrapper: 6 / 6.
+- Semantic diagnostic data: 6 keys / versioned backing globals 0.
+- Critical mapping: 56 / 56.
+- Release mapping: 28 / 28.
+- CI-only mapping: 84 / 84.
+- Legacy release fixture: 293 asserts / raw 22 / residual 0.
+- Production legacy evaluator: absent.
+
+PRE-RELEASE CORRECTION
+- An earlier staging-only validation run 31921922764 used an accidentally simplified service worker.
+- It is superseded and is not the formal v162 release artifact.
+- The issue was corrected before main release, and run 31922051473 is the sole authoritative formal validation/artifact for v162.
+
+CLEANUP
+- Temporary v162 validation workflow, validator, and runtime smoke stub were removed after successful authoritative validation.
+
+FINAL MAIN/PAGES
+- Final staging source is fast-forwarded to main only after validation/cleanup/audit.
+- Exact final-main Pages run and Pages API state are verified after the final main SHA is established.
