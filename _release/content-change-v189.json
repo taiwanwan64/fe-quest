@@ -5,6 +5,8 @@
   "parent_main_sha": "0affd1520d556b7869a8d1496e2fe5c191073591",
   "policy": "explicit-subject-a-question-field-overrides-only",
   "quality_audit_marker": "v189-high-severity-repair",
+  "source_quality_audit": "_regression/subject-a-quality-audit-v188.fixture.json",
+  "source_priority_tier": "high",
   "content_files": ["app/learning-quality-overrides.txt"],
   "assembly_files": ["index.html"],
   "allowed_question_ids": ["theory-10","theory-07","challenge_025","coreq_14_02_1","coreq_06_05_1","coreq_15_01_1","coreq_18_02_1","coreq_15_07_1","challenge_v92_12_06","strat-06"],
