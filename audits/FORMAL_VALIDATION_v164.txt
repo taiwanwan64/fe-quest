@@ -1,0 +1,69 @@
+FE QUEST v164 FORMAL VALIDATION
+Date: 2026-08-16 JST
+
+Authoritative validation
+- Branch: v164-staging
+- Validation head SHA: 015fba6ede2c7af9d3026179fe0693d9f34ba625
+- Workflow: FE QUEST v164 release validation
+- Run ID: 31923440640
+- Job ID: 95107059921
+- Conclusion: success
+- Real GitHub Pages build stack: github-pages v232 / Jekyll 3.10.0
+- Artifact ID: 9257086565
+- Artifact name: fe-quest-v164-standalone
+- Artifact upload bytes: 766871
+- Artifact archive digest: sha256:1093eea4c7b7e9d2d8d8ae76566b47f3998e3a720bd1ce30b4cb059941595da7
+
+Authoritative success markers
+FEQUEST_V164_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 retired-adapter=4 adapter=1 stable-data=2 stable-runtime-loader=1
+FEQUEST_V164_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V164_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime-loader=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V164_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+FEQUEST_V164_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime-loader=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Semantic provenance validation
+- Active FEQ_DIAGNOSTIC_DATA_PROVENANCE.sourceModule is app/runtime-semantic-diagnostics.txt.
+- Active FEQ_DIAGNOSTIC_DATA_PROVENANCE.projectionMode is stable-semantic-runtime-loader.
+- Retired active provenance strings app/runtime-semantic-diagnostics-v159-parts and materialized-semantic-runtime-source-v159 are absent from generated production.
+- Stable runtime path policy is single-semantic-runtime-loader.
+- Loader remains one top-level source boundary over nine stable runtime parts.
+- Rendered semantic runtime remains exactly 55,525 UTF-8 bytes with SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+
+Preserved invariants
+- Current contract: 71/71
+- Browser UI: 23/23 + required DOM
+- Stable semantic helpers: 17
+- Retired historical function globals absent: 46
+- Stable wrapper globals: 6
+- Retired v159 wrapper globals present in production: 0
+- Retired release adapters present in production: 0
+- Semantic data keys: 6
+- Versioned data backing globals: 0
+- Critical curriculum: 56/56
+- Remaining release sentinel: 28/28
+- CI declarative coverage: 84/84
+- Legacy regression fixture: 293 assertions
+- Raw legacy errors: 22
+- Residual active errors: 0
+- Production legacy evaluator: absent
+- Subject A question bank: 710 unique IDs
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive distribution: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+
+PWA behavior regression guard
+- APP_VERSION v164
+- cache fe-quest-v164-1
+- GET_VERSION messaging retained
+- networkWithTimeout retained
+- staleWhileRevalidate retained
+- Range requests remain bypassed
+
+Cleanup
+- Temporary .github/workflows/v164-validate.yml removed after successful validation.
+- Temporary tools/v164_validate.py removed from production source after successful validation.
+- Temporary tools/v164_runtime_stub.py removed from production source after successful validation.
+- Reproduction copies belong in the handoff package only.
+
+Scope
+- No question wording, options, answers, cognition metadata, Profile Schema, or visible learning UI changes.
