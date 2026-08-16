@@ -1,0 +1,107 @@
+FE QUEST v159 — MATERIALIZED SEMANTIC RUNTIME SOURCE AUDIT
+Date: 2026-08-16 JST
+Version: v159
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Eliminate all production Jekyll build-time historical-name rewrites from the diagnostic runtime path.
+- Materialize the already validated v158 projected semantic runtime as direct production source.
+- Preserve the archival pre-semantic runtime and v158 projection module only as regression provenance.
+- Keep learning content, question data, profile schema and visible UI unchanged.
+
+V158 BASELINE
+- app/runtime-current-diagnostics.txt was archival source: 54,898 bytes / SHA-256 12292fa538af35786c3f061befe060682c363b1b44620b96422a48af3d8c8658.
+- app/runtime-semantic-projection-v158.txt transformed six versioned data contracts with 18 Liquid replace filters.
+- Generated semantic runtime was 55,525 bytes / SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- Production already exposed 17 stable helpers, six semantic data keys, zero versioned backing globals, and zero retired v145-v152 diagnostic function globals.
+
+V159 ARCHITECTURE
+- The exact validated semantic runtime is now materialized as nine directly included source parts:
+  app/runtime-semantic-diagnostics-v159-00.txt
+  app/runtime-semantic-diagnostics-v159-01.txt
+  app/runtime-semantic-diagnostics-v159-02.txt
+  app/runtime-semantic-diagnostics-v159-03.txt
+  app/runtime-semantic-diagnostics-v159-04.txt
+  app/runtime-semantic-diagnostics-v159-05.txt
+  app/runtime-semantic-diagnostics-v159-06.txt
+  app/runtime-semantic-diagnostics-v159-07.txt
+  app/runtime-semantic-diagnostics-v159-08.txt
+- Concatenated runtime: 55,525 UTF-8 bytes.
+- Concatenated SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- The concatenation is byte-exact with the v158 projected runtime.
+- index.html directly includes the nine semantic runtime parts and no longer references runtime-current-diagnostics.txt, runtime-semantic-projection-v158.txt, semanticRuntimeRaw, or any V148-V152 diagnostic data token.
+- Production build-time historical-name rewrite count for this diagnostic runtime is therefore zero.
+- app/runtime-current-diagnostics.txt and app/runtime-semantic-projection-v158.txt remain in the repository only as provenance/regression sources and are not production assembler inputs.
+
+MATERIALIZATION CONTRACT
+- Fixture: _regression/semantic-diagnostic-materialization-v159.fixture.json.
+- Materialized part count: 9.
+- Stable semantic diagnostic helper surface: 17.
+- Retired v145-v152 diagnostic function globals: 46 / 46 absent from production.
+- Semantic diagnostic data keys: 6.
+- Versioned V148-V152 diagnostic backing globals: 0.
+- Data finalizer: app/runtime-diagnostic-data-finalize-v159.txt.
+- Data provenance marker: materialized-semantic-runtime-source-v159.
+- Production policy: direct-materialized-semantic-runtime-parts-no-liquid-rewrite.
+
+PRODUCTION SELF-CHECK
+- Boot target: runV159SelfCheck().
+- Architecture marker: v159-materialized-semantic-runtime-source.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Stable helper inventory: 17 / 17 present.
+- Retired diagnostic helper inventory: 46 / 46 absent.
+- Semantic diagnostic data: 6 keys / backing globals 0.
+
+FORMAL REAL-JEKYLL VALIDATION
+- Workflow run: 31918844305.
+- Validation job: 95095229537.
+- Validation head SHA: 938c402e0bebdb7fb02c27b8aabb91f3dbf9080b.
+- GitHub Pages / Jekyll 3.10.0 build: success.
+- FEQUEST_V159_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0
+- FEQUEST_V159_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V159_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data=6 backing=0 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V159_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V159_RUNTIME_OK current=71/71 stable=17 retired-fn=46 data=6 backing=0 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMAL ARTIFACT
+- Artifact ID: 9255727401.
+- Artifact name: fe-quest-v159-standalone.
+- Outer artifact ZIP size: 765,887 bytes.
+- Outer artifact ZIP SHA-256: 1890b96e7c82704ca7a3a707d57d9d8655ed043bd6ada0b36ca9acb1f55382fd.
+- Inner deployable FE_QUEST_PWA_v159.zip size: 766,015 bytes.
+- Inner deployable SHA-256: 0128824b0f7a9e255ce8946ab2a748cf2922d2749c33066a73ad8497fad21259.
+- Expanded production index.html size: 3,470,320 bytes.
+- Expanded production index.html SHA-256: 1d77c9f59e1a39add3c5ffa99f50a0e2e7b45ad624fade85daf21fb2aaaf18bd.
+- Deployable PWA contains exactly six files: index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56 / 56.
+- Remaining release sentinel mapping: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release-only legacy shadow: 293 asserts / raw historical errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Versioned diagnostic backing globals bundled: 0.
+- No question wording, choices, answers, IDs, cognitive levels, Profile Schema, or visible learning UI design changed in v159.
+
+CLEANUP
+- Temporary .github/workflows/v159-validate.yml removed after successful validation.
+- Temporary tools/v159_validate.py removed after successful validation.
+- Temporary tools/v154_validate.py shared smoke stub removed after successful validation.
+- Temporary tools/v159_runtime_stub.py removed after successful validation.
+- Reproduction copies of validator/stub belong only in the v159 handoff package.
+
+NEXT — v160
+- Remove remaining version-label coupling from the production wrapper/self-check layer while preserving v159's direct materialized runtime.
+- Introduce stable semantic wrapper/self-check names and keep the version-specific release entry point as a thin boot adapter.
+- Consider renaming the prelude source away from the historical v157 filename only after exact equivalence is pinned.
+- Do not reintroduce build-time historical-name rewrites.
+- Preserve current 71, browser 23, helpers 17, data 6/backing 0, critical 56, release 28, CI 84, legacy 293 residual 0, Subject A 710 and Profile Schema v5.
+- Require real Jekyll validation, cleanup of temporary validation tools, and exact final-main Pages success.
