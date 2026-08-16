@@ -21,7 +21,8 @@ t=idx.read_text()
 old1='{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v183</title>" %}'
 old2='{% assign s2 = s1 | replace: "const APP_VERSION = \'v131\';", "const APP_VERSION = \'v183\';" %}'
 if old1 not in t or old2 not in t: raise AssertionError('candidate index anchors missing')
-new1="{% assign releaseVersion = site.data.release.version %}\n{% capture releaseTitle %}<title>FE QUEST PWA {{ releaseVersion }}</title>{% endcapture %}\n{% capture releaseAppVersion %}const APP_VERSION = '{{ releaseVersion }}';{% endcapture %}\n{% assign s1 = productionBase | replace: \"<title>FE QUEST PWA v131</title>\", releaseTitle %}"
+# Keep the replacement on one physical line so Liquid emits exactly the same surrounding whitespace as the conventional source.
+new1="{% assign releaseVersion = site.data.release.version %}{% capture releaseTitle %}<title>FE QUEST PWA {{ releaseVersion }}</title>{% endcapture %}{% capture releaseAppVersion %}const APP_VERSION = '{{ releaseVersion }}';{% endcapture %}{% assign s1 = productionBase | replace: \"<title>FE QUEST PWA v131</title>\", releaseTitle %}"
 new2='{% assign s2 = s1 | replace: "const APP_VERSION = \'v131\';", releaseAppVersion %}'
 t=t.replace(old1,new1,1).replace(old2,new2,1)
 idx.write_text(t)
