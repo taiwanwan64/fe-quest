@@ -19,7 +19,7 @@
   },
   "analysis_method": {
     "kind": "deterministic-source-level-lexical-effect-dependency-analysis",
-    "dependency_scope": "v132-v144 patch-defined symbols only; nearest prior patch definition is selected as provider",
+    "dependency_scope": "v132-v144 patch-defined persistent symbols only (named functions/classes/global exports and uppercase/versioned lexical symbols); nearest prior patch definition is selected as provider",
     "effect_scope": "explicit source markers only; presence does not imply top-level execution",
     "strings_comments": "removed before dependency token analysis",
     "semantic_proof": false,
@@ -29,14 +29,14 @@
   "summary": {
     "version_count": 13,
     "block_count": 47,
-    "dependency_edges": 18,
-    "dependency_provider_blocks": 14,
+    "dependency_edges": 11,
+    "dependency_provider_blocks": 11,
     "effect_marker_blocks": 40,
-    "rewrite_review_blocks": 39,
+    "rewrite_review_blocks": 6,
     "patch_local_leaf_review_blocks": 7,
-    "definition_chains": 20,
-    "write_chains": 21,
-    "equivalence_test_candidates": 46,
+    "definition_chains": 0,
+    "write_chains": 1,
+    "equivalence_test_candidates": 13,
     "automatic_removal_candidates": 0,
     "effect_category_counts": {
       "assignment_write_marker": 8,
@@ -89,44 +89,9 @@
       "symbol": "SUBJECT_A_V138_IDS_7"
     },
     {
-      "provider": "app/v138-block-07.txt",
-      "consumer": "app/v138-block-08.txt",
-      "symbol": "q"
-    },
-    {
       "provider": "app/v139-block-00.txt",
       "consumer": "app/v139-block-01.txt",
       "symbol": "SUBJECT_A_V139_IDS_0"
-    },
-    {
-      "provider": "app/v137-block-00.txt",
-      "consumer": "app/v140-block-00.txt",
-      "symbol": "patch"
-    },
-    {
-      "provider": "app/v140-block-00.txt",
-      "consumer": "app/v141-block-00.txt",
-      "symbol": "a"
-    },
-    {
-      "provider": "app/v140-block-00.txt",
-      "consumer": "app/v142-block-00.txt",
-      "symbol": "a"
-    },
-    {
-      "provider": "app/v141-block-00.txt",
-      "consumer": "app/v142-block-00.txt",
-      "symbol": "q"
-    },
-    {
-      "provider": "app/v140-block-00.txt",
-      "consumer": "app/v143-block-00.txt",
-      "symbol": "a"
-    },
-    {
-      "provider": "app/v142-block-00.txt",
-      "consumer": "app/v143-block-00.txt",
-      "symbol": "errors"
     },
     {
       "provider": "app/v142-block-00.txt",
@@ -139,241 +104,7 @@
       "symbol": "v143NormalizeSelfCheck"
     }
   ],
-  "definition_chains": [
-    {
-      "symbol": "a",
-      "blocks": [
-        "app/v138-block-00.txt",
-        "app/v138-block-01.txt",
-        "app/v138-block-02.txt",
-        "app/v138-block-03.txt",
-        "app/v138-block-04.txt",
-        "app/v138-block-05.txt",
-        "app/v138-block-06.txt",
-        "app/v138-block-07.txt",
-        "app/v139-block-00.txt",
-        "app/v139-block-01.txt",
-        "app/v140-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "active",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "afterChars",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "answerBefore",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "answerDistribution",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "beforeChars",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "changedChoices",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "cognitiveDistribution",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "errors",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "exp",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "idBefore",
-      "blocks": [
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "legacy",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "nodeMinimalDom",
-      "blocks": [
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "patch",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "pos",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "q",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v134-block-06.txt",
-        "app/v135-block-00.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt",
-        "app/v138-block-00.txt",
-        "app/v138-block-01.txt",
-        "app/v138-block-02.txt",
-        "app/v138-block-03.txt",
-        "app/v138-block-04.txt",
-        "app/v138-block-05.txt",
-        "app/v138-block-06.txt",
-        "app/v138-block-07.txt",
-        "app/v139-block-00.txt",
-        "app/v139-block-01.txt",
-        "app/v140-block-00.txt",
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "result",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "specific",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "targetIds",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "symbol": "warnings",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    }
-  ],
+  "definition_chains": [],
   "write_chains": [
     {
       "target": "assign:q.qualityAudit",
@@ -384,239 +115,6 @@
         "app/v141-block-00.txt",
         "app/v142-block-00.txt",
         "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:a",
-      "blocks": [
-        "app/v138-block-00.txt",
-        "app/v138-block-01.txt",
-        "app/v138-block-02.txt",
-        "app/v138-block-03.txt",
-        "app/v138-block-04.txt",
-        "app/v138-block-05.txt",
-        "app/v138-block-06.txt",
-        "app/v138-block-07.txt",
-        "app/v139-block-00.txt",
-        "app/v139-block-01.txt",
-        "app/v140-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:active",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:afterChars",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:answerBefore",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:answerDistribution",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:beforeChars",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:changedChoices",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:cognitiveDistribution",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:errors",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:exp",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:idBefore",
-      "blocks": [
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:legacy",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:nodeMinimalDom",
-      "blocks": [
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:patch",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:pos",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:q",
-      "blocks": [
-        "app/v132-block-07.txt",
-        "app/v133-block-00.txt",
-        "app/v133-block-01.txt",
-        "app/v133-block-02.txt",
-        "app/v133-block-03.txt",
-        "app/v133-block-04.txt",
-        "app/v133-block-05.txt",
-        "app/v134-block-00.txt",
-        "app/v134-block-01.txt",
-        "app/v134-block-02.txt",
-        "app/v134-block-03.txt",
-        "app/v134-block-04.txt",
-        "app/v134-block-05.txt",
-        "app/v134-block-06.txt",
-        "app/v135-block-00.txt",
-        "app/v136-block-00.txt",
-        "app/v136-block-01.txt",
-        "app/v136-block-02.txt",
-        "app/v136-block-03.txt",
-        "app/v136-block-04.txt",
-        "app/v136-block-05.txt",
-        "app/v136-block-06.txt",
-        "app/v136-block-07.txt",
-        "app/v137-block-00.txt",
-        "app/v138-block-00.txt",
-        "app/v138-block-01.txt",
-        "app/v138-block-02.txt",
-        "app/v138-block-03.txt",
-        "app/v138-block-04.txt",
-        "app/v138-block-05.txt",
-        "app/v138-block-06.txt",
-        "app/v138-block-07.txt",
-        "app/v139-block-00.txt",
-        "app/v139-block-01.txt",
-        "app/v140-block-00.txt",
-        "app/v141-block-00.txt",
-        "app/v143-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:result",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:specific",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:targetIds",
-      "blocks": [
-        "app/v141-block-00.txt",
-        "app/v142-block-00.txt"
-      ]
-    },
-    {
-      "target": "lexical:warnings",
-      "blocks": [
-        "app/v142-block-00.txt",
-        "app/v143-block-00.txt",
-        "app/v144-block-00.txt"
       ]
     }
   ],
@@ -662,9 +160,7 @@
       "block": "v132-block-01.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -695,9 +191,7 @@
       "block": "v132-block-02.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -728,9 +222,7 @@
       "block": "v132-block-03.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -761,9 +253,7 @@
       "block": "v132-block-04.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -794,9 +284,7 @@
       "block": "v132-block-05.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -827,9 +315,7 @@
       "block": "v132-block-06.txt",
       "definitions": [],
       "write_targets": [],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -859,21 +345,13 @@
       "version": "v132",
       "block": "v132-block-07.txt",
       "definitions": [
-        "SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS"
       ],
       "write_targets": [
         "assign:q.styleCueAudit",
-        "lexical:SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V132_STYLE_CUE_OVERRIDE_IDS"
       ],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -893,10 +371,9 @@
         "assignment_write_marker": true
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -904,20 +381,12 @@
       "version": "v133",
       "block": "v133-block-00.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_0",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_0"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_0",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_0"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -937,10 +406,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -948,20 +416,12 @@
       "version": "v133",
       "block": "v133-block-01.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_1",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_1"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_1",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_1"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -981,10 +441,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -992,20 +451,12 @@
       "version": "v133",
       "block": "v133-block-02.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_2",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_2"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_2",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_2"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1025,10 +476,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1036,20 +486,12 @@
       "version": "v133",
       "block": "v133-block-03.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_3",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_3"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_3",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_3"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1069,10 +511,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1080,20 +521,12 @@
       "version": "v133",
       "block": "v133-block-04.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_4",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_4"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_4",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_4"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1113,10 +546,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1124,20 +556,12 @@
       "version": "v133",
       "block": "v133-block-05.txt",
       "definitions": [
-        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_5",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V133_SEMANTIC_OVERRIDES_5"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_5",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V133_SEMANTIC_OVERRIDES_5"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1157,10 +581,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1168,20 +591,12 @@
       "version": "v134",
       "block": "v134-block-00.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_0",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_0"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_0",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_0"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1201,10 +616,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1212,20 +626,12 @@
       "version": "v134",
       "block": "v134-block-01.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_1",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_1"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_1",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_1"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1245,10 +651,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1256,20 +661,12 @@
       "version": "v134",
       "block": "v134-block-02.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_2",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_2"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_2",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_2"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1289,10 +686,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1300,20 +696,12 @@
       "version": "v134",
       "block": "v134-block-03.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_3",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_3"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_3",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_3"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1333,10 +721,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1344,20 +731,12 @@
       "version": "v134",
       "block": "v134-block-04.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_4",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_4"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_4",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_4"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1377,10 +756,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1388,20 +766,12 @@
       "version": "v134",
       "block": "v134-block-05.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDES_5",
-        "answerBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDES_5"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_5",
-        "lexical:answerBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDES_5"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1421,10 +791,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1432,16 +801,12 @@
       "version": "v134",
       "block": "v134-block-06.txt",
       "definitions": [
-        "SUBJECT_A_V134_LEARNING_OVERRIDE_IDS",
-        "q"
+        "SUBJECT_A_V134_LEARNING_OVERRIDE_IDS"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDE_IDS",
-        "lexical:q"
+        "lexical:SUBJECT_A_V134_LEARNING_OVERRIDE_IDS"
       ],
-      "patch_symbol_references": [
-        "exp"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1461,27 +826,19 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
       "path": "app/v135-block-00.txt",
       "version": "v135",
       "block": "v135-block-00.txt",
-      "definitions": [
-        "manual",
-        "q",
-        "residual"
-      ],
+      "definitions": [],
       "write_targets": [
         "assign:q.choiceExps",
-        "assign:q.qualityAudit",
-        "lexical:manual",
-        "lexical:q",
-        "lexical:residual"
+        "assign:q.qualityAudit"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [],
@@ -1514,22 +871,12 @@
       "version": "v136",
       "block": "v136-block-00.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_0",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_0"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_0",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_0"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1549,10 +896,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1560,22 +906,12 @@
       "version": "v136",
       "block": "v136-block-01.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_1",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_1"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_1",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_1"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1595,10 +931,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1606,22 +941,12 @@
       "version": "v136",
       "block": "v136-block-02.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_2",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_2"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_2",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_2"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1641,10 +966,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1652,22 +976,12 @@
       "version": "v136",
       "block": "v136-block-03.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_3",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_3"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_3",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_3"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1687,10 +1001,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1698,22 +1011,12 @@
       "version": "v136",
       "block": "v136-block-04.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_4",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_4"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_4",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_4"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1733,10 +1036,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1744,22 +1046,12 @@
       "version": "v136",
       "block": "v136-block-05.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_5",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_5"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_5",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_5"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1779,10 +1071,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1790,22 +1081,12 @@
       "version": "v136",
       "block": "v136-block-06.txt",
       "definitions": [
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_6",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDES_6"
       ],
       "write_targets": [
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_6",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_6"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1825,10 +1106,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1837,23 +1117,13 @@
       "block": "v136-block-07.txt",
       "definitions": [
         "SUBJECT_A_V136_SPECIFIC_OVERRIDES_7",
-        "SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDES_7",
-        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
@@ -1873,10 +1143,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1885,29 +1154,17 @@
       "block": "v137-block-00.txt",
       "definitions": [
         "SUBJECT_A_V137_CONTEXT_OVERRIDES",
-        "SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS",
-        "answerBefore",
-        "idBefore",
-        "patch",
-        "q"
+        "SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V137_CONTEXT_OVERRIDES",
-        "lexical:SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS",
-        "lexical:answerBefore",
-        "lexical:idBefore",
-        "lexical:patch",
-        "lexical:q"
+        "lexical:SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
-      "provided_to_later_symbols": [
-        "patch"
-      ],
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
-      "dependency_edge_count_out": 1,
+      "dependency_edge_count_out": 0,
       "effect_flags": {
         "dom_reference": false,
         "dom_write": false,
@@ -1923,11 +1180,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1936,15 +1191,11 @@
       "block": "v138-block-00.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_0",
-        "SUBJECT_A_V138_OVERRIDES_0",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_0"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_0",
-        "lexical:SUBJECT_A_V138_OVERRIDES_0",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_0"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -1969,10 +1220,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -1981,15 +1231,11 @@
       "block": "v138-block-01.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_1",
-        "SUBJECT_A_V138_OVERRIDES_1",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_1"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_1",
-        "lexical:SUBJECT_A_V138_OVERRIDES_1",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_1"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2014,10 +1260,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2026,15 +1271,11 @@
       "block": "v138-block-02.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_2",
-        "SUBJECT_A_V138_OVERRIDES_2",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_2"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_2",
-        "lexical:SUBJECT_A_V138_OVERRIDES_2",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_2"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2059,10 +1300,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2071,15 +1311,11 @@
       "block": "v138-block-03.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_3",
-        "SUBJECT_A_V138_OVERRIDES_3",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_3"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_3",
-        "lexical:SUBJECT_A_V138_OVERRIDES_3",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_3"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2104,10 +1340,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2116,15 +1351,11 @@
       "block": "v138-block-04.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_4",
-        "SUBJECT_A_V138_OVERRIDES_4",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_4"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_4",
-        "lexical:SUBJECT_A_V138_OVERRIDES_4",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_4"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2149,10 +1380,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2161,15 +1391,11 @@
       "block": "v138-block-05.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_5",
-        "SUBJECT_A_V138_OVERRIDES_5",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_5"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_5",
-        "lexical:SUBJECT_A_V138_OVERRIDES_5",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_5"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2194,10 +1420,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2206,15 +1431,11 @@
       "block": "v138-block-06.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_6",
-        "SUBJECT_A_V138_OVERRIDES_6",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_6"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_6",
-        "lexical:SUBJECT_A_V138_OVERRIDES_6",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_6"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
@@ -2239,10 +1460,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2251,24 +1471,19 @@
       "block": "v138-block-07.txt",
       "definitions": [
         "SUBJECT_A_V138_IDS_7",
-        "SUBJECT_A_V138_OVERRIDES_7",
-        "a",
-        "q"
+        "SUBJECT_A_V138_OVERRIDES_7"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V138_IDS_7",
-        "lexical:SUBJECT_A_V138_OVERRIDES_7",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V138_OVERRIDES_7"
       ],
       "patch_symbol_references": [],
       "provided_to_later_symbols": [
-        "SUBJECT_A_V138_IDS_7",
-        "q"
+        "SUBJECT_A_V138_IDS_7"
       ],
       "consumed_from_prior_symbols": [],
       "dependency_edge_count_in": 0,
-      "dependency_edge_count_out": 2,
+      "dependency_edge_count_out": 1,
       "effect_flags": {
         "dom_reference": false,
         "dom_write": false,
@@ -2285,10 +1500,9 @@
       },
       "roles": [
         "dependency-provider",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2309,8 +1523,7 @@
         "SUBJECT_A_V138_IDS_4",
         "SUBJECT_A_V138_IDS_5",
         "SUBJECT_A_V138_IDS_6",
-        "SUBJECT_A_V138_IDS_7",
-        "q"
+        "SUBJECT_A_V138_IDS_7"
       ],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [
@@ -2321,10 +1534,9 @@
         "SUBJECT_A_V138_IDS_4",
         "SUBJECT_A_V138_IDS_5",
         "SUBJECT_A_V138_IDS_6",
-        "SUBJECT_A_V138_IDS_7",
-        "q"
+        "SUBJECT_A_V138_IDS_7"
       ],
-      "dependency_edge_count_in": 9,
+      "dependency_edge_count_in": 8,
       "dependency_edge_count_out": 0,
       "effect_flags": {
         "dom_reference": false,
@@ -2353,20 +1565,14 @@
       "block": "v139-block-00.txt",
       "definitions": [
         "SUBJECT_A_V139_IDS_0",
-        "SUBJECT_A_V139_SUFFIXES_0",
-        "a",
-        "q"
+        "SUBJECT_A_V139_SUFFIXES_0"
       ],
       "write_targets": [
         "assign:q.qualityAudit",
         "lexical:SUBJECT_A_V139_IDS_0",
-        "lexical:SUBJECT_A_V139_SUFFIXES_0",
-        "lexical:a",
-        "lexical:q"
+        "lexical:SUBJECT_A_V139_SUFFIXES_0"
       ],
-      "patch_symbol_references": [
-        "s"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [
         "SUBJECT_A_V139_IDS_0"
       ],
@@ -2403,24 +1609,17 @@
         "SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS",
         "SUBJECT_A_V139_IDS",
         "SUBJECT_A_V139_IDS_1",
-        "SUBJECT_A_V139_SUFFIXES_1",
-        "a",
-        "q",
-        "wrong"
+        "SUBJECT_A_V139_SUFFIXES_1"
       ],
       "write_targets": [
         "assign:q.qualityAudit",
         "lexical:SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS",
         "lexical:SUBJECT_A_V139_IDS",
         "lexical:SUBJECT_A_V139_IDS_1",
-        "lexical:SUBJECT_A_V139_SUFFIXES_1",
-        "lexical:a",
-        "lexical:q",
-        "lexical:wrong"
+        "lexical:SUBJECT_A_V139_SUFFIXES_1"
       ],
       "patch_symbol_references": [
-        "SUBJECT_A_V139_IDS_0",
-        "s"
+        "SUBJECT_A_V139_IDS_0"
       ],
       "provided_to_later_symbols": [],
       "consumed_from_prior_symbols": [
@@ -2456,29 +1655,17 @@
       "block": "v140-block-00.txt",
       "definitions": [
         "SUBJECT_A_V140_IDS",
-        "SUBJECT_A_V140_OVERRIDES",
-        "a",
-        "q",
-        "touched"
+        "SUBJECT_A_V140_OVERRIDES"
       ],
       "write_targets": [
         "lexical:SUBJECT_A_V140_IDS",
-        "lexical:SUBJECT_A_V140_OVERRIDES",
-        "lexical:a",
-        "lexical:q",
-        "lexical:touched"
+        "lexical:SUBJECT_A_V140_OVERRIDES"
       ],
-      "patch_symbol_references": [
-        "patch"
-      ],
-      "provided_to_later_symbols": [
-        "a"
-      ],
-      "consumed_from_prior_symbols": [
-        "patch"
-      ],
-      "dependency_edge_count_in": 1,
-      "dependency_edge_count_out": 3,
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
       "effect_flags": {
         "dom_reference": false,
         "dom_write": false,
@@ -2494,12 +1681,9 @@
         "assignment_write_marker": false
       },
       "roles": [
-        "dependency-provider",
-        "dependency-consumer",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     },
     {
@@ -2507,48 +1691,18 @@
       "version": "v141",
       "block": "v141-block-00.txt",
       "definitions": [
-        "SUBJECT_A_V141_DENSITY_AUDIT",
-        "afterChars",
-        "answerDistribution",
-        "beforeChars",
-        "changedChoices",
-        "cognitiveDistribution",
-        "current",
-        "exp",
-        "hitIndexes",
-        "pos",
-        "q",
-        "specific",
-        "targetIds"
+        "SUBJECT_A_V141_DENSITY_AUDIT"
       ],
       "write_targets": [
         "assign:globalThis.SUBJECT_A_V141_DENSITY_AUDIT",
         "assign:q.qualityAudit",
-        "global:SUBJECT_A_V141_DENSITY_AUDIT",
-        "lexical:afterChars",
-        "lexical:answerDistribution",
-        "lexical:beforeChars",
-        "lexical:changedChoices",
-        "lexical:cognitiveDistribution",
-        "lexical:current",
-        "lexical:exp",
-        "lexical:hitIndexes",
-        "lexical:pos",
-        "lexical:q",
-        "lexical:specific",
-        "lexical:targetIds"
+        "global:SUBJECT_A_V141_DENSITY_AUDIT"
       ],
-      "patch_symbol_references": [
-        "a"
-      ],
-      "provided_to_later_symbols": [
-        "q"
-      ],
-      "consumed_from_prior_symbols": [
-        "a"
-      ],
-      "dependency_edge_count_in": 1,
-      "dependency_edge_count_out": 1,
+      "patch_symbol_references": [],
+      "provided_to_later_symbols": [],
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 0,
       "effect_flags": {
         "dom_reference": false,
         "dom_write": false,
@@ -2564,8 +1718,6 @@
         "assignment_write_marker": true
       },
       "roles": [
-        "dependency-provider",
-        "dependency-consumer",
         "rewrite-chain-review",
         "effect-marker-bearing"
       ],
@@ -2578,94 +1730,22 @@
       "block": "v142-block-00.txt",
       "definitions": [
         "SUBJECT_A_V142_SINGLE_EXP_AUDIT",
-        "active",
-        "afterChars",
-        "allAuditIdsExist",
-        "answerCounts",
-        "application",
-        "beforeChars",
-        "changedChoices",
-        "cognitiveCounts",
-        "currentErrors",
-        "demandTypes",
-        "errors",
-        "exp",
-        "fullExpCopiesAfter",
-        "hardSemantic",
-        "hit",
-        "hits",
-        "laterPassAudits",
-        "legacy",
-        "legacyExact",
-        "legacySemantic",
-        "linkedStemCovered",
-        "originalErrors",
-        "passOrLater",
-        "pos",
-        "promoted",
-        "result",
-        "rewritten",
-        "semantic",
-        "specific",
-        "targetIds",
-        "unknownDemand",
-        "v142NormalizeSelfCheck",
-        "warnings"
+        "v142NormalizeSelfCheck"
       ],
       "write_targets": [
         "assign:globalThis.SUBJECT_A_V142_SINGLE_EXP_AUDIT",
         "assign:q.qualityAudit",
         "assign:specific",
         "function:v142NormalizeSelfCheck",
-        "global:SUBJECT_A_V142_SINGLE_EXP_AUDIT",
-        "lexical:active",
-        "lexical:afterChars",
-        "lexical:allAuditIdsExist",
-        "lexical:answerCounts",
-        "lexical:application",
-        "lexical:beforeChars",
-        "lexical:changedChoices",
-        "lexical:cognitiveCounts",
-        "lexical:currentErrors",
-        "lexical:demandTypes",
-        "lexical:errors",
-        "lexical:exp",
-        "lexical:fullExpCopiesAfter",
-        "lexical:hardSemantic",
-        "lexical:hit",
-        "lexical:hits",
-        "lexical:laterPassAudits",
-        "lexical:legacy",
-        "lexical:legacyExact",
-        "lexical:legacySemantic",
-        "lexical:linkedStemCovered",
-        "lexical:originalErrors",
-        "lexical:passOrLater",
-        "lexical:pos",
-        "lexical:promoted",
-        "lexical:result",
-        "lexical:rewritten",
-        "lexical:semantic",
-        "lexical:specific",
-        "lexical:targetIds",
-        "lexical:unknownDemand",
-        "lexical:warnings"
+        "global:SUBJECT_A_V142_SINGLE_EXP_AUDIT"
       ],
-      "patch_symbol_references": [
-        "a",
-        "e",
-        "q"
-      ],
+      "patch_symbol_references": [],
       "provided_to_later_symbols": [
-        "errors",
         "v142NormalizeSelfCheck"
       ],
-      "consumed_from_prior_symbols": [
-        "a",
-        "q"
-      ],
-      "dependency_edge_count_in": 2,
-      "dependency_edge_count_out": 2,
+      "consumed_from_prior_symbols": [],
+      "dependency_edge_count_in": 0,
+      "dependency_edge_count_out": 1,
       "effect_flags": {
         "dom_reference": false,
         "dom_write": false,
@@ -2682,7 +1762,6 @@
       },
       "roles": [
         "dependency-provider",
-        "dependency-consumer",
         "rewrite-chain-review",
         "effect-marker-bearing"
       ],
@@ -2696,30 +1775,8 @@
       "definitions": [
         "SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
         "__FEQUEST_RUNTIME_SMOKE__",
-        "active",
-        "answerDistribution",
         "applyV143LateFixes",
-        "cognitiveDistribution",
-        "correctLen",
-        "deepAdditions",
-        "deferred",
-        "depthShortAfter",
-        "depthShortBefore",
-        "e",
-        "judgment",
-        "lateApplied",
-        "lens",
-        "nodeMinimalDom",
-        "obviousLengthOutlier",
-        "oldJudgmentOption",
-        "optionOutliersAfter",
-        "optionOutliersBefore",
-        "optionPatches",
-        "q",
-        "result",
-        "uiOnly",
-        "v143NormalizeSelfCheck",
-        "warnings"
+        "v143NormalizeSelfCheck"
       ],
       "write_targets": [
         "assign:depthShortAfter",
@@ -2737,44 +1794,18 @@
         "global:SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT",
         "global:__FEQUEST_RUNTIME_SMOKE__",
         "global:applyV143LateFixes",
-        "global:v143NormalizeSelfCheck",
-        "lexical:active",
-        "lexical:answerDistribution",
-        "lexical:cognitiveDistribution",
-        "lexical:correctLen",
-        "lexical:deepAdditions",
-        "lexical:deferred",
-        "lexical:depthShortAfter",
-        "lexical:depthShortBefore",
-        "lexical:e",
-        "lexical:judgment",
-        "lexical:lateApplied",
-        "lexical:lens",
-        "lexical:nodeMinimalDom",
-        "lexical:obviousLengthOutlier",
-        "lexical:oldJudgmentOption",
-        "lexical:optionOutliersAfter",
-        "lexical:optionOutliersBefore",
-        "lexical:optionPatches",
-        "lexical:q",
-        "lexical:result",
-        "lexical:uiOnly",
-        "lexical:warnings"
+        "global:v143NormalizeSelfCheck"
       ],
       "patch_symbol_references": [
-        "a",
-        "errors",
         "v142NormalizeSelfCheck"
       ],
       "provided_to_later_symbols": [
         "v143NormalizeSelfCheck"
       ],
       "consumed_from_prior_symbols": [
-        "a",
-        "errors",
         "v142NormalizeSelfCheck"
       ],
-      "dependency_edge_count_in": 3,
+      "dependency_edge_count_in": 1,
       "dependency_edge_count_out": 1,
       "effect_flags": {
         "dom_reference": false,
@@ -2807,22 +1838,8 @@
         "FEQUEST_V144_UI_CONTRACT",
         "UI_CONTRACTS",
         "V144_UI_CONTRACTS",
-        "errors",
-        "failed",
-        "historicalMetadataWarnings",
-        "legacy",
-        "nodeMinimalDom",
-        "report",
-        "result",
-        "results",
-        "s",
-        "supersededSemanticWarnings",
-        "uiReport",
         "v144EvaluateBrowserUiContracts",
-        "v144NormalizeSelfCheck",
-        "warningPrefixLegacy",
-        "warningPrefixUi",
-        "warnings"
+        "v144NormalizeSelfCheck"
       ],
       "write_targets": [
         "assign:globalThis.FEQUEST_V144_UI_CONTRACT",
@@ -2835,21 +1852,7 @@
         "global:V144_UI_CONTRACTS",
         "global:v144EvaluateBrowserUiContracts",
         "global:v144NormalizeSelfCheck",
-        "lexical:UI_CONTRACTS",
-        "lexical:errors",
-        "lexical:failed",
-        "lexical:historicalMetadataWarnings",
-        "lexical:legacy",
-        "lexical:nodeMinimalDom",
-        "lexical:report",
-        "lexical:result",
-        "lexical:results",
-        "lexical:s",
-        "lexical:supersededSemanticWarnings",
-        "lexical:uiReport",
-        "lexical:warningPrefixLegacy",
-        "lexical:warningPrefixUi",
-        "lexical:warnings"
+        "lexical:UI_CONTRACTS"
       ],
       "patch_symbol_references": [
         "v143NormalizeSelfCheck"
@@ -2876,10 +1879,9 @@
       },
       "roles": [
         "dependency-consumer",
-        "rewrite-chain-review",
         "effect-marker-bearing"
       ],
-      "equivalence_test_candidate": true,
+      "equivalence_test_candidate": false,
       "automatic_removal_candidate": false
     }
   ]
