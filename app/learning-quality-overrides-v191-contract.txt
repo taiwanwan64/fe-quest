@@ -1,0 +1,15 @@
+// ===== v191: preserve historical semantic contract for computer-13 =====
+(() => {
+  const q=QUESTION_BANK.find(x=>x.id==='computer-13');
+  if(!q)throw new Error('v191 missing question: computer-13');
+  const expected={a:q.a,cognitiveLevel:q.cognitiveLevel,cat:q.cat,concept:q.concept};
+  Object.assign(q,{
+    q:'MTBFが450時間、MTTRが50時間のシステムの稼働率はどれか。',
+    options:['0.95','0.90','0.10','0.50'],
+    exp:'稼働率はMTBF÷(MTBF+MTTR)で求めます。450÷(450+50)=450÷500=0.90です。',
+    hint:'MTBFを、MTBFとMTTRの合計で割ります。',
+    choiceExps:['450÷500は0.90なので0.95ではありません。','450÷(450+50)=0.90です。','0.10は停止側の割合に相当し、稼働率ではありません。','MTBFとMTTRが同じ場合なら0.50ですが、今回は450時間と50時間です。'],
+    qualityAudit:'v191-high-severity-repair'
+  });
+  if(q.a!==expected.a||q.cognitiveLevel!==expected.cognitiveLevel||q.cat!==expected.cat||q.concept!==expected.concept)throw new Error('v191 computer-13 invariant drift');
+})();
