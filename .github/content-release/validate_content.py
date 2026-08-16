@@ -34,6 +34,8 @@ allowed_ids=manifest.get('allowed_question_ids',[]); allowed_fields=set(manifest
 req(len(allowed_ids)==len(set(allowed_ids)) and allowed_ids,'allowed ids invalid')
 req(allowed_fields=={'q','options','exp','hint','choiceExps','qualityAudit'},'allowed fields policy drift')
 req(isinstance(marker,str) and marker.startswith(version+'-'),'quality audit marker')
+source_audit=Path(str(manifest.get('source_quality_audit',''))); source_tier=str(manifest.get('source_priority_tier',''))
+req(source_audit.exists() and source_tier in {'high','medium'},'source quality audit declaration')
 
 committed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines())
 tooling={'.github/workflows/content-release-validate.yml','.github/content-release/prepare_reference.py','.github/content-release/validate_content.py'}
@@ -75,17 +77,17 @@ answers=[sum(1 for q in cq if q['a']==i) for i in range(4)]
 cognitive=[sum(1 for q in cq if q.get('cognitiveLevel')==k) for k in ['想起','適用','判断']]
 req(answers==manifest['preserve']['answer_distribution'],'answer distribution'); req(cognitive==manifest['preserve']['cognitive_distribution'],'cognitive distribution')
 
-audit188=Path('_regression/subject-a-quality-audit-v188.fixture.json')
-if audit188.exists():
-    old=json.loads(audit188.read_text()); high=set(old.get('manual_review_queue',{}).get('high_ids',[])); req(set(allowed_ids)<=high,'repair id not in v188 high queue')
+source=json.loads(source_audit.read_text()); review=source.get('manual_priority_review',{})
+source_ids=set(review.get(source_tier,[])); req(source_ids,'source priority tier is empty or unsupported')
+req(set(allowed_ids)<=source_ids,'repair id not in declared source priority queue')
 for qid in ['challenge_v92_12_06','strat-06']:
     if qid in cm:
         lens=[len(str(x)) for x in cm[qid]['options']]; correct=lens[cm[qid]['a']]; req(correct>=min(lens)*0.70,'correct option remains conspicuously short '+qid)
 
 fixture=Path(f'_regression/subject-a-repairs-{version}.fixture.json'); audit=Path(f'audits/SUBJECT_A_REPAIRS_{version}.txt')
 release_files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']
-fx={'name':f'subject-a-repairs-{version}','version':version,'previous_version':previous,'parent_main_sha':parent,'scope':'explicit-high-severity-subject-a-content-repair','manifest':ident(manifest_path),'content_files':[ident(p) for p in manifest.get('content_files',[])],'changed_question_count':len(changed),'changed_question_ids':allowed_ids,'changed_fields':changed_fields,'answer_distribution':answers,'cognitive_distribution':{'想起':cognitive[0],'適用':cognitive[1],'判断':cognitive[2]},'question_count':len(cq),'unique_ids':len(cm),'content_release_tooling':tooling_state,'standard_release_architecture_byte_identical_to_parent':True,'candidate_reference_six_file_byte_equality':all((Path('_site')/p).read_bytes()==(Path('_site_reference')/p).read_bytes() for p in release_files),'parent_runtime_comparison':True,'learner_facing_change':True,'copyright_policy':manifest.get('copyright_policy'),'status':'passed'}
+fx={'name':f'subject-a-repairs-{version}','version':version,'previous_version':previous,'parent_main_sha':parent,'scope':'explicit-high-severity-subject-a-content-repair','manifest':ident(manifest_path),'source_quality_audit':ident(source_audit),'source_priority_tier':source_tier,'content_files':[ident(p) for p in manifest.get('content_files',[])],'changed_question_count':len(changed),'changed_question_ids':allowed_ids,'changed_fields':changed_fields,'answer_distribution':answers,'cognitive_distribution':{'想起':cognitive[0],'適用':cognitive[1],'判断':cognitive[2]},'question_count':len(cq),'unique_ids':len(cm),'content_release_tooling':tooling_state,'standard_release_architecture_byte_identical_to_parent':True,'candidate_reference_six_file_byte_equality':all((Path('_site')/p).read_bytes()==(Path('_site_reference')/p).read_bytes() for p in release_files),'parent_runtime_comparison':True,'learner_facing_change':True,'copyright_policy':manifest.get('copyright_policy'),'status':'passed'}
 req(fx['candidate_reference_six_file_byte_equality'],'candidate/reference output mismatch')
 fixture.write_text(json.dumps(fx,ensure_ascii=False,indent=2)+'\n')
-audit.write_text(f'''FE QUEST {version} — Subject A High-Severity Repair Audit\n=========================================================\n\nScope\n-----\nPrevious: {previous}\nParent main: {parent}\nChanged questions: {len(changed)}\nAllowed fields: {', '.join(sorted(allowed_fields))}\n\nChanged IDs\n-----------\n'''+"\n".join(f'- {x}: {", ".join(changed_fields[x])}' for x in allowed_ids)+f'''\n\nInvariants\n----------\nQuestions: 710 / unique 710\nAnswer distribution: {answers}\nCognitive distribution: 想起{cognitive[0]} / 適用{cognitive[1]} / 判断{cognitive[2]}\nStandard release architecture/tooling: byte-identical to parent\nCandidate/reference six-file equality: yes\nParent/candidate runtime question diff restricted to manifest IDs: yes\n\nPolicy\n------\nOriginal FE QUEST wording only. Attached books are used only for scope, terminology, emphasis and difficulty calibration.\n''')
-print(f'FEQUEST_CONTENT_RELEASE_OK version={version} changed={len(changed)} answers={"/".join(map(str,answers))} cognitive={"/".join(map(str,cognitive))} candidate-reference=1 parent-runtime-diff=1')
+audit.write_text(f'''FE QUEST {version} — Subject A High-Severity Repair Audit\n=========================================================\n\nScope\n-----\nPrevious: {previous}\nParent main: {parent}\nChanged questions: {len(changed)}\nSource audit: {source_audit.as_posix()} / tier={source_tier}\nAllowed fields: {', '.join(sorted(allowed_fields))}\n\nChanged IDs\n-----------\n'''+"\n".join(f'- {x}: {", ".join(changed_fields[x])}' for x in allowed_ids)+f'''\n\nInvariants\n----------\nQuestions: 710 / unique 710\nAnswer distribution: {answers}\nCognitive distribution: 想起{cognitive[0]} / 適用{cognitive[1]} / 判断{cognitive[2]}\nStandard release architecture/tooling: byte-identical to parent\nCandidate/reference six-file equality: yes\nParent/candidate runtime question diff restricted to manifest IDs: yes\n\nPolicy\n------\nOriginal FE QUEST wording only. Attached books are used only for scope, terminology, emphasis and difficulty calibration.\n''')
+print(f'FEQUEST_CONTENT_RELEASE_OK version={version} changed={len(changed)} answers={"/".join(map(str,answers))} cognitive={"/".join(map(str,cognitive))} candidate-reference=1 parent-runtime-diff=1 source-tier={source_tier}')
