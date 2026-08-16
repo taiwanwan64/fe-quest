@@ -1,0 +1,164 @@
+FE QUEST v173 — Formal Validation / Release Evidence
+=====================================================
+
+Release scope
+-------------
+v173 removes the historical v131 full base from the active/deployed app source boundary after v172 had already materialized the exact production projection as app/base-stable.html. The historical full base is moved byte-exact to _regression/archive/learning-base/base-v131.html. Production continues to use the stable base, stable learning patch module, stable semantic diagnostic runtime, and one current release adapter only.
+No learner-facing content, question, answer, cognitive metadata, learning behavior, or semantic learning patch was removed or rewritten.
+
+Authoritative parent
+--------------------
+Parent release: v172
+Parent main SHA: 6fee64d6225debb1f3cf2549b722ee18c0ee0556
+Parent tree: 315ddbecf3280262e38a2f52f52f64aaf1453faf
+
+Authoritative validation
+------------------------
+Workflow: FE QUEST v173 historical base archive validation
+Workflow ID: 335395232
+Run ID: 31929818533
+Run number: 1
+Job ID: 95122839913
+Trigger head SHA: 712eb2fb471b3619752c96399d6030ce2c0174a5
+Conclusion: success
+Validated/materialized head SHA: cb44cf43e31b9d5dcc50203bae216049d811c49c
+Validated/materialized tree: be847fbbabab2ad46a51ebec58b002939b91bb00
+
+The workflow validated the materialized working tree before committing it, then committed exactly the validated app/_regression/audit/index/manifest/service-worker changes as cb44cf43e31b9d5dcc50203bae216049d811c49c. GitHub Actions pushes made with GITHUB_TOKEN do not recursively trigger the same workflow; therefore this run is the release validation evidence for that materialized tree.
+
+Historical full base archive boundary
+-------------------------------------
+Original path: app/base-v131.html
+Archive path: _regression/archive/learning-base/base-v131.html
+UTF-8 bytes: 3,041,328
+SHA-256: 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Move identity: byte-exact
+Original app path after move: absent
+Candidate deployed historical base: absent
+Regression archive deployed: absent
+
+Stable active base
+------------------
+Path: app/base-stable.html
+UTF-8 bytes: 2,991,671
+SHA-256: c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac
+Derivation remains exact: historical base prefix + tail after excluding the release-only legacy evaluator range.
+
+Release-only legacy evaluator range
+-----------------------------------
+Path: _regression/archive/learning-base/runAppSelfCheck-v131.txt
+UTF-8 bytes: 49,657
+SHA-256: b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36
+Assertions: 293
+Production bundled: false
+Release-only regression execution: passed
+
+Reference inventory
+-------------------
+Pre-relocation literal references to app/base-v131.html: 28
+Post-relocation literal references measured by the authoritative materializer: 27 before the new v173 fixture was written; the authoritative validator measured 28 after the v173 fixture was present.
+Unclassified references: 0
+Allowed classes: historical regression evidence, historical audit documentation, and the two runtime historical-provenance literals.
+Production assembler historical-base include count: 0
+Production assembler stable-base include count: 1
+
+Real GitHub Pages / Jekyll archive-independence proof
+-----------------------------------------------------
+Candidate generated index.html UTF-8 bytes: 3,474,229
+Candidate generated index.html SHA-256: b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720
+Restored-historical-base reference index.html UTF-8 bytes: 3,474,229
+Restored-historical-base reference index.html SHA-256: b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720
+Generated index equality: true
+Six-file app-shell equality: true
+Candidate deployed app/base-v131.html: false
+Reference deployed app/base-v131.html: true
+Regression archive deployed: false
+
+Canonical runtime snapshot SHA-256: 67d1633b2be5b9d3162844137d4b5453906286e4f9d2477242aeaed2cfa48987
+Canonical runtime snapshot UTF-8 bytes: 1,050,705
+Canonical runtime equality: true
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Stable learning/runtime boundaries
+----------------------------------
+Stable learning module: app/learning-patches.txt
+UTF-8 bytes: 405,723
+SHA-256: 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Active production learning modules: 1
+Learning-patch provenance archive count: 48
+
+Stable semantic runtime: app/runtime-semantic-diagnostics.txt
+UTF-8 bytes: 55,525
+SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Stable runtime helpers: 17
+Retired historical function globals: 46, leaked 0
+Stable wrapper globals: 6
+Retired wrapper globals: 6, leaked 0
+Semantic diagnostic data: 6, versioned backing leaked 0
+
+Release/archive boundary
+------------------------
+Diagnostic/provenance archive count: 55
+Learning-patch provenance archive count: 48
+Learning-base archive count: 2
+Current release adapter: runV173SelfCheck
+Retired release adapter inventory: 13 (runV160SelfCheck through runV172SelfCheck)
+Leaked retired release adapters: 0
+Current release adapters: 1
+
+Learner-facing / release invariants
+-----------------------------------
+QUESTION_BANK: 710 / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+Profile Schema: v5
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI declarative coverage: 84/84
+Legacy fixture: 293 assertions
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+
+Authoritative validation markers
+--------------------------------
+FEQUEST_V173_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V173_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=13 adapter=1 data=6 backing=0 diagnostic-archive=55 learning-archive=48 base-archive=2 active-learning=1 active-base=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V173_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0 archive-source=8
+FEQUEST_V173_BASE_ARCHIVE_OK html-byte-exact=1 runtime-snapshot=1 base-archive=3041328 base-sha=1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a stable-base=2991671 stable-sha=c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac legacy=49657 snapshot=67d1633b2be5b9d3162844137d4b5453906286e4f9d2477242aeaed2cfa48987 refs=28 unclassified=0 deployed-base=0
+FEQUEST_V173_LEARNING_BOUNDARY_OK stable-learning=405723 learning-archive=48 active-learning-modules=1
+FEQUEST_V173_ARCHIVE_BOUNDARY_OK diagnostic-archive=55 learning-archive=48 base-archive=2 deployed-regression=0 runtime=55525
+FEQUEST_V173_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 retired-adapter-inventory=13 adapter=1 data=6 backing=0 diagnostic-archive=55 learning-archive=48 base-archive=2 active-learning=1 active-base=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Package from authoritative validation run
+-----------------------------------------
+Inner release ZIP: FE_QUEST_PWA_v173.zip
+Inner release ZIP size: 767,053 bytes
+Inner release ZIP SHA-256: c7e4c93a08d7e31dc9eb7d734c824658ad1e88bec3b78f88dcb3cb47f962c283
+Generated index.html SHA-256: b312dd3d56e70191cd4e80c7692e58a2d4903c6941cb2d569c9c90972b954720
+Generated manifest.webmanifest SHA-256: ee66d21d1275b5e46264748f1db0366c930796e36e7a531e3cae32427e91a4b9
+Generated sw.js SHA-256: 16f63a42da5908df0b487a020002da76b574469c1144c9bb4e4a1cb535856834
+GitHub Actions artifact name: fe-quest-v173-standalone
+Artifact ID: 9258946604
+Uploaded artifact size: 766,925 bytes
+Artifact wrapper digest SHA-256: 484e4a1a7caf8400caebd01bd920122514cffd4afb05600fc4eecf37b8f5002b
+Retention: 90 days
+
+Service worker
+--------------
+APP_VERSION: v173
+Cache: fe-quest-v173-1
+GET_VERSION preserved: yes
+networkWithTimeout preserved: yes
+staleWhileRevalidate preserved: yes
+Range bypass preserved: yes
+
+Finalization policy
+-------------------
+The final release commit removes only temporary v173 validation workflow/tools and adds this formal evidence file. It must not modify app/, _regression/, index.html, manifest.webmanifest, sw.js, or learner-facing source after the validated/materialized tree.
+
+Release policy
+--------------
+v173 is a physical provenance relocation release. The active production source boundary no longer contains or deploys the historical v131 full base. Historical source-path strings remain where required as immutable provenance. No semantic deletion or learner-facing behavior change is authorized by this release.
