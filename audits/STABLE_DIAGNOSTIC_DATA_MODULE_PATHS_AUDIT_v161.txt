@@ -1,0 +1,94 @@
+FE QUEST v161 — STABLE DIAGNOSTIC DATA MODULE PATHS AUDIT
+Date: 2026-08-16 JST
+Version: v161
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove remaining version-label coupling from the production diagnostic data prelude/finalizer file paths.
+- Preserve runtime behavior exactly by copying the validated v157 prelude and v159 finalizer byte-for-byte into stable semantic filenames.
+- Keep the historical versioned files in the repository as regression/provenance sources, but stop including them from the production Jekyll assembler.
+- Preserve the v159 materialized semantic runtime, v160 stable wrapper, learning content, question data, Profile Schema, and visible UI.
+
+V160 BASELINE
+- Production used stable wrapper API with 6 stable wrapper globals and one version-specific release adapter runV160SelfCheck().
+- Diagnostic data storage still used production paths app/runtime-diagnostic-data-prelude-v157.txt and app/runtime-diagnostic-data-finalize-v159.txt.
+- Materialized semantic runtime remained 9 parts / 55,525 bytes / SHA-256 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+
+V161 STABLE DATA MODULES
+- New production prelude path: app/runtime-diagnostic-data-prelude.txt
+  - 235 UTF-8 bytes.
+  - SHA-256 318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92.
+  - Byte-exact with archival app/runtime-diagnostic-data-prelude-v157.txt.
+- New production finalizer path: app/runtime-diagnostic-data-finalize.txt
+  - 1,264 UTF-8 bytes.
+  - SHA-256 9d9c00d0bfe445ffc0f666250b4d7daca3abb612e6cb019d5ee9e886b8d79927.
+  - Byte-exact with archival app/runtime-diagnostic-data-finalize-v159.txt.
+- Production index.html includes only the stable paths; the two historical versioned paths are absent from assembler inputs.
+- The historical versioned prelude/finalizer files remain in the repository for provenance and exact-equivalence regression checks.
+
+WRAPPER / RELEASE BOUNDARY
+- app/runtime-diagnostic-wrapper.txt now reports the stable prelude/finalizer module paths.
+- Stable wrapper global surface remains exactly 6.
+- Stable semantic runtime helper surface remains exactly 17.
+- Retired v159 wrapper globals remain absent from production.
+- runV160SelfCheck is explicitly classified as a retired release adapter and is absent from v161 production.
+- The only v161 version-specific wrapper global is thin adapter runV161SelfCheck().
+- Current contract remains 71 checks; the existing semantic data boundary check was strengthened instead of increasing the count.
+- Fixture: _regression/stable-diagnostic-data-modules-v161.fixture.json.
+
+FORMAL REAL-JEKYLL VALIDATION
+- Workflow run: 31921395188.
+- Validation job: 95101696677.
+- Validation head SHA: bd9464b8c30676ce659f5e38213a213b747a8bbe.
+- GitHub Pages / Jekyll 3.10.0 build: success.
+- FEQUEST_V161_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 retired-adapter=1 adapter=1 stable-data=2
+- FEQUEST_V161_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V161_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V161_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V161_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMAL ARTIFACT
+- Artifact ID: 9256451840.
+- Artifact name: fe-quest-v161-standalone.
+- Outer artifact ZIP size: 766,616 bytes.
+- Outer artifact ZIP SHA-256: 030ca1db0c52ee243f2190aeee42ce808d41ab3596f14ec5d2f72ca115be550c.
+- Inner deployable FE_QUEST_PWA_v161.zip size: 766,735 bytes.
+- Inner deployable SHA-256: 5eebf8febf6f524f3db7eb72a469f155e817289d1d04b1725ae87a6e4ad11b29.
+- Expanded production index.html size: 3,473,024 bytes.
+- Expanded production index.html SHA-256: 9baef89e02417ce582d6f929224a42d1997ec36e6ce819ca5ffd7fbf136e5418.
+- Deployable PWA contains exactly six files: index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Stable semantic runtime helpers: 17 / 17.
+- Retired v145-v152 diagnostic function globals: 46 / 46 absent.
+- Stable wrapper globals: 6 / 6.
+- Retired v159 wrapper globals: 6 / 6 absent.
+- Retired release adapter runV160SelfCheck: absent.
+- Semantic diagnostic data: 6 keys / backing globals 0.
+- Critical curriculum declarative mapping: 56 / 56.
+- Remaining release sentinel mapping: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release-only legacy shadow: 293 asserts / raw historical errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- No question wording, choices, answers, IDs, cognitive levels, Profile Schema, or visible learning UI design changed in v161.
+
+CLEANUP
+- Temporary .github/workflows/v161-validate.yml removed after successful validation.
+- Temporary tools/v161_validate.py removed after successful validation.
+- Temporary tools/v161_runtime_stub.py removed after successful validation.
+- Reproduction copies of validator/stub belong only in the v161 handoff package.
+
+NEXT — v162
+- Remove version-label coupling from the nine production materialized semantic runtime part filenames while preserving their exact concatenated 55,525-byte runtime.
+- Prefer stable semantic runtime part paths with byte-exact equivalence to the v159-named parts; keep old v159-named files only as provenance until regression equivalence is pinned.
+- Update provenance/sourceModule markers only after exact runtime equivalence is proven.
+- Keep the stable data-module paths and stable wrapper introduced in v161.
+- Preserve current 71, browser 23, helpers 17, wrapper 6, data 6/backing 0, critical 56, release 28, CI 84, legacy 293 residual 0, Subject A 710 and Profile Schema v5.
+- Require real Jekyll validation, cleanup of temporary validation tooling, and exact final-main Pages success.
