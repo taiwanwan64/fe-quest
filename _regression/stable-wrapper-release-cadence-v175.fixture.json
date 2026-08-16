@@ -1,0 +1,70 @@
+{
+  "name": "stable-wrapper-release-cadence-v175",
+  "version": "v175",
+  "scope": "first-normal-release-after-v174-wrapper-metadata-extraction",
+  "policy": "stable-wrapper-byte-identity-release-specific-metadata-only",
+  "parent_release": {
+    "version": "v174",
+    "main_sha": "08a3574af4d70ec366cf6f686792aa2e237dd6e2",
+    "tree": "410b471a7f28b6c7613f6f2a9eca06b56c55048a"
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "utf8_bytes": 19860,
+    "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "parent_utf8_bytes": 19860,
+    "parent_sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+    "byte_identical_to_parent": true,
+    "modified_by_release": false
+  },
+  "release_metadata_module": {
+    "path": "app/runtime-release-diagnostic-spec.txt",
+    "utf8_bytes": 787,
+    "sha256": "6f713cdfb478a3ea08cd20e175e3b5e96d2d7f3bde279755796378eef890570e",
+    "release_version": "v175",
+    "retired_release_adapter_count": 15,
+    "diagnostic_archive_count": 57
+  },
+  "current_release_adapter": {
+    "path": "app/v175-block-00.txt",
+    "utf8_bytes": 190,
+    "sha256": "707b61634f3583ccbfadc5698f9028a01151c729df160886247f223f8c38706d",
+    "name": "runV175SelfCheck"
+  },
+  "archived_release_adapter": {
+    "path": "_regression/archive/diagnostics/v174-block-00.txt",
+    "utf8_bytes": 190,
+    "sha256": "edd5443efe277835698528e302b5672475f161b10b02657061cec199a8a6da9b",
+    "name": "runV174SelfCheck"
+  },
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "real_jekyll_generated_index": {
+      "utf8_bytes": 3475391,
+      "sha256": "3cbba40bd8961ce02c5b08b45c3a2c2604a2543833aa8fc24a45edfacfa5b35e"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "195fb18a17a8eb52d6dede82902480b10d41fe1b48a8a864cbc2ff16d043e15c",
+      "utf8_bytes": 1050705
+    },
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "wrapper_byte_identical_to_parent": true,
+    "temporary_release_metadata_global_leaked": false,
+    "learner_facing_change": false
+  }
+}

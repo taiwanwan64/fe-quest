@@ -1,0 +1,34 @@
+FE QUEST v175 — Stable Wrapper Release Cadence Audit
+=====================================================
+
+Scope
+-----
+v175 is the first ordinary release after v174 extracted release-varying diagnostic metadata. app/runtime-diagnostic-wrapper.txt must remain byte-identical to v174 while the small release metadata module, thin adapter, archive fixture, and version shell advance to v175.
+
+Pinned stable wrapper
+---------------------
+UTF-8 bytes: 19,860
+SHA-256: 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Changed by v175: no
+
+Release metadata
+----------------
+Path: app/runtime-release-diagnostic-spec.txt
+Release: v175
+Current adapter: runV175SelfCheck
+Retired adapter inventory: 15 (runV160SelfCheck through runV174SelfCheck)
+Diagnostic/provenance archive count: 57
+
+Validation status
+-----------------
+passed
+Real Jekyll index: 3,475,391 bytes / 3cbba40bd8961ce02c5b08b45c3a2c2604a2543833aa8fc24a45edfacfa5b35e
+Canonical runtime snapshot: 195fb18a17a8eb52d6dede82902480b10d41fe1b48a8a864cbc2ff16d043e15c / 1,050,705 bytes
+Wrapper byte-identical to v174 parent: yes
+Temporary release metadata global leaked: no
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual 0
