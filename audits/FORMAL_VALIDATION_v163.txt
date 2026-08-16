@@ -1,0 +1,69 @@
+FE QUEST v163 FORMAL VALIDATION
+Date: 2026-08-16 JST
+
+Authoritative validation
+- Branch: v163-staging
+- Validation head SHA: 8f176c0a8c95499e77a0786a21743f335a5c7d48
+- Workflow: FE QUEST v163 release validation
+- Run ID: 31922813218
+- Job ID: 95105361580
+- Conclusion: success
+- Real GitHub Pages build stack: github-pages v232 / Jekyll 3.10.0
+- Artifact ID: 9256881912
+- Artifact name: fe-quest-v163-standalone
+- Artifact upload bytes: 766947
+- Artifact archive digest: sha256:9bd5cd2f3c67821053c12e2fb5feae34bd808daee2cea664ecd68dce89f0a629
+
+Authoritative success markers
+FEQUEST_V163_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 retired-adapter=3 adapter=1 stable-data=2 stable-runtime-loader=1
+FEQUEST_V163_STATIC_DOM_OK 23/23 + required-dom
+FEQUEST_V163_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime-loader=1 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+FEQUEST_V163_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+FEQUEST_V163_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 retired-adapter=0 adapter=1 data=6 backing=0 stable-data=2 stable-runtime-loader=1 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+Semantic runtime validation
+- Top-level production assembler names exactly one semantic runtime module: app/runtime-semantic-diagnostics.txt.
+- That loader resolves through nine stable source parts under real GitHub Pages Jekyll.
+- The nine stable parts concatenate to exactly 55,525 UTF-8 bytes.
+- Concatenated SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- The rendered semantic runtime therefore remains byte-exact with the v162 validated concatenated runtime and the earlier v159/v158 materialized/projected runtime identity.
+- The nine backing stable parts remain in source in v163; this release simplifies the top-level production boundary to one loader rather than claiming physical single-blob materialization.
+
+Preserved invariants
+- Current contract: 71/71
+- Browser UI: 23/23 + required DOM
+- Stable semantic helpers: 17
+- Retired historical function globals absent: 46
+- Stable wrapper globals: 6
+- Retired v159 wrapper globals present in production: 0
+- Retired release adapters present in production: 0
+- Semantic data keys: 6
+- Versioned data backing globals: 0
+- Critical curriculum: 56/56
+- Remaining release sentinel: 28/28
+- CI declarative coverage: 84/84
+- Legacy regression fixture: 293 assertions
+- Raw legacy errors: 22
+- Residual active errors: 0
+- Production legacy evaluator: absent
+- Subject A question bank: 710 unique IDs
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive distribution: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+
+PWA behavior regression guard
+- APP_VERSION v163
+- cache fe-quest-v163-1
+- GET_VERSION messaging retained
+- networkWithTimeout retained
+- staleWhileRevalidate retained
+- Range requests remain bypassed
+
+Cleanup
+- Temporary .github/workflows/v163-validate.yml removed after successful validation.
+- Temporary tools/v163_validate.py removed from production source after successful validation.
+- Temporary tools/v163_runtime_stub.py removed from production source after successful validation.
+- Reproduction copies belong in the handoff package only.
+
+Scope
+- No question wording, options, answers, cognition metadata, Profile Schema, or visible learning UI changes.
