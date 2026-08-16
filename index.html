@@ -15,6 +15,7 @@
 {% capture learningQualityOverridesV191Contract %}{% include_relative app/learning-quality-overrides-v191-contract.txt %}{% endcapture %}
 {% capture learningQualityOverridesV193 %}{% include_relative app/learning-quality-overrides-v193.txt %}{% endcapture %}
 {% capture learningQualityOverridesV195 %}{% include_relative app/learning-quality-overrides-v195.txt %}{% endcapture %}
+{% capture learningQualityOverridesV197 %}{% include_relative app/learning-quality-overrides-v197.txt %}{% endcapture %}
 
 
 
@@ -36,5 +37,5 @@
 {% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v196</title>" %}
 {% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v196';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ learningQualityOverridesV191 }}{{ learningQualityOverridesV191Contract }}{{ learningQualityOverridesV193 }}{{ learningQualityOverridesV195 }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ learningQualityOverridesV191 }}{{ learningQualityOverridesV191Contract }}{{ learningQualityOverridesV193 }}{{ learningQualityOverridesV195 }}{{ learningQualityOverridesV197 }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
