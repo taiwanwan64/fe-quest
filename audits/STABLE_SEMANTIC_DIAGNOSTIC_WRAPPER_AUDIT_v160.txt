@@ -1,0 +1,122 @@
+FE QUEST v160 — STABLE SEMANTIC DIAGNOSTIC WRAPPER AUDIT
+Date: 2026-08-16 JST
+Version: v160
+Repository: taiwanwan64/fe-quest
+
+PURPOSE
+- Remove remaining version-label coupling from the production diagnostic wrapper/self-check layer.
+- Keep the v159 direct materialized semantic runtime unchanged.
+- Expose a stable semantic wrapper API for current-contract evaluation and self-check execution.
+- Reduce the release-specific surface to one thin boot adapter: runV160SelfCheck().
+- Preserve learning content, question data, Profile Schema and visible UI behavior.
+
+V159 BASELINE
+- Production semantic runtime is nine materialized parts, 55,525 UTF-8 bytes.
+- Concatenated SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- Stable runtime helpers: 17.
+- Retired v145-v152 diagnostic function globals: 46 / 46 absent.
+- Semantic diagnostic data keys: 6.
+- Versioned diagnostic backing globals: 0.
+- v159 still exposed six release-specific wrapper globals for runtime/data boundary audits, replacement/additional checks, current-contract evaluation and self-check execution.
+
+V160 ARCHITECTURE
+- New stable production wrapper module: app/runtime-diagnostic-wrapper.txt.
+- Wrapper SHA-256: 7ce4839032a892c4be3054db4ba956058993deacd86ec646b5b391230d6dc686.
+- Wrapper UTF-8 bytes: 17,212.
+- Stable wrapper globals: 6:
+  1. feqSemanticRuntimeBoundaryAudit
+  2. feqDiagnosticDataBoundaryAudit
+  3. feqReleaseBoundaryChecks
+  4. feqSemanticBoundaryChecks
+  5. feqEvaluateCurrentContract
+  6. feqRunSelfCheck
+- Retired v159 wrapper globals tracked and absent from production runtime: 6:
+  v159SemanticRuntimeBoundaryAudit
+  v159DiagnosticDataBoundaryAudit
+  v159ReplacementChecks
+  v159AdditionalCurrentChecks
+  v159EvaluateCurrentContract
+  runV159SelfCheck
+- Thin release adapter: app/v160-block-00.txt.
+- Adapter SHA-256: 1f61d111d31bf02576e9753272d5c93e73fb223d097ed1a3f15ae11e1c2af5d7.
+- Adapter UTF-8 bytes: 198.
+- The only version-specific production wrapper entry is runV160SelfCheck(), which delegates directly to feqRunSelfCheck('v160','runV160SelfCheck').
+- Self-check architecture marker is now stable: stable-semantic-diagnostic-wrapper.
+- Self-check reports releaseVersion and releaseAdapter separately from the stable architecture marker.
+
+ASSEMBLER
+- index.html directly includes app/runtime-diagnostic-wrapper.txt and app/v160-block-00.txt.
+- app/v159-block-00.txt, app/v159-block-01.txt and app/v159-block-02.txt remain archival provenance but are no longer production assembler inputs.
+- The nine v159 materialized semantic runtime parts remain unchanged and directly included.
+- No build-time historical-name rewrite was reintroduced.
+
+WRAPPER CONTRACT FIXTURE
+- _regression/stable-semantic-diagnostic-wrapper-v160.fixture.json.
+- Stable wrapper global count: 6.
+- Retired v159 wrapper global count: 6.
+- Allowed versioned wrapper global count: 1 (runV160SelfCheck).
+- Current contract remains 71.
+- Browser UI remains 23 plus required DOM.
+- Stable runtime helpers remain 17.
+- Retired runtime function globals remain 46 absent.
+- Semantic diagnostic data remains 6 keys / 0 versioned backing globals.
+
+FORMAL REAL-JEKYLL VALIDATION
+- Workflow run: 31919654454.
+- Validation job: 95097319033.
+- Validation head SHA: a8c6a787155a9ea8296c7b1ce747ae271091102e.
+- GitHub Pages / Jekyll 3.10.0 build: success.
+- FEQUEST_V160_FIXTURE_BOUNDARY_OK production=excluded fixture=293 data=6 backing=0 wrapper=6 retired-wrapper=6 adapter=1
+- FEQUEST_V160_STATIC_DOM_OK 23/23 + required-dom
+- FEQUEST_V160_PRODUCTION_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 adapter=1 data=6 backing=0 critical-map=56 release-map=28 ci=84 legacy-bundled=0
+- FEQUEST_V160_RELEASE_FIXTURE_OK diagnostic=46 critical=56/56 release=28/28 legacy=293 raw=22 residual=0
+- FEQUEST_V160_RUNTIME_OK current=71/71 stable=17 retired-fn=46 wrapper=6 retired-wrapper=0 adapter=1 data=6 backing=0 critical=56/56 release=28/28 ci=84 legacy=293 residual=0 production-legacy=0
+
+FORMAL ARTIFACT
+- Artifact ID: 9255950215.
+- Artifact name: fe-quest-v160-standalone.
+- Outer artifact ZIP size: 766,315 bytes.
+- Outer artifact ZIP SHA-256: 913cfa56b638c8e87eeb60ba3639a45b344a86b7458d3720fff96d6d3bec8a7e.
+- Inner deployable FE_QUEST_PWA_v160.zip size: 766,444 bytes.
+- Inner deployable SHA-256: cb7a5d3acd4835e6ab8870041e678c55a208d48f82ed97e9854c54b39e66e394.
+- Expanded production index.html size: 3,471,972 bytes.
+- Expanded production index.html SHA-256: 6bb2c51086b1eeb6539f6b7902fdd6c60f33f8e5e8586657d6b258bc80e4308a.
+- Deployable PWA contains exactly six files: index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, apple-touch-icon.png.
+
+INVARIANTS
+- Subject A questions: 710.
+- Unique question IDs: 710.
+- Answer distribution: A178 / B178 / C177 / D177.
+- Cognitive levels: 想起166 / 適用323 / 判断221.
+- Profile Schema: v5.
+- Current contract: 71 / 71.
+- Browser UI contracts: 23 / 23 plus required DOM sentinel.
+- Critical curriculum declarative mapping: 56 / 56.
+- Remaining release sentinel mapping: 28 / 28.
+- Declarative CI-only coverage: 84 / 84 exact.
+- Release-only legacy shadow: 293 asserts / raw historical errors 22 / residual active errors 0.
+- Production legacy evaluator bundled: 0.
+- Versioned diagnostic backing globals bundled: 0.
+- Retired v159 wrapper globals present: 0.
+- Stable wrapper globals present: 6.
+- Version-specific wrapper globals present: exactly 1, runV160SelfCheck.
+- No question wording, choices, answers, IDs, cognitive levels, Profile Schema, or visible learning UI design changed in v160.
+
+CLEANUP
+- Temporary .github/workflows/v160-validate.yml removed after successful validation.
+- Temporary tools/v160_validate.py removed after successful validation.
+- Temporary tools/v160_runtime_stub.py removed after successful validation.
+- Reproduction copies belong only in the v160 handoff package.
+
+FINAL RELEASE STATE
+- This audit is committed only after temporary validation tooling cleanup.
+- The resulting staging head is the release candidate fast-forwarded to main.
+- Exact final-main Pages build/deploy and Pages API status are verified separately after main is moved.
+
+NEXT — v161
+- Remove version-label coupling from production diagnostic-data lifecycle filenames while preserving the v160 stable wrapper.
+- Introduce stable semantic prelude/finalizer module names and pin byte/behavior equivalence before switching assembler inputs.
+- Keep historical v157/v159 data lifecycle modules only as archival provenance.
+- Do not rename the nine materialized semantic runtime parts until a separate exact-equivalence migration is prepared.
+- Preserve current 71, browser 23, runtime helpers 17, wrapper 6, release adapter 1, data 6/backing 0, critical 56, release 28, CI 84, legacy 293 residual 0, Subject A 710 and Profile Schema v5.
+- Require real Jekyll validation, temporary-tool cleanup, and exact final-main Pages success.
