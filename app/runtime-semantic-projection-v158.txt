@@ -1,0 +1,21 @@
+{% comment %}FE QUEST v158: isolated semantic diagnostic runtime projection. Six logical migrations / eighteen deterministic replacements.{% endcomment %}
+{{ include.source
+  | replace: "  const V148_EXTRA_UI_CONTRACTS = [", "  const browserUiAdditions = ["
+  | replace: "  globalThis.V148_EXTRA_UI_CONTRACTS=V148_EXTRA_UI_CONTRACTS;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions=browserUiAdditions;"
+  | replace: "V148_EXTRA_UI_CONTRACTS", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.browserUiAdditions"
+  | replace: "  const V149_LEGACY_ASSERT_INVENTORY = Object.freeze({", "  const legacyAssertionInventory = Object.freeze({"
+  | replace: "  globalThis.V149_LEGACY_ASSERT_INVENTORY=V149_LEGACY_ASSERT_INVENTORY;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory=legacyAssertionInventory;"
+  | replace: "V149_LEGACY_ASSERT_INVENTORY", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory"
+  | replace: "  const V150_CI_ONLY_SENTINEL_GROUPS=Object.freeze({", "  const ciSentinelGroups=Object.freeze({"
+  | replace: "  globalThis.V150_CI_ONLY_SENTINEL_GROUPS=V150_CI_ONLY_SENTINEL_GROUPS;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups=ciSentinelGroups;"
+  | replace: "V150_CI_ONLY_SENTINEL_GROUPS", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.ciSentinelGroups"
+  | replace: "  const V150_CRITICAL_CURRICULUM_SPEC=Object.freeze({", "  const criticalCurriculumSpec=Object.freeze({"
+  | replace: "  globalThis.V150_CRITICAL_CURRICULUM_SPEC=V150_CRITICAL_CURRICULUM_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec=criticalCurriculumSpec;"
+  | replace: "V150_CRITICAL_CURRICULUM_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.criticalCurriculumSpec"
+  | replace: "  const V151_RELEASE_SENTINEL_SPEC=Object.freeze({", "  const releaseSentinelSpec=Object.freeze({"
+  | replace: "  globalThis.V151_RELEASE_SENTINEL_SPEC=V151_RELEASE_SENTINEL_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec=releaseSentinelSpec;"
+  | replace: "V151_RELEASE_SENTINEL_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.releaseSentinelSpec"
+  | replace: "  const V152_LEGACY_FIXTURE_SPEC=Object.freeze({", "  const legacyFixtureSpec=Object.freeze({"
+  | replace: "  globalThis.V152_LEGACY_FIXTURE_SPEC=V152_LEGACY_FIXTURE_SPEC;", "  globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyFixtureSpec=legacyFixtureSpec;"
+  | replace: "V152_LEGACY_FIXTURE_SPEC", "globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyFixtureSpec"
+}}
