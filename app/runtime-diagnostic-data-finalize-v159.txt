@@ -1,0 +1,19 @@
+// ===== FE QUEST semantic diagnostic data storage finalizer (v159) =====
+(() => {
+  const data=globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA;
+  const semanticKeys=Object.freeze(['browserUiAdditions','legacyAssertionInventory','ciSentinelGroups','criticalCurriculumSpec','releaseSentinelSpec','legacyFixtureSpec']);
+  const keys=Object.keys(data||{}).sort(),expected=[...semanticKeys].sort();
+  if(!data||keys.length!==expected.length||!keys.every((k,i)=>k===expected[i])) throw new Error('FE QUEST semantic diagnostic data materialization incomplete');
+  Object.freeze(data);
+  const provenance=Object.freeze({
+    sourceModule:'app/runtime-semantic-diagnostics-v159-parts',
+    projectionMode:'materialized-semantic-runtime-source-v159',
+    browserUiAdditions:Object.freeze({sourceVersion:'v148'}),
+    legacyAssertionInventory:Object.freeze({sourceVersion:'v149'}),
+    ciSentinelGroups:Object.freeze({sourceVersion:'v150'}),
+    criticalCurriculumSpec:Object.freeze({sourceVersion:'v150'}),
+    releaseSentinelSpec:Object.freeze({sourceVersion:'v151'}),
+    legacyFixtureSpec:Object.freeze({sourceVersion:'v152'})
+  });
+  Object.defineProperty(globalThis,'FEQ_DIAGNOSTIC_DATA_PROVENANCE',{value:provenance,writable:false,enumerable:true,configurable:false});
+})();
