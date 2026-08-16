@@ -7,7 +7,7 @@
   "quality_audit_marker": "v191-high-severity-repair",
   "source_quality_audit": "_regression/subject-a-quality-audit-v190.fixture.json",
   "source_priority_tier": "high",
-  "content_files": ["app/learning-quality-overrides-v191.txt"],
+  "content_files": ["app/learning-quality-overrides-v191.txt","app/learning-quality-overrides-v191-contract.txt"],
   "assembly_files": ["index.html"],
   "allowed_question_ids": ["computer-13","coreq_02_04_2","coreq_05_02_1","coreq_05_04_2","coreq_06_05_1","coreq_06_05_2","coreq_21_04_1"],
   "allowed_changed_question_fields": ["q","options","exp","hint","choiceExps","qualityAudit"],
