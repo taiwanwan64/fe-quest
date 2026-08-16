@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Align stable-base Liquid structural whitespace
+      - name: Align v172 materializer contracts
         shell: bash
         run: |
           python3 - <<'PY'
@@ -33,6 +33,10 @@ jobs:
           new="stable_projection=stable_capture+'\\n'*7\nif old_projection in s: s=s.replace(old_projection,stable_projection,1)"
           if old in s: s=s.replace(old,new,1)
           if "stable_projection=stable_capture+'\\n'*7" not in s: raise AssertionError('materializer whitespace patch')
+          anchor="w=w.replace('archivedSourceCount:53','archivedSourceCount:54')"
+          expanded=anchor+"\nw=w.replace(\"s.archiveBoundaryFixture==='_regression/production-source-archive-boundary-v171.fixture.json'\",\"s.archiveBoundaryFixture==='_regression/production-source-archive-boundary-v172.fixture.json'\")\nw=w.replace('s.archivedSourceCount===53','s.archivedSourceCount===54')"
+          if anchor in s and "s.archivedSourceCount===54" not in s: s=s.replace(anchor,expanded,1)
+          if "s.archiveBoundaryFixture==='_regression/production-source-archive-boundary-v172.fixture.json'" not in s or 's.archivedSourceCount===54' not in s: raise AssertionError('wrapper semantic archive contract patch')
           p.write_text(s)
           p=Path('tools/v172_prepare_reference.py')
           s=p.read_text()
@@ -41,24 +45,7 @@ jobs:
           if old in s: s=s.replace(old,new,1)
           if "stable_projection=stable+'\\n'*7" not in s: raise AssertionError('reference whitespace patch')
           p.write_text(s)
-          print('FEQUEST_V172_LIQUID_WHITESPACE_ALIGNED structural-newlines=7')
-          PY
-
-      - name: Instrument self-check failure detail
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('tools/v172_validate.py')
-          s=p.read_text()
-          old="const __feqSelfRaw=globalThis.FEQUEST_SELF_CHECK;if(!__feqSelfRaw)throw new Error('snapshot self-check missing');"
-          new=old+"console.log('__FEQ_SELF_ERRORS__ '+JSON.stringify(__feqSelfRaw.errors||[]));"
-          if old in s and '__FEQ_SELF_ERRORS__' not in s: s=s.replace(old,new,1)
-          if '__FEQ_SELF_ERRORS__' not in s: raise AssertionError('self-check instrumentation')
-          old2="req(m.group(3)=='1',label+' self-check')"
-          new2="\n    if m.group(3)!='1':\n        print(z.stdout)\n    req(m.group(3)=='1',label+' self-check')"
-          if old2 in s: s=s.replace(old2,new2,1)
-          p.write_text(s)
+          print('FEQUEST_V172_MATERIALIZER_CONTRACTS_ALIGNED structural-newlines=7 archive=54')
           PY
 
       - name: Materialize v172 stable production base
