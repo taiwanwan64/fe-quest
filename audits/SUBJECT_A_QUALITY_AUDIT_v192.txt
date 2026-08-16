@@ -1,0 +1,142 @@
+FE QUEST v192 — Subject A Post-v191 Quality Re-audit
+======================================================
+
+Purpose
+-------
+Audit only. v192 does not change learner-facing question text, answers, explanations,
+difficulty labels, cognitive labels, release architecture or content-release tooling.
+
+Source release
+--------------
+v191 main: 51d8130f962585b084c4cf4a15c8ed02b4de3fa0
+tree: 57db5a4d0f42334046811a61f3a9703f7895027f
+generated index: 3,496,898 bytes
+SHA-256: df1ad353769cc2650db0933372d9174b1cc0d60be77e2c6acc1da9d02cc335ad
+
+Reference basis
+---------------
+The attached 2026/令和8年度 textbook and problem book remain calibration references
+for chapter/topic coverage, terminology, emphasis and FE-level difficulty only.
+Proprietary question text is not copied into FE QUEST.
+
+Corpus / coverage
+-----------------
+Questions: 710 / unique IDs: 710
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Difficulty: 基礎206 / 標準345 / 実戦159
+Categories: 基礎理論91 / アルゴリズム42 / コンピュータ113 / データベース55 /
+            ネットワーク62 / セキュリティ54 / マネジメント142 / ストラテジ151
+
+21 chapters / 130 mapped topics
+Covered topics: 130 / 130
+Minimum questions per topic: 4
+Maximum questions per topic: 12
+Topics with exactly four questions: 59
+Technology / Management / Strategy: 470 / 90 / 150
+
+v188 -> v190 -> v192 screening comparison
+-----------------------------------------
+Exact normalized stem duplicates:       0 -> 0  -> 0
+Same-topic near duplicates >=0.72:      34 -> 29 -> 28
+Same-topic near duplicates >=0.80:      15 -> 12 -> 11
+Answer-length cue flags:                19 -> 16 -> 14
+Distractor-only absolute-word flags:    31 -> 31 -> 29
+
+Net improvement from the v188 baseline:
+- near-duplicate pairs >=0.72: -6
+- near-duplicate pairs >=0.80: -4
+- answer-length cue flags: -5
+- absolute-word asymmetry flags: -2
+
+Effect of the v191 seven-question batch
+----------------------------------------
+Near-duplicate pair cleared:
+- computer-13 / coreq_05_04_2
+
+Answer-length flags cleared:
+- coreq_02_04_2
+- coreq_05_02_1
+
+Absolute-word asymmetry flags cleared:
+- coreq_06_05_1
+- coreq_21_04_1
+
+Two repaired IDs still hit the broad absolute-word heuristic:
+- coreq_02_04_2
+- coreq_06_05_2
+
+Manual review no longer treats either as High. In both cases, the cue word だけ occurs inside
+a plausible misconception distractor rather than as an artificial giveaway. This is why the
+heuristic count and the manual severity queue are intentionally kept separate.
+
+v190 High queue re-check
+------------------------
+All seven v190 High IDs are resolved as High-severity defects:
+- computer-13
+- coreq_02_04_2
+- coreq_05_02_1
+- coreq_05_04_2
+- coreq_06_05_1
+- coreq_06_05_2
+- coreq_21_04_1
+
+Current High queue: 0 IDs.
+
+Current Medium queue
+--------------------
+24 IDs remain. These questions were not changed in v191, so their underlying review reasons
+are unchanged from v190:
+- challenge_036
+- challenge_044
+- challenge_046
+- challenge_v92_01_07
+- challenge_v92_02_08
+- coreq_09_02_2
+- coreq_09_02_3
+- coreq_10_04_2
+- coreq_11_02_2
+- coreq_11_02_3
+- coreq_12_01_2
+- coreq_12_01_3
+- coreq_14_10_2
+- coreq_14_10_3
+- coreq_15_08_2
+- coreq_15_08_3
+- coreq_16_01_2
+- coreq_16_01_3
+- coreq_17_02_2
+- coreq_17_02_3
+- media-01
+- net-03
+- net-12
+- theory-06
+
+Medium themes
+-------------
+1. Template repetition
+   Seven same-topic term/description pairs remain strongly similar:
+   coreq_09_02_2/_3, coreq_11_02_2/_3, coreq_12_01_2/_3,
+   coreq_14_10_2/_3, coreq_15_08_2/_3, coreq_16_01_2/_3,
+   coreq_17_02_2/_3.
+
+2. Cognitive-label review
+   theory-06, media-01 and net-12 are comparatively simple tasks currently labeled 判断.
+   Any relabeling should be handled later with paired swaps so the 166/323/221 invariant remains exact.
+
+3. Difficulty review
+   challenge_044, challenge_046, challenge_v92_01_07 and challenge_v92_02_08 are marked 実戦
+   but currently look closer to one-step application or recognition.
+
+4. Near-duplicate subnet calculation
+   net-03, coreq_10_04_2 and challenge_036 use essentially the same network-address procedure.
+
+Decision
+--------
+v191 produced another measurable improvement and removed the entire High queue without changing
+corpus size, answer balance or cognitive balance.
+
+Do not repair questions in v192.
+Recommended v193: choose a small Medium-only batch, prioritizing the subnet-calculation trio and
+the clearest repeated term/description templates. Keep cognitive-label changes separate unless
+paired changes preserve the global cognitive counts exactly.
