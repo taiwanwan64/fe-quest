@@ -1,0 +1,40 @@
+FE QUEST v177 — Stable Release Cadence Audit
+==============================================
+
+Scope
+-----
+v177 is the first ordinary release after v176 introduced the versionless release adapter. Both app/runtime-diagnostic-wrapper.txt and app/runtime-release-adapter.txt must remain byte-identical to v176. No new versioned adapter source is created or archived, so the diagnostic archive must stay at 58 while the retired adapter contract advances to runV176SelfCheck.
+
+Pinned stable wrapper
+---------------------
+UTF-8 bytes: 19,860
+SHA-256: 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Changed by v177: no
+
+Pinned stable release adapter
+-----------------------------
+UTF-8 bytes: 211
+SHA-256: 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Changed by v177: no
+Current public adapter derived at runtime: runV177SelfCheck
+Versioned production adapter sources: 0
+Retired adapter inventory: 17 (runV160SelfCheck through runV176SelfCheck)
+Diagnostic/provenance archive count: 58 (growth 0)
+
+Validation status
+-----------------
+passed
+Real Jekyll index: 3,475,485 bytes / e619a4882b99bb0ce4e9fac17a124bad0e1e769a4f9ac5b4c24250a52b4a5856
+Canonical runtime snapshot: 679357bd52c180faf776ac1df1b74e652dfb8ef2e7dd4a252a9eaab28620bca8 / 1,050,705 bytes
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Stable wrapper byte-identical to v176 parent: yes
+Stable release adapter byte-identical to v176 parent: yes
+Diagnostic archive: 58 -> 58 (growth 0)
+Versioned production adapter sources: 0
+Temporary release metadata global leaked: no
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual 0

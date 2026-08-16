@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v176",
+  "name": "FE QUEST v177",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v176では、versioned thin release adapterをversionless stable adapterへ置き換え、APP_VERSIONからcurrent self-check名を導出する。stable wrapper・科目A710問・current contract 71・browser UI 23・CI 84/84・legacy 293 residual 0を維持し、versioned adapterをproductionから除外する。",
+  "description": "基本情報技術者試験向けPWA。v177では、stable diagnostic wrapperとversionless stable release adapterを1 byteも変更せず通常releaseを成立させる。versioned adapter archiveを増やさず、diagnostic archive 58を固定したままrunV177SelfCheckをAPP_VERSIONから生成する。科目A710問・current contract 71・browser UI 23・CI 84/84・legacy 293 residual 0を維持する。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
