@@ -1,0 +1,63 @@
+FE QUEST v165 — Physical Semantic Runtime Source Audit
+======================================================
+
+Scope
+-----
+v165 physically materializes the already validated semantic diagnostic runtime into the production source path app/runtime-semantic-diagnostics.txt. It does not change learning questions, choices, answers, cognitive levels, Profile Schema, or visible learning UI.
+
+Validated source identity
+-------------------------
+Validated source commit: d0be88edfdea5771a5c44f2a2df6bd0972a4d0dc
+Validated source tree: ff2f03e6b70b87ac73c6cc3789be4872873a1f0a
+
+Physical runtime
+----------------
+Production source: app/runtime-semantic-diagnostics.txt
+UTF-8 bytes: 55,525
+SHA-256: 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50
+Liquid include directives inside runtime: 0
+Production runtime source count: 1
+Stable split backing paths app/runtime-semantic-diagnostics-00.txt through -08.txt: absent
+Archival v159 runtime parts retained: 9
+Archival concatenation is byte-exact with the physical runtime: yes
+
+Stable diagnostic data provenance
+---------------------------------
+sourceModule: app/runtime-semantic-diagnostics.txt
+projectionMode: stable-physical-semantic-runtime-source
+Finalizer: app/runtime-diagnostic-data-finalize.txt
+Finalizer UTF-8 bytes: 1,255
+Finalizer SHA-256: df1b9caab6cf990bb43e9199227a200bda6202442b06bce4c9cd1af6d9cb2645
+
+Stable wrapper / release adapter
+--------------------------------
+Stable wrapper: app/runtime-diagnostic-wrapper.txt
+Wrapper UTF-8 bytes: 18,563
+Wrapper SHA-256: e291730f6fe069d77b191ceafecc8bcadc124e48f08a8022230f72d30c71db49
+Stable wrapper globals: 6
+Stable runtime helpers: 17
+Retired historical runtime globals tracked: 46
+Retired release adapters tracked: runV160SelfCheck, runV161SelfCheck, runV162SelfCheck, runV163SelfCheck, runV164SelfCheck
+Allowed v165 release adapter: runV165SelfCheck
+Adapter SHA-256: d8f242d01d0bcc6ed1f3fa95175b892d20561e95dd953990ecdb55c90f83f645
+
+Preserved learning contracts
+----------------------------
+Current contract: 71/71
+Browser UI contract: 23/23 plus required DOM
+Critical curriculum sentinels: 56/56
+Remaining release sentinels: 28/28
+Declarative CI coverage: 84/84
+Legacy regression fixture assertions: 293
+Legacy raw errors: 22
+Legacy residual active errors: 0
+Production legacy evaluator: absent
+Subject A question IDs: 710 unique
+Subject A answer distribution: A 178 / B 178 / C 177 / D 177
+Cognitive levels: 想起 166 / 適用 323 / 判断 221
+Profile Schema: v5
+
+Release policy
+--------------
+production_policy: byte-exact-single-physical-semantic-runtime-source
+The v165 release intentionally removes the nine stable split backing files from production while retaining the archived v159 parts as regression provenance. No curriculum or learner-facing behavior is intentionally changed.
