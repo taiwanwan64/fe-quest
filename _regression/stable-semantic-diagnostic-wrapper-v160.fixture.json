@@ -1,0 +1,55 @@
+{
+  "name": "stable-semantic-diagnostic-wrapper-v160",
+  "version": "v160",
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "sha256": "7ce4839032a892c4be3054db4ba956058993deacd86ec646b5b391230d6dc686",
+    "utf8_bytes": 17212,
+    "stable_global_functions": [
+      "feqSemanticRuntimeBoundaryAudit",
+      "feqDiagnosticDataBoundaryAudit",
+      "feqReleaseBoundaryChecks",
+      "feqSemanticBoundaryChecks",
+      "feqEvaluateCurrentContract",
+      "feqRunSelfCheck"
+    ],
+    "stable_global_count": 6
+  },
+  "release_adapter": {
+    "path": "app/v160-block-00.txt",
+    "sha256": "1f61d111d31bf02576e9753272d5c93e73fb223d097ed1a3f15ae11e1c2af5d7",
+    "utf8_bytes": 198,
+    "entry": "runV160SelfCheck",
+    "delegates_to": "feqRunSelfCheck",
+    "allowed_versioned_wrapper_globals": [
+      "runV160SelfCheck"
+    ],
+    "allowed_count": 1
+  },
+  "retired_v159_wrapper_globals": [
+    "v159SemanticRuntimeBoundaryAudit",
+    "v159DiagnosticDataBoundaryAudit",
+    "v159ReplacementChecks",
+    "v159AdditionalCurrentChecks",
+    "v159EvaluateCurrentContract",
+    "runV159SelfCheck"
+  ],
+  "retired_v159_wrapper_global_count": 6,
+  "materialized_runtime_fixture": "_regression/semantic-diagnostic-materialization-v159.fixture.json",
+  "materialized_runtime_sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+  "invariants": {
+    "current_contract": 71,
+    "browser_ui_contracts": 23,
+    "stable_runtime_helpers": 17,
+    "retired_runtime_functions": 46,
+    "semantic_data_keys": 6,
+    "versioned_data_backing_globals": 0,
+    "critical_curriculum": 56,
+    "release_sentinel": 28,
+    "ci_coverage": 84,
+    "legacy_asserts": 293,
+    "subject_a_questions": 710,
+    "profile_schema": 5
+  },
+  "production_policy": "stable-semantic-wrapper-with-thin-version-release-adapter"
+}
