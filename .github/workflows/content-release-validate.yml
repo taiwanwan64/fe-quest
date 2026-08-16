@@ -1,0 +1,114 @@
+name: FE QUEST content release validation
+
+on:
+  push:
+    branches: ['v*-content-staging']
+
+permissions:
+  contents: write
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve content release target
+        id: release
+        shell: bash
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+-content-staging$ ]]; then
+            echo "Invalid content release branch: $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+          VERSION="${GITHUB_REF_NAME%-content-staging}"
+          NUMBER="${VERSION#v}"
+          PREVIOUS="v$((NUMBER-1))"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
+          echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          echo "FEQUEST_CONTENT_RELEASE_TARGET version=$VERSION previous=$PREVIOUS"
+
+      - name: Materialize conventional release shell
+        shell: bash
+        run: |
+          GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build content candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Prepare approved-content reference and parent reference
+        run: python3 .github/content-release/prepare_reference.py
+
+      - name: Build approved-content reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_reference
+          destination: ./_site_reference
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Build parent release reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_parent_reference
+          destination: ./_site_parent
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Validate standard release invariants
+        shell: bash
+        run: |
+          GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
+
+      - name: Validate explicit learner-content diff
+        run: python3 .github/content-release/validate_content.py
+
+      - name: Commit validated release shell and evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A _regression audits index.html manifest.webmanifest sw.js
+          if git diff --cached --quiet; then
+            echo "FEQUEST_CONTENT_RELEASE_SOURCE_ALREADY_COMMITTED"
+          else
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} content release"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
+          echo "FEQUEST_CONTENT_RELEASE_VALIDATION_HEAD=$(git rev-parse HEAD)"
+          echo "FEQUEST_CONTENT_RELEASE_VALIDATION_TREE=$(git rev-parse HEAD^{tree})"
+
+      - name: Package release
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          cd _site
+          zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          cd ..
+          wc -c "FE_QUEST_PWA_${VERSION}.zip"
+          sha256sum "FE_QUEST_PWA_${VERSION}.zip"
+          sha256sum _site/index.html _site/manifest.webmanifest _site/sw.js _site/icon-192.png _site/icon-512.png _site/apple-touch-icon.png
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-${{ steps.release.outputs.version }}-standalone
+          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          if-no-files-found: error
+          retention-days: 90
