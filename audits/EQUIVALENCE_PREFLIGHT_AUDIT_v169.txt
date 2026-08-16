@@ -1,53 +1,55 @@
-FE QUEST v169 — Counterfactual Runtime Equivalence Preflight
-============================================================
+FE QUEST v169 — Syntactic-Unit Counterfactual Equivalence Preflight
+==================================================================
 
-Scope
------
-v169 does not remove or rewrite any v132-v144 learning patch. It executes generated production HTML as a baseline, then removes candidate block text only in temporary counterfactual copies and compares canonical runtime snapshots.
+Refinement
+----------
+The initial v169 exploratory run removed physical v132 files independently and correctly exposed syntax failures. Inspection showed that v132-block-00 through v132-block-07 are fragments of one JavaScript declaration/application unit, not eight independent statements. This authoritative pass separates physical-fragment controls from semantic candidates.
 
-Snapshot components
+Baseline
+--------
+Snapshot SHA-256: fd561ca3b63faeaf3218c46a200611d85644e4225780adec638b4a6b9d1c6471
+Snapshot UTF-8 bytes: 1050743
+Baseline self-check: ok
+
+Physical fragmentation controls
+-------------------------------
+Controls: 8
+Syntax failures: 6
+These failures document source chunking only and are not counted as semantic non-equivalence decisions.
+
+Semantic candidates
 -------------------
-- canonical full QUESTION_BANK
-- FEQUEST_SELF_CHECK
-- FEQ_DIAGNOSTIC_CONTRACT_DATA
-- FEQ_DIAGNOSTIC_DATA_PROVENANCE
-- selected feq/runV global surface
-- answer and cognitive-level distributions
-
-Results
--------
-Baseline snapshot SHA-256: 9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f
-Baseline snapshot UTF-8 bytes: 1050743
-Single candidates: 13
-Total variants including two joint groups: 15
-Equivalent variants: 0
-Non-equivalent variants: 15
-Runtime-error variants: 15
-v132 leaf joint group equivalent: false
-quality write-chain joint group equivalent: false
+Candidates/variants: 8
+Equivalent: 0
+Non-equivalent: 8
+Runtime errors: 7
+Complete v132 style-cue unit equivalent: false
+quality write-chain group equivalent: false
 
 Variant detail
 --------------
-- single-v132-block-00: RUNTIME_ERROR
-- single-v132-block-01: RUNTIME_ERROR
-- single-v132-block-02: RUNTIME_ERROR
-- single-v132-block-03: RUNTIME_ERROR
-- single-v132-block-04: RUNTIME_ERROR
-- single-v132-block-05: RUNTIME_ERROR
-- single-v132-block-06: RUNTIME_ERROR
+- fragment-control-v132-00: SYNTAX_FRAGMENT_CONFIRMED
+- fragment-control-v132-01: SYNTAX_FRAGMENT_CONFIRMED
+- fragment-control-v132-02: SYNTAX_FRAGMENT_CONFIRMED
+- fragment-control-v132-03: RUNTIME_ERROR_CONTROL
+- fragment-control-v132-04: EXECUTED_CONTROL
+- fragment-control-v132-05: SYNTAX_FRAGMENT_CONFIRMED
+- fragment-control-v132-06: SYNTAX_FRAGMENT_CONFIRMED
+- fragment-control-v132-07: SYNTAX_FRAGMENT_CONFIRMED
+- unit-v132-style-cue-pass: RUNTIME_ERROR
 - single-v135-block-00: RUNTIME_ERROR
 - single-v139-block-00: RUNTIME_ERROR
 - single-v139-block-01: RUNTIME_ERROR
 - single-v141-block-00: RUNTIME_ERROR
-- single-v142-block-00: RUNTIME_ERROR
+- single-v142-block-00: DIFFERENT_SNAPSHOT
 - single-v143-block-00: RUNTIME_ERROR
-- group-v132-leaf-00-06: RUNTIME_ERROR
 - group-quality-write-chain: RUNTIME_ERROR
 
-Decision policy
----------------
-v132 leaf group: retain-pending-further-analysis
+Decision
+--------
+v132 style-cue unit: retain-active-syntactic-unit
 quality write chain: retain-current-production-blocks
+physical v132 fragments: not-independent-removal-candidates
 Automatic production removal authorized: false
 
-This is a runtime snapshot equivalence preflight, not a proof that hidden future behavior can never depend on a removed lexical declaration. Any source deletion must occur in a later release with the same full regression suite plus an exact source-diff allowlist.
+No production learning patch is removed or rewritten by v169.

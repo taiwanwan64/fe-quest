@@ -1,8 +1,8 @@
 {
   "name": "production-equivalence-plan-v169",
   "version": "v169",
-  "scope": "v132-v144-consolidation-preflight",
-  "policy": "counterfactual-runtime-snapshot-no-production-removal",
+  "scope": "v132-v144-consolidation-preflight-syntactic-unit-aware",
+  "policy": "syntactic-unit-counterfactual-runtime-snapshot-no-production-removal",
   "source_inventory": {
     "path": "_regression/production-patch-chain-v167.fixture.json",
     "utf8_bytes": 40326,
@@ -12,6 +12,38 @@
     "path": "_regression/production-patch-effects-v168.fixture.json",
     "utf8_bytes": 59355,
     "sha256": "eb6d5abc3271e85c90064074bb15cd432a5b03ddb5e9bd1510272595a9da4031"
+  },
+  "refinement": {
+    "supersedes": "physical-block-equivalence-plan-from-initial-v169-run",
+    "reason": "v132-block-00..07 form one JS syntactic unit; removing a physical fragment is not a valid semantic counterfactual",
+    "v132_unit": {
+      "paths": [
+        "app/v132-block-00.txt",
+        "app/v132-block-01.txt",
+        "app/v132-block-02.txt",
+        "app/v132-block-03.txt",
+        "app/v132-block-04.txt",
+        "app/v132-block-05.txt",
+        "app/v132-block-06.txt",
+        "app/v132-block-07.txt"
+      ],
+      "utf8_bytes": 36975,
+      "sha256": "600cd340b22aaab59e104ac55387668bc9202c93d37dc27817b23d7d0e4d0a00",
+      "opening_marker": "const SUBJECT_A_V132_STYLE_CUE_OVERRIDES=",
+      "closing_application_marker": "Object.assign(q,patch);"
+    },
+    "quality_chain": {
+      "paths": [
+        "app/v135-block-00.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt"
+      ],
+      "utf8_bytes": 39307,
+      "sha256": "3091b3b17c4217c0685f3ad91d6cba71b7d727c35c7a913dddcddb204433268a"
+    }
   },
   "baseline": {
     "generated_source": "_site/index.html",
@@ -26,86 +58,101 @@
       "answer-and-cognitive-distributions"
     ]
   },
-  "candidate_families": {
-    "v132_leaf_blocks": [
-      "app/v132-block-00.txt",
-      "app/v132-block-01.txt",
-      "app/v132-block-02.txt",
-      "app/v132-block-03.txt",
-      "app/v132-block-04.txt",
-      "app/v132-block-05.txt",
-      "app/v132-block-06.txt"
-    ],
-    "quality_write_chain_blocks": [
-      "app/v135-block-00.txt",
-      "app/v139-block-00.txt",
-      "app/v139-block-01.txt",
-      "app/v141-block-00.txt",
-      "app/v142-block-00.txt",
-      "app/v143-block-00.txt"
-    ]
-  },
-  "single_candidate_count": 13,
-  "variant_count": 15,
+  "fragment_control_count": 8,
+  "semantic_candidate_variant_count": 8,
+  "variant_count": 16,
   "variants": [
     {
-      "id": "single-v132-block-00",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-00",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-00.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-01",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-01",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-01.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-02",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-02",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-02.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-03",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-03",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-03.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-04",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-04",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-04.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-05",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-05",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-05.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
     },
     {
-      "id": "single-v132-block-06",
-      "family": "v132-leaf",
+      "id": "fragment-control-v132-06",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
       "removed_paths": [
         "app/v132-block-06.txt"
       ],
-      "basis": "v168-patch-local-leaf-review"
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
+    },
+    {
+      "id": "fragment-control-v132-07",
+      "kind": "physical-fragment-control",
+      "family": "v132-style-cue-unit",
+      "removed_paths": [
+        "app/v132-block-07.txt"
+      ],
+      "basis": "prove-physical-block-is-not-an-independent-syntactic-unit"
+    },
+    {
+      "id": "unit-v132-style-cue-pass",
+      "kind": "semantic-candidate",
+      "family": "v132-style-cue-unit",
+      "removed_paths": [
+        "app/v132-block-00.txt",
+        "app/v132-block-01.txt",
+        "app/v132-block-02.txt",
+        "app/v132-block-03.txt",
+        "app/v132-block-04.txt",
+        "app/v132-block-05.txt",
+        "app/v132-block-06.txt",
+        "app/v132-block-07.txt"
+      ],
+      "basis": "remove-complete-syntactic-unit-for-runtime-equivalence-test"
     },
     {
       "id": "single-v135-block-00",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v135-block-00.txt"
@@ -114,6 +161,7 @@
     },
     {
       "id": "single-v139-block-00",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v139-block-00.txt"
@@ -122,6 +170,7 @@
     },
     {
       "id": "single-v139-block-01",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v139-block-01.txt"
@@ -130,6 +179,7 @@
     },
     {
       "id": "single-v141-block-00",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v141-block-00.txt"
@@ -138,6 +188,7 @@
     },
     {
       "id": "single-v142-block-00",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v142-block-00.txt"
@@ -146,6 +197,7 @@
     },
     {
       "id": "single-v143-block-00",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v143-block-00.txt"
@@ -153,21 +205,8 @@
       "basis": "v168-q.qualityAudit-write-chain-review"
     },
     {
-      "id": "group-v132-leaf-00-06",
-      "family": "v132-leaf",
-      "removed_paths": [
-        "app/v132-block-00.txt",
-        "app/v132-block-01.txt",
-        "app/v132-block-02.txt",
-        "app/v132-block-03.txt",
-        "app/v132-block-04.txt",
-        "app/v132-block-05.txt",
-        "app/v132-block-06.txt"
-      ],
-      "basis": "joint-equivalence-required-before-consolidation"
-    },
-    {
       "id": "group-quality-write-chain",
+      "kind": "semantic-candidate",
       "family": "quality-write-chain",
       "removed_paths": [
         "app/v135-block-00.txt",
@@ -181,9 +220,10 @@
     }
   ],
   "decision_policy": {
+    "physical_fragment_syntax_failure_is_not_semantic_non_equivalence": true,
+    "only_semantic_candidate_variants_can_drive_consolidation_decisions": true,
     "runtime_snapshot_equivalent_does_not_mean_automatic_removal": true,
-    "joint_group_equivalence_required_for_group_consolidation": true,
     "non_equivalent_or_runtime_error_blocks_removal": true,
-    "next_step_for_equivalent_group": "controlled-source-removal-with-byte/runtime regression in a later release"
+    "automatic_removal_authorized": false
   }
 }
