@@ -1,5 +1,5 @@
-const APP_VERSION = 'v161';
-const CACHE_NAME = 'fe-quest-v161-1';
+const APP_VERSION = 'v162';
+const CACHE_NAME = 'fe-quest-v162-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
@@ -23,57 +23,45 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
+    caches.keys().then(keys => Promise.all(
+      keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+    )).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('message', event => {
-  if(event.data?.type === 'SKIP_WAITING') self.skipWaiting();
-  if(event.data?.type === 'GET_VERSION') event.source?.postMessage?.({type:'APP_VERSION',version:APP_VERSION});
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-function networkWithTimeout(request, timeoutMs=4000){
-  return Promise.race([
-    fetch(request),
-    new Promise((_,reject)=>setTimeout(()=>reject(new Error('network timeout')),timeoutMs))
-  ]);
-}
-
-async function navigationResponse(request){
-  try{
-    const response = await networkWithTimeout(request,4000);
-    if(response && response.ok){
-      const cache = await caches.open(CACHE_NAME);
-      cache.put('./index.html',response.clone()).catch(()=>{});
-    }
-    return response;
-  }catch(e){
-    return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
-  }
-}
-
-async function staleWhileRevalidate(request){
-  const cached = await caches.match(request);
-  const network = fetch(request).then(response => {
-    if(response && response.ok && response.type !== 'opaque'){
-      caches.open(CACHE_NAME).then(cache=>cache.put(request,response.clone())).catch(()=>{});
-    }
-    return response;
-  }).catch(()=>null);
-  return cached || (await network) || Response.error();
-}
-
 self.addEventListener('fetch', event => {
-  const request=event.request;
-  if(request.method !== 'GET' || request.headers.has('range')) return;
-  const url=new URL(request.url);
-  if(url.origin !== self.location.origin) return;
+  const req = event.request;
+  if (req.method !== 'GET') return;
 
-  if(request.mode === 'navigate'){
-    event.respondWith(navigationResponse(request));
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (req.mode === 'navigate') {
+    event.respondWith((async() => {
+      try {
+        const fresh = await fetch(new Request(req, { cache: 'no-store' }));
+        if (fresh && fresh.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          cache.put('./index.html', fresh.clone());
+          return fresh;
+        }
+      } catch (_) {}
+      return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+    })());
     return;
   }
-  event.respondWith(staleWhileRevalidate(request));
+
+  event.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(response => {
+      if (!response || !response.ok || response.type !== 'basic') return response;
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
+      return response;
+    }))
+  );
 });
