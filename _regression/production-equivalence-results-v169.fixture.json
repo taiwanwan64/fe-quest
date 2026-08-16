@@ -1,0 +1,424 @@
+{
+  "name": "production-equivalence-results-v169",
+  "version": "v169",
+  "scope": "v132-v144-consolidation-preflight",
+  "policy": "measured-counterfactual-runtime-snapshot-no-production-removal",
+  "plan": {
+    "path": "_regression/production-equivalence-plan-v169.fixture.json",
+    "utf8_bytes": 5260,
+    "sha256": "f80404258ee9906df98acc8f000e30a5bb077aa54bd9bdb9d1be6295cd90d47c"
+  },
+  "baseline": {
+    "label": "baseline",
+    "syntax_ok": true,
+    "runtime_ok": true,
+    "snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f",
+    "snapshot_utf8_bytes": 1050743,
+    "error_kind": null,
+    "error_sha256": null,
+    "error_tail": ""
+  },
+  "summary": {
+    "single_candidate_count": 13,
+    "variant_count": 15,
+    "equivalent_variants": 0,
+    "non_equivalent_variants": 15,
+    "runtime_error_variants": 15,
+    "v132_leaf_group_equivalent": false,
+    "quality_write_group_equivalent": false,
+    "automatic_removal_authorized": false
+  },
+  "variants": [
+    {
+      "label": "single-v132-block-00",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "3f14a086367624c7a12c078253620de86cfc7fe5710f15b84eaa9b603c165cd1",
+      "error_tail": "・利用者への影響・社会的責任も考慮して判断する\",\"納期と利益を最大化できる場合は、安全上の懸念を把握していても意思決定へ反映しない\",\"法令に明確な禁止条文がなければ法令適合を優先し、倫理面は問題発生後に検討する\",\"会社からの指示を最優先し、公共の安全や利用者への影響は技術者の判断範囲から外す\"],\"exp\":\"技術者倫理では、納期や利益だけでなく、安全性や利用者・社会への影響も考慮して判断します。\",\"choiceExps\":[\"専門職として、安全性や社会的影響も重要な判断要素です。\",\"安全上の懸念は意思決定や報告へ反映する必要があります。\",\"合法性だけでなく、倫理や安全の観点も同時に考えます。\",\"会社の指示だけでなく、公共の安全や利用者への責任も考慮します。\"]},\"coreq_19_01_3\":{\"options\":[\"POSは販売時点の情報を収集し、決済処理に加えて在庫・発注・販売分析などへ活用する仕組みである\",\"POSはレジ端末そのものを指し、本部へ販売情報を集約する機能は別のシステムとして扱う\",\"POSは販売データを記録するが、在庫管理や発注計画へ連携する用途には利用しない\",\"POSは仕入時点の情報を管理する仕組みで、顧客への販売データは管理対象に含めない\"],\"exp\":\"POSは販売時点の情報を収集・集計し、決済だけでなく在庫管理、発注、販売分析などへ活用する仕組みです。\",\"choiceExps\":[\"POSは端末だけでなく、販売情報の収集・集計・活用まで含む仕組みとして扱います。\",\"本部への販売情報集約もPOSデータ活用の一例です。\",\"販売データは在庫管理や発注計画にも利用できます。\",\"POSはPoint of Saleであり、販売時点の情報を扱います。\"]},\"coreq_20_06_3\":{\"options\":[\"減価償却費を計上するたびに、同額の現金支出が発生する\",\"減価償却費は借入金の返済額を利用期間へ配分したものである\",\"減価償却は固定資産の取得価額を利用期間へ費用配分する会計処理である\",\"減価償却では固定資産の取得代金を毎年分割して支払う\"],\"exp\":\"減価償却は、固定資産の取得価額を利用期間へ費用配分する会計処理です。現金の支払方法とは別の概念です。\",\"choiceExps\":[\"減価償却費の計上と現金の支払時期は一致するとは限りません。\",\"減価償却は借入金返済ではなく、固定資産の取得価額の費用配分です。\",\"固定資産の取得価額を利用期間にわたって費用として配分します。\",\"取得代金の支払方法と減価償却の費用配分は別の概念です。\"]},\"coreq_11_07_3\":{\"options\":[\"技術的な深刻度を最優先し、隔離環境の脆弱性も外部公開環境と同じ優先度で対処する\",\"資産価値が高いシステムは、脆弱性や攻撃可能性の評価より先に最高リスクへ分類する\",\"脆弱性の技術的深刻度に、資産価値・公開状況・脅威・業務影響を組み合わせてリスクを評価する\",\"事業部門が付けた業務重要度を優先し、脆弱性の技術評価は参考情報として扱う\"],\"exp\":\"セキュリティリスクは、脆弱性の技術的深刻度だけでなく、資産価値や公開状況、脅威、業務影響などを組み合わせて評価します。\",\"choiceExps\":[\"技術的深刻度だけでは組織固有の優先度を決められません。\",\"資産価値だけでなく、脆弱性や攻撃可能性も評価します。\",\"技術評価と組織固有の状況を組み合わせるのが適切です。\",\"業務重要度と技術的深刻度の両方を評価します。\"]},\"coreq_18_07_2\":{\"options\":[\"技術開発戦略では市場で注目される技術を優先し、将来製品との対応付けは研究成果が出た後に行う。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる。\",\"重点技術は自社内での研究を基本とし、共同研究や外部技術の活用は補助的な手段として扱う。\",\"技術開発投資では技術的な新規性を主要評価軸とし、市場投入時期や競争優位への寄与は事業化段階で評価する。\"],\"exp\":\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"choiceExps\":[\"事業戦略や将来製品への貢献を踏まえて重点技術を選びます。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"自社開発・共同研究・提携・技術導入などを適切に組み合わせます。\",\"技術性だけでなく、事業価値・時間軸・競争優位も評価します。\"]},\"coreq_14_02_3\":{\"options\":[\"WBSは組織内の指揮命令関係を階層的に表す\",\"WBSは各作業の開始日と終了日を時系列に並べる\",\"WBSは作業ごとのコスト実績だけを集計する\",\"WBSは成果物や作業を階層的に分解し、プロジェクトの作業範囲を明確にする\"],\"exp\":\"WBSは、プロジェクトで実施する成果物や作業を階層的に分解し、作業範囲を明確にするために使います。\",\"choiceExps\":[\"組織の指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                     \n\nSyntaxError: Invalid or unexpected token\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-00",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-00.txt",
+          "utf8_bytes": 4802,
+          "sha256": "a6a1b49952caab2772bbbd08de2eb2c41f731f625449e06b8e90fa6d4221cd60"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-01",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "d0bcffdd11da9af657e27882e41940e31d7db5d9cc07b9305cc7f2f50525ddb2",
+      "error_tail": "払う\"],\"exp\":\"減価償却は、固定資産の取得価額を利用期間へ費用配分する会計処理です。現金の支払方法とは別の概念です。\",\"choiceExps\":[\"減価償却費の計上と現金の支払時期は一致するとは限りません。\",\"減価償却は借入金返済ではなく、固定資産の取得価額の費用配分です。\",\"固定資産の取得価額を利用期間にわたって費用として配分します。\",\"取得代金の支払方法と減価償却の費用配分は別の概念です。\"]},\"coreq_11_07_3\":{\"options\":[\"技術的な深刻度を最優先し、隔離環境の脆弱性も外部公開環境と同じ優先度で対処する\",\"資産価値が高いシステムは、脆弱性や攻撃可能性の評価より先に最高リスクへ分類する\",\"脆弱性の技術的深刻度に、資産価値・公開状況・脅威・業務影響を組み合わせてリスクを評価する\",\"事業部門が付けた業務重要度を優先し、脆弱性の技術評価は参考情報として扱う\"],\"exp\":\"セキュリティリスクは、脆弱性の技術的深刻度だけでなく、資産価値や公開状況、脅威、業務影響などを組み合わせて評価します。\",\"choiceExps\":[\"技術的深刻度だけでは組織固有の優先度を決められません。\",\"資産価値だけでなく、脆弱性や攻撃可能性も評価します。\",\"技術評価と組織固有の状況を組み合わせるのが適切です。\",\"業務重要度と技術的深刻度の両方を評価します。\"]},\"coreq_18_07_2\":{\"options\":[\"技術開発戦略では市場で注目される技術を優先し、将来製品との対応付けは研究成果が出た後に行う。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる。\",\"重点技術は自社内での研究を基本とし、共同研究や外部技術の活用は補助的な手段として扱う。\",\"技術開発投資では技術的な新規性を主要評価軸とし、市場投入時期や競争優位への寄与は事業化段階で評価する。\"],\"exp\":\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"choiceExps\":[\"事業戦略や将来製品への貢献を踏まえて重点技術を選びます。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"自社開発・共同研究・提携・技術導入などを適切に組み合わせます。\",\"技術性だけでなく、事業価値・時間軸・競争優位も評価します。\"]},\"coreq_14_02_3\":{\"options\":[\"WBSは組織内の指揮命令関係を階層的に表す\",\"WBSは各作業の開始日と終了日を時系列に並べる\",\"WBSは作業ごとのコスト実績だけを集計する\",\"WBSは成果物や作業を階層的に分解し、プロジェクトの作業範囲を明確にする\"],\"exp\":\"WBSは、プロジェクトで実施する成果物や作業を階層的に分解し、作業範囲を明確にするために使います。\",\"choiceExps\":[\"組織の指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \n\nSyntaxError: Unexpected token ':'\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-01",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-01.txt",
+          "utf8_bytes": 5222,
+          "sha256": "8571fbe5be90703f22df2177c07187a1a2b8cd953ba4915d527294b1ddf4ca75"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-02",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "3e5a67205d4ed31d1ab26a6c8c5b818755375126073078f2fcd33ac39a8250a1",
+      "error_tail": "して支払う\"],\"exp\":\"減価償却は、固定資産の取得価額を利用期間へ費用配分する会計処理です。現金の支払方法とは別の概念です。\",\"choiceExps\":[\"減価償却費の計上と現金の支払時期は一致するとは限りません。\",\"減価償却は借入金返済ではなく、固定資産の取得価額の費用配分です。\",\"固定資産の取得価額を利用期間にわたって費用として配分します。\",\"取得代金の支払方法と減価償却の費用配分は別の概念です。\"]},\"coreq_11_07_3\":{\"options\":[\"技術的な深刻度を最優先し、隔離環境の脆弱性も外部公開環境と同じ優先度で対処する\",\"資産価値が高いシステムは、脆弱性や攻撃可能性の評価より先に最高リスクへ分類する\",\"脆弱性の技術的深刻度に、資産価値・公開状況・脅威・業務影響を組み合わせてリスクを評価する\",\"事業部門が付けた業務重要度を優先し、脆弱性の技術評価は参考情報として扱う\"],\"exp\":\"セキュリティリスクは、脆弱性の技術的深刻度だけでなく、資産価値や公開状況、脅威、業務影響などを組み合わせて評価します。\",\"choiceExps\":[\"技術的深刻度だけでは組織固有の優先度を決められません。\",\"資産価値だけでなく、脆弱性や攻撃可能性も評価します。\",\"技術評価と組織固有の状況を組み合わせるのが適切です。\",\"業務重要度と技術的深刻度の両方を評価します。\"]},\"coreq_18_07_2\":{\"options\":[\"技術開発戦略では市場で注目される技術を優先し、将来製品との対応付けは研究成果が出た後に行う。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる。\",\"重点技術は自社内での研究を基本とし、共同研究や外部技術の活用は補助的な手段として扱う。\",\"技術開発投資では技術的な新規性を主要評価軸とし、市場投入時期や競争優位への寄与は事業化段階で評価する。\"],\"exp\":\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"choiceExps\":[\"事業戦略や将来製品への貢献を踏まえて重点技術を選びます。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"自社開発・共同研究・提携・技術導入などを適切に組み合わせます。\",\"技術性だけでなく、事業価値・時間軸・競争優位も評価します。\"]},\"coreq_14_02_3\":{\"options\":[\"WBSは組織内の指揮命令関係を階層的に表す\",\"WBSは各作業の開始日と終了日を時系列に並べる\",\"WBSは作業ごとのコスト実績だけを集計する\",\"WBSは成果物や作業を階層的に分解し、プロジェクトの作業範囲を明確にする\"],\"exp\":\"WBSは、プロジェクトで実施する成果物や作業を階層的に分解し、作業範囲を明確にするために使います。\",\"choiceExps\":[\"組織の指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \n\nSyntaxError: Unexpected string\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-02",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-02.txt",
+          "utf8_bytes": 4832,
+          "sha256": "6905d829d415c5e1a05594b97339e816ea8a525878a4520d32eba5a7237d0101"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-03",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "07ea5927561cc77c49639b559448873af7c27f883be42e5227fcdf6f20722213",
+      "error_tail": "/tmp/tmpcx_lob2b/variant.js:7947\nfunction assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}// ===== v132: Subject A weak style-cue / wording-bias pass =====\n                               ^\n\nError: v143 option outlier baseline drift: 10\n    at assert (/tmp/tmpcx_lob2b/variant.js:7947:38)\n    at applyV143LateFixes (/tmp/tmpcx_lob2b/variant.js:8486:5)\n    at Object.<anonymous> (/tmp/tmpcx_lob2b/variant.js:15746:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-03",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-03.txt",
+          "utf8_bytes": 4844,
+          "sha256": "4492495305c1d81e962feb91a1a151a92d6f8dc04a1e21ab9ef749c9ba1ba8e5"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-04",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "38769b2364e537c90f1c97c95942fa7992c2f2d76cab234ef2232a0a6e222830",
+      "error_tail": "FE QUEST self-check failed [\n  'Every question needs four unique options, a valid answer, explanation and hint'\n]\n/tmp/tmp76rvl4i5/variant.js:16620\nif(!__feqSelf||!__feqSelf.ok) throw new Error('snapshot self-check not ok');\n                              ^\n\nError: snapshot self-check not ok\n    at Object.<anonymous> (/tmp/tmp76rvl4i5/variant.js:16620:37)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-04",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-04.txt",
+          "utf8_bytes": 5190,
+          "sha256": "ad9946fbc45395e01e1edaaf10584f91f41a6cd0f9209aa252a6e13b1dd9f240"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-05",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "d0bcffdd11da9af657e27882e41940e31d7db5d9cc07b9305cc7f2f50525ddb2",
+      "error_tail": "払う\"],\"exp\":\"減価償却は、固定資産の取得価額を利用期間へ費用配分する会計処理です。現金の支払方法とは別の概念です。\",\"choiceExps\":[\"減価償却費の計上と現金の支払時期は一致するとは限りません。\",\"減価償却は借入金返済ではなく、固定資産の取得価額の費用配分です。\",\"固定資産の取得価額を利用期間にわたって費用として配分します。\",\"取得代金の支払方法と減価償却の費用配分は別の概念です。\"]},\"coreq_11_07_3\":{\"options\":[\"技術的な深刻度を最優先し、隔離環境の脆弱性も外部公開環境と同じ優先度で対処する\",\"資産価値が高いシステムは、脆弱性や攻撃可能性の評価より先に最高リスクへ分類する\",\"脆弱性の技術的深刻度に、資産価値・公開状況・脅威・業務影響を組み合わせてリスクを評価する\",\"事業部門が付けた業務重要度を優先し、脆弱性の技術評価は参考情報として扱う\"],\"exp\":\"セキュリティリスクは、脆弱性の技術的深刻度だけでなく、資産価値や公開状況、脅威、業務影響などを組み合わせて評価します。\",\"choiceExps\":[\"技術的深刻度だけでは組織固有の優先度を決められません。\",\"資産価値だけでなく、脆弱性や攻撃可能性も評価します。\",\"技術評価と組織固有の状況を組み合わせるのが適切です。\",\"業務重要度と技術的深刻度の両方を評価します。\"]},\"coreq_18_07_2\":{\"options\":[\"技術開発戦略では市場で注目される技術を優先し、将来製品との対応付けは研究成果が出た後に行う。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる。\",\"重点技術は自社内での研究を基本とし、共同研究や外部技術の活用は補助的な手段として扱う。\",\"技術開発投資では技術的な新規性を主要評価軸とし、市場投入時期や競争優位への寄与は事業化段階で評価する。\"],\"exp\":\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"choiceExps\":[\"事業戦略や将来製品への貢献を踏まえて重点技術を選びます。\",\"将来の製品差別化に重要な画像認識技術を重点領域と定め、自社研究と大学との共同研究を組み合わせる例があります。\",\"自社開発・共同研究・提携・技術導入などを適切に組み合わせます。\",\"技術性だけでなく、事業価値・時間軸・競争優位も評価します。\"]},\"coreq_14_02_3\":{\"options\":[\"WBSは組織内の指揮命令関係を階層的に表す\",\"WBSは各作業の開始日と終了日を時系列に並べる\",\"WBSは作業ごとのコスト実績だけを集計する\",\"WBSは成果物や作業を階層的に分解し、プロジェクトの作業範囲を明確にする\"],\"exp\":\"WBSは、プロジェクトで実施する成果物や作業を階層的に分解し、作業範囲を明確にするために使います。\",\"choiceExps\":[\"組織の指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \n\nSyntaxError: Unexpected token ':'\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-05",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-05.txt",
+          "utf8_bytes": 5186,
+          "sha256": "e639253629d4975086b713164a6048121969c717c7827149e7ef9c2a32852489"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v132-block-06",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "97b86201495806b823fe5aa7e32141f41af97ac3d9e4549a37834ee1e396aff1",
+      "error_tail": "を経た著作物について発生する\",\"著作権は原則として著作物を創作した時点で発生する\",\"プログラムは登録を行った場合に限って著作権による保護を受ける\"],\"exp\":\"著作権は原則として著作物を創作した時点で発生し、権利発生に登録を必要としません。\",\"choiceExps\":[\"著作権の発生に特許庁への登録は必要ありません。\",\"特許権などと異なり、出願・審査を権利発生要件としません。\",\"著作権は原則として創作時に発生します。\",\"プログラムも著作物として保護対象になり得ます。\"]},\"coreq_14_08_3\":{\"options\":[\"ステークホルダ間の公平性を保つため、全員へ同じ情報を同じ頻度で配布する\",\"ステークホルダの役割・関心・影響度に応じて、必要な情報の内容・粒度・頻度を設計する\",\"重要度の高いステークホルダには詳細な技術情報を毎日送り、要約報告は用いない\",\"情報共有では送信回数を優先し、受信者が理解しやすい形式かどうかは評価対象から外す\"],\"exp\":\"コミュニケーションは、ステークホルダごとの役割・関心・影響度に応じて情報の内容や頻度を設計します。\",\"choiceExps\":[\"全員へ同じ情報を送るより、必要性に応じて内容や頻度を調整します。\",\"ステークホルダの特性に応じたコミュニケーション計画が適切です。\",\"重要度だけで詳細情報を一律に増やすのではなく、必要な形式・粒度を選びます。\",\"情報が伝わり理解されることも評価する必要があります。\"]},\"coreq_12_08_3\":{\"options\":[\"HDDをクイックフォーマットすれば、機密度にかかわらずデータ消去の要件を満たす\",\"記憶媒体を資産台帳から外した時点で、媒体上のデータ消去も完了したと扱う\",\"媒体の機密度や再利用・廃棄方法に応じ、要求されるデータ消去レベルを満たす処理を選ぶ\",\"暗号化済み媒体は暗号鍵の管理状態を確認せず、通常の廃棄手順で処分する\"],\"exp\":\"記憶媒体の廃棄では、データの機密度や媒体の扱いに応じて、復元リスクを抑える適切な消去・破壊方法を選びます。\",\"choiceExps\":[\"クイックフォーマットだけではデータを復元できる場合があります。\",\"資産台帳の処理と、媒体上のデータ消去は別に確認します。\",\"要求される安全性に応じた消去・破壊方法を選びます。\",\"暗号化媒体でも、鍵管理や廃棄手順を確認する必要があります。\"]},\"coreq_21_05_3\":{\"options\":[\"技術者は納期や利益に加えて、安全性・利用者への影響・社会的責任も考慮して判断する\",\"納期と利益を最大化できる場合は、安全上の懸念を把握していても意思決定へ反映しない\",\"法令に明確な禁止条文がなければ法令適合を優先し、倫理面は問題発生後に検討する\",\"会社からの指示を最優先し、公共の安全や利用者への影響は技術者の判断範囲から外す\"],\"exp\":\"技術者倫理では、納期や利益だけでなく、安全性や利用者・社会への影響も考慮しての指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \n\nSyntaxError: Unexpected string\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "single-v132-block-06",
+      "family": "v132-leaf",
+      "basis": "v168-patch-local-leaf-review",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-06.txt",
+          "utf8_bytes": 5082,
+          "sha256": "f3a474c82d88bdc1f4d6640697a21b64941d9642bf936c74dd0ebf0f22c86f88"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v135-block-00",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "9323f5146fcc7fa8ded088667afddd2e4ec6cd43e04af80de28c473dc4f82323",
+      "error_tail": "/tmp/tmp20kd_3i7/variant.js:7947\nfunction assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}// ===== v132: Subject A weak style-cue / wording-bias pass =====\n                               ^\n\nError: v138 generic condition mismatch remains\n    at assert (/tmp/tmp20kd_3i7/variant.js:7947:38)\n    at Object.<anonymous> (/tmp/tmp20kd_3i7/variant.js:8078:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v135-block-00",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v135-block-00.txt",
+          "utf8_bytes": 2195,
+          "sha256": "ad8988b7f3967974d4032065d561224058ceed9d3af50a90c4c85ad33fbc3dc2"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v139-block-00",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "230630c67439d20211585bb0a55f48a1b36b08ab27afdcbad0036c608cb59d1d",
+      "error_tail": "/tmp/tmp8dlu001u/variant.js:8119\nconst SUBJECT_A_V139_IDS=[...SUBJECT_A_V139_IDS_0,...SUBJECT_A_V139_IDS_1];\n                         ^\n\nReferenceError: SUBJECT_A_V139_IDS_0 is not defined\n    at Object.<anonymous> (/tmp/tmp8dlu001u/variant.js:8119:26)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v139-block-00",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v139-block-00.txt",
+          "utf8_bytes": 6369,
+          "sha256": "dde1cb86b8fdee01b4b1606874c1b02c314bb183f2ec4ccf2763193c85362df1"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v139-block-01",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "4f42f2c4173230f7ae7f75fe25343160350a3c43d371026479ebc48372a04c48",
+      "error_tail": "/tmp/tmp64l4u8ny/variant.js:8152\n        throw new Error(`v141 distractor-specific remainder too short: ${q.id}/${i}`);\n        ^\n\nError: v141 distractor-specific remainder too short: challenge_004/0\n    at /tmp/tmp64l4u8ny/variant.js:8152:15\n    at Array.forEach (<anonymous>)\n    at /tmp/tmp64l4u8ny/variant.js:8147:16\n    at Array.forEach (<anonymous>)\n    at /tmp/tmp64l4u8ny/variant.js:8131:17\n    at Object.<anonymous> (/tmp/tmp64l4u8ny/variant.js:8191:3)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n\nNode.js v22.23.2\n",
+      "id": "single-v139-block-01",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v139-block-01.txt",
+          "utf8_bytes": 6377,
+          "sha256": "eadbcc38c02acabcaea01d36af9fdfce94778fb2890e5a7ed73bdd3647362cd8"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v141-block-00",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "a2083bf58e4fda2fac1ac21f0d99e91af0b6112cb80500f46a7379a58b54c7bd",
+      "error_tail": "/tmp/tmprgmnayfg/variant.js:8182\n  if(fullExpCopiesAfter !== 0) throw new Error(`v142 full-exp copy remains: ${fullExpCopiesAfter}`);\n                               ^\n\nError: v142 full-exp copy remains: 282\n    at /tmp/tmprgmnayfg/variant.js:8182:38\n    at Object.<anonymous> (/tmp/tmprgmnayfg/variant.js:8198:3)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v141-block-00",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v141-block-00.txt",
+          "utf8_bytes": 2856,
+          "sha256": "222f835e1821ab25fb35cf5f753e45006b6dc55f4196173e410909486874a878"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v142-block-00",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "4a926b6b2ea60c7709c31c3f5a44bae6ffac2314b03b46d0b14dc8943195817e",
+      "error_tail": "FE QUEST self-check failed [\n  'Removed generic distractor phrases and full correct-explanation copies must stay absent'\n]\n/tmp/tmpphdj_y0n/variant.js:16479\nif(!__feqSelf||!__feqSelf.ok) throw new Error('snapshot self-check not ok');\n                              ^\n\nError: snapshot self-check not ok\n    at Object.<anonymous> (/tmp/tmpphdj_y0n/variant.js:16479:37)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v142-block-00",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v142-block-00.txt",
+          "utf8_bytes": 6815,
+          "sha256": "d4f81eb993043900d79c3a35c8c0ce506bc4112437dbad46995cc8a1491bdd73"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "single-v143-block-00",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "756d17a549d6ee8bf6d6f3d8e04f80442b5e710b53b1643d28357eb7da0ab5f2",
+      "error_tail": "/tmp/tmp9fs99gd5/variant.js:15534\napplyV143LateFixes();window.FEQUEST_SELF_CHECK=runV169SelfCheck();\n^\n\nReferenceError: applyV143LateFixes is not defined\n    at Object.<anonymous> (/tmp/tmp9fs99gd5/variant.js:15534:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "single-v143-block-00",
+      "family": "quality-write-chain",
+      "basis": "v168-q.qualityAudit-write-chain-review",
+      "removed_paths": [
+        {
+          "path": "app/v143-block-00.txt",
+          "utf8_bytes": 14695,
+          "sha256": "4fd7ccab919bfbd8f36b6f904fcd4b07002de3edeef463d541164d81b2840bfb"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "group-v132-leaf-00-06",
+      "syntax_ok": false,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "syntax-error",
+      "error_sha256": "bd69e68c8a80a49e6fe049cef210e246144c78f3c995adb7b7c4424ee1fa97e5",
+      "error_tail": "/tmp/tmppk8n_9na/variant.js:7947\nfunction assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}の指揮命令関係を示すのは組織図などの役割です。\",\"日程の並びはガントチャートなどで表します。\",\"コスト実績の集計だけがWBSの目的ではありません。\",\"成果物や作業を階層化して、必要な作業範囲を明確にします。\"]},\"coreq_21_04_3\":{\"options\":[\"契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する\",\"受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する\",\"発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する\",\"作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する\"],\"exp\":\"契約の適法性は名称だけでなく実態で判断します。発注者が受注会社の作業者へ直接指揮命令していないかなどを確認します。\",\"choiceExps\":[\"契約書の名称だけでなく、実際の指揮命令関係などを確認する必要があります。\",\"成果物責任だけでは、指揮命令の実態を判断できません。\",\"契約名と実態が一致しているか、指揮命令関係などを確認します。\",\"雇用契約の存在だけでは、発注者からの直接指揮命令の有無を判断できません。\"]}};\n                                                                                                                \n\nSyntaxError: Invalid or unexpected token\n    at wrapSafe (node:internal/modules/cjs/loader:1713:18)\n    at checkSyntax (node:internal/main/check_syntax:78:3)\n\nNode.js v22.23.2\n",
+      "id": "group-v132-leaf-00-06",
+      "family": "v132-leaf",
+      "basis": "joint-equivalence-required-before-consolidation",
+      "removed_paths": [
+        {
+          "path": "app/v132-block-00.txt",
+          "utf8_bytes": 4802,
+          "sha256": "a6a1b49952caab2772bbbd08de2eb2c41f731f625449e06b8e90fa6d4221cd60"
+        },
+        {
+          "path": "app/v132-block-01.txt",
+          "utf8_bytes": 5222,
+          "sha256": "8571fbe5be90703f22df2177c07187a1a2b8cd953ba4915d527294b1ddf4ca75"
+        },
+        {
+          "path": "app/v132-block-02.txt",
+          "utf8_bytes": 4832,
+          "sha256": "6905d829d415c5e1a05594b97339e816ea8a525878a4520d32eba5a7237d0101"
+        },
+        {
+          "path": "app/v132-block-03.txt",
+          "utf8_bytes": 4844,
+          "sha256": "4492495305c1d81e962feb91a1a151a92d6f8dc04a1e21ab9ef749c9ba1ba8e5"
+        },
+        {
+          "path": "app/v132-block-04.txt",
+          "utf8_bytes": 5190,
+          "sha256": "ad9946fbc45395e01e1edaaf10584f91f41a6cd0f9209aa252a6e13b1dd9f240"
+        },
+        {
+          "path": "app/v132-block-05.txt",
+          "utf8_bytes": 5186,
+          "sha256": "e639253629d4975086b713164a6048121969c717c7827149e7ef9c2a32852489"
+        },
+        {
+          "path": "app/v132-block-06.txt",
+          "utf8_bytes": 5082,
+          "sha256": "f3a474c82d88bdc1f4d6640697a21b64941d9642bf936c74dd0ebf0f22c86f88"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    },
+    {
+      "label": "group-quality-write-chain",
+      "syntax_ok": true,
+      "runtime_ok": false,
+      "snapshot_sha256": null,
+      "snapshot_utf8_bytes": null,
+      "error_kind": "runtime-error",
+      "error_sha256": "0c321560a65b5b7d745dc478e3a73505a095a2faf2d78e3217a0e6732e1bf4b9",
+      "error_tail": "/tmp/tmp0n43t0kr/variant.js:7947\nfunction assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}// ===== v132: Subject A weak style-cue / wording-bias pass =====\n                               ^\n\nError: v138 generic condition mismatch remains\n    at assert (/tmp/tmp0n43t0kr/variant.js:7947:38)\n    at Object.<anonymous> (/tmp/tmp0n43t0kr/variant.js:8078:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.23.2\n",
+      "id": "group-quality-write-chain",
+      "family": "quality-write-chain",
+      "basis": "joint-counterfactual-control",
+      "removed_paths": [
+        {
+          "path": "app/v135-block-00.txt",
+          "utf8_bytes": 2195,
+          "sha256": "ad8988b7f3967974d4032065d561224058ceed9d3af50a90c4c85ad33fbc3dc2"
+        },
+        {
+          "path": "app/v139-block-00.txt",
+          "utf8_bytes": 6369,
+          "sha256": "dde1cb86b8fdee01b4b1606874c1b02c314bb183f2ec4ccf2763193c85362df1"
+        },
+        {
+          "path": "app/v139-block-01.txt",
+          "utf8_bytes": 6377,
+          "sha256": "eadbcc38c02acabcaea01d36af9fdfce94778fb2890e5a7ed73bdd3647362cd8"
+        },
+        {
+          "path": "app/v141-block-00.txt",
+          "utf8_bytes": 2856,
+          "sha256": "222f835e1821ab25fb35cf5f753e45006b6dc55f4196173e410909486874a878"
+        },
+        {
+          "path": "app/v142-block-00.txt",
+          "utf8_bytes": 6815,
+          "sha256": "d4f81eb993043900d79c3a35c8c0ce506bc4112437dbad46995cc8a1491bdd73"
+        },
+        {
+          "path": "app/v143-block-00.txt",
+          "utf8_bytes": 14695,
+          "sha256": "4fd7ccab919bfbd8f36b6f904fcd4b07002de3edeef463d541164d81b2840bfb"
+        }
+      ],
+      "equivalent_to_baseline": false,
+      "baseline_snapshot_sha256": "9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f"
+    }
+  ],
+  "decision": {
+    "v132_leaf_group": "retain-pending-further-analysis",
+    "quality_write_chain": "retain-current-production-blocks",
+    "automatic_removal_authorized": false,
+    "reason": "v169 measures startup/runtime-state equivalence only; production source removal requires a separate controlled release"
+  }
+}

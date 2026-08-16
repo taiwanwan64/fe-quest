@@ -1,0 +1,189 @@
+{
+  "name": "production-equivalence-plan-v169",
+  "version": "v169",
+  "scope": "v132-v144-consolidation-preflight",
+  "policy": "counterfactual-runtime-snapshot-no-production-removal",
+  "source_inventory": {
+    "path": "_regression/production-patch-chain-v167.fixture.json",
+    "utf8_bytes": 40326,
+    "sha256": "a9cef4b42015a6adb0e64b1383fdfc77537f6ac943ad8f74b9b12caf870d543e"
+  },
+  "effect_inventory": {
+    "path": "_regression/production-patch-effects-v168.fixture.json",
+    "utf8_bytes": 59355,
+    "sha256": "eb6d5abc3271e85c90064074bb15cd432a5b03ddb5e9bd1510272595a9da4031"
+  },
+  "baseline": {
+    "generated_source": "_site/index.html",
+    "patch_count": 47,
+    "question_count": 710,
+    "snapshot_components": [
+      "canonical-full-question-bank",
+      "fequest-self-check",
+      "diagnostic-contract-data",
+      "diagnostic-data-provenance",
+      "selected-feq-run-global-surface",
+      "answer-and-cognitive-distributions"
+    ]
+  },
+  "candidate_families": {
+    "v132_leaf_blocks": [
+      "app/v132-block-00.txt",
+      "app/v132-block-01.txt",
+      "app/v132-block-02.txt",
+      "app/v132-block-03.txt",
+      "app/v132-block-04.txt",
+      "app/v132-block-05.txt",
+      "app/v132-block-06.txt"
+    ],
+    "quality_write_chain_blocks": [
+      "app/v135-block-00.txt",
+      "app/v139-block-00.txt",
+      "app/v139-block-01.txt",
+      "app/v141-block-00.txt",
+      "app/v142-block-00.txt",
+      "app/v143-block-00.txt"
+    ]
+  },
+  "single_candidate_count": 13,
+  "variant_count": 15,
+  "variants": [
+    {
+      "id": "single-v132-block-00",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-00.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-01",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-01.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-02",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-02.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-03",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-03.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-04",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-04.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-05",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-05.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v132-block-06",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-06.txt"
+      ],
+      "basis": "v168-patch-local-leaf-review"
+    },
+    {
+      "id": "single-v135-block-00",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v135-block-00.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "single-v139-block-00",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v139-block-00.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "single-v139-block-01",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v139-block-01.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "single-v141-block-00",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v141-block-00.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "single-v142-block-00",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v142-block-00.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "single-v143-block-00",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v143-block-00.txt"
+      ],
+      "basis": "v168-q.qualityAudit-write-chain-review"
+    },
+    {
+      "id": "group-v132-leaf-00-06",
+      "family": "v132-leaf",
+      "removed_paths": [
+        "app/v132-block-00.txt",
+        "app/v132-block-01.txt",
+        "app/v132-block-02.txt",
+        "app/v132-block-03.txt",
+        "app/v132-block-04.txt",
+        "app/v132-block-05.txt",
+        "app/v132-block-06.txt"
+      ],
+      "basis": "joint-equivalence-required-before-consolidation"
+    },
+    {
+      "id": "group-quality-write-chain",
+      "family": "quality-write-chain",
+      "removed_paths": [
+        "app/v135-block-00.txt",
+        "app/v139-block-00.txt",
+        "app/v139-block-01.txt",
+        "app/v141-block-00.txt",
+        "app/v142-block-00.txt",
+        "app/v143-block-00.txt"
+      ],
+      "basis": "joint-counterfactual-control"
+    }
+  ],
+  "decision_policy": {
+    "runtime_snapshot_equivalent_does_not_mean_automatic_removal": true,
+    "joint_group_equivalence_required_for_group_consolidation": true,
+    "non_equivalent_or_runtime_error_blocks_removal": true,
+    "next_step_for_equivalent_group": "controlled-source-removal-with-byte/runtime regression in a later release"
+  }
+}

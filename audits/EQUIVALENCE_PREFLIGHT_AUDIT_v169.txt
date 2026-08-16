@@ -1,0 +1,53 @@
+FE QUEST v169 — Counterfactual Runtime Equivalence Preflight
+============================================================
+
+Scope
+-----
+v169 does not remove or rewrite any v132-v144 learning patch. It executes generated production HTML as a baseline, then removes candidate block text only in temporary counterfactual copies and compares canonical runtime snapshots.
+
+Snapshot components
+-------------------
+- canonical full QUESTION_BANK
+- FEQUEST_SELF_CHECK
+- FEQ_DIAGNOSTIC_CONTRACT_DATA
+- FEQ_DIAGNOSTIC_DATA_PROVENANCE
+- selected feq/runV global surface
+- answer and cognitive-level distributions
+
+Results
+-------
+Baseline snapshot SHA-256: 9fb734517b2bc1271c0bbee9778907ed9e812c0c50eb5de8806e2e1def0cdc4f
+Baseline snapshot UTF-8 bytes: 1050743
+Single candidates: 13
+Total variants including two joint groups: 15
+Equivalent variants: 0
+Non-equivalent variants: 15
+Runtime-error variants: 15
+v132 leaf joint group equivalent: false
+quality write-chain joint group equivalent: false
+
+Variant detail
+--------------
+- single-v132-block-00: RUNTIME_ERROR
+- single-v132-block-01: RUNTIME_ERROR
+- single-v132-block-02: RUNTIME_ERROR
+- single-v132-block-03: RUNTIME_ERROR
+- single-v132-block-04: RUNTIME_ERROR
+- single-v132-block-05: RUNTIME_ERROR
+- single-v132-block-06: RUNTIME_ERROR
+- single-v135-block-00: RUNTIME_ERROR
+- single-v139-block-00: RUNTIME_ERROR
+- single-v139-block-01: RUNTIME_ERROR
+- single-v141-block-00: RUNTIME_ERROR
+- single-v142-block-00: RUNTIME_ERROR
+- single-v143-block-00: RUNTIME_ERROR
+- group-v132-leaf-00-06: RUNTIME_ERROR
+- group-quality-write-chain: RUNTIME_ERROR
+
+Decision policy
+---------------
+v132 leaf group: retain-pending-further-analysis
+quality write chain: retain-current-production-blocks
+Automatic production removal authorized: false
+
+This is a runtime snapshot equivalence preflight, not a proof that hidden future behavior can never depend on a removed lexical declaration. Any source deletion must occur in a later release with the same full regression suite plus an exact source-diff allowlist.
