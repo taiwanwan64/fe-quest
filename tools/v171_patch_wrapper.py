@@ -1,4 +1,5 @@
 from pathlib import Path
+# Align the exact-inventory set cardinality after adding runV170SelfCheck to the retired adapter boundary.
 p=Path('app/runtime-diagnostic-wrapper.txt')
 s=p.read_text()
 s=s.replace('new Set(retiredAdapters).size===10','new Set(retiredAdapters).size===11')
