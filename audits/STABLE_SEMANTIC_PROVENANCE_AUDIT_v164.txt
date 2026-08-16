@@ -1,0 +1,65 @@
+FE QUEST v164 — STABLE SEMANTIC PROVENANCE AUDIT
+Date: 2026-08-16 JST
+
+Goal
+- Remove stale v159-derived active semantic provenance identifiers from production diagnostics.
+- Preserve historical source-version provenance where it is genuinely archival.
+- Keep the v163 single semantic runtime loader and exact rendered runtime identity unchanged.
+
+Active provenance stabilization
+- app/runtime-diagnostic-data-finalize.txt now exposes:
+  sourceModule: app/runtime-semantic-diagnostics.txt
+  projectionMode: stable-semantic-runtime-loader
+- Retired active identifiers no longer appear in generated production:
+  app/runtime-semantic-diagnostics-v159-parts
+  materialized-semantic-runtime-source-v159
+- Historical per-field sourceVersion values v148-v152 remain because they describe actual provenance rather than active runtime naming.
+
+Stable runtime policy
+- FEQ_DIAGNOSTIC_RUNTIME_SPEC.stableRuntimePathPolicy: single-semantic-runtime-loader
+- Top-level production assembler still names exactly one semantic runtime module:
+  app/runtime-semantic-diagnostics.txt
+- Loader backing remains nine stable semantic runtime parts.
+- Rendered runtime remains exactly 55,525 UTF-8 bytes.
+- Rendered SHA-256 remains 88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50.
+- v159 part paths remain only as archival/provenance inventory.
+
+Data finalizer identity
+- app/runtime-diagnostic-data-finalize.txt
+- UTF-8 bytes: 1,246
+- SHA-256: 7334c3b40e084fbf4e96bba94dd3297188fbae15d5739844208956ae3036c4d6
+
+Stable wrapper identity
+- app/runtime-diagnostic-wrapper.txt
+- UTF-8 bytes: 19,135
+- SHA-256: 4f2e73814375b2f6873b42a04b9612510629238d4ff6e417452bb0bddc37d9a2
+- Stable wrapper globals: 6
+- Retired v159 wrapper globals absent: 6
+- Retired release adapters tracked: runV160SelfCheck, runV161SelfCheck, runV162SelfCheck, runV163SelfCheck
+- v164 release adapter: runV164SelfCheck only
+
+Regression fixture
+- _regression/stable-semantic-provenance-v164.fixture.json
+- Pins active provenance values, data finalizer identity, stable wrapper identity, unchanged semantic runtime identity, and release adapter inventory.
+
+Preserved release invariants
+- Current contract: 71/71
+- Browser UI: 23/23 + required DOM
+- Stable semantic helpers: 17
+- Retired historical function globals absent: 46
+- Semantic data keys: 6
+- Versioned data backing globals: 0
+- Critical curriculum: 56/56
+- Remaining release sentinel: 28/28
+- CI declarative coverage: 84/84
+- Legacy fixture: 293 assertions, 22 raw legacy errors, 0 residual active errors
+- Production legacy evaluator: absent
+- Subject A question bank: 710 unique IDs
+- Answer distribution: A178 / B178 / C177 / D177
+- Cognitive distribution: 想起166 / 適用323 / 判断221
+- Profile Schema: v5
+
+Scope
+- No question wording, options, answers, cognition metadata, Profile Schema, or visible learning UI changes.
+- No change to semantic runtime bytes.
+- PWA service-worker behavior remains GET_VERSION + network timeout + stale-while-revalidate + Range bypass.
