@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "release": "v193",
+  "previous_release": "v192",
+  "parent_main_sha": "bf67054e94b3505ec22bf45f46cfe85ec546f0de",
+  "policy": "explicit-subject-a-question-field-overrides-only",
+  "quality_audit_marker": "v193-medium-repair",
+  "source_quality_audit": "_regression/subject-a-quality-audit-v192.fixture.json",
+  "source_priority_tier": "medium",
+  "content_files": ["app/learning-quality-overrides-v193.txt"],
+  "assembly_files": ["index.html"],
+  "allowed_question_ids": ["coreq_10_04_2","challenge_036","coreq_09_02_3","coreq_14_10_3","coreq_15_08_3"],
+  "allowed_changed_question_fields": ["q","options","exp","hint","choiceExps","qualityAudit"],
+  "preserve": {
+    "question_count": 710,
+    "unique_ids": 710,
+    "answer_distribution": [178,178,177,177],
+    "cognitive_distribution": [166,323,221],
+    "answer_index_per_question": true,
+    "cognitive_level_per_question": true,
+    "category_per_question": true,
+    "concept_per_question": true
+  },
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration"
+}
