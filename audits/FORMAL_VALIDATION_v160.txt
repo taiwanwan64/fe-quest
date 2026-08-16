@@ -1,0 +1,35 @@
+FE QUEST v160 FORMAL VALIDATION
+Date: 2026-08-16 JST
+Workflow run: 31919654454
+Validation job: 95097319033
+Validated head SHA: a8c6a787155a9ea8296c7b1ce747ae271091102e
+Result: success
+Jekyll: GitHub Pages github-pages v232 / Jekyll 3.10.0
+
+Runtime gates:
+- current-contract 71/71
+- browser UI 23/23 + required DOM
+- stable runtime helpers 17
+- retired v145-v152 diagnostic functions 46 absent
+- stable wrapper globals 6 present
+- retired v159 wrapper globals 0 present
+- release adapter 1 present
+- semantic data 6 / versioned backing 0
+- critical curriculum 56/56
+- release sentinel 28/28
+- declarative CI 84/84
+- release-only legacy 293 / raw 22 / residual 0
+- Subject A 710 / unique IDs 710
+- answer distribution A178 B178 C177 D177
+- cognitive levels 想起166 適用323 判断221
+- Profile Schema v5
+
+Artifact:
+- ID 9255950215
+- outer SHA-256 913cfa56b638c8e87eeb60ba3639a45b344a86b7458d3720fff96d6d3bec8a7e
+- inner FE_QUEST_PWA_v160.zip SHA-256 cb7a5d3acd4835e6ab8870041e678c55a208d48f82ed97e9854c54b39e66e394
+- inner size 766444 bytes
+- expanded index SHA-256 6bb2c51086b1eeb6539f6b7902fdd6c60f33f8e5e8586657d6b258bc80e4308a
+- expanded index size 3471972 bytes
+
+Temporary validation workflow/validator/runtime-stub are removed before release main.
