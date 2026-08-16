@@ -1,0 +1,128 @@
+{
+  "name": "subject-b-security-repairs-v200",
+  "version": "v200",
+  "previous_version": "v199",
+  "parent_main_sha": "bdfc9dba706751e700c85094b3fbfaf4076a0630",
+  "scope": "explicit-current-scope-subject-b-security-repair",
+  "manifest": {
+    "path": "_release/content-change-v200.json",
+    "utf8_bytes": 1632,
+    "sha256": "7a18084c3e0a27f8ce54634039086ae5e039dc264c6c1a221dbabb6dfe58319a"
+  },
+  "source_quality_audit": {
+    "path": "_regression/subject-b-prediction-quality-v199.fixture.json",
+    "utf8_bytes": 7367,
+    "sha256": "de81f0bd36f59e554b6fa6916c86b66b2096a82a8d3a4d748f6fdc693fcadbd6"
+  },
+  "source_priority_tier": "high",
+  "content_files": [
+    {
+      "path": "app/subject-b-security-overrides-v200.txt",
+      "utf8_bytes": 14833,
+      "sha256": "f0fb6c7c34b18b37b44c74ac4ee91805b6b05cbcd49accb66e20ca8fe40c4fb0"
+    }
+  ],
+  "changed_security_count": 4,
+  "changed_security_ids": [
+    "certificate",
+    "crypto_choice",
+    "password_hash",
+    "signed_update"
+  ],
+  "preserved_levels": {
+    "certificate": "標準",
+    "crypto_choice": "標準",
+    "password_hash": "基礎",
+    "signed_update": "標準"
+  },
+  "preserved_answer_positions": {
+    "certificate": [
+      2,
+      2,
+      3
+    ],
+    "crypto_choice": [
+      3,
+      3,
+      2
+    ],
+    "password_hash": [
+      1,
+      1,
+      2
+    ],
+    "signed_update": [
+      0,
+      2,
+      3
+    ]
+  },
+  "security_level_distribution": {
+    "基礎": 4,
+    "標準": 8,
+    "応用": 3
+  },
+  "security_answer_distribution": [
+    12,
+    11,
+    11,
+    11
+  ],
+  "security_mock_count": 8,
+  "security_mock_quotas": {
+    "基礎": 2,
+    "標準": 4,
+    "応用": 2
+  },
+  "final_counts": [
+    20,
+    16,
+    4
+  ],
+  "subject_a_deep_identical_to_parent": true,
+  "b_exercises_deep_identical_to_parent": true,
+  "b_compound_sets_deep_identical_to_parent": true,
+  "semantic_contract_migration": {
+    "first_keys": [
+      "certificate",
+      "crypto_choice",
+      "password_hash",
+      "signed_update"
+    ],
+    "step_keys": [
+      "certificate:1",
+      "certificate:2",
+      "certificate:3",
+      "crypto_choice:1",
+      "crypto_choice:2",
+      "crypto_choice:3",
+      "password_hash:1",
+      "password_hash:2",
+      "password_hash:3",
+      "signed_update:1",
+      "signed_update:2",
+      "signed_update:3"
+    ],
+    "bindings_valid": true
+  },
+  "subject_b_content_release_tooling": [
+    {
+      "path": ".github/subject-b-content-release/validate_content.py",
+      "utf8_bytes": 12942,
+      "sha256": "40fa4ee7363712bb90ac9b7a81e5558aed2eda47e1a0bed8c6874f211c1515d5",
+      "parent_byte_identical": false
+    },
+    {
+      "path": ".github/workflows/subject-b-content-release-validate.yml",
+      "utf8_bytes": 4268,
+      "sha256": "0e2f7af526a5b9d63d5d0c113c3dabca6a562742a21b07928f270d8150838ee8",
+      "parent_byte_identical": false
+    }
+  ],
+  "stable_release_and_subject_a_content_tooling_byte_identical_to_parent": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "parent_runtime_comparison": true,
+  "learner_facing_change": true,
+  "copyright_policy": "Original FE QUEST wording only. Attached Subject B books are used only for scope, structure, terminology and difficulty calibration; proprietary question wording is not copied.",
+  "status": "passed"
+}

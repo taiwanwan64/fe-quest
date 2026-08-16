@@ -1,0 +1,37 @@
+FE QUEST v200 — Subject B Security Scope Repair Audit
+=========================================================
+
+Previous: v199
+Parent main: bdfc9dba706751e700c85094b3fbfaf4076a0630
+Changed security scenarios: 4
+Source audit: _regression/subject-b-prediction-quality-v199.fixture.json / tier=high
+
+Changed legacy IDs
+------------------
+- certificate: level=標準, answers=2/2/3
+- crypto_choice: level=標準, answers=3/3/2
+- password_hash: level=基礎, answers=1/1/2
+- signed_update: level=標準, answers=0/2/3
+
+Isolation proofs
+----------------
+Subject A QUESTION_BANK: deep-identical to parent
+B_EXERCISES: deep-identical to parent
+B_COMPOUND_SETS: deep-identical to parent
+SECURITY_SCENARIOS: exactly 4 declared IDs changed
+Semantic contract migration: exactly 4 first-step + 12 step contracts changed and rebound to new correct options
+Out-of-scope crypto/signature/certificate/PKI/secure-protocol mechanics in changed user-facing scenarios: absent
+
+Invariants
+----------
+Security scenarios: 15
+Levels: {"基礎": 4, "標準": 8, "応用": 3}
+Answer positions: [12, 11, 11, 11]
+Security mini mock: 8 / quotas {"基礎": 2, "標準": 4, "応用": 2}
+Final practice: total 20 / algorithm 16 / security 4
+Subject B semantic validator: OK
+Candidate/reference six-file equality: yes
+
+Policy
+------
+Original FE QUEST wording only. Attached Subject B books are used only for scope, structure and difficulty calibration.
