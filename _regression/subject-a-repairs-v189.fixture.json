@@ -1,0 +1,157 @@
+{
+  "name": "subject-a-repairs-v189",
+  "version": "v189",
+  "previous_version": "v188",
+  "parent_main_sha": "0affd1520d556b7869a8d1496e2fe5c191073591",
+  "scope": "explicit-high-severity-subject-a-content-repair",
+  "manifest": {
+    "path": "_release/content-change-v189.json",
+    "utf8_bytes": 1180,
+    "sha256": "6abf7533ff12a7813897a399d1a79a329be138293396bbd8d508ed7cbf17dae7"
+  },
+  "source_quality_audit": {
+    "path": "_regression/subject-a-quality-audit-v188.fixture.json",
+    "utf8_bytes": 6263,
+    "sha256": "df10582d65cf137bdb2b85dd1012c756d93677f927be9b55201b22d96bb6382c"
+  },
+  "source_priority_tier": "high",
+  "content_files": [
+    {
+      "path": "app/learning-quality-overrides.txt",
+      "utf8_bytes": 11515,
+      "sha256": "316f1e106f378b647c98dbb534685457788ce6f23aebeb3a295e360277198f26"
+    }
+  ],
+  "changed_question_count": 10,
+  "changed_question_ids": [
+    "theory-10",
+    "theory-07",
+    "challenge_025",
+    "coreq_14_02_1",
+    "coreq_06_05_1",
+    "coreq_15_01_1",
+    "coreq_18_02_1",
+    "coreq_15_07_1",
+    "challenge_v92_12_06",
+    "strat-06"
+  ],
+  "changed_fields": {
+    "strat-06": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "theory-07": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "theory-10": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_06_05_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_14_02_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_15_01_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_15_07_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "coreq_18_02_1": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ],
+    "challenge_025": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "q",
+      "qualityAudit"
+    ],
+    "challenge_v92_12_06": [
+      "choiceExps",
+      "exp",
+      "hint",
+      "options",
+      "q",
+      "qualityAudit"
+    ]
+  },
+  "answer_distribution": [
+    178,
+    178,
+    177,
+    177
+  ],
+  "cognitive_distribution": {
+    "想起": 166,
+    "適用": 323,
+    "判断": 221
+  },
+  "question_count": 710,
+  "unique_ids": 710,
+  "content_release_tooling": [
+    {
+      "path": ".github/content-release/prepare_reference.py",
+      "utf8_bytes": 3297,
+      "sha256": "014dc710077bb97680845d31f4e80ef8c202a9b10e6244a208078a118d88515d",
+      "parent_byte_identical": false
+    },
+    {
+      "path": ".github/content-release/validate_content.py",
+      "utf8_bytes": 9171,
+      "sha256": "d5d0cde6e74e33383cd4f4105b1a1fb299963c34edeafe58e6810c34e449022b",
+      "parent_byte_identical": false
+    },
+    {
+      "path": ".github/workflows/content-release-validate.yml",
+      "utf8_bytes": 4011,
+      "sha256": "e5eb6d6fe51af746d85378eac57d0bde6f86a79ac265589eed6131d194284ec0",
+      "parent_byte_identical": false
+    }
+  ],
+  "standard_release_architecture_byte_identical_to_parent": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "parent_runtime_comparison": true,
+  "learner_facing_change": true,
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope and difficulty calibration",
+  "status": "passed"
+}
