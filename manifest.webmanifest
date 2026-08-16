@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v181",
+  "name": "FE QUEST v182",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v181ではrelease diagnostic metadataがAPP_VERSIONを唯一のversion sourceとして利用し、metadata module自体を通常releaseでbyte-stable化する。stable wrapper・stable release adapter・stable archive inventory・diagnostic archive 58・科目A710問・current contract 71・browser UI 23・CI 84/84・legacy 293 residual 0を維持する。",
+  "description": "基本情報技術者試験向けPWA。v182ではdiagnostic wrapper・release adapter・release metadata・archive inventoryの4モジュールをv181から完全byte-stableのまま維持し、APP_VERSIONだけでrunV182SelfCheckとretired adapter 22件を自動導出するsteady-state release cadenceを実証する。科目A710問・current contract 71・browser UI 23・CI 84/84・legacy 293 residual 0を維持する。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",

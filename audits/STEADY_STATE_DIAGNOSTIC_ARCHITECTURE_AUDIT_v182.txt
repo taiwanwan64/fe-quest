@@ -1,0 +1,40 @@
+FE QUEST v182 — Steady-State Diagnostic Architecture Audit
+===========================================================
+
+Result
+------
+PASSED authoritative GitHub Pages/Jekyll validation.
+
+Byte-stable architecture
+------------------------
+Wrapper: 19,860 / 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Release adapter: 211 / 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Release metadata: 859 / 8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2
+Archive inventory: 17,671 / b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+All byte-identical to v181 parent: yes
+Release-specific diagnostic architecture changed files: 0
+
+Runtime
+-------
+APP_VERSION / releaseVersion: v182
+Current adapter: runV182SelfCheck
+Retired adapters: 22 (runV160SelfCheck through runV181SelfCheck)
+Diagnostic archive: 58 / growth 0
+Canonical runtime: 1,055,257 bytes / SHA-256 c4e7cadc5253618f73bc2b39e2a43c415ec58ec41b8fa37ef7792ac972e05b1e
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+
+Generated HTML
+--------------
+3,475,519 bytes / SHA-256 8c419c9609187ab83ba85a4a334442ed5c8df43ff5839950d07bb535336bdbfa
+
+Contracts
+---------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw22 / residual0
+Questions 710 / unique710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221
