@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "v200",
+  "previous_release": "v199",
+  "parent_main_sha": "bdfc9dba706751e700c85094b3fbfaf4076a0630",
+  "policy": "explicit-subject-b-security-scenario-overrides-only",
+  "quality_audit_marker": "v200-security-scope-repair",
+  "source_quality_audit": "_regression/subject-b-prediction-quality-v199.fixture.json",
+  "source_priority_tier": "high",
+  "content_files": [
+    "app/subject-b-security-overrides-v200.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "allowed_security_scenario_ids": [
+    "certificate",
+    "crypto_choice",
+    "password_hash",
+    "signed_update"
+  ],
+  "legacy_persistence_ids": [
+    "certificate",
+    "crypto_choice",
+    "password_hash",
+    "signed_update"
+  ],
+  "subject_b_validator_adoption": true,
+  "preserve": {
+    "subject_a_question_count": 710,
+    "b_exercises": 20,
+    "b_compound_sets": 15,
+    "security_scenarios": 15,
+    "security_questions": 45,
+    "security_levels": {
+      "基礎": 4,
+      "標準": 8,
+      "応用": 3
+    },
+    "security_answer_distribution": [12, 11, 11, 11],
+    "security_mock_quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "final": {
+      "count": 20,
+      "algorithm": 16,
+      "security": 4
+    }
+  },
+  "copyright_policy": "original FE QUEST wording only; attached books used only for scope, terminology, emphasis and difficulty calibration"
+}

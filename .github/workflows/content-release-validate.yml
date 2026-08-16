@@ -77,7 +77,19 @@ jobs:
           GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Validate explicit learner-content diff
-        run: python3 .github/content-release/validate_content.py
+        shell: bash
+        run: |
+          POLICY="$(python3 - <<'PY'
+          import json, os
+          version=os.environ['GITHUB_REF_NAME'].removesuffix('-content-staging')
+          print(json.load(open(f'_release/content-change-{version}.json'))['policy'])
+          PY
+          )"
+          if [[ "$POLICY" == "explicit-subject-b-security-scenario-overrides-only" ]]; then
+            python3 .github/content-release/validate_subject_b_content.py
+          else
+            python3 .github/content-release/validate_content.py
+          fi
 
       - name: Commit validated release shell and evidence
         shell: bash
