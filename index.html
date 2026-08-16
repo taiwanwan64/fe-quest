@@ -11,6 +11,7 @@
 {% capture runtimeGuard %}function assert(ok,msg){if(!ok)throw new Error(msg||'FE QUEST runtime assertion failed');}{% endcapture %}
 {% capture learningPatches %}{% include_relative app/learning-patches.txt %}{% endcapture %}
 {% capture learningQualityOverrides %}{% include_relative app/learning-quality-overrides.txt %}{% endcapture %}
+{% capture learningQualityOverridesV191 %}{% include_relative app/learning-quality-overrides-v191.txt %}{% endcapture %}
 
 
 
@@ -32,5 +33,5 @@
 {% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v190</title>" %}
 {% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v190';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
-{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
+{% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ learningQualityOverridesV191 }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
