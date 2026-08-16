@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "FE QUEST v160",
+  "name": "FE QUEST v161",
   "short_name": "FE QUEST",
-  "description": "基本情報技術者試験向けPWA。v160ではstable semantic wrapper/self-check APIへ移行し、version固有entryを薄いrelease adapterにした。v159では検証済みsemantic runtimeを正式source moduleとしてmaterializeし、production Jekyll build時のhistorical-name変換を0にした。stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
+  "description": "基本情報技術者試験向けPWA。v161では診断データのprelude/finalizeをstable semantic filenameへ移行し、旧version付きファイルは回帰provenanceとして保持。stable wrapper 6、stable helper 17、current-contract 71、科目A710問、Profile Schema v5、browser UI 23、critical curriculum 56、remaining release sentinel 28、CI coverage 84/84、legacy 293 residual 0を維持。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
@@ -10,11 +10,26 @@
   "orientation": "any",
   "background_color": "#f6f8fb",
   "theme_color": "#58cc02",
-  "categories": ["education"],
-  "icons": [
-    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  "categories": [
+    "education"
   ],
-  "display_override": ["standalone","browser"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
   "prefer_related_applications": false
 }
