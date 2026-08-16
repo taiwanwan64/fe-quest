@@ -98,6 +98,11 @@ CLEANUP
 - Temporary tools/v159_runtime_stub.py removed after successful validation.
 - Reproduction copies of validator/stub belong only in the v159 handoff package.
 
+FINAL RELEASE STATE
+- This audit was finalized after temporary validation tooling cleanup.
+- The commit containing this audit is the release candidate that is fast-forwarded to main.
+- Exact final-main Pages build/deploy status is verified separately after main is moved.
+
 NEXT — v160
 - Remove remaining version-label coupling from the production wrapper/self-check layer while preserving v159's direct materialized runtime.
 - Introduce stable semantic wrapper/self-check names and keep the version-specific release entry point as a thin boot adapter.
