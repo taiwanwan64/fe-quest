@@ -1,0 +1,148 @@
+FE QUEST v190 — Subject A Post-v189 Quality Re-audit
+======================================================
+
+Purpose
+-------
+Audit only. v190 does not change learner-facing question text, answers, explanations,
+difficulty labels or cognitive labels.
+
+Source release
+--------------
+v189 main: 486e5c7d8a8e335d75978c9f6c4059437f23c02d
+tree: 4ef6a41209397297f526b90ddedaa87544ae918b
+generated index: 3,487,035 bytes
+SHA-256: 3f4be4fe3a7d4761ba99535681408cae7b0b249f5385aee663a293ba5ea7b308
+
+Reference basis
+---------------
+The attached 2026/令和8年度 textbook and problem book remain calibration references
+for chapter/topic coverage, terminology, emphasis and FE-level difficulty only.
+Proprietary question text is not copied into FE QUEST.
+
+Corpus / coverage
+-----------------
+Questions: 710 / unique IDs: 710
+Answers: A178 / B178 / C177 / D177
+Cognitive: 想起166 / 適用323 / 判断221
+Difficulty: 基礎206 / 標準345 / 実戦159
+Categories: 基礎理論91 / アルゴリズム42 / コンピュータ113 / データベース55 /
+            ネットワーク62 / セキュリティ54 / マネジメント142 / ストラテジ151
+
+21 chapters / 130 mapped topics
+Covered topics: 130 / 130
+Minimum questions per topic: 4
+Maximum questions per topic: 12
+Topics with exactly four questions: 59
+Technology / Management / Strategy: 470 / 90 / 150
+
+v188 -> v190 screening comparison
+---------------------------------
+Exact normalized stem duplicates: 0 -> 0
+Same-topic near duplicates >=0.72: 34 -> 29  (-5)
+Same-topic near duplicates >=0.80: 15 -> 12  (-3)
+Answer-length cue flags: 19 -> 16  (-3)
+Distractor-only absolute-word asymmetry: 31 -> 31  (no net change)
+
+Near-duplicate pairs removed by the v189 batch:
+- theory-03 / theory-10
+- theory-07 / coreq_01_02_1
+- computer-13 / challenge_025
+- coreq_05_04_2 / challenge_025
+- coreq_06_05_1 / coreq_06_05_2
+
+Answer-length flags cleared:
+- challenge_v92_12_06
+- coreq_15_01_1
+- strat-06
+
+Absolute-word asymmetry:
+- cleared: coreq_15_07_1
+- newly flagged: coreq_06_05_1
+
+The last point is important: v189 improved the OSS question overall, but the distractor
+"OSSは必ず有料契約が必要..." introduced a new absolute-word screening flag.
+The validator did not fail because this scan is a review heuristic rather than a hard semantic
+contract. v190 therefore returns this ID to the High queue instead of hiding the regression.
+
+Current High queue
+------------------
+7 unique IDs:
+- computer-13
+- coreq_02_04_2
+- coreq_05_02_1
+- coreq_05_04_2
+- coreq_06_05_1
+- coreq_06_05_2
+- coreq_21_04_1
+
+Reasons:
+1. computer-13 / coreq_05_04_2
+   Two direct MTBF/MTTR availability calculations remain strongly similar.
+2. coreq_02_04_2
+   The correct option is a one-character state while distractors are verbose; one wrong choice
+   also uses 必ず, so form alone can help eliminate answers.
+3. coreq_05_02_1
+   The correct architecture term is conspicuously longer and the distractors are weakly related
+   to system architecture.
+4. coreq_06_05_1 / coreq_06_05_2
+   OSS distractors still rely on absolute claims such as 必ず / すべて.
+5. coreq_21_04_1
+   The stem is terse and the wrong choices are implausible enough to solve by elimination.
+
+Resolved or dropped from the v188 High queue
+---------------------------------------------
+- challenge_025
+- challenge_v92_12_06
+- coreq_01_02_1
+- coreq_14_02_1
+- coreq_15_01_1
+- coreq_15_07_1
+- coreq_18_02_1
+- mgmt-01
+- strat-06
+- theory-03
+- theory-07
+- theory-10
+
+In particular, coreq_01_02_1, mgmt-01 and theory-03 were not edited in v189, but their
+duplicate partners were diversified enough that these untouched questions no longer justify
+High-priority repair on repetition grounds.
+
+Medium queue
+------------
+24 IDs remain from the v188 manual review:
+- challenge_036
+- challenge_044
+- challenge_046
+- challenge_v92_01_07
+- challenge_v92_02_08
+- coreq_09_02_2
+- coreq_09_02_3
+- coreq_10_04_2
+- coreq_11_02_2
+- coreq_11_02_3
+- coreq_12_01_2
+- coreq_12_01_3
+- coreq_14_10_2
+- coreq_14_10_3
+- coreq_15_08_2
+- coreq_15_08_3
+- coreq_16_01_2
+- coreq_16_01_3
+- coreq_17_02_2
+- coreq_17_02_3
+- media-01
+- net-03
+- net-12
+- theory-06
+
+Decision
+--------
+v189 produced measurable improvement without changing corpus size or cognitive balance.
+Do not repair more questions in v190.
+
+Recommended v191:
+- repair all seven current High IDs first;
+- add at most three Medium IDs only when the defect is clear after manual review;
+- preserve 710/710 IDs, A/B/C/D=178/178/177/177 and 想起/適用/判断=166/323/221;
+- use the stable content-release validator introduced in v189.
