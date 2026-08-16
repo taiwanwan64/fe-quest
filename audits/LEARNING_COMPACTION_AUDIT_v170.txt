@@ -1,0 +1,41 @@
+FE QUEST v170 — Learning Patch Compaction Equivalence Audit
+================================================================
+
+Purpose
+-------
+Materialize the unchanged v132-v144 learning patch chain as one byte-exact production bundle, while retaining all 47 original source fragments as regression evidence.
+
+Source identity
+---------------
+Base: app/base-v131.html / 3,041,328 bytes / SHA-256 1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a
+Original patch fragments: 47 across v132-v144
+Original patch concat: 405,723 bytes / SHA-256 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+New production learning bundle: app/learning-patches-v170.txt / 405,723 bytes / SHA-256 6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8
+Bundle materialization: exact byte concatenation in the canonical v167 assembly order
+
+Assembler equivalence
+---------------------
+Production assembler learning includes: 1
+Expanded reference assembler learning includes: 47
+Production Jekyll index bytes: 3,474,172
+Production Jekyll index SHA-256: 3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3
+Expanded-reference Jekyll index bytes: 3,474,172
+Expanded-reference Jekyll index SHA-256: 3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3
+Byte-exact generated HTML equality: true
+
+Canonical runtime equivalence
+-----------------------------
+Snapshot SHA-256: 0bc31b6875b815d9671c21eec1e52e9f1e4c3dc373df7f1b9b17c556fd4d90bc
+Snapshot UTF-8 bytes: 1,050,705
+Compact/reference runtime snapshot equality: true
+Current contract: 71/71
+Browser UI contract: 23/23 + required DOM
+Question bank: 710 / 710 unique IDs
+Answer distribution: A178 / B178 / C177 / D177
+Cognitive distribution: 想起166 / 適用323 / 判断221
+CI declarative coverage: 84/84
+Legacy regression: 293 assertions / raw 22 / residual 0
+
+Decision
+--------
+The single learning bundle is authorized as the production assembly source because both real Jekyll output and canonical runtime state are identical to the expanded 47-include reference. The original 47 v132-v144 files remain unchanged in the repository and continue to define the source-level provenance contract. No learner behavior or question content is removed.

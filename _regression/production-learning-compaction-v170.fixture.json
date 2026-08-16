@@ -1,0 +1,120 @@
+{
+  "name": "production-learning-compaction-v170",
+  "version": "v170",
+  "scope": "active-learning-patch-chain-v132-v144",
+  "policy": "byte-exact-semantic-preserving-compaction-with-expanded-reference-build",
+  "parent_release": {
+    "version": "v169",
+    "main_sha": "b88fb53608423960c05ad8eb0d0fd6ec1238a320"
+  },
+  "source_inventory": {
+    "path": "_regression/production-patch-chain-v167.fixture.json",
+    "utf8_bytes": 40326,
+    "sha256": "a9cef4b42015a6adb0e64b1383fdfc77537f6ac943ad8f74b9b12caf870d543e"
+  },
+  "base": {
+    "path": "app/base-v131.html",
+    "utf8_bytes": 3041328,
+    "sha256": "1222c7ac30b6a227f0b5bfd4d7b5a4c380a18d47d55171cfaaeaa3c09dbfbd5a"
+  },
+  "source_fragments": {
+    "version_count": 13,
+    "physical_block_count": 47,
+    "assembly_order": [
+      "app/v132-block-00.txt",
+      "app/v132-block-01.txt",
+      "app/v132-block-02.txt",
+      "app/v132-block-03.txt",
+      "app/v132-block-04.txt",
+      "app/v132-block-05.txt",
+      "app/v132-block-06.txt",
+      "app/v132-block-07.txt",
+      "app/v133-block-00.txt",
+      "app/v133-block-01.txt",
+      "app/v133-block-02.txt",
+      "app/v133-block-03.txt",
+      "app/v133-block-04.txt",
+      "app/v133-block-05.txt",
+      "app/v134-block-00.txt",
+      "app/v134-block-01.txt",
+      "app/v134-block-02.txt",
+      "app/v134-block-03.txt",
+      "app/v134-block-04.txt",
+      "app/v134-block-05.txt",
+      "app/v134-block-06.txt",
+      "app/v135-block-00.txt",
+      "app/v136-block-00.txt",
+      "app/v136-block-01.txt",
+      "app/v136-block-02.txt",
+      "app/v136-block-03.txt",
+      "app/v136-block-04.txt",
+      "app/v136-block-05.txt",
+      "app/v136-block-06.txt",
+      "app/v136-block-07.txt",
+      "app/v137-block-00.txt",
+      "app/v138-block-00.txt",
+      "app/v138-block-01.txt",
+      "app/v138-block-02.txt",
+      "app/v138-block-03.txt",
+      "app/v138-block-04.txt",
+      "app/v138-block-05.txt",
+      "app/v138-block-06.txt",
+      "app/v138-block-07.txt",
+      "app/v138-block-08.txt",
+      "app/v139-block-00.txt",
+      "app/v139-block-01.txt",
+      "app/v140-block-00.txt",
+      "app/v141-block-00.txt",
+      "app/v142-block-00.txt",
+      "app/v143-block-00.txt",
+      "app/v144-block-00.txt"
+    ],
+    "concat_utf8_bytes": 405723,
+    "concat_sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8",
+    "preserved_in_repository": true,
+    "production_include_count_before": 47
+  },
+  "learning_bundle": {
+    "path": "app/learning-patches-v170.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8",
+    "source_fragment_count": 47,
+    "materialization": "byte-exact-concatenation",
+    "production_include_count_after": 1
+  },
+  "assembler": {
+    "path": "index.html",
+    "mode": "base-v131-plus-single-learning-bundle",
+    "production_learning_include_count": 1,
+    "expanded_reference_learning_include_count": 47,
+    "switch_authorized_only_by_byte_exact_build_and_runtime_equivalence": true,
+    "preserved_noop_newlines_from_13_to_1_capture_compaction": 12,
+    "generated_output_whitespace_policy": "preserve-expanded-assembler-byte-output"
+  },
+  "validation": {
+    "status": "passed",
+    "built_html_byte_exact": true,
+    "canonical_runtime_snapshot_equal": true,
+    "compact_build": {
+      "path": "_site/index.html",
+      "utf8_bytes": 3474172,
+      "sha256": "3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3"
+    },
+    "expanded_reference_build": {
+      "path": "_site_reference/index.html",
+      "utf8_bytes": 3474172,
+      "sha256": "3bb0db0c078a1e7c749eb130fb88d0a83815df71166aaf682c859012d997b9c3"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "0bc31b6875b815d9671c21eec1e52e9f1e4c3dc373df7f1b9b17c556fd4d90bc",
+      "utf8_bytes": 1050705
+    },
+    "canonical_snapshot_excluded_volatile_fields": [
+      "FEQUEST_SELF_CHECK.checkedAt"
+    ],
+    "source_fragments_unchanged": true,
+    "semantic_runtime_unchanged": true,
+    "automatic_behavior_removal_authorized": false
+  },
+  "automatic_behavior_removal_authorized": false
+}
