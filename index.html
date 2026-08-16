@@ -28,8 +28,8 @@
 {% capture releaseDiagnosticSpec %}{% include_relative app/runtime-release-diagnostic-spec.txt %}{% endcapture %}
 {% capture diagnosticWrapper %}{% include_relative app/runtime-diagnostic-wrapper.txt %}{% endcapture %}
 {% capture stableReleaseAdapter %}{% include_relative app/runtime-release-adapter.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v186</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v186';" %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v187</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v187';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
 {% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
 {{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
