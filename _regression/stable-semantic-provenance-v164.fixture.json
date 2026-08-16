@@ -1,0 +1,43 @@
+{
+  "name": "stable-semantic-provenance-v164",
+  "version": "v164",
+  "active_provenance": {
+    "finalizer_path": "app/runtime-diagnostic-data-finalize.txt",
+    "finalizer_sha256": "7334c3b40e084fbf4e96bba94dd3297188fbae15d5739844208956ae3036c4d6",
+    "finalizer_utf8_bytes": 1246,
+    "sourceModule": "app/runtime-semantic-diagnostics.txt",
+    "projectionMode": "stable-semantic-runtime-loader",
+    "retired_sourceModule": "app/runtime-semantic-diagnostics-v159-parts",
+    "retired_projectionMode": "materialized-semantic-runtime-source-v159",
+    "stable_runtime_path_policy": "single-semantic-runtime-loader"
+  },
+  "semantic_runtime": {
+    "loader_path": "app/runtime-semantic-diagnostics.txt",
+    "rendered_sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50",
+    "rendered_utf8_bytes": 55525,
+    "backing_part_count": 9,
+    "byte_exact_with_v163_rendered_runtime": true
+  },
+  "stable_wrapper": {
+    "path": "app/runtime-diagnostic-wrapper.txt",
+    "sha256": "4f2e73814375b2f6873b42a04b9612510629238d4ff6e417452bb0bddc37d9a2",
+    "utf8_bytes": 19135,
+    "stable_global_count": 6,
+    "retired_v159_wrapper_global_count": 6,
+    "retired_release_adapters": [
+      "runV160SelfCheck",
+      "runV161SelfCheck",
+      "runV162SelfCheck",
+      "runV163SelfCheck"
+    ]
+  },
+  "release_adapter": {
+    "path": "app/v164-block-00.txt",
+    "allowed_versioned_global": "runV164SelfCheck",
+    "sha256": "b512dc07109f27e5b941a884b3c38f1a96201a8b1091ed5d8071903b5bea82c7",
+    "utf8_bytes": 190
+  },
+  "previous_runtime_fixture": "_regression/single-semantic-runtime-loader-v163.fixture.json",
+  "previous_data_fixture": "_regression/stable-diagnostic-data-modules-v161.fixture.json",
+  "production_policy": "stable-active-semantic-provenance-over-single-runtime-loader"
+}
