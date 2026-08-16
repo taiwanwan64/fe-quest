@@ -16,6 +16,7 @@
 {% capture learningQualityOverridesV193 %}{% include_relative app/learning-quality-overrides-v193.txt %}{% endcapture %}
 {% capture learningQualityOverridesV195 %}{% include_relative app/learning-quality-overrides-v195.txt %}{% endcapture %}
 {% capture learningQualityOverridesV197 %}{% include_relative app/learning-quality-overrides-v197.txt %}{% endcapture %}
+{% capture subjectBSecurityV200 %}{% include_relative app/subject-b-security-overrides-v200.txt %}{% endcapture %}
 
 
 
@@ -37,5 +38,7 @@
 {% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v199</title>" %}
 {% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v199';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
+{% capture subjectBSemanticInsertion %}{{ subjectBSecurityV200 }}function validateSubjectBSemantics(){% endcapture %}
+{% assign s4 = s3 | replace: "function validateSubjectBSemantics(){", subjectBSemanticInsertion %}
 {% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ learningQualityOverridesV191 }}{{ learningQualityOverridesV191Contract }}{{ learningQualityOverridesV193 }}{{ learningQualityOverridesV195 }}{{ learningQualityOverridesV197 }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
-{{ s3 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
+{{ s4 | replace: "const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId)", insertion }}
