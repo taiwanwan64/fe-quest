@@ -1,0 +1,37 @@
+{
+  "name": "diagnostic-archive-inventory-dependency-v178",
+  "version": "v178",
+  "searched_literal": "_regression/production-source-archive-boundary-v177.fixture.json",
+  "pre_migration_references": [
+    {
+      "path": "app/runtime-release-diagnostic-spec.txt",
+      "classification": "production-release-metadata",
+      "occurrences": 1
+    },
+    {
+      "path": "tools/v178_materialize.py",
+      "classification": "tooling-or-documentation",
+      "occurrences": 2
+    },
+    {
+      "path": "tools/v178_validate.py",
+      "classification": "tooling-or-documentation",
+      "occurrences": 1
+    }
+  ],
+  "reference_count": 4,
+  "stable_inventory": {
+    "path": "_regression/diagnostic-archive-inventory.fixture.json",
+    "utf8_bytes": 17671,
+    "sha256": "b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250",
+    "archive_entry_count": 58
+  },
+  "compact_release_boundary": {
+    "path": "_regression/production-source-archive-boundary-v178.fixture.json",
+    "utf8_bytes": 583,
+    "sha256": "e1c6c60a6a8b5558121622ab57cb6a505bb0b5cb7bc99ae4ce5e6c4bf53b1815",
+    "embedded_archive_entry_count": 0
+  },
+  "physical_archive_count": 58,
+  "archive_growth": 0
+}

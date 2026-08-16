@@ -1,0 +1,50 @@
+FE QUEST v178 — Stable Diagnostic Archive Inventory Audit
+===========================================================
+
+Scope
+-----
+v178 freezes the unchanged 58-entry diagnostic provenance inventory into one versionless stable fixture. The release-specific archive boundary becomes a compact pointer/proof and no longer duplicates 58 archive entries.
+
+Stable production boundaries
+----------------------------
+Wrapper: 19,860 bytes / 3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3
+Release adapter: 211 bytes / 795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248
+Both changed by v178: no
+
+Stable diagnostic archive inventory
+-----------------------------------
+Path: _regression/diagnostic-archive-inventory.fixture.json
+UTF-8 bytes: 17,671
+SHA-256: b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250
+Entries: 58
+Authority: _regression/production-source-archive-boundary-v177.fixture.json
+Physical diagnostic archive: 58
+Archive growth: 0
+
+Compact v178 boundary
+---------------------
+Path: _regression/production-source-archive-boundary-v178.fixture.json
+UTF-8 bytes: 583
+Embedded archive entries: 0
+
+Validation status
+-----------------
+passed
+Candidate real Jekyll index: 3,475,504 bytes / 21d071335a2d54a068cdf786d144bc3a4f45111a8754d8ee53612d46a0b49bbd
+Reference full-boundary index: 3,475,504 bytes / 21d071335a2d54a068cdf786d144bc3a4f45111a8754d8ee53612d46a0b49bbd
+Generated HTML byte equality: yes
+Canonical runtime snapshot: 7371195d080fddb07c2bf90162f1f4767288a416911cd86b62bbf1edde78df7d / 1,050,705 bytes
+Candidate/reference canonical runtime equality: yes
+Only excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Stable wrapper byte-identical to v177 parent: yes
+Stable release adapter byte-identical to v177 parent: yes
+Stable archive inventory matches all 58 v177 authority entries: yes
+Compact release boundary embedded archive entries: 0
+Diagnostic archive: 58 -> 58 (growth 0)
+Versioned production adapter sources: 0
+Current contract: 71/71
+Browser UI: 23/23 + required DOM
+Critical curriculum: 56/56
+Release sentinel: 28/28
+CI coverage: 84/84
+Legacy fixture: 293 assertions / raw 22 / residual 0
