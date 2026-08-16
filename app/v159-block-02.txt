@@ -1,0 +1,25 @@
+  function v159EvaluateCurrentContract(){
+    const base=feqEvaluateQualityUxContract();
+    const baseResults=(base.results||[]).map(r=>r.id==='version-schema'?{...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v159',error:undefined}:{...r});
+    const migrated=v159ReplacementChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}});
+    const extras=v159AdditionalCurrentChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}});
+    const results=[...baseResults,...migrated,...extras],failed=results.filter(r=>!r.pass);
+    return {mode:'current-contract-materialized-semantic-runtime-source',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),semanticBaseCount:baseResults.length,rewrittenReleaseBoundaryChecks:migrated.length,semanticBoundaryChecks:extras.length};
+  }
+
+  function runV159SelfCheck(){
+    const current=v159EvaluateCurrentContract(),browserUi=feqEvaluateBrowserUiLayer(),errors=[...current.errors];
+    if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message));
+    const semanticBoundary=v159SemanticRuntimeBoundaryAudit(),dataBoundary=v159DiagnosticDataBoundaryAudit(),classification=feqLegacyClassificationAudit(),sentinelInventory=feqExpandCiSentinelGroups(),declarativeCoverage=feqDeclarativeCiCoverage();
+    return {ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),architecture:'v159-materialized-semantic-runtime-source',currentContract:current,browserUiContract:browserUi,historicalDiagnostics:{mode:'release-fixture-only',productionHistoricalGlobals:false,fixture:FEQ_DIAGNOSTIC_RUNTIME_SPEC.releaseFixtureManifest},historicalMetadataWarnings:[],supersededSemanticWarnings:[],uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],v159RuntimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',ciSentinelInventory:sentinelInventory,declarativeCiCoverage:declarativeCoverage,legacyClassification:classification,semanticRuntimeBoundary:semanticBoundary,semanticDataBoundary:dataBoundary,diagnosticContract:{currentFailed:current.failed,uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,productionLegacyAbsent:typeof runAppSelfCheck==='undefined',semanticRuntimeExact:semanticBoundary.ok,semanticDataRuntimeExact:dataBoundary.ok,retiredVersionedFunctionGlobalsPresent:semanticBoundary.leakedRetired.length,versionedDataBackingGlobalsPresent:dataBoundary.leakedBacking.length,classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,activeErrorCount:errors.length}};
+  }
+
+  globalThis.FEQ_DIAGNOSTIC_RUNTIME_SPEC=FEQ_DIAGNOSTIC_RUNTIME_SPEC;
+  globalThis.FEQ_DIAGNOSTIC_DATA_RUNTIME_SPEC=FEQ_DIAGNOSTIC_DATA_RUNTIME_SPEC;
+  globalThis.v159SemanticRuntimeBoundaryAudit=v159SemanticRuntimeBoundaryAudit;
+  globalThis.v159DiagnosticDataBoundaryAudit=v159DiagnosticDataBoundaryAudit;
+  globalThis.v159ReplacementChecks=v159ReplacementChecks;
+  globalThis.v159AdditionalCurrentChecks=v159AdditionalCurrentChecks;
+  globalThis.v159EvaluateCurrentContract=v159EvaluateCurrentContract;
+  globalThis.runV159SelfCheck=runV159SelfCheck;
+})();
