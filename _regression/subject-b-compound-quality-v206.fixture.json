@@ -1,0 +1,91 @@
+{
+  "name": "subject-b-compound-quality-v206",
+  "release": "v206",
+  "source_release": "v205",
+  "source_main_sha": "d43bff9034fa2b3560c8f652f42f1a0ddc61997f",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集",
+      "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集 令和8年度"
+    ],
+    "use": "scope/structure/terminology/difficulty/fidelity calibration only; proprietary wording is not copied"
+  },
+  "runtime_inventory": {
+    "compound_sets": 15,
+    "questions": 45,
+    "questions_per_set": 3,
+    "set_levels": {"標準": 7, "応用": 8},
+    "question_kinds": {"トレース": 31, "空欄補充": 7, "変更予測": 5, "処理理解": 2},
+    "answer_positions": [12, 11, 11, 11],
+    "timer_seconds": 1200
+  },
+  "audit_dimensions": {
+    "single_code_multi_question_progression": true,
+    "intermediate_state_before_final_state": true,
+    "blank_trace_change_mix": true,
+    "same_step_repetition": true,
+    "distractor_same_topic_plausibility": true,
+    "explanation_specificity": true,
+    "saved_state_id_stability": true
+  },
+  "set_assessment": {
+    "sales_filter": "pass",
+    "matrix_threshold": "pass_low_watch",
+    "queue_service": "pass",
+    "linked_rank": "pass",
+    "binary_count": "pass",
+    "recursive_sum": "pass_low_watch",
+    "insertion_pass": "pass",
+    "postfix_stack": "pass",
+    "bfs_queue": "pass",
+    "bit_permission": "pass",
+    "object_cart": "pass",
+    "matrix_transpose": "pass",
+    "merge_sorted": "pass",
+    "sentinel_search": "pass",
+    "tree_height": "pass"
+  },
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": [
+      {
+        "id": "recursive_sum_return_state_depth",
+        "set_id": "recursive_sum",
+        "assessment": "The three questions are correct and progressive, but they stay close to the same recurrence expansion. A future redesign could require an explicit return-stack/intermediate-state judgment rather than another subtotal."
+      },
+      {
+        "id": "matrix_threshold_dual_final_aggregate",
+        "set_id": "matrix_threshold",
+        "assessment": "Questions 2 and 3 both ask for final aggregates after the same full scan. They test different variables and remain valid, but one could later be replaced by a branch-sensitive intermediate-state checkpoint for greater trace depth."
+      },
+      {
+        "id": "final_algorithm_context_density_carryover",
+        "source": "v204",
+        "assessment": "The separate 40-item final algorithm pool still carries the v204 Low fidelity watch: compact independent items dominate, so a future final-practice fidelity phase should add a small number of denser contexts/state presentations without expanding features for their own sake."
+      }
+    ]
+  },
+  "invariants": {
+    "compound_set_ids_unique": true,
+    "three_questions_each": true,
+    "four_unique_options_each": true,
+    "answer_index_valid": true,
+    "explanations_present": true,
+    "no_high_or_medium_correctness_defect": true,
+    "no_learner_content_change_in_v206": true
+  },
+  "decision": {
+    "status": "passed_with_low_watches",
+    "high_findings": 0,
+    "medium_findings": 0,
+    "learner_change_in_v206": false,
+    "next_release": "v207",
+    "next_scope": "Subject B final-practice fidelity and context/state density audit",
+    "goal": "Preserve the 20=16+4 exam contract and breadth controls while checking whether the 40 final algorithm items provide enough dense, multi-stage state tracing to approximate exam pressure."
+  },
+  "status": "audit_complete"
+}
