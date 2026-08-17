@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "release": "v208",
+  "previous_release": "v207",
+  "parent_main_sha": "61dbd67845e26369c11f09e3c40182c67f657d03",
+  "change_type": "subject-b-final-selection",
+  "source_quality_audit": "_regression/subject-b-final-fidelity-v207.fixture.json",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "v208-final-practice-sustained-trace-floor",
+  "allowed_logic_targets": ["buildBFinal"],
+  "content_files": ["app/subject-b-final-overrides-v208.txt"],
+  "assembly_files": ["index.html"],
+  "preserve": {
+    "algorithm_pool_count": 40,
+    "final_counts": [20, 16, 4],
+    "algorithm_levels": {"標準": 8, "応用": 8},
+    "algorithm_domain_count": 10,
+    "high_trace_pool_count": 12,
+    "high_trace_floor_when_compatible": 4,
+    "security_log_count": 2,
+    "security_nonlog_count": 2,
+    "saved_state_ids": true,
+    "seen_history_fairness_within_compatible_class": true,
+    "format_diversity_preference": true
+  },
+  "copyright_policy": "Original FE QUEST selection logic only. Attached references are used for scope, terminology, structure and difficulty calibration; proprietary question wording is not copied."
+}
