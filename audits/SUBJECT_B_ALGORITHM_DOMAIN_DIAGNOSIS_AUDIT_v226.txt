@@ -1,0 +1,59 @@
+FE QUEST v226 — Subject B Algorithm Domain Diagnosis Audit
+=============================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v225
+Source main: f54c36f5bf6aac1d68a024c085be1b925bd12994
+Learner-facing change in v226: none
+
+What was audited
+------------------
+The audit moved beyond the closed v221-v225 readiness route and tested whether algorithm weakness can be diagnosed at the ten-domain level rather than only as one aggregate algorithm score.
+It inventoried the 43 final-practice algorithm items, verified each item's domain-specific direct remediation target, injected persistent mistake histories concentrated in two clearly different domains, and compared the resulting top-level progression recommendation under otherwise identical learning evidence.
+
+Domain evidence proof
+---------------------
+Algorithm final-practice pool: 43 items across all 10 domains.
+Domain counts: {"オブジェクト指向": 4, "スタック・キュー": 4, "ビット列": 5, "リスト": 4, "一次元配列": 5, "二次元配列": 4, "再帰・関数": 5, "制御": 4, "探索・整列": 3, "木構造": 5}
+Every domain has a valid TRACE remediation destination through the existing final-result remediation mapping.
+Direct target example — 木構造: tree_dfs
+Direct target example — ビット列: bit_mask
+Those targets are distinct, so the app already possesses enough curriculum structure to send an individual wrong answer to a domain-relevant TRACE exercise.
+Domain-concentrated bFinalMistakeStats survived profile normalization in both probes.
+
+Progression behavior proof
+--------------------------
+The learners had identical foundation completion, short-practice rates, and a 40% first final with algorithm weakness. Their only meaningful difference was persistent wrong-answer evidence concentrated in 木構造 versus ビット列.
+木構造-heavy recommendation: mode=miniMock / title=アルゴリズム ミニ模試で準備
+ビット列-heavy recommendation: mode=miniMock / title=アルゴリズム ミニ模試で準備
+The two recommendations are identical and neither surfaces the weak domain. The current readiness layer therefore reacts to aggregate algorithm performance but does not aggregate the already-persisted per-item/domain evidence into the next-study recommendation.
+
+Medium finding
+--------------
+algorithm_domain_weakness_not_aggregated_for_progression
+Distinct algorithm-domain weakness patterns collapse to the same generic algorithm mini-mock at the progression layer. This is not a scoring or correctness defect: direct wrong-answer remediation remains precise and valid. The learning-efficiency gap is that a learner who repeatedly misses, for example, 木構造 is not preferentially routed to the existing 木構造 TRACE target when the hub decides what to study next.
+
+Recommended repair boundary
+---------------------------
+Use v227 for a narrow domain-aware progression repair. Reuse existing B_EXAM_ALGO_ITEMS domain labels, bFinalMistakeStats, and B_FINAL_DOMAIN_REMEDIATION targets rather than creating a parallel taxonomy. Prefer a domain-specific TRACE recommendation only when evidence is sufficiently concentrated; keep the generic algorithm mini-mock as the fallback when evidence is sparse or diffuse. Do not change scoring, question selection, the 65% readiness gate, security routing, or the direct final-result remediation buttons.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v225 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness calculation, and v224 compound evidence copy are unchanged.
+Algorithm direct remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 1
+Low: 0
+
+Decision
+--------
+Publish v226 as an audit-only release with the Medium finding recorded. Repair only the domain-aware progression gap in v227, then perform a short post-repair audit.

@@ -1,0 +1,125 @@
+{
+  "name": "subject-b-algorithm-domain-diagnosis-audit-v226",
+  "version": "v226",
+  "previous": "v225",
+  "sourceMain": "f54c36f5bf6aac1d68a024c085be1b925bd12994",
+  "learnerFacingChange": false,
+  "domainInventory": {
+    "制御": 4,
+    "一次元配列": 5,
+    "二次元配列": 4,
+    "再帰・関数": 5,
+    "木構造": 5,
+    "オブジェクト指向": 4,
+    "リスト": 4,
+    "スタック・キュー": 4,
+    "ビット列": 5,
+    "探索・整列": 3
+  },
+  "domainTargets": {
+    "制御": {
+      "sourceId": "bexam_ctrl_01",
+      "mode": "trace",
+      "id": "nested_loop",
+      "valid": true
+    },
+    "一次元配列": {
+      "sourceId": "bexam_arr_01",
+      "mode": "trace",
+      "id": "array_reverse",
+      "valid": true
+    },
+    "二次元配列": {
+      "sourceId": "bexam_mat_01",
+      "mode": "trace",
+      "id": "matrix_find",
+      "valid": true
+    },
+    "再帰・関数": {
+      "sourceId": "bexam_rec_01",
+      "mode": "trace",
+      "id": "recursion",
+      "valid": true
+    },
+    "木構造": {
+      "sourceId": "bexam_tree_01",
+      "mode": "trace",
+      "id": "tree_dfs",
+      "valid": true
+    },
+    "オブジェクト指向": {
+      "sourceId": "bexam_obj_01",
+      "mode": "trace",
+      "id": "object_counter",
+      "valid": true
+    },
+    "リスト": {
+      "sourceId": "bexam_list_01",
+      "mode": "trace",
+      "id": "linked_list",
+      "valid": true
+    },
+    "スタック・キュー": {
+      "sourceId": "bexam_sq_01",
+      "mode": "trace",
+      "id": "stack_ops",
+      "valid": true
+    },
+    "ビット列": {
+      "sourceId": "bexam_bit_01",
+      "mode": "trace",
+      "id": "bit_mask",
+      "valid": true
+    },
+    "探索・整列": {
+      "sourceId": "bexam_algo_01",
+      "mode": "trace",
+      "id": "binary_search_b",
+      "valid": true
+    }
+  },
+  "treeScenario": {
+    "domain": "木構造",
+    "keys": [
+      "algo:bexam_tree_01:途中状態",
+      "algo:bexam_tree_02:実行回数",
+      "algo:bexam_tree_03:変更予測"
+    ],
+    "preserved": true,
+    "mode": "miniMock",
+    "id": null,
+    "title": "アルゴリズム ミニ模試で準備",
+    "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+    "text": "アルゴリズム ミニ模試で準備 1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+  },
+  "bitScenario": {
+    "domain": "ビット列",
+    "keys": [
+      "algo:bexam_bit_01:空欄補充",
+      "algo:bexam_bit_02:処理結果",
+      "algo:bexam_bit_03:処理結果"
+    ],
+    "preserved": true,
+    "mode": "miniMock",
+    "id": null,
+    "title": "アルゴリズム ミニ模試で準備",
+    "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+    "text": "アルゴリズム ミニ模試で準備 1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+  },
+  "functionEvidence": {
+    "mentionsMistakeStats": false,
+    "mentionsDomain": false
+  },
+  "selectionSignature1000": 3027424246,
+  "coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "finding": {
+    "id": "algorithm_domain_weakness_not_aggregated_for_progression",
+    "severity": "Medium",
+    "summary": "Domain-specific final mistakes are persisted and have valid direct TRACE destinations, but the progression recommendation collapses distinct algorithm weaknesses to the same generic algorithm mini-mock."
+  }
+}
