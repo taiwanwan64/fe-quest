@@ -1,0 +1,33 @@
+FE QUEST v208 — Subject B Final-Practice Sustained-Trace Repair
+================================================================
+
+PASSED
+Previous: v207
+Source release: v207
+Source main: 61dbd67845e26369c11f09e3c40182c67f657d03
+Source finding: final_practice_sustained_trace_floor (Medium, v207)
+
+Changed runtime target: buildBFinal selection only.
+Question wording/IDs: unchanged. B_EXAM_ALGO_ITEMS remains 40/40 byte-equivalent at runtime.
+Final contract preserved: 20 total = 16 algorithm + 4 security; algorithm levels = 標準8 / 応用8; all ten algorithm domains; unique algorithm IDs; security = 2 log + 2 non-log.
+
+Trace policy
+------------
+Stable high-trace classification: 12 / 40 algorithm items.
+Internal readiness floor: at least 4 high-trace items among the 16 algorithm questions.
+Repair boundary: same domain and same difficulty only, so the existing breadth and 8/8 difficulty contracts cannot be displaced by the floor repair.
+Candidate ranking inside the compatible high-trace class remains seen-count first, then current-session format load, then random tie.
+The value 4 is an FE QUEST internal readiness floor, not an official IPA composition ratio.
+
+Stress evidence
+---------------
+Equal-history 160 sessions: minimum high-trace=4, maximum=7, structural failures=0, security failures=0.
+Adversarial history (all high-trace items heavily seen) 160 sessions: minimum high-trace=4, maximum=4, structural failures=0, security failures=0.
+v207 zero-high contract-valid construction after repair: high-trace=4; replacements=['bexam_ctrl_01', 'bexam_arr_02', 'bexam_mat_01', 'bexam_tree_02'].
+
+Candidate/reference six-file equality: yes. Subject B semantic validation: OK.
+References remain calibration-only for scope, structure, terminology and difficulty; proprietary question wording is not copied.
+
+Next
+----
+Audit post-repair final-practice behavior before considering any denser question-content expansion.
