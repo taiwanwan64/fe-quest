@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 270, in <module>
+    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: runtime refresh boundary drift: trace
