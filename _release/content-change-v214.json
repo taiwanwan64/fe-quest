@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "release": "v214",
+  "previous_release": "v213",
+  "parent_main_sha": "64954dc95bd9ed236ef7e142ddc7d41ef921804c",
+  "change_type": "subject-b-final-order-fidelity-repair",
+  "source_quality_audit": "audits/SUBJECT_B_FINAL_SESSION_EXPERIENCE_AUDIT_v213.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "final_question_order_fidelity",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-final-order-overrides-v214.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "algorithm_levels_per_session": {
+      "標準": 8,
+      "応用": 8
+    },
+    "algorithm_domain_count": 10,
+    "security_log_count": 2,
+    "security_nonlog_count": 2,
+    "unique_algorithm_ids": true,
+    "selected_set_changed": false,
+    "saved_state_ids_changed": false,
+    "time_limit_seconds": 6000
+  },
+  "target_order": {
+    "algorithm_positions": [1, 16],
+    "security_positions": [17, 20],
+    "type_transitions": 1
+  }
+}
