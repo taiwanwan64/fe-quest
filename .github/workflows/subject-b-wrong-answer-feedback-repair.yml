@@ -85,16 +85,23 @@ jobs:
 
       - name: Validate standard release invariants
         id: standard
+        continue-on-error: true
         shell: bash
-        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
+        run: |
+          set -o pipefail
+          GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v230-standard.log
 
       - name: Validate Subject B wrong-answer feedback repair
         id: repair
+        if: steps.standard.outcome == 'success'
         continue-on-error: true
-        run: python3 .github/subject-b-wrong-answer-feedback-repair/validate_repair.py
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 .github/subject-b-wrong-answer-feedback-repair/validate_repair.py 2>&1 | tee _ci-v230-repair.log
 
       - name: Commit validated release shell and repair evidence
-        if: steps.repair.outcome == 'success'
+        if: steps.standard.outcome == 'success' && steps.repair.outcome == 'success'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -109,7 +116,7 @@ jobs:
           echo "FEQUEST_SUBJECT_B_WRONG_ANSWER_FEEDBACK_REPAIR_HEAD=$(git rev-parse HEAD)"
 
       - name: Package release
-        if: steps.repair.outcome == 'success'
+        if: steps.standard.outcome == 'success' && steps.repair.outcome == 'success'
         shell: bash
         run: |
           VERSION="${{ steps.release.outputs.version }}"
@@ -119,7 +126,7 @@ jobs:
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
 
       - name: Upload release
-        if: steps.repair.outcome == 'success'
+        if: steps.standard.outcome == 'success' && steps.repair.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
@@ -128,7 +135,7 @@ jobs:
           retention-days: 90
 
       - name: Persist failure checkpoint
-        if: always() && steps.repair.outcome != 'success'
+        if: always() && (steps.standard.outcome != 'success' || steps.repair.outcome != 'success')
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -143,6 +150,6 @@ jobs:
           standard=${{ steps.standard.outcome }}
           repair=${{ steps.repair.outcome }}
           EOF
-          git add _ci-v230-failure.txt
+          git add _ci-v230-failure.txt _ci-v230-standard.log _ci-v230-repair.log 2>/dev/null || true
           git commit -m "Record v230 validation failure [skip ci]"
           git push origin HEAD:"$GITHUB_REF_NAME"
