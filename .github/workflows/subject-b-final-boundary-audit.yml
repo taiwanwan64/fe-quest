@@ -82,7 +82,7 @@ jobs:
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Audit Subject B Q16-Q17 boundary integrity
-        run: python3 .github/subject-b-final-boundary-audit/validate_audit.py
+        run: python3 .github/subject-b-final-boundary-audit/validate_boundary.py
 
       - name: Commit validated release shell and audit evidence
         shell: bash
