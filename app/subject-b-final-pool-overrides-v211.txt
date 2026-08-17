@@ -1,0 +1,105 @@
+// ===== FE QUEST v211 Subject B final-algorithm pool density expansion =====
+const SUBJECT_B_FINAL_POOL_V211_ITEMS=Object.freeze([
+  Object.freeze({
+    id:'bexam_obj_04',domain:'オブジェクト指向',level:'標準',format:'途中状態',
+    title:'共有参照を通した複数回の状態更新',
+    context:'同じCounterインスタンスを複数の変数から参照し、メソッド呼出しによるvalueの変化を順に追います。',
+    code:[
+      'a ← Counter(3)',
+      'b ← a',
+      'a.add(2)',
+      'b.add(4)',
+      'c ← b',
+      'c.add(-1)',
+      'a.value, c.value を出力する'
+    ],
+    data:[{label:'Counter',text:'Counter(n)はvalue=nで生成され、add(x)はそのインスタンスのvalueへxを加えます。オブジェクト変数の代入は同じインスタンスへの参照を渡します。'}],
+    q:'最後に出力される a.value と c.value の組合せは？',
+    options:['a.value=8, c.value=8','a.value=5, c.value=8','a.value=9, c.value=8','a.value=3, c.value=8'],
+    a:0,
+    explain:'a、b、cは同じインスタンスを参照します。valueは3→5→9→8と変化するため、aから見てもcから見ても最後は8です。'
+  }),
+  Object.freeze({
+    id:'bexam_bit_05',domain:'ビット列',level:'応用',format:'処理結果',
+    title:'マスク・シフト・XORを連続して追う',
+    context:'8bit値に対する複数のビット演算を上から順に適用し、各処理後の値を次の処理へ引き継ぎます。',
+    code:[
+      'x ← 10110110₂',
+      'x ← x AND 11110011₂',
+      'x ← x >> 1',
+      'x ← x XOR 00110100₂',
+      'x ← x OR 00000010₂',
+      'x を出力する'
+    ],
+    data:[{label:'シフト',text:'>> は8bitの論理右シフトで、左端には0を入れます。'}],
+    q:'最後に出力される x は？',
+    options:['01011011₂','01101111₂','01101101₂','10110010₂'],
+    a:1,
+    explain:'10110110 AND 11110011=10110010、右へ1bitで01011001、XOR 00110100で01101101、最後にOR 00000010で01101111です。'
+  }),
+  Object.freeze({
+    id:'bexam_tree_05',domain:'木構造',level:'標準',format:'途中状態',
+    title:'幅優先探索のキューと累積値',
+    context:'小さな木を幅優先にたどり、取り出したノードの値をsumへ加えながらキューの状態も追います。',
+    code:[
+      'queue ← [A]',
+      'sum ← 0',
+      'while queue が空でない',
+      '    x ← DEQUEUE(queue)',
+      '    sum ← sum + x.value',
+      '    x.left ≠ null なら ENQUEUE(queue, x.left)',
+      '    x.right ≠ null なら ENQUEUE(queue, x.right)',
+      'endwhile'
+    ],
+    data:[{label:'木',text:'A(value=2)の左子=B(value=5)、右子=C(value=1)。Bの右子=D(value=4)。Cの左子=E(value=3)。その他の子はnullです。'}],
+    q:'A、B、Cの順に取り出し、Cの子をキューへ追加し終えた直後の sum と queue は？',
+    options:['sum=7, queue=[C,D]','sum=8, queue=[E,D]','sum=8, queue=[D,E]','sum=12, queue=[E]'],
+    a:2,
+    explain:'A後はsum=2, queue=[B,C]、B後はsum=7, queue=[C,D]、C後はsum=8となり、Cの左子Eを末尾へ追加するのでqueue=[D,E]です。'
+  })
+]);
+
+const SUBJECT_B_FINAL_POOL_V211_IDS=Object.freeze(SUBJECT_B_FINAL_POOL_V211_ITEMS.map(x=>x.id));
+const SUBJECT_B_FINAL_POOL_V211_CONTRACTS=Object.freeze({
+  bexam_obj_04:'a.value=8, c.value=8',
+  bexam_bit_05:'01101111₂',
+  bexam_tree_05:'sum=8, queue=[D,E]'
+});
+
+assert(B_EXAM_ALGO_ITEMS.length===40,'v211 source final algorithm pool drift');
+assert(SUBJECT_B_FINAL_POOL_V211_IDS.every(id=>!B_EXAM_ALGO_ITEMS.some(x=>x.id===id)),'v211 final algorithm id collision');
+B_EXAM_ALGO_ITEMS.push(...SUBJECT_B_FINAL_POOL_V211_ITEMS);
+Object.assign(B_EXAM_ALGO_CONTRACTS,SUBJECT_B_FINAL_POOL_V211_CONTRACTS);
+SUBJECT_B_FINAL_POOL_V211_IDS.forEach(id=>B_FINAL_HIGH_TRACE_IDS_V208.add(id));
+globalThis.B_FINAL_HIGH_TRACE_IDS_V208=[...B_FINAL_HIGH_TRACE_IDS_V208];
+
+const SUBJECT_B_FINAL_V211_SPEC=Object.freeze({
+  policy:'final-algorithm-pool-density-expansion',
+  sourceAudit:'v210-final_high_trace_rotation_density',
+  addedIds:SUBJECT_B_FINAL_POOL_V211_IDS,
+  algorithmPoolCount:43,
+  highTracePoolCount:15,
+  highTraceLevels:Object.freeze({'標準':5,'応用':10}),
+  highTraceFloor:B_FINAL_HIGH_TRACE_FLOOR_V208,
+  selectorChanged:false
+});
+
+const __validateSubjectBSemanticsBeforeV211=validateSubjectBSemantics;
+validateSubjectBSemantics=function(){
+  const previous=__validateSubjectBSemanticsBeforeV211();
+  const errors=(previous.errors||[]).filter(e=>e!=='exam algorithm pool must be 40'&&!String(e).startsWith('exam answer-position bias:'));
+  const examPos=[0,0,0,0];
+  B_EXAM_ALGO_ITEMS.forEach(q=>{if(Number.isInteger(q.a)&&q.a>=0&&q.a<4)examPos[q.a]++;});
+  if(B_EXAM_ALGO_ITEMS.length!==43)errors.push(`exam algorithm pool must be 43: ${B_EXAM_ALGO_ITEMS.length}`);
+  if(new Set(B_EXAM_ALGO_ITEMS.map(q=>q.id)).size!==B_EXAM_ALGO_ITEMS.length)errors.push('exam algorithm pool duplicate id');
+  if(Math.max(...examPos)-Math.min(...examPos)>1)errors.push(`exam answer-position balance: ${examPos.join('/')}`);
+  SUBJECT_B_FINAL_POOL_V211_ITEMS.forEach(q=>{
+    if(B_EXAM_ALGO_CONTRACTS[q.id]!==String(q.options[q.a]))errors.push(`${q.id}: v211 exam semantic drift`);
+  });
+  const answerPositions={...(previous.answerPositions||{}),exam:examPos};
+  return {...previous,ok:errors.length===0,errors,answerPositions};
+};
+
+globalThis.SUBJECT_B_FINAL_POOL_V211_ITEMS=SUBJECT_B_FINAL_POOL_V211_ITEMS;
+globalThis.SUBJECT_B_FINAL_POOL_V211_IDS=SUBJECT_B_FINAL_POOL_V211_IDS;
+globalThis.SUBJECT_B_FINAL_V211_SPEC=SUBJECT_B_FINAL_V211_SPEC;
