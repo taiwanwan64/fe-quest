@@ -113,7 +113,12 @@ jobs:
           new="""for key in ['rebuild','stateless','disclosure','wrapperEvidence']:\n    req(cand[key] == par[key], 'audit-only behavior drift: ' + key)\n    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)\n# TRACE/review DOM probes contain runtime-local diagnostic strings when an assertion fails.\n# Validate their learner-facing semantics explicitly below instead of raw-object equality.\n"""
           if old not in t:
               raise SystemExit('v231 audit comparison block not found')
-          p.write_text(t.replace(old,new,1))
+          t=t.replace(old,new,1)
+          marker="review = cand['review']\n"
+          if marker not in t:
+              raise SystemExit('v231 review assertion marker not found')
+          t=t.replace(marker, marker+"print('V231_REVIEW_DEBUG '+json.dumps(review,ensure_ascii=False,sort_keys=True))\n",1)
+          p.write_text(t)
           PY
           python3 .github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py 2>&1 | tee _ci-v231-audit.log
           STATUS=${PIPESTATUS[0]}
