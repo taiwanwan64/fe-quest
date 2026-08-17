@@ -68,7 +68,9 @@ function subjectBFirstFinalTargetV222(r){
 const _subjectBHubRecommendationV222=subjectBHubRecommendation;
 subjectBHubRecommendation=function(){
   const rec=_subjectBHubRecommendationV222();
-  if(!rec||rec.mode!=='final') return rec;
+  const days=examDaysRemaining();
+  const finalAllowed=!(days!=null&&days>=0&&days<=3);
+  if(!finalAllowed||!rec||rec.mode!=='final') return rec;
   const m=subjectBProgressMetrics();
   const floor=SUBJECT_B_READINESS_V222_SPEC.shortPracticeFloor;
   if(m.finalRuns===0){
