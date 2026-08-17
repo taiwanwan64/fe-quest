@@ -1,0 +1,77 @@
+{
+  "name": "subject-b-final-xp-repair-v219",
+  "version": "v219",
+  "previous_version": "v218",
+  "parent_main_sha": "1126279a516b78b6dd6b447f5860f415b64a0333",
+  "learner_facing_change": true,
+  "resolved_finding": "final_recovery_xp_message_rerender",
+  "source_audit_reproduced_defect": true,
+  "repair_spec": {
+    "policy": "preserve-final-earned-xp-message-on-same-attempt-rerender",
+    "sourceAudit": "v218-final_recovery_xp_message_rerender",
+    "scoringChanged": false,
+    "persistedXpChanged": false,
+    "reasonHistoryChanged": false,
+    "remediationTargetsChanged": false,
+    "recoveryEntryChanged": false,
+    "displayOnly": true
+  },
+  "probe": {
+    "before": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": true,
+      "aria": "true",
+      "insertions": 1
+    },
+    "after": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": true,
+      "aria": "true",
+      "insertions": 1
+    },
+    "next": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+50 XP",
+      "open": false,
+      "aria": "false",
+      "insertions": 1
+    },
+    "zero": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+0 XP",
+      "open": false,
+      "aria": "false",
+      "insertions": 1
+    },
+    "perfect": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+240 XP",
+      "open": false,
+      "aria": "false",
+      "insertions": 1
+    }
+  },
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_500_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-resolved-low"
+}

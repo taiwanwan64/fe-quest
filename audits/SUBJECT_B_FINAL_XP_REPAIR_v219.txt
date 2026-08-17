@@ -1,0 +1,42 @@
+FE QUEST v219 — Subject B Final-Practice XP Message Consistency Repair
+================================================================================
+
+Result
+------
+PASS — v218 LOW FINDING RESOLVED
+Previous: v218
+Source main: 1126279a516b78b6dd6b447f5860f415b64a0333
+Learner-facing change in v219: yes
+Resolved finding: final_recovery_xp_message_rerender
+
+Repair
+------
+The earned-XP value first shown for a final-practice attempt is retained when that same attempt is rerendered with earned=0, which is the existing rerender path used after choosing an error reason.
+This is display-only. Scoring, persisted XP, reason history, remediation targets and the v217 recovery entry are unchanged.
+
+Interaction proof
+-----------------
+The v218 audit is the source evidence for the pre-repair +0 XP display defect.
+Candidate v219 showed +137 XP before and after the same-attempt earned=0 rerender.
+The detailed review stayed open with aria-expanded=true and the v217 recovery entry remained single-instance.
+A new attempt with 50 XP showed +50 XP; a zero-earned new attempt showed +0 XP; a perfect new attempt with 240 XP showed +240 XP.
+The existing reason callback still invokes renderBFinalResult(a,0), so this narrow wrapper repairs that path without changing reason logic.
+
+Preserved contracts
+-------------------
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+500 deterministic final-session seeds matched v218 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4; v214 order and v217 recovery policies are unchanged.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Accept the narrow XP-message consistency repair. Use v220 for a short post-repair check, then leave this result-screen path unless that check finds a learner-impacting issue.
