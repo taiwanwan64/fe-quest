@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 267, in <module>
+    req(cand[key] == par[key], 'audit-only behavior drift: ' + key)
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: audit-only behavior drift: trace
