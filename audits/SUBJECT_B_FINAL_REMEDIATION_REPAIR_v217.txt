@@ -1,0 +1,50 @@
+FE QUEST v217 — Subject B Final-Practice Remediation Visibility Repair
+============================================================================
+
+Result
+------
+PASS — v216 MEDIUM FINDING RESOLVED
+Previous: v216
+Source main: 992b09a59aaf74f55e18a3488ac3d9ad58b261fc
+Learner-facing change in v217: yes
+Resolved finding: final_wrong_answer_recovery_visibility
+
+Repair
+------
+When a final-practice attempt has wrong or blank answers, a concise secondary recovery entry is surfaced beside the result actions before the existing primary 「次の科目Bへ →」 action.
+For an attempt with 18 correct and 1 blank, the visible label was 「誤答・未回答を復習する（2問）」.
+For a perfect 20/20 attempt, the recovery entry remained hidden.
+The existing forward action stays primary; the full 20-question review remains collapsible and closed at the start of each new attempt.
+
+Interaction proof
+-----------------
+Recovery entry inserted once: yes.
+Inserted before the forward action: yes.
+New imperfect attempt keeps full review collapsed: yes.
+Recovery click opens the review: yes.
+Recovery click focuses and scrolls to the first item needing review: yes.
+Same-attempt rerender preserves the open review and ARIA expanded state: yes.
+New perfect attempt hides the recovery entry and collapses the review: yes.
+
+Preserved remediation machinery
+-------------------------------
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+No changes were made to final-question selection, scoring, timing, persistence, per-question remediation targeting, or the v214 algorithm-then-security ordering policy.
+500 matched deterministic final-session seeds produced the same selection/order signature as v216.
+
+Preserved contracts
+-------------------
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Accept the targeted recovery-entry repair. Use the next release for a post-repair interaction audit rather than expanding this repair scope further.

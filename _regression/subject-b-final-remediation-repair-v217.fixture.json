@@ -1,0 +1,71 @@
+{
+  "name": "subject-b-final-remediation-repair-v217",
+  "version": "v217",
+  "previous_version": "v216",
+  "parent_main_sha": "992b09a59aaf74f55e18a3488ac3d9ad58b261fc",
+  "learner_facing_change": true,
+  "resolved_finding": "final_wrong_answer_recovery_visibility",
+  "repair": {
+    "policy": {
+      "policy": "surface-final-wrong-answer-recovery-entry",
+      "sourceAudit": "v216-final_wrong_answer_recovery_visibility",
+      "keepsForwardActionPrimary": true,
+      "keepsFullReviewCollapsible": true,
+      "recoveryEntryOnlyWhenNeeded": true,
+      "blankAnswersIncluded": true
+    },
+    "imperfect_attempt_entry": {
+      "hidden": false,
+      "label": "誤答・未回答を復習する（2問）",
+      "closed": true,
+      "aria": "false",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true
+    },
+    "click_behavior": {
+      "open": true,
+      "aria": "true",
+      "focused": true,
+      "scrolled": true
+    },
+    "same_attempt_rerender": {
+      "open": true,
+      "aria": "true",
+      "insertions": 1
+    },
+    "perfect_attempt": {
+      "hidden": true,
+      "closed": true,
+      "label": "誤答を復習する",
+      "aria": "false",
+      "insertions": 1
+    }
+  },
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "v214_order_spec_unchanged": true,
+    "selection_signature_500_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-resolved-medium"
+}
