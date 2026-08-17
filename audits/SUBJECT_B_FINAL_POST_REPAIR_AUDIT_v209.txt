@@ -1,0 +1,77 @@
+FE QUEST v209 — Subject B Final-Practice Post-Repair Audit
+==========================================================
+
+Result
+------
+PASS WITH LOW WATCH
+Previous: v208
+Source main: f7e055c5cb934b273ede9af0929234c935a47989
+Learner-facing change in v209: none
+
+Scope
+-----
+This audit reviews the v208 sustained-trace floor after repair. It does not change question wording, question IDs, saved-state IDs, final counts or selection code.
+The v208 rule requires at least four sustained-trace algorithm items among the 16 algorithm questions in the 20-question final practice.
+The value four and the sustained-trace classification are FE QUEST internal readiness controls, not an official IPA item-composition rule.
+
+Repair architecture review
+--------------------------
+PASS — buildBFinal is wrapped after the original final-session construction.
+PASS — only algorithm items are candidates for replacement.
+PASS — each replacement is restricted to an unused high-trace item with the same domain and the same difficulty as the victim.
+PASS — security items are not replaced, so the existing 2 log + 2 non-log security construction is isolated from the repair.
+PASS — source IDs are retained through makeFinalAlgoExam, so saved final-practice statistics remain keyed to the existing algorithm IDs.
+PASS — compatible high-trace candidates are ranked by seen count first, then prospective current-session format load; when choosing the victim relationship, more-seen low-trace items are preferred for replacement.
+
+Inventory and compatibility
+---------------------------
+Final algorithm pool: 40
+Sustained-trace class: 12 / 40
+  標準: 3
+  応用: 9
+Final-session algorithm quota: 標準8 / 応用8
+Final-session domain coverage: all 10 domains
+Default domain-level coverage slots with at least one compatible sustained-trace candidate: 8 / 10
+Default slots without one:
+  - オブジェクト指向 / 標準
+  - ビット列 / 応用
+
+The floor therefore does not need to distort domain or difficulty quotas. Eight of the ten default domain-level slots already have at least one compatible sustained-trace source, while the repair needs only four such selections.
+
+Validated stress evidence carried forward from v208
+---------------------------------------------------
+Equal-history probe, 160 generated sessions:
+  minimum sustained-trace = 4
+  maximum sustained-trace = 7
+  structural failures = 0
+  security failures = 0
+
+Adversarial exposure probe, where all sustained-trace items are much more seen than compact alternatives, 160 generated sessions:
+  minimum sustained-trace = 4
+  maximum sustained-trace = 4
+  structural failures = 0
+  security failures = 0
+
+The former v207 contract-valid zero-trace construction is repaired to four sustained-trace items with replacements:
+  bexam_ctrl_01
+  bexam_arr_02
+  bexam_mat_01
+  bexam_tree_02
+
+Post-repair judgment
+--------------------
+High findings: 0
+Medium findings: 0
+Low watches: 1
+
+LOW — high_trace_pool_concentration
+The sustained-trace class is still only 12 of 40 items and is skewed toward 応用 (3 標準 / 9 応用). The default オブジェクト指向/標準 and ビット列/応用 slots have no same-domain/same-level sustained-trace candidate. This is not a current selection defect: the validated floor remains achievable without quota drift, and exposure-aware ranking is retained inside the compatible replacement class. It is a long-term content-rotation watch because repeated readiness checks can put proportionally more exposure pressure on the 12 trace-heavy items.
+
+Decision
+--------
+v208 repair is accepted as stable. No v209 learner-facing or runtime change is justified.
+Do not raise the sustained-trace floor and do not change the 20=16+4 final contract at this stage.
+
+Next
+----
+v210 should audit a small Subject B final-algorithm content-density expansion, prioritizing underrepresented domain/level cells before any content change is approved. In particular, evaluate whether オブジェクト指向/標準, ビット列/応用 and the small 標準 sustained-trace inventory would benefit from additional original FE QUEST items. Attached references remain calibration-only for scope, terminology, emphasis and difficulty; proprietary question wording must not be copied.
