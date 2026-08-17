@@ -1,0 +1,146 @@
+{
+  "name": "subject-b-final-remediation-audit-v216",
+  "version": "v216",
+  "previous_version": "v215",
+  "parent_main_sha": "2bdd6faeb7d9db0eecaf030de9be007f19e27173",
+  "learner_facing_change": false,
+  "scope": "final-practice wrong-answer feedback, remediation targeting, persistence and recovery visibility",
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "semantic_validator_ok": true,
+    "v214_order_spec_unchanged": true
+  },
+  "feedback_contracts": {
+    "detail_selected": true,
+    "detail_correct": true,
+    "detail_explain": true,
+    "detail_domain": true,
+    "review_answer": true,
+    "review_correct": true,
+    "review_explain": true,
+    "reason_prompt": true,
+    "reason_trace": true,
+    "reason_code": true,
+    "reason_read": true,
+    "reason_knowledge": true,
+    "reason_time": true,
+    "target_function": true,
+    "target_button": true,
+    "mistake_persist": true,
+    "final_stats": true
+  },
+  "remediation_coverage": {
+    "algorithmItems": 43,
+    "securityScenarios": 15,
+    "algorithmBad": [],
+    "securityBad": [],
+    "reasonCount": 5,
+    "algoMeta": [
+      {
+        "reason": "トレースミス",
+        "meta": [
+          "TRACEで1行ずつ確認",
+          "途中状態を紙に書き、変数・配列の更新を1行ずつ追います。"
+        ]
+      },
+      {
+        "reason": "コード理解",
+        "meta": [
+          "複合問題で確認",
+          "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+        ]
+      },
+      {
+        "reason": "読み違い",
+        "meta": [
+          "条件を読み直す",
+          "設問が聞いている時点・対象・条件を先に囲ってからコードを読みます。"
+        ]
+      },
+      {
+        "reason": "知識不足",
+        "meta": [
+          "学習モードで確認",
+          "用語や仕組みを短く整理してから、もう一度判断します。"
+        ]
+      },
+      {
+        "reason": "時間不足",
+        "meta": [
+          "時間を区切って再挑戦",
+          "一つの設問に粘りすぎず、後で戻る判断を練習します。"
+        ]
+      }
+    ],
+    "secMeta": [
+      {
+        "reason": "トレースミス",
+        "meta": [
+          "TRACEで1行ずつ確認",
+          "途中状態を紙に書き、変数・配列の更新を1行ずつ追います。"
+        ]
+      },
+      {
+        "reason": "コード理解",
+        "meta": [
+          "複合問題で確認",
+          "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+        ]
+      },
+      {
+        "reason": "読み違い",
+        "meta": [
+          "条件を読み直す",
+          "設問が聞いている時点・対象・条件を先に囲ってからコードを読みます。"
+        ]
+      },
+      {
+        "reason": "知識不足",
+        "meta": [
+          "セキュリティ演習で確認",
+          "用語や仕組みを短く整理してから、もう一度判断します。"
+        ]
+      },
+      {
+        "reason": "時間不足",
+        "meta": [
+          "時間を区切って再挑戦",
+          "一つの設問に粘りすぎず、後で戻る判断を練習します。"
+        ]
+      }
+    ]
+  },
+  "session_probe": {
+    "sessions": 2000,
+    "contractFailure": 0,
+    "detailFailure": 0,
+    "targetFailure": 0
+  },
+  "visibility": {
+    "primary_next_subject_b_visible": true,
+    "review_closed_by_default": true,
+    "targeted_remediation_inside_review_fold": true
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [
+      {
+        "id": "final_wrong_answer_recovery_visibility",
+        "severity": "Medium",
+        "observation": "Per-question diagnosis and targeted remediation are complete, but all of them live inside the closed-by-default detailed-results disclosure while the visible primary action immediately continues to the next Subject B activity.",
+        "learner_risk": "A learner who misses questions can follow the dominant action without seeing the available reason classification, explanation-driven recovery step, or targeted practice button, adding avoidable friction to the wrong-answer -> understanding -> retry loop.",
+        "recommended_repair": "Keep the existing next-Subject-B primary hierarchy for strong attempts, but when wrong or blank answers exist surface one concise wrong-answer review/recovery entry point before continuation (or auto-open a compact remediation summary) without expanding all 20 reviews by default."
+      }
+    ],
+    "low": []
+  },
+  "status": "passed-with-medium-finding"
+}

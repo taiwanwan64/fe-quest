@@ -1,0 +1,126 @@
+{
+  "name": "release-tooling-cadence-v216",
+  "version": "v216",
+  "scope": "validate-versionless-release-tooling-against-mechanical-conventional-reference",
+  "branch": "v216-staging",
+  "parent_main_sha": "2bdd6faeb7d9db0eecaf030de9be007f19e27173",
+  "previous_version": "v215",
+  "stable_modules": [
+    {
+      "path": "app/runtime-diagnostic-wrapper.txt",
+      "utf8_bytes": 19860,
+      "sha256": "3dd927c419d137121e434c4d5b8759429b2ab4d7af8d7799ab5faff8e22d99b3",
+      "parent_byte_identical": true
+    },
+    {
+      "path": "app/runtime-release-adapter.txt",
+      "utf8_bytes": 211,
+      "sha256": "795dabdd88e0efe464fdd94d688e6fef1473b1d83e96e3a9e537b8ff813e1248",
+      "parent_byte_identical": true
+    },
+    {
+      "path": "app/runtime-release-diagnostic-spec.txt",
+      "utf8_bytes": 859,
+      "sha256": "8b1b4889588abea7ff52609341350a21804aee026d95bec24ea70eb3e2f668e2",
+      "parent_byte_identical": true
+    },
+    {
+      "path": "_regression/diagnostic-archive-inventory.fixture.json",
+      "utf8_bytes": 17671,
+      "sha256": "b290a576691505999bc734197aba4623a80f2d055a1a48fe718e55cd6dbb3250",
+      "parent_byte_identical": true
+    }
+  ],
+  "release_specific_diagnostic_architecture_changed_files": 0,
+  "expected_runtime": {
+    "releaseVersion": "v216",
+    "currentReleaseAdapter": "runV216SelfCheck",
+    "retiredReleaseAdapterCount": 56,
+    "retiredReleaseAdapterRange": "runV160SelfCheck..runV215SelfCheck"
+  },
+  "diagnostic_archive": {
+    "previous_count": 58,
+    "current_count": 58,
+    "growth": 0
+  },
+  "production_versioned_adapter_source_count": 0,
+  "outer_shell": {
+    "strategy": "conventional-explicit-three-file",
+    "files": [
+      "index.html",
+      "manifest.webmanifest",
+      "sw.js"
+    ]
+  },
+  "stable_base": {
+    "path": "app/base-stable.html",
+    "utf8_bytes": 2991671,
+    "sha256": "c41e5e4ade215d9cff6e103cae4596ef42f7b3334fe20cb0912023948c44fcac"
+  },
+  "stable_learning_module": {
+    "path": "app/learning-patches.txt",
+    "utf8_bytes": 405723,
+    "sha256": "6b06aae81ef5f92f59d65afa52c0e7c5288124265fb1f48d049526852708ebb8"
+  },
+  "stable_semantic_runtime": {
+    "path": "app/runtime-semantic-diagnostics.txt",
+    "utf8_bytes": 55525,
+    "sha256": "88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50"
+  },
+  "validation": {
+    "status": "passed",
+    "generated_index": {
+      "utf8_bytes": 3558540,
+      "sha256": "9e409870a8dcc925f40a122ee752c94cb3e2b04c006241caae54a1dcd6d3505e"
+    },
+    "canonical_runtime_snapshot": {
+      "sha256": "3a191f0f7bff579f78726b320bf8652f25466d40b5ee6b16253310338e893de3",
+      "utf8_bytes": 1062690
+    },
+    "only_excluded_volatile_field": "FEQUEST_SELF_CHECK.checkedAt",
+    "candidate_reference_six_file_byte_equality": true,
+    "stable_runtime_architecture_byte_identical_to_parent": true,
+    "release_specific_diagnostic_architecture_changed_files": 0,
+    "diagnostic_archive_growth": 0,
+    "production_versioned_adapter_source_count": 0,
+    "release_specific_validation_tool_source_count": 0,
+    "stable_release_tooling_file_count": 5,
+    "stable_release_tooling_deployed": false,
+    "production_manifest_direct_json": true,
+    "production_sw_direct_js": true,
+    "learner_facing_change": false
+  },
+  "stable_release_tooling": [
+    {
+      "path": ".github/workflows/release-validate.yml",
+      "utf8_bytes": 3361,
+      "sha256": "37c786b4fc1e812c1540600615058b4f6d65a6c221195f59b6e3c9e1a17049e5",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/release/release_materialize.py",
+      "utf8_bytes": 7432,
+      "sha256": "72aed4120044daecb140b5f0ca6e1de0f4e1cccb1a7b67c02cc30234df658071",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/release/prepare_reference.py",
+      "utf8_bytes": 2221,
+      "sha256": "99121ecd5294ca4d45e37835cf514e05f5bc37a5ad102a25c72a2bb2bf4d88a1",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/release/release_validate.py",
+      "utf8_bytes": 16121,
+      "sha256": "ef15ec85a98ddbae36b6a38b3b52f37e77e82eee2a41f2fbf5424e4af01e0cf0",
+      "parent_byte_identical": true
+    },
+    {
+      "path": ".github/release/runtime_stub.py",
+      "utf8_bytes": 3629,
+      "sha256": "c2028fd89dbb51f6638165ea6d89b1de73c1e26207adca5e324177c54db25aa0",
+      "parent_byte_identical": true
+    }
+  ],
+  "tooling_adoption_release": false
+}

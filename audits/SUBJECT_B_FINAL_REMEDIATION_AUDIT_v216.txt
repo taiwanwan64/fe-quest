@@ -1,0 +1,65 @@
+FE QUEST v216 — Subject B Final-Practice Remediation Audit
+====================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v215
+Source main: 2bdd6faeb7d9db0eecaf030de9be007f19e27173
+Learner-facing change in v216: none
+
+Scope
+-----
+Audit the post-final-practice path from a wrong answer to understanding and targeted practice. This is an FE QUEST learner-experience audit; it does not assert an official IPA review-flow requirement.
+
+Feedback completeness
+---------------------
+Each final-practice review detail preserves the learner answer, correct answer, explanation, source ID, question kind, format/domain and study mode.
+Wrong items also expose five self-diagnosis reasons: トレースミス / コード理解 / 読み違い / 知識不足 / 時間不足.
+Mistake count, last reason and reason history are persisted in bFinalMistakeStats. Per-source final seen/correct/lastSeen statistics are also updated.
+
+Targeted remediation coverage
+-----------------------------
+Algorithm final items checked: 43 / 43.
+Algorithm items with missing/incompatible remediation target: 0.
+Security scenarios checked: 15.
+Security scenarios with missing/incompatible remediation target: 0.
+All five diagnosis reasons returned non-empty action title + explanation metadata for both algorithm and security examples.
+
+Session probe
+-------------
+Deterministic generated final sessions: 2000.
+Structural/order failures: 0.
+Missing feedback-detail failures: 0.
+Missing/incompatible remediation-target occurrences: 0.
+
+Learner-path visibility
+-----------------------
+The visible result action remains 「次の科目Bへ →」.
+The diagnosis, format breakdown and all-20-question review are inside a result-detail-fold <details> element that is closed by default.
+Per-question targeted remediation buttons are generated inside that review list. Therefore the recovery tools are functionally strong but require the learner to discover and open the detailed-results disclosure before they can use them.
+
+Finding
+-------
+Medium — final_wrong_answer_recovery_visibility
+The wrong-answer recovery machinery is already complete, but its entry point is subordinate to an immediately visible continuation action. A learner with mistakes can leave the result screen without seeing the most useful recovery path.
+
+Recommended repair
+------------------
+Do not turn the whole 20-question review into the default screen. In the next targeted repair, when wrong or blank answers exist, surface one concise 「誤答を復習する」/recovery entry point near the result actions (or open a compact remediation summary). Preserve 「次の科目Bへ」 as the normal forward action for clean/strong attempts and leave full-detail review collapsible.
+
+Preserved contracts
+-------------------
+100 minutes / 20 questions; algorithm 16 + security 4; v214 algorithm-then-security presentation order; algorithm pool 43; high-trace inventory 15 / floor 4.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 1 — final_wrong_answer_recovery_visibility
+Low: 0
+
+Decision
+--------
+Publish v216 as audit-only. Do not silently change learner-facing behavior in this audit release. Use v217 for a narrowly scoped result-screen recovery-entry repair, then run a post-repair interaction audit.
