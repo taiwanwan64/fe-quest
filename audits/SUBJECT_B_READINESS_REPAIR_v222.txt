@@ -1,0 +1,45 @@
+FE QUEST v222 — Subject B Readiness-Aware Recommendation Repair
+============================================================================
+
+Result
+------
+PASS — v221 MEDIUM FINDING RESOLVED
+Previous: v221
+Source main: 44fdb7df80f14c3389768e3b528349fa8930b7e9
+Learner-facing change in v222: yes
+Resolved: subject_b_progression_readiness_blindness
+
+Repair
+------
+The existing staged onboarding remains intact through algorithm TRACE, security cases, three compound sets, security mini-mock, and algorithm mini-mock.
+Before the first 100-minute final practice, the weakest short-practice result must now reach 65%.
+A weak first final-practice result below 65% now routes to a relevant short-practice mode. The app records only a small optional recommendation marker so that the learner must actually complete that targeted practice after the first final; the latest targeted score must reach 65% before the second final is recommended.
+
+Behavior proof
+--------------
+0% / 0% / 0% short-practice evidence no longer escalates to final practice; it routes to short practice.
+100% / 100% / 100% still escalates to final practice.
+Security-only and compound-only weak evidence route to their matching short modes.
+A 10% first final routes to targeted algorithm practice in the probe; a failed 50% remediation stays in practice, while a subsequent 70% remediation unlocks the second final.
+A security-weak first final routes to the security mini-mock.
+The existing 65% first-final floor boundary allows the second final.
+
+Preserved contracts
+-------------------
+Foundation ordering unchanged; exam-3-days behavior unchanged; post-two-final maintenance routing unchanged.
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+500 deterministic final-session seeds matched v221 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4; v214 order, v217 recovery, and v219 XP-display policies are unchanged.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Resolve the v221 Medium finding with this narrow recommendation-only repair. Use v223 for a post-repair progression audit before expanding Subject B scope again.

@@ -1,0 +1,209 @@
+{
+  "name": "subject-b-readiness-repair-v222",
+  "version": "v222",
+  "previous_version": "v221",
+  "parent_main_sha": "44fdb7df80f14c3389768e3b528349fa8930b7e9",
+  "learner_facing_change": true,
+  "resolved_finding": "subject_b_progression_readiness_blindness",
+  "readiness_spec": {
+    "policy": "gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence",
+    "sourceAudit": "v221-subject_b_progression_readiness_blindness",
+    "shortPracticeFloor": 65,
+    "firstFinalFloor": 65,
+    "preservesFoundationOrder": true,
+    "preservesExamThreeDayRule": true,
+    "preservesMaintenanceRouting": true,
+    "questionSelectionChanged": false,
+    "scoringChanged": false,
+    "timingChanged": false,
+    "remediationTargetsChanged": false
+  },
+  "recommendation_scenarios": [
+    {
+      "name": "new_learner",
+      "stage": 1,
+      "mode": "trace",
+      "id": "loop_sum",
+      "title": "ループで合計",
+      "desc": "0 / 20 完了。次の未完了演習を1つ進めます。",
+      "marker": null
+    },
+    {
+      "name": "algorithm_complete_security_unfinished",
+      "stage": 2,
+      "mode": "security",
+      "id": "phishing",
+      "title": "偽ログイン画面",
+      "desc": "0 / 15 完了。次のケースを1つ進めます。",
+      "marker": null
+    },
+    {
+      "name": "foundations_complete_no_compound",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題を1セット",
+      "desc": "15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。",
+      "marker": null
+    },
+    {
+      "name": "three_compounds_no_security_mock",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試",
+      "desc": "8問・20分。ケース演習で身につけた判断をヒントなしで確認します。",
+      "marker": null
+    },
+    {
+      "name": "security_mock_zero_algorithm_mock_missing",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試",
+      "desc": "8問・40分。途中状態をヒントなしで連続して読みます。",
+      "marker": null
+    },
+    {
+      "name": "all_short_practice_zero_no_final",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "直近の正答率は0%です。100分の総合実戦へ進む前に、アルゴリズム ミニ模試で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "all_short_practice_perfect_no_final",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": null
+    },
+    {
+      "name": "security_short_practice_weak_no_final",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で準備",
+      "desc": "直近の正答率は40%です。100分の総合実戦へ進む前に、セキュリティ ミニ模試で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "compound_short_practice_weak_no_final",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "desc": "直近の正答率は50%です。100分の総合実戦へ進む前に、複合問題で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "one_low_final_before_remediation",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|10|2|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "one_low_final_after_failed_remediation",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|10|2|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "one_low_final_after_passing_remediation",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|10|2|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "one_low_final_security_weak",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。セキュリティ ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|50|12|0|4200",
+        "targetMode": "securityMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "one_floor_final_allows_second_final",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": null
+    },
+    {
+      "name": "maintenance_algorithm_weak",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で維持",
+      "desc": "直近の正答率が相対的に低い形式（15%）を短く確認します。",
+      "marker": null
+    },
+    {
+      "name": "exam_three_days_preserved",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で維持",
+      "desc": "試験3日前以降は100分の総合実戦を行わず、直近の正答率が相対的に低い形式（80%）を短く確認します。",
+      "marker": null
+    }
+  ],
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_500_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-v221-medium-resolved"
+}
