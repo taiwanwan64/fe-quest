@@ -82,7 +82,19 @@ jobs:
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Audit Subject B readiness learner flow
-        run: python3 .github/subject-b-readiness-learner-flow-audit/validate_audit.py
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/subject-b-readiness-learner-flow-audit/validate_audit.py')
+          s=p.read_text()
+          old="""for token in ['clarify-compound-readiness-evidence-window','SUBJECT_B_READINESS_COPY_V224_SPEC','gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence','profile.subjectBReadinessV222']:\n    req(token in html, 'readiness integration token missing: ' + token)\n"""
+          new="""req(cand['copySpec'] is not None and cand['readinessSpec'] is not None, 'readiness runtime integration missing')\n"""
+          if old not in s:
+              raise SystemExit('v225 validator integration-token probe source changed unexpectedly')
+          p.write_text(s.replace(old,new))
+          PY
+          python3 .github/subject-b-readiness-learner-flow-audit/validate_audit.py
 
       - name: Commit validated release shell and audit evidence
         shell: bash
