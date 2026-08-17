@@ -1,0 +1,137 @@
+{
+  "name": "subject-b-wrong-answer-feedback-learner-flow-audit-v231",
+  "version": "v231",
+  "previous": "v230",
+  "sourceMain": "70ab5cf7312108e2e6c1b78361b54de13ee727dc",
+  "learnerFacingChange": false,
+  "sourceRepair": "audits/SUBJECT_B_WRONG_ANSWER_FEEDBACK_REPAIR_v230.txt",
+  "traceImmediate": {
+    "error": null,
+    "exercise": "stack_ops",
+    "selected": "x=2, stack=[4]",
+    "correctText": "x=4, stack=[2]",
+    "feedback": {
+      "diagnosis": "「x=2, stack=[4]」では x・stack を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。",
+      "checkpoint": "処理の分岐点：LIFOなのでトップの4が取り出されてx=4になります。",
+      "nextCue": "POPはトップを返すだけでなく、その要素をスタックから取り除きます。"
+    },
+    "correctFeedback": null,
+    "afterWrong": {
+      "hidden": false,
+      "html": "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「x=2, stack=[4]」では x・stack を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>POPはトップを返すだけでなく、その要素をスタックから取り除きます。</div></div>"
+    },
+    "afterCorrect": {
+      "hidden": true,
+      "html": ""
+    },
+    "compactExpected": "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「x=2, stack=[4]」では x・stack を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>POPはトップを返すだけでなく、その要素をスタックから取り除きます。</div></div>",
+    "fullExpected": "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「x=2, stack=[4]」では x・stack を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。</div><div style=\"margin-top:7px\"><b>ここだけ確認：</b>処理の分岐点：LIFOなのでトップの4が取り出されてx=4になります。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>POPはトップを返すだけでなく、その要素をスタックから取り除きます。</div></div>"
+  },
+  "finalReview": {
+    "seed": 23101,
+    "sourceId": "bexam_tree_01",
+    "domain": "木構造",
+    "format": "途中状態",
+    "selected": "E",
+    "correct": "D",
+    "feedback": {
+      "diagnosis": "「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。",
+      "checkpoint": "処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。",
+      "nextCue": "現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。"
+    },
+    "inserted": [
+      "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。</div><div style=\"margin-top:7px\"><b>ここだけ確認：</b>処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。</div></div>"
+    ],
+    "renderError": null,
+    "launchError": null,
+    "beforeLaunch": null,
+    "launchedId": "tree_dfs",
+    "target": {
+      "mode": "trace",
+      "id": "tree_dfs"
+    },
+    "wrapperSource": "function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;}",
+    "targetSource": "function bFinalRemediationTarget(mode,source,domain){\n  if(mode==='security')return {mode:'security',id:source};\n  if(mode==='trace')return {mode:'trace',id:source};\n  if(mode==='exam')return {mode:'trace',id:B_FINAL_DOMAIN_REMEDIATION[domain]||'binary_search_b'};\n  if(mode==='compound')return {mode:'compound',id:source};\n  return {mode:'mock',id:null};\n}"
+  },
+  "rerender": {
+    "first": {
+      "seed": 23111,
+      "sourceId": "bexam_tree_01",
+      "domain": "木構造",
+      "format": "途中状態",
+      "selected": "E",
+      "correct": "D",
+      "feedback": {
+        "diagnosis": "「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。",
+        "checkpoint": "処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。",
+        "nextCue": "現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。"
+      },
+      "inserted": [
+        "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。</div><div style=\"margin-top:7px\"><b>ここだけ確認：</b>処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。</div></div>"
+      ],
+      "renderError": null,
+      "launchError": null,
+      "beforeLaunch": "tree_dfs",
+      "launchedId": null,
+      "target": {
+        "mode": "trace",
+        "id": "tree_dfs"
+      },
+      "wrapperSource": "function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;}",
+      "targetSource": "function bFinalRemediationTarget(mode,source,domain){\n  if(mode==='security')return {mode:'security',id:source};\n  if(mode==='trace')return {mode:'trace',id:source};\n  if(mode==='exam')return {mode:'trace',id:B_FINAL_DOMAIN_REMEDIATION[domain]||'binary_search_b'};\n  if(mode==='compound')return {mode:'compound',id:source};\n  return {mode:'mock',id:null};\n}"
+    },
+    "second": {
+      "seed": 23111,
+      "sourceId": "bexam_tree_01",
+      "domain": "木構造",
+      "format": "途中状態",
+      "selected": "E",
+      "correct": "D",
+      "feedback": {
+        "diagnosis": "「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。",
+        "checkpoint": "処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。",
+        "nextCue": "現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。"
+      },
+      "inserted": [
+        "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「E」を選んだ場合、訪問順と、次に処理するノードを保持する構造の状態がずれています。</div><div style=\"margin-top:7px\"><b>ここだけ確認：</b>処理の分岐点：先行順はA→B→D→E→Cなので、3番目はDです。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。</div></div>"
+      ],
+      "renderError": null,
+      "launchError": null,
+      "beforeLaunch": "tree_dfs",
+      "launchedId": null,
+      "target": {
+        "mode": "trace",
+        "id": "tree_dfs"
+      },
+      "wrapperSource": "function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;}",
+      "targetSource": "function bFinalRemediationTarget(mode,source,domain){\n  if(mode==='security')return {mode:'security',id:source};\n  if(mode==='trace')return {mode:'trace',id:source};\n  if(mode==='exam')return {mode:'trace',id:B_FINAL_DOMAIN_REMEDIATION[domain]||'binary_search_b'};\n  if(mode==='compound')return {mode:'compound',id:source};\n  return {mode:'mock',id:null};\n}"
+    },
+    "sameInserted": true,
+    "sameFeedback": true
+  },
+  "rebuild": {
+    "algoChecked": 43,
+    "securityChecked": 15,
+    "algoMismatch": [],
+    "securityMismatch": []
+  },
+  "stateless": {
+    "sameFeedback": true,
+    "profileUnchanged": true
+  },
+  "disclosure": {
+    "questions": 85,
+    "totalWrong": 255,
+    "compactCheckpointLeak": 0,
+    "correctFeedbackCount": 0,
+    "selectedNameMiss": 0
+  },
+  "selectionSignature1000": 2387580846,
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "finding": null
+}

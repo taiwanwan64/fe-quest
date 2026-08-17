@@ -1,0 +1,62 @@
+FE QUEST v231 — Subject B Wrong-Answer Feedback Learner-Flow Audit
+=============================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v230
+Source main: 70ab5cf7312108e2e6c1b78361b54de13ee727dc
+Learner-facing change in v231: none
+
+What was audited
+----------------
+v230 repaired the medium finding that Subject B wrong-answer feedback could not distinguish one distractor from another. v231 audits the repair as an actual learner flow rather than only checking metadata coverage: choose a wrong answer in guided TRACE, see immediate diagnosis, submit a wrong answer in final practice, see the complete review diagnosis, follow the remediation action, rerender the review, and reconstruct the question after a runtime refresh / reshuffle.
+No learner-facing code or question data was changed in this release.
+
+Immediate wrong-selection proof
+-------------------------------
+TRACE sample exercise: stack_ops
+Selected distractor: x=2, stack=[4]
+Wrong selection opened the v230 diagnosis panel: yes.
+Immediate panel contains “選んだ答えから見ると” and “次回の合図”: yes.
+Immediate panel hides the post-answer “ここだけ確認” checkpoint: yes.
+Selecting the correct option clears the wrong-answer panel: yes.
+The correct option has no wrong-answer diagnosis object: yes.
+Across all 85 guided algorithm/security questions (255 wrong-choice slots), checkpoint leaks: 0; correct-choice diagnosis count: 0; selected-distractor naming misses: 0.
+
+Submitted final-review proof
+----------------------------
+Final review sample source: bexam_tree_01 / 木構造 / 途中状態
+Selected distractor: E
+The rendered wrong-answer row received one v230 feedback block after the existing explanation: yes.
+The submitted review block contains all three parts — diagnosis, checkpoint, next cue: yes.
+The diagnosis remains keyed to the selected distractor text after final-answer randomization: yes.
+The existing review remediation button still resolved through bFinalRemediationTarget and launched TRACE target: tree_dfs.
+The v217 recovery entry and existing final-review structure remain untouched; v230 is additive after the existing explanation.
+
+Rerender / refresh proof
+------------------------
+Rendering the same submitted review twice produced identical feedback: yes.
+A second fresh Node runtime over the same candidate produced the same TRACE/review/rebuild probes: yes.
+All 43 algorithm final sources were rebuilt under three deterministic shuffles with zero feedback-key mismatches.
+All 15 security final sources were rebuilt under three deterministic shuffles with zero feedback-key mismatches.
+Feedback lookup is stateless: repeated lookup produced the same object and did not mutate the learner profile.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v230 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness/65% threshold, v224 copy, v227 domain progression, and the complete v230 feedback spec are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+No profile schema migration and no feedback history persistence were introduced.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+The v229-v231 wrong-answer feedback sequence is closed. The next Subject B learning-quality frontier should audit distractor plausibility and difficulty calibration: whether wrong options represent realistic reasoning mistakes, whether easy/standard/advanced labels separate meaningfully, and whether practice-to-final difficulty progression is smooth without changing scoring or the 65% readiness gate unless evidence supports a later repair.
