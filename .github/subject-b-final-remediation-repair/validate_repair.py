@@ -72,15 +72,16 @@ console.log('__V217__'+Buffer.from(JSON.stringify({v:APP_VERSION,counts:[B_FINAL
 
 version,previous=ctx();parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
 req(version=='v217' and previous=='v216','v217 repair expects v216 parent')
-source=Path('audits/SUBJECT_B_FINAL_REMEDIATION_AUDIT_v216.txt');req(source.exists(),'v216 remediation audit missing')
+manifest_path=Path(f'_release/content-change-{version}.json');req(manifest_path.exists(),'v217 content manifest missing')
+mf=json.loads(manifest_path.read_text());req(mf.get('schema_version')==1,'manifest schema');req(mf.get('release')==version and mf.get('previous_release')==previous,'manifest release context');req(mf.get('parent_main_sha')==parent,'manifest parent mismatch');req(mf.get('change_type')=='subject-b-final-remediation-visibility-repair','manifest change type');req(mf.get('source_priority_tier')=='medium' and mf.get('quality_audit_marker')=='final_wrong_answer_recovery_visibility','manifest audit link');req(mf.get('allowed_question_ids')==[],'v217 must not change question content')
+source=Path(mf.get('source_quality_audit',''));req(source.exists(),'v216 remediation audit missing')
 st=source.read_text();req('final_wrong_answer_recovery_visibility' in st and 'Medium: 1' in st and 'Use v217' in st,'v216 source finding evidence drift')
 
-expected={
+tooling={
  '.github/subject-b-final-remediation-repair/validate_repair.py',
- '.github/workflows/subject-b-final-remediation-repair.yml',
- 'app/subject-b-final-remediation-overrides-v217.txt',
- 'index.html'
+ '.github/workflows/subject-b-final-remediation-repair.yml'
 }
+expected=set(mf.get('content_files',[]))|set(mf.get('assembly_files',[]))|{manifest_path.as_posix()}|tooling
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines())
 req(changed==expected,'v217 repair source drift: '+repr(sorted(changed^expected)))
 
@@ -90,6 +91,7 @@ for token in ['surface-final-wrong-answer-recovery-entry','v216-final_wrong_answ
 for forbidden in ['buildBFinal=function','finishBFinal=function','bFinalRemediationTarget=function']:
     req(forbidden not in override,'v217 scope expanded into '+forbidden)
 assembler=Path('index.html').read_text();req('subject-b-final-remediation-overrides-v217.txt' in assembler and '{{ subjectBFinalRemediationV217 }}function validateSubjectBSemantics(){' in assembler,'v217 production assembly missing')
+req(Path('.github/content-release/prepare_reference.py').read_bytes()==subprocess.check_output(['git','show',parent+':.github/content-release/prepare_reference.py']),'content reference tooling drift')
 
 html,cand=runtime('_site/index.html',True);parent_html,par=runtime('_site_parent/index.html',False)
 req(cand['v']==version and par['v']==previous,'runtime versions')
