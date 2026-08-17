@@ -1,0 +1,50 @@
+FE QUEST v213 — Subject B Final-Practice Whole-Session Experience Audit
+==========================================================================
+
+Result
+------
+PASS WITH MEDIUM FINDING
+Previous: v212
+Source main: 133149b600027e52381854ceeba21c33b977f651
+Learner-facing change in v213: none
+
+Scope
+-----
+Audit the 20-question Subject B final-practice experience after the v211 pool expansion and v212 rotation validation. This release does not change questions, selection logic, saved-state IDs, time limit, review behavior or scoring.
+
+Time-pressure experience — PASS
+-------------------------------
+The session remains 100 minutes / 20 required questions (5 minutes per question as a simple average, not a forced pacing rule).
+The countdown is always visible, changes to warning state at 15 minutes remaining and danger state at 5 minutes remaining, and the session saves resumable state every 15 seconds.
+Learners can move backward/forward, jump through the 20-question navigator and flag questions for later. There is no per-question countdown that would distort self-directed time allocation.
+
+Review usefulness — PASS
+------------------------
+The result screen exposes overall score, algorithm/security split and format-level performance.
+Each question review shows the learner answer, correct answer and explanation.
+Incorrect items can be tagged as トレースミス / コード理解 / 読み違い / 知識不足 / 時間不足 and link directly to a remediation activity.
+No review-utility defect was found in this audit.
+
+Question-order fidelity — MEDIUM
+--------------------------------
+Current buildBFinal selects a contract-valid 16 algorithm + 4 security set and then performs one full shuffle across all 20 questions.
+The published IPA full 20-question Subject B sample is structured with algorithm/programming questions 1-16 followed by information-security questions 17-20. This is used as public-sample calibration evidence; it is not treated as proof that every CBT delivery is contractually required to preserve exactly that order.
+
+Deterministic 20,000-session order probe of the current FE QUEST policy:
+  exact 16-algorithm then 4-security block order: 4 / 20000 (0.020%)
+  at least one security question before Q17: 19996 / 20000 (99.980%)
+  at least one adjacent pair of security questions: 10160 / 20000 (50.800%)
+  type transitions per session: average 6.406 / min 1 / max 8
+
+The full shuffle is useful for mixed practice, but this mode is explicitly presented as a final, exam-oriented 100-minute session. The extra algorithm/security context switching is therefore less faithful to the public full-sample structure than necessary.
+
+Findings
+--------
+High: 0
+Medium: 1 — final_question_order_fidelity
+Low: 0
+
+Decision
+--------
+Do not change learner behavior in v213.
+For v214, preserve the already-selected 16 algorithm and 4 security questions, all existing difficulty/domain/high-trace/security quotas and exposure-aware selection. Change only presentation order: shuffle inside the algorithm block, then shuffle inside the security block, and concatenate algorithm 16 + security 4. Re-audit rotation and saved resume/review behavior after the repair.

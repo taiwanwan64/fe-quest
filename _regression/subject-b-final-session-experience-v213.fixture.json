@@ -1,0 +1,92 @@
+{
+  "name": "subject-b-final-session-experience-v213",
+  "version": "v213",
+  "previous_version": "v212",
+  "parent_main_sha": "133149b600027e52381854ceeba21c33b977f651",
+  "learner_facing_change": false,
+  "runtime_preservation": {
+    "time_seconds": 6000,
+    "counts": [
+      20,
+      16,
+      4
+    ],
+    "algorithm_pool": 43,
+    "high_trace": 15,
+    "trace_floor": 4,
+    "semantic_validator_ok": true
+  },
+  "time_pressure_ux": {
+    "result": "pass",
+    "timer_visible": true,
+    "warning_at_minutes": [
+      15,
+      5
+    ],
+    "resume_checkpoint_seconds": 15,
+    "free_navigation": true,
+    "flag_for_review": true,
+    "forced_per_question_timer": false
+  },
+  "review_usefulness": {
+    "result": "pass",
+    "overall_score": true,
+    "algorithm_security_split": true,
+    "format_breakdown": true,
+    "per_question_answer_and_explanation": true,
+    "mistake_reason_tags": [
+      "トレースミス",
+      "コード理解",
+      "読み違い",
+      "知識不足",
+      "時間不足"
+    ],
+    "direct_remediation_action": true
+  },
+  "question_order": {
+    "result": "medium_finding",
+    "id": "final_question_order_fidelity",
+    "current_policy": "full-shuffle-after-selecting-16-algorithm-and-4-security",
+    "public_sample_calibration": "IPA full 20-question sample presents questions 1-16 as algorithm/programming and 17-20 as information security; this is calibration evidence, not a claim that every CBT delivery guarantees an immutable order.",
+    "probe": {
+      "sessions": 20000,
+      "exactBlock": 4,
+      "exactBlockRate": 0.0002,
+      "securityBefore17": 19996,
+      "securityBefore17Rate": 0.9998,
+      "adjacentSecurity": 10160,
+      "adjacentSecurityRate": 0.508,
+      "avgTransitions": 6.406,
+      "minTransitions": 1,
+      "maxTransitions": 8,
+      "firstSecurity": {
+        "1": 4091,
+        "2": 3378,
+        "3": 2780,
+        "4": 2269,
+        "5": 1873,
+        "6": 1462,
+        "7": 1161,
+        "8": 899,
+        "9": 706,
+        "10": 480,
+        "11": 351,
+        "12": 246,
+        "13": 158,
+        "14": 82,
+        "15": 39,
+        "16": 21,
+        "17": 4
+      }
+    }
+  },
+  "findings": {
+    "high": [],
+    "medium": [
+      "final_question_order_fidelity"
+    ],
+    "low": []
+  },
+  "decision": "Keep v213 audit-only. v214 should preserve the selected 16+4 set and all quotas, but order the 16 algorithm questions first and the 4 security questions last, shuffling only within each block unless stronger current IPA evidence requires otherwise.",
+  "status": "passed_with_medium_finding"
+}
