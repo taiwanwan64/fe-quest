@@ -1,0 +1,24 @@
+// ===== FE QUEST v219 Subject B final-practice XP message consistency repair =====
+const SUBJECT_B_FINAL_XP_V219_SPEC=Object.freeze({
+  policy:'preserve-final-earned-xp-message-on-same-attempt-rerender',
+  sourceAudit:'v218-final_recovery_xp_message_rerender',
+  scoringChanged:false,
+  persistedXpChanged:false,
+  reasonHistoryChanged:false,
+  remediationTargetsChanged:false,
+  recoveryEntryChanged:false,
+  displayOnly:true
+});
+
+const __bFinalEarnedDisplayV219=new WeakMap();
+const __renderBFinalResultBeforeV219=renderBFinalResult;
+renderBFinalResult=function(a,earned){
+  const normalized=Math.max(0,Number(earned)||0);
+  if(a&&typeof a==='object'){
+    if(normalized>0||!__bFinalEarnedDisplayV219.has(a))__bFinalEarnedDisplayV219.set(a,normalized);
+    return __renderBFinalResultBeforeV219(a,__bFinalEarnedDisplayV219.get(a));
+  }
+  return __renderBFinalResultBeforeV219(a,normalized);
+};
+
+globalThis.SUBJECT_B_FINAL_XP_V219_SPEC=SUBJECT_B_FINAL_XP_V219_SPEC;
