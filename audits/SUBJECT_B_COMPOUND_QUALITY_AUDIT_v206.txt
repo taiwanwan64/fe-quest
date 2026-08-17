@@ -1,0 +1,61 @@
+FE QUEST v206 — Subject B Compound-Set Quality Audit
+=====================================================
+
+Result
+------
+PASSED WITH LOW WATCHES.
+Learner-facing content is unchanged in v206.
+
+Purpose
+-------
+v205 repaired the only Medium issue found by the integrated-session audit: algorithm mini-mock family concentration. The next untreated Subject B surface is the 15 compound challenge sets. v206 reviews them as teaching sequences: one code/context followed by three related questions.
+
+Reference boundary
+------------------
+The attached FE materials are used only to calibrate Subject B scope, terminology, structure, difficulty and exam-like tracing. Proprietary question wording is not copied. The audit favors meaningful state tracing and consequence prediction over repeated one-step arithmetic.
+
+Runtime inventory
+-----------------
+B_COMPOUND_SETS: 15
+Questions: 45, exactly 3 per set
+Set levels: standard 7 / applied 8
+Question kinds: trace 31 / blank completion 7 / change prediction 5 / processing understanding 2
+Answer positions: 12 / 11 / 11 / 11
+Per-set timer: 20 minutes
+
+Quality review
+--------------
+PASS across the current severity threshold:
+- every set has a distinct code/context and three valid questions
+- question options are four-way and explanations are present
+- no incorrect answer or broken trace was found
+- the stronger sets deliberately switch reasoning mode inside one context: insertion_pass, postfix_stack, bfs_queue, bit_permission, object_cart, matrix_transpose, merge_sorted, sentinel_search and tree_height combine trace with blank completion, change prediction or processing understanding
+- early sets such as sales_filter, queue_service, linked_rank and binary_count still progress through different checkpoints rather than repeating the exact same one-step operation
+- the 15 sets broaden practice beyond the 20 basic B_EXERCISES with sorting, postfix evaluation, BFS, matrix transpose, merge, sentinel search and recursive tree height
+
+Low watch — recursive_sum_return_state_depth
+--------------------------------------------
+recursive_sum is correct and suitable as a standard-level introduction, but its three questions remain close to the same recurrence expansion: base return, subtotal at total(3), then final total(4). A future redesign could make one checkpoint about the active call/return state instead of another subtotal.
+
+Severity: Low. There is no wrong answer and the set remains pedagogically useful.
+
+Low watch — matrix_threshold_dual_final_aggregate
+-------------------------------------------------
+matrix_threshold first asks for an intermediate count/score state, then asks two final aggregates from the same completed scan: final count and final score. The two variables are distinct, so this is not a duplicate pair, but one later question could become a branch-sensitive intermediate-state judgment to deepen the trace.
+
+Severity: Low. No immediate repair is required.
+
+Carry-over fidelity watch
+-------------------------
+v204 identified a separate Low watch in the 40-item final algorithm pool: code ranges from 3 to 16 lines with an average of 7.85 lines, and the pool consists of compact independent items. That does not make the current final practice incorrect; its 16+4 structure, ten-domain coverage, 8/8 standard-applied balance and review diagnosis are strong. It does, however, remain the clearest next opportunity for exam-fidelity improvement.
+
+Decision
+--------
+High findings: 0
+Medium findings: 0
+Low watches: 3, including the v204 final-fidelity carry-over
+Learner-facing changes in v206: 0
+
+The compound-set bank is good enough to keep unchanged. Do not add more sets simply to increase volume.
+
+Recommended v207 scope: audit the 40 B_EXAM_ALGO_ITEMS specifically for final-practice fidelity — context density, state representation, multi-stage trace depth and whether a generated 16-question algorithm session can contain a useful floor of denser applied items. Preserve the 20-question final contract (algorithm 16 + security 4), all ten-domain coverage, standard 8 + applied 8, unique IDs, history fairness and current review/diagnosis behavior.
