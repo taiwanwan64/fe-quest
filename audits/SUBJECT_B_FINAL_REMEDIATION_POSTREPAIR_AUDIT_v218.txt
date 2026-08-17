@@ -1,0 +1,56 @@
+FE QUEST v218 — Subject B Final-Practice Remediation Post-Repair Audit
+================================================================================
+
+Result
+------
+PASS — LOW FINDING RECORDED
+Previous: v217
+Source main: 0a197defc71c173457647e473922e53fc58e618c
+Learner-facing change in v218: none
+
+Scope
+-----
+Audit the v217 result-screen recovery entry as an end-to-end learner interaction after the targeted visibility repair. This is an FE QUEST UX/integration audit, not an assertion about an official IPA review-flow requirement.
+
+Recovery-entry interaction
+--------------------------
+Mixed attempt (17 correct / 1 blank): visible 「誤答・未回答を復習する（3問）」 entry, inserted once before the primary continuation action.
+Wrong-only attempt (19 correct): visible 「誤答を復習する（1問）」 entry.
+Blank-only attempt (19 correct / 1 blank): visible 「誤答・未回答を復習する（1問）」 entry.
+Perfect 20/20 attempt: recovery entry hidden.
+Each new attempt starts with the full 20-question review collapsed.
+
+Recovery click / diagnosis proof
+--------------------------------
+Recovery click opens the detailed review, sets aria-expanded=true, focuses the first item needing review and scrolls to it.
+Selecting 「トレースミス」 persists the reason in bFinalMistakeStats.
+The same-attempt rerender keeps the detailed review open, preserves aria-expanded=true and does not duplicate the recovery entry.
+The existing 「次の科目Bへ →」 binding remains connected to continueSubjectBFlow.
+
+Preserved remediation / exam contracts
+---------------------------------------
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+1000 deterministic final-session seeds produced the same selection/order signature as v217.
+100 minutes / 20 questions; algorithm 16 + security 4; v214 order policy; algorithm pool 43; high-trace inventory 15 / floor 4 are unchanged.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Finding
+-------
+Low — final_recovery_xp_message_rerender
+The promoted recovery path exposes a small pre-existing display defect: after a diagnosis reason is selected, the reason-chip callback rerenders the result with earned=0. In the interaction probe, the visible result message changed from a non-zero earned-XP value to 「+0 XP」. The attempt result and stored XP are not rolled back; this is a message-consistency problem rather than a scoring/data problem.
+
+Recommended repair
+------------------
+In v219, preserve the original earned-XP display value when the same final-practice attempt is rerendered after reason selection. Do not alter the score, persisted XP, reason-history data, remediation targets, or the v217 recovery-entry behavior.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 1 — final_recovery_xp_message_rerender
+
+Decision
+--------
+Publish v218 as audit-only. The v217 visibility repair is functionally successful. Use v219 for the narrow display-consistency repair, followed by a short post-repair check before moving to the next Subject B learning-quality frontier.

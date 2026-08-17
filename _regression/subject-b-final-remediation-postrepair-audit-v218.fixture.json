@@ -1,0 +1,114 @@
+{
+  "name": "subject-b-final-remediation-postrepair-audit-v218",
+  "version": "v218",
+  "previous_version": "v217",
+  "parent_main_sha": "0a197defc71c173457647e473922e53fc58e618c",
+  "learner_facing_change": false,
+  "scope": "post-v217 wrong-answer recovery entry interaction, reason persistence, visibility states and result-message stability",
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "v214_order_spec_unchanged": true,
+    "v217_repair_spec_unchanged": true,
+    "selection_signature_1000_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "interaction_probe": {
+    "mixedInitial": {
+      "hidden": false,
+      "label": "誤答・未回答を復習する（3問）",
+      "open": false,
+      "aria": "false",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP"
+    },
+    "afterRecovery": {
+      "hidden": false,
+      "label": "誤答・未回答を復習する（3問）",
+      "open": true,
+      "aria": "true",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "focused": true,
+      "scrolled": true,
+      "tabindex": "-1"
+    },
+    "afterReason": {
+      "hidden": false,
+      "label": "誤答・未回答を復習する（3問）",
+      "open": true,
+      "aria": "true",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+0 XP",
+      "lastReason": "トレースミス",
+      "messageBefore": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "messageAfter": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+0 XP"
+    },
+    "wrongOnly": {
+      "hidden": false,
+      "label": "誤答を復習する（1問）",
+      "open": false,
+      "aria": "false",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+50 XP"
+    },
+    "blankOnly": {
+      "hidden": false,
+      "label": "誤答・未回答を復習する（1問）",
+      "open": false,
+      "aria": "false",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+50 XP"
+    },
+    "perfect": {
+      "hidden": true,
+      "label": "誤答を復習する",
+      "open": false,
+      "aria": "false",
+      "controls": "bFinalReviewDetailV217",
+      "insertions": 1,
+      "beforeForward": true,
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+240 XP"
+    },
+    "focusCount": 1,
+    "scrollCount": 1
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": [
+      {
+        "id": "final_recovery_xp_message_rerender",
+        "severity": "Low",
+        "observation": "After the learner selects a wrong-answer diagnosis reason, the existing reason-chip callback rerenders renderBFinalResult(a,0). The result message therefore changes from the already-earned XP amount to +0 XP even though the attempt score and persisted XP award are not undone.",
+        "learner_risk": "This is display-only, but it can make the newly promoted recovery interaction look as if the learner lost the XP they just earned and weakens trust in the result screen.",
+        "recommended_repair": "Preserve the original earned-XP display value across same-attempt result rerenders. Keep reason persistence, review-open state, scoring and profile XP logic unchanged."
+      }
+    ]
+  },
+  "status": "passed-with-low-finding"
+}
