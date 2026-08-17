@@ -1,0 +1,288 @@
+{
+  "name": "subject-b-readiness-postrepair-audit-v223",
+  "version": "v223",
+  "previous_version": "v222",
+  "parent_main_sha": "cef80853929d608957d1ca68c5b767598f5bb32a",
+  "learner_facing_change": false,
+  "readiness_spec": {
+    "policy": "gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence",
+    "sourceAudit": "v221-subject_b_progression_readiness_blindness",
+    "shortPracticeFloor": 65,
+    "firstFinalFloor": 65,
+    "preservesFoundationOrder": true,
+    "preservesExamThreeDayRule": true,
+    "preservesMaintenanceRouting": true,
+    "questionSelectionChanged": false,
+    "scoringChanged": false,
+    "timingChanged": false,
+    "remediationTargetsChanged": false
+  },
+  "scenarios": [
+    {
+      "name": "short_65",
+      "stage": 4,
+      "mode": "final",
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": null
+    },
+    {
+      "name": "algo_64",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "直近の正答率は64%です。100分の総合実戦へ進む前に、アルゴリズム ミニ模試で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "security_64",
+      "stage": 3,
+      "mode": "securityMock",
+      "title": "セキュリティ ミニ模試で準備",
+      "desc": "直近の正答率は64%です。100分の総合実戦へ進む前に、セキュリティ ミニ模試で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "compound_64",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "直近の正答率は64%です。100分の総合実戦へ進む前に、複合問題で65%以上を目安に確認します。",
+      "marker": null
+    },
+    {
+      "name": "final_65",
+      "stage": 4,
+      "mode": "final",
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": null
+    },
+    {
+      "name": "final_64",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|64|12|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "security_weak_final",
+      "stage": 3,
+      "mode": "securityMock",
+      "title": "セキュリティ ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。セキュリティ ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|50|10|0|4200",
+        "targetMode": "securityMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "algo_target_before",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "after_unrelated",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "after_target_50",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "after_target_70",
+      "stage": 4,
+      "mode": "final",
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "miniMock",
+        "targetRunCount": 1
+      }
+    },
+    {
+      "name": "compound_before",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "compound_after_one_67",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "marker_first",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "marker_second",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "marker_roundtrip",
+      "stable": true,
+      "preserved": true
+    },
+    {
+      "name": "marker_changed_final",
+      "stage": 3,
+      "mode": "compound",
+      "title": "複合問題で準備",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+      "marker": {
+        "firstFinalKey": "2026-08-18|30|6|0|4200",
+        "targetMode": "compound",
+        "targetRunCount": 3
+      }
+    },
+    {
+      "name": "marker_key_changed",
+      "changed": true
+    },
+    {
+      "name": "maintenance_algo_weak",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で維持",
+      "desc": "直近の正答率が相対的に低い形式（15%）を短く確認します。",
+      "marker": null
+    },
+    {
+      "name": "exam_three_days",
+      "stage": 3,
+      "mode": "miniMock",
+      "title": "アルゴリズム ミニ模試で維持",
+      "desc": "試験3日前以降は100分の総合実戦を行わず、直近の正答率が相対的に低い形式（80%）を短く確認します。",
+      "marker": null
+    }
+  ],
+  "history_semantics": {
+    "algorithm_newest_first": true,
+    "security_newest_first": true,
+    "compound_newest_first": true
+  },
+  "finding": {
+    "id": "compound_remediation_window_message",
+    "severity": "low",
+    "summary": "Compound remediation uses a rolling three-attempt average while the first-final recovery copy says to check it once; one new 67% compound result can therefore still leave the second final locked.",
+    "evidence": {
+      "before": {
+        "name": "compound_before",
+        "stage": 3,
+        "mode": "compound",
+        "title": "複合問題で準備",
+        "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+        "marker": {
+          "firstFinalKey": "2026-08-17|40|8|0|4200",
+          "targetMode": "compound",
+          "targetRunCount": 3
+        }
+      },
+      "after_one_new_67": {
+        "name": "compound_after_one_67",
+        "stage": 3,
+        "mode": "compound",
+        "title": "複合問題で準備",
+        "desc": "1回目の総合実戦で弱点が見つかりました。複合問題を1回確認し、65%以上を目安にしてから2回目へ進みます。",
+        "marker": {
+          "firstFinalKey": "2026-08-17|40|8|0|4200",
+          "targetMode": "compound",
+          "targetRunCount": 3
+        }
+      },
+      "history_semantics": {
+        "algorithm_newest_first": true,
+        "security_newest_first": true,
+        "compound_newest_first": true
+      }
+    }
+  },
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_500_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": [
+      "compound_remediation_window_message"
+    ]
+  },
+  "status": "passed-low-finding-recorded"
+}

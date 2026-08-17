@@ -1,0 +1,45 @@
+FE QUEST v223 — Subject B Readiness Post-Repair Progression Audit
+=============================================================================
+
+Result
+------
+PASS — LOW FINDING RECORDED
+Previous: v222
+Source main: cef80853929d608957d1ca68c5b767598f5bb32a
+Learner-facing change in v223: none
+
+What was audited
+----------------
+The v222 readiness repair was exercised at the 64/65% boundaries, across algorithm/security/compound weak modes, after weak and passing first-final results, through unrelated and targeted remediation attempts, across profile normalization, inside the exam-three-days taper, and after two final-practice runs.
+The actual completion functions were checked to confirm algorithm, security, and compound histories are all stored newest-first, so v222's index-0 recency assumption is valid.
+
+What passed
+-----------
+65% short-practice evidence allows final practice; 64% evidence routes to the matching short mode.
+A 65% first final allows the second final; a lower first final routes to targeted practice.
+Unrelated practice cannot unlock the second final. A targeted 50% mini-mock remains blocked; a later 70% targeted mini-mock unlocks it.
+The readiness marker remains stable across rerenders, survives profile normalization, and refreshes when first-final identity changes.
+Exam-three-days taper and post-two-final maintenance routing remain intact.
+
+Low finding — compound_remediation_window_message
+--------------------------------------------------
+Compound readiness uses the average of the three newest compound attempts, while the first-final recovery copy says to check the compound problem once and aim for 65%. A qualifying pre-final window of 67%, 33%, 100% averages 67%; after one new 67% attempt, the newest three become 67%, 67%, 33% (56%), so the learner is still routed to compound practice despite completing one new attempt at or above the displayed target.
+This is a guidance/expectation mismatch, not a readiness-engine failure. The rolling evidence is reasonable for a three-question set, but the copy should describe it accurately.
+
+Preserved contracts
+-------------------
+500 deterministic final-session seeds matched v222 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, and v222 readiness specs are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK. Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 1
+
+Decision
+--------
+Do not change learner-facing behavior in this audit release. Use v224 for a narrow compound-remediation copy/evidence-clarity repair.
