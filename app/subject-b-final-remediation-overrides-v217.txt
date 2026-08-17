@@ -1,0 +1,73 @@
+// ===== FE QUEST v217 Subject B final-practice wrong-answer recovery visibility repair =====
+const SUBJECT_B_FINAL_REMEDIATION_V217_SPEC=Object.freeze({
+  policy:'surface-final-wrong-answer-recovery-entry',
+  sourceAudit:'v216-final_wrong_answer_recovery_visibility',
+  keepsForwardActionPrimary:true,
+  keepsFullReviewCollapsible:true,
+  recoveryEntryOnlyWhenNeeded:true,
+  blankAnswersIncluded:true
+});
+
+let __bFinalRecoveryAttemptV217=null;
+
+function ensureBFinalRecoveryEntryV217(){
+  const result=document.getElementById('bFinalResult');
+  const actions=result?.querySelector('.bmock-result-actions');
+  if(!result||!actions)return null;
+  let btn=document.getElementById('bFinalRecoveryV217');
+  const detail=result.querySelector('details.result-detail-fold');
+  if(detail&&!detail.id)detail.id='bFinalReviewDetailV217';
+  if(!btn){
+    btn=document.createElement('button');
+    btn.type='button';
+    btn.id='bFinalRecoveryV217';
+    btn.className='secondary';
+    btn.hidden=true;
+    if(detail)btn.setAttribute('aria-controls',detail.id);
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click',()=>{
+      const review=result.querySelector('details.result-detail-fold');
+      if(!review)return;
+      review.open=true;
+      btn.setAttribute('aria-expanded','true');
+      requestAnimationFrame(()=>{
+        const firstNeedsReview=result.querySelector('.bfinal-review-item.wrong');
+        if(!firstNeedsReview)return;
+        firstNeedsReview.setAttribute('tabindex','-1');
+        firstNeedsReview.focus();
+        firstNeedsReview.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+    });
+    const forward=document.getElementById('bFinalBackMenu');
+    actions.insertBefore(btn,forward||actions.firstChild);
+  }
+  return btn;
+}
+
+function updateBFinalRecoveryEntryV217(a){
+  const btn=ensureBFinalRecoveryEntryV217();
+  if(!btn)return;
+  const correct=Math.max(0,Math.min(B_FINAL_COUNT,Number(a?.correct)||0));
+  const blank=Math.max(0,Math.min(B_FINAL_COUNT-correct,Number(a?.blank)||0));
+  const needsReview=Math.max(0,B_FINAL_COUNT-correct);
+  btn.hidden=needsReview===0;
+  btn.setAttribute('aria-expanded','false');
+  if(needsReview===0){
+    btn.textContent='誤答を復習する';
+    return;
+  }
+  btn.textContent=blank>0?`誤答・未回答を復習する（${needsReview}問）`:`誤答を復習する（${needsReview}問）`;
+}
+
+const __renderBFinalResultBeforeV217=renderBFinalResult;
+renderBFinalResult=function(a,earned){
+  const result=document.getElementById('bFinalResult');
+  const detail=result?.querySelector('details.result-detail-fold');
+  const isNewAttempt=a!==__bFinalRecoveryAttemptV217;
+  if(isNewAttempt&&detail)detail.open=false;
+  __renderBFinalResultBeforeV217(a,earned);
+  __bFinalRecoveryAttemptV217=a;
+  updateBFinalRecoveryEntryV217(a);
+};
+
+globalThis.SUBJECT_B_FINAL_REMEDIATION_V217_SPEC=SUBJECT_B_FINAL_REMEDIATION_V217_SPEC;
