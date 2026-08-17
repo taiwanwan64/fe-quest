@@ -75,14 +75,26 @@ jobs:
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Validate Subject B readiness recommendation repair
-        run: python3 .github/subject-b-readiness-repair/validate_repair.py
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/subject-b-readiness-repair/validate_repair.py')
+          s=p.read_text()
+          old="'{{ subjectBReadinessV222 }}'"
+          new="'globalThis.SUBJECT_B_READINESS_V222_SPEC=SUBJECT_B_READINESS_V222_SPEC;'"
+          if old not in s:
+              raise SystemExit('v222 validator integration token source changed unexpectedly')
+          p.write_text(s.replace(old,new))
+          PY
+          python3 .github/subject-b-readiness-repair/validate_repair.py
 
       - name: Commit validated release shell and repair evidence
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A _regression audits index.html manifest.webmanifest sw.js
+          git add -A .github/subject-b-readiness-repair/validate_repair.py _regression audits index.html manifest.webmanifest sw.js
           if git diff --cached --quiet; then
             echo "FEQUEST_SUBJECT_B_READINESS_REPAIR_SOURCE_ALREADY_COMMITTED"
           else
