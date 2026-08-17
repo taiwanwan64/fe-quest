@@ -1,0 +1,342 @@
+{
+  "name": "subject-b-algorithm-domain-progression-repair-v227",
+  "version": "v227",
+  "previous": "v226",
+  "sourceMain": "08b27908518be376314bdadd84b36cbb0ddc0f91",
+  "learnerFacingChange": true,
+  "resolvedFinding": "algorithm_domain_weakness_not_aggregated_for_progression",
+  "spec": {
+    "policy": "route-concentrated-first-final-algorithm-weakness-through-existing-domain-trace-before-generic-mini-mock",
+    "sourceAudit": "v226-algorithm_domain_weakness_not_aggregated_for_progression",
+    "minTotalMistakes": 4,
+    "minDomainMistakes": 2,
+    "minDistinctItems": 2,
+    "minDomainErrorRatePercent": 75,
+    "minDomainMistakeSharePercent": 20,
+    "equalMistakeCountRateLeadPercent": 25,
+    "fallbackMode": "miniMock",
+    "reusesExistingDomainLabels": true,
+    "reusesExistingRemediationTargets": true,
+    "preservesExamThreeDayRule": true,
+    "readinessThresholdChanged": false,
+    "questionSelectionChanged": false,
+    "scoringChanged": false,
+    "timingChanged": false,
+    "securityRoutingChanged": false,
+    "directFinalRemediationChanged": false,
+    "profileSchemaMigrationRequired": false
+  },
+  "concentratedScenarios": {
+    "tree": {
+      "domain": "木構造",
+      "first": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "tree_dfs",
+        "title": "木構造のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「木構造」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "second": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "tree_dfs",
+        "title": "木構造のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「木構造」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "domain": "木構造",
+        "targetId": "tree_dfs",
+        "completed": false,
+        "evidence": {
+          "totalMistakes": 8,
+          "domainMistakes": 3,
+          "distinctMissedItems": 3,
+          "domainErrorRate": 100,
+          "domainMistakeShare": 38
+        }
+      },
+      "markerPreserved": true,
+      "unrelated": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "tree_dfs",
+        "title": "木構造のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「木構造」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "afterTarget": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "low": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "pass": {
+        "stage": 4,
+        "mode": "final",
+        "id": null,
+        "title": "科目B 総合実戦",
+        "kicker": "ステップ 4・総合実戦",
+        "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+      },
+      "directBeforeHub": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      }
+    },
+    "bit": {
+      "domain": "ビット列",
+      "first": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "bit_mask",
+        "title": "ビット列のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「ビット列」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "second": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "bit_mask",
+        "title": "ビット列のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「ビット列」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "marker": {
+        "firstFinalKey": "2026-08-17|40|8|0|4200",
+        "domain": "ビット列",
+        "targetId": "bit_mask",
+        "completed": false,
+        "evidence": {
+          "totalMistakes": 8,
+          "domainMistakes": 3,
+          "distinctMissedItems": 3,
+          "domainErrorRate": 100,
+          "domainMistakeShare": 38
+        }
+      },
+      "markerPreserved": true,
+      "unrelated": {
+        "stage": 3,
+        "mode": "trace",
+        "id": "bit_mask",
+        "title": "ビット列のTRACEで弱点補強",
+        "kicker": "ステップ 3・弱点を絞って補強",
+        "desc": "総合実戦の誤答が「ビット列」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。"
+      },
+      "afterTarget": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "low": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "pass": {
+        "stage": 4,
+        "mode": "final",
+        "id": null,
+        "title": "科目B 総合実戦",
+        "kicker": "ステップ 4・総合実戦",
+        "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+      },
+      "directBeforeHub": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      }
+    }
+  },
+  "fallbackScenarios": {
+    "diffuse": {
+      "rec": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "marker": null,
+      "evidence": {
+        "totalMistakes": 8,
+        "share": 25,
+        "clearLead": false,
+        "qualifies": false,
+        "top": {
+          "domain": "ビット列",
+          "misses": 2,
+          "seen": 2,
+          "distinctMissedItems": 2,
+          "evidenceSeen": 2,
+          "errorRate": 100
+        },
+        "second": {
+          "domain": "木構造",
+          "misses": 2,
+          "seen": 2,
+          "distinctMissedItems": 2,
+          "evidenceSeen": 2,
+          "errorRate": 100
+        },
+        "ranked": [
+          {
+            "domain": "ビット列",
+            "misses": 2,
+            "seen": 2,
+            "distinctMissedItems": 2,
+            "evidenceSeen": 2,
+            "errorRate": 100
+          },
+          {
+            "domain": "木構造",
+            "misses": 2,
+            "seen": 2,
+            "distinctMissedItems": 2,
+            "evidenceSeen": 2,
+            "errorRate": 100
+          },
+          {
+            "domain": "一次元配列",
+            "misses": 1,
+            "seen": 2,
+            "distinctMissedItems": 1,
+            "evidenceSeen": 2,
+            "errorRate": 50
+          },
+          {
+            "domain": "再帰・関数",
+            "misses": 1,
+            "seen": 2,
+            "distinctMissedItems": 1,
+            "evidenceSeen": 2,
+            "errorRate": 50
+          },
+          {
+            "domain": "制御",
+            "misses": 1,
+            "seen": 2,
+            "distinctMissedItems": 1,
+            "evidenceSeen": 2,
+            "errorRate": 50
+          },
+          {
+            "domain": "二次元配列",
+            "misses": 1,
+            "seen": 2,
+            "distinctMissedItems": 1,
+            "evidenceSeen": 2,
+            "errorRate": 50
+          }
+        ]
+      }
+    },
+    "sparse": {
+      "rec": {
+        "stage": 3,
+        "mode": "miniMock",
+        "id": null,
+        "title": "アルゴリズム ミニ模試で準備",
+        "kicker": "ステップ 3・総合実戦の前に",
+        "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+      },
+      "marker": null,
+      "evidence": {
+        "totalMistakes": 6,
+        "share": 100,
+        "clearLead": true,
+        "qualifies": false,
+        "top": {
+          "domain": "木構造",
+          "misses": 6,
+          "seen": 6,
+          "distinctMissedItems": 1,
+          "evidenceSeen": 6,
+          "errorRate": 100
+        },
+        "second": null,
+        "ranked": [
+          {
+            "domain": "木構造",
+            "misses": 6,
+            "seen": 6,
+            "distinctMissedItems": 1,
+            "evidenceSeen": 6,
+            "errorRate": 100
+          }
+        ]
+      }
+    }
+  },
+  "preservedRoutes": {
+    "security": {
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。セキュリティ ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+    },
+    "compound": {
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均65%以上を目安に整えてから2回目へ進みます。"
+    }
+  },
+  "runtimePreservation": {
+    "finalCounts": [
+      20,
+      16,
+      4
+    ],
+    "timeLimitSeconds": 6000,
+    "algorithmPool": 43,
+    "highTraceCount": 15,
+    "highTraceFloor": 4,
+    "selectionSignature1000Unchanged": true,
+    "semanticValidatorOk": true
+  },
+  "remediationCoverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidateReferenceSixFileEqual": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-no-findings"
+}

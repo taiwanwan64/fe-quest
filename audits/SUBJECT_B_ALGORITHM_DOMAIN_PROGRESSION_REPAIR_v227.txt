@@ -1,0 +1,50 @@
+FE QUEST v227 — Subject B Algorithm Domain Progression Repair
+=============================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v226
+Source main: 08b27908518be376314bdadd84b36cbb0ddc0f91
+Learner-facing change in v227: yes
+
+Resolved finding
+----------------
+algorithm_domain_weakness_not_aggregated_for_progression
+The first-final algorithm remediation route now uses the already-persisted per-item mistake evidence and existing ten-domain labels to identify a sufficiently concentrated weak domain. When the evidence is concentrated, the hub recommends the existing domain TRACE exercise before returning to the unchanged algorithm mini-mock readiness gate.
+
+Concentration boundary
+----------------------
+Focused routing requires at least 4 total algorithm mistakes, at least 2 mistakes across 2 distinct items in the leading domain, a domain error rate of at least 75%, at least 20% of total algorithm mistakes, and a clear lead over the second domain. Equal mistake counts require a 25-point error-rate lead. Sparse, single-item, tied, or diffuse evidence keeps the generic algorithm mini-mock recommendation.
+
+Learner-flow proof
+------------------
+木構造-heavy evidence -> 木構造のTRACEで弱点補強 / tree_dfs
+ビット列-heavy evidence -> ビット列のTRACEで弱点補強 / bit_mask
+The targets are distinct and come from the existing final-result remediation map. Unrelated TRACE completion does not satisfy the focused step. Completing the recommended TRACE returns the learner to アルゴリズム ミニ模試で準備; 64% remains there and 65% returns to final practice through the unchanged v222 readiness calculation. Completing the same domain TRACE directly from the final-result review also counts, so the hub does not redundantly request it again.
+
+Fallback proof
+--------------
+Diffuse/tied domain evidence -> generic algorithm mini-mock.
+Single-item sparse evidence -> generic algorithm mini-mock.
+Security first-final routing -> unchanged.
+Compound first-final routing -> unchanged.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v226 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness calculation and 65% threshold, and v224 compound evidence copy are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+The v226 medium finding is repaired inside a deliberately narrow recommendation boundary. Keep the domain-focused TRACE step advisory to progression and preserve the existing mini-mock/final readiness gate. The next release should audit the post-repair learner flow rather than broaden the taxonomy or alter scoring.
