@@ -1,0 +1,26 @@
+// ===== FE QUEST v214 Subject B final-practice block-order fidelity repair =====
+const SUBJECT_B_FINAL_ORDER_V214_SPEC=Object.freeze({
+  policy:'final-practice-algorithm-then-security-block-order',
+  sourceAudit:'v213-final_question_order_fidelity',
+  algorithmBlockCount:B_FINAL_ALGO_COUNT,
+  securityBlockCount:B_FINAL_SEC_COUNT,
+  selectedSetChanged:false,
+  selectorChanged:false,
+  stablePartitionOnly:true
+});
+
+const __buildBFinalBeforeV214=buildBFinal;
+buildBFinal=function(){
+  const selected=__buildBFinalBeforeV214();
+  const algo=selected.filter(x=>x?.kind==='algo');
+  const sec=selected.filter(x=>x?.kind==='security');
+  const ordered=[...algo,...sec];
+  assert(ordered.length===B_FINAL_COUNT&&algo.length===B_FINAL_ALGO_COUNT&&sec.length===B_FINAL_SEC_COUNT,'v214 final block count drift');
+  assert(ordered.slice(0,B_FINAL_ALGO_COUNT).every(x=>x?.kind==='algo'),'v214 algorithm block order drift');
+  assert(ordered.slice(B_FINAL_ALGO_COUNT).every(x=>x?.kind==='security'),'v214 security block order drift');
+  assert(new Set(ordered.map(x=>`${x.kind}:${x.sourceId}`)).size===ordered.length,'v214 stable partition duplicate id');
+  return ordered;
+};
+
+globalThis.SUBJECT_B_FINAL_ORDER_V214_SPEC=SUBJECT_B_FINAL_ORDER_V214_SPEC;
+globalThis.__buildBFinalBeforeV214=__buildBFinalBeforeV214;
