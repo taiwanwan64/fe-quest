@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "release": "v211",
+  "previous_release": "v210",
+  "parent_main_sha": "61b2db40b974d70fb037c3e006f0fcd8dec8ee1f",
+  "change_type": "subject-b-final-pool-expansion",
+  "source_quality_audit": "audits/SUBJECT_B_FINAL_DENSITY_AUDIT_v210.txt",
+  "source_priority_tier": "low",
+  "quality_audit_marker": "v211-final_high_trace_rotation_density",
+  "allowed_question_ids": [
+    "bexam_obj_04",
+    "bexam_bit_05",
+    "bexam_tree_05"
+  ],
+  "content_files": [
+    "app/subject-b-final-pool-overrides-v211.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "b_exercise_count": 20,
+    "prediction_contract_count": 40,
+    "compound_set_count": 15,
+    "compound_question_count": 45,
+    "security_scenario_count": 15,
+    "security_question_count": 45,
+    "parent_algorithm_pool_count": 40,
+    "algorithm_pool_count": 43,
+    "parent_high_trace_pool_count": 12,
+    "high_trace_pool_count": 15,
+    "high_trace_levels": {
+      "標準": 5,
+      "応用": 10
+    },
+    "final_counts": [20, 16, 4],
+    "algorithm_levels_per_session": {
+      "標準": 8,
+      "応用": 8
+    },
+    "algorithm_domain_count": 10,
+    "high_trace_floor": 4,
+    "security_log_count": 2,
+    "security_nonlog_count": 2,
+    "unique_algorithm_ids": true,
+    "selector_changed": false,
+    "saved_state_ids_changed": false
+  }
+}
