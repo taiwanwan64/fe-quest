@@ -1,0 +1,53 @@
+FE QUEST v215 — Subject B Final-Practice Boundary Integrity Audit
+========================================================================
+
+Result
+------
+PASS
+Previous: v214
+Source main: 14d27a3f7d110f6491f01f87f4ccabc271f14ea3
+Learner-facing change in v215: none
+
+Scope
+-----
+Post-v214 audit of the Q16 algorithm -> Q17 security boundary, with emphasis on save/resume, navigator state and result-review index alignment.
+
+Selection/order regression
+--------------------------
+Matched seed/history pairs: 5000.
+Selected-set mismatches: 0.
+Stable-partition mismatches: 0.
+Q16/Q17 boundary failures: 0.
+Structural/quota failures: 0.
+
+Adaptive-history stress
+-----------------------
+Sessions: 3000.
+Q16/Q17 boundary failures: 0.
+Structural/quota failures: 0.
+High-trace min/max: 4 / 10 (floor 4).
+
+Resume/navigation/review alignment
+----------------------------------
+Production save/restore keeps items, answers, flags and current index positionally aligned. The navigator derives number, answered state, flag state and jump index from the same array index. Result details derive item and answer from the same index and label it Q(i+1).
+Serialized boundary round-trip preserved item order: yes.
+Q16: algorithm / bexam_list_03 / answer-index 3 / flagged yes.
+Q17: security / usb_malware / answer-index 0 / flagged yes.
+Review Q16/Q17 source IDs and answers remained aligned: yes.
+
+Preserved contracts
+-------------------
+100 minutes / 20 questions; 16 algorithm + 4 security; 標準8 / 応用8; ten algorithm domains; unique algorithm IDs.
+43-item algorithm pool; 15 high-trace items; floor 4; security 2 log + 2 non-log.
+Subject B semantic validation: OK.
+Candidate/reference generated six files byte-identical: yes.
+
+Findings
+--------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Accept the v214 block-order repair as stable across the Q16->Q17 boundary. Do not modify this path further by default; move the next audit to another learner-value area unless real-use evidence reveals a defect.

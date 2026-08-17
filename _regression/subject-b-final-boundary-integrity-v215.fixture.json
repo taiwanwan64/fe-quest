@@ -1,0 +1,83 @@
+{
+  "name": "subject-b-final-boundary-integrity-v215",
+  "version": "v215",
+  "previous_version": "v214",
+  "parent_main_sha": "14d27a3f7d110f6491f01f87f4ccabc271f14ea3",
+  "learner_facing_change": false,
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "semantic_validator_ok": true,
+    "v214_spec_unchanged": true
+  },
+  "source_positional_contracts": {
+    "resume_payload": true,
+    "resume_items": true,
+    "resume_answers": true,
+    "resume_flags": true,
+    "resume_index": true,
+    "nav_answer": true,
+    "nav_flag": true,
+    "nav_index": true,
+    "details": true,
+    "details_answer": true,
+    "review": true,
+    "review_q": true
+  },
+  "probes": {
+    "matched": {
+      "sessions": 5000,
+      "setMismatch": 0,
+      "partitionMismatch": 0,
+      "boundaryFailure": 0,
+      "contractFailure": 0
+    },
+    "adaptive": {
+      "sessions": 3000,
+      "boundaryFailure": 0,
+      "contractFailure": 0,
+      "minHigh": 4,
+      "maxHigh": 10
+    },
+    "roundTrip": {
+      "same": true,
+      "q16": {
+        "sourceId": "bexam_list_03",
+        "kind": "algo",
+        "answer": 3,
+        "flag": true
+      },
+      "q17": {
+        "sourceId": "usb_malware",
+        "kind": "security",
+        "answer": 0,
+        "flag": true
+      },
+      "r16": {
+        "sourceId": "bexam_list_03",
+        "kind": "algo",
+        "answer": 3,
+        "q": 16
+      },
+      "r17": {
+        "sourceId": "usb_malware",
+        "kind": "security",
+        "answer": 0,
+        "q": 17
+      }
+    }
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed"
+}
