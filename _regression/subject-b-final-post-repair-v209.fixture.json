@@ -1,0 +1,95 @@
+{
+  "name": "subject-b-final-post-repair-v209",
+  "release": "v209",
+  "source_release": "v208",
+  "source_main_sha": "f7e055c5cb934b273ede9af0929234c935a47989",
+  "learner_facing_change": false,
+  "scope": "post-repair audit of Subject B final-practice sustained-trace selection",
+  "reference_policy": {
+    "use": "attached FE references remain calibration-only for scope, terminology, difficulty and exam-style fidelity; proprietary wording is not copied",
+    "note": "The sustained-trace classification and floor are FE QUEST internal quality controls, not an official IPA composition ratio."
+  },
+  "v208_repair_review": {
+    "changed_runtime_target": "buildBFinal selection only",
+    "high_trace_floor": 4,
+    "high_trace_pool_count": 12,
+    "high_trace_levels": {"標準": 3, "応用": 9},
+    "default_domain_level_slots_with_compatible_high_trace": 8,
+    "default_domain_level_slot_count": 10,
+    "default_slots_without_high_trace": [
+      {"domain": "オブジェクト指向", "level": "標準"},
+      {"domain": "ビット列", "level": "応用"}
+    ],
+    "repair_boundary": "same-domain-same-level-selection-only",
+    "security_items_mutated": false,
+    "question_wording_or_ids_mutated": false,
+    "ranking_inside_compatible_high_trace_class": [
+      "candidate seen count ascending",
+      "prospective current-session format load ascending",
+      "victim seen count descending",
+      "random tie break"
+    ]
+  },
+  "preserved_contracts": {
+    "final_total": 20,
+    "algorithm": 16,
+    "security": 4,
+    "algorithm_levels": {"標準": 8, "応用": 8},
+    "algorithm_domains": 10,
+    "unique_algorithm_ids": true,
+    "security_log": 2,
+    "security_nonlog": 2,
+    "saved_state_ids": true
+  },
+  "inherited_runtime_stress_evidence": {
+    "source": "v208 validated release fixture",
+    "equal_history_160_sessions": {
+      "minimum_high_trace": 4,
+      "maximum_high_trace": 7,
+      "structural_failures": 0,
+      "security_failures": 0
+    },
+    "adversarial_high_trace_seen_160_sessions": {
+      "minimum_high_trace": 4,
+      "maximum_high_trace": 4,
+      "structural_failures": 0,
+      "security_failures": 0
+    },
+    "v207_zero_high_construction_after_repair": {
+      "high_trace": 4,
+      "replacements": ["bexam_ctrl_01", "bexam_arr_02", "bexam_mat_01", "bexam_tree_02"]
+    }
+  },
+  "post_repair_assessment": {
+    "floor_effectiveness": "pass",
+    "domain_and_level_isolation": "pass",
+    "security_isolation": "pass",
+    "saved_state_compatibility": "pass",
+    "format_diversity_interaction": "pass_with_monitoring",
+    "exposure_fairness_interaction": "pass_with_monitoring",
+    "reasoning": "The repair only replaces an algorithm item with an unused high-trace item of the same domain and level. It ranks replacement candidates by exposure before format load and prefers replacing more-seen low-trace victims. The readiness floor intentionally outranks global exposure fairness only when fewer than four sustained-trace items would otherwise be present."
+  },
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": [
+      {
+        "id": "high_trace_pool_concentration",
+        "severity": "Low",
+        "evidence": "Only 12 of 40 final algorithm items are in the sustained-trace class; the class is skewed toward applied items (3 standard / 9 applied), and the default object-oriented/standard and bit-string/applied domain-level slots have no compatible high-trace candidate.",
+        "impact": "The floor is currently robust, but long-term repeated use can place more exposure pressure on a relatively small set of trace-heavy items than on the rest of the 40-item pool.",
+        "action": "Do not change v209. Audit whether a small content-density expansion should add high-trace candidates to underrepresented domain/level cells before raising the floor or changing question counts."
+      }
+    ]
+  },
+  "decision": {
+    "status": "post_repair_audit_pass_with_low_watch",
+    "high_findings": 0,
+    "medium_findings": 0,
+    "low_findings": 1,
+    "learner_change_in_v209": false,
+    "next_release": "v210",
+    "next_scope": "Subject B final algorithm content-density expansion audit, prioritizing underrepresented domain/level cells without changing the final-session contract"
+  },
+  "status": "audit_complete"
+}
