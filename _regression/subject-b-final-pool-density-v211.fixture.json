@@ -1,0 +1,79 @@
+{
+  "name": "subject-b-final-pool-density-v211",
+  "version": "v211",
+  "previous_version": "v210",
+  "parent_main_sha": "61b2db40b974d70fb037c3e006f0fcd8dec8ee1f",
+  "source_quality_audit": {
+    "path": "audits/SUBJECT_B_FINAL_DENSITY_AUDIT_v210.txt",
+    "utf8_bytes": 5381,
+    "sha256": "ee699d7c034279176e621122dd97bea8d7fc51187a51ec31ec60af5b7e75fd1b"
+  },
+  "learner_facing_change": true,
+  "change_type": "append-only-original-final-algorithm-items",
+  "added_ids": [
+    "bexam_obj_04",
+    "bexam_bit_05",
+    "bexam_tree_05"
+  ],
+  "existing_40_deep_identical_to_parent": true,
+  "selector_changed": false,
+  "saved_state_ids_changed": false,
+  "algorithm_pool": {
+    "parent": 40,
+    "candidate": 43,
+    "levels": {
+      "標準": 21,
+      "応用": 22
+    },
+    "answer_positions": [
+      11,
+      11,
+      11,
+      10
+    ],
+    "code_lines": {
+      "min": 3,
+      "max": 16,
+      "average": 7.791
+    }
+  },
+  "high_trace": {
+    "parent": 12,
+    "candidate": 15,
+    "levels": {
+      "標準": 5,
+      "応用": 10
+    },
+    "floor": 4,
+    "default_domain_level_cells_covered": 10
+  },
+  "final_practice": {
+    "counts": [
+      20,
+      16,
+      4
+    ],
+    "algorithm_levels": {
+      "標準": 8,
+      "応用": 8
+    },
+    "algorithm_domains": 10,
+    "security_log": 2,
+    "security_nonlog": 2,
+    "equal_history_320": {
+      "minHigh": 4,
+      "maxHigh": 9,
+      "badContract": 0,
+      "badSecurity": 0
+    },
+    "adversarial_high_seen_320": {
+      "minHigh": 4,
+      "maxHigh": 4,
+      "badContract": 0,
+      "badSecurity": 0
+    }
+  },
+  "subject_b_semantic_validator_ok": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "status": "passed"
+}

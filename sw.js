@@ -1,5 +1,5 @@
-const APP_VERSION = 'v210';
-const CACHE_NAME = 'fe-quest-v210-1';
+const APP_VERSION = 'v211';
+const CACHE_NAME = 'fe-quest-v211-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',

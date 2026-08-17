@@ -1,0 +1,49 @@
+FE QUEST v211 — Subject B Final-Algorithm Pool Density Expansion
+======================================================================
+
+PASSED
+Previous: v210
+Source main: 61b2db40b974d70fb037c3e006f0fcd8dec8ee1f
+Source finding: final_high_trace_rotation_density (Low, v210)
+
+Change
+------
+Append-only expansion: 3 original FE QUEST algorithm items.
+Existing final-algorithm items preserved byte-for-byte at runtime: 40 / 40.
+Selector logic changed: no.
+Saved-state IDs changed: no.
+
+Added items
+-----------
+bexam_obj_04 — オブジェクト指向 / 標準 / 途中状態 / sustained trace
+bexam_bit_05 — ビット列 / 応用 / 処理結果 / sustained trace
+bexam_tree_05 — 木構造 / 標準 / 途中状態 / sustained trace
+
+Pool after expansion
+--------------------
+Algorithm pool: 40 -> 43
+Levels: 標準21 / 応用22
+High-trace inventory: 12 -> 15 (標準5 / 応用10)
+Default domain-level high-trace compatibility: 10 / 10
+Answer positions: [11, 11, 11, 10]
+Code-line inventory: min 3 / max 16 / average 7.791
+These are FE QUEST internal inventory metrics, not official IPA item ratios.
+
+Final-practice preservation
+---------------------------
+20 total = 16 algorithm + 4 security.
+Algorithm per session = 標準8 / 応用8, all ten domains, unique algorithm IDs.
+Security = 2 log + 2 non-log.
+Sustained-trace floor remains 4; it was not raised.
+Equal-history 320 sessions: min high 4 / max high 9 / structural failures 0 / security failures 0.
+Adversarial high-trace-seen 320 sessions: min high 4 / max high 4 / structural failures 0 / security failures 0.
+
+Validation
+----------
+Subject B semantic validation: OK.
+Candidate/reference generated six-file equality: yes.
+
+Decision
+--------
+The v210 Low watch is addressed by increasing rotation density rather than changing the selector or raising the readiness floor.
+Next: audit post-expansion selection rotation and item quality before any further Subject B pool growth.

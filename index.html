@@ -39,8 +39,8 @@
 {% capture releaseDiagnosticSpec %}{% include_relative app/runtime-release-diagnostic-spec.txt %}{% endcapture %}
 {% capture diagnosticWrapper %}{% include_relative app/runtime-diagnostic-wrapper.txt %}{% endcapture %}
 {% capture stableReleaseAdapter %}{% include_relative app/runtime-release-adapter.txt %}{% endcapture %}
-{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v210</title>" %}
-{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v210';" %}
+{% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v211</title>" %}
+{% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v211';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
 {% capture subjectBSemanticInsertion %}{{ subjectBSecurityV200 }}{{ subjectBAlgorithmV202 }}{{ subjectBSessionV205 }}{{ subjectBFinalV208 }}{{ subjectBFinalPoolV211 }}function validateSubjectBSemantics(){
 {% endcapture %}
