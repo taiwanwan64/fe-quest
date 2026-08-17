@@ -1,0 +1,149 @@
+
+/* FE QUEST v227 — Subject B algorithm-domain-aware progression repair */
+const SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC=Object.freeze({
+  policy:'route-concentrated-first-final-algorithm-weakness-through-existing-domain-trace-before-generic-mini-mock',
+  sourceAudit:'v226-algorithm_domain_weakness_not_aggregated_for_progression',
+  minTotalMistakes:4,
+  minDomainMistakes:2,
+  minDistinctItems:2,
+  minDomainErrorRatePercent:75,
+  minDomainMistakeSharePercent:20,
+  equalMistakeCountRateLeadPercent:25,
+  fallbackMode:'miniMock',
+  reusesExistingDomainLabels:true,
+  reusesExistingRemediationTargets:true,
+  readinessThresholdChanged:false,
+  questionSelectionChanged:false,
+  scoringChanged:false,
+  timingChanged:false,
+  securityRoutingChanged:false,
+  directFinalRemediationChanged:false,
+  profileSchemaMigrationRequired:false
+});
+
+function subjectBAlgorithmDomainEvidenceV227(){
+  const rows={};
+  for(const item of B_EXAM_ALGO_ITEMS){
+    const d=makeFinalAlgoExam(item);
+    const domain=d.domain||item.domain||'擬似言語';
+    if(!rows[domain])rows[domain]={domain,misses:0,seen:0,distinctMissedItems:0};
+    const row=rows[domain];
+    const key=bFinalMistakeKey(d);
+    const misses=Math.max(0,Number(profile.bFinalMistakeStats?.[key]?.misses)||0);
+    const seen=Math.max(0,Number(profile.bFinalStats?.[`algo:${d.sourceId}`]?.seen)||0);
+    row.misses+=misses;
+    row.seen+=seen;
+    if(misses>0)row.distinctMissedItems++;
+  }
+  const ranked=Object.values(rows).map(row=>{
+    const evidenceSeen=Math.max(row.seen,row.misses);
+    const errorRate=evidenceSeen?Math.min(100,Math.round(row.misses/evidenceSeen*100)):0;
+    return {...row,evidenceSeen,errorRate};
+  }).filter(row=>row.misses>0).sort((a,b)=>b.misses-a.misses||b.errorRate-a.errorRate||a.domain.localeCompare(b.domain,'ja'));
+  const totalMistakes=ranked.reduce((sum,row)=>sum+row.misses,0);
+  const top=ranked[0]||null,second=ranked[1]||null;
+  const share=top&&totalMistakes?Math.round(top.misses/totalMistakes*100):0;
+  const clearLead=!!top&&(!second||top.misses>second.misses||(top.misses===second.misses&&top.errorRate-second.errorRate>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.equalMistakeCountRateLeadPercent));
+  const qualifies=!!top
+    &&totalMistakes>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minTotalMistakes
+    &&top.misses>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minDomainMistakes
+    &&top.distinctMissedItems>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minDistinctItems
+    &&top.errorRate>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minDomainErrorRatePercent
+    &&share>=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minDomainMistakeSharePercent
+    &&clearLead;
+  return {totalMistakes,share,clearLead,qualifies,top,second,ranked};
+}
+
+function subjectBAlgorithmDomainTargetV227(domain){
+  const item=B_EXAM_ALGO_ITEMS.find(x=>x.domain===domain);
+  if(!item)return null;
+  const d=makeFinalAlgoExam(item);
+  const target=bFinalRemediationTarget(d.studyMode,d.sourceId,d.domain);
+  if(target?.mode!=='trace'||!target.id||!B_EXERCISES.some(x=>x.id===target.id))return null;
+  return {mode:'trace',id:target.id,domain:d.domain||domain};
+}
+
+function subjectBAlgorithmDomainContextV227(){
+  const m=subjectBProgressMetrics();
+  if(m.finalRuns!==1)return null;
+  const first=profile.bFinalHistory?.[0];
+  if(!first||Number(first.rate??100)>=SUBJECT_B_READINESS_V222_SPEC.firstFinalFloor)return null;
+  const firstTarget=subjectBFirstFinalTargetV222(first);
+  if(firstTarget?.mode!=='miniMock')return null;
+  const evidence=subjectBAlgorithmDomainEvidenceV227();
+  if(!evidence.qualifies||!evidence.top)return null;
+  const target=subjectBAlgorithmDomainTargetV227(evidence.top.domain);
+  if(!target)return null;
+  return {first,firstFinalKey:subjectBFirstFinalKeyV222(first),evidence,target};
+}
+
+function subjectBAlgorithmDomainMarkerV227(context,completed){
+  return {
+    firstFinalKey:context.firstFinalKey,
+    domain:context.target.domain,
+    targetId:context.target.id,
+    completed:completed===true,
+    evidence:{
+      totalMistakes:context.evidence.totalMistakes,
+      domainMistakes:context.evidence.top.misses,
+      distinctMissedItems:context.evidence.top.distinctMissedItems,
+      domainErrorRate:context.evidence.top.errorRate,
+      domainMistakeShare:context.evidence.share
+    }
+  };
+}
+
+function subjectBAlgorithmDomainTraceRecV227(marker){
+  return {
+    stage:3,mode:'trace',id:marker.targetId,
+    title:`${marker.domain}のTRACEで弱点補強`,icon:'🎯',
+    kicker:'ステップ 3・弱点を絞って補強',
+    desc:`総合実戦の誤答が「${marker.domain}」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。`
+  };
+}
+
+function subjectBMarkAlgorithmDomainTraceCompleteV227(traceId){
+  const context=subjectBAlgorithmDomainContextV227();
+  const marker=profile.subjectBAlgorithmDomainV227;
+  if(marker&&marker.firstFinalKey===subjectBFirstFinalKeyV222(profile.bFinalHistory?.[0])&&!marker.completed&&marker.targetId===traceId){
+    marker.completed=true;
+    marker.completedAt=localDateISO(0);
+    return true;
+  }
+  if(context&&context.target.id===traceId){
+    profile.subjectBAlgorithmDomainV227=subjectBAlgorithmDomainMarkerV227(context,true);
+    profile.subjectBAlgorithmDomainV227.completedAt=localDateISO(0);
+    return true;
+  }
+  return false;
+}
+
+const _subjectBHubRecommendationV227=subjectBHubRecommendation;
+subjectBHubRecommendation=function(){
+  const rec=_subjectBHubRecommendationV227();
+  if(!rec||rec.mode!=='miniMock'||rec.title!=='アルゴリズム ミニ模試で準備')return rec;
+  const context=subjectBAlgorithmDomainContextV227();
+  if(!context)return rec;
+  let marker=profile.subjectBAlgorithmDomainV227;
+  if(!marker||marker.firstFinalKey!==context.firstFinalKey){
+    marker=subjectBAlgorithmDomainMarkerV227(context,false);
+    profile.subjectBAlgorithmDomainV227=marker;
+    saveProfile();
+  }
+  if(marker.completed)return rec;
+  if(marker.domain!==context.target.domain||marker.targetId!==context.target.id){
+    marker=subjectBAlgorithmDomainMarkerV227(context,false);
+    profile.subjectBAlgorithmDomainV227=marker;
+    saveProfile();
+  }
+  return subjectBAlgorithmDomainTraceRecV227(marker);
+};
+
+const _finishBExerciseV227=finishBExercise;
+finishBExercise=function(){
+  const traceId=currentB?.id||null;
+  if(traceId)subjectBMarkAlgorithmDomainTraceCompleteV227(traceId);
+  return _finishBExerciseV227();
+};
+
+globalThis.SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC=SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC;
