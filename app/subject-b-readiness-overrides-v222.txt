@@ -1,0 +1,101 @@
+
+/* FE QUEST v222 — Subject B readiness-aware recommendation repair */
+const SUBJECT_B_READINESS_V222_SPEC=Object.freeze({
+  policy:'gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence',
+  sourceAudit:'v221-subject_b_progression_readiness_blindness',
+  shortPracticeFloor:65,
+  firstFinalFloor:65,
+  preservesFoundationOrder:true,
+  preservesExamThreeDayRule:true,
+  preservesMaintenanceRouting:true,
+  questionSelectionChanged:false,
+  scoringChanged:false,
+  timingChanged:false,
+  remediationTargetsChanged:false
+});
+
+function subjectBReadinessRateV222(mode){
+  if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0);
+  if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0);
+  if(mode==='compound'){
+    const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite);
+    return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.length):0;
+  }
+  return 0;
+}
+function subjectBReadinessCountV222(mode){
+  if(mode==='miniMock') return (profile.bMockHistory||[]).length;
+  if(mode==='securityMock') return (profile.securityMockHistory||[]).length;
+  if(mode==='compound') return (profile.bCompoundHistory||[]).length;
+  return 0;
+}
+function subjectBShortEvidenceV222(){
+  const rows=[
+    {mode:'miniMock',title:'アルゴリズム ミニ模試',icon:'📝',rate:subjectBReadinessRateV222('miniMock')},
+    {mode:'securityMock',title:'セキュリティ ミニ模試',icon:'🛡️',rate:subjectBReadinessRateV222('securityMock')},
+    {mode:'compound',title:'複合問題',icon:'🧩',rate:subjectBReadinessRateV222('compound')}
+  ];
+  rows.sort((a,b)=>a.rate-b.rate);
+  return rows;
+}
+function subjectBReadinessPracticeRecV222(row,reason){
+  const floor=SUBJECT_B_READINESS_V222_SPEC.shortPracticeFloor;
+  return {
+    stage:3,mode:row.mode,id:null,title:`${row.title}で準備`,icon:row.icon,
+    kicker:'ステップ 3・総合実戦の前に',
+    desc:reason==='firstFinal'
+      ?`1回目の総合実戦で弱点が見つかりました。${row.title}を1回確認し、${floor}%以上を目安にしてから2回目へ進みます。`
+      :`直近の正答率は${row.rate}%です。100分の総合実戦へ進む前に、${row.title}で${floor}%以上を目安に確認します。`
+  };
+}
+function subjectBFirstFinalKeyV222(r){
+  if(!r)return '';
+  return [r.date||'',Number(r.rate??0),Number(r.correct??0),Number(r.blank??0),Number(r.seconds??0)].join('|');
+}
+function subjectBFirstFinalTargetV222(r){
+  const algoRate=Math.round(Number(r?.algoCorrect??0)/Math.max(1,B_FINAL_ALGO_COUNT)*100);
+  const secRate=Math.round(Number(r?.secCorrect??0)/Math.max(1,B_FINAL_SEC_COUNT)*100);
+  if(secRate<algoRate){
+    return {mode:'securityMock',title:'セキュリティ ミニ模試',icon:'🛡️',rate:subjectBReadinessRateV222('securityMock')};
+  }
+  const algo=[
+    {mode:'miniMock',title:'アルゴリズム ミニ模試',icon:'📝',rate:subjectBReadinessRateV222('miniMock')},
+    {mode:'compound',title:'複合問題',icon:'🧩',rate:subjectBReadinessRateV222('compound')}
+  ].sort((a,b)=>a.rate-b.rate);
+  return algo[0];
+}
+
+const _subjectBHubRecommendationV222=subjectBHubRecommendation;
+subjectBHubRecommendation=function(){
+  const rec=_subjectBHubRecommendationV222();
+  if(!rec||rec.mode!=='final') return rec;
+  const m=subjectBProgressMetrics();
+  const floor=SUBJECT_B_READINESS_V222_SPEC.shortPracticeFloor;
+  if(m.finalRuns===0){
+    const weakest=subjectBShortEvidenceV222()[0];
+    if(weakest&&weakest.rate<floor) return subjectBReadinessPracticeRecV222(weakest,'preFinal');
+    return rec;
+  }
+  if(m.finalRuns===1){
+    const first=profile.bFinalHistory?.[0];
+    if(Number(first?.rate??100)>=SUBJECT_B_READINESS_V222_SPEC.firstFinalFloor) return rec;
+    const target=subjectBFirstFinalTargetV222(first);
+    const key=subjectBFirstFinalKeyV222(first);
+    if(!profile.subjectBReadinessV222||profile.subjectBReadinessV222.firstFinalKey!==key){
+      profile.subjectBReadinessV222={firstFinalKey:key,targetMode:target.mode,targetRunCount:subjectBReadinessCountV222(target.mode)};
+      saveProfile();
+    }
+    const marker=profile.subjectBReadinessV222;
+    const markedTarget=target.mode===marker.targetMode?target:{
+      mode:marker.targetMode,
+      title:marker.targetMode==='securityMock'?'セキュリティ ミニ模試':marker.targetMode==='compound'?'複合問題':'アルゴリズム ミニ模試',
+      icon:marker.targetMode==='securityMock'?'🛡️':marker.targetMode==='compound'?'🧩':'📝',
+      rate:subjectBReadinessRateV222(marker.targetMode)
+    };
+    const practiced=subjectBReadinessCountV222(marker.targetMode)>Number(marker.targetRunCount??0);
+    if(!practiced||subjectBReadinessRateV222(marker.targetMode)<floor){
+      return subjectBReadinessPracticeRecV222(markedTarget,'firstFinal');
+    }
+  }
+  return rec;
+};
