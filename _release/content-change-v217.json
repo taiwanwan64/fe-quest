@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "release": "v217",
+  "previous_release": "v216",
+  "parent_main_sha": "992b09a59aaf74f55e18a3488ac3d9ad58b261fc",
+  "change_type": "subject-b-final-remediation-visibility-repair",
+  "source_quality_audit": "audits/SUBJECT_B_FINAL_REMEDIATION_AUDIT_v216.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "final_wrong_answer_recovery_visibility",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-final-remediation-overrides-v217.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_selection_changed": false,
+    "scoring_changed": false,
+    "persistence_changed": false,
+    "remediation_targets_changed": false,
+    "final_order_policy_changed": false
+  },
+  "target_recovery": {
+    "entry_only_when_wrong_or_blank": true,
+    "forward_action_remains_primary": true,
+    "full_review_remains_collapsible": true,
+    "recovery_click_opens_review": true,
+    "recovery_click_moves_to_first_wrong_item": true
+  }
+}
