@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "release": "v227",
+  "previous_release": "v226",
+  "parent_main_sha": "08b27908518be376314bdadd84b36cbb0ddc0f91",
+  "change_type": "subject-b-algorithm-domain-aware-progression-repair",
+  "source_quality_audit": "audits/SUBJECT_B_ALGORITHM_DOMAIN_DIAGNOSIS_AUDIT_v226.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "algorithm_domain_weakness_not_aggregated_for_progression",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-algorithm-domain-progression-overrides-v227.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_selection_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "security_routing_changed": false,
+    "direct_final_remediation_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false,
+    "additive_guidance_marker_persisted": true
+  },
+  "target_repair": {
+    "finding": "algorithm_domain_weakness_not_aggregated_for_progression",
+    "scope": "first-final algorithm remediation recommendation only",
+    "reuse_existing_domain_labels": true,
+    "reuse_existing_trace_targets": true,
+    "min_total_mistakes": 4,
+    "min_domain_mistakes": 2,
+    "min_distinct_items": 2,
+    "min_domain_error_rate_percent": 75,
+    "min_domain_mistake_share_percent": 20,
+    "equal_mistake_count_rate_lead_percent": 25,
+    "fallback_mode": "miniMock",
+    "focused_trace_completion_returns_to_existing_minimock_gate": true
+  }
+}
