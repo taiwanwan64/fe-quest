@@ -50,24 +50,17 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Prepare mechanical target reference
+      - name: Prepare approved content and parent references
         shell: bash
-        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-content-staging" python3 .github/content-release/prepare_reference.py
 
-      - name: Build mechanical target reference
+      - name: Build approved content reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
           destination: ./_site_reference
           build_revision: ${{ github.sha }}
           verbose: true
-
-      - name: Prepare untouched parent reference
-        shell: bash
-        run: |
-          rm -rf _parent_reference
-          mkdir _parent_reference
-          git archive origin/main | tar -x -C _parent_reference
 
       - name: Build untouched parent reference
         uses: actions/jekyll-build-pages@v1
