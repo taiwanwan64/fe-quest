@@ -1,0 +1,89 @@
+// ===== v208 Subject B final-practice sustained-trace floor =====
+const B_FINAL_HIGH_TRACE_FLOOR_V208=4;
+const B_FINAL_HIGH_TRACE_IDS_V208=new Set([
+  'bexam_ctrl_01','bexam_ctrl_04','bexam_arr_02','bexam_mat_01','bexam_mat_04','bexam_rec_05',
+  'bexam_tree_02','bexam_tree_04','bexam_list_04','bexam_sq_04','bexam_algo_01','bexam_algo_03'
+]);
+const SUBJECT_B_FINAL_V208_SPEC=Object.freeze({
+  policy:'final-practice-sustained-trace-floor',
+  sourceAudit:'v207-final_practice_sustained_trace_floor',
+  highTraceFloor:B_FINAL_HIGH_TRACE_FLOOR_V208,
+  highTraceIds:Object.freeze([...B_FINAL_HIGH_TRACE_IDS_V208]),
+  repairBoundary:'same-domain-same-level-selection-only'
+});
+
+function bFinalHighTraceCountV208(items){
+  return items.filter(x=>x?.kind==='algo'&&B_FINAL_HIGH_TRACE_IDS_V208.has(x.sourceId)).length;
+}
+
+function bFinalRepairTraceFloorV208(items){
+  const out=[...items];
+  let algo=out.filter(x=>x?.kind==='algo');
+  let highCount=bFinalHighTraceCountV208(algo);
+
+  while(highCount<B_FINAL_HIGH_TRACE_FLOOR_V208){
+    const selectedIds=new Set(algo.map(x=>x.sourceId));
+    const rawById=new Map(B_EXAM_ALGO_ITEMS.map(x=>[x.id,x]));
+    const rawSelected=algo.map(x=>rawById.get(x.sourceId)).filter(Boolean);
+    const formatCounts={};
+    rawSelected.forEach(x=>{const f=x.format||'トレース';formatCounts[f]=(formatCounts[f]||0)+1;});
+    const swaps=[];
+
+    algo.forEach(victim=>{
+      if(B_FINAL_HIGH_TRACE_IDS_V208.has(victim.sourceId))return;
+      const rawVictim=rawById.get(victim.sourceId);
+      if(!rawVictim)return;
+      B_EXAM_ALGO_ITEMS
+        .filter(candidate=>B_FINAL_HIGH_TRACE_IDS_V208.has(candidate.id)&&!selectedIds.has(candidate.id)&&candidate.domain===rawVictim.domain&&candidate.level===rawVictim.level)
+        .forEach(candidate=>{
+          const candidateFormat=candidate.format||'トレース';
+          const victimFormat=rawVictim.format||'トレース';
+          const prospectiveFormatLoad=(formatCounts[candidateFormat]||0)-(candidateFormat===victimFormat?1:0);
+          swaps.push({
+            victim,
+            rawVictim,
+            candidate,
+            candidateSeen:bFinalAlgoSeen(candidate),
+            prospectiveFormatLoad,
+            victimSeen:bFinalAlgoSeen(rawVictim)
+          });
+        });
+    });
+
+    swaps.sort((a,b)=>
+      a.candidateSeen-b.candidateSeen ||
+      a.prospectiveFormatLoad-b.prospectiveFormatLoad ||
+      b.victimSeen-a.victimSeen ||
+      Math.random()-.5
+    );
+    const swap=swaps[0];
+    if(!swap)break;
+    const pos=out.findIndex(x=>x?.kind==='algo'&&x.sourceId===swap.victim.sourceId);
+    if(pos<0)break;
+    out[pos]=makeFinalAlgoExam(swap.candidate);
+    algo=out.filter(x=>x?.kind==='algo');
+    highCount=bFinalHighTraceCountV208(algo);
+  }
+  return out;
+}
+
+const __buildBFinalBeforeV208=buildBFinal;
+buildBFinal=function(){
+  const repaired=bFinalRepairTraceFloorV208(__buildBFinalBeforeV208());
+  const algo=repaired.filter(x=>x?.kind==='algo');
+  const sec=repaired.filter(x=>x?.kind==='security');
+  const levelCounts=algo.reduce((m,x)=>{m[x.level]=(m[x.level]||0)+1;return m;},{});
+  const domains=new Set(algo.map(x=>x.domain));
+  assert(repaired.length===B_FINAL_COUNT&&algo.length===B_FINAL_ALGO_COUNT&&sec.length===B_FINAL_SEC_COUNT,'v208 final count drift');
+  assert(levelCounts['標準']===8&&levelCounts['応用']===8,'v208 final algorithm level drift');
+  assert(domains.size===B_FINAL_ALGO_DOMAINS.length&&B_FINAL_ALGO_DOMAINS.every(x=>domains.has(x)),'v208 final algorithm domain drift');
+  assert(new Set(algo.map(x=>x.sourceId)).size===algo.length,'v208 final algorithm duplicate id');
+  assert(bFinalHighTraceCountV208(algo)>=B_FINAL_HIGH_TRACE_FLOOR_V208,'v208 final sustained-trace floor unavailable');
+  return repaired;
+};
+
+globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208=B_FINAL_HIGH_TRACE_FLOOR_V208;
+globalThis.B_FINAL_HIGH_TRACE_IDS_V208=[...B_FINAL_HIGH_TRACE_IDS_V208];
+globalThis.SUBJECT_B_FINAL_V208_SPEC=SUBJECT_B_FINAL_V208_SPEC;
+globalThis.bFinalHighTraceCountV208=bFinalHighTraceCountV208;
+globalThis.bFinalRepairTraceFloorV208=bFinalRepairTraceFloorV208;
