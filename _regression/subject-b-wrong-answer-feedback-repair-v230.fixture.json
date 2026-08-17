@@ -1,0 +1,171 @@
+{
+  "name": "subject-b-wrong-answer-feedback-repair-v230",
+  "version": "v230",
+  "previous": "v229",
+  "sourceMain": "ce5f789d28558905057103693769d95c7055b444",
+  "learnerFacingChange": true,
+  "findingResolved": "subject_b_wrong_answer_feedback_not_choice_specific",
+  "spec": {
+    "policy": "choice-specific-wrong-answer-diagnosis",
+    "sourceAudit": "v229-subject_b_wrong_answer_feedback_not_choice_specific",
+    "finding": "subject_b_wrong_answer_feedback_not_choice_specific",
+    "metadataKey": "wrongFeedback",
+    "stableLookupKey": "wrongFeedbackByText",
+    "feedbackParts": [
+      "diagnosis",
+      "checkpoint",
+      "nextCue"
+    ],
+    "immediatePracticeRevealsCorrectAnswer": false,
+    "postAnswerReviewShowsCheckpoint": true,
+    "covers": [
+      "algorithm-trace",
+      "algorithm-mini-mock",
+      "compound",
+      "security-scenario",
+      "security-mini-mock",
+      "final-algorithm",
+      "final-security"
+    ],
+    "scoringChanged": false,
+    "correctAnswersChanged": false,
+    "questionSelectionChanged": false,
+    "questionOrderChanged": false,
+    "timingChanged": false,
+    "readinessThresholdChanged": false,
+    "domainProgressionChanged": false,
+    "remediationTargetsChanged": false,
+    "profileSchemaChanged": false
+  },
+  "sourceCoverage": {
+    "algorithmPractice": {
+      "questions": 40,
+      "wrongSlots": 120,
+      "covered": 120,
+      "structured": 120,
+      "keyed": 120,
+      "correctBlank": 40,
+      "selectedNamed": 120,
+      "distinctQuestions": 40,
+      "bad": []
+    },
+    "securityPractice": {
+      "questions": 45,
+      "wrongSlots": 135,
+      "covered": 135,
+      "structured": 135,
+      "keyed": 135,
+      "correctBlank": 45,
+      "selectedNamed": 135,
+      "distinctQuestions": 45,
+      "bad": []
+    },
+    "finalAlgorithm": {
+      "questions": 43,
+      "wrongSlots": 129,
+      "covered": 129,
+      "structured": 129,
+      "keyed": 129,
+      "correctBlank": 43,
+      "selectedNamed": 129,
+      "distinctQuestions": 43,
+      "bad": []
+    },
+    "compound": {
+      "questions": 45,
+      "wrongSlots": 135,
+      "covered": 135,
+      "structured": 135,
+      "keyed": 135,
+      "correctBlank": 45,
+      "selectedNamed": 135,
+      "distinctQuestions": 45,
+      "bad": []
+    }
+  },
+  "generatedCoverage": {
+    "algorithmMini": {
+      "questions": 20,
+      "wrongSlots": 60,
+      "covered": 60,
+      "structured": 60,
+      "keyed": 60,
+      "correctBlank": 20,
+      "selectedNamed": 60,
+      "distinctQuestions": 20,
+      "bad": []
+    },
+    "securityMini": {
+      "questions": 45,
+      "wrongSlots": 135,
+      "covered": 135,
+      "structured": 135,
+      "keyed": 135,
+      "correctBlank": 45,
+      "selectedNamed": 135,
+      "distinctQuestions": 45,
+      "bad": []
+    },
+    "compoundRandom": {
+      "questions": 45,
+      "wrongSlots": 135,
+      "covered": 135,
+      "structured": 135,
+      "keyed": 135,
+      "correctBlank": 45,
+      "selectedNamed": 135,
+      "distinctQuestions": 45,
+      "bad": []
+    },
+    "finalAlgorithm": {
+      "questions": 43,
+      "wrongSlots": 129,
+      "covered": 129,
+      "structured": 129,
+      "keyed": 129,
+      "correctBlank": 43,
+      "selectedNamed": 129,
+      "distinctQuestions": 43,
+      "bad": []
+    },
+    "finalSecurity": {
+      "questions": 15,
+      "wrongSlots": 45,
+      "covered": 45,
+      "structured": 45,
+      "keyed": 45,
+      "correctBlank": 15,
+      "selectedNamed": 45,
+      "distinctQuestions": 15,
+      "bad": []
+    }
+  },
+  "selectionSignature1000": 1230694291,
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "ui": {
+    "has": true,
+    "sample": {
+      "diagnosis": "「x=2, stack=[4]」では x・stack を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。",
+      "checkpoint": "処理の分岐点：LIFOなのでトップの4が取り出されてx=4になります。",
+      "nextCue": "POPはトップを返すだけでなく、その要素をスタックから取り除きます。"
+    },
+    "secSample": {
+      "diagnosis": "「パスワードスプレー攻撃」は一部の対策としては意味があっても、この設問で問われている「フィッシング・認証」の判断軸を直接満たしません。",
+      "checkpoint": "判断の分岐点：正規ドメインと異なるサイトへメールから誘導され、認証情報を入力しているため、フィッシングを最優先で疑います。",
+      "nextCue": "「認証情報が漏えいした前提なら、今すぐ何を止めて誰へ伝えるか」を先に決めます。"
+    },
+    "fullLabels": true,
+    "compactHidesCheckpoint": true,
+    "traceWrapped": true,
+    "securityWrapped": true,
+    "algorithmMockWrapped": true,
+    "securityMockWrapped": true,
+    "compoundWrapped": true,
+    "finalWrapped": true
+  }
+}

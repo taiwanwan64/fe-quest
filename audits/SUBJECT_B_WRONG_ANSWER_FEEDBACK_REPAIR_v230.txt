@@ -1,0 +1,69 @@
+FE QUEST v230 — Subject B Wrong-Answer Feedback Repair
+=============================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v229
+Source main: ce5f789d28558905057103693769d95c7055b444
+Learner-facing change in v230: yes
+
+Resolved finding
+----------------
+subject_b_wrong_answer_feedback_not_choice_specific
+v229 confirmed that Subject B had general correct-path explanations but no complete option-specific diagnosis metadata. v230 adds a three-part diagnosis for every wrong choice while preserving the original prompt, options, correct answer, scoring, routing, and practice selection.
+
+Feedback contract
+-----------------
+Each wrong option now has:
+1. diagnosis — names the selected distractor and identifies the likely reasoning break.
+2. checkpoint — gives the minimum state / judgment point to reconstruct after the answer is known.
+3. nextCue — gives one concise action to use on the next attempt.
+Immediate guided practice shows diagnosis + next cue without the post-answer checkpoint. Submitted/review screens show all three parts.
+The stable lookup is keyed by option text so feedback remains attached to the intended distractor after answer choices are shuffled.
+
+Source coverage
+---------------
+Algorithm TRACE prediction: questions=40 / wrong choices=120 / structured feedback=120 / keyed=120
+Security scenario: questions=45 / wrong choices=135 / structured feedback=135 / keyed=135
+Final algorithm pool: questions=43 / wrong choices=129 / structured feedback=129 / keyed=129
+Compound questions: questions=45 / wrong choices=135 / structured feedback=135 / keyed=135
+Every source wrong-choice slot has a structured diagnosis, checkpoint, and next cue. The correct option has no wrong-answer diagnosis.
+
+Generated / shuffled path proof
+-------------------------------
+Algorithm mini mock: questions=20 / wrong choices=60 / structured feedback=60 / keyed=60
+Security mini mock: questions=45 / wrong choices=135 / structured feedback=135 / keyed=135
+Randomized compound: questions=45 / wrong choices=135 / structured feedback=135 / keyed=135
+Generated final algorithm: questions=43 / wrong choices=129 / structured feedback=129 / keyed=129
+Generated final security: questions=15 / wrong choices=45 / structured feedback=45 / keyed=45
+Feedback remapping remained complete after answer shuffling in every generated path.
+
+Learner-flow wiring
+-------------------
+Algorithm TRACE: wrong prediction immediately shows distractor-specific diagnosis and next-attempt cue without revealing the post-answer checkpoint.
+Security scenario: wrong first/retry choice receives distractor-specific diagnosis alongside the existing retry hint / explanation.
+Algorithm mini mock: submitted wrong answers show the three-part diagnosis before the existing return-to-TRACE action.
+Security mini mock: submitted wrong answers show the three-part diagnosis before the existing case-practice action.
+Compound practice: submitted wrong answers keep the existing thinking-point/pitfall boxes and add the selected-choice diagnosis.
+Final practice: wrong-answer review adds selected-choice diagnosis while keeping v217 recovery entry, reason chips, and remediation destinations intact.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v229 selection/order.
+Authored and generated prompt/options/correct-answer fingerprints matched v229.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness/65% threshold, v224 copy, and v227 domain progression are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+No profile schema migration; feedback is reconstructed from the current question source and is not persisted in learner history.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+The v229 medium finding is repaired. Use v231 for a post-repair learner-flow audit that exercises an actual wrong selection through immediate feedback, submitted review, remediation launch, and rerender/refresh boundaries before moving to another Subject B learning-quality frontier.
