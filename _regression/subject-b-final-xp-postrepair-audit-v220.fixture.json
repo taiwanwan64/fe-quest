@@ -1,0 +1,92 @@
+{
+  "name": "subject-b-final-xp-postrepair-audit-v220",
+  "version": "v220",
+  "previous_version": "v219",
+  "parent_main_sha": "a41c84e09bd4e57a899eadb84befabcbf444089a",
+  "learner_facing_change": false,
+  "source_repair": "final_recovery_xp_message_rerender",
+  "interaction": {
+    "initial": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": false,
+      "aria": "false",
+      "label": "誤答・未回答を復習する（3問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "opened": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": true,
+      "aria": "true",
+      "label": "誤答・未回答を復習する（3問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "rerender1": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": true,
+      "aria": "true",
+      "label": "誤答・未回答を復習する（3問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "rerender2": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+137 XP",
+      "open": true,
+      "aria": "true",
+      "label": "誤答・未回答を復習する（3問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "next": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+50 XP",
+      "open": false,
+      "aria": "false",
+      "label": "誤答を復習する（1問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "zero": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+0 XP",
+      "open": false,
+      "aria": "false",
+      "label": "誤答を復習する（1問）",
+      "hidden": false,
+      "insertions": 1
+    },
+    "perfect": {
+      "message": "かなり安定しています。時間配分を保ったまま精度を維持しましょう。+240 XP",
+      "open": false,
+      "aria": "false",
+      "label": "誤答を復習する",
+      "hidden": true,
+      "insertions": 1
+    }
+  },
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_1000_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-close-result-screen-path"
+}

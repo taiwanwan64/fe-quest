@@ -1,0 +1,34 @@
+FE QUEST v220 — Subject B Final-Practice XP Post-Repair Audit
+========================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v219
+Source main: a41c84e09bd4e57a899eadb84befabcbf444089a
+Learner-facing change in v220: none
+
+Post-repair proof
+-----------------
+A final-practice attempt showing +137 XP retained +137 XP across repeated same-attempt earned=0 rerenders.
+The v217 recovery review stayed open with aria-expanded=true and a single recovery entry during those rerenders.
+A new attempt correctly reset display state and showed its own +50 XP; a separate zero-earned attempt showed +0 XP; a perfect attempt showed +240 XP with the recovery entry hidden.
+
+Preserved contracts
+-------------------
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+1000 deterministic final-session seeds matched v219 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4; v214 order, v217 recovery and v219 XP-display policies are unchanged.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Close the final-practice result-screen remediation/XP repair sequence. Do not continue modifying this path by default. Move v221 to a different Subject B learning-quality frontier.
