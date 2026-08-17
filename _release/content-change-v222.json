@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "release": "v222",
+  "previous_release": "v221",
+  "parent_main_sha": "44fdb7df80f14c3389768e3b528349fa8930b7e9",
+  "change_type": "subject-b-readiness-aware-recommendation-repair",
+  "source_quality_audit": "audits/SUBJECT_B_LEARNING_PROGRESSION_AUDIT_v221.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_progression_readiness_blindness",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-readiness-overrides-v222.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_selection_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "remediation_targets_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "short_practice_floor_percent": 65,
+    "first_final_floor_percent": 65,
+    "weak_short_practice_blocks_first_final": true,
+    "weak_first_final_routes_to_targeted_short_practice": true,
+    "targeted_practice_must_be_attempted_after_first_final": true,
+    "targeted_practice_must_reach_floor_before_second_final": true,
+    "optional_profile_marker_only": true
+  }
+}
