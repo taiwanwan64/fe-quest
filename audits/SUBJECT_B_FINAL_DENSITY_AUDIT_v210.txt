@@ -1,0 +1,87 @@
+FE QUEST v210 — Subject B Final-Algorithm Content-Density Expansion Audit
+=========================================================================
+
+Result
+------
+AUDIT COMPLETE — TARGETED SMALL EXPANSION APPROVED
+Previous release: v209
+Source main before v210 audit: 9436638ce68a2d7f6ed96a886fd7a4882bd17dcc
+Learner-facing change in v210: none
+
+Source basis and boundary
+-------------------------
+Attached reference materials are used only to calibrate scope, terminology, algorithm/data-structure breadth, dedicated Subject B practice structure and difficulty. The 令和8年度 かんたん合格 book explicitly includes the published Subject B set, four Subject B mock sections and pseudocode notation. The 令和8年度 いちばんやさしい book separately covers algorithm/data structures, programming/object orientation and a dedicated Subject B strategy chapter. These sources support broad, repeated algorithm practice; they do not establish an official code-line minimum, sustained-trace ratio or per-domain final-practice quota.
+Any future FE QUEST additions must therefore be original questions. Proprietary wording must not be copied.
+
+Current 40-item final algorithm pool
+------------------------------------
+Level totals: 標準19 / 応用21
+
+Domain                 標準  応用  total
+制御                      3     1      4
+一次元配列                3     2      5
+二次元配列                2     2      4
+再帰・関数                2     3      5
+木構造                    1     3      4
+オブジェクト指向          2     1      3
+リスト                    2     2      4
+スタック・キュー          2     2      4
+ビット列                  2     2      4
+探索・整列                0     3      3
+
+Code-line inventory carried from the v204/v207 review: min 3 / max 16 / average 7.85 lines.
+This is an FE QUEST inventory metric, not an official exam target.
+
+Sustained-trace inventory after v208
+------------------------------------
+High-trace class: 12 / 40
+  標準: 3
+  応用: 9
+v208 final-session floor: 4 / 16 algorithm questions
+Default domain-level slots with a compatible high-trace source: 8 / 10
+Missing compatible default slots:
+  - オブジェクト指向 / 標準
+  - ビット列 / 応用
+
+v209 showed that the selector repair itself is stable. The remaining issue is content rotation, not selection correctness. Repeated readiness sessions must satisfy a floor of four while the sustained-trace class contains only twelve items, so those twelve bear more exposure pressure than the rest of the forty-item pool.
+
+Expansion decision
+------------------
+Approve exactly three original FE QUEST additions for v211. Do not rewrite or replace an existing item and do not change the selector.
+
+Priority 1 — オブジェクト指向 / 標準 / sustained trace
+Add one item that requires tracking multiple object references and method-driven state changes across at least three dependent transitions before determining a final state. Keep the difficulty at 標準: the challenge should come from careful state tracking, not advanced language-specific syntax.
+
+Priority 1 — ビット列 / 応用 / sustained trace
+Add one item that requires following a bit state through multiple dependent mask/shift/logical-operation transitions. The answer must depend on the sequence of state changes rather than one isolated AND/OR/XOR operation.
+
+Priority 2 — 木構造 / 標準 / sustained trace
+Add one item using a small tree and explicit evolving traversal state. It should require reconstruction of several dependent steps while avoiding the pointer depth or recursive branching expected of the existing applied tree items.
+
+Why these three
+---------------
+The first two close the only missing same-domain/same-level high-trace cells used by the default final-session domain slots. The tree-standard addition strengthens the weakest standard domain cell (currently one standard item) while increasing standard sustained-trace diversity.
+After the proposed additions, the expected pool is 43 items and the manually classified sustained-trace inventory would become 15: 標準5 / 応用10. All ten default domain-level slots would then have at least one compatible sustained-trace candidate.
+
+Not approved now
+----------------
+Do not add a 探索・整列 / 標準 item merely to make the table symmetric. Final practice intentionally treats 探索・整列 as an applied default domain, and the attached sources do not justify changing that difficulty boundary.
+Do not raise the sustained-trace floor above four.
+Do not change final 20=algorithm16+security4, algorithm 標準8/応用8, ten-domain coverage, security 2-log/2-non-log, exposure fairness, review behavior or saved-state IDs.
+
+Findings
+--------
+High: 0
+Medium: 0
+Low: 1
+LOW — final_high_trace_rotation_density
+The current selector is correct and stable, but repeated readiness sessions concentrate sustained-trace exposure on a 12-item class. A three-item original expansion is justified as a rotation/density improvement rather than a correctness repair.
+
+Decision
+--------
+v210 contains no learner-facing change.
+v211 is approved for a narrow three-item original content expansion only:
+  1. オブジェクト指向 / 標準
+  2. ビット列 / 応用
+  3. 木構造 / 標準
+No existing item wording/ID or selection rule should change.
