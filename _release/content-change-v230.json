@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "release": "v230",
+  "previous_release": "v229",
+  "parent_main_sha": "ce5f789d28558905057103693769d95c7055b444",
+  "change_type": "subject-b-choice-specific-wrong-answer-feedback-repair",
+  "source_quality_audit": "audits/SUBJECT_B_WRONG_ANSWER_EXPLANATION_DIAGNOSTIC_AUDIT_v229.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_wrong_answer_feedback_not_choice_specific",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-wrong-answer-feedback-overrides-v230.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "question_selection_changed": false,
+    "question_order_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "security_routing_changed": false,
+    "domain_progression_changed": false,
+    "direct_final_remediation_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_wrong_answer_feedback_not_choice_specific",
+    "scope": "Subject B wrong-choice diagnosis metadata and post-answer presentation only",
+    "metadata_key": "wrongFeedback",
+    "stable_lookup_key": "wrongFeedbackByText",
+    "feedback_parts": ["diagnosis", "checkpoint", "nextCue"],
+    "immediate_practice_reveals_correct_answer": false,
+    "post_answer_review_shows_checkpoint": true,
+    "covered_paths": [
+      "algorithm-trace",
+      "algorithm-mini-mock",
+      "compound",
+      "security-scenario",
+      "security-mini-mock",
+      "final-algorithm",
+      "final-security"
+    ],
+    "feedback_persisted_in_profile": false,
+    "reuse_existing_explanations_hints_and_remediation": true
+  }
+}
