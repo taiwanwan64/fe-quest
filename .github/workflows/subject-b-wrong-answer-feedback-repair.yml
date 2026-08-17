@@ -1,6 +1,5 @@
 name: FE QUEST Subject B wrong-answer feedback repair
 
-# v230 repair validation workflow
 on:
   push:
     branches: ['subject-b-wrong-answer-feedback-repair-v*']
@@ -37,6 +36,7 @@ jobs:
           echo "FEQUEST_SUBJECT_B_WRONG_ANSWER_FEEDBACK_REPAIR_TARGET version=$VERSION previous=$PREVIOUS"
 
       - name: Materialize conventional release shell
+        id: materialize
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
 
@@ -44,6 +44,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build repair candidate
+        id: build_candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -52,10 +53,12 @@ jobs:
           verbose: true
 
       - name: Prepare mechanical target reference
+        id: prepare_reference
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
 
       - name: Build mechanical target reference
+        id: build_reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -64,6 +67,7 @@ jobs:
           verbose: true
 
       - name: Prepare untouched parent reference
+        id: prepare_parent
         shell: bash
         run: |
           rm -rf _parent_reference
@@ -71,6 +75,7 @@ jobs:
           git archive origin/main | tar -x -C _parent_reference
 
       - name: Build untouched parent reference
+        id: build_parent
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_parent_reference
@@ -79,13 +84,17 @@ jobs:
           verbose: true
 
       - name: Validate standard release invariants
+        id: standard
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Validate Subject B wrong-answer feedback repair
+        id: repair
+        continue-on-error: true
         run: python3 .github/subject-b-wrong-answer-feedback-repair/validate_repair.py
 
       - name: Commit validated release shell and repair evidence
+        if: steps.repair.outcome == 'success'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -100,6 +109,7 @@ jobs:
           echo "FEQUEST_SUBJECT_B_WRONG_ANSWER_FEEDBACK_REPAIR_HEAD=$(git rev-parse HEAD)"
 
       - name: Package release
+        if: steps.repair.outcome == 'success'
         shell: bash
         run: |
           VERSION="${{ steps.release.outputs.version }}"
@@ -109,9 +119,30 @@ jobs:
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
 
       - name: Upload release
+        if: steps.repair.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
           path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 90
+
+      - name: Persist failure checkpoint
+        if: always() && steps.repair.outcome == 'failure'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cat > _ci-v230-failure.txt <<EOF
+          materialize=${{ steps.materialize.outcome }}
+          build_candidate=${{ steps.build_candidate.outcome }}
+          prepare_reference=${{ steps.prepare_reference.outcome }}
+          build_reference=${{ steps.build_reference.outcome }}
+          prepare_parent=${{ steps.prepare_parent.outcome }}
+          build_parent=${{ steps.build_parent.outcome }}
+          standard=${{ steps.standard.outcome }}
+          repair=${{ steps.repair.outcome }}
+          EOF
+          git add _ci-v230-failure.txt
+          git commit -m "Record v230 validation failure [skip ci]"
+          git push origin HEAD:"$GITHUB_REF_NAME"
