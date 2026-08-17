@@ -99,9 +99,16 @@ function interactionProbe(){
     if(!nodes.has(id))nodes.set(id,makeNode(id));
     return nodes.get(id);
   };
-  document.getElementById=getNode;
-  document.createElement=()=>makeNode('dynamic');
-  document.querySelectorAll=(sel)=>sel==='[data-bfreason]'?[reasonBtn]:sel==='[data-bfinalstudy]'?[studyBtn]:[];
+  // Replace the proxy DOM from runtime_stub so querySelectorAll can return concrete
+  // review controls and the real production onclick callbacks can be exercised.
+  globalThis.document={
+    getElementById:getNode,
+    createElement:()=>makeNode('dynamic'),
+    querySelectorAll:(sel)=>sel==='[data-bfreason]'?[reasonBtn]:sel==='[data-bfinalstudy]'?[studyBtn]:[],
+    querySelector:()=>null,
+    body:makeNode('body'),documentElement:makeNode('html'),activeElement:null,
+    addEventListener(){},removeEventListener(){}
+  };
   globalThis.requestAnimationFrame=(fn)=>{fn();return 1;};
 
   function prepareButtons(a){
@@ -163,7 +170,6 @@ expected={'.github/subject-b-final-remediation-postrepair-audit/validate_postrep
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines())
 req(changed==expected,'v218 audit-only source drift: '+repr(sorted(changed^expected)))
 
-# v217 learner-facing repair must remain byte-exact to parent in this audit-only release.
 repair_path=Path('app/subject-b-final-remediation-overrides-v217.txt')
 req(repair_path.read_bytes()==subprocess.check_output(['git','show',parent+':app/subject-b-final-remediation-overrides-v217.txt']),'v217 remediation repair source drift')
 
@@ -182,7 +188,6 @@ req(spec.get('keepsForwardActionPrimary') is True and spec.get('keepsFullReviewC
 
 cov=cand['coverage'];req(cov['algorithm']==43 and not cov['algoBad'],'algorithm remediation coverage drift: '+repr(cov['algoBad'][:3]));req(cov['security']==15 and not cov['secBad'],'security remediation coverage drift: '+repr(cov['secBad'][:3]))
 
-# Static integration contracts around the repaired entry and existing result flow.
 for token in [
  'id="bFinalBackMenu">次の科目Bへ →</button>',
  "document.getElementById('bFinalBackMenu')?.addEventListener('click',continueSubjectBFlow)",
@@ -201,10 +206,6 @@ bo=p['blankOnly'];req(bo['hidden'] is False and bo['label']=='誤答・未回答
 pf=p['perfect'];req(pf['hidden'] is True and pf['open'] is False and pf['aria']=='false' and pf['insertions']==1,'perfect-attempt recovery state drift')
 req(p['focusCount']==1 and p['scrollCount']==1,'recovery focus/scroll should occur exactly once in probe')
 
-# Post-repair audit finding: selecting a diagnosis rerenders the same result with earned=0 in the
-# existing reason-chip callback. The actual profile XP is not decremented, but the visible message
-# changes from the earned amount to +0 XP, which is a small trust/clarity defect on the newly
-# promoted recovery path.
 req('renderBFinalResult(a,0);' in html,'reason-chip rerender contract changed; reassess XP finding')
 req('+137 XP' in rr['messageBefore'],'probe did not establish non-zero earned XP message: '+repr(rr['messageBefore']))
 req('+0 XP' in rr['messageAfter'],'expected visible XP rerender defect not reproduced: '+repr(rr['messageAfter']))
@@ -212,8 +213,7 @@ req('+0 XP' in rr['messageAfter'],'expected visible XP rerender defect not repro
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'candidate/reference six-file mismatch')
 
 low={
- 'id':'final_recovery_xp_message_rerender',
- 'severity':'Low',
+ 'id':'final_recovery_xp_message_rerender','severity':'Low',
  'observation':'After the learner selects a wrong-answer diagnosis reason, the existing reason-chip callback rerenders renderBFinalResult(a,0). The result message therefore changes from the already-earned XP amount to +0 XP even though the attempt score and persisted XP award are not undone.',
  'learner_risk':'This is display-only, but it can make the newly promoted recovery interaction look as if the learner lost the XP they just earned and weakens trust in the result screen.',
  'recommended_repair':'Preserve the original earned-XP display value across same-attempt result rerenders. Keep reason persistence, review-open state, scoring and profile XP logic unchanged.'
