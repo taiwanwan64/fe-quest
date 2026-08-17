@@ -98,7 +98,12 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
+          cp index.html /tmp/fequest-v231-materialized-index.html
+          git show origin/main:index.html > index.html
           python3 .github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py 2>&1 | tee _ci-v231-audit.log
+          STATUS=${PIPESTATUS[0]}
+          mv /tmp/fequest-v231-materialized-index.html index.html
+          exit "$STATUS"
 
       - name: Commit validated release shell and audit evidence
         if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
