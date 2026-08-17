@@ -1,0 +1,157 @@
+{
+  "name": "subject-b-learning-progression-audit-v221",
+  "version": "v221",
+  "previous_version": "v220",
+  "parent_main_sha": "b64014d7f20e07607ab2a4893aa03facae4ef2c6",
+  "learner_facing_change": false,
+  "recommendation_scenarios": [
+    {
+      "name": "new_learner",
+      "stage": 1,
+      "mode": "trace",
+      "id": "loop_sum",
+      "title": "ループで合計",
+      "desc": "0 / 20 完了。次の未完了演習を1つ進めます。"
+    },
+    {
+      "name": "algorithm_complete_security_unfinished",
+      "stage": 2,
+      "mode": "security",
+      "id": "phishing",
+      "title": "偽ログイン画面",
+      "desc": "0 / 15 完了。次のケースを1つ進めます。"
+    },
+    {
+      "name": "foundations_complete_no_compound",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題を1セット",
+      "desc": "15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。"
+    },
+    {
+      "name": "three_compounds_no_security_mock",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試",
+      "desc": "8問・20分。ケース演習で身につけた判断をヒントなしで確認します。"
+    },
+    {
+      "name": "security_mock_zero_algorithm_mock_missing",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試",
+      "desc": "8問・40分。途中状態をヒントなしで連続して読みます。"
+    },
+    {
+      "name": "all_short_practice_zero_no_final",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+    },
+    {
+      "name": "all_short_practice_perfect_no_final",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+    },
+    {
+      "name": "one_low_final_after_low_short_practice",
+      "stage": 4,
+      "mode": "final",
+      "id": null,
+      "title": "科目B 総合実戦",
+      "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+    },
+    {
+      "name": "maintenance_algorithm_weak",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で維持",
+      "desc": "直近の正答率が相対的に低い形式（15%）を短く確認します。"
+    },
+    {
+      "name": "maintenance_security_weak",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で維持",
+      "desc": "直近の正答率が相対的に低い形式（15%）を短く確認します。"
+    },
+    {
+      "name": "maintenance_compound_weak",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で維持",
+      "desc": "直近の正答率が相対的に低い形式（15%）を短く確認します。"
+    }
+  ],
+  "finding": {
+    "id": "subject_b_progression_readiness_blindness",
+    "severity": "medium",
+    "summary": "Before the second final-practice run, progression is gated by completion/run counts rather than demonstrated short-practice or first-final performance.",
+    "evidence": {
+      "zero_short_practice_recommendation": {
+        "name": "all_short_practice_zero_no_final",
+        "stage": 4,
+        "mode": "final",
+        "id": null,
+        "title": "科目B 総合実戦",
+        "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+      },
+      "perfect_short_practice_recommendation": {
+        "name": "all_short_practice_perfect_no_final",
+        "stage": 4,
+        "mode": "final",
+        "id": null,
+        "title": "科目B 総合実戦",
+        "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+      },
+      "low_first_final_recommendation": {
+        "name": "one_low_final_after_low_short_practice",
+        "stage": 4,
+        "mode": "final",
+        "id": null,
+        "title": "科目B 総合実戦",
+        "desc": "短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。"
+      },
+      "maintenance_is_rate_sensitive": true
+    }
+  },
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_500_seeds_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [
+      "subject_b_progression_readiness_blindness"
+    ],
+    "low": []
+  },
+  "status": "passed-medium-finding-recorded"
+}

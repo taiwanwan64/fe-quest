@@ -1,0 +1,48 @@
+FE QUEST v221 — Subject B Learning Progression / Recommendation Quality Audit
+====================================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v220
+Source main: b64014d7f20e07607ab2a4893aa03facae4ef2c6
+Learner-facing change in v221: none
+
+What was audited
+----------------
+The main Subject B next-step recommendation was exercised across foundation, compound, mini-mock, final-practice, and maintenance states.
+The audit specifically varied short-practice scores and first-final performance while keeping completion/run counts comparable.
+
+What works
+----------
+New learners are led to algorithm TRACE first, then unfinished security cases, then three compound sets, security mini-mock, algorithm mini-mock, and final practice.
+After two final-practice runs, the maintenance recommendation is score-sensitive: the weakest of algorithm mini-mock, security mini-mock, and compound practice is selected.
+The exam-3-days behavior remains separate from this audit and was not changed.
+
+Medium finding — subject_b_progression_readiness_blindness
+---------------------------------------------------------
+Before the second final-practice run, readiness is determined by completion/run counts, not demonstrated performance.
+With algorithm mini-mock = 0%, security mini-mock = 0%, and compound = 0%, the next recommendation is still the 100-minute final practice.
+With those same three short-practice scores at 100%, the recommendation is also the 100-minute final practice.
+After one very low final-practice result, the flow still recommends the second final-practice run rather than using the weak result to route the learner back to targeted short practice.
+This is a learning-quality issue rather than a functional or data-integrity failure: the app has score-aware maintenance logic, but that evidence is only consulted after the two-run final-practice gate is satisfied.
+
+Preserved contracts
+-------------------
+Algorithm remediation targets valid: 43 / 43.
+Security remediation targets valid: 15 / 15.
+500 deterministic final-session seeds matched v220 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4; v214 order, v217 recovery, and v219 XP-display policies are unchanged.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 1 — subject_b_progression_readiness_blindness
+Low: 0
+
+Decision
+--------
+Keep v221 audit-only. Do not repair the finding in this release.
+Use v222 for a narrow readiness-aware recommendation repair: preserve the existing staged onboarding, but require performance evidence before escalating to 100-minute final practice and use a weak first-final result to route back to the most relevant short practice.
