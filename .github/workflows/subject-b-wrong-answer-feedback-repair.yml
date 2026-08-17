@@ -128,7 +128,7 @@ jobs:
           retention-days: 90
 
       - name: Persist failure checkpoint
-        if: always() && steps.repair.outcome == 'failure'
+        if: always() && steps.repair.outcome != 'success'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
