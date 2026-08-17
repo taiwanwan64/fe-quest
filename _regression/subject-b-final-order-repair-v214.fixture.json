@@ -1,0 +1,41 @@
+{
+  "name": "subject-b-final-order-repair-v214",
+  "version": "v214",
+  "previous_version": "v213",
+  "parent_main_sha": "64954dc95bd9ed236ef7e142ddc7d41ef921804c",
+  "learner_facing_change": true,
+  "change_type": "presentation-order-only-stable-partition",
+  "selected_question_set_changed": false,
+  "question_content_changed": false,
+  "saved_state_ids_changed": false,
+  "time_limit_seconds": 6000,
+  "final_counts": [
+    20,
+    16,
+    4
+  ],
+  "algorithm_pool_count": 43,
+  "high_trace_count": 15,
+  "high_trace_floor": 4,
+  "paired_equivalence_probe": {
+    "sessions": 2500,
+    "setMismatch": 0,
+    "stablePartitionMismatch": 0,
+    "contractFailure": 0
+  },
+  "order_probe": {
+    "sessions": 20000,
+    "exactBlock": 20000,
+    "securityBefore17": 0,
+    "badContract": 0,
+    "minHigh": 7,
+    "maxHigh": 7,
+    "avgTransitions": 1,
+    "minTransitions": 1,
+    "maxTransitions": 1
+  },
+  "review_and_resume_contract_preserved": true,
+  "subject_b_semantic_validator_ok": true,
+  "finding_resolved": "final_question_order_fidelity",
+  "status": "passed"
+}

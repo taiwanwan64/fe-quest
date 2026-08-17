@@ -1,0 +1,49 @@
+FE QUEST v214 — Subject B Final-Practice Question-Order Repair
+=====================================================================
+
+Result
+------
+PASS — v213 MEDIUM FINDING RESOLVED
+Previous: v213
+Source main: 64954dc95bd9ed236ef7e142ddc7d41ef921804c
+Learner-facing change in v214: presentation order only
+
+Repair
+------
+The already-selected 20-question set is now presented as Q1-Q16 algorithm/programming followed by Q17-Q20 information security. The v213 full shuffle is not replaced with a new selector: v214 calls the existing selector once and performs a stable partition of its output. Relative random order inside the algorithm subset and inside the security subset is inherited from the existing shuffle. No additional Math.random call is introduced.
+
+Selection-equivalence proof
+---------------------------
+Matched seed/history pairs: 2500.
+Selected-set mismatches: 0.
+Stable-partition mismatches: 0.
+Structural/quota failures: 0.
+Therefore the v214 presentation repair does not alter which 16 algorithm and 4 security questions are selected for the same RNG/history state.
+
+20,000-session order probe
+--------------------------
+Exact Q1-Q16 algorithm + Q17-Q20 security: 20000 / 20000 (100%).
+Security before Q17: 0 / 20000.
+Type transitions: average 1 / min 1 / max 1.
+High-trace count: min 7 / max 7.
+Structural/security quota failures: 0.
+
+Preserved contracts
+-------------------
+100 minutes / 20 questions.
+16 algorithm + 4 security; algorithm 標準8 / 応用8; ten algorithm domains; unique algorithm IDs.
+43-item final algorithm pool; 15 high-trace items; sustained-trace floor 4.
+Security remains 2 log + 2 non-log.
+Question content, answer contracts, saved-state IDs, scoring, timer, 15-second resume checkpoint, free navigation, flag-for-review and result remediation remain unchanged.
+Subject B semantic validation: OK.
+
+Finding
+-------
+High: 0
+Medium: 0
+Low: 0
+Resolved: final_question_order_fidelity
+
+Decision
+--------
+Accept the block-order repair. v215 should be audit-only by default: re-check post-repair whole-session behavior, especially resume/navigation/review index alignment across the Q16→Q17 boundary, before making any further learner-facing Subject B change.
