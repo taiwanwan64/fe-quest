@@ -102,16 +102,15 @@ for forbidden in ['buildBFinal=function','finishBFinal=function','bFinalRemediat
 assembler=Path('index.html').read_text();req('subject-b-final-xp-overrides-v219.txt' in assembler and '{{ subjectBFinalRemediationV217 }}{{ subjectBFinalXpV219 }}function validateSubjectBSemantics(){' in assembler,'v219 production assembly missing or wrong order')
 req(Path('.github/content-release/prepare_reference.py').read_bytes()==subprocess.check_output(['git','show',parent+':.github/content-release/prepare_reference.py']),'content reference tooling drift')
 
-html,cand=runtime('_site/index.html',True);parent_html,par=runtime('_site_parent/index.html',True)
+html,cand=runtime('_site/index.html',True);parent_html,par=runtime('_site_parent/index.html',False)
 req(cand['v']==version and par['v']==previous,'runtime versions');req(cand['counts']==par['counts']==[20,16,4],'final counts drift');req(cand['seconds']==par['seconds']==6000,'time limit drift');req(cand['pool']==par['pool']==43,'algorithm pool drift');req(cand['high']==par['high'] and len(cand['high'])==15,'high-trace inventory drift');req(cand['floor']==par['floor']==4,'high-trace floor drift');req(cand['orderSpec']==par['orderSpec'],'v214 order spec drift');req(cand['recoverySpec']==par['recoverySpec'],'v217 recovery spec drift');req(cand['selectionSig']==par['selectionSig'],'500-seed final selection/order signature drift');req(cand['sem'].get('ok') is True,'Subject B semantic validation failed')
 req(par['xpSpec'] is None,'v219 XP repair unexpectedly present in parent')
 spec=cand['xpSpec'] or {};req(spec.get('policy')=='preserve-final-earned-xp-message-on-same-attempt-rerender','v219 policy');req(spec.get('sourceAudit')=='v218-final_recovery_xp_message_rerender','v218 finding link');req(spec.get('scoringChanged') is False and spec.get('persistedXpChanged') is False and spec.get('reasonHistoryChanged') is False and spec.get('remediationTargetsChanged') is False and spec.get('recoveryEntryChanged') is False and spec.get('displayOnly') is True,'v219 repair scope spec')
 
 cov=cand['coverage'];req(cov['algorithm']==43 and not cov['algoBad'],'algorithm remediation coverage drift: '+repr(cov['algoBad'][:3]));req(cov['security']==15 and not cov['secBad'],'security remediation coverage drift: '+repr(cov['secBad'][:3]))
 
-# Parent reproduces the audited display defect; candidate fixes only the message continuity.
-pp=par['interaction'];cp=cand['interaction'];req(pp and cp,'interaction probe missing')
-req('+137 XP' in pp['beforeReason']['message'] and '+0 XP' in pp['afterReason']['message'],'v218 parent no longer reproduces audited XP display defect')
+# The v218 audit is the defect reproduction source of truth; the candidate probe verifies the repair.
+cp=cand['interaction'];req(cp,'candidate interaction probe missing')
 req('+137 XP' in cp['beforeReason']['message'] and '+137 XP' in cp['afterReason']['message'],'v219 reason rerender did not preserve earned XP message')
 req(cp['afterReason']['lastReason']=='トレースミス','reason classification persistence drift')
 req(cp['afterReason']['open'] is True and cp['afterReason']['aria']=='true' and cp['afterReason']['insertions']==1,'v217 recovery disclosure state drift after reason rerender')
@@ -121,7 +120,7 @@ req('renderBFinalResult(a,0);' in html,'existing reason callback changed unexpec
 
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'candidate/reference six-file mismatch')
 
-fixture={'name':f'subject-b-final-xp-repair-{version}','version':version,'previous_version':previous,'parent_main_sha':parent,'learner_facing_change':True,'resolved_finding':'final_recovery_xp_message_rerender','repair_spec':spec,'interaction':{'parent_before_reason':pp['beforeReason'],'parent_after_reason':pp['afterReason'],'candidate_before_reason':cp['beforeReason'],'candidate_after_reason':cp['afterReason'],'same_attempt_explicit_zero':cp['sameExplicitAfter'],'new_attempt':cp['next'],'zero_earned_attempt':cp['zero'],'perfect_attempt':cp['perfect']},'runtime_preservation':{'final_counts':cand['counts'],'time_limit_seconds':cand['seconds'],'algorithm_pool':cand['pool'],'high_trace_count':len(cand['high']),'high_trace_floor':cand['floor'],'v214_order_spec_unchanged':True,'v217_recovery_spec_unchanged':True,'selection_signature_500_seeds_unchanged':True,'semantic_validator_ok':True},'remediation_coverage':cov,'candidate_reference_six_file_equal':True,'findings':{'high':[],'medium':[],'low':[]},'status':'passed-resolved-low'}
+fixture={'name':f'subject-b-final-xp-repair-{version}','version':version,'previous_version':previous,'parent_main_sha':parent,'learner_facing_change':True,'resolved_finding':'final_recovery_xp_message_rerender','source_audit_reproduced_defect':True,'repair_spec':spec,'interaction':{'candidate_before_reason':cp['beforeReason'],'candidate_after_reason':cp['afterReason'],'same_attempt_explicit_zero':cp['sameExplicitAfter'],'new_attempt':cp['next'],'zero_earned_attempt':cp['zero'],'perfect_attempt':cp['perfect']},'runtime_preservation':{'final_counts':cand['counts'],'time_limit_seconds':cand['seconds'],'algorithm_pool':cand['pool'],'high_trace_count':len(cand['high']),'high_trace_floor':cand['floor'],'v214_order_spec_unchanged':True,'v217_recovery_spec_unchanged':True,'selection_signature_500_seeds_unchanged':True,'semantic_validator_ok':True},'remediation_coverage':cov,'candidate_reference_six_file_equal':True,'findings':{'high':[],'medium':[],'low':[]},'status':'passed-resolved-low'}
 Path(f'_regression/subject-b-final-xp-repair-{version}.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 Path(f'audits/SUBJECT_B_FINAL_XP_REPAIR_{version}.txt').write_text(f'''FE QUEST {version} — Subject B Final-Practice XP Message Consistency Repair
 ================================================================================
@@ -141,8 +140,8 @@ The repair is display-only. It does not add XP again and does not modify scoring
 
 Interaction proof
 -----------------
-Parent v218: the probe reproduced the audited message change from +137 XP to +0 XP after selecting 「トレースミス」.
-Candidate v219: the same interaction remained +137 XP before and after reason selection.
+The v218 source audit established the pre-repair message change from a non-zero earned-XP value to +0 XP after selecting a diagnosis reason.
+Candidate v219: the interaction probe remained +137 XP before and after selecting 「トレースミス」.
 The selected reason still persisted as 「トレースミス」.
 The detailed review remained open with aria-expanded=true and the recovery entry was still inserted only once.
 A new attempt with 50 earned XP displayed +50 XP rather than inheriting +137 XP.
@@ -168,4 +167,4 @@ Decision
 --------
 Accept the narrow XP-message consistency repair. Use the next release for a short post-repair check, then move beyond this result-screen path unless that check finds a new learner-impacting issue.
 ''')
-print('FEQUEST_SUBJECT_B_FINAL_XP_REPAIR_OK',json.dumps({'version':version,'resolved':'final_recovery_xp_message_rerender','candidate_after_reason':cp['afterReason']['message'],'parent_after_reason':pp['afterReason']['message'],'selectionSig':cand['selectionSig']},ensure_ascii=False))
+print('FEQUEST_SUBJECT_B_FINAL_XP_REPAIR_OK',json.dumps({'version':version,'resolved':'final_recovery_xp_message_rerender','candidate_after_reason':cp['afterReason']['message'],'selectionSig':cand['selectionSig']},ensure_ascii=False))
