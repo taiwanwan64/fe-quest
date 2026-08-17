@@ -24,6 +24,7 @@
 {% capture subjectBFinalOrderV214 %}{% include_relative app/subject-b-final-order-overrides-v214.txt %}{% endcapture %}
 {% capture subjectBFinalRemediationV217 %}{% include_relative app/subject-b-final-remediation-overrides-v217.txt %}{% endcapture %}
 {% capture subjectBFinalXpV219 %}{% include_relative app/subject-b-final-xp-overrides-v219.txt %}{% endcapture %}
+{% capture subjectBReadinessV222 %}{% include_relative app/subject-b-readiness-overrides-v222.txt %}{% endcapture %}
 
 
 
@@ -45,7 +46,7 @@
 {% assign s1 = productionBase | replace: "<title>FE QUEST PWA v131</title>", "<title>FE QUEST PWA v221</title>" %}
 {% assign s2 = s1 | replace: "const APP_VERSION = 'v131';", "const APP_VERSION = 'v221';" %}
 {% assign s3 = s2 | replace: "window.FEQUEST_SELF_CHECK=runAppSelfCheck();", "applyV143LateFixes();window.FEQUEST_SELF_CHECK=globalThis['runV'+APP_VERSION.slice(1)+'SelfCheck']();" %}
-{% capture subjectBSemanticInsertion %}{{ subjectBSecurityV200 }}{{ subjectBAlgorithmV202 }}{{ subjectBSessionV205 }}{{ subjectBFinalV208 }}{{ subjectBFinalPoolV211 }}{{ subjectBFinalOrderV214 }}{{ subjectBFinalRemediationV217 }}{{ subjectBFinalXpV219 }}function validateSubjectBSemantics(){
+{% capture subjectBSemanticInsertion %}{{ subjectBSecurityV200 }}{{ subjectBAlgorithmV202 }}{{ subjectBSessionV205 }}{{ subjectBFinalV208 }}{{ subjectBFinalPoolV211 }}{{ subjectBFinalOrderV214 }}{{ subjectBFinalRemediationV217 }}{{ subjectBFinalXpV219 }}{{ subjectBReadinessV222 }}function validateSubjectBSemantics(){
 {% endcapture %}
 {% assign s4 = s3 | replace: "function validateSubjectBSemantics(){", subjectBSemanticInsertion %}
 {% capture insertion %}{{ runtimeGuard }}{{ learningPatches }}{{ learningQualityOverrides }}{{ learningQualityOverridesV191 }}{{ learningQualityOverridesV191Contract }}{{ learningQualityOverridesV193 }}{{ learningQualityOverridesV195 }}{{ learningQualityOverridesV197 }}{{ diagnosticDataPrelude }}{{ semanticRuntime }}{{ diagnosticDataFinalize }}{{ releaseDiagnosticSpec }}{{ diagnosticWrapper }}{{ stableReleaseAdapter }}const CORE_A_TOPIC_TOTAL_QUESTION_COUNTS=QUESTION_BANK.filter(q=>q.coreTopicId){% endcapture %}
