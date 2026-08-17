@@ -1,0 +1,364 @@
+// ===== FE QUEST v230 Subject B choice-specific wrong-answer feedback repair =====
+(() => {
+  const policy='choice-specific-wrong-answer-diagnosis';
+  const sourceAudit='v229-subject_b_wrong_answer_feedback_not_choice_specific';
+
+  const DOMAIN_CUES=Object.freeze({
+    '制御':'各反復を「条件判定 → 実行した代入 → 反復終了時の値」の順で1行ずつ書きます。',
+    '一次元配列':'添字と値を必ずセットで書き、読み出し元と書込み先を分けて追います。',
+    '二次元配列':'行r・列c・その時点の値をセットで書き、内側ループが終わるまでrを進めません。',
+    '再帰・関数':'基底条件まで下り、戻り値を一段ずつ呼出し元へ戻して式を埋めます。',
+    '木構造':'現在ノードと、次に処理するノード列（再帰スタックまたはキュー）を毎回書きます。',
+    'オブジェクト指向':'変数名ではなく「どのインスタンスを参照しているか」を先に整理してから更新します。',
+    'リスト':'現在pが指すノードとnextの付替え先を矢印で描いてから代入します。',
+    'スタック・キュー':'取り出す側（スタックのトップ／キューの先頭）と、取り出した後に残る要素を分けて書きます。',
+    'ビット列':'各bitを縦にそろえ、AND・OR・XOR・NOT・シフトを1演算ずつ確定します。',
+    '探索・整列':'比較した直後に変わる添字・境界・配列状態を1ステップごとに記録します。',
+    'アルゴリズム':'正解と選んだ値が分かれる最初の代入まで戻り、その1行だけを再実行します。'
+  });
+  const SECURITY_CUES=Object.freeze({
+    'フィッシング・認証':'「認証情報が漏えいした前提なら、今すぐ何を止めて誰へ伝えるか」を先に決めます。',
+    'マルウェア・インシデント対応':'原因究明より先に被害拡大を止め、調査に必要な記録を残す順序で考えます。',
+    'アクセス制御・最小権限':'その利用者・役割に今必要な権限だけか、という最小権限の軸で選びます。',
+    'アカウントライフサイクル・アクセス管理':'契約・所属・職務の変化と権限変更が同時に起きるべきかを確認します。',
+    '情報資産管理・取扱い':'管理責任・機密区分・利用者範囲を先に確定し、その区分に合う扱いを選びます。',
+    '物理的セキュリティ・機密資料管理':'第三者から今見える情報を先に保護し、その後に記録・運用改善を考えます。',
+    'インシデント対応・証拠保全':'被害拡大防止と証拠保全の両方を満たす初動かを確認します。',
+    '情報セキュリティ':'「守る対象・今の脅威・最優先の行動」の3点を対応させて選びます。'
+  });
+
+  function text(v){return String(v??'').trim();}
+  function firstSentence(v){
+    const s=text(v);
+    if(!s)return '';
+    const m=s.match(/^.*?[。！？]/);
+    return m?m[0]:s;
+  }
+  function optionsOf(q){return Array.isArray(q?.options)?q.options:(Array.isArray(q?.opts)?q.opts:[]);}
+  function answerIndexOf(q){return Number.isInteger(Number(q?.a))?Number(q.a):Number(q?.correct);}
+  function correctTextOf(q){const opts=optionsOf(q),a=answerIndexOf(q);return text(opts[a]);}
+
+  function stateAssignments(v){
+    const out={};
+    const s=text(v);
+    const re=/([A-Za-z_][A-Za-z0-9_.]*)\s*=\s*(\[[^\]]*\]|[^,\s]+)/g;
+    let m;
+    while((m=re.exec(s)))out[m[1]]=m[2];
+    return out;
+  }
+  function listTokens(v){
+    const s=text(v);
+    const m=s.match(/\[([^\]]*)\]/);
+    if(m)return m[1].split(',').map(x=>x.trim()).filter(Boolean);
+    if(s.includes('→'))return s.split('→').map(x=>x.trim()).filter(Boolean);
+    return [];
+  }
+  function sameMultiset(a,b){
+    if(a.length!==b.length)return false;
+    const x=[...a].sort(),y=[...b].sort();
+    return x.every((v,i)=>v===y[i]);
+  }
+  function scalarNumber(v){
+    const s=text(v).replace(/[,_\s]/g,'');
+    return /^-?\d+(?:\.\d+)?$/.test(s)?Number(s):null;
+  }
+
+  function algorithmDiagnosis(meta,wrong){
+    const correct=text(meta.correct),domain=text(meta.domain)||'アルゴリズム';
+    const wa=stateAssignments(wrong),ca=stateAssignments(correct);
+    const shared=Object.keys(ca).filter(k=>Object.prototype.hasOwnProperty.call(wa,k));
+    const diff=shared.filter(k=>text(wa[k])!==text(ca[k]));
+    if(shared.length&&diff.length===1){
+      return `「${text(wrong)}」では ${diff[0]} の更新時点だけがずれています。ほかの状態を保持したまま、${diff[0]} が変わる1行を見直してください。`;
+    }
+    if(shared.length&&diff.length>1){
+      return `「${text(wrong)}」では ${diff.join('・')} を同時に動かしており、代入の順序がずれています。コードに書かれた順に1つずつ更新してください。`;
+    }
+    const wn=scalarNumber(wrong),cn=scalarNumber(correct);
+    if(wn!==null&&cn!==null&&Math.abs(wn-cn)===1){
+      return `「${text(wrong)}」は正解と1だけずれており、反復回数・添字・更新回数のどれかを1回分前後に数えています。`;
+    }
+    const wl=listTokens(wrong),cl=listTokens(correct);
+    if(wl.length&&cl.length&&sameMultiset(wl,cl)&&wl.join('|')!==cl.join('|')){
+      return `「${text(wrong)}」は要素自体はそろっていますが順序が違います。取り出し・追加・交換が起きる順番を逆に追っていないか確認してください。`;
+    }
+    if(wl.length&&cl.length&&wl.length!==cl.length){
+      return `「${text(wrong)}」では要素数が正解状態と一致しません。追加・削除・反復終了のどこかを1回余分に、または1回少なく処理しています。`;
+    }
+    const format=text(meta.format);
+    if(format==='空欄補充')return `「${text(wrong)}」を入れると、代入先と参照元の対応が目的の処理と一致しません。空欄の前後で「何を残し、何を更新する式か」を確認してください。`;
+    if(format==='実行回数')return `「${text(wrong)}」は終了条件を判定するタイミングがずれています。本体を実行した回数だけを数え、条件確認そのものは回数に含めないようにします。`;
+    if(format==='変更予測')return `「${text(wrong)}」は変更前の状態を一部引きずっています。変更された条件・データだけを置き換え、最初から処理を追い直してください。`;
+    const generic={
+      '制御':'条件を判定する時点と、その後の代入・breakの順序を取り違えています。',
+      '一次元配列':'添字と、その添字で読み書きする値の対応がずれています。',
+      '二次元配列':'行と列、または内側ループ終了前後の状態を取り違えています。',
+      '再帰・関数':'基底条件から戻る値、または呼出し元へ戻る順序を取り違えています。',
+      '木構造':'訪問順と、次に処理するノードを保持する構造の状態がずれています。',
+      'オブジェクト指向':'参照の共有・独立と、どのインスタンスが更新されるかを取り違えています。',
+      'リスト':'next参照の付替え先と、現在位置の関係を取り違えています。',
+      'スタック・キュー':'LIFO/FIFOと、取り出した後に残る構造を同時に追えていません。',
+      'ビット列':'演算をまとめて処理し、どのbitが1演算ごとに変わるかを取り違えています。',
+      '探索・整列':'比較後に更新される境界・添字・配列状態を1ステップずらしています。'
+    };
+    return `「${text(wrong)}」を選んだ場合、${generic[domain]||'コード上の更新を1段飛ばしたか、更新前の状態を答えています。'}`;
+  }
+
+  function securityDiagnosis(meta,wrong){
+    const w=text(wrong),concept=text(meta.concept)||'情報セキュリティ';
+    if(/次回|定例|週末|後で|帰社後|異常.*(出た|確認).*ら|結果を確認してから|見送る|そのまま|継続/.test(w)){
+      return `「${w}」は対応を後ろ倒しにしています。今回のケースでは、リスクが残ったまま待つこと自体が追加被害につながるため、必要な初動を先に行います。`;
+    }
+    if(/全員|同じ権限|引き継ぐ|利便性|同じアカウント|共有.*続/.test(w)){
+      return `「${w}」は利便性や現状維持を優先し、必要最小限の権限・利用範囲という判断軸から外れています。`;
+    }
+    if(/削除|初期化|再インストール|消去|電源を停止/.test(w)&&/インシデント|マルウェア|証拠/.test(concept+text(meta.q))){
+      return `「${w}」では、原因や影響範囲を確認する前に調査材料を失う可能性があります。封じ込めと証拠保全を分けて考えてください。`;
+    }
+    if(/ログ|記録|監視|一覧|履歴/.test(w)){
+      return `「${w}」は記録・監視には役立ちますが、それだけでは現在の危険な状態を是正できません。検知・追跡と、予防・封じ込め・権限是正を区別します。`;
+    }
+    if(/MFA|多要素認証|パスワード|暗号化|バックアップ/.test(w)&&/(不要|影響はない|防げる|漏えいしなく|見送る)/.test(w)){
+      return `「${w}」は一つの対策でリスクが消えると考え過ぎています。多層防御では、各対策が下げられるリスクと残るリスクを分けて判断します。`;
+    }
+    if(/最初|最優先|まず/.test(text(meta.q))){
+      return `「${w}」は対策として一部意味があっても、今この瞬間の優先順位が違います。原因調査・利便性より、被害拡大や不正利用を抑える行動を先に検討します。`;
+    }
+    return `「${w}」は一部の対策としては意味があっても、この設問で問われている「${concept}」の判断軸を直接満たしません。`;
+  }
+
+  function buildFeedback(meta){
+    const opts=(meta.options||[]).map(text),correct=text(meta.correct),correctIndex=opts.findIndex(x=>x===correct);
+    const byText={};
+    const array=opts.map((opt,i)=>{
+      if(i===correctIndex||opt===correct)return '';
+      const isSecurity=meta.kind==='security';
+      const diagnosis=isSecurity?securityDiagnosis(meta,opt):algorithmDiagnosis(meta,opt);
+      const checkpoint=(meta.point?text(meta.point):(isSecurity?'判断の分岐点：':'処理の分岐点：')+firstSentence(meta.explain||meta.exp));
+      const nextCue=text(meta.hint||meta.point)||(isSecurity?(SECURITY_CUES[text(meta.concept)]||SECURITY_CUES['情報セキュリティ']):(DOMAIN_CUES[text(meta.domain)]||DOMAIN_CUES['アルゴリズム']));
+      const item=Object.freeze({diagnosis,checkpoint,nextCue});
+      byText[opt]=item;
+      return item;
+    });
+    return {array,byText};
+  }
+
+  function installFeedbackOnQuestion(q,meta){
+    const opts=optionsOf(q).map(text),a=answerIndexOf(q),correct=text(opts[a]);
+    const built=buildFeedback({...meta,options:opts,correct,explain:q.explain||q.exp||meta?.explain,hint:q.hint||meta?.hint,point:q.point||meta?.point,exp:q.exp||meta?.exp,q:q.q||meta?.q});
+    q.wrongFeedback=built.array;
+    q.wrongFeedbackByText=built.byText;
+    return q;
+  }
+
+  function installSourceFeedback(){
+    B_EXERCISES.forEach(ex=>{
+      ex.steps.forEach(step=>{
+        if(!step.predict)return;
+        installFeedbackOnQuestion(step.predict,{kind:'algorithm',domain:ex.domain||ex.concept||'アルゴリズム',format:'途中状態'});
+      });
+    });
+    SECURITY_SCENARIOS.forEach(sc=>{
+      sc.steps.forEach(step=>installFeedbackOnQuestion(step,{kind:'security',concept:sc.concept||'情報セキュリティ'}));
+    });
+    for(let i=0;i<B_EXAM_ALGO_ITEMS.length;i++){
+      const src=B_EXAM_ALGO_ITEMS[i];
+      const q={...src};
+      installFeedbackOnQuestion(q,{kind:'algorithm',domain:src.domain||'アルゴリズム',format:src.format||'処理結果'});
+      B_EXAM_ALGO_ITEMS[i]=q;
+    }
+    B_COMPOUND_SETS.forEach(set=>{
+      set.qs.forEach(q=>installFeedbackOnQuestion(q,{kind:'algorithm',domain:'アルゴリズム',format:q.kind||q.format||'トレース',point:q.point||'',exp:q.exp||'',hint:q.point||''}));
+    });
+  }
+
+  function feedbackFor(q,selected){
+    if(!q||selected==null)return null;
+    const opts=optionsOf(q),idx=typeof selected==='number'?selected:opts.findIndex(x=>text(x)===text(selected));
+    const selectedText=idx>=0?text(opts[idx]):text(selected);
+    if(selectedText===correctTextOf(q))return null;
+    if(q.wrongFeedbackByText?.[selectedText])return q.wrongFeedbackByText[selectedText];
+    if(idx>=0&&q.wrongFeedback?.[idx]&&typeof q.wrongFeedback[idx]==='object')return q.wrongFeedback[idx];
+    return null;
+  }
+
+  function remapFeedback(source,target){
+    const opts=optionsOf(target),correct=correctTextOf(target);
+    const byText={...(source?.wrongFeedbackByText||{})};
+    target.wrongFeedbackByText=byText;
+    target.wrongFeedback=opts.map(opt=>text(opt)===correct?'':(byText[text(opt)]||''));
+    return target;
+  }
+
+  function diagnosisHtml(fb,includeCheckpoint=true){
+    if(!fb)return '';
+    return `<div class="bchoice-feedback-v230" style="margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px"><div style="font-weight:900;color:#8a6412">🔎 選んだ答えから見ると</div><div>${escapeHtml(fb.diagnosis)}</div>${includeCheckpoint&&fb.checkpoint?`<div style="margin-top:7px"><b>ここだけ確認：</b>${escapeHtml(fb.checkpoint)}</div>`:''}<div style="margin-top:7px"><b>次回の合図：</b>${escapeHtml(fb.nextCue)}</div></div>`;
+  }
+
+  function predictionSource(exId,qText){
+    const ex=B_EXERCISES.find(x=>x.id===exId);
+    return ex?.steps?.map(x=>x.predict).filter(Boolean).find(p=>text(p.q)===text(qText))||null;
+  }
+  function securitySource(scenarioId,qText){
+    const sc=SECURITY_SCENARIOS.find(x=>x.id===scenarioId);
+    return sc?.steps?.find(s=>text(s.q)===text(qText))||null;
+  }
+  function finalSource(detail){
+    if(detail?.kind==='security')return securitySource(detail.sourceId,detail.q);
+    const exam=B_EXAM_ALGO_ITEMS.find(x=>x.id===detail?.sourceId);
+    if(exam)return exam;
+    if(detail?.studyMode==='trace')return predictionSource(detail.sourceId,detail.q);
+    if(detail?.studyMode==='compound'){
+      const set=B_COMPOUND_SETS.find(x=>x.id===detail.sourceId);
+      return set?.qs?.find(q=>text(q.q)===text(detail.q))||null;
+    }
+    return null;
+  }
+
+  installSourceFeedback();
+
+  const _bMockCandidateV230=bMockCandidateFromExercise;
+  bMockCandidateFromExercise=function(ex){
+    const out=_bMockCandidateV230(ex);
+    if(!out)return out;
+    const src=ex?.steps?.[out.checkpoint]?.predict||predictionSource(ex?.id,out.q);
+    if(src){out.wrongFeedbackByText={...(src.wrongFeedbackByText||{})};out.wrongFeedback=out.options.map(opt=>text(opt)===text(out.correctText)?'':(out.wrongFeedbackByText[text(opt)]||''));}
+    return out;
+  };
+
+  const _shuffleBMockAnswerV230=shuffleBMockAnswer;
+  shuffleBMockAnswer=function(item){
+    const out=_shuffleBMockAnswerV230(item);
+    return remapFeedback(item,out);
+  };
+
+  const _randomizeSecurityMockItemV230=randomizeSecurityMockItem;
+  randomizeSecurityMockItem=function(s,stepIndex){
+    const out=_randomizeSecurityMockItemV230(s,stepIndex),src=s?.steps?.[stepIndex];
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _randomizeCompoundSetV230=randomizeCompoundSet;
+  randomizeCompoundSet=function(set){
+    const out=_randomizeCompoundSetV230(set);
+    out.qs.forEach((q,i)=>remapFeedback(set.qs[i],q));
+    return out;
+  };
+
+  const _makeFinalAlgoExamV230=makeFinalAlgoExam;
+  makeFinalAlgoExam=function(item){return remapFeedback(item,_makeFinalAlgoExamV230(item));};
+
+  const _makeFinalSecurityV230=makeFinalSecurity;
+  makeFinalSecurity=function(s){
+    const out=_makeFinalSecurityV230(s),src=securitySource(s?.id,out?.q);
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _showBPredictionV230=showBPrediction;
+  showBPrediction=function(pred){
+    _showBPredictionV230(pred);
+    const root=document.getElementById('predictionOptions'),box=document.getElementById('predictionBox');
+    if(!root||!box)return;
+    let panel=document.getElementById('bPredictionChoiceFeedbackV230');
+    if(!panel){panel=document.createElement('div');panel.id='bPredictionChoiceFeedbackV230';panel.hidden=true;root.insertAdjacentElement('afterend',panel);}
+    panel.hidden=true;panel.innerHTML='';
+    [...root.querySelectorAll('button')].forEach((btn,i)=>{
+      const original=btn.onclick;
+      btn.onclick=()=>{
+        if(typeof original==='function')original();
+        if(i!==pred.a){const fb=feedbackFor(pred,i);if(fb){panel.innerHTML=diagnosisHtml(fb,false);panel.hidden=false;}}
+        else{panel.hidden=true;panel.innerHTML='';}
+      };
+    });
+  };
+
+  const _answerSecDecisionV230=answerSecDecision;
+  answerSecDecision=function(i,button){
+    const step=currentSec?.steps?.[secStepIndex],isWrong=!!step&&i!==step.a,fbData=isWrong?feedbackFor(step,i):null;
+    const out=_answerSecDecisionV230(i,button);
+    if(isWrong&&fbData){
+      const fb=document.getElementById('secFeedback');
+      if(fb)fb.innerHTML=diagnosisHtml(fbData,false)+fb.innerHTML;
+    }
+    return out;
+  };
+
+  function injectBMockReview(attempt){
+    const rows=[...document.querySelectorAll('#bMockReviewList .bmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=predictionSource(d.exId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bmock-review-explain');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBMockResultV230=renderBMockResult;
+  renderBMockResult=function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;};
+
+  function injectSecurityMockReview(attempt){
+    const rows=[...document.querySelectorAll('#secMockReviewList .secmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=securitySource(d.scenarioId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.secmock-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishSecurityMockV230=finishSecurityMock;
+  finishSecurityMock=function(timeUp=false){const out=_finishSecurityMockV230(timeUp);injectSecurityMockReview(lastSecurityMockAttempt);return out;};
+
+  function injectCompoundReview(){
+    if(!bCompoundSet)return;
+    const rows=[...document.querySelectorAll('#bCompoundReview .bcompound-review-item')];
+    bCompoundSet.qs.forEach((q,i)=>{
+      const selected=bCompoundAnswers?.[i];
+      if(selected==null||selected===q.a)return;
+      const fb=feedbackFor(q,selected),row=rows[i];
+      if(!fb||!row)return;
+      const pitfall=row.querySelector('.bcompound-review-box.pitfall');
+      if(pitfall)pitfall.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+      else row.insertAdjacentHTML('beforeend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishCompoundChallengeV230=finishCompoundChallenge;
+  finishCompoundChallenge=function(timeUp=false){const out=_finishCompoundChallengeV230(timeUp);injectCompoundReview();return out;};
+
+  function injectFinalReview(attempt){
+    const rows=[...document.querySelectorAll('#bFinalReviewList .bfinal-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=finalSource(d),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bfinal-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBFinalResultV230=renderBFinalResult;
+  renderBFinalResult=function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;};
+
+  const spec=Object.freeze({
+    policy,
+    sourceAudit,
+    finding:'subject_b_wrong_answer_feedback_not_choice_specific',
+    metadataKey:'wrongFeedback',
+    stableLookupKey:'wrongFeedbackByText',
+    feedbackParts:Object.freeze(['diagnosis','checkpoint','nextCue']),
+    immediatePracticeRevealsCorrectAnswer:false,
+    postAnswerReviewShowsCheckpoint:true,
+    covers:Object.freeze(['algorithm-trace','algorithm-mini-mock','compound','security-scenario','security-mini-mock','final-algorithm','final-security']),
+    scoringChanged:false,
+    correctAnswersChanged:false,
+    questionSelectionChanged:false,
+    questionOrderChanged:false,
+    timingChanged:false,
+    readinessThresholdChanged:false,
+    domainProgressionChanged:false,
+    remediationTargetsChanged:false,
+    profileSchemaChanged:false
+  });
+  globalThis.SUBJECT_B_WRONG_ANSWER_FEEDBACK_V230_SPEC=spec;
+  globalThis.subjectBChoiceFeedbackV230=feedbackFor;
+  globalThis.subjectBChoiceFeedbackHtmlV230=diagnosisHtml;
+})();
