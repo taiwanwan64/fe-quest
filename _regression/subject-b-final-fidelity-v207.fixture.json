@@ -1,0 +1,139 @@
+{
+  "name": "subject-b-final-fidelity-v207",
+  "release": "v207",
+  "source_release": "v206",
+  "source_main_sha": "9f32cc37dc86953e21bea12dbdf4bd775ec16e49",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集",
+      "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集 令和8年度"
+    ],
+    "use": "scope/structure/terminology/difficulty/fidelity calibration only; proprietary wording is not copied",
+    "note": "The high-trace-load rubric and floor proposed below are FE QUEST internal quality controls, not an official IPA item ratio."
+  },
+  "runtime_inventory": {
+    "final_total": 20,
+    "algorithm_count": 16,
+    "security_count": 4,
+    "algorithm_pool_count": 40,
+    "algorithm_domain_count": 10,
+    "algorithm_levels_per_session": {"標準": 8, "応用": 8},
+    "algorithm_pool_formats": {"処理結果": 16, "途中状態": 8, "実行回数": 7, "空欄補充": 7, "変更予測": 2},
+    "algorithm_code_lines": {"min": 3, "max": 16, "average": 7.85},
+    "all_domains_per_session": true,
+    "unique_algorithm_ids": true,
+    "history_fairness": "seen count is considered before current-session format frequency; random tie break follows",
+    "format_diversity_preference": true
+  },
+  "high_trace_load_rubric": {
+    "official_exam_rule": false,
+    "purpose": "Identify items that require sustained reconstruction of dependent state rather than a local one-line operation.",
+    "criteria": [
+      "at least three dependent state transitions or a non-linear recursive/data-structure traversal must be reconstructed",
+      "the answer depends on the sequence of state changes rather than one isolated operator or one direct blank",
+      "the item evolves multiple variables or a structured state such as an array, queue, pointer chain, search interval or recursion tree"
+    ],
+    "manual_reviewed_pool_count": 40,
+    "high_trace_load_ids": [
+      "bexam_ctrl_01",
+      "bexam_ctrl_04",
+      "bexam_arr_02",
+      "bexam_mat_01",
+      "bexam_mat_04",
+      "bexam_rec_05",
+      "bexam_tree_02",
+      "bexam_tree_04",
+      "bexam_list_04",
+      "bexam_sq_04",
+      "bexam_algo_01",
+      "bexam_algo_03"
+    ],
+    "high_trace_load_count": 12,
+    "standard_count": 3,
+    "applied_count": 9
+  },
+  "selection_logic_assessment": {
+    "uses_domain_coverage": true,
+    "uses_level_quota": true,
+    "uses_unique_ids": true,
+    "uses_seen_history": true,
+    "uses_format_frequency": true,
+    "uses_high_trace_load": false,
+    "has_minimum_high_trace_floor": false
+  },
+  "contract_valid_low_trace_probe": {
+    "history_setup": "Give these 16 items the lowest seen count and make high-trace alternatives older in priority only after a much larger seen count; because seen is the first selector key, these candidates can dominate their compatible pools.",
+    "selected_standard": [
+      "bexam_ctrl_02",
+      "bexam_arr_03",
+      "bexam_mat_02",
+      "bexam_obj_02",
+      "bexam_rec_02",
+      "bexam_tree_01",
+      "bexam_list_02",
+      "bexam_bit_01"
+    ],
+    "selected_applied": [
+      "bexam_rec_04",
+      "bexam_tree_03",
+      "bexam_list_01",
+      "bexam_sq_03",
+      "bexam_bit_03",
+      "bexam_algo_02",
+      "bexam_arr_04",
+      "bexam_obj_03"
+    ],
+    "total": 16,
+    "standard": 8,
+    "applied": 8,
+    "all_10_domains_represented": true,
+    "unique_ids": true,
+    "high_trace_load_count": 0,
+    "assessment": "A final algorithm session can satisfy the current structural contracts while containing no item that meets the v207 sustained-state rubric. This promotes the v204 context-density watch from Low to Medium at the integrated-session level."
+  },
+  "findings": {
+    "high": [],
+    "medium": [
+      {
+        "id": "final_practice_sustained_trace_floor",
+        "severity": "Medium",
+        "source_watch": "v204 final_algorithm_context_density",
+        "evidence": "The 40-item pool has 12 manually classified high-trace-load items, but final selection does not use this dimension. A contract-valid 8-standard/8-applied, ten-domain, unique-ID construction exists with zero high-trace-load items under an adversarial but valid exposure history.",
+        "impact": "A readiness check can have excellent breadth and format balance yet under-sample sustained state tracking, making some generated final sessions materially lighter than the skill the Subject B practice is intended to measure.",
+        "defer_to": "v208",
+        "repair_boundary": "Selection policy only. Preserve all question wording and IDs, 20=16+4, ten-domain representation, standard8/applied8, unique IDs, security selection, review/diagnosis and saved history."
+      }
+    ],
+    "low": []
+  },
+  "v208_recommendation": {
+    "target": "final algorithm selection only",
+    "stable_classification": true,
+    "proposed_minimum_high_trace_load": 4,
+    "conditional": "apply only when quota-compatible unused high-trace candidates exist",
+    "policy_note": "The value 4 is an FE QUEST internal readiness floor, not an official exam composition claim.",
+    "preserve": [
+      "algorithm16/security4",
+      "all ten algorithm domains",
+      "standard8/applied8",
+      "unique IDs",
+      "seen-history fairness within compatible candidate classes",
+      "format diversity preference",
+      "security 2-log/2-non-log policy",
+      "review and diagnosis behavior",
+      "saved-state IDs"
+    ]
+  },
+  "decision": {
+    "status": "audit_complete_with_medium_finding",
+    "high_findings": 0,
+    "medium_findings": 1,
+    "learner_change_in_v207": false,
+    "next_release": "v208",
+    "next_scope": "narrow final-algorithm sustained-trace selection repair"
+  },
+  "status": "audit_complete"
+}

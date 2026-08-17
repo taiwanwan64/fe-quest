@@ -1,0 +1,134 @@
+FE QUEST v207 — Subject B Final-Practice Fidelity Audit
+========================================================
+
+Result
+------
+AUDIT COMPLETE WITH ONE MEDIUM FINDING.
+Learner-facing content is unchanged in v207.
+
+Purpose
+-------
+v204 left a Low fidelity watch on the 40-item final algorithm pool: the items are compact independent questions, with code length 3–16 lines and an average of 7.85. v205 fixed mini-mock topic concentration, and v206 found no High/Medium defect in the 15 compound sets. v207 now tests whether the final 16-question algorithm selector itself guarantees enough sustained state tracing, not merely breadth, difficulty balance and format variety.
+
+Reference boundary
+------------------
+The attached FE materials are used only to calibrate Subject B scope, terminology, structure, difficulty and exam-like practice. The materials contain dedicated Subject B strategy and multiple public/mock-practice sections, so this audit treats sustained pseudocode/state tracing as a first-class readiness dimension. Proprietary question wording is not copied.
+
+The trace-load rubric below is an FE QUEST internal quality control. It is not presented as an official IPA question ratio.
+
+Current final-practice contract
+-------------------------------
+- 20 total = algorithm 16 + security 4
+- algorithm pool = 40
+- all ten algorithm domains represented in every constructed session
+- algorithm difficulty = standard 8 + applied 8
+- unique algorithm IDs
+- current-session format diversity is preferred
+- exposure history is considered, with seen count before format frequency
+- security = 2 log + 2 non-log scenarios
+- whole set shuffled
+- review diagnoses weak domain, weak format, repeat misses and learner-reported mistake reason
+
+These remain strong and are not defects.
+
+High-trace-load rubric
+----------------------
+An item is marked high-trace-load for this audit when it requires sustained reconstruction of dependent state rather than a local one-line operation. The manual rubric requires:
+1. at least three dependent state transitions, or a non-linear recursive/data-structure traversal;
+2. an answer that depends on the sequence of state changes rather than one isolated operator or one direct blank; and
+3. multiple evolving variables or a structured state such as an array, queue, pointer chain, search interval or recursion tree.
+
+All 40 B_EXAM_ALGO_ITEMS were reviewed under this rubric.
+
+High-trace-load: 12 / 40
+- bexam_ctrl_01
+- bexam_ctrl_04
+- bexam_arr_02
+- bexam_mat_01
+- bexam_mat_04
+- bexam_rec_05
+- bexam_tree_02
+- bexam_tree_04
+- bexam_list_04
+- bexam_sq_04
+- bexam_algo_01
+- bexam_algo_03
+
+Level inventory among these 12:
+- standard: 3
+- applied: 9
+
+Selector gap
+------------
+The current final selector actively controls domain coverage, 8/8 difficulty, unique IDs, exposure history and current-session format frequency. It does not classify or constrain sustained trace load.
+
+Because seen count is the first candidate priority, an exposure history can legitimately make a set of compact items the preferred candidates in each compatible pool. Format diversity does not prevent this because it is evaluated after seen count.
+
+Contract-valid low-trace probe
+------------------------------
+The following 16-item construction satisfies the current structural contracts while containing zero items from the v207 high-trace-load set.
+
+Standard 8:
+- bexam_ctrl_02
+- bexam_arr_03
+- bexam_mat_02
+- bexam_obj_02
+- bexam_rec_02
+- bexam_tree_01
+- bexam_list_02
+- bexam_bit_01
+
+Applied 8:
+- bexam_rec_04
+- bexam_tree_03
+- bexam_list_01
+- bexam_sq_03
+- bexam_bit_03
+- bexam_algo_02
+- bexam_arr_04
+- bexam_obj_03
+
+Probe checks:
+- 16 algorithm questions: pass
+- standard8/applied8: pass
+- all ten domains: pass
+- unique IDs: pass
+- high-trace-load items: 0
+
+This is not a claim that normal random sessions always look like this. It is a structural proof that the current selector has no readiness floor for sustained-state work and can produce such a session under an adversarial but valid exposure history.
+
+MEDIUM — final_practice_sustained_trace_floor
+----------------------------------------------
+The v204 Low watch is promoted to Medium at the integrated-session level.
+
+Impact:
+A final readiness check can have excellent domain breadth and difficulty balance while under-sampling the sustained state tracking that differentiates deeper Subject B algorithm work from short local operations. The learner may therefore receive a materially lighter final session even though every existing structural contract passes.
+
+Decision:
+Do not rewrite question wording in v207. The pool already contains 12 items that meet the internal high-trace-load rubric, so the first repair should be selection policy rather than automatic content expansion.
+
+Recommended v208
+----------------
+Make a narrow final-algorithm selection repair only.
+
+Proposed FE QUEST internal policy:
+- add a stable classification for the 40 B_EXAM_ALGO_ITEMS
+- prefer/secure at least 4 high-trace-load items among the 16 algorithm questions when quota-compatible unused candidates exist
+- preserve algorithm16/security4
+- preserve all ten algorithm domains
+- preserve standard8/applied8
+- preserve unique IDs
+- preserve seen-history fairness within compatible candidate classes
+- preserve format diversity preference
+- preserve security 2-log/2-non-log behavior
+- preserve review/diagnosis and saved-state IDs
+
+The value 4 is an FE QUEST internal readiness floor, not an official exam composition claim.
+
+Decision
+--------
+High findings: 0
+Medium findings: 1
+Learner-facing changes in v207: 0
+
+Next: v208 narrow final-practice sustained-trace selection repair.
