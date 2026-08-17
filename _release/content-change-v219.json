@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "release": "v219",
+  "previous_release": "v218",
+  "parent_main_sha": "1126279a516b78b6dd6b447f5860f415b64a0333",
+  "change_type": "subject-b-final-xp-message-repair",
+  "source_quality_audit": "audits/SUBJECT_B_FINAL_REMEDIATION_POSTREPAIR_AUDIT_v218.txt",
+  "source_priority_tier": "low",
+  "quality_audit_marker": "final_recovery_xp_message_rerender",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-final-xp-overrides-v219.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_selection_changed": false,
+    "scoring_changed": false,
+    "persisted_xp_changed": false,
+    "reason_history_changed": false,
+    "remediation_targets_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false
+  },
+  "target_repair": {
+    "same_attempt_reason_rerender_preserves_earned_xp_message": true,
+    "new_attempt_uses_its_own_earned_xp": true,
+    "zero_earned_attempt_remains_zero": true,
+    "display_only": true
+  }
+}
