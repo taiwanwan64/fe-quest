@@ -1,0 +1,42 @@
+FE QUEST v224 — Subject B Compound-Readiness Copy Repair
+=============================================================================
+
+Result
+------
+PASS — v223 LOW FINDING RESOLVED
+Previous: v223
+Source main: f4a629b35aadaf2712e5b108443a9ffd434bb168
+Learner-facing change in v224: yes
+Resolved: compound_remediation_window_message
+
+Repair
+------
+The readiness calculation is unchanged. Compound readiness still uses the average of the three newest compound attempts and the threshold remains 65%.
+Only the learner-facing recommendation copy was clarified. When compound practice is the target, the app now states that the judgment uses the recent three-attempt average instead of implying that one new attempt at 65% is sufficient.
+The same evidence wording is used both before the first final practice and after a weak first final routes the learner back to compound practice.
+
+Behavior proof
+--------------
+The realistic v223 finding scenario remains behaviorally identical: after a 67%, 33%, 100% compound window and a weak first final, one new 67% compound attempt still leaves the rolling three-attempt average below 65%, so compound practice remains recommended.
+The v224 difference is explanatory: that recommendation now explicitly says the recent three-attempt average is the criterion.
+Algorithm mini-mock and security mini-mock recommendation copy is byte-for-byte behaviorally unchanged in the runtime probes.
+Recommendation modes, stage, and titles match v223 for all integrated scenarios.
+
+Preserved contracts
+-------------------
+500 deterministic final-session seeds matched v223 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, and v222 readiness calculation/spec are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+The v223 copy/evidence mismatch is resolved. Use v225 for a post-repair learner-flow audit or move to the next Subject B quality frontier; do not expand scope in v224.

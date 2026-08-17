@@ -1,0 +1,134 @@
+{
+  "name": "subject-b-readiness-copy-repair-v224",
+  "version": "v224",
+  "previous_version": "v223",
+  "parent_main_sha": "f4a629b35aadaf2712e5b108443a9ffd434bb168",
+  "learner_facing_change": true,
+  "resolved_finding": "compound_remediation_window_message",
+  "copy_spec": {
+    "policy": "clarify-compound-readiness-copy-with-three-attempt-average",
+    "sourceAudit": "v223-compound_remediation_window_message",
+    "compoundEvidenceWindow": 3,
+    "shortPracticeFloor": 65,
+    "changesRecommendationCopyOnly": true,
+    "recommendationModeChanged": false,
+    "readinessCalculationChanged": false,
+    "questionSelectionChanged": false,
+    "scoringChanged": false,
+    "timingChanged": false,
+    "persistenceChanged": false,
+    "remediationTargetsChanged": false
+  },
+  "copy_probe": {
+    "compoundFirst": {
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "icon": "🧩",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均65%以上を目安に整えてから2回目へ進みます。"
+    },
+    "compoundPre": {
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "icon": "🧩",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "直近3回の平均正答率は56%です。100分の総合実戦へ進む前に、複合問題の平均正答率65%以上を目安に確認します。"
+    },
+    "algoFirst": {
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で準備",
+      "icon": "📝",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。アルゴリズム ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+    },
+    "securityFirst": {
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で準備",
+      "icon": "🛡️",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。セキュリティ ミニ模試を1回確認し、65%以上を目安にしてから2回目へ進みます。"
+    }
+  },
+  "integrated_recommendations": [
+    {
+      "name": "prefinal_compound_weak",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "直近3回の平均正答率は64%です。100分の総合実戦へ進む前に、複合問題の平均正答率65%以上を目安に確認します。"
+    },
+    {
+      "name": "first_final_compound_target",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均65%以上を目安に整えてから2回目へ進みます。"
+    },
+    {
+      "name": "first_final_after_one_new_67",
+      "stage": 3,
+      "mode": "compound",
+      "id": null,
+      "title": "複合問題で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均65%以上を目安に整えてから2回目へ進みます。"
+    },
+    {
+      "name": "prefinal_algorithm_weak",
+      "stage": 3,
+      "mode": "miniMock",
+      "id": null,
+      "title": "アルゴリズム ミニ模試で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "直近の正答率は64%です。100分の総合実戦へ進む前に、アルゴリズム ミニ模試で65%以上を目安に確認します。"
+    },
+    {
+      "name": "prefinal_security_weak",
+      "stage": 3,
+      "mode": "securityMock",
+      "id": null,
+      "title": "セキュリティ ミニ模試で準備",
+      "kicker": "ステップ 3・総合実戦の前に",
+      "desc": "直近の正答率は64%です。100分の総合実戦へ進む前に、セキュリティ ミニ模試で65%以上を目安に確認します。"
+    }
+  ],
+  "runtime_preservation": {
+    "final_counts": [
+      20,
+      16,
+      4
+    ],
+    "time_limit_seconds": 6000,
+    "algorithm_pool": 43,
+    "high_trace_count": 15,
+    "high_trace_floor": 4,
+    "selection_signature_500_seeds_unchanged": true,
+    "readiness_spec_unchanged": true,
+    "semantic_validator_ok": true
+  },
+  "remediation_coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "candidate_reference_six_file_equal": true,
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "status": "passed-v223-low-resolved"
+}
