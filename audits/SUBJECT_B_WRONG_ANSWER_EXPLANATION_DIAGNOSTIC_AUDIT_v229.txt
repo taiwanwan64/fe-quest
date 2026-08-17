@@ -1,0 +1,52 @@
+FE QUEST v229 — Subject B Wrong-Answer Explanation Diagnostic Audit
+=============================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v228
+Source main: 013d113023e1228a34dc5b157dc858e2bb29c7d7
+Learner-facing change in v229: none
+
+What was audited
+----------------
+The v226-v228 domain-progression sequence is closed, so this audit moved to the next Subject B learning-quality frontier named by v228: whether post-answer feedback helps the learner identify the exact reasoning break, reconstruct the trace, and know what to change on the next attempt.
+The audit inventoried authored algorithm prediction steps, security scenario steps, the 43-item algorithm final pool after final-item generation, and the 15 generated security final-review items. It distinguished a general correct-path explanation from structured feedback that can vary according to the learner's selected wrong option.
+
+Explanation coverage proof
+--------------------------
+Algorithm practice prediction steps: 40 / general explanations 40 / hints 40 / complete choice-specific diagnosis 0.
+Security practice steps: 45 / general explanations 45 / hints 30 / complete choice-specific diagnosis 0.
+Generated final algorithm review items: 43 / general explanations 43 / complete choice-specific diagnosis 0.
+Generated final security review items: 15 / general explanations 15 / complete choice-specific diagnosis 0.
+General correct-path explanations are present across the reviewed Subject B paths, but the reviewed question objects expose no complete explanation/feedback entry for each wrong option.
+
+Medium finding
+--------------
+subject_b_wrong_answer_feedback_not_choice_specific
+The current Subject B feedback can explain the correct route, and v217 still gives a valid next-practice destination, but the authored review metadata does not distinguish why one wrong option was chosen from why another wrong option was chosen. For a learner who selected a distractor because of an off-by-one update, branch-order mistake, stack/queue confusion, or security-control misconception, the app cannot reliably name that exact break from option-specific authored feedback because that layer is absent.
+This is a learning-efficiency finding, not a scoring or correctness defect. The correct answer, general explanation, hints, final selection, and direct remediation all remain intact.
+
+Recommended repair boundary
+---------------------------
+Use v230 for a narrow wrong-answer diagnosis repair. Add structured per-wrong-option feedback to Subject B question data and carry it into post-answer/final-review rendering. Each wrong-choice diagnosis should identify the concrete reasoning break, reconstruct the minimum state/trace needed to see the error, and give one concise next-attempt cue. Reuse the existing prompt/options/correct/explain/hint, domain labels, and remediation destinations rather than creating a parallel curriculum.
+Do not change scoring, correct answers, question selection/order, the 100-minute/20-question final contract, the 65% readiness gate, v227 domain concentration thresholds, security routing, or remediation destinations.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v228 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness calculation and 65% threshold, v224 compound evidence copy, and v227 domain progression policy are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+Candidate/reference release validation is handled by the standard release workflow before this audit.
+
+Findings summary
+----------------
+High: 0
+Medium: 1
+Low: 0
+
+Decision
+--------
+The next release should repair the medium finding without broadening curriculum scope. Prioritize exact wrong-choice diagnosis in Subject B post-answer review, then run a post-repair learner-flow audit before moving to another learning-quality frontier.

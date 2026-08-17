@@ -1,0 +1,205 @@
+{
+  "name": "subject-b-wrong-answer-explanation-diagnostic-audit-v229",
+  "version": "v229",
+  "previous": "v228",
+  "sourceMain": "013d113023e1228a34dc5b157dc858e2bb29c7d7",
+  "learnerFacingChange": false,
+  "inventory": {
+    "algorithmPractice": {
+      "total": 40,
+      "generalExplain": 40,
+      "hint": 40,
+      "choiceSpecific": 0,
+      "optionCountHistogram": {
+        "4": 40
+      },
+      "examples": [
+        {
+          "id": "loop_sum:2",
+          "domain": null,
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "loop_sum:10",
+          "domain": null,
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "array_max:2",
+          "domain": null,
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "array_max:7",
+          "domain": null,
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "linear_search:6",
+          "domain": null,
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        }
+      ]
+    },
+    "securityPractice": {
+      "total": 45,
+      "generalExplain": 45,
+      "hint": 30,
+      "choiceSpecific": 0,
+      "optionCountHistogram": {
+        "4": 45
+      },
+      "examples": [
+        {
+          "id": "phishing:0",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "phishing:1",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "phishing:2",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "ransomware:0",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "ransomware:1",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        }
+      ]
+    },
+    "finalAlgorithm": {
+      "total": 43,
+      "generalExplain": 43,
+      "hint": 0,
+      "choiceSpecific": 0,
+      "optionCountHistogram": {
+        "4": 43
+      },
+      "examples": [
+        {
+          "id": "bexam_ctrl_01",
+          "domain": "制御",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "bexam_ctrl_02",
+          "domain": "制御",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "bexam_ctrl_03",
+          "domain": "制御",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "bexam_ctrl_04",
+          "domain": "制御",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "bexam_arr_01",
+          "domain": "一次元配列",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        }
+      ]
+    },
+    "finalSecurity": {
+      "total": 15,
+      "generalExplain": 15,
+      "hint": 0,
+      "choiceSpecific": 0,
+      "optionCountHistogram": {
+        "4": 15
+      },
+      "examples": [
+        {
+          "id": "phishing",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "ransomware",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "access",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "logs",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        },
+        {
+          "id": "certificate",
+          "domain": "情報セキュリティ",
+          "options": 4,
+          "choiceSpecific": false,
+          "metaKind": null
+        }
+      ]
+    }
+  },
+  "selectionSignature1000": 1011121667,
+  "coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "finding": {
+    "id": "subject_b_wrong_answer_feedback_not_choice_specific",
+    "severity": "Medium",
+    "summary": "Subject B authored questions provide general correct-path explanations, but no complete option-specific diagnosis metadata for wrong choices in algorithm practice, security practice, or generated final-review items."
+  }
+}
