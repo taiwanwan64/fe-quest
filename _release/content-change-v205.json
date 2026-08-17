@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "release": "v205",
+  "previous_release": "v204",
+  "parent_main_sha": "173867ebb520a2376251620296bfe5da58f0af4a",
+  "change_type": "subject-b-session-selection",
+  "source_quality_audit": "_regression/subject-b-session-quality-v204.fixture.json",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "v205-algorithm-mini-family-balance",
+  "allowed_logic_targets": ["buildBMock"],
+  "content_files": ["app/subject-b-session-overrides-v205.txt"],
+  "assembly_files": ["index.html"],
+  "preserve": {
+    "exercise_count": 20,
+    "prediction_steps": 40,
+    "compound_set_count": 15,
+    "compound_question_count": 45,
+    "security_scenario_count": 15,
+    "security_question_count": 45,
+    "algorithm_mock_count": 8,
+    "algorithm_mock_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+    "security_mock_count": 8,
+    "security_mock_quotas": {"基礎": 2, "標準": 4, "応用": 2},
+    "final_counts": [20, 16, 4],
+    "family_max_when_alternative_exists": 2,
+    "saved_state_ids": true,
+    "seen_lastSeen_fairness": true
+  }
+}

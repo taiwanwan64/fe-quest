@@ -1,0 +1,73 @@
+// ===== FE QUEST v205 Subject B algorithm mini-mock family balance =====
+(() => {
+  const familyById=Object.freeze({
+    loop_sum:'control_iteration',
+    count_even:'control_iteration',
+    nested_loop:'control_iteration',
+    gcd_euclid:'control_iteration',
+    array_max:'array_scan',
+    array_reverse:'array_scan',
+    linear_search:'search_sort',
+    binary_search_b:'search_sort',
+    bubble_sort_b:'search_sort',
+    selection_sort_b:'search_sort',
+    stack_ops:'stack_queue',
+    queue_ops:'stack_queue',
+    recursion:'recursion',
+    recursive_fib:'recursion',
+    tree_dfs:'tree_list',
+    linked_list:'tree_list',
+    matrix_sum:'matrix',
+    matrix_find:'matrix',
+    bit_mask:'bit',
+    object_counter:'object'
+  });
+  const familyMax=2;
+
+  function familyOf(item){
+    return familyById[item?.id]||`unclassified:${String(item?.id||'unknown')}`;
+  }
+
+  function exposureSorted(pool){
+    return pool.map((item,index)=>({item,index,tie:Math.random()})).sort((a,b)=>{
+      const sa=profile.bMockStats[a.item.id]?.seen||0,sb=profile.bMockStats[b.item.id]?.seen||0;
+      if(sa!==sb)return sa-sb;
+      const la=profile.bMockStats[a.item.id]?.lastSeen||'',lb=profile.bMockStats[b.item.id]?.lastSeen||'';
+      if(la!==lb)return la.localeCompare(lb);
+      if(a.tie!==b.tie)return a.tie-b.tie;
+      return a.index-b.index;
+    }).map(x=>x.item);
+  }
+
+  function selectLevel(pool,n,familyCounts){
+    const remaining=exposureSorted(pool),picked=[];
+    while(picked.length<n&&remaining.length){
+      let pickIndex=remaining.findIndex(item=>(familyCounts[familyOf(item)]||0)<familyMax);
+      if(pickIndex<0)pickIndex=0;
+      const [item]=remaining.splice(pickIndex,1),family=familyOf(item);
+      picked.push(item);
+      familyCounts[family]=(familyCounts[family]||0)+1;
+    }
+    return picked;
+  }
+
+  buildBMock=function(){
+    const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[],familyCounts={};
+    Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{
+      selected.push(...selectLevel(candidates.filter(x=>x.level===level),n,familyCounts));
+    });
+    return shuffled(selected).map(shuffleBMockAnswer);
+  };
+
+  globalThis.B_MOCK_FAMILY_BY_ID=familyById;
+  globalThis.B_MOCK_FAMILY_MAX=familyMax;
+  globalThis.bMockFamilyOf=familyOf;
+  globalThis.selectBMockLevelCandidates=selectLevel;
+  globalThis.SUBJECT_B_SESSION_V205_SPEC=Object.freeze({
+    policy:'algorithm-mini-intra-session-family-balance',
+    sourceAudit:'v204-algorithm_mini_intra_session_family_balance',
+    familyMax,
+    familyById,
+    preserved:Object.freeze({count:8,quotas:Object.freeze({...B_MOCK_QUOTAS}),exposureOrder:'seen-then-lastSeen-then-random-tie'})
+  });
+})();
