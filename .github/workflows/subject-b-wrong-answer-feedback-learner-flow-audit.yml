@@ -104,6 +104,11 @@ jobs:
           from pathlib import Path
           p=Path('.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py')
           t=p.read_text()
+          stub_old="    stub = runpy.run_path('.github/release/runtime_stub.py')['STUB']\n"
+          stub_new=stub_old+"    stub = stub.replace(\"if(p==='querySelectorAll')return ()=>[];\", '')\n"
+          if stub_old not in t:
+              raise SystemExit('v231 runtime stub load block not found')
+          t=t.replace(stub_old,stub_new,1)
           root_old="const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
           root_new="const root={innerHTML:'',appendChild(){},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
           if root_old not in t:
