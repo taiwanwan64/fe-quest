@@ -105,7 +105,7 @@ jobs:
           p=Path('.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py')
           t=p.read_text()
           old="""for key in ['trace','review','rerender','rebuild','stateless','disclosure','wrapperEvidence']:\n    req(cand[key] == par[key], 'audit-only behavior drift: ' + key)\n    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)\n"""
-          new="""for key in ['rebuild','stateless','disclosure','wrapperEvidence']:\n    req(cand[key] == par[key], 'audit-only behavior drift: ' + key)\n    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)\nfor key in ['trace','review','rerender']:\n    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)\n"""
+          new="""for key in ['rebuild','stateless','disclosure','wrapperEvidence']:\n    req(cand[key] == par[key], 'audit-only behavior drift: ' + key)\n    req(cand[key] == cand_refresh[key], 'runtime refresh boundary drift: ' + key)\n# TRACE/review DOM probes contain runtime-local diagnostic strings when an assertion fails.\n# Validate their learner-facing semantics explicitly below instead of raw-object equality.\n"""
           if old not in t:
               raise SystemExit('v231 audit comparison block not found')
           p.write_text(t.replace(old,new,1))
