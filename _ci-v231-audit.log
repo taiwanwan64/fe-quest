@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 283, in <module>
+    req(review['feedback'] and len(review['inserted']) == 1, 'final submitted review feedback insertion missing')
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-wrong-answer-feedback-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: final submitted review feedback insertion missing
