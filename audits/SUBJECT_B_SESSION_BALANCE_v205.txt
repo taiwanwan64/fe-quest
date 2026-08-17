@@ -1,0 +1,14 @@
+FE QUEST v205 — Subject B Algorithm Mini-Mock Family Balance Repair
+
+PASSED
+Previous: v204
+Source finding: algorithm_mini_intra_session_family_balance (Medium, v204)
+
+Changed runtime target: buildBMock selection only.
+Preserved: all learner question banks/contracts, saved-state IDs, 8 questions, quotas {'基礎': 2, '標準': 4, '応用': 2}, security mock {'基礎': 2, '標準': 4, '応用': 2}, final [20, 16, 4].
+Family policy: 20/20 B_EXERCISES classified into 9 broad families; family cap=2 whenever the current difficulty quota has an under-cap alternative.
+Exposure policy: candidates remain ordered by seen, then lastSeen, then random tie; diversity intervenes only after a family has already filled two session slots.
+Stress probes: equal-history max family=2; adversarial search/sort max family=2; quotas bad=0.
+Cap probe: search/sort already at 2 -> selected ['stack_ops']; no-alternative probe -> selected ['linear_search'].
+Candidate/reference six-file equality: yes. Subject B semantic validation: OK.
+Policy: no question wording changed; references remain calibration-only for scope, structure and difficulty.

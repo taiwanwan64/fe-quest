@@ -1,0 +1,83 @@
+{
+  "name": "subject-b-session-balance-v205",
+  "version": "v205",
+  "previous_version": "v204",
+  "parent_main_sha": "173867ebb520a2376251620296bfe5da58f0af4a",
+  "source_quality_audit": {
+    "path": "_regression/subject-b-session-quality-v204.fixture.json",
+    "utf8_bytes": 8312,
+    "sha256": "57536031c2abf386efb424c088080a82f5970d0ae4480ce8882fea198f8b13e8"
+  },
+  "learner_facing_change": true,
+  "changed_runtime_target": "buildBMock",
+  "content_banks_deep_identical_to_parent": {
+    "QUESTION_BANK": true,
+    "B_EXERCISES": true,
+    "B_PREDICTION_CONTRACTS": true,
+    "B_COMPOUND_SETS": true,
+    "SECURITY_SCENARIOS": true
+  },
+  "algorithm_mock": {
+    "count": 8,
+    "quotas": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    },
+    "family_count": 9,
+    "family_max": 2,
+    "family_map": {
+      "loop_sum": "control_iteration",
+      "count_even": "control_iteration",
+      "nested_loop": "control_iteration",
+      "gcd_euclid": "control_iteration",
+      "array_max": "array_scan",
+      "array_reverse": "array_scan",
+      "linear_search": "search_sort",
+      "binary_search_b": "search_sort",
+      "bubble_sort_b": "search_sort",
+      "selection_sort_b": "search_sort",
+      "stack_ops": "stack_queue",
+      "queue_ops": "stack_queue",
+      "recursion": "recursion",
+      "recursive_fib": "recursion",
+      "tree_dfs": "tree_list",
+      "linked_list": "tree_list",
+      "matrix_sum": "matrix",
+      "matrix_find": "matrix",
+      "bit_mask": "bit",
+      "object_counter": "object"
+    },
+    "equal_stats_probe": {
+      "maxFamily": 2,
+      "badQuota": 0
+    },
+    "adversarial_search_sort_probe": {
+      "maxFamily": 2,
+      "badQuota": 0
+    },
+    "seen_lastSeen_fairness_probe": [
+      "linear_search",
+      "stack_ops"
+    ],
+    "cap_alternative_probe": [
+      "stack_ops"
+    ],
+    "cap_relaxation_probe": [
+      "linear_search"
+    ]
+  },
+  "security_mock_quotas": {
+    "基礎": 2,
+    "標準": 4,
+    "応用": 2
+  },
+  "final_counts": [
+    20,
+    16,
+    4
+  ],
+  "subject_b_semantic_validator_ok": true,
+  "candidate_reference_six_file_byte_equality": true,
+  "status": "passed"
+}
