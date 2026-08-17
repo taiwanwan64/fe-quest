@@ -1,0 +1,29 @@
+
+/* FE QUEST v224 — Subject B compound-readiness copy clarity repair */
+const SUBJECT_B_READINESS_COPY_V224_SPEC=Object.freeze({
+  policy:'clarify-compound-readiness-copy-with-three-attempt-average',
+  sourceAudit:'v223-compound_remediation_window_message',
+  compoundEvidenceWindow:3,
+  shortPracticeFloor:65,
+  changesRecommendationCopyOnly:true,
+  recommendationModeChanged:false,
+  readinessCalculationChanged:false,
+  questionSelectionChanged:false,
+  scoringChanged:false,
+  timingChanged:false,
+  persistenceChanged:false,
+  remediationTargetsChanged:false
+});
+
+const _subjectBReadinessPracticeRecV224=subjectBReadinessPracticeRecV222;
+subjectBReadinessPracticeRecV222=function(row,reason){
+  const rec=_subjectBReadinessPracticeRecV224(row,reason);
+  if(row?.mode!=='compound') return rec;
+  const floor=SUBJECT_B_READINESS_COPY_V224_SPEC.shortPracticeFloor;
+  rec.desc=reason==='firstFinal'
+    ?`1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均${floor}%以上を目安に整えてから2回目へ進みます。`
+    :`直近3回の平均正答率は${row.rate}%です。100分の総合実戦へ進む前に、複合問題の平均正答率${floor}%以上を目安に確認します。`;
+  return rec;
+};
+
+globalThis.SUBJECT_B_READINESS_COPY_V224_SPEC=SUBJECT_B_READINESS_COPY_V224_SPEC;

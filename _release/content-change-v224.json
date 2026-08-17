@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "release": "v224",
+  "previous_release": "v223",
+  "parent_main_sha": "f4a629b35aadaf2712e5b108443a9ffd434bb168",
+  "change_type": "subject-b-compound-readiness-copy-clarity-repair",
+  "source_quality_audit": "audits/SUBJECT_B_READINESS_POSTREPAIR_AUDIT_v223.txt",
+  "source_priority_tier": "low",
+  "quality_audit_marker": "compound_remediation_window_message",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-readiness-copy-overrides-v224.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_selection_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "recommendation_mode_changed": false,
+    "persistence_changed": false,
+    "remediation_targets_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "compound_remediation_window_message",
+    "compound_evidence_window": 3,
+    "short_practice_floor_percent": 65,
+    "clarify_first_final_compound_copy": true,
+    "clarify_pre_final_compound_copy": true,
+    "non_compound_copy_unchanged": true,
+    "behavior_change": false
+  }
+}
