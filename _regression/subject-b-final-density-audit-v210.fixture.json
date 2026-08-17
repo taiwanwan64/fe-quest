@@ -1,0 +1,68 @@
+{
+  "name": "subject-b-final-density-audit-v210",
+  "release": "v210",
+  "source_release": "v209",
+  "source_main_sha": "9436638ce68a2d7f6ed96a886fd7a4882bd17dcc",
+  "learner_facing_change": false,
+  "reference_policy": {
+    "materials": [
+      "かんたん合格 基本情報技術者過去問題集 令和8年度",
+      "いちばんやさしい 基本情報技術者 絶対合格の教科書＋出る順問題集 令和8年度",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版",
+      "情報処理教科書 出るとこだけ！基本情報技術者［科目B］予想＋過去問題集"
+    ],
+    "supported_use": "scope, terminology, algorithm/data-structure breadth, dedicated Subject B practice structure and difficulty calibration",
+    "unsupported_claims": ["an official minimum code-line count", "an official sustained-trace item ratio", "an official per-domain final-practice quota"],
+    "copyright_policy": "Any future added FE QUEST items must be original; proprietary wording is not copied."
+  },
+  "current_final_algorithm_pool": {
+    "count": 40,
+    "levels": {"標準": 19, "応用": 21},
+    "domains": {
+      "制御": {"標準": 3, "応用": 1},
+      "一次元配列": {"標準": 3, "応用": 2},
+      "二次元配列": {"標準": 2, "応用": 2},
+      "再帰・関数": {"標準": 2, "応用": 3},
+      "木構造": {"標準": 1, "応用": 3},
+      "オブジェクト指向": {"標準": 2, "応用": 1},
+      "リスト": {"標準": 2, "応用": 2},
+      "スタック・キュー": {"標準": 2, "応用": 2},
+      "ビット列": {"標準": 2, "応用": 2},
+      "探索・整列": {"標準": 0, "応用": 3}
+    },
+    "code_lines": {"min": 3, "max": 16, "average": 7.85},
+    "sustained_trace": {
+      "count": 12,
+      "standard": 3,
+      "applied": 9,
+      "default_domain_level_slots_compatible": 8,
+      "default_domain_level_slots_total": 10,
+      "missing_default_slots": ["オブジェクト指向/標準", "ビット列/応用"]
+    }
+  },
+  "density_assessment": {
+    "selection_repair_status": "stable; no selector change needed",
+    "primary_rotation_pressure": "12 sustained-trace items carry the v208 floor across repeated final sessions",
+    "content_gap_type": "coverage-density and rotation, not correctness",
+    "search_sort_standard_gap": "not targeted because final practice intentionally treats 探索・整列 as an applied default domain and no source supports changing that difficulty boundary"
+  },
+  "approved_small_expansion_for_v211": {
+    "add_count": 3,
+    "resulting_pool_count": 43,
+    "targets": [
+      {"domain": "オブジェクト指向", "level": "標準", "priority": 1, "quality_target": "sustained trace", "design_outline": "Track multiple object references and method-driven state changes across at least three dependent transitions before determining the final state."},
+      {"domain": "ビット列", "level": "応用", "priority": 1, "quality_target": "sustained trace", "design_outline": "Track a bit-state through multiple dependent mask/shift/logical-operation transitions; the answer must depend on the sequence rather than one isolated operator."},
+      {"domain": "木構造", "level": "標準", "priority": 2, "quality_target": "sustained trace", "design_outline": "Track a small tree traversal with an explicit evolving traversal state so the learner must reconstruct several dependent steps without applied-level pointer complexity."}
+    ],
+    "expected_sustained_trace_inventory": {"total": 15, "標準": 5, "応用": 10},
+    "expected_default_slot_compatibility": "10/10",
+    "preserve": ["all existing B_EXAM_ALGO_ITEMS IDs and wording", "final 20 = algorithm16 + security4", "algorithm standard8/applied8", "all ten final algorithm domains", "unique algorithm IDs", "v208 high-trace floor = 4", "seen-history and format-aware ranking", "security 2-log/2-non-log policy", "saved-state IDs and review/diagnosis behavior"]
+  },
+  "findings": {
+    "high": [],
+    "medium": [],
+    "low": [{"id": "final_high_trace_rotation_density", "severity": "Low", "source_watch": "v209 high_trace_pool_concentration", "assessment": "The current selector is correct and stable, but repeated readiness sessions concentrate sustained-trace exposure on a 12-item class. A three-item original expansion is justified as rotation and density improvement, not as a correctness repair.", "defer_to": "v211"}]
+  },
+  "decision": {"status": "audit_complete_targeted_expansion_approved", "learner_change_in_v210": false, "next_release": "v211", "next_scope": "add three original Subject B final algorithm items in object-standard, bit-applied and tree-standard; no selector or existing-item rewrite"},
+  "status": "audit_complete"
+}
