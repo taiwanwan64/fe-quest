@@ -89,6 +89,8 @@ jobs:
           p=Path('.github/subject-b-wrong-answer-explanation-diagnostic-audit/validate_audit.py')
           s=p.read_text()
           replacements={
+            "const correct=Number(row?.correct);":"const correct=Number(row?.correct ?? row?.a);",
+            "const meta=choiceSpecificMeta(s);\n      algo.push({id:`${ex.id}:${i}`,domain:ex.domain||'',options:(s.opts||[]).length,correct:s.correct,explain:s.explain||'',hint:s.hint||'',choiceSpecific:meta.present,metaKind:meta.kind});":"const p=s.predict,meta=choiceSpecificMeta(p);\n      algo.push({id:`${ex.id}:${i}`,domain:ex.domain||'',options:(p.opts||[]).length,correct:p.a,explain:p.explain||'',hint:p.hint||'',choiceSpecific:meta.present,metaKind:meta.kind});",
             "req(row['generalExplain'] == row['total'], name + ' general explanation coverage incomplete')":"req(row['generalExplain'] > 0, name + ' general explanation coverage absent')",
             "req(inv['algorithmPractice']['hint'] == inv['algorithmPractice']['total'], 'algorithm practice hint coverage incomplete')":"req(inv['algorithmPractice']['hint'] > 0, 'algorithm practice hint coverage absent')",
             "req(inv['securityPractice']['hint'] == inv['securityPractice']['total'], 'security practice hint coverage incomplete')":"req(inv['securityPractice']['hint'] > 0, 'security practice hint coverage absent')",
