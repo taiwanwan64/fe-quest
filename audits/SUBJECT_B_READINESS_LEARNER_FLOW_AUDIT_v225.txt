@@ -1,0 +1,43 @@
+FE QUEST v225 — Subject B Readiness Learner-Flow Audit
+=============================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v224
+Source main: 15e7be1a997edb80fb29a8f68e671ea0111d48ee
+Learner-facing change in v225: none
+
+What was audited
+----------------
+The complete recommendation journey was exercised from a new learner through TRACE, security foundations, compound practice, both mini-mocks, pre-final readiness, the first final practice, targeted remediation, reassessment, and return to final practice.
+The v224 compound evidence wording was tested inside the actual rolling-three-attempt remediation path, not only as a static string.
+
+Learner-flow proof
+------------------
+Foundation order remains TRACE -> security -> compound -> security mini-mock -> algorithm mini-mock.
+At the readiness boundary, 65% evidence allows final practice while 64% routes to the matching short mode.
+A weak first final routes to the relevant algorithm, security, or compound practice. Unrelated work cannot unlock the second final, and a targeted result below 65% remains blocked.
+For algorithm and security mini-mocks, a later passing targeted result unlocks final practice as intended.
+For compound practice, a 67/33/100 window followed by a new 67% result remains below the rolling-three average threshold and stays in compound practice; the recommendation explicitly explains the recent-three-attempt average. A subsequent 100% result raises the rolling window enough to return to final practice.
+The optional readiness marker remains stable across rerenders and profile normalization and refreshes when the first-final identity changes.
+The exam-three-days taper and post-two-final maintenance route remain intact.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds matched v224 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 final order, v217 recovery entry, v219 XP display, v222 readiness calculation, and v224 compound evidence copy are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+Candidate/reference generated six release files byte-identical: yes.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+The v221-v224 readiness progression and copy repair sequence is closed with no remaining learner-flow finding. Move the next release to a different Subject B learning-quality frontier rather than continuing to modify this route by default.
