@@ -12,6 +12,7 @@ const SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC=Object.freeze({
   fallbackMode:'miniMock',
   reusesExistingDomainLabels:true,
   reusesExistingRemediationTargets:true,
+  preservesExamThreeDayRule:true,
   readinessThresholdChanged:false,
   questionSelectionChanged:false,
   scoringChanged:false,
@@ -121,6 +122,9 @@ function subjectBMarkAlgorithmDomainTraceCompleteV227(traceId){
 const _subjectBHubRecommendationV227=subjectBHubRecommendation;
 subjectBHubRecommendation=function(){
   const rec=_subjectBHubRecommendationV227();
+  const days=examDaysRemaining();
+  const finalAllowed=!(days!=null&&days>=0&&days<=3);
+  if(!finalAllowed)return rec;
   if(!rec||rec.mode!=='miniMock'||rec.title!=='アルゴリズム ミニ模試で準備')return rec;
   const context=subjectBAlgorithmDomainContextV227();
   if(!context)return rec;
