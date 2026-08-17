@@ -47,11 +47,13 @@ function ensureBFinalRecoveryEntryV217(){
 function updateBFinalRecoveryEntryV217(a){
   const btn=ensureBFinalRecoveryEntryV217();
   if(!btn)return;
+  const result=document.getElementById('bFinalResult');
+  const detail=result?.querySelector('details.result-detail-fold');
   const correct=Math.max(0,Math.min(B_FINAL_COUNT,Number(a?.correct)||0));
   const blank=Math.max(0,Math.min(B_FINAL_COUNT-correct,Number(a?.blank)||0));
   const needsReview=Math.max(0,B_FINAL_COUNT-correct);
   btn.hidden=needsReview===0;
-  btn.setAttribute('aria-expanded','false');
+  btn.setAttribute('aria-expanded',detail?.open?'true':'false');
   if(needsReview===0){
     btn.textContent='誤答を復習する';
     return;
