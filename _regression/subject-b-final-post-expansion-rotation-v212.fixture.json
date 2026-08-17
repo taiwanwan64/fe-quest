@@ -1,0 +1,364 @@
+{
+  "name": "subject-b-final-post-expansion-rotation-v212",
+  "version": "v212",
+  "previous_version": "v211",
+  "parent_main_sha": "971c4472ea8d4380c3553700520f54d49fe14f5f",
+  "learner_facing_change": false,
+  "pool_unchanged_from_v211": true,
+  "algorithm_pool_count": 43,
+  "high_trace_count": 15,
+  "high_trace_floor": 4,
+  "added_ids": [
+    "bexam_obj_04",
+    "bexam_bit_05",
+    "bexam_tree_05"
+  ],
+  "new_item_quality": {
+    "complete_four_option_items": true,
+    "semantic_contracts_ok": true,
+    "qualitative_overlap_review": {
+      "bexam_obj_04": "extends shared-reference concept from one mutation to three dependent mutations and a third alias",
+      "bexam_bit_05": "extends bit operations into a four-stage dependent AND/shift/XOR/OR chain",
+      "bexam_tree_05": "shares BFS theme with an applied item but adds simultaneous cumulative-value and queue-state tracking at standard difficulty"
+    }
+  },
+  "probes": {
+    "staticEqual": {
+      "sessions": 2000,
+      "minHigh": 4,
+      "maxHigh": 9,
+      "avgHigh": 5.714,
+      "badContract": 0,
+      "badSecurity": 0,
+      "counts": {
+        "bexam_ctrl_01": 1171,
+        "bexam_ctrl_02": 1188,
+        "bexam_ctrl_03": 1225,
+        "bexam_ctrl_04": 549,
+        "bexam_arr_01": 721,
+        "bexam_arr_02": 624,
+        "bexam_arr_03": 1545,
+        "bexam_arr_04": 206,
+        "bexam_mat_01": 1190,
+        "bexam_mat_02": 1114,
+        "bexam_mat_03": 337,
+        "bexam_rec_01": 237,
+        "bexam_rec_02": 248,
+        "bexam_rec_03": 220,
+        "bexam_rec_04": 1695,
+        "bexam_tree_01": 669,
+        "bexam_tree_02": 290,
+        "bexam_tree_03": 1994,
+        "bexam_obj_01": 355,
+        "bexam_obj_02": 1270,
+        "bexam_obj_03": 115,
+        "bexam_list_01": 1788,
+        "bexam_list_02": 177,
+        "bexam_list_03": 693,
+        "bexam_sq_01": 181,
+        "bexam_sq_02": 481,
+        "bexam_sq_03": 618,
+        "bexam_bit_01": 893,
+        "bexam_bit_02": 216,
+        "bexam_bit_03": 137,
+        "bexam_algo_01": 2000,
+        "bexam_algo_02": 124,
+        "bexam_arr_05": 125,
+        "bexam_mat_04": 125,
+        "bexam_rec_05": 472,
+        "bexam_tree_04": 1032,
+        "bexam_list_04": 355,
+        "bexam_sq_04": 1555,
+        "bexam_bit_04": 2000,
+        "bexam_algo_03": 146,
+        "bexam_obj_04": 1373,
+        "bexam_bit_05": 117,
+        "bexam_tree_05": 429
+      },
+      "formats": {
+        "途中状態": 7159,
+        "変更予測": 3994,
+        "実行回数": 6737,
+        "処理結果": 7796,
+        "空欄補充": 6314
+      },
+      "peerRows": [
+        {
+          "id": "bexam_obj_04",
+          "domain": "オブジェクト指向",
+          "level": "標準",
+          "count": 1373,
+          "peerIds": [
+            "bexam_obj_01",
+            "bexam_obj_02"
+          ],
+          "peerCounts": [
+            355,
+            1270
+          ],
+          "ratioToPeerAverage": 1.69
+        },
+        {
+          "id": "bexam_bit_05",
+          "domain": "ビット列",
+          "level": "応用",
+          "count": 117,
+          "peerIds": [
+            "bexam_bit_03",
+            "bexam_bit_04"
+          ],
+          "peerCounts": [
+            137,
+            2000
+          ],
+          "ratioToPeerAverage": 0.109
+        },
+        {
+          "id": "bexam_tree_05",
+          "domain": "木構造",
+          "level": "標準",
+          "count": 429,
+          "peerIds": [
+            "bexam_tree_01"
+          ],
+          "peerCounts": [
+            669
+          ],
+          "ratioToPeerAverage": 0.641
+        }
+      ],
+      "highExposure": {
+        "min": 117,
+        "max": 2000
+      },
+      "addedSelected": true
+    },
+    "adaptive": {
+      "sessions": 4000,
+      "minHigh": 4,
+      "maxHigh": 10,
+      "avgHigh": 5.641,
+      "badContract": 0,
+      "badSecurity": 0,
+      "counts": {
+        "bexam_ctrl_01": 1474,
+        "bexam_ctrl_02": 1474,
+        "bexam_ctrl_03": 1474,
+        "bexam_ctrl_04": 1333,
+        "bexam_arr_01": 1474,
+        "bexam_arr_02": 1474,
+        "bexam_arr_03": 1474,
+        "bexam_arr_04": 1333,
+        "bexam_mat_01": 2000,
+        "bexam_mat_02": 2000,
+        "bexam_mat_03": 1333,
+        "bexam_rec_01": 1474,
+        "bexam_rec_02": 1473,
+        "bexam_rec_03": 1333,
+        "bexam_rec_04": 1334,
+        "bexam_tree_01": 1473,
+        "bexam_tree_02": 1333,
+        "bexam_tree_03": 1334,
+        "bexam_obj_01": 1473,
+        "bexam_obj_02": 1474,
+        "bexam_obj_03": 1332,
+        "bexam_list_01": 2000,
+        "bexam_list_02": 1473,
+        "bexam_list_03": 1474,
+        "bexam_sq_01": 1473,
+        "bexam_sq_02": 1474,
+        "bexam_sq_03": 2000,
+        "bexam_bit_01": 1474,
+        "bexam_bit_02": 1473,
+        "bexam_bit_03": 1333,
+        "bexam_algo_01": 1334,
+        "bexam_algo_02": 1333,
+        "bexam_arr_05": 1333,
+        "bexam_mat_04": 1333,
+        "bexam_rec_05": 1334,
+        "bexam_tree_04": 1334,
+        "bexam_list_04": 2000,
+        "bexam_sq_04": 2000,
+        "bexam_bit_04": 1334,
+        "bexam_algo_03": 1334,
+        "bexam_obj_04": 1474,
+        "bexam_bit_05": 1333,
+        "bexam_tree_05": 1474
+      },
+      "formats": {
+        "実行回数": 9756,
+        "処理結果": 26592,
+        "空欄補充": 10281,
+        "途中状態": 14703,
+        "変更予測": 2668
+      },
+      "peerRows": [
+        {
+          "id": "bexam_obj_04",
+          "domain": "オブジェクト指向",
+          "level": "標準",
+          "count": 1474,
+          "peerIds": [
+            "bexam_obj_01",
+            "bexam_obj_02"
+          ],
+          "peerCounts": [
+            1473,
+            1474
+          ],
+          "ratioToPeerAverage": 1
+        },
+        {
+          "id": "bexam_bit_05",
+          "domain": "ビット列",
+          "level": "応用",
+          "count": 1333,
+          "peerIds": [
+            "bexam_bit_03",
+            "bexam_bit_04"
+          ],
+          "peerCounts": [
+            1333,
+            1334
+          ],
+          "ratioToPeerAverage": 1
+        },
+        {
+          "id": "bexam_tree_05",
+          "domain": "木構造",
+          "level": "標準",
+          "count": 1474,
+          "peerIds": [
+            "bexam_tree_01"
+          ],
+          "peerCounts": [
+            1473
+          ],
+          "ratioToPeerAverage": 1.001
+        }
+      ],
+      "highExposure": {
+        "min": 1333,
+        "max": 2000
+      },
+      "addedSelected": true
+    },
+    "adversarial": {
+      "sessions": 1200,
+      "minHigh": 4,
+      "maxHigh": 4,
+      "avgHigh": 4,
+      "badContract": 0,
+      "badSecurity": 0,
+      "counts": {
+        "bexam_ctrl_01": 17,
+        "bexam_ctrl_02": 1192,
+        "bexam_ctrl_03": 1108,
+        "bexam_ctrl_04": 0,
+        "bexam_arr_01": 431,
+        "bexam_arr_02": 381,
+        "bexam_arr_03": 1186,
+        "bexam_arr_04": 283,
+        "bexam_mat_01": 694,
+        "bexam_mat_02": 506,
+        "bexam_mat_03": 529,
+        "bexam_rec_01": 48,
+        "bexam_rec_02": 29,
+        "bexam_rec_03": 468,
+        "bexam_rec_04": 866,
+        "bexam_tree_01": 25,
+        "bexam_tree_02": 289,
+        "bexam_tree_03": 727,
+        "bexam_obj_01": 202,
+        "bexam_obj_02": 775,
+        "bexam_obj_03": 300,
+        "bexam_list_01": 1192,
+        "bexam_list_02": 20,
+        "bexam_list_03": 1200,
+        "bexam_sq_01": 16,
+        "bexam_sq_02": 625,
+        "bexam_sq_03": 929,
+        "bexam_bit_01": 84,
+        "bexam_bit_02": 15,
+        "bexam_bit_03": 165,
+        "bexam_algo_01": 23,
+        "bexam_algo_02": 26,
+        "bexam_arr_05": 262,
+        "bexam_mat_04": 122,
+        "bexam_rec_05": 466,
+        "bexam_tree_04": 184,
+        "bexam_list_04": 8,
+        "bexam_sq_04": 271,
+        "bexam_bit_04": 1191,
+        "bexam_algo_03": 1151,
+        "bexam_obj_04": 299,
+        "bexam_bit_05": 148,
+        "bexam_tree_05": 747
+      },
+      "formats": {
+        "空欄補充": 3991,
+        "実行回数": 4356,
+        "処理結果": 4377,
+        "途中状態": 4558,
+        "変更予測": 1918
+      },
+      "peerRows": [
+        {
+          "id": "bexam_obj_04",
+          "domain": "オブジェクト指向",
+          "level": "標準",
+          "count": 299,
+          "peerIds": [
+            "bexam_obj_01",
+            "bexam_obj_02"
+          ],
+          "peerCounts": [
+            202,
+            775
+          ],
+          "ratioToPeerAverage": 0.612
+        },
+        {
+          "id": "bexam_bit_05",
+          "domain": "ビット列",
+          "level": "応用",
+          "count": 148,
+          "peerIds": [
+            "bexam_bit_03",
+            "bexam_bit_04"
+          ],
+          "peerCounts": [
+            165,
+            1191
+          ],
+          "ratioToPeerAverage": 0.218
+        },
+        {
+          "id": "bexam_tree_05",
+          "domain": "木構造",
+          "level": "標準",
+          "count": 747,
+          "peerIds": [
+            "bexam_tree_01"
+          ],
+          "peerCounts": [
+            25
+          ],
+          "ratioToPeerAverage": 29.88
+        }
+      ],
+      "highExposure": {
+        "min": 0,
+        "max": 1151
+      },
+      "addedSelected": true
+    }
+  },
+  "adaptive_peer_max_absolute_ratio_deviation": 0.001,
+  "finding": {
+    "severity": "None",
+    "id": null
+  },
+  "subject_b_semantic_validator_ok": true,
+  "status": "passed"
+}

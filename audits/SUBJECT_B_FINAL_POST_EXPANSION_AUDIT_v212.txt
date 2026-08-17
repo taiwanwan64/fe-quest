@@ -1,0 +1,49 @@
+FE QUEST v212 — Subject B Final-Practice Post-Expansion Audit
+===================================================================
+
+Result
+------
+PASS
+Previous: v211
+Source main: 971c4472ea8d4380c3553700520f54d49fe14f5f
+Learner-facing change in v212: none
+
+Scope
+-----
+Audit the 43-item final algorithm pool after the v211 three-item expansion. No question, selector, saved-state ID, final-session quota or sustained-trace floor is changed in this release.
+
+Runtime preservation
+--------------------
+Algorithm pool: 43 / unchanged from v211.
+High-trace inventory: 15 / unchanged.
+Sustained-trace floor: 4 / unchanged.
+Final practice: 20 = 16 algorithm + 4 security; algorithm 標準8 / 応用8; ten domains; unique algorithm IDs; security 2 log + 2 non-log.
+Subject B semantic validation: OK.
+
+New-item quality review
+-----------------------
+bexam_obj_04: the shared-reference concept overlaps bexam_obj_01, but increases the trace from one mutation to three dependent mutations and introduces a third alias. This is a meaningful density increase rather than a duplicate question.
+bexam_bit_05: combines four dependent operations (AND, logical shift, XOR, OR); it is materially denser than the existing isolated/short bit-operation items.
+bexam_tree_05: intentionally reuses breadth-first traversal, but asks for both accumulated value and queue state at an intermediate point. It remains simpler than the applied BFS item and is appropriate as a standard sustained-trace variant.
+
+Deterministic rotation probes
+-----------------------------
+Static equal-history: 2000 sessions; high-trace min 4 / max 9 / avg 5.714; structural failures 0; security failures 0.
+Adaptive history with seen-count increments: 4000 sessions; high-trace min 4 / max 10 / avg 5.641; structural failures 0; security failures 0.
+Adversarial high-trace-seen: 1200 sessions; high-trace min 4 / max 4 / avg 4; structural failures 0; security failures 0.
+All three v211 additions were selected in every probe family: yes.
+
+Adaptive same-cell exposure for the new items
+---------------------------------------------
+  bexam_obj_04: 1474 selections; same-cell peers [1473, 1474]; ratio 1
+  bexam_bit_05: 1333 selections; same-cell peers [1333, 1334]; ratio 1
+  bexam_tree_05: 1474 selections; same-cell peers [1473]; ratio 1.001
+Maximum absolute ratio deviation from same-domain/same-level peer average: 0.001.
+
+Finding
+-------
+No new rotation finding.
+
+Decision
+--------
+The v211 expansion is accepted unless the watch above is present. Do not add more Subject B final-algorithm items in v213 by default. If no watch is present, the next useful audit should move from pool quantity to whole-session learner experience: time pressure, question-order transitions and review usefulness. If a rotation watch is present, v213 should address exposure balance before further content growth.
