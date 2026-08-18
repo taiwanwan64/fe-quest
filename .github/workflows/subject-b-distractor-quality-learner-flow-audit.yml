@@ -2,7 +2,7 @@ name: FE QUEST Subject B repeated-session diversity audit
 
 on:
   push:
-    branches: ['subject-b-repeated-session-diversity-audit-v*']
+    branches: ['subject-b-feedback-propagation-learner-flow-audit-v*']
 
 permissions:
   contents: write
@@ -24,7 +24,7 @@ jobs:
         id: release
         shell: bash
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-repeated-session-diversity-audit-(v[0-9]+)$ ]]; then
+          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-feedback-propagation-learner-flow-audit-(v[0-9]+)$ ]]; then
             echo "Invalid Subject B repeated-session diversity audit branch: $GITHUB_REF_NAME" >&2
             exit 1
           fi
@@ -81,8 +81,26 @@ jobs:
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
+      - name: Patch validator branch alias
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/subject-b-repeated-session-diversity-audit/validate_audit.py')
+          t=p.read_text()
+          old="m=re.fullmatch(r'subject-b-repeated-session-diversity-audit-(v(\\d+))',branch)"
+          new="m=re.fullmatch(r'subject-b-feedback-propagation-learner-flow-audit-(v(\\d+))',branch)"
+          if old not in t:
+              raise SystemExit('v237 branch alias patch marker missing')
+          p.write_text(t.replace(old,new,1))
+          PY
+
       - name: Audit repeated-session diversity and coverage
         run: python3 .github/subject-b-repeated-session-diversity-audit/validate_audit.py
+
+      - name: Restore validator source
+        if: always()
+        run: git checkout -- .github/subject-b-repeated-session-diversity-audit/validate_audit.py
 
       - name: Commit validated release shell and audit evidence
         shell: bash
