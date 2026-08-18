@@ -1,0 +1,284 @@
+{
+  "inventory": {
+    "total": 15,
+    "logs": 4,
+    "cases": 11,
+    "ids": [
+      "phishing",
+      "ransomware",
+      "access",
+      "logs",
+      "certificate",
+      "risk",
+      "sql_injection",
+      "xss",
+      "password_spray",
+      "usb_malware",
+      "exfiltration",
+      "crypto_choice",
+      "password_hash",
+      "signed_update",
+      "patch"
+    ]
+  },
+  "candidateRotation": {
+    "all15By4": 0,
+    "all15By5": 0,
+    "all15By6": 100,
+    "coverageAfter5": {
+      "min": 14,
+      "max": 14
+    },
+    "quotasValid": true,
+    "uniqueValid": true,
+    "blockValid": true,
+    "example": [
+      {
+        "coverage": 4,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "ransomware",
+          "signed_update",
+          "risk"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 2,
+          "cases": 2,
+          "adaptive": false,
+          "unseenLogs": 4,
+          "unseenCases": 11
+        },
+        "block": true
+      },
+      {
+        "coverage": 8,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "exfiltration",
+          "password_spray",
+          "access",
+          "certificate"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 2,
+          "cases": 2,
+          "adaptive": false,
+          "unseenLogs": 2,
+          "unseenCases": 9
+        },
+        "block": true
+      },
+      {
+        "coverage": 10,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "sql_injection",
+          "phishing",
+          "ransomware"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 1,
+          "cases": 3,
+          "adaptive": true,
+          "unseenLogs": 0,
+          "unseenCases": 7
+        },
+        "block": true
+      },
+      {
+        "coverage": 12,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "password_spray",
+          "usb_malware",
+          "crypto_choice",
+          "exfiltration"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 1,
+          "cases": 3,
+          "adaptive": true,
+          "unseenLogs": 0,
+          "unseenCases": 5
+        },
+        "block": true
+      },
+      {
+        "coverage": 14,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "patch",
+          "xss",
+          "ransomware"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 1,
+          "cases": 3,
+          "adaptive": true,
+          "unseenLogs": 0,
+          "unseenCases": 3
+        },
+        "block": true
+      },
+      {
+        "coverage": 15,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "password_spray",
+          "exfiltration",
+          "certificate",
+          "password_hash"
+        ],
+        "unique": 4,
+        "quota": {
+          "logs": 2,
+          "cases": 2,
+          "adaptive": false,
+          "unseenLogs": 0,
+          "unseenCases": 1
+        },
+        "block": true
+      }
+    ]
+  },
+  "parentRotation": {
+    "all15By4": 0,
+    "all15By5": 0,
+    "all15By6": 100,
+    "coverageAfter5": {
+      "min": 14,
+      "max": 14
+    },
+    "quotasValid": true,
+    "uniqueValid": true,
+    "blockValid": true,
+    "example": [
+      {
+        "coverage": 4,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "ransomware",
+          "signed_update",
+          "risk"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      },
+      {
+        "coverage": 8,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "exfiltration",
+          "password_spray",
+          "access",
+          "certificate"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      },
+      {
+        "coverage": 10,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "sql_injection",
+          "phishing",
+          "ransomware"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      },
+      {
+        "coverage": 12,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "password_spray",
+          "usb_malware",
+          "crypto_choice",
+          "exfiltration"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      },
+      {
+        "coverage": 14,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "logs",
+          "patch",
+          "xss",
+          "ransomware"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      },
+      {
+        "coverage": 15,
+        "logs": 2,
+        "cases": 2,
+        "ids": [
+          "password_spray",
+          "exfiltration",
+          "certificate",
+          "password_hash"
+        ],
+        "unique": 4,
+        "quota": null,
+        "block": true
+      }
+    ]
+  },
+  "spec": {
+    "findingResolved": "subject_b_final_security_long_run_coverage_gap",
+    "sourceAudit": "v238-subject-b-final-security-rotation-diagnosis-audit",
+    "policy": "adaptive-security-subpool-coverage",
+    "defaultQuota": {
+      "logs": 2,
+      "cases": 2
+    },
+    "adaptiveQuotaRange": {
+      "minPerType": 1,
+      "maxPerType": 3
+    },
+    "firstFinalPreserved": true,
+    "allSeenRestoresDefault": true,
+    "existingExposureStatsReused": true,
+    "profileSchemaMigrationRequired": false,
+    "securityQuestionCountChanged": false,
+    "securityQuestionContentChanged": false,
+    "algorithmSelectionChanged": false,
+    "algorithmOrderChanged": false,
+    "scoringChanged": false,
+    "timingChanged": false,
+    "difficultyLabelsChanged": false,
+    "readinessThresholdChanged": false,
+    "remediationTargetsChanged": false
+  },
+  "wrapperSource": "function(){return rebalance(before());}",
+  "buildReadOnly": true
+}

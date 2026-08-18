@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-trace-final-feedback-propagation-repair/validate_repair.py", line 33, in <module>
+    runpy.run_path(str(p),run_name='__main__')
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File ".github/subject-b-final-security-rotation-repair/validate_repair.py", line 163, in <module>
+    req(cand['rotation']['all15By5']==100 and cand['rotation']['coverageAfter5']=={'min':15,'max':15},'v239 did not close five-session coverage gap')
+  File ".github/subject-b-final-security-rotation-repair/validate_repair.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: v239 did not close five-session coverage gap
