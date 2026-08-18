@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 223, in <module>
+    req(mini['found'] is True,'target question never surfaced naturally in mini-mock search')
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: target question never surfaced naturally in mini-mock search
