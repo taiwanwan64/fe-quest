@@ -129,7 +129,7 @@ jobs:
             if(!item)return {sessions:1,found:false};
             const q=shuffleBMockAnswer(item);
             const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
+            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId||ex.id,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
           }"""
           replacements.append((old_mini,new_mini))
           old_final="""function findFinalTraceTarget(){
@@ -154,7 +154,7 @@ jobs:
             const q=makeFinalAlgoFromTrace(ex);
             if(!q)return {sessions:1,found:false};
             const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
+            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId||ex.id,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
           }"""
           replacements.append((old_final,new_final))
           for old,new in replacements:
