@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 214, in <module>
+    req(not trace['error'],'TRACE immediate UI probe failed: '+str(trace['error']))
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: TRACE immediate UI probe failed: TypeError: root.appendChild is not a function
+    at /tmp/tmpgpaiorol/rt.js:12012:10
+    at Array.forEach (<anonymous>)
+    at showBPrediction (/tmp/tmpgpaiorol/rt.js:11993:13)
+    at showBPrediction (/tmp/tmpgpaiorol/rt.js:17001:5)
+    at immediateTraceProbe (/tmp/tmpgpaiorol/rt.js:18170:5)
+    at Object.<anonymous> (/tmp/tmpgpaiorol/rt.js:18271:9)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
