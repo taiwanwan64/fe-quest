@@ -1,0 +1,213 @@
+{
+  "name": "subject-b-distractor-difficulty-calibration-audit-v232",
+  "version": "v232",
+  "previous": "v231",
+  "sourceMain": "9975c936e450c5b9bd82f2e55bf3f18268a58dd6",
+  "learnerFacingChange": false,
+  "selectionSignature1000": 548766874,
+  "inventory": {
+    "counts": {
+      "traceQuestions": 40,
+      "compound": 45,
+      "security": 45,
+      "finalAlgorithm": 43
+    },
+    "levels": {
+      "traceExercises": {
+        "基礎": 4,
+        "標準": 11,
+        "応用": 5
+      },
+      "compound": {
+        "基礎": 5,
+        "標準": 30,
+        "応用": 10
+      },
+      "security": {
+        "基礎": 12,
+        "標準": 24,
+        "応用": 9
+      },
+      "finalAlgorithm": {
+        "標準": 21,
+        "応用": 22
+      },
+      "mockQuotas": {
+        "基礎": 2,
+        "標準": 4,
+        "応用": 2
+      }
+    },
+    "distractors": {
+      "totalQuestions": 173,
+      "totalWrongSlots": 519,
+      "outliers": [
+        {
+          "layer": "trace",
+          "id": "selection_sort_b:5",
+          "level": "標準",
+          "domain": "ソート・最小値探索",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "[1,5,2,4]"
+          ],
+          "correctFamily": "number",
+          "outliers": [
+            {
+              "index": 3,
+              "text": "[1,5,2,4]",
+              "family": "list"
+            }
+          ]
+        },
+        {
+          "layer": "compound",
+          "id": "queue_service:1",
+          "level": "標準",
+          "domain": "受付キューの処理",
+          "options": [
+            "101",
+            "103",
+            "104",
+            "102"
+          ],
+          "correctFamily": "number",
+          "outliers": [
+            {
+              "index": 0,
+              "text": "101",
+              "family": "bit"
+            }
+          ]
+        }
+      ],
+      "duplicates": [],
+      "extraMismatch": [
+        {
+          "exerciseId": "loop_sum",
+          "extra": "5",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state",
+            "text"
+          ]
+        },
+        {
+          "exerciseId": "stack_ops",
+          "extra": "8",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state"
+          ]
+        },
+        {
+          "exerciseId": "count_even",
+          "extra": "4",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state",
+            "text"
+          ]
+        },
+        {
+          "exerciseId": "selection_sort_b",
+          "extra": "[1,5,2,4]",
+          "extraFamily": "list",
+          "correctFamilies": [
+            "number"
+          ]
+        },
+        {
+          "exerciseId": "matrix_sum",
+          "extra": "7",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state"
+          ]
+        },
+        {
+          "exerciseId": "queue_ops",
+          "extra": "7",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state"
+          ]
+        },
+        {
+          "exerciseId": "object_counter",
+          "extra": "2",
+          "extraFamily": "number",
+          "correctFamilies": [
+            "state"
+          ]
+        }
+      ]
+    },
+    "burden": {
+      "trace": {
+        "基礎": {
+          "count": 4,
+          "median": 19.5,
+          "min": 14,
+          "max": 24
+        },
+        "標準": {
+          "count": 11,
+          "median": 22,
+          "min": 14,
+          "max": 33
+        },
+        "応用": {
+          "count": 5,
+          "median": 15,
+          "min": 14,
+          "max": 31
+        }
+      },
+      "finalAlgorithm": {
+        "標準": {
+          "count": 21,
+          "median": 17,
+          "min": 8,
+          "max": 33
+        },
+        "応用": {
+          "count": 22,
+          "median": 21,
+          "min": 9,
+          "max": 35
+        }
+      },
+      "traceSeparation": {
+        "basicVsStandard": 0.636,
+        "standardVsAdvanced": 0.273
+      },
+      "finalSeparation": {
+        "standardVsAdvanced": 0.649
+      },
+      "domainInversionCount": 8
+    }
+  },
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "findings": [
+    {
+      "id": "subject_b_distractor_structural_mismatch",
+      "severity": "Medium",
+      "count": 9,
+      "summary": "Some wrong choices use a different structural answer form from the correct answer and the other distractors, allowing partial rejection without solving."
+    },
+    {
+      "id": "subject_b_difficulty_label_structural_separation_weak",
+      "severity": "Low",
+      "count": 1,
+      "summary": "Static difficulty labels separate weakly on the conservative structural-burden proxy; conceptual difficulty may still justify individual labels."
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+FE QUEST v232 — Subject B Distractor Plausibility & Difficulty Calibration Audit
+====================================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v231
+Source main: 9975c936e450c5b9bd82f2e55bf3f18268a58dd6
+Learner-facing change in v232: none
+
+What was audited
+----------------
+v229-v231 closed the wrong-answer feedback sequence. v232 moved to the next frontier named by v231: distractor plausibility, static 基礎/標準/応用 calibration, and the TRACE → mini-mock → final progression. This release is audit-only.
+
+Inventory
+---------
+TRACE prediction questions: 40
+Compound questions: 45
+Security practice questions: 45
+Final algorithm source questions: 43
+Audited wrong-choice slots: 519
+TRACE exercise levels: {"基礎": 4, "応用": 5, "標準": 11}
+Compound levels: {"基礎": 5, "応用": 10, "標準": 30}
+Security levels: {"基礎": 12, "応用": 9, "標準": 24}
+Final algorithm levels: {"応用": 22, "標準": 21}
+Mini-mock quota: {"基礎": 2, "応用": 2, "標準": 4}
+
+Distractor plausibility
+-----------------------
+Duplicate normalized option sets: 0
+Question-level structural outliers: 2
+Generated extra-distractor family mismatches: 7
+The structural check is conservative: a wrong choice is flagged only when the correct answer and at least two other distractors share one structural answer form while the remaining wrong choice uses another form. Sentinel answers such as 「未定義」 are not flagged merely for being text.
+
+Flagged question examples
+-------------------------
+- trace selection_sort_b:5 / ソート・最小値探索: ['1', '2', '3', '[1,5,2,4]'] -> outlier ['[1,5,2,4]']
+- compound queue_service:1 / 受付キューの処理: ['101', '103', '104', '102'] -> outlier ['101']
+
+Flagged generated-extra examples
+--------------------------------
+- loop_sum: extra=5 (number) / correct families=['state', 'text']
+- stack_ops: extra=8 (number) / correct families=['state']
+- count_even: extra=4 (number) / correct families=['state', 'text']
+- selection_sort_b: extra=[1,5,2,4] (list) / correct families=['number']
+- matrix_sum: extra=7 (number) / correct families=['state']
+- queue_ops: extra=7 (number) / correct families=['state']
+- object_counter: extra=2 (number) / correct families=['state']
+
+Difficulty calibration
+----------------------
+TRACE structural burden by label: {"基礎": {"count": 4, "max": 24, "median": 19.5, "min": 14}, "応用": {"count": 5, "max": 31, "median": 15, "min": 14}, "標準": {"count": 11, "max": 33, "median": 22, "min": 14}}
+Final algorithm structural burden by label: {"応用": {"count": 22, "max": 35, "median": 21, "min": 9}, "標準": {"count": 21, "max": 33, "median": 17, "min": 8}}
+TRACE pairwise separation: {"basicVsStandard": 0.636, "standardVsAdvanced": 0.273}
+Final pairwise separation: {"standardVsAdvanced": 0.649}
+Same-domain final inversions (応用 at least two structural-burden points below a 標準 item): 8
+The burden proxy combines only observable code length, loops/branches/definitions, indentation, assignments, data-structure operations and supplied facts. It is not treated as exam-difficulty truth; conceptual difficulty can make a shorter item harder.
+
+Findings
+--------
+- Medium: subject_b_distractor_structural_mismatch (9) — Some wrong choices use a different structural answer form from the correct answer and the other distractors, allowing partial rejection without solving.
+- Low: subject_b_difficulty_label_structural_separation_weak (1) — Static difficulty labels separate weakly on the conservative structural-burden proxy; conceptual difficulty may still justify individual labels.
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds match v231 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, and v230 choice-specific feedback are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+
+Findings summary
+----------------
+High: 0
+Medium: 1
+Low: 1
+
+Decision
+--------
+Use v233 for a narrow distractor-quality repair. Replace only flagged structurally incompatible distractors with same-answer-form alternatives representing realistic mistakes such as off-by-one, stale state, update-order, traversal, LIFO/FIFO, or security-control confusion. Preserve prompts, correct answers, v230 feedback, difficulty labels, scoring, selection/order, timing, the 65% readiness gate, and remediation targets unless separately audited evidence requires a change. Follow with a learner-flow/regression audit.
