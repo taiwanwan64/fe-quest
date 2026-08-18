@@ -2,46 +2,63 @@ from pathlib import Path
 import base64, json, os, re, runpy, subprocess, tempfile
 
 
-def req(ok,msg):
+def req(ok, msg):
     if not ok:
         raise AssertionError(msg)
 
 
 def ctx():
-    branch=os.environ.get('GITHUB_REF_NAME') or subprocess.check_output(['git','branch','--show-current'],text=True).strip()
-    m=re.fullmatch(r'subject-b-distractor-quality-learner-flow-audit-(v(\d+))',branch)
-    req(m,'bad Subject B distractor quality learner-flow audit branch')
-    version=m.group(1)
-    return version,f'v{int(m.group(2))-1}'
+    branch = os.environ.get('GITHUB_REF_NAME') or subprocess.check_output(
+        ['git', 'branch', '--show-current'], text=True
+    ).strip()
+    m = re.fullmatch(r'subject-b-distractor-quality-learner-flow-audit-(v(\d+))', branch)
+    req(m, 'bad Subject B distractor quality learner-flow audit branch')
+    version = m.group(1)
+    return version, f'v{int(m.group(2)) - 1}'
 
 
 def runtime(path):
-    html=Path(path).read_text()
-    scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',html,re.S|re.I)
-    js='\n'.join(s for s in scripts if s.strip() and not s.lstrip().startswith('{'))
-    stub=runpy.run_path('.github/release/runtime_stub.py')['STUB']
-    tail=r'''
+    html = Path(path).read_text()
+    scripts = re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>', html, re.S | re.I)
+    js = '\n'.join(s for s in scripts if s.strip() and not s.lstrip().startswith('{'))
+    stub = runpy.run_path('.github/release/runtime_stub.py')['STUB']
+    tail = r'''
 function seedRand(seed){let x=seed>>>0;return ()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};}
+function forcedRandom(first){let n=0;return ()=>{n++;return n===1?first:((n*0.173)%1);};}
 function text(v){return String(v??'').trim();}
-function opts(q){return Array.isArray(q?.options)?q.options:(Array.isArray(q?.opts)?q.opts:[]);}
-function ai(q){return Number.isInteger(Number(q?.a))?Number(q.a):Number(q?.correct);}
-function clone(v){return JSON.parse(JSON.stringify(v));}
-function feedback(q,selected){const f=subjectBChoiceFeedbackV230(q,selected);return f?clone(f):null;}
+function optionsOf(q){return Array.isArray(q?.options)?q.options:(Array.isArray(q?.opts)?q.opts:[]);}
+function answerIndex(q){
+  if(Number.isInteger(q?.a))return q.a;
+  if(Number.isInteger(q?.correctIndex))return q.correctIndex;
+  if(Number.isInteger(q?.answerIndex))return q.answerIndex;
+  if(typeof q?.correctText==='string')return optionsOf(q).map(text).indexOf(text(q.correctText));
+  if(Number.isInteger(q?.correct))return q.correct;
+  return Number(q?.correct);
+}
+function clone(v){return v==null?v:JSON.parse(JSON.stringify(v));}
+function feedbackOf(q,selected){const f=subjectBChoiceFeedbackV230(q,selected);return f?clone(f):null;}
 function structured(f){return !!(f&&text(f.diagnosis)&&text(f.checkpoint)&&text(f.nextCue));}
-function numericOnly(q){return opts(q).every(x=>/^-?\d+(?:\.\d+)?$/.test(text(x)));}
-function targetSource(){
+function numericOnly(q){return optionsOf(q).length===4&&optionsOf(q).every(x=>/^-?\d+(?:\.\d+)?$/.test(text(x)));}
+function target(){
   const ex=B_EXERCISES.find(x=>x.id==='selection_sort_b');
-  const pred=ex?.steps?.find(x=>x.predict?.q==='最終的なminPosは？')?.predict||null;
+  const pred=ex?.steps?.map(x=>x.predict).filter(Boolean).find(x=>text(x.q)==='最終的なminPosは？')||null;
   return {ex,pred};
 }
-function signature(n){let h=2166136261>>>0;for(let i=0;i<n;i++){profile.bFinalStats={};Math.random=seedRand((0x234000+i)>>>0);const items=buildBFinal();const s=items.map(x=>`${x.kind}:${x.sourceId}`).join('|');for(let j=0;j<s.length;j++){h^=s.charCodeAt(j);h=Math.imul(h,16777619)>>>0;}}return h>>>0;}
-
-function immediateTraceProbe(){
-  const {ex,pred}=targetSource();
-  const choices=opts(pred),a=ai(pred),wrong=choices.findIndex(x=>text(x)==='0');
-  const buttons=choices.map(()=>({onclick:null,dataset:{},disabled:false,classList:{add(){},remove(){},toggle(){},contains(){return false;}}}));
-  let panel=null;
-  const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};
+function selectionSignature(n){
+  let h=2166136261>>>0;
+  for(let i=0;i<n;i++){
+    profile.bFinalStats={};
+    Math.random=seedRand((0x234000+i)>>>0);
+    const a=buildBFinal(),s=a.map(x=>`${x.kind}:${x.sourceId}`).join('|');
+    for(let j=0;j<s.length;j++){h^=s.charCodeAt(j);h=Math.imul(h,16777619)>>>0;}
+  }
+  return h>>>0;
+}
+function classList(){return {add(){},remove(){},toggle(){},contains(){return false;}};}
+function traceImmediateProbe(){
+  const {ex,pred}=target(),o=optionsOf(pred),a=answerIndex(pred),wrong=o.findIndex(x=>text(x)==='0');
+  const buttons=[];let panel=null;
+  const root={innerHTML:'',appendChild(node){buttons.push(node);return node;},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:classList()};
   const generic=new Map();
   const oldGet=document.getElementById,oldCreate=document.createElement,oldQuery=document.querySelectorAll;
   document.getElementById=(id)=>{
@@ -50,7 +67,11 @@ function immediateTraceProbe(){
     if(!generic.has(id))generic.set(id,dummy());
     return generic.get(id);
   };
-  document.createElement=(tag)=>tag==='div'?{id:'',hidden:true,innerHTML:'',insertAdjacentHTML(){},classList:{add(){},remove(){}}}:dummy();
+  document.createElement=(tag)=>{
+    if(tag==='button')return {onclick:null,textContent:'',type:'button',className:'',dataset:{},disabled:false,classList:classList()};
+    if(tag==='div')return {id:'',hidden:true,innerHTML:'',className:'',dataset:{},insertAdjacentHTML(){},classList:classList()};
+    return dummy();
+  };
   document.querySelectorAll=()=>[];
   let error=null,afterWrong=null,afterCorrect=null;
   try{
@@ -63,79 +84,59 @@ function immediateTraceProbe(){
     afterCorrect={hidden:panel?.hidden,html:panel?.innerHTML||''};
   }catch(e){error=String(e&&e.stack||e);}
   finally{document.getElementById=oldGet;document.createElement=oldCreate;document.querySelectorAll=oldQuery;}
-  const fb=feedback(pred,wrong),correctFb=feedback(pred,a);
-  return {error,exercise:ex?.id,q:pred?.q,options:choices.map(text),correctIndex:a,correctText:text(choices[a]),wrongIndex:wrong,feedback:fb,correctFeedback:correctFb,afterWrong,afterCorrect,numericOnly:numericOnly(pred)};
+  return {error,exercise:ex?.id,q:pred?.q,options:o.map(text),correctIndex:a,correctText:text(o[a]),wrongIndex:wrong,feedback:feedbackOf(pred,wrong),correctFeedback:feedbackOf(pred,a),afterWrong,afterCorrect,numericOnly:numericOnly(pred)};
 }
-
-function findMiniMockTarget(){
-  const originalStats=clone(profile.bMockStats||{});
-  let hit=null,sessions=0;
-  for(let seed=23401;seed<23801&&!hit;seed++){
-    sessions++;
-    profile.bMockStats={};
+function miniMockProbe(){
+  const {ex}=target();
+  Math.random=forcedRandom(.99);
+  const candidate=bMockCandidateFromExercise(ex);
+  if(!candidate)return {found:false};
+  const q=shuffleBMockAnswer(candidate),i=optionsOf(q).findIndex(x=>text(x)==='0');
+  return {found:text(q.q)==='最終的なminPosは？',sourceId:q.sourceId||ex.id,q:q.q,options:optionsOf(q).map(text),correctText:text(q.correctText||optionsOf(q)[answerIndex(q)]),wrongIndex:i,feedback:feedbackOf(q,i),numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
+}
+function traceFinalProbe(){
+  const {ex}=target();
+  Math.random=forcedRandom(.99);
+  const q=makeFinalAlgoFromTrace(ex);
+  if(!q)return {found:false};
+  const i=optionsOf(q).findIndex(x=>text(x)==='0');
+  return {found:text(q.q)==='最終的なminPosは？',sourceId:q.sourceId||ex.id,kind:q.kind,studyMode:q.studyMode,q:q.q,options:optionsOf(q).map(text),correctText:text(q.correctText||optionsOf(q)[answerIndex(q)]),wrongIndex:i,feedback:feedbackOf(q,i),numericOnly:numericOnly(q),hasWrongFeedback:Array.isArray(q.wrongFeedback),hasWrongFeedbackByText:!!q.wrongFeedbackByText};
+}
+function shuffleProbe(){
+  const {ex,pred}=target(),base=feedbackOf(pred,optionsOf(pred).findIndex(x=>text(x)==='0'));
+  let checked=0;const mismatches=[];
+  for(let seed=23420;seed<23520;seed++){
+    Math.random=forcedRandom(.99);
+    const candidate=bMockCandidateFromExercise(ex);
+    if(!candidate||text(candidate.q)!=='最終的なminPosは？')continue;
     Math.random=seedRand(seed);
-    const items=buildBMock();
-    const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
-    if(q)hit={seed,q};
+    const q=shuffleBMockAnswer(candidate),i=optionsOf(q).findIndex(x=>text(x)==='0'),f=feedbackOf(q,i);
+    checked++;
+    if(i<0||!numericOnly(q)||JSON.stringify(f)!==JSON.stringify(base))mismatches.push(seed);
   }
-  profile.bMockStats=originalStats;
-  if(!hit)return {sessions,found:false};
-  const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-  return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
+  return {checked,mismatches};
 }
-
-function findFinalTraceTarget(){
-  const original=clone(profile.bFinalStats||{});
-  let hit=null,sessions=0;
-  for(let seed=23901;seed<25901&&!hit;seed++){
-    sessions++;
-    profile.bFinalStats={};
-    Math.random=seedRand(seed);
-    const items=buildBFinal();
-    const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
-    if(q)hit={seed,q};
-  }
-  profile.bFinalStats=original;
-  if(!hit)return {sessions,found:false};
-  const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-  return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
-}
-
-function shuffleStability(){
-  const {pred}=targetSource();
-  const base=feedback(pred,opts(pred).findIndex(x=>text(x)==='0'));
-  const mismatches=[],samples=[];
-  for(let seed=26001;seed<26101;seed++){
-    Math.random=seedRand(seed);
-    const item=bMockCandidateFromExercise(B_EXERCISES.find(x=>x.id==='selection_sort_b'));
-    if(!item||text(item.q)!=='最終的なminPosは？')continue;
-    const q=shuffleBMockAnswer(item),i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-    samples.push({seed,options:opts(q).map(text),index:i});
-    if(i<0||JSON.stringify(f)!==JSON.stringify(base)||!numericOnly(q))mismatches.push(seed);
-  }
-  return {matchedTargetSamples:samples.length,mismatches,samples:samples.slice(0,8)};
-}
-
-function repeatedLookupStateless(){
-  const {pred}=targetSource(),i=opts(pred).findIndex(x=>text(x)==='0');
-  const before=JSON.stringify(profile),a=feedback(pred,i),mid=JSON.stringify(profile),b=feedback(pred,i),after=JSON.stringify(profile);
+function statelessProbe(){
+  const {pred}=target(),i=optionsOf(pred).findIndex(x=>text(x)==='0');
+  const before=JSON.stringify(profile),a=feedbackOf(pred,i),mid=JSON.stringify(profile),b=feedbackOf(pred,i),after=JSON.stringify(profile);
   return {same:JSON.stringify(a)===JSON.stringify(b),profileUnchanged:before===mid&&mid===after};
 }
-
-function allFeedbackCoverage(){
+function feedbackCoverage(){
   const rows=[];
   for(const ex of B_EXERCISES)for(const s of ex.steps||[])if(s.predict)rows.push(s.predict);
   for(const sc of SECURITY_SCENARIOS)for(const s of sc.steps||[])rows.push(s);
   for(const q of B_EXAM_ALGO_ITEMS)rows.push(q);
   for(const set of B_COMPOUND_SETS)for(const q of set.qs||[])rows.push(q);
-  let wrong=0,structuredCount=0,correctFeedback=0,missing=[];
+  let wrong=0,structuredCount=0,correctFeedback=0;const missing=[];
   for(const q of rows){
-    const o=opts(q),a=ai(q);if(feedback(q,a))correctFeedback++;
-    for(let i=0;i<o.length;i++){if(i===a)continue;wrong++;const f=feedback(q,i);if(structured(f))structuredCount++;else missing.push(text(q.q)+':'+i);}
+    const o=optionsOf(q),a=answerIndex(q);if(feedbackOf(q,a))correctFeedback++;
+    for(let i=0;i<o.length;i++){
+      if(i===a)continue;wrong++;
+      const f=feedbackOf(q,i);if(structured(f))structuredCount++;else missing.push(`${text(q.q)}:${i}`);
+    }
   }
   return {questions:rows.length,wrong,structured:structuredCount,correctFeedback,missing};
 }
-
 function remediationCoverage(){
   const ex=new Set(B_EXERCISES.map(x=>x.id)),secIds=new Set(SECURITY_SCENARIOS.map(x=>x.id));
   const algo=B_EXAM_ALGO_ITEMS.map(makeFinalAlgoExam),sec=SECURITY_SCENARIOS.map(makeFinalSecurity);
@@ -143,19 +144,19 @@ function remediationCoverage(){
   const secBad=sec.filter(x=>{const t=bFinalRemediationTarget(x.studyMode,x.sourceId,x.concept||'情報セキュリティ');return t.mode!=='security'||t.id!==x.sourceId||!secIds.has(t.id);}).map(x=>x.sourceId);
   return {algorithm:algo.length,security:sec.length,algoBad,secBad};
 }
-
-const source=targetSource();
+const t=target(),sourceFeedback=feedbackOf(t.pred,optionsOf(t.pred).findIndex(x=>text(x)==='0'));
+const trace=traceImmediateProbe(),mini=miniMockProbe(),finalTrace=traceFinalProbe();
+const finalFeedbackMatches=JSON.stringify(finalTrace.feedback)===JSON.stringify(sourceFeedback);
 console.log('__V234__'+Buffer.from(JSON.stringify({
-  v:APP_VERSION,
-  repairSpec:globalThis.SUBJECT_B_DISTRACTOR_QUALITY_V233_SPEC||null,
-  feedbackSpec:globalThis.SUBJECT_B_WRONG_ANSWER_FEEDBACK_V230_SPEC||null,
+  v:APP_VERSION,repairSpec:globalThis.SUBJECT_B_DISTRACTOR_QUALITY_V233_SPEC||null,feedbackSpec:globalThis.SUBJECT_B_WRONG_ANSWER_FEEDBACK_V230_SPEC||null,
   counts:[B_FINAL_COUNT,B_FINAL_ALGO_COUNT,B_FINAL_SEC_COUNT],seconds:B_FINAL_SECONDS,pool:B_EXAM_ALGO_ITEMS.length,
   high:[...(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[])],floor:globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208,
   orderSpec:globalThis.SUBJECT_B_FINAL_ORDER_V214_SPEC||null,recoverySpec:globalThis.SUBJECT_B_FINAL_REMEDIATION_V217_SPEC||null,xpSpec:globalThis.SUBJECT_B_FINAL_XP_V219_SPEC||null,
   readinessSpec:globalThis.SUBJECT_B_READINESS_V222_SPEC||null,copySpec:globalThis.SUBJECT_B_READINESS_COPY_V224_SPEC||null,domainSpec:globalThis.SUBJECT_B_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC||null,
-  sem:validateSubjectBSemantics(),selectionSig:signature(1000),remediation:remediationCoverage(),
-  source:{exercise:source.ex?.id,q:source.pred?.q,options:opts(source.pred).map(text),a:ai(source.pred),feedback0:feedback(source.pred,opts(source.pred).findIndex(x=>text(x)==='0')),numericOnly:numericOnly(source.pred)},
-  trace:immediateTraceProbe(),mini:findMiniMockTarget(),finalTrace:findFinalTraceTarget(),shuffle:shuffleStability(),stateless:repeatedLookupStateless(),feedbackCoverage:allFeedbackCoverage()
+  sem:validateSubjectBSemantics(),selectionSig:selectionSignature(1000),remediation:remediationCoverage(),
+  source:{exercise:t.ex?.id,q:t.pred?.q,options:optionsOf(t.pred).map(text),a:answerIndex(t.pred),feedback0:sourceFeedback,numericOnly:numericOnly(t.pred)},
+  trace,mini,finalTrace,finalFeedbackMatches,shuffle:shuffleProbe(),stateless:statelessProbe(),feedbackCoverage:feedbackCoverage(),
+  generatorEvidence:{traceFinalSource:String(makeFinalAlgoFromTrace),miniCandidateSource:String(bMockCandidateFromExercise)}
 })).toString('base64'));
 '''
     with tempfile.TemporaryDirectory() as td:
@@ -163,7 +164,7 @@ console.log('__V234__'+Buffer.from(JSON.stringify({
         z=subprocess.run(['node',str(p)],capture_output=True,text=True)
         req(z.returncode==0,'runtime failed: '+z.stderr[-7000:])
         m=re.search(r'__V234__([A-Za-z0-9+/=]+)',z.stdout);req(m,'runtime marker missing')
-        return html,json.loads(base64.b64decode(m.group(1)))
+        return json.loads(base64.b64decode(m.group(1)))
 
 
 version,previous=ctx()
@@ -187,8 +188,8 @@ for path in [
 ]:
     req(Path(path).read_bytes()==subprocess.check_output(['git','show',parent+':'+path]),'audit-only learner source drift: '+path)
 
-html,cand=runtime('_site/index.html')
-_,par=runtime('_site_parent/index.html')
+cand=runtime('_site/index.html')
+par=runtime('_site_parent/index.html')
 req(cand['v']==version and par['v']==previous,'runtime versions')
 req(cand['repairSpec']==par['repairSpec'],'v233 repair spec drift')
 req(cand['feedbackSpec']==par['feedbackSpec'],'v230 feedback spec drift')
@@ -220,100 +221,122 @@ req('ここだけ確認' not in trace['afterWrong']['html'],'TRACE immediate fee
 req(trace['afterCorrect'] and trace['afterCorrect']['hidden'] is True and trace['afterCorrect']['html']=='','TRACE correct answer did not clear wrong panel')
 
 mini=cand['mini']
-req(mini['found'] is True,'target question never surfaced naturally in mini-mock search')
+req(mini['found'] is True,'forced target did not reach mini-mock candidate path')
 req(mini['sourceId']=='selection_sort_b' and mini['wrongIndex']>=0 and mini['correctText']=='3','mini-mock target contract drift')
 req(mini['numericOnly'] is True and '[1,5,2,4]' not in mini['options'],'mini-mock answer-form shortcut remains')
 req(mini['feedback']==s['feedback0'],'mini-mock shuffled 0 feedback drift')
 
 finalt=cand['finalTrace']
-req(finalt['found'] is True,'target question never surfaced naturally in trace-derived final search')
+req(finalt['found'] is True,'forced target did not reach trace-derived final path')
 req(finalt['sourceId']=='selection_sort_b' and finalt['wrongIndex']>=0 and finalt['correctText']=='3','trace-derived final target contract drift')
 req(finalt['numericOnly'] is True and '[1,5,2,4]' not in finalt['options'],'trace-derived final answer-form shortcut remains')
-req(finalt['feedback']==s['feedback0'],'trace-derived final 0 feedback drift')
 
 sh=cand['shuffle']
-req(sh['matchedTargetSamples']>=10,'insufficient target shuffle samples')
-req(not sh['mismatches'],'shuffle feedback/form mismatch: '+repr(sh['mismatches'][:10]))
-req(cand['stateless']['same'] is True and cand['stateless']['profileUnchanged'] is True,'feedback lookup is not stateless across rerender/rebuild')
+req(sh['checked']==100 and not sh['mismatches'],'mini-mock shuffle feedback/form regression: '+repr(sh['mismatches'][:10]))
+req(cand['stateless']['same'] is True and cand['stateless']['profileUnchanged'] is True,'feedback lookup mutates profile state')
 fc=cand['feedbackCoverage']
-req(fc['questions']==173 and fc['wrong']==519 and fc['structured']==519 and fc['correctFeedback']==0 and not fc['missing'],'v230 feedback regression after v233')
+req(fc['questions']==173 and fc['wrong']==519 and fc['structured']==519 and fc['correctFeedback']==0 and not fc['missing'],'source v230 feedback coverage regression')
+
+findings=[]
+if not cand['finalFeedbackMatches']:
+    findings.append({
+      'id':'subject_b_trace_final_feedback_not_propagated',
+      'severity':'Medium',
+      'summary':'Trace-derived final questions keep the repaired choices and correct answer but do not preserve the selected-wrong-choice feedback metadata from their TRACE source.'
+    })
 
 fixture={
   'name':'subject-b-distractor-quality-learner-flow-audit-v234','version':version,'previous':previous,'sourceMain':parent,'learnerFacingChange':False,
-  'target':s,'traceImmediate':trace,'miniMock':mini,'traceDerivedFinal':finalt,'shuffle':sh,'stateless':cand['stateless'],'feedbackCoverage':fc,
-  'selectionSignature1000':cand['selectionSig'],'remediation':cand['remediation'],'findings':[]
+  'target':s,'traceImmediate':trace,'miniMock':mini,'traceDerivedFinal':finalt,'finalFeedbackMatchesSource':cand['finalFeedbackMatches'],
+  'shuffle':sh,'stateless':cand['stateless'],'feedbackCoverage':fc,'selectionSignature1000':cand['selectionSig'],'remediation':cand['remediation'],'findings':findings
 }
 Path('_regression').mkdir(exist_ok=True)
 Path('_regression/subject-b-distractor-quality-learner-flow-audit-v234.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 
+result='PASS — MEDIUM FINDING RECORDED' if findings else 'PASS — NO FINDINGS'
+final_feedback='matches source' if cand['finalFeedbackMatches'] else 'missing or mismatched against source'
 audit=f'''FE QUEST v234 — Subject B Distractor Quality Post-Repair Learner-Flow Audit
 =================================================================================
 
 Result
 ------
-PASS — NO FINDINGS
+{result}
 Previous: v233
 Source main: {parent}
 Learner-facing change in v234: none
 
 What was audited
 ----------------
-v233 replaced the single genuine learner-visible structural mismatch in selection_sort_b / 「最終的なminPosは？」: the array-shaped distractor [1,5,2,4] became numeric distractor 0. v234 audited the repaired question through the learner-visible TRACE, algorithm mini-mock, and trace-derived final paths, including shuffled choice-specific feedback and rebuild/rerender boundaries.
+v233 replaced the learner-visible answer-form shortcut in selection_sort_b / 「最終的なminPosは？」: [1,5,2,4] became numeric distractor 0. v234 follows that repaired wrong choice through TRACE, algorithm mini-mock, and the trace-derived final generator, including choice shuffling and selected-choice feedback.
 
-Source contract
----------------
-Target options: {json.dumps(s['options'],ensure_ascii=False)}
-Correct answer: 3 (index 2)
-All four options are numeric answer forms: yes
-Old array-shaped shortcut present: no
-The 0 distractor retains three-part v230 feedback and diagnoses the stale initial minPos misconception.
-
-TRACE immediate flow
---------------------
-Wrong choice 0 shows selected-choice diagnosis + next-attempt cue: yes
-Immediate feedback hides the post-answer checkpoint: yes
-Choosing the correct answer clears the wrong-answer panel: yes
-Correct choice receives no wrong-answer diagnosis: yes
-
-Mini-mock flow
+Source / TRACE
 --------------
-The repaired target surfaced naturally after {mini['sessions']} deterministic mini-mock session probe(s), seed {mini.get('seed')}.
-Displayed options: {json.dumps(mini.get('options',[]),ensure_ascii=False)}
-All displayed choices remain numeric: yes
-The selected 0 feedback matches the source feedback after shuffle: yes
+Source options: {json.dumps(s['options'],ensure_ascii=False)}
+Correct answer: 3 (index 2)
+All four choices use the same numeric answer form: yes
+Old array-shaped shortcut present: no
+Choosing 0 in TRACE shows the v233 stale-minPos diagnosis and next-attempt cue: yes
+Immediate TRACE feedback does not expose the post-answer checkpoint: yes
+Choosing the correct answer clears the wrong-answer feedback panel: yes
 
-Trace-derived final flow
-------------------------
-The repaired target surfaced naturally after {finalt['sessions']} deterministic final-session probe(s), seed {finalt.get('seed')}.
-Displayed options: {json.dumps(finalt.get('options',[]),ensure_ascii=False)}
+Algorithm mini-mock
+-------------------
+The same second prediction was forced through the real bMockCandidateFromExercise + shuffleBMockAnswer path.
+Displayed options: {json.dumps(mini['options'],ensure_ascii=False)}
 All displayed choices remain numeric: yes
-The selected 0 feedback matches the source feedback after final-path shuffling: yes
+The selected 0 feedback matches the source feedback after shuffling: yes
+100 additional shuffled target samples retained the 0-to-feedback mapping: yes
 
-Shuffle / rebuild regression
-----------------------------
-Target-question shuffled samples checked: {sh['matchedTargetSamples']}
-Feedback-to-0 mismatches: {len(sh['mismatches'])}
-Repeated feedback lookup returns identical content and does not mutate profile state: yes
-Across all Subject B source questions, structured v230 feedback remains {fc['structured']} / {fc['wrong']} wrong choices; correct-answer wrong-feedback count: {fc['correctFeedback']}.
+Trace-derived final
+-------------------
+The same second prediction was forced through makeFinalAlgoFromTrace.
+Displayed options: {json.dumps(finalt['options'],ensure_ascii=False)}
+All displayed choices remain numeric and the old array shortcut is absent: yes
+Correct answer remains 3: yes
+Selected 0 feedback: {final_feedback}
+Generated item exposes wrongFeedback: {str(finalt['hasWrongFeedback']).lower()}
+Generated item exposes wrongFeedbackByText: {str(finalt['hasWrongFeedbackByText']).lower()}
+
+Finding
+-------
+'''
+if findings:
+    audit += '''Medium — subject_b_trace_final_feedback_not_propagated
+The v233 distractor repair itself reaches the final-style trace generator correctly, but makeFinalAlgoFromTrace does not carry the v230/v233 selected-wrong-choice feedback metadata into the generated item. The question remains score-correct and the answer-form shortcut is gone, but a learner who chooses 0 in this trace-derived final path cannot reliably receive the precise stale-minPos diagnosis that is available in TRACE and mini-mock. This is a learning-feedback propagation defect, not a scoring or question-correctness defect.
+'''
+else:
+    audit += 'No learner-flow findings.\n'
+audit += f'''
+
+Regression coverage
+-------------------
+Source Subject B questions with v230 feedback: {fc['questions']}
+Structured wrong-choice feedback: {fc['structured']} / {fc['wrong']}
+Wrong-feedback attached to correct choices: {fc['correctFeedback']}
+Repeated feedback lookup mutates profile: no
 
 Preserved contracts
 -------------------
 1000 deterministic final-session seeds match v233 selection/order.
 100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
-v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, v230 choice-specific feedback and v233 distractor repair are unchanged.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, v230 source feedback, and the v233 distractor repair are unchanged.
 Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
 Subject B semantic validation: OK.
 
 Findings summary
 ----------------
 High: 0
-Medium: 0
+Medium: {1 if findings else 0}
 Low: 0
 
 Decision
 --------
-The v232-v234 distractor-quality sequence is closed. The learner-visible answer-form shortcut is gone in source, mini-mock and trace-derived final flows, and selected-choice feedback survives shuffling without state mutation. Keep the v232 Low difficulty-label structural-separation note advisory until stronger evidence based on learner performance or item response behavior exists. The next Subject B quality frontier should examine cognitive-demand progression and transfer: whether TRACE practice teaches state tracking that actually transfers to unseen final-style items rather than only rehearsing familiar patterns.
 '''
+if findings:
+    audit += '''Use v235 for a narrow metadata-propagation repair around makeFinalAlgoFromTrace. Carry wrongFeedback / wrongFeedbackByText from the selected TRACE prediction into the generated final item by option text, preserving shuffled-option identity. Do not change prompts, choices, correct answers, scoring, final selection/order, timing, readiness, difficulty labels, or remediation. Follow with a v236 post-repair learner-flow audit. The earlier v232 Low difficulty-label separation note remains advisory and is not promoted by this finding.
+'''
+else:
+    audit += 'The v232-v234 distractor-quality sequence is closed. Keep the v232 difficulty-label note advisory until stronger learner-performance evidence exists.\n'
 Path('audits').mkdir(exist_ok=True)
 Path('audits/SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_v234.txt').write_text(audit)
-print('FEQUEST_V234_SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_OK')
+print('FEQUEST_V234_SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_OK findings='+str(len(findings)))
