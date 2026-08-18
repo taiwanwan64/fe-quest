@@ -1,0 +1,59 @@
+// ===== FE QUEST v233 Subject B distractor quality repair =====
+(() => {
+  const finding='subject_b_distractor_structural_mismatch';
+  const sourceAudit='v232-subject-b-distractor-difficulty-calibration';
+  const exercise=B_EXERCISES.find(x=>x.id==='selection_sort_b');
+  if(!exercise)throw new Error('v233: selection_sort_b missing');
+  const step=exercise.steps.find(x=>x.predict?.q==='最終的なminPosは？');
+  if(!step?.predict)throw new Error('v233: target prediction missing');
+  const pred=step.predict;
+  const oldOption='[1,5,2,4]';
+  const newOption='0';
+  const optionIndex=pred.opts.findIndex(x=>String(x)===oldOption);
+  if(optionIndex<0||optionIndex===pred.a)throw new Error('v233: target distractor contract drift');
+  const correctBefore=String(pred.opts[pred.a]);
+  pred.opts[optionIndex]=newOption;
+  if(String(pred.opts[pred.a])!==correctBefore||correctBefore!=='3')throw new Error('v233: correct answer changed');
+
+  const feedback=Object.freeze({
+    diagnosis:'「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。',
+    checkpoint:'処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。',
+    nextCue:'minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。'
+  });
+  const byText={...(pred.wrongFeedbackByText||{})};
+  delete byText[oldOption];
+  byText[newOption]=feedback;
+  pred.wrongFeedbackByText=byText;
+  const wrongFeedback=Array.isArray(pred.wrongFeedback)?[...pred.wrongFeedback]:pred.opts.map(()=> '');
+  wrongFeedback[optionIndex]=feedback;
+  wrongFeedback[pred.a]='';
+  pred.wrongFeedback=wrongFeedback;
+
+  // The v232 static audit also inspected this extra-distractor table.  With four
+  // authored choices it is not currently surfaced, but keeping the entry in the
+  // same answer family prevents a future generator-width change from reviving the mismatch.
+  if(B_MOCK_EXTRA_DISTRACTOR?.selection_sort_b===oldOption){
+    B_MOCK_EXTRA_DISTRACTOR.selection_sort_b=newOption;
+  }
+
+  globalThis.SUBJECT_B_DISTRACTOR_QUALITY_V233_SPEC=Object.freeze({
+    findingResolved:finding,
+    sourceAudit,
+    targetExercise:'selection_sort_b',
+    targetQuestion:'最終的なminPosは？',
+    oldDistractor:oldOption,
+    newDistractor:newOption,
+    misconception:'stale-initial-minPos',
+    correctAnswer:'3',
+    correctAnswerChanged:false,
+    promptChanged:false,
+    difficultyLabelChanged:false,
+    scoringChanged:false,
+    questionSelectionChanged:false,
+    questionOrderChanged:false,
+    timingChanged:false,
+    readinessThresholdChanged:false,
+    remediationTargetsChanged:false,
+    v230FeedbackPreserved:true
+  });
+})();
