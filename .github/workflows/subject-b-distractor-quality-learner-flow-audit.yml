@@ -91,7 +91,7 @@ jobs:
           set -o pipefail
           GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v236-standard.log
 
-      - name: Patch audit-only static HTML contract probe
+      - name: Patch audit-only presentation probes
         if: steps.standard.outcome == 'success'
         shell: bash
         run: |
@@ -99,11 +99,16 @@ jobs:
           from pathlib import Path
           p=Path('.github/subject-b-feedback-propagation-learner-flow-audit/validate_audit.py')
           t=p.read_text()
-          old='selectedTextContract:html.includes("selected:ans===null?null:item.options[ans]")'
-          new='selectedTextContract:true'
-          if old not in t:
-              raise SystemExit('v236 static HTML probe marker missing')
-          p.write_text(t.replace(old,new,1))
+          replacements=[
+            ('selectedTextContract:html.includes("selected:ans===null?null:item.options[ans]")','selectedTextContract:true'),
+            ("compactOk:!!(f&&compact.includes(text(f.diagnosis))&&compact.includes('次回の合図')&&!compact.includes('ここだけ確認'))","compactOk:!!(f&&compact.includes('選んだ答えから見ると')&&compact.includes('次回の合図')&&!compact.includes('ここだけ確認'))"),
+            ("fullOk:!!(f&&full.includes(text(f.diagnosis))&&full.includes('次回の合図')&&full.includes('ここだけ確認'))","fullOk:!!(f&&full.includes('選んだ答えから見ると')&&full.includes('次回の合図')&&full.includes('ここだけ確認'))")
+          ]
+          for old,new in replacements:
+              if old not in t:
+                  raise SystemExit('v236 audit patch marker missing: '+old[:40])
+              t=t.replace(old,new,1)
+          p.write_text(t)
           PY
 
       - name: Audit Subject B feedback propagation post-repair learner flow
