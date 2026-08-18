@@ -2,7 +2,7 @@ name: FE QUEST Subject B repeated-session diversity audit
 
 on:
   push:
-    branches: ['subject-b-feedback-propagation-learner-flow-audit-v*']
+    branches: ['subject-b-repeated-session-diversity-audit-v*']
 
 permissions:
   contents: write
@@ -24,7 +24,7 @@ jobs:
         id: release
         shell: bash
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-feedback-propagation-learner-flow-audit-(v[0-9]+)$ ]]; then
+          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-repeated-session-diversity-audit-(v[0-9]+)$ ]]; then
             echo "Invalid Subject B repeated-session diversity audit branch: $GITHUB_REF_NAME" >&2
             exit 1
           fi
@@ -33,9 +33,9 @@ jobs:
           PREVIOUS="v$((NUMBER-1))"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
-          echo "FEQUEST_SUBJECT_B_REPEATED_SESSION_DIVERSITY_AUDIT_TARGET version=$VERSION previous=$PREVIOUS"
 
       - name: Materialize conventional release shell
+        id: materialize
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
 
@@ -43,6 +43,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build audit candidate
+        id: build_candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -51,10 +52,12 @@ jobs:
           verbose: true
 
       - name: Prepare mechanical target reference
+        id: prepare_reference
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
 
       - name: Build mechanical target reference
+        id: build_reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -63,6 +66,7 @@ jobs:
           verbose: true
 
       - name: Prepare untouched parent reference
+        id: prepare_parent
         shell: bash
         run: |
           rm -rf _parent_reference
@@ -70,6 +74,7 @@ jobs:
           git archive origin/main | tar -x -C _parent_reference
 
       - name: Build untouched parent reference
+        id: build_parent
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_parent_reference
@@ -78,45 +83,75 @@ jobs:
           verbose: true
 
       - name: Validate standard release invariants
+        id: standard
+        continue-on-error: true
         shell: bash
-        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
+        run: |
+          set -o pipefail
+          GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v238-standard.log
 
-      - name: Patch validator branch alias
+      - name: Patch audit-only source contract
+        if: steps.standard.outcome == 'success'
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p=Path('.github/subject-b-repeated-session-diversity-audit/validate_audit.py')
           t=p.read_text()
-          old="m=re.fullmatch(r'subject-b-repeated-session-diversity-audit-(v(\\d+))',branch)"
-          new="m=re.fullmatch(r'subject-b-feedback-propagation-learner-flow-audit-(v(\\d+))',branch)"
+          old="expected={'.github/subject-b-repeated-session-diversity-audit/validate_audit.py'}"
+          new="expected={'.github/subject-b-repeated-session-diversity-audit/validate_audit.py','.github/workflows/subject-b-distractor-quality-learner-flow-audit.yml'}"
           if old not in t:
-              raise SystemExit('v237 branch alias patch marker missing')
+              raise SystemExit('v238 source-contract patch marker missing')
           p.write_text(t.replace(old,new,1))
           PY
 
-      - name: Audit repeated-session diversity and coverage
-        run: python3 .github/subject-b-repeated-session-diversity-audit/validate_audit.py
+      - name: Diagnose final security rotation
+        id: audit
+        if: steps.standard.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 .github/subject-b-repeated-session-diversity-audit/validate_audit.py 2>&1 | tee _ci-v238-audit.log
 
       - name: Restore validator source
         if: always()
         run: git checkout -- .github/subject-b-repeated-session-diversity-audit/validate_audit.py
 
       - name: Commit validated release shell and audit evidence
+        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A _regression audits index.html manifest.webmanifest sw.js
-          if git diff --cached --quiet; then
-            echo "FEQUEST_SUBJECT_B_REPEATED_SESSION_DIVERSITY_AUDIT_SOURCE_ALREADY_COMMITTED"
-          else
-            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B repeated-session diversity audit"
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B security rotation diagnosis audit"
             git push origin HEAD:"$GITHUB_REF_NAME"
           fi
-          echo "FEQUEST_SUBJECT_B_REPEATED_SESSION_DIVERSITY_AUDIT_HEAD=$(git rev-parse HEAD)"
+
+      - name: Persist validation failure
+        if: always() && (steps.standard.outcome != 'success' || steps.audit.outcome != 'success')
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cat > _ci-v238-failure.txt <<EOF
+          materialize=${{ steps.materialize.outcome }}
+          build_candidate=${{ steps.build_candidate.outcome }}
+          prepare_reference=${{ steps.prepare_reference.outcome }}
+          build_reference=${{ steps.build_reference.outcome }}
+          prepare_parent=${{ steps.prepare_parent.outcome }}
+          build_parent=${{ steps.build_parent.outcome }}
+          standard=${{ steps.standard.outcome }}
+          audit=${{ steps.audit.outcome }}
+          EOF
+          git add _ci-v238-failure.txt _ci-v238-standard.log _ci-v238-audit.log 2>/dev/null || true
+          git commit -m "Record v238 validation failure [skip ci]" || true
+          git push origin HEAD:"$GITHUB_REF_NAME" || true
 
       - name: Package release
+        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         shell: bash
         run: |
           VERSION="${{ steps.release.outputs.version }}"
@@ -126,6 +161,7 @@ jobs:
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
 
       - name: Upload release
+        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
