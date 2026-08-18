@@ -33,40 +33,29 @@
     const best=candidates[0];
     return {logs:best.logs,cases:best.cases,adaptive:best.logs!==2,unseenLogs,unseenCases};
   }
-  function sourceFor(item){return SECURITY_SCENARIOS.find(s=>s.id===item?.sourceId)||null;}
-  function rebalance(items){
-    if(!Array.isArray(items))return items;
-    const q=quota();
-    if(!q.adaptive)return items;
-
+  function rebuildSecurity(items,q){
+    if(!Array.isArray(items)||!q?.adaptive)return items;
     const secIndices=[];
     items.forEach((item,i)=>{if(item?.kind==='security')secIndices.push(i);});
     if(secIndices.length!==4)return items;
-    const sec=secIndices.map(i=>items[i]);
-    const logItems=sec.filter(item=>!!sourceFor(item)?.log);
-    const caseItems=sec.filter(item=>!sourceFor(item)?.log);
-    if(logItems.length!==2||caseItems.length!==2)return items;
 
-    const needLogs=q.logs===3;
-    const donorItems=needLogs?caseItems:logItems;
-    const receiverPool=needLogs?pools().logs:pools().cases;
-    const victim=donorItems.slice().sort((a,b)=>{
-      const sa=sourceFor(a),sb=sourceFor(b),da=sa?seen(sa):-1,db=sb?seen(sb):-1;
-      return db-da;
-    })[0];
-    if(!victim)return items;
-
-    const victimIndex=items.indexOf(victim);
-    const used=new Set(sec.filter(item=>item!==victim).map(item=>item.sourceId));
-    const replacement=pickSecurityForFinal(receiverPool,1,used)[0]||null;
-    if(!replacement||used.has(replacement.id))return items;
+    const {logs,cases}=pools();
+    const used=new Set();
+    const chosenLogs=pickSecurityForFinal(logs,q.logs,used);
+    const chosenCases=pickSecurityForFinal(cases,q.cases,used);
+    const chosen=[...chosenLogs,...chosenCases];
+    if(chosen.length!==4||new Set(chosen.map(s=>s.id)).size!==4)return items;
 
     const out=items.slice();
-    out[victimIndex]=makeFinalSecurity(replacement);
+    chosen.map(makeFinalSecurity).forEach((item,i)=>{out[secIndices[i]]=item;});
     return out;
   }
 
-  buildBFinal=function(){return rebalance(before());};
+  buildBFinal=function(){
+    const q=quota();
+    const items=before();
+    return rebuildSecurity(items,q);
+  };
 
   globalThis.SUBJECT_B_FINAL_SECURITY_ROTATION_V239_SPEC=Object.freeze({
     findingResolved:finding,
@@ -89,5 +78,5 @@
     remediationTargetsChanged:false
   });
   globalThis.subjectBFinalSecurityQuotaV239=quota;
-  globalThis.rebalanceFinalSecurityV239=rebalance;
+  globalThis.rebuildFinalSecurityV239=rebuildSecurity;
 })();
