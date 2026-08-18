@@ -1,0 +1,45 @@
+FE QUEST v233 — Subject B Distractor Quality Repair
+==============================================================
+
+Result
+------
+PASS — v232 learner-visible structural distractor finding repaired
+Previous: v232
+Source main: ded1b423af9bbf9fadc9f64b3d78b9f729264517
+Learner-facing change in v233: yes, one wrong option only
+
+Repair
+------
+The genuine learner-visible v232 mismatch was selection_sort_b / 「最終的なminPosは？」.
+Old wrong choice: [1,5,2,4] (array-shaped and rejectable by answer form)
+New wrong choice: 0 (same numeric answer form; represents leaving minPos at its initial value)
+Correct answer remains 3; correct index remains 2; prompt, explanation, hint and difficulty label remain unchanged.
+The v230 wrong-choice feedback for 0 explicitly diagnoses the stale-initial-minPos mistake and retains diagnosis / checkpoint / nextCue.
+
+Audit refinement
+----------------
+The v232 queue_service flag was a classifier false positive: identifier 101 is a decimal-style queue/customer ID in that question, not a binary bit string.
+The seven B_MOCK_EXTRA_DISTRACTOR configuration flags were not learner-visible under the current generator: every prediction already has four authored options, the extra is appended after those, and final trace generation slices the first four. The selection_sort_b fallback was nevertheless aligned to 0 so a future generator-width change cannot revive that mismatch.
+With the refined numeric-ID classification, the v232 baseline contains exactly one genuine learner-visible source mismatch, and v233 removes it.
+
+Coverage
+--------
+Learner-visible source questions audited: 173
+Learner-visible source structural outliers after repair: 0
+Generated algorithm mini/final trace probes: 80
+Generated structural outliers after repair: 0
+Normalized duplicate option sets after repair: 0
+v230 structured wrong-answer feedback: 519 / 519 wrong slots
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds match v232 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression and v230 choice-specific feedback remain unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Difficulty labels are unchanged; the v232 Low structural-separation finding remains advisory rather than being converted into label changes without stronger evidence.
+Subject B semantic validation: OK.
+
+Decision
+--------
+Use v234 for a post-repair learner-flow/regression audit: confirm the new numeric distractor appears naturally in TRACE / mini-mock / trace-derived final paths, choice-specific feedback follows the selected option through shuffling, and no answer-form shortcut remains.

@@ -1,0 +1,53 @@
+{
+  "name": "subject-b-distractor-quality-repair-v233",
+  "version": "v233",
+  "previous": "v232",
+  "sourceMain": "ded1b423af9bbf9fadc9f64b3d78b9f729264517",
+  "learnerFacingChange": true,
+  "findingResolved": "subject_b_distractor_structural_mismatch",
+  "target": {
+    "level": "標準",
+    "q": "最終的なminPosは？",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "a": 2,
+    "correct": "3",
+    "wrongIndex": 3,
+    "fb": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    },
+    "correctFb": null,
+    "extra": "0"
+  },
+  "sourceQuestionsAudited": 173,
+  "sourceOutliersAfter": [],
+  "generatedQuestionsProbed": 80,
+  "generatedOutliersAfter": [],
+  "v230FeedbackCoverage": {
+    "questions": 173,
+    "wrongSlots": 519,
+    "structured": 519,
+    "keyed": 519,
+    "correctBlank": 173,
+    "bad": []
+  },
+  "selectionSignature1000": 3031936557,
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "generatorContract": {
+    "allPredWidth4": true,
+    "extraAppendThenSlice": true
+  },
+  "difficultyLabelsChanged": false,
+  "lowFindingDisposition": "No label changes in v233; v232 structural-burden proxy is advisory and conceptual difficulty remains separately relevant."
+}
