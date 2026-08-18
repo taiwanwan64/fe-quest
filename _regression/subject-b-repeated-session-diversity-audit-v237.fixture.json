@@ -1,0 +1,113 @@
+{
+  "version": "v237",
+  "previous": "v236",
+  "parent": "578df7d6ca3f4804d1ca385837896de131688d9e",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "findings": [
+    {
+      "severity": "Medium",
+      "code": "subject_b_final_security_long_run_coverage_gap",
+      "message": "Only 0/100 simulated learners covered all 15 security scenarios by five final sessions."
+    }
+  ],
+  "metrics": {
+    "mini": {
+      "pool": 20,
+      "coverageAfter1": {
+        "min": 8,
+        "max": 8,
+        "avg": 8,
+        "median": 8
+      },
+      "coverageAfter2": {
+        "min": 16,
+        "max": 16,
+        "avg": 16,
+        "median": 16
+      },
+      "coverageAfter3": {
+        "min": 18,
+        "max": 20,
+        "avg": 19.79,
+        "median": 20
+      },
+      "coverageAfter4": {
+        "min": 20,
+        "max": 20,
+        "avg": 20,
+        "median": 20
+      },
+      "allCoveredBy3": 83,
+      "allCoveredBy4": 100,
+      "avgAdjacentOverlap": 0,
+      "worstAdjacentOverlap": 1,
+      "endExposureMax": 3,
+      "endExposureMin": 1,
+      "sessionsValid": true
+    },
+    "final": {
+      "algoPool": 43,
+      "secPool": 15,
+      "algoCoverageAfter2": {
+        "min": 30,
+        "max": 32,
+        "avg": 31.44,
+        "median": 32
+      },
+      "algoCoverageAfter3": {
+        "min": 38,
+        "max": 43,
+        "avg": 40.85,
+        "median": 41
+      },
+      "algoCoverageAfter4": {
+        "min": 42,
+        "max": 43,
+        "avg": 42.96,
+        "median": 43
+      },
+      "algoCoverageAfter6": {
+        "min": 43,
+        "max": 43,
+        "avg": 43,
+        "median": 43
+      },
+      "algoCoverageAfter8": {
+        "min": 43,
+        "max": 43,
+        "avg": 43,
+        "median": 43
+      },
+      "algoAllCoveredBy6": 100,
+      "algoAllCoveredBy8": 100,
+      "secCoverageAfter3": {
+        "min": 10,
+        "max": 10,
+        "avg": 10,
+        "median": 10
+      },
+      "secCoverageAfter4": {
+        "min": 12,
+        "max": 12,
+        "avg": 12,
+        "median": 12
+      },
+      "secCoverageAfter5": {
+        "min": 14,
+        "max": 14,
+        "avg": 14,
+        "median": 14
+      },
+      "secAllCoveredBy5": 0,
+      "avgAlgoAdjacentOverlap": 1.13,
+      "worstAlgoAdjacentOverlap": 5,
+      "avgSecAdjacentOverlap": 0.49,
+      "worstSecAdjacentOverlap": 3,
+      "algoEndExposureMax": 5,
+      "algoEndExposureMin": 2,
+      "secEndExposureMax": 4,
+      "secEndExposureMin": 1,
+      "sessionsValid": true
+    }
+  }
+}
