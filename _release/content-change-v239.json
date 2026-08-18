@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "release": "v239",
+  "previous_release": "v238",
+  "parent_main_sha": "00c90948d3b4ffe97fdb67e5f4f6ffd8472c0d6b",
+  "change_type": "subject-b-final-security-rotation-repair",
+  "source_quality_audit": "audits/SUBJECT_B_FINAL_SECURITY_ROTATION_DIAGNOSIS_AUDIT_v238.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_final_security_long_run_coverage_gap",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-final-security-rotation-overrides-v239.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed_after_history": true,
+    "first_final_security_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "domain_progression_changed": false,
+    "direct_final_remediation_changed": false,
+    "recovery_entry_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_final_security_long_run_coverage_gap",
+    "scope": "final security subpool rotation only",
+    "baseline_policy": "2 log-reading + 2 case-judgment",
+    "adaptive_policy": "1+3, 2+2, or 3+1 chosen to maximize unseen-scenario coverage while retaining at least one item from each format",
+    "history_source": "existing profile.bFinalStats sec:<scenarioId> exposure counters",
+    "first_final_exact_baseline": true,
+    "all_scenarios_seen_returns_to_2_plus_2": true,
+    "minimum_each_security_format": 1,
+    "maximum_each_security_format": 3,
+    "algorithm_items_rebuilt": false,
+    "algorithm_items_reordered": false,
+    "security_content_bank_changed": false,
+    "new_profile_fields": false
+  }
+}
