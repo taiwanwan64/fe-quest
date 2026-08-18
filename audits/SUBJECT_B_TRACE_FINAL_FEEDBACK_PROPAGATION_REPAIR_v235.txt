@@ -1,0 +1,58 @@
+FE QUEST v235 — Subject B Trace-Final Feedback Propagation Repair
+==========================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v234
+Source main: cb22788702fe0dcd9aa84cade466064e6ae5f30d
+Learner-facing change in v235: yes, feedback metadata propagation only
+
+Resolved finding
+----------------
+subject_b_trace_final_feedback_not_propagated
+
+Repair
+------
+makeFinalAlgoFromTrace now carries wrongFeedback / wrongFeedbackByText from the selected TRACE prediction into the generated trace-final item.
+Metadata is remapped by exact option text after answer shuffling, so each displayed wrong choice keeps the diagnosis/checkpoint/nextCue belonging to that choice.
+No source question, prompt, option, correct answer, difficulty label, score, selection rule, timing rule or profile field changed.
+
+Generated-path coverage
+-----------------------
+Trace-derived final probes: 40
+Wrong-choice slots checked: 120
+Structured choice-specific feedback correctly propagated: 120 / 120
+Correct choices with wrong-feedback attached: 0
+v234 parent generated rows missing feedback metadata: 40 / 40
+
+selection_sort_b regression
+---------------------------
+Question: 最終的なminPosは？
+Generated choices: ["1", "3", "0", "2"]
+Correct answer: 3
+Wrong choice 0 keeps the v233 stale-minPos diagnosis after generation/shuffling: yes
+
+Source feedback coverage
+------------------------
+Subject B source questions: 173
+Structured wrong-choice feedback: 519 / 519
+Wrong-feedback attached to correct choices: 0
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds match v234 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, v230 feedback and v233 distractor repair remain unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Use v236 for a post-repair learner-flow/regression audit. Exercise the selection_sort_b wrong choice 0 through TRACE, algorithm mini-mock and trace-derived final review, including shuffling and rerender boundaries. If clean, close the v232-v236 distractor/feedback propagation sequence and move to the next learner-value frontier.

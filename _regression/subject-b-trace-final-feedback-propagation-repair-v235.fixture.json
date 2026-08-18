@@ -1,0 +1,45 @@
+{
+  "version": "v235",
+  "previous": "v234",
+  "parent": "cb22788702fe0dcd9aa84cade466064e6ae5f30d",
+  "findingResolved": "subject_b_trace_final_feedback_not_propagated",
+  "traceFinalGenerated": 40,
+  "wrongSlotsPropagated": 120,
+  "parentRowsMissingMetadata": 40,
+  "target": {
+    "exercise": "selection_sort_b",
+    "question": "最終的なminPosは？",
+    "options": [
+      "1",
+      "3",
+      "0",
+      "2"
+    ],
+    "correct": "3",
+    "wrong": "0",
+    "feedback": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    }
+  },
+  "sourceFeedbackCoverage": {
+    "questions": 173,
+    "wrong": 519,
+    "structured": 519,
+    "correctFeedback": 0,
+    "missing": []
+  },
+  "contracts": {
+    "final": [
+      20,
+      16,
+      4
+    ],
+    "seconds": 6000,
+    "pool": 43,
+    "highTrace": 15,
+    "floor": 4,
+    "selectionSignature": 1553842342
+  }
+}
