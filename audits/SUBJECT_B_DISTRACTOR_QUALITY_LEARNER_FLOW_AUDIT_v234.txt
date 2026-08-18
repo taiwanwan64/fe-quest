@@ -1,0 +1,72 @@
+FE QUEST v234 — Subject B Distractor Quality Post-Repair Learner-Flow Audit
+=================================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous: v233
+Source main: 534e98cd15b026fa479234d2fd46095b3b3ef1e7
+Learner-facing change in v234: none
+
+What was audited
+----------------
+v233 replaced the learner-visible answer-form shortcut in selection_sort_b / 「最終的なminPosは？」: [1,5,2,4] became numeric distractor 0. v234 follows that repaired wrong choice through TRACE, algorithm mini-mock, and the trace-derived final generator, including choice shuffling and selected-choice feedback.
+
+Source / TRACE
+--------------
+Source options: ["1", "2", "3", "0"]
+Correct answer: 3 (index 2)
+All four choices use the same numeric answer form: yes
+Old array-shaped shortcut present: no
+Choosing 0 in TRACE shows the v233 stale-minPos diagnosis and next-attempt cue: yes
+Immediate TRACE feedback does not expose the post-answer checkpoint: yes
+Choosing the correct answer clears the wrong-answer feedback panel: yes
+
+Algorithm mini-mock
+-------------------
+The same second prediction was forced through the real bMockCandidateFromExercise + shuffleBMockAnswer path.
+Displayed options: ["1", "3", "0", "2"]
+All displayed choices remain numeric: yes
+The selected 0 feedback matches the source feedback after shuffling: yes
+100 additional shuffled target samples retained the 0-to-feedback mapping: yes
+
+Trace-derived final
+-------------------
+The same second prediction was forced through makeFinalAlgoFromTrace.
+Displayed options: ["1", "3", "0", "2"]
+All displayed choices remain numeric and the old array shortcut is absent: yes
+Correct answer remains 3: yes
+Selected 0 feedback: missing or mismatched against source
+Generated item exposes wrongFeedback: false
+Generated item exposes wrongFeedbackByText: false
+
+Finding
+-------
+Medium — subject_b_trace_final_feedback_not_propagated
+The v233 distractor repair itself reaches the final-style trace generator correctly, but makeFinalAlgoFromTrace does not carry the v230/v233 selected-wrong-choice feedback metadata into the generated item. The question remains score-correct and the answer-form shortcut is gone, but a learner who chooses 0 in this trace-derived final path cannot reliably receive the precise stale-minPos diagnosis that is available in TRACE and mini-mock. This is a learning-feedback propagation defect, not a scoring or question-correctness defect.
+
+
+Regression coverage
+-------------------
+Source Subject B questions with v230 feedback: 173
+Structured wrong-choice feedback: 519 / 519
+Wrong-feedback attached to correct choices: 0
+Repeated feedback lookup mutates profile: no
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds match v233 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, v230 source feedback, and the v233 distractor repair are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+
+Findings summary
+----------------
+High: 0
+Medium: 1
+Low: 0
+
+Decision
+--------
+Use v235 for a narrow metadata-propagation repair around makeFinalAlgoFromTrace. Carry wrongFeedback / wrongFeedbackByText from the selected TRACE prediction into the generated final item by option text, preserving shuffled-option identity. Do not change prompts, choices, correct answers, scoring, final selection/order, timing, readiness, difficulty labels, or remediation. Follow with a v236 post-repair learner-flow audit. The earlier v232 Low difficulty-label separation note remains advisory and is not promoted by this finding.

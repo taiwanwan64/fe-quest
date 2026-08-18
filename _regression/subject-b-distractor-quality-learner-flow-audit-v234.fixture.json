@@ -1,0 +1,122 @@
+{
+  "name": "subject-b-distractor-quality-learner-flow-audit-v234",
+  "version": "v234",
+  "previous": "v233",
+  "sourceMain": "534e98cd15b026fa479234d2fd46095b3b3ef1e7",
+  "learnerFacingChange": false,
+  "target": {
+    "exercise": "selection_sort_b",
+    "q": "最終的なminPosは？",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "a": 2,
+    "feedback0": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    },
+    "numericOnly": true
+  },
+  "traceImmediate": {
+    "error": null,
+    "exercise": "selection_sort_b",
+    "q": "最終的なminPosは？",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "correctIndex": 2,
+    "correctText": "3",
+    "wrongIndex": 3,
+    "feedback": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    },
+    "correctFeedback": null,
+    "afterWrong": {
+      "hidden": false,
+      "html": "<div class=\"bchoice-feedback-v230\" style=\"margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px\"><div style=\"font-weight:900;color:#8a6412\">🔎 選んだ答えから見ると</div><div>「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2&lt;4が真になった時点でminPos=1へ、j=3で1&lt;2が真になった時点でminPos=3へ更新します。</div><div style=\"margin-top:7px\"><b>次回の合図：</b>minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。</div></div>"
+    },
+    "afterCorrect": {
+      "hidden": true,
+      "html": ""
+    },
+    "numericOnly": true
+  },
+  "miniMock": {
+    "found": true,
+    "sourceId": "selection_sort_b",
+    "q": "最終的なminPosは？",
+    "options": [
+      "1",
+      "3",
+      "0",
+      "2"
+    ],
+    "correctText": "3",
+    "wrongIndex": 2,
+    "feedback": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    },
+    "numericOnly": true,
+    "studyMode": "trace"
+  },
+  "traceDerivedFinal": {
+    "found": true,
+    "sourceId": "selection_sort_b",
+    "kind": "algo",
+    "studyMode": "trace",
+    "q": "最終的なminPosは？",
+    "options": [
+      "1",
+      "3",
+      "0",
+      "2"
+    ],
+    "correctText": "3",
+    "wrongIndex": 2,
+    "feedback": null,
+    "numericOnly": true,
+    "hasWrongFeedback": false,
+    "hasWrongFeedbackByText": false
+  },
+  "finalFeedbackMatchesSource": false,
+  "shuffle": {
+    "checked": 100,
+    "mismatches": []
+  },
+  "stateless": {
+    "same": true,
+    "profileUnchanged": true
+  },
+  "feedbackCoverage": {
+    "questions": 173,
+    "wrong": 519,
+    "structured": 519,
+    "correctFeedback": 0,
+    "missing": []
+  },
+  "selectionSignature1000": 2230262506,
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "findings": [
+    {
+      "id": "subject_b_trace_final_feedback_not_propagated",
+      "severity": "Medium",
+      "summary": "Trace-derived final questions keep the repaired choices and correct answer but do not preserve the selected-wrong-choice feedback metadata from their TRACE source."
+    }
+  ]
+}
