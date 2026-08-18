@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 217, in <module>
+    req(finalt['feedback']==s['feedback0'],'trace-derived final 0 feedback drift')
+  File "/home/runner/work/fe-quest/fe-quest/.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py", line 7, in req
+    raise AssertionError(msg)
+AssertionError: trace-derived final 0 feedback drift
