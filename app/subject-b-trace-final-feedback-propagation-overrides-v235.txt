@@ -1,0 +1,69 @@
+// ===== FE QUEST v235 Subject B trace-final wrong-feedback propagation repair =====
+(() => {
+  const finding='subject_b_trace_final_feedback_not_propagated';
+  const sourceAudit='v234-subject-b-distractor-quality-learner-flow-audit';
+  const before=makeFinalAlgoFromTrace;
+
+  function text(v){return String(v??'').trim();}
+  function optionsOf(q){return Array.isArray(q?.options)?q.options:(Array.isArray(q?.opts)?q.opts:[]);}
+  function answerIndexOf(q){
+    if(Number.isInteger(q?.a))return q.a;
+    if(Number.isInteger(q?.correctIndex))return q.correctIndex;
+    if(Number.isInteger(q?.answerIndex))return q.answerIndex;
+    if(typeof q?.correctText==='string')return optionsOf(q).map(text).indexOf(text(q.correctText));
+    if(Number.isInteger(q?.correct))return q.correct;
+    return -1;
+  }
+  function sourcePrediction(ex,generated){
+    const q=text(generated?.q);
+    return (ex?.steps||[]).map(s=>s?.predict).filter(Boolean).find(p=>text(p.q)===q)||null;
+  }
+  function feedbackByText(pred){
+    const map={...(pred?.wrongFeedbackByText||{})};
+    const opts=optionsOf(pred),a=answerIndexOf(pred),arr=Array.isArray(pred?.wrongFeedback)?pred.wrongFeedback:[];
+    opts.forEach((opt,i)=>{
+      if(i===a)return;
+      const key=text(opt);
+      if(!map[key]&&arr[i]&&typeof arr[i]==='object')map[key]=arr[i];
+    });
+    return map;
+  }
+  function attach(generated,pred){
+    if(!generated||!pred)return generated;
+    const options=optionsOf(generated),a=answerIndexOf(generated),sourceMap=feedbackByText(pred),wrongFeedback=[],wrongFeedbackByText={};
+    options.forEach((opt,i)=>{
+      const key=text(opt);
+      if(i===a){wrongFeedback[i]='';return;}
+      const fb=sourceMap[key]||'';
+      wrongFeedback[i]=fb;
+      if(fb&&typeof fb==='object')wrongFeedbackByText[key]=fb;
+    });
+    return {...generated,wrongFeedback,wrongFeedbackByText};
+  }
+
+  makeFinalAlgoFromTrace=function(ex){
+    const generated=before(ex);
+    return attach(generated,sourcePrediction(ex,generated));
+  };
+
+  globalThis.SUBJECT_B_TRACE_FINAL_FEEDBACK_V235_SPEC=Object.freeze({
+    findingResolved:finding,
+    sourceAudit,
+    policy:'trace-final-choice-feedback-metadata-propagation',
+    sourceMetadata:Object.freeze(['wrongFeedback','wrongFeedbackByText']),
+    remapKey:'option-text',
+    sourceQuestionChanged:false,
+    generatedPromptChanged:false,
+    generatedOptionsChanged:false,
+    correctAnswerChanged:false,
+    scoringChanged:false,
+    questionSelectionChanged:false,
+    questionOrderChanged:false,
+    timingChanged:false,
+    difficultyLabelChanged:false,
+    readinessThresholdChanged:false,
+    remediationTargetsChanged:false,
+    profileSchemaMigrationRequired:false
+  });
+  globalThis.attachTraceFinalWrongFeedbackV235=attach;
+})();
