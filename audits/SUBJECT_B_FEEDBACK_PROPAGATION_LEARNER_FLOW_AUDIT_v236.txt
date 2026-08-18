@@ -1,0 +1,55 @@
+FE QUEST v236 — Subject B Feedback Propagation Post-Repair Learner-Flow Audit
+=================================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous: v235
+Source main: df3d50f2054fe4ea9483094833cab26e8d5aa022
+Learner-facing change in v236: none
+
+Sequence closure
+----------------
+The v232-v236 distractor / choice-specific feedback propagation sequence is clean and closed.
+v233 removed the learner-visible answer-form shortcut in selection_sort_b / 「最終的なminPosは？」.
+v235 repaired TRACE-derived final metadata propagation found by v234.
+v236 confirms the repaired choice and diagnosis survive TRACE, algorithm mini-mock, TRACE-derived final generation, serialized rerender, and final result review.
+
+Target learner flow
+-------------------
+Source / TRACE options: ["1", "2", "3", "0"]
+Correct answer: 3
+Wrong choice 0 keeps the stale-minPos diagnosis: yes
+Immediate TRACE presentation keeps the checkpoint hidden: yes
+Full post-answer presentation includes diagnosis + checkpoint + next-attempt cue: yes
+Algorithm mini-mock preserves the same feedback across 100 / 100 shuffled samples: yes
+TRACE-derived final preserves wrongFeedback / wrongFeedbackByText and the same selected-0 diagnosis: yes
+JSON serialize/clone rerender preserves it: yes
+Final result review resolves the TRACE source by sourceId + question text and selected answer text: yes
+
+Full regression coverage
+------------------------
+TRACE-derived final probes: 40
+Wrong-choice slots checked: 120 / 120 structured and source-matched
+Source Subject B questions: 173
+Structured source wrong-choice feedback: 519 / 519
+Wrong-feedback attached to correct choices: 0
+Feedback rendering mutates profile: no
+
+Preserved contracts
+-------------------
+1000 deterministic final-session seeds match v235 selection/order.
+100 minutes / 20 questions; algorithm 16 + security 4; algorithm pool 43; high-trace inventory 15 / floor 4.
+v214 order, v217 recovery, v219 XP, v222 readiness/65% threshold, v224 copy, v227 domain progression, v230 feedback, v233 distractor repair and v235 propagation repair are unchanged.
+Algorithm remediation targets valid: 43 / 43. Security remediation targets valid: 15 / 15.
+Subject B semantic validation: OK.
+
+Findings summary
+----------------
+High: 0
+Medium: 0
+Low: 0
+
+Decision
+--------
+Close the v232-v236 distractor / wrong-answer-feedback propagation sequence. Keep the earlier v232 difficulty-label separation note advisory only; do not change difficulty labels or the 65% readiness threshold from a structural code-length proxy alone. Move next to a new learner-value frontier.

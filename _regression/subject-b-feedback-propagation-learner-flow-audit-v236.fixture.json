@@ -1,0 +1,60 @@
+{
+  "version": "v236",
+  "previous": "v235",
+  "parent": "df3d50f2054fe4ea9483094833cab26e8d5aa022",
+  "result": "PASS — NO FINDINGS",
+  "sequenceClosed": "v232-v236 distractor/feedback propagation",
+  "target": {
+    "question": "最終的なminPosは？",
+    "sourceOptions": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "miniOptions": [
+      "0",
+      "1",
+      "3",
+      "2"
+    ],
+    "traceFinalOptions": [
+      "1",
+      "3",
+      "0",
+      "2"
+    ],
+    "correct": "3",
+    "wrong": "0",
+    "feedback": {
+      "diagnosis": "「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。",
+      "checkpoint": "処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。",
+      "nextCue": "minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。"
+    }
+  },
+  "learnerFlow": {
+    "miniShuffleSamples": 100,
+    "traceFinalProbes": 40,
+    "traceFinalWrongSlots": 120,
+    "serializedRerenderPreserved": true,
+    "finalReviewPreserved": true
+  },
+  "sourceFeedbackCoverage": {
+    "questions": 173,
+    "wrong": 519,
+    "structured": 519,
+    "correctFeedback": 0
+  },
+  "contracts": {
+    "final": [
+      20,
+      16,
+      4
+    ],
+    "seconds": 6000,
+    "pool": 43,
+    "highTrace": 15,
+    "floor": 4,
+    "selectionSignature": 1921079375
+  }
+}
