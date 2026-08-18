@@ -36,7 +36,6 @@ jobs:
           echo "FEQUEST_SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_TARGET version=$VERSION previous=$PREVIOUS"
 
       - name: Materialize conventional release shell
-        id: materialize
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
 
@@ -44,7 +43,6 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build audit candidate
-        id: build_candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -53,12 +51,10 @@ jobs:
           verbose: true
 
       - name: Prepare mechanical target reference
-        id: prepare_reference
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
 
       - name: Build mechanical target reference
-        id: build_reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -67,7 +63,6 @@ jobs:
           verbose: true
 
       - name: Prepare untouched parent reference
-        id: prepare_parent
         shell: bash
         run: |
           rm -rf _parent_reference
@@ -75,7 +70,6 @@ jobs:
           git archive origin/main | tar -x -C _parent_reference
 
       - name: Build untouched parent reference
-        id: build_parent
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_parent_reference
@@ -84,102 +78,13 @@ jobs:
           verbose: true
 
       - name: Validate standard release invariants
-        id: standard
-        continue-on-error: true
         shell: bash
-        run: |
-          set -o pipefail
-          GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v234-standard.log
-
-      - name: Patch audit-only learner-flow probes
-        if: steps.standard.outcome == 'success'
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py')
-          t=p.read_text()
-          replacements=[]
-          replacements.append((
-          "const buttons=choices.map(()=>({onclick:null,dataset:{},disabled:false,classList:{add(){},remove(){},toggle(){},contains(){return false;}}}));",
-          "const buttons=[];"))
-          replacements.append((
-          "const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};",
-          "const root={innerHTML:'',appendChild(node){buttons.push(node);return node;},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"))
-          old_mini="""function findMiniMockTarget(){
-            const originalStats=clone(profile.bMockStats||{});
-            let hit=null,sessions=0;
-            for(let seed=23401;seed<23801&&!hit;seed++){
-              sessions++;
-              profile.bMockStats={};
-              Math.random=seedRand(seed);
-              const items=buildBMock();
-              const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
-              if(q)hit={seed,q};
-            }
-            profile.bMockStats=originalStats;
-            if(!hit)return {sessions,found:false};
-            const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
-          }"""
-          new_mini="""function findMiniMockTarget(){
-            const ex=B_EXERCISES.find(x=>x.id==='selection_sort_b');
-            let n=0;Math.random=()=>{n++;return n===1?.99:((n*.173)%1);};
-            const item=bMockCandidateFromExercise(ex);
-            if(!item)return {sessions:1,found:false};
-            const q=shuffleBMockAnswer(item);
-            const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId||ex.id,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
-          }"""
-          replacements.append((old_mini,new_mini))
-          old_final="""function findFinalTraceTarget(){
-            const original=clone(profile.bFinalStats||{});
-            let hit=null,sessions=0;
-            for(let seed=23901;seed<25901&&!hit;seed++){
-              sessions++;
-              profile.bFinalStats={};
-              Math.random=seedRand(seed);
-              const items=buildBFinal();
-              const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
-              if(q)hit={seed,q};
-            }
-            profile.bFinalStats=original;
-            if(!hit)return {sessions,found:false};
-            const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
-          }"""
-          new_final="""function findFinalTraceTarget(){
-            const ex=B_EXERCISES.find(x=>x.id==='selection_sort_b');
-            let n=0;Math.random=()=>{n++;return n===1?.99:((n*.173)%1);};
-            const q=makeFinalAlgoFromTrace(ex);
-            if(!q)return {sessions:1,found:false};
-            const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
-            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId||ex.id,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
-          }"""
-          replacements.append((old_final,new_final))
-          for old,new in replacements:
-              if old not in t:
-                  raise SystemExit('v234 learner-flow probe marker missing: '+old[:70])
-              t=t.replace(old,new,1)
-          p.write_text(t)
-          PY
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
       - name: Audit Subject B distractor post-repair learner flow
-        id: audit
-        if: steps.standard.outcome == 'success'
-        continue-on-error: true
-        shell: bash
-        run: |
-          set -o pipefail
-          python3 .github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py 2>&1 | tee _ci-v234-audit.log
-
-      - name: Restore audit validator source after runtime probe patch
-        if: always()
-        shell: bash
-        run: git checkout -- .github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py
+        run: python3 .github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py
 
       - name: Commit validated release shell and audit evidence
-        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -194,7 +99,6 @@ jobs:
           echo "FEQUEST_SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_HEAD=$(git rev-parse HEAD)"
 
       - name: Package release
-        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         shell: bash
         run: |
           VERSION="${{ steps.release.outputs.version }}"
@@ -204,30 +108,9 @@ jobs:
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
 
       - name: Upload release
-        if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
           path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 90
-
-      - name: Persist validation failure
-        if: always() && (steps.standard.outcome != 'success' || steps.audit.outcome != 'success')
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          cat > _ci-v234-failure.txt <<EOF
-          materialize=${{ steps.materialize.outcome }}
-          build_candidate=${{ steps.build_candidate.outcome }}
-          prepare_reference=${{ steps.prepare_reference.outcome }}
-          build_reference=${{ steps.build_reference.outcome }}
-          prepare_parent=${{ steps.prepare_parent.outcome }}
-          build_parent=${{ steps.build_parent.outcome }}
-          standard=${{ steps.standard.outcome }}
-          audit=${{ steps.audit.outcome }}
-          EOF
-          git add _ci-v234-failure.txt _ci-v234-standard.log _ci-v234-audit.log 2>/dev/null || true
-          git commit -m "Record v234 validation failure [skip ci]"
-          git push origin HEAD:"$GITHUB_REF_NAME"
