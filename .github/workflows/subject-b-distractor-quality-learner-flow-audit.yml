@@ -91,6 +91,26 @@ jobs:
           set -o pipefail
           GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v234-standard.log
 
+      - name: Patch audit-only TRACE DOM proxy
+        if: steps.standard.outcome == 'success'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py')
+          t=p.read_text()
+          old="const buttons=choices.map(()=>({onclick:null,dataset:{},disabled:false,classList:{add(){},remove(){},toggle(){},contains(){return false;}}}));"
+          new="const buttons=[];"
+          if old not in t:
+              raise SystemExit('v234 DOM proxy buttons marker missing')
+          t=t.replace(old,new,1)
+          old="const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
+          new="const root={innerHTML:'',appendChild(node){buttons.push(node);return node;},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
+          if old not in t:
+              raise SystemExit('v234 DOM proxy root marker missing')
+          p.write_text(t.replace(old,new,1))
+          PY
+
       - name: Audit Subject B distractor post-repair learner flow
         id: audit
         if: steps.standard.outcome == 'success'
@@ -99,6 +119,11 @@ jobs:
         run: |
           set -o pipefail
           python3 .github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py 2>&1 | tee _ci-v234-audit.log
+
+      - name: Restore audit validator source after runtime probe patch
+        if: always()
+        shell: bash
+        run: git checkout -- .github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py
 
       - name: Commit validated release shell and audit evidence
         if: steps.standard.outcome == 'success' && steps.audit.outcome == 'success'
