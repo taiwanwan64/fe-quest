@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "release": "v235",
+  "previous_release": "v234",
+  "parent_main_sha": "cb22788702fe0dcd9aa84cade466064e6ae5f30d",
+  "change_type": "subject-b-trace-final-feedback-propagation-repair",
+  "source_quality_audit": "audits/SUBJECT_B_DISTRACTOR_QUALITY_LEARNER_FLOW_AUDIT_v234.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_trace_final_feedback_not_propagated",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-trace-final-feedback-propagation-overrides-v235.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "question_selection_changed": false,
+    "question_order_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "security_routing_changed": false,
+    "domain_progression_changed": false,
+    "direct_final_remediation_changed": false,
+    "recovery_entry_changed": false,
+    "final_order_policy_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_trace_final_feedback_not_propagated",
+    "scope": "Trace-derived final generator metadata propagation only",
+    "generator": "makeFinalAlgoFromTrace",
+    "source_metadata": ["wrongFeedback", "wrongFeedbackByText"],
+    "remap_key": "exact option text",
+    "feedback_parts": ["diagnosis", "checkpoint", "nextCue"],
+    "source_question_data_changed": false,
+    "generated_question_data_changed": false,
+    "feedback_persisted_in_profile": false,
+    "selection_sort_b_regression_target": {
+      "question": "最終的なminPosは？",
+      "wrong_choice": "0",
+      "correct_answer": "3"
+    }
+  }
+}
