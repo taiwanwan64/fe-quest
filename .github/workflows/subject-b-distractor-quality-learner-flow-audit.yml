@@ -91,7 +91,7 @@ jobs:
           set -o pipefail
           GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py 2>&1 | tee _ci-v234-standard.log
 
-      - name: Patch audit-only TRACE DOM proxy
+      - name: Patch audit-only learner-flow probes
         if: steps.standard.outcome == 'success'
         shell: bash
         run: |
@@ -99,16 +99,69 @@ jobs:
           from pathlib import Path
           p=Path('.github/subject-b-distractor-quality-learner-flow-audit/validate_audit.py')
           t=p.read_text()
-          old="const buttons=choices.map(()=>({onclick:null,dataset:{},disabled:false,classList:{add(){},remove(){},toggle(){},contains(){return false;}}}));"
-          new="const buttons=[];"
-          if old not in t:
-              raise SystemExit('v234 DOM proxy buttons marker missing')
-          t=t.replace(old,new,1)
-          old="const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
-          new="const root={innerHTML:'',appendChild(node){buttons.push(node);return node;},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"
-          if old not in t:
-              raise SystemExit('v234 DOM proxy root marker missing')
-          p.write_text(t.replace(old,new,1))
+          replacements=[]
+          replacements.append((
+          "const buttons=choices.map(()=>({onclick:null,dataset:{},disabled:false,classList:{add(){},remove(){},toggle(){},contains(){return false;}}}));",
+          "const buttons=[];"))
+          replacements.append((
+          "const root={innerHTML:'',querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};",
+          "const root={innerHTML:'',appendChild(node){buttons.push(node);return node;},querySelectorAll(){return buttons;},insertAdjacentElement(_p,node){panel=node;},classList:{add(){},remove(){}}};"))
+          old_mini="""function findMiniMockTarget(){
+            const originalStats=clone(profile.bMockStats||{});
+            let hit=null,sessions=0;
+            for(let seed=23401;seed<23801&&!hit;seed++){
+              sessions++;
+              profile.bMockStats={};
+              Math.random=seedRand(seed);
+              const items=buildBMock();
+              const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
+              if(q)hit={seed,q};
+            }
+            profile.bMockStats=originalStats;
+            if(!hit)return {sessions,found:false};
+            const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
+            return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
+          }"""
+          new_mini="""function findMiniMockTarget(){
+            const ex=B_EXERCISES.find(x=>x.id==='selection_sort_b');
+            let n=0;Math.random=()=>{n++;return n===1?.99:((n*.173)%1);};
+            const item=bMockCandidateFromExercise(ex);
+            if(!item)return {sessions:1,found:false};
+            const q=shuffleBMockAnswer(item);
+            const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
+            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q),studyMode:q.studyMode||'trace'};
+          }"""
+          replacements.append((old_mini,new_mini))
+          old_final="""function findFinalTraceTarget(){
+            const original=clone(profile.bFinalStats||{});
+            let hit=null,sessions=0;
+            for(let seed=23901;seed<25901&&!hit;seed++){
+              sessions++;
+              profile.bFinalStats={};
+              Math.random=seedRand(seed);
+              const items=buildBFinal();
+              const q=items.find(x=>x.sourceId==='selection_sort_b'&&text(x.q)==='最終的なminPosは？');
+              if(q)hit={seed,q};
+            }
+            profile.bFinalStats=original;
+            if(!hit)return {sessions,found:false};
+            const q=hit.q,i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
+            return {sessions,found:true,seed:hit.seed,sourceId:q.sourceId,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
+          }"""
+          new_final="""function findFinalTraceTarget(){
+            const ex=B_EXERCISES.find(x=>x.id==='selection_sort_b');
+            let n=0;Math.random=()=>{n++;return n===1?.99:((n*.173)%1);};
+            const q=makeFinalAlgoFromTrace(ex);
+            if(!q)return {sessions:1,found:false};
+            const i=opts(q).findIndex(x=>text(x)==='0'),f=feedback(q,i);
+            return {sessions:1,found:text(q.q)==='最終的なminPosは？',seed:'forced-0.99',sourceId:q.sourceId,kind:q.kind,studyMode:q.studyMode,q:q.q,options:opts(q).map(text),correctText:text(q.correctText||opts(q)[ai(q)]),wrongIndex:i,feedback:f,numericOnly:numericOnly(q)};
+          }"""
+          replacements.append((old_final,new_final))
+          for old,new in replacements:
+              if old not in t:
+                  raise SystemExit('v234 learner-flow probe marker missing: '+old[:70])
+              t=t.replace(old,new,1)
+          p.write_text(t)
           PY
 
       - name: Audit Subject B distractor post-repair learner flow
