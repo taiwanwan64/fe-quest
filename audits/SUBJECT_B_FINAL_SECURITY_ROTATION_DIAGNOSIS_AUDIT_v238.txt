@@ -1,0 +1,96 @@
+FE QUEST v238 — Subject B Final Security Rotation Diagnosis Audit
+=====================================================================
+
+Result
+------
+PASS — DIAGNOSIS RECORDED
+Previous release: v237
+Source main: 229039c7a8cbbb9db7e0b3960f108cfed22b27db
+Learner-facing change in v238: none
+
+Security inventory
+------------------
+Scenario count: 15
+Level counts: {"基礎": 4, "応用": 3, "標準": 8}
+Scenario inventory: [{"id": "phishing", "level": "基礎"}, {"id": "ransomware", "level": "標準"}, {"id": "access", "level": "基礎"}, {"id": "logs", "level": "標準"}, {"id": "certificate", "level": "標準"}, {"id": "risk", "level": "応用"}, {"id": "sql_injection", "level": "標準"}, {"id": "xss", "level": "標準"}, {"id": "password_spray", "level": "応用"}, {"id": "usb_malware", "level": "基礎"}, {"id": "exfiltration", "level": "応用"}, {"id": "crypto_choice", "level": "標準"}, {"id": "password_hash", "level": "基礎"}, {"id": "signed_update", "level": "標準"}, {"id": "patch", "level": "標準"}]
+
+Selector / persistence diagnosis
+--------------------------------
+Baseline final selector source available: yes
+finishBFinal source available: yes
+Selector-related source contains bFinalStats: yes
+Selector-related source contains literal sec: key prefix: no
+Baseline selector contains explicit Japanese level label: yes
+
+Six-session simulation using v237 prefixed stat keys (sec:<id>)
+--------------------------------------------------------------
+All 15 covered by session 5: 0 / 100
+All 15 covered by session 6: 100 / 100
+Example cohort: [{"ids": ["password_hash", "usb_malware", "password_spray", "exfiltration"], "levels": {"基礎": 2, "応用": 2}, "coverage": 4}, {"ids": ["patch", "risk", "logs", "ransomware"], "levels": {"標準": 3, "応用": 1}, "coverage": 8}, {"ids": ["logs", "password_spray", "phishing", "certificate"], "levels": {"標準": 2, "応用": 1, "基礎": 1}, "coverage": 10}, {"ids": ["access", "ransomware", "exfiltration", "crypto_choice"], "levels": {"基礎": 1, "標準": 2, "応用": 1}, "coverage": 12}, {"ids": ["exfiltration", "signed_update", "password_spray", "xss"], "levels": {"応用": 2, "標準": 2}, "coverage": 14}, {"ids": ["logs", "crypto_choice", "sql_injection", "ransomware"], "levels": {"標準": 4}, "coverage": 15}]
+
+Six-session simulation using plain scenario-id stat keys
+---------------------------------------------------------
+All 15 covered by session 5: 0 / 100
+All 15 covered by session 6: 0 / 100
+Example cohort: [{"ids": ["password_hash", "usb_malware", "password_spray", "exfiltration"], "levels": {"基礎": 2, "応用": 2}, "coverage": 4}, {"ids": ["access", "password_spray", "exfiltration", "certificate"], "levels": {"基礎": 1, "応用": 2, "標準": 1}, "coverage": 6}, {"ids": ["logs", "phishing", "sql_injection", "password_spray"], "levels": {"標準": 2, "基礎": 1, "応用": 1}, "coverage": 9}, {"ids": ["logs", "xss", "sql_injection", "ransomware"], "levels": {"標準": 4}, "coverage": 11}, {"ids": ["password_spray", "sql_injection", "usb_malware", "exfiltration"], "levels": {"応用": 2, "標準": 1, "基礎": 1}, "coverage": 11}, {"ids": ["logs", "phishing", "sql_injection", "ransomware"], "levels": {"標準": 3, "基礎": 1}, "coverage": 11}]
+
+Relevant runtime source
+-----------------------
+__buildBFinalBeforeV208:
+function buildBFinal(){
+  // 40問の本番型アルゴリズムプールから、
+  // 10分野を最低1問ずつ・標準8問/応用8問になるよう16問を構成する。
+  const selected=[];
+  const used=new Set();
+
+  B_FINAL_ALGO_DOMAINS.forEach(domain=>{
+    const desired=B_FINAL_APPLIED_DOMAINS.has(domain)?'応用':'標準';
+    let pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&x.level===desired&&!used.has(x.id));
+    if(!pool.length)pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&!used.has(x.id));
+    const pick=pickFinalAlgoCandidate(pool,selected);
+    if(pick){selected.push(pick);used.add(pick.id);}
+  });
+
+  const fillLevel=(level,target)=>{
+    while(selected.filter(x=>x.level===level).length<target){
+      const pool=B_EXAM_ALGO_ITEMS.filter(x=>x.level===level&&!used.has(x.id));
+      const pick=pickFinalAlgoCandidate(pool,selected);
+      if(!pick)break;
+      selected.push(pick);used.add(pick.id);
+    }
+  };
+  fillLevel('応用',8);
+  fillLevel('標準',8);
+
+  // 念のため不足時だけ未使用問題で補完する。
+  while(selected.length<16){
+    const pick=pickFinalAlgoCandidate(B_EXAM_ALGO_ITEMS.filter(x=>!used.has(x.id)),selected);
+    if(!pick)break;
+    selected.push(pick);used.add(pick.id);
+  }
+  const algo=selected.slice(0,16).map(makeFinalAlgoExam);
+
+  // 情報セキュリティ4問は、ログ読解2問＋ケース判断2問を固定。
+  const secUsed=new Set();
+  const secLogs=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>s.log),2,secUsed);
+  const secCases=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>!s.log),2,secUsed);
+  const secPool=[...secLogs,...secCases].map(makeFinalSecurity);
+
+  return shuffled([...algo,...secPool]);
+}
+
+bFinalAlgoSeen:
+function bFinalAlgoSeen(item){
+  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;
+}
+
+finishBFinal:
+function(timeUp=false){
+  const hadItems=!!bFinalItems.length;
+  _finishBFinalV65(timeUp);
+  if(hadItems)markDailyTask('subjectB',{mode:'final'});
+}
+
+Decision
+--------
+Use the exact selector and persistence source above to distinguish a real production rotation constraint from a v237 audit-key artifact before changing learner-facing selection. If the gap is structural, repair only the security rotation boundary and preserve four security questions, algorithm selection/order, scoring, difficulty labels, readiness threshold and remediation.

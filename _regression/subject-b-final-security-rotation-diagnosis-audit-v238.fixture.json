@@ -1,0 +1,188 @@
+{
+  "version": "v238",
+  "previous": "v237",
+  "parent": "229039c7a8cbbb9db7e0b3960f108cfed22b27db",
+  "levels": {
+    "基礎": 4,
+    "標準": 8,
+    "応用": 3
+  },
+  "prefixed": {
+    "all15By5": 0,
+    "all15By6": 100,
+    "example": [
+      {
+        "ids": [
+          "password_hash",
+          "usb_malware",
+          "password_spray",
+          "exfiltration"
+        ],
+        "levels": {
+          "基礎": 2,
+          "応用": 2
+        },
+        "coverage": 4
+      },
+      {
+        "ids": [
+          "patch",
+          "risk",
+          "logs",
+          "ransomware"
+        ],
+        "levels": {
+          "標準": 3,
+          "応用": 1
+        },
+        "coverage": 8
+      },
+      {
+        "ids": [
+          "logs",
+          "password_spray",
+          "phishing",
+          "certificate"
+        ],
+        "levels": {
+          "標準": 2,
+          "応用": 1,
+          "基礎": 1
+        },
+        "coverage": 10
+      },
+      {
+        "ids": [
+          "access",
+          "ransomware",
+          "exfiltration",
+          "crypto_choice"
+        ],
+        "levels": {
+          "基礎": 1,
+          "標準": 2,
+          "応用": 1
+        },
+        "coverage": 12
+      },
+      {
+        "ids": [
+          "exfiltration",
+          "signed_update",
+          "password_spray",
+          "xss"
+        ],
+        "levels": {
+          "応用": 2,
+          "標準": 2
+        },
+        "coverage": 14
+      },
+      {
+        "ids": [
+          "logs",
+          "crypto_choice",
+          "sql_injection",
+          "ransomware"
+        ],
+        "levels": {
+          "標準": 4
+        },
+        "coverage": 15
+      }
+    ]
+  },
+  "plain": {
+    "all15By5": 0,
+    "all15By6": 0,
+    "example": [
+      {
+        "ids": [
+          "password_hash",
+          "usb_malware",
+          "password_spray",
+          "exfiltration"
+        ],
+        "levels": {
+          "基礎": 2,
+          "応用": 2
+        },
+        "coverage": 4
+      },
+      {
+        "ids": [
+          "access",
+          "password_spray",
+          "exfiltration",
+          "certificate"
+        ],
+        "levels": {
+          "基礎": 1,
+          "応用": 2,
+          "標準": 1
+        },
+        "coverage": 6
+      },
+      {
+        "ids": [
+          "logs",
+          "phishing",
+          "sql_injection",
+          "password_spray"
+        ],
+        "levels": {
+          "標準": 2,
+          "基礎": 1,
+          "応用": 1
+        },
+        "coverage": 9
+      },
+      {
+        "ids": [
+          "logs",
+          "xss",
+          "sql_injection",
+          "ransomware"
+        ],
+        "levels": {
+          "標準": 4
+        },
+        "coverage": 11
+      },
+      {
+        "ids": [
+          "password_spray",
+          "sql_injection",
+          "usb_malware",
+          "exfiltration"
+        ],
+        "levels": {
+          "応用": 2,
+          "標準": 1,
+          "基礎": 1
+        },
+        "coverage": 11
+      },
+      {
+        "ids": [
+          "logs",
+          "phishing",
+          "sql_injection",
+          "ransomware"
+        ],
+        "levels": {
+          "標準": 3,
+          "基礎": 1
+        },
+        "coverage": 11
+      }
+    ]
+  },
+  "sources": {
+    "baseBuild": "function buildBFinal(){\n  // 40問の本番型アルゴリズムプールから、\n  // 10分野を最低1問ずつ・標準8問/応用8問になるよう16問を構成する。\n  const selected=[];\n  const used=new Set();\n\n  B_FINAL_ALGO_DOMAINS.forEach(domain=>{\n    const desired=B_FINAL_APPLIED_DOMAINS.has(domain)?'応用':'標準';\n    let pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&x.level===desired&&!used.has(x.id));\n    if(!pool.length)pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&!used.has(x.id));\n    const pick=pickFinalAlgoCandidate(pool,selected);\n    if(pick){selected.push(pick);used.add(pick.id);}\n  });\n\n  const fillLevel=(level,target)=>{\n    while(selected.filter(x=>x.level===level).length<target){\n      const pool=B_EXAM_ALGO_ITEMS.filter(x=>x.level===level&&!used.has(x.id));\n      const pick=pickFinalAlgoCandidate(pool,selected);\n      if(!pick)break;\n      selected.push(pick);used.add(pick.id);\n    }\n  };\n  fillLevel('応用',8);\n  fillLevel('標準',8);\n\n  // 念のため不足時だけ未使用問題で補完する。\n  while(selected.length<16){\n    const pick=pickFinalAlgoCandidate(B_EXAM_ALGO_ITEMS.filter(x=>!used.has(x.id)),selected);\n    if(!pick)break;\n    selected.push(pick);used.add(pick.id);\n  }\n  const algo=selected.slice(0,16).map(makeFinalAlgoExam);\n\n  // 情報セキュリティ4問は、ログ読解2問＋ケース判断2問を固定。\n  const secUsed=new Set();\n  const secLogs=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>s.log),2,secUsed);\n  const secCases=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>!s.log),2,secUsed);\n  const secPool=[...secLogs,...secCases].map(makeFinalSecurity);\n\n  return shuffled([...algo,...secPool]);\n}",
+    "currentBuild": "function(){\n  const selected=__buildBFinalBeforeV214();\n  const algo=selected.filter(x=>x?.kind==='algo');\n  const sec=selected.filter(x=>x?.kind==='security');\n  const ordered=[...algo,...sec];\n  assert(ordered.length===B_FINAL_COUNT&&algo.length===B_FINAL_ALGO_COUNT&&sec.length===B_FINAL_SEC_COUNT,'v214 final block count drift');\n  assert(ordered.slice(0,B_FINAL_ALGO_COUNT).every(x=>x?.kind==='algo'),'v214 algorithm block order drift');\n  assert(ordered.slice(B_FINAL_ALGO_COUNT).every(x=>x?.kind==='security'),'v214 security block order drift');\n  assert(new Set(ordered.map(x=>`${x.kind}:${x.sourceId}`)).size===ordered.length,'v214 stable partition duplicate id');\n  return ordered;\n}",
+    "algoSeen": "function bFinalAlgoSeen(item){\n  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;\n}",
+    "finish": "function(timeUp=false){\n  const hadItems=!!bFinalItems.length;\n  _finishBFinalV65(timeUp);\n  if(hadItems)markDailyTask('subjectB',{mode:'final'});\n}",
+    "makeSecurity": "function(s){\n    const out=_makeFinalSecurityV230(s),src=securitySource(s?.id,out?.q);\n    return src?remapFeedback(src,out):out;\n  }"
+  }
+}
