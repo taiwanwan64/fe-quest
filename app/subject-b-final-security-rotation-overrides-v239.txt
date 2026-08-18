@@ -1,0 +1,93 @@
+// ===== FE QUEST v239 Subject B final security rotation repair =====
+(() => {
+  const finding='subject_b_final_security_long_run_coverage_gap';
+  const sourceAudit='v238-subject-b-final-security-rotation-diagnosis-audit';
+  const before=buildBFinal;
+
+  function seen(s){return profile.bFinalStats?.[`sec:${s.id}`]?.seen||0;}
+  function pools(){
+    return {
+      logs:SECURITY_SCENARIOS.filter(s=>!!s.log),
+      cases:SECURITY_SCENARIOS.filter(s=>!s.log)
+    };
+  }
+  function quota(){
+    const {logs,cases}=pools();
+    const anySeen=SECURITY_SCENARIOS.some(s=>seen(s)>0);
+    const unseenLogs=logs.filter(s=>seen(s)===0).length;
+    const unseenCases=cases.filter(s=>seen(s)===0).length;
+    if(!anySeen||unseenLogs+unseenCases===0)return {logs:2,cases:2,adaptive:false,unseenLogs,unseenCases};
+
+    const candidates=[1,2,3].map(logCount=>{
+      const caseCount=4-logCount;
+      const newCoverage=Math.min(logCount,unseenLogs)+Math.min(caseCount,unseenCases);
+      return {logs:logCount,cases:caseCount,newCoverage,distance:Math.abs(logCount-2)};
+    }).sort((a,b)=>{
+      if(a.newCoverage!==b.newCoverage)return b.newCoverage-a.newCoverage;
+      if(a.distance!==b.distance)return a.distance-b.distance;
+      const logNeed=unseenLogs-unseenCases;
+      if(logNeed>0)return b.logs-a.logs;
+      if(logNeed<0)return a.logs-b.logs;
+      return 0;
+    });
+    const best=candidates[0];
+    return {logs:best.logs,cases:best.cases,adaptive:best.logs!==2,unseenLogs,unseenCases};
+  }
+  function sourceFor(item){return SECURITY_SCENARIOS.find(s=>s.id===item?.sourceId)||null;}
+  function rebalance(items){
+    if(!Array.isArray(items))return items;
+    const q=quota();
+    if(!q.adaptive)return items;
+
+    const secIndices=[];
+    items.forEach((item,i)=>{if(item?.kind==='security')secIndices.push(i);});
+    if(secIndices.length!==4)return items;
+    const sec=secIndices.map(i=>items[i]);
+    const logItems=sec.filter(item=>!!sourceFor(item)?.log);
+    const caseItems=sec.filter(item=>!sourceFor(item)?.log);
+    if(logItems.length!==2||caseItems.length!==2)return items;
+
+    const needLogs=q.logs===3;
+    const donorItems=needLogs?caseItems:logItems;
+    const receiverPool=needLogs?pools().logs:pools().cases;
+    const victim=donorItems.slice().sort((a,b)=>{
+      const sa=sourceFor(a),sb=sourceFor(b),da=sa?seen(sa):-1,db=sb?seen(sb):-1;
+      return db-da;
+    })[0];
+    if(!victim)return items;
+
+    const victimIndex=items.indexOf(victim);
+    const used=new Set(sec.filter(item=>item!==victim).map(item=>item.sourceId));
+    const replacement=pickSecurityForFinal(receiverPool,1,used)[0]||null;
+    if(!replacement||used.has(replacement.id))return items;
+
+    const out=items.slice();
+    out[victimIndex]=makeFinalSecurity(replacement);
+    return out;
+  }
+
+  buildBFinal=function(){return rebalance(before());};
+
+  globalThis.SUBJECT_B_FINAL_SECURITY_ROTATION_V239_SPEC=Object.freeze({
+    findingResolved:finding,
+    sourceAudit,
+    policy:'adaptive-security-subpool-coverage',
+    defaultQuota:Object.freeze({logs:2,cases:2}),
+    adaptiveQuotaRange:Object.freeze({minPerType:1,maxPerType:3}),
+    firstFinalPreserved:true,
+    allSeenRestoresDefault:true,
+    existingExposureStatsReused:true,
+    profileSchemaMigrationRequired:false,
+    securityQuestionCountChanged:false,
+    securityQuestionContentChanged:false,
+    algorithmSelectionChanged:false,
+    algorithmOrderChanged:false,
+    scoringChanged:false,
+    timingChanged:false,
+    difficultyLabelsChanged:false,
+    readinessThresholdChanged:false,
+    remediationTargetsChanged:false
+  });
+  globalThis.subjectBFinalSecurityQuotaV239=quota;
+  globalThis.rebalanceFinalSecurityV239=rebalance;
+})();
