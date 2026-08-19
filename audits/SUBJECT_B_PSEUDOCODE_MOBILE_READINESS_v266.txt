@@ -1,0 +1,68 @@
+FE QUEST v266 — Subject B Pseudocode Mobile Readiness Audit
+=================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v265
+Source main: 954234e463b66e7fba1b939805be628489e4ad68
+Learner-facing change in v266: none
+
+Purpose
+-------
+v265 closed the alternate-value re-trace sequence. v266 moves to a broader learner-facing frontier: whether increasingly realistic pseudocode remains readable in the phone-first PWA. This is a static/responsive readiness audit, not a claim of physical-device visual testing.
+
+Content width inventory
+-----------------------
+TRACE exercises: 20
+Final algorithm items: 43
+High-TRACE final items: 15
+TRACE max line width: 35 display units; median per-item maximum: 26.0
+Final max line width: 51 display units; median per-item maximum: 25
+High-TRACE final max line width: 48 display units; median per-item maximum: 27
+Items with a line over 48 display units: 1
+Items with a line over 64 display units: 0
+
+Longest code lines
+------------------
+final | bexam_tree_03 | high=False | max=51 display units / 51 chars |     return 1 + max(height(v.left), height(v.right))
+final | bexam_tree_04 | high=True | max=48 display units / 45 chars |     x.right ≠ null なら ENQUEUE(queue, x.right)
+final | bexam_tree_05 | high=True | max=48 display units / 45 chars |     x.right ≠ null なら ENQUEUE(queue, x.right)
+final | bexam_arr_01 | high=False | max=38 display units / 37 chars |     prefix[i] ← prefix[i-1] + data[i]
+trace | bubble_sort_b | high=False | max=35 display units / 31 chars |         data[i] と data[i+1] を交換
+final | bexam_algo_03 | high=True | max=34 display units / 33 chars |     while j ≥ 0 and data[j] > key
+trace | binary_search_b | high=False | max=33 display units / 32 chars | data ← [2, 5, 8, 12, 16, 21, 30]
+final | bexam_bit_04 | high=False | max=31 display units / 30 chars | perm ← perm AND (NOT execMask)
+trace | array_reverse | high=False | max=31 display units / 24 chars |     out の末尾に data[i] を追加
+final | bexam_sq_04 | high=True | max=30 display units / 30 chars |         PUSH(stack, a token b)
+trace | recursive_fib | high=False | max=30 display units / 30 chars |     return fib(n-1) + fib(n-2)
+final | bexam_algo_02 | high=False | max=30 display units / 29 chars | while j ≥ 0 and data[j] > key
+
+Responsive code-style evidence
+------------------------------
+Relevant code/mobile CSS rules captured: 80
+Detected code-related overflow-x auto/scroll policy: True
+Detected code-related wrapping policy: True
+Detected code-related pre/nowrap usage: True
+Detected code-related sub-12px font rules: []
+Detected code target tags: {"bCode": "<div id=\"bCode\">", "bFinalCode": "<div class=\"bmock-code bfinal-code\" id=\"bFinalCode\">", "bMockCode": "<div class=\"bmock-code\" id=\"bMockCode\">"}
+Mobile media-query evidence chunks mentioning code/Subject B: 20
+
+Findings
+--------
+None.
+
+Interpretation
+--------------
+Display units count full-width Japanese characters approximately twice an ASCII character. They are a content-width signal, not a pixel-perfect browser measurement. The audit deliberately accepts either horizontal scrolling or safe wrapping as a responsive policy, and separately flags very small code text. Exact selectors, CSS bodies, renderer sources and the longest-line inventory are preserved in the regression fixture so a follow-up can repair only the demonstrated bottleneck.
+
+Regression
+----------
+All TRACE/final algorithm content and renderer function sources are unchanged from v265.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the captured CSS and line-width evidence for the next step. If the responsive policy is already adequate, do not redesign the code viewer solely because lines are long; instead audit real interaction density/tap flow. If width adaptation is missing or code text is too small, make a narrowly scoped mobile pseudocode readability repair before adding more complex Subject B content.
