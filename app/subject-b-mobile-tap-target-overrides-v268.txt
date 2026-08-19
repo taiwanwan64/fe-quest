@@ -19,9 +19,9 @@ const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({
 });
 
 (function installSubjectBMobileTapTargetsV268(){
-  if(typeof document==='undefined')return;
+  if(typeof document==='undefined'||typeof document.createElement!=='function')return;
   const id='feq-subject-b-mobile-tap-target-v268';
-  if(document.getElementById(id))return;
+  if(typeof document.getElementById==='function'&&document.getElementById(id))return;
   const style=document.createElement('style');
   style.id=id;
   style.textContent=`
@@ -30,7 +30,8 @@ const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({
 #bMockNext,#bMockPrev,#bMockSubmitTop,
 #secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;}
 `;
-  (document.head||document.documentElement).appendChild(style);
+  const root=document.head||document.documentElement;
+  if(root&&typeof root.appendChild==='function')root.appendChild(style);
 })();
 
 globalThis.SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC;
