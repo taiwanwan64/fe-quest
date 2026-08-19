@@ -1,0 +1,32 @@
+{
+  "version": "v255",
+  "previous": "v254",
+  "parent": "de120437889e25a88e77ae6da028441f5f86c07b",
+  "result": "PASS — NO FINDINGS",
+  "pauseResumeMs": {
+    "q0": 500,
+    "q1": 400
+  },
+  "firstAnswerIdempotent": true,
+  "flushSingleCount": true,
+  "roundTripRetention": true,
+  "malformedFieldHealing": true,
+  "prefilledAnswerSkipped": true,
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "compound": 2827364307,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "contract": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true
+}

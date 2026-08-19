@@ -1,0 +1,27 @@
+FE QUEST v255 — Subject B Local Performance Post-Instrumentation Audit
+========================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v254
+Source main: de120437889e25a88e77ae6da028441f5f86c07b
+Learner-facing change in v255: none
+
+Behavior audit
+--------------
+A deterministic two-question navigation probe confirmed active unanswered time accumulation: q0 accumulated 300 ms before leaving plus 200 ms after returning = 500 ms; q1 accumulated 300 ms before leaving plus 100 ms after returning = 400 ms. Re-answering q0 did not change its frozen first-answer time or correctness. Finishing recorded exactly two events; a second flush recorded zero. A pre-filled/already-answered question recorded zero fresh events.
+
+Persistence audit
+-----------------
+The optional subjectBPerformanceV254 object survives JSON save/import plus normalizeProfileData unchanged. A malformed imported field (schema 99 / non-array events) is healed on access to schema 1 with an empty event list instead of throwing. The v254 bounded 240-event policy remains unchanged.
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v254.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Decision
+--------
+Close the local timing instrumentation safety sequence. The evidence layer now has bounded storage, backward-compatible optional persistence, first-answer single-count behavior, navigation pause/resume semantics, and no exam-behavior changes. The next step may use learner-local summaries for recommendations, but only with minimum-evidence thresholds and conservative wording; published difficulty labels and scoring should remain authored/static.
