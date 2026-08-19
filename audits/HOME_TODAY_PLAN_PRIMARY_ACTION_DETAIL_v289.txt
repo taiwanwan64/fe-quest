@@ -1,0 +1,307 @@
+FE QUEST v289 — Home / Today / Plan Primary-Action Detail Audit
+================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v288
+Source main: 24feb7415cc03da8f0abeba5db1f1a53d18db777
+Learner-facing change in v289: none
+
+Purpose
+-------
+v288 found that the audited daily-plan path does not combine nextUnfinishedDailyTask with launchDailyTask. v289 captures the exact production sources before deciding whether that is a real extra tap or simply a separation of responsibilities between renderers.
+
+Observed source relationships
+-----------------------------
+{
+  "nextReturnsTaskOrNull": true,
+  "dailyPlanUsesLaunchDailyTask": true,
+  "planFocusUsesLaunchDailyTask": true,
+  "dailyPlanUsesNextUnfinished": false,
+  "planFocusUsesNextUnfinished": false,
+  "plannerCallsDailyPlan": false,
+  "plannerCallsPlanFocus": false,
+  "homeReviewOnly": true
+}
+
+Exact nextUnfinishedDailyTask
+-----------------------------
+function nextUnfinishedDailyTask(){
+  const rec=getDailyRecord();
+  return ensureTodayPlanSnapshot().find(t=>!dailyTaskDone(rec,t))||null;
+}
+
+Exact launchDailyTask
+---------------------
+function launchDailyTask(t){
+  if(t.type==='warmup'){
+    showScreen('problems');
+    startQuiz('warmup');
+    return;
+  }
+  if(t.type==='taperReview'){
+    showScreen('problems');
+    startQuiz('taperreview');
+    return;
+  }
+  if(t.type==='review'){
+    const j=actionableReviewJourneys()[0];
+    if(j){
+      startJourneyAction(j.id);
+    }else{
+      showScreen('problems');
+      startQuiz('review');
+    }
+    return;
+  }
+  if(t.type==='lesson'){
+    startLesson(t.lessonId);
+    return;
+  }
+  if(t.type==='prescription'){
+    if(t.rx?.kind==='knowledge') startLesson(pickLessonForSkill(t.rx.cat));
+    else{
+      showScreen('problems');
+      startQuiz(rxMode(t.rx));
+    }
+    return;
+  }
+  if(t.type==='finalFocus'){
+    launchFinalFocus(t.focus);
+    return;
+  }
+  if(t.type==='subjectB'){
+    showScreen('trace');
+    if(t.bmode==='trace'){
+      setBMode('trace');
+      if(t.bid) startBExercise(t.bid);
+    }else if(t.bmode==='security'){
+      setBMode('security');
+      if(t.bid) startSecurityScenario(t.bid);
+    }else if(t.bmode==='compound'){
+      setBMode('mock');
+      startCompoundChallenge();
+    }else if(t.bmode==='securityMock'){
+      setBMode('security');
+      startSecurityMock();
+    }else{
+      setBMode('mock');
+    }
+    return;
+  }
+  if(t.type==='boss'){
+    showScreen('problems');
+    startQuiz('boss');
+  }
+}
+
+Exact renderDailyPlan
+---------------------
+function renderDailyPlan(){
+  const root=document.getElementById('dailyTaskList');
+  if(!root) return;
+  const rec=getDailyRecord();
+  const tasks=ensureTodayPlanSnapshot();
+  const total=Number(rec.targetMinutes)||tasks.reduce((s,t)=>s+(Number(t.minutes)||0),0)||effectiveStudyMinutes();
+  const doneTasks=tasks.filter(t=>dailyTaskDone(rec,t));
+  const doneMinutes=doneTasks.reduce((s,t)=>s+t.minutes,0);
+  const pct=Math.min(100,Math.round(doneMinutes/total*100));
+
+  document.getElementById('dailyProgressBar').style.width=pct+'%';
+  document.getElementById('dailyProgressLabel').textContent=`${doneMinutes} / ${total}分`;
+  document.getElementById('dailyDoneLabel').textContent=`${doneTasks.length} / ${tasks.length} 完了`;
+  const pace=examPaceStatus();
+  document.getElementById('todayPlanMeta').textContent=pace.hasExam&&!pace.expired
+    ? `${pace.phase.name}・今日${total}分・復習待ち${reviewWorkloadCount()}件・弱点「${weakestSkill()}」`
+    : `標準${total}分・復習待ち${reviewWorkloadCount()}件・弱点「${weakestSkill()}」`;
+  const ready=calcReadiness();
+  document.getElementById('homeReadiness').textContent=ready+'%';
+
+  root.innerHTML='';
+  tasks.forEach(t=>{
+    const done=dailyTaskDone(rec,t);
+    const d=document.createElement('div');
+    d.className='daily-task'+(done?' done':'');
+    d.innerHTML=`
+      <div class="daily-task-icon ${t.bg}">${t.icon}</div>
+      <div>
+        <div class="daily-task-title">${learningHtml(t.title)}</div>
+        <div class="daily-task-desc">${escapeHtml(t.desc)}</div>
+      </div>
+      <div class="daily-task-side">
+        <div class="daily-task-time">${t.minutes}分</div>
+        <button class="daily-task-btn">${done?'もう一度':'開始'}</button>
+      </div>`;
+    d.querySelector('button').onclick=()=>launchDailyTask(t);
+    root.appendChild(d);
+  });
+
+  const resume=document.getElementById('todayResumeBtn');
+  if(resume){
+    const nextTask=tasks.find(t=>!dailyTaskDone(rec,t));
+    if(nextTask){
+      resume.disabled=false;
+      resume.textContent=doneTasks.length?'続きから再開 →':'今日の学習を始める →';
+      resume.onclick=()=>launchDailyTask(nextTask);
+    }else{
+      resume.disabled=true;
+      resume.textContent='今日の学習は完了しました ✓';
+      resume.onclick=null;
+    }
+  }
+  const rightProgress=document.getElementById('rightDailyProgress'),rightNext=document.getElementById('rightDailyNext'),rightAction=document.getElementById('rightDailyAction');
+  const nextTask=tasks.find(t=>!dailyTaskDone(rec,t));
+  if(rightProgress)rightProgress.textContent=`${doneTasks.length}/${tasks.length}完了・${doneMinutes}/${total}分`;
+  if(rightNext)rightNext.textContent=nextTask?`次は「${nextTask.title}」・目安${nextTask.minutes}分`:'今日の計画は完了しています。';
+  if(rightAction){rightAction.disabled=!nextTask;rightAction.textContent=nextTask?'続きから再開 →':'今日の学習は完了 ✓';rightAction.onclick=nextTask?()=>launchDailyTask(nextTask):null;}
+}
+
+Exact renderPlanFocus
+---------------------
+function renderPlanFocus(){
+  const title=document.getElementById('planFocusTitle'),desc=document.getElementById('planFocusDesc'),action=document.getElementById('planFocusAction'),icon=document.getElementById('planFocusIcon');
+  if(!title||!desc||!action)return;
+  const rec=getDailyRecord(),tasks=ensureTodayPlanSnapshot();
+  const done=tasks.filter(t=>dailyTaskDone(rec,t)).length,next=tasks.find(t=>!dailyTaskDone(rec,t));
+  if(next){title.textContent=`${done}/${tasks.length}完了・次は「${next.title}」`;desc.textContent=`今日の計画の残りを優先します。目安 ${next.minutes}分。`;icon.textContent=next.icon||'📅';action.textContent='次を始める →';action.disabled=false;action.onclick=()=>launchDailyTask(next);}
+  else{title.textContent='今日の計画は完了しています';desc.textContent='追加で詰め込まず、必要なら演習や分析を確認できます。';icon.textContent='✓';action.textContent='ホームへ →';action.disabled=false;action.onclick=()=>showScreen('home');}
+}
+
+Exact renderPlannerScreen
+-------------------------
+function(){
+  _renderPlannerScreenV18();
+  renderMemoryDashboard();
+}
+
+Exact buildTodayTasks
+---------------------
+function buildTodayTasks(){
+  const daysNow=examDaysRemaining();
+  const totalNow=effectiveStudyMinutes();
+  if(daysNow!=null&&daysNow>=0&&daysNow<=7)return buildTaperTodayTasks(daysNow,totalNow);
+  const alloc=taskAllocation(totalNow);
+  const routes=actionableReviewJourneys().length;
+  const due=dueQuestions().length;
+  const lesson=nextLessonChoice();
+  const b=nextBChoice(alloc.subjectB);
+  const bMinutes=(b.mode==='compound'||b.mode==='securityMock')?Math.min(20,alloc.subjectB):alloc.subjectB;
+  const lessonMinutes=alloc.lesson+Math.max(0,alloc.subjectB-bMinutes);
+  const weak=weakestSkill();
+  const days=examDaysRemaining();
+  const finalPhase=days!=null&&days<=14;
+
+  const rxReady=window.FEQUEST_RX_READY===true;
+  const rx=rxReady?recommendedPrescription():{kind:'knowledge',cat:lesson.skill,reason:'データ不足'};
+  const rxMeta=rxReady?prescriptionMeta(rx):{icon:'📘',title:lesson.title,desc:'未完了教材を優先'};
+  const useRx=rxReady && rx.kind!=='knowledge';
+
+  let learnTask;
+  if(lesson.complete){
+    const focus=shortFinalFocusRecommendation();
+    learnTask={
+      type:'finalFocus',icon:focus.icon,bg:'blue',
+      title:focus.title,desc:focus.desc,
+      minutes:lessonMinutes,focus
+    };
+  }else if(useRx){
+    learnTask={
+      type:'prescription',icon:rxMeta.icon,bg:'blue',
+      title:rxMeta.title,desc:`原因「${rx.reason}」に合わせて自動処方`,
+      minutes:lessonMinutes,rx
+    };
+  }else{
+    learnTask={
+      type:'lesson',icon:'📘',bg:'blue',
+      title:lesson.title,desc:`${lesson.skill}・未完了教材を優先`,
+      minutes:lessonMinutes,lessonId:lesson.id
+    };
+  }
+
+  return [
+    {
+      type:'review',icon:'🧠',bg:'green',
+      title:'記憶の復習',
+      desc:routes?`復習ルート ${routes}件を優先`:due?`復習期限の問題 ${due}問を優先`:`今日の復習期限はなし。「${weak}」を補強`,
+      minutes:alloc.review
+    },
+    learnTask,
+    {
+      type:'subjectB',icon:'💻',bg:'purple',
+      title:b.mode==='trace'?`プログラムトレース：${b.title}`:b.mode==='security'?`セキュリティ：${b.title}`:b.mode==='compound'?`複合演習：${b.title}`:b.mode==='securityMock'?b.title:`実戦：${b.title}`,
+      desc:b.mode==='trace'?'科目B アルゴリズム':b.mode==='security'?'科目B 情報セキュリティ':b.mode==='compound'?'科目B アルゴリズム・20分実戦':b.mode==='securityMock'?'科目B セキュリティ・20分実戦':'科目B 実戦',
+      minutes:bMinutes,bmode:b.mode,bid:b.id
+    },
+    {
+      type:'boss',icon:'👑',bg:'yellow',
+      title:finalPhase?'直前総合チェック':'今日の総合チェック',
+      desc:finalPhase?'判断3問＋適用2問・分野を散らして5問':'全分野から5問・仕上げチェック',
+      minutes:alloc.boss
+    }
+  ];
+}
+
+Exact ensureTodayPlanSnapshot
+-----------------------------
+function ensureTodayPlanSnapshot(force=false){
+  const rec=getDailyRecord();
+  const stale=rec.planVersion!=='v98';
+  if(force||!Array.isArray(rec.tasks)||!rec.tasks.length||stale){
+    const old=snapshotDailyTasks(Array.isArray(rec.tasks)?rec.tasks:[]);
+    const fresh=snapshotDailyTasks(buildTodayTasks());
+    const done=rec.done||{};
+    rec.tasks=fresh.map(t=>{
+      const slot=dailyTaskSlot(t);
+      if(done[slot])return old.find(x=>dailyTaskSlot(x)===slot)||t;
+      return t;
+    });
+    rec.targetMinutes=rec.tasks.reduce((s,t)=>s+(Number(t.minutes)||0),0);
+    rec.planVersion='v98';
+    rec.plannedAt=rec.plannedAt||new Date().toISOString();
+    if(stale)rec.replannedAt=new Date().toISOString();
+    persistProfileSilently();
+  }
+  return rec.tasks;
+}
+
+Exact courseAContinueId
+-----------------------
+function courseAContinueId(){
+  const ui=readUiState();
+  if(ui.lessonId&&CORE_A_IDS.includes(ui.lessonId)&&(profile.lessonProgress?.[ui.lessonId]||0)<100)return ui.lessonId;
+  return nextLessonChoice()?.id||null;
+}
+
+Exact renderHomeReviewCandidates
+--------------------------------
+function renderHomeReviewCandidates(){
+  const root=document.getElementById('homeReviewCandidates');
+  if(!root) return;
+  const items=topReviewCandidates(3);
+  if(!items.length){
+    root.innerHTML='<div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>';
+    return;
+  }
+  const icons={'基礎理論':'🔢','コンピュータ':'⚙️','データベース':'🗃️','ネットワーク':'🌐','セキュリティ':'🛡️','アルゴリズム':'🧩','マネジメント':'📋','ストラテジ':'📈'};
+  root.innerHTML=items.map(q=>{
+    const st=profile.qStats[q.id];
+    const r=memoryRetention(st)??100;
+    const timing=reviewTimingLabel(st);
+    return `<div class="mini-card"><div class="big">${icons[q.cat]||'🧠'}</div><b>${escapeHtml(q.concept)}</b>
+      <div class="sub">${escapeHtml(q.cat)}・${escapeHtml(q.cognitiveLevel||'')}・推定保持 ${r}%</div>
+      <div class="progress" style="margin-top:10px"><div style="width:${r}%"></div></div>
+      <div class="memory-risk" style="${timing.due?'':'color:var(--muted)'}">${escapeHtml(timing.text)}</div></div>`;
+  }).join('');
+}
+
+Regression
+----------
+No learner-facing code changed.
+All captured sources are byte-behavior equivalent to v288.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the exact source above to identify the real learner-visible primary button and its task source. Only repair if the visible primary action requires an avoidable intermediate selection; otherwise close the entry-flow finding and move to result-screen return paths or learning-content quality.
