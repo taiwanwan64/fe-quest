@@ -1,0 +1,41 @@
+FE QUEST v264 — Subject B Deterministic Array Re-Trace Expansion
+====================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v263
+Source main: d83f88dcef3a8da30ec32161c69dc5e89573af65
+Learner-facing change in v264: yes — after count_even has already been completed once, starting it again uses a clearly labeled alternate array [4, 7, 9, 12, 15] instead of replaying the same authored array.
+
+Repair
+------
+The v262 completed-repeat mechanism is extended to one array/condition exercise. The first count_even exposure remains the authored exercise. A completed repeat uses a deep-cloned deterministic variant with the same canonical id and concept, but a different input array and state path. The shared B_EXERCISES slot is restored in a finally block immediately after the existing start routine binds currentB.
+
+Transfer target
+---------------
+The alternate array changes both the values and the positions of matching elements. The learner must therefore re-evaluate data[i] mod 2 for each index instead of remembering the original count path. The final count is 2. Two prediction checkpoints specifically test (1) not incrementing count for odd 7 and (2) incrementing count for even 12.
+
+Validation
+----------
+count_even first exposure: byte-behavior equivalent to v263.
+count_even completed repeat: alternate marker present and input is [4, 7, 9, 12, 15].
+Second completed repeat: deterministic hash identical to the first alternate repeat.
+Shared B_EXERCISES: restored after every first/repeat/non-pilot start probe.
+v262 loop_sum completed repeat: byte-behavior equivalent to v263 and retains its v262 marker.
+Non-pilot matrix_sum completed repeat: byte-behavior equivalent to v263.
+Array variant: exactly 2 prediction checkpoints; each has 4 unique options, one valid answer, explanation, hint, and choice-specific wrong-answer feedback.
+Expected checkpoint states: i=1, count=1; i=3, count=2.
+
+Regression
+----------
+Authored 20-item TRACE bank, final algorithm pool, compound bank and security bank: unchanged from v263.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, readiness, remediation targets, difficulty labels, exam timing, profile schema and remote telemetry: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The transfer-learning pattern now covers one foundational loop accumulator and one array-plus-condition trace, while keeping all first exposures authored. Next perform a post-expansion audit focused on completion/progress isolation and the interaction between the nested v262/v264 start wrappers. If clean, stop expanding variants for now and return to a broader learner-facing Subject B UX/content frontier rather than parameterizing every exercise.

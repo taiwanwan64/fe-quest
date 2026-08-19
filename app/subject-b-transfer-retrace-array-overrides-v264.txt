@@ -1,0 +1,112 @@
+// ===== FE QUEST v264 Subject B deterministic array re-trace expansion =====
+const SUBJECT_B_TRANSFER_RETRACE_ARRAY_V264_SPEC=Object.freeze({
+  policy:'completed-repeat-only-deterministic-array-alternate',
+  sourceAudit:'v263-subject-b-transfer-retrace-post-audit',
+  pilotId:'count_even',
+  originalFirstExposure:true,
+  completedRepeatOnly:true,
+  deterministic:true,
+  randomValues:false,
+  predictionCheckpoints:2,
+  optionsPerPrediction:4,
+  sharedExerciseBankMutation:'temporary-slot-only-with-finally-restore',
+  preservesV262LoopSum:true,
+  scoringChanged:false,
+  finalSelectionChanged:false,
+  finalOrderChanged:false,
+  readinessChanged:false,
+  remediationTargetsChanged:false,
+  difficultyLabelsChanged:false,
+  examTimingChanged:false,
+  profileSchemaChanged:false,
+  remoteTelemetry:false
+});
+
+function subjectBPredictionFeedbackV264(predict){
+  const opts=(predict?.opts||[]).map(String),a=Number(predict?.a),hint=String(predict?.hint||'配列の添字とcountを1要素ずつ追います。');
+  const checkpoint='処理の分岐点：'+String(predict?.explain||'条件判定とcount更新の順序を確認します。').split('。')[0]+'。';
+  const wrongFeedback=opts.map((opt,i)=>i===a?'':Object.freeze({
+    diagnosis:`「${opt}」では、現在の添字・要素の偶奇・countを増やすタイミングのいずれかがずれています。次の1要素だけを条件判定から追ってください。`,
+    checkpoint,
+    nextCue:hint
+  }));
+  const wrongFeedbackByText={};
+  opts.forEach((opt,i)=>{if(i!==a)wrongFeedbackByText[opt]=wrongFeedback[i];});
+  predict.wrongFeedback=wrongFeedback;
+  predict.wrongFeedbackByText=wrongFeedbackByText;
+  return predict;
+}
+
+function subjectBCountEvenRetraceVariantV264(authored){
+  const variant=JSON.parse(JSON.stringify(authored));
+  variant.title='偶数を数える・別の配列で再トレース';
+  variant.desc='再挑戦では配列の値と偶数の位置が変わります。前回のcountを思い出すのではなく、各要素の条件判定をもう一度追います。';
+  variant.code=[
+    'data ← [4, 7, 9, 12, 15]',
+    'count ← 0',
+    'for i ← 0 to 4',
+    '    if data[i] mod 2 = 0',
+    '        count ← count + 1',
+    '    endif',
+    'endfor',
+    'count を出力する'
+  ];
+  variant.steps=[
+    {line:0,state:{i:'—',value:'—',count:'—'},msg:'今回はdata=[4, 7, 9, 12, 15]を使います。'},
+    {line:1,state:{i:'—',value:'—',count:0},msg:'countを0で初期化しました。'},
+    {line:2,state:{i:0,value:4,count:0},msg:'i=0、data[0]=4から走査します。'},
+    {line:3,state:{i:0,value:4,count:0},msg:'4は偶数なので条件は真です。'},
+    {line:4,state:{i:0,value:4,count:1},msg:'count = 0 + 1 → 1',predict:subjectBPredictionFeedbackV264({
+      q:'現在はi=0の処理後でcount=1です。次のi=1（data[1]=7）の反復を終えた直後の状態は？',
+      opts:['i=1, count=2','i=2, count=1','i=1, count=1','i=2, count=2'],a:2,
+      explain:'次はi=1でdata[1]=7を調べます。7は奇数なのでcountは増えず、i=1の反復を終えた直後もcount=1です。',
+      hint:'data[1]=7が偶数かを先に判定し、countを更新するか決めます。'
+    })},
+    {line:5,state:{i:0,value:4,count:1},msg:'i=0の条件処理を終えます。'},
+    {line:2,state:{i:1,value:7,count:1},msg:'i=1、data[1]=7へ進みます。'},
+    {line:3,state:{i:1,value:7,count:1},msg:'7は奇数なので条件は偽です。'},
+    {line:5,state:{i:1,value:7,count:1},msg:'countを増やさずi=1を終えます。'},
+    {line:2,state:{i:2,value:9,count:1},msg:'i=2、data[2]=9へ進みます。'},
+    {line:3,state:{i:2,value:9,count:1},msg:'9も奇数なのでcountは1のままです。'},
+    {line:5,state:{i:2,value:9,count:1},msg:'i=2を終えます。'},
+    {line:2,state:{i:3,value:12,count:1},msg:'i=3、data[3]=12へ進みます。',predict:subjectBPredictionFeedbackV264({
+      q:'現在はi=3、data[3]=12、判定前のcount=1です。この反復を終えた直後の状態は？',
+      opts:['i=3, count=2','i=3, count=1','i=4, count=2','i=4, count=1'],a:0,
+      explain:'data[3]=12は偶数なので条件は真になり、countは1→2へ増えます。まだi=3の反復を終えた直後なので状態はi=3, count=2です。',
+      hint:'12の偶奇を判定し、真ならcountを1だけ増やします。'
+    })},
+    {line:3,state:{i:3,value:12,count:1},msg:'12は偶数なので条件は真です。'},
+    {line:4,state:{i:3,value:12,count:2},msg:'count = 1 + 1 → 2'},
+    {line:5,state:{i:3,value:12,count:2},msg:'i=3を終えます。'},
+    {line:2,state:{i:4,value:15,count:2},msg:'最後のi=4、data[4]=15へ進みます。'},
+    {line:3,state:{i:4,value:15,count:2},msg:'15は奇数なのでcountは増えません。'},
+    {line:6,state:{i:4,value:15,count:2},msg:'全5要素の走査が終わりました。'},
+    {line:7,state:{i:4,value:15,count:2},msg:'最終結果は2です。'}
+  ];
+  variant.retraceVariantV264='count_even-alternate-array-v1';
+  return variant;
+}
+
+function subjectBTransferRetraceArrayEligibleV264(id){
+  return id===SUBJECT_B_TRANSFER_RETRACE_ARRAY_V264_SPEC.pilotId
+    &&Number(profile?.bProgress?.[id]||0)>=100;
+}
+
+const _startBExerciseV264=startBExercise;
+startBExercise=function(id){
+  if(!subjectBTransferRetraceArrayEligibleV264(id))return _startBExerciseV264(id);
+  const index=B_EXERCISES.findIndex(x=>x.id===id);
+  if(index<0)return _startBExerciseV264(id);
+  const authored=B_EXERCISES[index];
+  const variant=subjectBCountEvenRetraceVariantV264(authored);
+  B_EXERCISES[index]=variant;
+  try{
+    return _startBExerciseV264(id);
+  }finally{
+    B_EXERCISES[index]=authored;
+  }
+};
+
+globalThis.SUBJECT_B_TRANSFER_RETRACE_ARRAY_V264_SPEC=SUBJECT_B_TRANSFER_RETRACE_ARRAY_V264_SPEC;
+globalThis.subjectBTransferRetraceArrayEligibleV264=subjectBTransferRetraceArrayEligibleV264;
+globalThis.subjectBCountEvenRetraceVariantV264=subjectBCountEvenRetraceVariantV264;
