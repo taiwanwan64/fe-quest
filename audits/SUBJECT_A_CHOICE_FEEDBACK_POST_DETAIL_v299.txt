@@ -1,0 +1,437 @@
+FE QUEST v299 — Subject A Choice-Feedback Post-Detail Audit
+===========================================================
+
+Result
+------
+PASS — POST-DETAIL EVIDENCE CAPTURED
+Previous release: v298
+Source main: ab1728a1a726cc675970f0f2c8feecf2429f67c8
+Learner-facing change in v299: none
+
+Purpose
+-------
+v298 showed that the repeated generic phrases usually follow a concrete definition of the distractor. v299 removes only the generic boilerplate phrases from the captured explanations and measures what concept-specific teaching remains. This avoids rewriting useful feedback merely because it ends with a common sentence.
+
+Summary
+-------
+{
+  "targetQuestions": 20,
+  "genericWrongChoices": 40,
+  "weakAfterBoilerplateRemoval": 3,
+  "weakRows": [
+    {
+      "id": "coreq_14_05_1",
+      "topic": "core_14_05",
+      "index": 1,
+      "option": "SV",
+      "original": "EV-PVで求めるスケジュール差異。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "EV-PVで求めるスケジュール差異",
+      "remainderChars": 17
+    },
+    {
+      "id": "coreq_14_05_1",
+      "topic": "core_14_05",
+      "index": 2,
+      "option": "CPI",
+      "original": "EV/ACで求めるコスト効率。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "EV/ACで求めるコスト効率",
+      "remainderChars": 14
+    },
+    {
+      "id": "coreq_16_04_1",
+      "topic": "core_16_04",
+      "index": 1,
+      "option": "KGI",
+      "original": "最終的な目標達成度を測る指標。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "最終的な目標達成度を測る指標",
+      "remainderChars": 14
+    }
+  ],
+  "remainderMinChars": 14,
+  "remainderExamples": [
+    {
+      "id": "coreq_03_04_1",
+      "topic": "core_03_04",
+      "index": 1,
+      "option": "アセンブラ",
+      "original": "アセンブリ言語を機械語へ変換する翻訳プログラム。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "アセンブリ言語を機械語へ変換する翻訳プログラム",
+      "remainderChars": 23
+    },
+    {
+      "id": "coreq_03_04_1",
+      "topic": "core_03_04",
+      "index": 2,
+      "option": "リンカ",
+      "original": "複数の目的プログラムやライブラリを結合して実行可能な形にする。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "複数の目的プログラムやライブラリを結合して実行可能な形にする",
+      "remainderChars": 30
+    },
+    {
+      "id": "coreq_04_04_1",
+      "topic": "core_04_04",
+      "index": 1,
+      "option": "DisplayPort",
+      "original": "主にディスプレイへデジタル映像・音声を伝送するインタフェース。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "主にディスプレイへデジタル映像・音声を伝送するインタフェース",
+      "remainderChars": 30
+    },
+    {
+      "id": "coreq_04_04_1",
+      "topic": "core_04_04",
+      "index": 2,
+      "option": "Bluetooth",
+      "original": "近距離の無線通信で周辺機器などを接続する規格。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "近距離の無線通信で周辺機器などを接続する規格",
+      "remainderChars": 22
+    },
+    {
+      "id": "coreq_05_03_1",
+      "topic": "core_05_03",
+      "index": 1,
+      "option": "レスポンスタイム",
+      "original": "要求を出してから応答が返るまでの時間。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "要求を出してから応答が返るまでの時間",
+      "remainderChars": 18
+    },
+    {
+      "id": "coreq_05_03_1",
+      "topic": "core_05_03",
+      "index": 2,
+      "option": "ターンアラウンドタイム",
+      "original": "処理を投入してから処理全体が完了するまでの時間。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "処理を投入してから処理全体が完了するまでの時間",
+      "remainderChars": 23
+    },
+    {
+      "id": "coreq_08_01_1",
+      "topic": "core_08_01",
+      "index": 1,
+      "option": "NUI",
+      "original": "身体動作や音声など自然な操作を利用するユーザインタフェース。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "身体動作や音声など自然な操作を利用するユーザインタフェース",
+      "remainderChars": 29
+    },
+    {
+      "id": "coreq_08_01_1",
+      "topic": "core_08_01",
+      "index": 2,
+      "option": "VUI",
+      "original": "音声による入出力を中心とするユーザインタフェース。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "音声による入出力を中心とするユーザインタフェース",
+      "remainderChars": 24
+    },
+    {
+      "id": "coreq_08_04_1",
+      "topic": "core_08_04",
+      "index": 1,
+      "option": "MR",
+      "original": "現実空間と仮想情報を融合して相互に扱う技術。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "現実空間と仮想情報を融合して相互に扱う技術",
+      "remainderChars": 21
+    },
+    {
+      "id": "coreq_08_04_1",
+      "topic": "core_08_04",
+      "index": 2,
+      "option": "CG",
+      "original": "コンピュータで画像や映像を生成・加工する技術。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "コンピュータで画像や映像を生成・加工する技術",
+      "remainderChars": 22
+    },
+    {
+      "id": "coreq_09_06_1",
+      "topic": "core_09_06",
+      "index": 1,
+      "option": "ダーティリード",
+      "original": "他トランザクションがまだ確定していない値を読み取る現象。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "他トランザクションがまだ確定していない値を読み取る現象",
+      "remainderChars": 27
+    },
+    {
+      "id": "coreq_09_06_1",
+      "topic": "core_09_06",
+      "index": 2,
+      "option": "スタベーション",
+      "original": "ある処理が資源を得られず長時間実行できない状態。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "ある処理が資源を得られず長時間実行できない状態",
+      "remainderChars": 23
+    },
+    {
+      "id": "coreq_10_02_1",
+      "topic": "core_10_02",
+      "index": 1,
+      "option": "L2スイッチ",
+      "original": "MACアドレスを基に同一LAN内でフレームを転送する装置。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "MACアドレスを基に同一LAN内でフレームを転送する装置",
+      "remainderChars": 28
+    },
+    {
+      "id": "coreq_10_02_1",
+      "topic": "core_10_02",
+      "index": 2,
+      "option": "リピータ",
+      "original": "信号を再生・増幅して伝送距離を延ばす装置。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "信号を再生・増幅して伝送距離を延ばす装置",
+      "remainderChars": 20
+    },
+    {
+      "id": "coreq_11_01_1",
+      "topic": "core_11_01",
+      "index": 1,
+      "option": "ワーム",
+      "original": "自己増殖しながらネットワークなどを通じて感染を広げるマルウェア。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "自己増殖しながらネットワークなどを通じて感染を広げるマルウェア",
+      "remainderChars": 31
+    },
+    {
+      "id": "coreq_11_01_1",
+      "topic": "core_11_01",
+      "index": 2,
+      "option": "トロイの木馬",
+      "original": "正規ソフトを装うなどして侵入し、不正な処理を行うマルウェア。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "正規ソフトを装うなどして侵入し、不正な処理を行うマルウェア",
+      "remainderChars": 29
+    },
+    {
+      "id": "coreq_11_05_1",
+      "topic": "core_11_05",
+      "index": 1,
+      "option": "CSIRT",
+      "original": "情報セキュリティ事故へ対応するための組織・チーム。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "情報セキュリティ事故へ対応するための組織・チーム",
+      "remainderChars": 24
+    },
+    {
+      "id": "coreq_11_05_1",
+      "topic": "core_11_05",
+      "index": 2,
+      "option": "SOC",
+      "original": "セキュリティログなどを監視・分析し、脅威を検知する組織・機能。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "セキュリティログなどを監視・分析し、脅威を検知する組織・機能",
+      "remainderChars": 30
+    },
+    {
+      "id": "coreq_14_04_1",
+      "topic": "core_14_04",
+      "index": 1,
+      "option": "クリティカルチェーン",
+      "original": "資源制約も考慮して工程を管理する考え方。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "資源制約も考慮して工程を管理する考え方",
+      "remainderChars": 19
+    },
+    {
+      "id": "coreq_14_04_1",
+      "topic": "core_14_04",
+      "index": 2,
+      "option": "ダミー作業",
+      "original": "アローダイアグラムで依存関係だけを表す、所要時間0の作業。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "アローダイアグラムで依存関係だけを表す、所要時間0の作業",
+      "remainderChars": 28
+    },
+    {
+      "id": "coreq_14_05_1",
+      "topic": "core_14_05",
+      "index": 1,
+      "option": "SV",
+      "original": "EV-PVで求めるスケジュール差異。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "EV-PVで求めるスケジュール差異",
+      "remainderChars": 17
+    },
+    {
+      "id": "coreq_14_05_1",
+      "topic": "core_14_05",
+      "index": 2,
+      "option": "CPI",
+      "original": "EV/ACで求めるコスト効率。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "EV/ACで求めるコスト効率",
+      "remainderChars": 14
+    },
+    {
+      "id": "coreq_15_03_1",
+      "topic": "core_15_03",
+      "index": 1,
+      "option": "インシデント管理",
+      "original": "サービスをできるだけ早く正常状態へ戻す管理活動。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "サービスをできるだけ早く正常状態へ戻す管理活動",
+      "remainderChars": 23
+    },
+    {
+      "id": "coreq_15_03_1",
+      "topic": "core_15_03",
+      "index": 2,
+      "option": "問題管理",
+      "original": "根本原因を分析し再発防止につなげる管理活動。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "根本原因を分析し再発防止につなげる管理活動",
+      "remainderChars": 21
+    },
+    {
+      "id": "coreq_15_06_1",
+      "topic": "core_15_06",
+      "index": 1,
+      "option": "ジョブローテーション",
+      "original": "担当業務を定期的に交代させる人事・統制上の施策。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "担当業務を定期的に交代させる人事・統制上の施策",
+      "remainderChars": 23
+    },
+    {
+      "id": "coreq_15_06_1",
+      "topic": "core_15_06",
+      "index": 2,
+      "option": "アクセス制御",
+      "original": "利用者や役割に応じて資源への利用権限を制限する仕組み。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "利用者や役割に応じて資源への利用権限を制限する仕組み",
+      "remainderChars": 26
+    },
+    {
+      "id": "coreq_16_04_1",
+      "topic": "core_16_04",
+      "index": 1,
+      "option": "KGI",
+      "original": "最終的な目標達成度を測る指標。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "最終的な目標達成度を測る指標",
+      "remainderChars": 14
+    },
+    {
+      "id": "coreq_16_04_1",
+      "topic": "core_16_04",
+      "index": 2,
+      "option": "CSF",
+      "original": "目標達成のため特に重要となる成功要因。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "目標達成のため特に重要となる成功要因",
+      "remainderChars": 18
+    },
+    {
+      "id": "coreq_17_02_1",
+      "topic": "core_17_02",
+      "index": 1,
+      "option": "RFI",
+      "original": "「RFI」は別の役割・性質を表す選択肢。 問題文の条件とは一致しない。",
+      "genericMarkers": [
+        "別の役割・性質を表す選択肢",
+        "問題文の条件とは一致しない"
+      ],
+      "conceptSpecificRemainder": "「RFI」は別の役割・性質を表す選択肢",
+      "remainderChars": 19
+    },
+    {
+      "id": "coreq_17_02_1",
+      "topic": "core_17_02",
+      "index": 2,
+      "option": "RFQ",
+      "original": "「RFQ」は別の役割・性質を表す選択肢。 同じ分野の用語だが、問われている役割ではない。",
+      "genericMarkers": [
+        "別の役割・性質を表す選択肢",
+        "同じ分野の用語だが、問われている役割ではない"
+      ],
+      "conceptSpecificRemainder": "「RFQ」は別の役割・性質を表す選択肢",
+      "remainderChars": 19
+    }
+  ]
+}
+
+Interpretation
+--------------
+The 18-character threshold is an internal conservative review trigger, not a textbook or exam requirement. If a wrong-choice explanation still contains a substantive concept definition after generic boilerplate is stripped, the feedback is already diagnostic enough for the learner and should be preserved. Only rows with a genuinely thin remainder should be considered for editing.
+
+Regression
+----------
+No learner-facing content changed.
+v299 analyzes the validated v298 evidence only; the standard release validator separately enforces candidate/mechanical-reference equality and production invariants.
+
+Decision
+--------
+If weakAfterBoilerplateRemoval is zero, close the Subject A explanation-quality sequence without content changes. If non-zero, repair only those exact wrong-choice explanations and leave all stems, options, answers and already diagnostic feedback untouched.
