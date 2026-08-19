@@ -1,0 +1,37 @@
+{
+  "version": "v244",
+  "previous": "v243",
+  "parent": "601cba21a1c5c19c7c266a34b882c9be59dd2a2b",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "findings": [
+    {
+      "priority": "Medium",
+      "marker": "subject_b_security_review_reason_action_route_mismatch",
+      "detail": "30 security review reason/action combinations explicitly name a different practice mode from the existing security route: {'トレースミス': 15, 'コード理解': 15}."
+    }
+  ],
+  "algorithmMismatchCount": 0,
+  "securityMismatchCount": 30,
+  "securityMismatchByReason": {
+    "コード理解": 15,
+    "トレースミス": 15
+  },
+  "repairWired": true,
+  "sharedReasonChips": true,
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true
+}

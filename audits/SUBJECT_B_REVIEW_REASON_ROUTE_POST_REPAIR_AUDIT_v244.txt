@@ -1,0 +1,36 @@
+FE QUEST v244 — Subject B Review Reason/Action Route Post-Repair Audit
+======================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous release: v243
+Source main: 601cba21a1c5c19c7c266a34b882c9be59dd2a2b
+Learner-facing change in v244: none
+
+Algorithm post-repair flow
+--------------------------
+Explicit learner-copy / launched-route mismatches across 43 algorithm items × 5 reasons: 0
+v243 review-button route wiring to the reason-aware helper and compound challenge: yes
+
+Security reason-label check
+---------------------------
+The same five reason chips are rendered for security review items: yes
+Explicit security learner-copy / launched-route mismatches: 30
+Mismatch by reason: {"コード理解": 15, "トレースミス": 15}
+Representative security 「コード理解」: label 複合問題で確認 / existing route security
+Representative security 「トレースミス」: label TRACEで1行ずつ確認 / existing route security
+
+Regression
+----------
+Question / TRACE / security / final-algorithm bank hashes vs v243: identical.
+Final contract unchanged: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Findings
+--------
+- Medium: subject_b_security_review_reason_action_route_mismatch — 30 security review reason/action combinations explicitly name a different practice mode from the existing security route: {'トレースミス': 15, 'コード理解': 15}.
+
+Decision
+--------
+The v243 algorithm repair is confirmed. If the security finding is present, repair only the security-specific reason labels/chips so that visible advice matches the existing security remediation route; keep security target IDs, scoring, final selection, readiness and timing unchanged.
