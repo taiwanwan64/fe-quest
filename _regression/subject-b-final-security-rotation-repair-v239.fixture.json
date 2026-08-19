@@ -1,0 +1,137 @@
+{
+  "version": "v239",
+  "previous": "v238",
+  "parent": "00c90948d3b4ffe97fdb67e5f4f6ffd8472c0d6b",
+  "result": "PASS — NO FINDINGS",
+  "findingResolved": "subject_b_final_security_long_run_coverage_gap",
+  "inventory": {
+    "total": 15,
+    "logs": 4,
+    "cases": 11,
+    "ids": [
+      "phishing",
+      "ransomware",
+      "access",
+      "logs",
+      "certificate",
+      "risk",
+      "sql_injection",
+      "xss",
+      "password_spray",
+      "usb_malware",
+      "exfiltration",
+      "crypto_choice",
+      "password_hash",
+      "signed_update",
+      "patch"
+    ]
+  },
+  "parentAll15By5": 0,
+  "candidateAll15By5": 100,
+  "candidateAll15By4": 0,
+  "candidateAll15By6": 100,
+  "firstFinalExactSignatureMatch": true,
+  "algorithmHistorySignatureMatch": true,
+  "adaptiveQuotasValid": true,
+  "allSeenRestores2Plus2": true,
+  "buildReadOnly": true,
+  "finalContracts": {
+    "counts": [
+      20,
+      16,
+      4
+    ],
+    "seconds": 6000,
+    "algorithmPool": 43,
+    "highTraceCount": 15,
+    "highTraceFloor": 4
+  },
+  "remediation": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": []
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true,
+  "example": [
+    {
+      "coverage": 4,
+      "logs": 2,
+      "cases": 2,
+      "ids": [
+        "logs",
+        "ransomware",
+        "signed_update",
+        "risk"
+      ],
+      "unique": 4,
+      "block": true
+    },
+    {
+      "coverage": 8,
+      "logs": 2,
+      "cases": 2,
+      "ids": [
+        "exfiltration",
+        "password_spray",
+        "access",
+        "certificate"
+      ],
+      "unique": 4,
+      "block": true
+    },
+    {
+      "coverage": 11,
+      "logs": 1,
+      "cases": 3,
+      "ids": [
+        "ransomware",
+        "sql_injection",
+        "xss",
+        "phishing"
+      ],
+      "unique": 4,
+      "block": true
+    },
+    {
+      "coverage": 14,
+      "logs": 1,
+      "cases": 3,
+      "ids": [
+        "password_spray",
+        "usb_malware",
+        "patch",
+        "crypto_choice"
+      ],
+      "unique": 4,
+      "block": true
+    },
+    {
+      "coverage": 15,
+      "logs": 2,
+      "cases": 2,
+      "ids": [
+        "logs",
+        "password_hash",
+        "exfiltration",
+        "access"
+      ],
+      "unique": 4,
+      "block": true
+    },
+    {
+      "coverage": 15,
+      "logs": 2,
+      "cases": 2,
+      "ids": [
+        "certificate",
+        "ransomware",
+        "crypto_choice",
+        "exfiltration"
+      ],
+      "unique": 4,
+      "block": true
+    }
+  ]
+}
