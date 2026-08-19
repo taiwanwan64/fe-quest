@@ -8,6 +8,7 @@ const SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC=Object.freeze({
   minSamplesPerLayer:8,
   weakAccuracyThreshold:70,
   requiresFinalRuns:2,
+  tieBehavior:'preserve-existing-recommendation',
   selectionSignal:'first-answer-accuracy-only',
   responseTimeRole:'copy-only-secondary-context',
   responseTimeCopyFloorMs:1000,
@@ -61,11 +62,12 @@ function subjectBLocalAdaptiveRecommendationV257(baseRec,metrics){
   if(!eligible.length)return baseRec;
   eligible.sort((a,b)=>a.rate-b.rate||b.count-a.count||SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.layers.indexOf(a.layer)-SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.layers.indexOf(b.layer));
   const weak=eligible[0];
+  if(eligible.length>1&&eligible[1].rate===weak.rate)return baseRec;
   if(weak.rate>SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.weakAccuracyThreshold)return baseRec;
   const meta=subjectBLocalLayerMetaV257(weak.layer);
   if(!meta)return baseRec;
   const timing=weak.medianMs>=SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.responseTimeCopyFloorMs
-    ?` 初回回答時間の中央値は約${Math.max(1,Math.round(weak.medianMs/1000))}秒です（時間は目安です）。`
+    ?`初回回答時間の中央値は約${Math.max(1,Math.round(weak.medianMs/1000))}秒です（時間は目安です）。`
     :'';
   return {
     ...baseRec,
@@ -75,7 +77,7 @@ function subjectBLocalAdaptiveRecommendationV257(baseRec,metrics){
     title:meta.title,
     icon:meta.icon,
     kicker:'学習記録からの提案',
-    desc:`最近${weak.count}問の初回正答率は${weak.rate}%です。まず${meta.label}で確認します。${timing}`.trim(),
+    desc:`最近${weak.count}問の初回正答率は${weak.rate}%です。まず${meta.label}で確認します。${timing}`,
     localEvidence:true,
     localEvidenceLayer:weak.layer,
     localEvidenceCount:weak.count,
