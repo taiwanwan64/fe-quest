@@ -1,8 +1,8 @@
-name: FE QUEST Subject B final security rotation repair bridge
+name: FE QUEST Subject B trace-final feedback propagation repair
 
 on:
   push:
-    branches: ['subject-b-final-security-rotation-repair-v*']
+    branches: ['subject-b-trace-final-feedback-propagation-repair-v*']
 
 permissions:
   contents: write
@@ -20,12 +20,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve final security rotation repair target
+      - name: Resolve trace-final feedback propagation repair target
         id: release
         shell: bash
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-final-security-rotation-repair-(v[0-9]+)$ ]]; then
-            echo "Invalid Subject B final security rotation repair branch: $GITHUB_REF_NAME" >&2
+          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-trace-final-feedback-propagation-repair-(v[0-9]+)$ ]]; then
+            echo "Invalid Subject B trace-final feedback propagation repair branch: $GITHUB_REF_NAME" >&2
             exit 1
           fi
           VERSION="${BASH_REMATCH[1]}"
@@ -33,7 +33,7 @@ jobs:
           PREVIOUS="v$((NUMBER-1))"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
-          echo "FEQUEST_SUBJECT_B_FINAL_SECURITY_ROTATION_REPAIR_TARGET version=$VERSION previous=$PREVIOUS"
+          echo "FEQUEST_SUBJECT_B_TRACE_FINAL_FEEDBACK_PROPAGATION_REPAIR_TARGET version=$VERSION previous=$PREVIOUS"
 
       - name: Materialize conventional release shell
         shell: bash
@@ -74,26 +74,8 @@ jobs:
         shell: bash
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
-      - name: Patch validator bridge scope
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('.github/subject-b-final-security-rotation-repair/validate_repair.py')
-          t=p.read_text()
-          old="  '.github/workflows/subject-b-final-security-rotation-repair.yml'\n}"
-          new="  '.github/workflows/subject-b-final-security-rotation-repair.yml',\n  '.github/workflows/subject-b-trace-final-feedback-propagation-repair.yml'\n}"
-          if old not in t:
-              raise SystemExit('v239 bridge validator patch marker missing')
-          p.write_text(t.replace(old,new,1))
-          PY
-
-      - name: Validate final security rotation repair
-        run: python3 .github/subject-b-final-security-rotation-repair/validate_repair.py
-
-      - name: Restore validator source
-        if: always()
-        run: git checkout -- .github/subject-b-final-security-rotation-repair/validate_repair.py
+      - name: Validate Subject B trace-final feedback propagation repair
+        run: python3 .github/subject-b-trace-final-feedback-propagation-repair/validate_repair.py
 
       - name: Commit validated release shell and repair evidence
         shell: bash
@@ -102,12 +84,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A _regression audits index.html manifest.webmanifest sw.js
           if git diff --cached --quiet; then
-            echo "FEQUEST_SUBJECT_B_FINAL_SECURITY_ROTATION_REPAIR_SOURCE_ALREADY_COMMITTED"
+            echo "FEQUEST_SUBJECT_B_TRACE_FINAL_FEEDBACK_PROPAGATION_REPAIR_SOURCE_ALREADY_COMMITTED"
           else
-            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B final security rotation repair"
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B trace-final feedback propagation repair"
             git push origin HEAD:"$GITHUB_REF_NAME"
           fi
-          echo "FEQUEST_SUBJECT_B_FINAL_SECURITY_ROTATION_REPAIR_HEAD=$(git rev-parse HEAD)"
+          echo "FEQUEST_SUBJECT_B_TRACE_FINAL_FEEDBACK_PROPAGATION_REPAIR_HEAD=$(git rev-parse HEAD)"
 
       - name: Package release
         shell: bash
