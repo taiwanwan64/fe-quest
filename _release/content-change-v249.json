@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "release": "v249",
+  "previous_release": "v248",
+  "parent_main_sha": "4a3de17554797e0bf6a8e49281d2dd39a66e59e5",
+  "change_type": "subject-b-remediation-difficulty-repair",
+  "source_quality_audit": "audits/SUBJECT_B_REMEDIATION_DIFFICULTY_DETAIL_AUDIT_v248.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_remediation_target_harder_than_final_label",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-remediation-difficulty-overrides-v249.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "security_target_ids_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "domain_progression_changed": false,
+    "algorithm_review_reason_labels_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_remediation_target_harder_than_final_label",
+    "scope": "two standard two-dimensional-array final items whose current TRACE recovery has a same-domain standard alternative",
+    "affected_final_ids": [
+      "bexam_mat_01",
+      "bexam_mat_02"
+    ],
+    "previous_trace_target": "matrix_find",
+    "new_trace_target": "matrix_sum",
+    "preserved_cross_layer_exceptions": [
+      "bexam_tree_01",
+      "bexam_tree_05",
+      "bexam_list_02",
+      "bexam_list_03"
+    ],
+    "exception_reason": "no same-domain same-or-easier TRACE target exists in the current authored inventory",
+    "question_content_changed": false,
+    "difficulty_labels_changed": false,
+    "final_selection_changed": false,
+    "new_profile_fields": false,
+    "validation_scope": "all 43 final algorithm recovery routes plus 2000 deterministic final sessions and Subject B semantic regression"
+  }
+}
