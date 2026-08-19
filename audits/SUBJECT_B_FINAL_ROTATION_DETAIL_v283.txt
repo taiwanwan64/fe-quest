@@ -1,0 +1,161 @@
+FE QUEST v283 — Subject B Final Rotation / Exposure Detail Audit
+===================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v282
+Source main: fcd81ddea4a1065a1eb3d851473f93b5783afdd1
+Learner-facing change in v283: none
+
+Purpose
+-------
+v282 confirmed a perfectly stable 8 標準 + 8 応用 and 10-domain mix, but cold-start simulation showed very uneven per-item selection frequency. v283 isolates whether that signal is already present before the v208 high-TRACE floor, how often the floor changes a selected set, and where the actual exposure counter is read/written before any rotation repair is attempted.
+
+Interpretation boundary
+-----------------------
+The 5000-run frequency probes intentionally reset profile.bFinalStats before each generated final. They describe cold-start selection pressure only. v283 does not assume how repeated completed finals update exposure history; instead it captures the exact selector / exposure / completion hooks so the next audit can model that lifecycle correctly.
+
+5000 independent cold-start finals
+----------------------------------
+Current selector frequency: {"min": 283, "median": 1237, "max": 5000, "maxMinRatio": 17.67, "cv": 0.804}
+Pre-v208 selector frequency: {"min": 276, "median": 1237, "max": 5000, "maxMinRatio": 18.12, "cv": 0.805}
+Current most selected: [["bexam_algo_01", 5000], ["bexam_bit_04", 5000], ["bexam_tree_03", 4987], ["bexam_list_01", 4475], ["bexam_rec_04", 4235], ["bexam_arr_03", 3924], ["bexam_sq_04", 3863], ["bexam_obj_04", 3555]]
+Current least selected: [["bexam_mat_04", 283], ["bexam_bit_05", 304], ["bexam_obj_03", 312], ["bexam_arr_05", 314], ["bexam_algo_02", 323], ["bexam_bit_03", 359], ["bexam_sq_01", 388], ["bexam_algo_03", 389]]
+Pre-v208 most selected: [["bexam_algo_01", 5000], ["bexam_bit_04", 5000], ["bexam_tree_03", 5000], ["bexam_list_01", 4475], ["bexam_rec_04", 4246], ["bexam_arr_03", 3924], ["bexam_sq_04", 3861], ["bexam_obj_04", 3553]]
+Pre-v208 least selected: [["bexam_mat_04", 276], ["bexam_bit_05", 300], ["bexam_obj_03", 312], ["bexam_arr_05", 314], ["bexam_algo_02", 346], ["bexam_bit_03", 363], ["bexam_algo_03", 366], ["bexam_sq_01", 388]]
+
+v208 high-TRACE floor delta over 2000 matched seeds
+--------------------------------------------------
+Sessions whose algorithm source-id set changes: 61 / 2000 (3.0%)
+Total added IDs: 66
+Total removed IDs: 66
+Most often added by the floor repair: [["bexam_tree_05", 19], ["bexam_algo_03", 11], ["bexam_mat_01", 11], ["bexam_tree_02", 7], ["bexam_mat_04", 4], ["bexam_rec_05", 4], ["bexam_arr_02", 3], ["bexam_bit_05", 3]]
+Most often removed by the floor repair: [["bexam_tree_01", 19], ["bexam_algo_02", 11], ["bexam_mat_02", 11], ["bexam_tree_03", 9], ["bexam_mat_03", 4], ["bexam_rec_04", 4], ["bexam_arr_01", 3], ["bexam_bit_03", 3]]
+
+Exposure-hook evidence
+----------------------
+Synthetic bFinalStats[id].seen=7 probe returns: 0
+Underlying selector mentions bFinalStats: False
+bFinalAlgoSeen mentions bFinalStats: True
+finishBFinal mentions bFinalStats: False
+v208 floor repair uses random tie-breaking: True
+
+Exact bFinalAlgoSeen source
+---------------------------
+function bFinalAlgoSeen(item){
+  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;
+}
+
+Exact pre-v208 selector source
+------------------------------
+function buildBFinal(){
+  // 40問の本番型アルゴリズムプールから、
+  // 10分野を最低1問ずつ・標準8問/応用8問になるよう16問を構成する。
+  const selected=[];
+  const used=new Set();
+
+  B_FINAL_ALGO_DOMAINS.forEach(domain=>{
+    const desired=B_FINAL_APPLIED_DOMAINS.has(domain)?'応用':'標準';
+    let pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&x.level===desired&&!used.has(x.id));
+    if(!pool.length)pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&!used.has(x.id));
+    const pick=pickFinalAlgoCandidate(pool,selected);
+    if(pick){selected.push(pick);used.add(pick.id);}
+  });
+
+  const fillLevel=(level,target)=>{
+    while(selected.filter(x=>x.level===level).length<target){
+      const pool=B_EXAM_ALGO_ITEMS.filter(x=>x.level===level&&!used.has(x.id));
+      const pick=pickFinalAlgoCandidate(pool,selected);
+      if(!pick)break;
+      selected.push(pick);used.add(pick.id);
+    }
+  };
+  fillLevel('応用',8);
+  fillLevel('標準',8);
+
+  // 念のため不足時だけ未使用問題で補完する。
+  while(selected.length<16){
+    const pick=pickFinalAlgoCandidate(B_EXAM_ALGO_ITEMS.filter(x=>!used.has(x.id)),selected);
+    if(!pick)break;
+    selected.push(pick);used.add(pick.id);
+  }
+  const algo=selected.slice(0,16).map(makeFinalAlgoExam);
+
+  // 情報セキュリティ4問は、ログ読解2問＋ケース判断2問を固定。
+  const secUsed=new Set();
+  const secLogs=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>s.log),2,secUsed);
+  const secCases=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>!s.log),2,secUsed);
+  const secPool=[...secLogs,...secCases].map(makeFinalSecurity);
+
+  return shuffled([...algo,...secPool]);
+}
+
+Exact v208 floor-repair source
+------------------------------
+function bFinalRepairTraceFloorV208(items){
+  const out=[...items];
+  let algo=out.filter(x=>x?.kind==='algo');
+  let highCount=bFinalHighTraceCountV208(algo);
+
+  while(highCount<B_FINAL_HIGH_TRACE_FLOOR_V208){
+    const selectedIds=new Set(algo.map(x=>x.sourceId));
+    const rawById=new Map(B_EXAM_ALGO_ITEMS.map(x=>[x.id,x]));
+    const rawSelected=algo.map(x=>rawById.get(x.sourceId)).filter(Boolean);
+    const formatCounts={};
+    rawSelected.forEach(x=>{const f=x.format||'トレース';formatCounts[f]=(formatCounts[f]||0)+1;});
+    const swaps=[];
+
+    algo.forEach(victim=>{
+      if(B_FINAL_HIGH_TRACE_IDS_V208.has(victim.sourceId))return;
+      const rawVictim=rawById.get(victim.sourceId);
+      if(!rawVictim)return;
+      B_EXAM_ALGO_ITEMS
+        .filter(candidate=>B_FINAL_HIGH_TRACE_IDS_V208.has(candidate.id)&&!selectedIds.has(candidate.id)&&candidate.domain===rawVictim.domain&&candidate.level===rawVictim.level)
+        .forEach(candidate=>{
+          const candidateFormat=candidate.format||'トレース';
+          const victimFormat=rawVictim.format||'トレース';
+          const prospectiveFormatLoad=(formatCounts[candidateFormat]||0)-(candidateFormat===victimFormat?1:0);
+          swaps.push({
+            victim,
+            rawVictim,
+            candidate,
+            candidateSeen:bFinalAlgoSeen(candidate),
+            prospectiveFormatLoad,
+            victimSeen:bFinalAlgoSeen(rawVictim)
+          });
+        });
+    });
+
+    swaps.sort((a,b)=>
+      a.candidateSeen-b.candidateSeen ||
+      a.prospectiveFormatLoad-b.prospectiveFormatLoad ||
+      b.victimSeen-a.victimSeen ||
+      Math.random()-.5
+    );
+    const swap=swaps[0];
+    if(!swap)break;
+    const pos=out.findIndex(x=>x?.kind==='algo'&&x.sourceId===swap.victim.sourceId);
+    if(pos<0)break;
+    out[pos]=makeFinalAlgoExam(swap.candidate);
+    algo=out.filter(x=>x?.kind==='algo');
+    highCount=bFinalHighTraceCountV208(algo);
+  }
+  return out;
+}
+
+finishBFinal source excerpt
+---------------------------
+function(...args){const out=__finishBFinalV254.apply(this,args);if(subjectBPerformanceFlushV254('final'))saveProfile();return out;}
+
+Regression
+----------
+No learner-facing content or selector code changed.
+Cold-start current/pre-v208 frequency probes and the floor-delta probe are byte-behavior equivalent to the untouched v282 parent.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-TRACE 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the captured hook sources to build a lifecycle-faithful repeated-final simulation next. Do not change the selector based only on cold-start imbalance. If the actual completion lifecycle already drives exposure-aware rotation, preserve it; if repeated completed finals still overexpose a narrow subset, repair only that selection stage while keeping the exact 8/8 level mix, all 10 domains and the high-TRACE floor.

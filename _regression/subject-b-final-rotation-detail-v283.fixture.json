@@ -1,0 +1,427 @@
+{
+  "version": "v283",
+  "previous": "v282",
+  "parent": "fcd81ddea4a1065a1eb3d851473f93b5783afdd1",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "summary": {
+    "coldCurrent": {
+      "min": 283,
+      "median": 1237,
+      "max": 5000,
+      "maxMinRatio": 17.67,
+      "cv": 0.804
+    },
+    "coldBasePreV208": {
+      "min": 276,
+      "median": 1237,
+      "max": 5000,
+      "maxMinRatio": 18.12,
+      "cv": 0.805
+    },
+    "coldCurrentMost": [
+      [
+        "bexam_algo_01",
+        5000
+      ],
+      [
+        "bexam_bit_04",
+        5000
+      ],
+      [
+        "bexam_tree_03",
+        4987
+      ],
+      [
+        "bexam_list_01",
+        4475
+      ],
+      [
+        "bexam_rec_04",
+        4235
+      ],
+      [
+        "bexam_arr_03",
+        3924
+      ],
+      [
+        "bexam_sq_04",
+        3863
+      ],
+      [
+        "bexam_obj_04",
+        3555
+      ]
+    ],
+    "coldCurrentLeast": [
+      [
+        "bexam_mat_04",
+        283
+      ],
+      [
+        "bexam_bit_05",
+        304
+      ],
+      [
+        "bexam_obj_03",
+        312
+      ],
+      [
+        "bexam_arr_05",
+        314
+      ],
+      [
+        "bexam_algo_02",
+        323
+      ],
+      [
+        "bexam_bit_03",
+        359
+      ],
+      [
+        "bexam_sq_01",
+        388
+      ],
+      [
+        "bexam_algo_03",
+        389
+      ]
+    ],
+    "coldBaseMost": [
+      [
+        "bexam_algo_01",
+        5000
+      ],
+      [
+        "bexam_bit_04",
+        5000
+      ],
+      [
+        "bexam_tree_03",
+        5000
+      ],
+      [
+        "bexam_list_01",
+        4475
+      ],
+      [
+        "bexam_rec_04",
+        4246
+      ],
+      [
+        "bexam_arr_03",
+        3924
+      ],
+      [
+        "bexam_sq_04",
+        3861
+      ],
+      [
+        "bexam_obj_04",
+        3553
+      ]
+    ],
+    "coldBaseLeast": [
+      [
+        "bexam_mat_04",
+        276
+      ],
+      [
+        "bexam_bit_05",
+        300
+      ],
+      [
+        "bexam_obj_03",
+        312
+      ],
+      [
+        "bexam_arr_05",
+        314
+      ],
+      [
+        "bexam_algo_02",
+        346
+      ],
+      [
+        "bexam_bit_03",
+        363
+      ],
+      [
+        "bexam_algo_03",
+        366
+      ],
+      [
+        "bexam_sq_01",
+        388
+      ]
+    ],
+    "floorChangedSessions": 61,
+    "floorChangedRatePct": 3.0,
+    "floorTotalAdded": 66,
+    "floorTotalRemoved": 66,
+    "floorMostAdded": [
+      [
+        "bexam_tree_05",
+        19
+      ],
+      [
+        "bexam_algo_03",
+        11
+      ],
+      [
+        "bexam_mat_01",
+        11
+      ],
+      [
+        "bexam_tree_02",
+        7
+      ],
+      [
+        "bexam_mat_04",
+        4
+      ],
+      [
+        "bexam_rec_05",
+        4
+      ],
+      [
+        "bexam_arr_02",
+        3
+      ],
+      [
+        "bexam_bit_05",
+        3
+      ]
+    ],
+    "floorMostRemoved": [
+      [
+        "bexam_tree_01",
+        19
+      ],
+      [
+        "bexam_algo_02",
+        11
+      ],
+      [
+        "bexam_mat_02",
+        11
+      ],
+      [
+        "bexam_tree_03",
+        9
+      ],
+      [
+        "bexam_mat_03",
+        4
+      ],
+      [
+        "bexam_rec_04",
+        4
+      ],
+      [
+        "bexam_arr_01",
+        3
+      ],
+      [
+        "bexam_bit_03",
+        3
+      ]
+    ],
+    "seenProbe": 0,
+    "selectorMentionsBFinalStats": false,
+    "seenHookMentionsBFinalStats": true,
+    "finishMentionsBFinalStats": false,
+    "repairUsesRandomTie": true
+  },
+  "selectorSource": "function buildBFinal(){\n  // 40問の本番型アルゴリズムプールから、\n  // 10分野を最低1問ずつ・標準8問/応用8問になるよう16問を構成する。\n  const selected=[];\n  const used=new Set();\n\n  B_FINAL_ALGO_DOMAINS.forEach(domain=>{\n    const desired=B_FINAL_APPLIED_DOMAINS.has(domain)?'応用':'標準';\n    let pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&x.level===desired&&!used.has(x.id));\n    if(!pool.length)pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&!used.has(x.id));\n    const pick=pickFinalAlgoCandidate(pool,selected);\n    if(pick){selected.push(pick);used.add(pick.id);}\n  });\n\n  const fillLevel=(level,target)=>{\n    while(selected.filter(x=>x.level===level).length<target){\n      const pool=B_EXAM_ALGO_ITEMS.filter(x=>x.level===level&&!used.has(x.id));\n      const pick=pickFinalAlgoCandidate(pool,selected);\n      if(!pick)break;\n      selected.push(pick);used.add(pick.id);\n    }\n  };\n  fillLevel('応用',8);\n  fillLevel('標準',8);\n\n  // 念のため不足時だけ未使用問題で補完する。\n  while(selected.length<16){\n    const pick=pickFinalAlgoCandidate(B_EXAM_ALGO_ITEMS.filter(x=>!used.has(x.id)),selected);\n    if(!pick)break;\n    selected.push(pick);used.add(pick.id);\n  }\n  const algo=selected.slice(0,16).map(makeFinalAlgoExam);\n\n  // 情報セキュリティ4問は、ログ読解2問＋ケース判断2問を固定。\n  const secUsed=new Set();\n  const secLogs=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>s.log),2,secUsed);\n  const secCases=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>!s.log),2,secUsed);\n  const secPool=[...secLogs,...secCases].map(makeFinalSecurity);\n\n  return shuffled([...algo,...secPool]);\n}",
+  "repairSource": "function bFinalRepairTraceFloorV208(items){\n  const out=[...items];\n  let algo=out.filter(x=>x?.kind==='algo');\n  let highCount=bFinalHighTraceCountV208(algo);\n\n  while(highCount<B_FINAL_HIGH_TRACE_FLOOR_V208){\n    const selectedIds=new Set(algo.map(x=>x.sourceId));\n    const rawById=new Map(B_EXAM_ALGO_ITEMS.map(x=>[x.id,x]));\n    const rawSelected=algo.map(x=>rawById.get(x.sourceId)).filter(Boolean);\n    const formatCounts={};\n    rawSelected.forEach(x=>{const f=x.format||'トレース';formatCounts[f]=(formatCounts[f]||0)+1;});\n    const swaps=[];\n\n    algo.forEach(victim=>{\n      if(B_FINAL_HIGH_TRACE_IDS_V208.has(victim.sourceId))return;\n      const rawVictim=rawById.get(victim.sourceId);\n      if(!rawVictim)return;\n      B_EXAM_ALGO_ITEMS\n        .filter(candidate=>B_FINAL_HIGH_TRACE_IDS_V208.has(candidate.id)&&!selectedIds.has(candidate.id)&&candidate.domain===rawVictim.domain&&candidate.level===rawVictim.level)\n        .forEach(candidate=>{\n          const candidateFormat=candidate.format||'トレース';\n          const victimFormat=rawVictim.format||'トレース';\n          const prospectiveFormatLoad=(formatCounts[candidateFormat]||0)-(candidateFormat===victimFormat?1:0);\n          swaps.push({\n            victim,\n            rawVictim,\n            candidate,\n            candidateSeen:bFinalAlgoSeen(candidate),\n            prospectiveFormatLoad,\n            victimSeen:bFinalAlgoSeen(rawVictim)\n          });\n        });\n    });\n\n    swaps.sort((a,b)=>\n      a.candidateSeen-b.candidateSeen ||\n      a.prospectiveFormatLoad-b.prospectiveFormatLoad ||\n      b.victimSeen-a.victimSeen ||\n      Math.random()-.5\n    );\n    const swap=swaps[0];\n    if(!swap)break;\n    const pos=out.findIndex(x=>x?.kind==='algo'&&x.sourceId===swap.victim.sourceId);\n    if(pos<0)break;\n    out[pos]=makeFinalAlgoExam(swap.candidate);\n    algo=out.filter(x=>x?.kind==='algo');\n    highCount=bFinalHighTraceCountV208(algo);\n  }\n  return out;\n}",
+  "seenSource": "function bFinalAlgoSeen(item){\n  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;\n}",
+  "finishSource": "function(...args){const out=__finishBFinalV254.apply(this,args);if(subjectBPerformanceFlushV254('final'))saveProfile();return out;}",
+  "coldCurrentFrequency": {
+    "bexam_ctrl_01": 2896,
+    "bexam_ctrl_02": 2937,
+    "bexam_ctrl_03": 3001,
+    "bexam_ctrl_04": 1237,
+    "bexam_arr_01": 1859,
+    "bexam_arr_02": 1539,
+    "bexam_arr_03": 3924,
+    "bexam_arr_04": 549,
+    "bexam_mat_01": 2926,
+    "bexam_mat_02": 2806,
+    "bexam_mat_03": 873,
+    "bexam_rec_01": 588,
+    "bexam_rec_02": 641,
+    "bexam_rec_03": 524,
+    "bexam_rec_04": 4235,
+    "bexam_tree_01": 1624,
+    "bexam_tree_02": 721,
+    "bexam_tree_03": 4987,
+    "bexam_obj_01": 856,
+    "bexam_obj_02": 3163,
+    "bexam_obj_03": 312,
+    "bexam_list_01": 4475,
+    "bexam_list_02": 457,
+    "bexam_list_03": 1707,
+    "bexam_sq_01": 388,
+    "bexam_sq_02": 1168,
+    "bexam_sq_03": 1571,
+    "bexam_bit_01": 2236,
+    "bexam_bit_02": 525,
+    "bexam_bit_03": 359,
+    "bexam_algo_01": 5000,
+    "bexam_algo_02": 323,
+    "bexam_arr_05": 314,
+    "bexam_mat_04": 283,
+    "bexam_rec_05": 1212,
+    "bexam_tree_04": 2573,
+    "bexam_list_04": 896,
+    "bexam_sq_04": 3863,
+    "bexam_bit_04": 5000,
+    "bexam_algo_03": 389,
+    "bexam_obj_04": 3555,
+    "bexam_bit_05": 304,
+    "bexam_tree_05": 1204
+  },
+  "coldBaseFrequency": {
+    "bexam_ctrl_01": 2895,
+    "bexam_ctrl_02": 2937,
+    "bexam_ctrl_03": 3002,
+    "bexam_ctrl_04": 1237,
+    "bexam_arr_01": 1870,
+    "bexam_arr_02": 1528,
+    "bexam_arr_03": 3924,
+    "bexam_arr_04": 549,
+    "bexam_mat_01": 2893,
+    "bexam_mat_02": 2839,
+    "bexam_mat_03": 880,
+    "bexam_rec_01": 588,
+    "bexam_rec_02": 641,
+    "bexam_rec_03": 527,
+    "bexam_rec_04": 4246,
+    "bexam_tree_01": 1668,
+    "bexam_tree_02": 712,
+    "bexam_tree_03": 5000,
+    "bexam_obj_01": 858,
+    "bexam_obj_02": 3163,
+    "bexam_obj_03": 312,
+    "bexam_list_01": 4475,
+    "bexam_list_02": 457,
+    "bexam_list_03": 1707,
+    "bexam_sq_01": 388,
+    "bexam_sq_02": 1168,
+    "bexam_sq_03": 1573,
+    "bexam_bit_01": 2236,
+    "bexam_bit_02": 525,
+    "bexam_bit_03": 363,
+    "bexam_algo_01": 5000,
+    "bexam_algo_02": 346,
+    "bexam_arr_05": 314,
+    "bexam_mat_04": 276,
+    "bexam_rec_05": 1198,
+    "bexam_tree_04": 2569,
+    "bexam_list_04": 896,
+    "bexam_sq_04": 3861,
+    "bexam_bit_04": 5000,
+    "bexam_algo_03": 366,
+    "bexam_obj_04": 3553,
+    "bexam_bit_05": 300,
+    "bexam_tree_05": 1160
+  },
+  "floorDelta": {
+    "runs": 2000,
+    "changedSessions": 61,
+    "totalAdded": 66,
+    "totalRemoved": 66,
+    "added": {
+      "bexam_ctrl_01": 0,
+      "bexam_ctrl_02": 0,
+      "bexam_ctrl_03": 0,
+      "bexam_ctrl_04": 0,
+      "bexam_arr_01": 0,
+      "bexam_arr_02": 3,
+      "bexam_arr_03": 0,
+      "bexam_arr_04": 0,
+      "bexam_mat_01": 11,
+      "bexam_mat_02": 0,
+      "bexam_mat_03": 0,
+      "bexam_rec_01": 0,
+      "bexam_rec_02": 0,
+      "bexam_rec_03": 0,
+      "bexam_rec_04": 0,
+      "bexam_tree_01": 0,
+      "bexam_tree_02": 7,
+      "bexam_tree_03": 0,
+      "bexam_obj_01": 0,
+      "bexam_obj_02": 0,
+      "bexam_obj_03": 0,
+      "bexam_list_01": 0,
+      "bexam_list_02": 0,
+      "bexam_list_03": 0,
+      "bexam_sq_01": 0,
+      "bexam_sq_02": 0,
+      "bexam_sq_03": 0,
+      "bexam_bit_01": 0,
+      "bexam_bit_02": 0,
+      "bexam_bit_03": 0,
+      "bexam_algo_01": 0,
+      "bexam_algo_02": 0,
+      "bexam_arr_05": 0,
+      "bexam_mat_04": 4,
+      "bexam_rec_05": 4,
+      "bexam_tree_04": 2,
+      "bexam_list_04": 0,
+      "bexam_sq_04": 1,
+      "bexam_bit_04": 0,
+      "bexam_algo_03": 11,
+      "bexam_obj_04": 1,
+      "bexam_bit_05": 3,
+      "bexam_tree_05": 19
+    },
+    "removed": {
+      "bexam_ctrl_01": 0,
+      "bexam_ctrl_02": 0,
+      "bexam_ctrl_03": 0,
+      "bexam_ctrl_04": 0,
+      "bexam_arr_01": 3,
+      "bexam_arr_02": 0,
+      "bexam_arr_03": 0,
+      "bexam_arr_04": 0,
+      "bexam_mat_01": 0,
+      "bexam_mat_02": 11,
+      "bexam_mat_03": 4,
+      "bexam_rec_01": 0,
+      "bexam_rec_02": 0,
+      "bexam_rec_03": 0,
+      "bexam_rec_04": 4,
+      "bexam_tree_01": 19,
+      "bexam_tree_02": 0,
+      "bexam_tree_03": 9,
+      "bexam_obj_01": 1,
+      "bexam_obj_02": 0,
+      "bexam_obj_03": 0,
+      "bexam_list_01": 0,
+      "bexam_list_02": 0,
+      "bexam_list_03": 0,
+      "bexam_sq_01": 0,
+      "bexam_sq_02": 0,
+      "bexam_sq_03": 1,
+      "bexam_bit_01": 0,
+      "bexam_bit_02": 0,
+      "bexam_bit_03": 3,
+      "bexam_algo_01": 0,
+      "bexam_algo_02": 11,
+      "bexam_arr_05": 0,
+      "bexam_mat_04": 0,
+      "bexam_rec_05": 0,
+      "bexam_tree_04": 0,
+      "bexam_list_04": 0,
+      "bexam_sq_04": 0,
+      "bexam_bit_04": 0,
+      "bexam_algo_03": 0,
+      "bexam_obj_04": 0,
+      "bexam_bit_05": 0,
+      "bexam_tree_05": 0
+    }
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
