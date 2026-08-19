@@ -70,7 +70,7 @@ par_items={x['id']:x for x in par['items']};cand_items={x['id']:x for x in cand[
 t=cand['target'];p=par['target'];req((t['id'],t['domain'],t['level'],t['format'],t['a'])==(p['id'],p['domain'],p['level'],p['format'],p['a'])==('bexam_arr_03','一次元配列','標準','実行回数',2),'identity/contract drift')
 req(t['code']==['data ← [3, 1, 4, 1, 5]','score ← 0','for i ← 1 to 4','    diff ← data[i] - data[i-1]','    if diff > 0','        score ← score + diff','    endif','endfor','score を出力する'],'target code mismatch')
 req(t['options']==['1回, score=4','2回, score=2','2回, score=7','3回, score=9'] and t['a']==2 and cand['contractAnswer']=='2回, score=7','target answer contract mismatch')
-req('0→3→7' in t['explain'] and '2回' in t['q'],'target explanation/prompt mismatch')
+req('0→3→7' in t['explain'] and '実行される回数' in t['q'] and 'score' in t['q'],'target explanation/prompt mismatch')
 req(cand['spec'] and cand['spec']['targetId']=='bexam_arr_03' and cand['spec']['selectionPolicyChanged'] is False,'v279 runtime spec missing')
 exact,strong,top=overlaps(cand);req(not exact,'exact TRACE/final overlap remains: '+repr(exact));req(not strong,'strong TRACE/final overlap remains: '+repr(strong))
 old_nf,old_nt=norm(p['code']),norm(next(x for x in par['trace'] if x['id']=='count_even')['code']);old_lf,old_lt=line_norm(p['code']),line_norm(next(x for x in par['trace'] if x['id']=='count_even')['code']);old_seq=difflib.SequenceMatcher(None,old_nf,old_nt).ratio();old_j=len(set(old_lf)&set(old_lt))/len(set(old_lf)|set(old_lt));new_pair=next(x for x in top if x['finalId']=='bexam_arr_03') if any(x['finalId']=='bexam_arr_03' for x in top) else None
