@@ -1,0 +1,51 @@
+FE QUEST v286 — Subject B Final Sequential Rotation Audit
+=========================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v285
+Source main: 431f26bddd85ace3531861e18e4433db4f3a37b0
+Learner-facing change in v286: none
+
+Purpose
+-------
+v285 captured the exact completion mutation: every completed final increments profile.bFinalStats[`algo:<id>`].seen for each algorithm item. v286 therefore compares 1000 independent cold-start finals with 1000 sequential finals while applying that exact selection-relevant production mutation after each generated session.
+
+Interpretation boundary
+-----------------------
+The sequential probe mirrors only the completion fields that affect future selection: namespaced seen counters (plus lastSeen, which the current candidate selector does not consume). It intentionally does not simulate correctness, XP, DOM rendering or history because those do not participate in pickFinalAlgoCandidate or the v208 high-TRACE floor.
+
+Frequency balance
+-----------------
+Cold-start 1000 finals: {"min": 54, "median": 227, "max": 1000, "maxMinRatio": 18.52, "cv": 0.839}
+Sequential completed 1000 finals: {"min": 332, "median": 368, "max": 500, "maxMinRatio": 1.51, "cv": 0.145}
+Coefficient-of-variation reduction: 82.7%
+Cold most selected: [["bexam_algo_01", 1000], ["bexam_bit_04", 1000], ["bexam_tree_03", 1000], ["bexam_list_01", 912], ["bexam_rec_04", 895], ["bexam_arr_03", 869], ["bexam_obj_04", 775], ["bexam_sq_04", 754]]
+Cold least selected: [["bexam_bit_05", 54], ["bexam_mat_04", 55], ["bexam_bit_03", 65], ["bexam_algo_02", 66], ["bexam_arr_05", 72], ["bexam_algo_03", 81], ["bexam_obj_03", 81], ["bexam_list_02", 88]]
+Sequential most selected: [["bexam_list_01", 500], ["bexam_list_04", 500], ["bexam_mat_01", 500], ["bexam_mat_02", 500], ["bexam_sq_03", 500], ["bexam_sq_04", 500], ["bexam_arr_01", 369], ["bexam_arr_02", 369]]
+Sequential least selected: [["bexam_obj_03", 332], ["bexam_algo_02", 333], ["bexam_arr_04", 333], ["bexam_arr_05", 333], ["bexam_bit_03", 333], ["bexam_bit_05", 333], ["bexam_ctrl_04", 333], ["bexam_mat_03", 333]]
+
+Repeated-session diversity
+--------------------------
+Mean immediate overlap, cold-start sessions: 10.48 / 16
+Mean immediate overlap, sequential completed sessions: 0.91 / 16
+Cumulative algorithm-pool coverage (unique items -> session number): {"11": 1, "22": 2, "33": 3, "43": 4}
+
+Session-contract preservation
+-----------------------------
+Every sequential session: exactly 8 標準 + 8 応用: yes
+Every sequential session: all 10 algorithm domains: yes
+Every sequential session: high-TRACE floor >=4: yes
+The final namespaced seen counts exactly equal observed sequential selection frequencies: yes
+
+Decision
+--------
+If sequential exposure sharply reduces frequency dispersion and reaches all 43 items quickly, preserve the current exposure-aware selector; the v282 skew was a cold-start artifact. If one or more items remain near-mandatory and others remain rare despite production seen updates, inspect the domain/level candidate-cell inventory next, because the constraint structure rather than the exposure sort is then the likely cause. A separate anti-repeat repair is justified only if immediate sequential overlap remains high enough to materially reduce practice variety.
+
+Regression
+----------
+No learner-facing content, selector, scoring, timing or remediation code changed.
+All sequential sessions preserve the existing final composition contract.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.

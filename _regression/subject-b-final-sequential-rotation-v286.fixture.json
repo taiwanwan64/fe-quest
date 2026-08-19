@@ -1,0 +1,262 @@
+{
+  "version": "v286",
+  "previous": "v285",
+  "parent": "431f26bddd85ace3531861e18e4433db4f3a37b0",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "summary": {
+    "cold": {
+      "min": 54,
+      "median": 227,
+      "max": 1000,
+      "maxMinRatio": 18.52,
+      "cv": 0.839
+    },
+    "sequential": {
+      "min": 332,
+      "median": 368,
+      "max": 500,
+      "maxMinRatio": 1.51,
+      "cv": 0.145
+    },
+    "coldMost": [
+      [
+        "bexam_algo_01",
+        1000
+      ],
+      [
+        "bexam_bit_04",
+        1000
+      ],
+      [
+        "bexam_tree_03",
+        1000
+      ],
+      [
+        "bexam_list_01",
+        912
+      ],
+      [
+        "bexam_rec_04",
+        895
+      ],
+      [
+        "bexam_arr_03",
+        869
+      ],
+      [
+        "bexam_obj_04",
+        775
+      ],
+      [
+        "bexam_sq_04",
+        754
+      ]
+    ],
+    "coldLeast": [
+      [
+        "bexam_bit_05",
+        54
+      ],
+      [
+        "bexam_mat_04",
+        55
+      ],
+      [
+        "bexam_bit_03",
+        65
+      ],
+      [
+        "bexam_algo_02",
+        66
+      ],
+      [
+        "bexam_arr_05",
+        72
+      ],
+      [
+        "bexam_algo_03",
+        81
+      ],
+      [
+        "bexam_obj_03",
+        81
+      ],
+      [
+        "bexam_list_02",
+        88
+      ]
+    ],
+    "sequentialMost": [
+      [
+        "bexam_list_01",
+        500
+      ],
+      [
+        "bexam_list_04",
+        500
+      ],
+      [
+        "bexam_mat_01",
+        500
+      ],
+      [
+        "bexam_mat_02",
+        500
+      ],
+      [
+        "bexam_sq_03",
+        500
+      ],
+      [
+        "bexam_sq_04",
+        500
+      ],
+      [
+        "bexam_arr_01",
+        369
+      ],
+      [
+        "bexam_arr_02",
+        369
+      ]
+    ],
+    "sequentialLeast": [
+      [
+        "bexam_obj_03",
+        332
+      ],
+      [
+        "bexam_algo_02",
+        333
+      ],
+      [
+        "bexam_arr_04",
+        333
+      ],
+      [
+        "bexam_arr_05",
+        333
+      ],
+      [
+        "bexam_bit_03",
+        333
+      ],
+      [
+        "bexam_bit_05",
+        333
+      ],
+      [
+        "bexam_ctrl_04",
+        333
+      ],
+      [
+        "bexam_mat_03",
+        333
+      ]
+    ],
+    "coldConsecutiveOverlap": 10.48,
+    "sequentialConsecutiveOverlap": 0.91,
+    "sequentialCoverageMilestones": {
+      "11": 1,
+      "22": 2,
+      "33": 3,
+      "43": 4
+    },
+    "cvReductionPct": 82.7,
+    "allSessionsEightEight": true,
+    "allSessionsTenDomains": true,
+    "allSessionsHighTraceFloor": true
+  },
+  "coldFrequency": {
+    "bexam_ctrl_01": 742,
+    "bexam_ctrl_02": 533,
+    "bexam_ctrl_03": 533,
+    "bexam_ctrl_04": 199,
+    "bexam_arr_01": 298,
+    "bexam_arr_02": 252,
+    "bexam_arr_03": 869,
+    "bexam_arr_04": 105,
+    "bexam_mat_01": 579,
+    "bexam_mat_02": 569,
+    "bexam_mat_03": 157,
+    "bexam_rec_01": 121,
+    "bexam_rec_02": 135,
+    "bexam_rec_03": 91,
+    "bexam_rec_04": 895,
+    "bexam_tree_01": 305,
+    "bexam_tree_02": 118,
+    "bexam_tree_03": 1000,
+    "bexam_obj_01": 136,
+    "bexam_obj_02": 637,
+    "bexam_obj_03": 81,
+    "bexam_list_01": 912,
+    "bexam_list_02": 88,
+    "bexam_list_03": 391,
+    "bexam_sq_01": 88,
+    "bexam_sq_02": 215,
+    "bexam_sq_03": 338,
+    "bexam_bit_01": 401,
+    "bexam_bit_02": 106,
+    "bexam_bit_03": 65,
+    "bexam_algo_01": 1000,
+    "bexam_algo_02": 66,
+    "bexam_arr_05": 72,
+    "bexam_mat_04": 55,
+    "bexam_rec_05": 205,
+    "bexam_tree_04": 598,
+    "bexam_list_04": 154,
+    "bexam_sq_04": 754,
+    "bexam_bit_04": 1000,
+    "bexam_algo_03": 81,
+    "bexam_obj_04": 775,
+    "bexam_bit_05": 54,
+    "bexam_tree_05": 227
+  },
+  "sequentialFrequency": {
+    "bexam_ctrl_01": 368,
+    "bexam_ctrl_02": 369,
+    "bexam_ctrl_03": 369,
+    "bexam_ctrl_04": 333,
+    "bexam_arr_01": 369,
+    "bexam_arr_02": 369,
+    "bexam_arr_03": 369,
+    "bexam_arr_04": 333,
+    "bexam_mat_01": 500,
+    "bexam_mat_02": 500,
+    "bexam_mat_03": 333,
+    "bexam_rec_01": 368,
+    "bexam_rec_02": 368,
+    "bexam_rec_03": 333,
+    "bexam_rec_04": 334,
+    "bexam_tree_01": 369,
+    "bexam_tree_02": 333,
+    "bexam_tree_03": 334,
+    "bexam_obj_01": 368,
+    "bexam_obj_02": 369,
+    "bexam_obj_03": 332,
+    "bexam_list_01": 500,
+    "bexam_list_02": 368,
+    "bexam_list_03": 369,
+    "bexam_sq_01": 368,
+    "bexam_sq_02": 368,
+    "bexam_sq_03": 500,
+    "bexam_bit_01": 368,
+    "bexam_bit_02": 368,
+    "bexam_bit_03": 333,
+    "bexam_algo_01": 334,
+    "bexam_algo_02": 333,
+    "bexam_arr_05": 333,
+    "bexam_mat_04": 333,
+    "bexam_rec_05": 334,
+    "bexam_tree_04": 334,
+    "bexam_list_04": 500,
+    "bexam_sq_04": 500,
+    "bexam_bit_04": 334,
+    "bexam_algo_03": 334,
+    "bexam_obj_04": 368,
+    "bexam_bit_05": 333,
+    "bexam_tree_05": 368
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
