@@ -1,0 +1,469 @@
+FE QUEST v293 — Result-Screen Closure Source Audit
+=================================================
+
+Result
+------
+PASS — CLOSURE SOURCE CAPTURED
+Previous release: v292
+Source main: 38ee9e3f6451ec471cc2e6c23c90c02697129245
+Learner-facing change in v293: none
+
+Purpose
+-------
+v292 could follow the final-result delegate chain but could not eval the mini-mock helper injectBMockReview because it lives inside a closure. v293 therefore inspects the built production JavaScript text directly around every injectBMockReview occurrence, without changing runtime behavior.
+
+Summary
+-------
+{
+  "injectOccurrenceCount": 2,
+  "injectContexts": [
+    {
+      "sha256": "7204e8491e816a1cead676fc14ed4d95389683cf68998bcdc65b9a102980edfb",
+      "markers": [
+        "function injectBMockReview",
+        "onclick",
+        "次"
+      ],
+      "length": 9017
+    },
+    {
+      "sha256": "d1dc40a9ebce247091b331155c3382ccef49afd49e9bd8787b709bbd3f101381",
+      "markers": [
+        "function injectBMockReview",
+        "onclick",
+        "次"
+      ],
+      "length": 9017
+    }
+  ],
+  "oldRendererOccurrenceCount": 2,
+  "oldRendererContexts": [
+    {
+      "sha256": "63837869236bea2e42cb2e5adfa443d9d7bc4d5f7042e8c71762290583c0b7e8",
+      "markers": [
+        "function injectBMockReview",
+        "onclick"
+      ],
+      "length": 6022
+    },
+    {
+      "sha256": "77ebfa0f965ebf4d6ab02cb305a4254369116229186b4d85355211c02df527b0",
+      "markers": [
+        "function injectBMockReview",
+        "onclick"
+      ],
+      "length": 6022
+    }
+  ],
+  "routeTermsAcrossInjectContexts": [
+    "onclick"
+  ],
+  "copyTermsAcrossInjectContexts": [
+    "次"
+  ]
+}
+
+Captured injectBMockReview contexts
+-----------------------------------
+   const opts=optionsOf(target),correct=correctTextOf(target);
+    const byText={...(source?.wrongFeedbackByText||{})};
+    target.wrongFeedbackByText=byText;
+    target.wrongFeedback=opts.map(opt=>text(opt)===correct?'':(byText[text(opt)]||''));
+    return target;
+  }
+
+  function diagnosisHtml(fb,includeCheckpoint=true){
+    if(!fb)return '';
+    return `<div class="bchoice-feedback-v230" style="margin-top:10px;padding:12px 13px;border:1px solid #f0d79a;border-radius:12px;background:#fffaf0;color:#4d5964;line-height:1.65;font-size:14px"><div style="font-weight:900;color:#8a6412">🔎 選んだ答えから見ると</div><div>${escapeHtml(fb.diagnosis)}</div>${includeCheckpoint&&fb.checkpoint?`<div style="margin-top:7px"><b>ここだけ確認：</b>${escapeHtml(fb.checkpoint)}</div>`:''}<div style="margin-top:7px"><b>次回の合図：</b>${escapeHtml(fb.nextCue)}</div></div>`;
+  }
+
+  function predictionSource(exId,qText){
+    const ex=B_EXERCISES.find(x=>x.id===exId);
+    return ex?.steps?.map(x=>x.predict).filter(Boolean).find(p=>text(p.q)===text(qText))||null;
+  }
+  function securitySource(scenarioId,qText){
+    const sc=SECURITY_SCENARIOS.find(x=>x.id===scenarioId);
+    return sc?.steps?.find(s=>text(s.q)===text(qText))||null;
+  }
+  function finalSource(detail){
+    if(detail?.kind==='security')return securitySource(detail.sourceId,detail.q);
+    const exam=B_EXAM_ALGO_ITEMS.find(x=>x.id===detail?.sourceId);
+    if(exam)return exam;
+    if(detail?.studyMode==='trace')return predictionSource(detail.sourceId,detail.q);
+    if(detail?.studyMode==='compound'){
+      const set=B_COMPOUND_SETS.find(x=>x.id===detail.sourceId);
+      return set?.qs?.find(q=>text(q.q)===text(detail.q))||null;
+    }
+    return null;
+  }
+
+  installSourceFeedback();
+
+  const _bMockCandidateV230=bMockCandidateFromExercise;
+  bMockCandidateFromExercise=function(ex){
+    const out=_bMockCandidateV230(ex);
+    if(!out)return out;
+    const src=ex?.steps?.[out.checkpoint]?.predict||predictionSource(ex?.id,out.q);
+    if(src){out.wrongFeedbackByText={...(src.wrongFeedbackByText||{})};out.wrongFeedback=out.options.map(opt=>text(opt)===text(out.correctText)?'':(out.wrongFeedbackByText[text(opt)]||''));}
+    return out;
+  };
+
+  const _shuffleBMockAnswerV230=shuffleBMockAnswer;
+  shuffleBMockAnswer=function(item){
+    const out=_shuffleBMockAnswerV230(item);
+    return remapFeedback(item,out);
+  };
+
+  const _randomizeSecurityMockItemV230=randomizeSecurityMockItem;
+  randomizeSecurityMockItem=function(s,stepIndex){
+    const out=_randomizeSecurityMockItemV230(s,stepIndex),src=s?.steps?.[stepIndex];
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _randomizeCompoundSetV230=randomizeCompoundSet;
+  randomizeCompoundSet=function(set){
+    const out=_randomizeCompoundSetV230(set);
+    out.qs.forEach((q,i)=>remapFeedback(set.qs[i],q));
+    return out;
+  };
+
+  const _makeFinalAlgoExamV230=makeFinalAlgoExam;
+  makeFinalAlgoExam=function(item){return remapFeedback(item,_makeFinalAlgoExamV230(item));};
+
+  const _makeFinalSecurityV230=makeFinalSecurity;
+  makeFinalSecurity=function(s){
+    const out=_makeFinalSecurityV230(s),src=securitySource(s?.id,out?.q);
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _showBPredictionV230=showBPrediction;
+  showBPrediction=function(pred){
+    _showBPredictionV230(pred);
+    const root=document.getElementById('predictionOptions'),box=document.getElementById('predictionBox');
+    if(!root||!box)return;
+    let panel=document.getElementById('bPredictionChoiceFeedbackV230');
+    if(!panel){panel=document.createElement('div');panel.id='bPredictionChoiceFeedbackV230';panel.hidden=true;root.insertAdjacentElement('afterend',panel);}
+    panel.hidden=true;panel.innerHTML='';
+    [...root.querySelectorAll('button')].forEach((btn,i)=>{
+      const original=btn.onclick;
+      btn.onclick=()=>{
+        if(typeof original==='function')original();
+        if(i!==pred.a){const fb=feedbackFor(pred,i);if(fb){panel.innerHTML=diagnosisHtml(fb,false);panel.hidden=false;}}
+        else{panel.hidden=true;panel.innerHTML='';}
+      };
+    });
+  };
+
+  const _answerSecDecisionV230=answerSecDecision;
+  answerSecDecision=function(i,button){
+    const step=currentSec?.steps?.[secStepIndex],isWrong=!!step&&i!==step.a,fbData=isWrong?feedbackFor(step,i):null;
+    const out=_answerSecDecisionV230(i,button);
+    if(isWrong&&fbData){
+      const fb=document.getElementById('secFeedback');
+      if(fb)fb.innerHTML=diagnosisHtml(fbData,false)+fb.innerHTML;
+    }
+    return out;
+  };
+
+  function injectBMockReview(attempt){
+    const rows=[...document.querySelectorAll('#bMockReviewList .bmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=predictionSource(d.exId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bmock-review-explain');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBMockResultV230=renderBMockResult;
+  renderBMockResult=function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;};
+
+  function injectSecurityMockReview(attempt){
+    const rows=[...document.querySelectorAll('#secMockReviewList .secmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=securitySource(d.scenarioId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.secmock-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishSecurityMockV230=finishSecurityMock;
+  finishSecurityMock=function(timeUp=false){const out=_finishSecurityMockV230(timeUp);injectSecurityMockReview(lastSecurityMockAttempt);return out;};
+
+  function injectCompoundReview(){
+    if(!bCompoundSet)return;
+    const rows=[...document.querySelectorAll('#bCompoundReview .bcompound-review-item')];
+    bCompoundSet.qs.forEach((q,i)=>{
+      const selected=bCompoundAnswers?.[i];
+      if(selected==null||selected===q.a)return;
+      const fb=feedbackFor(q,selected),row=rows[i];
+      if(!fb||!row)return;
+      const pitfall=row.querySelector('.bcompound-review-box.pitfall');
+      if(pitfall)pitfall.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+      else row.insertAdjacentHTML('beforeend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishCompoundChallengeV230=finishCompoundChallenge;
+  finishCompoundChallenge=function(timeUp=false){const out=_finishCompoundChallengeV230(timeUp);injectCompoundReview();return out;};
+
+  function injectFinalReview(attempt){
+    const rows=[...document.querySelectorAll('#bFinalReviewList .bfinal-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=finalSource(d),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bfinal-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBFinalResultV230=renderBFinalResult;
+  renderBFinalResult=function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;};
+
+  const spec=Object.freeze({
+    policy,
+    sourceAudit,
+    finding:'subject_b_wrong_answer_feedback_not_choice_specific',
+    metadataKey:'wrongFeedback',
+    stableLookupKey:'wrongFeedbackByText',
+    feedbackParts:Object.freeze(['diagnosis','checkpoint','nextCue']),
+    immediatePracticeRevealsCorrectAnswer:false,
+    postAnswerReviewShowsCheckpoint:true,
+    covers:Object.freeze(['algorithm-trace','algorithm-mini-mock','compound','security-scenario','security-mini-mock','final-algorithm','final-security']),
+    scoringChanged:false,
+    correctAnswersChanged:false,
+    questionSelectionChanged:false,
+    questionOrderChanged:false,
+    timingChanged:false,
+    readinessThresholdChanged:false,
+    domainProgressionChanged:false,
+    remediationTargetsChanged:false,
+    profileSchemaChanged:false
+  });
+  globalThis.SUBJECT_B_WRONG_ANSWER_FEEDBACK_V230_SPEC=spec;
+  globalThis.subjectBChoiceFeedbackV230=feedbackFor;
+  globalThis.subjectBChoiceFeedbackHtmlV230=diagnosisHtml;
+})();
+// ===== FE QUEST v233 Subject B distractor quality repair =====
+(() => {
+  const finding='subject_b_distractor_structural_mismatch';
+  const sourceAudit='v232-subject-b-distractor-difficulty-calibration';
+  const exercise=B_EXERCISES.find(x=>x.id==='selection_sort_b');
+  if(!exercise)throw new Error('v233: selection_sort_b missing');
+  const step=exercise.steps.find(x=>x.predict?.q==='最終的なminPosは？');
+  if(!step?.predict)throw new Error('v233: target prediction missing');
+  const pred=step.predict;
+  const oldOption='[1,5,2,4]';
+  const newOption='0';
+  const optionIndex=pred.opts.findIndex(x=>String(x)===oldOption);
+  if(optionIndex<0||optionIndex===pred.a)throw new Error('v233: target distractor contract drift');
+  cons
+
+===== injectBMockReview occurrence =====
+
+{escapeHtml(fb.diagnosis)}</div>${includeCheckpoint&&fb.checkpoint?`<div style="margin-top:7px"><b>ここだけ確認：</b>${escapeHtml(fb.checkpoint)}</div>`:''}<div style="margin-top:7px"><b>次回の合図：</b>${escapeHtml(fb.nextCue)}</div></div>`;
+  }
+
+  function predictionSource(exId,qText){
+    const ex=B_EXERCISES.find(x=>x.id===exId);
+    return ex?.steps?.map(x=>x.predict).filter(Boolean).find(p=>text(p.q)===text(qText))||null;
+  }
+  function securitySource(scenarioId,qText){
+    const sc=SECURITY_SCENARIOS.find(x=>x.id===scenarioId);
+    return sc?.steps?.find(s=>text(s.q)===text(qText))||null;
+  }
+  function finalSource(detail){
+    if(detail?.kind==='security')return securitySource(detail.sourceId,detail.q);
+    const exam=B_EXAM_ALGO_ITEMS.find(x=>x.id===detail?.sourceId);
+    if(exam)return exam;
+    if(detail?.studyMode==='trace')return predictionSource(detail.sourceId,detail.q);
+    if(detail?.studyMode==='compound'){
+      const set=B_COMPOUND_SETS.find(x=>x.id===detail.sourceId);
+      return set?.qs?.find(q=>text(q.q)===text(detail.q))||null;
+    }
+    return null;
+  }
+
+  installSourceFeedback();
+
+  const _bMockCandidateV230=bMockCandidateFromExercise;
+  bMockCandidateFromExercise=function(ex){
+    const out=_bMockCandidateV230(ex);
+    if(!out)return out;
+    const src=ex?.steps?.[out.checkpoint]?.predict||predictionSource(ex?.id,out.q);
+    if(src){out.wrongFeedbackByText={...(src.wrongFeedbackByText||{})};out.wrongFeedback=out.options.map(opt=>text(opt)===text(out.correctText)?'':(out.wrongFeedbackByText[text(opt)]||''));}
+    return out;
+  };
+
+  const _shuffleBMockAnswerV230=shuffleBMockAnswer;
+  shuffleBMockAnswer=function(item){
+    const out=_shuffleBMockAnswerV230(item);
+    return remapFeedback(item,out);
+  };
+
+  const _randomizeSecurityMockItemV230=randomizeSecurityMockItem;
+  randomizeSecurityMockItem=function(s,stepIndex){
+    const out=_randomizeSecurityMockItemV230(s,stepIndex),src=s?.steps?.[stepIndex];
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _randomizeCompoundSetV230=randomizeCompoundSet;
+  randomizeCompoundSet=function(set){
+    const out=_randomizeCompoundSetV230(set);
+    out.qs.forEach((q,i)=>remapFeedback(set.qs[i],q));
+    return out;
+  };
+
+  const _makeFinalAlgoExamV230=makeFinalAlgoExam;
+  makeFinalAlgoExam=function(item){return remapFeedback(item,_makeFinalAlgoExamV230(item));};
+
+  const _makeFinalSecurityV230=makeFinalSecurity;
+  makeFinalSecurity=function(s){
+    const out=_makeFinalSecurityV230(s),src=securitySource(s?.id,out?.q);
+    return src?remapFeedback(src,out):out;
+  };
+
+  const _showBPredictionV230=showBPrediction;
+  showBPrediction=function(pred){
+    _showBPredictionV230(pred);
+    const root=document.getElementById('predictionOptions'),box=document.getElementById('predictionBox');
+    if(!root||!box)return;
+    let panel=document.getElementById('bPredictionChoiceFeedbackV230');
+    if(!panel){panel=document.createElement('div');panel.id='bPredictionChoiceFeedbackV230';panel.hidden=true;root.insertAdjacentElement('afterend',panel);}
+    panel.hidden=true;panel.innerHTML='';
+    [...root.querySelectorAll('button')].forEach((btn,i)=>{
+      const original=btn.onclick;
+      btn.onclick=()=>{
+        if(typeof original==='function')original();
+        if(i!==pred.a){const fb=feedbackFor(pred,i);if(fb){panel.innerHTML=diagnosisHtml(fb,false);panel.hidden=false;}}
+        else{panel.hidden=true;panel.innerHTML='';}
+      };
+    });
+  };
+
+  const _answerSecDecisionV230=answerSecDecision;
+  answerSecDecision=function(i,button){
+    const step=currentSec?.steps?.[secStepIndex],isWrong=!!step&&i!==step.a,fbData=isWrong?feedbackFor(step,i):null;
+    const out=_answerSecDecisionV230(i,button);
+    if(isWrong&&fbData){
+      const fb=document.getElementById('secFeedback');
+      if(fb)fb.innerHTML=diagnosisHtml(fbData,false)+fb.innerHTML;
+    }
+    return out;
+  };
+
+  function injectBMockReview(attempt){
+    const rows=[...document.querySelectorAll('#bMockReviewList .bmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=predictionSource(d.exId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bmock-review-explain');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBMockResultV230=renderBMockResult;
+  renderBMockResult=function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;};
+
+  function injectSecurityMockReview(attempt){
+    const rows=[...document.querySelectorAll('#secMockReviewList .secmock-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=securitySource(d.scenarioId,d.q),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.secmock-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishSecurityMockV230=finishSecurityMock;
+  finishSecurityMock=function(timeUp=false){const out=_finishSecurityMockV230(timeUp);injectSecurityMockReview(lastSecurityMockAttempt);return out;};
+
+  function injectCompoundReview(){
+    if(!bCompoundSet)return;
+    const rows=[...document.querySelectorAll('#bCompoundReview .bcompound-review-item')];
+    bCompoundSet.qs.forEach((q,i)=>{
+      const selected=bCompoundAnswers?.[i];
+      if(selected==null||selected===q.a)return;
+      const fb=feedbackFor(q,selected),row=rows[i];
+      if(!fb||!row)return;
+      const pitfall=row.querySelector('.bcompound-review-box.pitfall');
+      if(pitfall)pitfall.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+      else row.insertAdjacentHTML('beforeend',diagnosisHtml(fb,true));
+    });
+  }
+  const _finishCompoundChallengeV230=finishCompoundChallenge;
+  finishCompoundChallenge=function(timeUp=false){const out=_finishCompoundChallengeV230(timeUp);injectCompoundReview();return out;};
+
+  function injectFinalReview(attempt){
+    const rows=[...document.querySelectorAll('#bFinalReviewList .bfinal-review-item')];
+    (attempt?.details||[]).forEach((d,i)=>{
+      if(d.ok||d.selected==null)return;
+      const src=finalSource(d),fb=feedbackFor(src,d.selected),row=rows[i];
+      if(!fb||!row)return;
+      const anchor=row.querySelector('.bfinal-review-e');
+      if(anchor)anchor.insertAdjacentHTML('afterend',diagnosisHtml(fb,true));
+    });
+  }
+  const _renderBFinalResultV230=renderBFinalResult;
+  renderBFinalResult=function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;};
+
+  const spec=Object.freeze({
+    policy,
+    sourceAudit,
+    finding:'subject_b_wrong_answer_feedback_not_choice_specific',
+    metadataKey:'wrongFeedback',
+    stableLookupKey:'wrongFeedbackByText',
+    feedbackParts:Object.freeze(['diagnosis','checkpoint','nextCue']),
+    immediatePracticeRevealsCorrectAnswer:false,
+    postAnswerReviewShowsCheckpoint:true,
+    covers:Object.freeze(['algorithm-trace','algorithm-mini-mock','compound','security-scenario','security-mini-mock','final-algorithm','final-security']),
+    scoringChanged:false,
+    correctAnswersChanged:false,
+    questionSelectionChanged:false,
+    questionOrderChanged:false,
+    timingChanged:false,
+    readinessThresholdChanged:false,
+    domainProgressionChanged:false,
+    remediationTargetsChanged:false,
+    profileSchemaChanged:false
+  });
+  globalThis.SUBJECT_B_WRONG_ANSWER_FEEDBACK_V230_SPEC=spec;
+  globalThis.subjectBChoiceFeedbackV230=feedbackFor;
+  globalThis.subjectBChoiceFeedbackHtmlV230=diagnosisHtml;
+})();
+// ===== FE QUEST v233 Subject B distractor quality repair =====
+(() => {
+  const finding='subject_b_distractor_structural_mismatch';
+  const sourceAudit='v232-subject-b-distractor-difficulty-calibration';
+  const exercise=B_EXERCISES.find(x=>x.id==='selection_sort_b');
+  if(!exercise)throw new Error('v233: selection_sort_b missing');
+  const step=exercise.steps.find(x=>x.predict?.q==='最終的なminPosは？');
+  if(!step?.predict)throw new Error('v233: target prediction missing');
+  const pred=step.predict;
+  const oldOption='[1,5,2,4]';
+  const newOption='0';
+  const optionIndex=pred.opts.findIndex(x=>String(x)===oldOption);
+  if(optionIndex<0||optionIndex===pred.a)throw new Error('v233: target distractor contract drift');
+  const correctBefore=String(pred.opts[pred.a]);
+  pred.opts[optionIndex]=newOption;
+  if(String(pred.opts[pred.a])!==correctBefore||correctBefore!=='3')throw new Error('v233: correct answer changed');
+
+  const feedback=Object.freeze({
+    diagnosis:'「0」を選んだ場合、minPosを初期値0のまま更新していません。j=1で2<4が真になった時点でminPos=1へ、j=3で1<2が真になった時点でminPos=3へ更新します。',
+    checkpoint:'処理の分岐点：j=3でdata[3]=1とdata[minPos]=2を比較し、条件が真なのでminPos ← 3です。',
+    nextCue:'minPosには「現在までに見つけた最小値の添字」を保存し、より小さい値を見つけるたびに更新します。'
+  });
+  const byText={...(pred.wrongFeedbackByText||{})};
+  delete byText[oldOption];
+  byText[newOption]=feedback;
+  pred.wrongF
+
+Regression
+----------
+No learner-facing code changed.
+Every captured injectBMockReview and _renderBMockResultV230 context is byte-identical to v292.
+Candidate/mechanical-reference six-file byte equality is enforced by the standard release validator.
+
+Decision
+--------
+If the captured closure creates a clear review/continue/retry action, close the result-return UX sequence with no repair. If it only adds diagnostic detail and leaves no next action, make one minimal injection-layer repair that reuses the existing Subject B recommendation hub.

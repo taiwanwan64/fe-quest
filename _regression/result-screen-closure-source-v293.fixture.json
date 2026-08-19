@@ -1,0 +1,55 @@
+{
+  "version": "v293",
+  "previous": "v292",
+  "parent": "38ee9e3f6451ec471cc2e6c23c90c02697129245",
+  "result": "PASS — CLOSURE SOURCE CAPTURED",
+  "summary": {
+    "injectOccurrenceCount": 2,
+    "injectContexts": [
+      {
+        "sha256": "7204e8491e816a1cead676fc14ed4d95389683cf68998bcdc65b9a102980edfb",
+        "markers": [
+          "function injectBMockReview",
+          "onclick",
+          "次"
+        ],
+        "length": 9017
+      },
+      {
+        "sha256": "d1dc40a9ebce247091b331155c3382ccef49afd49e9bd8787b709bbd3f101381",
+        "markers": [
+          "function injectBMockReview",
+          "onclick",
+          "次"
+        ],
+        "length": 9017
+      }
+    ],
+    "oldRendererOccurrenceCount": 2,
+    "oldRendererContexts": [
+      {
+        "sha256": "63837869236bea2e42cb2e5adfa443d9d7bc4d5f7042e8c71762290583c0b7e8",
+        "markers": [
+          "function injectBMockReview",
+          "onclick"
+        ],
+        "length": 6022
+      },
+      {
+        "sha256": "77ebfa0f965ebf4d6ab02cb305a4254369116229186b4d85355211c02df527b0",
+        "markers": [
+          "function injectBMockReview",
+          "onclick"
+        ],
+        "length": 6022
+      }
+    ],
+    "routeTermsAcrossInjectContexts": [
+      "onclick"
+    ],
+    "copyTermsAcrossInjectContexts": [
+      "次"
+    ]
+  },
+  "candidateReferenceSixFileByteEquality": true
+}
