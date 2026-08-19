@@ -1,0 +1,48 @@
+FE QUEST v272 — Subject B Resume / Completion Handoff Audit
+===============================================================
+
+Result
+------
+PASS — FINDINGS RECORDED
+Previous release: v271
+Source main: ac776e87a50cae84474e748f6c00ab258ed5829b
+Learner-facing change in v272: none
+
+Purpose
+-------
+v271 found no repeated confirmation friction in short practice and intentionally kept prediction/advance separation in TRACE. v272 inspects two places where a repeated extra tap could still matter every session without protecting an answer: completion-to-next-practice handoff and the timed final resume lifecycle.
+
+Completion handoff evidence
+---------------------------
+bNextExercise: matches=2 / directContinue=False / directRecommendation=False / menuSignals=[]
+bCompoundBackMenu: matches=1 / directContinue=True / directRecommendation=False / menuSignals=[]
+secMockBackList: matches=1 / directContinue=True / directRecommendation=False / menuSignals=[]
+bFinalBackMenu: matches=2 / directContinue=False / directRecommendation=False / menuSignals=['showBMockMenu']
+
+Timed final resume evidence
+---------------------------
+saveBFinalResume: matches=6
+clearBFinalResume: matches=5
+bFinalResume: matches=16
+resume: matches=16
+再開: matches=16
+
+Findings
+--------
+Low — subject_b_completion_handoff_returns_to_menu: A completion-oriented control appears to return to a Subject B menu without direct continuation/recommendation evidence.
+
+Interpretation
+--------------
+A result-screen control labelled “次の科目Bへ” should ideally enter the established continuation/recommendation route rather than merely bounce through another menu. Conversely, resume/save/clear behavior for the 100-minute final is protective and should not be simplified away. Static snippets are treated as routing evidence, not physical-device tap measurements.
+
+Regression
+----------
+Captured handoff/resume functions and source snippets are unchanged from v271.
+Subject B authored banks are unchanged.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Repair only a completion control that is concretely shown to stop at a redundant menu. Preserve the timed final resume lifecycle. If all completion controls already use the continuation/recommendation path, close this UX sequence and return to learner-facing content quality rather than adding more navigation machinery.
