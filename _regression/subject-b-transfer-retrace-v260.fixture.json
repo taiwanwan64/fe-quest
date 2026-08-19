@@ -1,0 +1,160 @@
+{
+  "version": "v260",
+  "previous": "v259",
+  "parent": "95380b0d3bf7469181fc3bc44df507ef304e5b6a",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "traceExerciseCount": 20,
+  "predictionCountByExercise": {
+    "loop_sum": 2,
+    "array_max": 2,
+    "linear_search": 2,
+    "stack_ops": 2,
+    "recursion": 2,
+    "tree_dfs": 2,
+    "count_even": 2,
+    "array_reverse": 2,
+    "nested_loop": 2,
+    "binary_search_b": 2,
+    "bubble_sort_b": 2,
+    "selection_sort_b": 2,
+    "matrix_sum": 2,
+    "matrix_find": 2,
+    "queue_ops": 2,
+    "linked_list": 2,
+    "bit_mask": 2,
+    "object_counter": 2,
+    "gcd_euclid": 2,
+    "recursive_fib": 2
+  },
+  "variantKeys": [],
+  "perExerciseVariantKeys": {},
+  "sourceEvidence": {
+    "occurrences": 80,
+    "consumerOccurrences": 41,
+    "consumerRandomNeighborhoods": 5,
+    "consumerVariantNeighborhoods": 0,
+    "consumerFunctions": [
+      "buildBMock",
+      "estimateRemainingStudyMinutes",
+      "examAreaProgress",
+      "installSourceFeedback",
+      "nextBChoice",
+      "pickLessonForSkill",
+      "predictionSource",
+      "readinessComponents",
+      "renderBFinalReadiness",
+      "renderBGrid",
+      "renderLearningEntry",
+      "renderSubjectBHub",
+      "roadmapData",
+      "selectLevel",
+      "startBExercise",
+      "subjectBAlgorithmDomainTargetV227",
+      "subjectBHubRecommendation",
+      "subjectBProgressMetrics",
+      "traceNextRecommendation",
+      "validateSubjectBSemantics"
+    ],
+    "sample": [
+      {
+        "term": "B_EXERCISES",
+        "function": null,
+        "random": false,
+        "variant": false,
+        "snippet": "gify({'想起':15,'適用':29,'判断':16})&& JSON.stringify(MOCK_BLUEPRINTS.half.cognitive)===JSON.stringify({'想起':8,'適用':13,'判断':9}),4), currentCheck('subject-b-exercises','Subject B exercise, mini-mock, semantic and compound-set contracts must remain valid',()=> Array.isArray(B_EXERCISES)&&B_EXERCISES.length===20&&typeof B_MOCK_COUNT!=='undefined'&&B_MOCK_COUNT===8&& Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&B_EXERCISES.every(ex=>ex.steps.filter(s=>s.predict).length===2)&& typeof validateSubjectBSemantics==='function'&&validateSubjectBSemantics().ok&&Array.isArray(B_COMPOUND_SETS)&&B_COMPOUND_SETS.length===15,6), currentCheck('subject-b-security-final','Subject B compound/security/final blueprints and final-resume guard must remain valid',()=> B_COMPOUND_SETS.every(s=>s.qs?.length===3)&&B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall)&& Array.isArray(SECURITY_SCENARIOS)&&SECURITY_SCENARIOS.length===15&&typeof SECURITY_MOCK_COUNT!=='undefined'&&SECURITY_MOCK_COUNT===8&& Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&typeof B_FINAL_COUNT!=='undefined'&&B_FINAL_COUNT===20&&B_FINAL_ALGO_COUNT===16&&B_FINAL_SEC_COUNT===4&& typeof restoreBFinalResume==='function'&&typeof saveBFinalResume==='function'&&typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),7), currentCheck('profile-backup-roundtrip','Profile backup engine must round-trip current schema and checksum',()=>{ if(profile.profileSchemaVersion!=="
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": null,
+        "random": false,
+        "variant": false,
+        "snippet": "'適用':29,'判断':16})&& JSON.stringify(MOCK_BLUEPRINTS.half.cognitive)===JSON.stringify({'想起':8,'適用':13,'判断':9}),4), currentCheck('subject-b-exercises','Subject B exercise, mini-mock, semantic and compound-set contracts must remain valid',()=> Array.isArray(B_EXERCISES)&&B_EXERCISES.length===20&&typeof B_MOCK_COUNT!=='undefined'&&B_MOCK_COUNT===8&& Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&B_EXERCISES.every(ex=>ex.steps.filter(s=>s.predict).length===2)&& typeof validateSubjectBSemantics==='function'&&validateSubjectBSemantics().ok&&Array.isArray(B_COMPOUND_SETS)&&B_COMPOUND_SETS.length===15,6), currentCheck('subject-b-security-final','Subject B compound/security/final blueprints and final-resume guard must remain valid',()=> B_COMPOUND_SETS.every(s=>s.qs?.length===3)&&B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall)&& Array.isArray(SECURITY_SCENARIOS)&&SECURITY_SCENARIOS.length===15&&typeof SECURITY_MOCK_COUNT!=='undefined'&&SECURITY_MOCK_COUNT===8&& Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&typeof B_FINAL_COUNT!=='undefined'&&B_FINAL_COUNT===20&&B_FINAL_ALGO_COUNT===16&&B_FINAL_SEC_COUNT===4&& typeof restoreBFinalResume==='function'&&typeof saveBFinalResume==='function'&&typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),7), currentCheck('profile-backup-roundtrip','Profile backup engine must round-trip current schema and checksum',()=>{ if(profile.profileSchemaVersion!==PROFILE_SCHEMA"
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": null,
+        "random": false,
+        "variant": false,
+        "snippet": "ises','Subject B exercise, mini-mock, semantic and compound-set contracts must remain valid',()=> Array.isArray(B_EXERCISES)&&B_EXERCISES.length===20&&typeof B_MOCK_COUNT!=='undefined'&&B_MOCK_COUNT===8&& Object.values(B_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&B_EXERCISES.every(ex=>ex.steps.filter(s=>s.predict).length===2)&& typeof validateSubjectBSemantics==='function'&&validateSubjectBSemantics().ok&&Array.isArray(B_COMPOUND_SETS)&&B_COMPOUND_SETS.length===15,6), currentCheck('subject-b-security-final','Subject B compound/security/final blueprints and final-resume guard must remain valid',()=> B_COMPOUND_SETS.every(s=>s.qs?.length===3)&&B_COMPOUND_SETS.flatMap(s=>s.qs).every(q=>q.kind&&q.qlevel&&q.point&&q.pitfall)&& Array.isArray(SECURITY_SCENARIOS)&&SECURITY_SCENARIOS.length===15&&typeof SECURITY_MOCK_COUNT!=='undefined'&&SECURITY_MOCK_COUNT===8&& Object.values(SECURITY_MOCK_QUOTAS).reduce((a,b)=>a+b,0)===8&&typeof B_FINAL_COUNT!=='undefined'&&B_FINAL_COUNT===20&&B_FINAL_ALGO_COUNT===16&&B_FINAL_SEC_COUNT===4&& typeof restoreBFinalResume==='function'&&typeof saveBFinalResume==='function'&&typeof renderBFinalReadiness==='function'&&String(startBFinal).includes('days<=3'),7), currentCheck('profile-backup-roundtrip','Profile backup engine must round-trip current schema and checksum',()=>{ if(profile.profileSchemaVersion!==PROFILE_SCHEMA_VERSION||typeof normalizeProfileData!=='function'||typeof makeBackupPayload!=='function'||typeof decodeBackupPayload!=='function') return fal"
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": "subjectBProgressMetrics",
+        "random": false,
+        "variant": false,
+        "snippet": "ock':mode); document.querySelectorAll('[data-course-bmode]').forEach(card=>{ const selected=card.dataset.courseBmode===normalized; card.classList.toggle('course-recommended',selected); }); } function subjectBProgressMetrics(){ const algoDone=B_EXERCISES.filter(x=>(profile.bProgress?.[x.id]||0)>=100).length; const secDone=SECURITY_SCENARIOS.filter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length; const compoundSeen=Object.values(profile.bCompoundStats||{}).filter(x=>(x?.seen||0)>0).length; const secMockRuns=(profile.securityMockHistory||[]).length; const algoMockRuns=(profile.bMockHistory||[]).length; const finalRuns=(profile.bFinalHistory||[]).length; const practiceEvidence=Math.min(3,compoundSeen)+Math.min(1,secMockRuns)+Math.min(1,algoMockRuns); return {algoDone,secDone,compoundSeen,secMockRuns,algoMockRuns,finalRuns,practiceEvidence}; } function subjectBHubRecommendation(){ const m=subjectBProgressMetrics(); const days=examDaysRemaining(); const finalAllowed=!(days!=null&&days>=0&&days<=3); if(m.algoDone<B_EXERCISES.length){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100)||B_EXERCISES[0]; return {stage:1,mode:'trace',id:ex?.id,title:ex?.title||'プログラムトレース',icon:'💻',kicker:'ステップ 1・アルゴリズム',desc:`${m.algoDone} / ${B_EXERCISES.length} 完了。次の未完了演習を1つ進めます。`}; } if(m.secDone<SECURITY_SCENARIOS.length){ const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100)||SECURITY_SCENARIOS[0]; return {stage:2,mode:'security',id:sc?.id,title:sc?.tit"
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": "subjectBHubRecommendation",
+        "random": false,
+        "variant": false,
+        "snippet": "lgoDone,secDone,compoundSeen,secMockRuns,algoMockRuns,finalRuns,practiceEvidence}; } function subjectBHubRecommendation(){ const m=subjectBProgressMetrics(); const days=examDaysRemaining(); const finalAllowed=!(days!=null&&days>=0&&days<=3); if(m.algoDone<B_EXERCISES.length){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100)||B_EXERCISES[0]; return {stage:1,mode:'trace',id:ex?.id,title:ex?.title||'プログラムトレース',icon:'💻',kicker:'ステップ 1・アルゴリズム',desc:`${m.algoDone} / ${B_EXERCISES.length} 完了。次の未完了演習を1つ進めます。`}; } if(m.secDone<SECURITY_SCENARIOS.length){ const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100)||SECURITY_SCENARIOS[0]; return {stage:2,mode:'security',id:sc?.id,title:sc?.title||'セキュリティ ケース演習',icon:'🛡️',kicker:'ステップ 2・セキュリティ',desc:`${m.secDone} / ${SECURITY_SCENARIOS.length} 完了。次のケースを1つ進めます。`}; } if(m.compoundSeen<3){ return {stage:3,mode:'compound',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } cons"
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": "subjectBHubRecommendation",
+        "random": false,
+        "variant": false,
+        "snippet": "ecMockRuns,algoMockRuns,finalRuns,practiceEvidence}; } function subjectBHubRecommendation(){ const m=subjectBProgressMetrics(); const days=examDaysRemaining(); const finalAllowed=!(days!=null&&days>=0&&days<=3); if(m.algoDone<B_EXERCISES.length){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100)||B_EXERCISES[0]; return {stage:1,mode:'trace',id:ex?.id,title:ex?.title||'プログラムトレース',icon:'💻',kicker:'ステップ 1・アルゴリズム',desc:`${m.algoDone} / ${B_EXERCISES.length} 完了。次の未完了演習を1つ進めます。`}; } if(m.secDone<SECURITY_SCENARIOS.length){ const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100)||SECURITY_SCENARIOS[0]; return {stage:2,mode:'security',id:sc?.id,title:sc?.title||'セキュリティ ケース演習',icon:'🛡️',kicker:'ステップ 2・セキュリティ',desc:`${m.secDone} / ${SECURITY_SCENARIOS.length} 完了。次のケースを1つ進めます。`}; } if(m.compoundSeen<3){ return {stage:3,mode:'compound',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',ti"
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": "subjectBHubRecommendation",
+        "random": false,
+        "variant": false,
+        "snippet": "nction subjectBHubRecommendation(){ const m=subjectBProgressMetrics(); const days=examDaysRemaining(); const finalAllowed=!(days!=null&&days>=0&&days<=3); if(m.algoDone<B_EXERCISES.length){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100)||B_EXERCISES[0]; return {stage:1,mode:'trace',id:ex?.id,title:ex?.title||'プログラムトレース',icon:'💻',kicker:'ステップ 1・アルゴリズム',desc:`${m.algoDone} / ${B_EXERCISES.length} 完了。次の未完了演習を1つ進めます。`}; } if(m.secDone<SECURITY_SCENARIOS.length){ const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100)||SECURITY_SCENARIOS[0]; return {stage:2,mode:'security',id:sc?.id,title:sc?.title||'セキュリティ ケース演習',icon:'🛡️',kicker:'ステップ 2・セキュリティ',desc:`${m.secDone} / ${SECURITY_SCENARIOS.length} 完了。次のケースを1つ進めます。`}; } if(m.compoundSeen<3){ return {stage:3,mode:'compound',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?."
+      },
+      {
+        "term": "B_EXERCISES",
+        "function": "subjectBHubRecommendation",
+        "random": false,
+        "variant": false,
+        "snippet": "days>=0&&days<=3); if(m.algoDone<B_EXERCISES.length){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100)||B_EXERCISES[0]; return {stage:1,mode:'trace',id:ex?.id,title:ex?.title||'プログラムトレース',icon:'💻',kicker:'ステップ 1・アルゴリズム',desc:`${m.algoDone} / ${B_EXERCISES.length} 完了。次の未完了演習を1つ進めます。`}; } if(m.secDone<SECURITY_SCENARIOS.length){ const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100)||SECURITY_SCENARIOS[0]; return {stage:2,mode:'security',id:sc?.id,title:sc?.title||'セキュリティ ケース演習',icon:'🛡️',kicker:'ステップ 2・セキュリティ',desc:`${m.secDone} / ${SECURITY_SCENARIOS.length} 完了。次のケースを1つ進めます。`}; } if(m.compoundSeen<3){ return {stage:3,mode:'compound',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?.rate??100),icon:'📝'}, {mode:'securityMock',title:'セキュリティ ミニ模試',rate:Number(profile.securityMockHistory?.[0]?.rate??100),icon:'🛡️'}, {mod"
+      }
+    ]
+  },
+  "algorithmTraceTargets": 43,
+  "uniqueTraceTargetIds": [
+    "array_reverse",
+    "binary_search_b",
+    "bit_mask",
+    "linked_list",
+    "matrix_find",
+    "matrix_sum",
+    "nested_loop",
+    "object_counter",
+    "recursion",
+    "stack_ops",
+    "tree_dfs"
+  ],
+  "fixedPredictionSignatures": {
+    "loop_sum": 4513963793690615811,
+    "array_max": -1042646766653190766,
+    "linear_search": 3303250389696861189,
+    "stack_ops": -7792446554406207103,
+    "recursion": -6388777475620243184,
+    "tree_dfs": 3234715201163886299,
+    "count_even": 8970069739943733557,
+    "array_reverse": 4472808297142065564,
+    "nested_loop": 1485815407168467642,
+    "binary_search_b": 528386823214323446,
+    "bubble_sort_b": 4076879807449136996,
+    "selection_sort_b": -1516306143719529758,
+    "matrix_sum": -6820876918809619920,
+    "matrix_find": -1699692186482295857,
+    "queue_ops": -5794203162055978684,
+    "linked_list": 1832584210082731531,
+    "bit_mask": 3558409409934599467,
+    "object_counter": 1846834643008014936,
+    "gcd_euclid": 2556879549573931272,
+    "recursive_fib": 8200770633828321075
+  },
+  "finding": {
+    "id": "fixed_value_trace_repractice_limits_transfer",
+    "severity": "Medium",
+    "summary": "The focused TRACE remediation layer has fixed authored code/prediction values and no detected alternate-value variant metadata or generator neighborhood, so repeating the same target primarily rehearses the same state path rather than testing transfer to changed inputs."
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}

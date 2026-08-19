@@ -1,0 +1,50 @@
+FE QUEST v260 — Subject B Transfer / Re-Trace Diagnostic Audit
+====================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous release: v259
+Source main: 95380b0d3bf7469181fc3bc44df507ef304e5b6a
+Learner-facing change in v260: none
+
+Why this frontier
+-----------------
+v259 confirmed that the final-practice high-TRACE set is structurally deeper than ordinary items, so simply lengthening those questions is not the next priority. The next learning-quality question is transfer: after a learner has traced one concrete state path, can FE QUEST make them reconstruct the same idea under changed values rather than only repeat the identical authored path?
+
+Attached-material framing
+-------------------------
+The attached Subject B-specific study books strongly organize algorithm preparation around pseudocode tracing, and their structure repeatedly returns to re-tracing programs with changed values/conditions as a way to confirm understanding. This audit uses that pedagogical direction only as a learning-design reference; it does not copy any proprietary problem text into FE QUEST.
+
+Current TRACE layer
+-------------------
+TRACE exercises: 20
+Predictions per exercise: all 2
+Algorithm final items with valid TRACE remediation: 43 / 43
+Unique TRACE destinations used by those final items: 11
+Detected authored variant/template keys in B_EXERCISES: []
+Exercises carrying variant/template metadata: {}
+B_EXERCISES source neighborhoods with variant/generator indicators: 0
+B_EXERCISES source neighborhoods with random/shuffle indicators: 5
+Detected consumer functions near B_EXERCISES: ["buildBMock", "estimateRemainingStudyMinutes", "examAreaProgress", "installSourceFeedback", "nextBChoice", "pickLessonForSkill", "predictionSource", "readinessComponents", "renderBFinalReadiness", "renderBGrid", "renderLearningEntry", "renderSubjectBHub", "roadmapData", "selectLevel", "startBExercise", "subjectBAlgorithmDomainTargetV227", "subjectBHubRecommendation", "subjectBProgressMetrics", "traceNextRecommendation", "validateSubjectBSemantics"]
+
+Interpretation
+--------------
+The existing TRACE layer is strong at guided intermediate-state reconstruction: every exercise has two authored prediction checkpoints, and all 43 final algorithm items retain a valid direct TRACE destination. However, no authored alternate-value/template field was detected in the 20 TRACE exercises, and no B_EXERCISES consumer neighborhood exposed a variant/generator path. The same remediation target therefore presents one fixed authored code/state scenario. Randomness elsewhere in Subject B (for example mock selection or option ordering) is not equivalent to changing the traced program's input/state values.
+
+Medium finding
+--------------
+fixed_value_trace_repractice_limits_transfer
+A learner can be routed precisely to a weak domain, but repeating that focused TRACE primarily rehearses the same concrete values. This can reward memory of the prior state path rather than requiring reconstruction under a changed input. The gap is learning transfer, not scoring correctness or curriculum coverage.
+
+Recommended repair boundary
+---------------------------
+Use v261 for a narrow alternate-value re-trace pilot rather than changing all 20 exercises at once. Start with a small, mechanically verifiable subset of arithmetic/control/array TRACE exercises whose state transitions can be parameterized without changing the underlying concept. Preserve the original authored version as the first exposure; only a later repeat/review should be eligible for a deterministic safe variant. Each variant must keep exactly two prediction checkpoints, four options, one correct answer, and explanation/hint correctness. Do not randomize values if it can create duplicate options, invalid indexes, changed asymptotic behavior, or a different conceptual answer.
+
+Regression
+----------
+Question/final algorithm banks and all 20 TRACE exercises are unchanged from v259.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, selection/order, readiness, remediation targets, difficulty labels, exam timing, and profile schema are unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
