@@ -1,0 +1,85 @@
+FE QUEST v270 — Subject B Interaction Friction Inventory Audit
+===================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v269
+Source main: 5373aad9addf4173ba03899e459e4a3c877970c0
+Learner-facing change in v270: none
+
+Purpose
+-------
+v269 closed the mobile tap-target repair. v270 inventories the existing Subject B interaction sequence before removing any steps: named start/render/finish functions, confirmation calls, screen transitions and static flow buttons. This is source evidence, not a claim about measured human tap time or physical-device behavior.
+
+Mode function evidence
+----------------------
+trace: present=['startBExercise', 'renderBStep', 'finishBExercise', 'showBPrediction'] / missing-candidate-names=['nextBStep'] / confirm()=0 / showScreen()=0
+compound: present=['startCompoundChallenge', 'renderCompoundQuestion', 'finishCompoundChallenge'] / missing-candidate-names=[] / confirm()=0 / showScreen()=0
+algorithmMiniMock: present=['startBMiniMock', 'renderBMockQuestion', 'finishBMiniMock'] / missing-candidate-names=[] / confirm()=0 / showScreen()=0
+securityMock: present=['startSecurityMock', 'renderSecurityMockQuestion', 'finishSecurityMock'] / missing-candidate-names=[] / confirm()=0 / showScreen()=0
+final: present=['startBFinal', 'renderBFinalQuestion', 'finishBFinal'] / missing-candidate-names=[] / confirm()=0 / showScreen()=1
+recommendation: present=['continueSubjectBFlow', 'launchSubjectBRecommendation'] / missing-candidate-names=[] / confirm()=0 / showScreen()=1
+
+Static Subject B flow buttons
+-----------------------------
+Count: 27
+bBackToList | classes=back | text=←
+bCompoundBackMenu | classes=primary | text=次の科目Bへ →
+bCompoundNext | classes=bmock-next | text=次へ →
+bCompoundPrev | classes=bmock-prev | text=← 前へ
+bCompoundStart | classes=bmock-mode-card compound | text=🧩 複合問題 15セット / 長いコード1題 + 設問3問 →
+bCompoundSubmit | classes=bmock-submit-top | text=提出
+bFinalBackMenu | classes=primary | text=次の科目Bへ →
+bFinalNext | classes=next | text=次へ →
+bFinalPrepAction | classes=- | text=科目Bの続きへ →
+bFinalPrev | classes=- | text=← 前へ
+bFinalStart | classes=bfinal-start | text=20問の総合実戦を開始 →
+bFinalSubmit | classes=bfinal-submit | text=提出
+bMockNext | classes=bmock-next | text=次へ →
+bMockPrev | classes=bmock-prev | text=← 前へ
+bMockStart | classes=bmock-mode-card mini | text=📝 アルゴリズム ミニ模試 8問・40分 / 状態予測を連続で解く →
+bMockSubmitTop | classes=bmock-submit-top | text=提出
+bNextExercise | classes=primary | text=次の科目Bへ →
+bPracticeNextAction | classes=- | text=始める →
+bTraceNextAction | classes=- | text=始める →
+secBackToList | classes=back | text=←
+secMockBackList | classes=primary | text=次の科目Bへ →
+secMockNext | classes=bmock-next secmock-next | text=次へ →
+secMockPrev | classes=bmock-prev | text=← 前へ
+secMockStartMenu | classes=- | text=ミニ模試を始める →
+secMockSubmitTop | classes=secmock-submit-top | text=提出
+secNext | classes=sec-next | text=次の判断へ →
+secNextAction | classes=- | text=始める →
+
+Subject-B-context confirmation evidence
+---------------------------------------
+Count: 8
+[1] cq="${i}">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})} function askSubmitCompound(){const blank=bCompoundAnswers.filter(x=>x===null).length;if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishCompoundChallenge(false)} function finishCompoundChallenge(timeUp=false){if(!bCompoundSet)return;stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(
+[2] ',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}}); const B_MOCK_COUNT=8; const B_MOCK_SECONDS=40*60; const B_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; const B_MOCK_EXTRA_DISTRACTOR={ loop_sum:'5',array_max:'11',linear_search:'2',stack_ops:'8',recursion:'4',tree_dfs:'B', count_even:'4',array_reverse:'5',nested_loop:'8',binary_s
+[3] .dataset.bmq);renderBMockQuestion();}); document.getElementById('bMockAnswerCount').textContent=`${bMockAnswers.filter(x=>x!==null).length} / ${bMockItems.length} 回答`; } function askSubmitBMock(){ const blank=bMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false); } function finishBMiniMock(timeUp=false){ if(!bMockItems.length)return; stopBMockTimer(); const used=Math.min(B_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(bMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=bMockItems.map((item,i)=>{ const ans=bMockAnswers[i],ok=ans===item.a;if(ok)correct++;if(an
+[4] Mock();}); document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(bMockIndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQuestion();}); document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))showBMockMenu();}); if(!profile.bProgress) profile.bProgress={}; B_EXERCISES.forEach(x=>{ if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?
+[5] Items.length} 回答`; document.getElementById('bFinalAlgoAnswered').textContent=algo;document.getElementById('bFinalSecAnswered').textContent=sec; saveBFinalResume(); } function askSubmitBFinal(){ const blank=bFinalAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。総合実戦を提出しますか？`:'20問の回答を提出しますか？'))finishBFinal(false); } if(!profile.bFinalMistakeStats)profile.bFinalMistakeStats={}; function bFinalMistakeKey(d){return `${d.kind}:${d.sourceId}:${d.format}`;} function bFinalReviewReasonMeta(reason,d){ const m={ 'トレースミス':['TRACEで1行ずつ確認','途中状態を紙に書き、変数・配列の更新を1行ずつ追います。'], 'コード理解':['複合問題で確認','空欄や処理目的を、コード全体の役割から判断する練習へ進みます。'], '読み違い':['条件を
+[6] ); document.getElementById('bFinalFlag')?.addEventListener('click',()=>{bFinalFlags.has(bFinalIndex)?bFinalFlags.delete(bFinalIndex):bFinalFlags.add(bFinalIndex);renderBFinalQuestion()}); document.getElementById('bFinalExit')?.addEventListener('click',()=>{if(confirm('科目B総合実戦を終了しますか？回答は保存されません。')){clearBFinalResume();showBFinalMenu()}}); // ===== v37: Security ミニ模試 ===== const SECURITY_MOCK_COUNT=8; const SECURITY_MOCK_SECONDS=20*60; const SECURITY_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; if(!profile.securityMockHistory) profile.securityMockHistory=[]; if(!profile.securityMockStats) profile.securityMockStats={}; function ensureSecurityMockStats(){ SECURITY_SCENARIOS.forE
+[7] SecurityMockQuestion()}); document.getElementById('secMockAnswerCount').textContent=`${secMockAnswers.filter(x=>x!==null).length} / ${secMockItems.length} 回答`; } function askSubmitSecurityMock(){ const blank=secMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishSecurityMock(false); } function finishSecurityMock(timeUp=false){ if(!secMockItems.length)return; stopSecurityMockTimer(); const used=Math.min(SECURITY_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(secMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=secMockItems.map((item,i)=>{ const ans=secMockAnswers[i],ok=ans===i
+[8] tElementById('secMockFlag')?.addEventListener('click',()=>{secMockFlags.has(secMockIndex)?secMockFlags.delete(secMockIndex):secMockFlags.add(secMockIndex);renderSecurityMockQuestion()}); document.getElementById('secMockExit')?.addEventListener('click',()=>{if(confirm('セキュリティ実戦を終了しますか？回答は保存されません。')){stopSecurityMockTimer();document.getElementById('secMockExam')?.classList.remove('show');setBMode('security')}}); if(!profile.securityBProgress) profile.securityBProgress={}; SECURITY_SCENARIOS.forEach(s=>{ if(profile.securityBProgress[s.id]===undefined) profile.securityBProgress[s.id]=0; }); ensureSecurityMockStats(); saveProfile(); let currentSec=null; let secStepIndex=0
+
+Findings
+--------
+None.
+
+Interpretation
+--------------
+A missing candidate function name does not itself mean a broken flow; the implementation may use a different name or inline handler. Likewise, a confirm() call is not automatically friction: confirmation is appropriate when it protects a timed exam submission or destructive action. The captured fixture preserves exact function sources and controls so the next detail audit can trace only concrete high-frequency learner paths.
+
+Regression
+----------
+Subject B interaction function sources and static flow-button inventory: unchanged from v269.
+Subject B authored banks: unchanged.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use this inventory to trace the highest-frequency short-practice paths first. Prioritize repeated per-question or per-session steps; preserve confirmations that protect a 100-minute final submission or loss of in-progress work. Do not redesign the screens without a demonstrated extra-step bottleneck.
