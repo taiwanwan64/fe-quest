@@ -35,7 +35,7 @@ function lifecycleProbe(){
   clock=1500;subjectBPerformanceBeforeRenderV254('miniMock',ref,'1|q1',null,{sourceId:'q1',level:'応用'});
   clock=1600;subjectBPerformanceFreezeV254('miniMock','1|q1',0,1);
   const added=subjectBPerformanceFlushV254('miniMock'),again=subjectBPerformanceFlushV254('miniMock');
-  const events=JSON.parse(JSON.stringify(subjectBPerformanceRootV254().events));
+  const events=JSON.parse(JSON.stringify(subjectBPerformanceRootV254().events)).map(({at,...x})=>x);
   const serialized=JSON.stringify({subjectBPerformanceV254:profile.subjectBPerformanceV254});
   const imported=JSON.parse(serialized);const normalized=normalizeProfileData({...profile,...imported});
   const roundTrip=JSON.stringify(normalized.subjectBPerformanceV254)===JSON.stringify(profile.subjectBPerformanceV254);
