@@ -1,0 +1,42 @@
+{
+  "version": "v246",
+  "previous": "v245",
+  "parent": "4a5c452d33521b3392c3d4b9d234182583ce3d6b",
+  "result": "PASS — NO FINDINGS",
+  "findings": [],
+  "algorithmMatrix": {
+    "rows": 215,
+    "mismatches": 0
+  },
+  "securityMatrix": {
+    "rows": 75,
+    "mismatches": 0
+  },
+  "legacySecurityRerender": {
+    "scenarios": 15,
+    "consistent": true
+  },
+  "wiring": {
+    "datasetDrivenRerender": true,
+    "algorithmCompoundClick": true,
+    "securityChipRelabel": true,
+    "securityDirectClick": true
+  },
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true
+}

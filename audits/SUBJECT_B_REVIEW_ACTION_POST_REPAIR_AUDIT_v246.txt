@@ -1,0 +1,37 @@
+FE QUEST v246 — Subject B Review Action Post-Repair Audit
+=========================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v245
+Source main: 4a5c452d33521b3392c3d4b9d234182583ce3d6b
+Learner-facing change in v246: none
+
+Reason → copy → destination matrix
+----------------------------------
+Algorithm: 43 items × 5 reasons = 215 combinations / mismatches 0
+Security: 15 scenarios × 5 visible reasons = 75 combinations / mismatches 0
+
+Rerender and click wiring
+-------------------------
+Reason-chip click reads the live data-bfreason value, saves it, and rerenders: yes
+Legacy security reason keys rerender to the same new security-specific copy: yes
+v243 algorithm 「コード理解」 action remains wired to compound challenge: yes
+v245 security chips are relabeled to 「手順の追い違い」 / 「対策の理解」 and picked state is canonicalized: yes
+Security remediation button still launches the resolved scenario id directly: yes
+
+Regression
+----------
+Question / TRACE / security / final-algorithm bank hashes vs v245: identical.
+1000 deterministic final-session selection/order/options signatures vs v245: identical.
+Final contract unchanged: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Findings
+--------
+none
+
+Decision
+--------
+If clean, close the v242-v246 final-review action sequence: destination granularity, reason-aware algorithm routing, security-specific review vocabulary, legacy-key rerender and direct recovery actions are coherent. Move next to difficulty-label / practice-calibration evidence rather than further changing this review flow.
