@@ -1,0 +1,62 @@
+// ===== FE QUEST v245 Subject B security final-review reason-label repair =====
+const SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC=Object.freeze({
+  policy:'security-specific-review-reasons-and-action-copy',
+  sourceAudit:'v244-subject-b-review-reason-route-post-repair-audit',
+  findingResolved:'subject_b_security_review_reason_action_route_mismatch',
+  replacesVisibleReasons:Object.freeze({
+    'トレースミス':'手順の追い違い',
+    'コード理解':'対策の理解'
+  }),
+  securityRoute:'security',
+  keepsLegacyReasonKeysReadable:true,
+  algorithmReasonLabelsChanged:false,
+  securityTargetIdsChanged:false,
+  scoringChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  timingChanged:false,
+  readinessChanged:false,
+  profileSchemaMigrationRequired:false
+});
+
+const __bFinalReviewReasonMetaBeforeV245=bFinalReviewReasonMeta;
+function subjectBSecurityReasonCanonicalV245(reason){
+  if(reason==='トレースミス')return '手順の追い違い';
+  if(reason==='コード理解')return '対策の理解';
+  return reason;
+}
+bFinalReviewReasonMeta=function(reason,d){
+  if(d?.kind!=='security')return __bFinalReviewReasonMetaBeforeV245(reason,d);
+  const r=subjectBSecurityReasonCanonicalV245(reason);
+  if(r==='手順の追い違い')return ['セキュリティ演習で手順確認','初動・確認・報告の順序を、同じシナリオ形式で整理して確認します。'];
+  if(r==='対策の理解')return ['セキュリティ演習で対策確認','脅威と対策の対応関係を整理してから、該当するセキュリティ演習で確認します。'];
+  return __bFinalReviewReasonMetaBeforeV245(reason,d);
+};
+
+const __renderBFinalResultBeforeV245=renderBFinalResult;
+renderBFinalResult=function(attempt,earned){
+  const out=__renderBFinalResultBeforeV245(attempt,earned);
+  const wrong=(attempt?.details||[]).filter(d=>!d.ok);
+  const rows=[...document.querySelectorAll('.bfinal-review-item.wrong')];
+  rows.forEach((row,i)=>{
+    const detail=wrong[i];
+    if(detail?.kind!=='security')return;
+    const key=bFinalMistakeKey(detail);
+    const stored=profile.bFinalMistakeStats?.[key]?.lastReason||'';
+    const canonical=subjectBSecurityReasonCanonicalV245(stored);
+    row.querySelectorAll('[data-bfreason]').forEach(btn=>{
+      if(btn.dataset.bfreason==='トレースミス'){
+        btn.dataset.bfreason='手順の追い違い';
+        btn.textContent='手順の追い違い';
+      }else if(btn.dataset.bfreason==='コード理解'){
+        btn.dataset.bfreason='対策の理解';
+        btn.textContent='対策の理解';
+      }
+      btn.classList.toggle('picked',btn.dataset.bfreason===canonical);
+    });
+  });
+  return out;
+};
+
+globalThis.SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC=SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC;
+globalThis.subjectBSecurityReasonCanonicalV245=subjectBSecurityReasonCanonicalV245;
