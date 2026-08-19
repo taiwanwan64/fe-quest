@@ -1,0 +1,83 @@
+{
+  "version": "v288",
+  "previous": "v287",
+  "parent": "43019909eebdc0c1e7723b566b60bfd88bc65fc8",
+  "result": "PASS — PRIMARY-ACTION EVIDENCE CAPTURED",
+  "summary": {
+    "present": {
+      "buildTodayTasks": true,
+      "ensureTodayPlanSnapshot": true,
+      "nextUnfinishedDailyTask": true,
+      "launchDailyTask": true,
+      "renderDailyPlan": true,
+      "renderPlanFocus": true,
+      "renderPlannerScreen": true,
+      "renderHomeReviewCandidates": true,
+      "courseAContinueId": true
+    },
+    "checks": {
+      "dailyPlanLaunchesTask": true,
+      "dailyPlanFindsNext": false,
+      "plannerRendersDailyPlan": false,
+      "plannerRendersFocus": false,
+      "directPrimaryFunctionCount": 0,
+      "launchDailyTaskCalls": [
+        "actionableReviewJourneys",
+        "launchDailyTask",
+        "launchFinalFocus",
+        "pickLessonForSkill",
+        "rxMode",
+        "setBMode",
+        "showScreen",
+        "startBExercise",
+        "startCompoundChallenge",
+        "startJourneyAction",
+        "startLesson",
+        "startQuiz",
+        "startSecurityMock",
+        "startSecurityScenario"
+      ]
+    },
+    "functionsCallingLaunchDailyTask": [
+      "launchDailyTask",
+      "renderDailyPlan",
+      "renderPlanFocus"
+    ],
+    "directPrimaryFunctions": [],
+    "candidateFunctions": [
+      "buildDailyQuest",
+      "buildTaperTodayTasks",
+      "buildTodayTasks",
+      "continueSubjectBFlow",
+      "coreTopicExplanationVolume",
+      "courseAContinueId",
+      "dailyTaskDone",
+      "dailyTaskMatches",
+      "dailyTaskSlot",
+      "ensureTodayPlanSnapshot",
+      "finalFocusRecommendation",
+      "getDailyRecord",
+      "launchCourseBChoice",
+      "launchDailyTask",
+      "launchFinalFocus",
+      "launchSubjectBRecommendation",
+      "markDailyTask",
+      "nextUnfinishedDailyTask",
+      "rebuildTodayPlanPreservingDone",
+      "renderChoiceExplanations",
+      "renderDailyPlan",
+      "renderFinalQuizExplanation",
+      "renderHomeReviewCandidates",
+      "renderPlanFocus",
+      "renderPlannerScreen",
+      "setPlanDetailsOpen",
+      "shortFinalFocusRecommendation",
+      "snapshotDailyTasks",
+      "taperFocusRecommendation",
+      "uiStateIsToday"
+    ],
+    "finding": "Daily-plan renderer does not both resolve and launch the next unfinished task directly."
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
