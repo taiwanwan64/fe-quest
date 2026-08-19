@@ -1,0 +1,47 @@
+FE QUEST v276 — Subject B Security Option-Cue Audit
+========================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v275
+Source main: 307e9e0e9587fccfb0a88813d4c84e6c9da4430a
+Learner-facing change in v276: none
+
+Purpose
+-------
+v275 found broad boundary/edge-state coverage in algorithm practice, so v276 shifts to the 20% security side of Subject B. The goal is not to add more scenarios blindly, but to check whether answer choices leak correctness through length, repeated absolutist wording, duplicate choices, or answer-position skew.
+
+Why this matters
+----------------
+The attached Subject B problem material frames security as case reading and warns against being pulled by traps in the scenario or choices. FE QUEST should therefore reward evidence-based judgment, not a shortcut such as “the longest careful-sounding option is probably correct” or “the choice with 必ず/だけ is probably wrong.”
+
+Inventory
+---------
+Security scenarios: 15
+Scored scenario steps: 45
+Correct positions [0,1,2,3]: [12, 11, 11, 11]
+Correct option is unique longest: 7 / 45
+Correct option is >=8 chars longer than every distractor: 0 / 45 (0.0%)
+Cue density in correct options: 0.133
+Cue density per distractor: 0.044
+Steps with duplicate option text: 0
+
+Findings
+--------
+None.
+
+Interpretation
+--------------
+Length is treated as a cue only when the correct choice is at least eight characters longer than every distractor, not merely the longest by one or two characters. Wording-cue density is normalized per option because each question has three distractors. The cue list targets strong absolutes/passive non-actions such as 必ず・常に・だけ・のみ・不要・そのまま・放置; it is a diagnostic signal, not proof that any individual option is bad.
+
+Regression
+----------
+All security scenarios/steps and all algorithm/TRACE content are unchanged from v275.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If a systematic cue bias is recorded, repair the smallest repeated pattern first while preserving the scenario facts, correct security judgment, and explanation. Do not make distractors vague merely to equalize length. If no systematic cue appears, keep the current scenario bank and move to another evidence-backed learning-quality frontier.
