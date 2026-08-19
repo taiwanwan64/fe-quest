@@ -3,14 +3,6 @@ name: FE QUEST Subject B alternate-value re-trace pilot
 on:
   push:
     branches: ['subject-b-transfer-retrace-pilot-v*']
-  pull_request:
-    branches: ['main']
-    paths:
-      - 'app/subject-b-transfer-retrace-overrides-v262.txt'
-      - '_release/content-change-v262.json'
-      - 'index.html'
-      - '.github/subject-b-transfer-retrace/**'
-      - '.github/workflows/subject-b-transfer-retrace.yml'
 
 permissions:
   contents: write
@@ -74,10 +66,6 @@ jobs:
           git add -A _regression audits index.html manifest.webmanifest sw.js
           if ! git diff --cached --quiet; then
             git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B alternate-value re-trace pilot"
-            if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-              git fetch origin "$TARGET_BRANCH"
-              git rebase "origin/$TARGET_BRANCH"
-            fi
             git push origin HEAD:"$TARGET_BRANCH"
           fi
       - name: Package release
