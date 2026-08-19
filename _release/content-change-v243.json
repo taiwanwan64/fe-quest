@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release": "v243",
+  "previous_release": "v242",
+  "parent_main_sha": "a69cabdd4593ccde2f466230e0053be5aff2c9c7",
+  "change_type": "subject-b-review-reason-route-repair",
+  "source_quality_audit": "audits/SUBJECT_B_REMEDIATION_TARGET_GRANULARITY_AUDIT_v242.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_review_reason_action_route_mismatch",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-review-reason-route-overrides-v243.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "domain_progression_changed": false,
+    "base_remediation_mapping_changed": false,
+    "security_routing_changed": false,
+    "exam_three_day_rule_changed": false,
+    "maintenance_routing_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_review_reason_action_route_mismatch",
+    "scope": "algorithm final-review action when lastReason is コード理解",
+    "before_copy": "複合問題で確認",
+    "before_route": "domain TRACE via bFinalRemediationTarget",
+    "after_route": "compound challenge",
+    "other_reason_routes_changed": false,
+    "security_routes_changed": false,
+    "bFinalRemediationTarget_changed": false,
+    "review_reason_metadata_changed": false,
+    "new_profile_fields": false,
+    "validation_scope": "all 43 final algorithm items across all review reasons plus deterministic final-session regression"
+  }
+}
