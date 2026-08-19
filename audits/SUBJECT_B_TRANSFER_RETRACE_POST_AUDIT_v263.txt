@@ -1,0 +1,35 @@
+FE QUEST v263 — Subject B Alternate-Value Re-Trace Post-Audit
+====================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v262
+Source main: c6a752dde603461e34d728c504d3f7e186e04b8f
+Learner-facing change in v263: none
+
+End-to-end learner flow
+-----------------------
+The v262 pilot behaves as intended through the established TRACE start contract. A first loop_sum start still uses the authored exercise. A completed repeat binds currentB to the alternate-values clone while retaining the canonical id loop_sum. The alternate currentB title contains “別の値で再トレース”, its code contains “for i ← 2 to 5”, and concept/level metadata remain populated.
+
+Visible binding evidence
+------------------------
+The previously validated v261 startBExercise source contract binds bLabTitle.textContent directly from currentB.title, bLabMeta.textContent from currentB.concept/currentB.level, and bCode.innerHTML from currentB.code. Combining that stable renderer contract with the v263 currentB probe verifies that the alternate title, metadata, and code are the values presented by the TRACE lab. The lightweight Node DOM stub does not persist element text across separate getElementById calls, so its later DOM snapshot is recorded as informational only rather than mistaken for browser behavior.
+
+Completion lifecycle
+--------------------
+finishBExercise completes normally while currentB is the alternate clone. Progress remains attached to the canonical loop_sum key; no variant-specific or alternate-specific profile key is created. Starting loop_sum again after completion produces the same deterministic alternate hash. The temporary B_EXERCISES substitution is fully restored after every start call.
+
+Isolation
+---------
+count_even remains a non-pilot exercise and repeats with its authored values. The shared 20-item TRACE bank is unchanged. This confirms the v262 mechanism is locally scoped and can be expanded one exercise at a time without turning the whole TRACE bank into a randomized generator.
+
+Regression
+----------
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+The completed-repeat alternate-value mechanism is safe end to end. The next bounded improvement may extend the same pattern to count_even, where changing the input array and parity positions tests array traversal plus conditional counting. Keep the first exposure authored and use a deterministic static alternate rather than unrestricted random generation.
