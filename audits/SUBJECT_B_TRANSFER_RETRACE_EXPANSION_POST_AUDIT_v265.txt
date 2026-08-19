@@ -1,0 +1,31 @@
+FE QUEST v265 — Subject B Re-Trace Expansion Post-Audit
+==============================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v264
+Source main: 53a337745ebf9c8831639367f5dd3e662e9db628
+Learner-facing change in v265: none
+
+Nested wrapper interaction
+--------------------------
+The two completed-repeat variants remain isolated even though v264 wraps the v262 startBExercise wrapper. A completed loop_sum still reaches only the v262 alternate-values variant. A completed count_even reaches only the v264 alternate-array variant. Switching loop_sum → count_even → loop_sum and count_even → loop_sum → count_even reproduces the same deterministic hashes, so one variant does not contaminate the other.
+
+Completion / progress isolation
+-------------------------------
+finishBExercise succeeds for both alternate variants. Progress remains on the canonical loop_sum and count_even keys. No variant-, alternate-, or retrace-specific progress key is created. The shared 20-item B_EXERCISES bank hash is identical before and after every start and completion probe.
+
+First exposure / non-pilot isolation
+------------------------------------
+Setting loop_sum or count_even back to an incomplete progress state restores the authored first exposure with no variant marker. matrix_sum remains fully authored on repeat. This confirms the expansion is bounded to two completed-repeat exercises rather than changing TRACE globally.
+
+Regression
+----------
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Close the current alternate-value re-trace expansion sequence at two exercises. It now covers a simple accumulator loop and an array-plus-condition traversal with safe, deterministic completed-repeat transfer while preserving authored first exposure. Do not parameterize all 20 TRACE exercises. The next Subject B work should move to a broader learner-facing UX/content-quality frontier where additional changes can produce more value than another variant generator.
