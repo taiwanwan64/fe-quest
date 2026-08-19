@@ -1,0 +1,152 @@
+{
+  "version": "v241",
+  "previous": "v240",
+  "parent": "815faa571e658fbe2ff000d5fbb48fb3f8b3137a",
+  "result": "PASS — NO FINDINGS",
+  "findings": [],
+  "coverage": {
+    "algorithm": 43,
+    "security": 15,
+    "algoBad": [],
+    "secBad": [],
+    "algoTargets": [
+      "nested_loop",
+      "array_reverse",
+      "matrix_find",
+      "recursion",
+      "tree_dfs",
+      "object_counter",
+      "linked_list",
+      "stack_ops",
+      "bit_mask",
+      "binary_search_b"
+    ],
+    "secTargets": [
+      "phishing",
+      "ransomware",
+      "access",
+      "logs",
+      "certificate",
+      "risk",
+      "sql_injection",
+      "xss",
+      "password_spray",
+      "usb_malware",
+      "exfiltration",
+      "crypto_choice",
+      "password_hash",
+      "signed_update",
+      "patch"
+    ]
+  },
+  "domainCompletion": {
+    "ok": true,
+    "domain": "制御",
+    "evidence": {
+      "totalMistakes": 4,
+      "share": 100,
+      "clearLead": true,
+      "qualifies": true,
+      "top": {
+        "domain": "制御",
+        "misses": 4,
+        "seen": 2,
+        "distinctMissedItems": 2,
+        "evidenceSeen": 4,
+        "errorRate": 100
+      },
+      "second": null,
+      "ranked": [
+        {
+          "domain": "制御",
+          "misses": 4,
+          "seen": 2,
+          "distinctMissedItems": 2,
+          "evidenceSeen": 4,
+          "errorRate": 100
+        }
+      ]
+    },
+    "target": {
+      "mode": "trace",
+      "id": "nested_loop",
+      "domain": "制御"
+    },
+    "before": null,
+    "marked": true,
+    "marker": {
+      "firstFinalKey": "2026-12-01|50|10|0|5000",
+      "domain": "制御",
+      "targetId": "nested_loop",
+      "completed": true,
+      "evidence": {
+        "totalMistakes": 4,
+        "domainMistakes": 4,
+        "distinctMissedItems": 2,
+        "domainErrorRate": 100,
+        "domainMistakeShare": 100
+      },
+      "completedAt": "2026-08-19"
+    }
+  },
+  "readiness": {
+    "floor": 65,
+    "algo64": {
+      "rate": 64,
+      "count": 1
+    },
+    "algo65": {
+      "rate": 65,
+      "count": 2
+    },
+    "sec64": {
+      "rate": 64,
+      "count": 1
+    },
+    "sec65": {
+      "rate": 65,
+      "count": 2
+    },
+    "securityTarget": {
+      "mode": "securityMock",
+      "title": "セキュリティ ミニ模試",
+      "icon": "🛡️",
+      "rate": 65
+    },
+    "algorithmTarget": {
+      "mode": "compound",
+      "title": "複合問題",
+      "icon": "🧩",
+      "rate": 0
+    }
+  },
+  "sourceContracts": {
+    "resultUsesRemediationTarget": true,
+    "resultHasDirectLaunch": true,
+    "launchHasTrace": true,
+    "launchHasSecurity": true,
+    "launchUsesId": true,
+    "finishMarksDomain": true,
+    "markerUsesTraceId": true
+  },
+  "sourceExtracts": {
+    "resultBase": "function renderBFinalResult(a,earned){\n  document.getElementById('bFinalResultPoints').textContent=`${a.rate}%`;\n  document.getElementById('bFinalResultRaw').textContent=`${a.correct} / 20 正解`;\n  document.getElementById('bFinalResultMessage').textContent=a.rate>=80?`かなり安定しています。時間配分を保ったまま精度を維持しましょう。+${earned} XP`:a.rate>=60?`練習上の目安には届いています。誤答分野を潰して余裕を作りましょう。+${earned} XP`:a.rate>=45?`あと少しです。誤答を「トレース」「読解」「判断」に分けて復習しましょう。+${earned} XP`:`学習モードへ戻り、途中状態を書き出す練習から積み直すのがおすすめです。+${earned} XP`;\n  document.getElementById('bFinalStatCorrect').textContent=a.correct;\n  document.getElementById('bFinalStatWrong').textContent=20-a.correct-a.blank;\n  document.getElementById('bFinalStatBlank').textContent=a.blank;\n  document.getElementById('bFinalStatTime').textContent=bMockFormatTime(a.seconds);\n  document.getElementById('bFinalAlgoScore').textContent=`${a.algoCorrect} / 16`;\n  document.getElementById('bFinalSecScore').textContent=`${a.secCorrect} / 4`;\n  renderBFinalDiagnosis(a);\n\n  const formats=[...new Set(a.details.map(d=>d.format))];\n  document.getElementById('bFinalFormatBreakdown').innerHTML=formats.map(f=>{\n    const rows=a.details.filter(d=>d.format===f),n=rows.filter(d=>d.ok).length,pct=Math.round(n/rows.length*100);\n    return `<div class=\"bfinal-format-row\"><div class=\"bfinal-format-label\">${escapeHtml(f)}</div><div class=\"bfinal-format-bar\"><div class=\"bfinal-format-fill\" style=\"width:${pct}%\"></div></div><div class=\"bfinal-format-score\">${n}/${rows.length}</div></div>`;\n  }).join('');\n\n  document.getElementById('bFinalReviewList').innerHTML=a.details.map((d,i)=>{\n    const mk=bFinalMistakeKey(d),ms=profile.bFinalMistakeStats?.[mk],reason=ms?.lastReason||'';const meta=bFinalReviewReasonMeta(reason,d);\n    return `<div class=\"bfinal-review-item ${d.ok?'correct':'wrong'}\"><div class=\"bfinal-review-top\"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.kind==='security'?'🛡️ '+escapeHtml(d.domain||'セキュリティ'):'💻 '+escapeHtml(d.domain||'擬似言語')+' / '+escapeHtml(d.format)} / ${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class=\"bfinal-review-q\">${escapeHtml(d.q)}</div><div class=\"bfinal-review-a\">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class=\"bfinal-review-e\">${escapeHtml(d.explain)}</div>${d.ok?'':`<div class=\"bfinal-review-reason\"><div class=\"bfinal-review-reason-title\">なぜ崩れましたか？</div><div class=\"bfinal-review-reason-chips\">${['トレースミス','コード理解','読み違い','知識不足','時間不足'].map(r=>`<button class=\"bfinal-review-reason-chip ${reason===r?'picked':''}\" data-bfreason=\"${r}\" data-bfkey=\"${escapeHtml(mk)}\">${r}</button>`).join('')}</div></div><div class=\"bfinal-review-action\" data-bfaction=\"${escapeHtml(mk)}\"><b>${escapeHtml(meta[0])}</b>${escapeHtml(meta[1])}</div><button class=\"bfinal-review-study smart\" data-bfinalstudy=\"${escapeHtml(d.studyMode)}\" data-bfinalsource=\"${escapeHtml(d.sourceId)}\" data-bfinaldomain=\"${escapeHtml(d.domain||'')}\">${escapeHtml(meta[0])} →</button>`}</div>`;\n  }).join('');\n  document.querySelectorAll('[data-bfreason]').forEach(btn=>btn.onclick=()=>{\n    const key=btn.dataset.bfkey,reason=btn.dataset.bfreason,st=profile.bFinalMistakeStats[key];if(!st)return;\n    if(st.lastReason&&st.reasons?.[st.lastReason])st.reasons[st.lastReason]=Math.max(0,st.reasons[st.lastReason]-1);\n    st.lastReason=reason;st.reasons=st.reasons||{};st.reasons[reason]=(st.reasons[reason]||0)+1;st.last=localDateISO(0);saveProfile();renderBFinalResult(a,0);\n  });\n  document.querySelectorAll('[data-bfinalstudy]').forEach(btn=>btn.onclick=()=>{\n    document.getElementById('bFinalResult')?.classList.remove('show');\n    const target=bFinalRemediationTarget(btn.dataset.bfinalstudy,btn.dataset.bfinalsource,btn.dataset.bfinaldomain);\n    if(target.mode==='security'){\n      setBMode('security');startSecurityScenario(target.id);\n    }else if(target.mode==='trace'){\n      setBMode('trace');startBExercise(target.id);\n    }else if(target.mode==='compound'){\n      setBMode('mock');startCompoundChallenge();\n    }else{\n      setBMode('mock');showBMockMenu();\n    }\n  });\n}",
+    "launch": "function launchSubjectBRecommendation(rec){\n  if(!rec)return;\n  showScreen('trace');\n  if(rec.mode==='trace'){setBMode('trace');if(rec.id)startBExercise(rec.id);}\n  else if(rec.mode==='security'){setBMode('security');if(rec.id)startSecurityScenario(rec.id);}\n  else if(rec.mode==='compound'){setBMode('mock');startCompoundChallenge();}\n  else if(rec.mode==='securityMock'){setBMode('security');startSecurityMock();}\n  else if(rec.mode==='miniMock'){setBMode('mock');startBMiniMock();}\n  else if(rec.mode==='final'){setBMode('final');}\n}",
+    "finish": "function(){\n  const traceId=currentB?.id||null;\n  if(traceId)subjectBMarkAlgorithmDomainTraceCompleteV227(traceId);\n  return _finishBExerciseV227();\n}",
+    "hub": "function(){\n  const rec=_subjectBHubRecommendationV227();\n  const days=examDaysRemaining();\n  const finalAllowed=!(days!=null&&days>=0&&days<=3);\n  if(!finalAllowed)return rec;\n  if(!rec||rec.mode!=='miniMock'||rec.title!=='アルゴリズム ミニ模試で準備')return rec;\n  const context=subjectBAlgorithmDomainContextV227();\n  if(!context)return rec;\n  let marker=profile.subjectBAlgorithmDomainV227;\n  if(!marker||marker.firstFinalKey!==context.firstFinalKey){\n    marker=subjectBAlgorithmDomainMarkerV227(context,false);\n    profile.subjectBAlgorithmDomainV227=marker;\n    saveProfile();\n  }\n  if(marker.completed)return rec;\n  if(marker.domain!==context.target.domain||marker.targetId!==context.target.id){\n    marker=subjectBAlgorithmDomainMarkerV227(context,false);\n    profile.subjectBAlgorithmDomainV227=marker;\n    saveProfile();\n  }\n  return subjectBAlgorithmDomainTraceRecV227(marker);\n}",
+    "mark": "function subjectBMarkAlgorithmDomainTraceCompleteV227(traceId){\n  const context=subjectBAlgorithmDomainContextV227();\n  const marker=profile.subjectBAlgorithmDomainV227;\n  if(marker&&marker.firstFinalKey===subjectBFirstFinalKeyV222(profile.bFinalHistory?.[0])&&!marker.completed&&marker.targetId===traceId){\n    marker.completed=true;\n    marker.completedAt=localDateISO(0);\n    return true;\n  }\n  if(context&&context.target.id===traceId){\n    profile.subjectBAlgorithmDomainV227=subjectBAlgorithmDomainMarkerV227(context,true);\n    profile.subjectBAlgorithmDomainV227.completedAt=localDateISO(0);\n    return true;\n  }\n  return false;\n}"
+  },
+  "securityCoverageByFinal5": 15,
+  "contracts": {
+    "counts": [
+      20,
+      16,
+      4
+    ],
+    "seconds": 6000,
+    "pool": 43,
+    "high": 15,
+    "floor": 4
+  },
+  "semanticOK": true
+}

@@ -1,0 +1,50 @@
+FE QUEST v241 — Subject B Remediation → Readiness Learner-Flow Audit
+=====================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v240
+Source main: 815faa571e658fbe2ff000d5fbb48fb3f8b3137a
+Learner-facing change in v241: none
+
+Direct final wrong-answer recovery
+----------------------------------
+Algorithm final remediation targets: 43/43 reachable TRACE targets
+Security final remediation targets: 15/15 reachable security targets
+Unique TRACE targets used by final pool: 10
+Unique security targets used by final pool: 15
+Final result renderer consumes bFinalRemediationTarget: yes
+Recommendation launcher exposes TRACE route: yes
+Recommendation launcher exposes security route: yes
+Recommendation launcher is id-aware: yes
+
+Algorithm weakness completion
+-----------------------------
+Synthetic concentrated first-final weakness qualified: yes
+Resolved TRACE target: {"mode": "trace", "id": "nested_loop", "domain": "制御"}
+TRACE completion marker updated through the real v227 helper: yes
+finishBExercise is wired to that marker: yes
+
+Readiness evidence
+------------------
+Established short-practice floor: 65%
+Algorithm mini-mock latest-rate probe: 64% → 64%, then 65% → 65%
+Security mini-mock latest-rate probe: 64% → 64%, then 65% → 65%
+Weak-security first-final target mode: securityMock
+Weak-algorithm first-final target mode: compound
+
+Regression
+----------
+v239 security coverage remains 15/15 by final 5 in the deterministic probe: 15/15
+Final contract unchanged: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Question, TRACE, security and final-algorithm bank hashes vs v240: identical.
+Subject B semantic diagnostics: OK.
+
+Findings
+--------
+none
+
+Decision
+--------
+If clean, the final-wrong-answer → remediation-target → focused completion/readiness evidence chain is internally connected and the next learner-value frontier should examine whether the review UI makes those recovery targets sufficiently actionable. If a finding is recorded, repair only the evidenced handoff and keep the v222 65% readiness gate and v239 security coverage behavior unchanged.
