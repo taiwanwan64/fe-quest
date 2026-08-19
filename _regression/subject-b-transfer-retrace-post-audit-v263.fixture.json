@@ -1,0 +1,272 @@
+{
+  "version": "v263",
+  "previous": "v262",
+  "parent": "c6a752dde603461e34d728c504d3f7e186e04b8f",
+  "result": "PASS — NO FINDINGS",
+  "firstExposure": {
+    "error": null,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計",
+      "concept": "ループ・累積",
+      "level": "基礎",
+      "variant": null,
+      "code": [
+        "sum ← 0",
+        "for i ← 1 to 4",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ],
+      "hash": 3936763792
+    },
+    "dom": {
+      "title": "",
+      "meta": "",
+      "codeHtml": ""
+    },
+    "bankBefore": 3397004348,
+    "bankAfter": 3397004348,
+    "progressKeys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ]
+  },
+  "completedRepeat": {
+    "error": null,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "concept": "ループ・累積",
+      "level": "基礎",
+      "variant": "loop_sum-alternate-values-v1",
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ],
+      "hash": 1636145464
+    },
+    "dom": {
+      "title": "",
+      "meta": "",
+      "codeHtml": ""
+    },
+    "bankBefore": 3397004348,
+    "bankAfter": 3397004348,
+    "progressKeys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ]
+  },
+  "afterFinish": {
+    "error": null,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "concept": "ループ・累積",
+      "level": "基礎",
+      "variant": "loop_sum-alternate-values-v1",
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ],
+      "hash": 1636145464
+    },
+    "progress": {
+      "loop_sum": 100,
+      "array_max": 0,
+      "linear_search": 0,
+      "stack_ops": 0,
+      "recursion": 0,
+      "tree_dfs": 0,
+      "count_even": 0,
+      "array_reverse": 0,
+      "nested_loop": 0,
+      "binary_search_b": 0,
+      "bubble_sort_b": 0,
+      "selection_sort_b": 0,
+      "matrix_sum": 0,
+      "matrix_find": 0,
+      "queue_ops": 0,
+      "linked_list": 0,
+      "bit_mask": 0,
+      "object_counter": 0,
+      "gcd_euclid": 0,
+      "recursive_fib": 0
+    },
+    "progressKeys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ],
+    "domainFocus": null
+  },
+  "repeatAgain": {
+    "error": null,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "concept": "ループ・累積",
+      "level": "基礎",
+      "variant": "loop_sum-alternate-values-v1",
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ],
+      "hash": 1636145464
+    },
+    "dom": {
+      "title": "",
+      "meta": "",
+      "codeHtml": ""
+    },
+    "bankBefore": 3397004348,
+    "bankAfter": 3397004348,
+    "progressKeys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ]
+  },
+  "nonPilotRepeat": {
+    "error": null,
+    "current": {
+      "id": "count_even",
+      "title": "偶数を数える",
+      "concept": "配列・条件分岐",
+      "level": "基礎",
+      "variant": null,
+      "code": [
+        "data ← [3, 8, 11, 14, 20]",
+        "count ← 0",
+        "for i ← 0 to 4",
+        "    if data[i] mod 2 = 0",
+        "        count ← count + 1",
+        "    endif",
+        "endfor",
+        "count を出力する"
+      ],
+      "hash": 627173501
+    },
+    "dom": {
+      "title": "",
+      "meta": "",
+      "codeHtml": ""
+    },
+    "bankBefore": 3397004348,
+    "bankAfter": 3397004348,
+    "progressKeys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ]
+  },
+  "visibleBindingEvidence": {
+    "title": "v261 startBExercise binds bLabTitle.textContent to currentB.title",
+    "meta": "v261 startBExercise binds bLabMeta.textContent to currentB concept/level",
+    "code": "v261 startBExercise builds bCode.innerHTML from currentB.code"
+  },
+  "runtimeStubDomSnapshotInformationalOnly": {
+    "title": "",
+    "meta": "",
+    "codeHtml": ""
+  },
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
