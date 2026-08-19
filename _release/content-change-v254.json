@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "release": "v254",
+  "previous_release": "v253",
+  "parent_main_sha": "aff64beccc0c22ae9b8cb5f58a1a67bb6d5e71d5",
+  "change_type": "subject-b-local-performance-timing-instrumentation",
+  "source_quality_audit": "audits/SUBJECT_B_ANSWER_LIFECYCLE_DETAIL_AUDIT_v253.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_local_calibration_lacks_per_question_response_time",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-local-performance-overrides-v254.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "security_target_ids_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "domain_progression_changed": false,
+    "remediation_targets_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "instrumentation": {
+    "profile_field": "subjectBPerformanceV254",
+    "local_only": true,
+    "remote_telemetry": false,
+    "event_limit": 240,
+    "event_fields": ["layer", "sourceId", "level", "ok", "elapsedMs", "at"],
+    "layers": ["compound", "miniMock", "securityMock", "final"],
+    "timing_semantics": "active question time until first committed answer; revisits accumulate only while unanswered",
+    "correctness_semantics": "correctness of first committed answer using the existing canonical answer index",
+    "max_elapsed_ms_per_event": 1800000,
+    "adaptive_recommendation_changed": false,
+    "published_difficulty_labels_changed": false,
+    "validation_scope": "profile retention, bounded events, summary derivation, question banks, final selection/order/options, final contract, Subject B semantic diagnostics and approved content reference equality"
+  }
+}
