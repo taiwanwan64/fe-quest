@@ -1,0 +1,33 @@
+FE QUEST v280 — Subject B TRACE / Final Transfer-Overlap Post-Repair Audit
+============================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v279
+Source main: 71691f4c9b9697de267219e26a10e57a2055dfd8
+Learner-facing change in v280: none
+
+Post-repair verification
+------------------------
+v279 repaired only bexam_arr_03. The repaired adjacent-difference / positive-difference accumulation path remains present with correct answer “2回, score=7” and the explanation still traces score as 0→3→7.
+
+Overlap regression
+------------------
+Repaired bexam_arr_03 ↔ count_even sequence similarity: 0.772
+Repaired bexam_arr_03 ↔ count_even line Jaccard: 0.308
+Exact normalized pairs across all 43×20 final/TRACE comparisons: 0
+Strong pairs at the v277 threshold: 0
+
+Preservation
+------------
+All 43 final algorithm items and all 20 TRACE exercises are byte-behavior equivalent to v279.
+Remediation mapping is unchanged.
+3000 deterministic final builds preserve source-id selection and order.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Close the TRACE/final transfer-overlap sequence. The guided TRACE layer may intentionally teach familiar control structures, but final practice no longer contains a pair above the conservative strong-overlap threshold. Move to the next evidence-backed learner-facing quality frontier rather than rewriting structurally similar problems without a concrete signal.
