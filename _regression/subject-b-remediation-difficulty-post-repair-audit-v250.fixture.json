@@ -1,0 +1,55 @@
+{
+  "version": "v250",
+  "previous": "v249",
+  "parent": "e99dc752ce0ec5019217a68ee81745fb54cf9d9e",
+  "result": "PASS — NO FINDINGS",
+  "routeCount": 43,
+  "invalidRoutes": 0,
+  "avoidableHarderRoutes": 0,
+  "documentedCrossLayerExceptions": [
+    "bexam_list_02",
+    "bexam_list_03",
+    "bexam_tree_01",
+    "bexam_tree_05"
+  ],
+  "matrixRepairsConfirmed": [
+    "bexam_mat_01",
+    "bexam_mat_02"
+  ],
+  "finalMix2000": {
+    "standard": {
+      "min": 8,
+      "max": 8
+    },
+    "advanced": {
+      "min": 8,
+      "max": 8
+    },
+    "security": {
+      "min": 4,
+      "max": 4
+    },
+    "other": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "bankHashes": {
+    "questions": 3000665978,
+    "trace": 3397004348,
+    "compound": 2827364307,
+    "security": 4085726191,
+    "finalAlgorithm": 3993159588
+  },
+  "finalSignature2000": 973455302,
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true
+}

@@ -1,0 +1,38 @@
+FE QUEST v250 — Subject B Remediation Difficulty Post-Repair Audit
+===================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v249
+Source main: e99dc752ce0ec5019217a68ee81745fb54cf9d9e
+Learner-facing change in v250: none
+
+Purpose
+-------
+v249 repaired the actionable part of the v247 difficulty/practice-calibration finding. v250 verifies all 43 final algorithm recovery routes after that repair and distinguishes genuinely avoidable harder-label routes from cross-layer label differences for which no same-domain same-or-easier TRACE exercise exists.
+
+Post-repair route evidence
+--------------------------
+Final algorithm recovery routes checked: 43
+Invalid TRACE routes: 0
+Harder-labeled TRACE routes remaining: 4
+Avoidable harder-labeled routes with a same-domain same/easier TRACE alternative: 0
+Confirmed matrix repairs: bexam_mat_01 -> matrix_sum（標準）, bexam_mat_02 -> matrix_sum（標準）
+Documented unavoidable cross-layer exceptions: bexam_list_02, bexam_list_03, bexam_tree_01, bexam_tree_05
+
+Why the four exceptions remain
+------------------------------
+The two tree items route to tree_dfs（応用） and the two list items route to linked_list（応用）. In the current TRACE inventory those are the only same-domain exercises for their domains. Rerouting them to a different domain or changing labels solely to remove an audit count would reduce semantic fidelity.
+
+Final-session regression
+------------------------
+2000 deterministic final sessions: 標準 8 / 応用 8 / security 4 in every session; other/unknown 0.
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v249.
+Final-session selection/order/options signature: unchanged from v249.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Decision
+--------
+Close the static difficulty-label / practice-calibration repair sequence. The remaining four rows are documented cross-layer exceptions, not actionable route defects under the current authored inventory. The next evidence step should use learner-local performance rather than more static relabeling: capture and summarize accuracy and response time by practice layer/difficulty, then use those observations for adaptive recommendations without changing the published 基礎 / 標準 / 応用 labels prematurely.
