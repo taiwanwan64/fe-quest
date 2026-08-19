@@ -1,0 +1,50 @@
+{
+  "version": "v273",
+  "previous": "v272",
+  "parent": "c2d27db0729e14b8e8ddb46662f2ec6ca6449ba5",
+  "result": "PASS — NO FINDINGS",
+  "sourceFinding": {
+    "id": "subject_b_completion_handoff_returns_to_menu",
+    "severity": "Low",
+    "control": "bFinalBackMenu",
+    "menuSignals": [
+      "showBMockMenu"
+    ],
+    "summary": "A completion-oriented control appears to return to a Subject B menu without direct continuation/recommendation evidence."
+  },
+  "probe": {
+    "registrations": [
+      {
+        "type": "click",
+        "capture": true
+      }
+    ],
+    "dataset": {
+      "feqFinalHandoffV273": "1"
+    },
+    "continued": 1,
+    "prevented": 1,
+    "stopped": 1,
+    "spec": {
+      "sourceAudit": "v272-subject-b-resume-handoff",
+      "sourceFinding": "subject_b_completion_handoff_returns_to_menu",
+      "targetId": "bFinalBackMenu",
+      "policy": "capture-click-route-to-existing-subject-b-continuation",
+      "destination": "continueSubjectBFlow",
+      "preventLegacyMenuHandler": true,
+      "timedFinalResumeChanged": false,
+      "questionSelectionChanged": false,
+      "questionOrderChanged": false,
+      "scoringChanged": false,
+      "examCountdownChanged": false,
+      "readinessChanged": false,
+      "profileSchemaMigrationRequired": false,
+      "remoteTelemetry": false
+    }
+  },
+  "timedFinalResumeFunctionsMatchParent": true,
+  "authoredBanksMatchParent": true,
+  "finalSignatureMatch": true,
+  "semanticOK": true,
+  "candidateApprovedContentSixFileByteEquality": true
+}
