@@ -9,6 +9,7 @@ const SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC=Object.freeze({
   weakAccuracyThreshold:70,
   requiresFinalRuns:2,
   tieBehavior:'preserve-existing-recommendation',
+  taperRoutingPreserved:true,
   selectionSignal:'first-answer-accuracy-only',
   responseTimeRole:'copy-only-secondary-context',
   responseTimeCopyFloorMs:1000,
@@ -55,6 +56,10 @@ function subjectBLocalLayerMetaV257(layer){
   return null;
 }
 
+function subjectBLocalAdaptiveTaperAllowedV257(days){
+  return !(days!=null&&days>=0&&days<=3);
+}
+
 function subjectBLocalAdaptiveRecommendationV257(baseRec,metrics){
   const m=metrics||subjectBProgressMetrics();
   if(Number(m?.finalRuns||0)<SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.requiresFinalRuns)return baseRec;
@@ -88,9 +93,13 @@ function subjectBLocalAdaptiveRecommendationV257(baseRec,metrics){
 const __subjectBHubRecommendationBeforeV257=subjectBHubRecommendation;
 subjectBHubRecommendation=function(){
   const base=__subjectBHubRecommendationBeforeV257.apply(this,arguments);
+  const days=typeof examDaysRemaining==='function'?examDaysRemaining():null;
+  const finalAllowed=subjectBLocalAdaptiveTaperAllowedV257(days);
+  if(!finalAllowed)return base;
   return subjectBLocalAdaptiveRecommendationV257(base,subjectBProgressMetrics());
 };
 
 globalThis.SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC=SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC;
 globalThis.subjectBLocalLayerStatsV257=subjectBLocalLayerStatsV257;
+globalThis.subjectBLocalAdaptiveTaperAllowedV257=subjectBLocalAdaptiveTaperAllowedV257;
 globalThis.subjectBLocalAdaptiveRecommendationV257=subjectBLocalAdaptiveRecommendationV257;
