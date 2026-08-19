@@ -1,0 +1,837 @@
+{
+  "version": "v276",
+  "previous": "v275",
+  "parent": "307e9e0e9587fccfb0a88813d4c84e6c9da4430a",
+  "result": "PASS — NO FINDINGS",
+  "summary": {
+    "scenarioCount": 15,
+    "stepCount": 45,
+    "answerPositions": [
+      12,
+      11,
+      11,
+      11
+    ],
+    "uniqueLongestCorrectCount": 7,
+    "correctLongerBy8Count": 0,
+    "correctLongerBy8Ratio": 0.0,
+    "correctCueDensity": 0.133,
+    "wrongCueDensityPerDistractor": 0.044,
+    "duplicateOptionStepCount": 0
+  },
+  "metrics": [
+    {
+      "scenarioId": "phishing",
+      "step": 0,
+      "answerIndex": 0,
+      "lengths": [
+        16,
+        11,
+        22,
+        18
+      ],
+      "correctLength": 16,
+      "wrongMedian": 18,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "phishing",
+      "step": 1,
+      "answerIndex": 3,
+      "lengths": [
+        33,
+        39,
+        36,
+        26
+      ],
+      "correctLength": 26,
+      "wrongMedian": 36,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "phishing",
+      "step": 2,
+      "answerIndex": 2,
+      "lengths": [
+        28,
+        29,
+        23,
+        39
+      ],
+      "correctLength": 23,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "ransomware",
+      "step": 0,
+      "answerIndex": 3,
+      "lengths": [
+        39,
+        38,
+        32,
+        22
+      ],
+      "correctLength": 22,
+      "wrongMedian": 38,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "ransomware",
+      "step": 1,
+      "answerIndex": 3,
+      "lengths": [
+        38,
+        38,
+        37,
+        15
+      ],
+      "correctLength": 15,
+      "wrongMedian": 38,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "ransomware",
+      "step": 2,
+      "answerIndex": 0,
+      "lengths": [
+        19,
+        29,
+        28,
+        26
+      ],
+      "correctLength": 19,
+      "wrongMedian": 28,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "access",
+      "step": 0,
+      "answerIndex": 3,
+      "lengths": [
+        4,
+        4,
+        6,
+        7
+      ],
+      "correctLength": 7,
+      "wrongMedian": 4,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "access",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        34,
+        28,
+        29,
+        28
+      ],
+      "correctLength": 28,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "access",
+      "step": 2,
+      "answerIndex": 0,
+      "lengths": [
+        10,
+        37,
+        27,
+        30
+      ],
+      "correctLength": 10,
+      "wrongMedian": 30,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "logs",
+      "step": 0,
+      "answerIndex": 0,
+      "lengths": [
+        28,
+        24,
+        18,
+        22
+      ],
+      "correctLength": 28,
+      "wrongMedian": 22,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "logs",
+      "step": 1,
+      "answerIndex": 0,
+      "lengths": [
+        21,
+        25,
+        22,
+        25
+      ],
+      "correctLength": 21,
+      "wrongMedian": 25,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "logs",
+      "step": 2,
+      "answerIndex": 2,
+      "lengths": [
+        29,
+        30,
+        18,
+        43
+      ],
+      "correctLength": 18,
+      "wrongMedian": 30,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "certificate",
+      "step": 0,
+      "answerIndex": 2,
+      "lengths": [
+        19,
+        29,
+        30,
+        29
+      ],
+      "correctLength": 30,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "certificate",
+      "step": 1,
+      "answerIndex": 2,
+      "lengths": [
+        22,
+        29,
+        29,
+        27
+      ],
+      "correctLength": 29,
+      "wrongMedian": 27,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 2,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "certificate",
+      "step": 2,
+      "answerIndex": 3,
+      "lengths": [
+        18,
+        19,
+        27,
+        33
+      ],
+      "correctLength": 33,
+      "wrongMedian": 19,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "risk",
+      "step": 0,
+      "answerIndex": 0,
+      "lengths": [
+        16,
+        16,
+        16,
+        18
+      ],
+      "correctLength": 16,
+      "wrongMedian": 16,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "risk",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        32,
+        27,
+        30,
+        37
+      ],
+      "correctLength": 27,
+      "wrongMedian": 32,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "risk",
+      "step": 2,
+      "answerIndex": 2,
+      "lengths": [
+        5,
+        6,
+        5,
+        5
+      ],
+      "correctLength": 5,
+      "wrongMedian": 5,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "sql_injection",
+      "step": 0,
+      "answerIndex": 1,
+      "lengths": [
+        19,
+        11,
+        14,
+        23
+      ],
+      "correctLength": 11,
+      "wrongMedian": 19,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "sql_injection",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        33,
+        20,
+        36,
+        37
+      ],
+      "correctLength": 20,
+      "wrongMedian": 36,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "sql_injection",
+      "step": 2,
+      "answerIndex": 0,
+      "lengths": [
+        25,
+        29,
+        35,
+        26
+      ],
+      "correctLength": 25,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "xss",
+      "step": 0,
+      "answerIndex": 2,
+      "lengths": [
+        11,
+        23,
+        19,
+        14
+      ],
+      "correctLength": 19,
+      "wrongMedian": 14,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "xss",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        23,
+        26,
+        53,
+        54
+      ],
+      "correctLength": 26,
+      "wrongMedian": 53,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "xss",
+      "step": 2,
+      "answerIndex": 1,
+      "lengths": [
+        26,
+        22,
+        23,
+        24
+      ],
+      "correctLength": 22,
+      "wrongMedian": 24,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_spray",
+      "step": 0,
+      "answerIndex": 3,
+      "lengths": [
+        23,
+        36,
+        20,
+        11
+      ],
+      "correctLength": 11,
+      "wrongMedian": 23,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 1,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_spray",
+      "step": 1,
+      "answerIndex": 0,
+      "lengths": [
+        20,
+        38,
+        34,
+        37
+      ],
+      "correctLength": 20,
+      "wrongMedian": 37,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_spray",
+      "step": 2,
+      "answerIndex": 0,
+      "lengths": [
+        22,
+        24,
+        31,
+        29
+      ],
+      "correctLength": 22,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "usb_malware",
+      "step": 0,
+      "answerIndex": 3,
+      "lengths": [
+        35,
+        29,
+        35,
+        23
+      ],
+      "correctLength": 23,
+      "wrongMedian": 35,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "usb_malware",
+      "step": 1,
+      "answerIndex": 2,
+      "lengths": [
+        36,
+        34,
+        21,
+        36
+      ],
+      "correctLength": 21,
+      "wrongMedian": 36,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "usb_malware",
+      "step": 2,
+      "answerIndex": 0,
+      "lengths": [
+        21,
+        30,
+        35,
+        33
+      ],
+      "correctLength": 21,
+      "wrongMedian": 33,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "exfiltration",
+      "step": 0,
+      "answerIndex": 0,
+      "lengths": [
+        34,
+        35,
+        38,
+        42
+      ],
+      "correctLength": 34,
+      "wrongMedian": 38,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "exfiltration",
+      "step": 1,
+      "answerIndex": 3,
+      "lengths": [
+        31,
+        29,
+        27,
+        28
+      ],
+      "correctLength": 28,
+      "wrongMedian": 29,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "exfiltration",
+      "step": 2,
+      "answerIndex": 1,
+      "lengths": [
+        23,
+        21,
+        20,
+        26
+      ],
+      "correctLength": 21,
+      "wrongMedian": 23,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "crypto_choice",
+      "step": 0,
+      "answerIndex": 3,
+      "lengths": [
+        20,
+        23,
+        23,
+        25
+      ],
+      "correctLength": 25,
+      "wrongMedian": 23,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "crypto_choice",
+      "step": 1,
+      "answerIndex": 3,
+      "lengths": [
+        31,
+        34,
+        22,
+        30
+      ],
+      "correctLength": 30,
+      "wrongMedian": 31,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "crypto_choice",
+      "step": 2,
+      "answerIndex": 2,
+      "lengths": [
+        19,
+        18,
+        39,
+        36
+      ],
+      "correctLength": 39,
+      "wrongMedian": 19,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_hash",
+      "step": 0,
+      "answerIndex": 1,
+      "lengths": [
+        24,
+        20,
+        25,
+        23
+      ],
+      "correctLength": 20,
+      "wrongMedian": 24,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 2,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_hash",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        28,
+        27,
+        24,
+        26
+      ],
+      "correctLength": 27,
+      "wrongMedian": 26,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 1,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "password_hash",
+      "step": 2,
+      "answerIndex": 2,
+      "lengths": [
+        25,
+        24,
+        31,
+        31
+      ],
+      "correctLength": 31,
+      "wrongMedian": 25,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 1,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "signed_update",
+      "step": 0,
+      "answerIndex": 0,
+      "lengths": [
+        32,
+        32,
+        35,
+        37
+      ],
+      "correctLength": 32,
+      "wrongMedian": 35,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "signed_update",
+      "step": 1,
+      "answerIndex": 2,
+      "lengths": [
+        21,
+        22,
+        27,
+        24
+      ],
+      "correctLength": 27,
+      "wrongMedian": 22,
+      "correctIsUniqueLongest": true,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "signed_update",
+      "step": 2,
+      "answerIndex": 3,
+      "lengths": [
+        28,
+        32,
+        37,
+        34
+      ],
+      "correctLength": 34,
+      "wrongMedian": 32,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "patch",
+      "step": 0,
+      "answerIndex": 2,
+      "lengths": [
+        33,
+        34,
+        17,
+        24
+      ],
+      "correctLength": 17,
+      "wrongMedian": 33,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "patch",
+      "step": 1,
+      "answerIndex": 1,
+      "lengths": [
+        38,
+        26,
+        38,
+        33
+      ],
+      "correctLength": 26,
+      "wrongMedian": 38,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    },
+    {
+      "scenarioId": "patch",
+      "step": 2,
+      "answerIndex": 1,
+      "lengths": [
+        32,
+        30,
+        33,
+        29
+      ],
+      "correctLength": 30,
+      "wrongMedian": 32,
+      "correctIsUniqueLongest": false,
+      "correctLongerBy8": false,
+      "correctCueCount": 0,
+      "wrongCueCount": 0,
+      "duplicateOptions": false
+    }
+  ],
+  "findings": [],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
