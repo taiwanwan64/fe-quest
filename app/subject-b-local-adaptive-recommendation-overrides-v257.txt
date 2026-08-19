@@ -1,0 +1,94 @@
+// ===== FE QUEST v257 Subject B learner-local adaptive recommendation =====
+const SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC=Object.freeze({
+  policy:'accuracy-first-conservative-local-recommendation',
+  sourceAudit:'v256-subject-b-adaptive-recommendation-hook',
+  sourceField:'subjectBPerformanceV254',
+  layers:Object.freeze(['compound','miniMock','securityMock']),
+  windowPerLayer:20,
+  minSamplesPerLayer:8,
+  weakAccuracyThreshold:70,
+  requiresFinalRuns:2,
+  selectionSignal:'first-answer-accuracy-only',
+  responseTimeRole:'copy-only-secondary-context',
+  responseTimeCopyFloorMs:1000,
+  localOnly:true,
+  remoteTelemetry:false,
+  recommendationSurface:'subjectBHubRecommendation',
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  scoringChanged:false,
+  examCountdownChanged:false,
+  readinessChanged:false,
+  remediationTargetsChanged:false,
+  difficultyLabelsChanged:false,
+  profileSchemaChanged:false
+});
+
+function subjectBLocalMedianV257(values){
+  const xs=(values||[]).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
+  if(!xs.length)return 0;
+  const m=Math.floor(xs.length/2);
+  return xs.length%2?Math.round(xs[m]):Math.round((xs[m-1]+xs[m])/2);
+}
+
+function subjectBLocalLayerStatsV257(){
+  const events=subjectBPerformanceRootV254().events||[];
+  return SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.layers.map(layer=>{
+    const rows=events.filter(x=>x?.layer===layer).slice(-SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.windowPerLayer);
+    const count=rows.length;
+    const correct=rows.filter(x=>x?.ok===true).length;
+    return {
+      layer,
+      count,
+      correct,
+      rate:count?Math.round(correct/count*100):null,
+      medianMs:subjectBLocalMedianV257(rows.map(x=>x?.elapsedMs))
+    };
+  });
+}
+
+function subjectBLocalLayerMetaV257(layer){
+  if(layer==='compound')return {mode:'compound',title:'複合問題を重点確認',icon:'🧩',label:'複合問題'};
+  if(layer==='miniMock')return {mode:'miniMock',title:'アルゴリズム ミニ模試で重点確認',icon:'📝',label:'アルゴリズム ミニ模試'};
+  if(layer==='securityMock')return {mode:'securityMock',title:'セキュリティ ミニ模試で重点確認',icon:'🛡️',label:'セキュリティ ミニ模試'};
+  return null;
+}
+
+function subjectBLocalAdaptiveRecommendationV257(baseRec,metrics){
+  const m=metrics||subjectBProgressMetrics();
+  if(Number(m?.finalRuns||0)<SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.requiresFinalRuns)return baseRec;
+  const eligible=subjectBLocalLayerStatsV257().filter(x=>x.count>=SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.minSamplesPerLayer&&Number.isFinite(x.rate));
+  if(!eligible.length)return baseRec;
+  eligible.sort((a,b)=>a.rate-b.rate||b.count-a.count||SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.layers.indexOf(a.layer)-SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.layers.indexOf(b.layer));
+  const weak=eligible[0];
+  if(weak.rate>SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.weakAccuracyThreshold)return baseRec;
+  const meta=subjectBLocalLayerMetaV257(weak.layer);
+  if(!meta)return baseRec;
+  const timing=weak.medianMs>=SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC.responseTimeCopyFloorMs
+    ?` 初回回答時間の中央値は約${Math.max(1,Math.round(weak.medianMs/1000))}秒です（時間は目安です）。`
+    :'';
+  return {
+    ...baseRec,
+    stage:3,
+    mode:meta.mode,
+    id:null,
+    title:meta.title,
+    icon:meta.icon,
+    kicker:'学習記録からの提案',
+    desc:`最近${weak.count}問の初回正答率は${weak.rate}%です。まず${meta.label}で確認します。${timing}`.trim(),
+    localEvidence:true,
+    localEvidenceLayer:weak.layer,
+    localEvidenceCount:weak.count,
+    localEvidenceRate:weak.rate
+  };
+}
+
+const __subjectBHubRecommendationBeforeV257=subjectBHubRecommendation;
+subjectBHubRecommendation=function(){
+  const base=__subjectBHubRecommendationBeforeV257.apply(this,arguments);
+  return subjectBLocalAdaptiveRecommendationV257(base,subjectBProgressMetrics());
+};
+
+globalThis.SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC=SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC;
+globalThis.subjectBLocalLayerStatsV257=subjectBLocalLayerStatsV257;
+globalThis.subjectBLocalAdaptiveRecommendationV257=subjectBLocalAdaptiveRecommendationV257;
