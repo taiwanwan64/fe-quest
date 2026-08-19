@@ -1,0 +1,1793 @@
+{
+  "version": "v252",
+  "previous": "v251",
+  "parent": "d90d85c6aa3a0ccd4f30995cb2cdece6bc456c6d",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "interestingFunctions": [
+    "add",
+    "applyCompoundQualityAudit",
+    "bFinalAlgoSeen",
+    "buildBMock",
+    "courseMasteryStatus",
+    "estimateRemainingStudyMinutes",
+    "exposureSorted",
+    "f",
+    "finishBFinal",
+    "finishBMiniMock",
+    "finishCompoundChallenge",
+    "finishSecurityMock",
+    "nextBChoice",
+    "normalizeProfileData",
+    "normalizeProfileDataV3ForChecksum",
+    "normalizeProfileDataV4ForChecksum",
+    "pickSecurityForFinal",
+    "readinessComponents",
+    "renderBFinalMenu",
+    "renderBFinalResult",
+    "renderBMockMenu",
+    "seen",
+    "subjectBAlgorithmDomainContextV227",
+    "subjectBAlgorithmDomainEvidenceV227",
+    "subjectBHubRecommendation",
+    "subjectBMarkAlgorithmDomainTraceCompleteV227",
+    "subjectBProgressMetrics",
+    "subjectBReadinessCountV222",
+    "subjectBReadinessRateV222"
+  ],
+  "perItemTimingEvidenceCount": 0,
+  "evidence": [
+    {
+      "token": "bMockStats",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t.masteryHistory=safeObject(p.masteryHistory); out.xp=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>{ out.skills[name]=boundedPercent(p.skills?.[name],def); }); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.s…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "; const out={...base,...p}; out.profileSchemaVersion=3; out.xp=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ull }; out.masteryHistory=safeObject(p.masteryHistory); out.xp=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。', bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "いため左側を捨て、low=mid+1=4とします。', bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0; let bMockSeconds…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0; let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0; let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null; fu…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "buildBMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t:structuredClone(step.object||null),objectName:ex.objectName, stack:structuredClone(step.stack||null),tree:structuredClone(ex.tree||null) }, q:pred.q,options,correctText:correct, explain:pred.explain||B_MOCK_EXPLANATION[ex.id]||`${ex.title}をコード通りに追うと、正解は「${correct}」です。` }; } function shuffleBMockAnswer(item){ const options=shuffled(item.options); return {...item,options,a:options.indexOf(item.correctText)}; } function buildBMock(){ const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[]; Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{ const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{ const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); return Math.random()…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "buildBMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "objectName:ex.objectName, stack:structuredClone(step.stack||null),tree:structuredClone(ex.tree||null) }, q:pred.q,options,correctText:correct, explain:pred.explain||B_MOCK_EXPLANATION[ex.id]||`${ex.title}をコード通りに追うと、正解は「${correct}」です。` }; } function shuffleBMockAnswer(item){ const options=shuffled(item.options); return {...item,options,a:options.indexOf(item.correctText)}; } function buildBMock(){ const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[]; Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{ const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{ const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); return Math.random()-.5; }); selected.push(...pool.slice(…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "buildBMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "cturedClone(ex.tree||null) }, q:pred.q,options,correctText:correct, explain:pred.explain||B_MOCK_EXPLANATION[ex.id]||`${ex.title}をコード通りに追うと、正解は「${correct}」です。` }; } function shuffleBMockAnswer(item){ const options=shuffled(item.options); return {...item,options,a:options.indexOf(item.correctText)}; } function buildBMock(){ const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[]; Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{ const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{ const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); return Math.random()-.5; }); selected.push(...pool.slice(0,n)); }); return shuffled(selected).map(shuffleBMockAnswer); } function bM…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "buildBMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ed.q,options,correctText:correct, explain:pred.explain||B_MOCK_EXPLANATION[ex.id]||`${ex.title}をコード通りに追うと、正解は「${correct}」です。` }; } function shuffleBMockAnswer(item){ const options=shuffled(item.options); return {...item,options,a:options.indexOf(item.correctText)}; } function buildBMock(){ const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[]; Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{ const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{ const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); return Math.random()-.5; }); selected.push(...pool.slice(0,n)); }); return shuffled(selected).map(shuffleBMockAnswer); } function bMockFormatTime(sec){ sec=Math.max(0…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishBMiniMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "rBMockQuestion();}); document.getElementById('bMockAnswerCount').textContent=`${bMockAnswers.filter(x=>x!==null).length} / ${bMockItems.length} 回答`; } function askSubmitBMock(){ const blank=bMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false); } function finishBMiniMock(timeUp=false){ if(!bMockItems.length)return; stopBMockTimer(); const used=Math.min(B_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(bMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=bMockItems.map((item,i)=>{ const ans=bMockAnswers[i],ok=ans===item.a;if(ok)correct++;if(ans===null)blank++; const st=profile.bMockStats[item.id]||(profile.bMockStats[item.id]={seen:0,correct:0,lastSeen:null}); st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0); return {id:item.id,exId:item.exId,title:item.title,lev…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "finishBMiniMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t.getElementById('bMockAnswerCount').textContent=`${bMockAnswers.filter(x=>x!==null).length} / ${bMockItems.length} 回答`; } function askSubmitBMock(){ const blank=bMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false); } function finishBMiniMock(timeUp=false){ if(!bMockItems.length)return; stopBMockTimer(); const used=Math.min(B_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(bMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=bMockItems.map((item,i)=>{ const ans=bMockAnswers[i],ok=ans===item.a;if(ok)correct++;if(ans===null)blank++; const st=profile.bMockStats[item.id]||(profile.bMockStats[item.id]={seen:0,correct:0,lastSeen:null}); st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0); return {id:item.id,exId:item.exId,title:item.title,level:item.level,q:item.q,selec…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "exposureSorted",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": ":'array_scan', linear_search:'search_sort', binary_search_b:'search_sort', bubble_sort_b:'search_sort', selection_sort_b:'search_sort', stack_ops:'stack_queue', queue_ops:'stack_queue', recursion:'recursion', recursive_fib:'recursion', tree_dfs:'tree_list', linked_list:'tree_list', matrix_sum:'matrix', matrix_find:'matrix', bit_mask:'bit', object_counter:'object' }); const familyMax=2; function familyOf(item){ return familyById[item?.id]||`unclassified:${String(item?.id||'unknown')}`; } function exposureSorted(pool){ return pool.map((item,index)=>({item,index,tie:Math.random()})).sort((a,b)=>{ const sa=profile.bMockStats[a.item.id]?.seen||0,sb=profile.bMockStats[b.item.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.item.id]?.lastSeen||'',lb=profile.bMockStats[b.item.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); if(a.tie!==b.tie)return a.tie-b.tie; retur…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "exposureSorted",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ort', binary_search_b:'search_sort', bubble_sort_b:'search_sort', selection_sort_b:'search_sort', stack_ops:'stack_queue', queue_ops:'stack_queue', recursion:'recursion', recursive_fib:'recursion', tree_dfs:'tree_list', linked_list:'tree_list', matrix_sum:'matrix', matrix_find:'matrix', bit_mask:'bit', object_counter:'object' }); const familyMax=2; function familyOf(item){ return familyById[item?.id]||`unclassified:${String(item?.id||'unknown')}`; } function exposureSorted(pool){ return pool.map((item,index)=>({item,index,tie:Math.random()})).sort((a,b)=>{ const sa=profile.bMockStats[a.item.id]?.seen||0,sb=profile.bMockStats[b.item.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.item.id]?.lastSeen||'',lb=profile.bMockStats[b.item.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); if(a.tie!==b.tie)return a.tie-b.tie; return a.index-b.index; }).map(x=>x.item); …"
+    },
+    {
+      "token": "bMockStats",
+      "function": "exposureSorted",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "n_sort_b:'search_sort', stack_ops:'stack_queue', queue_ops:'stack_queue', recursion:'recursion', recursive_fib:'recursion', tree_dfs:'tree_list', linked_list:'tree_list', matrix_sum:'matrix', matrix_find:'matrix', bit_mask:'bit', object_counter:'object' }); const familyMax=2; function familyOf(item){ return familyById[item?.id]||`unclassified:${String(item?.id||'unknown')}`; } function exposureSorted(pool){ return pool.map((item,index)=>({item,index,tie:Math.random()})).sort((a,b)=>{ const sa=profile.bMockStats[a.item.id]?.seen||0,sb=profile.bMockStats[b.item.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.item.id]?.lastSeen||'',lb=profile.bMockStats[b.item.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); if(a.tie!==b.tie)return a.tie-b.tie; return a.index-b.index; }).map(x=>x.item); } function selectLevel(pool,n,familyCounts){ const remaining=exposureSorte…"
+    },
+    {
+      "token": "bMockStats",
+      "function": "exposureSorted",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "eue', queue_ops:'stack_queue', recursion:'recursion', recursive_fib:'recursion', tree_dfs:'tree_list', linked_list:'tree_list', matrix_sum:'matrix', matrix_find:'matrix', bit_mask:'bit', object_counter:'object' }); const familyMax=2; function familyOf(item){ return familyById[item?.id]||`unclassified:${String(item?.id||'unknown')}`; } function exposureSorted(pool){ return pool.map((item,index)=>({item,index,tie:Math.random()})).sort((a,b)=>{ const sa=profile.bMockStats[a.item.id]?.seen||0,sb=profile.bMockStats[b.item.id]?.seen||0; if(sa!==sb)return sa-sb; const la=profile.bMockStats[a.item.id]?.lastSeen||'',lb=profile.bMockStats[b.item.id]?.lastSeen||''; if(la!==lb)return la.localeCompare(lb); if(a.tie!==b.tie)return a.tie-b.tie; return a.index-b.index; }).map(x=>x.item); } function selectLevel(pool,n,familyCounts){ const remaining=exposureSorted(pool),picked=[]; while(picked.length<n&&r…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": ".skills?.[name],def); }); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } //…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibili…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out;…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ef)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegr…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out;…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ef)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegr…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "subjectBProgressMetrics",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "edCard(mode){ const normalized=(mode==='securityMock')?'security':(mode==='compound'?'mock':mode); document.querySelectorAll('[data-course-bmode]').forEach(card=>{ const selected=card.dataset.courseBmode===normalized; card.classList.toggle('course-recommended',selected); }); } function subjectBProgressMetrics(){ const algoDone=B_EXERCISES.filter(x=>(profile.bProgress?.[x.id]||0)>=100).length; const secDone=SECURITY_SCENARIOS.filter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length; const compoundSeen=Object.values(profile.bCompoundStats||{}).filter(x=>(x?.seen||0)>0).length; const secMockRuns=(profile.securityMockHistory||[]).length; const algoMockRuns=(profile.bMockHistory||[]).length; const finalRuns=(profile.bFinalHistory||[]).length; const practiceEvidence=Math.min(3,compoundSeen)+Math.min(1,secMockRuns)+Math.min(1,algoMockRuns); return {algoDone,secDone,compoundSeen,secMockRuns…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "subjectBHubRecommendation",
+      "flags": {
+        "mutation": false,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "und',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?.rate??100),icon:'📝'}, {mode:'securityMock',title:'セキュリティ ミニ模試',rate:Number(profile.securityMockHistory?.[0]?.rate??100),icon:'🛡️'}, {mode:'compound',title:'複合問題',rate:Number(profile.bCompoundHistory?.[0]?.rate??10…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "で、countを増やす処理は合計6回実行されます。', binary_search_b:'data[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。', bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ます。', binary_search_b:'data[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。', bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMoc…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "renderBMockMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ec.mode==='final'){ title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →'; }else if(rec.mode==='securityMock'){ title.textContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →'; }else if(rec.mode==='miniMock'){ title.textContent='アルゴリズム ミニ模試';desc.textContent='8問・40分で、途中状態を連続して読み切れるか確認します。';action.textContent='ミニ模試を始める →'; }else{ title.textContent=rec.title||'複合問題を1セット';desc.textContent=rec.desc||'長いコードを3問で読みます。';action.textContent='複合問題を始める →'; } action.onclick=()=>launchSubjectBRecommendation(rec); } function renderBMockMenu(){ const hist=profile.bMockHistory||[],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null; document.getElementById('bMockBest').textContent=best===null?'ベスト —':`ベスト ${best}%`; const root=document.getElementById('bMockHistory'),rows=hist.slice(0…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "renderBMockMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "tContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →'; }else if(rec.mode==='miniMock'){ title.textContent='アルゴリズム ミニ模試';desc.textContent='8問・40分で、途中状態を連続して読み切れるか確認します。';action.textContent='ミニ模試を始める →'; }else{ title.textContent=rec.title||'複合問題を1セット';desc.textContent=rec.desc||'長いコードを3問で読みます。';action.textContent='複合問題を始める →'; } action.onclick=()=>launchSubjectBRecommendation(rec); } function renderBMockMenu(){ const hist=profile.bMockHistory||[],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null; document.getElementById('bMockBest').textContent=best===null?'ベスト —':`ベスト ${best}%`; const root=document.getElementById('bMockHistory'),rows=hist.slice(0,5); root.innerHTML=rows.length?rows.map(h=>` <div class=\"bmock-history-row\"> <div class=\"bmock-history-main\"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div> <d…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "finishBMiniMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": ",level:item.level,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/bMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['アルゴリズム']!==undefined)profile.skills['アルゴリズム']=clamp(profile.skills['アルゴリズム']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:bMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const rows=details.filter(d=>d.level===level);return[level,{correct:rows.filter(d=>d.ok).length,total:rows.length}]})), details }; profile.bMockHistory=[attempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile(); document.getElementById('bMockExam')?.classList.remove('show');document.getElementById('bMockResult')?.classList.add('sho…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "finishBMiniMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "d:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/bMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['アルゴリズム']!==undefined)profile.skills['アルゴリズム']=clamp(profile.skills['アルゴリズム']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:bMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const rows=details.filter(d=>d.level===level);return[level,{correct:rows.filter(d=>d.ok).length,total:rows.length}]})), details }; profile.bMockHistory=[attempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile(); document.getElementById('bMockExam')?.classList.remove('show');document.getElementById('bMockResult')?.classList.add('show'); renderBMockResult(attempt,ear…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "estimateRemainingStudyMinutes",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t; } function estimateRemainingStudyMinutes(){ let m=0; (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;}); (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;}); (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length; m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[]).length)*20; const active=activeReviewJourneys().length; m+=Math.min(240,active*8+du…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "add",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "lter(j=>j.stage==='stable').sort((a,b)=>String(b.completedAt||'').localeCompare(String(a.completedAt||''))).slice(0,6); const list=document.getElementById('analyticsStableList');if(list)list.innerHTML=stable.length?stable.map(j=>`<div class=\"analytics-stable-item\"><b>${escapeHtml(j.concept)}</b><span>${escapeHtml(j.completedAt||'定着')}</span></div>`).join(''):'<div class=\"analytics-format-empty\">まだ定着まで完了した復習ルートはありません。</div>'; } function analyticsBFormatRows(){ const map={};const add=(name,ok)=>{if(!name)return;if(!map[name])map[name]={name,total:0,correct:0};map[name].total++;if(ok)map[name].correct++}; // Algorithm mini mock: all questions are intermediate-state prediction. (profile.bMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add('途中状態',!!d.ok))); // Compound challenge stores the question kind in v36+ history. (profile.bCompoundHistory||[]).forEach(h=>(h.details||[]).forEach(…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "subjectBReadinessRateV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "balThis.SUBJECT_B_FINAL_XP_V219_SPEC=SUBJECT_B_FINAL_XP_V219_SPEC; /* FE QUEST v222 — Subject B readiness-aware recommendation repair */ const SUBJECT_B_READINESS_V222_SPEC=Object.freeze({ policy:'gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence', sourceAudit:'v221-subject_b_progression_readiness_blindness', shortPracticeFloor:65, firstFinalFloor:65, preservesFoundationOrder:true, preservesExamThreeDayRule:true, preservesMaintenanceRouting:true, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Num…"
+    },
+    {
+      "token": "bMockHistory",
+      "function": "subjectBReadinessCountV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "eservesExamThreeDayRule:true, preservesMaintenanceRouting:true, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite); return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.length):0; } return 0; } function subjectBReadinessCountV222(mode){ if(mode==='miniMock') return (profile.bMockHistory||[]).length; if(mode==='securityMock') return (profile.securityMockHistory||[]).length; if(mode==='compound') return (profile.bCompoundHistory||[]).length; return 0; } function subjectBShortEvidenceV222(){ const rows=[…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ut.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was calculated after forcing schema v3. function normalizePro…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "essMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was calculated after forcing schema v3. function normalizeProfileDataV3ForChecksum(input){ co…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV3For…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "gressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV3ForChecksum(p)))}`; } // v97 backu…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4For…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "gressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4ForChecksum(p)))}`; } function pro…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "subjectBProgressMetrics",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "='final'){setBMode('final');} } function updateCourseBRecommendedCard(mode){ const normalized=(mode==='securityMock')?'security':(mode==='compound'?'mock':mode); document.querySelectorAll('[data-course-bmode]').forEach(card=>{ const selected=card.dataset.courseBmode===normalized; card.classList.toggle('course-recommended',selected); }); } function subjectBProgressMetrics(){ const algoDone=B_EXERCISES.filter(x=>(profile.bProgress?.[x.id]||0)>=100).length; const secDone=SECURITY_SCENARIOS.filter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length; const compoundSeen=Object.values(profile.bCompoundStats||{}).filter(x=>(x?.seen||0)>0).length; const secMockRuns=(profile.securityMockHistory||[]).length; const algoMockRuns=(profile.bMockHistory||[]).length; const finalRuns=(profile.bFinalHistory||[]).length; const practiceEvidence=Math.min(3,compoundSeen)+Math.min(1,secMockRuns)+Math.min(1,a…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "subjectBHubRecommendation",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?.rate??100),icon:'📝'}, {mode:'securityMock',title:'セキュリティ ミニ模試',rate:Number(profile.securityMockHistory?.[0]?.rate??100),icon:'🛡️'}, {mode:'compound',title:'複合問題',rate:Number(profile.bCompoundHistory?.[0]?.rate??100),icon:'🧩'} ].sort((a,b)=>a.rate-b.rate)[0]; return {stage:3,mode:recent.mode,id:null,title:`${recent.tit…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "renderBFinalResult",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "--;renderBFinalQuestion()}}); document.getElementById('bFinalNext')?.addEventListener('click',()=>{if(bFinalIndex<bFinalItems.length-1){bFinalIndex++;renderBFinalQuestion()}else askSubmitBFinal()}); document.getElementById('bFinalFlag')?.addEventListener('click',()=>{bFinalFlags.has(bFinalIndex)?bFinalFlags.delete(bFinalIndex):bFinalFlags.add(bFinalIndex);renderBFinalQuestion()}); document.getElementById('bFinalExit')?.addEventListener('click',()=>{if(confirm('科目B総合実戦を終了しますか？回答は保存されません。')){clearBFinalResume();showBFinalMenu()}}); // ===== v37: Security ミニ模試 ===== const SECURITY_MOCK_COUNT=8; const SECURITY_MOCK_SECONDS=20*60; const SECURITY_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; if(!profile.securityMockHistory) profile.securityMockHistory=[]; if(!profile.securityMockStats) profile.securityMockStats={}; function ensureSecurityMockStats(){ SECURITY_SCENARIOS.forEach(s=>{ if(!profile.securityM…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "renderBFinalResult",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "document.getElementById('bFinalNext')?.addEventListener('click',()=>{if(bFinalIndex<bFinalItems.length-1){bFinalIndex++;renderBFinalQuestion()}else askSubmitBFinal()}); document.getElementById('bFinalFlag')?.addEventListener('click',()=>{bFinalFlags.has(bFinalIndex)?bFinalFlags.delete(bFinalIndex):bFinalFlags.add(bFinalIndex);renderBFinalQuestion()}); document.getElementById('bFinalExit')?.addEventListener('click',()=>{if(confirm('科目B総合実戦を終了しますか？回答は保存されません。')){clearBFinalResume();showBFinalMenu()}}); // ===== v37: Security ミニ模試 ===== const SECURITY_MOCK_COUNT=8; const SECURITY_MOCK_SECONDS=20*60; const SECURITY_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; if(!profile.securityMockHistory) profile.securityMockHistory=[]; if(!profile.securityMockStats) profile.securityMockStats={}; function ensureSecurityMockStats(){ SECURITY_SCENARIOS.forEach(s=>{ if(!profile.securityMockStats[s.id]) profile.securi…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "finishSecurityMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "l,concept:item.concept,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/secMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['セキュリティ']!==undefined)profile.skills['セキュリティ']=clamp(profile.skills['セキュリティ']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:secMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const r=details.filter(d=>d.level===level);return[level,{correct:r.filter(d=>d.ok).length,total:r.length}]})), details }; profile.securityMockHistory=[attempt,...(profile.securityMockHistory||[])].slice(0,20); lastSecurityMockAttempt=attempt;saveProfile(); document.getElementById('secMockExam')?.classList.remove('show'); document.getElementById('secMockR…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "finishSecurityMock",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/secMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['セキュリティ']!==undefined)profile.skills['セキュリティ']=clamp(profile.skills['セキュリティ']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:secMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const r=details.filter(d=>d.level===level);return[level,{correct:r.filter(d=>d.ok).length,total:r.length}]})), details }; profile.securityMockHistory=[attempt,...(profile.securityMockHistory||[])].slice(0,20); lastSecurityMockAttempt=attempt;saveProfile(); document.getElementById('secMockExam')?.classList.remove('show'); document.getElementById('secMockResult')?.classList.add('show'); document.…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "estimateRemainingStudyMinutes",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t m=0; (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;}); (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;}); (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length; m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[]).length)*20; const active=activeReviewJourneys().length; m+=Math.min(240,active*8+dueQuestions().length*3); return Math.max(0,Math.ro…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "nextBChoice",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "const algoRate=algoDone/Math.max(1,algoTotal); const secRate=secDone/Math.max(1,secTotal); if(algoDone<algoTotal || secDone<secTotal){ if(algoRate<=secRate && algoDone<algoTotal){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100) || B_EXERCISES[0]; return {mode:'trace',id:ex?.id,title:ex?.title||'アルゴリズムトレース'}; } const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100) || SECURITY_SCENARIOS[0]; return {mode:'security',id:sc?.id,title:sc?.title||'セキュリティ演習'}; } // 通常の20分枠に100分の総合実戦を自動割当しない。 // 基礎演習完了後は20分の複合演習とセキュリティ実戦を交互に回す。 const compoundRuns=(profile.bCompoundHistory||[]).length; const securityRuns=(profile.securityMockHistory||[]).length; if(compoundRuns<=securityRuns)return {mode:'compound',id:null,title:'複合問題・3問'}; return {mode:'securityMock',id:null,title:'セキュリティ ミニ模試'}; } function nextReadyUnpassedChapter(){ const rows=CORE_A_CHAPTERS.map(ch=>{ …"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "add",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ame,total:0,correct:0};map[name].total++;if(ok)map[name].correct++}; // Algorithm mini mock: all questions are intermediate-state prediction. (profile.bMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add('途中状態',!!d.ok))); // Compound challenge stores the question kind in v36+ history. (profile.bCompoundHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.kind||'処理結果',!!d.ok))); // Full Subject-B practice already stores normalized format names. (profile.bFinalHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.format||(d.kind==='security'?'ケース判断':'処理結果'),!!d.ok))); // Security mini mock: infer log-reading vs scenario judgment from its source scenario. (profile.securityMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>{const s=SECURITY_SCENARIOS.find(x=>x.id===d.scenarioId);add(s?.log?'ログ読解':'ケース判断',!!d.ok)})); return Object.values(map).sort((a,b)=>b.total-a.total); } …"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "subjectBReadinessRateV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "v222 — Subject B readiness-aware recommendation repair */ const SUBJECT_B_READINESS_V222_SPEC=Object.freeze({ policy:'gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence', sourceAudit:'v221-subject_b_progression_readiness_blindness', shortPracticeFloor:65, firstFinalFloor:65, preservesFoundationOrder:true, preservesExamThreeDayRule:true, preservesMaintenanceRouting:true, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite); return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.len…"
+    },
+    {
+      "token": "securityMockHistory",
+      "function": "subjectBReadinessCountV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "estionSelectionChanged:false, scoringChanged:false, timingChanged:false, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite); return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.length):0; } return 0; } function subjectBReadinessCountV222(mode){ if(mode==='miniMock') return (profile.bMockHistory||[]).length; if(mode==='securityMock') return (profile.securityMockHistory||[]).length; if(mode==='compound') return (profile.bCompoundHistory||[]).length; return 0; } function subjectBShortEvidenceV222(){ const rows=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',icon:'📝',rate:subjectBReadin…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "peof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was ca…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "g'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was calculated after forcing schema…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ retur…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ring'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ return `fnv1a32:${fnv1a32(stableJs…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ retur…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ring'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ return `fnv1a32:${fnv1a32(stableJs…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "subjectBHubRecommendation",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "con:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?.rate??100),icon:'📝'}, {mode:'securityMock',title:'セキュリティ ミニ模試',rate:Number(profile.securityMockHistory?.[0]?.rate??100),icon:'🛡️'}, {mode:'compound',title:'複合問題',rate:Number(profile.bCompoundHistory?.[0]?.rate??100),icon:'🧩'} ].sort((a,b)=>a.rate-b.rate)[0]; return {stage:3,mode:recent.mode,id:null,title:`${recent.title}で維持`,icon:recent.icon,kicker:finalAllowed?'短い実戦で維持':'試験直前・短い確認',desc:finalAllowed?`直近の正答率が相対…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "applyCompoundQualityAudit",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "evel:'標準',point:'target=9なら元データの添字3で番兵より前に見つかる。',pitfall:'番兵の添字4まで必ず進むわけではない。'} ], tree_height:[ {kind:'空欄補充',qlevel:'標準',point:'高さは左右部分木の最大値に現在ノード1を加える。',pitfall:'left+rightはノード数に近い計算で高さではない。'}, {kind:'トレース',qlevel:'標準',point:'Dが葉なのでheight(D)=1、したがってB=2。',pitfall:'辺の本数で高さを数える定義と混同しない。このコードはノード数で数える。'}, {kind:'変更予測',qlevel:'応用',point:'E追加後はE→D→B→Aの戻り値を下から更新する。',pitfall:'追加前のA=3から1増えるので4。途中のBだけ更新して止めない。'} ] }; function applyCompoundQualityAudit(){ B_COMPOUND_SETS.forEach(set=>{ const meta=B_COMPOUND_QUALITY[set.id]; if(!meta||meta.length!==set.qs.length) return; set.qs.forEach((q,i)=>Object.assign(q,meta[i])); }); } applyCompoundQualityAudit(); if(!profile.bCompoundHistory)profile.bCompoundHistory=[]; if(!profile.bCompoundStats)profile.bCompoundStats={}; B_COMPOUND_SETS.forEach(s=>{if(!profile.bCompoundStats[s.id])profile.bCompoundStats[s.id]={seen:0,correct:0,lastSeen:null}}); let bCompo…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "applyCompoundQualityAudit",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "なら元データの添字3で番兵より前に見つかる。',pitfall:'番兵の添字4まで必ず進むわけではない。'} ], tree_height:[ {kind:'空欄補充',qlevel:'標準',point:'高さは左右部分木の最大値に現在ノード1を加える。',pitfall:'left+rightはノード数に近い計算で高さではない。'}, {kind:'トレース',qlevel:'標準',point:'Dが葉なのでheight(D)=1、したがってB=2。',pitfall:'辺の本数で高さを数える定義と混同しない。このコードはノード数で数える。'}, {kind:'変更予測',qlevel:'応用',point:'E追加後はE→D→B→Aの戻り値を下から更新する。',pitfall:'追加前のA=3から1増えるので4。途中のBだけ更新して止めない。'} ] }; function applyCompoundQualityAudit(){ B_COMPOUND_SETS.forEach(set=>{ const meta=B_COMPOUND_QUALITY[set.id]; if(!meta||meta.length!==set.qs.length) return; set.qs.forEach((q,i)=>Object.assign(q,meta[i])); }); } applyCompoundQualityAudit(); if(!profile.bCompoundHistory)profile.bCompoundHistory=[]; if(!profile.bCompoundStats)profile.bCompoundStats={}; B_COMPOUND_SETS.forEach(s=>{if(!profile.bCompoundStats[s.id])profile.bCompoundStats[s.id]={seen:0,correct:0,lastSeen:null}}); let bCompoundSet=null,bCompoundAnsw…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": ";stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);profile.bCompoundHistory=[{date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details},...(profile.bCompoundHistory||[])].…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": true,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "oundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);profile.bCompoundHistory=[{date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details},...(profile.bCompoundHistory||[])].slice(0,20);saveProfile();document.getElementById('bCompoundExam')?.classList.remove('show');document.getElementById('bCompoundResult')?.classList.add('show');document.getElemen…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "renderBMockMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "enderBMockMenu(){ const hist=profile.bMockHistory||[],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null; document.getElementById('bMockBest').textContent=best===null?'ベスト —':`ベスト ${best}%`; const root=document.getElementById('bMockHistory'),rows=hist.slice(0,5); root.innerHTML=rows.length?rows.map(h=>` <div class=\"bmock-history-row\"> <div class=\"bmock-history-main\"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div> <div class=\"bmock-history-time\">${bMockFormatTime(h.seconds||0)}</div><div class=\"bmock-history-score\">${h.rate}%</div> </div>`).join(''):'<div class=\"sub\">まだ受験履歴はありません。</div>'; const croot=document.getElementById('bCompoundHistoryMenu'); if(croot){const cs=(profile.bCompoundHistory||[]).slice(0,5);croot.innerHTML=cs.length?cs.map(h=>`<div class=\"bmock-history-row\"><div class=\"bmock-history-main\"><b>${escapeHtml(h.title)} ${h.correct}/3</b><…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "renderBMockMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "],best=hist.length?Math.max(...hist.map(x=>x.rate||0)):null; document.getElementById('bMockBest').textContent=best===null?'ベスト —':`ベスト ${best}%`; const root=document.getElementById('bMockHistory'),rows=hist.slice(0,5); root.innerHTML=rows.length?rows.map(h=>` <div class=\"bmock-history-row\"> <div class=\"bmock-history-main\"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div> <div class=\"bmock-history-time\">${bMockFormatTime(h.seconds||0)}</div><div class=\"bmock-history-score\">${h.rate}%</div> </div>`).join(''):'<div class=\"sub\">まだ受験履歴はありません。</div>'; const croot=document.getElementById('bCompoundHistoryMenu'); if(croot){const cs=(profile.bCompoundHistory||[]).slice(0,5);croot.innerHTML=cs.length?cs.map(h=>`<div class=\"bmock-history-row\"><div class=\"bmock-history-main\"><b>${escapeHtml(h.title)} ${h.correct}/3</b><span>${escapeHtml(h.date||'')}</span></div><div clas…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "estimateRemainingStudyMinutes",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;}); (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;}); (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length; m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[]).length)*20; const active=activeReviewJourneys().length; m+=Math.min(240,active*8+dueQuestions().length*3); return Math.max(0,Math.round(m)); } function recentCalendarPace(days=14){ const t…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "nextBChoice",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "lter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length; const algoRate=algoDone/Math.max(1,algoTotal); const secRate=secDone/Math.max(1,secTotal); if(algoDone<algoTotal || secDone<secTotal){ if(algoRate<=secRate && algoDone<algoTotal){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100) || B_EXERCISES[0]; return {mode:'trace',id:ex?.id,title:ex?.title||'アルゴリズムトレース'}; } const sc=SECURITY_SCENARIOS.find(x=>(profile.securityBProgress?.[x.id]||0)<100) || SECURITY_SCENARIOS[0]; return {mode:'security',id:sc?.id,title:sc?.title||'セキュリティ演習'}; } // 通常の20分枠に100分の総合実戦を自動割当しない。 // 基礎演習完了後は20分の複合演習とセキュリティ実戦を交互に回す。 const compoundRuns=(profile.bCompoundHistory||[]).length; const securityRuns=(profile.securityMockHistory||[]).length; if(compoundRuns<=securityRuns)return {mode:'compound',id:null,title:'複合問題・3問'}; return {mode:'securityMock',id:null,title:'セキュリティ ミニ模試'}; } function next…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "add",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "d('analyticsStableList');if(list)list.innerHTML=stable.length?stable.map(j=>`<div class=\"analytics-stable-item\"><b>${escapeHtml(j.concept)}</b><span>${escapeHtml(j.completedAt||'定着')}</span></div>`).join(''):'<div class=\"analytics-format-empty\">まだ定着まで完了した復習ルートはありません。</div>'; } function analyticsBFormatRows(){ const map={};const add=(name,ok)=>{if(!name)return;if(!map[name])map[name]={name,total:0,correct:0};map[name].total++;if(ok)map[name].correct++}; // Algorithm mini mock: all questions are intermediate-state prediction. (profile.bMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add('途中状態',!!d.ok))); // Compound challenge stores the question kind in v36+ history. (profile.bCompoundHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.kind||'処理結果',!!d.ok))); // Full Subject-B practice already stores normalized format names. (profile.bFinalHistory||[]).forEach(h=>(h.details||[]…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "subjectBReadinessRateV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "V222_SPEC=Object.freeze({ policy:'gate-final-practice-by-demonstrated-short-practice-and-first-final-evidence', sourceAudit:'v221-subject_b_progression_readiness_blindness', shortPracticeFloor:65, firstFinalFloor:65, preservesFoundationOrder:true, preservesExamThreeDayRule:true, preservesMaintenanceRouting:true, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite); return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.length):0; } return 0; } function subjectBReadinessCountV222(mode){ if(mode==='miniMock…"
+    },
+    {
+      "token": "bCompoundHistory",
+      "function": "subjectBReadinessCountV222",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "se, remediationTargetsChanged:false }); function subjectBReadinessRateV222(mode){ if(mode==='miniMock') return Number(profile.bMockHistory?.[0]?.rate??0); if(mode==='securityMock') return Number(profile.securityMockHistory?.[0]?.rate??0); if(mode==='compound'){ const rows=(profile.bCompoundHistory||[]).slice(0,3).map(x=>Number(x?.rate??0)).filter(Number.isFinite); return rows.length?Math.round(rows.reduce((a,b)=>a+b,0)/rows.length):0; } return 0; } function subjectBReadinessCountV222(mode){ if(mode==='miniMock') return (profile.bMockHistory||[]).length; if(mode==='securityMock') return (profile.securityMockHistory||[]).length; if(mode==='compound') return (profile.bCompoundHistory||[]).length; return 0; } function subjectBShortEvidenceV222(){ const rows=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',icon:'📝',rate:subjectBReadinessRateV222('miniMock')}, {mode:'securityMock',title:'セキュリティ ミニ模試',ic…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "p=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>{ out.skills[name]=boundedPercent(p.skills?.[name],def); }); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); …"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "on=3; out.xp=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activ…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ory); out.xp=nonNegativeInt(p.xp,0); out.streak=nonNegativeInt(p.streak,0); out.diagnosticCompleted=!!p.diagnosticCompleted; out.diagnosticScores=safeObject(p.diagnosticScores); out.skills={}; Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def)); out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null; out.lessonProgress=normalizeProgressMap(p.lessonProgress); out.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activ…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "f",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "_02\":\"4\",\"bexam_tree_03\":\"4\",\"bexam_obj_01\":\"3\",\"bexam_obj_02\":\"total ← total × (1 - rate)\",\"bexam_obj_03\":\"9\",\"bexam_list_01\":\"p.next ← p.next.next\",\"bexam_list_02\":\"N→A→B\",\"bexam_list_03\":\"2\",\"bexam_sq_01\":\"14\",\"bexam_sq_02\":\"y=4, stack=[2]\",\"bexam_sq_03\":\"[C,D]\",\"bexam_bit_01\":\"perm ← perm OR writeMask\",\"bexam_bit_02\":\"13\",\"bexam_bit_03\":\"1001₂\",\"bexam_algo_01\":\"3\",\"bexam_algo_02\":\"[2,4,7,6]\",\"bexam_arr_05\":\"data[i]\",\"bexam_mat_04\":\"bestRow=1, bestSum=15\",\"bexam_rec_05\":\"9\",\"bexam_tree_04\":\"[E,F]\",\"bexam_list_04\":\"A→C\",\"bexam_sq_04\":\"[7,2]\",\"bexam_bit_04\":\"0011₂\",\"bexam_algo_03\":\"[2,4,5,1]\"}; const B_FINAL_SECONDS=100*60; if(!profile.bFinalHistory) profile.bFinalHistory=[]; if(!profile.bFinalStats) profile.bFinalStats={}; let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0; let bFinalSeconds=B_FINAL_SECONDS,bFinalTimerId=null,bFinalStartedAt=null,lastBFinalAttempt=…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "f",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "03\":\"4\",\"bexam_obj_01\":\"3\",\"bexam_obj_02\":\"total ← total × (1 - rate)\",\"bexam_obj_03\":\"9\",\"bexam_list_01\":\"p.next ← p.next.next\",\"bexam_list_02\":\"N→A→B\",\"bexam_list_03\":\"2\",\"bexam_sq_01\":\"14\",\"bexam_sq_02\":\"y=4, stack=[2]\",\"bexam_sq_03\":\"[C,D]\",\"bexam_bit_01\":\"perm ← perm OR writeMask\",\"bexam_bit_02\":\"13\",\"bexam_bit_03\":\"1001₂\",\"bexam_algo_01\":\"3\",\"bexam_algo_02\":\"[2,4,7,6]\",\"bexam_arr_05\":\"data[i]\",\"bexam_mat_04\":\"bestRow=1, bestSum=15\",\"bexam_rec_05\":\"9\",\"bexam_tree_04\":\"[E,F]\",\"bexam_list_04\":\"A→C\",\"bexam_sq_04\":\"[7,2]\",\"bexam_bit_04\":\"0011₂\",\"bexam_algo_03\":\"[2,4,5,1]\"}; const B_FINAL_SECONDS=100*60; if(!profile.bFinalHistory) profile.bFinalHistory=[]; if(!profile.bFinalStats) profile.bFinalStats={}; let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0; let bFinalSeconds=B_FINAL_SECONDS,bFinalTimerId=null,bFinalStartedAt=null,lastBFinalAttempt=null; function bFinal…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "bFinalAlgoSeen",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "vidence:structuredClone(s.evidence||null),log:s.log||null,risk:!!s.risk, q:step.q,options:opts,a:opts.indexOf(correct),correctText:correct,explain:step.explain,studyMode:'security' }; } function makeFinalAlgoExam(item){ const src=structuredClone(item),correct=src.options[src.a],options=shuffled([...src.options]); return { ...src,id:`exam:${src.id}`,sourceId:src.id,kind:'algo', options,a:options.indexOf(correct),correctText:correct, studyMode:'exam' }; } function finalAlgoPool(){ return B_EXAM_ALGO_ITEMS.map(makeFinalAlgoExam); } const B_FINAL_APPLIED_DOMAINS=new Set(['再帰・関数','木構造','リスト','スタック・キュー','ビット列','探索・整列']); function bFinalAlgoSeen(item){ return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0; } function pickFinalAlgoCandidate(pool,selected){ const formatCounts={}; selected.forEach(x=>formatCounts[x.format||'トレース']=(formatCounts[x.format||'トレース']||0)+1); return [...pool].sort((a…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "pickSecurityForFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "リスト','スタック・キュー','ビット列','探索・整列']); function bFinalAlgoSeen(item){ return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0; } function pickFinalAlgoCandidate(pool,selected){ const formatCounts={}; selected.forEach(x=>formatCounts[x.format||'トレース']=(formatCounts[x.format||'トレース']||0)+1); return [...pool].sort((a,b)=>{ const sa=bFinalAlgoSeen(a),sb=bFinalAlgoSeen(b); if(sa!==sb)return sa-sb; const fa=formatCounts[a.format||'トレース']||0,fb=formatCounts[b.format||'トレース']||0; if(fa!==fb)return fa-fb; return Math.random()-.5; })[0]||null; } function pickSecurityForFinal(pool,n,used){ const sorted=[...pool].filter(s=>!used.has(s.id)).sort((a,b)=>{ const sa=profile.bFinalStats?.[`sec:${a.id}`]?.seen||0,sb=profile.bFinalStats?.[`sec:${b.id}`]?.seen||0; if(sa!==sb)return sa-sb; return Math.random()-.5; }); const out=sorted.slice(0,n); out.forEach(s=>used.add(s.id)); return out; } function buildBFinal…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "pickSecurityForFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "lAlgoSeen(item){ return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0; } function pickFinalAlgoCandidate(pool,selected){ const formatCounts={}; selected.forEach(x=>formatCounts[x.format||'トレース']=(formatCounts[x.format||'トレース']||0)+1); return [...pool].sort((a,b)=>{ const sa=bFinalAlgoSeen(a),sb=bFinalAlgoSeen(b); if(sa!==sb)return sa-sb; const fa=formatCounts[a.format||'トレース']||0,fb=formatCounts[b.format||'トレース']||0; if(fa!==fb)return fa-fb; return Math.random()-.5; })[0]||null; } function pickSecurityForFinal(pool,n,used){ const sorted=[...pool].filter(s=>!used.has(s.id)).sort((a,b)=>{ const sa=profile.bFinalStats?.[`sec:${a.id}`]?.seen||0,sb=profile.bFinalStats?.[`sec:${b.id}`]?.seen||0; if(sa!==sb)return sa-sb; return Math.random()-.5; }); const out=sorted.slice(0,n); out.forEach(s=>used.add(s.id)); return out; } function buildBFinal(){ // 40問の本番型アルゴリズムプールから、 // 10分野を最低1問ずつ・標準8問/応…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "finishBFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "v> <div class=\"bfinal-diagnosis-item\"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>以前の総合実戦でも同じ型でつまずいた問題</small></div> </div>`; } function finishBFinal(timeUp=false){ if(!bFinalItems.length)return; stopBFinalTimer(); clearBFinalResume(); const used=Math.min(B_FINAL_SECONDS,Math.max(0,Math.round((Date.now()-(bFinalStartedAt||Date.now()))/1000))); let correct=0,blank=0,algoCorrect=0,secCorrect=0; const details=bFinalItems.map((item,i)=>{ const ans=bFinalAnswers[i],ok=ans===item.a;if(ok){correct++;if(item.kind==='algo')algoCorrect++;else secCorrect++;}if(ans===null)blank++; const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`; if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null}; const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0); const detail={sourceId:item.sourceId,kind:item.kind,format:bFi…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "finishBFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "-diagnosis-item\"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>以前の総合実戦でも同じ型でつまずいた問題</small></div> </div>`; } function finishBFinal(timeUp=false){ if(!bFinalItems.length)return; stopBFinalTimer(); clearBFinalResume(); const used=Math.min(B_FINAL_SECONDS,Math.max(0,Math.round((Date.now()-(bFinalStartedAt||Date.now()))/1000))); let correct=0,blank=0,algoCorrect=0,secCorrect=0; const details=bFinalItems.map((item,i)=>{ const ans=bFinalAnswers[i],ok=ans===item.a;if(ok){correct++;if(item.kind==='algo')algoCorrect++;else secCorrect++;}if(ans===null)blank++; const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`; if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null}; const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0); const detail={sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),dom…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "finishBFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": true,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "じ型でつまずいた問題</small></div> </div>`; } function finishBFinal(timeUp=false){ if(!bFinalItems.length)return; stopBFinalTimer(); clearBFinalResume(); const used=Math.min(B_FINAL_SECONDS,Math.max(0,Math.round((Date.now()-(bFinalStartedAt||Date.now()))/1000))); let correct=0,blank=0,algoCorrect=0,secCorrect=0; const details=bFinalItems.map((item,i)=>{ const ans=bFinalAnswers[i],ok=ans===item.a;if(ok){correct++;if(item.kind==='algo')algoCorrect++;else secCorrect++;}if(ans===null)blank++; const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`; if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null}; const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0); const detail={sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),domain:item.kind==='security'?(item.concept||'情報セキュリティ'):(item.domain||'擬似言…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "subjectBAlgorithmDomainEvidenceV227",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "ule:true, readinessThresholdChanged:false, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, securityRoutingChanged:false, directFinalRemediationChanged:false, profileSchemaMigrationRequired:false }); function subjectBAlgorithmDomainEvidenceV227(){ const rows={}; for(const item of B_EXAM_ALGO_ITEMS){ const d=makeFinalAlgoExam(item); const domain=d.domain||item.domain||'擬似言語'; if(!rows[domain])rows[domain]={domain,misses:0,seen:0,distinctMissedItems:0}; const row=rows[domain]; const key=bFinalMistakeKey(d); const misses=Math.max(0,Number(profile.bFinalMistakeStats?.[key]?.misses)||0); const seen=Math.max(0,Number(profile.bFinalStats?.[`algo:${d.sourceId}`]?.seen)||0); row.misses+=misses; row.seen+=seen; if(misses>0)row.distinctMissedItems++; } const ranked=Object.values(rows).map(row=>{ const evidenceSeen=Math.max(row.seen,row.misses); const errorRate=evidenceSeen…"
+    },
+    {
+      "token": "bFinalStats",
+      "function": "seen",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "nged:false, generatedOptionsChanged:false, correctAnswerChanged:false, scoringChanged:false, questionSelectionChanged:false, questionOrderChanged:false, timingChanged:false, difficultyLabelChanged:false, readinessThresholdChanged:false, remediationTargetsChanged:false, profileSchemaMigrationRequired:false }); globalThis.attachTraceFinalWrongFeedbackV235=attach; })(); // ===== FE QUEST v239 Subject B final security rotation repair ===== (() => { const finding='subject_b_final_security_long_run_coverage_gap'; const sourceAudit='v238-subject-b-final-security-rotation-diagnosis-audit'; const before=buildBFinal; function seen(s){return profile.bFinalStats?.[`sec:${s.id}`]?.seen||0;} function pools(){ return { logs:SECURITY_SCENARIOS.filter(s=>!!s.log), cases:SECURITY_SCENARIOS.filter(s=>!s.log) }; } function quota(){ const {logs,cases}=pools(); const anySeen=SECURITY_SCENARIOS.some(s=>seen(s)…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was calculated after forcing schema v3. function normalizeProfileDataV3ForChecksum(input){ const p=isPlainObject(input)?inp…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileData",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "sMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } // v96 backup compatibility: its checksum was calculated after forcing schema v3. function normalizeProfileDataV3ForChecksum(input){ const p=isPlainObject(input)?input:{}; const base=structur…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV3ForChecksum(p)))}`; } // v97 backup/current-data compatibility: …"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileDataV3ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "essMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV3(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV3ForChecksum(p)))}`; } // v97 backup/current-data compatibility: checksum must be calculate…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "t.bProgress=normalizeProgressMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4ForChecksum(p)))}`; } function profileChecksumForSchema(p,schema…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "normalizeProfileDataV4ForChecksum",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "essMap(p.bProgress); out.securityBProgress=normalizeProgressMap(p.securityBProgress); ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats', 'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery' ].forEach(key=>out[key]=safeObject(p[key])); out.sessions=safeArray(p.sessions,3000); out.activity=safeObject(p.activity); out.mockHistory=safeArray(p.mockHistory,100); out.bMockHistory=safeArray(p.bMockHistory,100); out.bCompoundHistory=safeArray(p.bCompoundHistory,100); out.securityMockHistory=safeArray(p.securityMockHistory,100); out.bFinalHistory=safeArray(p.bFinalHistory,100); return out; } function profileIntegrityChecksumV4(p){ return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4ForChecksum(p)))}`; } function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){ …"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "subjectBProgressMetrics",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": true,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "k')?'security':(mode==='compound'?'mock':mode); document.querySelectorAll('[data-course-bmode]').forEach(card=>{ const selected=card.dataset.courseBmode===normalized; card.classList.toggle('course-recommended',selected); }); } function subjectBProgressMetrics(){ const algoDone=B_EXERCISES.filter(x=>(profile.bProgress?.[x.id]||0)>=100).length; const secDone=SECURITY_SCENARIOS.filter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length; const compoundSeen=Object.values(profile.bCompoundStats||{}).filter(x=>(x?.seen||0)>0).length; const secMockRuns=(profile.securityMockHistory||[]).length; const algoMockRuns=(profile.bMockHistory||[]).length; const finalRuns=(profile.bFinalHistory||[]).length; const practiceEvidence=Math.min(3,compoundSeen)+Math.min(1,secMockRuns)+Math.min(1,algoMockRuns); return {algoDone,secDone,compoundSeen,secMockRuns,algoMockRuns,finalRuns,practiceEvidence}; } functi…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "f",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "sumDigits(n div 10)\",\"bexam_tree_01\":\"D\",\"bexam_tree_02\":\"4\",\"bexam_tree_03\":\"4\",\"bexam_obj_01\":\"3\",\"bexam_obj_02\":\"total ← total × (1 - rate)\",\"bexam_obj_03\":\"9\",\"bexam_list_01\":\"p.next ← p.next.next\",\"bexam_list_02\":\"N→A→B\",\"bexam_list_03\":\"2\",\"bexam_sq_01\":\"14\",\"bexam_sq_02\":\"y=4, stack=[2]\",\"bexam_sq_03\":\"[C,D]\",\"bexam_bit_01\":\"perm ← perm OR writeMask\",\"bexam_bit_02\":\"13\",\"bexam_bit_03\":\"1001₂\",\"bexam_algo_01\":\"3\",\"bexam_algo_02\":\"[2,4,7,6]\",\"bexam_arr_05\":\"data[i]\",\"bexam_mat_04\":\"bestRow=1, bestSum=15\",\"bexam_rec_05\":\"9\",\"bexam_tree_04\":\"[E,F]\",\"bexam_list_04\":\"A→C\",\"bexam_sq_04\":\"[7,2]\",\"bexam_bit_04\":\"0011₂\",\"bexam_algo_03\":\"[2,4,5,1]\"}; const B_FINAL_SECONDS=100*60; if(!profile.bFinalHistory) profile.bFinalHistory=[]; if(!profile.bFinalStats) profile.bFinalStats={}; let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0; let bFinalSeconds=B_FINAL_SECONDS,bFinal…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "f",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "bexam_tree_01\":\"D\",\"bexam_tree_02\":\"4\",\"bexam_tree_03\":\"4\",\"bexam_obj_01\":\"3\",\"bexam_obj_02\":\"total ← total × (1 - rate)\",\"bexam_obj_03\":\"9\",\"bexam_list_01\":\"p.next ← p.next.next\",\"bexam_list_02\":\"N→A→B\",\"bexam_list_03\":\"2\",\"bexam_sq_01\":\"14\",\"bexam_sq_02\":\"y=4, stack=[2]\",\"bexam_sq_03\":\"[C,D]\",\"bexam_bit_01\":\"perm ← perm OR writeMask\",\"bexam_bit_02\":\"13\",\"bexam_bit_03\":\"1001₂\",\"bexam_algo_01\":\"3\",\"bexam_algo_02\":\"[2,4,7,6]\",\"bexam_arr_05\":\"data[i]\",\"bexam_mat_04\":\"bestRow=1, bestSum=15\",\"bexam_rec_05\":\"9\",\"bexam_tree_04\":\"[E,F]\",\"bexam_list_04\":\"A→C\",\"bexam_sq_04\":\"[7,2]\",\"bexam_bit_04\":\"0011₂\",\"bexam_algo_03\":\"[2,4,5,1]\"}; const B_FINAL_SECONDS=100*60; if(!profile.bFinalHistory) profile.bFinalHistory=[]; if(!profile.bFinalStats) profile.bFinalStats={}; let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0; let bFinalSeconds=B_FINAL_SECONDS,bFinalTimerId=null,bFinalSta…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "renderBFinalMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "wScreen('home');start.disabled=true;start.textContent='試験直前は総合実戦を停止中';return; } start.disabled=false;start.textContent='20問の総合実戦を開始 →'; if(ready){ icon.textContent='✅';kicker.textContent='開始前の確認';title.textContent='総合実戦を始められる状態です';desc.textContent='基礎演習と短い実戦を一通り経験しています。100分を確保できる日に実施してください。';prep.style.display='none';return; } const rec=subjectBHubRecommendation(); icon.textContent=rec.icon||'📚';kicker.textContent='先に進めると効果的';title.textContent=rec.title;desc.textContent='総合実戦はいつでも利用できますが、未完了の基礎・短い実戦を先に進めると復習ポイントが明確になります。';prep.style.display='';prep.textContent='科目Bの続きへ →';prep.onclick=()=>launchSubjectBRecommendation(rec); } function renderBFinalMenu(){ const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>Number.isFinite(h.rate)?h.rate:Math.round((h.correct||0)/(h.total||20)*100))):null; document.getElementById('bFinalBest').textContent=best===null?'ベスト —':`ベスト $…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "renderBFinalMenu",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "一通り経験しています。100分を確保できる日に実施してください。';prep.style.display='none';return; } const rec=subjectBHubRecommendation(); icon.textContent=rec.icon||'📚';kicker.textContent='先に進めると効果的';title.textContent=rec.title;desc.textContent='総合実戦はいつでも利用できますが、未完了の基礎・短い実戦を先に進めると復習ポイントが明確になります。';prep.style.display='';prep.textContent='科目Bの続きへ →';prep.onclick=()=>launchSubjectBRecommendation(rec); } function renderBFinalMenu(){ const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>Number.isFinite(h.rate)?h.rate:Math.round((h.correct||0)/(h.total||20)*100))):null; document.getElementById('bFinalBest').textContent=best===null?'ベスト —':`ベスト ${best}%`; const root=document.getElementById('bFinalHistory'),rows=hist.slice(0,5); root.innerHTML=rows.length?rows.map(h=>` <div class=\"bmock-history-row\"> <div class=\"bmock-history-main\"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</spa…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "finishBFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "f(!ok){const mk=bFinalMistakeKey(detail);const ms=profile.bFinalMistakeStats[mk]||(profile.bFinalMistakeStats[mk]={misses:0,reasons:{},lastReason:null,last:null});ms.misses=(ms.misses||0)+1;ms.last=localDateISO(0);} return detail; }); // Internal legacy practice points are retained only for saved-data compatibility and XP logic. // The UI shows raw correct count/rate and does not present this as an IRT or exam score. const points=correct*50,rate=Math.round(correct/20*100),earned=correct*10+(points>=600?40:0); profile.xp=(profile.xp||0)+earned; const attempt={date:localDateISO(0),total:20,correct,blank,points,rate,seconds:used,timeUp,algoCorrect,secCorrect,details}; profile.bFinalHistory=[attempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile(); document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.class…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "finishBFinal",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": true,
+        "seconds": true,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "tail);const ms=profile.bFinalMistakeStats[mk]||(profile.bFinalMistakeStats[mk]={misses:0,reasons:{},lastReason:null,last:null});ms.misses=(ms.misses||0)+1;ms.last=localDateISO(0);} return detail; }); // Internal legacy practice points are retained only for saved-data compatibility and XP logic. // The UI shows raw correct count/rate and does not present this as an IRT or exam score. const points=correct*50,rate=Math.round(correct/20*100),earned=correct*10+(points>=600?40:0); profile.xp=(profile.xp||0)+earned; const attempt={date:localDateISO(0),total:20,correct,blank,points,rate,seconds:used,timeUp,algoCorrect,secCorrect,details}; profile.bFinalHistory=[attempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile(); document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show'); renderBFinalResul…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "readinessComponents",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": ".round(skillVals.reduce((a,b)=>a+b,0)/skillVals.length):0; const quiz=recentQuizRate(); const cognitive=subjectACognitiveEvidence(); const aPractice=Math.round(skill*.35 + quiz*.30 + cognitive*.35); const fullMocks=(profile.mockHistory||[]).filter(x=>x.mode==='full'); const halfMocks=(profile.mockHistory||[]).filter(x=>x.mode==='half'); const aMock=fullMocks.length?recentAverageRate(fullMocks,3):Math.round(recentAverageRate(halfMocks,2)*.8); const bAlgo=objectCompletion(profile.bProgress,B_EXERCISES.length); const bSec=objectCompletion(profile.securityBProgress,SECURITY_SCENARIOS.length); const bTraining=Math.round((bAlgo+bSec)/2); const bExam=recentAverageRate(profile.bFinalHistory||[],3); const mem=memoryHealth(); const memoryEvidence=mem.attempted?Math.round(mem.avg*Math.min(1,mem.attempted/60)):0; return {lesson,aPractice,aMock,bTraining,bExam,memoryEvidence,cognitive}; } function ca…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "courseMasteryStatus",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "recovering=topicStates.filter(x=>!!masteryRecoveryInfo(x.topic.id)).length; const master=topicStates.filter(x=>x.state.key==='master').length; const stable=topicStates.filter(x=>['stable','master'].includes(x.state.key)).length; const lessonDone=CORE_A_CURRICULUM.filter(t=>(profile.lessonProgress?.[t.id]||0)>=100).length; const chapterPassed=CORE_A_CHAPTERS.filter(ch=>chapterIntegrationEvidence(ch).passed).length; const skillRows=sortedSkills(); const weakest=skillRows[0]||['アルゴリズム',0]; const mem=memoryHealth(); const fullMocks=(profile.mockHistory||[]).filter(x=>x.mode==='full'); const aMock=recentConsistency(fullMocks,2,75,70); const bFinal=recentConsistency(profile.bFinalHistory||[],2,70,65); const bAlgo=objectCompletion(profile.bProgress,B_EXERCISES.length); const bSec=objectCompletion(profile.securityBProgress,SECURITY_SCENARIOS.length); const bTraining=Math.round((bAlgo+bSec)/2); c…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "estimateRemainingStudyMinutes",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "const k=[...keys].sort((a,b)=>(ratios[b]||0)-(ratios[a]||0))[0];out[k]+=5; } return out; } function estimateRemainingStudyMinutes(){ let m=0; (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;}); (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;}); (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length; m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "add",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": true,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "tedAt||'定着')}</span></div>`).join(''):'<div class=\"analytics-format-empty\">まだ定着まで完了した復習ルートはありません。</div>'; } function analyticsBFormatRows(){ const map={};const add=(name,ok)=>{if(!name)return;if(!map[name])map[name]={name,total:0,correct:0};map[name].total++;if(ok)map[name].correct++}; // Algorithm mini mock: all questions are intermediate-state prediction. (profile.bMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add('途中状態',!!d.ok))); // Compound challenge stores the question kind in v36+ history. (profile.bCompoundHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.kind||'処理結果',!!d.ok))); // Full Subject-B practice already stores normalized format names. (profile.bFinalHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.format||(d.kind==='security'?'ケース判断':'処理結果'),!!d.ok))); // Security mini mock: infer log-reading vs scenario judgment from its source scenario. (profil…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "subjectBHubRecommendation",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "2('compound')} ].sort((a,b)=>a.rate-b.rate); return algo[0]; } const _subjectBHubRecommendationV222=subjectBHubRecommendation; subjectBHubRecommendation=function(){ const rec=_subjectBHubRecommendationV222(); const days=examDaysRemaining(); const finalAllowed=!(days!=null&&days>=0&&days<=3); if(!finalAllowed||!rec||rec.mode!=='final') return rec; const m=subjectBProgressMetrics(); const floor=SUBJECT_B_READINESS_V222_SPEC.shortPracticeFloor; if(m.finalRuns===0){ const weakest=subjectBShortEvidenceV222()[0]; if(weakest&&weakest.rate<floor) return subjectBReadinessPracticeRecV222(weakest,'preFinal'); return rec; } if(m.finalRuns===1){ const first=profile.bFinalHistory?.[0]; if(Number(first?.rate??100)>=SUBJECT_B_READINESS_V222_SPEC.firstFinalFloor) return rec; const target=subjectBFirstFinalTargetV222(first); const key=subjectBFirstFinalKeyV222(first); if(!profile.subjectBReadinessV222||pr…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "subjectBAlgorithmDomainContextV227",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": true,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "_ALGORITHM_DOMAIN_PROGRESSION_V227_SPEC.minDomainMistakeSharePercent &&clearLead; return {totalMistakes,share,clearLead,qualifies,top,second,ranked}; } function subjectBAlgorithmDomainTargetV227(domain){ const item=B_EXAM_ALGO_ITEMS.find(x=>x.domain===domain); if(!item)return null; const d=makeFinalAlgoExam(item); const target=bFinalRemediationTarget(d.studyMode,d.sourceId,d.domain); if(target?.mode!=='trace'||!target.id||!B_EXERCISES.some(x=>x.id===target.id))return null; return {mode:'trace',id:target.id,domain:d.domain||domain}; } function subjectBAlgorithmDomainContextV227(){ const m=subjectBProgressMetrics(); if(m.finalRuns!==1)return null; const first=profile.bFinalHistory?.[0]; if(!first||Number(first.rate??100)>=SUBJECT_B_READINESS_V222_SPEC.firstFinalFloor)return null; const firstTarget=subjectBFirstFinalTargetV222(first); if(firstTarget?.mode!=='miniMock')return null; const evi…"
+    },
+    {
+      "token": "bFinalHistory",
+      "function": "subjectBMarkAlgorithmDomainTraceCompleteV227",
+      "flags": {
+        "mutation": true,
+        "recordObject": false,
+        "correct": false,
+        "seen": false,
+        "rate": false,
+        "seconds": false,
+        "level": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      },
+      "context": "edItems:context.evidence.top.distinctMissedItems, domainErrorRate:context.evidence.top.errorRate, domainMistakeShare:context.evidence.share } }; } function subjectBAlgorithmDomainTraceRecV227(marker){ return { stage:3,mode:'trace',id:marker.targetId, title:`${marker.domain}のTRACEで弱点補強`,icon:'🎯', kicker:'ステップ 3・弱点を絞って補強', desc:`総合実戦の誤答が「${marker.domain}」に集中しています。まずこの分野のTRACEを1回確認し、その後アルゴリズム ミニ模試で65%以上を目安に確認します。` }; } function subjectBMarkAlgorithmDomainTraceCompleteV227(traceId){ const context=subjectBAlgorithmDomainContextV227(); const marker=profile.subjectBAlgorithmDomainV227; if(marker&&marker.firstFinalKey===subjectBFirstFinalKeyV222(profile.bFinalHistory?.[0])&&!marker.completed&&marker.targetId===traceId){ marker.completed=true; marker.completedAt=localDateISO(0); return true; } if(context&&context.target.id===traceId){ profile.subjectBAlgorithmDomainV227=subjectBAlgorithmDomainMar…"
+    }
+  ],
+  "candidateJsSha256": "e8198d12f65db9251d41a4def7bce0b836192fa5ef5de03dc850fc4df10102c4",
+  "parentJsSha256": "aa1439bb9191fa52c8c5cdb712f550b1852cf377a34007e0225e6d01ac134a98"
+}
