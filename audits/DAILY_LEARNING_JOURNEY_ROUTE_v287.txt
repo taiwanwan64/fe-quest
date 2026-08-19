@@ -1,0 +1,210 @@
+FE QUEST v287 — Daily Learning Journey / Next-Action Route Audit
+=================================================================
+
+Result
+------
+PASS — ROUTE INVENTORY CAPTURED
+Previous release: v286
+Source main: 4ff1a49dfff4528eb51aa7cb19c9037a751e839b
+Learner-facing change in v287: none
+
+Purpose
+-------
+The Subject B final sequence is now closed: v286 showed that real completed-final exposure history already produces strong rotation. v287 returns to the whole-product learning journey and inventories the existing next-action routes used by analytics, practice, Subject B completion/readiness and daily-task completion before any new dashboard or navigation is added.
+
+Known route checks
+------------------
+{
+  "analyticsHasNextRoute": true,
+  "practiceHasNextRoute": true,
+  "subjectBHubExists": true,
+  "subjectBLauncherExists": true,
+  "subjectBContinueUsesLauncher": true,
+  "finalReadinessUsesHub": true,
+  "finalCompletionMarksDailyTask": false,
+  "miniMockCompletionMarksDailyTask": true,
+  "compoundCompletionMarksDailyTask": true,
+  "securityCompletionMarksDailyTask": true
+}
+
+Route/function inventory
+------------------------
+Functions matching home/today/daily/plan/roadmap/analytics/readiness/next/practice/review/continue/recommend/result/subject/mock terms: 206
+Relevant names (first 160):
+[
+  "actionableReviewJourneys",
+  "activeReviewJourneys",
+  "allRecentMockDetails",
+  "allocateMockDifficultyByCategory",
+  "analyticsActiveDays",
+  "analyticsAttemptStream",
+  "analyticsBFormatRows",
+  "analyticsCategorySnapshot",
+  "analyticsDateMinus",
+  "analyticsJourneyCounts",
+  "analyticsMinutes",
+  "analyticsTrend",
+  "analyticsTrendClass",
+  "analyticsTrendText",
+  "askSubmitBMock",
+  "askSubmitSecurityMock",
+  "bFinalReviewReasonMeta",
+  "bMockCandidateFromExercise",
+  "bMockFormatTime",
+  "bMockVisualHtml",
+  "buildBMock",
+  "buildDailyQuest",
+  "buildMockQuestions",
+  "buildReviewItem",
+  "buildSecurityMock",
+  "buildTaperTodayTasks",
+  "buildTodayTasks",
+  "categoryAnalytics",
+  "chooseTaperReviewQuestions",
+  "continueSubjectBFlow",
+  "coreTopicExplanationVolume",
+  "courseAContinueId",
+  "currentReviewDominantReason",
+  "dailyTaskDone",
+  "dailyTaskMatches",
+  "dailyTaskSlot",
+  "dataStructureView",
+  "ensureSecurityMockStats",
+  "ensureTodayPlanSnapshot",
+  "exitMockReview",
+  "finalFocusRecommendation",
+  "finishBMiniMock",
+  "finishMock",
+  "finishMockReview",
+  "finishSecurityMock",
+  "getDailyRecord",
+  "getMockMistakeStat",
+  "injectBMockReview",
+  "injectCompoundReview",
+  "injectFinalReview",
+  "injectSecurityMockReview",
+  "installSubjectBFinalHandoffV273",
+  "installSubjectBMobileTapTargetsV268",
+  "isCoreTopicImmediatePracticeQuestion",
+  "launchDailyTask",
+  "launchSubjectBRecommendation",
+  "markDailyTask",
+  "mockAnswer",
+  "mockAttemptDiagnostics",
+  "mockCandidateSort",
+  "mockCategoryQuotas",
+  "mockCognitivePreference",
+  "mockLastSeen",
+  "mockSeen",
+  "mockTargetSeconds",
+  "moveReview",
+  "nextBChoice",
+  "nextLessonChoice",
+  "nextMasterTopicCandidate",
+  "nextReadyUnpassedChapter",
+  "nextUnfinishedDailyTask",
+  "nextUnpassedChapter",
+  "orderCoreTopicPracticeQuestions",
+  "pickMockPool",
+  "randomizeMockQuestion",
+  "randomizeSecurityMockItem",
+  "rebuildTodayPlanPreservingDone",
+  "recommendedPrescription",
+  "recordChapterIntegrationResult",
+  "recordMockQuestionTime",
+  "refreshVariantReviewUI",
+  "registerReviewJourney",
+  "registerReviewedMiss",
+  "renderAnalyticsBFormats",
+  "renderAnalyticsCategories",
+  "renderAnalyticsHeatmap",
+  "renderAnalyticsJourneys",
+  "renderAnalyticsNext",
+  "renderAnalyticsSignals",
+  "renderBFinalResult",
+  "renderBMockMenu",
+  "renderBMockNav",
+  "renderBMockQuestion",
+  "renderBMockResult",
+  "renderChoiceExplanations",
+  "renderDailyPlan",
+  "renderFinalQuizExplanation",
+  "renderHomeReviewCandidates",
+  "renderInlineReviewRoute",
+  "renderLearningAnalytics",
+  "renderMockDiagnosis",
+  "renderMockHistory",
+  "renderMockNavigator",
+  "renderMockQuestion",
+  "renderMockReviewItem",
+  "renderPlanFocus",
+  "renderPlannerScreen",
+  "renderPracticeNextCard",
+  "renderReviewForecast",
+  "renderReviewJourneyHub",
+  "renderReviewPrescription",
+  "renderRoadmap",
+  "renderSecurityMockNav",
+  "renderSecurityMockQuestion",
+  "renderSecurityNextCard",
+  "renderSubjectBHub",
+  "renderTraceNextCard",
+  "reviewCandidates",
+  "reviewForecast",
+  "reviewInterval",
+  "reviewTimingLabel",
+  "reviewUrgency",
+  "reviewWorkloadCount",
+  "roadmapData",
+  "securityMockEvidenceHtml",
+  "securityNextRecommendation",
+  "setPlanDetailsOpen",
+  "shortFinalFocusRecommendation",
+  "showBMockMenu",
+  "showMockMenu",
+  "shuffleBMockAnswer",
+  "signatureView",
+  "slowMockQuestions",
+  "snapshotDailyTasks",
+  "sortedCategoryAnalytics",
+  "startBMiniMock",
+  "startBMockTimer",
+  "startMock",
+  "startMockReview",
+  "startRecommendedPrescription",
+  "startReviewPrescription",
+  "startSecurityMock",
+  "startSecurityMockTimer",
+  "stopBMockTimer",
+  "stopSecurityMockTimer",
+  "subjectACognitiveEvidence",
+  "subjectBAlgorithmDomainContextV227",
+  "subjectBAlgorithmDomainEvidenceV227",
+  "subjectBAlgorithmDomainMarkerV227",
+  "subjectBAlgorithmDomainTargetV227",
+  "subjectBAlgorithmDomainTraceRecV227",
+  "subjectBCloneV262",
+  "subjectBCountEvenRetraceVariantV264",
+  "subjectBFinalReviewTargetV243",
+  "subjectBFirstFinalKeyV222",
+  "subjectBFirstFinalTargetV222",
+  "subjectBHubRecommendation",
+  "subjectBLocalAdaptiveRecommendationV257",
+  "subjectBLocalAdaptiveTaperAllowedV257",
+  "subjectBLocalLayerMetaV257"
+]
+
+Interpretation
+--------------
+The current product already has a reusable guided-next-action architecture: analytics and practice expose next-action renderers, Subject B has one recommendation hub plus one launcher, and final readiness / continue flow consume that same route. This argues against adding another learner-facing dashboard. The next audit should inspect the actual home/today/plan entry renderers identified above and ask one narrower question: can a learner open the app and reach the highest-value unfinished task with one clear primary action, while completed-result screens return to the same guided flow?
+
+Regression
+----------
+No learner-facing code changed.
+Known route function sources are byte-behavior equivalent to v286.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Proceed with a focused home/today/plan primary-action audit using this inventory. Repair only a concrete duplicate/dead-end/extra-tap finding; otherwise preserve the current navigation and move to learning-content quality rather than adding UI complexity.
