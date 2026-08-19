@@ -1,0 +1,42 @@
+FE QUEST v261 — Subject B Re-Trace Hook Detail Audit
+=============================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v260
+Source main: 0b84403f7cd9a22eb80424843b0698259147604c
+Learner-facing change in v261: none
+
+Purpose
+-------
+v260 recorded a Medium transfer-learning finding: focused TRACE repeats use the same authored values. Before introducing alternate-value re-tracing, v261 captures the exact exercise-start hook and proves whether a narrow wrapper can substitute one cloned exercise without mutating the shared B_EXERCISES bank.
+
+Pilot candidates
+----------------
+loop_sum, count_even, matrix_sum
+For all three, first-start and completed-repeat probes currently select a currentB object byte-equivalent to the authored B_EXERCISES entry. startBExercise itself leaves the B_EXERCISES bank hash unchanged.
+
+startBExercise source evidence
+------------------------------
+Uses B_EXERCISES.find: True
+Uses id-oriented lookup near that find: True
+currentB assignment fragments: ["currentB=B_EXERCISES.find(x=>x.id===id)"]
+Render-like calls detected: []
+Source: function startBExercise(id){ currentB=B_EXERCISES.find(x=>x.id===id); if(!currentB) return; bStepIndex=-1; bPredictionSatisfied=true; lastBState={}; document.getElementById('bSelect').classList.add('hidden'); document.getElementById('bLab').classList.add('show'); document.getElementById('bComplete').classList.remove('show'); document.getElementById('bLabTitle').textContent=currentB.title; document.getElementById('bLabMeta').textContent=`科目B・${currentB.concept}・${currentB.level}`; document.getElementById('bCode').innerHTML=currentB.code.map((line,i)=>`<div class="b-code-line" data-bline="${i}">${escapeHtml(line)}</div>`).join(''); resetBView(); }
+
+finishBExercise source evidence
+-------------------------------
+function(){ const traceId=currentB?.id||null; if(traceId)subjectBMarkAlgorithmDomainTraceCompleteV227(traceId); return _finishBExerciseV227(); }
+
+Repair guidance
+---------------
+A v262 repair should preserve the original first exposure and introduce a deterministic alternate only after the exercise is already complete. Because startBExercise currently resolves currentB from the shared bank and does not mutate that bank, the safest implementation is a tightly scoped start wrapper: temporarily substitute a deep-cloned pilot variant at the matching B_EXERCISES array slot only for the duration of the original startBExercise call, then restore the authored object in a finally block. The runtime currentB reference can retain the clone while the global bank returns immediately to its authored state. Validate this behavior explicitly before release.
+
+Regression
+----------
+All three pilot exercises are unchanged from v260.
+First and repeat starts are unchanged from v260.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
