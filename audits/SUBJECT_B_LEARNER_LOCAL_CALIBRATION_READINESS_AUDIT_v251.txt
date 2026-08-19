@@ -1,0 +1,47 @@
+FE QUEST v251 — Subject B Learner-Local Calibration Readiness Audit
+====================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous release: v250
+Source main: c87b74680ce4ec8ddcb6edd9089d81a386211b55
+Learner-facing change in v251: none
+
+Purpose
+-------
+v250 closed the static difficulty-label / practice-calibration repair sequence and handed off to learner-local evidence. v251 checks whether the current local profile and Subject B recording paths already retain enough evidence to summarize accuracy and response time by practice layer/difficulty before adding any new telemetry or adaptive recommendation logic.
+
+Persisted Subject B evidence markers
+------------------------------------
+- bMockStats: occurrences=17; nearby markers=rate, correct, seen, level, seconds, dateNow
+- bMockHistory: occurrences=18; nearby markers=rate, correct, seen, level, seconds
+- securityMockHistory: occurrences=17; nearby markers=rate, correct, seen, level, seconds
+- bCompoundHistory: occurrences=18; nearby markers=rate, correct, seen, level, seconds
+- bFinalStats: occurrences=13; nearby markers=correct, seen, level, dateNow
+- bFinalHistory: occurrences=20; nearby markers=rate, correct, seen, seconds
+- securityStats: occurrences=0; nearby markers=none
+
+Relevant recording functions detected at runtime
+------------------------------------------------
+- none detected
+
+Calibration readiness
+---------------------
+Persisted accuracy/exposure stat tokens detected: bMockStats, bFinalStats
+History/session timing functions detected: none
+Per-question timing functions tied to Subject B item stats detected: none
+
+Findings
+--------
+- Medium: subject_b_local_calibration_lacks_per_question_response_time — Existing Subject B persisted stats/history expose accuracy/exposure evidence and some session-level timing, but no detected per-question response-time recorder tied to Subject B item stats.
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v250.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Decision
+--------
+If per-question response time is missing while accuracy/exposure evidence already exists, add the smallest bounded local-only timing layer rather than replacing existing histories. Record only the fields needed for learning adaptation (practice layer, source id, authored difficulty, correctness, elapsed time, timestamp), cap retained events, and derive summaries at read time. Do not send telemetry off-device, do not change scoring/timing, and do not alter published difficulty labels from sparse personal data. After instrumentation, audit save/restore/schema compatibility and adaptive recommendation behavior separately.

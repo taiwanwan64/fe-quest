@@ -1,0 +1,145 @@
+{
+  "version": "v251",
+  "previous": "v250",
+  "parent": "c87b74680ce4ec8ddcb6edd9089d81a386211b55",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "findings": [
+    {
+      "priority": "Medium",
+      "marker": "subject_b_local_calibration_lacks_per_question_response_time",
+      "detail": "Existing Subject B persisted stats/history expose accuracy/exposure evidence and some session-level timing, but no detected per-question response-time recorder tied to Subject B item stats."
+    }
+  ],
+  "profileKeys": [
+    "bCompoundHistory",
+    "bCompoundStats",
+    "bFinalHistory",
+    "bFinalMistakeStats",
+    "bFinalStats",
+    "bMockHistory",
+    "bMockStats",
+    "bProgress",
+    "securityBProgress",
+    "securityMockHistory",
+    "securityMockStats"
+  ],
+  "sourceEvidence": {
+    "bMockStats": {
+      "occurrences": 17,
+      "flags": {
+        "rate": true,
+        "correct": true,
+        "seen": true,
+        "level": true,
+        "seconds": true,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "bMockHistory": {
+      "occurrences": 18,
+      "flags": {
+        "rate": true,
+        "correct": true,
+        "seen": true,
+        "level": true,
+        "seconds": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "securityMockHistory": {
+      "occurrences": 17,
+      "flags": {
+        "rate": true,
+        "correct": true,
+        "seen": true,
+        "level": true,
+        "seconds": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "bCompoundHistory": {
+      "occurrences": 18,
+      "flags": {
+        "rate": true,
+        "correct": true,
+        "seen": true,
+        "level": true,
+        "seconds": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "bFinalStats": {
+      "occurrences": 13,
+      "flags": {
+        "rate": false,
+        "correct": true,
+        "seen": true,
+        "level": true,
+        "seconds": false,
+        "dateNow": true,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "bFinalHistory": {
+      "occurrences": 20,
+      "flags": {
+        "rate": true,
+        "correct": true,
+        "seen": true,
+        "level": false,
+        "seconds": true,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    },
+    "securityStats": {
+      "occurrences": 0,
+      "flags": {
+        "rate": false,
+        "correct": false,
+        "seen": false,
+        "level": false,
+        "seconds": false,
+        "dateNow": false,
+        "performanceNow": false,
+        "elapsed": false
+      }
+    }
+  },
+  "relevantFunctions": [],
+  "timing": {
+    "perQuestionTimingFns": [],
+    "historyTimingFns": []
+  },
+  "accuracyStatsTokens": [
+    "bMockStats",
+    "bFinalStats"
+  ],
+  "bankHashes": {
+    "questions": 3000665978,
+    "trace": 3397004348,
+    "compound": 2827364307,
+    "security": 4085726191,
+    "finalAlgorithm": 3993159588
+  },
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true
+}
