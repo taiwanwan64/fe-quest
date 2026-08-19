@@ -1,0 +1,38 @@
+{
+  "version": "v285",
+  "previous": "v284",
+  "parent": "94be2409455f722a9b758133aec3b2d8cb9404c2",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "evidence": {
+    "mentionsBFinalStats": true,
+    "mentionsAlgoNamespace": true,
+    "mentionsSeen": true,
+    "mentionsLastSeen": true,
+    "mentionsBFinalItems": true,
+    "mentionsBFinalAnswers": true,
+    "mentionsSaveProfile": true,
+    "calls": [
+      "add",
+      "bFinalFormatOf",
+      "bFinalMistakeKey",
+      "clearBFinalResume",
+      "finishBFinal",
+      "getElementById",
+      "localDateISO",
+      "map",
+      "max",
+      "min",
+      "now",
+      "remove",
+      "renderBFinalResult",
+      "round",
+      "saveProfile",
+      "slice",
+      "stopBFinalTimer"
+    ]
+  },
+  "innerFinishSource": "function finishBFinal(timeUp=false){\n  if(!bFinalItems.length)return;\n  stopBFinalTimer();\n  clearBFinalResume();\n  const used=Math.min(B_FINAL_SECONDS,Math.max(0,Math.round((Date.now()-(bFinalStartedAt||Date.now()))/1000)));\n  let correct=0,blank=0,algoCorrect=0,secCorrect=0;\n  const details=bFinalItems.map((item,i)=>{\n    const ans=bFinalAnswers[i],ok=ans===item.a;if(ok){correct++;if(item.kind==='algo')algoCorrect++;else secCorrect++;}if(ans===null)blank++;\n    const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`;\n    if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null};\n    const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0);\n    const detail={sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),domain:item.kind==='security'?(item.concept||'情報セキュリティ'):(item.domain||'擬似言語'),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};\n    if(!ok){const mk=bFinalMistakeKey(detail);const ms=profile.bFinalMistakeStats[mk]||(profile.bFinalMistakeStats[mk]={misses:0,reasons:{},lastReason:null,last:null});ms.misses=(ms.misses||0)+1;ms.last=localDateISO(0);}\n    return detail;\n  });\n  // Internal legacy practice points are retained only for saved-data compatibility and XP logic.\n  // The UI shows raw correct count/rate and does not present this as an IRT or exam score.\n  const points=correct*50,rate=Math.round(correct/20*100),earned=correct*10+(points>=600?40:0);\n  profile.xp=(profile.xp||0)+earned;\n  const attempt={date:localDateISO(0),total:20,correct,blank,points,rate,seconds:used,timeUp,algoCorrect,secCorrect,details};\n  profile.bFinalHistory=[attempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile();\n\n  document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show');\n  renderBFinalResult(attempt,earned);\n}",
+  "selectionSignatureMatch2000": true,
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
