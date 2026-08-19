@@ -46,6 +46,7 @@
     "minimum_samples_per_layer": 8,
     "weak_accuracy_threshold": 70,
     "requires_final_runs": 2,
+    "tie_behavior": "return existing recommendation unchanged when the two weakest eligible layers have equal first-answer accuracy",
     "selection_signal": "first-answer accuracy only",
     "response_time_role": "secondary explanatory copy only",
     "insufficient_evidence_behavior": "return existing recommendation unchanged",
@@ -54,6 +55,6 @@
     "remote_telemetry": false,
     "published_difficulty_labels_changed": false,
     "profile_fields_added": false,
-    "validation_scope": "minimum-evidence gates, recent-window behavior, accuracy-first layer choice, response-time copy-only use, question banks, final selection/order/options, final contract, Subject B semantic diagnostics and approved content reference equality"
+    "validation_scope": "minimum-evidence gates, tied-evidence fallback, recent-window behavior, accuracy-first layer choice, response-time copy-only use, question banks, final selection/order/options, final contract, Subject B semantic diagnostics and approved content reference equality"
   }
 }
