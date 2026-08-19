@@ -1,0 +1,860 @@
+{
+  "version": "v305",
+  "previous": "v304",
+  "parent": "169e466bbeea50cdf3e987a6456eaac61128e709",
+  "result": "PASS — SELECTION-ORDER ALTERNATIVES SIMULATED",
+  "summary": {
+    "referenceDecision": "v304 keeps cognitive metadata; test traversal-order diversity instead",
+    "simulations": {
+      "full": {
+        "fixed": {
+          "mode": "full",
+          "variant": "fixed",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 100,
+          "eligibleQuestions": 710,
+          "neverSelected": 119,
+          "exposurePct": {
+            "min": 0,
+            "p50": 5.8,
+            "p90": 20.5,
+            "p95": 26.6,
+            "max": 100
+          },
+          "topExposure": [
+            {
+              "id": "strat-16",
+              "n": 800,
+              "pct": 100
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 358,
+              "pct": 44.8
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 356,
+              "pct": 44.5
+            },
+            {
+              "id": "algo-18",
+              "n": 355,
+              "pct": 44.4
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 343,
+              "pct": 42.9
+            },
+            {
+              "id": "algo-03",
+              "n": 342,
+              "pct": 42.8
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 316,
+              "pct": 39.5
+            },
+            {
+              "id": "challenge_015",
+              "n": 312,
+              "pct": 39
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 311,
+              "pct": 38.9
+            },
+            {
+              "id": "db-11",
+              "n": 310,
+              "pct": 38.8
+            },
+            {
+              "id": "coreq_01_07_1",
+              "n": 298,
+              "pct": 37.3
+            },
+            {
+              "id": "db-05",
+              "n": 297,
+              "pct": 37.1
+            },
+            {
+              "id": "coreq_10_02_2",
+              "n": 296,
+              "pct": 37
+            },
+            {
+              "id": "coreq_03_03_1",
+              "n": 290,
+              "pct": 36.3
+            },
+            {
+              "id": "coreq_03_05_1",
+              "n": 285,
+              "pct": 35.6
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 11,
+            "median": 16,
+            "max": 21
+          },
+          "maxChapterCount": {
+            "min": 6,
+            "median": 7,
+            "max": 8
+          }
+        },
+        "randomCategories": {
+          "mode": "full",
+          "variant": "randomCategories",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 13.1,
+          "eligibleQuestions": 710,
+          "neverSelected": 78,
+          "exposurePct": {
+            "min": 0,
+            "p50": 6,
+            "p90": 19.8,
+            "p95": 27.5,
+            "max": 46.3
+          },
+          "topExposure": [
+            {
+              "id": "coreq_03_02_1",
+              "n": 370,
+              "pct": 46.3
+            },
+            {
+              "id": "algo-18",
+              "n": 351,
+              "pct": 43.9
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 350,
+              "pct": 43.8
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 346,
+              "pct": 43.3
+            },
+            {
+              "id": "algo-03",
+              "n": 333,
+              "pct": 41.6
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 333,
+              "pct": 41.6
+            },
+            {
+              "id": "coreq_01_01_1",
+              "n": 309,
+              "pct": 38.6
+            },
+            {
+              "id": "coreq_01_07_1",
+              "n": 304,
+              "pct": 38
+            },
+            {
+              "id": "coreq_03_03_1",
+              "n": 304,
+              "pct": 38
+            },
+            {
+              "id": "db-05",
+              "n": 302,
+              "pct": 37.8
+            },
+            {
+              "id": "challenge_015",
+              "n": 301,
+              "pct": 37.6
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 299,
+              "pct": 37.4
+            },
+            {
+              "id": "db-11",
+              "n": 299,
+              "pct": 37.4
+            },
+            {
+              "id": "coreq_10_02_2",
+              "n": 293,
+              "pct": 36.6
+            },
+            {
+              "id": "challenge_039",
+              "n": 292,
+              "pct": 36.5
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 12,
+            "median": 16,
+            "max": 20
+          },
+          "maxChapterCount": {
+            "min": 5,
+            "median": 7,
+            "max": 8
+          }
+        },
+        "randomLevels": {
+          "mode": "full",
+          "variant": "randomLevels",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 100,
+          "eligibleQuestions": 710,
+          "neverSelected": 119,
+          "exposurePct": {
+            "min": 0,
+            "p50": 5.8,
+            "p90": 20.1,
+            "p95": 27.3,
+            "max": 100
+          },
+          "topExposure": [
+            {
+              "id": "strat-16",
+              "n": 800,
+              "pct": 100
+            },
+            {
+              "id": "challenge_015",
+              "n": 361,
+              "pct": 45.1
+            },
+            {
+              "id": "algo-18",
+              "n": 353,
+              "pct": 44.1
+            },
+            {
+              "id": "algo-03",
+              "n": 348,
+              "pct": 43.5
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 347,
+              "pct": 43.4
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 343,
+              "pct": 42.9
+            },
+            {
+              "id": "db-11",
+              "n": 336,
+              "pct": 42
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 333,
+              "pct": 41.6
+            },
+            {
+              "id": "db-05",
+              "n": 332,
+              "pct": 41.5
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 331,
+              "pct": 41.4
+            },
+            {
+              "id": "coreq_03_05_1",
+              "n": 315,
+              "pct": 39.4
+            },
+            {
+              "id": "coreq_03_03_1",
+              "n": 308,
+              "pct": 38.5
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 297,
+              "pct": 37.1
+            },
+            {
+              "id": "challenge_039",
+              "n": 294,
+              "pct": 36.8
+            },
+            {
+              "id": "challenge_029",
+              "n": 293,
+              "pct": 36.6
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 12,
+            "median": 16,
+            "max": 20
+          },
+          "maxChapterCount": {
+            "min": 6,
+            "median": 7,
+            "max": 8
+          }
+        },
+        "randomBoth": {
+          "mode": "full",
+          "variant": "randomBoth",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 12.5,
+          "eligibleQuestions": 710,
+          "neverSelected": 78,
+          "exposurePct": {
+            "min": 0,
+            "p50": 6,
+            "p90": 19.9,
+            "p95": 26.9,
+            "max": 44.4
+          },
+          "topExposure": [
+            {
+              "id": "challenge_015",
+              "n": 355,
+              "pct": 44.4
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 347,
+              "pct": 43.4
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 340,
+              "pct": 42.5
+            },
+            {
+              "id": "algo-03",
+              "n": 339,
+              "pct": 42.4
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 337,
+              "pct": 42.1
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 335,
+              "pct": 41.9
+            },
+            {
+              "id": "algo-18",
+              "n": 320,
+              "pct": 40
+            },
+            {
+              "id": "db-11",
+              "n": 315,
+              "pct": 39.4
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 310,
+              "pct": 38.8
+            },
+            {
+              "id": "coreq_03_03_1",
+              "n": 303,
+              "pct": 37.9
+            },
+            {
+              "id": "coreq_03_05_1",
+              "n": 303,
+              "pct": 37.9
+            },
+            {
+              "id": "challenge_039",
+              "n": 294,
+              "pct": 36.8
+            },
+            {
+              "id": "db-05",
+              "n": 293,
+              "pct": 36.6
+            },
+            {
+              "id": "coreq_01_07_1",
+              "n": 279,
+              "pct": 34.9
+            },
+            {
+              "id": "db-20",
+              "n": 269,
+              "pct": 33.6
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 12,
+            "median": 16,
+            "max": 21
+          },
+          "maxChapterCount": {
+            "min": 5,
+            "median": 7,
+            "max": 8
+          }
+        }
+      },
+      "half": {
+        "fixed": {
+          "mode": "half",
+          "variant": "fixed",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 100,
+          "eligibleQuestions": 710,
+          "neverSelected": 185,
+          "exposurePct": {
+            "min": 0,
+            "p50": 2.6,
+            "p90": 10.9,
+            "p95": 14.1,
+            "max": 100
+          },
+          "topExposure": [
+            {
+              "id": "strat-16",
+              "n": 800,
+              "pct": 100
+            },
+            {
+              "id": "algo-03",
+              "n": 236,
+              "pct": 29.5
+            },
+            {
+              "id": "algo-18",
+              "n": 221,
+              "pct": 27.6
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 191,
+              "pct": 23.9
+            },
+            {
+              "id": "db-11",
+              "n": 188,
+              "pct": 23.5
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 184,
+              "pct": 23
+            },
+            {
+              "id": "sec-02",
+              "n": 184,
+              "pct": 23
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 183,
+              "pct": 22.9
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 180,
+              "pct": 22.5
+            },
+            {
+              "id": "db-05",
+              "n": 180,
+              "pct": 22.5
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 171,
+              "pct": 21.4
+            },
+            {
+              "id": "coreq_01_01_1",
+              "n": 165,
+              "pct": 20.6
+            },
+            {
+              "id": "challenge_017",
+              "n": 152,
+              "pct": 19
+            },
+            {
+              "id": "coreq_03_01_2",
+              "n": 152,
+              "pct": 19
+            },
+            {
+              "id": "challenge_cmp_03_05",
+              "n": 150,
+              "pct": 18.8
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 9,
+            "median": 12,
+            "max": 15
+          },
+          "maxChapterCount": {
+            "min": 3,
+            "median": 4,
+            "max": 4
+          }
+        },
+        "randomCategories": {
+          "mode": "half",
+          "variant": "randomCategories",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 11.6,
+          "eligibleQuestions": 710,
+          "neverSelected": 78,
+          "exposurePct": {
+            "min": 0,
+            "p50": 2.8,
+            "p90": 10.8,
+            "p95": 13.9,
+            "max": 28.1
+          },
+          "topExposure": [
+            {
+              "id": "algo-18",
+              "n": 225,
+              "pct": 28.1
+            },
+            {
+              "id": "algo-03",
+              "n": 208,
+              "pct": 26
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 203,
+              "pct": 25.4
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 196,
+              "pct": 24.5
+            },
+            {
+              "id": "challenge_cmp_03_05",
+              "n": 181,
+              "pct": 22.6
+            },
+            {
+              "id": "sec-02",
+              "n": 177,
+              "pct": 22.1
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 175,
+              "pct": 21.9
+            },
+            {
+              "id": "coreq_01_01_1",
+              "n": 169,
+              "pct": 21.1
+            },
+            {
+              "id": "db-11",
+              "n": 167,
+              "pct": 20.9
+            },
+            {
+              "id": "db-05",
+              "n": 162,
+              "pct": 20.3
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 160,
+              "pct": 20
+            },
+            {
+              "id": "coreq_01_07_1",
+              "n": 151,
+              "pct": 18.9
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 151,
+              "pct": 18.9
+            },
+            {
+              "id": "net-11",
+              "n": 140,
+              "pct": 17.5
+            },
+            {
+              "id": "coreq_10_02_2",
+              "n": 138,
+              "pct": 17.3
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 9,
+            "median": 13,
+            "max": 16
+          },
+          "maxChapterCount": {
+            "min": 3,
+            "median": 4,
+            "max": 4
+          }
+        },
+        "randomLevels": {
+          "mode": "half",
+          "variant": "randomLevels",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 100,
+          "eligibleQuestions": 710,
+          "neverSelected": 185,
+          "exposurePct": {
+            "min": 0,
+            "p50": 2.8,
+            "p90": 10.9,
+            "p95": 14.6,
+            "max": 100
+          },
+          "topExposure": [
+            {
+              "id": "strat-16",
+              "n": 800,
+              "pct": 100
+            },
+            {
+              "id": "algo-18",
+              "n": 255,
+              "pct": 31.9
+            },
+            {
+              "id": "algo-03",
+              "n": 254,
+              "pct": 31.8
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 201,
+              "pct": 25.1
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 191,
+              "pct": 23.9
+            },
+            {
+              "id": "sec-02",
+              "n": 189,
+              "pct": 23.6
+            },
+            {
+              "id": "db-05",
+              "n": 185,
+              "pct": 23.1
+            },
+            {
+              "id": "db-11",
+              "n": 183,
+              "pct": 22.9
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 180,
+              "pct": 22.5
+            },
+            {
+              "id": "db-20",
+              "n": 169,
+              "pct": 21.1
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 162,
+              "pct": 20.3
+            },
+            {
+              "id": "challenge_039",
+              "n": 158,
+              "pct": 19.8
+            },
+            {
+              "id": "challenge_015",
+              "n": 157,
+              "pct": 19.6
+            },
+            {
+              "id": "challenge_cmp_03_05",
+              "n": 156,
+              "pct": 19.5
+            },
+            {
+              "id": "net-06",
+              "n": 154,
+              "pct": 19.3
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 9,
+            "median": 12,
+            "max": 15
+          },
+          "maxChapterCount": {
+            "min": 3,
+            "median": 4,
+            "max": 4
+          }
+        },
+        "randomBoth": {
+          "mode": "half",
+          "variant": "randomBoth",
+          "runs": 800,
+          "blueprintMismatch": 0,
+          "invalidSessionCount": 0,
+          "strat16Pct": 10.3,
+          "eligibleQuestions": 710,
+          "neverSelected": 79,
+          "exposurePct": {
+            "min": 0,
+            "p50": 2.9,
+            "p90": 10.3,
+            "p95": 13.8,
+            "max": 30.4
+          },
+          "topExposure": [
+            {
+              "id": "algo-03",
+              "n": 243,
+              "pct": 30.4
+            },
+            {
+              "id": "algo-18",
+              "n": 231,
+              "pct": 28.9
+            },
+            {
+              "id": "coreq_03_02_1",
+              "n": 201,
+              "pct": 25.1
+            },
+            {
+              "id": "sec-02",
+              "n": 183,
+              "pct": 22.9
+            },
+            {
+              "id": "db-05",
+              "n": 180,
+              "pct": 22.5
+            },
+            {
+              "id": "db-11",
+              "n": 179,
+              "pct": 22.4
+            },
+            {
+              "id": "coreq_03_04_1",
+              "n": 176,
+              "pct": 22
+            },
+            {
+              "id": "challenge_015",
+              "n": 172,
+              "pct": 21.5
+            },
+            {
+              "id": "coreq_01_07_1",
+              "n": 165,
+              "pct": 20.6
+            },
+            {
+              "id": "challenge_029",
+              "n": 161,
+              "pct": 20.1
+            },
+            {
+              "id": "coreq_10_01_3",
+              "n": 158,
+              "pct": 19.8
+            },
+            {
+              "id": "challenge_039",
+              "n": 157,
+              "pct": 19.6
+            },
+            {
+              "id": "coreq_10_01_2",
+              "n": 155,
+              "pct": 19.4
+            },
+            {
+              "id": "coreq_03_01_1",
+              "n": 142,
+              "pct": 17.8
+            },
+            {
+              "id": "coreq_03_03_1",
+              "n": 141,
+              "pct": 17.6
+            }
+          ],
+          "chaptersRepresented": {
+            "min": 9,
+            "median": 13,
+            "max": 16
+          },
+          "maxChapterCount": {
+            "min": 3,
+            "median": 4,
+            "max": 4
+          }
+        }
+      }
+    },
+    "bestFullAlternative": {
+      "variant": "randomBoth",
+      "maxExposurePct": 44.4,
+      "neverSelected": 78,
+      "strat16Pct": 12.5,
+      "baselineMaxExposurePct": 100,
+      "baselineNeverSelected": 119,
+      "baselineStrat16Pct": 100
+    },
+    "fixedCloneMismatch": 0,
+    "interpretation": "Traversal order is eligible for production repair only if it preserves every full/half category, difficulty and cognitive blueprint, removes the fixed strat-16 exposure, and does not merely replace it with another near-100% item."
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
