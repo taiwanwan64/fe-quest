@@ -1,0 +1,479 @@
+{
+  "version": "v256",
+  "previous": "v255",
+  "parent": "ae1e85bb26bcb6653966cc14c94f7221edf7c5a0",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "likelyFunctions": [
+    "aggregateWeakReasons",
+    "analyticsActiveDays",
+    "analyticsAttemptStream",
+    "analyticsBFormatRows",
+    "analyticsCategorySnapshot",
+    "analyticsDateMinus",
+    "analyticsJourneyCounts",
+    "analyticsMinutes",
+    "analyticsTrend",
+    "analyticsTrendClass",
+    "analyticsTrendText",
+    "calcReadiness",
+    "categoryAnalytics",
+    "categoryWeakness",
+    "chooseWeakQuestions",
+    "examAreaProgress",
+    "finalFocusRecommendation",
+    "launchSubjectBRecommendation",
+    "nextBChoice",
+    "nextLessonChoice",
+    "nextMasterTopicCandidate",
+    "nextReadyUnpassedChapter",
+    "nextUnfinishedDailyTask",
+    "nextUnpassedChapter",
+    "normalizeProgressMap",
+    "progressButtonLabel",
+    "readinessComponents",
+    "recommendedPrescription",
+    "refreshCoreCourseProgress",
+    "renderAnalyticsBFormats",
+    "renderAnalyticsCategories",
+    "renderAnalyticsHeatmap",
+    "renderAnalyticsJourneys",
+    "renderAnalyticsNext",
+    "renderAnalyticsSignals",
+    "renderBFinalReadiness",
+    "renderHomeReviewCandidates",
+    "renderLearningAnalytics",
+    "renderPracticeNextCard",
+    "renderReadiness",
+    "renderSecurityNextCard",
+    "renderTraceNextCard",
+    "renderWeakDashboard",
+    "securityNextRecommendation",
+    "shortFinalFocusRecommendation",
+    "sortedCategoryAnalytics",
+    "startRecommendedPrescription",
+    "subjectBHubRecommendation",
+    "subjectBProgressMetrics",
+    "subjectBReadinessCountV222",
+    "subjectBReadinessPracticeRecV222",
+    "subjectBReadinessRateV222",
+    "taperFocusRecommendation",
+    "traceNextRecommendation",
+    "updateCourseBRecommendedCard",
+    "weakQuestionIdsForCat",
+    "weakestSkill"
+  ],
+  "termCounts": {
+    "学習分析": 0,
+    "次に伸ば": 0,
+    "伸ばす": 1,
+    "弱点": 38,
+    "苦手": 2,
+    "おすすめ": 8,
+    "推奨": 3,
+    "準備度": 0,
+    "科目B": 52,
+    "復習": 106
+  },
+  "hits": [
+    {
+      "term": "伸ばす",
+      "function": "renderReadiness",
+      "context": "ass=\"day-name\">${names[x.d.getDay()]}</div>`; root.appendChild(c); }); } function renderReadiness(){ const r=calcReadiness(); const ring=document.getElementById('readinessRing'); if(ring) ring.style.setProperty('--p',r); if(document.getElementById('readinessValue')) document.getElementById('readinessValue').textContent=r+'%'; if(document.getElementById('rightReadiness')) document.getElementById('rightReadiness').textContent=r+'%'; if(document.getElementById('rightReadinessBar')) document.getElementById('rightReadinessBar').style.width=r+'%'; let label='基礎づくり中'; if(r>=80) label='総仕上げへ進める状態'; else if(r>=65) label='実戦力を伸ばす段階'; else if(r>=45) label='主要分野を定着中'; else if(r>=25) label='基礎を広げている段階'; if(document.getElementById('readinessLabel')) document.getElementById('readinessLabel').textContent=label; const c=readinessComponents(); const breakdown=document.getElementById('readinessBreakdown');…"
+    },
+    {
+      "term": "弱点",
+      "function": "subjectBReadinessPracticeRecV222",
+      "context": "enceV222(){ const rows=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',icon:'📝',rate:subjectBReadinessRateV222('miniMock')}, {mode:'securityMock',title:'セキュリティ ミニ模試',icon:'🛡️',rate:subjectBReadinessRateV222('securityMock')}, {mode:'compound',title:'複合問題',icon:'🧩',rate:subjectBReadinessRateV222('compound')} ]; rows.sort((a,b)=>a.rate-b.rate); return rows; } function subjectBReadinessPracticeRecV222(row,reason){ const floor=SUBJECT_B_READINESS_V222_SPEC.shortPracticeFloor; return { stage:3,mode:row.mode,id:null,title:`${row.title}で準備`,icon:row.icon, kicker:'ステップ 3・総合実戦の前に', desc:reason==='firstFinal' ?`1回目の総合実戦で弱点が見つかりました。${row.title}を1回確認し、${floor}%以上を目安にしてから2回目へ進みます。` :`直近の正答率は${row.rate}%です。100分の総合実戦へ進む前に、${row.title}で${floor}%以上を目安に確認します。` }; } function subjectBFirstFinalKeyV222(r){ if(!r)return ''; return [r.date||'',Number(r.rate??0),Number(r.correct??0),Number(r.blank??0),Number(r.seconds??0…"
+    },
+    {
+      "term": "弱点",
+      "function": "subjectBReadinessPracticeRecV222",
+      "context": "undEvidenceWindow:3, shortPracticeFloor:65, changesRecommendationCopyOnly:true, recommendationModeChanged:false, readinessCalculationChanged:false, questionSelectionChanged:false, scoringChanged:false, timingChanged:false, persistenceChanged:false, remediationTargetsChanged:false }); const _subjectBReadinessPracticeRecV224=subjectBReadinessPracticeRecV222; subjectBReadinessPracticeRecV222=function(row,reason){ const rec=_subjectBReadinessPracticeRecV224(row,reason); if(row?.mode!=='compound') return rec; const floor=SUBJECT_B_READINESS_COPY_V224_SPEC.shortPracticeFloor; rec.desc=reason==='firstFinal' ?`1回目の総合実戦で弱点が見つかりました。複合問題は直近3回の平均正答率で判定します。平均${floor}%以上を目安に整えてから2回目へ進みます。` :`直近3回の平均正答率は${row.rate}%です。100分の総合実戦へ進む前に、複合問題の平均正答率${floor}%以上を目安に確認します。`; return rec; }; globalThis.SUBJECT_B_READINESS_COPY_V224_SPEC=SUBJECT_B_READINESS_COPY_V224_SPEC; /* FE QUEST v227 — Subject B algorithm-do…"
+    },
+    {
+      "term": "苦手",
+      "function": "renderAnalyticsNext",
+      "context": "alytics-next-icon\">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button data-analytics-next-action>復習を続ける →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>startJourneyAction(j.id);return;} const attempted=snaps.filter(x=>x.attempts>=3&&x.accuracy!=null); if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accuracy-b.accuracy||a.mastery-b.mastery)[0];root.innerHTML=`<div class=\"analytics-next-icon\">🎯</div><div><b>${weak.cat}を10問で確認</b><span>累積正答率 ${weak.accuracy}%・習熟度 ${weak.mastery}%です。現在もっとも確認効果が高い分野です。</span><button data-analytics-next-action>苦手画面で確認 →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>showScreen('weak');return;} root.innerHTML='<div class=\"analytics-next-icon\">🌱</div><div><b>まず演習データを集める</b><span>まだ分析に必要な回答数が少ないため、今日の学習やランダム問題を進めると分析精度が上がります。</span…"
+    },
+    {
+      "term": "おすすめ",
+      "function": "renderPracticeNextCard",
+      "context": "}); selected.push(...pool.slice(0,n)); }); return shuffled(selected).map(shuffleBMockAnswer); } function bMockFormatTime(sec){ sec=Math.max(0,Math.floor(sec||0)); return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`; } function renderPracticeNextCard(){ const title=document.getElementById('bPracticeNextTitle'),desc=document.getElementById('bPracticeNextDesc'),action=document.getElementById('bPracticeNextAction'); if(!title||!desc||!action)return; const rec=subjectBHubRecommendation(); if(rec.stage<3){ title.textContent=`先に ${rec.title}`;desc.textContent='実戦演習へ進む前に、未完了の基礎演習を1つ進めるのがおすすめです。';action.textContent='基礎演習へ →'; }else if(rec.mode==='final'){ title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →'; }else if(rec.mode==='securityMock'){ title.textContent='セキュリティ ミニ模試';desc.textConte…"
+    },
+    {
+      "term": "おすすめ",
+      "function": "renderReadiness",
+      "context": "['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; const reviewText=routes ? ` 誤答から続いている復習ルートが${routes}件あります。まず「教材→類題→後日確認」の続きから進めます。` : due ? ` 復習期限の問題が${due}問あります。まず復習から始めるのがおすすめです。` : ' 復習待ちはないので、新しい教材を進めて構いません。'; document.getElementById('adaptiveNote').innerHTML=`<b>FE QUESTの提案：</b> ${focus}${reviewText}`; } renderFinalMasterPanel(); } function renderCountdown(){ const box=document.getElementById('countdownBox');if(!box)return; if(!profile.settings.examDate){box.innerHT…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonDone}テーマ。弱い分野から未完了教材を進めます。`,button:'次の教材へ',lessonId:lesson.id}; } if(status.bTraining<90&&!urgentPhase){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了のアルゴリズム/セキュリティを優先します。`,button:'科目Bを続ける',b}; } if(deepTaper){ const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',tit…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonDone}テーマ。弱い分野から未完了教材を進めます。`,button:'次の教材へ',lessonId:lesson.id}; } if(status.bTraining<90&&!urgentPhase){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了のアルゴリズム/セキュリティを優先します。`,button:'科目Bを続ける',b}; } if(deepTaper){ const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakes…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": ")&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonDone}テーマ。弱い分野から未完了教材を進めます。`,button:'次の教材へ',lessonId:lesson.id}; } if(status.bTraining<90&&!urgentPhase){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了のアルゴリズム/セキュリティを優先します。`,button:'科目Bを続ける',b}; } if(deepTaper){ const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を短く補強`,desc:'残り3日以内は新規教材やフル模試ではなく、既習の最弱思考を1…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "rgentPhase){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了のアルゴリズム/セキュリティを優先します。`,button:'科目Bを続ける',b}; } if(deepTaper){ const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を短く補強`,desc:'残り3日以内は新規教材やフル模試ではなく、既習の最弱思考を10問だけ確認します。',button:`${level}を10問`,cat:status.weakest[0],level}; } if(status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを1セットだけ確認',desc:'100分総合実戦は追加せず、既存の短い演習を一つ確認します。',button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ return {kind:'chapter',icon:'🧩',title:`第${chapter.ch}章を短く統合確認`,desc:'学習済みの章だけを確認します。未学習範囲は混ぜません。',button:`第${chapter.ch}章を確認`,chapter:chapter.ch}; } const x=nextMasterTopicCa…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了のアルゴリズム/セキュリティを優先します。`,button:'科目Bを続ける',b}; } if(deepTaper){ const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を短く補強`,desc:'残り3日以内は新規教材やフル模試ではなく、既習の最弱思考を10問だけ確認します。',button:`${level}を10問`,cat:status.weakest[0],level}; } if(status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを1セットだけ確認',desc:'100分総合実戦は追加せず、既存の短い演習を一つ確認します。',button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ return {kind:'chapter',icon:'🧩',title:`第${chapter.ch}章を短く統合確認`,desc:'学習済みの章だけを確認します。未学習範囲は混ぜません。',button:`第${chapter.ch}章を確認`,chapter:chapter.ch}; } const x=nextMasterTopicCandidate(); if(x&&(profile.lessonProgress?.[x.topic.i…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "r.ch}章を確認`,chapter:chapter.ch}; } const x=nextMasterTopicCandidate(); if(x&&(profile.lessonProgress?.[x.topic.id]||0)>=100){ return {kind:'topic',icon:'⭐',title:`${x.topic.title}を維持`,desc:'既習テーマの保持を整えます。新しい知識は増やしません。',button:'テーマ演習',topicId:x.topic.id}; } return {kind:'warmup',icon:'✅',title:'既習3問だけ確認',desc:'ここからは仕上がりを崩さないことを優先します。',button:'ウォームアップ3問'}; } if(urgentPhase&&!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aを本番時間で確認',desc:'フル模試2回の安定条件が未達です。90分を確保できる日に本番型で確認します。',button:'フル模試90分を始める',long:true}; } if(urgentPhase&&!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦で確認',desc:'直近2回の安定条件が未達です。100分を確保してアルゴリズム＋セキュリティを通しで確認します。',button:'科目B総合100分を始める',long:true}; } const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.w…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "); if(x&&(profile.lessonProgress?.[x.topic.id]||0)>=100){ return {kind:'topic',icon:'⭐',title:`${x.topic.title}を維持`,desc:'既習テーマの保持を整えます。新しい知識は増やしません。',button:'テーマ演習',topicId:x.topic.id}; } return {kind:'warmup',icon:'✅',title:'既習3問だけ確認',desc:'ここからは仕上がりを崩さないことを優先します。',button:'ウォームアップ3問'}; } if(urgentPhase&&!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aを本番時間で確認',desc:'フル模試2回の安定条件が未達です。90分を確保できる日に本番型で確認します。',button:'フル模試90分を始める',long:true}; } if(urgentPhase&&!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦で確認',desc:'直近2回の安定条件が未達です。100分を確保してアルゴリズム＋セキュリティを通しで確認します。',button:'科目B総合100分を始める',long:true}; } const weakEvidence=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "ber(status.weakest[1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。最も弱い思考段階「${level}」を10問で直接補強します。`,button:`${level}を10問`,cat:status.weakest[0],level}; } if(status.chapterPassed<21){ const row=nextUnpassedChapter(); return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {ki…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "1])<70){ const level=weakEvidence.weakest.level; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。最も弱い思考段階「${level}」を10問で直接補強します。`,button:`${level}を10問`,cat:status.weakest[0],level}; } if(status.chapterPassed<21){ const row=nextUnpassedChapter(); return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {kind:'bFinal',icon:'💻…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "l; return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。最も弱い思考段階「${level}」を10問で直接補強します。`,button:`${level}を10問`,cat:status.weakest[0],level}; } if(status.chapterPassed<21){ const row=nextUnpassedChapter(); return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦を安定させる',desc:'直近2回で平均70%以上・各65…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "ow=nextUnpassedChapter(); return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦を安定させる',desc:'直近2回で平均70%以上・各65%以上をFE QUESTの総仕上げ基準にしています。',button:'科目B総合100分を始める',long:true}; } if(status.stable<117||status.master<130){ const x=nextMasterTopicCandidate(); if(x){ if(x.state.key==='stable'&&!x.state.chapterReady){ return {kind:'chapter',icon:'🧩',title:`第${x.to…"
+    },
+    {
+      "term": "科目B",
+      "function": "finalFocusRecommendation",
+      "context": "ow?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦を安定させる',desc:'直近2回で平均70%以上・各65%以上をFE QUESTの総仕上げ基準にしています。',button:'科目B総合100分を始める',long:true}; } if(status.stable<117||status.master<130){ const x=nextMasterTopicCandidate(); if(x){ if(x.state.key==='stable'&&!x.state.chapterReady){ return {kind:'chapter',icon:'🧩',title:`第${x.topic.chapter}章の章末確認`,desc:`「${x.topic.title}」はテーマ内では習得水準ですが、章横断の確認が残って…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderAnalyticsBFormats",
+      "context": "alHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.format||(d.kind==='security'?'ケース判断':'処理結果'),!!d.ok))); // Security mini mock: infer log-reading vs scenario judgment from its source scenario. (profile.securityMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>{const s=SECURITY_SCENARIOS.find(x=>x.id===d.scenarioId);add(s?.log?'ログ読解':'ケース判断',!!d.ok)})); return Object.values(map).sort((a,b)=>b.total-a.total); } function renderAnalyticsBFormats(){ const root=document.getElementById('analyticsBFormats');if(!root)return;const rows=analyticsBFormatRows(); if(!rows.length){root.innerHTML='<div class=\"analytics-format-empty\">科目Bの実戦モードを解くと、途中状態・空欄補充・ケース判断などの形式別正答率を表示します。</div>';return;} root.innerHTML=rows.map(x=>{const pct=Math.round(x.correct/x.total*100);return `<div class=\"analytics-format-row\"><div class=\"analytics-format-name\">${escapeHtml(x.name)}</div><div class=\"analytics-…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderBFinalReadiness",
+      "context": ".style.display='';prep.textContent='今日の学習へ →';prep.onclick=()=>showScreen('home');start.disabled=true;start.textContent='試験直前は総合実戦を停止中';return; } start.disabled=false;start.textContent='20問の総合実戦を開始 →'; if(ready){ icon.textContent='✅';kicker.textContent='開始前の確認';title.textContent='総合実戦を始められる状態です';desc.textContent='基礎演習と短い実戦を一通り経験しています。100分を確保できる日に実施してください。';prep.style.display='none';return; } const rec=subjectBHubRecommendation(); icon.textContent=rec.icon||'📚';kicker.textContent='先に進めると効果的';title.textContent=rec.title;desc.textContent='総合実戦はいつでも利用できますが、未完了の基礎・短い実戦を先に進めると復習ポイントが明確になります。';prep.style.display='';prep.textContent='科目Bの続きへ →';prep.onclick=()=>launchSubjectBRecommendation(rec); } function renderBFinalMenu(){ const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>Number.isFinite(h.rate)?h.rate:Math.round((h.correct||0)/(h.total||20)*100))):null; document.g…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderPracticeNextCard",
+      "context": "Math.max(0,Math.floor(sec||0)); return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`; } function renderPracticeNextCard(){ const title=document.getElementById('bPracticeNextTitle'),desc=document.getElementById('bPracticeNextDesc'),action=document.getElementById('bPracticeNextAction'); if(!title||!desc||!action)return; const rec=subjectBHubRecommendation(); if(rec.stage<3){ title.textContent=`先に ${rec.title}`;desc.textContent='実戦演習へ進む前に、未完了の基礎演習を1つ進めるのがおすすめです。';action.textContent='基礎演習へ →'; }else if(rec.mode==='final'){ title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →'; }else if(rec.mode==='securityMock'){ title.textContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →'; }else if(rec.mode==='miniMock'){ title.textContent='アルゴリズム ミニ模試';…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderReadiness",
+      "context": "ent.getElementById('rightReadiness').textContent=r+'%'; if(document.getElementById('rightReadinessBar')) document.getElementById('rightReadinessBar').style.width=r+'%'; let label='基礎づくり中'; if(r>=80) label='総仕上げへ進める状態'; else if(r>=65) label='実戦力を伸ばす段階'; else if(r>=45) label='主要分野を定着中'; else if(r>=25) label='基礎を広げている段階'; if(document.getElementById('readinessLabel')) document.getElementById('readinessLabel').textContent=label; const c=readinessComponents(); const breakdown=document.getElementById('readinessBreakdown'); if(breakdown){ const rows=[ ['科目A教材',c.lesson],['科目A演習',c.aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFo…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderReadiness",
+      "context": "ghtReadiness').textContent=r+'%'; if(document.getElementById('rightReadinessBar')) document.getElementById('rightReadinessBar').style.width=r+'%'; let label='基礎づくり中'; if(r>=80) label='総仕上げへ進める状態'; else if(r>=65) label='実戦力を伸ばす段階'; else if(r>=45) label='主要分野を定着中'; else if(r>=25) label='基礎を広げている段階'; if(document.getElementById('readinessLabel')) document.getElementById('readinessLabel').textContent=label; const c=readinessComponents(); const breakdown=document.getElementById('readinessBreakdown'); if(breakdown){ const rows=[ ['科目A教材',c.lesson],['科目A演習',c.aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getEle…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderSecurityNextCard",
+      "context": "onst title=document.getElementById('secNextTitle'),desc=document.getElementById('secNextDesc'),action=document.getElementById('secNextAction'); if(!title||!desc||!action)return; const next=securityNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='このケースを始める →';action.onclick=()=>startSecurityScenario(next.id); }else{ const rec=subjectBHubRecommendation(); title.textContent='セキュリティ15ケースは完了しました'; desc.textContent=rec.mode==='securityMock'?'次は8問のミニ模試でヒントなしの判断を確認します。':'短い実戦演習へ進めます。'; action.textContent=rec.mode==='securityMock'?'ミニ模試へ →':'次の科目Bへ →';action.onclick=()=>launchSubjectBRecommendation(rec); } const fold=document.getElementById('secPracticeFold'); if(fold){const done=SECURITY_SCENARIOS.filter(s=>(profile.securityBProgress?.[s.id]||0)>=100).length;fold.classList.toggle('recommended',done===SECURITY_SCENAR…"
+    },
+    {
+      "term": "科目B",
+      "function": "renderTraceNextCard",
+      "context": "extCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{ const rec=subjectBHubRecommendation(); title.textContent='アルゴリズム20演習は完了しました'; desc.textContent=rec.mode==='security'?'次はセキュリティ ケース演習へ進みます。':'短い実戦演習へ進めます。'; action.textContent=rec.mode==='security'?'セキュリティへ →':'次の科目Bへ →';action.onclick=()=>launchSubjectBRecommendation(rec); } } document.getElementById('bFilterTabs')?.querySelectorAll('[data-bfilter]').forEach(btn=>{ btn.onclick=()=>{ currentBFilter=btn.dataset.bfilter; document.getElementById('bFilterTabs').querySelectorAll('[data-bfilter…"
+    },
+    {
+      "term": "科目B",
+      "function": "subjectBHubRecommendation",
+      "context": "{m.secDone} / ${SECURITY_SCENARIOS.length} 完了。次のケースを1つ進めます。`}; } if(m.compoundSeen<3){ return {stage:3,mode:'compound',id:null,title:'複合問題を1セット',icon:'🧩',kicker:'ステップ 3・実戦演習',desc:`15セットのうち未経験の問題を優先します。まず3セットを目安に長いコードへ慣れます。`}; } if(m.secMockRuns<1){ return {stage:3,mode:'securityMock',id:null,title:'セキュリティ ミニ模試',icon:'🛡️',kicker:'ステップ 3・実戦演習',desc:'8問・20分。ケース演習で身につけた判断をヒントなしで確認します。'}; } if(m.algoMockRuns<1){ return {stage:3,mode:'miniMock',id:null,title:'アルゴリズム ミニ模試',icon:'📝',kicker:'ステップ 3・実戦演習',desc:'8問・40分。途中状態をヒントなしで連続して読みます。'}; } if(m.finalRuns<2&&finalAllowed){ return {stage:4,mode:'final',id:null,title:'科目B 総合実戦',icon:'📝',kicker:'ステップ 4・総合実戦',desc:'短い実戦を一通り経験しました。100分を確保できる日に20問を通して確認します。'}; } const recent=[ {mode:'miniMock',title:'アルゴリズム ミニ模試',rate:Number(profile.bMockHistory?.[0]?.rate??100),icon:'📝'}, {mode:'securityMock',title:'セキュリティ ミニ模試',rate:Number(profile.securityMockHist…"
+    },
+    {
+      "term": "科目B",
+      "function": "taperFocusRecommendation",
+      "context": "e(status.weakest[0]); // 残り4〜6日は、教材進捗が90%未満なら未学習を1テーマだけ許容。 // 3日前以降は新規教材を増やさず、既習内容の穴だけを塞ぐ。 if(days>=4&&status.lessonDone<117){ const lesson=nextLessonChoice(); if(lesson?.id)return {kind:'lesson',icon:'📘',title:'未完了教材を1テーマだけ',desc:`教材 ${status.lessonDone}/130。直前に広げすぎず、今日は「${lesson.title}」だけ進めます。`,button:'教材を開く',lessonId:lesson.id}; } if(Number(status.weakest[1])<70){ return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${ev.weakest.level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。新規範囲ではなく弱い思考を10問で戻します。`,button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } // 3日前以降は独立した科目B枠を置かないため、Bが弱い場合はこの枠で短く確認。 if(days<=3&&status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを短く確認',desc:`科目B学習 ${status.bTraining}% 。長時間実戦ではなく未完了の基礎演習を1つ確認します。`,button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ re…"
+    },
+    {
+      "term": "科目B",
+      "function": "taperFocusRecommendation",
+      "context": "const lesson=nextLessonChoice(); if(lesson?.id)return {kind:'lesson',icon:'📘',title:'未完了教材を1テーマだけ',desc:`教材 ${status.lessonDone}/130。直前に広げすぎず、今日は「${lesson.title}」だけ進めます。`,button:'教材を開く',lessonId:lesson.id}; } if(Number(status.weakest[1])<70){ return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${ev.weakest.level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。新規範囲ではなく弱い思考を10問で戻します。`,button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } // 3日前以降は独立した科目B枠を置かないため、Bが弱い場合はこの枠で短く確認。 if(days<=3&&status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを短く確認',desc:`科目B学習 ${status.bTraining}% 。長時間実戦ではなく未完了の基礎演習を1つ確認します。`,button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ return {kind:'chapter',icon:'🧩',title:`第${chapter.ch}章を統合確認`,desc:'学習済みの章だけを12問で確認します。未学習範囲を直前に混ぜません。',button:`第${chapter.ch}章を確認…"
+    },
+    {
+      "term": "科目B",
+      "function": "taperFocusRecommendation",
+      "context": "tLessonChoice(); if(lesson?.id)return {kind:'lesson',icon:'📘',title:'未完了教材を1テーマだけ',desc:`教材 ${status.lessonDone}/130。直前に広げすぎず、今日は「${lesson.title}」だけ進めます。`,button:'教材を開く',lessonId:lesson.id}; } if(Number(status.weakest[1])<70){ return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${ev.weakest.level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。新規範囲ではなく弱い思考を10問で戻します。`,button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } // 3日前以降は独立した科目B枠を置かないため、Bが弱い場合はこの枠で短く確認。 if(days<=3&&status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを短く確認',desc:`科目B学習 ${status.bTraining}% 。長時間実戦ではなく未完了の基礎演習を1つ確認します。`,button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ return {kind:'chapter',icon:'🧩',title:`第${chapter.ch}章を統合確認`,desc:'学習済みの章だけを12問で確認します。未学習範囲を直前に混ぜません。',button:`第${chapter.ch}章を確認`,chapter:chapte…"
+    },
+    {
+      "term": "科目B",
+      "function": "taperFocusRecommendation",
+      "context": "',title:'未完了教材を1テーマだけ',desc:`教材 ${status.lessonDone}/130。直前に広げすぎず、今日は「${lesson.title}」だけ進めます。`,button:'教材を開く',lessonId:lesson.id}; } if(Number(status.weakest[1])<70){ return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${ev.weakest.level}を補強`,desc:`最低分野 ${Math.round(status.weakest[1])}% 。新規範囲ではなく弱い思考を10問で戻します。`,button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } // 3日前以降は独立した科目B枠を置かないため、Bが弱い場合はこの枠で短く確認。 if(days<=3&&status.bTraining<90){ const b=nextBChoice(10); return {kind:'subjectB',icon:'💻',title:'科目Bを短く確認',desc:`科目B学習 ${status.bTraining}% 。長時間実戦ではなく未完了の基礎演習を1つ確認します。`,button:'科目Bを確認',b}; } const chapter=nextReadyUnpassedChapter(); if(chapter){ return {kind:'chapter',icon:'🧩',title:`第${chapter.ch}章を統合確認`,desc:'学習済みの章だけを12問で確認します。未学習範囲を直前に混ぜません。',button:`第${chapter.ch}章を確認`,chapter:chapter.ch}; } const x=nextMasterTopicCandidate(); if(x&&(profile.…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "=rank[b.state.key]??8; if(ra!==rb)return ra-rb; const ar=a.state.retention??0,br=b.state.retention??0; return br-ar; })[0]||null; } function finalFocusRecommendation(status=courseMasteryStatus()){ const days=examDaysRemaining(); const urgentPhase=days!=null&&days>=0&&days<=14; const deepTaper=days!=null&&days>=0&&days<=3; const routes=actionableReviewJourneys().length; const due=dueQuestions().length; if(days===0){ return {kind:'warmup',icon:'☀️',title:'今日は3問だけ確認',desc:'新規教材も長時間模試も追加しません。既習3問で感覚だけ整えます。',button:'ウォームアップ3問'}; } if(days===1){ if(routes||due)return {kind:'review',icon:'🧠',title:'前日は復習だけ',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。長時間模試や新規教材は追加しません。`,button:'5問まで確認'}; return {kind:'warmup',icon:'🌙',title:'前日は軽い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "e.key]??8; if(ra!==rb)return ra-rb; const ar=a.state.retention??0,br=b.state.retention??0; return br-ar; })[0]||null; } function finalFocusRecommendation(status=courseMasteryStatus()){ const days=examDaysRemaining(); const urgentPhase=days!=null&&days>=0&&days<=14; const deepTaper=days!=null&&days>=0&&days<=3; const routes=actionableReviewJourneys().length; const due=dueQuestions().length; if(days===0){ return {kind:'warmup',icon:'☀️',title:'今日は3問だけ確認',desc:'新規教材も長時間模試も追加しません。既習3問で感覚だけ整えます。',button:'ウォームアップ3問'}; } if(days===1){ if(routes||due)return {kind:'review',icon:'🧠',title:'前日は復習だけ',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。長時間模試や新規教材は追加しません。`,button:'5問まで確認'}; return {kind:'warmup',icon:'🌙',title:'前日は軽い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${rou…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "ys<=14; const deepTaper=days!=null&&days>=0&&days<=3; const routes=actionableReviewJourneys().length; const due=dueQuestions().length; if(days===0){ return {kind:'warmup',icon:'☀️',title:'今日は3問だけ確認',desc:'新規教材も長時間模試も追加しません。既習3問で感覚だけ整えます。',button:'ウォームアップ3問'}; } if(days===1){ if(routes||due)return {kind:'review',icon:'🧠',title:'前日は復習だけ',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。長時間模試や新規教材は追加しません。`,button:'5問まで確認'}; return {kind:'warmup',icon:'🌙',title:'前日は軽い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonD…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "deepTaper=days!=null&&days>=0&&days<=3; const routes=actionableReviewJourneys().length; const due=dueQuestions().length; if(days===0){ return {kind:'warmup',icon:'☀️',title:'今日は3問だけ確認',desc:'新規教材も長時間模試も追加しません。既習3問で感覚だけ整えます。',button:'ウォームアップ3問'}; } if(days===1){ if(routes||due)return {kind:'review',icon:'🧠',title:'前日は復習だけ',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。長時間模試や新規教材は追加しません。`,button:'5問まで確認'}; return {kind:'warmup',icon:'🌙',title:'前日は軽い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonDone}テーマ。弱い分野から…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "rneys().length; const due=dueQuestions().length; if(days===0){ return {kind:'warmup',icon:'☀️',title:'今日は3問だけ確認',desc:'新規教材も長時間模試も追加しません。既習3問で感覚だけ整えます。',button:'ウォームアップ3問'}; } if(days===1){ if(routes||due)return {kind:'review',icon:'🧠',title:'前日は復習だけ',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。長時間模試や新規教材は追加しません。`,button:'5問まで確認'}; return {kind:'warmup',icon:'🌙',title:'前日は軽い確認だけ',desc:'既習3問だけ確認し、新しい範囲は増やしません。',button:'ウォームアップ3問'}; } if((routes||due)&&((urgentPhase)||(status.mem.due>10))){ return {kind:'review',icon:'🧠',title:'最優先：復習待ちを解消',desc:`復習ルート ${routes}件・期限/低保持 ${due}問。判断問題を優先して戻します。`,button:deepTaper?'5問まで確認':'復習を始める'}; } // 残り3日以内は、未完了教材があっても新規範囲を広げない。 if(!deepTaper&&status.lessonDone<130){ const lesson=nextLessonChoice(); return {kind:'lesson',icon:'📘',title:'未完了教材を埋める',desc:`残り ${130-status.lessonDone}テーマ。弱い分野から未完了教材を進めます。`,button:'次の教材へ',lessonId:lesson.id}; } if(status.bTraining<9…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "nal',icon:'💻',title:'科目B総合実戦を安定させる',desc:'直近2回で平均70%以上・各65%以上をFE QUESTの総仕上げ基準にしています。',button:'科目B総合100分を始める',long:true}; } if(status.stable<117||status.master<130){ const x=nextMasterTopicCandidate(); if(x){ if(x.state.key==='stable'&&!x.state.chapterReady){ return {kind:'chapter',icon:'🧩',title:`第${x.topic.chapter}章の章末確認`,desc:`「${x.topic.title}」はテーマ内では習得水準ですが、章横断の確認が残っています。`,button:`第${x.topic.chapter}章を確認`,chapter:x.topic.chapter}; } return masteryRecoveryInfo(x.topic.id)?{kind:'topic',icon:'↩️',title:`${x.topic.title}の習得状態を戻す`,desc:`${masteryRecoveryReason(x.state)} 現在「${x.state.label}」。`,button:'必要な復習を始める',topicId:x.topic.id}:{kind:'topic',icon:'⭐',title:`${x.topic.title}を習得状態へ`,desc:`現在「${x.state.label}」。保持と高次問題の証拠を整えます。`,button:'テーマ演習を始める',topicId:x.topic.id}; } } if(!status.gates.find(g=>g.id==='memory')?.passed){ return {kind:'review',icon:'🧠',title:'記憶を最終メンテナンス',desc:`推定保持 ${st…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": "title:`第${x.topic.chapter}章の章末確認`,desc:`「${x.topic.title}」はテーマ内では習得水準ですが、章横断の確認が残っています。`,button:`第${x.topic.chapter}章を確認`,chapter:x.topic.chapter}; } return masteryRecoveryInfo(x.topic.id)?{kind:'topic',icon:'↩️',title:`${x.topic.title}の習得状態を戻す`,desc:`${masteryRecoveryReason(x.state)} 現在「${x.state.label}」。`,button:'必要な復習を始める',topicId:x.topic.id}:{kind:'topic',icon:'⭐',title:`${x.topic.title}を習得状態へ`,desc:`現在「${x.state.label}」。保持と高次問題の証拠を整えます。`,button:'テーマ演習を始める',topicId:x.topic.id}; } } if(!status.gates.find(g=>g.id==='memory')?.passed){ return {kind:'review',icon:'🧠',title:'記憶を最終メンテナンス',desc:`推定保持 ${status.mem.avg}%・要復習 ${status.mem.due}問。新規学習より保持の回復を優先します。`,button:'復習を始める'}; } const ev=categoryCognitiveEvidence(status.weakest[0]); return {kind:'cognitive',icon:'✅',title:'総仕上げ維持',desc:`主要ゲートを満たしています。最も弱い「${status.weakest[0]}・${ev.weakest.level}」を短く維持します。`,button:`${ev.weakest.level}を10問`…"
+    },
+    {
+      "term": "復習",
+      "function": "finalFocusRecommendation",
+      "context": ".title}」はテーマ内では習得水準ですが、章横断の確認が残っています。`,button:`第${x.topic.chapter}章を確認`,chapter:x.topic.chapter}; } return masteryRecoveryInfo(x.topic.id)?{kind:'topic',icon:'↩️',title:`${x.topic.title}の習得状態を戻す`,desc:`${masteryRecoveryReason(x.state)} 現在「${x.state.label}」。`,button:'必要な復習を始める',topicId:x.topic.id}:{kind:'topic',icon:'⭐',title:`${x.topic.title}を習得状態へ`,desc:`現在「${x.state.label}」。保持と高次問題の証拠を整えます。`,button:'テーマ演習を始める',topicId:x.topic.id}; } } if(!status.gates.find(g=>g.id==='memory')?.passed){ return {kind:'review',icon:'🧠',title:'記憶を最終メンテナンス',desc:`推定保持 ${status.mem.avg}%・要復習 ${status.mem.due}問。新規学習より保持の回復を優先します。`,button:'復習を始める'}; } const ev=categoryCognitiveEvidence(status.weakest[0]); return {kind:'cognitive',icon:'✅',title:'総仕上げ維持',desc:`主要ゲートを満たしています。最も弱い「${status.weakest[0]}・${ev.weakest.level}」を短く維持します。`,button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } …"
+    },
+    {
+      "term": "復習",
+      "function": "renderAnalyticsJourneys",
+      "context": "rify}</b><span>類題</span></div><div class=\"analytics-stage\"><b>${counts.spaced}</b><span>後日待ち</span></div><div class=\"analytics-stage\"><b>${counts.stable}</b><span>定着</span></div>`; const stable=Object.values(profile.reviewJourneys||{}).filter(j=>j.stage==='stable').sort((a,b)=>String(b.completedAt||'').localeCompare(String(a.completedAt||''))).slice(0,6); const list=document.getElementById('analyticsStableList');if(list)list.innerHTML=stable.length?stable.map(j=>`<div class=\"analytics-stable-item\"><b>${escapeHtml(j.concept)}</b><span>${escapeHtml(j.completedAt||'定着')}</span></div>`).join(''):'<div class=\"analytics-format-empty\">まだ定着まで完了した復習ルートはありません。</div>'; } function analyticsBFormatRows(){ const map={};const add=(name,ok)=>{if(!name)return;if(!map[name])map[name]={name,total:0,correct:0};map[name].total++;if(ok)map[name].correct++}; // Algorithm mini mock: all questions are intermedia…"
+    },
+    {
+      "term": "復習",
+      "function": "renderAnalyticsNext",
+      "context": "root.innerHTML=rows.map(x=>{const pct=Math.round(x.correct/x.total*100);return `<div class=\"analytics-format-row\"><div class=\"analytics-format-name\">${escapeHtml(x.name)}</div><div class=\"analytics-format-bar\"><div class=\"analytics-format-fill\" style=\"width:${pct}%\"></div></div><div class=\"analytics-format-score\">${pct}% (${x.correct}/${x.total})</div></div>`}).join(''); } function renderAnalyticsNext(snaps){ const root=document.getElementById('analyticsNext');if(!root)return; const active=activeReviewJourneys(); if(active.length){const j=active[0];root.innerHTML=`<div class=\"analytics-next-icon\">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button data-analytics-next-action>復習を続ける →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>startJourneyAction(j.id);return;} const attempted=snaps.filter(x=>x.attemp…"
+    },
+    {
+      "term": "復習",
+      "function": "renderAnalyticsNext",
+      "context": "alytics-format-row\"><div class=\"analytics-format-name\">${escapeHtml(x.name)}</div><div class=\"analytics-format-bar\"><div class=\"analytics-format-fill\" style=\"width:${pct}%\"></div></div><div class=\"analytics-format-score\">${pct}% (${x.correct}/${x.total})</div></div>`}).join(''); } function renderAnalyticsNext(snaps){ const root=document.getElementById('analyticsNext');if(!root)return; const active=activeReviewJourneys(); if(active.length){const j=active[0];root.innerHTML=`<div class=\"analytics-next-icon\">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button data-analytics-next-action>復習を続ける →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>startJourneyAction(j.id);return;} const attempted=snaps.filter(x=>x.attempts>=3&&x.accuracy!=null); if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accurac…"
+    },
+    {
+      "term": "復習",
+      "function": "renderBFinalReadiness",
+      "context": "ElementById('bFinalReadinessDesc'),prep=document.getElementById('bFinalPrepAction'),start=document.getElementById('bFinalStart'); if(!box||!icon||!kicker||!title||!desc||!prep||!start)return; const m=subjectBProgressMetrics(); const days=examDaysRemaining(); const taper=days!=null&&days>=0&&days<=3; const ready=m.algoDone===B_EXERCISES.length&&m.secDone===SECURITY_SCENARIOS.length&&m.practiceEvidence>=5; box.classList.toggle('ready',ready&&!taper);box.classList.toggle('warn',!ready||taper); if(taper){ icon.textContent='⏱️';kicker.textContent='試験直前';title.textContent='100分の総合実戦は行いません';desc.textContent='残り3日以内は、新しい長時間実戦より今日の短い復習・確認を優先します。';prep.style.display='';prep.textContent='今日の学習へ →';prep.onclick=()=>showScreen('home');start.disabled=true;start.textContent='試験直前は総合実戦を停止中';return; } start.disabled=false;start.textContent='20問の総合実戦を開始 →'; if(ready){ icon.textContent='✅';kicker.textConte…"
+    },
+    {
+      "term": "復習",
+      "function": "renderBFinalReadiness",
+      "context": "sc.textContent='残り3日以内は、新しい長時間実戦より今日の短い復習・確認を優先します。';prep.style.display='';prep.textContent='今日の学習へ →';prep.onclick=()=>showScreen('home');start.disabled=true;start.textContent='試験直前は総合実戦を停止中';return; } start.disabled=false;start.textContent='20問の総合実戦を開始 →'; if(ready){ icon.textContent='✅';kicker.textContent='開始前の確認';title.textContent='総合実戦を始められる状態です';desc.textContent='基礎演習と短い実戦を一通り経験しています。100分を確保できる日に実施してください。';prep.style.display='none';return; } const rec=subjectBHubRecommendation(); icon.textContent=rec.icon||'📚';kicker.textContent='先に進めると効果的';title.textContent=rec.title;desc.textContent='総合実戦はいつでも利用できますが、未完了の基礎・短い実戦を先に進めると復習ポイントが明確になります。';prep.style.display='';prep.textContent='科目Bの続きへ →';prep.onclick=()=>launchSubjectBRecommendation(rec); } function renderBFinalMenu(){ const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>Number.isFinite(h.rate)?h.rate:Math.r…"
+    },
+    {
+      "term": "復習",
+      "function": "renderReadiness",
+      "context": "tContent=r+'%'; if(document.getElementById('rightReadinessBar')) document.getElementById('rightReadinessBar').style.width=r+'%'; let label='基礎づくり中'; if(r>=80) label='総仕上げへ進める状態'; else if(r>=65) label='実戦力を伸ばす段階'; else if(r>=45) label='主要分野を定着中'; else if(r>=25) label='基礎を広げている段階'; if(document.getElementById('readinessLabel')) document.getElementById('readinessLabel').textContent=label; const c=readinessComponents(); const breakdown=document.getElementById('readinessBreakdown'); if(breakdown){ const rows=[ ['科目A教材',c.lesson],['科目A演習',c.aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFoc…"
+    },
+    {
+      "term": "復習",
+      "function": "renderReadiness",
+      "context": "if(breakdown){ const rows=[ ['科目A教材',c.lesson],['科目A演習',c.aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; const reviewText=routes ? ` 誤答から続いている復習ルートが${routes}件あります。まず「教材→類題→後日確認」の続きから進めます。` : due ? ` 復習期限の問題が${due}問あります。まず復習から始めるのがおすすめです。` : ' 復習待ちはないので、新しい教材を進めて構いません。'; document.getElementById('adaptiveNote').innerHTML=`<b>FE QUESTの提案：</b> ${focus}${reviewText}`; } renderFinalMasterPanel(); } function renderCountdown(){ const box=document.g…"
+    },
+    {
+      "term": "復習",
+      "function": "renderReadiness",
+      "context": "aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; const reviewText=routes ? ` 誤答から続いている復習ルートが${routes}件あります。まず「教材→類題→後日確認」の続きから進めます。` : due ? ` 復習期限の問題が${due}問あります。まず復習から始めるのがおすすめです。` : ' 復習待ちはないので、新しい教材を進めて構いません。'; document.getElementById('adaptiveNote').innerHTML=`<b>FE QUESTの提案：</b> ${focus}${reviewText}`; } renderFinalMasterPanel(); } function renderCountdown(){ const box=document.getElementById('countdownBox');if(!box)return; if(!profile.…"
+    },
+    {
+      "term": "復習",
+      "function": "renderReadiness",
+      "context": "aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; const reviewText=routes ? ` 誤答から続いている復習ルートが${routes}件あります。まず「教材→類題→後日確認」の続きから進めます。` : due ? ` 復習期限の問題が${due}問あります。まず復習から始めるのがおすすめです。` : ' 復習待ちはないので、新しい教材を進めて構いません。'; document.getElementById('adaptiveNote').innerHTML=`<b>FE QUESTの提案：</b> ${focus}${reviewText}`; } renderFinalMasterPanel(); } function renderCountdown(){ const box=document.getElementById('countdownBox');if(!box)return; if(!profile.settings.examDate){box…"
+    },
+    {
+      "term": "復習",
+      "function": "renderReadiness",
+      "context": "ning],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; const reviewText=routes ? ` 誤答から続いている復習ルートが${routes}件あります。まず「教材→類題→後日確認」の続きから進めます。` : due ? ` 復習期限の問題が${due}問あります。まず復習から始めるのがおすすめです。` : ' 復習待ちはないので、新しい教材を進めて構いません。'; document.getElementById('adaptiveNote').innerHTML=`<b>FE QUESTの提案：</b> ${focus}${reviewText}`; } renderFinalMasterPanel(); } function renderCountdown(){ const box=document.getElementById('countdownBox');if(!box)return; if(!profile.settings.examDate){box.innerHTML='<div class=\"…"
+    },
+    {
+      "term": "復習",
+      "function": "renderWeakDashboard",
+      "context": "forEach(b=>b.onclick=()=>{ const id=pickLessonForSkill(b.dataset.cat); startLesson(id); }); const reasons=aggregateWeakReasons(); const maxReason=Math.max(1,...reasons.map(x=>x[1])); document.getElementById('weakReasonList').innerHTML=reasons.map(([name,count])=>` <div class=\"reason-row\"> <div class=\"reason-name\">${name}</div> <div class=\"reason-track\"><div class=\"reason-fill\" style=\"width:${Math.round(count/maxReason*100)}%\"></div></div> <div class=\"reason-count\">${count}</div> </div>`).join(''); const adviceTop=analytics.slice(0,3); const reason=top.dominant; let habit='まず最優先分野を短い教材→10問演習→翌日復習の順で回します。'; if(reason==='計算ミス') habit='計算問題では途中式を残し、答えを選ぶ前に単位・桁・以上/未満を確認します。'; else if(reason==='読み違い') habit='問題文の条件語を先に拾ってから選択肢を見る習慣を付けます。'; else if(reason==='2択で迷った') habit='2択まで絞れたら、各選択肢が「なぜ違うか」を1つ言えるか確認します。'; else if(reason==='時間不足') habit='1問90秒を一つの目安にし、詰まった問題は見直しフラグへ回します。'; document.getEleme…"
+    },
+    {
+      "term": "復習",
+      "function": "renderWeakDashboard",
+      "context": "else if(reason==='時間不足') habit='1問90秒を一つの目安にし、詰まった問題は見直しフラグへ回します。'; document.getElementById('weakDeepAdvice').innerHTML= `<b>優先順位：</b> ${adviceTop.map(x=>x.cat).join(' → ')}<br><br><b>今回の改善ポイント：</b> ${habit}`; const repeated=repeatedWrongQuestions(); document.getElementById('repeatWrongList').innerHTML=repeated.length?repeated.map(x=>` <div class=\"weak-list-item\"> <div class=\"weak-list-top\"><div class=\"weak-list-title\">${x.q.cat}・${x.q.concept}</div><span class=\"weak-list-badge\">${x.count}回</span></div> <div class=\"weak-list-sub\">${escapeHtml(x.q.q)}${x.reason?`<br>直近の原因：${escapeHtml(x.reason)}`:''}${x.due?`<br>次回復習：${x.due}`:''}</div> <button class=\"weak-list-action\" data-weakqid=\"${escapeHtml(x.q.id)}\">この論点を復習 →</button> </div>`).join(''):'<div class=\"weak-empty\">繰り返し誤答はまだありません。</div>'; const slow=slowMockQuestions(); document.getElementById('slowQuestionList').innerHTML=slow.length?sl…"
+    },
+    {
+      "term": "復習",
+      "function": "renderWeakDashboard",
+      "context": "pAdvice').innerHTML= `<b>優先順位：</b> ${adviceTop.map(x=>x.cat).join(' → ')}<br><br><b>今回の改善ポイント：</b> ${habit}`; const repeated=repeatedWrongQuestions(); document.getElementById('repeatWrongList').innerHTML=repeated.length?repeated.map(x=>` <div class=\"weak-list-item\"> <div class=\"weak-list-top\"><div class=\"weak-list-title\">${x.q.cat}・${x.q.concept}</div><span class=\"weak-list-badge\">${x.count}回</span></div> <div class=\"weak-list-sub\">${escapeHtml(x.q.q)}${x.reason?`<br>直近の原因：${escapeHtml(x.reason)}`:''}${x.due?`<br>次回復習：${x.due}`:''}</div> <button class=\"weak-list-action\" data-weakqid=\"${escapeHtml(x.q.id)}\">この論点を復習 →</button> </div>`).join(''):'<div class=\"weak-empty\">繰り返し誤答はまだありません。</div>'; const slow=slowMockQuestions(); document.getElementById('slowQuestionList').innerHTML=slow.length?slow.map(x=>` <div class=\"weak-list-item\"> <div class=\"weak-list-top\"><div class=\"weak-list-title\">${x…"
+    },
+    {
+      "term": "復習",
+      "function": "shortFinalFocusRecommendation",
+      "context": "; return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:'教材完了後は章横断で見分けられるかを確認します。',button:`第${row?.ch||1}章を確認`,chapter:row?.ch||1}; } const ev=categoryCognitiveEvidence(status.weakest[0]); if(Number(status.weakest[1])<78){ return {kind:'cognitive',icon:'🎯',title:`${status.weakest[0]}・${ev.weakest.level}補強`,desc:'新規教材ではなく、最も弱い思考段階を直接10問で補強します。',button:`${ev.weakest.level}を10問`,cat:status.weakest[0],level:ev.weakest.level}; } const x=nextMasterTopicCandidate(); if(x){ return masteryRecoveryInfo(x.topic.id)?{kind:'topic',icon:'↩️',title:`${x.topic.title}の習得状態を戻す`,desc:masteryRecoveryReason(x.state),button:'必要な復習',topicId:x.topic.id}:{kind:'topic',icon:'⭐',title:`${x.topic.title}を習得状態へ`,desc:`現在「${x.state.label}」。定着証拠を積み上げます。`,button:'テーマ演習',topicId:x.topic.id}; } return {kind:'cognitive',icon:'✅',title:`${status.weakest[0]}・${ev.weakest.level}維持`,desc:'全体の仕上がりを維持する短時間演習です。',butt…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "抑える。その後に証拠保全や調査・復旧へ進む。\", \"hint\": \"『原因究明』より先に、『拡大を止める』初動を考える。\", \"choiceExps\": [ \"接続したままでは共有資源や他端末へ被害が広がるおそれがある。\", \"感染拡大中は、まず感染端末をネットワークから隔離して共有資源や他端末への被害拡大を抑える。その後に証拠保全や調査・復旧へ進む。\", \"ファイル削除は証拠や復旧可能性を失うおそれがあり、最初の対応ではない。\", \"ログ削除は調査に必要な証拠を失うため不適切。\" ], \"explainTopicId\": \"core_11_06\", \"explainTopicSource\": \"semantic\", \"cognitiveLevel\": \"判断\", \"judgmentAudit\": \"v91-rewritten\", \"judgmentDemand\": \"文脈比較\" }, { \"id\": \"sec-20\", \"cat\": \"セキュリティ\", \"concept\": \"パッチ管理\", \"difficulty\": \"基礎\", \"q\": \"脆弱性情報が公開されたOSに対し、ベンダ提供の修正プログラムを影響確認の上で継続的に適用していく管理活動はどれか。\", \"options\": [ \"脆弱性診断で弱点を洗い出す\", \"変更管理で適用日時や影響を承認する\", \"パッチ管理\", \"構成管理でソフトウェアの版を記録する\" ], \"a\": 2, \"exp\": \"脆弱性修正を含む更新プログラムを適切に評価・適用することはパッチ管理の重要な活動です。\", \"hint\": \"脆弱性を修正する更新プログラムの管理です。\", \"choiceExps\": [ \"脆弱性診断は弱点を発見・評価する活動で、更新プログラムを継続的に適用する管理そのものではない。\", \"変更管理は個々の変更の影響評価・承認を扱うが、脆弱性修正更新を継続的に管理する中心概念はパッチ管理。\", \"脆弱性修正を含む更新プログラムを適切に評価・適用することはパッチ管理の重要な活動です。\", \"構成管理は導入済みソフト…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "それがあり、最初の対応ではない。\", \"ログ削除は調査に必要な証拠を失うため不適切。\" ], \"explainTopicId\": \"core_11_06\", \"explainTopicSource\": \"semantic\", \"cognitiveLevel\": \"判断\", \"judgmentAudit\": \"v91-rewritten\", \"judgmentDemand\": \"文脈比較\" }, { \"id\": \"sec-20\", \"cat\": \"セキュリティ\", \"concept\": \"パッチ管理\", \"difficulty\": \"基礎\", \"q\": \"脆弱性情報が公開されたOSに対し、ベンダ提供の修正プログラムを影響確認の上で継続的に適用していく管理活動はどれか。\", \"options\": [ \"脆弱性診断で弱点を洗い出す\", \"変更管理で適用日時や影響を承認する\", \"パッチ管理\", \"構成管理でソフトウェアの版を記録する\" ], \"a\": 2, \"exp\": \"脆弱性修正を含む更新プログラムを適切に評価・適用することはパッチ管理の重要な活動です。\", \"hint\": \"脆弱性を修正する更新プログラムの管理です。\", \"choiceExps\": [ \"脆弱性診断は弱点を発見・評価する活動で、更新プログラムを継続的に適用する管理そのものではない。\", \"変更管理は個々の変更の影響評価・承認を扱うが、脆弱性修正更新を継続的に管理する中心概念はパッチ管理。\", \"脆弱性修正を含む更新プログラムを適切に評価・適用することはパッチ管理の重要な活動です。\", \"構成管理は導入済みソフトウェアの版や組合せを把握する活動で、修正プログラムの適用管理とは役割が異なる。\" ], \"explainTopicId\": \"core_11_07\", \"explainTopicSource\": \"semantic\", \"qualityOverride\": \"v89-near-domain-distractors\", \"cognitiveLevel\": \"適用\", \"applicationAudi…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "chapterTitle\":\"情報セキュリティ\",\"title\":\"脅威への対策\",\"skill\":\"セキュリティ\",\"lead\":\"脅威への対策は認証・アクセス制御・ネットワーク防御・マルウェア対策・バックアップなどを多層で組み合わせます。\",\"points\":[\"多要素認証で認証強化\",\"最小権限でアクセス制御\",\"FW/WAF/IDS/IPSで通信や攻撃を制御・検知\",\"パッチ適用とバックアップで被害を減らす\"],\"cues\":[\"防御・検知・復旧の各段階を用意\",\"ゼロトラストでは場所だけを信用根拠にしない\"],\"example\":\"WAFはWebアプリへの不正なHTTPリクエストを検査する対策です。\",\"pitfall\":\"FW・WAF・IDS・IPSの役割を混同しないこと。\",\"quiz\":{\"q\":\"Webアプリへの攻撃対策に特化した装置/機能は？\",\"options\":[\"WAF\",\"OCR\",\"SLA\",\"RFP\"],\"answer\":0,\"explain\":\"多要素認証で認証強化\"}},{\"id\":\"core_11_07\",\"code\":\"11-07\",\"chapter\":11,\"chapterTitle\":\"情報セキュリティ\",\"title\":\"セキュリティ技術評価\",\"skill\":\"セキュリティ\",\"lead\":\"セキュリティ技術評価では、脆弱性の有無や深刻度、製品・システムの安全性を客観的な基準で評価します。\",\"points\":[\"脆弱性診断は既知の弱点や設定不備を発見するために行う\",\"ペネトレーションテストは攻撃者の視点で侵入可能性や影響を検証する\",\"CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである\",\"セキュリティ評価では脅威・脆弱性・影響を分けて考える\",\"評価結果は対策優先順位やリスク受容判断に利用する\"],\"cues\":[\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"CVSSスコアだけで自組織の最終リスクが自動決定され…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": ",\"パッチ適用とバックアップで被害を減らす\"],\"cues\":[\"防御・検知・復旧の各段階を用意\",\"ゼロトラストでは場所だけを信用根拠にしない\"],\"example\":\"WAFはWebアプリへの不正なHTTPリクエストを検査する対策です。\",\"pitfall\":\"FW・WAF・IDS・IPSの役割を混同しないこと。\",\"quiz\":{\"q\":\"Webアプリへの攻撃対策に特化した装置/機能は？\",\"options\":[\"WAF\",\"OCR\",\"SLA\",\"RFP\"],\"answer\":0,\"explain\":\"多要素認証で認証強化\"}},{\"id\":\"core_11_07\",\"code\":\"11-07\",\"chapter\":11,\"chapterTitle\":\"情報セキュリティ\",\"title\":\"セキュリティ技術評価\",\"skill\":\"セキュリティ\",\"lead\":\"セキュリティ技術評価では、脆弱性の有無や深刻度、製品・システムの安全性を客観的な基準で評価します。\",\"points\":[\"脆弱性診断は既知の弱点や設定不備を発見するために行う\",\"ペネトレーションテストは攻撃者の視点で侵入可能性や影響を検証する\",\"CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである\",\"セキュリティ評価では脅威・脆弱性・影響を分けて考える\",\"評価結果は対策優先順位やリスク受容判断に利用する\"],\"cues\":[\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"CVSSスコアだけで自組織の最終リスクが自動決定されるわけではない\"],\"example\":\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"pitfall\":\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにします。\",\"quiz\":{\"q\":\"脆弱性の深刻度を数値で表す代表的な枠組みは？\",\"options\":[\"CVSS\",\"DNS\",\"FIFO\",\"…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "ュリティの脅威」で扱う事項であり、「脅威への対策」について問うこの問題の説明としては適切でない。\",\"この内容は「暗号技術の基本」で扱う事項であり、「脅威への対策」について問うこの問題の説明としては適切でない。\",\"この内容は「情報セキュリティマネジメント」で扱う事項であり、「脅威への対策」について問うこの問題の説明としては適切でない。\",\"FW・WAF・IDS・IPSの役割を混同しないこと。\"],\"distractorTopicIds\":[\"core_11_01\",\"core_11_02\",\"core_11_05\"],\"stemAudit\":\"v89-varied\",\"cognitiveLevel\":\"適用\",\"applicationAudit\":\"v92-pass\",\"applicationDemand\":\"概念判別\"},{\"id\":\"coreq_11_07_1\",\"cat\":\"セキュリティ\",\"difficulty\":\"基礎\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"knowledge\",\"q\":\"脆弱性の深刻度を数値で表す代表的な枠組みは？\",\"options\":[\"CVE\",\"CWE\",\"CPE\",\"CVSS\"],\"a\":3,\"exp\":\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"公開された個々の脆弱性へ識別番号を付ける仕組み。 ここで求める定義には当てはまらない。\",\"ソフトウェアの弱点の種類を分類する体系。 問題文の条件とは一致しない。\",\"製品やOSなどのプラットフォームを一意に表現するための命名体系。 同じ分野の用語だが、問われている役割ではない。\",\"「CVSS」が正解…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "\",\"この内容は「暗号技術の基本」で扱う事項であり、「脅威への対策」について問うこの問題の説明としては適切でない。\",\"この内容は「情報セキュリティマネジメント」で扱う事項であり、「脅威への対策」について問うこの問題の説明としては適切でない。\",\"FW・WAF・IDS・IPSの役割を混同しないこと。\"],\"distractorTopicIds\":[\"core_11_01\",\"core_11_02\",\"core_11_05\"],\"stemAudit\":\"v89-varied\",\"cognitiveLevel\":\"適用\",\"applicationAudit\":\"v92-pass\",\"applicationDemand\":\"概念判別\"},{\"id\":\"coreq_11_07_1\",\"cat\":\"セキュリティ\",\"difficulty\":\"基礎\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"knowledge\",\"q\":\"脆弱性の深刻度を数値で表す代表的な枠組みは？\",\"options\":[\"CVE\",\"CWE\",\"CPE\",\"CVSS\"],\"a\":3,\"exp\":\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"公開された個々の脆弱性へ識別番号を付ける仕組み。 ここで求める定義には当てはまらない。\",\"ソフトウェアの弱点の種類を分類する体系。 問題文の条件とは一致しない。\",\"製品やOSなどのプラットフォームを一意に表現するための命名体系。 同じ分野の用語だが、問われている役割ではない。\",\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "うこの問題の説明としては適切でない。\",\"FW・WAF・IDS・IPSの役割を混同しないこと。\"],\"distractorTopicIds\":[\"core_11_01\",\"core_11_02\",\"core_11_05\"],\"stemAudit\":\"v89-varied\",\"cognitiveLevel\":\"適用\",\"applicationAudit\":\"v92-pass\",\"applicationDemand\":\"概念判別\"},{\"id\":\"coreq_11_07_1\",\"cat\":\"セキュリティ\",\"difficulty\":\"基礎\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"knowledge\",\"q\":\"脆弱性の深刻度を数値で表す代表的な枠組みは？\",\"options\":[\"CVE\",\"CWE\",\"CPE\",\"CVSS\"],\"a\":3,\"exp\":\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"公開された個々の脆弱性へ識別番号を付ける仕組み。 ここで求める定義には当てはまらない。\",\"ソフトウェアの弱点の種類を分類する体系。 問題文の条件とは一致しない。\",\"製品やOSなどのプラットフォームを一意に表現するための命名体系。 同じ分野の用語だが、問われている役割ではない。\",\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\"],\"distractorAudit\":\"v89-same-domain\",\"cognitiv…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "ionAudit\":\"v92-pass\",\"applicationDemand\":\"概念判別\"},{\"id\":\"coreq_11_07_1\",\"cat\":\"セキュリティ\",\"difficulty\":\"基礎\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"knowledge\",\"q\":\"脆弱性の深刻度を数値で表す代表的な枠組みは？\",\"options\":[\"CVE\",\"CWE\",\"CPE\",\"CVSS\"],\"a\":3,\"exp\":\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"公開された個々の脆弱性へ識別番号を付ける仕組み。 ここで求める定義には当てはまらない。\",\"ソフトウェアの弱点の種類を分類する体系。 問題文の条件とは一致しない。\",\"製品やOSなどのプラットフォームを一意に表現するための命名体系。 同じ分野の用語だが、問われている役割ではない。\",\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\"],\"distractorAudit\":\"v89-same-domain\",\"cognitiveLevel\":\"想起\",\"recallAudit\":\"v93-retained\",\"recallDemand\":\"用語・役割\"},{\"id\":\"coreq_11_07_2\",\"cat\":\"セキュリティ\",\"difficulty\":\"標準\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_0…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "、問われている役割ではない。\",\"「CVSS」が正解です。CVSS（Common Vulnerability Scoring System）は脆弱性の深刻度を数値化する枠組みである。診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」。\"],\"distractorAudit\":\"v89-same-domain\",\"cognitiveLevel\":\"想起\",\"recallAudit\":\"v93-retained\",\"recallDemand\":\"用語・役割\"},{\"id\":\"coreq_11_07_2\",\"cat\":\"セキュリティ\",\"difficulty\":\"標準\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"application\",\"q\":\"「セキュリティ技術評価」に当てはまる説明はどれか。\",\"options\":[\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合がある。\",\"インターネット公開Webでは、ファイアウォールに加えてWAF、TLS、認証、ログ監視を組み合わせる構成がある。\",\"偽サイトへ誘導し認証情報を入力させるのはフィッシングの例である。\",\"高影響・高頻度リスクを優先的に対策する。\"],\"a\":0,\"exp\":\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"この内容は「セキュリティ実装技術」で扱う事項であり、「セキュリティ技術評価」について問うこの問題の説明としては適切でない。\",\"この内容は「情報セキュリティの脅威」で扱う事項であり、「セキュリティ技術評価」について問うこの問題の説明としては適切でない。\",\"この内容は「リスクマネジメント」で扱う事項で…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "技術評価」について問うこの問題の説明としては適切でない。\",\"この内容は「リスクマネジメント」で扱う事項であり、「セキュリティ技術評価」について問うこの問題の説明としては適切でない。\"],\"distractorTopicIds\":[\"core_11_08\",\"core_11_01\",\"core_11_04\"],\"stemAudit\":\"v89-varied\",\"cognitiveLevel\":\"適用\",\"applicationAudit\":\"v92-pass\",\"applicationDemand\":\"具体例選択\"},{\"id\":\"coreq_11_07_3\",\"cat\":\"セキュリティ\",\"difficulty\":\"標準\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"discrimination\",\"q\":\"「セキュリティ技術評価」で混同しやすい点を正しく説明したものはどれか。\",\"options\":[\"「暗号化されている＝アプリ脆弱性も防げる」ではない。TLSとWAFの目的は異なる。\",\"用語を暗記するだけでなく侵入経路と被害を結び付ける。\",\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにする。\",\"ウイルス対策ソフトを入れれば管理が完成、ではない。\"],\"a\":2,\"exp\":\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにします。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"この内容は「セキュリティ実装技術」で扱う事項であり、「セキュリティ技術評価」について問うこの問題の説明としては適切でない。\",\"この内容は「情報セキュリティの脅威」で扱う事項であり、「セキュリティ技術評価」について問うこの問題の説明としては適切でない。\",\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにします。\",\"この内容は「情報セキュリティマネジメント」で扱う事項であり、「…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "ず時計の基準をそろえる。\",\"choiceExps\":[\"DNSは名前解決の仕組みで、機器時刻を同期しない。\",\"DHCPはIP設定などを配布する仕組みで、時刻同期の中心ではない。\",\"複数機器のログを時系列で突き合わせるには、各機器の時計をNTPで同期しておくことが重要。\",\"SNMPは機器監視・管理に使うが、時刻同期を担うものではない。\"],\"practicalAudit\":\"v80-pass\",\"examDepth\":\"context-judgment\",\"cognitiveLevel\":\"判断\",\"judgmentAudit\":\"v91-rewritten\",\"judgmentDemand\":\"文脈比較\"},{\"id\":\"challenge_v92_11_07\",\"cat\":\"セキュリティ\",\"difficulty\":\"実戦\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"scenario\",\"q\":\"外部攻撃者と同様の手順で認証突破や権限昇格を試し、侵入できるかだけでなく、侵入後にどの資産まで到達できるかも確認したい。最も近いものはどれか。\",\"options\":[\"脆弱性スキャン\",\"セキュアコードレビュー\",\"リスクアセスメント\",\"ペネトレーションテスト\"],\"a\":3,\"exp\":\"実際の攻撃を模擬し、侵入の可否や侵入後の影響範囲まで確認するのはペネトレーションテスト。\",\"hint\":\"『弱点を列挙する』だけか、『実際に攻撃経路を試す』かを区別する。\",\"choiceExps\":[\"脆弱性スキャンは既知の弱点を自動検出することが中心で、実侵入の到達範囲確認とは異なる。\",\"コードレビューはソースコード上の問題を確認する活動。\",\"リスクアセスメントはリスクを特定・分析・評価する活動。\",\"実際の攻撃を模擬し、侵入の可否や侵入後の影響範囲まで確認するのはペネトレーションテスト。\"],\"qualityOverride\":\"v78-plausible-distractors\",\"pra…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "CPはIP設定などを配布する仕組みで、時刻同期の中心ではない。\",\"複数機器のログを時系列で突き合わせるには、各機器の時計をNTPで同期しておくことが重要。\",\"SNMPは機器監視・管理に使うが、時刻同期を担うものではない。\"],\"practicalAudit\":\"v80-pass\",\"examDepth\":\"context-judgment\",\"cognitiveLevel\":\"判断\",\"judgmentAudit\":\"v91-rewritten\",\"judgmentDemand\":\"文脈比較\"},{\"id\":\"challenge_v92_11_07\",\"cat\":\"セキュリティ\",\"difficulty\":\"実戦\",\"concept\":\"セキュリティ技術評価\",\"coreTopicId\":\"core_11_07\",\"angle\":\"scenario\",\"q\":\"外部攻撃者と同様の手順で認証突破や権限昇格を試し、侵入できるかだけでなく、侵入後にどの資産まで到達できるかも確認したい。最も近いものはどれか。\",\"options\":[\"脆弱性スキャン\",\"セキュアコードレビュー\",\"リスクアセスメント\",\"ペネトレーションテスト\"],\"a\":3,\"exp\":\"実際の攻撃を模擬し、侵入の可否や侵入後の影響範囲まで確認するのはペネトレーションテスト。\",\"hint\":\"『弱点を列挙する』だけか、『実際に攻撃経路を試す』かを区別する。\",\"choiceExps\":[\"脆弱性スキャンは既知の弱点を自動検出することが中心で、実侵入の到達範囲確認とは異なる。\",\"コードレビューはソースコード上の問題を確認する活動。\",\"リスクアセスメントはリスクを特定・分析・評価する活動。\",\"実際の攻撃を模擬し、侵入の可否や侵入後の影響範囲まで確認するのはペネトレーションテスト。\"],\"qualityOverride\":\"v78-plausible-distractors\",\"practicalAudit\":\"v80-pass\",\"examDepth\":\"context-judgment\",\"cog…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "FはOS上のファイルを常時走査してマルウェアを隔離するソフトウェアである。\",\"WAFはWeb通信の記録を中心とする装置で、不正リクエストの遮断はファイアウォールに任せる。\"],\"a\":1,\"exp\":\"WAFはWebアプリへの不正なHTTPリクエストを検査する対策です。\",\"hint\":\"防御・検知・復旧の各段階を用意\",\"choiceExps\":[\"IPやポート中心の制御はファイアウォールの代表的な役割です。\",\"WAFはWebアプリへの不正なHTTPリクエストを検査する対策です。\",\"ファイルのマルウェア検査はウイルス対策ソフトなどの役割です。\",\"WAFはHTTPリクエスト内容を検査し、Webアプリへの攻撃を防ぐために使います。\"],\"angle\":\"application\"},\"coreq_11_07_2\":{\"q\":\"「セキュリティ技術評価」に当てはまる説明はどれか。\",\"options\":[\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合がある。\",\"脆弱性の技術的深刻度が同じなら、利用状況や資産価値にかかわらず対策優先度も同一にする。\",\"脆弱性診断で検出された項目は、事業影響を評価せず検出順に対処する。\",\"CVSSなどの技術的な評価値を組織固有のリスク値としてそのまま採用する。\"],\"a\":0,\"exp\":\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"同じ脆弱性でも資産価値、露出度、業務依存度で優先度は変わり得ます。\",\"検出後は影響度や発生可能性などを踏まえて優先順位を決めます。\",\"技術的深刻度は重要ですが、組織固有の事業影響まで単独で表すものではありません。\"],\"angle\":\"application\"},\"coreq_11_07_3\":{…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": ",\"CVSSなどの技術的な評価値を組織固有のリスク値としてそのまま採用する。\"],\"a\":0,\"exp\":\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"同じ脆弱性でも、外部公開サーバと隔離された検証端末では事業上の優先度が異なる場合があります。\",\"同じ脆弱性でも資産価値、露出度、業務依存度で優先度は変わり得ます。\",\"検出後は影響度や発生可能性などを踏まえて優先順位を決めます。\",\"技術的深刻度は重要ですが、組織固有の事業影響まで単独で表すものではありません。\"],\"angle\":\"application\"},\"coreq_11_07_3\":{\"q\":\"「セキュリティ技術評価」で混同しやすい点を正しく説明したものはどれか。\",\"options\":[\"技術的な深刻度を事業影響より優先し、隔離環境の脆弱性も高い優先度で対処する。\",\"資産価値が高ければ、脆弱性の有無や攻撃可能性を確認せず最高リスクと判定する。\",\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにする。\",\"リスク評価では事業部門が付けた業務重要度を優先し、脆弱性の技術評価は参考情報として扱う。\"],\"a\":2,\"exp\":\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにします。\",\"hint\":\"診断は「弱点を探す」、リスク評価は「事業への影響まで含めて優先度を決める」\",\"choiceExps\":[\"技術的深刻度に加えて、露出度や業務影響も含めて優先度を判断します。\",\"資産価値だけでなく、脅威・脆弱性・発生可能性なども評価します。\",\"技術的な深刻度と、組織固有の資産価値・利用状況を同一視しないようにします。\",\"技術評価と事業影響の両方を組み合わせて判断することが重要です。\"],\"angle\":\"discrimination\"},\"coreq_12_01_2\":{\"q\":\"「システム開発技…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "re_11_02\":{\"deep\":\"共通鍵暗号は同じ鍵で暗号化・復号するため高速だが、相手へ秘密鍵を安全に渡す必要がある。公開鍵暗号は公開鍵と秘密鍵を使い、鍵配送や認証に有利だが処理は重い。実際のTLSでは公開鍵技術で認証・鍵共有を行い、通信データ本体は高速な共通鍵暗号で保護する方式が一般的である。\",\"extra\":[\"ハッシュは一方向性が重要で、暗号化のように復号して元へ戻す用途ではない\",\"用途を『機密性・改ざん検出・認証』に分けて考える\"]},\"core_11_06\":{\"deep\":\"対策は予防だけでなく、検知・対応・復旧まで多層で考える。技術対策として認証・アクセス制御・暗号化・マルウェア対策、人的対策として教育、物理対策として入退室管理などがある。単一対策に依存せず、多層防御にすることが重要である。\",\"extra\":[\"バックアップはランサムウェア被害からの復旧にも有効\",\"最小権限は必要な権限だけを与え被害範囲を抑える\",\"FWは主に通信元・宛先やポートなどで通信を制御し、WAFはWebアプリへのHTTP/HTTPSリクエストを検査する。IDSは検知、IPSは検知に加えて遮断を行う。\",\"多要素認証、最小権限、パッチ適用、バックアップなどを組み合わせる多層防御により、一つの対策が破られても被害を広げにくくする。\"]},\"core_11_07\":{\"deep\":\"安全性の評価では、脆弱性診断・ペネトレーションテスト・第三者認証など目的が異なる。脆弱性診断は既知の弱点を広く確認し、ペネトレーションテストは実際の攻撃を模して侵入可能性や影響を確認する。\",\"extra\":[\"評価の実施自体が安全を永続的に保証するわけではない\",\"評価対象・時点・前提条件を確認する\"]},\"core_11_08\":{\"deep\":\"ファイアウォールは主にネットワーク層・トランスポート層の条件で通信を制御し、WAFはHTTPリクエストなどWebアプリ層を検査する。IDSは検知・通知、IPSは検知に加えて遮断まで行う。TLSは通信路の暗号化・認証を担う。\",\"extra\":[\"…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "だけで使うIP」\",\"プライベートIPアドレス。\"],[\"「複数端末が一つのグローバルIPを共有」\",\"NAPT。複数端末をIPアドレスとポート番号で一つのグローバルIPへ対応付ける。\"]],\"core_10_06\":[[\"「名前をIPへ変換」\",\"DNS。ドメイン名をIPアドレスなどへ名前解決する。\"],[\"「メール配送先」「IPv6アドレス」\",\"MX/AAAAなどDNSレコードの種類を確認する。\"]],\"core_10_07\":[[\"「順序・再送・到達確認」\",\"TCP。順序制御・再送・到達確認などで信頼性を高める。\"],[\"「軽量・低遅延・リアルタイム」\",\"UDP。制御を簡略化し、低遅延やリアルタイム性を重視する。\"]],\"core_10_08\":[[\"「メール送信」\",\"SMTP。電子メールを送信・中継するときに使う。\"],[\"「メールを端末へ取得/サーバ上で管理」\",\"POP3/IMAPを区別する。\"]],\"core_10_09\":[[\"「誤りを見つける」\",\"パリティやCRCなど検出方式。\"],[\"「再送せず訂正」\",\"FECなど誤り訂正方式を考える。\"]],\"core_10_10\":[[\"「死活監視」「機器情報取得」\",\"ネットワーク管理プロトコルや監視を考える。\"],[\"「障害・性能・構成」\",\"何を管理する問題かを先に分類する。\"]],\"core_11_01\":[[\"「攻撃する存在/出来事」\",\"脅威。情報資産へ損害を与える原因となる存在や事象。\"],[\"「弱点」「設定不備」\",\"脆弱性。被害の可能性と影響まで含むならリスクを考える。\"]],\"core_11_02\":[[\"「暗号化と復号で同じ鍵」\",\"共通鍵暗号。暗号化と復号に同じ秘密鍵を使う。\"],[\"「公開鍵/秘密鍵」「一方向変換」\",\"前者は公開鍵暗号、後者はハッシュ。\"]],\"core_11_03\":[[\"「改ざん検知・本人性」\",\"デジタル署名。改ざん検知と署名者の確認に使う。\"],[\"「公開鍵が本人のものと証明」\",\"デジタル証明書と認証局。\"]],\"core_11_04\":[[\"「活…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "かを先に分類する。\"]],\"core_11_01\":[[\"「攻撃する存在/出来事」\",\"脅威。情報資産へ損害を与える原因となる存在や事象。\"],[\"「弱点」「設定不備」\",\"脆弱性。被害の可能性と影響まで含むならリスクを考える。\"]],\"core_11_02\":[[\"「暗号化と復号で同じ鍵」\",\"共通鍵暗号。暗号化と復号に同じ秘密鍵を使う。\"],[\"「公開鍵/秘密鍵」「一方向変換」\",\"前者は公開鍵暗号、後者はハッシュ。\"]],\"core_11_03\":[[\"「改ざん検知・本人性」\",\"デジタル署名。改ざん検知と署名者の確認に使う。\"],[\"「公開鍵が本人のものと証明」\",\"デジタル証明書と認証局。\"]],\"core_11_04\":[[\"「活動をやめる」「保険」「残して受け入れる」\",\"回避/移転/受容を対応させる。\"],[\"「発生確率や影響を下げる」\",\"リスク低減。発生確率または影響を小さくする対策。\"]],\"core_11_05\":[[\"「組織として継続的に管理」\",\"ISMS。情報セキュリティを組織として継続管理する仕組み。\"],[\"「規程・教育・物理対策」\",\"技術対策だけでない情報セキュリティ管理を考える。\"]],\"core_11_06\":[[\"「WebアプリへのHTTP要求を検査」\",\"WAF。WebアプリへのHTTP/HTTPSリクエストを検査する。\"],[\"「検知だけ/検知して遮断」\",\"IDS/IPSを区別する。\"]],\"core_11_07\":[[\"「既知の弱点を広く調べる」\",\"脆弱性診断。既知の弱点や設定不備を広く確認する。\"],[\"「攻撃者の視点で侵入可能性を検証」\",\"ペネトレーションテスト。\"]],\"core_11_08\":[[\"「通信路を暗号化」\",\"TLSやVPN。通信経路を暗号化して盗聴・改ざんのリスクを下げる。\"],[\"「認証・アクセス制御・ログ」\",\"どの防御層を実装する技術かを見る。\"]],\"core_12_01\":[[\"「要件→設計→実装→テスト」\",\"開発工程の順序と各成果物を対応させる。\"],[\"「後工程で見つかった上流…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "_01\":[[\"「攻撃する存在/出来事」\",\"脅威。情報資産へ損害を与える原因となる存在や事象。\"],[\"「弱点」「設定不備」\",\"脆弱性。被害の可能性と影響まで含むならリスクを考える。\"]],\"core_11_02\":[[\"「暗号化と復号で同じ鍵」\",\"共通鍵暗号。暗号化と復号に同じ秘密鍵を使う。\"],[\"「公開鍵/秘密鍵」「一方向変換」\",\"前者は公開鍵暗号、後者はハッシュ。\"]],\"core_11_03\":[[\"「改ざん検知・本人性」\",\"デジタル署名。改ざん検知と署名者の確認に使う。\"],[\"「公開鍵が本人のものと証明」\",\"デジタル証明書と認証局。\"]],\"core_11_04\":[[\"「活動をやめる」「保険」「残して受け入れる」\",\"回避/移転/受容を対応させる。\"],[\"「発生確率や影響を下げる」\",\"リスク低減。発生確率または影響を小さくする対策。\"]],\"core_11_05\":[[\"「組織として継続的に管理」\",\"ISMS。情報セキュリティを組織として継続管理する仕組み。\"],[\"「規程・教育・物理対策」\",\"技術対策だけでない情報セキュリティ管理を考える。\"]],\"core_11_06\":[[\"「WebアプリへのHTTP要求を検査」\",\"WAF。WebアプリへのHTTP/HTTPSリクエストを検査する。\"],[\"「検知だけ/検知して遮断」\",\"IDS/IPSを区別する。\"]],\"core_11_07\":[[\"「既知の弱点を広く調べる」\",\"脆弱性診断。既知の弱点や設定不備を広く確認する。\"],[\"「攻撃者の視点で侵入可能性を検証」\",\"ペネトレーションテスト。\"]],\"core_11_08\":[[\"「通信路を暗号化」\",\"TLSやVPN。通信経路を暗号化して盗聴・改ざんのリスクを下げる。\"],[\"「認証・アクセス制御・ログ」\",\"どの防御層を実装する技術かを見る。\"]],\"core_12_01\":[[\"「要件→設計→実装→テスト」\",\"開発工程の順序と各成果物を対応させる。\"],[\"「後工程で見つかった上流ミス」\",\"手戻りコストが大きいことを考え…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "のデータ量は8倍してbitへ直す。\",\"core_10_02\":\"ハブ・L2スイッチ・ルータを全部同じ中継装置と覚えない。扱う情報と中継する範囲が異なる。\",\"core_10_03\":\"IPv4の/24をホスト部24bitと読まない。プレフィックス長はネットワーク部のbit数を表す。\",\"core_10_04\":\"利用可能ホスト数で常に2^nをそのまま使わない。通常のIPv4サブネットではネットワーク/ブロードキャスト分を除く。\",\"core_10_05\":\"プライベートIPアドレスがそのままインターネットで経路制御されると考えない。外部通信ではNAT/NAPTなどを使う。\",\"core_10_06\":\"DNSをWeb専用の仕組みと考えない。メール配送先など、名前と各種情報の対応にも使う。\",\"core_10_07\":\"TCP=速い、UDP=遅いという分類にしない。信頼性制御の有無と低遅延性を比較する。\",\"core_10_08\":\"SMTPをメール受信用プロトコルとしない。送信はSMTP、受信はPOP3やIMAPを使う。\",\"core_10_09\":\"誤り検出と再送制御と誤り訂正を同じ仕組みと考えない。検出後に再送するのか、受信側で訂正するのかを見る。\",\"core_10_10\":\"監視対象が応答しないだけで原因をネットワーク断と断定しない。機器停止、サービス停止、設定など複数の原因を切り分ける。\",\"core_11_01\":\"脅威・脆弱性・リスクを同義語として扱わない。脅威が弱点を突き、損失につながる可能性と影響がリスク。\",\"core_11_02\":\"ハッシュを暗号化の一種として復号できると考えない。ハッシュは一方向変換で、元データへ戻す用途ではない。\",\"core_11_03\":\"デジタル署名だけで通信内容の秘密を守れると考えない。署名の主目的は本人性・完全性・否認防止。\",\"core_11_04\":\"リスク移転をリスク消滅と考えない。保険などで損失負担を移しても、事故そのものの発生可能性は残る。\",\"core_11_05\":\"ウイルス対策製品を導入すればISM…"
+    },
+    {
+      "term": "弱点",
+      "function": "(unresolved)",
+      "context": "延性を比較する。\",\"core_10_08\":\"SMTPをメール受信用プロトコルとしない。送信はSMTP、受信はPOP3やIMAPを使う。\",\"core_10_09\":\"誤り検出と再送制御と誤り訂正を同じ仕組みと考えない。検出後に再送するのか、受信側で訂正するのかを見る。\",\"core_10_10\":\"監視対象が応答しないだけで原因をネットワーク断と断定しない。機器停止、サービス停止、設定など複数の原因を切り分ける。\",\"core_11_01\":\"脅威・脆弱性・リスクを同義語として扱わない。脅威が弱点を突き、損失につながる可能性と影響がリスク。\",\"core_11_02\":\"ハッシュを暗号化の一種として復号できると考えない。ハッシュは一方向変換で、元データへ戻す用途ではない。\",\"core_11_03\":\"デジタル署名だけで通信内容の秘密を守れると考えない。署名の主目的は本人性・完全性・否認防止。\",\"core_11_04\":\"リスク移転をリスク消滅と考えない。保険などで損失負担を移しても、事故そのものの発生可能性は残る。\",\"core_11_05\":\"ウイルス対策製品を導入すればISMSが完成すると考えない。人・組織・物理・技術を継続管理する仕組みである。\",\"core_11_06\":\"FW・WAF・IDS・IPSを全部「侵入を防ぐ装置」とまとめない。見る通信層と、検知だけか遮断までかが違う。\",\"core_11_07\":\"脆弱性診断とペネトレーションテストを同じ試験としない。弱点を広く探すのか、実際の侵入可能性を検証するのかが違う。\",\"core_11_08\":\"TLSやVPNを認証そのものと混同しない。通信路保護、本人確認、アクセス制御は別の役割。\",\"core_12_01\":\"工程名だけを暗記しない。各工程で何を決め、何を成果物として次へ渡すかを対応させる。\",\"core_12_02\":\"「使いやすい」「高性能」のような曖昧語だけでは要件になりにくい。測定・検証できる基準へ具体化する。\",\"core_12_03\":\"外部設計を外注先が行う設計と解釈しない。利用者…"
+    },
+    {
+      "term": "弱点",
+      "function": "categoryAdvice",
+      "context": "のがおすすめです。'; if(a.dominant==='計算ミス') return '途中式を省略せず、数値問題をゆっくり解く練習を優先しましょう。'; if(a.dominant==='読み違い') return '「適切／不適切」「以上／未満」など条件語へ印を付ける練習が有効です。'; if(a.dominant==='2択で迷った') return '似た用語の違いを比較表で整理し、根拠を言葉にして選ぶ練習が有効です。'; if(a.dominant==='時間不足' || a.avgSec>100) return '正解できる問題でも時間を使いすぎています。90秒を目安に一度判断する練習を。'; if(a.attempts===0) return '演習データが少ないので、まずこの分野を10問解いて実力を測りましょう。'; if(a.weakestCognitive==='判断') return '判断問題が弱めです。条件を複数拾い、計算・比較・優先順位まで根拠を持って選ぶ練習を。'; if(a.weakestCognitive==='適用') return '適用問題が弱めです。用語を覚えるだけでなく、状況や目的へ当てはめる練習を増やしましょう。'; if(a.weakestCognitive==='想起') return '基礎知識の取り出しが弱めです。用語・役割・定数を短時間で答えられるまで復習しましょう。'; return '弱点問題を解き、間違えた問題を翌日の復習までつなげましょう。'; } function sortedCategoryAnalytics(){ return WEAK_CATEGORIES.map(categoryAnalytics).sort((a,b)=>b.priority-a.priority); } function aggregateWeakReasons(){ const totals={'知識不足':0,'計算ミス':0,'読み違い':0,'2択で迷った':0,'時間不足':0,'用語を知らなかった':0,'計算方法…"
+    },
+    {
+      "term": "弱点",
+      "function": "finishMock",
+      "context": "}; profile.mockHistory.unshift(lastMockAttempt); profile.mockHistory=profile.mockHistory.slice(0,10); profile.xp += Math.round(correct*2); saveProfile(); document.getElementById('mockExam').classList.remove('show'); document.getElementById('mockResult').classList.add('show'); document.getElementById('mockResultScore').textContent=`${rate}%`; document.getElementById('mockStatCorrect').textContent=correct; document.getElementById('mockStatWrong').textContent=wrong; document.getElementById('mockStatBlank').textContent=blank; document.getElementById('mockStatTime').textContent=`${Math.floor(used/60)}m`; let message='弱点を見つけられたことが収穫です。'; let icon='📚'; if(rate>=85){message='かなり安定しています。見直し問題を中心に仕上げましょう。';icon='🏆';} else if(rate>=70){message='良い位置です。誤答分野を復習するとさらに安定します。';icon='🎯';} else if(rate>=55){message='基礎はつながっています。弱点の再学習を優先しましょう。';icon='📈';} if(timeup) message='時間終了です。未回答を含めて、時間配分も復習材料にしましょう…"
+    },
+    {
+      "term": "弱点",
+      "function": "finishMock",
+      "context": "ist.remove('show'); document.getElementById('mockResult').classList.add('show'); document.getElementById('mockResultScore').textContent=`${rate}%`; document.getElementById('mockStatCorrect').textContent=correct; document.getElementById('mockStatWrong').textContent=wrong; document.getElementById('mockStatBlank').textContent=blank; document.getElementById('mockStatTime').textContent=`${Math.floor(used/60)}m`; let message='弱点を見つけられたことが収穫です。'; let icon='📚'; if(rate>=85){message='かなり安定しています。見直し問題を中心に仕上げましょう。';icon='🏆';} else if(rate>=70){message='良い位置です。誤答分野を復習するとさらに安定します。';icon='🎯';} else if(rate>=55){message='基礎はつながっています。弱点の再学習を優先しましょう。';icon='📈';} if(timeup) message='時間終了です。未回答を含めて、時間配分も復習材料にしましょう。'; document.getElementById('mockResultIcon').textContent=icon; document.getElementById('mockResultMessage').textContent=message; renderMockDiagnosis(lastMockAttempt,byCat); const breakdown=docume…"
+    },
+    {
+      "term": "弱点",
+      "function": "finishQuizSession",
+      "context": ").textContent=quizCorrectCount; document.getElementById('sessionWrong').textContent=quizWrongCount; document.getElementById('sessionRecovered').textContent=quizRecoveredCount; document.getElementById('sessionRecoveredCard').style.display=quizRecoveredCount?'':'none'; document.getElementById('sessionXp').textContent=`+${quizCorrectCount*10 + quizWrongCount*2 + quizRecoveredCount*5}`; recordTechniqueSessionStats(); let comment='いい復習になりました。'; if(rate>=90) comment='かなり安定しています！次は少し難しい問題へ進めます。'; else if(rate>=70) comment='合格圏を意識できる良い出来です。間違えた問題を復習しましょう。'; else if(rate>=50) comment='理解は進んでいます。苦手分野をもう一周すると伸びます。'; else comment='今は弱点を発見できたことが収穫です。明日の復習に自動で回します。'; document.getElementById('sessionComment').textContent=comment; const wrongCats={}; sessionLog.filter(x=>!x.ok).forEach(x=>wrongCats[x.cat]=(wrongCats[x.cat]||0)+1); const topWrong=Object.entries(wrongCats).sort((a,b)=>b[1]-a[1]).slice(0,2…"
+    },
+    {
+      "term": "弱点",
+      "function": "renderAllocation",
+      "context": "<div class=\"pace-projection\"><b>完了見込み：</b> ${finish}${p.slack>=0?`（試験日の約${p.slack}日前）`:`（試験日より約${Math.abs(p.slack)}日遅れ）`}</div> <div class=\"pace-adjustment\">${adj}</div> ${!p.canRecover&&p.remaining>0?`<div class=\"pace-note\">1日120分で進めた場合でも、最短完了目安は ${paceDateText(p.maxDate)} ごろです。</div>`:''} <div class=\"pace-note\">この判定はFE QUEST内の推奨メニューを終えるための目安で、合格可能性そのものではありません。</div> </div>`; } function renderAllocation(){ const root=document.getElementById('planAllocation');if(!root)return; const total=effectiveStudyMinutes(),p=examPaceStatus(),a=taskAllocation(total); const taper=!!p.taper; const lessonLabel=taper&&p.days<=3?'既習の弱点補強':p.hasExam&&p.days<=30?'弱点学習':'新規学習'; const bossLabel=taper&&p.days===0?'ウォームアップ':p.hasExam&&p.days<=14?'総合チェック':'総合チェック'; const items=[['🧠','復習',a.review],['📘',lessonLabel,a.lesson],['💻','科目B',a.subjectB],['👑',bossLabel,a.boss]].filter(x=>x[2]>0); const note=document.get…"
+    },
+    {
+      "term": "弱点",
+      "function": "renderAllocation",
+      "context": "ion\"><b>完了見込み：</b> ${finish}${p.slack>=0?`（試験日の約${p.slack}日前）`:`（試験日より約${Math.abs(p.slack)}日遅れ）`}</div> <div class=\"pace-adjustment\">${adj}</div> ${!p.canRecover&&p.remaining>0?`<div class=\"pace-note\">1日120分で進めた場合でも、最短完了目安は ${paceDateText(p.maxDate)} ごろです。</div>`:''} <div class=\"pace-note\">この判定はFE QUEST内の推奨メニューを終えるための目安で、合格可能性そのものではありません。</div> </div>`; } function renderAllocation(){ const root=document.getElementById('planAllocation');if(!root)return; const total=effectiveStudyMinutes(),p=examPaceStatus(),a=taskAllocation(total); const taper=!!p.taper; const lessonLabel=taper&&p.days<=3?'既習の弱点補強':p.hasExam&&p.days<=30?'弱点学習':'新規学習'; const bossLabel=taper&&p.days===0?'ウォームアップ':p.hasExam&&p.days<=14?'総合チェック':'総合チェック'; const items=[['🧠','復習',a.review],['📘',lessonLabel,a.lesson],['💻','科目B',a.subjectB],['👑',bossLabel,a.boss]].filter(x=>x[2]>0); const note=document.getElementById('allocationP…"
+    },
+    {
+      "term": "弱点",
+      "function": "renderBFinalDiagnosis",
+      "context": "ilter(d=>(profile.bFinalMistakeStats?.[bFinalMistakeKey(d)]?.misses||0)>=2).length; return {topFormat:top?.[0]||'—',topCount:top?.[1]||0,topDomain:topDomain?.[0]||'—',topDomainCount:topDomain?.[1]||0,secWrong,algoWrong,repeat}; } function renderBFinalDiagnosis(a){ const root=document.getElementById('bFinalDiagnosis');if(!root)return;const x=bFinalAutoDiagnosis(a); root.innerHTML=`<div class=\"bfinal-diagnosis-title\">今回の総合実戦診断</div><div class=\"bfinal-diagnosis-grid\"> <div class=\"bfinal-diagnosis-item\"><span>崩れた形式</span><b>${escapeHtml(x.topFormat)}</b><small>${x.topCount}問の誤答</small></div> <div class=\"bfinal-diagnosis-item\"><span>弱点領域</span><b>${escapeHtml(x.topDomain)}</b><small>${x.topDomainCount}問の誤答</small></div> <div class=\"bfinal-diagnosis-item\"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>以前の総合実戦でも同じ型でつまずいた問題</small></div> </div>`; } function finishBFinal(timeUp=false){ if(!bFinalIt…"
+    },
+    {
+      "term": "弱点",
+      "function": "renderDailyPlan",
+      "context": "0),0)||effectiveStudyMinutes(); const doneTasks=tasks.filter(t=>dailyTaskDone(rec,t)); const doneMinutes=doneTasks.reduce((s,t)=>s+t.minutes,0); const pct=Math.min(100,Math.round(doneMinutes/total*100)); document.getElementById('dailyProgressBar').style.width=pct+'%'; document.getElementById('dailyProgressLabel').textContent=`${doneMinutes} / ${total}分`; document.getElementById('dailyDoneLabel').textContent=`${doneTasks.length} / ${tasks.length} 完了`; const pace=examPaceStatus(); document.getElementById('todayPlanMeta').textContent=pace.hasExam&&!pace.expired ? `${pace.phase.name}・今日${total}分・復習待ち${reviewWorkloadCount()}件・弱点「${weakestSkill()}」` : `標準${total}分・復習待ち${reviewWorkloadCount()}件・弱点「${weakestSkill()}」`; const ready=calcReadiness(); document.getElementById('homeReadiness').textContent=ready+'%'; root.innerHTML=''; tasks.forEach(t=>{ const done=dailyTaskDone(rec,t); const d=documen…"
+    }
+  ]
+}
