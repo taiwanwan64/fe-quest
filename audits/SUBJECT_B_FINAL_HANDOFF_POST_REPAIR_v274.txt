@@ -1,0 +1,37 @@
+FE QUEST v274 — Subject B Final-Result Handoff Post-Repair Audit
+==================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v273
+Source main: 78a59e19d08cb104899283eef75b07480cc4329a
+Learner-facing change in v274: none
+
+Purpose
+-------
+v273 removed the redundant Subject B menu stop after the full final result. v274 verifies the repair after normal assembly and strengthens the interaction probe: a legacy bubbling click listener is registered first, then the v273 capture listener is installed, and a synthetic click is dispatched using DOM phase order.
+
+Synthetic dispatch probe
+------------------------
+Listeners: [{'type': 'click', 'capture': False}, {'type': 'click', 'capture': True}]
+Continuation calls: 1
+Legacy menu calls: 0
+preventDefault calls: 1
+stopImmediatePropagation calls: 1
+Idempotence marker present: True
+
+Regression
+----------
+The v273 handoff runtime spec is unchanged.
+Timed-final save/clear/start resume functions are unchanged from v273.
+Existing Subject B continuation/recommendation functions are unchanged.
+Subject B authored TRACE, final algorithm, compound and security banks are unchanged.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+The interaction-friction sequence is closed. The final-result handoff now removes one demonstrated redundant menu stop while protective submit/exit confirmations, TRACE prediction pauses and timed-final resume behavior remain intact. Return development priority to learner-facing Subject B content and transfer quality rather than further navigation changes.

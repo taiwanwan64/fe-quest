@@ -1,0 +1,48 @@
+{
+  "version": "v274",
+  "previous": "v273",
+  "parent": "78a59e19d08cb104899283eef75b07480cc4329a",
+  "result": "PASS — NO FINDINGS",
+  "dispatchProbe": {
+    "listeners": [
+      {
+        "type": "click",
+        "capture": false
+      },
+      {
+        "type": "click",
+        "capture": true
+      }
+    ],
+    "legacyMenu": 0,
+    "continued": 1,
+    "prevented": 1,
+    "stopped": 1,
+    "dataset": {
+      "feqFinalHandoffV273": "1"
+    },
+    "spec": {
+      "sourceAudit": "v272-subject-b-resume-handoff",
+      "sourceFinding": "subject_b_completion_handoff_returns_to_menu",
+      "targetId": "bFinalBackMenu",
+      "policy": "capture-click-route-to-existing-subject-b-continuation",
+      "destination": "continueSubjectBFlow",
+      "preventLegacyMenuHandler": true,
+      "timedFinalResumeChanged": false,
+      "questionSelectionChanged": false,
+      "questionOrderChanged": false,
+      "scoringChanged": false,
+      "examCountdownChanged": false,
+      "readinessChanged": false,
+      "profileSchemaMigrationRequired": false,
+      "remoteTelemetry": false
+    }
+  },
+  "runtimeSpecStableFromV273": true,
+  "timedFinalResumeFunctionsMatchParent": true,
+  "continuationFunctionsMatchParent": true,
+  "authoredBanksMatchParent": true,
+  "finalSignatureMatch": true,
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
