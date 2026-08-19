@@ -1,0 +1,619 @@
+{
+  "version": "v242",
+  "previous": "v241",
+  "parent": "b16bf03d3051f83cf7525cb8d635b873341a4063",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "findings": [
+    {
+      "priority": "Medium",
+      "marker": "subject_b_review_reason_action_route_mismatch",
+      "detail": "43 review reason/action messages name a different practice mode from the route actually launched."
+    }
+  ],
+  "uniqueTraceTargets": 10,
+  "maxCluster": 5,
+  "clusters": [
+    {
+      "id": "array_reverse",
+      "count": 5,
+      "domains": [
+        "一次元配列"
+      ],
+      "formats": [
+        "処理結果",
+        "実行回数",
+        "空欄補充"
+      ],
+      "sources": [
+        "bexam_arr_01",
+        "bexam_arr_02",
+        "bexam_arr_03",
+        "bexam_arr_04",
+        "bexam_arr_05"
+      ],
+      "targetTitle": "配列を逆順にする"
+    },
+    {
+      "id": "bit_mask",
+      "count": 5,
+      "domains": [
+        "ビット列"
+      ],
+      "formats": [
+        "処理結果",
+        "変更予測",
+        "空欄補充"
+      ],
+      "sources": [
+        "bexam_bit_01",
+        "bexam_bit_02",
+        "bexam_bit_03",
+        "bexam_bit_04",
+        "bexam_bit_05"
+      ],
+      "targetTitle": "ビットマスク"
+    },
+    {
+      "id": "recursion",
+      "count": 5,
+      "domains": [
+        "再帰・関数"
+      ],
+      "formats": [
+        "処理結果",
+        "実行回数",
+        "空欄補充"
+      ],
+      "sources": [
+        "bexam_rec_01",
+        "bexam_rec_02",
+        "bexam_rec_03",
+        "bexam_rec_04",
+        "bexam_rec_05"
+      ],
+      "targetTitle": "再帰呼出し"
+    },
+    {
+      "id": "tree_dfs",
+      "count": 5,
+      "domains": [
+        "木構造"
+      ],
+      "formats": [
+        "変更予測",
+        "実行回数",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_tree_01",
+        "bexam_tree_02",
+        "bexam_tree_03",
+        "bexam_tree_04",
+        "bexam_tree_05"
+      ],
+      "targetTitle": "木の深さ優先探索"
+    },
+    {
+      "id": "linked_list",
+      "count": 4,
+      "domains": [
+        "リスト"
+      ],
+      "formats": [
+        "処理結果",
+        "実行回数",
+        "空欄補充"
+      ],
+      "sources": [
+        "bexam_list_01",
+        "bexam_list_02",
+        "bexam_list_03",
+        "bexam_list_04"
+      ],
+      "targetTitle": "連結リストをたどる"
+    },
+    {
+      "id": "matrix_find",
+      "count": 4,
+      "domains": [
+        "二次元配列"
+      ],
+      "formats": [
+        "処理結果",
+        "空欄補充",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_mat_01",
+        "bexam_mat_02",
+        "bexam_mat_03",
+        "bexam_mat_04"
+      ],
+      "targetTitle": "二次元配列から探索"
+    },
+    {
+      "id": "nested_loop",
+      "count": 4,
+      "domains": [
+        "制御"
+      ],
+      "formats": [
+        "処理結果",
+        "実行回数",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_ctrl_01",
+        "bexam_ctrl_02",
+        "bexam_ctrl_03",
+        "bexam_ctrl_04"
+      ],
+      "targetTitle": "二重ループ"
+    },
+    {
+      "id": "object_counter",
+      "count": 4,
+      "domains": [
+        "オブジェクト指向"
+      ],
+      "formats": [
+        "処理結果",
+        "空欄補充",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_obj_01",
+        "bexam_obj_02",
+        "bexam_obj_03",
+        "bexam_obj_04"
+      ],
+      "targetTitle": "オブジェクトの状態"
+    },
+    {
+      "id": "stack_ops",
+      "count": 4,
+      "domains": [
+        "スタック・キュー"
+      ],
+      "formats": [
+        "処理結果",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_sq_01",
+        "bexam_sq_02",
+        "bexam_sq_03",
+        "bexam_sq_04"
+      ],
+      "targetTitle": "スタック操作"
+    },
+    {
+      "id": "binary_search_b",
+      "count": 3,
+      "domains": [
+        "探索・整列"
+      ],
+      "formats": [
+        "実行回数",
+        "途中状態"
+      ],
+      "sources": [
+        "bexam_algo_01",
+        "bexam_algo_02",
+        "bexam_algo_03"
+      ],
+      "targetTitle": "二分探索トレース"
+    }
+  ],
+  "metaTargetNamed": 0,
+  "reasonRouteMismatches": [
+    {
+      "sourceId": "bexam_ctrl_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_ctrl_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_ctrl_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_ctrl_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_arr_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_arr_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_arr_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_arr_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_mat_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_mat_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_mat_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_rec_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_rec_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_rec_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_rec_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_tree_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_tree_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_tree_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_obj_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_obj_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_obj_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_list_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_list_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_list_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_sq_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_sq_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_sq_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_bit_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_bit_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_bit_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_algo_01",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_algo_02",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_arr_05",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_mat_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_rec_05",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_tree_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_list_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_sq_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_bit_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_algo_03",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_obj_04",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_bit_05",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    },
+    {
+      "sourceId": "bexam_tree_05",
+      "reason": "コード理解",
+      "actual": "trace",
+      "meta": [
+        "複合問題で確認",
+        "空欄や処理目的を、コード全体の役割から判断する練習へ進みます。"
+      ]
+    }
+  ],
+  "mixedDomainClusters": [],
+  "security": {
+    "count": 15,
+    "bad": []
+  },
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "bankHash": 3218179302,
+  "semanticOK": true,
+  "source": {
+    "target": "function bFinalRemediationTarget(mode,source,domain){\n  if(mode==='security')return {mode:'security',id:source};\n  if(mode==='trace')return {mode:'trace',id:source};\n  if(mode==='exam')return {mode:'trace',id:B_FINAL_DOMAIN_REMEDIATION[domain]||'binary_search_b'};\n  if(mode==='compound')return {mode:'compound',id:source};\n  return {mode:'mock',id:null};\n}",
+    "reasonMeta": "function bFinalReviewReasonMeta(reason,d){\n  const m={\n    'トレースミス':['TRACEで1行ずつ確認','途中状態を紙に書き、変数・配列の更新を1行ずつ追います。'],\n    'コード理解':['複合問題で確認','空欄や処理目的を、コード全体の役割から判断する練習へ進みます。'],\n    '読み違い':['条件を読み直す','設問が聞いている時点・対象・条件を先に囲ってからコードを読みます。'],\n    '知識不足':[d.kind==='security'?'セキュリティ演習で確認':'学習モードで確認','用語や仕組みを短く整理してから、もう一度判断します。'],\n    '時間不足':['時間を区切って再挑戦','一つの設問に粘りすぎず、後で戻る判断を練習します。']\n  };return m[reason]||[d.kind==='security'?'セキュリティ演習へ':'学習モードへ','まず該当する学習モードで処理を確認します。'];\n}",
+    "renderer": "function(attempt,earned){const out=_renderBFinalResultV230(attempt,earned);injectFinalReview(attempt);return out;}"
+  }
+}

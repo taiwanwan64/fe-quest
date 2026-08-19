@@ -1,0 +1,49 @@
+FE QUEST v242 — Subject B Remediation Target Granularity Audit
+===============================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous release: v241
+Source main: b16bf03d3051f83cf7525cb8d635b873341a4063
+Learner-facing change in v242: none
+
+Algorithm recovery target topology
+----------------------------------
+Final algorithm items: 43
+Reachable TRACE targets: 10
+Largest target cluster: 5 items
+Target clusters mixing multiple final-item domains: 0
+Review reason/action messages that name a different practice mode from the launched route: 43
+Rows whose review advice explicitly names the exact TRACE exercise title: 0 / 43
+
+Cluster detail
+--------------
+- array_reverse (配列を逆順にする): 5 items / domains 一次元配列 / formats 処理結果, 実行回数, 空欄補充
+- bit_mask (ビットマスク): 5 items / domains ビット列 / formats 処理結果, 変更予測, 空欄補充
+- recursion (再帰呼出し): 5 items / domains 再帰・関数 / formats 処理結果, 実行回数, 空欄補充
+- tree_dfs (木の深さ優先探索): 5 items / domains 木構造 / formats 変更予測, 実行回数, 途中状態
+- linked_list (連結リストをたどる): 4 items / domains リスト / formats 処理結果, 実行回数, 空欄補充
+- matrix_find (二次元配列から探索): 4 items / domains 二次元配列 / formats 処理結果, 空欄補充, 途中状態
+- nested_loop (二重ループ): 4 items / domains 制御 / formats 処理結果, 実行回数, 途中状態
+- object_counter (オブジェクトの状態): 4 items / domains オブジェクト指向 / formats 処理結果, 空欄補充, 途中状態
+- stack_ops (スタック操作): 4 items / domains スタック・キュー / formats 処理結果, 途中状態
+- binary_search_b (二分探索トレース): 3 items / domains 探索・整列 / formats 実行回数, 途中状態
+
+Security recovery
+-----------------
+Security final remediation targets: 15/15 direct and valid.
+
+Regression
+----------
+Question/TRACE bank hash vs v241: identical.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Findings
+--------
+- Medium: subject_b_review_reason_action_route_mismatch — 43 review reason/action messages name a different practice mode from the route actually launched.
+
+Decision
+--------
+If clean, the 43→TRACE recovery mapping is coarse only where it remains within one domain and does not contradict the learner-facing reason/action copy; keep the current mapping and move to the review UI's destination preview/actionability. If a finding is recorded, repair only the evidenced cluster or reason-to-route mismatch without changing scoring, question selection, timing, readiness thresholds, or the v239 security rotation behavior.
