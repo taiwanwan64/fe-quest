@@ -1,0 +1,1929 @@
+FE QUEST v292 — Result-Screen Delegate Chain Audit
+===================================================
+
+Result
+------
+PASS — DELEGATE CHAIN CAPTURED
+Previous release: v291
+Source main: 5adaa447be45063c2457d47d9ca9e8d97f3bf127
+Learner-facing change in v292: none
+
+Purpose
+-------
+v291 showed that the visible mini-mock renderer delegates to injectBMockReview and that the final renderer wraps an earlier implementation. v292 recursively follows those production delegates so route actions supplied by arrow functions, older wrappers or injection helpers are not missed by static declaration-name discovery.
+
+Mini-mock delegate graph
+------------------------
+{
+  "renderBMockResult": {
+    "depth": 0,
+    "callees": [
+      "_renderBMockResultV230",
+      "injectBMockReview"
+    ],
+    "markers": [
+      "injectBMockReview"
+    ]
+  }
+}
+
+Mini-mock route-capable functions
+---------------------------------
+[]
+
+Final delegate graph
+--------------------
+{
+  "renderBFinalResult": {
+    "depth": 0,
+    "callees": [
+      "__renderBFinalResultBeforeV245",
+      "bFinalMistakeKey",
+      "subjectBSecurityReasonCanonicalV245",
+      "toggle"
+    ],
+    "markers": []
+  },
+  "__renderBFinalResultBeforeV245": {
+    "depth": 0,
+    "callees": [
+      "__renderBFinalResultBeforeV243",
+      "bFinalMistakeKey",
+      "subjectBFinalReviewTargetV243",
+      "remove",
+      "setBMode",
+      "startCompoundChallenge"
+    ],
+    "markers": [
+      "onclick"
+    ]
+  },
+  "continueSubjectBFlow": {
+    "depth": 0,
+    "callees": [
+      "continueSubjectBFlow",
+      "subjectBHubRecommendation",
+      "launchSubjectBRecommendation"
+    ],
+    "markers": [
+      "continueSubjectBFlow",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation"
+    ]
+  },
+  "renderBFinalReadiness": {
+    "depth": 0,
+    "callees": [
+      "renderBFinalReadiness",
+      "subjectBProgressMetrics",
+      "examDaysRemaining",
+      "toggle",
+      "showScreen",
+      "subjectBHubRecommendation",
+      "launchSubjectBRecommendation"
+    ],
+    "markers": [
+      "onclick",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation",
+      "renderBFinalReadiness",
+      "showScreen",
+      "復習",
+      "総合実戦"
+    ]
+  },
+  "bFinalMistakeKey": {
+    "depth": 1,
+    "callees": [
+      "bFinalMistakeKey"
+    ],
+    "markers": []
+  },
+  "subjectBSecurityReasonCanonicalV245": {
+    "depth": 1,
+    "callees": [
+      "subjectBSecurityReasonCanonicalV245"
+    ],
+    "markers": []
+  },
+  "__renderBFinalResultBeforeV243": {
+    "depth": 1,
+    "callees": [
+      "_renderBFinalResultV230",
+      "injectFinalReview"
+    ],
+    "markers": [
+      "injectFinalReview"
+    ]
+  },
+  "subjectBFinalReviewTargetV243": {
+    "depth": 1,
+    "callees": [
+      "subjectBFinalReviewTargetV243",
+      "bFinalRemediationTarget"
+    ],
+    "markers": []
+  },
+  "setBMode": {
+    "depth": 1,
+    "callees": [
+      "setBMode",
+      "toggle",
+      "remove",
+      "stopSecurityMockTimer",
+      "stopBFinalTimer",
+      "renderBGrid",
+      "renderSecGrid",
+      "renderBMockMenu",
+      "renderBFinalMenu"
+    ],
+    "markers": []
+  },
+  "startCompoundChallenge": {
+    "depth": 1,
+    "callees": [
+      "startCompoundChallenge",
+      "chooseCompoundSet",
+      "fill",
+      "now",
+      "add",
+      "remove",
+      "escapeHtml",
+      "renderCompoundQuestion",
+      "startCompoundTimer"
+    ],
+    "markers": []
+  },
+  "subjectBHubRecommendation": {
+    "depth": 1,
+    "callees": [
+      "apply",
+      "examDaysRemaining",
+      "subjectBLocalAdaptiveTaperAllowedV257",
+      "subjectBLocalAdaptiveRecommendationV257",
+      "subjectBProgressMetrics"
+    ],
+    "markers": [
+      "subjectBHubRecommendation"
+    ]
+  },
+  "launchSubjectBRecommendation": {
+    "depth": 1,
+    "callees": [
+      "launchSubjectBRecommendation",
+      "showScreen",
+      "setBMode",
+      "startBExercise",
+      "startSecurityScenario",
+      "startCompoundChallenge",
+      "startSecurityMock",
+      "startBMiniMock"
+    ],
+    "markers": [
+      "launchSubjectBRecommendation",
+      "startBMiniMock",
+      "showScreen"
+    ]
+  },
+  "subjectBProgressMetrics": {
+    "depth": 1,
+    "callees": [
+      "subjectBProgressMetrics",
+      "values",
+      "min"
+    ],
+    "markers": []
+  },
+  "examDaysRemaining": {
+    "depth": 1,
+    "callees": [
+      "examDaysRemaining",
+      "setHours",
+      "ceil"
+    ],
+    "markers": []
+  },
+  "showScreen": {
+    "depth": 1,
+    "callees": [
+      "showScreen",
+      "activeScreenId",
+      "toggle",
+      "setAttribute",
+      "primaryNavScreen",
+      "removeAttribute",
+      "renderLearningAnalytics",
+      "renderLearningEntry",
+      "rememberScreen",
+      "appHistoryPush",
+      "appHistoryReplace",
+      "scrollTo"
+    ],
+    "markers": [
+      "showScreen"
+    ]
+  },
+  "bFinalRemediationTarget": {
+    "depth": 2,
+    "callees": [
+      "__bFinalRemediationTargetBeforeV249"
+    ],
+    "markers": []
+  },
+  "stopSecurityMockTimer": {
+    "depth": 2,
+    "callees": [
+      "stopSecurityMockTimer",
+      "clearInterval"
+    ],
+    "markers": []
+  },
+  "stopBFinalTimer": {
+    "depth": 2,
+    "callees": [
+      "stopBFinalTimer",
+      "clearInterval"
+    ],
+    "markers": []
+  },
+  "renderBGrid": {
+    "depth": 2,
+    "callees": [
+      "renderBGrid",
+      "createElement",
+      "traceNextRecommendation",
+      "appendChild",
+      "startBExercise",
+      "renderTraceNextCard",
+      "renderSubjectBHub"
+    ],
+    "markers": [
+      "onclick"
+    ]
+  },
+  "renderSecGrid": {
+    "depth": 2,
+    "callees": [
+      "renderSecGrid",
+      "createElement",
+      "securityNextRecommendation",
+      "appendChild",
+      "startSecurityScenario",
+      "renderSecurityNextCard",
+      "renderSubjectBHub"
+    ],
+    "markers": [
+      "onclick"
+    ]
+  },
+  "renderBMockMenu": {
+    "depth": 2,
+    "callees": [
+      "renderBMockMenu",
+      "max",
+      "escapeHtml",
+      "bMockFormatTime",
+      "renderPracticeNextCard",
+      "renderSubjectBHub"
+    ],
+    "markers": [
+      "renderPracticeNextCard"
+    ]
+  },
+  "renderBFinalMenu": {
+    "depth": 2,
+    "callees": [
+      "renderBFinalMenu",
+      "max",
+      "isFinite",
+      "round",
+      "escapeHtml",
+      "bMockFormatTime",
+      "renderBFinalReadiness",
+      "renderSubjectBHub"
+    ],
+    "markers": [
+      "renderBFinalReadiness",
+      "総合実戦"
+    ]
+  },
+  "chooseCompoundSet": {
+    "depth": 2,
+    "callees": [
+      "chooseCompoundSet",
+      "sort",
+      "localeCompare",
+      "random",
+      "randomizeCompoundSet"
+    ],
+    "markers": []
+  },
+  "escapeHtml": {
+    "depth": 2,
+    "callees": [
+      "escapeHtml",
+      "replace"
+    ],
+    "markers": []
+  },
+  "renderCompoundQuestion": {
+    "depth": 2,
+    "callees": [
+      "subjectBPerformanceKeyV254",
+      "subjectBPerformanceBeforeRenderV254",
+      "subjectBPerformanceMetaV254",
+      "__renderCompoundQuestionV254",
+      "subjectBPerformanceWrapButtonsV254",
+      "subjectBPerformanceAnswerIndexV254"
+    ],
+    "markers": []
+  },
+  "startCompoundTimer": {
+    "depth": 2,
+    "callees": [
+      "startCompoundTimer",
+      "stopCompoundTimer",
+      "updateCompoundTimer",
+      "setInterval",
+      "finishCompoundChallenge"
+    ],
+    "markers": []
+  },
+  "subjectBLocalAdaptiveTaperAllowedV257": {
+    "depth": 2,
+    "callees": [
+      "subjectBLocalAdaptiveTaperAllowedV257"
+    ],
+    "markers": []
+  },
+  "subjectBLocalAdaptiveRecommendationV257": {
+    "depth": 2,
+    "callees": [
+      "subjectBLocalAdaptiveRecommendationV257",
+      "subjectBProgressMetrics",
+      "subjectBLocalLayerStatsV257",
+      "isFinite",
+      "sort",
+      "indexOf",
+      "subjectBLocalLayerMetaV257",
+      "max",
+      "round"
+    ],
+    "markers": []
+  },
+  "startBExercise": {
+    "depth": 2,
+    "callees": [
+      "subjectBTransferRetraceArrayEligibleV264",
+      "_startBExerciseV264",
+      "findIndex",
+      "subjectBCountEvenRetraceVariantV264"
+    ],
+    "markers": []
+  },
+  "startSecurityScenario": {
+    "depth": 2,
+    "callees": [
+      "startSecurityScenario",
+      "add",
+      "remove",
+      "renderSecEvidence",
+      "renderSecDecision"
+    ],
+    "markers": []
+  },
+  "startSecurityMock": {
+    "depth": 2,
+    "callees": [
+      "startSecurityMock",
+      "buildSecurityMock",
+      "fill",
+      "now",
+      "add",
+      "remove",
+      "renderSecurityMockQuestion",
+      "startSecurityMockTimer"
+    ],
+    "markers": []
+  },
+  "startBMiniMock": {
+    "depth": 2,
+    "callees": [
+      "startBMiniMock",
+      "buildBMock",
+      "fill",
+      "now",
+      "add",
+      "remove",
+      "renderBMockQuestion",
+      "startBMockTimer"
+    ],
+    "markers": [
+      "startBMiniMock"
+    ]
+  },
+  "activeScreenId": {
+    "depth": 2,
+    "callees": [
+      "activeScreenId"
+    ],
+    "markers": []
+  },
+  "primaryNavScreen": {
+    "depth": 2,
+    "callees": [
+      "primaryNavScreen"
+    ],
+    "markers": []
+  },
+  "renderLearningAnalytics": {
+    "depth": 2,
+    "callees": [
+      "renderLearningAnalytics",
+      "ensureQuestionProfile",
+      "analyticsMinutes",
+      "analyticsActiveDays",
+      "analyticsJourneyCounts",
+      "renderAnalyticsHeatmap",
+      "renderAnalyticsSignals",
+      "renderAnalyticsCategories",
+      "renderAnalyticsJourneys",
+      "renderAnalyticsBFormats",
+      "renderAnalyticsNext"
+    ],
+    "markers": []
+  },
+  "renderLearningEntry": {
+    "depth": 2,
+    "callees": [
+      "renderLearningEntry",
+      "examDaysRemaining",
+      "readUiState",
+      "resumeCourseLesson",
+      "setCourseSubject",
+      "updateCourseBRecommendedCard",
+      "renderCoreCourseMap",
+      "getDailyRecord",
+      "ensureTodayPlanSnapshot",
+      "dailyTaskSlot",
+      "dailyTaskDone",
+      "launchDailyTask",
+      "showScreen"
+    ],
+    "markers": [
+      "onclick",
+      "showScreen",
+      "復習"
+    ]
+  },
+  "rememberScreen": {
+    "depth": 2,
+    "callees": [
+      "rememberScreen",
+      "writeUiState",
+      "has"
+    ],
+    "markers": []
+  },
+  "appHistoryPush": {
+    "depth": 2,
+    "callees": [
+      "appHistoryPush"
+    ],
+    "markers": []
+  },
+  "appHistoryReplace": {
+    "depth": 2,
+    "callees": [
+      "appHistoryReplace"
+    ],
+    "markers": []
+  },
+  "scrollTo": {
+    "depth": 2,
+    "callees": [],
+    "markers": []
+  },
+  "__bFinalRemediationTargetBeforeV249": {
+    "depth": 3,
+    "callees": [
+      "bFinalRemediationTarget"
+    ],
+    "markers": []
+  },
+  "clearInterval": {
+    "depth": 3,
+    "callees": [],
+    "markers": []
+  },
+  "traceNextRecommendation": {
+    "depth": 3,
+    "callees": [
+      "traceNextRecommendation"
+    ],
+    "markers": []
+  },
+  "renderTraceNextCard": {
+    "depth": 3,
+    "callees": [
+      "renderTraceNextCard",
+      "traceNextRecommendation",
+      "startBExercise",
+      "subjectBHubRecommendation",
+      "launchSubjectBRecommendation"
+    ],
+    "markers": [
+      "onclick",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation",
+      "次"
+    ]
+  },
+  "renderSubjectBHub": {
+    "depth": 3,
+    "callees": [
+      "renderSubjectBHub",
+      "subjectBHubRecommendation",
+      "subjectBProgressMetrics",
+      "launchSubjectBRecommendation",
+      "updateCourseBRecommendedCard",
+      "min"
+    ],
+    "markers": [
+      "onclick",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation",
+      "次",
+      "総合実戦"
+    ]
+  },
+  "securityNextRecommendation": {
+    "depth": 3,
+    "callees": [
+      "securityNextRecommendation"
+    ],
+    "markers": []
+  },
+  "renderSecurityNextCard": {
+    "depth": 3,
+    "callees": [
+      "renderSecurityNextCard",
+      "securityNextRecommendation",
+      "startSecurityScenario",
+      "subjectBHubRecommendation",
+      "launchSubjectBRecommendation",
+      "toggle"
+    ],
+    "markers": [
+      "onclick",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation",
+      "次",
+      "ミニ模試"
+    ]
+  },
+  "bMockFormatTime": {
+    "depth": 3,
+    "callees": [
+      "bMockFormatTime",
+      "max",
+      "floor",
+      "padStart"
+    ],
+    "markers": []
+  },
+  "renderPracticeNextCard": {
+    "depth": 3,
+    "callees": [
+      "renderPracticeNextCard",
+      "subjectBHubRecommendation",
+      "launchSubjectBRecommendation"
+    ],
+    "markers": [
+      "onclick",
+      "launchSubjectBRecommendation",
+      "subjectBHubRecommendation",
+      "renderPracticeNextCard",
+      "次",
+      "総合実戦",
+      "ミニ模試"
+    ]
+  },
+  "isFinite": {
+    "depth": 3,
+    "callees": [
+      "isFinite"
+    ],
+    "markers": []
+  },
+  "randomizeCompoundSet": {
+    "depth": 3,
+    "callees": [
+      "_randomizeCompoundSetV230",
+      "remapFeedback"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceKeyV254": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceKeyV254",
+      "subjectBPerformanceSourceIdV254"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceBeforeRenderV254": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceBeforeRenderV254",
+      "subjectBPerformanceStateV254",
+      "subjectBPerformanceResetV254",
+      "subjectBPerformanceNowV254",
+      "subjectBPerformancePauseV254"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceMetaV254": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceMetaV254",
+      "subjectBPerformanceSourceIdV254",
+      "subjectBPerformanceLevelV254"
+    ],
+    "markers": []
+  },
+  "__renderCompoundQuestionV254": {
+    "depth": 3,
+    "callees": [
+      "renderCompoundQuestion",
+      "escapeHtml",
+      "fromCharCode"
+    ],
+    "markers": [
+      "onclick",
+      "次"
+    ]
+  },
+  "subjectBPerformanceWrapButtonsV254": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceWrapButtonsV254",
+      "subjectBPerformanceFreezeV254",
+      "call"
+    ],
+    "markers": [
+      "onclick"
+    ]
+  },
+  "subjectBPerformanceAnswerIndexV254": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceAnswerIndexV254",
+      "isInteger"
+    ],
+    "markers": []
+  },
+  "stopCompoundTimer": {
+    "depth": 3,
+    "callees": [
+      "stopCompoundTimer",
+      "clearInterval"
+    ],
+    "markers": []
+  },
+  "updateCompoundTimer": {
+    "depth": 3,
+    "callees": [
+      "updateCompoundTimer",
+      "bMockFormatTime",
+      "toggle"
+    ],
+    "markers": []
+  },
+  "setInterval": {
+    "depth": 3,
+    "callees": [],
+    "markers": []
+  },
+  "finishCompoundChallenge": {
+    "depth": 3,
+    "callees": [
+      "apply",
+      "subjectBPerformanceFlushV254",
+      "saveProfile"
+    ],
+    "markers": []
+  },
+  "subjectBLocalLayerStatsV257": {
+    "depth": 3,
+    "callees": [
+      "subjectBLocalLayerStatsV257",
+      "subjectBPerformanceRootV254",
+      "round",
+      "subjectBLocalMedianV257"
+    ],
+    "markers": []
+  },
+  "subjectBLocalLayerMetaV257": {
+    "depth": 3,
+    "callees": [
+      "subjectBLocalLayerMetaV257"
+    ],
+    "markers": [
+      "ミニ模試"
+    ]
+  },
+  "subjectBTransferRetraceArrayEligibleV264": {
+    "depth": 3,
+    "callees": [
+      "subjectBTransferRetraceArrayEligibleV264"
+    ],
+    "markers": []
+  },
+  "_startBExerciseV264": {
+    "depth": 3,
+    "callees": [
+      "subjectBTransferRetraceEligibleV262",
+      "_startBExerciseV262",
+      "findIndex",
+      "subjectBTransferRetraceVariantV262"
+    ],
+    "markers": []
+  },
+  "subjectBCountEvenRetraceVariantV264": {
+    "depth": 3,
+    "callees": [
+      "subjectBCountEvenRetraceVariantV264",
+      "parse",
+      "stringify",
+      "subjectBPredictionFeedbackV264"
+    ],
+    "markers": [
+      "次"
+    ]
+  },
+  "renderSecEvidence": {
+    "depth": 3,
+    "callees": [
+      "renderSecEvidence",
+      "escapeHtml"
+    ],
+    "markers": []
+  },
+  "renderSecDecision": {
+    "depth": 3,
+    "callees": [
+      "renderSecDecision",
+      "remove",
+      "createElement",
+      "fromCharCode",
+      "answerSecDecision",
+      "appendChild"
+    ],
+    "markers": [
+      "onclick"
+    ]
+  },
+  "buildSecurityMock": {
+    "depth": 3,
+    "callees": [
+      "buildSecurityMock",
+      "ensureSecurityMockStats",
+      "sortSecurityScenarioPool",
+      "has",
+      "push",
+      "add",
+      "entries",
+      "max",
+      "shuffled",
+      "randomizeSecurityMockItem",
+      "securityAppliedStepIndex"
+    ],
+    "markers": []
+  },
+  "renderSecurityMockQuestion": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceKeyV254",
+      "subjectBPerformanceBeforeRenderV254",
+      "subjectBPerformanceMetaV254",
+      "__renderSecurityMockQuestionV254",
+      "subjectBPerformanceWrapButtonsV254",
+      "subjectBPerformanceAnswerIndexV254"
+    ],
+    "markers": []
+  },
+  "startSecurityMockTimer": {
+    "depth": 3,
+    "callees": [
+      "startSecurityMockTimer",
+      "stopSecurityMockTimer",
+      "updateSecurityMockTimer",
+      "setInterval",
+      "finishSecurityMock"
+    ],
+    "markers": []
+  },
+  "buildBMock": {
+    "depth": 3,
+    "callees": [
+      "entries",
+      "push",
+      "selectLevel",
+      "shuffled"
+    ],
+    "markers": []
+  },
+  "renderBMockQuestion": {
+    "depth": 3,
+    "callees": [
+      "subjectBPerformanceKeyV254",
+      "subjectBPerformanceBeforeRenderV254",
+      "subjectBPerformanceMetaV254",
+      "__renderBMockQuestionV254",
+      "subjectBPerformanceWrapButtonsV254",
+      "subjectBPerformanceAnswerIndexV254"
+    ],
+    "markers": []
+  },
+  "startBMockTimer": {
+    "depth": 3,
+    "callees": [
+      "startBMockTimer",
+      "stopBMockTimer",
+      "updateBMockTimer",
+      "setInterval",
+      "finishBMiniMock"
+    ],
+    "markers": []
+  },
+  "ensureQuestionProfile": {
+    "depth": 3,
+    "callees": [
+      "ensureQuestionProfile",
+      "trackedQuestionPool"
+    ],
+    "markers": []
+  },
+  "analyticsMinutes": {
+    "depth": 3,
+    "callees": [
+      "analyticsMinutes",
+      "analyticsDateMinus"
+    ],
+    "markers": []
+  },
+  "analyticsActiveDays": {
+    "depth": 3,
+    "callees": [
+      "analyticsActiveDays",
+      "analyticsDateMinus"
+    ],
+    "markers": []
+  },
+  "analyticsJourneyCounts": {
+    "depth": 3,
+    "callees": [
+      "analyticsJourneyCounts",
+      "values",
+      "count"
+    ],
+    "markers": []
+  },
+  "renderAnalyticsHeatmap": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsHeatmap",
+      "push",
+      "analyticsDateMinus",
+      "max",
+      "localDateISO"
+    ],
+    "markers": []
+  },
+  "renderAnalyticsSignals": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsSignals",
+      "sort",
+      "push"
+    ],
+    "markers": []
+  },
+  "renderAnalyticsCategories": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsCategories",
+      "analyticsTrendClass",
+      "analyticsTrendText"
+    ],
+    "markers": []
+  },
+  "renderAnalyticsJourneys": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsJourneys",
+      "analyticsJourneyCounts",
+      "values",
+      "sort",
+      "localeCompare",
+      "escapeHtml"
+    ],
+    "markers": [
+      "復習"
+    ]
+  },
+  "renderAnalyticsBFormats": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsBFormats",
+      "analyticsBFormatRows",
+      "round",
+      "escapeHtml"
+    ],
+    "markers": []
+  },
+  "renderAnalyticsNext": {
+    "depth": 3,
+    "callees": [
+      "renderAnalyticsNext",
+      "activeReviewJourneys",
+      "escapeHtml",
+      "journeyGuidance",
+      "startJourneyAction",
+      "sort",
+      "showScreen"
+    ],
+    "markers": [
+      "onclick",
+      "showScreen",
+      "復習"
+    ]
+  },
+  "readUiState": {
+    "depth": 3,
+    "callees": [
+      "readUiState",
+      "parse",
+      "getItem"
+    ],
+    "markers": []
+  },
+  "resumeCourseLesson": {
+    "depth": 3,
+    "callees": [
+      "resumeCourseLesson",
+      "readUiState",
+      "max",
+      "min",
+      "resetLessonState",
+      "showScreen",
+      "renderLesson",
+      "startLesson"
+    ],
+    "markers": [
+      "showScreen"
+    ]
+  },
+  "setCourseSubject": {
+    "depth": 3,
+    "callees": [
+      "setCourseSubject",
+      "toggle",
+      "setAttribute",
+      "saveProfile"
+    ],
+    "markers": []
+  },
+  "updateCourseBRecommendedCard": {
+    "depth": 3,
+    "callees": [
+      "updateCourseBRecommendedCard",
+      "toggle"
+    ],
+    "markers": []
+  },
+  "renderCoreCourseMap": {
+    "depth": 3,
+    "callees": [
+      "renderCoreCourseMap",
+      "trim",
+      "toLowerCase",
+      "courseAContinueId",
+      "push",
+      "coreTopicLearningState",
+      "round",
+      "max",
+      "escapeHtml",
+      "coreChapterGuideView",
+      "learningHtml",
+      "masteryRecoveryInfo"
+    ],
+    "markers": []
+  },
+  "getDailyRecord": {
+    "depth": 3,
+    "callees": [
+      "getDailyRecord",
+      "dateKey",
+      "toISOString"
+    ],
+    "markers": []
+  },
+  "ensureTodayPlanSnapshot": {
+    "depth": 3,
+    "callees": [
+      "ensureTodayPlanSnapshot",
+      "getDailyRecord",
+      "isArray",
+      "snapshotDailyTasks",
+      "buildTodayTasks",
+      "dailyTaskSlot",
+      "toISOString",
+      "persistProfileSilently"
+    ],
+    "markers": []
+  },
+  "dailyTaskSlot": {
+    "depth": 3,
+    "callees": [
+      "dailyTaskSlot"
+    ],
+    "markers": []
+  },
+  "dailyTaskDone": {
+    "depth": 3,
+    "callees": [
+      "dailyTaskDone",
+      "dailyTaskSlot"
+    ],
+    "markers": []
+  },
+  "launchDailyTask": {
+    "depth": 3,
+    "callees": [
+      "launchDailyTask",
+      "showScreen",
+      "startQuiz",
+      "actionableReviewJourneys",
+      "startJourneyAction",
+      "startLesson",
+      "pickLessonForSkill",
+      "rxMode",
+      "launchFinalFocus",
+      "setBMode",
+      "startBExercise",
+      "startSecurityScenario",
+      "startCompoundChallenge",
+      "startSecurityMock"
+    ],
+    "markers": [
+      "showScreen"
+    ]
+  },
+  "writeUiState": {
+    "depth": 3,
+    "callees": [
+      "writeUiState",
+      "readUiState",
+      "now",
+      "setItem",
+      "stringify"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceSourceIdV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceSourceIdV254"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceStateV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceStateV254"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceResetV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceResetV254",
+      "subjectBPerformanceStateV254"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceNowV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceNowV254",
+      "return",
+      "now"
+    ],
+    "markers": []
+  },
+  "subjectBPerformancePauseV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformancePauseV254",
+      "subjectBPerformanceNowV254",
+      "max"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceLevelV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceLevelV254",
+      "trim"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceFreezeV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceFreezeV254",
+      "subjectBPerformanceStateV254",
+      "subjectBPerformanceNowV254",
+      "subjectBPerformancePauseV254",
+      "min",
+      "max",
+      "round",
+      "isInteger",
+      "toISOString"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceFlushV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceFlushV254",
+      "subjectBPerformanceStateV254",
+      "subjectBPerformancePauseV254",
+      "keys",
+      "subjectBPerformanceRecordV254"
+    ],
+    "markers": []
+  },
+  "saveProfile": {
+    "depth": 4,
+    "callees": [
+      "saveProfile",
+      "restoreCommittedProfileInMemory",
+      "acquireProfileWriteLease",
+      "markProfileConflict",
+      "stampProfileForSave",
+      "writeCurrentProfile",
+      "rememberCommittedProfile",
+      "clearProfileSaveFailure",
+      "noteProfileSaveFailure",
+      "warn",
+      "showAppNotice",
+      "reload",
+      "releaseProfileWriteLease",
+      "queueRecoveryCheckpoint",
+      "refreshProfileUI"
+    ],
+    "markers": []
+  },
+  "subjectBPerformanceRootV254": {
+    "depth": 4,
+    "callees": [
+      "subjectBPerformanceRootV254",
+      "isArray"
+    ],
+    "markers": []
+  },
+  "subjectBLocalMedianV257": {
+    "depth": 4,
+    "callees": [
+      "subjectBLocalMedianV257",
+      "sort",
+      "floor",
+      "round"
+    ],
+    "markers": []
+  },
+  "subjectBTransferRetraceEligibleV262": {
+    "depth": 4,
+    "callees": [
+      "subjectBTransferRetraceEligibleV262"
+    ],
+    "markers": []
+  },
+  "_startBExerciseV262": {
+    "depth": 4,
+    "callees": [
+      "startBExercise",
+      "add",
+      "remove",
+      "escapeHtml",
+      "resetBView"
+    ],
+    "markers": []
+  },
+  "subjectBTransferRetraceVariantV262": {
+    "depth": 4,
+    "callees": [
+      "subjectBTransferRetraceVariantV262",
+      "subjectBLoopSumRetraceVariantV262"
+    ],
+    "markers": []
+  },
+  "subjectBPredictionFeedbackV264": {
+    "depth": 4,
+    "callees": [
+      "subjectBPredictionFeedbackV264",
+      "split",
+      "freeze"
+    ],
+    "markers": [
+      "次"
+    ]
+  },
+  "answerSecDecision": {
+    "depth": 4,
+    "callees": [
+      "feedbackFor",
+      "_answerSecDecisionV230",
+      "diagnosisHtml"
+    ],
+    "markers": []
+  },
+  "ensureSecurityMockStats": {
+    "depth": 4,
+    "callees": [
+      "ensureSecurityMockStats"
+    ],
+    "markers": []
+  },
+  "sortSecurityScenarioPool": {
+    "depth": 4,
+    "callees": [
+      "sortSecurityScenarioPool",
+      "sort",
+      "securityScenarioSeen",
+      "localeCompare",
+      "random"
+    ],
+    "markers": []
+  },
+  "shuffled": {
+    "depth": 4,
+    "callees": [
+      "shuffled",
+      "floor",
+      "random"
+    ],
+    "markers": []
+  },
+  "randomizeSecurityMockItem": {
+    "depth": 4,
+    "callees": [
+      "_randomizeSecurityMockItemV230",
+      "remapFeedback"
+    ],
+    "markers": []
+  },
+  "securityAppliedStepIndex": {
+    "depth": 4,
+    "callees": [
+      "securityAppliedStepIndex",
+      "floor",
+      "random"
+    ],
+    "markers": []
+  },
+  "__renderSecurityMockQuestionV254": {
+    "depth": 4,
+    "callees": [
+      "renderSecurityMockQuestion",
+      "securityMockEvidenceHtml",
+      "fromCharCode",
+      "escapeHtml",
+      "toggle",
+      "has",
+      "renderSecurityMockNav"
+    ],
+    "markers": [
+      "onclick",
+      "次"
+    ]
+  },
+  "updateSecurityMockTimer": {
+    "depth": 4,
+    "callees": [
+      "updateSecurityMockTimer",
+      "bMockFormatTime",
+      "toggle"
+    ],
+    "markers": []
+  },
+  "finishSecurityMock": {
+    "depth": 4,
+    "callees": [
+      "apply",
+      "subjectBPerformanceFlushV254",
+      "saveProfile"
+    ],
+    "markers": []
+  },
+  "__renderBMockQuestionV254": {
+    "depth": 4,
+    "callees": [
+      "renderBMockQuestion",
+      "escapeHtml",
+      "entries",
+      "bMockVisualHtml",
+      "fromCharCode",
+      "toggle",
+      "has",
+      "renderBMockNav"
+    ],
+    "markers": [
+      "onclick",
+      "次"
+    ]
+  }
+}
+
+Final route-capable functions
+-----------------------------
+[
+  "__renderBFinalResultBeforeV245",
+  "continueSubjectBFlow",
+  "renderBFinalReadiness",
+  "launchSubjectBRecommendation",
+  "showScreen",
+  "renderBGrid",
+  "renderSecGrid",
+  "renderBFinalMenu",
+  "renderLearningEntry",
+  "renderTraceNextCard",
+  "renderSubjectBHub",
+  "renderSecurityNextCard",
+  "renderPracticeNextCard",
+  "__renderCompoundQuestionV254",
+  "subjectBPerformanceWrapButtonsV254",
+  "renderSecDecision",
+  "renderAnalyticsNext",
+  "resumeCourseLesson",
+  "launchDailyTask",
+  "__renderSecurityMockQuestionV254",
+  "__renderBMockQuestionV254"
+]
+
+Selected mini-mock sources
+--------------------------
+Exact renderBMockResult
+-----------------------
+function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;}
+
+Selected final sources
+----------------------
+Exact renderBFinalResult
+------------------------
+function(attempt,earned){
+  const out=__renderBFinalResultBeforeV245(attempt,earned);
+  const wrong=(attempt?.details||[]).filter(d=>!d.ok);
+  const rows=[...document.querySelectorAll('.bfinal-review-item.wrong')];
+  rows.forEach((row,i)=>{
+    const detail=wrong[i];
+    if(detail?.kind!=='security')return;
+    const key=bFinalMistakeKey(detail);
+    const stored=profile.bFinalMistakeStats?.[key]?.lastReason||'';
+    const canonical=subjectBSecurityReasonCanonicalV245(stored);
+    row.querySelectorAll('[data-bfreason]').forEach(btn=>{
+      if(btn.dataset.bfreason==='トレースミス'){
+        btn.dataset.bfreason='手順の追い違い';
+        btn.textContent='手順の追い違い';
+      }else if(btn.dataset.bfreason==='コード理解'){
+        btn.dataset.bfreason='対策の理解';
+        btn.textContent='対策の理解';
+      }
+      btn.classList.toggle('picked',btn.dataset.bfreason===canonical);
+    });
+  });
+  return out;
+}
+
+Exact __renderBFinalResultBeforeV245
+------------------------------------
+function(attempt,earned){
+  const out=__renderBFinalResultBeforeV243(attempt,earned);
+  const wrong=(attempt?.details||[]).filter(d=>!d.ok);
+  const buttons=[...document.querySelectorAll('[data-bfinalstudy]')];
+  buttons.forEach((btn,i)=>{
+    const detail=wrong[i];
+    if(!detail)return;
+    const key=bFinalMistakeKey(detail);
+    const reason=profile.bFinalMistakeStats?.[key]?.lastReason||'';
+    const target=subjectBFinalReviewTargetV243(detail,reason);
+    if(target.mode!=='compound'||reason!=='コード理解'||detail.kind==='security')return;
+    btn.onclick=()=>{
+      document.getElementById('bFinalResult')?.classList.remove('show');
+      setBMode('mock');
+      startCompoundChallenge();
+    };
+    btn.dataset.bfinalRouteV243='compound';
+  });
+  return out;
+}
+
+Exact continueSubjectBFlow
+--------------------------
+function continueSubjectBFlow(){
+  const rec=subjectBHubRecommendation();
+  launchSubjectBRecommendation(rec);
+}
+
+Exact renderBFinalReadiness
+---------------------------
+function renderBFinalReadiness(){
+  const box=document.getElementById('bFinalReadiness');
+  const icon=document.getElementById('bFinalReadinessIcon'),kicker=document.getElementById('bFinalReadinessKicker'),title=document.getElementById('bFinalReadinessTitle'),desc=document.getElementById('bFinalReadinessDesc'),prep=document.getElementById('bFinalPrepAction'),start=document.getElementById('bFinalStart');
+  if(!box||!icon||!kicker||!title||!desc||!prep||!start)return;
+  const m=subjectBProgressMetrics();
+  const days=examDaysRemaining();
+  const taper=days!=null&&days>=0&&days<=3;
+  const ready=m.algoDone===B_EXERCISES.length&&m.secDone===SECURITY_SCENARIOS.length&&m.practiceEvidence>=5;
+  box.classList.toggle('ready',ready&&!taper);box.classList.toggle('warn',!ready||taper);
+  if(taper){
+    icon.textContent='⏱️';kicker.textContent='試験直前';title.textContent='100分の総合実戦は行いません';desc.textContent='残り3日以内は、新しい長時間実戦より今日の短い復習・確認を優先します。';prep.style.display='';prep.textContent='今日の学習へ →';prep.onclick=()=>showScreen('home');start.disabled=true;start.textContent='試験直前は総合実戦を停止中';return;
+  }
+  start.disabled=false;start.textContent='20問の総合実戦を開始 →';
+  if(ready){
+    icon.textContent='✅';kicker.textContent='開始前の確認';title.textContent='総合実戦を始められる状態です';desc.textContent='基礎演習と短い実戦を一通り経験しています。100分を確保できる日に実施してください。';prep.style.display='none';return;
+  }
+  const rec=subjectBHubRecommendation();
+  icon.textContent=rec.icon||'📚';kicker.textContent='先に進めると効果的';title.textContent=rec.title;desc.textContent='総合実戦はいつでも利用できますが、未完了の基礎・短い実戦を先に進めると復習ポイントが明確になります。';prep.style.display='';prep.textContent='科目Bの続きへ →';prep.onclick=()=>launchSubjectBRecommendation(rec);
+}
+
+Exact launchSubjectBRecommendation
+----------------------------------
+function launchSubjectBRecommendation(rec){
+  if(!rec)return;
+  showScreen('trace');
+  if(rec.mode==='trace'){setBMode('trace');if(rec.id)startBExercise(rec.id);}
+  else if(rec.mode==='security'){setBMode('security');if(rec.id)startSecurityScenario(rec.id);}
+  else if(rec.mode==='compound'){setBMode('mock');startCompoundChallenge();}
+  else if(rec.mode==='securityMock'){setBMode('security');startSecurityMock();}
+  else if(rec.mode==='miniMock'){setBMode('mock');startBMiniMock();}
+  else if(rec.mode==='final'){setBMode('final');}
+}
+
+Exact showScreen
+----------------
+function showScreen(id,opts={}){
+  const exists=screens.some(s=>s.id===id);
+  if(!exists)id='home';
+  const prev=activeScreenId();
+  screens.forEach(s => {
+    const active=s.id===id;
+    s.classList.toggle('active',active);
+    s.setAttribute('aria-hidden',active?'false':'true');
+  });
+  const navRoot=primaryNavScreen(id);
+  navBtns.forEach(b => {
+    const active=b.dataset.screen===navRoot;
+    b.classList.toggle('active',active);
+    if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+  });
+  if(id==='history' && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
+  if(id==='map' && typeof renderLearningEntry==='function') renderLearningEntry();
+  rememberScreen(id);
+  if(!opts.fromHistory && !opts.noHistory && prev!==id)appHistoryPush(id);
+  if(opts.replaceHistory)appHistoryReplace(id,opts.depth||0);
+  if(!opts.keepScroll)window.scrollTo({top:0, behavior:opts.instant?'auto':'smooth'});
+}
+
+Exact renderBGrid
+-----------------
+function renderBGrid(){
+  const root=document.getElementById('bExerciseGrid');
+  if(!root) return;
+  root.innerHTML='';
+  const done=B_EXERCISES.filter(ex=>(profile.bProgress?.[ex.id]||0)>=100).length;
+  const visible=B_EXERCISES.filter(ex=>currentBFilter==='all'||ex.level===currentBFilter);
+  visible.forEach(ex=>{
+    const pct=profile.bProgress?.[ex.id]||0;
+    const card=document.createElement('div');
+    const nextId=traceNextRecommendation()?.id;
+    card.className='b-card'+(pct>=100?' done':'')+(ex.id===nextId?' b-next-highlight':'');
+    const diffClass=ex.level==='標準'?'medium':ex.level==='応用'?'hard':'';
+    card.innerHTML=`
+      <div class="b-card-top">
+        <div class="b-card-icon">${ex.icon}</div>
+        <div>
+          <div class="b-card-title">${ex.title}</div>
+          <div class="b-card-meta">${ex.concept}</div>
+        </div>
+      </div>
+      <div class="b-card-desc">${ex.desc}</div>
+      <div class="b-card-bottom">
+        <span class="difficulty ${diffClass}">${ex.level}</span>
+        ${pct>=100?'<span class="b-check">✓ 完了</span>':''}
+        <button class="b-start" data-bex="${ex.id}">${pct>=100?'もう一度':'開始'}</button>
+      </div>`;
+    root.appendChild(card);
+  });
+  const t=document.getElementById('bProgressText');
+  if(t){
+    const levels=['基礎','標準','応用'].map(level=>{
+      const all=B_EXERCISES.filter(x=>x.level===level).length;
+      const clear=B_EXERCISES.filter(x=>x.level===level&&(profile.bProgress?.[x.id]||0)>=100).length;
+      return `${level}${clear}/${all}`;
+    }).join(' ・ ');
+    t.innerHTML=`<div>${done} / ${B_EXERCISES.length}</div><div style="font-size:14px;color:#8965ab;margin-top:2px">${levels}</div>`;
+  }
+  root.querySelectorAll('[data-bex]').forEach(b=>b.onclick=()=>startBExercise(b.dataset.bex));
+  renderTraceNextCard();
+  if(typeof renderSubjectBHub==='function')renderSubjectBHub();
+}
+
+Exact renderSecGrid
+-------------------
+function renderSecGrid(){
+  const root=document.getElementById('secScenarioGrid');
+  if(!root) return;
+  root.innerHTML='';
+  const done=SECURITY_SCENARIOS.filter(s=>(profile.securityBProgress?.[s.id]||0)>=100).length;
+  const visible=SECURITY_SCENARIOS.filter(s=>currentSecFilter==='all'||s.level===currentSecFilter);
+  visible.forEach(s=>{
+    const pct=profile.securityBProgress?.[s.id]||0;
+    const diffClass=s.level==='標準'?'medium':s.level==='応用'?'hard':'';
+    const card=document.createElement('div');
+    const nextId=securityNextRecommendation()?.id;
+    card.className='sec-card'+(pct>=100?' done':'')+(s.id===nextId?' b-next-highlight':'');
+    card.innerHTML=`
+      <div class="sec-card-top">
+        <div class="sec-card-icon">${s.icon}</div>
+        <div>
+          <div class="sec-card-title">${s.title}</div>
+          <div class="sec-card-meta">${s.concept}</div>
+        </div>
+      </div>
+      <div class="sec-card-desc">${s.desc}</div>
+      <div class="sec-card-bottom">
+        <span class="difficulty ${diffClass}">${s.level}</span>
+        ${pct>=100?'<span class="sec-check">✓ 完了</span>':''}
+        <button class="sec-start" data-sec="${s.id}">${pct>=100?'もう一度':'開始'}</button>
+      </div>`;
+    root.appendChild(card);
+  });
+  document.getElementById('secProgressText').textContent=`${done} / ${SECURITY_SCENARIOS.length}`;
+  root.querySelectorAll('[data-sec]').forEach(b=>b.onclick=()=>startSecurityScenario(b.dataset.sec));
+  renderSecurityNextCard();
+  if(typeof renderSubjectBHub==='function')renderSubjectBHub();
+}
+
+Exact renderBFinalMenu
+----------------------
+function renderBFinalMenu(){
+  const hist=profile.bFinalHistory||[],best=hist.length?Math.max(...hist.map(h=>Number.isFinite(h.rate)?h.rate:Math.round((h.correct||0)/(h.total||20)*100))):null;
+  document.getElementById('bFinalBest').textContent=best===null?'ベスト —':`ベスト ${best}%`;
+  const root=document.getElementById('bFinalHistory'),rows=hist.slice(0,5);
+  root.innerHTML=rows.length?rows.map(h=>`
+    <div class="bmock-history-row">
+      <div class="bmock-history-main"><b>${h.correct}/${h.total}問 正解</b><span>${escapeHtml(h.date||'')}</span></div>
+      <div class="bmock-history-time">${bMockFormatTime(h.seconds||0)}</div>
+      <div class="bmock-history-score">${Number.isFinite(h.rate)?h.rate:Math.round((h.correct||0)/(h.total||20)*100)}%</div>
+    </div>`).join(''):'<div class="sub">まだ総合実戦の受験履歴はありません。</div>';
+  renderBFinalReadiness();
+  if(typeof renderSubjectBHub==='function')renderSubjectBHub();
+}
+
+Exact renderLearningEntry
+-------------------------
+function renderLearningEntry(){
+  const card=document.getElementById('courseNextCard');
+  const title=document.getElementById('courseNextTitle');
+  const desc=document.getElementById('courseNextDesc');
+  const kicker=document.getElementById('courseNextKicker');
+  const icon=document.getElementById('courseNextIcon');
+  const action=document.getElementById('courseNextAction');
+  if(!card||!title||!desc||!kicker||!icon||!action)return;
+
+  const aDone=CORE_A_IDS.filter(id=>(profile.lessonProgress?.[id]||0)>=100).length;
+  const algoDone=B_EXERCISES.filter(x=>(profile.bProgress?.[x.id]||0)>=100).length;
+  const secDone=SECURITY_SCENARIOS.filter(x=>(profile.securityBProgress?.[x.id]||0)>=100).length;
+  const aMeta=document.getElementById('courseATabMeta');if(aMeta)aMeta.textContent=`教材 ${aDone} / ${CORE_A_IDS.length}`;
+  const bMeta=document.getElementById('courseBTabMeta');if(bMeta)bMeta.textContent=`基礎演習 ${algoDone+secDone} / ${B_EXERCISES.length+SECURITY_SCENARIOS.length}`;
+
+  const days=examDaysRemaining();
+  const ui=readUiState();
+  const resumeId=ui.lessonId&&CORE_A_IDS.includes(ui.lessonId)&&(profile.lessonProgress?.[ui.lessonId]||0)<100?ui.lessonId:null;
+  if(resumeId&&!(days!=null&&days>=0&&days<=3)){
+    const lesson=LESSONS[resumeId];
+    kicker.textContent='前回の続き';icon.textContent='📘';
+    title.textContent=lesson.title;
+    desc.textContent=`${lesson.skill}。前回開いていたテーマから再開します。`;
+    action.disabled=false;action.textContent='続きから再開 →';action.onclick=()=>resumeCourseLesson(resumeId);
+    setCourseSubject('A',false);
+    updateCourseBRecommendedCard(null);
+    renderCoreCourseMap(document.getElementById('coreCourseSearch')?.value||'');
+    return;
+  }
+
+  const rec=getDailyRecord();
+  const tasks=ensureTodayPlanSnapshot();
+  const pendingLearn=tasks.find(t=>dailyTaskSlot(t)==='learn'&&!dailyTaskDone(rec,t));
+  if(pendingLearn){
+    kicker.textContent='今日の学習枠';
+    icon.textContent=pendingLearn.icon||'📚';
+    title.textContent=pendingLearn.title;
+    desc.textContent=`${pendingLearn.minutes}分の予定。今日の計画に沿ってここから始めます。`;
+    action.disabled=false;action.textContent='今日の学習を始める →';action.onclick=()=>launchDailyTask(pendingLearn);
+    const isB=pendingLearn.type==='subjectB'||(pendingLearn.type==='finalFocus'&&pendingLearn.focus?.kind==='subjectB');
+    if(isB){
+      const b=pendingLearn.type==='subjectB'?{mode:pendingLearn.bmode,id:pendingLearn.bid}:pendingLearn.focus?.b;
+      setCourseSubject('B',false);updateCourseBRecommendedCard(b?.mode);
+    }else{
+      setCourseSubject('A',false);updateCourseBRecommendedCard(null);
+    }
+    renderCoreCourseMap(document.getElementById('coreCourseSearch')?.value||'');
+    return;
+  }
+
+  kicker.textContent=(days!=null&&days>=0&&days<=3)?'今日の方針':'今日の学習枠';
+  icon.textContent='✅';
+  title.textContent=(days!=null&&days>=0&&days<=3)?'新しい教材を増やさず、今日の計画を優先':'今日の教材・基礎学習は完了';
+  desc.textContent=(days!=null&&days>=0&&days<=3)?'試験直前は復習と短い確認を優先します。教材一覧は参照できますが、追加学習はおすすめしません。':'追加で進める必要はありません。復習や演習など、今日の残りはホームから確認できます。';
+  action.disabled=false;action.textContent='ホームで今日の残りを確認 →';action.onclick=()=>showScreen('home');
+  updateCourseBRecommendedCard(null);
+  renderCoreCourseMap(document.getElementById('coreCourseSearch')?.value||'');
+}
+
+Exact renderTraceNextCard
+-------------------------
+function renderTraceNextCard(){
+  const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction');
+  if(!title||!desc||!action)return;
+  const next=traceNextRecommendation();
+  if(next){
+    title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id);
+  }else{
+    const rec=subjectBHubRecommendation();
+    title.textContent='アルゴリズム20演習は完了しました';
+    desc.textContent=rec.mode==='security'?'次はセキュリティ ケース演習へ進みます。':'短い実戦演習へ進めます。';
+    action.textContent=rec.mode==='security'?'セキュリティへ →':'次の科目Bへ →';action.onclick=()=>launchSubjectBRecommendation(rec);
+  }
+}
+
+Exact renderSubjectBHub
+-----------------------
+function renderSubjectBHub(){
+  const card=document.getElementById('subjectBNextCard');
+  if(!card)return;
+  const rec=subjectBHubRecommendation();
+  const m=subjectBProgressMetrics();
+  document.getElementById('subjectBNextIcon').textContent=rec.icon||'💻';
+  document.getElementById('subjectBNextKicker').textContent=rec.kicker||'次に進む';
+  document.getElementById('subjectBNextTitle').textContent=rec.title||'科目Bを続ける';
+  document.getElementById('subjectBNextDesc').textContent=rec.desc||'';
+  const action=document.getElementById('subjectBNextAction');
+  action.textContent=rec.mode==='final'?'総合実戦を確認 →':'ここから始める →';
+  action.onclick=()=>launchSubjectBRecommendation(rec);
+  updateCourseBRecommendedCard(rec.mode);
+  const strip=document.getElementById('subjectBProgressStrip');
+  if(strip){
+    const stages=[
+      {n:1,label:'アルゴリズム',value:`${m.algoDone}/${B_EXERCISES.length}`,done:m.algoDone===B_EXERCISES.length},
+      {n:2,label:'セキュリティ',value:`${m.secDone}/${SECURITY_SCENARIOS.length}`,done:m.secDone===SECURITY_SCENARIOS.length},
+      {n:3,label:'短い実戦',value:`${m.practiceEvidence}/5`,done:m.practiceEvidence>=5},
+      {n:4,label:'総合実戦',value:`${Math.min(2,m.finalRuns)}/2`,done:m.finalRuns>=2}
+    ];
+    strip.innerHTML=stages.map(s=>`<div class="subject-b-progress-chip ${s.done?'done':''} ${rec.stage===s.n?'current':''}"><span>ステップ ${s.n}</span><b>${s.label} ${s.value}</b></div>`).join('');
+  }
+}
+
+Exact renderSecurityNextCard
+----------------------------
+function renderSecurityNextCard(){
+  const title=document.getElementById('secNextTitle'),desc=document.getElementById('secNextDesc'),action=document.getElementById('secNextAction');
+  if(!title||!desc||!action)return;
+  const next=securityNextRecommendation();
+  if(next){
+    title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='このケースを始める →';action.onclick=()=>startSecurityScenario(next.id);
+  }else{
+    const rec=subjectBHubRecommendation();
+    title.textContent='セキュリティ15ケースは完了しました';
+    desc.textContent=rec.mode==='securityMock'?'次は8問のミニ模試でヒントなしの判断を確認します。':'短い実戦演習へ進めます。';
+    action.textContent=rec.mode==='securityMock'?'ミニ模試へ →':'次の科目Bへ →';action.onclick=()=>launchSubjectBRecommendation(rec);
+  }
+  const fold=document.getElementById('secPracticeFold');
+  if(fold){const done=SECURITY_SCENARIOS.filter(s=>(profile.securityBProgress?.[s.id]||0)>=100).length;fold.classList.toggle('recommended',done===SECURITY_SCENARIOS.length);}
+}
+
+Exact renderPracticeNextCard
+----------------------------
+function renderPracticeNextCard(){
+  const title=document.getElementById('bPracticeNextTitle'),desc=document.getElementById('bPracticeNextDesc'),action=document.getElementById('bPracticeNextAction');
+  if(!title||!desc||!action)return;
+  const rec=subjectBHubRecommendation();
+  if(rec.stage<3){
+    title.textContent=`先に ${rec.title}`;desc.textContent='実戦演習へ進む前に、未完了の基礎演習を1つ進めるのがおすすめです。';action.textContent='基礎演習へ →';
+  }else if(rec.mode==='final'){
+    title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →';
+  }else if(rec.mode==='securityMock'){
+    title.textContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →';
+  }else if(rec.mode==='miniMock'){
+    title.textContent='アルゴリズム ミニ模試';desc.textContent='8問・40分で、途中状態を連続して読み切れるか確認します。';action.textContent='ミニ模試を始める →';
+  }else{
+    title.textContent=rec.title||'複合問題を1セット';desc.textContent=rec.desc||'長いコードを3問で読みます。';action.textContent='複合問題を始める →';
+  }
+  action.onclick=()=>launchSubjectBRecommendation(rec);
+}
+
+Exact __renderCompoundQuestionV254
+----------------------------------
+function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class="bcompound-kind">${escapeHtml(q.kind||'トレース')}</span> <span class="bcompound-kind ${diffClass}">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class="bmock-option ${ans===i?'selected':''}" data-copt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class="${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}" data-cq="${i}">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})}
+
+Exact subjectBPerformanceWrapButtonsV254
+----------------------------------------
+function subjectBPerformanceWrapButtonsV254(layer,key,selector,correctIndex){
+  document.querySelectorAll(selector).forEach(btn=>{
+    const original=btn.onclick;
+    if(typeof original!=='function'||btn.dataset?.feqPerfV254==='1')return;
+    if(btn.dataset)btn.dataset.feqPerfV254='1';
+    btn.onclick=function(ev){
+      let selected=null;
+      if(selector==='[data-bmopt]')selected=Number(btn.dataset.bmopt);
+      else if(selector==='[data-copt]')selected=Number(btn.dataset.copt);
+      else if(selector==='[data-smopt]')selected=Number(btn.dataset.smopt);
+      else if(selector==='[data-bfopt]')selected=Number(btn.dataset.bfopt);
+      subjectBPerformanceFreezeV254(layer,key,selected,correctIndex);
+      return original.call(this,ev);
+    };
+  });
+}
+
+Exact renderSecDecision
+-----------------------
+function renderSecDecision(){
+  const step=currentSec.steps[secStepIndex];
+  secAnswered=false;
+  secAttempts=0;
+  document.getElementById('secDecisionNum').textContent=secStepIndex+1;
+  document.getElementById('secQuestion').textContent=step.q;
+  document.getElementById('secFeedback').className='decision-feedback';
+  document.getElementById('secFeedback').textContent='';
+  document.getElementById('secNext').classList.remove('show');
+  document.getElementById('secCounter').textContent=`${secStepIndex+1} / ${currentSec.steps.length}`;
+  document.getElementById('secStepProgress').style.width=`${(secStepIndex/currentSec.steps.length)*100}%`;
+
+  const root=document.getElementById('secOptions');
+  root.innerHTML='';
+  step.options.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='decision-option';
+    b.textContent=`${String.fromCharCode(65+i)}. ${op}`;
+    b.onclick=()=>answerSecDecision(i,b);
+    root.appendChild(b);
+  });
+}
+
+Exact renderAnalyticsNext
+-------------------------
+function renderAnalyticsNext(snaps){
+  const root=document.getElementById('analyticsNext');if(!root)return;
+  const active=activeReviewJourneys();
+  if(active.length){const j=active[0];root.innerHTML=`<div class="analytics-next-icon">🔁</div><div><b>${escapeHtml(j.concept)}の復習ルートを続ける</b><span>${escapeHtml(journeyGuidance(j))}</span><button data-analytics-next-action>復習を続ける →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>startJourneyAction(j.id);return;}
+  const attempted=snaps.filter(x=>x.attempts>=3&&x.accuracy!=null);
+  if(attempted.length){const weak=[...attempted].sort((a,b)=>a.accuracy-b.accuracy||a.mastery-b.mastery)[0];root.innerHTML=`<div class="analytics-next-icon">🎯</div><div><b>${weak.cat}を10問で確認</b><span>累積正答率 ${weak.accuracy}%・習熟度 ${weak.mastery}%です。現在もっとも確認効果が高い分野です。</span><button data-analytics-next-action>苦手画面で確認 →</button></div>`;root.querySelector('[data-analytics-next-action]').onclick=()=>showScreen('weak');return;}
+  root.innerHTML='<div class="analytics-next-icon">🌱</div><div><b>まず演習データを集める</b><span>まだ分析に必要な回答数が少ないため、今日の学習やランダム問題を進めると分析精度が上がります。</span></div>';
+}
+
+Exact resumeCourseLesson
+------------------------
+function resumeCourseLesson(id){
+  const ui=readUiState();
+  if(!LESSONS[id])return;
+  if(ui.lessonId===id){
+    activeLesson=id;
+    lessonStep=Math.max(0,Math.min(LESSONS[id].pages.length-1,Number(ui.lessonStep)||0));
+    lessonCompleteMode=false;
+    resetLessonState();
+    showScreen('lesson');
+    renderLesson();
+    return;
+  }
+  startLesson(id);
+}
+
+Exact launchDailyTask
+---------------------
+function launchDailyTask(t){
+  if(t.type==='warmup'){
+    showScreen('problems');
+    startQuiz('warmup');
+    return;
+  }
+  if(t.type==='taperReview'){
+    showScreen('problems');
+    startQuiz('taperreview');
+    return;
+  }
+  if(t.type==='review'){
+    const j=actionableReviewJourneys()[0];
+    if(j){
+      startJourneyAction(j.id);
+    }else{
+      showScreen('problems');
+      startQuiz('review');
+    }
+    return;
+  }
+  if(t.type==='lesson'){
+    startLesson(t.lessonId);
+    return;
+  }
+  if(t.type==='prescription'){
+    if(t.rx?.kind==='knowledge') startLesson(pickLessonForSkill(t.rx.cat));
+    else{
+      showScreen('problems');
+      startQuiz(rxMode(t.rx));
+    }
+    return;
+  }
+  if(t.type==='finalFocus'){
+    launchFinalFocus(t.focus);
+    return;
+  }
+  if(t.type==='subjectB'){
+    showScreen('trace');
+    if(t.bmode==='trace'){
+      setBMode('trace');
+      if(t.bid) startBExercise(t.bid);
+    }else if(t.bmode==='security'){
+      setBMode('security');
+      if(t.bid) startSecurityScenario(t.bid);
+    }else if(t.bmode==='compound'){
+      setBMode('mock');
+      startCompoundChallenge();
+    }else if(t.bmode==='securityMock'){
+      setBMode('security');
+      startSecurityMock();
+    }else{
+      setBMode('mock');
+    }
+    return;
+  }
+  if(t.type==='boss'){
+    showScreen('problems');
+    startQuiz('boss');
+  }
+}
+
+Exact __renderSecurityMockQuestionV254
+--------------------------------------
+function renderSecurityMockQuestion(){
+  const item=secMockItems[secMockIndex];
+  if(!item)return;
+  document.getElementById('secMockQNum').textContent=`問題 ${secMockIndex+1} / ${secMockItems.length}`;
+  document.getElementById('secMockIncidentIcon').textContent=item.incident.icon;
+  document.getElementById('secMockIncidentTitle').textContent=item.incident.title;
+  document.getElementById('secMockIncidentText').textContent=item.incident.text;
+  document.getElementById('secMockEvidence').innerHTML=securityMockEvidenceHtml(item);
+  document.getElementById('secMockQuestion').textContent=item.q;
+  const ans=secMockAnswers[secMockIndex];
+  document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class="secmock-option ${ans===i?'selected':''}" data-smopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join('');
+  document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()});
+  document.getElementById('secMockPrev').disabled=secMockIndex===0;
+  document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →';
+  document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex));
+  document.getElementById('secMockFlag').textContent=secMockFlags.has(secMockIndex)?'★ 後で見る':'☆ 後で見る';
+  renderSecurityMockNav();
+}
+
+Exact __renderBMockQuestionV254
+-------------------------------
+function renderBMockQuestion(){
+  if(!bMockItems.length)return;
+  const item=bMockItems[bMockIndex];
+  document.getElementById('bMockQNum').textContent=`問題 ${bMockIndex+1} / ${bMockItems.length}`;
+  document.getElementById('bMockCode').innerHTML=item.code.map((line,i)=>`<div class="bmock-code-line ${i===item.line?'target':''}"><span class="ln">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join('');
+  document.getElementById('bMockState').innerHTML=Object.entries(item.state||{}).map(([k,v])=>`<div class="bmock-state-card"><div class="bmock-state-key">${escapeHtml(k)}</div><div class="bmock-state-val">${escapeHtml(v)}</div></div>`).join('');
+  document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item);
+  document.getElementById('bMockQuestion').textContent=item.q;
+  const answer=bMockAnswers[bMockIndex];
+  document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class="bmock-option ${answer===i?'selected':''}" data-bmopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');
+  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
+  document.getElementById('bMockPrev').disabled=bMockIndex===0;
+  document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →';
+  document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex));
+  document.getElementById('bMockFlag').textContent=bMockFlags.has(bMockIndex)?'★ 後で見る':'☆ 後で見る';
+  renderBMockNav();
+}
+
+Regression
+----------
+No learner-facing code changed.
+Delegate graphs and sources are equivalent to v291.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If both graphs contain an existing learner-facing route-capable helper attached to the result lifecycle, close this UX sequence without repair. If one graph has no such helper, make one minimal change at that existing injection/wrapper boundary and preserve the established Subject B recommendation hub.
