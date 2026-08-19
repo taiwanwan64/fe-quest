@@ -1,0 +1,241 @@
+{
+  "version": "v279",
+  "previous": "v278",
+  "parent": "6ca2c4b3307e10fc65de01acbdd5c66aa2709afb",
+  "result": "PASS — NO FINDINGS",
+  "targetId": "bexam_arr_03",
+  "oldOverlap": {
+    "traceId": "count_even",
+    "sequence": 0.932,
+    "lineJaccard": 0.778
+  },
+  "newOverlap": {
+    "traceId": "count_even",
+    "sequence": 0.772,
+    "lineJaccard": 0.308
+  },
+  "changedIds": [
+    "bexam_arr_03"
+  ],
+  "target": {
+    "id": "bexam_arr_03",
+    "domain": "一次元配列",
+    "level": "標準",
+    "format": "実行回数",
+    "title": "隣接差の正の増加量を累積",
+    "context": "隣り合う要素の差を求め、正の差だけをscoreへ加算します。",
+    "code": [
+      "data ← [3, 1, 4, 1, 5]",
+      "score ← 0",
+      "for i ← 1 to 4",
+      "    diff ← data[i] - data[i-1]",
+      "    if diff > 0",
+      "        score ← score + diff",
+      "    endif",
+      "endfor",
+      "score を出力する"
+    ],
+    "data": [],
+    "q": "score ← score + diff が実行される回数と、最後に出力されるscoreの組合せは？",
+    "options": [
+      "1回, score=4",
+      "2回, score=2",
+      "2回, score=7",
+      "3回, score=9"
+    ],
+    "a": 2,
+    "explain": "隣接差は -2, 3, -3, 4 です。正の差だけを加えるので更新は2回実行され、scoreは0→3→7となります。",
+    "qualityAudit": "v279-trace-final-overlap-repair"
+  },
+  "remediation": {
+    "mode": "trace",
+    "id": "array_reverse"
+  },
+  "allExactPairs": [],
+  "allStrongPairs": [],
+  "topPairs": [
+    {
+      "finalId": "bexam_sq_02",
+      "traceId": "stack_ops",
+      "sequence": 0.922,
+      "lineJaccard": 0.222,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "traceId": "recursive_fib",
+      "sequence": 0.904,
+      "lineJaccard": 0.4,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "traceId": "recursion",
+      "sequence": 0.889,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_ctrl_04",
+      "traceId": "nested_loop",
+      "sequence": 0.876,
+      "lineJaccard": 0.667,
+      "finalLines": 10,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "traceId": "recursive_fib",
+      "sequence": 0.869,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "array_max",
+      "sequence": 0.795,
+      "lineJaccard": 0.25,
+      "finalLines": 7,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_03",
+      "traceId": "matrix_sum",
+      "sequence": 0.786,
+      "lineJaccard": 0.333,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "traceId": "recursion",
+      "sequence": 0.785,
+      "lineJaccard": 0.167,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "count_even",
+      "sequence": 0.772,
+      "lineJaccard": 0.308,
+      "finalLines": 9,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_02",
+      "traceId": "matrix_sum",
+      "sequence": 0.765,
+      "lineJaccard": 0.3,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_01",
+      "traceId": "array_max",
+      "sequence": 0.729,
+      "lineJaccard": 0.273,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "selection_sort_b",
+      "sequence": 0.727,
+      "lineJaccard": 0.231,
+      "finalLines": 7,
+      "traceLines": 9,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "linear_search",
+      "sequence": 0.725,
+      "lineJaccard": 0.267,
+      "finalLines": 9,
+      "traceLines": 10,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_01",
+      "traceId": "matrix_sum",
+      "sequence": 0.725,
+      "lineJaccard": 0.176,
+      "finalLines": 14,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "bubble_sort_b",
+      "sequence": 0.718,
+      "lineJaccard": 0.231,
+      "finalLines": 9,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_05",
+      "traceId": "count_even",
+      "sequence": 0.717,
+      "lineJaccard": 0.214,
+      "finalLines": 9,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_ctrl_01",
+      "traceId": "nested_loop",
+      "sequence": 0.713,
+      "lineJaccard": 0.154,
+      "finalLines": 9,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "bubble_sort_b",
+      "sequence": 0.711,
+      "lineJaccard": 0.4,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_03",
+      "traceId": "recursive_fib",
+      "sequence": 0.711,
+      "lineJaccard": 0.143,
+      "finalLines": 11,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_05",
+      "traceId": "array_max",
+      "sequence": 0.71,
+      "lineJaccard": 0.214,
+      "finalLines": 9,
+      "traceLines": 8,
+      "exactNormalized": false
+    }
+  ],
+  "selectionSignatureMatch3000": true,
+  "semanticOK": true,
+  "approvedContentReferenceSixFileByteEquality": true
+}
