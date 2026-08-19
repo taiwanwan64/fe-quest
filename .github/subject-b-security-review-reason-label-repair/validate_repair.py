@@ -31,7 +31,8 @@ function reviewAudit(){
    meta:Object.fromEntries([...legacy,...fresh].map(r=>[r,bFinalReviewReasonMeta(r,d)]))
  }));
  const algo=B_EXAM_ALGO_ITEMS.map(makeFinalAlgoExam).map(d=>({id:d.sourceId,trace:bFinalReviewReasonMeta('トレースミス',d),code:bFinalReviewReasonMeta('コード理解',d),codeRoute:subjectBFinalReviewTargetV243(d,'コード理解')}));
- return {security,algo,canonical:{trace:subjectBSecurityReasonCanonicalV245('トレースミス'),code:subjectBSecurityReasonCanonicalV245('コード理解'),freshTrace:subjectBSecurityReasonCanonicalV245('手順の追い違い'),freshCode:subjectBSecurityReasonCanonicalV245('対策の理解')}};
+ const canon=typeof globalThis.subjectBSecurityReasonCanonicalV245==='function'?globalThis.subjectBSecurityReasonCanonicalV245:(r=>r);
+ return {security,algo,canonical:{trace:canon('トレースミス'),code:canon('コード理解'),freshTrace:canon('手順の追い違い'),freshCode:canon('対策の理解')}};
 }
 const a=reviewAudit();
 console.log('__V245__'+Buffer.from(JSON.stringify({v:APP_VERSION,spec:globalThis.SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC||null,audit:a,renderer:String(renderBFinalResult),metaSource:String(bFinalReviewReasonMeta),bankHashes:{q:hashJson(QUESTION_BANK),ex:hashJson(B_EXERCISES),sec:hashJson(SECURITY_SCENARIOS),algo:hashJson(B_EXAM_ALGO_ITEMS)},sig:finalSig(1000),contracts:[B_FINAL_COUNT,B_FINAL_ALGO_COUNT,B_FINAL_SEC_COUNT,B_FINAL_SECONDS,B_EXAM_ALGO_ITEMS.length,[...(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[])].length,globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208],sem:validateSubjectBSemantics()})).toString('base64'));
