@@ -1,0 +1,49 @@
+FE QUEST v282 — Subject B Final Difficulty-Mix Diagnostic Audit
+====================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v281
+Source main: dba857bb0c7c4021297aa35d2435bb62905c4723
+Learner-facing change in v282: none
+
+Purpose
+-------
+v281 found no multi-dimensional static workload outlier and a reasonably clustered session-level workload proxy. v282 checks a complementary source of generated-final variance: whether the authored difficulty labels (標準 / 応用) are mixed consistently across the 16 algorithm slots, and whether domain/high-TRACE diversity remains stable across repeated final generation.
+
+Important interpretation boundary
+---------------------------------
+Authored difficulty labels are not a direct estimate of actual learner response time or official exam item difficulty. This audit only measures the consistency of the app's own labelled mix across generated sessions. It does not redefine labels or impose a new exam blueprint.
+
+Pool inventory
+--------------
+Difficulty-label counts: {"応用": 22, "標準": 21}
+Domain counts: {"オブジェクト指向": 4, "スタック・キュー": 4, "ビット列": 5, "リスト": 4, "一次元配列": 5, "二次元配列": 4, "再帰・関数": 5, "制御": 4, "探索・整列": 3, "木構造": 5}
+
+5000 generated-final sessions
+-----------------------------
+標準 items per 16 algorithm slots: {"min": 8, "p05": 8.0, "median": 8.0, "p95": 8.0, "max": 8}
+応用 items per 16 algorithm slots: {"min": 8, "p05": 8.0, "median": 8.0, "p95": 8.0, "max": 8}
+Other labels per 16 algorithm slots: {"min": 0, "p05": 0.0, "median": 0.0, "p95": 0.0, "max": 0}
+Distinct algorithm domains per final: {"min": 10, "p05": 10.0, "median": 10.0, "p95": 10.0, "max": 10}
+High-TRACE items per final: {"min": 4, "p05": 4.0, "median": 6.0, "p95": 8.0, "max": 10}
+
+Selection-frequency balance
+---------------------------
+Per-level selection frequency across 5000 finals: {"応用": {"poolCount": 22, "selectionFrequencyMax": 5000, "selectionFrequencyMedian": 805.5, "selectionFrequencyMin": 309}, "標準": {"poolCount": 21, "selectionFrequencyMax": 3980, "selectionFrequencyMedian": 1722, "selectionFrequencyMin": 424}}
+All-item selection frequency: min=309 / median=1282 / max=5000
+Most selected: [["bexam_algo_01", 5000], ["bexam_bit_04", 5000], ["bexam_tree_03", 4983], ["bexam_list_01", 4528], ["bexam_rec_04", 4285], ["bexam_arr_03", 3980], ["bexam_sq_04", 3826], ["bexam_obj_04", 3615]]
+Least selected: [["bexam_mat_04", 309], ["bexam_arr_05", 312], ["bexam_bit_05", 316], ["bexam_algo_02", 324], ["bexam_obj_03", 327], ["bexam_bit_03", 367], ["bexam_algo_03", 369], ["bexam_sq_01", 424]]
+
+Regression
+----------
+All 43 final algorithm item identities, labels, domains and high-TRACE flags are unchanged from v281.
+All 5000 deterministic generated-final source-id sessions are byte-behavior equivalent to v281; the first 2000 selection/order signature is unchanged.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-TRACE 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the observed distribution to decide the next step. If almost all sessions naturally retain both substantial 標準 and 応用 representation and domain diversity remains stable, preserve the current randomized selection policy rather than over-engineering a rigid difficulty quota. If the tails produce clearly lopsided sessions, inspect only the selection policy in a bounded follow-up; do not relabel questions merely to force numerical symmetry.
