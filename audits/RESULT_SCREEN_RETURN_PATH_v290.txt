@@ -1,0 +1,120 @@
+FE QUEST v290 — Result-Screen Return-Path Audit
+================================================
+
+Result
+------
+PASS — RETURN-PATH INVENTORY CAPTURED
+Previous release: v289
+Source main: 5323787301d9f988b162c05ba0e8ccfab0971a26
+Learner-facing change in v290: none
+
+Purpose
+-------
+v289 closed the home/today/plan extra-tap concern: the visible daily-plan and plan-focus buttons already resolve the next unfinished task locally and launch it directly. v290 now audits what happens after learning: whether major result/review renderers expose or connect to an existing guided next action instead of leaving the learner at a dead end.
+
+Major assumed result lifecycle names
+------------------------------------
+{
+  "renderMockResult": {
+    "present": false,
+    "markers": []
+  },
+  "renderBMockResult": {
+    "present": true,
+    "markers": []
+  },
+  "renderBFinalResult": {
+    "present": true,
+    "markers": []
+  },
+  "renderSecurityMockResult": {
+    "present": false,
+    "markers": []
+  },
+  "renderCompoundResult": {
+    "present": false,
+    "markers": []
+  },
+  "finishMock": {
+    "present": true,
+    "markers": []
+  },
+  "finishBMiniMock": {
+    "present": true,
+    "markers": []
+  },
+  "finishBFinal": {
+    "present": true,
+    "markers": []
+  },
+  "finishSecurityMock": {
+    "present": true,
+    "markers": []
+  },
+  "finishCompoundChallenge": {
+    "present": true,
+    "markers": []
+  },
+  "finishMockReview": {
+    "present": true,
+    "markers": []
+  }
+}
+
+Discovered result renderer route markers
+----------------------------------------
+{
+  "renderBFinalResult": [],
+  "renderBMockResult": []
+}
+
+Discovered finish functions
+---------------------------
+[
+  "finishBExercise",
+  "finishBFinal",
+  "finishBMiniMock",
+  "finishCompoundChallenge",
+  "finishDiagnostic",
+  "finishMigrationJournal",
+  "finishMock",
+  "finishMockReview",
+  "finishQuizSession",
+  "finishSecurityMock",
+  "finishSecurityScenario"
+]
+
+Checks
+------
+{
+  "aMockResultPresent": false,
+  "bMiniResultPresent": true,
+  "bFinalResultPresent": true,
+  "allKnownFinishFunctionsPresent": true,
+  "resultRendererCount": 2,
+  "finishFunctionCount": 11,
+  "missingAssumedNames": [
+    "renderMockResult",
+    "renderSecurityMockResult",
+    "renderCompoundResult"
+  ],
+  "resultRenderersWithoutInlineRouteMarkers": [
+    "renderBFinalResult",
+    "renderBMockResult"
+  ]
+}
+
+Interpretation boundary
+-----------------------
+Missing historical/assumed names are not automatically defects: wrappers and later revisions may rename or replace the implementation. Likewise, a renderer with no inline route marker is not automatically a defect because later wrappers/injection helpers can add the learner-facing action. v290 therefore treats both lists as source-detail targets, not repair instructions.
+
+Regression
+----------
+No learner-facing code changed.
+All discovered result/review sources are equivalent to v289.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Inspect only discovered major result renderers that lack an inline route marker and their installed wrappers. Repair a screen only if the final composed learner UI truly lacks a clear next action; otherwise close the result-return audit and move to learning-content quality.

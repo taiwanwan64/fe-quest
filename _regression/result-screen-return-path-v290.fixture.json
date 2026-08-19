@@ -1,0 +1,140 @@
+{
+  "version": "v290",
+  "previous": "v289",
+  "parent": "5323787301d9f988b162c05ba0e8ccfab0971a26",
+  "result": "PASS — RETURN-PATH INVENTORY CAPTURED",
+  "summary": {
+    "checks": {
+      "aMockResultPresent": false,
+      "bMiniResultPresent": true,
+      "bFinalResultPresent": true,
+      "allKnownFinishFunctionsPresent": true,
+      "resultRendererCount": 2,
+      "finishFunctionCount": 11,
+      "missingAssumedNames": [
+        "renderMockResult",
+        "renderSecurityMockResult",
+        "renderCompoundResult"
+      ],
+      "resultRenderersWithoutInlineRouteMarkers": [
+        "renderBFinalResult",
+        "renderBMockResult"
+      ]
+    },
+    "major": {
+      "renderMockResult": {
+        "present": false,
+        "markers": []
+      },
+      "renderBMockResult": {
+        "present": true,
+        "markers": []
+      },
+      "renderBFinalResult": {
+        "present": true,
+        "markers": []
+      },
+      "renderSecurityMockResult": {
+        "present": false,
+        "markers": []
+      },
+      "renderCompoundResult": {
+        "present": false,
+        "markers": []
+      },
+      "finishMock": {
+        "present": true,
+        "markers": []
+      },
+      "finishBMiniMock": {
+        "present": true,
+        "markers": []
+      },
+      "finishBFinal": {
+        "present": true,
+        "markers": []
+      },
+      "finishSecurityMock": {
+        "present": true,
+        "markers": []
+      },
+      "finishCompoundChallenge": {
+        "present": true,
+        "markers": []
+      },
+      "finishMockReview": {
+        "present": true,
+        "markers": []
+      }
+    },
+    "rendererRoutes": {
+      "renderBFinalResult": [],
+      "renderBMockResult": []
+    },
+    "finishFunctions": [
+      "finishBExercise",
+      "finishBFinal",
+      "finishBMiniMock",
+      "finishCompoundChallenge",
+      "finishDiagnostic",
+      "finishMigrationJournal",
+      "finishMock",
+      "finishMockReview",
+      "finishQuizSession",
+      "finishSecurityMock",
+      "finishSecurityScenario"
+    ],
+    "candidateNames": [
+      "actionableReviewJourneys",
+      "activeReviewJourneys",
+      "bFinalReviewReasonMeta",
+      "buildReviewItem",
+      "chooseTaperReviewQuestions",
+      "currentReviewDominantReason",
+      "dataStructureView",
+      "exitMockReview",
+      "finishBExercise",
+      "finishBFinal",
+      "finishBMiniMock",
+      "finishCompoundChallenge",
+      "finishDiagnostic",
+      "finishMigrationJournal",
+      "finishMock",
+      "finishMockReview",
+      "finishQuizSession",
+      "finishSecurityMock",
+      "finishSecurityScenario",
+      "injectBMockReview",
+      "injectCompoundReview",
+      "injectFinalReview",
+      "injectSecurityMockReview",
+      "moveReview",
+      "nextUnfinishedDailyTask",
+      "recordChapterIntegrationResult",
+      "refreshVariantReviewUI",
+      "registerReviewJourney",
+      "registerReviewedMiss",
+      "renderBFinalResult",
+      "renderBMockResult",
+      "renderHomeReviewCandidates",
+      "renderInlineReviewRoute",
+      "renderMockReviewItem",
+      "renderReviewForecast",
+      "renderReviewJourneyHub",
+      "renderReviewPrescription",
+      "reviewCandidates",
+      "reviewForecast",
+      "reviewInterval",
+      "reviewTimingLabel",
+      "reviewUrgency",
+      "reviewWorkloadCount",
+      "signatureView",
+      "startMockReview",
+      "startReviewPrescription",
+      "subjectBFinalReviewTargetV243",
+      "topReviewCandidates"
+    ]
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
