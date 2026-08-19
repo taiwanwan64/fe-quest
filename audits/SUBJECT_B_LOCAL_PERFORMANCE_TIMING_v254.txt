@@ -1,0 +1,34 @@
+FE QUEST v254 — Subject B Local Performance Timing Instrumentation
+===================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v253
+Source main: aff64beccc0c22ae9b8cb5f58a1a67bb6d5e71d5
+Learner-facing change in v254: no visible UI change; local-only per-question learning evidence is recorded for future adaptive recommendations.
+
+Change
+------
+An optional subjectBPerformanceV254 profile field now records one bounded event for the first committed answer in compound practice, algorithm mini-mock, security mini-mock, and the full Subject B final. Each event contains only practice layer, source id, authored difficulty, first-answer correctness, active elapsed milliseconds, and timestamp. Active unanswered time pauses across question navigation and resumes on return. At most 240 events are retained.
+
+Validation
+----------
+245 synthetic valid events accepted; 240 retained (q5 through q244).
+First-answer freeze is idempotent: yes.
+Aggregate probe: {"avgMs": 12550, "correct": 120, "count": 240, "medianMs": 12550, "rate": 50}.
+Profile/current checksum normalizers retain the optional field: {"normalizeProfileData": true, "normalizeProfileDataV3ForChecksum": true, "normalizeProfileDataV4ForChecksum": true}.
+No fetch/XMLHttpRequest/sendBeacon/WebSocket path was added.
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v253.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, exam countdown, readiness, remediation routes, and published difficulty labels: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The v251 response-time evidence gap is instrumented locally without changing exam behavior. Next run a post-instrumentation audit that exercises save/restore/import normalization and timer pause/resume/first-answer behavior before using these summaries in learner-facing recommendations.

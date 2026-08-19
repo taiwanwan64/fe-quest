@@ -1,0 +1,107 @@
+{
+  "version": "v254",
+  "previous": "v253",
+  "parent": "aff64beccc0c22ae9b8cb5f58a1a67bb6d5e71d5",
+  "result": "PASS — NO FINDINGS",
+  "profileField": "subjectBPerformanceV254",
+  "eventLimit": 240,
+  "layers": [
+    "compound",
+    "miniMock",
+    "securityMock",
+    "final"
+  ],
+  "boundedRecorder": {
+    "accepted": 245,
+    "retained": 240,
+    "oldest": "q5",
+    "newest": "q244"
+  },
+  "firstAnswerSingleFreeze": true,
+  "summary": {
+    "total": {
+      "count": 240,
+      "correct": 120,
+      "rate": 50,
+      "avgMs": 12550,
+      "medianMs": 12550
+    },
+    "byLayer": {
+      "compound": {
+        "count": 60,
+        "correct": 60,
+        "rate": 100,
+        "avgMs": 12700,
+        "medianMs": 12700
+      },
+      "final": {
+        "count": 60,
+        "correct": 0,
+        "rate": 0,
+        "avgMs": 12600,
+        "medianMs": 12600
+      },
+      "miniMock": {
+        "count": 60,
+        "correct": 0,
+        "rate": 0,
+        "avgMs": 12400,
+        "medianMs": 12400
+      },
+      "securityMock": {
+        "count": 60,
+        "correct": 60,
+        "rate": 100,
+        "avgMs": 12500,
+        "medianMs": 12500
+      }
+    },
+    "byLevel": {
+      "基礎": {
+        "count": 80,
+        "correct": 40,
+        "rate": 50,
+        "avgMs": 12550,
+        "medianMs": 12550
+      },
+      "応用": {
+        "count": 80,
+        "correct": 40,
+        "rate": 50,
+        "avgMs": 12450,
+        "medianMs": 12450
+      },
+      "標準": {
+        "count": 80,
+        "correct": 40,
+        "rate": 50,
+        "avgMs": 12650,
+        "medianMs": 12650
+      }
+    }
+  },
+  "normalizerRetention": {
+    "normalizeProfileData": true,
+    "normalizeProfileDataV3ForChecksum": true,
+    "normalizeProfileDataV4ForChecksum": true
+  },
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "compound": 2827364307,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contract": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
