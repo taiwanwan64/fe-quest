@@ -1,0 +1,91 @@
+FE QUEST v281 — Subject B Final Static Workload-Balance Diagnostic Audit
+=========================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v280
+Source main: 08f5d9ef6dbac99e4e2d04db815d8344e99cb66d
+Learner-facing change in v281: none
+
+Purpose
+-------
+v280 closed the TRACE/final transfer-overlap sequence. v281 checks the next learner-facing risk: whether the 16 algorithm questions selected into a 100-minute / 20-question final can vary too much in visible tracing workload from one generated session to another, or whether a small number of algorithm items are static-complexity outliers that deserve closer inspection.
+
+Important interpretation boundary
+---------------------------------
+The workload percentile used here is NOT a predicted solving time and is not converted into minutes. It is a relative static proxy built only from three transparent signals across the 43 algorithm items: code-line count, visible structure-marker count (control / assignment / indexing / call markers), and total visible text length. Actual learner response time must come from the existing local performance data when enough samples exist.
+
+Exam frame
+----------
+Time limit: 6000 seconds (100 minutes)
+Total questions: 20
+Algorithm questions: 16
+Security questions: 4
+Nominal whole-exam average: 300 seconds per question. This is only the arithmetic budget, not a target for each individual item.
+
+Pool distribution / Tukey high fences
+-------------------------------------
+{
+  "codeLines": {
+    "q1": 6.0,
+    "median": 7.0,
+    "q3": 9.0,
+    "iqr": 3.0,
+    "tukeyHigh": 13.5
+  },
+  "structureMarkers": {
+    "q1": 7.0,
+    "median": 9.0,
+    "q3": 14.0,
+    "iqr": 7.0,
+    "tukeyHigh": 24.5
+  },
+  "totalTextChars": {
+    "q1": 159.5,
+    "median": 193.0,
+    "q3": 247.0,
+    "iqr": 87.5,
+    "tukeyHigh": 378.2
+  }
+}
+
+Highest relative workload candidates
+------------------------------------
+bexam_mat_04 | 二次元配列 | 応用 | 途中状態 | proxy=93.4 | code=13 | structure=17 | text=356 | outlier=- | highTRACE=True
+bexam_algo_01 | 探索・整列 | 応用 | 実行回数 | proxy=90.3 | code=16 | structure=15 | text=326 | outlier=codeLines | highTRACE=True
+bexam_sq_04 | スタック・キュー | 応用 | 途中状態 | proxy=87.2 | code=11 | structure=16 | text=311 | outlier=- | highTRACE=True
+bexam_mat_01 | 二次元配列 | 標準 | 処理結果 | proxy=86.8 | code=14 | structure=16 | text=259 | outlier=codeLines | highTRACE=True
+bexam_algo_03 | 探索・整列 | 応用 | 途中状態 | proxy=86.0 | code=10 | structure=20 | text=273 | outlier=- | highTRACE=True
+bexam_algo_02 | 探索・整列 | 応用 | 途中状態 | proxy=80.6 | code=10 | structure=19 | text=244 | outlier=- | highTRACE=False
+bexam_arr_05 | 一次元配列 | 応用 | 空欄補充 | proxy=77.5 | code=9 | structure=20 | text=228 | outlier=- | highTRACE=False
+bexam_tree_05 | 木構造 | 標準 | 途中状態 | proxy=76.4 | code=8 | structure=13 | text=350 | outlier=- | highTRACE=True
+bexam_list_04 | リスト | 応用 | 処理結果 | proxy=75.6 | code=12 | structure=10 | text=277 | outlier=- | highTRACE=True
+bexam_rec_03 | 再帰・関数 | 応用 | 処理結果 | proxy=72.9 | code=11 | structure=13 | text=212 | outlier=- | highTRACE=False
+
+Static outlier inventory
+------------------------
+Any-dimension Tukey-high candidates: ["bexam_mat_01", "bexam_mat_03", "bexam_algo_01"]
+Two-or-more-dimension Tukey-high candidates: []
+
+5000 generated-final sessions
+-----------------------------
+Average relative workload proxy across the 16 selected algorithm items:
+min=41.6 / p05=46.3 / median=51.5 / p95=57.3 / max=62.7
+p95-p05 spread: 11.0 percentile-proxy points
+Number of >=90th-percentile algorithm items in one final:
+min=1 / median=1.0 / p95=2.0 / max=2
+Number of Tukey-high algorithm items in one final:
+min=1 / median=2.0 / p95=3.0 / max=3
+
+Regression
+----------
+All 43 final algorithm items are byte-behavior equivalent to v280.
+5000 deterministic final builds preserve the existing source-id sessions; first 2000 session selection/order signature is unchanged from the untouched parent.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-TRACE 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the captured distribution rather than an arbitrary per-question minute estimate. If one or more multi-dimensional static outliers exist, inspect only those items in v282 and decide whether their learner-visible state path is genuinely too dense or simply appropriately rich. If session-level p05/p95 workload remains reasonably clustered and no item is a multi-dimensional outlier, do not flatten useful difficulty variation. Separately, learner-local response-time evidence can later validate whether any static candidate is actually slow in practice.
