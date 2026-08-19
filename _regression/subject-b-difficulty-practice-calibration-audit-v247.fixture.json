@@ -1,0 +1,92 @@
+{
+  "version": "v247",
+  "previous": "v246",
+  "parent": "d518c91e09b69070ac769a3541404bad54d304f0",
+  "result": "PASS — MEDIUM FINDING RECORDED",
+  "findings": [
+    {
+      "priority": "Medium",
+      "marker": "subject_b_remediation_target_harder_than_final_label",
+      "detail": "6 final items route to a harder-labeled TRACE exercise"
+    }
+  ],
+  "counts": {
+    "traceExercises": 20,
+    "tracePredictions": 40,
+    "compoundQuestions": 45,
+    "securityPracticeQuestions": 45,
+    "securityScenarios": 15,
+    "finalAlgorithm": 43
+  },
+  "levels": {
+    "trace": {
+      "基礎": 4,
+      "標準": 11,
+      "応用": 5
+    },
+    "compound": {
+      "基礎": 5,
+      "標準": 30,
+      "応用": 10
+    },
+    "security": {
+      "基礎": 12,
+      "標準": 24,
+      "応用": 9
+    },
+    "finalAlgorithm": {
+      "標準": 21,
+      "応用": 22
+    },
+    "miniMockQuota": {
+      "基礎": 2,
+      "標準": 4,
+      "応用": 2
+    }
+  },
+  "quotaShortfall": [],
+  "recovery": {
+    "total": 43,
+    "invalid": 0,
+    "harder": 6,
+    "same": 22,
+    "easier": 15
+  },
+  "securityMismatch": 0,
+  "finalMix2000": {
+    "advanced": {
+      "min": 8,
+      "median": 8,
+      "max": 8
+    },
+    "standard": {
+      "min": 8,
+      "median": 8,
+      "max": 8
+    },
+    "basic": {
+      "min": 0,
+      "median": 0,
+      "max": 0
+    },
+    "security": {
+      "min": 4,
+      "median": 4,
+      "max": 4
+    },
+    "unknown": {
+      "min": 0,
+      "median": 0,
+      "max": 0
+    }
+  },
+  "bankHashes": {
+    "questions": 3000665978,
+    "trace": 3397004348,
+    "compound": 2827364307,
+    "security": 4085726191,
+    "finalAlgorithm": 3993159588
+  },
+  "finalSignature2000": 3230023664,
+  "semanticOK": true
+}

@@ -1,0 +1,62 @@
+FE QUEST v247 — Subject B Difficulty Label & Practice Calibration Audit
+======================================================================
+
+Result
+------
+PASS — MEDIUM FINDING RECORDED
+Previous release: v246
+Source main: d518c91e09b69070ac769a3541404bad54d304f0
+Learner-facing change in v247: none
+
+Purpose
+-------
+v246 closed the final-review reason/action sequence and handed off to difficulty-label / practice-calibration evidence. v247 is audit-only. It checks the authored 基礎 / 標準 / 応用 inventory, mini-mock quota feasibility, final→TRACE recovery calibration, security source/final consistency, and the actual difficulty-label mix of 2000 deterministic final sessions.
+
+Inventory
+---------
+TRACE exercises / prediction questions: 20 / 40
+Compound questions: 45
+Security practice questions / scenarios: 45 / 15
+Final algorithm source questions: 43
+TRACE levels: {"基礎": 4, "応用": 5, "標準": 11}
+Compound levels: {"基礎": 5, "応用": 10, "標準": 30}
+Security levels: {"基礎": 12, "応用": 9, "標準": 24}
+Final algorithm levels: {"応用": 22, "標準": 21}
+Mini-mock quota: {"基礎": 2, "応用": 2, "標準": 4}
+Quota shortfall: []
+
+Recovery calibration
+--------------------
+Final algorithm items checked: 43
+Invalid final→TRACE targets: 0
+Targets labeled harder than failed final item: 6
+Same-level targets: 22
+Easier-labeled targets: 15
+Security final/source level mismatches: 0
+
+Final-session label mix (2000 deterministic sessions)
+----------------------------------------------------
+応用 algorithm questions/session: {"max": 8, "median": 8, "min": 8}
+標準 algorithm questions/session: {"max": 8, "median": 8, "min": 8}
+基礎 algorithm questions/session: {"max": 0, "median": 0, "min": 0}
+Security questions/session: {"max": 4, "median": 4, "min": 4}
+Unknown labels/session: {"max": 0, "median": 0, "min": 0}
+
+Interpretation boundary
+-----------------------
+This audit tests internal calibration, not whether static labels perfectly predict real exam difficulty. The earlier structural-burden proxy showed weak TRACE 標準→応用 separation, but code length/branches cannot fully represent conceptual difficulty, reading load, or state-tracking burden. Therefore structural proxy evidence alone is not used to relabel learner-facing content.
+
+Findings
+--------
+- Medium: subject_b_remediation_target_harder_than_final_label — 6 final items route to a harder-labeled TRACE exercise
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm bank hashes vs v246: identical.
+Full calibration snapshot and 2000-session signature vs v246: identical.
+Final contract unchanged: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+
+Decision
+--------
+If clean, keep the current coarse difficulty labels and practice quotas. The next useful evidence step is learner-local calibration: summarize accuracy and response time by practice layer/difficulty and use those observations for adaptive recommendations, while keeping published 基礎 / 標準 / 応用 labels stable until real learner performance provides a reason to change them.
