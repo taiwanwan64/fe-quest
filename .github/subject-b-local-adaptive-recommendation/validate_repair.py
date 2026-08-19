@@ -7,7 +7,7 @@ def req(ok,msg):
 
 
 def context():
-    b=os.environ.get('GITHUB_REF_NAME') or subprocess.check_output(['git','branch','--show-current'],text=True).strip()
+    b=os.environ.get('GITHUB_HEAD_REF') or os.environ.get('GITHUB_REF_NAME') or subprocess.check_output(['git','branch','--show-current'],text=True).strip()
     m=re.fullmatch(r'subject-b-local-adaptive-recommendation-(v(\d+))',b)
     req(m,'bad v257 branch');return m.group(1),f'v{int(m.group(2))-1}'
 
