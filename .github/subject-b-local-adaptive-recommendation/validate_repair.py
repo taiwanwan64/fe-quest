@@ -38,7 +38,8 @@ function policyProbe(){
  setEvents([...ev('miniMock',10,0,5000,'old'),...ev('miniMock',20,20,5000,'recent')]);b=base();r=subjectBLocalAdaptiveRecommendationV257(b,{finalRuns:2});const recentWindow={same:r===b,value:r,stats:subjectBLocalLayerStatsV257()};
  setEvents(ev('final',20,0,90000,'final'));b=base();r=subjectBLocalAdaptiveRecommendationV257(b,{finalRuns:2});const finalIgnored={same:r===b,value:r};
  setEvents(ev('compound',8,4,500,'quick'));b=base();r=subjectBLocalAdaptiveRecommendationV257(b,{finalRuns:2});const fastCopy={same:r===b,value:r};
- return {progressionGate,sampleGate,tieGate,weakMini,strongGate,accuracyFirst,recentWindow,finalIgnored,fastCopy};
+ const taperPolicy={d0:subjectBLocalAdaptiveTaperAllowedV257(0),d3:subjectBLocalAdaptiveTaperAllowedV257(3),d4:subjectBLocalAdaptiveTaperAllowedV257(4),none:subjectBLocalAdaptiveTaperAllowedV257(null)};
+ return {progressionGate,sampleGate,tieGate,weakMini,strongGate,accuracyFirst,recentWindow,finalIgnored,fastCopy,taperPolicy};
 }
 const enabled=typeof SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_V257_SPEC!=='undefined';
 console.log('__V257__'+Buffer.from(JSON.stringify({
@@ -62,10 +63,11 @@ req(manifest['content_files']==['app/subject-b-local-adaptive-recommendation-ove
 rec=manifest['recommendation'];req(rec['minimum_samples_per_layer']==8 and rec['window_per_layer']==20 and rec['weak_accuracy_threshold']==70 and rec['requires_final_runs']==2,'recommendation thresholds drift')
 req(rec['selection_signal']=='first-answer accuracy only' and rec['response_time_role']=='secondary explanatory copy only','evidence priority drift')
 req('equal first-answer accuracy' in rec['tie_behavior'],'tie fallback manifest drift')
+req('0 through 3 days' in rec['taper_behavior'],'taper preservation manifest drift')
 expected={'app/subject-b-local-adaptive-recommendation-overrides-v257.txt','_release/content-change-v257.json','index.html','.github/subject-b-local-adaptive-recommendation/validate_repair.py','.github/workflows/subject-b-local-adaptive-recommendation.yml'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(changed==expected,'v257 source drift: '+repr(sorted(changed^expected)))
 override=Path('app/subject-b-local-adaptive-recommendation-overrides-v257.txt').read_text()
-for token in ['subjectBHubRecommendation=function','minSamplesPerLayer:8','windowPerLayer:20','weakAccuracyThreshold:70','requiresFinalRuns:2',"tieBehavior:'preserve-existing-recommendation'", "selectionSignal:'first-answer-accuracy-only'", "responseTimeRole:'copy-only-secondary-context'",'subjectBPerformanceRootV254','localEvidence:true']:
+for token in ['subjectBHubRecommendation=function','minSamplesPerLayer:8','windowPerLayer:20','weakAccuracyThreshold:70','requiresFinalRuns:2',"tieBehavior:'preserve-existing-recommendation'","taperRoutingPreserved:true",'subjectBLocalAdaptiveTaperAllowedV257','finalAllowed',"selectionSignal:'first-answer-accuracy-only'", "responseTimeRole:'copy-only-secondary-context'",'subjectBPerformanceRootV254','localEvidence:true']:
     req(token in override,'v257 contract missing: '+token)
 for banned in ['fetch(','XMLHttpRequest','sendBeacon(','WebSocket(','QUESTION_BANK.push','B_EXERCISES.push','B_EXAM_ALGO_ITEMS.push','profile.subjectBPerformanceV257']:
     req(banned not in override,'v257 preservation/local-only violation: '+banned)
@@ -80,6 +82,7 @@ p=cand['probe'];req(p,'v257 policy probe missing')
 req(p['progressionGate']['same'] is True,'local evidence changed staged progression before two final runs')
 req(p['sampleGate']['same'] is True,'local evidence overrode base below 8 samples')
 req(p['tieGate']['same'] is True,'tied weakest layers should preserve existing recommendation')
+req(p['taperPolicy']=={'d0':False,'d3':False,'d4':True,'none':True},'exam taper policy drift')
 wm=p['weakMini'];req(wm['same'] is False and wm['value']['mode']=='miniMock' and wm['value']['localEvidence'] is True and wm['value']['localEvidenceCount']==8 and wm['value']['localEvidenceRate']==63,'weak miniMock recommendation failed')
 req('初回回答時間の中央値' in wm['value']['desc'],'response-time secondary copy missing when enough timing exists')
 req(p['strongGate']['same'] is True,'strong eligible layers should preserve base recommendation')
@@ -88,7 +91,7 @@ rw=p['recentWindow'];req(rw['same'] is True,'older weak events leaked past recen
 req(p['finalIgnored']['same'] is True,'final timing events must not select a short-practice recommendation layer')
 fc=p['fastCopy'];req(fc['same'] is False and fc['value']['mode']=='compound' and '初回回答時間の中央値' not in fc['value']['desc'],'sub-second timing should not add noisy time copy')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'candidate/approved content reference mismatch')
-fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — NO FINDINGS','gates':{'requiresFinalRuns':2,'minSamples':8,'windowPerLayer':20,'weakAccuracyThreshold':70},'progressionGatePreserved':True,'insufficientSamplePreserved':True,'tiedWeaknessPreserved':True,'strongEvidencePreserved':True,'weakMiniMockSelected':True,'accuracyPrimaryOverResponseTime':True,'recentWindowOnly':True,'finalLayerIgnored':True,'responseTimeCopySecondary':True,'bankHashes':cand['banks'],'finalSignatureMatch':True,'contract':cand['contract'],'semanticOK':True,'candidateReferenceSixFileByteEquality':True}
+fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — NO FINDINGS','gates':{'requiresFinalRuns':2,'minSamples':8,'windowPerLayer':20,'weakAccuracyThreshold':70},'progressionGatePreserved':True,'insufficientSamplePreserved':True,'tiedWeaknessPreserved':True,'examTaperPreserved':True,'strongEvidencePreserved':True,'weakMiniMockSelected':True,'accuracyPrimaryOverResponseTime':True,'recentWindowOnly':True,'finalLayerIgnored':True,'responseTimeCopySecondary':True,'bankHashes':cand['banks'],'finalSignatureMatch':True,'contract':cand['contract'],'semanticOK':True,'candidateReferenceSixFileByteEquality':True}
 Path('_regression').mkdir(exist_ok=True);Path('_regression/subject-b-local-adaptive-recommendation-v257.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 audit=f'''FE QUEST v257 — Subject B Learner-Local Adaptive Recommendation
 =================================================================
@@ -102,7 +105,7 @@ Learner-facing change in v257: yes — after enough Subject B experience, existi
 
 Policy
 ------
-The existing subjectBHubRecommendation remains the single recommendation surface. Local adaptation is gated until two full Subject B final runs are complete. For compound, algorithm mini-mock, and security mini-mock, only the most recent 20 locally recorded first-answer events per layer are considered. A layer needs at least 8 observations. The uniquely lowest recent first-answer accuracy can become the suggested short practice only when it is 70% or lower. If the two weakest eligible layers are tied, the existing recommendation is kept rather than making an arbitrary local choice.
+The existing subjectBHubRecommendation remains the single recommendation surface. Local adaptation is gated until two full Subject B final runs are complete. For compound, algorithm mini-mock, and security mini-mock, only the most recent 20 locally recorded first-answer events per layer are considered. A layer needs at least 8 observations. The uniquely lowest recent first-answer accuracy can become the suggested short practice only when it is 70% or lower. If the two weakest eligible layers are tied, the existing recommendation is kept rather than making an arbitrary local choice. During the existing 0–3 day exam taper, the original Subject B recommendation is preserved unchanged.
 
 Evidence priority
 -----------------
@@ -113,6 +116,7 @@ Validation
 Before two final runs: existing recommendation preserved exactly.
 Seven samples: existing recommendation preserved exactly.
 Tied weakest layers: existing recommendation preserved exactly.
+Exam taper: adaptation disabled for 0–3 days remaining and allowed again outside the taper window.
 Eight-sample weak algorithm mini-mock case (63%): miniMock selected with local-evidence marker.
 All eligible layers at 75% or better: existing recommendation preserved exactly.
 Accuracy-vs-time conflict: lower-accuracy securityMock selected even when another layer was much slower.
@@ -125,11 +129,12 @@ Question / TRACE / compound / security / final-algorithm banks: unchanged from v
 2000 deterministic final sessions: selection/order/options unchanged.
 Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
 Scoring, exam countdown, readiness calculation/thresholds, remediation targets, profile schema, and published difficulty labels: unchanged.
+Subject B guided-flow/taper self-check: preserved.
 Subject B semantic diagnostics: OK.
 Candidate/approved-content-reference six-file byte equality: yes.
 
 Decision
 --------
-The learner-local evidence can now influence only the already-established Subject B “what next” guidance, with conservative minimum-evidence gates, tie fallback, and accuracy-first selection. Next perform a post-recommendation audit against the actual hub/render/launch paths and sparse/tied data cases. If clean, close this adaptive-recommendation sequence rather than adding another dashboard or more learner-facing metrics.
+The learner-local evidence can now influence only the already-established Subject B “what next” guidance, with conservative minimum-evidence gates, tie fallback, taper preservation, and accuracy-first selection. Next perform a post-recommendation audit against the actual hub/render/launch paths and sparse/tied data cases. If clean, close this adaptive-recommendation sequence rather than adding another dashboard or more learner-facing metrics.
 '''
 Path('audits').mkdir(exist_ok=True);Path('audits/SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_v257.txt').write_text(audit);print(audit)
