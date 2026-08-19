@@ -13,6 +13,7 @@ function seeded(seed){let a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;let
 function chapterOf(q){const s=String(q?.coreTopicId||'');const m=s.match(/(?:^|_)(\d{1,2})(?:_|$)/);return m?Number(m[1]):null;}
 function shuffleCopy(xs){return shuffled([...xs]);}
 function sameCounts(actual,expected,keys){return keys.every(k=>Number(actual?.[k]||0)===Number(expected?.[k]||0));}
+function expectedDifficulty(bp){return {'基礎':Number(bp.basic||0),'標準':Number(bp.standard||0),'実戦':Number(bp.practical||0)};}
 function buildVariant(mode,variant){
  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full,quotas=mockCategoryQuotas(bp.count),difficultyByCat=allocateMockDifficultyByCategory(quotas,bp),conceptCounts={},cognitiveCounts={'想起':0,'適用':0,'判断':0},cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0},out=[];
  const catOrder=(variant==='randomCategories'||variant==='randomBoth')?shuffleCopy(MOCK_CATEGORIES):[...MOCK_CATEGORIES];
@@ -29,7 +30,7 @@ function summarize(mode,variant,runs,seedBase){
    if(xs.length!==bp.count||new Set(ids).size!==ids.length)invalid.push({i,count:xs.length,unique:new Set(ids).size});
    const cats=Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,xs.filter(q=>q.cat===c).length]));const expectedCats=mockCategoryQuotas(bp.count);
    const dif=Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(d=>[d,xs.filter(q=>q.difficulty===d).length]));const cog=Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(c=>[c,xs.filter(q=>q.cognitiveLevel===c).length]));
-   if(!sameCounts(cats,expectedCats,MOCK_CATEGORIES)||!sameCounts(dif,bp.difficulty,MOCK_DIFFICULTY_LEVELS)||!sameCounts(cog,bp.cognitive,MOCK_COGNITIVE_LEVELS))blueprintMismatch++;
+   if(!sameCounts(cats,expectedCats,MOCK_CATEGORIES)||!sameCounts(dif,expectedDifficulty(bp),MOCK_DIFFICULTY_LEVELS)||!sameCounts(cog,bp.cognitive,MOCK_COGNITIVE_LEVELS))blueprintMismatch++;
    const chapters={};for(const q of xs){const ch=chapterOf(q);if(ch!=null)chapters[ch]=(chapters[ch]||0)+1;const id=String(q.id||'');exposure[id]=(exposure[id]||0)+1;if(id==='strat-16')strat++;}
    chapterCounts.push(Object.keys(chapters).length);maxChapterCounts.push(Math.max(0,...Object.values(chapters)));
  }
