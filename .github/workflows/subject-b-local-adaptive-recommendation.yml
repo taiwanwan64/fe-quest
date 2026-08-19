@@ -106,3 +106,5 @@ jobs:
           path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 90
+
+# v257 validation workflow
