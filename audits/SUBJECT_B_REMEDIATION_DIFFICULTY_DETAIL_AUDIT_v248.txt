@@ -1,0 +1,55 @@
+FE QUEST v248 — Subject B Remediation Difficulty Detail Audit
+================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v247
+Source main: 98eaf230970e800151ef3cba4c8ec87df416c3f0
+Learner-facing change in v248: none
+
+Purpose
+-------
+v247 found six final algorithm items whose default recovery route points to a TRACE exercise carrying a harder static label. v248 does not change learner behavior. It records the exact affected items and the complete TRACE exercise inventory so the next repair can be narrow and evidence-based rather than relabeling or rerouting broadly.
+
+Affected final→TRACE rows
+-------------------------
+- bexam_mat_01 / 二次元配列 / 行ごとの合計と最大行 — final=標準 -> TRACE matrix_find (二次元配列・探索, 応用); studyMode=exam
+- bexam_mat_02 / 二次元配列 / 主対角要素の合計 — final=標準 -> TRACE matrix_find (二次元配列・探索, 応用); studyMode=exam
+- bexam_tree_01 / 木構造 / 先行順の深さ優先探索 — final=標準 -> TRACE tree_dfs (木構造・DFS, 応用); studyMode=exam
+- bexam_list_02 / リスト / 先頭へのノード追加 — final=標準 -> TRACE linked_list (リスト・ポインタ, 応用); studyMode=exam
+- bexam_list_03 / リスト / リストの条件付き集計 — final=標準 -> TRACE linked_list (リスト・ポインタ, 応用); studyMode=exam
+- bexam_tree_05 / 木構造 / 幅優先探索のキューと累積値 — final=標準 -> TRACE tree_dfs (木構造・DFS, 応用); studyMode=exam
+
+TRACE exercise inventory
+------------------------
+- loop_sum: 基礎 / ループ・累積
+- array_max: 基礎 / 配列・比較
+- linear_search: 標準 / 探索・条件分岐
+- stack_ops: 標準 / スタック・LIFO（Last In, First Out）
+- recursion: 標準 / 再帰・コールスタック
+- tree_dfs: 応用 / 木構造・DFS
+- count_even: 基礎 / 配列・条件分岐
+- array_reverse: 標準 / 配列・逆順走査
+- nested_loop: 標準 / 二重ループ・回数
+- binary_search_b: 標準 / 二分探索・範囲更新
+- bubble_sort_b: 標準 / ソート・交換
+- selection_sort_b: 標準 / ソート・最小値探索
+- matrix_sum: 標準 / 二次元配列・二重ループ
+- matrix_find: 応用 / 二次元配列・探索
+- queue_ops: 基礎 / キュー・FIFO（First In, First Out）
+- linked_list: 応用 / リスト・ポインタ
+- bit_mask: 標準 / ビット列・AND
+- object_counter: 標準 / オブジェクト・メソッド
+- gcd_euclid: 応用 / 反復・剰余
+- recursive_fib: 応用 / 再帰・複数呼出し
+
+Regression
+----------
+TRACE and final-algorithm bank hashes vs v247: identical.
+All 43 final→TRACE topology rows vs v247: identical.
+Subject B semantic diagnostics: OK.
+
+Decision
+--------
+Use the affected rows and TRACE inventory to choose the narrowest repair. Prefer a same-domain target at the same or easier authored level when one exists. Do not change final selection, scoring, timing, readiness, or difficulty labels merely to make the labels line up. If no same-domain same/easier target exists for an affected row, keep the route and treat the cross-layer label comparison as non-equivalent rather than forcing a misleading relabel.

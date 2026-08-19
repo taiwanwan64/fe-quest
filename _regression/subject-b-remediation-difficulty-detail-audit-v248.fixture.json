@@ -1,0 +1,214 @@
+{
+  "version": "v248",
+  "previous": "v247",
+  "parent": "98eaf230970e800151ef3cba4c8ec87df416c3f0",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "harder": [
+    {
+      "id": "bexam_mat_01",
+      "title": "行ごとの合計と最大行",
+      "domain": "二次元配列",
+      "format": "処理結果",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "matrix_find",
+      "targetLevel": "応用",
+      "targetConcept": "二次元配列・探索",
+      "delta": -1
+    },
+    {
+      "id": "bexam_mat_02",
+      "title": "主対角要素の合計",
+      "domain": "二次元配列",
+      "format": "処理結果",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "matrix_find",
+      "targetLevel": "応用",
+      "targetConcept": "二次元配列・探索",
+      "delta": -1
+    },
+    {
+      "id": "bexam_tree_01",
+      "title": "先行順の深さ優先探索",
+      "domain": "木構造",
+      "format": "途中状態",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "tree_dfs",
+      "targetLevel": "応用",
+      "targetConcept": "木構造・DFS",
+      "delta": -1
+    },
+    {
+      "id": "bexam_list_02",
+      "title": "先頭へのノード追加",
+      "domain": "リスト",
+      "format": "処理結果",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "linked_list",
+      "targetLevel": "応用",
+      "targetConcept": "リスト・ポインタ",
+      "delta": -1
+    },
+    {
+      "id": "bexam_list_03",
+      "title": "リストの条件付き集計",
+      "domain": "リスト",
+      "format": "実行回数",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "linked_list",
+      "targetLevel": "応用",
+      "targetConcept": "リスト・ポインタ",
+      "delta": -1
+    },
+    {
+      "id": "bexam_tree_05",
+      "title": "幅優先探索のキューと累積値",
+      "domain": "木構造",
+      "format": "途中状態",
+      "studyMode": "exam",
+      "finalLevel": "標準",
+      "targetMode": "trace",
+      "targetId": "tree_dfs",
+      "targetLevel": "応用",
+      "targetConcept": "木構造・DFS",
+      "delta": -1
+    }
+  ],
+  "traceInventory": [
+    {
+      "id": "loop_sum",
+      "level": "基礎",
+      "concept": "ループ・累積",
+      "title": "ループで合計"
+    },
+    {
+      "id": "array_max",
+      "level": "基礎",
+      "concept": "配列・比較",
+      "title": "配列の最大値"
+    },
+    {
+      "id": "linear_search",
+      "level": "標準",
+      "concept": "探索・条件分岐",
+      "title": "線形探索"
+    },
+    {
+      "id": "stack_ops",
+      "level": "標準",
+      "concept": "スタック・LIFO（Last In, First Out）",
+      "title": "スタック操作"
+    },
+    {
+      "id": "recursion",
+      "level": "標準",
+      "concept": "再帰・コールスタック",
+      "title": "再帰呼出し"
+    },
+    {
+      "id": "tree_dfs",
+      "level": "応用",
+      "concept": "木構造・DFS",
+      "title": "木の深さ優先探索"
+    },
+    {
+      "id": "count_even",
+      "level": "基礎",
+      "concept": "配列・条件分岐",
+      "title": "偶数を数える"
+    },
+    {
+      "id": "array_reverse",
+      "level": "標準",
+      "concept": "配列・逆順走査",
+      "title": "配列を逆順にする"
+    },
+    {
+      "id": "nested_loop",
+      "level": "標準",
+      "concept": "二重ループ・回数",
+      "title": "二重ループ"
+    },
+    {
+      "id": "binary_search_b",
+      "level": "標準",
+      "concept": "二分探索・範囲更新",
+      "title": "二分探索トレース"
+    },
+    {
+      "id": "bubble_sort_b",
+      "level": "標準",
+      "concept": "ソート・交換",
+      "title": "バブルソート"
+    },
+    {
+      "id": "selection_sort_b",
+      "level": "標準",
+      "concept": "ソート・最小値探索",
+      "title": "選択ソート"
+    },
+    {
+      "id": "matrix_sum",
+      "level": "標準",
+      "concept": "二次元配列・二重ループ",
+      "title": "二次元配列の合計"
+    },
+    {
+      "id": "matrix_find",
+      "level": "応用",
+      "concept": "二次元配列・探索",
+      "title": "二次元配列から探索"
+    },
+    {
+      "id": "queue_ops",
+      "level": "基礎",
+      "concept": "キュー・FIFO（First In, First Out）",
+      "title": "キュー操作"
+    },
+    {
+      "id": "linked_list",
+      "level": "応用",
+      "concept": "リスト・ポインタ",
+      "title": "連結リストをたどる"
+    },
+    {
+      "id": "bit_mask",
+      "level": "標準",
+      "concept": "ビット列・AND",
+      "title": "ビットマスク"
+    },
+    {
+      "id": "object_counter",
+      "level": "標準",
+      "concept": "オブジェクト・メソッド",
+      "title": "オブジェクトの状態"
+    },
+    {
+      "id": "gcd_euclid",
+      "level": "応用",
+      "concept": "反復・剰余",
+      "title": "ユークリッド互除法"
+    },
+    {
+      "id": "recursive_fib",
+      "level": "応用",
+      "concept": "再帰・複数呼出し",
+      "title": "再帰でフィボナッチ"
+    }
+  ],
+  "traceLevelCounts": {
+    "基礎": 4,
+    "標準": 11,
+    "応用": 5
+  },
+  "semanticOK": true
+}
