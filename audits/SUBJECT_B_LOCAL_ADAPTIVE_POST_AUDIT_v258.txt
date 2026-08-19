@@ -1,0 +1,38 @@
+FE QUEST v258 — Subject B Local Adaptive Recommendation Post-Audit
+====================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v257
+Source main: 9618ce3ec358214e0a1c36b4764f943497dd4133
+Learner-facing change in v258: none
+
+End-to-end recommendation path
+------------------------------
+The v257 learner-local policy remains attached to the single existing subjectBHubRecommendation path. The practice-next card and final-readiness card both consume that recommendation and route their action through launchSubjectBRecommendation. Completed security and trace flows also return to the same hub recommendation and launcher. continueSubjectBFlow remains connected to the same launcher.
+
+Launch compatibility
+--------------------
+All three locally selectable short-practice modes — compound, miniMock, and securityMock — remain recognized by launchSubjectBRecommendation. The existing final route is also present. This confirms that a recommendation selected from learner-local evidence maps into an established start path rather than a display-only or dead-end state.
+
+Conservative cases
+------------------
+Seven samples: existing recommendation preserved.
+Tied weakest eligible layers: existing recommendation preserved.
+All eligible layers above the weak threshold: existing recommendation preserved.
+A uniquely weak layer at 4/8 first answers selects the matching compound, miniMock, or securityMock route.
+Exam taper helper: adaptation is disabled at 0 and 3 days remaining and enabled again at 4 days or when no exam date is set.
+
+Regression
+----------
+The complete recommendation/render/launch source contract is byte-behavior equivalent to v257 aside from the release shell version.
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v257.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Close the learner-local adaptive-recommendation sequence. v254-v257 now provide bounded local evidence, persistence/timing safety, conservative minimum-evidence gates, tie and taper fallbacks, and a verified end-to-end route through the existing Subject B recommendation UI and launcher. Do not add another learner-facing dashboard for these metrics. The next Subject B work should return to content/learning-quality priorities or a broader real-device UX audit rather than increasing adaptive-policy complexity.

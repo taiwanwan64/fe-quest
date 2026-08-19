@@ -1,0 +1,99 @@
+{
+  "version": "v258",
+  "previous": "v257",
+  "parent": "9618ce3ec358214e0a1c36b4764f943497dd4133",
+  "result": "PASS — NO FINDINGS",
+  "adaptivePolicy": {
+    "sparse": true,
+    "tied": true,
+    "strong": true,
+    "compound": {
+      "same": false,
+      "mode": "compound",
+      "local": true,
+      "rate": 50,
+      "count": 8
+    },
+    "miniMock": {
+      "same": false,
+      "mode": "miniMock",
+      "local": true,
+      "rate": 50,
+      "count": 8
+    },
+    "securityMock": {
+      "same": false,
+      "mode": "securityMock",
+      "local": true,
+      "rate": 50,
+      "count": 8
+    },
+    "taper": [
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "flowContract": {
+    "hub": {
+      "local": true,
+      "taper": true,
+      "prior": true
+    },
+    "practice": {
+      "hub": true,
+      "launch": true
+    },
+    "finalReadiness": {
+      "hub": true,
+      "launch": true,
+      "taper": true
+    },
+    "securityNext": {
+      "hub": true,
+      "launch": true
+    },
+    "traceNext": {
+      "hub": true,
+      "launch": true
+    },
+    "continueFlow": {
+      "launch": true
+    },
+    "launchModes": {
+      "compound": true,
+      "miniMock": true,
+      "securityMock": true,
+      "final": true
+    },
+    "sourceHashes": {
+      "hub": 2795621600,
+      "practice": 3603618618,
+      "finalReadiness": 366864359,
+      "securityNext": 553176863,
+      "traceNext": 1400144733,
+      "continueFlow": 3325652815,
+      "launch": 1773997110
+    }
+  },
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "compound": 2827364307,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contract": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
