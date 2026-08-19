@@ -1,0 +1,113 @@
+// ===== FE QUEST v262 Subject B deterministic alternate-value re-trace pilot =====
+const SUBJECT_B_TRANSFER_RETRACE_V262_SPEC=Object.freeze({
+  policy:'completed-repeat-only-deterministic-alternate-values',
+  sourceAudit:'v260-fixed_value_trace_repractice_limits_transfer',
+  hookAudit:'v261-subject-b-retrace-hook-detail',
+  pilotIds:Object.freeze(['loop_sum']),
+  originalFirstExposure:true,
+  completedRepeatOnly:true,
+  deterministic:true,
+  randomValues:false,
+  predictionCheckpoints:2,
+  optionsPerPrediction:4,
+  sharedExerciseBankMutation:'temporary-slot-only-with-finally-restore',
+  scoringChanged:false,
+  finalSelectionChanged:false,
+  finalOrderChanged:false,
+  readinessChanged:false,
+  remediationTargetsChanged:false,
+  difficultyLabelsChanged:false,
+  examTimingChanged:false,
+  profileSchemaChanged:false,
+  remoteTelemetry:false
+});
+
+function subjectBCloneV262(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function subjectBPredictionFeedbackV262(predict){
+  const opts=(predict?.opts||[]).map(String),a=Number(predict?.a),hint=String(predict?.hint||'コードを1行ずつ追います。');
+  const checkpoint='処理の分岐点：'+String(predict?.explain||'正解と分かれる最初の更新まで戻ります。').split('。')[0]+'。';
+  const wrongFeedback=opts.map((opt,i)=>i===a?'':Object.freeze({
+    diagnosis:`「${opt}」では、ループ変数とsumの更新時点のどちらかがずれています。現在の状態を残したまま、次の1反復だけをコード順に追ってください。`,
+    checkpoint,
+    nextCue:hint
+  }));
+  const wrongFeedbackByText={};
+  opts.forEach((opt,i)=>{if(i!==a)wrongFeedbackByText[opt]=wrongFeedback[i];});
+  predict.wrongFeedback=wrongFeedback;
+  predict.wrongFeedbackByText=wrongFeedbackByText;
+  return predict;
+}
+
+function subjectBLoopSumRetraceVariantV262(authored){
+  const variant=subjectBCloneV262(authored);
+  variant.title='ループで合計・別の値で再トレース';
+  variant.desc='再挑戦では2から5まで加算します。前回の答えを思い出すのではなく、sumの変化をもう一度追います。';
+  variant.code=[
+    'sum ← 0',
+    'for i ← 2 to 5',
+    '    sum ← sum + i',
+    'endfor',
+    'sum を出力する'
+  ];
+  variant.steps=[
+    {line:0,state:{sum:0,i:'—'},msg:'sumを0で初期化しました。'},
+    {line:1,state:{sum:0,i:2},msg:'今回はi=2からループを開始します。'},
+    {line:2,state:{sum:2,i:2},msg:'sum = 0 + 2 → 2',predict:subjectBPredictionFeedbackV262({
+      q:'現在はi=2の加算後でsum=2です。i=3の反復を最後まで実行した直後の状態は？',
+      opts:['i=3, sum=5','i=4, sum=5','i=3, sum=3','i=4, sum=9'],a:0,
+      explain:'現在のsum=2を保持したまま次の反復でi=3となり、加算行で2+3=5へ更新します。3の反復を終えた直後なので、状態はi=3, sum=5です。',
+      hint:'iを3へ進めてから、現在のsum=2に3を加えます。'
+    })},
+    {line:3,state:{sum:2,i:2},msg:'i=2の反復が終了しました。'},
+    {line:1,state:{sum:2,i:3},msg:'i=3へ進みます。'},
+    {line:2,state:{sum:5,i:3},msg:'sum = 2 + 3 → 5'},
+    {line:3,state:{sum:5,i:3},msg:'i=3の反復が終了しました。'},
+    {line:1,state:{sum:5,i:4},msg:'i=4へ進みます。'},
+    {line:2,state:{sum:9,i:4},msg:'sum = 5 + 4 → 9'},
+    {line:3,state:{sum:9,i:4},msg:'i=4の反復が終了しました。'},
+    {line:1,state:{sum:9,i:5},msg:'最後のi=5へ進みます。',predict:subjectBPredictionFeedbackV262({
+      q:'現在はi=5、加算前のsum=9です。この反復からfor文を抜けるまでの流れは？',
+      opts:['sum=10となりi=6でも加算する','sum=13となりその場で終了する','sum=15となりi=5のまま終了する','sum=14となり、その後for文を終了する'],a:3,
+      explain:'まず加算行でsumは9→14（9+5）になります。i=5の反復を終えると次は上限5を超えるため、追加の加算は行わずfor文を終了します。',
+      hint:'i=5の加算を実行してから、次の反復が存在するかを確認します。'
+    })},
+    {line:2,state:{sum:14,i:5},msg:'sum = 9 + 5 → 14'},
+    {line:3,state:{sum:14,i:5},msg:'上限5の反復が終了しました。'},
+    {line:4,state:{sum:14,i:5},msg:'最終結果は14です。'}
+  ];
+  variant.retraceVariantV262='loop_sum-alternate-values-v1';
+  return variant;
+}
+
+function subjectBTransferRetraceVariantV262(id,authored){
+  if(id==='loop_sum')return subjectBLoopSumRetraceVariantV262(authored);
+  return null;
+}
+
+function subjectBTransferRetraceEligibleV262(id){
+  return SUBJECT_B_TRANSFER_RETRACE_V262_SPEC.pilotIds.includes(id)
+    &&Number(profile?.bProgress?.[id]||0)>=100;
+}
+
+const _startBExerciseV262=startBExercise;
+startBExercise=function(id){
+  if(!subjectBTransferRetraceEligibleV262(id))return _startBExerciseV262(id);
+  const index=B_EXERCISES.findIndex(x=>x.id===id);
+  if(index<0)return _startBExerciseV262(id);
+  const authored=B_EXERCISES[index];
+  const variant=subjectBTransferRetraceVariantV262(id,authored);
+  if(!variant)return _startBExerciseV262(id);
+  B_EXERCISES[index]=variant;
+  try{
+    return _startBExerciseV262(id);
+  }finally{
+    B_EXERCISES[index]=authored;
+  }
+};
+
+globalThis.SUBJECT_B_TRANSFER_RETRACE_V262_SPEC=SUBJECT_B_TRANSFER_RETRACE_V262_SPEC;
+globalThis.subjectBTransferRetraceEligibleV262=subjectBTransferRetraceEligibleV262;
+globalThis.subjectBTransferRetraceVariantV262=subjectBTransferRetraceVariantV262;

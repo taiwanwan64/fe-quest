@@ -1,0 +1,40 @@
+FE QUEST v262 — Subject B Deterministic Alternate-Value Re-Trace Pilot
+========================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v261
+Source main: 7cd116b45b2fa2ebd5c70ffad61fa1f2fbb18d0e
+Learner-facing change in v262: yes — after loop_sum has already been completed once, starting it again uses a clearly labeled alternate-value re-trace instead of replaying the identical 1–4 state path.
+
+Repair
+------
+The original first exposure is untouched. On a completed repeat of loop_sum, startBExercise temporarily substitutes a deep-cloned variant in the matching B_EXERCISES slot, lets the existing start routine bind currentB and render it, and restores the authored shared-bank object in a finally block before returning. The repeat variant changes the loop from 1..4 to 2..5 while preserving the same concept and two intermediate-state prediction checkpoints.
+
+Learner value
+-------------
+The second encounter now requires reconstructing sum under changed values rather than recalling the previous concrete states. The title explicitly says “別の値で再トレース” so the changed values are intentional rather than looking like a data inconsistency. This is a bounded pilot: only loop_sum changes on completed repeat, while all other TRACE exercises remain exactly as before.
+
+Validation
+----------
+First loop_sum exposure: byte-behavior equivalent to v261 authored exercise.
+Completed repeat: alternate marker present, code is 2..5, and currentB differs from authored exercise.
+Second completed repeat: deterministic hash identical to the first alternate repeat.
+Shared B_EXERCISES hash: unchanged before/after first start and both repeat starts.
+Non-pilot count_even completed repeat: byte-behavior equivalent to v261.
+Variant checkpoints: exactly 2; each has 4 unique options, one valid answer, explanation, hint, and choice-specific wrong-answer feedback.
+Expected correct states: i=3, sum=5; then sum=14 and exit.
+
+Regression
+----------
+Authored 20-item TRACE bank, final algorithm pool, compound bank and security bank: unchanged from v261.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, readiness, remediation targets, difficulty labels, exam timing, profile schema and remote telemetry: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The pilot safely repairs the transfer gap for one foundational control-flow TRACE without disturbing first exposure or the shared exercise bank. Next run a learner-flow/post-repair audit. If clean, expand the same deterministic completed-repeat pattern to one array exercise (count_even) rather than broadly randomizing all TRACE content.
