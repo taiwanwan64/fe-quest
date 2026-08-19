@@ -1,0 +1,29 @@
+// ===== FE QUEST v249 Subject B final→TRACE remediation difficulty repair =====
+const SUBJECT_B_REMEDIATION_DIFFICULTY_V249_SPEC=Object.freeze({
+  policy:'prefer-same-domain-same-or-easier-authored-trace-target-when-available',
+  sourceAudit:'v248-subject-b-remediation-difficulty-detail',
+  sourceFinding:'subject_b_remediation_target_harder_than_final_label',
+  repairedFinalIds:Object.freeze(['bexam_mat_01','bexam_mat_02']),
+  previousTarget:'matrix_find',
+  repairedTarget:'matrix_sum',
+  preservedExceptions:Object.freeze(['bexam_tree_01','bexam_tree_05','bexam_list_02','bexam_list_03']),
+  exceptionReason:'no-same-domain-same-or-easier-trace-target-in-current-inventory',
+  difficultyLabelsChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  scoringChanged:false,
+  timingChanged:false,
+  readinessChanged:false,
+  profileSchemaChanged:false
+});
+
+const __bFinalRemediationTargetBeforeV249=bFinalRemediationTarget;
+bFinalRemediationTarget=function(studyMode,sourceId,domain){
+  const base=__bFinalRemediationTargetBeforeV249(studyMode,sourceId,domain);
+  if(studyMode==='exam'&&(sourceId==='bexam_mat_01'||sourceId==='bexam_mat_02')){
+    return {mode:'trace',id:'matrix_sum'};
+  }
+  return base;
+};
+
+globalThis.SUBJECT_B_REMEDIATION_DIFFICULTY_V249_SPEC=SUBJECT_B_REMEDIATION_DIFFICULTY_V249_SPEC;
