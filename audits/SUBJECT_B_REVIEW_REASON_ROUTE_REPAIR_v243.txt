@@ -1,0 +1,34 @@
+FE QUEST v243 — Subject B Review Reason/Action Route Repair
+===========================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v242
+Source main: a69cabdd4593ccde2f466230e0053be5aff2c9c7
+Resolved finding: subject_b_review_reason_action_route_mismatch
+Learner-facing change: algorithm final-review route for 「コード理解」 only
+
+Repair
+------
+v242 confirmed that all 43 algorithm review cards could say 「複合問題で確認」 after the learner selected 「コード理解」 while the button still launched the domain TRACE route.
+v243 keeps that existing learner-facing advice and makes the action match it: all 43 algorithm final items now launch the existing 複合問題 practice when lastReason is 「コード理解」.
+All other review reasons retain the existing item-specific remediation route. Security review routing is unchanged. The base bFinalRemediationTarget mapping is unchanged.
+
+Coverage
+--------
+Algorithm code-understanding routes aligned: 43 / 43
+Other algorithm reason routes preserved: yes
+Security routes preserved: 15 / 15
+
+Regression
+----------
+Question / TRACE / security / final-algorithm banks vs v242: identical.
+1000 deterministic final-session selection/order/option signatures vs v242: identical.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/reference six release files byte-identical: yes
+
+Decision
+--------
+Proceed to a v244 post-repair learner-flow audit that verifies the actual review-button destination after reason changes and checks security reason labels separately, without broadening the repair unless learner-visible evidence supports it.
