@@ -1,0 +1,27 @@
+{
+  "version": "v284",
+  "previous": "v283",
+  "parent": "6aafd70d74499ed963ed7482e4704ff8ce5c3eb9",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "evidence": {
+    "namespacedAlgoKeyInSeen": true,
+    "finishMentionsBFinalStats": false,
+    "finishMentionsAlgoNamespace": false,
+    "finishMentionsSeen": false,
+    "finishMentionsLastSeen": false,
+    "pickMentionsBFinalAlgoSeen": true,
+    "pickMentionsSeen": true,
+    "pickMentionsRandom": true,
+    "pickMentionsDomain": false,
+    "pickMentionsFormat": true
+  },
+  "seenProbe": 7,
+  "pickSource": "function pickFinalAlgoCandidate(pool,selected){\n  const formatCounts={};\n  selected.forEach(x=>formatCounts[x.format||'トレース']=(formatCounts[x.format||'トレース']||0)+1);\n  return [...pool].sort((a,b)=>{\n    const sa=bFinalAlgoSeen(a),sb=bFinalAlgoSeen(b);\n    if(sa!==sb)return sa-sb;\n    const fa=formatCounts[a.format||'トレース']||0,fb=formatCounts[b.format||'トレース']||0;\n    if(fa!==fb)return fa-fb;\n    return Math.random()-.5;\n  })[0]||null;\n}",
+  "seenSource": "function bFinalAlgoSeen(item){\n  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;\n}",
+  "finishUnderlyingSource": "function(timeUp=false){\n  const hadItems=!!bFinalItems.length;\n  _finishBFinalV65(timeUp);\n  if(hadItems)markDailyTask('subjectB',{mode:'final'});\n}",
+  "buildSource": "function buildBFinal(){\n  // 40問の本番型アルゴリズムプールから、\n  // 10分野を最低1問ずつ・標準8問/応用8問になるよう16問を構成する。\n  const selected=[];\n  const used=new Set();\n\n  B_FINAL_ALGO_DOMAINS.forEach(domain=>{\n    const desired=B_FINAL_APPLIED_DOMAINS.has(domain)?'応用':'標準';\n    let pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&x.level===desired&&!used.has(x.id));\n    if(!pool.length)pool=B_EXAM_ALGO_ITEMS.filter(x=>x.domain===domain&&!used.has(x.id));\n    const pick=pickFinalAlgoCandidate(pool,selected);\n    if(pick){selected.push(pick);used.add(pick.id);}\n  });\n\n  const fillLevel=(level,target)=>{\n    while(selected.filter(x=>x.level===level).length<target){\n      const pool=B_EXAM_ALGO_ITEMS.filter(x=>x.level===level&&!used.has(x.id));\n      const pick=pickFinalAlgoCandidate(pool,selected);\n      if(!pick)break;\n      selected.push(pick);used.add(pick.id);\n    }\n  };\n  fillLevel('応用',8);\n  fillLevel('標準',8);\n\n  // 念のため不足時だけ未使用問題で補完する。\n  while(selected.length<16){\n    const pick=pickFinalAlgoCandidate(B_EXAM_ALGO_ITEMS.filter(x=>!used.has(x.id)),selected);\n    if(!pick)break;\n    selected.push(pick);used.add(pick.id);\n  }\n  const algo=selected.slice(0,16).map(makeFinalAlgoExam);\n\n  // 情報セキュリティ4問は、ログ読解2問＋ケース判断2問を固定。\n  const secUsed=new Set();\n  const secLogs=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>s.log),2,secUsed);\n  const secCases=pickSecurityForFinal(SECURITY_SCENARIOS.filter(s=>!s.log),2,secUsed);\n  const secPool=[...secLogs,...secCases].map(makeFinalSecurity);\n\n  return shuffled([...algo,...secPool]);\n}",
+  "repairSource": "function bFinalRepairTraceFloorV208(items){\n  const out=[...items];\n  let algo=out.filter(x=>x?.kind==='algo');\n  let highCount=bFinalHighTraceCountV208(algo);\n\n  while(highCount<B_FINAL_HIGH_TRACE_FLOOR_V208){\n    const selectedIds=new Set(algo.map(x=>x.sourceId));\n    const rawById=new Map(B_EXAM_ALGO_ITEMS.map(x=>[x.id,x]));\n    const rawSelected=algo.map(x=>rawById.get(x.sourceId)).filter(Boolean);\n    const formatCounts={};\n    rawSelected.forEach(x=>{const f=x.format||'トレース';formatCounts[f]=(formatCounts[f]||0)+1;});\n    const swaps=[];\n\n    algo.forEach(victim=>{\n      if(B_FINAL_HIGH_TRACE_IDS_V208.has(victim.sourceId))return;\n      const rawVictim=rawById.get(victim.sourceId);\n      if(!rawVictim)return;\n      B_EXAM_ALGO_ITEMS\n        .filter(candidate=>B_FINAL_HIGH_TRACE_IDS_V208.has(candidate.id)&&!selectedIds.has(candidate.id)&&candidate.domain===rawVictim.domain&&candidate.level===rawVictim.level)\n        .forEach(candidate=>{\n          const candidateFormat=candidate.format||'トレース';\n          const victimFormat=rawVictim.format||'トレース';\n          const prospectiveFormatLoad=(formatCounts[candidateFormat]||0)-(candidateFormat===victimFormat?1:0);\n          swaps.push({\n            victim,\n            rawVictim,\n            candidate,\n            candidateSeen:bFinalAlgoSeen(candidate),\n            prospectiveFormatLoad,\n            victimSeen:bFinalAlgoSeen(rawVictim)\n          });\n        });\n    });\n\n    swaps.sort((a,b)=>\n      a.candidateSeen-b.candidateSeen ||\n      a.prospectiveFormatLoad-b.prospectiveFormatLoad ||\n      b.victimSeen-a.victimSeen ||\n      Math.random()-.5\n    );\n    const swap=swaps[0];\n    if(!swap)break;\n    const pos=out.findIndex(x=>x?.kind==='algo'&&x.sourceId===swap.victim.sourceId);\n    if(pos<0)break;\n    out[pos]=makeFinalAlgoExam(swap.candidate);\n    algo=out.filter(x=>x?.kind==='algo');\n    highCount=bFinalHighTraceCountV208(algo);\n  }\n  return out;\n}",
+  "selectionSignatureMatch2000": true,
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
