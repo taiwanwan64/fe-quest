@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "release": "v262",
+  "previous_release": "v261",
+  "parent_main_sha": "7cd116b45b2fa2ebd5c70ffad61fa1f2fbb18d0e",
+  "change_type": "subject-b-transfer-retrace-pilot",
+  "source_quality_audit": "audits/SUBJECT_B_TRANSFER_RETRACE_DIAGNOSTIC_v260.txt",
+  "hook_quality_audit": "audits/SUBJECT_B_RETRACE_HOOK_DETAIL_AUDIT_v261.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "fixed_value_trace_repractice_limits_transfer",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-transfer-retrace-overrides-v262.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "trace_exercise_count": 20,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "authored_trace_bank_changed": false,
+    "first_exposure_changed": false,
+    "final_question_prompts_changed": false,
+    "final_question_options_changed": false,
+    "final_correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "remediation_targets_changed": false,
+    "difficulty_labels_changed": false,
+    "profile_schema_migration_required": false,
+    "remote_telemetry_added": false
+  },
+  "retrace_pilot": {
+    "pilot_ids": ["loop_sum"],
+    "eligibility": "exercise already complete in profile.bProgress",
+    "first_exposure": "authored exercise unchanged",
+    "repeat_behavior": "one deterministic alternate-value clone",
+    "alternate_values": "sum integers 2 through 5 instead of 1 through 4",
+    "prediction_checkpoints": 2,
+    "options_per_prediction": 4,
+    "shared_bank_behavior": "temporarily substitute cloned variant only during startBExercise and restore authored B_EXERCISES slot in finally",
+    "randomization": false,
+    "profile_fields_added": false,
+    "validation_scope": "first-exposure identity, completed-repeat alternate selection, B_EXERCISES restoration, prediction shape/correctness/feedback, non-pilot stability, final banks and deterministic sessions, semantic diagnostics and approved-content-reference equality"
+  }
+}
