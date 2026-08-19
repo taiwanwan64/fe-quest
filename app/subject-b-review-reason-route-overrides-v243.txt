@@ -1,0 +1,48 @@
+// ===== FE QUEST v243 Subject B final-review reason/action route repair =====
+const SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC=Object.freeze({
+  policy:'align-code-understanding-review-action-with-existing-compound-practice-copy',
+  sourceAudit:'v242-subject-b-remediation-target-granularity-audit',
+  findingResolved:'subject_b_review_reason_action_route_mismatch',
+  affectedKind:'algorithm',
+  affectedReason:'コード理解',
+  route:'compound',
+  preservesDefaultItemRemediation:true,
+  preservesSecurityRouting:true,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  scoringChanged:false,
+  timingChanged:false,
+  readinessChanged:false,
+  profileSchemaChanged:false
+});
+
+function subjectBFinalReviewTargetV243(detail,reason){
+  const base=bFinalRemediationTarget(detail?.studyMode,detail?.sourceId,detail?.domain||'');
+  if(detail?.kind!=='security'&&reason==='コード理解')return {mode:'compound',id:null};
+  return base;
+}
+
+const __renderBFinalResultBeforeV243=renderBFinalResult;
+renderBFinalResult=function(attempt,earned){
+  const out=__renderBFinalResultBeforeV243(attempt,earned);
+  const wrong=(attempt?.details||[]).filter(d=>!d.ok);
+  const buttons=[...document.querySelectorAll('[data-bfinalstudy]')];
+  buttons.forEach((btn,i)=>{
+    const detail=wrong[i];
+    if(!detail)return;
+    const key=bFinalMistakeKey(detail);
+    const reason=profile.bFinalMistakeStats?.[key]?.lastReason||'';
+    const target=subjectBFinalReviewTargetV243(detail,reason);
+    if(target.mode!=='compound'||reason!=='コード理解'||detail.kind==='security')return;
+    btn.onclick=()=>{
+      document.getElementById('bFinalResult')?.classList.remove('show');
+      setBMode('mock');
+      startCompoundChallenge();
+    };
+    btn.dataset.bfinalRouteV243='compound';
+  });
+  return out;
+};
+
+globalThis.SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC=SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC;
+globalThis.subjectBFinalReviewTargetV243=subjectBFinalReviewTargetV243;
