@@ -1,0 +1,99 @@
+FE QUEST v288 — Home / Today / Plan Primary-Action Audit
+=========================================================
+
+Result
+------
+PASS — PRIMARY-ACTION EVIDENCE CAPTURED
+Previous release: v287
+Source main: 43019909eebdc0c1e7723b566b60bfd88bc65fc8
+Learner-facing change in v288: none
+
+Purpose
+-------
+v287 confirmed that FE QUEST already has reusable next-action routing. v288 narrows the question to the daily entry journey: whether the app's today/plan path can identify the highest-priority unfinished task and launch it through the existing daily-task launcher without introducing another dashboard.
+
+Known function presence
+-----------------------
+{
+  "buildTodayTasks": true,
+  "ensureTodayPlanSnapshot": true,
+  "nextUnfinishedDailyTask": true,
+  "launchDailyTask": true,
+  "renderDailyPlan": true,
+  "renderPlanFocus": true,
+  "renderPlannerScreen": true,
+  "renderHomeReviewCandidates": true,
+  "courseAContinueId": true
+}
+
+Primary-action checks
+---------------------
+{
+  "dailyPlanLaunchesTask": true,
+  "dailyPlanFindsNext": false,
+  "plannerRendersDailyPlan": false,
+  "plannerRendersFocus": false,
+  "directPrimaryFunctionCount": 0,
+  "launchDailyTaskCalls": [
+    "actionableReviewJourneys",
+    "launchDailyTask",
+    "launchFinalFocus",
+    "pickLessonForSkill",
+    "rxMode",
+    "setBMode",
+    "showScreen",
+    "startBExercise",
+    "startCompoundChallenge",
+    "startJourneyAction",
+    "startLesson",
+    "startQuiz",
+    "startSecurityMock",
+    "startSecurityScenario"
+  ]
+}
+
+Functions calling launchDailyTask
+---------------------------------
+[
+  "launchDailyTask",
+  "renderDailyPlan",
+  "renderPlanFocus"
+]
+
+Functions combining nextUnfinishedDailyTask + launchDailyTask
+------------------------------------------------------------
+[]
+
+Diagnostic finding
+------------------
+Daily-plan renderer does not both resolve and launch the next unfinished task directly.
+
+launchDailyTask call inventory
+------------------------------
+[
+  "actionableReviewJourneys",
+  "launchDailyTask",
+  "launchFinalFocus",
+  "pickLessonForSkill",
+  "rxMode",
+  "setBMode",
+  "showScreen",
+  "startBExercise",
+  "startCompoundChallenge",
+  "startJourneyAction",
+  "startLesson",
+  "startQuiz",
+  "startSecurityMock",
+  "startSecurityScenario"
+]
+
+Regression
+----------
+No learner-facing code changed.
+All audited home/today/plan function sources are equivalent to v287.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If there is no finding, preserve the current entry architecture and move to result-screen return paths or content quality. If a finding exists, repair only the shortest concrete extra-tap/dead-end path while reusing nextUnfinishedDailyTask and launchDailyTask; do not add another learner-facing dashboard.
