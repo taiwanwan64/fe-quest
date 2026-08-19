@@ -1,0 +1,226 @@
+// ===== FE QUEST v254 Subject B local-only per-question performance timing =====
+const SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC=Object.freeze({
+  policy:'bounded-local-only-first-answer-active-time-evidence',
+  sourceAudit:'v253-subject-b-answer-lifecycle-detail',
+  sourceFinding:'subject_b_local_calibration_lacks_per_question_response_time',
+  profileField:'subjectBPerformanceV254',
+  eventSchema:1,
+  eventLimit:240,
+  maxElapsedMs:1800000,
+  layers:Object.freeze(['compound','miniMock','securityMock','final']),
+  firstAnswerOnly:true,
+  activeQuestionTimeOnly:true,
+  localOnly:true,
+  remoteTelemetry:false,
+  scoringChanged:false,
+  examCountdownChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  readinessChanged:false,
+  difficultyLabelsChanged:false,
+  profileSchemaMigrationRequired:false
+});
+
+const __subjectBPerformanceStateV254={};
+function subjectBPerformanceNowV254(){
+  return (typeof performance!=='undefined'&&performance&&typeof performance.now==='function')?performance.now():Date.now();
+}
+function subjectBPerformanceStateV254(layer){
+  if(!__subjectBPerformanceStateV254[layer]){
+    __subjectBPerformanceStateV254[layer]={itemsRef:null,activeKey:null,startedAt:0,elapsed:{},frozen:{},firstOk:{},firstAt:{},meta:{},skip:{},flushed:false};
+  }
+  return __subjectBPerformanceStateV254[layer];
+}
+function subjectBPerformanceResetV254(layer,itemsRef){
+  const st=subjectBPerformanceStateV254(layer);
+  st.itemsRef=itemsRef;st.activeKey=null;st.startedAt=0;st.elapsed={};st.frozen={};st.firstOk={};st.firstAt={};st.meta={};st.skip={};st.flushed=false;
+  return st;
+}
+function subjectBPerformancePauseV254(st,now=subjectBPerformanceNowV254()){
+  const key=st.activeKey;
+  if(key&&st.startedAt&&!(key in st.frozen)&&!st.skip[key]){
+    st.elapsed[key]=Math.max(0,Number(st.elapsed[key])||0)+Math.max(0,now-st.startedAt);
+  }
+  st.activeKey=null;st.startedAt=0;
+}
+function subjectBPerformanceBeforeRenderV254(layer,itemsRef,key,answer,meta){
+  let st=subjectBPerformanceStateV254(layer);
+  if(st.itemsRef!==itemsRef)st=subjectBPerformanceResetV254(layer,itemsRef);
+  const now=subjectBPerformanceNowV254();
+  if(st.activeKey&&st.activeKey!==key)subjectBPerformancePauseV254(st,now);
+  st.meta[key]=meta||st.meta[key]||{};
+  if(answer!==null&&answer!==undefined&&!(key in st.frozen)){
+    if(st.activeKey===key)subjectBPerformancePauseV254(st,now);
+    st.skip[key]=true;
+    return st;
+  }
+  if(!(key in st.frozen)&&!st.skip[key]&&st.activeKey!==key){
+    st.activeKey=key;st.startedAt=now;
+  }
+  return st;
+}
+function subjectBPerformanceFreezeV254(layer,key,selected,correctIndex){
+  const st=subjectBPerformanceStateV254(layer);
+  if((key in st.frozen)||st.skip[key])return;
+  const now=subjectBPerformanceNowV254();
+  if(st.activeKey===key)subjectBPerformancePauseV254(st,now);
+  const elapsed=Math.min(SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.maxElapsedMs,Math.max(0,Math.round(Number(st.elapsed[key])||0)));
+  st.frozen[key]=elapsed;
+  st.firstOk[key]=Number.isInteger(Number(correctIndex))?Number(selected)===Number(correctIndex):false;
+  st.firstAt[key]=new Date().toISOString();
+}
+function subjectBPerformanceWrapButtonsV254(layer,key,selector,correctIndex){
+  document.querySelectorAll(selector).forEach(btn=>{
+    const original=btn.onclick;
+    if(typeof original!=='function'||btn.dataset?.feqPerfV254==='1')return;
+    if(btn.dataset)btn.dataset.feqPerfV254='1';
+    btn.onclick=function(ev){
+      let selected=null;
+      if(selector==='[data-bmopt]')selected=Number(btn.dataset.bmopt);
+      else if(selector==='[data-copt]')selected=Number(btn.dataset.copt);
+      else if(selector==='[data-smopt]')selected=Number(btn.dataset.smopt);
+      else if(selector==='[data-bfopt]')selected=Number(btn.dataset.bfopt);
+      subjectBPerformanceFreezeV254(layer,key,selected,correctIndex);
+      return original.call(this,ev);
+    };
+  });
+}
+function subjectBPerformanceAnswerIndexV254(item){
+  if(!item||typeof item!=='object')return null;
+  for(const key of ['a','answerIndex','correctIndex']){
+    const n=Number(item[key]);if(Number.isInteger(n))return n;
+  }
+  return null;
+}
+function subjectBPerformanceLevelV254(layer,item){
+  const direct=String(item?.level??item?.qlevel??'').trim();
+  if(direct)return direct;
+  const sourceId=String(item?.sourceId??'');
+  if(layer==='final'){
+    if(item?.kind==='security')return String(SECURITY_SCENARIOS.find(x=>x.id===sourceId)?.level||'標準');
+    return String(B_EXAM_ALGO_ITEMS.find(x=>x.id===sourceId)?.level||'標準');
+  }
+  if(layer==='securityMock')return String(SECURITY_SCENARIOS.find(x=>x.id===sourceId)?.level||'標準');
+  if(layer==='compound')return String(bCompoundSet?.level||'標準');
+  return '標準';
+}
+function subjectBPerformanceSourceIdV254(layer,item,index){
+  if(layer==='miniMock')return String(item?.exId??item?.id??`mini:${index}`);
+  if(layer==='compound')return String(item?.sourceId??item?.id??`${bCompoundSet?.id||'compound'}:${index}`);
+  if(layer==='securityMock')return String(item?.sourceId??item?.scenarioId??item?.id??`security:${index}`);
+  if(layer==='final')return String(item?.sourceId??item?.id??`final:${index}`);
+  return `${layer}:${index}`;
+}
+function subjectBPerformanceMetaV254(layer,item,index){
+  return {sourceId:subjectBPerformanceSourceIdV254(layer,item,index),level:subjectBPerformanceLevelV254(layer,item)};
+}
+function subjectBPerformanceKeyV254(layer,item,index){
+  return `${index}|${subjectBPerformanceSourceIdV254(layer,item,index)}`;
+}
+function subjectBPerformanceRootV254(){
+  let root=profile.subjectBPerformanceV254;
+  if(!root||typeof root!=='object'||Array.isArray(root))root={schema:1,events:[]};
+  const rows=Array.isArray(root.events)?root.events:[];
+  root={schema:1,events:rows.filter(x=>x&&typeof x==='object').slice(-SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.eventLimit)};
+  profile.subjectBPerformanceV254=root;
+  return root;
+}
+function subjectBPerformanceRecordV254(event){
+  const layer=String(event?.layer||'');
+  if(!SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.layers.includes(layer))return false;
+  const sourceId=String(event?.sourceId||'').trim();if(!sourceId)return false;
+  const elapsedMs=Math.min(SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.maxElapsedMs,Math.max(0,Math.round(Number(event?.elapsedMs)||0)));
+  const row={layer,sourceId,level:String(event?.level||'標準'),ok:!!event?.ok,elapsedMs,at:String(event?.at||new Date().toISOString())};
+  const root=subjectBPerformanceRootV254();
+  root.events=[...root.events,row].slice(-SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.eventLimit);
+  return true;
+}
+function subjectBPerformanceFlushV254(layer){
+  const st=subjectBPerformanceStateV254(layer);
+  if(st.flushed)return 0;
+  subjectBPerformancePauseV254(st);
+  let added=0;
+  Object.keys(st.frozen).forEach(key=>{
+    const meta=st.meta[key]||{};
+    if(subjectBPerformanceRecordV254({layer,sourceId:meta.sourceId,level:meta.level,ok:!!st.firstOk[key],elapsedMs:st.frozen[key],at:st.firstAt[key]}))added++;
+  });
+  st.flushed=true;
+  return added;
+}
+function subjectBPerformanceSummaryV254(){
+  const rows=subjectBPerformanceRootV254().events;
+  const summarize=list=>{
+    const times=list.map(x=>Math.max(0,Number(x.elapsedMs)||0)).sort((a,b)=>a-b),n=list.length;
+    const correct=list.filter(x=>x.ok).length;
+    const median=n?(n%2?times[(n-1)/2]:Math.round((times[n/2-1]+times[n/2])/2)):0;
+    return {count:n,correct,rate:n?Math.round(correct/n*100):0,avgMs:n?Math.round(times.reduce((a,b)=>a+b,0)/n):0,medianMs:median};
+  };
+  const group=key=>Object.fromEntries([...new Set(rows.map(x=>String(x[key]||'未設定')))].sort().map(v=>[v,summarize(rows.filter(x=>String(x[key]||'未設定')===v))]));
+  return {total:summarize(rows),byLayer:group('layer'),byLevel:group('level')};
+}
+
+const __renderCompoundQuestionV254=renderCompoundQuestion;
+renderCompoundQuestion=function(){
+  const item=bCompoundSet?.qs?.[bCompoundIndex];
+  if(item){
+    const key=subjectBPerformanceKeyV254('compound',item,bCompoundIndex);
+    subjectBPerformanceBeforeRenderV254('compound',bCompoundSet?.qs,key,bCompoundAnswers?.[bCompoundIndex],subjectBPerformanceMetaV254('compound',item,bCompoundIndex));
+    const out=__renderCompoundQuestionV254();
+    subjectBPerformanceWrapButtonsV254('compound',key,'[data-copt]',subjectBPerformanceAnswerIndexV254(item));
+    return out;
+  }
+  return __renderCompoundQuestionV254();
+};
+
+const __renderBMockQuestionV254=renderBMockQuestion;
+renderBMockQuestion=function(){
+  const item=bMockItems?.[bMockIndex];
+  if(item){
+    const key=subjectBPerformanceKeyV254('miniMock',item,bMockIndex);
+    subjectBPerformanceBeforeRenderV254('miniMock',bMockItems,key,bMockAnswers?.[bMockIndex],subjectBPerformanceMetaV254('miniMock',item,bMockIndex));
+    const out=__renderBMockQuestionV254();
+    subjectBPerformanceWrapButtonsV254('miniMock',key,'[data-bmopt]',subjectBPerformanceAnswerIndexV254(item));
+    return out;
+  }
+  return __renderBMockQuestionV254();
+};
+
+const __renderSecurityMockQuestionV254=renderSecurityMockQuestion;
+renderSecurityMockQuestion=function(){
+  const item=secMockItems?.[secMockIndex];
+  if(item){
+    const key=subjectBPerformanceKeyV254('securityMock',item,secMockIndex);
+    subjectBPerformanceBeforeRenderV254('securityMock',secMockItems,key,secMockAnswers?.[secMockIndex],subjectBPerformanceMetaV254('securityMock',item,secMockIndex));
+    const out=__renderSecurityMockQuestionV254();
+    subjectBPerformanceWrapButtonsV254('securityMock',key,'[data-smopt]',subjectBPerformanceAnswerIndexV254(item));
+    return out;
+  }
+  return __renderSecurityMockQuestionV254();
+};
+
+const __renderBFinalQuestionV254=renderBFinalQuestion;
+renderBFinalQuestion=function(){
+  const item=bFinalItems?.[bFinalIndex];
+  if(item){
+    const key=subjectBPerformanceKeyV254('final',item,bFinalIndex);
+    subjectBPerformanceBeforeRenderV254('final',bFinalItems,key,bFinalAnswers?.[bFinalIndex],subjectBPerformanceMetaV254('final',item,bFinalIndex));
+    const out=__renderBFinalQuestionV254();
+    subjectBPerformanceWrapButtonsV254('final',key,'[data-bfopt]',subjectBPerformanceAnswerIndexV254(item));
+    return out;
+  }
+  return __renderBFinalQuestionV254();
+};
+
+const __finishCompoundChallengeV254=finishCompoundChallenge;
+finishCompoundChallenge=function(...args){const out=__finishCompoundChallengeV254.apply(this,args);if(subjectBPerformanceFlushV254('compound'))saveProfile();return out;};
+const __finishBMiniMockV254=finishBMiniMock;
+finishBMiniMock=function(...args){const out=__finishBMiniMockV254.apply(this,args);if(subjectBPerformanceFlushV254('miniMock'))saveProfile();return out;};
+const __finishSecurityMockV254=finishSecurityMock;
+finishSecurityMock=function(...args){const out=__finishSecurityMockV254.apply(this,args);if(subjectBPerformanceFlushV254('securityMock'))saveProfile();return out;};
+const __finishBFinalV254=finishBFinal;
+finishBFinal=function(...args){const out=__finishBFinalV254.apply(this,args);if(subjectBPerformanceFlushV254('final'))saveProfile();return out;};
+
+globalThis.SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC=SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC;
+globalThis.subjectBPerformanceRecordV254=subjectBPerformanceRecordV254;
+globalThis.subjectBPerformanceSummaryV254=subjectBPerformanceSummaryV254;
+globalThis.subjectBPerformanceRootV254=subjectBPerformanceRootV254;
