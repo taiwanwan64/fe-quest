@@ -1,0 +1,72 @@
+FE QUEST v284 — Subject B Final Exposure Lifecycle Detail Audit
+=================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v283
+Source main: 6aafd70d74499ed963ed7482e4704ff8ce5c3eb9
+Learner-facing change in v284: none
+
+Purpose
+-------
+v283 proved that bFinalAlgoSeen reads a namespaced profile key (algo:<id>) and that the v282 skew was measured under cold-start resets. v284 captures the exact candidate selector and the pre-v254 final-completion implementation so repeated-session behavior can be modeled from production semantics rather than guessed state mutations.
+
+Namespaced exposure probe
+-------------------------
+profile.bFinalStats[`algo:<id>`].seen=7 -> bFinalAlgoSeen(item) = 7
+
+Lifecycle evidence
+------------------
+{
+  "namespacedAlgoKeyInSeen": true,
+  "finishMentionsBFinalStats": false,
+  "finishMentionsAlgoNamespace": false,
+  "finishMentionsSeen": false,
+  "finishMentionsLastSeen": false,
+  "pickMentionsBFinalAlgoSeen": true,
+  "pickMentionsSeen": true,
+  "pickMentionsRandom": true,
+  "pickMentionsDomain": false,
+  "pickMentionsFormat": true
+}
+
+Exact candidate selector
+------------------------
+function pickFinalAlgoCandidate(pool,selected){
+  const formatCounts={};
+  selected.forEach(x=>formatCounts[x.format||'トレース']=(formatCounts[x.format||'トレース']||0)+1);
+  return [...pool].sort((a,b)=>{
+    const sa=bFinalAlgoSeen(a),sb=bFinalAlgoSeen(b);
+    if(sa!==sb)return sa-sb;
+    const fa=formatCounts[a.format||'トレース']||0,fb=formatCounts[b.format||'トレース']||0;
+    if(fa!==fb)return fa-fb;
+    return Math.random()-.5;
+  })[0]||null;
+}
+
+Exact exposure reader
+---------------------
+function bFinalAlgoSeen(item){
+  return profile.bFinalStats?.[`algo:${item.id}`]?.seen||0;
+}
+
+Exact pre-v254 finishBFinal
+---------------------------
+function(timeUp=false){
+  const hadItems=!!bFinalItems.length;
+  _finishBFinalV65(timeUp);
+  if(hadItems)markDailyTask('subjectB',{mode:'final'});
+}
+
+Interpretation
+--------------
+The next audit must mirror only the fields and update timing demonstrated by the exact completion source above. It should then compare cold-start frequency with sequential completed-final frequency, cumulative coverage of all 43 algorithm items, and immediate-session overlap. No selector repair is justified until that lifecycle-faithful probe is complete.
+
+Regression
+----------
+No learner-facing content or selector code changed.
+2000 deterministic final selection/order signature is unchanged.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-TRACE 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
