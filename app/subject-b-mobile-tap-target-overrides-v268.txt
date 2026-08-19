@@ -1,0 +1,36 @@
+// ===== FE QUEST v268 Subject B mobile tap-target repair =====
+const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({
+  sourceAudit:'v267-subject-b-mobile-answer-tap-readiness',
+  policy:'narrow-eleven-control-min-height-repair',
+  warningFloorPx:40,
+  repairedMinHeightPx:44,
+  targets:Object.freeze([
+    'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit',
+    'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop'
+  ]),
+  answerChoiceSizingChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  scoringChanged:false,
+  examCountdownChanged:false,
+  readinessChanged:false,
+  profileSchemaMigrationRequired:false,
+  remoteTelemetry:false
+});
+
+(function installSubjectBMobileTapTargetsV268(){
+  if(typeof document==='undefined')return;
+  const id='feq-subject-b-mobile-tap-target-v268';
+  if(document.getElementById(id))return;
+  const style=document.createElement('style');
+  style.id=id;
+  style.textContent=`
+#bCompoundNext,#bCompoundPrev,#bCompoundSubmit,
+#bFinalNext,#bFinalSubmit,
+#bMockNext,#bMockPrev,#bMockSubmitTop,
+#secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;}
+`;
+  (document.head||document.documentElement).appendChild(style);
+})();
+
+globalThis.SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC;
