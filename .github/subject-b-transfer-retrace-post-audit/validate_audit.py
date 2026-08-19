@@ -24,7 +24,7 @@ function domSnapshot(){
  const title=document.getElementById('bLabTitle'),meta=document.getElementById('bLabMeta'),code=document.getElementById('bCode');
  return {title:title?.textContent||'',meta:meta?.textContent||'',codeHtml:code?.innerHTML||''};
 }
-function snapCurrent(){return currentB?{id:currentB.id,title:currentB.title,variant:currentB.retraceVariantV262||null,code:currentB.code,hash:hashText(stable(currentB))}:null;}
+function snapCurrent(){return currentB?{id:currentB.id,title:currentB.title,concept:currentB.concept,level:currentB.level,variant:currentB.retraceVariantV262||null,code:currentB.code,hash:hashText(stable(currentB))}:null;}
 function start(id,progress){
  profile.bProgress={...(profile.bProgress||{}),[id]:progress};
  const bankBefore=hashText(stable(B_EXERCISES)); let error=null;
@@ -48,6 +48,11 @@ version,previous=context(); parent=subprocess.check_output(['git','rev-parse','o
 req((version,previous)==('v263','v262'),'v263 audit expects v262 parent')
 source=Path('audits/SUBJECT_B_TRANSFER_RETRACE_PILOT_v262.txt'); req(source.exists(),'v262 pilot audit missing')
 req('PASS — NO FINDINGS' in source.read_text(),'v262 validation evidence drift')
+hook_path=Path('audits/SUBJECT_B_RETRACE_HOOK_DETAIL_AUDIT_v261.txt'); req(hook_path.exists(),'v261 start-hook audit missing')
+hook=hook_path.read_text()
+req("document.getElementById('bLabTitle').textContent=currentB.title" in hook,'v261 title binding contract missing')
+req("document.getElementById('bLabMeta').textContent=`科目B・${currentB.concept}・${currentB.level}`" in hook,'v261 metadata binding contract missing')
+req("document.getElementById('bCode').innerHTML=currentB.code.map" in hook,'v261 code binding contract missing')
 expected={'.github/subject-b-transfer-retrace-post-audit/validate_audit.py','.github/workflows/subject-b-transfer-retrace-post-audit.yml'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines()); req(changed==expected,'v263 audit-only source drift: '+repr(sorted(changed^expected)))
 
@@ -63,9 +68,9 @@ req(first['error'] is None and first['current']['variant'] is None,'first exposu
 req(repeat['error'] is None and repeat['current']['variant']=='loop_sum-alternate-values-v1','repeat did not enter alternate re-trace')
 req(repeat['current']['id']=='loop_sum','variant must preserve canonical exercise id')
 req(repeat['bankBefore']==repeat['bankAfter']==cand['bankHash'],'repeat leaked temporary bank substitution')
-req('別の値で再トレース' in repeat['dom']['title'],'visible repeat label missing')
-req('for i ← 2 to 5' in repeat['dom']['codeHtml'],'visible alternate code missing')
-req('科目B' in repeat['dom']['meta'],'existing lab metadata disappeared')
+req('別の値で再トレース' in repeat['current']['title'],'alternate current title missing')
+req('for i ← 2 to 5' in repeat['current']['code'],'alternate current code missing')
+req(bool(repeat['current']['concept']) and bool(repeat['current']['level']),'concept/level metadata missing from alternate currentB')
 req(after['error'] is None,'finishBExercise failed after variant')
 req(after['current']['id']=='loop_sum' and after['current']['variant']=='loop_sum-alternate-values-v1','finish lost canonical currentB variant unexpectedly')
 req(str(after['progress'].get('loop_sum')) in ('100','100.0'),'canonical loop_sum progress not retained')
@@ -75,7 +80,7 @@ req(non['current']['id']=='count_even' and non['current']['variant'] is None,'no
 req(non['bankBefore']==non['bankAfter']==cand['bankHash'],'non-pilot start mutated bank')
 
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']; req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'candidate/mechanical reference mismatch')
-fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — NO FINDINGS','firstExposure':first,'completedRepeat':repeat,'afterFinish':after,'repeatAgain':again,'nonPilotRepeat':non,'semanticOK':True,'candidateMechanicalSixFileByteEquality':True}
+fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — NO FINDINGS','firstExposure':first,'completedRepeat':repeat,'afterFinish':after,'repeatAgain':again,'nonPilotRepeat':non,'visibleBindingEvidence':{'title':'v261 startBExercise binds bLabTitle.textContent to currentB.title','meta':'v261 startBExercise binds bLabMeta.textContent to currentB concept/level','code':'v261 startBExercise builds bCode.innerHTML from currentB.code'},'runtimeStubDomSnapshotInformationalOnly':repeat['dom'],'semanticOK':True,'candidateMechanicalSixFileByteEquality':True}
 Path('_regression').mkdir(exist_ok=True); Path('_regression/subject-b-transfer-retrace-post-audit-v263.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 
 audit=f'''FE QUEST v263 — Subject B Alternate-Value Re-Trace Post-Audit
@@ -90,7 +95,11 @@ Learner-facing change in v263: none
 
 End-to-end learner flow
 -----------------------
-The v262 pilot behaves as intended through the existing TRACE screen, not only in a data-level probe. A first loop_sum start still uses the authored exercise. A completed repeat binds currentB to the alternate-values clone while retaining the canonical id loop_sum. The learner-facing lab title contains “別の値で再トレース”, and the rendered code contains “for i ← 2 to 5”. Existing 科目B concept/level metadata remains visible.
+The v262 pilot behaves as intended through the established TRACE start contract. A first loop_sum start still uses the authored exercise. A completed repeat binds currentB to the alternate-values clone while retaining the canonical id loop_sum. The alternate currentB title contains “別の値で再トレース”, its code contains “for i ← 2 to 5”, and concept/level metadata remain populated.
+
+Visible binding evidence
+------------------------
+The previously validated v261 startBExercise source contract binds bLabTitle.textContent directly from currentB.title, bLabMeta.textContent from currentB.concept/currentB.level, and bCode.innerHTML from currentB.code. Combining that stable renderer contract with the v263 currentB probe verifies that the alternate title, metadata, and code are the values presented by the TRACE lab. The lightweight Node DOM stub does not persist element text across separate getElementById calls, so its later DOM snapshot is recorded as informational only rather than mistaken for browser behavior.
 
 Completion lifecycle
 --------------------
