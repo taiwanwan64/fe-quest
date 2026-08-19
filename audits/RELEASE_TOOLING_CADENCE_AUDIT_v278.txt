@@ -1,0 +1,46 @@
+FE QUEST v278 — Release Tooling Cadence Audit
+====================================================
+
+Result
+------
+PASSED real GitHub Pages/Jekyll candidate/reference validation.
+
+Versionless tooling
+-------------------
+Branch-derived target: v278
+Previous release inferred and required: v277
+Stable tooling files: 5
+Adoption release: no
+Release-specific validation workflow/tool source files: 0
+Stable tooling deployed by Jekyll: no
+
+Reference proof
+---------------
+A mechanical conventional reference was created from origin/main and advanced from v277 to v278.
+Candidate and reference generated six release files are byte-identical: yes
+Production manifest remains direct JSON: yes
+Production sw.js remains direct JavaScript: yes
+
+Runtime
+-------
+Current adapter: runV278SelfCheck
+Retired adapters: 118 (runV160SelfCheck through runV277SelfCheck)
+Canonical runtime: 1,063,869 bytes / SHA-256 79a29983b8234b4b0080042d5fb92b1890562564063db341bf5b019576640617
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Diagnostic archive: 58 / growth 0
+
+Generated HTML
+--------------
+3,642,802 bytes / SHA-256 c41fe8e4d60e9559e92d6fe3af70271c142ccac314b80987bbc3aebd96185011
+
+Contracts
+---------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw22 / residual0
+Questions 710 / unique710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221
