@@ -1,5 +1,5 @@
 from pathlib import Path
-import base64,json,math,os,re,runpy,statistics,subprocess,tempfile
+import base64,json,os,re,runpy,statistics,subprocess,tempfile
 
 def req(ok,msg):
     if not ok: raise AssertionError(msg)
@@ -21,10 +21,12 @@ const ALL_IDS=B_EXAM_ALGO_ITEMS.map(x=>x.id);
 function emptyFreq(){return Object.fromEntries(ALL_IDS.map(x=>[x,0]));}
 function cold(fn,n,seedBase){const freq=emptyFreq(),sessions=[];for(let i=0;i<n;i++){profile.bFinalStats={};Math.random=seedRand((seedBase+i)>>>0);const ids=algoIds(fn());ids.forEach(id=>freq[id]++);sessions.push(ids);}return {freq,sessions,signature:hashText(JSON.stringify(sessions.slice(0,2000)))};}
 function floorDelta(n){const added=emptyFreq(),removed=emptyFreq();let changed=0,totalAdded=0,totalRemoved=0;for(let i=0;i<n;i++){profile.bFinalStats={};Math.random=seedRand((0x283800+i)>>>0);const base=algoIds(__buildBFinalBeforeV208());profile.bFinalStats={};Math.random=seedRand((0x283800+i)>>>0);const cur=algoIds(buildBFinal());const b=new Set(base),c=new Set(cur);const add=cur.filter(x=>!b.has(x)),rem=base.filter(x=>!c.has(x));if(add.length||rem.length)changed++;add.forEach(x=>{added[x]++;totalAdded++;});rem.forEach(x=>{removed[x]++;totalRemoved++;});}return {runs:n,changedSessions:changed,totalAdded,totalRemoved,added,removed};}
-function sequential(n){profile.bFinalStats={};const freq=emptyFreq(),sessions=[];for(let i=0;i<n;i++){Math.random=seedRand((0x283c00+i)>>>0);const ids=algoIds(buildBFinal());sessions.push(ids);ids.forEach(id=>{freq[id]++;const old=profile.bFinalStats[id]||{};profile.bFinalStats[id]={...old,seen:(old.seen||0)+1,lastSeen:`sim-${String(i).padStart(4,'0')}`};});}return {freq,sessions,stats:profile.bFinalStats,signature:hashText(JSON.stringify(sessions))};}
-const probeItem=B_EXAM_ALGO_ITEMS[0];profile.bFinalStats={[probeItem.id]:{seen:7,lastSeen:'probe'}};const seenProbe=bFinalAlgoSeen(probeItem);
-const currentCold=cold(()=>buildBFinal(),5000,0x283000);const baseCold=cold(()=>__buildBFinalBeforeV208(),5000,0x283000);const seq=sequential(1000);
-console.log('__V283__'+Buffer.from(JSON.stringify({v:APP_VERSION,items:B_EXAM_ALGO_ITEMS.map(x=>({id:x.id,domain:x.domain||'',level:x.level||'',highTrace:(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[]).includes(x.id)})),currentCold,baseCold,floorDelta:floorDelta(2000),sequential:seq,selectorSource:String(__buildBFinalBeforeV208),repairSource:String(bFinalRepairTraceFloorV208),seenSource:String(bFinalAlgoSeen),seenProbe,contract:[B_FINAL_COUNT,B_FINAL_ALGO_COUNT,B_FINAL_SEC_COUNT,B_FINAL_SECONDS,B_EXAM_ALGO_ITEMS.length,[...(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[])].length,globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208],sem:validateSubjectBSemantics()})).toString('base64'));
+const probeItem=B_EXAM_ALGO_ITEMS[0];
+profile.bFinalStats={[probeItem.id]:{seen:7,lastSeen:'probe'}};
+const seenProbe=bFinalAlgoSeen(probeItem);
+const currentCold=cold(()=>buildBFinal(),5000,0x283000);
+const baseCold=cold(()=>__buildBFinalBeforeV208(),5000,0x283000);
+console.log('__V283__'+Buffer.from(JSON.stringify({v:APP_VERSION,items:B_EXAM_ALGO_ITEMS.map(x=>({id:x.id,domain:x.domain||'',level:x.level||'',highTrace:(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[]).includes(x.id)})),currentCold,baseCold,floorDelta:floorDelta(2000),selectorSource:String(__buildBFinalBeforeV208),repairSource:String(bFinalRepairTraceFloorV208),seenSource:String(bFinalAlgoSeen),finishSource:String(finishBFinal),seenProbe,contract:[B_FINAL_COUNT,B_FINAL_ALGO_COUNT,B_FINAL_SEC_COUNT,B_FINAL_SECONDS,B_EXAM_ALGO_ITEMS.length,[...(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[])].length,globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208],sem:validateSubjectBSemantics()})).toString('base64'));
 '''
     with tempfile.TemporaryDirectory() as td:
         p=Path(td)/'rt.js';p.write_text(stub+'\n'+js+'\n'+tail);z=subprocess.run(['node',str(p)],capture_output=True,text=True);req(z.returncode==0,'runtime failed '+z.stderr[-9000:]);m=re.search(r'__V283__([A-Za-z0-9+/=]+)',z.stdout);req(m,'marker missing');return json.loads(base64.b64decode(m.group(1)))
@@ -34,29 +36,17 @@ def freq_summary(freq):
 
 def top(freq,n=8,reverse=True):return sorted(freq.items(),key=(lambda x:(-x[1],x[0])) if reverse else (lambda x:(x[1],x[0])))[:n]
 
-def mean_overlap(sessions):
-    if len(sessions)<2:return 0
-    return round(statistics.mean(len(set(sessions[i-1])&set(sessions[i])) for i in range(1,len(sessions))),2)
-
-def coverage_milestones(sessions,total):
-    seen=set();targets=[11,22,33,total];out={}
-    for idx,ids in enumerate(sessions,1):
-        seen.update(ids)
-        for t in targets:
-            if t not in out and len(seen)>=t:out[t]=idx
-    return {str(t):out.get(t) for t in targets}
-
 version,previous=context();parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip();req((version,previous)==('v283','v282'),'expects v282')
 source=Path('audits/SUBJECT_B_FINAL_DIFFICULTY_MIX_v282.txt');req(source.exists() and 'PASS — DETAIL EVIDENCE CAPTURED' in source.read_text() and '5000' in source.read_text(),'v282 evidence missing')
 expected={'.github/subject-b-final-rotation-detail-audit/validate_audit.py','.github/workflows/subject-b-final-rotation-detail-audit.yml'};changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(changed==expected,'source drift '+repr(sorted(changed^expected)))
-cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v283' and par['v']=='v282','versions');
-for k in ['items','currentCold','baseCold','floorDelta','sequential','selectorSource','repairSource','seenSource','seenProbe','contract']:
+cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v283' and par['v']=='v282','versions')
+for k in ['items','currentCold','baseCold','floorDelta','selectorSource','repairSource','seenSource','finishSource','seenProbe','contract']:
     req(cand[k]==par[k],f'audit-only runtime drift {k}')
-req(cand['contract']==[20,16,4,6000,43,15,4],'contract');req(cand['sem'].get('ok') is True,'semantic');req(cand['seenProbe']==7,'bFinalAlgoSeen probe drift')
+req(cand['contract']==[20,16,4,6000,43,15,4],'contract');req(cand['sem'].get('ok') is True,'semantic')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
-cur=cand['currentCold']['freq'];base=cand['baseCold']['freq'];seq=cand['sequential']['freq'];delta=cand['floorDelta'];sessions=cand['sequential']['sessions']
-summary={'coldCurrent':freq_summary(cur),'coldBasePreV208':freq_summary(base),'sequential1000':freq_summary(seq),'coldCurrentMost':top(cur),'coldCurrentLeast':top(cur,reverse=False),'coldBaseMost':top(base),'coldBaseLeast':top(base,reverse=False),'sequentialMost':top(seq),'sequentialLeast':top(seq,reverse=False),'floorChangedSessions':delta['changedSessions'],'floorChangedRatePct':round(delta['changedSessions']/delta['runs']*100,1),'floorTotalAdded':delta['totalAdded'],'floorTotalRemoved':delta['totalRemoved'],'floorMostAdded':top(delta['added']),'floorMostRemoved':top(delta['removed']),'sequentialConsecutiveOverlapMean':mean_overlap(sessions),'sequentialCoverageMilestones':coverage_milestones(sessions,43),'selectorUsesSeen':'seen' in cand['selectorSource'],'selectorUsesLastSeen':'lastSeen' in cand['selectorSource'],'repairUsesSeen':'Seen' in cand['repairSource'] or 'seen' in cand['repairSource'],'repairUsesRandomTie':'Math.random' in cand['repairSource']}
-fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — DETAIL EVIDENCE CAPTURED','summary':summary,'selectorSource':cand['selectorSource'],'repairSource':cand['repairSource'],'seenSource':cand['seenSource'],'coldCurrentFrequency':cur,'coldBaseFrequency':base,'sequentialFrequency':seq,'floorDelta':delta,'semanticOK':True,'candidateReferenceSixFileByteEquality':True};Path('_regression').mkdir(exist_ok=True);Path('_regression/subject-b-final-rotation-detail-v283.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
+cur=cand['currentCold']['freq'];base=cand['baseCold']['freq'];delta=cand['floorDelta']
+summary={'coldCurrent':freq_summary(cur),'coldBasePreV208':freq_summary(base),'coldCurrentMost':top(cur),'coldCurrentLeast':top(cur,reverse=False),'coldBaseMost':top(base),'coldBaseLeast':top(base,reverse=False),'floorChangedSessions':delta['changedSessions'],'floorChangedRatePct':round(delta['changedSessions']/delta['runs']*100,1),'floorTotalAdded':delta['totalAdded'],'floorTotalRemoved':delta['totalRemoved'],'floorMostAdded':top(delta['added']),'floorMostRemoved':top(delta['removed']),'seenProbe':cand['seenProbe'],'selectorMentionsBFinalStats':'bFinalStats' in cand['selectorSource'],'seenHookMentionsBFinalStats':'bFinalStats' in cand['seenSource'],'finishMentionsBFinalStats':'bFinalStats' in cand['finishSource'],'repairUsesRandomTie':'Math.random' in cand['repairSource']}
+fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — DETAIL EVIDENCE CAPTURED','summary':summary,'selectorSource':cand['selectorSource'],'repairSource':cand['repairSource'],'seenSource':cand['seenSource'],'finishSource':cand['finishSource'],'coldCurrentFrequency':cur,'coldBaseFrequency':base,'floorDelta':delta,'semanticOK':True,'candidateReferenceSixFileByteEquality':True};Path('_regression').mkdir(exist_ok=True);Path('_regression/subject-b-final-rotation-detail-v283.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 audit=f'''FE QUEST v283 — Subject B Final Rotation / Exposure Detail Audit
 ===================================================================
 
@@ -69,19 +59,11 @@ Learner-facing change in v283: none
 
 Purpose
 -------
-v282 confirmed a perfectly stable 8 標準 + 8 応用 and 10-domain mix, but cold-start simulation showed very uneven per-item selection frequency. v283 isolates whether that signal comes from the underlying selector, the v208 high-TRACE floor repair, or simply from repeatedly resetting exposure history in the diagnostic.
+v282 confirmed a perfectly stable 8 標準 + 8 応用 and 10-domain mix, but cold-start simulation showed very uneven per-item selection frequency. v283 isolates whether that signal is already present before the v208 high-TRACE floor, how often the floor changes a selected set, and where the actual exposure counter is read/written before any rotation repair is attempted.
 
 Interpretation boundary
 -----------------------
-The cold-start runs intentionally reset profile.bFinalStats before every generated final. They describe first-session selection pressure, not actual long-run learner exposure. The sequential simulation keeps bFinalStats between sessions and increments the same seen field consumed by bFinalAlgoSeen; it is a controlled rotation probe, not a claim about real learner completion frequency.
-
-Selector evidence
------------------
-bFinalAlgoSeen probe with seen=7 returns: {cand['seenProbe']}
-Underlying pre-v208 selector source references seen: {summary['selectorUsesSeen']}
-Underlying pre-v208 selector source references lastSeen: {summary['selectorUsesLastSeen']}
-v208 floor repair references exposure/seen: {summary['repairUsesSeen']}
-v208 floor repair uses random tie-breaking: {summary['repairUsesRandomTie']}
+The 5000-run frequency probes intentionally reset profile.bFinalStats before each generated final. They describe cold-start selection pressure only. v283 does not assume how repeated completed finals update exposure history; instead it captures the exact selector / exposure / completion hooks so the next audit can model that lifecycle correctly.
 
 5000 independent cold-start finals
 ----------------------------------
@@ -100,23 +82,39 @@ Total removed IDs: {summary['floorTotalRemoved']}
 Most often added by the floor repair: {json.dumps(summary['floorMostAdded'],ensure_ascii=False)}
 Most often removed by the floor repair: {json.dumps(summary['floorMostRemoved'],ensure_ascii=False)}
 
-1000 sequential exposure-aware finals
--------------------------------------
-Selection frequency: {json.dumps(summary['sequential1000'],ensure_ascii=False)}
-Most selected: {json.dumps(summary['sequentialMost'],ensure_ascii=False)}
-Least selected: {json.dumps(summary['sequentialLeast'],ensure_ascii=False)}
-Mean number of algorithm items repeated from the immediately previous final: {summary['sequentialConsecutiveOverlapMean']} / 16
-Cumulative pool coverage milestones (unique items seen → session number): {json.dumps(summary['sequentialCoverageMilestones'],ensure_ascii=False)}
+Exposure-hook evidence
+----------------------
+Synthetic bFinalStats[id].seen=7 probe returns: {summary['seenProbe']}
+Underlying selector mentions bFinalStats: {summary['selectorMentionsBFinalStats']}
+bFinalAlgoSeen mentions bFinalStats: {summary['seenHookMentionsBFinalStats']}
+finishBFinal mentions bFinalStats: {summary['finishMentionsBFinalStats']}
+v208 floor repair uses random tie-breaking: {summary['repairUsesRandomTie']}
+
+Exact bFinalAlgoSeen source
+---------------------------
+{cand['seenSource']}
+
+Exact pre-v208 selector source
+------------------------------
+{cand['selectorSource']}
+
+Exact v208 floor-repair source
+------------------------------
+{cand['repairSource']}
+
+finishBFinal source excerpt
+---------------------------
+{cand['finishSource']}
 
 Regression
 ----------
 No learner-facing content or selector code changed.
-Cold-start, base-selector, floor-delta and sequential probes are byte-behavior equivalent to the untouched v282 parent.
+Cold-start current/pre-v208 frequency probes and the floor-delta probe are byte-behavior equivalent to the untouched v282 parent.
 Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-TRACE 15 / floor 4.
 Subject B semantic diagnostics: OK.
 Candidate/mechanical-reference six-file byte equality: yes.
 
 Decision
 --------
-If sequential exposure-aware frequencies converge substantially compared with cold-start frequencies, preserve the current selector and treat v282's extreme cold-start frequencies as an initialization effect. If large imbalance remains even after 1000 sequential sessions, inspect the smallest selector stage responsible before changing quotas or content. Separately, a high immediate-session overlap can justify a bounded anti-repeat rule even when long-run frequency is balanced.
+Use the captured hook sources to build a lifecycle-faithful repeated-final simulation next. Do not change the selector based only on cold-start imbalance. If the actual completion lifecycle already drives exposure-aware rotation, preserve it; if repeated completed finals still overexpose a narrow subset, repair only that selection stage while keeping the exact 8/8 level mix, all 10 domains and the high-TRACE floor.
 ''';Path('audits').mkdir(exist_ok=True);Path('audits/SUBJECT_B_FINAL_ROTATION_DETAIL_v283.txt').write_text(audit);print(audit)
