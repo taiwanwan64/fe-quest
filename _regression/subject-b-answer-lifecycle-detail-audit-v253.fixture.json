@@ -1,0 +1,334 @@
+{
+  "version": "v253",
+  "previous": "v252",
+  "parent": "68742f77cd2c63e8d65003819ea50d84ea439074",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "answerStates": [
+    "bCompoundAnswers",
+    "bFinalAnswers",
+    "bMockAnswers",
+    "mockAnswers",
+    "secMockAnswers"
+  ],
+  "writeFunctions": [
+    "renderBFinalQuestion",
+    "renderBMockQuestion",
+    "renderCompoundQuestion",
+    "renderMockQuestion",
+    "renderSecurityMockQuestion"
+  ],
+  "writes": [
+    {
+      "kind": "answer-array-write",
+      "state": "bCompoundAnswers",
+      "function": "renderCompoundQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": true,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "assList.toggle('warn',bCompoundSeconds<=300&&bCompoundSeconds>120);t.classList.toggle('danger',bCompoundSeconds<=120)} function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class=\"bcompound-kind\">${escapeHtml(q.kind||'トレース')}</span> <span class=\"bcompound-kind ${diffClass}\">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class=\"bmock-option ${ans===i?'selected':''}\" data-copt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textC…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "bMockAnswers",
+      "function": "renderBMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": true,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "e').innerHTML=item.code.map((line,i)=>`<div class=\"bmock-code-line ${i===item.line?'target':''}\"><span class=\"ln\">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join(''); document.getElementById('bMockState').innerHTML=Object.entries(item.state||{}).map(([k,v])=>`<div class=\"bmock-state-card\"><div class=\"bmock-state-key\">${escapeHtml(k)}</div><div class=\"bmock-state-val\">${escapeHtml(v)}</div></div>`).join(''); document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item); document.getElementById('bMockQuestion').textContent=item.q; const answer=bMockAnswers[bMockIndex]; document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "bFinalAnswers",
+      "function": "renderBFinalQuestion",
+      "flags": {
+        "dateNow": false,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "lgoDataHtml(item); }else{ algo.classList.add('hidden');algo.hidden=true; sec.classList.remove('hidden');sec.hidden=false; document.getElementById('bFinalSecIcon').textContent=item.incident.icon; document.getElementById('bFinalSecTitle').textContent=item.incident.title; document.getElementById('bFinalSecText').textContent=item.incident.text; document.getElementById('bFinalSecEvidence').innerHTML=securityMockEvidenceHtml(item); } document.getElementById('bFinalQuestion').textContent=item.q; const ans=bFinalAnswers[bFinalIndex]; document.getElementById('bFinalOptions').innerHTML=item.options.map((op,i)=>`<button class=\"bfinal-option ${item.kind==='security'?'security':''} ${ans===i?'selected':''}\" data-bfopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-bfopt]').forEach(btn=>btn.onclick=()=>{bFinalAnswers[bFinalIndex]=Number(btn.dataset.bfopt);renderBFinalQuestion()}); document.getElementById('bFinalPrev').disabled=bFinalIndex===0; document.getElementById('bFinalNext').textContent=bFinalIndex===bFinalItems.length-1?'提出へ':'次へ…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "secMockAnswers",
+      "function": "renderSecurityMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "{ const item=secMockItems[secMockIndex]; if(!item)return; document.getElementById('secMockQNum').textContent=`問題 ${secMockIndex+1} / ${secMockItems.length}`; document.getElementById('secMockIncidentIcon').textContent=item.incident.icon; document.getElementById('secMockIncidentTitle').textContent=item.incident.title; document.getElementById('secMockIncidentText').textContent=item.incident.text; document.getElementById('secMockEvidence').innerHTML=securityMockEvidenceHtml(item); document.getElementById('secMockQuestion').textContent=item.q; const ans=secMockAnswers[secMockIndex]; document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===sec…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "mockAnswers",
+      "function": "renderMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "==mockIndex); }); } function renderMockQuestion(){ const q=mockItems[mockIndex]; if(!q) return; document.getElementById('mockQNum').textContent=`問${mockIndex+1}`; document.getElementById('mockQCat').textContent='科目A'; document.getElementById('mockQuestion').textContent=q.q; document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`; document.getElementById('mockPrev').disabled=mockIndex===0; document.getElementById('mockNext').textContent=mockIndex===mockItems.length-1?'先頭へ':'次へ →'; const flag=document.getElementById('mockFlag'); flag.classList.toggle('active',mockFlags[mockIndex]); flag.textContent=mockFlags[mockIndex]?'★ 見直し対象':'☆ あとで見直す'; const root=document.getElementById('mockOptions'); root.innerHTML=''; q.options.forEach((o,i)=>{ const b=document.createElement('button'); b.className='mock-q-option'+(mockAnswers[mockIndex]===i?' selected':''); b.textContent=`${String.fromCharCode(65+i)}. ${o}`; b.onclick=()=>{ mockAnswers[mockIndex]=i; renderMockQuestion(); }; root.appendChild(b); }); updateMockNavigator(); } document.getElementById('moc…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "mockAnswers",
+      "function": "renderMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "Id('mockQNum').textContent=`問${mockIndex+1}`; document.getElementById('mockQCat').textContent='科目A'; document.getElementById('mockQuestion').textContent=q.q; document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`; document.getElementById('mockPrev').disabled=mockIndex===0; document.getElementById('mockNext').textContent=mockIndex===mockItems.length-1?'先頭へ':'次へ →'; const flag=document.getElementById('mockFlag'); flag.classList.toggle('active',mockFlags[mockIndex]); flag.textContent=mockFlags[mockIndex]?'★ 見直し対象':'☆ あとで見直す'; const root=document.getElementById('mockOptions'); root.innerHTML=''; q.options.forEach((o,i)=>{ const b=document.createElement('button'); b.className='mock-q-option'+(mockAnswers[mockIndex]===i?' selected':''); b.textContent=`${String.fromCharCode(65+i)}. ${o}`; b.onclick=()=>{ mockAnswers[mockIndex]=i; renderMockQuestion(); }; root.appendChild(b); }); updateMockNavigator(); } document.getElementById('mockPrev')?.addEventListener('click',()=>{ if(mockIndex>0){ recordMockQuestionTime(); mockIndex--; mockQuestionEnteredAt…"
+    }
+  ],
+  "allEvidence": [
+    {
+      "kind": "answer-array-write",
+      "state": "bCompoundAnswers",
+      "function": "renderCompoundQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": true,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "assList.toggle('warn',bCompoundSeconds<=300&&bCompoundSeconds>120);t.classList.toggle('danger',bCompoundSeconds<=120)} function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class=\"bcompound-kind\">${escapeHtml(q.kind||'トレース')}</span> <span class=\"bcompound-kind ${diffClass}\">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class=\"bmock-option ${ans===i?'selected':''}\" data-copt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textC…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "bMockAnswers",
+      "function": "renderBMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": true,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "e').innerHTML=item.code.map((line,i)=>`<div class=\"bmock-code-line ${i===item.line?'target':''}\"><span class=\"ln\">${i+1}</span><span>${escapeHtml(line)}</span></div>`).join(''); document.getElementById('bMockState').innerHTML=Object.entries(item.state||{}).map(([k,v])=>`<div class=\"bmock-state-card\"><div class=\"bmock-state-key\">${escapeHtml(k)}</div><div class=\"bmock-state-val\">${escapeHtml(v)}</div></div>`).join(''); document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item); document.getElementById('bMockQuestion').textContent=item.q; const answer=bMockAnswers[bMockIndex]; document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "bFinalAnswers",
+      "function": "renderBFinalQuestion",
+      "flags": {
+        "dateNow": false,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "lgoDataHtml(item); }else{ algo.classList.add('hidden');algo.hidden=true; sec.classList.remove('hidden');sec.hidden=false; document.getElementById('bFinalSecIcon').textContent=item.incident.icon; document.getElementById('bFinalSecTitle').textContent=item.incident.title; document.getElementById('bFinalSecText').textContent=item.incident.text; document.getElementById('bFinalSecEvidence').innerHTML=securityMockEvidenceHtml(item); } document.getElementById('bFinalQuestion').textContent=item.q; const ans=bFinalAnswers[bFinalIndex]; document.getElementById('bFinalOptions').innerHTML=item.options.map((op,i)=>`<button class=\"bfinal-option ${item.kind==='security'?'security':''} ${ans===i?'selected':''}\" data-bfopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-bfopt]').forEach(btn=>btn.onclick=()=>{bFinalAnswers[bFinalIndex]=Number(btn.dataset.bfopt);renderBFinalQuestion()}); document.getElementById('bFinalPrev').disabled=bFinalIndex===0; document.getElementById('bFinalNext').textContent=bFinalIndex===bFinalItems.length-1?'提出へ':'次へ…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "secMockAnswers",
+      "function": "renderSecurityMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "{ const item=secMockItems[secMockIndex]; if(!item)return; document.getElementById('secMockQNum').textContent=`問題 ${secMockIndex+1} / ${secMockItems.length}`; document.getElementById('secMockIncidentIcon').textContent=item.incident.icon; document.getElementById('secMockIncidentTitle').textContent=item.incident.title; document.getElementById('secMockIncidentText').textContent=item.incident.text; document.getElementById('secMockEvidence').innerHTML=securityMockEvidenceHtml(item); document.getElementById('secMockQuestion').textContent=item.q; const ans=secMockAnswers[secMockIndex]; document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===sec…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "mockAnswers",
+      "function": "renderMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "==mockIndex); }); } function renderMockQuestion(){ const q=mockItems[mockIndex]; if(!q) return; document.getElementById('mockQNum').textContent=`問${mockIndex+1}`; document.getElementById('mockQCat').textContent='科目A'; document.getElementById('mockQuestion').textContent=q.q; document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`; document.getElementById('mockPrev').disabled=mockIndex===0; document.getElementById('mockNext').textContent=mockIndex===mockItems.length-1?'先頭へ':'次へ →'; const flag=document.getElementById('mockFlag'); flag.classList.toggle('active',mockFlags[mockIndex]); flag.textContent=mockFlags[mockIndex]?'★ 見直し対象':'☆ あとで見直す'; const root=document.getElementById('mockOptions'); root.innerHTML=''; q.options.forEach((o,i)=>{ const b=document.createElement('button'); b.className='mock-q-option'+(mockAnswers[mockIndex]===i?' selected':''); b.textContent=`${String.fromCharCode(65+i)}. ${o}`; b.onclick=()=>{ mockAnswers[mockIndex]=i; renderMockQuestion(); }; root.appendChild(b); }); updateMockNavigator(); } document.getElementById('moc…"
+    },
+    {
+      "kind": "answer-array-write",
+      "state": "mockAnswers",
+      "function": "renderMockQuestion",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "Id('mockQNum').textContent=`問${mockIndex+1}`; document.getElementById('mockQCat').textContent='科目A'; document.getElementById('mockQuestion').textContent=q.q; document.getElementById('mockExamProgressText').textContent=`問${mockIndex+1} / ${mockItems.length}`; document.getElementById('mockPrev').disabled=mockIndex===0; document.getElementById('mockNext').textContent=mockIndex===mockItems.length-1?'先頭へ':'次へ →'; const flag=document.getElementById('mockFlag'); flag.classList.toggle('active',mockFlags[mockIndex]); flag.textContent=mockFlags[mockIndex]?'★ 見直し対象':'☆ あとで見直す'; const root=document.getElementById('mockOptions'); root.innerHTML=''; q.options.forEach((o,i)=>{ const b=document.createElement('button'); b.className='mock-q-option'+(mockAnswers[mockIndex]===i?' selected':''); b.textContent=`${String.fromCharCode(65+i)}. ${o}`; b.onclick=()=>{ mockAnswers[mockIndex]=i; renderMockQuestion(); }; root.appendChild(b); }); updateMockNavigator(); } document.getElementById('mockPrev')?.addEventListener('click',()=>{ if(mockIndex>0){ recordMockQuestionTime(); mockIndex--; mockQuestionEnteredAt…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bCompoundAnswers",
+      "function": "applyCompoundQualityAudit",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": false,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": ",pitfall:'番兵の添字4まで必ず進むわけではない。'} ], tree_height:[ {kind:'空欄補充',qlevel:'標準',point:'高さは左右部分木の最大値に現在ノード1を加える。',pitfall:'left+rightはノード数に近い計算で高さではない。'}, {kind:'トレース',qlevel:'標準',point:'Dが葉なのでheight(D)=1、したがってB=2。',pitfall:'辺の本数で高さを数える定義と混同しない。このコードはノード数で数える。'}, {kind:'変更予測',qlevel:'応用',point:'E追加後はE→D→B→Aの戻り値を下から更新する。',pitfall:'追加前のA=3から1増えるので4。途中のBだけ更新して止めない。'} ] }; function applyCompoundQualityAudit(){ B_COMPOUND_SETS.forEach(set=>{ const meta=B_COMPOUND_QUALITY[set.id]; if(!meta||meta.length!==set.qs.length) return; set.qs.forEach((q,i)=>Object.assign(q,meta[i])); }); } applyCompoundQualityAudit(); if(!profile.bCompoundHistory)profile.bCompoundHistory=[]; if(!profile.bCompoundStats)profile.bCompoundStats={}; B_COMPOUND_SETS.forEach(s=>{if(!profile.bCompoundStats[s.id])profile.bCompoundStats[s.id]={seen:0,correct:0,lastSeen:null}}); let bCompoundSet=null,bCompoundAnswers=[],bCompoundIndex=0,bCompoundSeconds=B_COMPOUND_SECONDS,bCompoundTimerId=null,bCompoundStartedAt=null; function randomizeCompoundSet(set){const out=structuredClone(set);out.qs=out.qs.map(q=>{const correct=q.opts[q.a];co…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bCompoundAnswers",
+      "function": "startCompoundChallenge",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "=>{if(!profile.bCompoundStats[s.id])profile.bCompoundStats[s.id]={seen:0,correct:0,lastSeen:null}}); let bCompoundSet=null,bCompoundAnswers=[],bCompoundIndex=0,bCompoundSeconds=B_COMPOUND_SECONDS,bCompoundTimerId=null,bCompoundStartedAt=null; function randomizeCompoundSet(set){const out=structuredClone(set);out.qs=out.qs.map(q=>{const correct=q.opts[q.a];const opts=shuffled(q.opts);return {...q,opts,a:opts.indexOf(correct)}});return out} function chooseCompoundSet(){const picked=[...B_COMPOUND_SETS].sort((a,b)=>{const sa=profile.bCompoundStats[a.id]?.seen||0,sb=profile.bCompoundStats[b.id]?.seen||0;if(sa!==sb)return sa-sb;const la=profile.bCompoundStats[a.id]?.lastSeen||'',lb=profile.bCompoundStats[b.id]?.lastSeen||'';if(la!==lb)return la.localeCompare(lb);return Math.random()-.5})[0];return randomizeCompoundSet(picked)} function startCompoundChallenge(){bCompoundSet=chooseCompoundSet();bCompoundAnswers=Array(3).fill(null);bCompoundIndex=0;bCompoundSeconds=B_COMPOUND_SECONDS;bCompoundStartedAt=Date.now();document.getElementById('bMockSelect')?.classList.add('hidden');document.getElem…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bMockAnswers",
+      "function": "finishCompoundChallenge",
+      "flags": {
+        "dateNow": false,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": false,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "binary_search_b:'data[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。', bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。', selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。', matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。', matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。', queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。', linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。', bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。', object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。', gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。', recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。' }; if(!profile.bMockHistory) profile.bMockHistory=[]; if(!profile.bMockStats) profile.bMockStats={}; B_EXERCISES.forEach(ex=>{ if(!profile.bMockStats[ex.id]) profile.bMockStats[ex.id]={seen:0,correct:0,lastSeen:null}; }); let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0; let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null; function bMockCandidateFromExercise(ex){ const predSteps=ex.steps.map((s,i)=>({s,i…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bMockAnswers",
+      "function": "startBMiniMock",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "v></div>`).join(''):'<div class=\"sub\">まだ受験履歴はありません。</div>';} renderPracticeNextCard(); if(typeof renderSubjectBHub==='function')renderSubjectBHub(); } function showBMockMenu(){ stopBMockTimer(); stopCompoundTimer(); document.getElementById('bSelect')?.classList.add('hidden'); document.getElementById('secSelect')?.classList.add('hidden'); document.getElementById('bLab')?.classList.remove('show'); document.getElementById('secLab')?.classList.remove('show'); document.getElementById('bMockExam')?.classList.remove('show'); document.getElementById('bMockResult')?.classList.remove('show'); document.getElementById('bCompoundExam')?.classList.remove('show'); document.getElementById('bCompoundResult')?.classList.remove('show'); document.getElementById('bMockSelect')?.classList.remove('hidden'); renderBMockMenu(); } function startBMiniMock(){ bMockItems=buildBMock();bMockAnswers=Array(bMockItems.length).fill(null);bMockFlags=new Set();bMockIndex=0; bMockSeconds=B_MOCK_SECONDS;bMockStartedAt=Date.now();lastBMockAttempt=null; document.getElementById('bMockSelect')?.classList.add('hidden'); docume…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bFinalAnswers",
+      "function": "f",
+      "flags": {
+        "dateNow": false,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": false,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "rec_01\":\"9\",\"bexam_rec_02\":\"a=5, b=6\",\"bexam_rec_03\":\"6\",\"bexam_rec_04\":\"return n mod 10 + sumDigits(n div 10)\",\"bexam_tree_01\":\"D\",\"bexam_tree_02\":\"4\",\"bexam_tree_03\":\"4\",\"bexam_obj_01\":\"3\",\"bexam_obj_02\":\"total ← total × (1 - rate)\",\"bexam_obj_03\":\"9\",\"bexam_list_01\":\"p.next ← p.next.next\",\"bexam_list_02\":\"N→A→B\",\"bexam_list_03\":\"2\",\"bexam_sq_01\":\"14\",\"bexam_sq_02\":\"y=4, stack=[2]\",\"bexam_sq_03\":\"[C,D]\",\"bexam_bit_01\":\"perm ← perm OR writeMask\",\"bexam_bit_02\":\"13\",\"bexam_bit_03\":\"1001₂\",\"bexam_algo_01\":\"3\",\"bexam_algo_02\":\"[2,4,7,6]\",\"bexam_arr_05\":\"data[i]\",\"bexam_mat_04\":\"bestRow=1, bestSum=15\",\"bexam_rec_05\":\"9\",\"bexam_tree_04\":\"[E,F]\",\"bexam_list_04\":\"A→C\",\"bexam_sq_04\":\"[7,2]\",\"bexam_bit_04\":\"0011₂\",\"bexam_algo_03\":\"[2,4,5,1]\"}; const B_FINAL_SECONDS=100*60; if(!profile.bFinalHistory) profile.bFinalHistory=[]; if(!profile.bFinalStats) profile.bFinalStats={}; let bFinalItems=[],bFinalAnswers=[],bFinalFlags=new Set(),bFinalIndex=0; let bFinalSeconds=B_FINAL_SECONDS,bFinalTimerId=null,bFinalStartedAt=null,lastBFinalAttempt=null; function bFinalFormatOf(item){ if(item.kind==='secu…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "bFinalAnswers",
+      "function": "startBFinal",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": ".now())/1000); if(remain<=0){clearBFinalResume();return false} bFinalItems=s.items; bFinalAnswers=s.answers; bFinalFlags=new Set(s.flags||[]); bFinalIndex=Math.max(0,Math.min(19,Number(s.index)||0)); bFinalSeconds=Math.min(B_FINAL_SECONDS,remain); bFinalStartedAt=Number(s.startedAt)||Date.now(); lastBFinalAttempt=null; setBMode('final'); document.getElementById('bFinalSelect')?.classList.add('hidden'); document.getElementById('bFinalResult')?.classList.remove('show'); document.getElementById('bFinalExam')?.classList.add('show'); showScreen('trace',{replaceHistory:true,instant:true}); renderBFinalQuestion(); startBFinalTimer(); return true; } function startBFinal(){ const days=examDaysRemaining(); if(days!=null&&days>=0&&days<=3){popToast('試験直前は100分の総合実戦ではなく、今日の短い確認を優先します');showScreen('home');return;} clearBFinalResume(); bFinalItems=buildBFinal();bFinalAnswers=Array(bFinalItems.length).fill(null);bFinalFlags=new Set();bFinalIndex=0; bFinalSeconds=B_FINAL_SECONDS;bFinalStartedAt=Date.now();lastBFinalAttempt=null; document.getElementById('bFinalSelect')?.classList.add('hidden'); docume…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "secMockAnswers",
+      "function": "ensureSecurityMockStats",
+      "flags": {
+        "dateNow": false,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "tems.length-1){bFinalIndex++;renderBFinalQuestion()}else askSubmitBFinal()}); document.getElementById('bFinalFlag')?.addEventListener('click',()=>{bFinalFlags.has(bFinalIndex)?bFinalFlags.delete(bFinalIndex):bFinalFlags.add(bFinalIndex);renderBFinalQuestion()}); document.getElementById('bFinalExit')?.addEventListener('click',()=>{if(confirm('科目B総合実戦を終了しますか？回答は保存されません。')){clearBFinalResume();showBFinalMenu()}}); // ===== v37: Security ミニ模試 ===== const SECURITY_MOCK_COUNT=8; const SECURITY_MOCK_SECONDS=20*60; const SECURITY_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; if(!profile.securityMockHistory) profile.securityMockHistory=[]; if(!profile.securityMockStats) profile.securityMockStats={}; function ensureSecurityMockStats(){ SECURITY_SCENARIOS.forEach(s=>{ if(!profile.securityMockStats[s.id]) profile.securityMockStats[s.id]={seen:0,correct:0,lastSeen:null}; }); } let secMockItems=[],secMockAnswers=[],secMockFlags=new Set(),secMockIndex=0; let secMockSeconds=SECURITY_MOCK_SECONDS,secMockTimerId=null,secMockStartedAt=null,lastSecurityMockAttempt=null; function randomizeSecurityMockItem(s,stepIn…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "secMockAnswers",
+      "function": "startSecurityMock",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "item.log)}</div>`; if(item.risk)return `<div class=\"risk-matrix\"> <div class=\"risk-cell\"></div><div class=\"risk-cell\">影響 低</div><div class=\"risk-cell\">影響 中</div><div class=\"risk-cell\">影響 高</div> <div class=\"risk-cell\">可能性 高</div><div class=\"risk-cell medium\">中</div><div class=\"risk-cell high\">高</div><div class=\"risk-cell high\">R1：高</div> <div class=\"risk-cell\">可能性 中</div><div class=\"risk-cell low\">低</div><div class=\"risk-cell medium\">中</div><div class=\"risk-cell high\">高</div> <div class=\"risk-cell\">可能性 低</div><div class=\"risk-cell low\">低</div><div class=\"risk-cell low\">低</div><div class=\"risk-cell medium\">中</div> </div>`; return `<div class=\"evidence-list\">${(item.evidence||[]).map(e=>`<div class=\"evidence-item\"><span class=\"ev-icon\">${e.icon}</span><div>${e.text}</div></div>`).join('')}</div>`; } function startSecurityMock(){ secMockItems=buildSecurityMock(); secMockAnswers=Array(secMockItems.length).fill(null); secMockFlags=new Set();secMockIndex=0;secMockSeconds=SECURITY_MOCK_SECONDS;secMockStartedAt=Date.now(); document.getElementById('secSelect')?.classList.add('hidden'); docume…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "mockAnswers",
+      "function": "refreshProfileUI",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": true
+      },
+      "context": "special==='b'?'トレース / セキュリティ演習':'対応テーマ '+(area.ids||[]).length+'本'}</div> <div class=\"progress\" style=\"height:8px;margin-top:7px\"><div style=\"width:${pct}%\"></div></div></div> <div class=\"coverage-ch-pct\">${pct}%</div>`; root.appendChild(d); }); const overall=Math.round(vals.reduce((a,b)=>a+b,0)/Math.max(1,vals.length)); document.getElementById('coverageOverall').textContent=overall+'%'; } const _refreshProfileUI_v12=refreshProfileUI; refreshProfileUI=function(){ _refreshProfileUI_v12(); renderCoverage(); }; renderCoverage(); // ===== v13: Subject A full mock exam ===== if(!profile.mockHistory) profile.mockHistory=[]; if(!profile.mockQuestionStats) profile.mockQuestionStats={}; QUESTION_BANK.forEach(q=>{ if(!profile.mockQuestionStats[q.id]){ profile.mockQuestionStats[q.id]={seen:0,correct:0,lastSeen:null}; } }); saveProfile(); let mockItems=[]; let mockAnswers=[]; let mockFlags=[]; let mockIndex=0; let mockMode='full'; let mockSeconds=0; let mockInitialSeconds=0; let mockTimerHandle=null; let mockStartedAt=null; let mockLastMode='full'; let mockQuestionSeconds=[]; let mockQuestionEnt…"
+    },
+    {
+      "kind": "answer-array-init",
+      "state": "mockAnswers",
+      "function": "startMock",
+      "flags": {
+        "dateNow": true,
+        "performanceNow": false,
+        "correctnessCompare": false,
+        "renderCall": true,
+        "indexMutation": true,
+        "saveProfile": false
+      },
+      "context": "bp.count)); const counts={ categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])), difficulty:Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(level=>[level,picked.filter(q=>q.difficulty===level).length])), cognitive:Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(level=>[level,picked.filter(q=>q.cognitiveLevel===level).length])), unseen:picked.filter(q=>mockSeen(q)===0).length }; mockCurrentBlueprint={mode,count:bp.count,quotas,difficultyByCat,counts}; return picked.map(randomizeMockQuestion); } function startMock(mode){ mockMode=mode; mockLastMode=mode; const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full; const count=bp.count; mockInitialSeconds=bp.time; mockSeconds=mockInitialSeconds; mockItems=buildMockQuestions(mode); if(mockItems.length<count){ popToast(`問題数が${mockItems.length}問しかないため、この数で開始します`); } mockAnswers=Array(mockItems.length).fill(null); mockFlags=Array(mockItems.length).fill(false); mockQuestionSeconds=Array(mockItems.length).fill(0); mockIndex=0; mockStartedAt=Date.now(); mockQuestionEnteredAt=Date.now(); document.getElementById('moc…"
+    }
+  ],
+  "candidateJsSha256": "fee0f034435e41d0f9e4d11f8f2ed706d804b3410612afda1ae7b70e0b4ca9ce",
+  "parentJsSha256": "e8198d12f65db9251d41a4def7bce0b836192fa5ef5de03dc850fc4df10102c4"
+}
