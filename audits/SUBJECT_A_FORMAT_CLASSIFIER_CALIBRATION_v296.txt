@@ -1,0 +1,512 @@
+FE QUEST v296 — Subject A Question-Format Classifier Calibration Audit
+=======================================================================
+
+Result
+------
+PASS — CLASSIFIER CALIBRATED
+Previous release: v295
+Source main: 226afc0fb1fb56a898f1a9f725466205b835b673
+Learner-facing change in v296: none
+
+Why recalibrate
+---------------
+v295 showed that v294's stem-only lexical classifier falsely labeled chapters 17 and 19 as having no applied-form questions. In chapter 17, several short stems lead to long, scenario-like alternatives and action judgments. v296 therefore uses both the stem and answer alternatives, and recognizes practical decision cues such as requirements, procurement, operations, customers, proposals and business processes. This remains a diagnostic heuristic, not an official exam quota.
+
+Overall calibrated distribution
+-------------------------------
+{
+  "count": 550,
+  "medianStemChars": 36.0,
+  "calcPct": 18.2,
+  "dataPct": 2.5,
+  "scenarioPct": 34.5,
+  "appliedPct": 51.8,
+  "recallLikePct": 15.3
+}
+
+Old v294 signals versus calibrated result
+-----------------------------------------
+{
+  "17": {
+    "old": {
+      "count": 9,
+      "medianStemChars": 33,
+      "calc": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "data": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "scenario": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "discrimination": {
+        "count": 7,
+        "pct": 77.8
+      },
+      "definitionLike": {
+        "count": 5,
+        "pct": 55.6
+      },
+      "appliedAny": {
+        "count": 0,
+        "pct": 0.0
+      }
+    },
+    "new": {
+      "count": 9,
+      "medianStemChars": 33,
+      "calcPct": 0.0,
+      "dataPct": 0.0,
+      "scenarioPct": 88.9,
+      "appliedPct": 88.9,
+      "recallLikePct": 11.1
+    }
+  },
+  "19": {
+    "old": {
+      "count": 17,
+      "medianStemChars": 33,
+      "calc": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "data": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "scenario": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "discrimination": {
+        "count": 13,
+        "pct": 76.5
+      },
+      "definitionLike": {
+        "count": 10,
+        "pct": 58.8
+      },
+      "appliedAny": {
+        "count": 0,
+        "pct": 0.0
+      }
+    },
+    "new": {
+      "count": 17,
+      "medianStemChars": 33,
+      "calcPct": 0.0,
+      "dataPct": 0.0,
+      "scenarioPct": 58.8,
+      "appliedPct": 58.8,
+      "recallLikePct": 11.8
+    }
+  }
+}
+
+Residual conservative signals
+-----------------------------
+[]
+
+Per-chapter calibrated distribution
+-----------------------------------
+{
+  "1": {
+    "count": 33,
+    "medianStemChars": 34,
+    "calcPct": 48.5,
+    "dataPct": 0.0,
+    "scenarioPct": 0.0,
+    "appliedPct": 48.5,
+    "recallLikePct": 36.4
+  },
+  "2": {
+    "count": 38,
+    "medianStemChars": 32.5,
+    "calcPct": 34.2,
+    "dataPct": 7.9,
+    "scenarioPct": 2.6,
+    "appliedPct": 36.8,
+    "recallLikePct": 18.4
+  },
+  "3": {
+    "count": 22,
+    "medianStemChars": 52.0,
+    "calcPct": 13.6,
+    "dataPct": 9.1,
+    "scenarioPct": 0.0,
+    "appliedPct": 18.2,
+    "recallLikePct": 36.4
+  },
+  "4": {
+    "count": 26,
+    "medianStemChars": 43.5,
+    "calcPct": 15.4,
+    "dataPct": 0.0,
+    "scenarioPct": 0.0,
+    "appliedPct": 15.4,
+    "recallLikePct": 26.9
+  },
+  "5": {
+    "count": 18,
+    "medianStemChars": 55.0,
+    "calcPct": 55.6,
+    "dataPct": 0.0,
+    "scenarioPct": 27.8,
+    "appliedPct": 77.8,
+    "recallLikePct": 11.1
+  },
+  "6": {
+    "count": 24,
+    "medianStemChars": 53.5,
+    "calcPct": 0.0,
+    "dataPct": 0.0,
+    "scenarioPct": 50.0,
+    "appliedPct": 50.0,
+    "recallLikePct": 16.7
+  },
+  "7": {
+    "count": 8,
+    "medianStemChars": 35.5,
+    "calcPct": 25.0,
+    "dataPct": 12.5,
+    "scenarioPct": 0.0,
+    "appliedPct": 37.5,
+    "recallLikePct": 0.0
+  },
+  "8": {
+    "count": 17,
+    "medianStemChars": 53,
+    "calcPct": 23.5,
+    "dataPct": 0.0,
+    "scenarioPct": 11.8,
+    "appliedPct": 35.3,
+    "recallLikePct": 29.4
+  },
+  "9": {
+    "count": 35,
+    "medianStemChars": 42,
+    "calcPct": 8.6,
+    "dataPct": 11.4,
+    "scenarioPct": 48.6,
+    "appliedPct": 57.1,
+    "recallLikePct": 8.6
+  },
+  "10": {
+    "count": 42,
+    "medianStemChars": 53.0,
+    "calcPct": 28.6,
+    "dataPct": 4.8,
+    "scenarioPct": 4.8,
+    "appliedPct": 38.1,
+    "recallLikePct": 19.0
+  },
+  "11": {
+    "count": 34,
+    "medianStemChars": 35.0,
+    "calcPct": 2.9,
+    "dataPct": 0.0,
+    "scenarioPct": 41.2,
+    "appliedPct": 41.2,
+    "recallLikePct": 11.8
+  },
+  "12": {
+    "count": 32,
+    "medianStemChars": 32.0,
+    "calcPct": 6.2,
+    "dataPct": 0.0,
+    "scenarioPct": 59.4,
+    "appliedPct": 65.6,
+    "recallLikePct": 9.4
+  },
+  "13": {
+    "count": 16,
+    "medianStemChars": 31.5,
+    "calcPct": 0.0,
+    "dataPct": 12.5,
+    "scenarioPct": 50.0,
+    "appliedPct": 62.5,
+    "recallLikePct": 12.5
+  },
+  "14": {
+    "count": 42,
+    "medianStemChars": 39.0,
+    "calcPct": 14.3,
+    "dataPct": 0.0,
+    "scenarioPct": 69.0,
+    "appliedPct": 78.6,
+    "recallLikePct": 2.4
+  },
+  "15": {
+    "count": 32,
+    "medianStemChars": 34.5,
+    "calcPct": 9.4,
+    "dataPct": 0.0,
+    "scenarioPct": 71.9,
+    "appliedPct": 75.0,
+    "recallLikePct": 9.4
+  },
+  "16": {
+    "count": 16,
+    "medianStemChars": 34.5,
+    "calcPct": 6.2,
+    "dataPct": 0.0,
+    "scenarioPct": 81.2,
+    "appliedPct": 81.2,
+    "recallLikePct": 0.0
+  },
+  "17": {
+    "count": 9,
+    "medianStemChars": 33,
+    "calcPct": 0.0,
+    "dataPct": 0.0,
+    "scenarioPct": 88.9,
+    "appliedPct": 88.9,
+    "recallLikePct": 11.1
+  },
+  "18": {
+    "count": 33,
+    "medianStemChars": 34,
+    "calcPct": 15.2,
+    "dataPct": 0.0,
+    "scenarioPct": 24.2,
+    "appliedPct": 33.3,
+    "recallLikePct": 24.2
+  },
+  "19": {
+    "count": 17,
+    "medianStemChars": 33,
+    "calcPct": 0.0,
+    "dataPct": 0.0,
+    "scenarioPct": 58.8,
+    "appliedPct": 58.8,
+    "recallLikePct": 11.8
+  },
+  "20": {
+    "count": 31,
+    "medianStemChars": 32,
+    "calcPct": 48.4,
+    "dataPct": 0.0,
+    "scenarioPct": 22.6,
+    "appliedPct": 64.5,
+    "recallLikePct": 12.9
+  },
+  "21": {
+    "count": 25,
+    "medianStemChars": 35,
+    "calcPct": 0.0,
+    "dataPct": 0.0,
+    "scenarioPct": 48.0,
+    "appliedPct": 48.0,
+    "recallLikePct": 0.0
+  }
+}
+
+Old-signal examples under calibrated classifier
+-----------------------------------------------
+{
+  "17": [
+    {
+      "id": "coreq_17_01_1",
+      "q": "システム化の目的や費用対効果を検討する上流活動は？",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_17_01_2",
+      "q": "「企画と要件定義」を用いる場面や説明として適切なものはどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_17_01_3",
+      "q": "「企画と要件定義」について、誤解のない説明はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_17_02_1",
+      "q": "ベンダへ具体的な提案を依頼する文書は？",
+      "scenario": false,
+      "recallLike": true,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_17_02_2",
+      "q": "「調達計画・実施」に含まれる用語の説明として正しい組合せはどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_17_02_3",
+      "q": "新システムの調達で、RFIによって候補技術やベンダの情報収集を終え、要求事項も整理できた。各ベンダから実現方法や体制を含む具体的な提案を受けたい。次に用いる文書の説明として適切なものはどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "challenge_047",
+      "q": "新システム調達を検討しているが、まだ市場にどのような製品・サービスがあるか把握できていない。まず各社の対応可能範囲や技術情報を広く集める文書はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "challenge_048",
+      "q": "RFIで候補ベンダを絞った後、要件・予算・納期を提示し、具体的な実現方法と見積りを比較したい。次に用いる文書はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "challenge_cmp_17_01",
+      "q": "次の二つの説明を、それぞれ最も関係の深いテーマへ分類した組合せはどれか。\n① 現状課題と目的を整理\n② RFIで市場情報を収集",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    }
+  ],
+  "19": [
+    {
+      "id": "coreq_19_01_1",
+      "q": "販売時点情報管理は？",
+      "scenario": false,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_01_2",
+      "q": "「ビジネスシステム」について適切な記述を選べ。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_19_01_3",
+      "q": "「ビジネスシステム」に関する説明として正しいものを選べ。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_19_02_1",
+      "q": "コンピュータ支援設計は？",
+      "scenario": false,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_02_2",
+      "q": "「エンジニアリングシステム」の各用語を正しく説明した組合せはどれか。",
+      "scenario": false,
+      "recallLike": true,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_02_3",
+      "q": "新しい機械部品について、実物の試作品を作る前にコンピュータ上で強度や熱の影響を解析したい。最も適したものはどれか。",
+      "scenario": false,
+      "recallLike": true,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_03_1",
+      "q": "企業から消費者への取引は？",
+      "scenario": false,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_03_2",
+      "q": "「e-ビジネス」について最も妥当な記述はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_19_03_3",
+      "q": "「e-ビジネス」について、誤解のない説明はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_19_04_1",
+      "q": "現実世界へ動作を与える装置は？",
+      "scenario": false,
+      "recallLike": false,
+      "sentenceOptions": 0
+    },
+    {
+      "id": "coreq_19_04_2",
+      "q": "「組込みシステム・IoTシステム」について最も妥当な記述はどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "coreq_19_04_3",
+      "q": "「組込みシステム・IoTシステム」に関する説明として正しいものを選べ。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "challenge_051",
+      "q": "工場で温度を測定し、しきい値超過時に冷却ファンを回すIoTシステムを作る。温度の検出とファンの物理動作を担当する組合せとして適切なのはどれか。",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 1
+    },
+    {
+      "id": "challenge_052",
+      "q": "工場のIoT端末が毎秒大量のセンサ値を生成している。クラウドへ全件送ると回線遅延と通信量が大きいため、端末の近くで異常判定や集約を行い、必要な結果だけ送信したい。最も近い考え方はどれか。",
+      "scenario": false,
+      "recallLike": false,
+      "sentenceOptions": 2
+    },
+    {
+      "id": "challenge_cmp_19_01",
+      "q": "次の二つの説明を、それぞれ最も関係の深いテーマへ分類した組合せはどれか。\n① POSで販売時点情報を収集\n② CADはコンピュータ支援設計",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "challenge_cmp_19_02",
+      "q": "次の二つの説明を、それぞれ最も関係の深いテーマへ分類した組合せはどれか。\n① CADはコンピュータ支援設計\n② POSで販売時点情報を収集",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 4
+    },
+    {
+      "id": "challenge_cmp_19_03",
+      "q": "次の二つの説明を、それぞれ最も関係の深いテーマへ分類した組合せはどれか。\n① BtoC/BtoB/CtoCなど取引主体で分類\n② POSで販売時点情報を収集",
+      "scenario": true,
+      "recallLike": false,
+      "sentenceOptions": 3
+    }
+  ]
+}
+
+Reference interpretation
+------------------------
+The supplied textbook/problem-book structure supports broad practice across Subject A, but it does not define a required percentage of scenario or calculation items. Therefore v296 only uses extreme residual signals to decide whether manual content inspection is warranted. A conceptual chapter is allowed to remain conceptual.
+
+Regression
+----------
+No learner-facing content changed.
+All 550 core Subject A question rows are equivalent to v295.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If the old chapter-17/19 signals disappear and no new extreme residual remains, close this particular format-balance concern without adding questions. If a residual remains, inspect only that chapter manually before writing any original content.
