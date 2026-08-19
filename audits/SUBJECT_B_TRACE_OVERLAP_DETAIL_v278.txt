@@ -1,0 +1,67 @@
+FE QUEST v278 — Subject B TRACE / Final Strong-Overlap Detail Audit
+=====================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v277
+Source main: 2193a11570f863855971a8cba176f09256c3dc52
+Learner-facing change in v278: none
+
+Target pair
+-----------
+Final: bexam_arr_03 / 一次元配列 / 標準 / 実行回数 / 直前要素との比較
+TRACE: count_even / 偶数を数える
+Normalized sequence similarity: 0.932
+Normalized line Jaccard: 0.778
+Current remediation destination from the final item: {"mode": "trace", "id": "array_reverse"}
+
+Final item code
+---------------
+01: data ← [3, 1, 4, 1, 5]
+02: count ← 0
+03: for i ← 1 to 4
+04:     if data[i] > data[i-1]
+05:         count ← count + 1
+06:     endif
+07: endfor
+08: count を出力する
+
+Final item prompt / options
+---------------------------
+Context: 隣り合う要素を比較し、値が増えた箇所を数えます。
+Question: 最後に出力される count は？
+Options: ["1", "3", "2", "4"]
+Correct: 2
+Explanation: 増加しているのは1→4と1→5の2箇所です。
+
+TRACE exercise code
+-------------------
+01: data ← [3, 8, 11, 14, 20]
+02: count ← 0
+03: for i ← 0 to 4
+04:     if data[i] mod 2 = 0
+05:         count ← count + 1
+06:     endif
+07: endfor
+08: count を出力する
+
+TRACE prediction checkpoints
+----------------------------
+P1: data[0]からdata[2]まで（3, 8, 11）を処理し終えた直後の状態は？ | correct=i=2, count=1
+P2: data[4]=20まで全要素を処理し終えたとき、countと増加が起きた添字の組合せは？ | correct=count=3, i=1,3,4
+
+Interpretation
+--------------
+The v277 Low finding is real and localized. This detail capture exists so the repair can change the final item's execution path rather than merely substitute literals. The repair should preserve the same one-dimensional-array / conditional-accumulation learning objective and current remediation domain while introducing a genuinely different state transition, such as accumulating a value derived from qualifying elements instead of incrementing a counter. It must not copy any attached-book proprietary problem text.
+
+Repair boundary for v279
+------------------------
+Repair only bexam_arr_03. Keep its id, domain, level and answer-position contract unless a validated content release deliberately updates the contract. Preserve the 43-item final algorithm pool, 15 high-TRACE inventory, high-TRACE floor 4, selection policy, remediation mapping, scoring and timing. After repair, rerun the all-43-by-20 normalized overlap audit and require no exact or strong pair at the v277 thresholds.
+
+Regression
+----------
+All learner-facing content is unchanged from v277.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
