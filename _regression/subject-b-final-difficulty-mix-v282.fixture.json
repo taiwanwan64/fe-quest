@@ -1,0 +1,192 @@
+{
+  "version": "v282",
+  "previous": "v281",
+  "parent": "dba857bb0c7c4021297aa35d2435bb62905c4723",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "summary": {
+    "poolLevels": {
+      "標準": 21,
+      "応用": 22
+    },
+    "poolDomains": {
+      "制御": 4,
+      "一次元配列": 5,
+      "二次元配列": 4,
+      "再帰・関数": 5,
+      "木構造": 5,
+      "オブジェクト指向": 4,
+      "リスト": 4,
+      "スタック・キュー": 4,
+      "ビット列": 5,
+      "探索・整列": 3
+    },
+    "sessionStandardCount": {
+      "min": 8,
+      "p05": 8.0,
+      "median": 8.0,
+      "p95": 8.0,
+      "max": 8
+    },
+    "sessionAdvancedCount": {
+      "min": 8,
+      "p05": 8.0,
+      "median": 8.0,
+      "p95": 8.0,
+      "max": 8
+    },
+    "sessionOtherLevelCount": {
+      "min": 0,
+      "p05": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0
+    },
+    "sessionDomainDiversity": {
+      "min": 10,
+      "p05": 10.0,
+      "median": 10.0,
+      "p95": 10.0,
+      "max": 10
+    },
+    "sessionHighTraceCount": {
+      "min": 4,
+      "p05": 4.0,
+      "median": 6.0,
+      "p95": 8.0,
+      "max": 10
+    },
+    "byLevelSelectionFrequency": {
+      "応用": {
+        "poolCount": 22,
+        "selectionFrequencyMin": 309,
+        "selectionFrequencyMedian": 805.5,
+        "selectionFrequencyMax": 5000
+      },
+      "標準": {
+        "poolCount": 21,
+        "selectionFrequencyMin": 424,
+        "selectionFrequencyMedian": 1722,
+        "selectionFrequencyMax": 3980
+      }
+    },
+    "allItemFrequencyMin": 309,
+    "allItemFrequencyMedian": 1282,
+    "allItemFrequencyMax": 5000,
+    "mostSelected": [
+      [
+        "bexam_algo_01",
+        5000
+      ],
+      [
+        "bexam_bit_04",
+        5000
+      ],
+      [
+        "bexam_tree_03",
+        4983
+      ],
+      [
+        "bexam_list_01",
+        4528
+      ],
+      [
+        "bexam_rec_04",
+        4285
+      ],
+      [
+        "bexam_arr_03",
+        3980
+      ],
+      [
+        "bexam_sq_04",
+        3826
+      ],
+      [
+        "bexam_obj_04",
+        3615
+      ]
+    ],
+    "leastSelected": [
+      [
+        "bexam_mat_04",
+        309
+      ],
+      [
+        "bexam_arr_05",
+        312
+      ],
+      [
+        "bexam_bit_05",
+        316
+      ],
+      [
+        "bexam_algo_02",
+        324
+      ],
+      [
+        "bexam_obj_03",
+        327
+      ],
+      [
+        "bexam_bit_03",
+        367
+      ],
+      [
+        "bexam_algo_03",
+        369
+      ],
+      [
+        "bexam_sq_01",
+        424
+      ]
+    ]
+  },
+  "frequency": {
+    "bexam_ctrl_01": 2962,
+    "bexam_ctrl_02": 2977,
+    "bexam_ctrl_03": 2865,
+    "bexam_ctrl_04": 1282,
+    "bexam_arr_01": 1771,
+    "bexam_arr_02": 1544,
+    "bexam_arr_03": 3980,
+    "bexam_arr_04": 546,
+    "bexam_mat_01": 2896,
+    "bexam_mat_02": 2815,
+    "bexam_mat_03": 792,
+    "bexam_rec_01": 622,
+    "bexam_rec_02": 634,
+    "bexam_rec_03": 527,
+    "bexam_rec_04": 4285,
+    "bexam_tree_01": 1643,
+    "bexam_tree_02": 723,
+    "bexam_tree_03": 4983,
+    "bexam_obj_01": 864,
+    "bexam_obj_02": 3163,
+    "bexam_obj_03": 327,
+    "bexam_list_01": 4528,
+    "bexam_list_02": 455,
+    "bexam_list_03": 1722,
+    "bexam_sq_01": 424,
+    "bexam_sq_02": 1207,
+    "bexam_sq_03": 1581,
+    "bexam_bit_01": 2193,
+    "bexam_bit_02": 520,
+    "bexam_bit_03": 367,
+    "bexam_algo_01": 5000,
+    "bexam_algo_02": 324,
+    "bexam_arr_05": 312,
+    "bexam_mat_04": 309,
+    "bexam_rec_05": 1144,
+    "bexam_tree_04": 2640,
+    "bexam_list_04": 819,
+    "bexam_sq_04": 3826,
+    "bexam_bit_04": 5000,
+    "bexam_algo_03": 369,
+    "bexam_obj_04": 3615,
+    "bexam_bit_05": 316,
+    "bexam_tree_05": 1128
+  },
+  "selectionSignatureMatch2000": true,
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
