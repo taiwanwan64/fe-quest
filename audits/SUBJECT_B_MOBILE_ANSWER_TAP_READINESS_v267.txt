@@ -1,0 +1,42 @@
+FE QUEST v267 — Subject B Mobile Answer / Tap Readiness Audit
+==================================================================
+
+Result
+------
+PASS — FINDINGS RECORDED
+Previous release: v266
+Source main: 046965551813d290bb1a5031aa3d0e5c88fd51fc
+Learner-facing change in v267: none
+
+Purpose
+-------
+v266 confirmed pseudocode width already has responsive handling. v267 audits the next phone-first interaction layer: the answer controls used by Subject B short practice/final modes and the static start/back/next/review buttons. This is a source/CSS readiness audit, not a claim of physical-device hit testing.
+
+Answer-hook evidence
+--------------------
+data-bfopt: occurrences=1 / classes=['bfinal-option'] / css-rules=7 / font≈14.0px / min-height=44.0px / estimated-height≈44.0px
+data-bmopt: occurrences=1 / classes=['bmock-option'] / css-rules=4 / font≈14.0px / min-height=0px / estimated-height≈40.8px
+data-copt: occurrences=1 / classes=['bmock-option'] / css-rules=4 / font≈14.0px / min-height=0px / estimated-height≈40.8px
+data-smopt: occurrences=1 / classes=['secmock-option'] / css-rules=5 / font≈14.0px / min-height=0px / estimated-height≈40.8px
+Static Subject B flow buttons located: 27
+All final algorithm option arrays remain four-choice: True
+All TRACE prediction checkpoints remain four-choice: True
+
+Findings
+--------
+Medium — subject_b_interactive_target_under_40px_estimate: One or more Subject B answer/navigation controls have a CSS-estimated height below the 40px audit warning floor.
+
+Interpretation
+--------------
+Estimated control height is derived from matching selector/class rules using explicit min-height, line-height/font-size and vertical padding. The 40px threshold is an audit warning floor rather than a browser measurement or a formal accessibility certification. Unlike the first v267 attempt, a missing answer hook is itself recorded as a finding instead of being allowed to produce a false green result.
+
+Regression
+----------
+Answer-option shapes and Subject B final contract are unchanged from v266.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If concrete undersized targets are recorded, repair only their shared option/action style. If the static evidence is clean, move next to interaction sequence: redundant confirmations, backtracking friction and the number of taps needed to resume/finish practice.
