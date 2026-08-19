@@ -1,0 +1,34 @@
+FE QUEST v269 — Subject B Mobile Tap-Target Post-Repair Audit
+==================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v268
+Source main: 4c6b13cff8066f6020b410b70d667adb67752b13
+Learner-facing change in v269: none
+
+Purpose
+-------
+v268 added an exact-ID 44px minimum height to the 11 Subject B navigation/submit controls identified by v267. v269 verifies that the repair survives normal app assembly and that the runtime style installer emits exactly the intended selector/declaration without widening its scope.
+
+Runtime installation probe
+--------------------------
+Installed style elements: 1
+Style element id: feq-subject-b-mobile-tap-target-v268
+Repaired selector count: 11
+Selectors identical to v267 finding set: yes
+Declaration: min-height:44px only
+Runtime spec stable from v268 to v269: yes
+
+Regression
+----------
+Subject B authored TRACE, final algorithm, compound and security banks: unchanged from v268.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+The mobile tap-target repair is closed. Do not enlarge or redesign these controls further without device evidence. The next useful frontier is interaction friction: count the taps and confirmation steps required to start, move through, resume and finish each Subject B practice mode, and only remove friction that is demonstrated by the existing flow.

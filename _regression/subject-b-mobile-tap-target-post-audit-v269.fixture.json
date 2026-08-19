@@ -1,0 +1,61 @@
+{
+  "version": "v269",
+  "previous": "v268",
+  "parent": "4c6b13cff8066f6020b410b70d667adb67752b13",
+  "result": "PASS — NO FINDINGS",
+  "repairedTargets": [
+    "bCompoundNext",
+    "bCompoundPrev",
+    "bCompoundSubmit",
+    "bFinalNext",
+    "bFinalSubmit",
+    "bMockNext",
+    "bMockPrev",
+    "bMockSubmitTop",
+    "secMockNext",
+    "secMockPrev",
+    "secMockSubmitTop"
+  ],
+  "runtimeStyleProbe": {
+    "n": 1,
+    "rows": [
+      {
+        "tagName": "style",
+        "id": "feq-subject-b-mobile-tap-target-v268",
+        "textContent": "\n#bCompoundNext,#bCompoundPrev,#bCompoundSubmit,\n#bFinalNext,#bFinalSubmit,\n#bMockNext,#bMockPrev,#bMockSubmitTop,\n#secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;}\n"
+      }
+    ],
+    "spec": {
+      "sourceAudit": "v267-subject-b-mobile-answer-tap-readiness",
+      "policy": "narrow-eleven-control-min-height-repair",
+      "warningFloorPx": 40,
+      "repairedMinHeightPx": 44,
+      "targets": [
+        "bCompoundNext",
+        "bCompoundPrev",
+        "bCompoundSubmit",
+        "bFinalNext",
+        "bFinalSubmit",
+        "bMockNext",
+        "bMockPrev",
+        "bMockSubmitTop",
+        "secMockNext",
+        "secMockPrev",
+        "secMockSubmitTop"
+      ],
+      "answerChoiceSizingChanged": false,
+      "questionSelectionChanged": false,
+      "questionOrderChanged": false,
+      "scoringChanged": false,
+      "examCountdownChanged": false,
+      "readinessChanged": false,
+      "profileSchemaMigrationRequired": false,
+      "remoteTelemetry": false
+    }
+  },
+  "runtimeSpecStableFromV268": true,
+  "authoredBanksMatchParent": true,
+  "finalSignatureMatch": true,
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
