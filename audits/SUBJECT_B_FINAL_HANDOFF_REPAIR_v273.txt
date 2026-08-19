@@ -1,0 +1,38 @@
+FE QUEST v273 — Subject B Final-Result Direct Handoff Repair
+================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v272
+Source main: c2d27db0729e14b8e8ddb46662f2ec6ca6449ba5
+Learner-facing change in v273: yes — “次の科目Bへ” on the final result now enters the existing Subject B continuation/recommendation route directly instead of first returning through the Subject B menu.
+
+Repair
+------
+Source finding: subject_b_completion_handoff_returns_to_menu
+Target: #bFinalBackMenu only
+Destination: continueSubjectBFlow()
+Implementation: one capture-phase click listener; preventDefault() and stopImmediatePropagation() suppress the legacy showBMockMenu() listener before it runs.
+Idempotence marker: data-feq-final-handoff-v273
+
+Synthetic interaction probe
+---------------------------
+Registered listeners: [{'type': 'click', 'capture': True}]
+Continuation calls after one synthetic click: 1
+preventDefault calls: 1
+stopImmediatePropagation calls: 1
+
+Regression
+----------
+Timed-final save/clear/start resume functions: unchanged from v272.
+Subject B authored TRACE, final algorithm, compound and security banks: unchanged.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, countdown, readiness and profile schema: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The demonstrated redundant menu stop is removed narrowly. Next run a post-repair handoff audit. If clean, close this interaction-friction sequence and return development priority to learner-facing Subject B content/transfer quality rather than further navigation changes.

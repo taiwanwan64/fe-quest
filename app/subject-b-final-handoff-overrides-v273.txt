@@ -1,0 +1,31 @@
+// ===== FE QUEST v273 Subject B final-result direct handoff =====
+const SUBJECT_B_FINAL_HANDOFF_V273_SPEC=Object.freeze({
+  sourceAudit:'v272-subject-b-resume-handoff',
+  sourceFinding:'subject_b_completion_handoff_returns_to_menu',
+  targetId:'bFinalBackMenu',
+  policy:'capture-click-route-to-existing-subject-b-continuation',
+  destination:'continueSubjectBFlow',
+  preventLegacyMenuHandler:true,
+  timedFinalResumeChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  scoringChanged:false,
+  examCountdownChanged:false,
+  readinessChanged:false,
+  profileSchemaMigrationRequired:false,
+  remoteTelemetry:false
+});
+
+(function installSubjectBFinalHandoffV273(){
+  if(typeof document==='undefined'||typeof document.getElementById!=='function')return;
+  const btn=document.getElementById('bFinalBackMenu');
+  if(!btn||typeof btn.addEventListener!=='function'||btn.dataset?.feqFinalHandoffV273==='1')return;
+  if(btn.dataset)btn.dataset.feqFinalHandoffV273='1';
+  btn.addEventListener('click',function(ev){
+    if(ev&&typeof ev.preventDefault==='function')ev.preventDefault();
+    if(ev&&typeof ev.stopImmediatePropagation==='function')ev.stopImmediatePropagation();
+    continueSubjectBFlow();
+  },true);
+})();
+
+globalThis.SUBJECT_B_FINAL_HANDOFF_V273_SPEC=SUBJECT_B_FINAL_HANDOFF_V273_SPEC;
