@@ -1,0 +1,299 @@
+{
+  "version": "v265",
+  "previous": "v264",
+  "parent": "53a337745ebf9c8831639367f5dd3e662e9db628",
+  "result": "PASS — NO FINDINGS",
+  "loopRepeat": {
+    "id": "loop_sum",
+    "pct": 100,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "variant262": "loop_sum-alternate-values-v1",
+      "variant264": null,
+      "hash": 1636145464,
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ]
+    }
+  },
+  "loopFinish": {
+    "label": "loop",
+    "error": null,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "variant262": "loop_sum-alternate-values-v1",
+      "variant264": null,
+      "hash": 1636145464,
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ]
+    },
+    "bProgress": {
+      "loop_sum": 100,
+      "array_max": 0,
+      "linear_search": 0,
+      "stack_ops": 0,
+      "recursion": 0,
+      "tree_dfs": 0,
+      "count_even": 0,
+      "array_reverse": 0,
+      "nested_loop": 0,
+      "binary_search_b": 0,
+      "bubble_sort_b": 0,
+      "selection_sort_b": 0,
+      "matrix_sum": 0,
+      "matrix_find": 0,
+      "queue_ops": 0,
+      "linked_list": 0,
+      "bit_mask": 0,
+      "object_counter": 0,
+      "gcd_euclid": 0,
+      "recursive_fib": 0
+    },
+    "keys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ],
+    "domainFocus": null,
+    "bank": 3397004348
+  },
+  "countRepeat": {
+    "id": "count_even",
+    "pct": 100,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "count_even",
+      "title": "偶数を数える・別の配列で再トレース",
+      "variant262": null,
+      "variant264": "count_even-alternate-array-v1",
+      "hash": 2419430396,
+      "code": [
+        "data ← [4, 7, 9, 12, 15]",
+        "count ← 0",
+        "for i ← 0 to 4",
+        "    if data[i] mod 2 = 0",
+        "        count ← count + 1",
+        "    endif",
+        "endfor",
+        "count を出力する"
+      ]
+    }
+  },
+  "countFinish": {
+    "label": "count",
+    "error": null,
+    "current": {
+      "id": "count_even",
+      "title": "偶数を数える・別の配列で再トレース",
+      "variant262": null,
+      "variant264": "count_even-alternate-array-v1",
+      "hash": 2419430396,
+      "code": [
+        "data ← [4, 7, 9, 12, 15]",
+        "count ← 0",
+        "for i ← 0 to 4",
+        "    if data[i] mod 2 = 0",
+        "        count ← count + 1",
+        "    endif",
+        "endfor",
+        "count を出力する"
+      ]
+    },
+    "bProgress": {
+      "loop_sum": 100,
+      "array_max": 0,
+      "linear_search": 0,
+      "stack_ops": 0,
+      "recursion": 0,
+      "tree_dfs": 0,
+      "count_even": 100,
+      "array_reverse": 0,
+      "nested_loop": 0,
+      "binary_search_b": 0,
+      "bubble_sort_b": 0,
+      "selection_sort_b": 0,
+      "matrix_sum": 0,
+      "matrix_find": 0,
+      "queue_ops": 0,
+      "linked_list": 0,
+      "bit_mask": 0,
+      "object_counter": 0,
+      "gcd_euclid": 0,
+      "recursive_fib": 0
+    },
+    "keys": [
+      "array_max",
+      "array_reverse",
+      "binary_search_b",
+      "bit_mask",
+      "bubble_sort_b",
+      "count_even",
+      "gcd_euclid",
+      "linear_search",
+      "linked_list",
+      "loop_sum",
+      "matrix_find",
+      "matrix_sum",
+      "nested_loop",
+      "object_counter",
+      "queue_ops",
+      "recursion",
+      "recursive_fib",
+      "selection_sort_b",
+      "stack_ops",
+      "tree_dfs"
+    ],
+    "domainFocus": null,
+    "bank": 3397004348
+  },
+  "loopRepeatAfterCount": {
+    "id": "loop_sum",
+    "pct": 100,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計・別の値で再トレース",
+      "variant262": "loop_sum-alternate-values-v1",
+      "variant264": null,
+      "hash": 1636145464,
+      "code": [
+        "sum ← 0",
+        "for i ← 2 to 5",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ]
+    }
+  },
+  "countRepeatAfterLoop": {
+    "id": "count_even",
+    "pct": 100,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "count_even",
+      "title": "偶数を数える・別の配列で再トレース",
+      "variant262": null,
+      "variant264": "count_even-alternate-array-v1",
+      "hash": 2419430396,
+      "code": [
+        "data ← [4, 7, 9, 12, 15]",
+        "count ← 0",
+        "for i ← 0 to 4",
+        "    if data[i] mod 2 = 0",
+        "        count ← count + 1",
+        "    endif",
+        "endfor",
+        "count を出力する"
+      ]
+    }
+  },
+  "nonPilotMatrix": {
+    "id": "matrix_sum",
+    "pct": 100,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "matrix_sum",
+      "title": "二次元配列の合計",
+      "variant262": null,
+      "variant264": null,
+      "hash": 4059558767,
+      "code": [
+        "m ← [[1,2],[3,4]]",
+        "sum ← 0",
+        "for r ← 0 to 1",
+        "    for c ← 0 to 1",
+        "        sum ← sum + m[r][c]",
+        "    endfor",
+        "endfor",
+        "sum を出力する"
+      ]
+    }
+  },
+  "firstLoop": {
+    "id": "loop_sum",
+    "pct": 0,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "loop_sum",
+      "title": "ループで合計",
+      "variant262": null,
+      "variant264": null,
+      "hash": 3936763792,
+      "code": [
+        "sum ← 0",
+        "for i ← 1 to 4",
+        "    sum ← sum + i",
+        "endfor",
+        "sum を出力する"
+      ]
+    }
+  },
+  "firstCount": {
+    "id": "count_even",
+    "pct": 0,
+    "error": null,
+    "before": 3397004348,
+    "after": 3397004348,
+    "current": {
+      "id": "count_even",
+      "title": "偶数を数える",
+      "variant262": null,
+      "variant264": null,
+      "hash": 627173501,
+      "code": [
+        "data ← [3, 8, 11, 14, 20]",
+        "count ← 0",
+        "for i ← 0 to 4",
+        "    if data[i] mod 2 = 0",
+        "        count ← count + 1",
+        "    endif",
+        "endfor",
+        "count を出力する"
+      ]
+    }
+  },
+  "sharedBankStable": true,
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
