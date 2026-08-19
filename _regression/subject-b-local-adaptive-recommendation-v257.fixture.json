@@ -1,0 +1,41 @@
+{
+  "version": "v257",
+  "previous": "v256",
+  "parent": "b11c5cf8ed592a1a5b895b8d5850e34a57ed82f4",
+  "result": "PASS — NO FINDINGS",
+  "gates": {
+    "requiresFinalRuns": 2,
+    "minSamples": 8,
+    "windowPerLayer": 20,
+    "weakAccuracyThreshold": 70
+  },
+  "progressionGatePreserved": true,
+  "insufficientSamplePreserved": true,
+  "tiedWeaknessPreserved": true,
+  "examTaperPreserved": true,
+  "strongEvidencePreserved": true,
+  "weakMiniMockSelected": true,
+  "accuracyPrimaryOverResponseTime": true,
+  "recentWindowOnly": true,
+  "finalLayerIgnored": true,
+  "responseTimeCopySecondary": true,
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "compound": 2827364307,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contract": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}

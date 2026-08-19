@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "release": "v257",
+  "previous_release": "v256",
+  "parent_main_sha": "b11c5cf8ed592a1a5b895b8d5850e34a57ed82f4",
+  "change_type": "subject-b-local-adaptive-recommendation",
+  "source_quality_audit": "audits/SUBJECT_B_ADAPTIVE_RECOMMENDATION_HOOK_AUDIT_v256.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_local_adaptive_recommendation_hook",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-local-adaptive-recommendation-overrides-v257.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "security_target_ids_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "remediation_targets_changed": false,
+    "difficulty_labels_changed": false,
+    "profile_schema_migration_required": false,
+    "local_performance_event_schema_changed": false
+  },
+  "recommendation": {
+    "surface": "subjectBHubRecommendation",
+    "source_field": "subjectBPerformanceV254",
+    "candidate_layers": ["compound", "miniMock", "securityMock"],
+    "window_per_layer": 20,
+    "minimum_samples_per_layer": 8,
+    "weak_accuracy_threshold": 70,
+    "requires_final_runs": 2,
+    "tie_behavior": "return existing recommendation unchanged when the two weakest eligible layers have equal first-answer accuracy",
+    "taper_behavior": "return existing recommendation unchanged when examDaysRemaining is 0 through 3 days",
+    "selection_signal": "first-answer accuracy only",
+    "response_time_role": "secondary explanatory copy only",
+    "insufficient_evidence_behavior": "return existing recommendation unchanged",
+    "strong_enough_behavior": "return existing recommendation unchanged when all eligible layers exceed 70 percent first-answer accuracy",
+    "local_only": true,
+    "remote_telemetry": false,
+    "published_difficulty_labels_changed": false,
+    "profile_fields_added": false,
+    "validation_scope": "minimum-evidence gates, tied-evidence fallback, exam-taper preservation, recent-window behavior, accuracy-first layer choice, response-time copy-only use, question banks, final selection/order/options, final contract, Subject B semantic diagnostics and approved content reference equality"
+  }
+}
