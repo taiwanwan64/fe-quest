@@ -1,0 +1,740 @@
+FE QUEST v297 — Subject A Choice-Explanation Quality Audit
+=========================================================
+
+Result
+------
+PASS — EXPLANATION EVIDENCE CAPTURED
+Previous release: v296
+Source main: 1854072e454320f6832a51f7e691a74f146ce7b0
+Learner-facing change in v297: none
+
+Reference basis
+---------------
+The supplied 令和8年度 textbook repeatedly pairs topic instruction with "過去問＆完全解説", and the supplied problem book is explicitly organized around public/mock questions. This supports checking that FE QUEST teaches from wrong choices rather than merely revealing the correct answer. The source does not prescribe a character-count threshold, so the thresholds below are internal diagnostics only.
+
+Method
+------
+Audit all 550 Subject A core questions for a main explanation, valid answer index, one non-empty choice explanation per option, and then separately flag weak-learning signals: repeated identical wrong-choice explanations, two or more very short wrong-choice explanations (<18 characters), or two or more generic short explanations such as "the condition does not match" without concrete concept feedback. Structural completeness is high priority; wording-depth signals require manual review before editing.
+
+Summary
+-------
+{
+  "questions": 550,
+  "mainExplanationMissing": 0,
+  "choiceExplanationLengthMismatch": 0,
+  "blankChoiceExplanations": 0,
+  "medianChoiceExplanationChars": 39.0,
+  "medianWrongExplanationChars": 38.0,
+  "genericWrongChoiceCount": 69,
+  "wrongChoiceCount": 1650,
+  "highPriorityFindingQuestions": 0,
+  "qualityFindingQuestions": 36,
+  "highPriority": [],
+  "qualitySamples": [
+    {
+      "id": "coreq_01_02_1",
+      "chapter": 1,
+      "topic": "core_01_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        2,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "16進数Fを10進数で表すと？"
+    },
+    {
+      "id": "coreq_01_02_2",
+      "chapter": 1,
+      "topic": "core_01_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        2
+      ],
+      "genericWrongIndexes": [],
+      "stem": "16進数で1桁として使用できる数字・記号の組合せとして正しいものはどれか。"
+    },
+    {
+      "id": "coreq_01_04_2",
+      "chapter": 1,
+      "topic": "core_01_04",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "2進数1010 1111₂を16進数で表したものはどれか。"
+    },
+    {
+      "id": "coreq_02_01_2",
+      "chapter": 2,
+      "topic": "core_02_01",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        1,
+        2,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "A={1,2,3}、B={2,3,4}とする。A∩Bはどれか。"
+    },
+    {
+      "id": "coreq_02_06_2",
+      "chapter": 2,
+      "topic": "core_02_06",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        2
+      ],
+      "genericWrongIndexes": [],
+      "stem": "公平なコインを4回投げるとき、表がちょうど3回出る確率はどれか。"
+    },
+    {
+      "id": "coreq_02_07_3",
+      "chapter": 2,
+      "topic": "core_02_07",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        2,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "真値200に対して近似値190を得た。絶対誤差と相対誤差の組合せとして正しいものはどれか。"
+    },
+    {
+      "id": "coreq_03_02_2",
+      "chapter": 3,
+      "topic": "core_03_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1,
+        2
+      ],
+      "genericWrongIndexes": [],
+      "stem": "次の疑似コードを実行したときsumの値はどれか。sum←0、iを1から4まで1ずつ増やしながらsum←sum+iを繰り返す。"
+    },
+    {
+      "id": "coreq_03_04_1",
+      "chapter": 3,
+      "topic": "core_03_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "ソース全体を翻訳する方式は？"
+    },
+    {
+      "id": "coreq_04_02_2",
+      "chapter": 4,
+      "topic": "core_04_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1
+      ],
+      "genericWrongIndexes": [],
+      "stem": "CPUの基本的な命令実行サイクルの順序として最も適切なものはどれか。"
+    },
+    {
+      "id": "coreq_04_04_1",
+      "chapter": 4,
+      "topic": "core_04_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "映像と音声のデジタル伝送で使われる代表規格は？"
+    },
+    {
+      "id": "coreq_05_03_1",
+      "chapter": 5,
+      "topic": "core_05_03",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "単位時間当たりの処理件数を表す指標は？"
+    },
+    {
+      "id": "coreq_05_03_2",
+      "chapter": 5,
+      "topic": "core_05_03",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1,
+        2
+      ],
+      "genericWrongIndexes": [],
+      "stem": "あるシステムが30秒間に600件のトランザクションを処理した。平均スループットはどれか。"
+    },
+    {
+      "id": "coreq_06_03_3",
+      "chapter": 6,
+      "topic": "core_06_03",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1
+      ],
+      "genericWrongIndexes": [],
+      "stem": "日曜にフルバックアップを取得し、月・火・水は毎日増分バックアップを取得した。水曜終了時点へ復元するために必要な組合せはどれか。"
+    },
+    {
+      "id": "coreq_07_02_1",
+      "chapter": 7,
+      "topic": "core_07_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        2,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "8bitで表せる段階数は？"
+    },
+    {
+      "id": "coreq_07_02_2",
+      "chapter": 7,
+      "topic": "core_07_02",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1
+      ],
+      "genericWrongIndexes": [],
+      "stem": "A/D変換で1標本を10bitで量子化する場合、理論上表現できる量子化段階数はどれか。"
+    },
+    {
+      "id": "coreq_08_01_1",
+      "chapter": 8,
+      "topic": "core_08_01",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "文字コマンド中心のUIは？"
+    },
+    {
+      "id": "coreq_08_03_3",
+      "chapter": 8,
+      "topic": "core_08_03",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        1,
+        2
+      ],
+      "genericWrongIndexes": [],
+      "stem": "可逆圧縮の説明として正しいものはどれか。"
+    },
+    {
+      "id": "coreq_08_04_1",
+      "chapter": 8,
+      "topic": "core_08_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "現実の映像へデジタル情報を重ねて表示する技術は？"
+    },
+    {
+      "id": "coreq_09_06_1",
+      "chapter": 9,
+      "topic": "core_09_06",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "互いに資源解放を待ち続ける状態は？"
+    },
+    {
+      "id": "coreq_10_01_2",
+      "chapter": 10,
+      "topic": "core_10_01",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        1,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "伝送速度100Mbit/sの回線で50Mbyteのデータを送る。制御情報などを無視した理想的な送信時間は何秒か。"
+    },
+    {
+      "id": "coreq_10_02_1",
+      "chapter": 10,
+      "topic": "core_10_02",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "異なるIPネットワーク間を中継する装置は？"
+    },
+    {
+      "id": "coreq_10_03_2",
+      "chapter": 10,
+      "topic": "core_10_03",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        0,
+        1,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "IPv4アドレスの長さは何bitか。"
+    },
+    {
+      "id": "coreq_10_10_2",
+      "chapter": 10,
+      "topic": "core_10_10",
+      "issues": [
+        "multiple_short_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [
+        1,
+        3
+      ],
+      "genericWrongIndexes": [],
+      "stem": "監視サーバからルータやスイッチのインタフェース状態、CPU使用率などを取得して監視したい。代表的に利用されるプロトコルはどれか。"
+    },
+    {
+      "id": "coreq_11_01_1",
+      "chapter": 11,
+      "topic": "core_11_01",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "身代金要求を行う代表的マルウェアは？"
+    },
+    {
+      "id": "coreq_11_05_1",
+      "chapter": 11,
+      "topic": "core_11_05",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "組織的にセキュリティを継続管理する仕組みは？"
+    },
+    {
+      "id": "coreq_14_04_1",
+      "chapter": 14,
+      "topic": "core_14_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "全体期間を決める最長時間経路は？"
+    },
+    {
+      "id": "coreq_14_05_1",
+      "chapter": 14,
+      "topic": "core_14_05",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "EV-ACで求める指標は？"
+    },
+    {
+      "id": "coreq_15_03_1",
+      "chapter": 15,
+      "topic": "core_15_03",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "利用者問い合わせの単一窓口は？"
+    },
+    {
+      "id": "coreq_15_06_1",
+      "chapter": 15,
+      "topic": "core_15_06",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "申請と承認を分ける考え方は？"
+    },
+    {
+      "id": "coreq_16_04_1",
+      "chapter": 16,
+      "topic": "core_16_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "システム導入後に効果を測る代表指標は？"
+    },
+    {
+      "id": "coreq_17_02_1",
+      "chapter": 17,
+      "topic": "core_17_02",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "ベンダへ具体的な提案を依頼する文書は？"
+    },
+    {
+      "id": "coreq_18_04_1",
+      "chapter": 18,
+      "topic": "core_18_04",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "最終的な経営目標を測る指標は？"
+    },
+    {
+      "id": "coreq_18_06_1",
+      "chapter": 18,
+      "topic": "core_18_06",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "顧客関係管理は？"
+    },
+    {
+      "id": "coreq_18_08_1",
+      "chapter": 18,
+      "topic": "core_18_08",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        3
+      ],
+      "stem": "技術・製品・市場の関係を時間軸で整理する代表的な計画表は？"
+    },
+    {
+      "id": "coreq_19_01_1",
+      "chapter": 19,
+      "topic": "core_19_01",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "販売時点情報管理は？"
+    },
+    {
+      "id": "coreq_19_02_1",
+      "chapter": 19,
+      "topic": "core_19_02",
+      "issues": [
+        "multiple_generic_wrong_explanations"
+      ],
+      "blankIndexes": [],
+      "shortWrongIndexes": [],
+      "genericWrongIndexes": [
+        1,
+        2
+      ],
+      "stem": "コンピュータ支援設計は？"
+    }
+  ],
+  "byChapter": {
+    "1": {
+      "questions": 33,
+      "findingQuestions": 3,
+      "genericWrongChoices": 1,
+      "wrongChoices": 99,
+      "medianWrongExplanationChars": 28
+    },
+    "2": {
+      "questions": 38,
+      "findingQuestions": 3,
+      "genericWrongChoices": 1,
+      "wrongChoices": 114,
+      "medianWrongExplanationChars": 34.0
+    },
+    "3": {
+      "questions": 22,
+      "findingQuestions": 2,
+      "genericWrongChoices": 4,
+      "wrongChoices": 66,
+      "medianWrongExplanationChars": 39.0
+    },
+    "4": {
+      "questions": 26,
+      "findingQuestions": 2,
+      "genericWrongChoices": 3,
+      "wrongChoices": 78,
+      "medianWrongExplanationChars": 36.5
+    },
+    "5": {
+      "questions": 18,
+      "findingQuestions": 2,
+      "genericWrongChoices": 2,
+      "wrongChoices": 54,
+      "medianWrongExplanationChars": 42.0
+    },
+    "6": {
+      "questions": 24,
+      "findingQuestions": 1,
+      "genericWrongChoices": 2,
+      "wrongChoices": 72,
+      "medianWrongExplanationChars": 44.5
+    },
+    "7": {
+      "questions": 8,
+      "findingQuestions": 2,
+      "genericWrongChoices": 0,
+      "wrongChoices": 24,
+      "medianWrongExplanationChars": 27.5
+    },
+    "8": {
+      "questions": 17,
+      "findingQuestions": 3,
+      "genericWrongChoices": 5,
+      "wrongChoices": 51,
+      "medianWrongExplanationChars": 36
+    },
+    "9": {
+      "questions": 35,
+      "findingQuestions": 1,
+      "genericWrongChoices": 4,
+      "wrongChoices": 105,
+      "medianWrongExplanationChars": 46
+    },
+    "10": {
+      "questions": 42,
+      "findingQuestions": 4,
+      "genericWrongChoices": 3,
+      "wrongChoices": 126,
+      "medianWrongExplanationChars": 37.0
+    },
+    "11": {
+      "questions": 34,
+      "findingQuestions": 2,
+      "genericWrongChoices": 7,
+      "wrongChoices": 102,
+      "medianWrongExplanationChars": 42.0
+    },
+    "12": {
+      "questions": 32,
+      "findingQuestions": 0,
+      "genericWrongChoices": 2,
+      "wrongChoices": 96,
+      "medianWrongExplanationChars": 38.5
+    },
+    "13": {
+      "questions": 16,
+      "findingQuestions": 0,
+      "genericWrongChoices": 1,
+      "wrongChoices": 48,
+      "medianWrongExplanationChars": 39.0
+    },
+    "14": {
+      "questions": 42,
+      "findingQuestions": 2,
+      "genericWrongChoices": 5,
+      "wrongChoices": 126,
+      "medianWrongExplanationChars": 35.0
+    },
+    "15": {
+      "questions": 32,
+      "findingQuestions": 2,
+      "genericWrongChoices": 6,
+      "wrongChoices": 96,
+      "medianWrongExplanationChars": 40.0
+    },
+    "16": {
+      "questions": 16,
+      "findingQuestions": 1,
+      "genericWrongChoices": 4,
+      "wrongChoices": 48,
+      "medianWrongExplanationChars": 39.5
+    },
+    "17": {
+      "questions": 9,
+      "findingQuestions": 1,
+      "genericWrongChoices": 2,
+      "wrongChoices": 27,
+      "medianWrongExplanationChars": 44
+    },
+    "18": {
+      "questions": 33,
+      "findingQuestions": 3,
+      "genericWrongChoices": 9,
+      "wrongChoices": 99,
+      "medianWrongExplanationChars": 36
+    },
+    "19": {
+      "questions": 17,
+      "findingQuestions": 2,
+      "genericWrongChoices": 5,
+      "wrongChoices": 51,
+      "medianWrongExplanationChars": 37
+    },
+    "20": {
+      "questions": 31,
+      "findingQuestions": 0,
+      "genericWrongChoices": 1,
+      "wrongChoices": 93,
+      "medianWrongExplanationChars": 32
+    },
+    "21": {
+      "questions": 25,
+      "findingQuestions": 0,
+      "genericWrongChoices": 2,
+      "wrongChoices": 75,
+      "medianWrongExplanationChars": 46
+    }
+  }
+}
+
+Regression
+----------
+No learner-facing content changed.
+All 550 Subject A core questions are equivalent to v296.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Repair structural explanation gaps immediately if any exist. If structural completeness is perfect but a small cluster of generic/short wrong-choice feedback remains, open only those IDs for detail review and replace generic feedback with concise concept-specific reasoning. Do not rewrite already diagnostic explanations merely to make them longer.
