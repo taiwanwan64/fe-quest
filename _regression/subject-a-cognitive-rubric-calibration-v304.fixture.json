@@ -1,0 +1,2091 @@
+{
+  "version": "v304",
+  "previous": "v303",
+  "parent": "30f13cae88f3d1844519492152e12d15b3069386",
+  "result": "PASS — COGNITIVE RUBRIC CALIBRATED",
+  "summary": {
+    "counts": {
+      "bank": 710,
+      "judgment": 221,
+      "application": 323,
+      "standardJudgment": 42,
+      "directNumericJudgment": 46,
+      "directNumericStandardJudgment": 14
+    },
+    "judgmentDemandDistribution": {
+      "文脈比較": 95,
+      "複数条件": 22,
+      "計算・変換": 33,
+      "状態追跡": 2,
+      "二条件分類": 69
+    },
+    "standardJudgmentDemandDistribution": {
+      "文脈比較": 37,
+      "複数条件": 5
+    },
+    "directNumericJudgmentSamples": [
+      {
+        "id": "theory-04",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "確率",
+        "angle": "",
+        "q": "独立した2つの装置A・Bがあり、それぞれ正常に動く確率が0.9である。両方とも正常に動く確率は？",
+        "options": [
+          "0.90",
+          "0.99",
+          "1.80",
+          "0.81"
+        ],
+        "judgmentDemand": "複数条件",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "net-03",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "サブネット",
+        "angle": "",
+        "q": "IPv4アドレス 192.168.10.25/24 のネットワークアドレスは？",
+        "options": [
+          "192.168.10.255",
+          "192.168.10.24",
+          "192.168.10.0",
+          "192.168.0.0"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "sys-02",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "信頼性",
+        "angle": "",
+        "q": "稼働率0.9の同一装置A・Bを並列に接続し、少なくとも一方が動けばシステムが稼働する。システム稼働率は？",
+        "options": [
+          "0.81",
+          "0.99",
+          "0.90",
+          "0.10"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "mgmt-08",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "SLA",
+        "angle": "",
+        "q": "SLAで月間稼働率99.9%以上と定めた。30日を720時間とすると、許容される停止時間は最大でおよそ何分？",
+        "options": [
+          "72分",
+          "43.2分",
+          "432分",
+          "7.2分"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-13",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "確率",
+        "angle": "",
+        "q": "互いに独立な事象AとBがあり、P(A)=0.8、P(B)=0.9である。AとBが両方起こる確率は？",
+        "options": [
+          "0.72",
+          "0.80",
+          "0.98",
+          "0.17"
+        ],
+        "judgmentDemand": "複数条件",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-08",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "CPU性能",
+        "angle": "",
+        "q": "2GHzのCPUが、平均CPI=2で10億命令を実行する。実行時間はおよそ何秒か。",
+        "options": [
+          "1秒",
+          "0.25秒",
+          "0.5秒",
+          "2秒"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-09",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "キャッシュ",
+        "angle": "",
+        "q": "キャッシュのヒット率が90%で、ヒット時10ns、ミス時110nsかかるとする。平均アクセス時間は？",
+        "options": [
+          "55ns",
+          "20ns",
+          "100ns",
+          "11ns"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-13",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "信頼性",
+        "angle": "",
+        "q": "MTBFが450時間、MTTRが50時間のシステムの稼働率はどれか。",
+        "options": [
+          "0.95",
+          "0.90",
+          "0.10",
+          "0.50"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "db-12",
+        "cat": "データベース",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "JOIN",
+        "angle": "",
+        "q": "customer表の1人の顧客にorders表の複数注文を対応付けたい。両表にはcustomer_idがあり、これをキーとして結合する。JOINの結合条件として適切なのはどれか。",
+        "options": [
+          "customer.customer_id = orders.customer_id",
+          "customer.customer_id <> orders.customer_id",
+          "customer.name = orders.order_id",
+          "customer.customer_id IS NULL"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 4
+        }
+      },
+      {
+        "id": "net-18",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "サブネット",
+        "angle": "",
+        "q": "IPv4の /27 サブネットで、ネットワークアドレスとブロードキャストアドレスを除いて利用できるホストアドレス数は？",
+        "options": [
+          "32",
+          "62",
+          "14",
+          "30"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-19",
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ユークリッド互除法",
+        "angle": "",
+        "q": "ユークリッド互除法で48と18の最大公約数を求めるといくつか。",
+        "options": [
+          "3",
+          "12",
+          "6",
+          "2"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "mgmt-14",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "クリティカルパス",
+        "angle": "",
+        "q": "余裕時間0日のクリティカルパス上にある作業が2日遅れ、他の条件は変わらないとする。プロジェクト完了日は通常どうなるか？",
+        "options": [
+          "2日遅れる",
+          "変わらない",
+          "1日早まる",
+          "後続作業の開始も遅れるため、完了日は3日以上遅れる"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 1
+        }
+      },
+      {
+        "id": "mgmt-15",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "EVM",
+        "angle": "",
+        "q": "EVMでEV=80、AC=100のとき、コスト効率指数CPI=EV/ACはいくつか。",
+        "options": [
+          "1.0",
+          "0.8",
+          "1.25",
+          "0.2"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "mgmt-16",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "EVM",
+        "angle": "",
+        "q": "EVMでEV=80、PV=100のとき、スケジュール効率指数SPI=EV/PVはいくつか。",
+        "options": [
+          "1.25",
+          "0.2",
+          "0.8",
+          "1.0"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "strat-16",
+        "cat": "ストラテジ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ROI",
+        "angle": "",
+        "q": "100万円を投資し、その投資によって20万円の利益を得たとする。ROIを利益÷投資額で求めると？",
+        "options": [
+          "20%",
+          "120%",
+          "5%",
+          "80%"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_001",
+        "cat": "基礎理論",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_01_01",
+        "concept": "データの単位",
+        "angle": "calculation",
+        "q": "20Mbit/sの回線で50Mbyteのデータを送る。制御情報などを無視した理想的な送信時間は何秒か。",
+        "options": [
+          "20秒",
+          "2.5秒",
+          "8秒",
+          "200秒"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_002",
+        "cat": "基礎理論",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_01_01",
+        "concept": "データの単位",
+        "angle": "calculation",
+        "q": "800×600画素、1画素24bitの非圧縮画像のデータ量は何byteか。",
+        "options": [
+          "480,000byte",
+          "1,440,000byte",
+          "3,840,000byte",
+          "11,520,000byte"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_007",
+        "cat": "基礎理論",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_01_05",
+        "concept": "負の2進数",
+        "angle": "calculation",
+        "q": "8bitの2の補数で-18を表す値に、10進数で5を加えた結果を8bitの2の補数で表したものはどれか。",
+        "options": [
+          "11101110",
+          "11110101",
+          "11110011",
+          "00001101"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_008",
+        "cat": "基礎理論",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_01_05",
+        "concept": "負の2進数",
+        "angle": "calculation",
+        "q": "8bitの2の補数11110110₂が表す値に6を加えた結果を10進数で表したものはどれか。",
+        "options": [
+          "-16",
+          "4",
+          "252",
+          "-4"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_017",
+        "cat": "アルゴリズム",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_03_03",
+        "concept": "アルゴリズムの分類",
+        "angle": "scenario",
+        "q": "120件の未整列データから目的値を探す。前処理で整列せず1回だけ探索するなら、最も直接的な方法はどれか。",
+        "options": [
+          "線形探索",
+          "二分探索",
+          "ハッシュ表を用いた探索",
+          "二分探索木を用いた探索"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_018",
+        "cat": "アルゴリズム",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_03_03",
+        "concept": "アルゴリズムの分類",
+        "angle": "interpretation",
+        "q": "整列済みデータを二分探索する。データ件数を1,024件から8,192件へ8倍にしたとき、比較回数は代表的なオーダからおおよそ何回増えるか。",
+        "options": [
+          "1回",
+          "3回",
+          "8回",
+          "8倍"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_021",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_04_03",
+        "concept": "さまざまな記憶装置",
+        "angle": "calculation",
+        "q": "キャッシュHIT時2ns、MISS時52ns、HIT率90%とする。平均アクセス時間は何nsか。",
+        "options": [
+          "7ns",
+          "5.2ns",
+          "10ns",
+          "46.8ns"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_023",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_05_03",
+        "concept": "システムの性能指標",
+        "angle": "calculation",
+        "q": "5分間に600件を処理したが、そのうち60件はエラーで再処理が必要だった。正常に完了した処理だけを数える平均スループットは何件/秒か。",
+        "options": [
+          "2.0件/秒",
+          "0.18件/秒",
+          "1.8件/秒",
+          "108件/秒"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_024",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_05_03",
+        "concept": "システムの性能指標",
+        "angle": "scenario",
+        "q": "あるWeb画面は1分間に十分な件数を処理できているが、利用者がボタンを押してから結果表示まで平均4秒かかり不満が出ている。直接改善対象とすべき指標はどれか。",
+        "options": [
+          "スループット",
+          "MTBF",
+          "稼働率",
+          "レスポンスタイム"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": true,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_025",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_05_04",
+        "concept": "システムの信頼性指標",
+        "angle": "calculation",
+        "q": "あるシステムはMTBF=900時間、MTTR=100時間で稼働していた。障害予防によってMTBFを990時間へ伸ばし、復旧手順の改善によってMTTRを10時間へ短縮した。改善後の稼働率はどれか。",
+        "options": [
+          "99%",
+          "90%",
+          "98%",
+          "99.9%"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_026",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_05_04",
+        "concept": "システムの信頼性指標",
+        "angle": "calculation",
+        "q": "稼働率0.9の同一装置を2台並列にし、少なくとも1台動けばよい。全体の稼働率はどれか。",
+        "options": [
+          "0.81",
+          "0.99",
+          "0.90",
+          "1.80"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_027",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_08_03",
+        "concept": "マルチメディア技術",
+        "angle": "calculation",
+        "q": "1920×1080画素、1画素24bitの非圧縮画像のデータ量は何byteか。",
+        "options": [
+          "2,073,600byte",
+          "49,766,400byte",
+          "6,220,800byte",
+          "5,184,000byte"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_028",
+        "cat": "コンピュータ",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_08_03",
+        "concept": "マルチメディア技術",
+        "angle": "calculation",
+        "q": "標本化周波数44.1kHz、量子化16bit、ステレオ2chの音声10秒分は何byteか。",
+        "options": [
+          "882,000byte",
+          "3,528,000byte",
+          "7,056,000byte",
+          "1,764,000byte"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "challenge_031",
+        "cat": "データベース",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_09_05",
+        "concept": "トランザクション管理",
+        "angle": "scenario",
+        "q": "口座Aから1万円減額した直後、口座Bへの加算前に障害が発生した。整合性を保つため最も適切な処理はどれか。",
+        "options": [
+          "口座Aの減額を確定し、口座Bへの加算は障害復旧後の補正処理へ回す",
+          "障害復旧後に口座Bへの加算を実行し、口座Aの更新結果と突き合わせる",
+          "ROLLBACKして処理開始前へ戻す",
+          "障害発生時点の更新状態を確定し、残りの処理を復旧後に再開する"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": true,
+          "scenarioCue": true,
+          "sentenceOptions": 4
+        }
+      },
+      {
+        "id": "challenge_035",
+        "cat": "ネットワーク",
+        "difficulty": "実戦",
+        "cognitive": "判断",
+        "coreTopicId": "core_10_04",
+        "concept": "サブネットマスク",
+        "angle": "calculation",
+        "q": "IPv4ネットワークでプレフィックス長/26のとき、通常利用可能なホストアドレス数はいくつか。",
+        "options": [
+          "30",
+          "64",
+          "62",
+          "126"
+        ],
+        "judgmentDemand": "計算・変換",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      }
+    ],
+    "contextCompareJudgmentSamples": [
+      {
+        "id": "theory-03",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "補数",
+        "angle": "",
+        "q": "8ビットの2の補数表現で、00000101 が +5 を表すとき、-5 を表すものはどれか。",
+        "options": [
+          "00000110",
+          "11111010",
+          "11111011",
+          "10000101"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "net-03",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "サブネット",
+        "angle": "",
+        "q": "IPv4アドレス 192.168.10.25/24 のネットワークアドレスは？",
+        "options": [
+          "192.168.10.255",
+          "192.168.10.24",
+          "192.168.10.0",
+          "192.168.0.0"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-01",
+        "cat": "アルゴリズム",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "二分探索",
+        "angle": "",
+        "q": "昇順に整列された配列 [4, 9, 15, 22, 31, 40, 52] から40を二分探索する。最初に22と比較した後、次に残す範囲は？",
+        "options": [
+          "22より右側",
+          "探索終了",
+          "22より左側",
+          "全体を残す"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-02",
+        "cat": "アルゴリズム",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "スタック",
+        "angle": "",
+        "q": "空のスタックに A、B、C の順でPUSHした後、1回POPすると取り出されるのは？",
+        "options": [
+          "A",
+          "C",
+          "B",
+          "何も取り出せない"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-04",
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ループトレース",
+        "angle": "",
+        "q": "a←0 とし、iを1から4まで1ずつ増やしながら a←a+i を実行する。終了時のaはいくつか。",
+        "options": [
+          "16",
+          "4",
+          "6",
+          "10"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "sys-02",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "信頼性",
+        "angle": "",
+        "q": "稼働率0.9の同一装置A・Bを並列に接続し、少なくとも一方が動けばシステムが稼働する。システム稼働率は？",
+        "options": [
+          "0.81",
+          "0.99",
+          "0.90",
+          "0.10"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "mgmt-08",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "SLA",
+        "angle": "",
+        "q": "SLAで月間稼働率99.9%以上と定めた。30日を720時間とすると、許容される停止時間は最大でおよそ何分？",
+        "options": [
+          "72分",
+          "43.2分",
+          "432分",
+          "7.2分"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-05",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "オートマトン",
+        "angle": "",
+        "q": "状態Aで入力1を受けるとBへ、状態Bで入力1を受けるとAへ移る。初期状態Aから入力列1,1を与えた最終状態は？",
+        "options": [
+          "A",
+          "終了状態",
+          "不明",
+          "B"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "ui-01",
+        "cat": "ストラテジ",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "アクセシビリティ",
+        "angle": "",
+        "q": "エラー状態を赤、正常状態を緑で表示する画面を設計している。色覚の違いがある利用者にも区別でき、モノクロ表示でも意味が失われにくい設計はどれか。",
+        "options": [
+          "コントラストを低くして刺激を減らす",
+          "重要な操作はホバー時に補足説明を表示し、色の違いを中心に状態を伝える",
+          "赤と緑の色相差を大きくし、状態名はツールチップで補足する",
+          "色に加えて文字やアイコンでも状態を示す"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 3
+        }
+      },
+      {
+        "id": "media-01",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "画像データ量",
+        "angle": "",
+        "q": "200×100画素・24ビットカラーの原画像から、1画素8ビットのグレースケール版を作成した。保存するのはグレースケール版だけで、圧縮やヘッダは考えない。この保存データ量は何ビットか。",
+        "options": [
+          "160,000",
+          "480,000",
+          "20,000",
+          "80,000"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-06",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "データ単位",
+        "angle": "",
+        "q": "容量表記を確認すると、設定画面では1KiB=1024バイト、別の資料では1kB=1000バイトとして扱っている。設定画面で4KiBを選んだとき、確保される容量は何バイトか。",
+        "options": [
+          "4096",
+          "4000",
+          "4100",
+          "2048"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-07",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "16進数",
+        "angle": "",
+        "q": "8ビットで表した16進数2Dを2進数へ変換したものはどれか。",
+        "options": [
+          "00111001",
+          "00101101",
+          "00100111",
+          "00111101"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-08",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "集合",
+        "angle": "",
+        "q": "集合A={1,2,3}、集合B={3,4,5}の共通部分A∩Bは？",
+        "options": [
+          "{1,2,3,4,5}",
+          "{1,2}",
+          "{3}",
+          "{4,5}"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "net-07",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "NAT",
+        "angle": "",
+        "q": "家庭内の複数端末がプライベートIPアドレスを使い、1つのグローバルIPアドレスを共有してインターネットへ接続する仕組みに関係するものは？",
+        "options": [
+          "NAT",
+          "DHCP",
+          "DNS",
+          "NAPT"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-05",
+        "cat": "アルゴリズム",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "キュー",
+        "angle": "",
+        "q": "空のキューへA、B、Cの順にENQUEUEした後、1回DEQUEUEすると取り出されるのは？",
+        "options": [
+          "C",
+          "取り出せない",
+          "B",
+          "A"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-06",
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ソート",
+        "angle": "",
+        "q": "配列 [4, 1, 3, 2] に対し、左から右へ隣り合う要素を比較して大きい方を右へ送るバブルソートを1回だけ走査した。走査後の配列は？",
+        "options": [
+          "[1,3,2,4]",
+          "[1,4,2,3]",
+          "[1,2,3,4]",
+          "[4,1,2,3]"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "algo-07",
+        "cat": "アルゴリズム",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "条件分岐",
+        "angle": "",
+        "q": "x=7のとき「if x > 5 then y←1 else y←0」を実行した後のyは？",
+        "options": [
+          "0",
+          "1",
+          "5",
+          "7"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "mgmt-11",
+        "cat": "マネジメント",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "EVM",
+        "angle": "",
+        "q": "EVMで、ある時点のPVが100、EVが80であった。スケジュールの状況として最も適切なのは？",
+        "options": [
+          "計画どおりである",
+          "コスト超過であると判断できる",
+          "計画より遅れている",
+          "計画より進んでいる"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": true,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-09",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ビットシフト",
+        "angle": "",
+        "q": "8ビットの2進数 00101100 を1ビット左に論理シフトした結果はどれか。",
+        "options": [
+          "01011000",
+          "00010110",
+          "10110000",
+          "00101101"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-10",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "2の補数",
+        "angle": "",
+        "q": "8ビットの2の補数表現で、11110110と00000111を加算した結果はどれか。",
+        "options": [
+          "00000011",
+          "11111101",
+          "11111001",
+          "11111110"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-11",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "論理演算",
+        "angle": "",
+        "q": "ド・モルガンの法則により、NOT(A AND B) と等価な論理式はどれか。",
+        "options": [
+          "A AND (NOT B)",
+          "(NOT A) AND (NOT B)",
+          "(NOT A) OR (NOT B)",
+          "A OR B"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 2
+        }
+      },
+      {
+        "id": "theory-14",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "集合",
+        "angle": "",
+        "q": "集合A={1,2,4}、集合B={2,3,4} の和集合 A∪B はどれか。",
+        "options": [
+          "{1,2,2,3,4,4}",
+          "{1,2,3,4}",
+          "{2,4}",
+          "{1,3}"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-15",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "パリティ",
+        "angle": "",
+        "q": "データビット 1011001 に偶数パリティを付加する。パリティビットはいくつか。",
+        "options": [
+          "1",
+          "2",
+          "0",
+          "判定できない"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-16",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "16進数",
+        "angle": "",
+        "q": "16進数 3A を8ビットの2進数で表したものはどれか。",
+        "options": [
+          "11101000",
+          "00011010",
+          "00110101",
+          "00111010"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-17",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "平均",
+        "angle": "",
+        "q": "4つの値 12, 15, 18, 25 の算術平均はいくつか。",
+        "options": [
+          "17.5",
+          "17.0",
+          "16.0",
+          "18.0"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-18",
+        "cat": "基礎理論",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "中央値",
+        "angle": "",
+        "q": "値 4, 7, 9, 20, 100 の中央値はいくつか。",
+        "options": [
+          "7",
+          "9",
+          "20",
+          "28"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "theory-20",
+        "cat": "基礎理論",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "オートマトン",
+        "angle": "",
+        "q": "状態S0から開始し、入力1のたびにS0とS1を切り替え、入力0では状態を変えないオートマトンがある。入力列1011を処理した最終状態は？",
+        "options": [
+          "状態を一意に決められない",
+          "S0",
+          "入力途中で停止する",
+          "S1"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-08",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "CPU性能",
+        "angle": "",
+        "q": "2GHzのCPUが、平均CPI=2で10億命令を実行する。実行時間はおよそ何秒か。",
+        "options": [
+          "1秒",
+          "0.25秒",
+          "0.5秒",
+          "2秒"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-09",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "キャッシュ",
+        "angle": "",
+        "q": "キャッシュのヒット率が90%で、ヒット時10ns、ミス時110nsかかるとする。平均アクセス時間は？",
+        "options": [
+          "55ns",
+          "20ns",
+          "100ns",
+          "11ns"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-12",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "RAID",
+        "angle": "",
+        "q": "容量2TBのディスク4台でRAID5を構成したとき、概算の利用可能容量は？",
+        "options": [
+          "6TB",
+          "4TB",
+          "8TB",
+          "2TB"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-13",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "信頼性",
+        "angle": "",
+        "q": "MTBFが450時間、MTTRが50時間のシステムの稼働率はどれか。",
+        "options": [
+          "0.95",
+          "0.90",
+          "0.10",
+          "0.50"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "computer-14",
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "アドレス空間",
+        "angle": "",
+        "q": "32ビットのアドレスで1バイト単位に番地を付けるとき、直接表せるアドレス空間は最大で約何GiBか。",
+        "options": [
+          "2GiB",
+          "8GiB",
+          "4GiB",
+          "32GiB"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "db-09",
+        "cat": "データベース",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "SQL",
+        "angle": "",
+        "q": "employee表から、ageが30以上かつdeptが'営業'の行を抽出するWHERE句は？",
+        "options": [
+          "WHERE age >= 30 OR dept = '営業'",
+          "WHERE age >= 30 AND dept = '営業'",
+          "WHERE age > 30 AND dept <> '営業'",
+          "WHERE age = 30 AND dept LIKE '%営業%'"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 4
+        }
+      },
+      {
+        "id": "db-10",
+        "cat": "データベース",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "GROUP BY",
+        "angle": "",
+        "q": "employee表から、在籍中(active=1)の社員だけを対象に、部署deptごとの人数を数えたい。SQLの主要部分として適切なのはどれか。",
+        "options": [
+          "SELECT dept, COUNT(*) FROM employee ORDER BY dept WHERE active=1;",
+          "SELECT dept FROM employee HAVING active=1 COUNT(*);",
+          "SELECT dept, COUNT(*) FROM employee WHERE active=1 GROUP BY dept;",
+          "SELECT COUNT(dept) FROM employee GROUP BY active=1;"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 4
+        }
+      },
+      {
+        "id": "db-12",
+        "cat": "データベース",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "JOIN",
+        "angle": "",
+        "q": "customer表の1人の顧客にorders表の複数注文を対応付けたい。両表にはcustomer_idがあり、これをキーとして結合する。JOINの結合条件として適切なのはどれか。",
+        "options": [
+          "customer.customer_id = orders.customer_id",
+          "customer.customer_id <> orders.customer_id",
+          "customer.name = orders.order_id",
+          "customer.customer_id IS NULL"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 4
+        }
+      },
+      {
+        "id": "net-10",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "TCP",
+        "angle": "",
+        "q": "TCPの接続確立で行われる3ウェイハンドシェイクの順序として正しいものは？",
+        "options": [
+          "FIN → FIN/ACK → ACK",
+          "ACK → SYN → FIN",
+          "SYN → ACK → FIN",
+          "SYN → SYN/ACK → ACK"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 2
+        }
+      },
+      {
+        "id": "net-12",
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "プライベートIP",
+        "angle": "",
+        "q": "NATを行うルータの内側に社内LAN端末を追加する。端末には、インターネット上で直接経路広告するためのアドレスではなく、RFC1918のプライベートIPv4アドレスを設定したい。候補として適切なものはどれか。",
+        "options": [
+          "172.32.0.1",
+          "192.168.10.20",
+          "224.0.0.1",
+          "203.0.113.20"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": true,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "net-18",
+        "cat": "ネットワーク",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "サブネット",
+        "angle": "",
+        "q": "IPv4の /27 サブネットで、ネットワークアドレスとブロードキャストアドレスを除いて利用できるホストアドレス数は？",
+        "options": [
+          "32",
+          "62",
+          "14",
+          "30"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": true,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      },
+      {
+        "id": "sec-19",
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "ランサムウェア",
+        "angle": "",
+        "q": "端末Aでランサムウェア感染が疑われ、Aからアクセスできる共有フォルダでも暗号化が進み始めた。証拠保全は必要だが、まず被害拡大を止めたい。最初に優先する対応はどれか。",
+        "options": [
+          "ネットワーク接続を維持したまま、感染端末上でウイルススキャンを開始する",
+          "感染端末をネットワークから隔離する",
+          "共有フォルダをバックアップから復元し始める",
+          "感染端末の利用者アカウントの権限を読み取り専用へ変更する"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": true,
+          "scenarioCue": true,
+          "sentenceOptions": 3
+        }
+      },
+      {
+        "id": "algo-08",
+        "cat": "アルゴリズム",
+        "difficulty": "基礎",
+        "cognitive": "判断",
+        "coreTopicId": "",
+        "concept": "配列トレース",
+        "angle": "",
+        "q": "配列A=[2,4,6]で、添字は0から始まります。A[1] ← A[0] + A[2] を実行した後のA[1]は？",
+        "options": [
+          "12",
+          "4",
+          "6",
+          "8"
+        ],
+        "judgmentDemand": "文脈比較",
+        "applicationDemand": "",
+        "cognitiveRewrite": "",
+        "features": {
+          "numericDirect": false,
+          "decisionCue": false,
+          "scenarioCue": false,
+          "sentenceOptions": 0
+        }
+      }
+    ],
+    "strategyStandard": {
+      "count": 71,
+      "judgment": [
+        {
+          "id": "strat-16",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "判断",
+          "coreTopicId": "",
+          "concept": "ROI",
+          "angle": "",
+          "q": "100万円を投資し、その投資によって20万円の利益を得たとする。ROIを利益÷投資額で求めると？",
+          "options": [
+            "20%",
+            "120%",
+            "5%",
+            "80%"
+          ],
+          "judgmentDemand": "文脈比較",
+          "applicationDemand": "",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": true,
+            "decisionCue": false,
+            "scenarioCue": false,
+            "sentenceOptions": 0
+          }
+        }
+      ],
+      "judgmentLikeApplicationCandidates": [
+        {
+          "id": "coreq_16_01_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_16_01",
+          "concept": "情報システム戦略",
+          "angle": "discrimination",
+          "q": "経営会議で『話題の生成AIを全社導入したい』という案が出た。情報システム戦略として検討を進める際の考え方として最も適切なものはどれか。",
+          "options": [
+            "導入製品の新しさを優先し、既存業務との適合性は導入後に確認する。",
+            "他社の導入事例を主な判断材料とし、自社の経営課題との対応は後から整理する。",
+            "技術の注目度を投資順位の主基準とし、費用対効果は運用開始後に評価する。",
+            "最新技術導入自体を目的にしないこと。"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_16_02_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_16_02",
+          "concept": "業務プロセス",
+          "angle": "scenario",
+          "q": "現状は紙申請を承認後、別担当者が同じ内容をシステムへ再入力している。二重入力と待ち時間をなくす改善後の業務像を設計する段階として最も適切なものはどれか。",
+          "options": [
+            "As-Isとして現行工程と滞留箇所を可視化する",
+            "改善効果を測るKPIと測定方法を決める",
+            "現行工程ごとの処理時間と担当を計測する",
+            "To-Beとして不要工程や情報の流れを再設計する"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "状況適用",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_16_04_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_16_04",
+          "concept": "システムの活用促進と評価",
+          "angle": "scenario",
+          "q": "受注処理システムを導入し、「平均処理時間を30%短縮する」ことを目的としていた。導入効果の評価として最も適切なものはどれか。",
+          "options": [
+            "導入前後の利用者満足度を同じアンケートで比較する",
+            "導入前後の1日当たり処理件数を比較する",
+            "導入前後の運用コストだけを同じ期間で比較する",
+            "導入前後の処理時間を同じ条件で測定し、目標との差を確認する"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "状況適用",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": true,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_18_01_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_18_01",
+          "concept": "経営戦略",
+          "angle": "discrimination",
+          "q": "「経営戦略」について最も適切な記述はどれか。",
+          "options": [
+            "分析フレームワークは状況を整理する手段であり、分析結果を基に目的・資源・競争環境を踏まえて戦略を選ぶ",
+            "SWOTで施策候補が得られたら、その候補を追加評価せず最適戦略として採用する",
+            "分析結果で優先順位が付いた項目を、そのまま経営上の意思決定結果として扱う",
+            "一度作成した分析は前提を固定し、市場環境が変化しても同じ結論を利用する"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_18_03_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_18_03",
+          "concept": "事業戦略",
+          "angle": "discrimination",
+          "q": "「事業戦略」について最も適切な記述はどれか。",
+          "options": [
+            "販売価格が競合より低ければ、原価構造や生産性に関係なくコストリーダーシップ戦略が成立する。",
+            "低価格=必ずコストリーダーシップではなく、低コスト構造が重要である。",
+            "コストリーダーシップでは値引きによる販売量拡大を中心にし、規模の経済や業務効率化は二次的な手段とする。",
+            "低コスト構造を作ると差別化要素を持つことは禁止され、品質やサービスを改善してはいけない。"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": false,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_18_04_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_18_04",
+          "concept": "事業戦略の目標と評価",
+          "angle": "scenario",
+          "q": "「年度末までに営業利益1億円を達成する」を最終目標とし、その達成へ向けて「月間新規契約数」を継続管理する。このときの組合せとして最も適切なものはどれか。",
+          "options": [
+            "営業利益1億円=KGI、月間新規契約数=KPI",
+            "営業利益1億円=KPI、月間新規契約数=KGI",
+            "営業利益1億円=CSF、月間新規契約数=KGI",
+            "営業利益1億円=KPI、月間新規契約数=CSF"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "状況適用",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": true,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_20_02_2",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_20_02",
+          "concept": "経営組織",
+          "angle": "application",
+          "q": "「経営組織」の用語と説明の対応として正しいものはどれか。",
+          "options": [
+            "「機能別組織」：製品・地域など事業単位で権限と責任を持つ",
+            "「機能別組織」：機能軸とプロジェクト・事業軸を組み合わせる",
+            "「機能別組織」：営業・製造・人事など専門機能ごとに編成",
+            "「事業部制組織」：営業・製造・人事など専門機能ごとに編成"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "用語対応",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_20_04_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_20_04",
+          "concept": "損益分岐点",
+          "angle": "discrimination",
+          "q": "「損益分岐点」の判断で注意すべき点を正しく述べたものはどれか。",
+          "options": [
+            "変動費率60%とは、売上高が100万円増えると変動費額が60万円減ることを表す",
+            "変動費率は売上高に対する変動費の割合で、変動費額は売上高に応じて変化する",
+            "変動費率60%と変動費60万円は、売上高にかかわらず同じ意味を表す",
+            "限界利益率は変動費率と同じ値なので、変動費率60%なら限界利益率も60%となる"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": false,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_20_07_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_20_07",
+          "concept": "業務分析とデータ利活用",
+          "angle": "discrimination",
+          "q": "「業務分析とデータ利活用」の判断で注意すべき点を正しく述べたものはどれか。",
+          "options": [
+            "分析ではデータ量が多いほど結論の正しさが保証されるため、データ品質や偏りを確認する必要はない。",
+            "データ量より、業務上の問いに合うデータと分析方法が重要である。",
+            "業務上の問いが曖昧でも、利用できる分析手法を先に決めれば適切な結論を得られる。",
+            "強い相関が確認できれば因果関係の根拠として扱い、追加検証より予測モデルへの採用を優先する。"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_21_02_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_21_02",
+          "concept": "産業財産権とその他の権利",
+          "angle": "discrimination",
+          "q": "「産業財産権とその他の権利」について最も適切な記述はどれか。",
+          "options": [
+            "著作権は特許庁への登録が完了した日から発生する",
+            "著作権は出願と審査を経た著作物について発生する",
+            "著作権は原則として著作物を創作した時点で発生する",
+            "プログラムは登録を行った場合に限って著作権による保護を受ける"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "同一論点判別",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": false,
+            "sentenceOptions": 4
+          }
+        },
+        {
+          "id": "coreq_21_04_3",
+          "cat": "ストラテジ",
+          "difficulty": "標準",
+          "cognitive": "適用",
+          "coreTopicId": "core_21_04",
+          "concept": "労働関連法規と取引関連法規",
+          "angle": "scenario",
+          "q": "契約書は「請負」となっているが、発注会社の担当者が受注会社の作業者へ日々直接、作業手順や勤務の指示を出している。契約実態を確認する上で最も注意すべき点はどれか。",
+          "options": [
+            "契約書に「請負」と記載されていれば、その名称を優先して契約実態を判断する",
+            "受注会社が成果物の品質責任を負っているかだけを確認して契約実態を判断する",
+            "発注者から作業者への直接の指揮命令など、契約名と実際の働き方が一致しているか確認する",
+            "作業者と受注会社の雇用契約が存在するかだけを確認して契約実態を判断する"
+          ],
+          "judgmentDemand": "",
+          "applicationDemand": "状況適用",
+          "cognitiveRewrite": "",
+          "features": {
+            "numericDirect": false,
+            "decisionCue": true,
+            "scenarioCue": true,
+            "sentenceOptions": 4
+          }
+        }
+      ]
+    },
+    "rubricInterpretation": "Use the existing bank itself as the calibration set. A retag is high-confidence only when its content structure clearly conflicts with the dominant structure of similarly tagged questions; do not promote scenario/application questions to 判断 merely to satisfy diversity."
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
