@@ -1,0 +1,50 @@
+FE QUEST v268 — Subject B Mobile Tap-Target Repair
+=======================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v267
+Source main: c088b409f3584e8cf49c763d6a08e33d3f25c3c7
+Learner-facing change in v268: yes — the 11 Subject B navigation/submit controls identified by v267 now have an explicit 44px minimum height.
+
+Repair
+------
+v267 found that answer choices themselves were already adequate, but 11 navigation/submit controls fell below the audit's 40px warning floor. v268 changes only those exact element IDs. A single runtime style rule adds min-height:44px; no broad shared class such as .next or .bmock-next is globally modified.
+
+Repaired controls
+-----------------
+- #bCompoundNext
+- #bCompoundPrev
+- #bCompoundSubmit
+- #bFinalNext
+- #bFinalSubmit
+- #bMockNext
+- #bMockPrev
+- #bMockSubmitTop
+- #secMockNext
+- #secMockPrev
+- #secMockSubmitTop
+
+Validation
+----------
+Source v267 weak-target set: exactly 11 and identical to the v268 selector set.
+All 11 source estimates were below 40px.
+Repair selector set: exact audited IDs only.
+Repair declaration: min-height:44px only.
+Answer-choice sizing: unchanged.
+No remote telemetry/network API added.
+
+Regression
+----------
+Authored TRACE, final algorithm, compound and security banks: unchanged from v267.
+Final algorithm option shapes and TRACE prediction option shapes: unchanged.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, exam countdown, readiness, profile schema and answer-choice sizing: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The concrete mobile tap-target finding from v267 is repaired without redesigning the Subject B screens. Next run a post-repair audit that verifies the 11 controls remain covered after assembly and then move to interaction sequence/friction: unnecessary confirmations, backtracking and taps required to resume or finish practice.

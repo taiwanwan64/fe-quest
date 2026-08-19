@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "release": "v268",
+  "previous_release": "v267",
+  "parent_main_sha": "c088b409f3584e8cf49c763d6a08e33d3f25c3c7",
+  "change_type": "subject-b-mobile-tap-target-repair",
+  "source_quality_audit": "audits/SUBJECT_B_MOBILE_ANSWER_TAP_READINESS_v267.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "repair_subject_b_under_40px_navigation_targets",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-mobile-tap-target-overrides-v268.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "trace_exercise_count": 20,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "authored_trace_bank_changed": false,
+    "final_question_prompts_changed": false,
+    "final_question_options_changed": false,
+    "final_correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "remediation_targets_changed": false,
+    "difficulty_labels_changed": false,
+    "answer_choice_sizing_changed": false,
+    "profile_schema_migration_required": false,
+    "remote_telemetry_added": false
+  },
+  "tap_target_repair": {
+    "source_warning_floor_px": 40,
+    "minimum_height_px": 44,
+    "target_count": 11,
+    "targets": [
+      "bCompoundNext",
+      "bCompoundPrev",
+      "bCompoundSubmit",
+      "bFinalNext",
+      "bFinalSubmit",
+      "bMockNext",
+      "bMockPrev",
+      "bMockSubmitTop",
+      "secMockNext",
+      "secMockPrev",
+      "secMockSubmitTop"
+    ],
+    "selector_scope": "exact element ids only",
+    "learner_effect": "larger minimum tap area for Subject B navigation and submit controls",
+    "validation_scope": "source audit target identity, exact selector set, 44px minimum height, bank/session/contract preservation, semantic diagnostics and approved-content-reference equality"
+  }
+}

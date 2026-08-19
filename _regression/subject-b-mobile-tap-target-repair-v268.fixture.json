@@ -1,0 +1,107 @@
+{
+  "version": "v268",
+  "previous": "v267",
+  "parent": "c088b409f3584e8cf49c763d6a08e33d3f25c3c7",
+  "result": "PASS — NO FINDINGS",
+  "sourceWeakTargets": [
+    {
+      "target": "#bCompoundNext",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-next"
+      ]
+    },
+    {
+      "target": "#bCompoundPrev",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-prev"
+      ]
+    },
+    {
+      "target": "#bCompoundSubmit",
+      "estimatedHeightPx": 37.2,
+      "classes": [
+        "bmock-submit-top"
+      ]
+    },
+    {
+      "target": "#bFinalNext",
+      "estimatedHeightPx": 19.2,
+      "classes": [
+        "next"
+      ]
+    },
+    {
+      "target": "#bFinalSubmit",
+      "estimatedHeightPx": 37.2,
+      "classes": [
+        "bfinal-submit"
+      ]
+    },
+    {
+      "target": "#bMockNext",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-next"
+      ]
+    },
+    {
+      "target": "#bMockPrev",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-prev"
+      ]
+    },
+    {
+      "target": "#bMockSubmitTop",
+      "estimatedHeightPx": 37.2,
+      "classes": [
+        "bmock-submit-top"
+      ]
+    },
+    {
+      "target": "#secMockNext",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-next",
+        "secmock-next"
+      ]
+    },
+    {
+      "target": "#secMockPrev",
+      "estimatedHeightPx": 39.2,
+      "classes": [
+        "bmock-prev"
+      ]
+    },
+    {
+      "target": "#secMockSubmitTop",
+      "estimatedHeightPx": 37.2,
+      "classes": [
+        "secmock-submit-top"
+      ]
+    }
+  ],
+  "repairedTargets": [
+    "bCompoundNext",
+    "bCompoundPrev",
+    "bCompoundSubmit",
+    "bFinalNext",
+    "bFinalSubmit",
+    "bMockNext",
+    "bMockPrev",
+    "bMockSubmitTop",
+    "secMockNext",
+    "secMockPrev",
+    "secMockSubmitTop"
+  ],
+  "minimumHeightPx": 44,
+  "exactSelectorSet": true,
+  "declarationOnlyMinHeight": true,
+  "answerChoiceSizingUnchanged": true,
+  "authoredBanksMatchParent": true,
+  "finalSignatureMatch": true,
+  "semanticOK": true,
+  "candidateApprovedContentSixFileByteEquality": true
+}
