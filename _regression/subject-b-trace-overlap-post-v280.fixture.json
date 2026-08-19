@@ -1,0 +1,179 @@
+{
+  "version": "v280",
+  "previous": "v279",
+  "parent": "71691f4c9b9697de267219e26a10e57a2055dfd8",
+  "result": "PASS — NO FINDINGS",
+  "target": "bexam_arr_03",
+  "repairedPair": {
+    "traceId": "count_even",
+    "sequence": 0.772,
+    "lineJaccard": 0.308
+  },
+  "exactPairs": [],
+  "strongPairs": [],
+  "topPairs": [
+    {
+      "finalId": "bexam_sq_02",
+      "traceId": "stack_ops",
+      "sequence": 0.922,
+      "lineJaccard": 0.222,
+      "finalLines": 7,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "traceId": "recursive_fib",
+      "sequence": 0.904,
+      "lineJaccard": 0.4,
+      "finalLines": 7,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "traceId": "recursion",
+      "sequence": 0.889,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_ctrl_04",
+      "traceId": "nested_loop",
+      "sequence": 0.876,
+      "lineJaccard": 0.667,
+      "finalLines": 10,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "traceId": "recursive_fib",
+      "sequence": 0.869,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "array_max",
+      "sequence": 0.795,
+      "lineJaccard": 0.25,
+      "finalLines": 7,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_mat_03",
+      "traceId": "matrix_sum",
+      "sequence": 0.786,
+      "lineJaccard": 0.333,
+      "finalLines": 6,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "traceId": "recursion",
+      "sequence": 0.785,
+      "lineJaccard": 0.167,
+      "finalLines": 7,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "count_even",
+      "sequence": 0.772,
+      "lineJaccard": 0.308,
+      "finalLines": 9,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_mat_02",
+      "traceId": "matrix_sum",
+      "sequence": 0.765,
+      "lineJaccard": 0.3,
+      "finalLines": 6,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_arr_01",
+      "traceId": "array_max",
+      "sequence": 0.729,
+      "lineJaccard": 0.273,
+      "finalLines": 6,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "selection_sort_b",
+      "sequence": 0.727,
+      "lineJaccard": 0.231,
+      "finalLines": 7,
+      "traceLines": 9
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "linear_search",
+      "sequence": 0.725,
+      "lineJaccard": 0.267,
+      "finalLines": 9,
+      "traceLines": 10
+    },
+    {
+      "finalId": "bexam_mat_01",
+      "traceId": "matrix_sum",
+      "sequence": 0.725,
+      "lineJaccard": 0.176,
+      "finalLines": 14,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "traceId": "bubble_sort_b",
+      "sequence": 0.718,
+      "lineJaccard": 0.231,
+      "finalLines": 9,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_arr_05",
+      "traceId": "count_even",
+      "sequence": 0.717,
+      "lineJaccard": 0.214,
+      "finalLines": 9,
+      "traceLines": 8
+    },
+    {
+      "finalId": "bexam_ctrl_01",
+      "traceId": "nested_loop",
+      "sequence": 0.713,
+      "lineJaccard": 0.154,
+      "finalLines": 9,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "traceId": "bubble_sort_b",
+      "sequence": 0.711,
+      "lineJaccard": 0.4,
+      "finalLines": 7,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_rec_03",
+      "traceId": "recursive_fib",
+      "sequence": 0.711,
+      "lineJaccard": 0.143,
+      "finalLines": 11,
+      "traceLines": 7
+    },
+    {
+      "finalId": "bexam_arr_05",
+      "traceId": "array_max",
+      "sequence": 0.71,
+      "lineJaccard": 0.214,
+      "finalLines": 9,
+      "traceLines": 8
+    }
+  ],
+  "selectionSignatureMatch3000": true,
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
