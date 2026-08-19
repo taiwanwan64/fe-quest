@@ -1,0 +1,680 @@
+FE QUEST v301 — Subject A Mock Session Simulation Audit
+========================================================
+
+Result
+------
+PASS — MOCK SESSION DISTRIBUTION CAPTURED
+Previous release: v300
+Source main: 605f58b7311c039e9a851393a70f5223b7627cb0
+Learner-facing change in v301: none
+
+Reference basis
+---------------
+The supplied 令和8年度 problem book contains one public Subject A set and four separate Subject A mock sets. That supports treating FE QUEST full/half mocks as broad mixed-session practice. It does not define FE QUEST-specific chapter or format quotas, so the figures below are diagnostics rather than official targets.
+
+Method
+------
+Run the real production buildMockQuestions function 600 times for full mode and 600 times for half mode with deterministic independent seeds. Measure category, difficulty, cognitive-level, chapter and calibrated question-format distribution. The builder intentionally samples the full Subject A QUESTION_BANK, not only the 550 coreTopicId rows, so challenge/other bank rows are measured as non-core rather than rejected. This is a fresh-state composition audit: it deliberately does not pretend to model completed-attempt history or mastery progression.
+
+Summary
+-------
+{
+  "bankQuestions": 710,
+  "coreQuestions": 550,
+  "eligibleQuestions": 710,
+  "blueprints": {
+    "full": {
+      "count": 60,
+      "basic": 15,
+      "standard": 30,
+      "practical": 15,
+      "time": 5400,
+      "cognitive": {
+        "想起": 15,
+        "適用": 29,
+        "判断": 16
+      }
+    },
+    "half": {
+      "count": 30,
+      "basic": 8,
+      "standard": 14,
+      "practical": 8,
+      "time": 2700,
+      "cognitive": {
+        "想起": 8,
+        "適用": 13,
+        "判断": 9
+      }
+    }
+  },
+  "categoryQuotas": {
+    "full": {
+      "基礎理論": 8,
+      "コンピュータ": 8,
+      "データベース": 8,
+      "ネットワーク": 8,
+      "セキュリティ": 7,
+      "アルゴリズム": 7,
+      "マネジメント": 7,
+      "ストラテジ": 7
+    },
+    "half": {
+      "基礎理論": 4,
+      "コンピュータ": 4,
+      "データベース": 4,
+      "ネットワーク": 4,
+      "セキュリティ": 4,
+      "アルゴリズム": 4,
+      "マネジメント": 3,
+      "ストラテジ": 3
+    }
+  },
+  "categories": [
+    "基礎理論",
+    "コンピュータ",
+    "データベース",
+    "ネットワーク",
+    "セキュリティ",
+    "アルゴリズム",
+    "マネジメント",
+    "ストラテジ"
+  ],
+  "difficulties": [
+    "基礎",
+    "標準",
+    "実戦"
+  ],
+  "cognitiveLevels": [
+    "想起",
+    "適用",
+    "判断"
+  ],
+  "full": {
+    "sessions": 600,
+    "questionsPerSession": 60,
+    "invalidSessionStructure": [],
+    "categoryPatterns": [
+      {
+        "pattern": {
+          "アルゴリズム": 7,
+          "コンピュータ": 8,
+          "ストラテジ": 7,
+          "セキュリティ": 7,
+          "データベース": 8,
+          "ネットワーク": 8,
+          "マネジメント": 7,
+          "基礎理論": 8
+        },
+        "sessions": 600
+      }
+    ],
+    "difficultyPatterns": [
+      {
+        "pattern": {
+          "基礎": 15,
+          "実戦": 15,
+          "標準": 30
+        },
+        "sessions": 600
+      }
+    ],
+    "cognitivePatterns": [
+      {
+        "pattern": {
+          "判断": 16,
+          "想起": 15,
+          "適用": 29
+        },
+        "sessions": 600
+      }
+    ],
+    "chaptersRepresented": {
+      "min": 12,
+      "median": 16.0,
+      "max": 20
+    },
+    "maxChapterCount": {
+      "min": 6,
+      "median": 7.0,
+      "max": 8
+    },
+    "nonCoreCount": {
+      "min": 4,
+      "median": 11.0,
+      "max": 18
+    },
+    "appliedPct": {
+      "min": 31.7,
+      "median": 45.0,
+      "max": 60.0
+    },
+    "calcPct": {
+      "min": 10.0,
+      "median": 21.7,
+      "max": 33.3
+    },
+    "dataPct": {
+      "min": 0.0,
+      "median": 3.3,
+      "max": 10.0
+    },
+    "scenarioPct": {
+      "min": 11.7,
+      "median": 25.0,
+      "max": 36.7
+    },
+    "recallPct": {
+      "min": 8.3,
+      "median": 18.3,
+      "max": 33.3
+    },
+    "chapterExposurePct": {
+      "1": 7.6,
+      "2": 5.7,
+      "3": 10.3,
+      "4": 4.8,
+      "5": 2.3,
+      "6": 2.2,
+      "7": 0.5,
+      "8": 1.6,
+      "9": 9.1,
+      "10": 11.7,
+      "11": 7.1,
+      "12": 3.1,
+      "13": 1.1,
+      "14": 3.8,
+      "15": 2.2,
+      "16": 1.3,
+      "17": 0.6,
+      "18": 2.0,
+      "19": 1.3,
+      "20": 1.8,
+      "21": 1.3
+    },
+    "selectedQuestionExposurePer600SessionsPct": {
+      "min": 0.7,
+      "median": 6.8,
+      "max": 100.0
+    },
+    "eligibleQuestionExposurePer600SessionsPct": {
+      "min": 0.0,
+      "median": 5.7,
+      "max": 100.0,
+      "neverSelected": 119,
+      "eligibleQuestions": 710
+    },
+    "distinctQuestionsSelected": 591,
+    "distinctNonCoreQuestionsSelected": 51,
+    "topNonCoreSelections": [
+      {
+        "id": "strat-16",
+        "sessions": 600,
+        "sessionPct": 100.0,
+        "cat": "ストラテジ",
+        "difficulty": "標準",
+        "q": "100万円を投資し、その投資によって20万円の利益を得たとする。ROIを利益÷投資額で求めると？"
+      },
+      {
+        "id": "algo-03",
+        "sessions": 253,
+        "sessionPct": 42.2,
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "q": "未整列のn件のデータから目的の値を先頭から順に探す。目的の値が最後にある場合、調べる要素数のおおよその増え方はどれか。"
+      },
+      {
+        "id": "algo-18",
+        "sessions": 247,
+        "sessionPct": 41.2,
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "q": "整列済み配列を二分探索する。要素数を約2倍にしても比較回数は1回程度しか増えない。この増え方に最も近い計算量はどれか。"
+      },
+      {
+        "id": "db-11",
+        "sessions": 246,
+        "sessionPct": 41.0,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "deptごとに人数を集計した結果に対し、5人以上の部門だけを残したい。集約後の結果へ条件を指定する句はどれか。"
+      },
+      {
+        "id": "db-05",
+        "sessions": 242,
+        "sessionPct": 40.3,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "注文表の顧客IDを顧客表の顧客IDと対応付けるとき、注文表側の顧客IDに設定するキーとして最も適切なのは？"
+      },
+      {
+        "id": "db-20",
+        "sessions": 209,
+        "sessionPct": 34.8,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "データベースのインデックスを増やしすぎた場合に起こり得る欠点は？"
+      },
+      {
+        "id": "sec-02",
+        "sessions": 202,
+        "sessionPct": 33.7,
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "q": "送信者が受信者へ機密文書を送りたい。受信者本人だけが復号できるよう公開鍵暗号方式で暗号化する場合、送信者が使う鍵はどれか。"
+      },
+      {
+        "id": "db-17",
+        "sessions": 191,
+        "sessionPct": 31.8,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "トランザクションAが更新した値をまだCOMMITしていない間に、トランザクションBがその値を読み取ってしまった。この現象はどれか。"
+      },
+      {
+        "id": "net-06",
+        "sessions": 190,
+        "sessionPct": 31.7,
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "q": "WebブラウザとWebサーバ間の通信で代表的に用いられるプロトコルは？"
+      },
+      {
+        "id": "sec-01",
+        "sessions": 189,
+        "sessionPct": 31.5,
+        "cat": "セキュリティ",
+        "difficulty": "基礎",
+        "q": "入力データから固定長の値を生成し、改ざん検知などに利用されるものは？"
+      },
+      {
+        "id": "net-11",
+        "sessions": 185,
+        "sessionPct": 30.8,
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "q": "HTTPSで一般的に使われる標準ポート番号は？"
+      },
+      {
+        "id": "computer-04",
+        "sessions": 172,
+        "sessionPct": 28.7,
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "q": "ディスク装置が処理を終えた時だけCPUへ通知し、CPUは通知を受けるまで別処理を進めたい。この仕組みに最も近いものはどれか。"
+      },
+      {
+        "id": "db-13",
+        "sessions": 166,
+        "sessionPct": 27.7,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "SQLで、column_a がNULLである行を検索する条件として適切なのは？"
+      },
+      {
+        "id": "db-15",
+        "sessions": 165,
+        "sessionPct": 27.5,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "トランザクションでCOMMITを実行する主な意味は？"
+      },
+      {
+        "id": "computer-05",
+        "sessions": 160,
+        "sessionPct": 26.7,
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "q": "サーバAは1分間に120件の要求を完了できる。1件の応答時間ではなく、単位時間当たりに処理できる量を表す指標はどれか。"
+      },
+      {
+        "id": "db-14",
+        "sessions": 152,
+        "sessionPct": 25.3,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "score列を高い順に並べる指定として適切なのは？"
+      },
+      {
+        "id": "db-16",
+        "sessions": 147,
+        "sessionPct": 24.5,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "トランザクション途中の更新を取り消して、開始前の状態へ戻す操作は？"
+      },
+      {
+        "id": "net-13",
+        "sessions": 140,
+        "sessionPct": 23.3,
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "q": "IPv6アドレスの長さは何ビットか。"
+      },
+      {
+        "id": "sec-07",
+        "sessions": 138,
+        "sessionPct": 23.0,
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "q": "バックアップが障害時の可用性向上に本当に役立つことを確認するため、定期的に行うべきものは？"
+      },
+      {
+        "id": "computer-07",
+        "sessions": 134,
+        "sessionPct": 22.3,
+        "cat": "コンピュータ",
+        "difficulty": "基礎",
+        "q": "コンピュータから利用者へ情報を表示する装置はどれ？"
+      }
+    ]
+  },
+  "half": {
+    "sessions": 600,
+    "questionsPerSession": 30,
+    "invalidSessionStructure": [],
+    "categoryPatterns": [
+      {
+        "pattern": {
+          "アルゴリズム": 4,
+          "コンピュータ": 4,
+          "ストラテジ": 3,
+          "セキュリティ": 4,
+          "データベース": 4,
+          "ネットワーク": 4,
+          "マネジメント": 3,
+          "基礎理論": 4
+        },
+        "sessions": 600
+      }
+    ],
+    "difficultyPatterns": [
+      {
+        "pattern": {
+          "基礎": 8,
+          "実戦": 8,
+          "標準": 14
+        },
+        "sessions": 600
+      }
+    ],
+    "cognitivePatterns": [
+      {
+        "pattern": {
+          "判断": 9,
+          "想起": 8,
+          "適用": 13
+        },
+        "sessions": 600
+      }
+    ],
+    "chaptersRepresented": {
+      "min": 9,
+      "median": 12.0,
+      "max": 15
+    },
+    "maxChapterCount": {
+      "min": 3,
+      "median": 4.0,
+      "max": 4
+    },
+    "nonCoreCount": {
+      "min": 2,
+      "median": 6.5,
+      "max": 12
+    },
+    "appliedPct": {
+      "min": 20.0,
+      "median": 43.3,
+      "max": 70.0
+    },
+    "calcPct": {
+      "min": 6.7,
+      "median": 23.3,
+      "max": 40.0
+    },
+    "dataPct": {
+      "min": 0.0,
+      "median": 3.3,
+      "max": 13.3
+    },
+    "scenarioPct": {
+      "min": 0.0,
+      "median": 20.0,
+      "max": 40.0
+    },
+    "recallPct": {
+      "min": 3.3,
+      "median": 20.0,
+      "max": 40.0
+    },
+    "chapterExposurePct": {
+      "1": 7.6,
+      "2": 5.7,
+      "3": 11.3,
+      "4": 4.6,
+      "5": 1.9,
+      "6": 2.3,
+      "7": 0.6,
+      "8": 1.7,
+      "9": 8.8,
+      "10": 11.6,
+      "11": 7.8,
+      "12": 2.9,
+      "13": 1.0,
+      "14": 3.2,
+      "15": 1.8,
+      "16": 0.7,
+      "17": 0.5,
+      "18": 1.3,
+      "19": 0.7,
+      "20": 1.3,
+      "21": 0.7
+    },
+    "selectedQuestionExposurePer600SessionsPct": {
+      "min": 0.3,
+      "median": 3.8,
+      "max": 100.0
+    },
+    "eligibleQuestionExposurePer600SessionsPct": {
+      "min": 0.0,
+      "median": 2.7,
+      "max": 100.0,
+      "neverSelected": 185,
+      "eligibleQuestions": 710
+    },
+    "distinctQuestionsSelected": 525,
+    "distinctNonCoreQuestionsSelected": 47,
+    "topNonCoreSelections": [
+      {
+        "id": "strat-16",
+        "sessions": 600,
+        "sessionPct": 100.0,
+        "cat": "ストラテジ",
+        "difficulty": "標準",
+        "q": "100万円を投資し、その投資によって20万円の利益を得たとする。ROIを利益÷投資額で求めると？"
+      },
+      {
+        "id": "algo-03",
+        "sessions": 179,
+        "sessionPct": 29.8,
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "q": "未整列のn件のデータから目的の値を先頭から順に探す。目的の値が最後にある場合、調べる要素数のおおよその増え方はどれか。"
+      },
+      {
+        "id": "algo-18",
+        "sessions": 179,
+        "sessionPct": 29.8,
+        "cat": "アルゴリズム",
+        "difficulty": "標準",
+        "q": "整列済み配列を二分探索する。要素数を約2倍にしても比較回数は1回程度しか増えない。この増え方に最も近い計算量はどれか。"
+      },
+      {
+        "id": "sec-02",
+        "sessions": 157,
+        "sessionPct": 26.2,
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "q": "送信者が受信者へ機密文書を送りたい。受信者本人だけが復号できるよう公開鍵暗号方式で暗号化する場合、送信者が使う鍵はどれか。"
+      },
+      {
+        "id": "db-05",
+        "sessions": 146,
+        "sessionPct": 24.3,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "注文表の顧客IDを顧客表の顧客IDと対応付けるとき、注文表側の顧客IDに設定するキーとして最も適切なのは？"
+      },
+      {
+        "id": "db-11",
+        "sessions": 123,
+        "sessionPct": 20.5,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "deptごとに人数を集計した結果に対し、5人以上の部門だけを残したい。集約後の結果へ条件を指定する句はどれか。"
+      },
+      {
+        "id": "db-20",
+        "sessions": 111,
+        "sessionPct": 18.5,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "データベースのインデックスを増やしすぎた場合に起こり得る欠点は？"
+      },
+      {
+        "id": "net-06",
+        "sessions": 110,
+        "sessionPct": 18.3,
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "q": "WebブラウザとWebサーバ間の通信で代表的に用いられるプロトコルは？"
+      },
+      {
+        "id": "sec-01",
+        "sessions": 107,
+        "sessionPct": 17.8,
+        "cat": "セキュリティ",
+        "difficulty": "基礎",
+        "q": "入力データから固定長の値を生成し、改ざん検知などに利用されるものは？"
+      },
+      {
+        "id": "db-17",
+        "sessions": 107,
+        "sessionPct": 17.8,
+        "cat": "データベース",
+        "difficulty": "標準",
+        "q": "トランザクションAが更新した値をまだCOMMITしていない間に、トランザクションBがその値を読み取ってしまった。この現象はどれか。"
+      },
+      {
+        "id": "db-14",
+        "sessions": 94,
+        "sessionPct": 15.7,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "score列を高い順に並べる指定として適切なのは？"
+      },
+      {
+        "id": "db-16",
+        "sessions": 92,
+        "sessionPct": 15.3,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "トランザクション途中の更新を取り消して、開始前の状態へ戻す操作は？"
+      },
+      {
+        "id": "net-11",
+        "sessions": 91,
+        "sessionPct": 15.2,
+        "cat": "ネットワーク",
+        "difficulty": "基礎",
+        "q": "HTTPSで一般的に使われる標準ポート番号は？"
+      },
+      {
+        "id": "db-13",
+        "sessions": 91,
+        "sessionPct": 15.2,
+        "cat": "データベース",
+        "difficulty": "基礎",
+        "q": "SQLで、column_a がNULLである行を検索する条件として適切なのは？"
+      },
+      {
+        "id": "computer-05",
+        "sessions": 87,
+        "sessionPct": 14.5,
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "q": "サーバAは1分間に120件の要求を完了できる。1件の応答時間ではなく、単位時間当たりに処理できる量を表す指標はどれか。"
+      },
+      {
+        "id": "sec-16",
+        "sessions": 84,
+        "sessionPct": 14.0,
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "q": "ブラウザが受け取ったWebサーバ証明書について、信頼する認証局（CA）が発行した証明書であることを確認する処理として最も適切なものはどれか。"
+      },
+      {
+        "id": "sec-07",
+        "sessions": 83,
+        "sessionPct": 13.8,
+        "cat": "セキュリティ",
+        "difficulty": "標準",
+        "q": "バックアップが障害時の可用性向上に本当に役立つことを確認するため、定期的に行うべきものは？"
+      },
+      {
+        "id": "computer-04",
+        "sessions": 83,
+        "sessionPct": 13.8,
+        "cat": "コンピュータ",
+        "difficulty": "標準",
+        "q": "ディスク装置が処理を終えた時だけCPUへ通知し、CPUは通知を受けるまで別処理を進めたい。この仕組みに最も近いものはどれか。"
+      },
+      {
+        "id": "computer-01",
+        "sessions": 80,
+        "sessionPct": 13.3,
+        "cat": "コンピュータ",
+        "difficulty": "基礎",
+        "q": "CPUが主記憶から命令を取り出し、内容を解読して実行する一連の流れとして最も適切なのは？"
+      },
+      {
+        "id": "computer-07",
+        "sessions": 79,
+        "sessionPct": 13.2,
+        "cat": "コンピュータ",
+        "difficulty": "基礎",
+        "q": "コンピュータから利用者へ情報を表示する装置はどれ？"
+      }
+    ]
+  },
+  "selectionSources": {
+    "buildMockQuestions": "function buildMockQuestions(modeOrCount){\n  const mode=typeof modeOrCount==='string'?modeOrCount:(modeOrCount===60?'full':'half');\n  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;\n  const quotas=mockCategoryQuotas(bp.count);\n  const difficultyByCat=allocateMockDifficultyByCategory(quotas,bp);\n  const conceptCounts={};\n  const cognitiveCounts={'想起':0,'適用':0,'判断':0};\n  const cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0};\n  const out=[];\n\n  MOCK_CATEGORIES.forEach(cat=>{\n    const cap=mode==='half'?1:2;\n    MOCK_DIFFICULTY_LEVELS.forEach(level=>{\n      const n=difficultyByCat[cat][level]||0;\n      const pool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level);\n      out.push(...pickMockPool(pool,n,conceptCounts,cap,cognitiveCounts,cognitiveTarget,level));\n    });\n  });\n\n  const unique=[];\n  const seenIds=new Set();\n  for(const q of out){\n    if(!seenIds.has(q.id)){unique.push(q);seenIds.add(q.id);}\n  }\n  if(unique.length<bp.count){\n    unique.push(...QUESTION_BANK.filter(q=>!seenIds.has(q.id)).sort(mockCandidateSort).slice(0,bp.count-unique.length));\n  }\n\n  const picked=shuffled(unique.slice(0,bp.count));\n  const counts={\n    categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])),\n    difficulty:Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(level=>[level,picked.filter(q=>q.difficulty===level).length])),\n    cognitive:Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(level=>[level,picked.filter(q=>q.cognitiveLevel===level).length])),\n    unseen:picked.filter(q=>mockSeen(q)===0).length\n  };\n  mockCurrentBlueprint={mode,count:bp.count,quotas,difficultyByCat,counts};\n  return picked.map(randomizeMockQuestion);\n}",
+    "mockCandidateSort": "function mockCandidateSort(a,b){\n  const sa=mockSeen(a),sb=mockSeen(b);\n  if(sa!==sb)return sa-sb;\n  const la=mockLastSeen(a),lb=mockLastSeen(b);\n  if(la!==lb)return la.localeCompare(lb);\n  return Math.random()-.5;\n}",
+    "mockSeen": "function mockSeen(q){\n  return profile.mockQuestionStats?.[q.id]?.seen||0;\n}",
+    "mockLastSeen": "function mockLastSeen(q){\n  return profile.mockQuestionStats?.[q.id]?.lastSeen||'';\n}",
+    "pickMockPool": "function pickMockPool(pool,n,conceptCounts,conceptCap,cognitiveCounts,cognitiveTarget,difficulty){\n  const pref=mockCognitivePreference(difficulty);\n  const chosen=[];\n  const used=new Set();\n\n  const ranked=(respectCap)=>{\n    const candidates=pool.filter(q=>{\n      if(used.has(q.id))return false;\n      const key=`${q.cat}::${q.concept}`;\n      return !respectCap||(conceptCounts[key]||0)<conceptCap;\n    });\n    return candidates.sort((a,b)=>{\n      const ar=(cognitiveCounts[a.cognitiveLevel]||0)<(cognitiveTarget[a.cognitiveLevel]||0);\n      const br=(cognitiveCounts[b.cognitiveLevel]||0)<(cognitiveTarget[b.cognitiveLevel]||0);\n      if(ar!==br)return ar?-1:1;\n      const ap=pref.indexOf(a.cognitiveLevel),bp=pref.indexOf(b.cognitiveLevel);\n      if(ap!==bp)return ap-bp;\n      return mockCandidateSort(a,b);\n    });\n  };\n\n  const take=q=>{\n    chosen.push(q);used.add(q.id);\n    const key=`${q.cat}::${q.concept}`;\n    conceptCounts[key]=(conceptCounts[key]||0)+1;\n    cognitiveCounts[q.cognitiveLevel]=(cognitiveCounts[q.cognitiveLevel]||0)+1;\n  };\n\n  while(chosen.length<n){\n    let candidates=ranked(true);\n    if(!candidates.length)candidates=ranked(false);\n    if(!candidates.length)break;\n    take(candidates[0]);\n  }\n  return chosen;\n}"
+  },
+  "profileMockKeys": [
+    "bMockHistory",
+    "bMockStats",
+    "securityMockHistory",
+    "securityMockStats",
+    "mockHistory",
+    "mockQuestionStats",
+    "mockMistakeStats"
+  ],
+  "simulationNote": "600 deterministic fresh-state draws per mode. buildMockQuestions samples the full Subject A QUESTION_BANK, which includes coreTopicId rows plus challenge/other bank rows; non-core rows are measured separately rather than treated as unknown. This is a session-composition distribution audit, not longitudinal completed-attempt history."
+}
+
+Regression
+----------
+No learner-facing content changed.
+The 550 Subject A core questions and the full mock-selectable bank are equivalent to v300.
+The 1,200 deterministic mock builds are behaviorally equivalent to v300 under the same seeds.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If full and half sessions show stable category/difficulty/cognitive blueprints, no duplicate IDs, broad chapter representation and no repeated extreme chapter concentration, keep the builder unchanged. If a concentration pattern is concrete, inspect only that selection layer before adding balancing logic. Do not force each mock to cover all 21 chapters or invent an official per-chapter quota.
