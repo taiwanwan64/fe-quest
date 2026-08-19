@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "release": "v279",
+  "previous_release": "v278",
+  "parent_main_sha": "6ca2c4b3307e10fc65de01acbdd5c66aa2709afb",
+  "change_type": "subject-b-trace-final-transfer-overlap-repair",
+  "source_quality_audit": "audits/SUBJECT_B_TRACE_OVERLAP_DETAIL_v278.txt",
+  "source_priority_tier": "low",
+  "quality_audit_marker": "repair_bexam_arr_03_transfer_overlap",
+  "allowed_question_ids": ["bexam_arr_03"],
+  "content_files": [
+    "app/subject-b-trace-overlap-repair-overrides-v279.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "trace_exercise_count": 20,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "authored_trace_bank_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "remediation_targets_changed": false,
+    "difficulty_labels_changed": false,
+    "profile_schema_migration_required": false,
+    "remote_telemetry_added": false
+  },
+  "repair": {
+    "finding": "final_trace_strong_code_overlap",
+    "target_id": "bexam_arr_03",
+    "overlap_trace_id": "count_even",
+    "previous_similarity": {
+      "sequence": 0.932,
+      "line_jaccard": 0.778
+    },
+    "strategy": "replace count-increment path with adjacent-difference computation plus positive-difference accumulation while preserving id, domain, level, format and answer position",
+    "required_postcondition": "no exact or strong TRACE/final pair at the v277 thresholds across all 43x20 comparisons"
+  }
+}
