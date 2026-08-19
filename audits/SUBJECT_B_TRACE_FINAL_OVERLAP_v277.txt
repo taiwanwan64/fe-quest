@@ -1,0 +1,59 @@
+FE QUEST v277 — Subject B TRACE / Final Transfer-Overlap Audit
+================================================================
+
+Result
+------
+PASS — FINDINGS RECORDED
+Previous release: v276
+Source main: 9c73dc938bc2fe63fdd250a1972f561290871cd7
+Learner-facing change in v277: none
+
+Purpose
+-------
+v275 found healthy boundary-state coverage and v276 found no systematic security-choice shortcut cue. v277 checks a different transfer risk: whether exam-like final algorithm items are so close to the guided TRACE exercises that a learner can recognize a memorized program instead of tracing an unfamiliar one.
+
+Method
+------
+All 43 final algorithm code blocks are compared with all 20 TRACE exercise code blocks. Numeric literals and comments are normalized before comparison so simple value changes do not hide structural overlap. Two signals are recorded: whole-code SequenceMatcher similarity and normalized line-set Jaccard similarity. Exact normalized equality is a Medium finding; a non-exact pair is a Low finding only when both have at least five code lines, sequence similarity is at least 0.90, and line Jaccard is at least 0.60.
+
+Top similarities
+----------------
+bexam_arr_03 ↔ count_even: sequence=0.932 / lineJaccard=0.778 / lines=8:8 / exact=False
+bexam_sq_02 ↔ stack_ops: sequence=0.922 / lineJaccard=0.222 / lines=7:7 / exact=False
+bexam_rec_05 ↔ recursive_fib: sequence=0.904 / lineJaccard=0.4 / lines=7:7 / exact=False
+bexam_rec_01 ↔ recursion: sequence=0.889 / lineJaccard=0.25 / lines=8:7 / exact=False
+bexam_ctrl_04 ↔ nested_loop: sequence=0.876 / lineJaccard=0.667 / lines=10:7 / exact=False
+bexam_rec_01 ↔ recursive_fib: sequence=0.869 / lineJaccard=0.25 / lines=8:7 / exact=False
+bexam_arr_02 ↔ array_max: sequence=0.795 / lineJaccard=0.25 / lines=7:8 / exact=False
+bexam_arr_03 ↔ bubble_sort_b: sequence=0.787 / lineJaccard=0.25 / lines=8:7 / exact=False
+bexam_mat_03 ↔ matrix_sum: sequence=0.786 / lineJaccard=0.333 / lines=6:8 / exact=False
+bexam_rec_05 ↔ recursion: sequence=0.785 / lineJaccard=0.167 / lines=7:7 / exact=False
+bexam_mat_02 ↔ matrix_sum: sequence=0.765 / lineJaccard=0.3 / lines=6:8 / exact=False
+bexam_arr_03 ↔ linear_search: sequence=0.762 / lineJaccard=0.286 / lines=8:10 / exact=False
+bexam_arr_03 ↔ array_max: sequence=0.731 / lineJaccard=0.231 / lines=8:8 / exact=False
+bexam_arr_01 ↔ array_max: sequence=0.729 / lineJaccard=0.273 / lines=6:8 / exact=False
+bexam_arr_02 ↔ selection_sort_b: sequence=0.727 / lineJaccard=0.231 / lines=7:9 / exact=False
+bexam_mat_01 ↔ matrix_sum: sequence=0.725 / lineJaccard=0.176 / lines=14:8 / exact=False
+bexam_arr_03 ↔ nested_loop: sequence=0.719 / lineJaccard=0.556 / lines=8:7 / exact=False
+bexam_arr_05 ↔ count_even: sequence=0.717 / lineJaccard=0.214 / lines=9:8 / exact=False
+bexam_arr_03 ↔ array_reverse: sequence=0.717 / lineJaccard=0.167 / lines=8:6 / exact=False
+bexam_ctrl_01 ↔ nested_loop: sequence=0.713 / lineJaccard=0.154 / lines=9:7 / exact=False
+
+Findings
+--------
+Low — final_trace_strong_code_overlap: One or more final items remain highly similar to a TRACE exercise after literal normalization, which may reduce unseen-transfer value.
+
+Interpretation
+--------------
+Some similarity is pedagogically desirable: learners should meet familiar control structures and data structures. This audit flags only unusually close code reuse. A finding does not automatically mean the final item should be made obscure; the repair should preserve the same tested concept while changing the execution path, data shape, or state transition enough to require fresh tracing.
+
+Regression
+----------
+All 20 TRACE exercises, 43 final algorithm items, and 15 security scenarios are unchanged from v276.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If exact or strong overlap is found, inspect only those pairs and repair the smallest high-value final item rather than expanding the bank indiscriminately. If no strong overlap appears, retain the current separation between guided TRACE learning and final transfer practice.

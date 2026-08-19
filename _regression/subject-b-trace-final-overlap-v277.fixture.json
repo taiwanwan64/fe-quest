@@ -1,0 +1,238 @@
+{
+  "version": "v277",
+  "previous": "v276",
+  "parent": "9c73dc938bc2fe63fdd250a1972f561290871cd7",
+  "result": "PASS — FINDINGS RECORDED",
+  "exactPairs": [],
+  "strongPairs": [
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "count_even",
+      "sequence": 0.932,
+      "lineJaccard": 0.778,
+      "finalLines": 8,
+      "traceLines": 8,
+      "exactNormalized": false
+    }
+  ],
+  "topPairs": [
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "count_even",
+      "sequence": 0.932,
+      "lineJaccard": 0.778,
+      "finalLines": 8,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_sq_02",
+      "domain": "スタック・キュー",
+      "traceId": "stack_ops",
+      "sequence": 0.922,
+      "lineJaccard": 0.222,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "domain": "再帰・関数",
+      "traceId": "recursive_fib",
+      "sequence": 0.904,
+      "lineJaccard": 0.4,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "domain": "再帰・関数",
+      "traceId": "recursion",
+      "sequence": 0.889,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_ctrl_04",
+      "domain": "制御",
+      "traceId": "nested_loop",
+      "sequence": 0.876,
+      "lineJaccard": 0.667,
+      "finalLines": 10,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_01",
+      "domain": "再帰・関数",
+      "traceId": "recursive_fib",
+      "sequence": 0.869,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "domain": "一次元配列",
+      "traceId": "array_max",
+      "sequence": 0.795,
+      "lineJaccard": 0.25,
+      "finalLines": 7,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "bubble_sort_b",
+      "sequence": 0.787,
+      "lineJaccard": 0.25,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_03",
+      "domain": "二次元配列",
+      "traceId": "matrix_sum",
+      "sequence": 0.786,
+      "lineJaccard": 0.333,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_rec_05",
+      "domain": "再帰・関数",
+      "traceId": "recursion",
+      "sequence": 0.785,
+      "lineJaccard": 0.167,
+      "finalLines": 7,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_02",
+      "domain": "二次元配列",
+      "traceId": "matrix_sum",
+      "sequence": 0.765,
+      "lineJaccard": 0.3,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "linear_search",
+      "sequence": 0.762,
+      "lineJaccard": 0.286,
+      "finalLines": 8,
+      "traceLines": 10,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "array_max",
+      "sequence": 0.731,
+      "lineJaccard": 0.231,
+      "finalLines": 8,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_01",
+      "domain": "一次元配列",
+      "traceId": "array_max",
+      "sequence": 0.729,
+      "lineJaccard": 0.273,
+      "finalLines": 6,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_02",
+      "domain": "一次元配列",
+      "traceId": "selection_sort_b",
+      "sequence": 0.727,
+      "lineJaccard": 0.231,
+      "finalLines": 7,
+      "traceLines": 9,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_mat_01",
+      "domain": "二次元配列",
+      "traceId": "matrix_sum",
+      "sequence": 0.725,
+      "lineJaccard": 0.176,
+      "finalLines": 14,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "nested_loop",
+      "sequence": 0.719,
+      "lineJaccard": 0.556,
+      "finalLines": 8,
+      "traceLines": 7,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_05",
+      "domain": "一次元配列",
+      "traceId": "count_even",
+      "sequence": 0.717,
+      "lineJaccard": 0.214,
+      "finalLines": 9,
+      "traceLines": 8,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_arr_03",
+      "domain": "一次元配列",
+      "traceId": "array_reverse",
+      "sequence": 0.717,
+      "lineJaccard": 0.167,
+      "finalLines": 8,
+      "traceLines": 6,
+      "exactNormalized": false
+    },
+    {
+      "finalId": "bexam_ctrl_01",
+      "domain": "制御",
+      "traceId": "nested_loop",
+      "sequence": 0.713,
+      "lineJaccard": 0.154,
+      "finalLines": 9,
+      "traceLines": 7,
+      "exactNormalized": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "final_trace_strong_code_overlap",
+      "severity": "Low",
+      "pairs": [
+        [
+          "bexam_arr_03",
+          "count_even",
+          0.932,
+          0.778
+        ]
+      ],
+      "summary": "One or more final items remain highly similar to a TRACE exercise after literal normalization, which may reduce unseen-transfer value."
+    }
+  ],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
