@@ -39,7 +39,8 @@ const first=startProbe('loop_sum',false);
 const repeat=startProbe('loop_sum',true);
 const repeatAgain=startProbe('loop_sum',true);
 const nonPilotRepeat=startProbe('count_even',true);
-const variantShape=predictionShape(currentB?.id==='count_even'?subjectBTransferRetraceVariantV262('loop_sum',B_EXERCISES.find(x=>x.id==='loop_sum')):null);
+const variantBuilder=globalThis.subjectBTransferRetraceVariantV262;
+const variantShape=typeof variantBuilder==='function'?predictionShape(variantBuilder('loop_sum',B_EXERCISES.find(x=>x.id==='loop_sum'))):null;
 console.log('__V262__'+Buffer.from(JSON.stringify({v:APP_VERSION,spec:globalThis.SUBJECT_B_TRANSFER_RETRACE_V262_SPEC||null,authoredBankHash,first,repeat,repeatAgain,nonPilotRepeat,variantShape,banks:{ex:hashText(stable(B_EXERCISES)),algo:hashText(stable(B_EXAM_ALGO_ITEMS)),compound:hashText(stable(B_COMPOUND_SETS)),security:hashText(stable(SECURITY_SCENARIOS))},sig:finalSig(),contract:[B_FINAL_COUNT,B_FINAL_ALGO_COUNT,B_FINAL_SEC_COUNT,B_FINAL_SECONDS,B_EXAM_ALGO_ITEMS.length,[...(globalThis.B_FINAL_HIGH_TRACE_IDS_V208||[])].length,globalThis.B_FINAL_HIGH_TRACE_FLOOR_V208],sem:validateSubjectBSemantics()})).toString('base64'));
 '''
     with tempfile.TemporaryDirectory() as td:
@@ -86,7 +87,7 @@ req(repeat['current']['code']==['sum ← 0','for i ← 2 to 5','    sum ← sum 
 req(repeat['current']['hash']==repeat2['current']['hash'],'repeat variant must be deterministic')
 req(non==par['nonPilotRepeat'],'non-pilot repeat behavior changed')
 
-shape=cand['variantShape']; req(shape['count']==2,'variant must have exactly two prediction checkpoints')
+shape=cand['variantShape']; req(shape and shape['count']==2,'variant must have exactly two prediction checkpoints')
 req(len(shape['rows'])==2,'variant prediction rows drift')
 expected_correct=['i=3, sum=5','sum=14となり、その後for文を終了する']
 req([r['correct'] for r in shape['rows']]==expected_correct,'variant correct answers drift')
