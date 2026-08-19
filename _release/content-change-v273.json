@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "v273",
+  "previous_release": "v272",
+  "parent_main_sha": "c2d27db0729e14b8e8ddb46662f2ec6ca6449ba5",
+  "change_type": "subject-b-final-result-handoff-repair",
+  "source_quality_audit": "audits/SUBJECT_B_RESUME_HANDOFF_v272.txt",
+  "source_priority_tier": "low",
+  "quality_audit_marker": "repair_subject_b_final_back_menu_direct_handoff",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-final-handoff-overrides-v273.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "trace_exercise_count": 20,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "authored_trace_bank_changed": false,
+    "final_question_prompts_changed": false,
+    "final_question_options_changed": false,
+    "final_correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "exam_countdown_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "remediation_targets_changed": false,
+    "difficulty_labels_changed": false,
+    "timed_final_resume_changed": false,
+    "profile_schema_migration_required": false,
+    "remote_telemetry_added": false
+  },
+  "handoff_repair": {
+    "source_finding": "subject_b_completion_handoff_returns_to_menu",
+    "target_id": "bFinalBackMenu",
+    "previous_menu_signal": "showBMockMenu",
+    "destination": "continueSubjectBFlow",
+    "listener_phase": "capture",
+    "prevents_legacy_handler": true,
+    "learner_effect": "the final-result button labelled 次の科目Bへ follows the same existing continuation/recommendation route as other Subject B result screens",
+    "validation_scope": "exact finding identity, exact target, capture listener behavior, preservation of timed final resume and all bank/session/exam contracts, semantic diagnostics and approved-content-reference equality"
+  }
+}
