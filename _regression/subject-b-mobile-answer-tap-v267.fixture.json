@@ -1,0 +1,1277 @@
+{
+  "version": "v267",
+  "previous": "v266",
+  "parent": "046965551813d290bb1a5031aa3d0e5c88fd51fc",
+  "result": "PASS — FINDINGS RECORDED",
+  "summary": {
+    "answerHooks": [
+      {
+        "hook": "data-bfopt",
+        "occurrences": 1,
+        "classes": [
+          "bfinal-option"
+        ],
+        "style": {
+          "rules": [
+            {
+              "selector": ".bfinal-options",
+              "body": "display:grid;gap:9px"
+            },
+            {
+              "selector": ".bfinal-option",
+              "body": "border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;text-align:left;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer"
+            },
+            {
+              "selector": ".bfinal-option.selected",
+              "body": "border-color:#8650b8;background:#f7f0fc"
+            },
+            {
+              "selector": ".bfinal-option.security.selected",
+              "body": "border-color:#18a889;background:#effbf7"
+            },
+            {
+              "selector": ".back,.lesson-nav button,.quiz-submit,.quiz-hint,.decision-option,.bfinal-option, .planner-save,.analytics-open,.install-button,.core-chapter-check,.subject-b-course-card",
+              "body": "min-height:44px;"
+            },
+            {
+              "selector": "/* ===== v101: mobile layout / wording / readability polish ===== */ .diag-option,.decision-option,.quiz-option,.mock-q-option,.similar-option,.secmock-option,.bfinal-option",
+              "body": "font-weight:600;"
+            },
+            {
+              "selector": ".diag-option.selected,.decision-option.good,.decision-option.bad,.quiz-option.correct,.quiz-option.wrong,.quiz-option.selected,.mock-q-option.selected,.similar-option.good,.similar-option.bad,.secmock-option.selected,.bfinal-option.selected",
+              "body": "font-weight:800;"
+            }
+          ],
+          "fontPx": 14.0,
+          "minHeightPx": 44.0,
+          "verticalPaddingPx": 12.0,
+          "estimatedHeightPx": 44.0
+        }
+      },
+      {
+        "hook": "data-bmopt",
+        "occurrences": 1,
+        "classes": [
+          "bmock-option"
+        ],
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-options",
+              "body": "display:grid;grid-template-columns:1fr 1fr;gap:9px"
+            },
+            {
+              "selector": ".bmock-option",
+              "body": "border:2px solid var(--line);background:#fff;border-radius:13px;padding:12px;text-align:left;font-weight:900;font-size:14px;cursor:pointer"
+            },
+            {
+              "selector": ".bmock-option.selected",
+              "body": "border-color:#8f4ada;background:#f6effc"
+            },
+            {
+              "selector": ".bmock-options",
+              "body": "grid-template-columns:1fr"
+            }
+          ],
+          "fontPx": 14.0,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 12.0,
+          "estimatedHeightPx": 40.8
+        }
+      },
+      {
+        "hook": "data-copt",
+        "occurrences": 1,
+        "classes": [
+          "bmock-option"
+        ],
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-options",
+              "body": "display:grid;grid-template-columns:1fr 1fr;gap:9px"
+            },
+            {
+              "selector": ".bmock-option",
+              "body": "border:2px solid var(--line);background:#fff;border-radius:13px;padding:12px;text-align:left;font-weight:900;font-size:14px;cursor:pointer"
+            },
+            {
+              "selector": ".bmock-option.selected",
+              "body": "border-color:#8f4ada;background:#f6effc"
+            },
+            {
+              "selector": ".bmock-options",
+              "body": "grid-template-columns:1fr"
+            }
+          ],
+          "fontPx": 14.0,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 12.0,
+          "estimatedHeightPx": 40.8
+        }
+      },
+      {
+        "hook": "data-smopt",
+        "occurrences": 1,
+        "classes": [
+          "secmock-option"
+        ],
+        "style": {
+          "rules": [
+            {
+              "selector": ".secmock-options",
+              "body": "display:grid;gap:9px"
+            },
+            {
+              "selector": ".secmock-option",
+              "body": "border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;text-align:left; font-size:14px;font-weight:900;line-height:1.5;cursor:pointer"
+            },
+            {
+              "selector": ".secmock-option.selected",
+              "body": "border-color:#18a889;background:#effbf7"
+            },
+            {
+              "selector": "/* ===== v101: mobile layout / wording / readability polish ===== */ .diag-option,.decision-option,.quiz-option,.mock-q-option,.similar-option,.secmock-option,.bfinal-option",
+              "body": "font-weight:600;"
+            },
+            {
+              "selector": ".diag-option.selected,.decision-option.good,.decision-option.bad,.quiz-option.correct,.quiz-option.wrong,.quiz-option.selected,.mock-q-option.selected,.similar-option.good,.similar-option.bad,.secmock-option.selected,.bfinal-option.selected",
+              "body": "font-weight:800;"
+            }
+          ],
+          "fontPx": 14.0,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 12.0,
+          "estimatedHeightPx": 40.8
+        }
+      }
+    ],
+    "staticButtonCount": 27,
+    "staticButtons": [
+      {
+        "id": "bBackToList",
+        "classes": [
+          "back"
+        ],
+        "tag": "<button class=\"back\" id=\"bBackToList\" aria-label=\"前の画面に戻る\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".back",
+              "body": "border:none;background:#fff;border:1px solid var(--line); width:42px;height:42px;border-radius:14px;font-size:20px;"
+            },
+            {
+              "selector": ".back",
+              "body": "min-width:44px; min-height:44px;"
+            },
+            {
+              "selector": ".trace-title-row .back",
+              "body": "flex:0 0 auto"
+            },
+            {
+              "selector": ".backup-strip",
+              "body": "display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:760px;margin:0 auto;"
+            },
+            {
+              "selector": ".backup-day",
+              "body": "min-height:100px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;text-align:center;"
+            },
+            {
+              "selector": ".backup-day b",
+              "body": "display:block;margin-bottom:8px"
+            },
+            {
+              "selector": ".backup-block",
+              "body": "padding:7px 4px;border-radius:9px;font-size:14px;font-weight:900;margin:4px 0"
+            },
+            {
+              "selector": ".backup-full",
+              "body": "background:var(--purple-soft);color:#66369a"
+            },
+            {
+              "selector": ".backup-inc",
+              "body": "background:var(--blue-soft);color:#087db4"
+            },
+            {
+              "selector": ".backup-diff",
+              "body": "background:var(--green-soft);color:var(--green-dark)"
+            },
+            {
+              "selector": ".backup-controls",
+              "body": "display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:15px"
+            },
+            {
+              "selector": ".backup-strip",
+              "body": "grid-template-columns:repeat(5,minmax(64px,1fr));overflow:auto"
+            },
+            {
+              "selector": ".mock-result-actions .backmock",
+              "body": "background:#edf2f6;color:var(--text)"
+            },
+            {
+              "selector": ".back,.lesson-nav button,.quiz-submit,.quiz-hint,.decision-option,.bfinal-option, .planner-save,.analytics-open,.install-button,.core-chapter-check,.subject-b-course-card",
+              "body": "min-height:44px;"
+            },
+            {
+              "selector": ".back",
+              "body": "width:44px!important;min-width:44px!important;height:44px!important;flex:0 0 44px"
+            }
+          ],
+          "fontPx": 20.0,
+          "minHeightPx": 44.0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 44.0
+        }
+      },
+      {
+        "id": "bCompoundBackMenu",
+        "classes": [
+          "primary"
+        ],
+        "tag": "<button class=\"primary\" id=\"bCompoundBackMenu\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".primary",
+              "body": "border:none; color:white; background:var(--green); box-shadow:0 5px 0 var(--green-dark); border-radius:16px; padding:15px 22px; font-weight:900; font-size:17px; transition:.12s;"
+            },
+            {
+              "selector": ".primary:hover",
+              "body": "transform:translateY(-1px)"
+            },
+            {
+              "selector": ".primary:active",
+              "body": "transform:translateY(4px);box-shadow:0 1px 0 var(--green-dark)"
+            },
+            {
+              "selector": ".primary",
+              "body": "width:100%; min-height:52px; padding:13px 16px; font-size:16px; border-radius:15px;"
+            },
+            {
+              "selector": ".lesson-nav .primary",
+              "body": "margin-left:auto;min-width:140px"
+            },
+            {
+              "selector": ".lesson-nav .secondary,.lesson-nav .primary",
+              "body": "width:100%;min-width:0;margin:0"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "border-color:#7f49b1;background:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".pwa-health-actions button.primary",
+              "body": "background:#58cc02;border-color:#58cc02;color:#fff"
+            },
+            {
+              "selector": ".recovery-center-actions button.primary",
+              "body": "background:#7f49b1;border-color:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "margin-left:auto;"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "width:auto;min-width:min(72vw,260px);"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "width:auto;min-width:150px"
+            },
+            {
+              "selector": ".session-review-actions .primary,.session-review-actions .secondary",
+              "body": "min-width:180px"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "grid-column:1/-1;width:100%;min-width:0"
+            },
+            {
+              "selector": ".mock-result-actions .primary-action",
+              "body": "background:var(--purple);color:#fff;border-color:var(--purple)"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "min-width:72px"
+            }
+          ],
+          "fontPx": 17.0,
+          "minHeightPx": 52.0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 52.0
+        }
+      },
+      {
+        "id": "bCompoundNext",
+        "classes": [
+          "bmock-next"
+        ],
+        "tag": "<button class=\"bmock-next\" id=\"bCompoundNext\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            },
+            {
+              "selector": ".bmock-next",
+              "body": "margin-left:auto;background:#8f4ada;color:#fff;border-color:#8f4ada"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "bCompoundPrev",
+        "classes": [
+          "bmock-prev"
+        ],
+        "tag": "<button class=\"bmock-prev\" id=\"bCompoundPrev\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "bCompoundStart",
+        "classes": [
+          "bmock-mode-card",
+          "compound"
+        ],
+        "tag": "<button class=\"bmock-mode-card compound\" id=\"bCompoundStart\">",
+        "style": {
+          "rules": [
+            {
+              "selector": "/* ===== v34: compound challenge ===== */ .bmock-mode-cards",
+              "body": "display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px"
+            },
+            {
+              "selector": ".bmock-mode-card",
+              "body": "display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:15px;text-align:left;cursor:pointer;transition:.15s ease"
+            },
+            {
+              "selector": ".bmock-mode-card:hover",
+              "body": "transform:translateY(-1px);box-shadow:0 8px 20px rgba(30,50,70,.07)"
+            },
+            {
+              "selector": ".bmock-mode-card.compound",
+              "body": "border-color:#ddc8ef;background:#fcf8ff"
+            },
+            {
+              "selector": ".bmock-mode-cards",
+              "body": "grid-template-columns:1fr"
+            },
+            {
+              "selector": ".b-practice-options-fold .bmock-mode-cards",
+              "body": "padding:12px;margin:0"
+            },
+            {
+              "selector": ".b-practice-options-fold .bmock-mode-cards",
+              "body": "grid-template-columns:1fr"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 49.2
+        }
+      },
+      {
+        "id": "bCompoundSubmit",
+        "classes": [
+          "bmock-submit-top"
+        ],
+        "tag": "<button class=\"bmock-submit-top\" id=\"bCompoundSubmit\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-submit-top",
+              "body": "border:none;border-radius:11px;padding:9px 13px;background:#7e4db1;color:#fff;font-weight:1000;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 9.0,
+          "estimatedHeightPx": 37.2
+        }
+      },
+      {
+        "id": "bFinalBackMenu",
+        "classes": [
+          "primary"
+        ],
+        "tag": "<button class=\"primary\" id=\"bFinalBackMenu\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".primary",
+              "body": "border:none; color:white; background:var(--green); box-shadow:0 5px 0 var(--green-dark); border-radius:16px; padding:15px 22px; font-weight:900; font-size:17px; transition:.12s;"
+            },
+            {
+              "selector": ".primary:hover",
+              "body": "transform:translateY(-1px)"
+            },
+            {
+              "selector": ".primary:active",
+              "body": "transform:translateY(4px);box-shadow:0 1px 0 var(--green-dark)"
+            },
+            {
+              "selector": ".primary",
+              "body": "width:100%; min-height:52px; padding:13px 16px; font-size:16px; border-radius:15px;"
+            },
+            {
+              "selector": ".lesson-nav .primary",
+              "body": "margin-left:auto;min-width:140px"
+            },
+            {
+              "selector": ".lesson-nav .secondary,.lesson-nav .primary",
+              "body": "width:100%;min-width:0;margin:0"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "border-color:#7f49b1;background:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".pwa-health-actions button.primary",
+              "body": "background:#58cc02;border-color:#58cc02;color:#fff"
+            },
+            {
+              "selector": ".recovery-center-actions button.primary",
+              "body": "background:#7f49b1;border-color:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "margin-left:auto;"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "width:auto;min-width:min(72vw,260px);"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "width:auto;min-width:150px"
+            },
+            {
+              "selector": ".session-review-actions .primary,.session-review-actions .secondary",
+              "body": "min-width:180px"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "grid-column:1/-1;width:100%;min-width:0"
+            },
+            {
+              "selector": ".mock-result-actions .primary-action",
+              "body": "background:var(--purple);color:#fff;border-color:var(--purple)"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "min-width:72px"
+            }
+          ],
+          "fontPx": 17.0,
+          "minHeightPx": 52.0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 52.0
+        }
+      },
+      {
+        "id": "bFinalNext",
+        "classes": [
+          "next"
+        ],
+        "tag": "<button id=\"bFinalNext\" class=\"next\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bfinal-actions .next",
+              "body": "margin-left:auto;background:#7e45b4;border-color:#7e45b4;color:#fff"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "bFinalPrepAction",
+        "classes": [],
+        "tag": "<button id=\"bFinalPrepAction\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "bFinalPrev",
+        "classes": [],
+        "tag": "<button id=\"bFinalPrev\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "bFinalStart",
+        "classes": [
+          "bfinal-start"
+        ],
+        "tag": "<button class=\"bfinal-start\" id=\"bFinalStart\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bfinal-start",
+              "body": "width:100%;border:none;border-radius:16px;padding:15px;background:#7e45b4;color:#fff;font-size:14px;font-weight:1000;box-shadow:0 4px 0 #62318e;cursor:pointer"
+            }
+          ],
+          "fontPx": 14.0,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 46.8
+        }
+      },
+      {
+        "id": "bFinalSubmit",
+        "classes": [
+          "bfinal-submit"
+        ],
+        "tag": "<button class=\"bfinal-submit\" id=\"bFinalSubmit\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bfinal-submit",
+              "body": "border:none;border-radius:11px;padding:9px 13px;background:#7e45b4;color:#fff;font-weight:1000;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 9.0,
+          "estimatedHeightPx": 37.2
+        }
+      },
+      {
+        "id": "bMockNext",
+        "classes": [
+          "bmock-next"
+        ],
+        "tag": "<button class=\"bmock-next\" id=\"bMockNext\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            },
+            {
+              "selector": ".bmock-next",
+              "body": "margin-left:auto;background:#8f4ada;color:#fff;border-color:#8f4ada"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "bMockPrev",
+        "classes": [
+          "bmock-prev"
+        ],
+        "tag": "<button class=\"bmock-prev\" id=\"bMockPrev\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "bMockStart",
+        "classes": [
+          "bmock-mode-card",
+          "mini"
+        ],
+        "tag": "<button class=\"bmock-mode-card mini\" id=\"bMockStart\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".mini-grid",
+              "body": "display:grid;grid-template-columns:repeat(3,1fr);gap:14px;"
+            },
+            {
+              "selector": ".mini-card",
+              "body": "background:#fff;border:1px solid var(--line);border-radius:20px; padding:18px;text-align:center;"
+            },
+            {
+              "selector": ".mini-card .big",
+              "body": "font-size:32px;margin-bottom:8px"
+            },
+            {
+              "selector": ".quest-list,.mini-grid,.choice-grid,.trace-layout,.result-grid",
+              "body": "grid-template-columns:1fr"
+            },
+            {
+              "selector": "/* Horizontal swipe cards fit mobile better than a long vertical list */ .mini-grid",
+              "body": "display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px; margin-left:-2px; scrollbar-width:none;"
+            },
+            {
+              "selector": ".mini-grid::-webkit-scrollbar",
+              "body": "display:none;"
+            },
+            {
+              "selector": ".mini-card",
+              "body": "flex:0 0 76%; min-width:0; padding:16px; scroll-snap-align:start;"
+            },
+            {
+              "selector": ".mini-card .big",
+              "body": "font-size:28px;"
+            },
+            {
+              "selector": "#homeReviewCandidates .mini-card",
+              "body": "cursor:default"
+            },
+            {
+              "selector": "/* ===== v34: compound challenge ===== */ .bmock-mode-cards",
+              "body": "display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px"
+            },
+            {
+              "selector": ".bmock-mode-card",
+              "body": "display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:15px;text-align:left;cursor:pointer;transition:.15s ease"
+            },
+            {
+              "selector": ".bmock-mode-card:hover",
+              "body": "transform:translateY(-1px);box-shadow:0 8px 20px rgba(30,50,70,.07)"
+            },
+            {
+              "selector": ".bmock-mode-card.compound",
+              "body": "border-color:#ddc8ef;background:#fcf8ff"
+            },
+            {
+              "selector": ".bmock-mode-cards",
+              "body": "grid-template-columns:1fr"
+            },
+            {
+              "selector": ".home-secondary .mini-grid",
+              "body": "margin:0 0 13px;"
+            },
+            {
+              "selector": ".home-secondary .mini-grid",
+              "body": "display:grid;grid-template-columns:1fr;overflow:visible;padding:0;margin-bottom:12px;"
+            },
+            {
+              "selector": ".home-secondary .mini-card",
+              "body": "width:100%;min-width:0;max-width:none;"
+            },
+            {
+              "selector": ".b-practice-options-fold .bmock-mode-cards",
+              "body": "padding:12px;margin:0"
+            },
+            {
+              "selector": ".b-practice-options-fold .bmock-mode-cards",
+              "body": "grid-template-columns:1fr"
+            }
+          ],
+          "fontPx": 32.0,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 18.0,
+          "estimatedHeightPx": 74.4
+        }
+      },
+      {
+        "id": "bMockSubmitTop",
+        "classes": [
+          "bmock-submit-top"
+        ],
+        "tag": "<button class=\"bmock-submit-top\" id=\"bMockSubmitTop\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-submit-top",
+              "body": "border:none;border-radius:11px;padding:9px 13px;background:#7e4db1;color:#fff;font-weight:1000;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 9.0,
+          "estimatedHeightPx": 37.2
+        }
+      },
+      {
+        "id": "bNextExercise",
+        "classes": [
+          "primary"
+        ],
+        "tag": "<button class=\"primary\" id=\"bNextExercise\" style=\"margin-top:18px\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".primary",
+              "body": "border:none; color:white; background:var(--green); box-shadow:0 5px 0 var(--green-dark); border-radius:16px; padding:15px 22px; font-weight:900; font-size:17px; transition:.12s;"
+            },
+            {
+              "selector": ".primary:hover",
+              "body": "transform:translateY(-1px)"
+            },
+            {
+              "selector": ".primary:active",
+              "body": "transform:translateY(4px);box-shadow:0 1px 0 var(--green-dark)"
+            },
+            {
+              "selector": ".primary",
+              "body": "width:100%; min-height:52px; padding:13px 16px; font-size:16px; border-radius:15px;"
+            },
+            {
+              "selector": ".lesson-nav .primary",
+              "body": "margin-left:auto;min-width:140px"
+            },
+            {
+              "selector": ".lesson-nav .secondary,.lesson-nav .primary",
+              "body": "width:100%;min-width:0;margin:0"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "border-color:#7f49b1;background:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".pwa-health-actions button.primary",
+              "body": "background:#58cc02;border-color:#58cc02;color:#fff"
+            },
+            {
+              "selector": ".recovery-center-actions button.primary",
+              "body": "background:#7f49b1;border-color:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "margin-left:auto;"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "width:auto;min-width:min(72vw,260px);"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "width:auto;min-width:150px"
+            },
+            {
+              "selector": ".session-review-actions .primary,.session-review-actions .secondary",
+              "body": "min-width:180px"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "grid-column:1/-1;width:100%;min-width:0"
+            },
+            {
+              "selector": ".mock-result-actions .primary-action",
+              "body": "background:var(--purple);color:#fff;border-color:var(--purple)"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "min-width:72px"
+            }
+          ],
+          "fontPx": 17.0,
+          "minHeightPx": 52.0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 52.0
+        }
+      },
+      {
+        "id": "bPracticeNextAction",
+        "classes": [],
+        "tag": "<button id=\"bPracticeNextAction\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "bTraceNextAction",
+        "classes": [],
+        "tag": "<button id=\"bTraceNextAction\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "secBackToList",
+        "classes": [
+          "back"
+        ],
+        "tag": "<button class=\"back\" id=\"secBackToList\" aria-label=\"前の画面に戻る\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".back",
+              "body": "border:none;background:#fff;border:1px solid var(--line); width:42px;height:42px;border-radius:14px;font-size:20px;"
+            },
+            {
+              "selector": ".back",
+              "body": "min-width:44px; min-height:44px;"
+            },
+            {
+              "selector": ".trace-title-row .back",
+              "body": "flex:0 0 auto"
+            },
+            {
+              "selector": ".backup-strip",
+              "body": "display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:760px;margin:0 auto;"
+            },
+            {
+              "selector": ".backup-day",
+              "body": "min-height:100px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;text-align:center;"
+            },
+            {
+              "selector": ".backup-day b",
+              "body": "display:block;margin-bottom:8px"
+            },
+            {
+              "selector": ".backup-block",
+              "body": "padding:7px 4px;border-radius:9px;font-size:14px;font-weight:900;margin:4px 0"
+            },
+            {
+              "selector": ".backup-full",
+              "body": "background:var(--purple-soft);color:#66369a"
+            },
+            {
+              "selector": ".backup-inc",
+              "body": "background:var(--blue-soft);color:#087db4"
+            },
+            {
+              "selector": ".backup-diff",
+              "body": "background:var(--green-soft);color:var(--green-dark)"
+            },
+            {
+              "selector": ".backup-controls",
+              "body": "display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:15px"
+            },
+            {
+              "selector": ".backup-strip",
+              "body": "grid-template-columns:repeat(5,minmax(64px,1fr));overflow:auto"
+            },
+            {
+              "selector": ".mock-result-actions .backmock",
+              "body": "background:#edf2f6;color:var(--text)"
+            },
+            {
+              "selector": ".back,.lesson-nav button,.quiz-submit,.quiz-hint,.decision-option,.bfinal-option, .planner-save,.analytics-open,.install-button,.core-chapter-check,.subject-b-course-card",
+              "body": "min-height:44px;"
+            },
+            {
+              "selector": ".back",
+              "body": "width:44px!important;min-width:44px!important;height:44px!important;flex:0 0 44px"
+            }
+          ],
+          "fontPx": 20.0,
+          "minHeightPx": 44.0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 44.0
+        }
+      },
+      {
+        "id": "secMockBackList",
+        "classes": [
+          "primary"
+        ],
+        "tag": "<button class=\"primary\" id=\"secMockBackList\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".primary",
+              "body": "border:none; color:white; background:var(--green); box-shadow:0 5px 0 var(--green-dark); border-radius:16px; padding:15px 22px; font-weight:900; font-size:17px; transition:.12s;"
+            },
+            {
+              "selector": ".primary:hover",
+              "body": "transform:translateY(-1px)"
+            },
+            {
+              "selector": ".primary:active",
+              "body": "transform:translateY(4px);box-shadow:0 1px 0 var(--green-dark)"
+            },
+            {
+              "selector": ".primary",
+              "body": "width:100%; min-height:52px; padding:13px 16px; font-size:16px; border-radius:15px;"
+            },
+            {
+              "selector": ".lesson-nav .primary",
+              "body": "margin-left:auto;min-width:140px"
+            },
+            {
+              "selector": ".lesson-nav .secondary,.lesson-nav .primary",
+              "body": "width:100%;min-width:0;margin:0"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "border-color:#7f49b1;background:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".pwa-health-actions button.primary",
+              "body": "background:#58cc02;border-color:#58cc02;color:#fff"
+            },
+            {
+              "selector": ".recovery-center-actions button.primary",
+              "body": "background:#7f49b1;border-color:#7f49b1;color:#fff"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "margin-left:auto;"
+            },
+            {
+              "selector": ".lesson-nav.single-next .primary",
+              "body": "width:auto;min-width:min(72vw,260px);"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "width:auto;min-width:150px"
+            },
+            {
+              "selector": ".session-review-actions .primary,.session-review-actions .secondary",
+              "body": "min-width:180px"
+            },
+            {
+              "selector": ".exercise-next-card .primary",
+              "body": "grid-column:1/-1;width:100%;min-width:0"
+            },
+            {
+              "selector": ".mock-result-actions .primary-action",
+              "body": "background:var(--purple);color:#fff;border-color:var(--purple)"
+            },
+            {
+              "selector": ".app-notice-actions button.primary",
+              "body": "min-width:72px"
+            }
+          ],
+          "fontPx": 17.0,
+          "minHeightPx": 52.0,
+          "verticalPaddingPx": 15.0,
+          "estimatedHeightPx": 52.0
+        }
+      },
+      {
+        "id": "secMockNext",
+        "classes": [
+          "bmock-next",
+          "secmock-next"
+        ],
+        "tag": "<button class=\"bmock-next secmock-next\" id=\"secMockNext\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            },
+            {
+              "selector": ".bmock-next",
+              "body": "margin-left:auto;background:#8f4ada;color:#fff;border-color:#8f4ada"
+            },
+            {
+              "selector": ".secmock-next",
+              "body": "background:#18a889!important;border-color:#18a889!important"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "secMockPrev",
+        "classes": [
+          "bmock-prev"
+        ],
+        "tag": "<button class=\"bmock-prev\" id=\"secMockPrev\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".bmock-prev,.bmock-next,.bmock-flag",
+              "body": "border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 10.0,
+          "estimatedHeightPx": 39.2
+        }
+      },
+      {
+        "id": "secMockStartMenu",
+        "classes": [],
+        "tag": "<button id=\"secMockStartMenu\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      },
+      {
+        "id": "secMockSubmitTop",
+        "classes": [
+          "secmock-submit-top"
+        ],
+        "tag": "<button class=\"secmock-submit-top\" id=\"secMockSubmitTop\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".secmock-submit-top",
+              "body": "border:none;border-radius:11px;padding:9px 13px;background:#18a889;color:#fff;font-weight:1000;cursor:pointer"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 9.0,
+          "estimatedHeightPx": 37.2
+        }
+      },
+      {
+        "id": "secNext",
+        "classes": [
+          "sec-next"
+        ],
+        "tag": "<button class=\"sec-next\" id=\"secNext\">",
+        "style": {
+          "rules": [
+            {
+              "selector": ".sec-next",
+              "body": "width:100%;border:none;background:#18a889;color:#fff;border-radius:14px; min-height:48px;font-weight:900;margin-top:13px;display:none;"
+            },
+            {
+              "selector": ".sec-next.show",
+              "body": "display:block"
+            },
+            {
+              "selector": ".sec-next",
+              "body": "width:min(62%,260px);min-width:160px;margin-left:auto;margin-right:0;"
+            },
+            {
+              "selector": ".quiz-actions.single-primary #quizSubmit,.sec-next",
+              "body": "width:min(68%,240px);min-width:150px;"
+            }
+          ],
+          "fontPx": 16,
+          "minHeightPx": 48.0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 48.0
+        }
+      },
+      {
+        "id": "secNextAction",
+        "classes": [],
+        "tag": "<button id=\"secNextAction\">",
+        "style": {
+          "rules": [],
+          "fontPx": 16,
+          "minHeightPx": 0,
+          "verticalPaddingPx": 0,
+          "estimatedHeightPx": 19.2
+        }
+      }
+    ],
+    "cssRuleCount": 2510,
+    "weakTargets": [
+      {
+        "target": "#bCompoundNext",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-next"
+        ]
+      },
+      {
+        "target": "#bCompoundPrev",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-prev"
+        ]
+      },
+      {
+        "target": "#bCompoundSubmit",
+        "estimatedHeightPx": 37.2,
+        "classes": [
+          "bmock-submit-top"
+        ]
+      },
+      {
+        "target": "#bFinalNext",
+        "estimatedHeightPx": 19.2,
+        "classes": [
+          "next"
+        ]
+      },
+      {
+        "target": "#bFinalSubmit",
+        "estimatedHeightPx": 37.2,
+        "classes": [
+          "bfinal-submit"
+        ]
+      },
+      {
+        "target": "#bMockNext",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-next"
+        ]
+      },
+      {
+        "target": "#bMockPrev",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-prev"
+        ]
+      },
+      {
+        "target": "#bMockSubmitTop",
+        "estimatedHeightPx": 37.2,
+        "classes": [
+          "bmock-submit-top"
+        ]
+      },
+      {
+        "target": "#secMockNext",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-next",
+          "secmock-next"
+        ]
+      },
+      {
+        "target": "#secMockPrev",
+        "estimatedHeightPx": 39.2,
+        "classes": [
+          "bmock-prev"
+        ]
+      },
+      {
+        "target": "#secMockSubmitTop",
+        "estimatedHeightPx": 37.2,
+        "classes": [
+          "secmock-submit-top"
+        ]
+      }
+    ],
+    "smallTextTargets": [],
+    "unstyledHooks": [],
+    "allFinalItemsHaveFourOptions": true,
+    "allTracePredictionsHaveFourOptions": true
+  },
+  "findings": [
+    {
+      "id": "subject_b_interactive_target_under_40px_estimate",
+      "severity": "Medium",
+      "targets": [
+        {
+          "target": "#bCompoundNext",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-next"
+          ]
+        },
+        {
+          "target": "#bCompoundPrev",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-prev"
+          ]
+        },
+        {
+          "target": "#bCompoundSubmit",
+          "estimatedHeightPx": 37.2,
+          "classes": [
+            "bmock-submit-top"
+          ]
+        },
+        {
+          "target": "#bFinalNext",
+          "estimatedHeightPx": 19.2,
+          "classes": [
+            "next"
+          ]
+        },
+        {
+          "target": "#bFinalSubmit",
+          "estimatedHeightPx": 37.2,
+          "classes": [
+            "bfinal-submit"
+          ]
+        },
+        {
+          "target": "#bMockNext",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-next"
+          ]
+        },
+        {
+          "target": "#bMockPrev",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-prev"
+          ]
+        },
+        {
+          "target": "#bMockSubmitTop",
+          "estimatedHeightPx": 37.2,
+          "classes": [
+            "bmock-submit-top"
+          ]
+        },
+        {
+          "target": "#secMockNext",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-next",
+            "secmock-next"
+          ]
+        },
+        {
+          "target": "#secMockPrev",
+          "estimatedHeightPx": 39.2,
+          "classes": [
+            "bmock-prev"
+          ]
+        },
+        {
+          "target": "#secMockSubmitTop",
+          "estimatedHeightPx": 37.2,
+          "classes": [
+            "secmock-submit-top"
+          ]
+        }
+      ],
+      "summary": "One or more Subject B answer/navigation controls have a CSS-estimated height below the 40px audit warning floor."
+    }
+  ],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
