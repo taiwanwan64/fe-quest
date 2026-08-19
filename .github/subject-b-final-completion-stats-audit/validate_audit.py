@@ -24,7 +24,7 @@ cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand
 for k in ['innerFinishSource','pre254Source','seenSource','pickSource','selectionSig','contract']:req(cand[k]==par[k],f'audit-only runtime drift {k}')
 req(cand['contract']==[20,16,4,6000,43,15,4],'contract');req(cand['sem'].get('ok') is True,'semantic')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
-inner=cand['innerFinishSource'];calls=sorted(set(re.findall(r'\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(',inner)))-{'function','if','for','while','switch','catch'}
+inner=cand['innerFinishSource'];calls=sorted(set(re.findall(r'\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(',inner))-{'function','if','for','while','switch','catch'})
 ev={'mentionsBFinalStats':'bFinalStats' in inner,'mentionsAlgoNamespace':'algo:' in inner,'mentionsSeen':'seen' in inner,'mentionsLastSeen':'lastSeen' in inner,'mentionsBFinalItems':'bFinalItems' in inner,'mentionsBFinalAnswers':'bFinalAnswers' in inner,'mentionsSaveProfile':'saveProfile' in inner,'calls':calls}
 fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — DETAIL EVIDENCE CAPTURED','evidence':ev,'innerFinishSource':inner,'selectionSignatureMatch2000':True,'semanticOK':True,'candidateReferenceSixFileByteEquality':True};Path('_regression').mkdir(exist_ok=True);Path('_regression/subject-b-final-completion-stats-v285.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 audit=f'''FE QUEST v285 — Subject B Final Completion / Exposure Stats Audit
