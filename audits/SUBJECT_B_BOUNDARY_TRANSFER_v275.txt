@@ -1,0 +1,62 @@
+FE QUEST v275 — Subject B Boundary / Edge-State Transfer Audit
+==================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v274
+Source main: 99f6020abc71823a3516e3e88a9c59b942c62d1f
+Learner-facing change in v275: none
+
+Why this frontier
+-----------------
+v265 deliberately closed alternate-value re-trace after two safe repeat variants, and v274 closed the recent mobile/interaction-friction sequence. v275 therefore returns to learner-facing transfer quality without adding another generic variant generator: it audits whether the existing Subject B algorithm practice exposes learners to boundary and edge states that require fresh reasoning rather than only ordinary-path tracing.
+
+Attached-material framing
+-------------------------
+The attached Subject B material explicitly recommends making an execution example before tracing and shows boundary-value examples around conditional ranges. That supports auditing edge-state coverage as a separate transfer skill. This audit uses that learning strategy as design guidance only; no proprietary question text is copied into FE QUEST.
+
+Coverage summary
+----------------
+Final algorithm items: 43
+TRACE exercises: 20
+Final items with an explicit semantic edge-state signal: 37
+Final items with a boundary/operator/index signal: 24
+TRACE exercises with an explicit semantic edge-state signal: 16
+TRACE exercises with a boundary/operator/index signal: 12
+
+Domain evidence
+---------------
+オブジェクト指向: total=4 / explicit-edge=3 / boundary-operator=1 / edgeIds=['bexam_obj_01', 'bexam_obj_03', 'bexam_obj_04'] / signals={"emptyOrNull": 1, "endpointWords": 3}
+スタック・キュー: total=4 / explicit-edge=3 / boundary-operator=3 / edgeIds=['bexam_sq_01', 'bexam_sq_02', 'bexam_sq_03'] / signals={"endpointWords": 3, "notFound": 1}
+ビット列: total=5 / explicit-edge=4 / boundary-operator=1 / edgeIds=['bexam_bit_02', 'bexam_bit_03', 'bexam_bit_04', 'bexam_bit_05'] / signals={"endpointWords": 4}
+リスト: total=4 / explicit-edge=3 / boundary-operator=1 / edgeIds=['bexam_list_02', 'bexam_list_03', 'bexam_list_04'] / signals={"emptyOrNull": 2, "endpointWords": 2}
+一次元配列: total=5 / explicit-edge=5 / boundary-operator=5 / edgeIds=['bexam_arr_01', 'bexam_arr_02', 'bexam_arr_03', 'bexam_arr_04', 'bexam_arr_05'] / signals={"endpointWords": 2, "notFound": 4}
+二次元配列: total=4 / explicit-edge=3 / boundary-operator=4 / edgeIds=['bexam_mat_01', 'bexam_mat_02', 'bexam_mat_04'] / signals={"endpointWords": 2, "zeroBoundary": 1}
+再帰・関数: total=5 / explicit-edge=5 / boundary-operator=3 / edgeIds=['bexam_rec_01', 'bexam_rec_02', 'bexam_rec_03', 'bexam_rec_04', 'bexam_rec_05'] / signals={"endpointWords": 2, "notFound": 3, "zeroBoundary": 1}
+制御: total=4 / explicit-edge=4 / boundary-operator=1 / edgeIds=['bexam_ctrl_01', 'bexam_ctrl_02', 'bexam_ctrl_03', 'bexam_ctrl_04'] / signals={"endpointWords": 4, "zeroBoundary": 3}
+探索・整列: total=3 / explicit-edge=2 / boundary-operator=3 / edgeIds=['bexam_algo_02', 'bexam_algo_03'] / signals={"zeroBoundary": 2}
+木構造: total=5 / explicit-edge=5 / boundary-operator=2 / edgeIds=['bexam_tree_01', 'bexam_tree_02', 'bexam_tree_03', 'bexam_tree_04', 'bexam_tree_05'] / signals={"emptyOrNull": 5}
+
+TRACE exercises with explicit edge-state signals
+------------------------------------------------
+["loop_sum", "array_max", "linear_search", "recursion", "tree_dfs", "count_even", "array_reverse", "nested_loop", "bubble_sort_b", "selection_sort_b", "matrix_sum", "queue_ops", "linked_list", "bit_mask", "gcd_euclid", "recursive_fib"]
+
+Findings
+--------
+None.
+
+Interpretation
+--------------
+“Explicit edge-state” is intentionally conservative: the source must visibly contain a not-found, empty/null, singleton, endpoint, base-case, zero-boundary or length-boundary cue. Ordinary inequalities and array indexes are counted separately as boundary/operator evidence and do not by themselves prove an edge-case exercise. This avoids treating every loop as meaningful boundary transfer.
+
+Regression
+----------
+All 20 TRACE exercises and 43 final algorithm items are unchanged from v274.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If a boundary-sensitive domain has zero explicit edge-state items, add one narrowly scoped original problem in that domain before increasing generic question volume. If a domain has exactly one edge-state item, first inspect its selection exposure and conceptual uniqueness before deciding whether a second item is justified. Preserve the existing re-trace variants and do not randomize edge cases blindly: empty/null/not-found inputs can invalidate indexes or change answer-option uniqueness unless authored and regression-tested explicitly.
