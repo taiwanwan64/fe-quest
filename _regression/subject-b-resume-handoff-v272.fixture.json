@@ -1,0 +1,182 @@
+{
+  "version": "v272",
+  "previous": "v271",
+  "parent": "ac776e87a50cae84474e748f6c00ab258ed5829b",
+  "result": "PASS — FINDINGS RECORDED",
+  "completionHandoff": {
+    "bNextExercise": {
+      "matches": 2,
+      "directContinue": false,
+      "directRecommendation": false,
+      "menuOnlySignals": []
+    },
+    "bCompoundBackMenu": {
+      "matches": 1,
+      "directContinue": true,
+      "directRecommendation": false,
+      "menuOnlySignals": []
+    },
+    "secMockBackList": {
+      "matches": 1,
+      "directContinue": true,
+      "directRecommendation": false,
+      "menuOnlySignals": []
+    },
+    "bFinalBackMenu": {
+      "matches": 2,
+      "directContinue": false,
+      "directRecommendation": false,
+      "menuOnlySignals": [
+        "showBMockMenu"
+      ]
+    }
+  },
+  "resumeEvidenceCounts": {
+    "saveBFinalResume": 6,
+    "clearBFinalResume": 5,
+    "bFinalResume": 16,
+    "resume": 16,
+    "再開": 16
+  },
+  "functionMeta": {
+    "continueSubjectBFlow": {
+      "present": true,
+      "chars": 112,
+      "showScreen": 0,
+      "continueFlow": 1,
+      "launchRecommendation": 1,
+      "hubRecommendation": 1,
+      "resumeTokens": 0
+    },
+    "launchSubjectBRecommendation": {
+      "present": true,
+      "chars": 536,
+      "showScreen": 1,
+      "continueFlow": 0,
+      "launchRecommendation": 1,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "subjectBHubRecommendation": {
+      "present": true,
+      "chars": 344,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "startBFinal": {
+      "present": true,
+      "chars": 654,
+      "showScreen": 1,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 2
+    },
+    "renderBFinalReadiness": {
+      "present": true,
+      "chars": 1659,
+      "showScreen": 1,
+      "continueFlow": 0,
+      "launchRecommendation": 1,
+      "hubRecommendation": 1,
+      "resumeTokens": 0
+    },
+    "saveBFinalResume": {
+      "present": true,
+      "chars": 579,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 3
+    },
+    "clearBFinalResume": {
+      "present": true,
+      "chars": 91,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 2
+    },
+    "showBFinalMenu": {
+      "present": true,
+      "chars": 455,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "showBMockMenu": {
+      "present": true,
+      "chars": 689,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "finishBExercise": {
+      "present": true,
+      "chars": 150,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "finishCompoundChallenge": {
+      "present": true,
+      "chars": 145,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "finishBMiniMock": {
+      "present": true,
+      "chars": 137,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "finishSecurityMock": {
+      "present": true,
+      "chars": 144,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    },
+    "finishBFinal": {
+      "present": true,
+      "chars": 131,
+      "showScreen": 0,
+      "continueFlow": 0,
+      "launchRecommendation": 0,
+      "hubRecommendation": 0,
+      "resumeTokens": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "subject_b_completion_handoff_returns_to_menu",
+      "severity": "Low",
+      "control": "bFinalBackMenu",
+      "menuSignals": [
+        "showBMockMenu"
+      ],
+      "summary": "A completion-oriented control appears to return to a Subject B menu without direct continuation/recommendation evidence."
+    }
+  ],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
