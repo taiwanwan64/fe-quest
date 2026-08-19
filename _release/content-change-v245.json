@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release": "v245",
+  "previous_release": "v244",
+  "parent_main_sha": "028bb2e814b5d7cc24f4c77c758e95ea7414de59",
+  "change_type": "subject-b-security-review-reason-label-repair",
+  "source_quality_audit": "audits/SUBJECT_B_REVIEW_REASON_ROUTE_POST_REPAIR_AUDIT_v244.txt",
+  "source_priority_tier": "medium",
+  "quality_audit_marker": "subject_b_security_review_reason_action_route_mismatch",
+  "allowed_question_ids": [],
+  "content_files": [
+    "app/subject-b-security-review-reason-label-overrides-v245.txt"
+  ],
+  "assembly_files": [
+    "index.html"
+  ],
+  "preserve": {
+    "question_count": 710,
+    "algorithm_pool_count": 43,
+    "high_trace_pool_count": 15,
+    "high_trace_floor": 4,
+    "final_counts": [20, 16, 4],
+    "time_limit_seconds": 6000,
+    "question_prompts_changed": false,
+    "question_options_changed": false,
+    "correct_answers_changed": false,
+    "algorithm_question_selection_changed": false,
+    "algorithm_question_order_changed": false,
+    "security_question_selection_changed": false,
+    "security_target_ids_changed": false,
+    "final_block_order_policy_changed": false,
+    "scoring_changed": false,
+    "timing_changed": false,
+    "difficulty_labels_changed": false,
+    "readiness_calculation_changed": false,
+    "readiness_threshold_changed": false,
+    "domain_progression_changed": false,
+    "algorithm_review_reason_labels_changed": false,
+    "profile_schema_migration_required": false
+  },
+  "target_repair": {
+    "finding": "subject_b_security_review_reason_action_route_mismatch",
+    "scope": "security final-review reason labels and action copy only",
+    "visible_reason_replacements": {
+      "トレースミス": "手順の追い違い",
+      "コード理解": "対策の理解"
+    },
+    "action_copy_route": "security",
+    "legacy_reason_keys_remain_readable": true,
+    "security_route_changed": false,
+    "security_target_ids_changed": false,
+    "algorithm_reason_keys_changed": false,
+    "new_profile_fields": false,
+    "validation_scope": "all 15 security scenarios across legacy/new reason keys plus algorithm and final-session regression"
+  }
+}
