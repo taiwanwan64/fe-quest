@@ -3,6 +3,8 @@ name: FE QUEST Subject B learner-local adaptive recommendation
 on:
   push:
     branches: ['subject-b-local-adaptive-recommendation-v*']
+  pull_request:
+    branches: ['main']
 
 permissions:
   contents: write
@@ -24,8 +26,9 @@ jobs:
         id: release
         shell: bash
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^subject-b-local-adaptive-recommendation-(v[0-9]+)$ ]]; then
-            echo "Invalid Subject B local adaptive recommendation branch: $GITHUB_REF_NAME" >&2
+          BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          if [[ ! "$BRANCH" =~ ^subject-b-local-adaptive-recommendation-(v[0-9]+)$ ]]; then
+            echo "Invalid Subject B local adaptive recommendation branch: $BRANCH" >&2
             exit 1
           fi
           VERSION="${BASH_REMATCH[1]}"
@@ -79,6 +82,7 @@ jobs:
       - name: Commit validated release shell and recommendation evidence
         shell: bash
         run: |
+          TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A _regression audits index.html manifest.webmanifest sw.js
@@ -86,7 +90,7 @@ jobs:
             echo "FEQUEST_SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_SOURCE_ALREADY_COMMITTED"
           else
             git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} Subject B local adaptive recommendation"
-            git push origin HEAD:"$GITHUB_REF_NAME"
+            git push origin HEAD:"$TARGET_BRANCH"
           fi
           echo "FEQUEST_SUBJECT_B_LOCAL_ADAPTIVE_RECOMMENDATION_HEAD=$(git rev-parse HEAD)"
 
@@ -106,5 +110,3 @@ jobs:
           path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 90
-
-# v257 validation workflow
