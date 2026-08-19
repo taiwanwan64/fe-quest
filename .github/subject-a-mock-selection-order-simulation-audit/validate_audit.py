@@ -12,6 +12,7 @@ def runtime(path):
 function seeded(seed){let a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
 function chapterOf(q){const s=String(q?.coreTopicId||'');const m=s.match(/(?:^|_)(\d{1,2})(?:_|$)/);return m?Number(m[1]):null;}
 function shuffleCopy(xs){return shuffled([...xs]);}
+function sameCounts(actual,expected,keys){return keys.every(k=>Number(actual?.[k]||0)===Number(expected?.[k]||0));}
 function buildVariant(mode,variant){
  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full,quotas=mockCategoryQuotas(bp.count),difficultyByCat=allocateMockDifficultyByCategory(quotas,bp),conceptCounts={},cognitiveCounts={'想起':0,'適用':0,'判断':0},cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0},out=[];
  const catOrder=(variant==='randomCategories'||variant==='randomBoth')?shuffleCopy(MOCK_CATEGORIES):[...MOCK_CATEGORIES];
@@ -28,7 +29,7 @@ function summarize(mode,variant,runs,seedBase){
    if(xs.length!==bp.count||new Set(ids).size!==ids.length)invalid.push({i,count:xs.length,unique:new Set(ids).size});
    const cats=Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,xs.filter(q=>q.cat===c).length]));const expectedCats=mockCategoryQuotas(bp.count);
    const dif=Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(d=>[d,xs.filter(q=>q.difficulty===d).length]));const cog=Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(c=>[c,xs.filter(q=>q.cognitiveLevel===c).length]));
-   if(JSON.stringify(cats)!==JSON.stringify(expectedCats)||JSON.stringify(dif)!==JSON.stringify(bp.difficulty)||JSON.stringify(cog)!==JSON.stringify(bp.cognitive))blueprintMismatch++;
+   if(!sameCounts(cats,expectedCats,MOCK_CATEGORIES)||!sameCounts(dif,bp.difficulty,MOCK_DIFFICULTY_LEVELS)||!sameCounts(cog,bp.cognitive,MOCK_COGNITIVE_LEVELS))blueprintMismatch++;
    const chapters={};for(const q of xs){const ch=chapterOf(q);if(ch!=null)chapters[ch]=(chapters[ch]||0)+1;const id=String(q.id||'');exposure[id]=(exposure[id]||0)+1;if(id==='strat-16')strat++;}
    chapterCounts.push(Object.keys(chapters).length);maxChapterCounts.push(Math.max(0,...Object.values(chapters)));
  }
@@ -36,7 +37,6 @@ function summarize(mode,variant,runs,seedBase){
  return {mode,variant,runs,blueprintMismatch,invalidSessionCount:invalid.length,strat16Pct:Math.round(strat/runs*1000)/10,eligibleQuestions:allEligible.length,neverSelected:rates.filter(x=>x===0).length,exposurePct:{min:Math.round(rates[0]*10)/10,p50:Math.round(rates[Math.floor(rates.length*.5)]*10)/10,p90:Math.round(rates[Math.floor(rates.length*.9)]*10)/10,p95:Math.round(rates[Math.floor(rates.length*.95)]*10)/10,max:Math.round(rates[rates.length-1]*10)/10},topExposure:selected.slice(0,15),chaptersRepresented:stat(chapterCounts),maxChapterCount:stat(maxChapterCounts)};
 }
 const originalRandom=Math.random;const variants=['fixed','randomCategories','randomLevels','randomBoth'],summary={};for(const mode of ['full','half']){summary[mode]={};for(let vi=0;vi<variants.length;vi++)summary[mode][variants[vi]]=summarize(mode,variants[vi],800,(mode==='full'?3050001:3060001)+vi*100000);}
-// Prove fixed clone reconstructs production selection set under same seeds.
 let fixedCloneMismatch=0;for(let i=0;i<120;i++){const seed=3070001+i*7919;Math.random=seeded(seed);const a=buildVariant('full','fixed').picked.map(x=>String(x.id||'')).sort();Math.random=seeded(seed);const b=buildMockQuestions('full').map(x=>String(x.id||'')).sort();if(a.join('|')!==b.join('|'))fixedCloneMismatch++;}Math.random=originalRandom;
 const out={v:APP_VERSION,summary,fixedCloneMismatch,blueprints:MOCK_BLUEPRINTS,categories:MOCK_CATEGORIES,difficulties:MOCK_DIFFICULTY_LEVELS,cognitive:MOCK_COGNITIVE_LEVELS,bankSignature:QUESTION_BANK.map(q=>[q.id,q.cat,q.difficulty,q.cognitiveLevel,q.coreTopicId]),sem:validateSubjectBSemantics()};console.log('__V305__'+Buffer.from(JSON.stringify(out)).toString('base64'));
 '''
@@ -47,9 +47,8 @@ v304p=Path('_regression/subject-a-cognitive-rubric-calibration-v304.fixture.json
 expected={'.github/subject-a-mock-selection-order-simulation-audit/validate_audit.py','.github/workflows/subject-a-mock-selection-order-simulation-audit.yml'};changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(changed==expected,'source drift '+repr(sorted(changed^expected)))
 cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v305' and par['v']=='v304','versions');req(cand['bankSignature']==par['bankSignature'],'bank drift');req(cand['blueprints']==par['blueprints'],'blueprint drift');req(cand['summary']==par['summary'],'simulation behavior drift');req(cand['fixedCloneMismatch']==0 and par['fixedCloneMismatch']==0,'fixed reconstruction mismatch');req(cand['sem'].get('ok') is True,'semantic')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
-# All variants must preserve structural blueprint before being considered.
 for mode in ['full','half']:
-  for variant,row in cand['summary'][mode].items():req(row['blueprintMismatch']==0 and row['invalidSessionCount']==0,f'{mode}/{variant} breaks blueprint')
+  for variant,row in cand['summary'][mode].items():req(row['blueprintMismatch']==0 and row['invalidSessionCount']==0,f'{mode}/{variant} breaks blueprint: '+json.dumps(row,ensure_ascii=False))
 base=cand['summary']['full']['fixed'];alternatives={k:v for k,v in cand['summary']['full'].items() if k!='fixed'}
 ranked=sorted(alternatives.items(),key=lambda kv:(kv[1]['exposurePct']['max'],kv[1]['neverSelected'],kv[1]['strat16Pct']))
 best_name,best=ranked[0]
