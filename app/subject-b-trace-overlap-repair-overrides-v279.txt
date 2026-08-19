@@ -1,0 +1,44 @@
+// ===== FE QUEST v279 Subject B TRACE/final transfer-overlap repair =====
+(() => {
+  const id='bexam_arr_03';
+  const idx=B_EXAM_ALGO_ITEMS.findIndex(x=>x.id===id);
+  if(idx<0) throw new Error('FE QUEST v279 target missing: '+id);
+  const before=B_EXAM_ALGO_ITEMS[idx];
+  const replacement={
+    ...before,
+    title:'隣接差の正の増加量を累積',
+    context:'隣り合う要素の差を求め、正の差だけをscoreへ加算します。',
+    code:[
+      'data ← [3, 1, 4, 1, 5]',
+      'score ← 0',
+      'for i ← 1 to 4',
+      '    diff ← data[i] - data[i-1]',
+      '    if diff > 0',
+      '        score ← score + diff',
+      '    endif',
+      'endfor',
+      'score を出力する'
+    ],
+    q:'score ← score + diff が実行される回数と、最後に出力されるscoreの組合せは？',
+    options:['1回, score=4','2回, score=2','2回, score=7','3回, score=9'],
+    a:2,
+    explain:'隣接差は -2, 3, -3, 4 です。正の差だけを加えるので更新は2回実行され、scoreは0→3→7となります。',
+    qualityAudit:'v279-trace-final-overlap-repair'
+  };
+  B_EXAM_ALGO_ITEMS[idx]=replacement;
+  B_EXAM_ALGO_CONTRACTS[id]=String(replacement.options[replacement.a]);
+
+  globalThis.SUBJECT_B_TRACE_OVERLAP_REPAIR_V279_SPEC=Object.freeze({
+    policy:'localized-final-transfer-overlap-repair',
+    sourceAudit:'v278-trace-overlap-detail',
+    targetId:id,
+    preservedDomain:before.domain,
+    preservedLevel:before.level,
+    preservedFormat:before.format,
+    preservedAnswerPosition:before.a,
+    remediationMappingChanged:false,
+    selectionPolicyChanged:false,
+    traceBankChanged:false,
+    learnerEffect:'final practice now requires tracing adjacent differences and accumulated positive change instead of repeating the TRACE count-increment state path'
+  });
+})();

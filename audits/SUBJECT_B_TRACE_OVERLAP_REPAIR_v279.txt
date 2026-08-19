@@ -1,0 +1,48 @@
+FE QUEST v279 — Subject B TRACE / Final Transfer-Overlap Repair
+===================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v278
+Source main: 6ca2c4b3307e10fc65de01acbdd5c66aa2709afb
+Learner-facing change: yes, one final algorithm item (bexam_arr_03)
+
+Repair
+------
+v278 localized the only v277 strong overlap to bexam_arr_03 ↔ count_even. The old final item used the same count-increment skeleton as the guided TRACE exercise. v279 keeps the one-dimensional-array, adjacent-comparison and conditional-tracing objective but changes the state path: each adjacent difference is computed, only positive differences are accumulated into score, and the learner must report both how many updates occurred and the final accumulated score.
+
+Old overlap
+-----------
+count_even sequence similarity: 0.932
+count_even line Jaccard: 0.778
+
+Repaired overlap
+----------------
+count_even sequence similarity: 0.772
+count_even line Jaccard: 0.308
+Exact normalized overlap pairs across all 43×20 comparisons: 0
+Strong overlap pairs at v277 thresholds across all 43×20 comparisons: 0
+
+Repaired learner-facing item
+----------------------------
+Title: 隣接差の正の増加量を累積
+Question: score ← score + diff が実行される回数と、最後に出力されるscoreの組合せは？
+Options: ["1回, score=4", "2回, score=2", "2回, score=7", "3回, score=9"]
+Correct: 2回, score=7
+Explanation: 隣接差は -2, 3, -3, 4 です。正の差だけを加えるので更新は2回実行され、scoreは0→3→7となります。
+
+Preservation
+------------
+Only bexam_arr_03 changed among the 43 final algorithm items.
+ID/domain/level/format/answer position are preserved: bexam_arr_03 / 一次元配列 / 標準 / 実行回数 / index 2.
+TRACE exercise bank and all security scenarios are unchanged.
+The existing remediation destination is unchanged: {"mode": "trace", "id": "array_reverse"}.
+3000 deterministic final builds preserve source-id selection and order.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+Close the localized TRACE/final overlap finding. Do not rewrite other final items merely to reduce ordinary conceptual similarity; familiar structures are pedagogically useful. Future content work should require a concrete transfer, coverage, feedback or learner-friction signal before changing another question.
