@@ -1,0 +1,77 @@
+FE QUEST v259 — Subject B Final Problem Authenticity Diagnostic Audit
+==========================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v258
+Source main: 73c5059b044354942215536b7e8349252e998742
+Learner-facing change in v259: none
+
+Purpose
+-------
+v258 closed the learner-local adaptive-recommendation sequence. v259 returns to Subject B content quality and inventories whether the 43 final-practice algorithm items, especially the 15 items already designated as sustained/high TRACE, actually carry enough visible program/state structure to justify a deeper authenticity review. This is diagnostic only: no question wording, answer, scoring, selection, order, difficulty label, remediation route, timing, or UI is changed.
+
+Reference framing
+-----------------
+The attached 令和8年度 study materials organize Subject B around algorithm/programming plus information security, and the dedicated Subject B strategy section explicitly separates algorithm/programming preparation from security preparation. The repository already uses a sustained-TRACE floor, so this audit measures the existing algorithm pool in that same trace-oriented frame rather than inventing a new curriculum taxonomy.
+
+Inventory
+---------
+Algorithm final-practice pool: 43
+Sustained/high TRACE inventory: 15
+Domain counts: {"オブジェクト指向": 4, "スタック・キュー": 4, "ビット列": 5, "リスト": 4, "一次元配列": 5, "二次元配列": 4, "再帰・関数": 5, "制御": 4, "探索・整列": 3, "木構造": 5}
+High-TRACE median code lines: 10.0
+Other-item median code lines: 6.5
+High-TRACE median prompt chars: 19.0
+Other-item median prompt chars: 15.5
+High-TRACE median total visible text chars: 223.0
+Other-item median total visible text chars: 149.5
+High-TRACE median control markers: 3.0
+Other-item median control markers: 1.0
+High-TRACE median assignment markers: 4.0
+Other-item median assignment markers: 3.5
+High-TRACE median index markers: 3.0
+Other-item median index markers: 0.0
+High-TRACE items with zero explicit code lines: []
+High-TRACE low-structure diagnostic candidates (<=4 code lines and <=3 combined control/assignment/index markers): []
+
+Shortest sustained/high TRACE candidates
+----------------------------------------
+bexam_bit_05 | ビット列 | 応用 | 処理結果 | code=6 lines / prompt=13 chars / control=0 / assign=5 / index=0 / total=146
+bexam_obj_04 | オブジェクト指向 | 標準 | 途中状態 | code=7 lines / prompt=33 chars / control=0 / assign=3 / index=0 / total=196
+bexam_rec_05 | 再帰・関数 | 応用 | 実行回数 | code=7 lines / prompt=26 chars / control=4 / assign=1 / index=0 / total=138
+bexam_tree_04 | 木構造 | 応用 | 途中状態 | code=7 lines / prompt=32 chars / control=1 / assign=2 / index=5 / total=223
+bexam_arr_02 | 一次元配列 | 標準 | 処理結果 | code=7 lines / prompt=11 chars / control=1 / assign=5 / index=9 / total=157
+bexam_tree_05 | 木構造 | 標準 | 途中状態 | code=8 lines / prompt=45 chars / control=1 / assign=4 / index=5 / total=305
+bexam_ctrl_01 | 制御 | 標準 | 処理結果 | code=9 lines / prompt=13 chars / control=3 / assign=4 / index=0 / total=136
+bexam_ctrl_04 | 制御 | 応用 | 実行回数 | code=10 lines / prompt=17 chars / control=3 / assign=4 / index=0 / total=179
+
+Longest overall items
+---------------------
+bexam_algo_01 | 探索・整列 | 応用 | 実行回数 | code=16 lines / prompt=16 chars / control=4 / assign=8 / index=3 / total=295
+bexam_mat_01 | 二次元配列 | 標準 | 処理結果 | code=14 lines / prompt=16 chars / control=3 / assign=9 / index=4 / total=234
+bexam_mat_04 | 二次元配列 | 応用 | 途中状態 | code=13 lines / prompt=32 chars / control=3 / assign=9 / index=5 / total=330
+bexam_tree_02 | 木構造 | 応用 | 実行回数 | code=13 lines / prompt=20 chars / control=4 / assign=5 / index=0 / total=218
+bexam_list_04 | リスト | 応用 | 処理結果 | code=12 lines / prompt=11 chars / control=3 / assign=3 / index=0 / total=236
+bexam_sq_04 | スタック・キュー | 応用 | 途中状態 | code=11 lines / prompt=33 chars / control=3 / assign=4 / index=5 / total=265
+bexam_rec_03 | 再帰・関数 | 応用 | 処理結果 | code=11 lines / prompt=11 chars / control=7 / assign=0 / index=0 / total=187
+bexam_algo_03 | 探索・整列 | 応用 | 途中状態 | code=10 lines / prompt=19 chars / control=3 / assign=7 / index=10 / total=244
+
+Repeated-final exposure
+-----------------------
+5000 deterministic final builds preserved the existing high-TRACE floor.
+High-TRACE count per final: min=4 / max=9 / average=5.685
+Every selection frequency is captured in the regression fixture for a later repair to avoid improving items that almost never appear or accidentally overexposing a small subset.
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm banks: byte-behavior equivalent to v258.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use this evidence for v260. If sustained/high-TRACE items are structurally indistinguishable from ordinary items or include conspicuously short/low-state candidates, repair only that bounded subset first. Preserve the 43-item pool, 15-item high-TRACE inventory unless evidence requires reclassification, the floor of four per final, all scoring/selection contracts, and the existing remediation map. Prefer richer multi-step state tracking and realistic pseudocode reading over simply making stems longer.
