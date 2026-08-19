@@ -1,0 +1,46 @@
+FE QUEST v300 — Release Tooling Cadence Audit
+====================================================
+
+Result
+------
+PASSED real GitHub Pages/Jekyll candidate/reference validation.
+
+Versionless tooling
+-------------------
+Branch-derived target: v300
+Previous release inferred and required: v299
+Stable tooling files: 5
+Adoption release: no
+Release-specific validation workflow/tool source files: 0
+Stable tooling deployed by Jekyll: no
+
+Reference proof
+---------------
+A mechanical conventional reference was created from origin/main and advanced from v299 to v300.
+Candidate and reference generated six release files are byte-identical: yes
+Production manifest remains direct JSON: yes
+Production sw.js remains direct JavaScript: yes
+
+Runtime
+-------
+Current adapter: runV300SelfCheck
+Retired adapters: 140 (runV160SelfCheck through runV299SelfCheck)
+Canonical runtime: 1,064,287 bytes / SHA-256 32f11775445e0750660c171a4d22e99599bb75a4582c344fed8fcc722d7ef8d5
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Diagnostic archive: 58 / growth 0
+
+Generated HTML
+--------------
+3,644,645 bytes / SHA-256 615a9ba921eb3d9cdaec26732bc67c28942e578281b04cd2da67a4b80b3bce47
+
+Contracts
+---------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw22 / residual0
+Questions 710 / unique710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221

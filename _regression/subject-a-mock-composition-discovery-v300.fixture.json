@@ -1,0 +1,566 @@
+{
+  "version": "v300",
+  "previous": "v299",
+  "parent": "fa87f49b40232dc8956343a81f2c6a47cf7d271d",
+  "result": "PASS — MOCK COMPOSITION IMPLEMENTATION DISCOVERED",
+  "summary": {
+    "declarationCandidates": [
+      "B_EXAM_ALGO_CONTRACTS",
+      "B_EXAM_ALGO_ITEMS",
+      "B_MOCK_COUNT",
+      "B_MOCK_EXPLANATION",
+      "B_MOCK_EXTRA_DISTRACTOR",
+      "B_MOCK_QUOTAS",
+      "B_MOCK_SECONDS",
+      "CORE_A_EXAM_CUE_GUIDES",
+      "EXAM_AREA_COVERAGE",
+      "MOCK_BLUEPRINTS",
+      "MOCK_CATEGORIES",
+      "MOCK_COGNITIVE_LEVELS",
+      "MOCK_DIFFICULTY_LEVELS",
+      "SECURITY_MOCK_COUNT",
+      "SECURITY_MOCK_QUOTAS",
+      "SECURITY_MOCK_SECONDS",
+      "__finishBMiniMockV254",
+      "__finishSecurityMockV254",
+      "__renderBMockQuestionV254",
+      "__renderSecurityMockQuestionV254",
+      "_bMockCandidateV230",
+      "_finishBMiniMockV65",
+      "_finishQuizSessionV65",
+      "_finishQuizSessionV95",
+      "_finishSecurityMockV230",
+      "_finishSecurityMockV82",
+      "_makeFinalAlgoExamV230",
+      "_randomizeSecurityMockItemV230",
+      "_renderBMockResultV230",
+      "_shuffleBMockAnswerV230",
+      "aMock",
+      "adaptiveMemoryUpdate",
+      "aggregateReasons",
+      "algoMockRuns",
+      "allRecentMockDetails",
+      "allocateByRatios",
+      "allocateMockDifficultyByCategory",
+      "analyticsActiveDays",
+      "analyticsAttemptStream",
+      "analyticsBFormatRows",
+      "analyticsCategorySnapshot",
+      "analyticsDateMinus",
+      "analyticsJourneyCounts",
+      "analyticsMinutes",
+      "analyticsTrend",
+      "applyQuestionSkillDelta",
+      "applyV143LateFixes",
+      "askSubmitBMock",
+      "askSubmitSecurityMock",
+      "bExam",
+      "bMockCandidateFromExercise",
+      "bMockFormatTime",
+      "bMockItems",
+      "bMockSeconds",
+      "bMockVisualHtml",
+      "buildBMock",
+      "buildCoreChapterQuiz",
+      "buildDailyQuest",
+      "buildMockQuestions",
+      "buildPrescriptionQuiz",
+      "buildReviewItem",
+      "buildSecurityMock",
+      "bytesText",
+      "categoryCognitiveEvidence",
+      "categoryWeakness",
+      "chooseExamWarmupQuestions",
+      "chooseFinalBossQuestions",
+      "chooseRandomBalanced",
+      "chooseTaperReviewQuestions",
+      "chooseWeakQuestions",
+      "clamp",
+      "clearProfileSaveFailure",
+      "cognitiveLevelEvidence",
+      "cognitiveSkillDelta",
+      "cognitiveWeight",
+      "configurePrescriptionUI",
+      "continueSubjectBFlow",
+      "coreChapterDifficultyTarget",
+      "coreChapterQuestionNovelty",
+      "coreChapterQuestionRichness",
+      "coreChapterQuizAudit",
+      "coreTopicExamCueView",
+      "coreTopicLearningState",
+      "dueQuestions",
+      "effectiveStudyMinutes",
+      "ensureMemoryStat",
+      "ensureSecurityMockStats",
+      "estimateRemainingStudyMinutes",
+      "exam",
+      "examAreaProgress",
+      "examDaysRemaining",
+      "examPaceStatus",
+      "examPos",
+      "examStudyPhase",
+      "exitMockReview",
+      "feqEvaluateCurrentContract",
+      "feqEvaluateDataIntegrityContract",
+      "feqEvaluatePersistenceSafetyContract",
+      "feqQuestionCueAudit",
+      "feqRunSelfCheck",
+      "feqSemanticBoundaryChecks",
+      "finishBMiniMock",
+      "finishDiagnostic",
+      "finishMock",
+      "finishMockReview",
+      "finishQuizSession",
+      "finishSecurityMock",
+      "fullMocks",
+      "genBreakEven",
+      "genDigitalSignature",
+      "genLogic",
+      "genPublicKeyCrypto",
+      "genSqlAggregate",
+      "genSqlWhere",
+      "genSubnet",
+      "genSymmetricCrypto",
+      "generateVariant",
+      "generatorFor",
+      "getMockMistakeStat",
+      "halfMocks",
+      "hasVariant",
+      "injectBMockReview",
+      "injectSecurityMockReview",
+      "isCoreTopicImmediatePracticeQuestion",
+      "isDue",
+      "lastMockAttempt",
+      "latest",
+      "latestRevision",
+      "launchSubjectBRecommendation",
+      "lessonQuizDone",
+      "loadProfile",
+      "localDateISO",
+      "makeFinalAlgoExam",
+      "markJourneyAnswer",
+      "markJourneyLessonDone",
+      "memoryBand",
+      "memoryHealth",
+      "mock",
+      "mockAnswer",
+      "mockAnswers",
+      "mockAttemptDiagnostics",
+      "mockCandidateSort",
+      "mockCategoryQuotas",
+      "mockCognitivePreference",
+      "mockCount",
+      "mockCurrentBlueprint",
+      "mockFlags",
+      "mockIndex",
+      "mockInitialSeconds",
+      "mockItems",
+      "mockLastMode",
+      "mockLastSeen",
+      "mockMiss",
+      "mockMode",
+      "mockQuestionEnteredAt",
+      "mockQuestionSeconds",
+      "mockRepeat",
+      "mockRisk",
+      "mockRows",
+      "mockSeconds"
+    ],
+    "resolvedCount": 137,
+    "resolvedTypes": {
+      "B_EXAM_ALGO_CONTRACTS": "object",
+      "B_EXAM_ALGO_ITEMS": "array",
+      "B_MOCK_COUNT": "number",
+      "B_MOCK_EXPLANATION": "object",
+      "B_MOCK_EXTRA_DISTRACTOR": "object",
+      "B_MOCK_QUOTAS": "object",
+      "B_MOCK_SECONDS": "number",
+      "CORE_A_EXAM_CUE_GUIDES": "object",
+      "EXAM_AREA_COVERAGE": "array",
+      "MOCK_BLUEPRINTS": "object",
+      "MOCK_CATEGORIES": "array",
+      "MOCK_COGNITIVE_LEVELS": "array",
+      "MOCK_DIFFICULTY_LEVELS": "array",
+      "SECURITY_MOCK_COUNT": "number",
+      "SECURITY_MOCK_QUOTAS": "object",
+      "SECURITY_MOCK_SECONDS": "number",
+      "__finishBMiniMockV254": "function",
+      "__finishSecurityMockV254": "function",
+      "__renderBMockQuestionV254": "function",
+      "__renderSecurityMockQuestionV254": "function",
+      "_finishBMiniMockV65": "function",
+      "_finishQuizSessionV65": "function",
+      "_finishQuizSessionV95": "function",
+      "_finishSecurityMockV82": "function",
+      "adaptiveMemoryUpdate": "function",
+      "aggregateReasons": "function",
+      "allRecentMockDetails": "function",
+      "allocateByRatios": "function",
+      "allocateMockDifficultyByCategory": "function",
+      "analyticsActiveDays": "function",
+      "analyticsAttemptStream": "function",
+      "analyticsBFormatRows": "function",
+      "analyticsCategorySnapshot": "function",
+      "analyticsDateMinus": "function",
+      "analyticsJourneyCounts": "function",
+      "analyticsMinutes": "function",
+      "analyticsTrend": "function",
+      "applyQuestionSkillDelta": "function",
+      "applyV143LateFixes": "function",
+      "askSubmitBMock": "function",
+      "askSubmitSecurityMock": "function",
+      "bMockCandidateFromExercise": "function",
+      "bMockFormatTime": "function",
+      "bMockItems": "array",
+      "bMockSeconds": "number",
+      "bMockVisualHtml": "function",
+      "buildBMock": "function",
+      "buildCoreChapterQuiz": "function",
+      "buildDailyQuest": "function",
+      "buildMockQuestions": "function",
+      "buildPrescriptionQuiz": "function",
+      "buildReviewItem": "function",
+      "buildSecurityMock": "function",
+      "bytesText": "function",
+      "categoryCognitiveEvidence": "function",
+      "categoryWeakness": "function",
+      "chooseExamWarmupQuestions": "function",
+      "chooseFinalBossQuestions": "function",
+      "chooseRandomBalanced": "function",
+      "chooseTaperReviewQuestions": "function",
+      "chooseWeakQuestions": "function",
+      "clamp": "function",
+      "clearProfileSaveFailure": "function",
+      "cognitiveLevelEvidence": "function",
+      "cognitiveSkillDelta": "function",
+      "cognitiveWeight": "function",
+      "configurePrescriptionUI": "function",
+      "continueSubjectBFlow": "function",
+      "coreChapterDifficultyTarget": "function",
+      "coreChapterQuestionNovelty": "function",
+      "coreChapterQuestionRichness": "function",
+      "coreChapterQuizAudit": "function",
+      "coreTopicExamCueView": "function",
+      "coreTopicLearningState": "function",
+      "dueQuestions": "function",
+      "effectiveStudyMinutes": "function",
+      "ensureMemoryStat": "function",
+      "ensureSecurityMockStats": "function",
+      "estimateRemainingStudyMinutes": "function",
+      "examAreaProgress": "function",
+      "examDaysRemaining": "function",
+      "examPaceStatus": "function",
+      "examStudyPhase": "function",
+      "exitMockReview": "function",
+      "feqEvaluateCurrentContract": "function",
+      "feqEvaluateDataIntegrityContract": "function",
+      "feqEvaluatePersistenceSafetyContract": "function",
+      "feqQuestionCueAudit": "function",
+      "feqRunSelfCheck": "function",
+      "feqSemanticBoundaryChecks": "function",
+      "finishBMiniMock": "function",
+      "finishDiagnostic": "function",
+      "finishMock": "function",
+      "finishMockReview": "function",
+      "finishQuizSession": "function",
+      "finishSecurityMock": "function",
+      "genBreakEven": "function",
+      "genDigitalSignature": "function",
+      "genLogic": "function",
+      "genPublicKeyCrypto": "function",
+      "genSqlAggregate": "function",
+      "genSqlWhere": "function",
+      "genSubnet": "function",
+      "genSymmetricCrypto": "function",
+      "generateVariant": "function",
+      "generatorFor": "function",
+      "getMockMistakeStat": "function",
+      "hasVariant": "function",
+      "isCoreTopicImmediatePracticeQuestion": "function",
+      "isDue": "function",
+      "lastMockAttempt": "object",
+      "launchSubjectBRecommendation": "function",
+      "lessonQuizDone": "boolean",
+      "loadProfile": "function",
+      "localDateISO": "function",
+      "makeFinalAlgoExam": "function",
+      "markJourneyAnswer": "function",
+      "markJourneyLessonDone": "function",
+      "memoryBand": "function",
+      "memoryHealth": "function",
+      "mockAnswer": "function",
+      "mockAnswers": "array",
+      "mockAttemptDiagnostics": "function",
+      "mockCandidateSort": "function",
+      "mockCategoryQuotas": "function",
+      "mockCognitivePreference": "function",
+      "mockCurrentBlueprint": "object",
+      "mockFlags": "array",
+      "mockIndex": "number",
+      "mockInitialSeconds": "number",
+      "mockItems": "array",
+      "mockLastMode": "string",
+      "mockLastSeen": "function",
+      "mockMode": "string",
+      "mockQuestionEnteredAt": "object",
+      "mockQuestionSeconds": "array",
+      "mockSeconds": "number"
+    },
+    "likelyCompositionFunctions": {
+      "_finishBMiniMockV65": {
+        "score": 2,
+        "source": "function finishBMiniMock(timeUp=false){ if(!bMockItems.length)return; stopBMockTimer(); const used=Math.min(B_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(bMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=bMockItems.map((item,i)=>{ const ans=bMockAnswers[i],ok=ans===item.a;if(ok)correct++;if(ans===null)blank++; const st=profile.bMockStats[item.id]||(profile.bMockStats[item.id]={seen:0,correct:0,lastSeen:null}); st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0); return {id:item.id,exId:item.exId,title:item.title,level:item.level,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/bMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['アルゴリズム']!==undefined)profile.skills['アルゴリズム']=clamp(profile.skills['アルゴリズム']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:bMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const rows=details.filter(d=>d.level===level);return[level,{correct:rows.filter(d=>d.ok).length,total:rows.length}]})), details }; profile.bMockHistory=[attempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile(); document.getElementById('bMockExam')?.classList.remove('show');document.getElementById('bMockResult')?.classList.add('show'); renderBMockResult(attempt,earned); if(typeof renderReadiness==='function')renderReadiness(); if(typeof renderDailyPlan==='function')renderDailyPlan(); }"
+      },
+      "_finishQuizSessionV65": {
+        "score": 2,
+        "source": "function finishQuizSession(){ stopRxTimer(); const total=quizItems.length; const rate=total?Math.round(quizCorrectCount/total*100):0; profile.sessions.unshift({ date:localDateISO(0), mode:quizMode, total, correct:quizCorrectCount, rate, log:sessionLog.slice(0,10) }); profile.sessions=profile.sessions.slice(0,20); profile.lastStudyDate=localDateISO(0); saveProfile(); document.getElementById('problems')?.classList.add('exercise-session-active'); quizSession.style.display='none'; quizResultScreen.style.display='block'; requestAnimationFrame(()=>quizResultScreen?.scrollIntoView({block:'start',behavior:'auto'})); document.getElementById('sessionScore').textContent=`${rate}%`; document.getElementById('sessionCorrect').textContent=quizCorrectCount; document.getElementById('sessionWrong').textContent=quizWrongCount; document.getElementById('sessionRecovered').textContent=quizRecoveredCount; document.getElementById('sessionRecoveredCard').style.display=quizRecoveredCount?'':'none'; document.getElementById('sessionXp').textContent=`+${quizCorrectCount*10 + quizWrongCount*2 + quizRecoveredCount*5}`; recordTechniqueSessionStats(); let comment='いい復習になりました。'; if(rate>=90) comment='かなり安定しています！次は少し難しい問題へ進めます。'; else if(rate>=70) comment='合格圏を意識できる良い出来です。間違えた問題を復習しましょう。'; else if(rate>=50) comment='理解は進んでいます。苦手分野をもう一周すると伸びます。'; else comment='今は弱点を発見できたことが収穫です。明日の復習に自動で回します。'; document.getElementById('sessionComment').textContent=comment; const wrongCats={}; sessionLog.filter(x=>!x.ok).forEach(x=>wrongCats[x.cat]=(wrongCats[x.cat]||0)+1); const topWrong=Object.entries(wrongCats).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]); const routes=activeReviewJourneys(); document.getElementById('sessionAdvice').textContent= topWrong.length ? `今回の要復習は「${topWrong.join('・')}」。誤答は復習ルートへ登録し、教材→類題→後日復習の順で追います。` : '全問正解です。正解した問題も忘却を防ぐため、数日後に再出題されます。'; const continueBtn=document.getElementById('sessionContinueReview'); const dailyBtn=document.getElementById('sessionContinueDaily'); const homeBtn=document.getElementById('sessionHome'); const actionable=actionableReviewJourneys(); const nextDaily=nextUnfinishedDailyTask(); if(continueBtn){ continueBtn.style.display=actionable.length?'':'none'; continueBtn.textContent=actionable.length?`復習を続ける（残り${actionable.length}件） →`:'復習を続ける →'; } if(dailyBtn){ const showDaily=!actionable.length&&!!nextDaily; dailyBtn.style.display=showDaily?'':'none'; dailyBtn.textContent=showDaily?`今日の学習を続ける →`:'今日の学習を続ける →'; dailyBtn.onclick=showDaily?()=>launchDailyTask(nextDaily):null; } if(homeBtn){ homeBtn.className=(actionable.length||nextDaily)?'secondary':'prim"
+      },
+      "_finishQuizSessionV95": {
+        "score": 1,
+        "source": "function(){ const modeBefore=quizMode; _finishQuizSessionV65(); // 通常復習と復習ルートは、どちらも今日の「記憶の復習」枠。 if(modeBefore==='review'||String(modeBefore).startsWith('journey:'))markDailyTask('review'); if(modeBefore==='taperreview')markDailyTask('taperReview'); if(modeBefore==='warmup')markDailyTask('warmup'); // 科目Aコア教材は、そのテーマの演習を最後まで終えて初めて今日の学習枠を完了。 if(String(modeBefore).startsWith('coretopic:')){ markDailyTask('lesson',{lessonId:String(modeBefore).slice(10)}); } if(String(modeBefore).startsWith('corechapter:')||String(modeBefore).startsWith('cogcat:')||String(modeBefore).startsWith('coretopic:')){ markDailyTask('finalFocus'); } if(modeBefore==='boss') markDailyTask('boss'); if(String(modeBefore).startsWith('rx:')) markDailyTask('prescription',{mode:modeBefore}); }"
+      },
+      "_finishSecurityMockV82": {
+        "score": 2,
+        "source": "function finishSecurityMock(timeUp=false){ if(!secMockItems.length)return; stopSecurityMockTimer(); const used=Math.min(SECURITY_MOCK_SECONDS,Math.max(0,Math.round((Date.now()-(secMockStartedAt||Date.now()))/1000))); let correct=0,blank=0; const details=secMockItems.map((item,i)=>{ const ans=secMockAnswers[i],ok=ans===item.a; if(ok)correct++;if(ans===null)blank++; const st=profile.securityMockStats[item.scenarioId]||(profile.securityMockStats[item.scenarioId]={seen:0,correct:0,lastSeen:null}); st.seen=(st.seen||0)+1;if(ok)st.correct=(st.correct||0)+1;st.lastSeen=localDateISO(0); return {scenarioId:item.scenarioId,title:item.title,level:item.level,concept:item.concept,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain}; }); const rate=Math.round(correct/secMockItems.length*100),earned=correct*8+(rate>=75?20:0); profile.xp=(profile.xp||0)+earned; if(profile.skills?.['セキュリティ']!==undefined)profile.skills['セキュリティ']=clamp(profile.skills['セキュリティ']+(rate>=75?2:rate>=50?1:0),0,100); const attempt={ date:localDateISO(0),total:secMockItems.length,correct,blank,rate,seconds:used,timeUp, levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const r=details.filter(d=>d.level===level);return[level,{correct:r.filter(d=>d.ok).length,total:r.length}]})), details }; profile.securityMockHistory=[attempt,...(profile.securityMockHistory||[])].slice(0,20); lastSecurityMockAttempt=attempt;saveProfile(); document.getElementById('secMockExam')?.classList.remove('show'); document.getElementById('secMockResult')?.classList.add('show'); document.getElementById('secMockResultScore').textContent=`${correct} / ${secMockItems.length}`; document.getElementById('secMockResultMessage').textContent=rate>=88?`状況判断がかなり安定しています。+${earned} XP`:rate>=75?`実戦で十分戦える水準に近づいています。+${earned} XP`:rate>=50?`誤答したケースを学習モードで確認しましょう。+${earned} XP`:`まずは誤答ケースの「何を最優先するか」を整理しましょう。+${earned} XP`; document.getElementById('secMockCorrect').textContent=correct; document.getElementById('secMockWrong').textContent=secMockItems.length-correct-blank; document.getElementById('secMockBlank').textContent=blank; document.getElementById('secMockTime').textContent=bMockFormatTime(used); document.getElementById('secMockBreakdown').innerHTML=['基礎','標準','応用'].map(level=>{const x=attempt.levels[level],pct=x.total?Math.round(x.correct/x.total*100):0;return `<div class=\"secmock-break-row\"><div class=\"secmock-break-label\">${level}</div><div class=\"secmock-break-bar\"><div class=\"secmock-break-fill\" style=\"width:${pct}%\"></div></div><div class=\"secmock-break-score\">${x.correct}/${x.tota"
+      },
+      "adaptiveMemoryUpdate": {
+        "score": 1,
+        "source": "function adaptiveMemoryUpdate(stat,outcome,seconds=0,reason=null,sameSession=false){ if(!stat) return 1; ensureMemoryStat(stat); const old=Math.max(1,Number(stat.stability)||1); if(!sameSession){ stat.reviews=(stat.reviews||0)+1; if(seconds>0){ const n=stat.timedAnswers||0; stat.avgSeconds=Math.round(((stat.avgSeconds||0)*n + seconds)/(n+1)); stat.timedAnswers=n+1; } } let interval=1; if(outcome==='wrong'){ stat.lapses=(stat.lapses||0)+1; stat.stability=Math.max(1,Math.round(old*0.45*10)/10); stat.lastQuality=1; interval=1; }else if(outcome==='recovered'){ // Same review session: recovery is valuable, but the first attempt still exposed a gap. stat.stability=Math.max(1.5,Math.round(Math.min(old*0.90,3)*10)/10); stat.lastQuality=3; interval=1; }else{ const streak=Math.max(1,stat.streak||1); const growth=1.62 + Math.min(streak,4)*0.17; let factor=speedFactorForMemory(seconds); if(reason==='2択で迷った') factor*=0.92; if(reason==='時間不足') factor*=0.85; stat.stability=Math.min(60,Math.max(3,Math.round(old*growth*factor*10)/10)); stat.lastQuality=seconds>0 && seconds<=45 ? 5 : 4; interval=Math.max(2,Math.min(60,Math.round(stat.stability))); } stat.lastReviewDate=localDateISO(0); stat.due=localDateISO(interval); return interval; }"
+      },
+      "allRecentMockDetails": {
+        "score": 1,
+        "source": "function allRecentMockDetails(limit=6){ const rows=[]; (profile.mockHistory||[]).slice(0,limit).forEach(h=>{ (h.details||[]).forEach(d=>rows.push({...d,examDate:h.date,mode:h.mode})); }); return rows; }"
+      },
+      "allocateByRatios": {
+        "score": 2,
+        "source": "function allocateByRatios(total,ratios){ total=Math.max(20,Math.round(Number(total)||60)); const keys=['review','lesson','subjectB','boss'],out={};let used=0; keys.forEach((k,i)=>{ if(i===keys.length-1){out[k]=Math.max(5,total-used);return;} out[k]=Math.max(5,Math.round(total*(ratios[k]||0)/5)*5);used+=out[k]; }); while(Object.values(out).reduce((a,b)=>a+b,0)>total){ const k=keys.slice(0,-1).sort((a,b)=>out[b]-out[a]).find(k=>out[k]>5);if(!k)break;out[k]-=5; } while(Object.values(out).reduce((a,b)=>a+b,0)<total){ const k=[...keys].sort((a,b)=>(ratios[b]||0)-(ratios[a]||0))[0];out[k]+=5; } return out; }"
+      },
+      "allocateMockDifficultyByCategory": {
+        "score": 2,
+        "source": "function allocateMockDifficultyByCategory(quotas,bp){ const result=Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,{'基礎':0,'標準':0,'実戦':0}])); const assign=(level,total)=>{ for(let k=0;k<total;k++){ const candidates=MOCK_CATEGORIES.filter(cat=>{ const assigned=Object.values(result[cat]).reduce((a,b)=>a+b,0); const available=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level).length; return assigned<quotas[cat] && result[cat][level]<available; }).sort((a,b)=>{ const ra=result[a][level]/Math.max(1,quotas[a]); const rb=result[b][level]/Math.max(1,quotas[b]); return ra-rb || MOCK_CATEGORIES.indexOf(a)-MOCK_CATEGORIES.indexOf(b); }); if(!candidates.length)break; result[candidates[0]][level]++; } }; // Reserve practical and basic questions first; fill the remainder with standard. assign('実戦',bp.practical); assign('基礎',bp.basic); MOCK_CATEGORIES.forEach(cat=>{ const assigned=result[cat]['実戦']+result[cat]['基礎']; result[cat]['標準']=Math.max(0,quotas[cat]-assigned); }); // If a category lacks standard questions, replace the shortage with another available tier. MOCK_CATEGORIES.forEach(cat=>{ const stdAvailable=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty==='標準').length; if(result[cat]['標準']<=stdAvailable)return; let shortage=result[cat]['標準']-stdAvailable; result[cat]['標準']=stdAvailable; for(const level of ['実戦','基礎']){ const available=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level).length; const room=Math.max(0,available-result[cat][level]); const add=Math.min(room,shortage); result[cat][level]+=add;shortage-=add; if(shortage<=0)break; } }); return result; }"
+      },
+      "analyticsAttemptStream": {
+        "score": 1,
+        "source": "function analyticsAttemptStream(){ const rows=[]; (profile.sessions||[]).forEach((s,si)=>(s.log||[]).forEach((x,li)=>rows.push({date:s.date,cat:x.cat,ok:!!x.ok,order:si*100+li,source:'session'}))); (profile.mockHistory||[]).forEach((h,hi)=>(h.details||[]).forEach((d,di)=>{ const q=QUESTION_BANK.find(x=>x.id===d.id);if(!q)return; rows.push({date:h.date,cat:q.cat,ok:d.answerIndex!==null&&d.answerIndex===d.correctIndex,order:hi*100+di+50000,source:'mock'}); })); return rows.sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.order-b.order); }"
+      },
+      "analyticsCategorySnapshot": {
+        "score": 2,
+        "source": "function analyticsCategorySnapshot(cat){ let attempts=0,correct=0; QUESTION_BANK.filter(q=>q.cat===cat).forEach(q=>{const s=profile.qStats?.[q.id];if(s){attempts+=s.attempts||0;correct+=s.correct||0}}); const accuracy=attempts?Math.round(correct/attempts*100):null; return {cat,attempts,accuracy,mastery:Math.round(profile.skills?.[cat]??50),trend:analyticsTrend(cat)}; }"
+      },
+      "analyticsJourneyCounts": {
+        "score": 1,
+        "source": "function analyticsJourneyCounts(){ const js=Object.values(profile.reviewJourneys||{}),count=stage=>js.filter(j=>j.stage===stage).length; return {relearn:count('relearn'),verify:count('verify'),spaced:count('spaced'),stable:count('stable')}; }"
+      },
+      "analyticsTrend": {
+        "score": 2,
+        "source": "function analyticsTrend(cat){ const rows=analyticsAttemptStream().filter(x=>x.cat===cat); const recent=rows.slice(0,10),previous=rows.slice(10,20); if(recent.length<3||previous.length<3)return {delta:null,recent:null,previous:null,n:rows.length}; const pct=a=>Math.round(a.filter(x=>x.ok).length/a.length*100); const r=pct(recent),p=pct(previous);return {delta:r-p,recent:r,previous:p,n:rows.length}; }"
+      },
+      "applyV143LateFixes": {
+        "score": 2,
+        "source": "function applyV143LateFixes(){ if(lateApplied) return globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT; depthShortBefore = CORE_A_IDS.filter(id=>String(CORE_A_CONTENT_ENRICHMENT[id]?.deep||'').length<100); Object.entries(deepAdditions).forEach(([id, addition])=>{ const e=CORE_A_CONTENT_ENRICHMENT[id]; if(!e) throw new Error(`v143 enrichment target missing: ${id}`); if(String(e.deep).length>=100) throw new Error(`v143 enrichment target no longer short: ${id}`); e.deep = `${String(e.deep).trim()} ${addition}`; }); depthShortAfter = CORE_A_IDS.filter(id=>String(CORE_A_CONTENT_ENRICHMENT[id]?.deep||'').length<100); const answerDistribution=[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length); const cognitiveDistribution={ 想起:QUESTION_BANK.filter(q=>q.cognitiveLevel==='想起').length, 適用:QUESTION_BANK.filter(q=>q.cognitiveLevel==='適用').length, 判断:QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').length }; assert(optionOutliersBefore.length===9,`v143 option outlier baseline drift: ${optionOutliersBefore.length}`); assert(Object.keys(optionPatches).length===9,'v143 option patch count drift'); assert(optionOutliersAfter.length===0,`v143 option outlier remains: ${optionOutliersAfter.join(',')}`); assert(depthShortBefore.length===32,`v143 depth-short baseline drift: ${depthShortBefore.length}`); assert(Object.keys(deepAdditions).length===32,'v143 enrichment patch count drift'); assert(depthShortAfter.length===0,`v143 depth-short remains: ${depthShortAfter.join(',')}`); assert(oldJudgmentOption.includes('だけ確認する'),'v143 challenge_033 baseline cue drift'); assert(!judgment.options.some(x=>String(x).includes('だけ確認する')),'v143 challenge_033 giveaway cue remains'); assert(QUESTION_BANK.length===710,'v143 question count drift'); assert(new Set(QUESTION_BANK.map(q=>q.id)).size===710,'v143 question id uniqueness drift'); assert(answerDistribution.join(',')==='178,178,177,177',`v143 answer distribution drift: ${answerDistribution.join(',')}`); assert(cognitiveDistribution.想起===166&&cognitiveDistribution.適用===323&&cognitiveDistribution.判断===221, `v143 cognitive distribution drift: ${JSON.stringify(cognitiveDistribution)}`); lateApplied=true; globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT={ optionOutliersBefore, optionOutliersAfter, depthShortBefore, depthShortAfter, oldJudgmentOption, newJudgmentOption:judgment.options[3] }; return globalThis.SUBJECT_A_V143_ACTIVE_QUALITY_AUDIT; }"
+      },
+      "askSubmitBMock": {
+        "score": 1,
+        "source": "function askSubmitBMock(){ const blank=bMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false); }"
+      },
+      "askSubmitSecurityMock": {
+        "score": 1,
+        "source": "function askSubmitSecurityMock(){ const blank=secMockAnswers.filter(x=>x===null).length; if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishSecurityMock(false); }"
+      },
+      "bMockFormatTime": {
+        "score": 1,
+        "source": "function bMockFormatTime(sec){ sec=Math.max(0,Math.floor(sec||0)); return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`; }"
+      },
+      "buildBMock": {
+        "score": 2,
+        "source": "function(){ const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[],familyCounts={}; Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{ selected.push(...selectLevel(candidates.filter(x=>x.level===level),n,familyCounts)); }); return shuffled(selected).map(shuffleBMockAnswer); }"
+      },
+      "buildCoreChapterQuiz": {
+        "score": 4,
+        "source": "function buildCoreChapterQuiz(ch){ const topics=CORE_A_CURRICULUM.filter(t=>t.chapter===ch); const ids=topics.map(t=>t.id); const chapterExtras=CORE_A_CHAPTER_EXTRA_QUESTIONS[ch]||[]; const pool=[...QUESTION_BANK.filter(q=>q.coreTopicId&&ids.includes(q.coreTopicId)),...chapterExtras]; const target=coreChapterDifficultyTarget(pool); const out=[],used=new Set(),topicCounts={},levelCounts={'基礎':0,'標準':0,'実戦':0}; const canUse=q=>q&&!used.has(q.id)&&(levelCounts[q.difficulty]||0)<(target[q.difficulty]||0); const add=q=>{ if(!q||used.has(q.id))return false; out.push(q);used.add(q.id); if(q.coreTopicId)topicCounts[q.coreTopicId]=(topicCounts[q.coreTopicId]||0)+1; levelCounts[q.difficulty]=(levelCounts[q.difficulty]||0)+1; return true; }; const best=(candidates,preferUncovered=false)=>{ const list=shuffled(candidates.filter(canUse)); list.sort((a,b)=>{ const ac=topicCounts[a.coreTopicId]||0,bc=topicCounts[b.coreTopicId]||0; if(preferUncovered&&((ac===0)!==(bc===0)))return ac===0?-1:1; if(ac!==bc)return ac-bc; return (coreChapterQuestionRichness(b)+coreChapterQuestionNovelty(b))-(coreChapterQuestionRichness(a)+coreChapterQuestionNovelty(a)); }); return list[0]||null; }; // 1) 章末らしい「近い概念の見分け」を最大3問、存在する範囲で優先確保。 const comparisons=pool.filter(q=>String(q.id||'').startsWith('challenge_cmp_')||q.angle==='comparison'); const comparisonGoal=Math.min(3,comparisons.length,Math.max(1,(target['実戦']||0))); for(let i=0;i<comparisonGoal;i++){ const q=best(comparisons,true); if(!q)break; add(q); } // 2) 計算テーマがある章では、公式を思い出すだけでなく実際に使う問題を最低1問入れる。 const calculations=pool.filter(q=>q.angle==='calculation'); if(calculations.length&&!out.some(q=>q.angle==='calculation')){ const q=best(calculations,true); if(q)add(q); } // 3) その章の全テーマを最低1回は扱う。 // 実戦→標準を優先し、基礎1問は最後の確認用に残す。 const remainingTopics=shuffled(topics.filter(t=>(topicCounts[t.id]||0)===0)); for(const t of remainingTopics){ const same=pool.filter(q=>q.coreTopicId===t.id&&!used.has(q.id)); let q=null; for(const level of ['実戦','標準','基礎']){ if((levelCounts[level]||0)>=(target[level]||0))continue; q=best(same.filter(x=>x.difficulty===level)); if(q)break; } if(!q){ q=shuffled(same).sort((a,b)=>coreChapterQuestionRichness(b)-coreChapterQuestionRichness(a))[0]||null; } add(q); } // 4) 残りは難易度目標を満たしつつ、同じテーマへの偏りを最小化。 for(const level of ['実戦','標準','基礎']){ while((levelCounts[level]||0)<(target[level]||0)&&out.length<12){ const q=best(pool.filter(x=>x.difficulty===level)); if(!q)break; add(q); } } // 5) 想定外の不足時だけ、未使用問題から補う。 while(out.length<12){ const rest=shuffled(pool.filter(q=>!used.has(q.id))).sort((a,b)=>{ const ac=topicCounts[a.coreTopi"
+      },
+      "buildMockQuestions": {
+        "score": 5,
+        "source": "function buildMockQuestions(modeOrCount){ const mode=typeof modeOrCount==='string'?modeOrCount:(modeOrCount===60?'full':'half'); const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full; const quotas=mockCategoryQuotas(bp.count); const difficultyByCat=allocateMockDifficultyByCategory(quotas,bp); const conceptCounts={}; const cognitiveCounts={'想起':0,'適用':0,'判断':0}; const cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0}; const out=[]; MOCK_CATEGORIES.forEach(cat=>{ const cap=mode==='half'?1:2; MOCK_DIFFICULTY_LEVELS.forEach(level=>{ const n=difficultyByCat[cat][level]||0; const pool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level); out.push(...pickMockPool(pool,n,conceptCounts,cap,cognitiveCounts,cognitiveTarget,level)); }); }); const unique=[]; const seenIds=new Set(); for(const q of out){ if(!seenIds.has(q.id)){unique.push(q);seenIds.add(q.id);} } if(unique.length<bp.count){ unique.push(...QUESTION_BANK.filter(q=>!seenIds.has(q.id)).sort(mockCandidateSort).slice(0,bp.count-unique.length)); } const picked=shuffled(unique.slice(0,bp.count)); const counts={ categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])), difficulty:Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(level=>[level,picked.filter(q=>q.difficulty===level).length])), cognitive:Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(level=>[level,picked.filter(q=>q.cognitiveLevel===level).length])), unseen:picked.filter(q=>mockSeen(q)===0).length }; mockCurrentBlueprint={mode,count:bp.count,quotas,difficultyByCat,counts}; return picked.map(randomizeMockQuestion); }"
+      },
+      "buildPrescriptionQuiz": {
+        "score": 4,
+        "source": "function buildPrescriptionQuiz(mode){ const p=String(mode).split(':'); const kind=p[1]||'knowledge',cat=p.slice(2).join(':')||weakestSkill(); const same=QUESTION_BANK.filter(q=>q.cat===cat); let pool=[]; if(kind==='calc'){ pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS))); if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS)&&!pool.some(x=>x.id===q.id)))]; return padQuizPool(pool,cat,8); } if(kind==='read'){ const words=['最も適切','適切','未満','以上','次に','主な','一般に','どれ']; return padQuizPool(shuffled(same.filter(q=>words.some(w=>q.q.includes(w)))),cat,8); } if(kind==='contrast'){ pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS))); if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS)&&!pool.some(x=>x.id===q.id)))]; return padQuizPool(pool,cat,8); } if(kind==='repeat'){ const ids=new Set(repeatedWrongQuestions().map(x=>x.q.id)); return padQuizPool(shuffled(QUESTION_BANK.filter(q=>ids.has(q.id))),cat,8); } if(kind==='speed') return padQuizPool(shuffled(same),cat,10); return padQuizPool(shuffled(same),cat,8); }"
+      },
+      "buildSecurityMock": {
+        "score": 3,
+        "source": "function buildSecurityMock(){ ensureSecurityMockStats(); const selected=[]; const used=new Set(); // ログ読解を最低2問（標準1・応用1）必ず含める。 const requiredLogLevels=['標準','応用']; requiredLogLevels.forEach(level=>{ const pool=sortSecurityScenarioPool( SECURITY_SCENARIOS.filter(s=>s.level===level&&s.log&&!used.has(s.id)), profile.securityMockStats ); const pick=pool[0]; if(pick){selected.push(pick);used.add(pick.id);} }); // 基礎2・標準4・応用2の配分を保ったまま残りを埋める。 Object.entries(SECURITY_MOCK_QUOTAS).forEach(([level,n])=>{ const already=selected.filter(s=>s.level===level).length; const need=Math.max(0,n-already); const pool=sortSecurityScenarioPool( SECURITY_SCENARIOS.filter(s=>s.level===level&&!used.has(s.id)), profile.securityMockStats ); pool.slice(0,need).forEach(s=>{selected.push(s);used.add(s.id)}); }); return shuffled(selected).map(s=>randomizeSecurityMockItem(s,securityAppliedStepIndex(s))); }"
+      },
+      "categoryCognitiveEvidence": {
+        "score": 1,
+        "source": "function categoryCognitiveEvidence(cat){ const levels=['想起','適用','判断'].map(level=>cognitiveLevelEvidence(cat,level)); const prior=Math.round(profile.skills?.[cat]||50); const tested=levels.filter(x=>x.score!=null); const denom=levels.reduce((s,x)=>s+COGNITIVE_WEIGHTS[x.level],0); const weighted=levels.reduce((s,x)=>s+(x.score==null?prior:x.score)*COGNITIVE_WEIGHTS[x.level],0); const score=tested.length?Math.round(weighted/Math.max(1,denom)):prior; const weakest=[...levels].sort((a,b)=>{ const as=a.score==null?50:a.score,bs=b.score==null?50:b.score; if(as!==bs)return as-bs; return COGNITIVE_WEIGHTS[b.level]-COGNITIVE_WEIGHTS[a.level]; })[0]; return {cat,score,levels,weakest}; }"
+      },
+      "chooseExamWarmupQuestions": {
+        "score": 4,
+        "source": "function chooseExamWarmupQuestions(n=3){ ensureQuestionProfile(); const attempted=QUESTION_BANK.filter(q=>(profile.qStats?.[q.id]?.attempts||0)>0&&!questionHasActiveJourney(q.id)); const stable=attempted.filter(q=>{ const r=memoryRetention(profile.qStats[q.id]); return r!=null&&r>=80; }); const source=stable.length?stable:attempted; const selected=[],usedCats=new Set(),used=new Set(); const ranked=shuffled(source).sort((a,b)=>{ const ar=memoryRetention(profile.qStats[a.id])??0,br=memoryRetention(profile.qStats[b.id])??0; const cognitiveRank={'想起':0,'適用':1,'判断':2}; const difficultyRank={'基礎':0,'標準':1,'実戦':2}; const as=(cognitiveRank[a.cognitiveLevel]??2)*20+(difficultyRank[a.difficulty]??1)*8+Math.abs(ar-90); const bs=(cognitiveRank[b.cognitiveLevel]??2)*20+(difficultyRank[b.difficulty]??1)*8+Math.abs(br-90); // 当日は「できる問題を軽く解く」ことが目的。想起・基礎を優先し、難しい判断問題は最後にする。 return as-bs; }); for(const q of ranked){ if(selected.length>=n)break; if(usedCats.has(q.cat))continue; selected.push(q);used.add(q.id);usedCats.add(q.cat); } for(const q of ranked){ if(selected.length>=n)break; if(used.has(q.id))continue; selected.push(q);used.add(q.id); } // 学習履歴が全くない特殊ケースだけ、基礎の想起問題を最小限使う。 if(selected.length<n){ shuffled(QUESTION_BANK.filter(q=>q.difficulty==='基礎'&&q.cognitiveLevel==='想起'&&!used.has(q.id))) .slice(0,n-selected.length).forEach(q=>selected.push(q)); } return selected.slice(0,n); }"
+      },
+      "chooseFinalBossQuestions": {
+        "score": 4,
+        "source": "function chooseFinalBossQuestions(n=5){ const targets=[ ...Array(Math.min(3,n)).fill('判断'), ...Array(Math.max(0,n-Math.min(3,n))).fill('適用') ]; const chosen=[],used=new Set(),usedCats=new Set(); const score=q=>{ const ev=categoryCognitiveEvidence(q.cat); const urgency=(profile.qStats?.[q.id]?.attempts||0)>0?Math.max(0,reviewUrgency(q)):0; return (100-ev.score)*1.2 + (q.cognitiveLevel===ev.weakest.level?18:0) + Math.min(20,urgency*.15); }; targets.forEach(level=>{ let pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)&&!usedCats.has(q.cat)); if(!pool.length)pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)); pool=shuffled(pool).sort((a,b)=>score(b)-score(a)); const q=pool[0]; if(q){chosen.push(q);used.add(q.id);usedCats.add(q.cat);} }); if(chosen.length<n){ const rest=shuffled(QUESTION_BANK.filter(q=>!used.has(q.id)&&q.cognitiveLevel!=='想起')).sort((a,b)=>score(b)-score(a)); chosen.push(...rest.slice(0,n-chosen.length)); } return shuffled(chosen.slice(0,n)); }"
+      },
+      "chooseRandomBalanced": {
+        "score": 3,
+        "source": "function chooseRandomBalanced(n=10){ const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))]; let selected=[]; let pools={}; cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c))); let ci=0; while(selected.length<n && Object.values(pools).some(p=>p.length)){ const c=cats[ci%cats.length]; if(pools[c].length) selected.push(pools[c].pop()); ci++; } return selected; }"
+      },
+      "chooseTaperReviewQuestions": {
+        "score": 4,
+        "source": "function chooseTaperReviewQuestions(n=5){ ensureQuestionProfile(); const due=dueQuestions(); const used=new Set(); const out=[]; const add=q=>{if(q&&!used.has(q.id)&&out.length<n){out.push(q);used.add(q.id);}}; due.slice(0,n).forEach(add); if(out.length<n){ trackedQuestionPool() .filter(q=>(profile.qStats?.[q.id]?.attempts||0)>0&&!used.has(q.id)&&!questionHasActiveJourney(q.id)) .sort((a,b)=>reviewUrgency(b)-reviewUrgency(a)) .slice(0,n-out.length).forEach(add); } if(out.length<n){ shuffled(QUESTION_BANK.filter(q=>q.difficulty==='基礎'&&q.cognitiveLevel==='想起'&&!used.has(q.id))) .slice(0,n-out.length).forEach(add); } return out.map(buildReviewItem); }"
+      },
+      "chooseWeakQuestions": {
+        "score": 3,
+        "source": "function chooseWeakQuestions(n=10){ const evidence=Object.fromEntries(Object.keys(profile.skills||{}).map(cat=>[cat,categoryCognitiveEvidence(cat)])); const score=q=>{ const e=evidence[q.cat]||categoryCognitiveEvidence(q.cat); const levelGap=q.cognitiveLevel===e.weakest.level?18:0; const attempted=(profile.qStats?.[q.id]?.attempts||0)>0; const urgency=attempted?Math.max(0,reviewUrgency(q)):0; return categoryWeakness(q.cat)+levelGap+Math.min(20,urgency*.12); }; return shuffled(QUESTION_BANK).sort((a,b)=>score(b)-score(a)).slice(0,Math.min(n,QUESTION_BANK.length)); }"
+      },
+      "cognitiveLevelEvidence": {
+        "score": 2,
+        "source": "function cognitiveLevelEvidence(cat,level){ ensureQuestionProfile(); const qs=QUESTION_BANK.filter(q=>q.cat===cat&&q.cognitiveLevel===level); const attempted=qs.filter(q=>(profile.qStats?.[q.id]?.attempts||0)>0); const attempts=attempted.reduce((n,q)=>n+(profile.qStats[q.id].attempts||0),0); const correct=attempted.reduce((n,q)=>n+(profile.qStats[q.id].correct||0),0); const accuracy=attempts?Math.round(correct/attempts*100):null; const ret=attempted.map(q=>memoryRetention(profile.qStats[q.id])).filter(x=>x!=null); const retention=ret.length?Math.round(ret.reduce((a,b)=>a+b,0)/ret.length):null; const raw=accuracy==null?null:Math.round(accuracy*.65+(retention??accuracy)*.35); const coverage=qs.length?Math.round(attempted.length/qs.length*100):0; const score=raw==null?null:Math.round(raw*(.72+.28*coverage/100)); return {level,total:qs.length,attempted:attempted.length,attempts,correct,accuracy,retention,coverage,score}; }"
+      },
+      "coreChapterDifficultyTarget": {
+        "score": 1,
+        "source": "function coreChapterDifficultyTarget(pool){ const available=CORE_A_DIFFICULTY_LEVELS.reduce((a,k)=>(a[k]=pool.filter(q=>q.difficulty===k).length,a),{}); const target={'基礎':0,'標準':0,'実戦':0}; let left=12; // 章末は「思い出す」より「使う・見分ける」を重視する。 target['実戦']=Math.min(5,available['実戦']||0,left);left-=target['実戦']; target['基礎']=Math.min(1,available['基礎']||0,left);left-=target['基礎']; target['標準']=Math.min(left,available['標準']||0);left-=target['標準']; // 小章などで一つの難易度が不足する場合だけ、残りを他の層から補う。 for(const level of ['実戦','標準','基礎']){ if(left<=0)break; const spare=Math.max(0,(available[level]||0)-target[level]); const add=Math.min(left,spare); target[level]+=add;left-=add; } return target; }"
+      },
+      "coreChapterQuizAudit": {
+        "score": 1,
+        "source": "function coreChapterQuizAudit(ch,items){ const topics=CORE_A_CURRICULUM.filter(t=>t.chapter===ch); const poolIds=new Set(topics.map(t=>t.id)); const topicCounts={}; (items||[]).forEach(q=>{ if(q.coreTopicId&&poolIds.has(q.coreTopicId))topicCounts[q.coreTopicId]=(topicCounts[q.coreTopicId]||0)+1; }); const comparisons=(items||[]).filter(q=>String(q.id||'').startsWith('challenge_cmp_')||q.angle==='comparison').length; const calculations=(items||[]).filter(q=>q.angle==='calculation').length; const difficulty=CORE_A_DIFFICULTY_LEVELS.reduce((a,k)=>(a[k]=(items||[]).filter(q=>q.difficulty===k).length,a),{}); return { total:(items||[]).length, covered:topics.filter(t=>(topicCounts[t.id]||0)>0).length, topicTotal:topics.length, maxPerTopic:Math.max(0,...Object.values(topicCounts)), comparisons,calculations,difficulty }; }"
+      },
+      "coreTopicLearningState": {
+        "score": 2,
+        "source": "function coreTopicLearningState(id){ const lessonPct=profile.lessonProgress?.[id]||0; const topic=CORE_A_TOPIC_MAP[id]||CORE_A_CURRICULUM.find(t=>t.id===id); const qs=QUESTION_BANK.filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q)); const stats=qs.map(q=>({q,st:profile.qStats?.[q.id]||{}})); const attempted=stats.filter(x=>(x.st.attempts||0)>0).length; const active=stats.filter(x=>questionHasActiveJourney(x.q.id)).length; const due=stats.filter(x=>isDue(x.st)&&!questionHasActiveJourney(x.q.id)).length; const reviewed=stats.filter(x=>(x.st.reviews||0)>=2).length; const retentionRows=stats .filter(x=>(x.st.attempts||0)>0) .map(x=>({ret:memoryRetention(x.st),weight:cognitiveWeight(x.q)})) .filter(x=>x.ret!=null); const retention=retentionRows.length ?Math.round(retentionRows.reduce((a,x)=>a+x.ret*x.weight,0)/Math.max(1,retentionRows.reduce((a,x)=>a+x.weight,0))) :null; const minRetention=retentionRows.length?Math.min(...retentionRows.map(x=>x.ret)):null; // 「定着」には最低1問の高次証拠、「MASTER」にはさらに高い保持を要求する。 const judgmentStats=stats.filter(x=>x.q.cognitiveLevel==='判断'); const evidencePool=judgmentStats.length?judgmentStats:stats.filter(x=>x.q.cognitiveLevel==='適用'); const advancedReviewed=evidencePool.filter(x=>(x.st.reviews||0)>=2).length; const advancedRows=evidencePool .filter(x=>(x.st.attempts||0)>0) .map(x=>memoryRetention(x.st)) .filter(x=>x!=null); const advancedRetention=advancedRows.length?Math.round(advancedRows.reduce((a,b)=>a+b,0)/advancedRows.length):null; const advancedReady=evidencePool.length===0||(advancedReviewed>=1&&advancedRetention!=null&&advancedRetention>=80); const advancedMasterReady=evidencePool.length===0||(advancedReviewed>=1&&advancedRetention!=null&&advancedRetention>=90); // 習得状態は単一テーマ内だけで完結させず、その章の統合演習も通過して初めて付与する。 const chapterEvidence=chapterIntegrationEvidence(topic?.chapter||0); const chapterReady=!!chapterEvidence.passed; const common={attempted,total:qs.length,active,due,reviewed,retention,minRetention,advancedReady,advancedMasterReady,advancedReviewed,advancedRetention,chapterReady,chapterRate:chapterEvidence.lastRate||0,chapterBestRate:chapterEvidence.bestRate||0}; if(lessonPct<100){ return {key:attempted?'learning':'new',label:attempted?'学習中':'未習得',...common}; } if(!attempted){ return {key:'learning',label:'学習中',...common}; } if(active){ return {key:'review',label:`要復習 ${active}`,...common}; } if(attempted<qs.length){ return {key:'learning',label:'学習中',...common}; } const topicMasterReady= reviewed===qs.length && retention!=null && retention>=90 && minRetention!=null && minRetention>=85 && due===0 && advance"
+      },
+      "dueQuestions": {
+        "score": 1,
+        "source": "function dueQuestions(){ ensureQuestionProfile(); return trackedQuestionPool() .filter(q=>isDue(profile.qStats[q.id])&&!questionHasActiveJourney(q.id)) .sort((a,b)=>reviewUrgency(b)-reviewUrgency(a)); }"
+      },
+      "effectiveStudyMinutes": {
+        "score": 1,
+        "source": "function effectiveStudyMinutes(){const p=examPaceStatus();return p.hasExam&&!p.expired?p.effective:(Number(profile.settings?.studyMinutes)||60);}"
+      },
+      "estimateRemainingStudyMinutes": {
+        "score": 2,
+        "source": "function estimateRemainingStudyMinutes(){ let m=0; (typeof CORE_A_IDS!=='undefined'?CORE_A_IDS:Object.keys(LESSONS||{})).forEach(id=>{const p=clamp(profile.lessonProgress?.[id]||0,0,100);m+=(1-p/100)*14;}); (QUESTION_BANK||[]).forEach(q=>{if(!((profile.qStats?.[q.id]?.attempts||0)>0))m+=2.5;}); (B_EXERCISES||[]).forEach(x=>{const p=clamp(profile.bProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); (SECURITY_SCENARIOS||[]).forEach(x=>{const p=clamp(profile.securityBProgress?.[x.id]||0,0,100);m+=(1-p/100)*15;}); const a=(profile.mockHistory||[]).filter(x=>x.mode==='full').length,b=(profile.bFinalHistory||[]).length; m+=Math.max(0,2-a)*90+Math.max(0,2-b)*100+Math.max(0,1-(profile.bMockHistory||[]).length)*40+Math.max(0,1-(profile.securityMockHistory||[]).length)*20+Math.max(0,3-(profile.bCompoundHistory||[]).length)*20; const active=activeReviewJourneys().length; m+=Math.min(240,active*8+dueQuestions().length*3); return Math.max(0,Math.round(m)); }"
+      },
+      "examAreaProgress": {
+        "score": 1,
+        "source": "function examAreaProgress(area){ if(area.special==='b'){ const a=objectCompletion(profile.bProgress,B_EXERCISES.length); const s=objectCompletion(profile.securityBProgress,SECURITY_SCENARIOS.length); return Math.round((a+s)/2); } const valid=(area.ids||[]).filter(id=>LESSONS[id]); if(!valid.length) return 0; return Math.round(valid.reduce((sum,id)=>sum+(profile.lessonProgress?.[id]||0),0)/valid.length); }"
+      },
+      "examPaceStatus": {
+        "score": 1,
+        "source": "function examPaceStatus(){ const days=examDaysRemaining(),baseline=Number(profile.settings?.studyMinutes)||60,remaining=estimateRemainingStudyMinutes(),recent=recentCalendarPace(),phase=examStudyPhase(days); if(days==null)return {hasExam:false,baseline,effective:baseline,remaining,recent,phase}; if(days<0)return {hasExam:true,expired:true,days,baseline,effective:baseline,remaining,recent,phase}; const available=Math.max(1,days),required=remaining/available,currentPace=recent.enough?recent.avg:baseline,paceSource=recent.enough?'recent':'plan'; const projectedDays=currentPace>0?Math.ceil(remaining/currentPace):9999,projectedDate=new Date();projectedDate.setHours(12,0,0,0);projectedDate.setDate(projectedDate.getDate()+projectedDays); const slack=available-projectedDays; let status='danger'; if(required<=0||currentPace>=required*1.20)status='good';else if(currentPace>=required*.95)status='ok';else if(currentPace>=required*.75)status='warn'; const auto=profile.settings?.autoPace!==false,suggested=Math.max(baseline,roundUp5(required*1.10)); const cap=taperStudyCap(days); const taper=cap!=null; const normalEffective=auto?Math.min(120,suggested):baseline; // 残り7日以内は「残学習量を全部消化する」ための追い込みを止める。 // 標準時間が短い利用者は増やさず、長い利用者だけ段階的に上限を下げる。 const effective=taper?Math.min(baseline,cap):normalEffective; const adjustedDays=effective>0?Math.ceil(remaining/effective):9999,maxDate=new Date();maxDate.setHours(12,0,0,0);maxDate.setDate(maxDate.getDate()+Math.ceil(remaining/120)); return {hasExam:true,expired:false,days,baseline,remaining,recent,phase,required,currentPace,paceSource,projectedDays,projectedDate,slack,status,auto,effective,canRecover:adjustedDays<=available,maxDate,taper,taperCap:cap}; }"
+      },
+      "feqEvaluateCurrentContract": {
+        "score": 1,
+        "source": "function feqEvaluateCurrentContract(expectedVersion=APP_VERSION){ const base=feqEvaluateQualityUxContract(); const baseResults=(base.results||[]).map(r=>r.id==='version-schema'?{...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION===expectedVersion,error:undefined}:{...r}); const migrated=feqReleaseBoundaryChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}}); const extras=feqSemanticBoundaryChecks().map(c=>{try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};}catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};}}); const results=[...baseResults,...migrated,...extras],failed=results.filter(r=>!r.pass); return {mode:'current-contract-stable-semantic-wrapper',total:results.length,passed:results.length-failed.length,failed:failed.length,results,errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message),semanticBaseCount:baseResults.length,rewrittenReleaseBoundaryChecks:migrated.length,semanticBoundaryChecks:extras.length}; }"
+      },
+      "feqEvaluateDataIntegrityContract": {
+        "score": 3,
+        "source": "function feqEvaluateDataIntegrityContract(){ const genericChoicePhrases = [ 'この定義・性質と一致しない', 'この問題で求める内容とは一致しない', '問題文の条件または定義と一致しない' ]; const obviousLengthOutlier = q => { const lens=(q.options||[]).map(x=>String(x).length); if(lens.length!==4) return false; const correctLen=lens[q.a]; return correctLen===Math.max(...lens) && lens.filter(x=>x===correctLen).length===1 && (Math.max(...lens)-Math.min(...lens)>=10) && correctLen>=Math.min(...lens)*1.6; }; const hardSemanticErrors = () => { if(typeof validateQuestionSemanticContracts!=='function') return ['validator missing']; const semantic=validateQuestionSemanticContracts(); const superseded=/plain answer contract drift|application explanation binding drift|discrimination explanation binding drift|same-topic comparison explanation drift/; return (semantic.errors||[]).filter(e=>!superseded.test(String(e))); }; const checks = [ currentCheck('version-schema','Current version/schema contract',()=>PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v145'), currentCheck('question-count','Subject A question count must be 710',()=>Array.isArray(QUESTION_BANK)&&QUESTION_BANK.length===710), currentCheck('question-id-unique','Subject A question IDs must be unique',()=>new Set(QUESTION_BANK.map(q=>q.id)).size===QUESTION_BANK.length), currentCheck('question-stem-unique','Subject A question stems must be unique',()=>new Set(QUESTION_BANK.map(q=>q.q)).size===QUESTION_BANK.length), currentCheck('option-set-unique','Subject A option sets must be unique',()=>new Set(QUESTION_BANK.map(q=>JSON.stringify(q.options))).size===QUESTION_BANK.length), currentCheck('answer-balance','Answer positions must remain 178/178/177/177',()=>[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length).join(',')==='178,178,177,177'), currentCheck('cognitive-balance','Cognitive levels must remain 166/323/221',()=>['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length).join(',')==='166,323,221'), currentCheck('question-shape','Every question needs four unique options, a valid answer, explanation and hint',()=>QUESTION_BANK.every(q=>Array.isArray(q.options)&&q.options.length===4&&new Set(q.options).size===4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&!!q.exp&&!!q.hint)), currentCheck('option-wording','Options must not use artificial trailing だけ/のみ or polite-form cues',()=>QUESTION_BANK.every(q=>!q.options.some(x=>/(だけ|のみ)$/.test(String(x).trim())||/(です|ます|ません|ですが|ますが|でしょう|ください)/.test(String(x))))), currentCheck('option-length-balance','Correct options must not be obvious length outliers',()=>QUESTION_BANK.every(q=>!obviousLengthOutlier(q)))"
+      },
+      "feqEvaluatePersistenceSafetyContract": {
+        "score": 1,
+        "source": "function feqEvaluatePersistenceSafetyContract(){ const base=feqEvaluateLearningRuntimeContract(); const baseResults=(base.results||[]).map(r=>r.id==='version-schema' ? {...r,message:'Current version/schema contract',pass:PROFILE_SCHEMA_VERSION===5&&APP_VERSION==='v147',error:undefined} : {...r}); const extras=feqPersistenceSafetyChecks().map(c=>{ try{return {id:c.id,message:c.message,pass:!!c.test(),legacyAssertions:c.legacyAssertions};} catch(error){return {id:c.id,message:c.message,pass:false,error:String(error?.message||error),legacyAssertions:c.legacyAssertions};} }); const results=[...baseResults,...extras]; const failed=results.filter(r=>!r.pass); return { mode:'current-contract-safety-expanded', total:results.length, passed:results.length-failed.length, failed:failed.length, results, errors:failed.map(r=>r.error?`${r.message}: ${r.error}`:r.message), inheritedContractCount:baseResults.length, migratedGroupCount:extras.length, migratedLegacyAssertionEquivalents:extras.reduce((n,r)=>n+(r.legacyAssertions||0),0) }; }"
+      },
+      "feqQuestionCueAudit": {
+        "score": 2,
+        "source": "function feqQuestionCueAudit(){ const giveawayActionCue=/(だけを(?:確認|変更|実施|行|監視|見る|使|管理|再実行)|だけで(?:判断|決定|対応|運用)|だけ(?:確認|変更|実施|監視|を見る|を使う)|必ず|常に|一切|無条件|絶対)/; const incompleteActionCue=/(?:確認|調査|対応|変更|保全|隔離|復元|管理|実施|適用|監視).{0,14}(?:は行わない|を行わない|しない|後回し|省略)|(?:だけ|のみ).{0,14}(?:確認|調査|対応|変更|判断|実施|監視)/; const judgmentOptions=QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').flatMap(q=>(q.options||[]).map((o,i)=>({id:q.id,i,o,a:q.a}))); const securityOptions=SECURITY_SCENARIOS.flatMap(s=>s.steps.flatMap((q,qi)=>q.options.map((o,i)=>({id:s.id+':'+qi,i,o,a:q.a})))); const judgmentGiveaways=judgmentOptions.filter(x=>x.i!==x.a&&giveawayActionCue.test(String(x.o))); const securityGiveaways=securityOptions.filter(x=>x.i!==x.a&&giveawayActionCue.test(String(x.o))); const judgmentIncomplete=judgmentOptions.filter(x=>x.i!==x.a&&incompleteActionCue.test(String(x.o))); const securityIncomplete=securityOptions.filter(x=>x.i!==x.a&&incompleteActionCue.test(String(x.o))); const optionComponentCount=o=>(String(o).match(/[、・]|など|および|ならびに/g)||[]).length; const judgmentAndSecurity=[...QUESTION_BANK.filter(q=>q.cognitiveLevel==='判断').map(q=>({id:q.id,options:q.options,a:q.a})),...SECURITY_SCENARIOS.flatMap(s=>s.steps.map((q,qi)=>({id:s.id+':'+qi,options:q.options,a:q.a})))]; const structuralCueFlags=judgmentAndSecurity.filter(x=>{const cs=x.options.map(optionComponentCount);return cs[x.a]>=3&&Math.max(...cs.filter((_,i)=>i!==x.a))<=1;}); const correctOnlyNado=judgmentAndSecurity.filter(x=>String(x.options[x.a]).includes('など')&&x.options.every((o,i)=>i===x.a||!String(o).includes('など'))); const strongLengthCue=QUESTION_BANK.filter(q=>{ const lens=q.options.map(x=>String(x).replace(/\\s+/g,'').length); const correct=lens[q.a];const other=lens.filter((_x,i)=>i!==q.a);const avg=other.reduce((a,b)=>a+b,0)/Math.max(1,other.length); return (correct>=avg*1.5&&correct-avg>=15)||(avg>=correct*1.65&&avg-correct>=18); }); return {judgmentGiveaways,securityGiveaways,judgmentIncomplete,securityIncomplete,structuralCueFlags,correctOnlyNado,strongLengthCue}; }"
+      },
+      "feqRunSelfCheck": {
+        "score": 1,
+        "source": "function feqRunSelfCheck(expectedVersion=APP_VERSION,releaseAdapter='semantic-wrapper'){ const current=feqEvaluateCurrentContract(expectedVersion),browserUi=feqEvaluateBrowserUiLayer(),errors=[...current.errors]; if(browserUi.mode==='browser-dom') (browserUi.results||[]).filter(r=>!r.pass).forEach(r=>errors.push(r.message)); const semanticBoundary=feqSemanticRuntimeBoundaryAudit(),dataBoundary=feqDiagnosticDataBoundaryAudit(),classification=feqLegacyClassificationAudit(),sentinelInventory=feqExpandCiSentinelGroups(),declarativeCoverage=feqDeclarativeCiCoverage(); return {ok:errors.length===0,errors,warnings:[],checkedAt:new Date().toISOString(),architecture:'stable-semantic-diagnostic-wrapper',releaseVersion:expectedVersion,releaseAdapter,currentContract:current,browserUiContract:browserUi,historicalDiagnostics:{mode:'release-fixture-only',productionHistoricalGlobals:false,fixture:FEQ_DIAGNOSTIC_RUNTIME_SPEC.releaseFixtureManifest},historicalMetadataWarnings:[],supersededSemanticWarnings:[],uiDeferredWarnings:browserUi.mode==='deferred-to-browser-dom'?[...(browserUi.deferredMessages||[])]:[],legacyWarnings:[],runtimeMode:globalThis.__FEQUEST_RUNTIME_SMOKE__===true?'node-minimal-dom':'browser-dom',ciSentinelInventory:sentinelInventory,declarativeCiCoverage:declarativeCoverage,legacyClassification:classification,semanticRuntimeBoundary:semanticBoundary,semanticDataBoundary:dataBoundary,diagnosticContract:{currentFailed:current.failed,uiDeferredCount:browserUi.mode==='deferred-to-browser-dom'?(browserUi.deferredMessages||[]).length:0,uiFailedCount:browserUi.mode==='browser-dom'?browserUi.failed:0,productionLegacyAbsent:typeof runAppSelfCheck==='undefined',semanticRuntimeExact:semanticBoundary.ok,semanticDataRuntimeExact:dataBoundary.ok,retiredVersionedFunctionGlobalsPresent:semanticBoundary.leakedRetired.length,retiredReleaseWrapperGlobalsPresent:semanticBoundary.leakedRetiredWrapper.length,retiredReleaseAdapterGlobalsPresent:semanticBoundary.leakedRetiredAdapters.length,stableWrapperGlobalsPresent:semanticBoundary.presentStableWrapper,versionedDataBackingGlobalsPresent:dataBoundary.leakedBacking.length,classificationExact:classification.exactCoverage&&classification.duplicateCount===0&&classification.declaredCountsOk,declarativeCiCoverageExact:declarativeCoverage.exactCoverage&&declarativeCoverage.duplicateCount===0,activeErrorCount:errors.length}}; }"
+      },
+      "feqSemanticBoundaryChecks": {
+        "score": 2,
+        "source": "function feqSemanticBoundaryChecks(){ return [ currentCheck('semantic-diagnostic-runtime-contract','Production diagnostics must load the validated stable semantic runtime directly with zero build-time historical-name rewrites',()=>{const a=feqSemanticRuntimeBoundaryAudit(),s=FEQ_DIAGNOSTIC_RUNTIME_SPEC;return a.stable===17&&a.retired===46&&a.uniqueStable===17&&a.uniqueRetired===46&&a.presentStable===17&&a.leakedRetired.length===0&&a.stableWrapper===6&&a.retiredWrapper===6&&a.retiredAdapters===releaseSpec.retiredReleaseAdapterCount&&a.presentStableWrapper===6&&a.leakedRetiredWrapper.length===0&&a.leakedRetiredAdapters.length===0&&a.exactInventory&&a.ok&&releaseSpec.releaseVersion===APP_VERSION&&releaseSpec.currentReleaseAdapter===('runV'+APP_VERSION.slice(1)+'SelfCheck')&&releaseSpec.retiredReleaseAdapters.length===releaseSpec.retiredReleaseAdapterCount&&s.physicalRuntimeSourceCount===1&&s.physicalRuntimeModule==='app/runtime-semantic-diagnostics.txt'&&s.physicalRuntimeSha256==='88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50'&&s.physicalRuntimeUtf8Bytes===55525&&s.materializationFixture==='_regression/physical-semantic-runtime-source-v165.fixture.json'&&s.materializationMode==='byte-exact-physical-semantic-runtime-source'&&s.archiveBoundaryFixture===releaseSpec.archiveBoundaryFixture&&s.archiveRoot==='_regression/archive/diagnostics'&&s.archivedSourceCount===releaseSpec.archivedSourceCount&&s.stableRuntimePathPolicy==='single-physical-semantic-runtime-source'&&s.archivalVersionedRuntimeParts.length===9;},0), currentCheck('semantic-diagnostic-data-backing-removed','Production diagnostic data must expose the six-key stable facade through stable data-module paths with zero versioned compatibility backing globals',()=>{const a=feqDiagnosticDataBoundaryAudit(),s=FEQ_DIAGNOSTIC_DATA_RUNTIME_SPEC;return a.semantic===6&&a.retired===6&&a.keys===6&&a.provenanceKeys===6&&a.leakedBacking.length===0&&a.exactKeys&&a.exactProvenance&&a.provenanceExact&&a.structural&&a.frozen&&a.legacyNamesListGlobalAbsent&&a.ok&&s.preludeModule==='app/runtime-diagnostic-data-prelude.txt'&&s.finalizeModule==='app/runtime-diagnostic-data-finalize.txt'&&s.preludeSha256==='318bd6cea2a15cb87c47550926e39324a27e9bf25106604e1b8cf743ab2ddf92'&&s.finalizeSha256==='df1b9caab6cf990bb43e9199227a200bda6202442b06bce4c9cd1af6d9cb2645'&&s.preludeUtf8Bytes===235&&s.finalizeUtf8Bytes===1255&&s.archivalPreludeModule==='_regression/archive/diagnostics/runtime-diagnostic-data-prelude-v157.txt'&&s.archivalFinalizeModule==='_regression/archive/diagnostics/runtime-diagnostic-data-finalize-v159"
+      },
+      "finishDiagnostic": {
+        "score": 2,
+        "source": "function finishDiagnostic(){ const cats={}; DIAG_QUESTIONS.forEach((q,i)=>{ if(!cats[q.category]) cats[q.category]={correct:0,total:0}; cats[q.category].total++; if(diagAnswers[i]===q.answer) cats[q.category].correct++; }); const scores={}; Object.entries(cats).forEach(([cat,v])=>{ scores[cat]=Math.round(v.correct/v.total*100); }); // Categories with one diagnostic item are softened toward a neutral prior // so one mistake does not create an extreme 0/100 mastery estimate. Object.keys(profile.skills).forEach(cat=>{ const raw = scores[cat]; if(raw !== undefined){ const sampleCount = cats[cat].total; const prior = profile.skills[cat] ?? 60; const weight = sampleCount >= 2 ? 0.65 : 0.45; profile.skills[cat]=Math.round(prior*(1-weight)+raw*weight); } }); profile.diagnosticCompleted=true; profile.diagnosticScores=scores; profile.xp += 120; saveProfile(); document.getElementById('diagQuiz').style.display='none'; document.getElementById('diagResult').style.display='block'; const grid=document.getElementById('diagResultGrid'); grid.innerHTML=''; sortedSkills().forEach(([cat,val])=>{ const d=document.createElement('div'); d.className='diag-result'; d.innerHTML=`<div class=\"sub\">${cat}</div><div class=\"diag-score\">${val}%</div>`; grid.appendChild(d); }); const weak=sortedSkills().slice(0,3).map(x=>x[0]); document.getElementById('diagResultAdvice').textContent= `まずは「${weak.join('・')}」を重点的に進めます。今日の学習は${effectiveStudyMinutes()}分を目安に自動調整します。`; }"
+      },
+      "finishMock": {
+        "score": 2,
+        "source": "function finishMock(timeup=false){ recordMockQuestionTime(); if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;} const used=Math.min(mockInitialSeconds,Math.max(0,mockInitialSeconds-mockSeconds)); let correct=0,blank=0; const byCat={}; const wrongs=[]; mockItems.forEach((q,i)=>{ const ans=mockAnswers[i]; const ok=ans===q.a; const sourceId=q.sourceId||q.id; const ms=profile.mockQuestionStats[sourceId]||(profile.mockQuestionStats[sourceId]={seen:0,correct:0,lastSeen:null}); ms.seen=(ms.seen||0)+1; if(ok)ms.correct=(ms.correct||0)+1; ms.lastSeen=localDateISO(0); if(ans===null) blank++; if(ok) correct++; if(!byCat[q.cat]) byCat[q.cat]={correct:0,total:0}; byCat[q.cat].total++; if(ok) byCat[q.cat].correct++; ensureQuestionProfile(); const st=profile.qStats[q.sourceId||q.id]; const sec=mockQuestionSeconds[i]||0; if(!ok){ wrongs.push({q,ans}); if(st){ st.attempts=(st.attempts||0)+1; st.last=localDateISO(0); st.streak=0; if(ans===null && timeup) st.lastReason='時間不足'; adaptiveMemoryUpdate(st,'wrong',sec,st.lastReason,false); } registerReviewJourney(q,'mock'); applyQuestionSkillDelta(q,-1); }else{ if(st){ st.attempts=(st.attempts||0)+1; st.correct=(st.correct||0)+1; st.last=localDateISO(0); st.streak=(st.streak||0)+1; adaptiveMemoryUpdate(st,'correct',sec,null,false); } applyQuestionSkillDelta(q,0.35); } }); const total=mockItems.length; const rate=total?Math.round(correct/total*100):0; const wrong=total-correct-blank; const attemptDetails=mockItems.map((q,i)=>({ id:q.sourceId||q.id, shownOptions:[...q.options], correctIndex:q.a, answerIndex:mockAnswers[i], flagged:!!mockFlags[i], seconds:mockQuestionSeconds[i]||0 })); lastMockAttempt={ date:localDateISO(0),mode:mockMode,total,correct,blank,rate,seconds:used, blueprint:mockCurrentBlueprint?structuredClone(mockCurrentBlueprint):null, byCat:structuredClone(byCat),details:attemptDetails }; profile.mockHistory.unshift(lastMockAttempt); profile.mockHistory=profile.mockHistory.slice(0,10); profile.xp += Math.round(correct*2); saveProfile(); document.getElementById('mockExam').classList.remove('show'); document.getElementById('mockResult').classList.add('show'); document.getElementById('mockResultScore').textContent=`${rate}%`; document.getElementById('mockStatCorrect').textContent=correct; document.getElementById('mockStatWrong').textContent=wrong; document.getElementById('mockStatBlank').textContent=blank; document.getElementById('mockStatTime').textContent=`${Math.floor(used/60)}m`; let message='弱点を見つけられたことが収穫です。'; let icon='📚'; if(rate>=85){message='かなり安定しています。見直し問題を中心に仕上げましょう。';icon='🏆';} else "
+      },
+      "finishMockReview": {
+        "score": 2,
+        "source": "function finishMockReview(){ document.getElementById('reviewCard').style.display='none'; document.getElementById('reviewSummary').classList.add('show'); const totals=aggregateReasons(); const reasons=['知識不足','計算ミス','読み違い','2択で迷った','時間不足']; const root=document.getElementById('reasonSummary'); root.innerHTML=reasons.map(r=>`<div class=\"reason-summary-card\"><span class=\"sub\">${r}</span><b>${totals[r]||0}問</b></div>`).join(''); const catCounts={}; reviewItems.filter(x=>x.wrong).forEach(x=>catCounts[x.q.cat]=(catCounts[x.q.cat]||0)+1); const priority=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,3); const dominant=currentReviewDominantReason(); document.getElementById('reviewPriority').innerHTML=priority.length ? `<b>次に優先する分野</b><br>${priority.map(([c,n])=>`${c}（${n}問）`).join(' → ')}<br><span class=\"sub\">主な原因：${escapeHtml(dominant||'未記録')}。誤答は復習ルートにも登録済みです。</span>` : '<b>誤答はありませんでした。</b>'; const jbtn=document.getElementById('reviewSummaryJourney'),rxbtn=document.getElementById('reviewSummaryRx'); if(jbtn)jbtn.style.display=activeReviewJourneys().length?'':'none'; if(rxbtn){rxbtn.style.display=dominant?'':'none';rxbtn.dataset.reason=dominant||'';rxbtn.dataset.cat=priority[0]?.[0]||weakestSkill();} profile.xp+=10; saveProfile(); }"
+      },
+      "finishQuizSession": {
+        "score": 1,
+        "source": "function(){ const modeBefore=quizMode; const rateBefore=quizItems.length?Math.round(quizCorrectCount/quizItems.length*100):0; _finishQuizSessionV95(); if(String(modeBefore).startsWith('corechapter:')){ const ch=Number(String(modeBefore).slice(12)); if(ch>=1&&ch<=21){ recordChapterIntegrationResult(ch,rateBefore); saveProfile(); renderCoreCourseMap(document.getElementById('coreCourseSearch')?.value||''); } } }"
+      },
+      "genBreakEven": {
+        "score": 2,
+        "source": "function genBreakEven(base){ const price=[800,1000,1200,1500][Math.floor(Math.random()*4)]; const variable=[300,400,500,600][Math.floor(Math.random()*4)]; const margin=Math.max(200,price-variable); const units=[100,150,200,250][Math.floor(Math.random()*4)]; const fixed=margin*units; const correct=units; const p=choicePack(correct,[Math.max(1,units-50),units+50,Math.round(fixed/price)]); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'標準', q:`1個${price}円で販売し、1個当たり変動費が${variable}円、固定費が${fixed}円である。損益分岐点販売数量は？`, options:p.options,a:p.a, exp:`1個当たり限界利益は ${price}-${variable}=${margin}円。固定費${fixed}÷${margin}=${units}個です。`, hint:'固定費 ÷（販売単価－1個当たり変動費）で求めます。' }; }"
+      },
+      "genDigitalSignature": {
+        "score": 3,
+        "source": "function genDigitalSignature(base){ const names=shuffledCopy(['Aさん','Bさん','Cさん']).slice(0,2); const signer=names[0],receiver=names[1]; const askSign=Math.random()<0.5; const correct=askSign?`${signer}の秘密鍵`:`${signer}の公開鍵`; const p=choicePack(correct,[ askSign?`${signer}の公開鍵`:`${signer}の秘密鍵`, `${receiver}の公開鍵`, `${receiver}の秘密鍵` ]); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'標準', q:askSign ? `${signer}がデジタル署名を付けて${receiver}へ送る。署名の生成に主に使う鍵は？` : `${signer}が付けたデジタル署名を${receiver}が検証する。検証に主に使う鍵は？`, options:p.options,a:p.a, exp:askSign ? `署名者${signer}は自分の秘密鍵で署名を生成します。` : `検証側は署名者${signer}の公開鍵を使って署名を確認します。`, hint:askSign?'署名者本人しか持たない鍵を使います。':'署名者の公開鍵は検証者が利用できます。' }; }"
+      },
+      "genLogic": {
+        "score": 1,
+        "source": "function genLogic(base){ const A=Math.random()<0.5, B=Math.random()<0.5; const ops=['AND','OR','XOR']; const op=ops[Math.floor(Math.random()*ops.length)]; let value=false; if(op==='AND') value=A&&B; if(op==='OR') value=A||B; if(op==='XOR') value=(A!==B); const correct=value?'真':'偽'; const p=choicePack(correct,[value?'偽':'真','場合による','定義できない']); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'基礎', q:`Aが${A?'真':'偽'}、Bが${B?'真':'偽'}のとき、A ${op} B の結果は？`, options:p.options,a:p.a, exp:`${op}の規則に従うと、${A?'真':'偽'} ${op} ${B?'真':'偽'} は ${correct} です。`, hint:op==='AND'?'両方が真のときだけ真です。':op==='OR'?'どちらか一方でも真なら真です。':'XORは片方だけが真のとき真です。' }; }"
+      },
+      "genPublicKeyCrypto": {
+        "score": 2,
+        "source": "function genPublicKeyCrypto(base){ const names=shuffledCopy(['Aさん','Bさん','Cさん','Dさん']).slice(0,2); const sender=names[0],receiver=names[1]; const correct=`${receiver}の公開鍵`; const p=choicePack(correct,[ `${receiver}の秘密鍵`, `${sender}の公開鍵`, `${sender}の秘密鍵` ]); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'標準', q:`${sender}が${receiver}だけに読めるよう公開鍵暗号方式でメッセージを暗号化する。通常、暗号化に使う鍵は？`, options:p.options,a:p.a, exp:`受信者である${receiver}の公開鍵で暗号化し、${receiver}の秘密鍵で復号します。`, hint:'秘密鍵を持つ本人だけが復号できるようにします。' }; }"
+      },
+      "genSqlAggregate": {
+        "score": 4,
+        "source": "function genSqlAggregate(base){ const specs=[ ['合計','SUM','amount'], ['平均','AVG','score'], ['最大値','MAX','price'], ['最小値','MIN','price'], ['行数','COUNT','*'] ]; const [jp,fn,col]=specs[Math.floor(Math.random()*specs.length)]; const correct=`${fn}(${col})`; const otherFns=['SUM','AVG','MAX','MIN','COUNT'].filter(x=>x!==fn); const distractors=shuffledCopy(otherFns).slice(0,3).map(x=>`${x}(${col})`); const p=choicePack(correct,distractors); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'標準', q:`SQLで${col==='*'?'表の':col+'列の'}${jp}を求める式は？`, options:p.options,a:p.a, exp:`${jp}を求める集約関数は ${fn} なので ${correct} です。`, hint:`SUM=合計、AVG=平均、MAX=最大、MIN=最小、COUNT=件数です。` }; }"
+      },
+      "genSqlWhere": {
+        "score": 2,
+        "source": "function genSqlWhere(base){ const columns=[ ['salary','給与',200000,600000,50000], ['age','年齢',20,60,5], ['score','得点',40,90,10] ]; const [col,label,min,max,step]=columns[Math.floor(Math.random()*columns.length)]; const threshold=min+Math.floor(Math.random()*((max-min)/step+1))*step; const ge=Math.random()<0.5; const op=ge?'>=':'<'; const jp=ge?'以上':'未満'; const correct=`WHERE ${col} ${op} ${threshold}`; const p=choicePack(correct,[ `WHERE ${col} ${ge?'<=':'>'} ${threshold}`, `WHERE ${col} = ${threshold}`, `WHERE ${col} LIKE ${threshold}` ]); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'基礎', q:`表 employee から${label}（${col}）が${threshold}${jp}の行を検索したい。適切なWHERE句は？`, options:p.options,a:p.a, exp:`「${jp}」なので演算子は ${op} です。正しくは ${correct} です。`, hint:`「以上」は >=、「未満」は < です。` }; }"
+      },
+      "genSubnet": {
+        "score": 1,
+        "source": "function genSubnet(base){ const prefix=[25,26,27][Math.floor(Math.random()*3)]; const block=256/Math.pow(2,prefix-24); const third=10+Math.floor(Math.random()*20); const host=1+Math.floor(Math.random()*254); const network=Math.floor(host/block)*block; const broadcast=network+block-1; const correct=`192.168.${third}.${network}`; const p=choicePack(correct,[ `192.168.${third}.${broadcast}`, `192.168.${third}.${host}`, `192.168.${third}.0` ]); return { id:variantId(base.id),sourceId:base.id,variant:true, cat:base.cat,concept:base.concept,difficulty:'標準', q:`IPv4アドレス 192.168.${third}.${host}/${prefix} のネットワークアドレスは？`, options:p.options,a:p.a, exp:`/${prefix}では第4オクテットのブロック幅は${block}です。${host}を含む範囲は${network}〜${broadcast}なので、ネットワークアドレスは${correct}です。`, hint:`/${prefix}のブロック幅 ${block} ごとに区切ります。` }; }"
+      },
+      "memoryHealth": {
+        "score": 1,
+        "source": "function memoryHealth(){ ensureQuestionProfile(); const attempted=trackedQuestionPool() .map(q=>({q,st:profile.qStats[q.id]})) .filter(x=>x.st?.attempts>0); if(!attempted.length) return {attempted:0,avg:100,fresh:0,soon:0,due:0}; const rows=attempted.map(x=>({...x,retention:memoryRetention(x.st),weight:cognitiveWeight(x.q)})); const denom=rows.reduce((s,x)=>s+x.weight,0); const avg=Math.round(rows.reduce((s,x)=>s+(x.retention??100)*x.weight,0)/Math.max(1,denom)); return { attempted:rows.length, avg, fresh:rows.filter(x=>(x.retention??100)>=93).length, soon:rows.filter(x=>(x.retention??100)<93 && (x.retention??100)>=80).length, due:rows.filter(x=>isDue(x.st) || (x.retention??100)<80).length }; }"
+      },
+      "mockAttemptDiagnostics": {
+        "score": 1,
+        "source": "function mockAttemptDiagnostics(details,byCat){ const target=mockTargetSeconds(); const wrongRows=details.filter(d=>d.answerIndex===null||d.answerIndex!==d.correctIndex); const slowRows=details.filter(d=>(d.seconds||0)>target*1.35); const repeatRows=wrongRows.filter(d=>(profile.mockMistakeStats?.[d.id]?.misses||0)>=1); const weakest=Object.entries(byCat||{}).filter(([,v])=>v.total).sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total))[0]; return {target,wrong:wrongRows.length,slow:slowRows.length,repeat:repeatRows.length,weakest:weakest?{cat:weakest[0],pct:Math.round(weakest[1].correct/weakest[1].total*100)}:null}; }"
+      },
+      "mockCandidateSort": {
+        "score": 1,
+        "source": "function mockCandidateSort(a,b){ const sa=mockSeen(a),sb=mockSeen(b); if(sa!==sb)return sa-sb; const la=mockLastSeen(a),lb=mockLastSeen(b); if(la!==lb)return la.localeCompare(lb); return Math.random()-.5; }"
+      }
+    },
+    "sourceContexts": {
+      "subjectAMock": [
+        "ust require retention, higher-order evidence and chapter integration',()=> typeof ensureChapterMasteryProfile==='function'&&typeof chapterIntegrationEvidence==='function'&& String(coreTopicLearningState).includes('minRetention>=85')&&String(coreTopicLearningState).includes('advancedMasterReady')&&String(coreTopicLearningState).includes('chapterReady')&& typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'&& String(courseMasteryStatus).includes(\"name:'科目Aフル模試'\")&&String(courseMasteryStatus).includes(\"name:'科目B総合実戦'\")&& String(chooseFinalBossQuestions).includes(\"'判断'\")&&String(chooseFinalBossQuestions).includes(\"'適用'\"),7), currentCheck('taper-policy','Exam taper policy and light-review routing must remain active',()=> typeof taperStudyCap==='function'&&taperStudyCap(7)===45&&taperStudyCap(3)===30&&taperStudyCap(1)===15&&taperStudyCap(0)===10&& examStudyPhase(3).allowNew===false&&examStudyPhase(3).allowLongExam===false&&examStudyPhase(0).id=",
+        "ICULUM.length}`}, {id:'topics',name:'テーマ定着',passed:stable>=117,value:`${stable}/130（習得 ${master}）`}, {id:'chapters',name:'章末統合',passed:chapterPassed===21,value:`${chapterPassed}/21`}, {id:'weak',name:'最低分野習熟',passed:Number(weakest[1])>=70,value:`${weakest[0]} ${Math.round(weakest[1])}%`}, {id:'memory',name:'復習定着',passed:mem.attempted>0&&mem.avg>=85&&mem.due<=10,value:`保持 ${mem.avg}%・要復習 ${mem.due}`}, {id:'bTraining',name:'科目B学習',passed:bTraining>=90,value:`${bTraining}%`}, {id:'aMock',name:'科目Aフル模試',passed:aMock.passed,value:aMock.count>=2?`直近2回 平均${aMock.avg}%・最低${aMock.min}%`:`${aMock.count}/2回`}, {id:'bFinal',name:'科目B総合実戦',passed:bFinal.passed,value:bFinal.count>=2?`直近2回 平均${bFinal.avg}%・最低${bFinal.min}%`:`${bFinal.count}/2回`} ]; return { topicStates,master,recovering,stable,lessonDone,chapterPassed,weakest,mem,bTraining,aMock,bFinal,gates, passed:gates.filter(g=>g.passed).length, ready:gates.every(g=>g.passed) }; } function nextUnpassedChapter(){ const rows=CORE_A_CHAPTERS.map(",
+        "if(status.chapterPassed<21){ const row=nextUnpassedChapter(); return {kind:'chapter',icon:'🧩',title:`第${row?.ch||1}章の統合確認`,desc:`章末統合 ${status.chapterPassed}/21。80%以上到達＋直近70%以上維持を習得判定の統合証拠にします。`,button:`第${row?.ch||1}章を12問で確認`,chapter:row?.ch||1}; } if(status.bTraining<90){ const b=nextBChoice(20); return {kind:'subjectB',icon:'💻',title:'科目Bの基礎演習を完成',desc:`科目B学習 ${status.bTraining}% 。未完了演習を優先します。`,button:'科目Bを続ける',b}; } if(!status.aMock.passed){ return {kind:'aMock',icon:'🏁',title:'科目Aフル模試を安定させる',desc:'直近2回で平均75%以上・各70%以上をFE QUESTの総仕上げ基準にしています。',button:'フル模試90分を始める',long:true}; } if(!status.bFinal.passed){ return {kind:'bFinal',icon:'💻',title:'科目B総合実戦を安定させる',desc:'直近2回で平均70%以上・各65%以上をFE QUESTの総仕上げ基準にしています。',button:'科目B総合100分を始める',long:true}; } if(status.stable<117||status.master<130){ const x=nextMasterTopicCandidate(); if(x){ if(x.state.key==='stable'&&!x.state.chapterReady){ return {kind:'chapter',icon:'🧩',title:`第${x.topic.chapter}章の章末確認`,desc:`「${x.topic.title}",
+        "e.securityBProgress,SECURITY_SCENARIOS.length); const c=readinessComponents(); const practice=Math.round((c.aMock+c.bExam)/2); return [ {icon:'📘',title:'ステップ 1 科目A テクノロジ',desc:`第1〜13章・${techIds.length}テーマ`,pct:aTech}, {icon:'📊',title:'ステップ 2 科目A マネジメント・ストラテジ',desc:`第14〜21章・${businessIds.length}テーマ`,pct:aBusiness}, {icon:'💻',title:'ステップ 3 科目B アルゴリズム',desc:'20演習を基礎→標準→応用の順にトレース',pct:bAlgo}, {icon:'🛡️',title:'ステップ 4 科目B セキュリティ',desc:'15ケースで状況判断',pct:bSec}, {icon:'🏁',title:'ステップ 5 総合実戦',desc:'科目Aフル模試＋科目B総合実戦の直近成績',pct:practice} ]; } function renderRoadmap(){ const root=document.getElementById('roadmapList'); if(!root) return; root.innerHTML=''; roadmapData().forEach(x=>{ const d=document.createElement('div'); d.className='roadmap-item'; d.innerHTML=` <div class=\"roadmap-icon\">${x.icon}</div> <div> <div class=\"roadmap-title\">${x.title}</div> <div class=\"roadmap-desc\">${x.desc}</div> <div class=\"progress\" style=\"margin-top:7px;height:8px\"><div style=\"wid",
+        ") document.getElementById('rightReadinessBar').style.width=r+'%'; let label='基礎づくり中'; if(r>=80) label='総仕上げへ進める状態'; else if(r>=65) label='実戦力を伸ばす段階'; else if(r>=45) label='主要分野を定着中'; else if(r>=25) label='基礎を広げている段階'; if(document.getElementById('readinessLabel')) document.getElementById('readinessLabel').textContent=label; const c=readinessComponents(); const breakdown=document.getElementById('readinessBreakdown'); if(breakdown){ const rows=[ ['科目A教材',c.lesson],['科目A演習',c.aPractice],['科目A模試',c.aMock], ['科目B学習',c.bTraining],['科目B総合',c.bExam],['復習定着',c.memoryEvidence] ]; breakdown.innerHTML=rows.map(([name,val])=>`<div class=\"readiness-part\"><span>${name}</span><b>${val}%</b></div>`).join(''); } const weak=weakestSkill(); const focus=`現在は「${weak}」を優先。`; if(document.getElementById('rightFocus')) document.getElementById('rightFocus').textContent=focus; if(document.getElementById('adaptiveNote')){ const routes=actionableReviewJourneys().length,due=dueQuestions().length; co",
+        "しかないため、この数で開始します`); } mockAnswers=Array(mockItems.length).fill(null); mockFlags=Array(mockItems.length).fill(false); mockQuestionSeconds=Array(mockItems.length).fill(0); mockIndex=0; mockStartedAt=Date.now(); mockQuestionEnteredAt=Date.now(); document.getElementById('mockMenu').classList.add('hidden'); document.getElementById('mockExam').classList.add('show'); document.getElementById('mockResult').classList.remove('show'); document.getElementById('mockExamTitle').textContent=mode==='full'?'フル模試・科目A':'ハーフ模試・科目A'; renderMockNavigator(); renderMockQuestion(); updateMockTimer(); if(mockTimerHandle) clearInterval(mockTimerHandle); mockTimerHandle=setInterval(()=>{ mockSeconds=Math.max(0,mockSeconds-1); updateMockTimer(); if(mockSeconds<=0){ clearInterval(mockTimerHandle); mockTimerHandle=null; finishMock(true); } },1000); } document.querySelectorAll('[data-mock-mode]').forEach(b=>{ b.addEventListener('click',()=>startMock(b.dataset.mockMode)); }); function update",
+        "始します`); } mockAnswers=Array(mockItems.length).fill(null); mockFlags=Array(mockItems.length).fill(false); mockQuestionSeconds=Array(mockItems.length).fill(0); mockIndex=0; mockStartedAt=Date.now(); mockQuestionEnteredAt=Date.now(); document.getElementById('mockMenu').classList.add('hidden'); document.getElementById('mockExam').classList.add('show'); document.getElementById('mockResult').classList.remove('show'); document.getElementById('mockExamTitle').textContent=mode==='full'?'フル模試・科目A':'ハーフ模試・科目A'; renderMockNavigator(); renderMockQuestion(); updateMockTimer(); if(mockTimerHandle) clearInterval(mockTimerHandle); mockTimerHandle=setInterval(()=>{ mockSeconds=Math.max(0,mockSeconds-1); updateMockTimer(); if(mockSeconds<=0){ clearInterval(mockTimerHandle); mockTimerHandle=null; finishMock(true); } },1000); } document.querySelectorAll('[data-mock-mode]').forEach(b=>{ b.addEventListener('click',()=>startMock(b.dataset.mockMode)); }); function updateMockTimer(){"
+      ],
+      "sixtyQuestions": [],
+      "questionBankSampling": [
+        "return Math.max(min, Math.min(max,n)); } const COGNITIVE_WEIGHTS={'想起':0.80,'適用':1.00,'判断':1.25}; function cognitiveWeight(q){ return COGNITIVE_WEIGHTS[q?.cognitiveLevel]||1; } function cognitiveSkillDelta(q,base){ return Math.round(base*cognitiveWeight(q)*100)/100; } function applyQuestionSkillDelta(q,base){ if(!q?.cat)return; profile.skills[q.cat]=clamp((profile.skills[q.cat]||50)+cognitiveSkillDelta(q,base),0,100); } function cognitiveLevelEvidence(cat,level){ ensureQuestionProfile(); const qs=QUESTION_BANK.filter(q=>q.cat===cat&&q.cognitiveLevel===level); const attempted=qs.filter(q=>(profile.qStats?.[q.id]?.attempts||0)>0); const attempts=attempted.reduce((n,q)=>n+(profile.qStats[q.id].attempts||0),0); const correct=attempted.reduce((n,q)=>n+(profile.qStats[q.id].correct||0),0); const accuracy=attempts?Math.round(correct/attempts*100):null; const ret=attempted.map(q=>memoryRetention(profile.qStats[q.id])).filter(x=>x!=null); const retention=ret.length?Math.round(ret.reduce((a,b)=>a+b,0)/ret.length):null; con",
+        "((s,x)=>s+COGNITIVE_WEIGHTS[x.level],0); const weighted=levels.reduce((s,x)=>s+(x.score==null?prior:x.score)*COGNITIVE_WEIGHTS[x.level],0); const score=tested.length?Math.round(weighted/Math.max(1,denom)):prior; const weakest=[...levels].sort((a,b)=>{ const as=a.score==null?50:a.score,bs=b.score==null?50:b.score; if(as!==bs)return as-bs; return COGNITIVE_WEIGHTS[b.level]-COGNITIVE_WEIGHTS[a.level]; })[0]; return {cat,score,levels,weakest}; } function subjectACognitiveEvidence(){ const rows=QUESTION_BANK.map(q=>({q,st:profile.qStats?.[q.id]})).filter(x=>(x.st?.attempts||0)>0); if(!rows.length)return 0; let weighted=0,denom=0; rows.forEach(({q,st})=>{ const accuracy=st.attempts?clamp((st.correct||0)/st.attempts*100,0,100):0; const retention=memoryRetention(st)??accuracy; const score=accuracy*.60+retention*.40; const w=cognitiveWeight(q); weighted+=score*w;denom+=w; }); const coverageWeight=rows.reduce((n,x)=>n+cognitiveWeight(x.q),0); const totalWeight=QUESTION_BANK.reduce((n,q)=>n+cognitiveWeight(q),0); const coverage=totalWe",
+        "dence(cat).score; } function chooseWeakQuestions(n=10){ const evidence=Object.fromEntries(Object.keys(profile.skills||{}).map(cat=>[cat,categoryCognitiveEvidence(cat)])); const score=q=>{ const e=evidence[q.cat]||categoryCognitiveEvidence(q.cat); const levelGap=q.cognitiveLevel===e.weakest.level?18:0; const attempted=(profile.qStats?.[q.id]?.attempts||0)>0; const urgency=attempted?Math.max(0,reviewUrgency(q)):0; return categoryWeakness(q.cat)+levelGap+Math.min(20,urgency*.12); }; return shuffled(QUESTION_BANK).sort((a,b)=>score(b)-score(a)).slice(0,Math.min(n,QUESTION_BANK.length)); } function chooseRandomBalanced(n=10){ const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))]; let selected=[]; let pools={}; cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c))); let ci=0; while(selected.length<n && Object.values(pools).some(p=>p.length)){ const c=cats[ci%cats.length]; if(pools[c].length) selected.push(pools[c].pop()); ci++; } return selected; } function chooseFinalBossQuestions(n=5){ const targets=[ ...Array(Mat",
+        "const levelGap=q.cognitiveLevel===e.weakest.level?18:0; const attempted=(profile.qStats?.[q.id]?.attempts||0)>0; const urgency=attempted?Math.max(0,reviewUrgency(q)):0; return categoryWeakness(q.cat)+levelGap+Math.min(20,urgency*.12); }; return shuffled(QUESTION_BANK).sort((a,b)=>score(b)-score(a)).slice(0,Math.min(n,QUESTION_BANK.length)); } function chooseRandomBalanced(n=10){ const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))]; let selected=[]; let pools={}; cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c))); let ci=0; while(selected.length<n && Object.values(pools).some(p=>p.length)){ const c=cats[ci%cats.length]; if(pools[c].length) selected.push(pools[c].pop()); ci++; } return selected; } function chooseFinalBossQuestions(n=5){ const targets=[ ...Array(Math.min(3,n)).fill('判断'), ...Array(Math.max(0,n-Math.min(3,n))).fill('適用') ]; const chosen=[],used=new Set(),usedCats=new Set(); const score=q=>{ const ev=categoryCognitiveEvidence(q.cat); const urg",
+        "ed; } function chooseFinalBossQuestions(n=5){ const targets=[ ...Array(Math.min(3,n)).fill('判断'), ...Array(Math.max(0,n-Math.min(3,n))).fill('適用') ]; const chosen=[],used=new Set(),usedCats=new Set(); const score=q=>{ const ev=categoryCognitiveEvidence(q.cat); const urgency=(profile.qStats?.[q.id]?.attempts||0)>0?Math.max(0,reviewUrgency(q)):0; return (100-ev.score)*1.2 + (q.cognitiveLevel===ev.weakest.level?18:0) + Math.min(20,urgency*.15); }; targets.forEach(level=>{ let pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)&&!usedCats.has(q.cat)); if(!pool.length)pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)); pool=shuffled(pool).sort((a,b)=>score(b)-score(a)); const q=pool[0]; if(q){chosen.push(q);used.add(q.id);usedCats.add(q.cat);} }); if(chosen.length<n){ const rest=shuffled(QUESTION_BANK.filter(q=>!used.has(q.id)&&q.cognitiveLevel!=='想起')).sort((a,b)=>score(b)-score(a)); chosen.push(...rest.slice(0,n-chosen.length)); } return sh",
+        "ay(Math.max(0,n-Math.min(3,n))).fill('適用') ]; const chosen=[],used=new Set(),usedCats=new Set(); const score=q=>{ const ev=categoryCognitiveEvidence(q.cat); const urgency=(profile.qStats?.[q.id]?.attempts||0)>0?Math.max(0,reviewUrgency(q)):0; return (100-ev.score)*1.2 + (q.cognitiveLevel===ev.weakest.level?18:0) + Math.min(20,urgency*.15); }; targets.forEach(level=>{ let pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)&&!usedCats.has(q.cat)); if(!pool.length)pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)); pool=shuffled(pool).sort((a,b)=>score(b)-score(a)); const q=pool[0]; if(q){chosen.push(q);used.add(q.id);usedCats.add(q.cat);} }); if(chosen.length<n){ const rest=shuffled(QUESTION_BANK.filter(q=>!used.has(q.id)&&q.cognitiveLevel!=='想起')).sort((a,b)=>score(b)-score(a)); chosen.push(...rest.slice(0,n-chosen.length)); } return shuffled(chosen.slice(0,n)); } let quizItems=[]; let quizIndex=0; let quizSelected=null; let quizAnswered=false; let",
+        ")):0; return (100-ev.score)*1.2 + (q.cognitiveLevel===ev.weakest.level?18:0) + Math.min(20,urgency*.15); }; targets.forEach(level=>{ let pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)&&!usedCats.has(q.cat)); if(!pool.length)pool=QUESTION_BANK.filter(q=>q.cognitiveLevel===level&&!used.has(q.id)); pool=shuffled(pool).sort((a,b)=>score(b)-score(a)); const q=pool[0]; if(q){chosen.push(q);used.add(q.id);usedCats.add(q.cat);} }); if(chosen.length<n){ const rest=shuffled(QUESTION_BANK.filter(q=>!used.has(q.id)&&q.cognitiveLevel!=='想起')).sort((a,b)=>score(b)-score(a)); chosen.push(...rest.slice(0,n-chosen.length)); } return shuffled(chosen.slice(0,n)); } let quizItems=[]; let quizIndex=0; let quizSelected=null; let quizAnswered=false; let quizCorrectCount=0; let quizWrongCount=0; let quizEarnedXp=0; let quizMode='random'; let quizPickedReason=null; let sessionLog=[]; let quizRetryCount=0; let quizRecoveredCount=0; let quizFirstAttemptWrong=false; let rxTechniqueReady=true; let rxTechniq",
+        "eneratorFor(q){return VARIANT_GENERATORS.find(x=>x.match(q))?.gen||null;} function hasVariant(q){return !!generatorFor(q);} function generateVariant(q){ const g=generatorFor(q); if(!g)return null; try{ const v=g(q); if(!v||!Array.isArray(v.options)||v.options.length!==4||v.a<0||v.a>3||v.options[v.a]==null)return null; return v; }catch(e){console.warn('variant generation failed',q.id,e);return null;} } function siblingVariant(q){ const lessonId=lessonForQuestion(q); const sameLesson=lessonId?QUESTION_BANK.filter(x=>x.id!==q.id && lessonForQuestion(x)===lessonId):[]; const sameConcept=QUESTION_BANK.filter(x=>x.id!==q.id && x.concept===q.concept); const pool=sameLesson.length?sameLesson:sameConcept; if(!pool.length) return null; const picked=shuffledCopy(pool)[0]; return {...picked,id:variantId(q.id),sourceId:q.sourceId||q.id,variant:true,variantSibling:true}; } function buildReviewItem(q){ if(profile.settings.variantReview===false)return q; return generateVariant(q)||siblingVariant(q)||q; } function variantCo",
+        "{return !!generatorFor(q);} function generateVariant(q){ const g=generatorFor(q); if(!g)return null; try{ const v=g(q); if(!v||!Array.isArray(v.options)||v.options.length!==4||v.a<0||v.a>3||v.options[v.a]==null)return null; return v; }catch(e){console.warn('variant generation failed',q.id,e);return null;} } function siblingVariant(q){ const lessonId=lessonForQuestion(q); const sameLesson=lessonId?QUESTION_BANK.filter(x=>x.id!==q.id && lessonForQuestion(x)===lessonId):[]; const sameConcept=QUESTION_BANK.filter(x=>x.id!==q.id && x.concept===q.concept); const pool=sameLesson.length?sameLesson:sameConcept; if(!pool.length) return null; const picked=shuffledCopy(pool)[0]; return {...picked,id:variantId(q.id),sourceId:q.sourceId||q.id,variant:true,variantSibling:true}; } function buildReviewItem(q){ if(profile.settings.variantReview===false)return q; return generateVariant(q)||siblingVariant(q)||q; } function variantCoverage(){ const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length; c",
+        "ForQuestion(x)===lessonId):[]; const sameConcept=QUESTION_BANK.filter(x=>x.id!==q.id && x.concept===q.concept); const pool=sameLesson.length?sameLesson:sameConcept; if(!pool.length) return null; const picked=shuffledCopy(pool)[0]; return {...picked,id:variantId(q.id),sourceId:q.sourceId||q.id,variant:true,variantSibling:true}; } function buildReviewItem(q){ if(profile.settings.variantReview===false)return q; return generateVariant(q)||siblingVariant(q)||q; } function variantCoverage(){ const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length; const concepts=[...new Set(QUESTION_BANK.filter(hasVariant).map(q=>q.concept))].length; return {direct,total,concepts}; } function validateGeneratedVariants(){ let count=0; for(const base of QUESTION_BANK.filter(hasVariant)){ for(let i=0;i<8;i++){ const q=generateVariant(base); if(!q||q.options.length!==4||q.a<0||q.a>3||q.options[q.a]==null)throw new Error('invalid variant '+base.id); if(q.sourceId!==base.id)throw new Error('source mismat",
+        "pt===q.concept); const pool=sameLesson.length?sameLesson:sameConcept; if(!pool.length) return null; const picked=shuffledCopy(pool)[0]; return {...picked,id:variantId(q.id),sourceId:q.sourceId||q.id,variant:true,variantSibling:true}; } function buildReviewItem(q){ if(profile.settings.variantReview===false)return q; return generateVariant(q)||siblingVariant(q)||q; } function variantCoverage(){ const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length; const concepts=[...new Set(QUESTION_BANK.filter(hasVariant).map(q=>q.concept))].length; return {direct,total,concepts}; } function validateGeneratedVariants(){ let count=0; for(const base of QUESTION_BANK.filter(hasVariant)){ for(let i=0;i<8;i++){ const q=generateVariant(base); if(!q||q.options.length!==4||q.a<0||q.a>3||q.options[q.a]==null)throw new Error('invalid variant '+base.id); if(q.sourceId!==base.id)throw new Error('source mismatch '+base.id); count++; } } return count; } const CORE_A_DIFFICULTY_LEVELS=['基礎'",
+        "ntId(q.id),sourceId:q.sourceId||q.id,variant:true,variantSibling:true}; } function buildReviewItem(q){ if(profile.settings.variantReview===false)return q; return generateVariant(q)||siblingVariant(q)||q; } function variantCoverage(){ const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length; const concepts=[...new Set(QUESTION_BANK.filter(hasVariant).map(q=>q.concept))].length; return {direct,total,concepts}; } function validateGeneratedVariants(){ let count=0; for(const base of QUESTION_BANK.filter(hasVariant)){ for(let i=0;i<8;i++){ const q=generateVariant(base); if(!q||q.options.length!==4||q.a<0||q.a>3||q.options[q.a]==null)throw new Error('invalid variant '+base.id); if(q.sourceId!==base.id)throw new Error('source mismatch '+base.id); count++; } } return count; } const CORE_A_DIFFICULTY_LEVELS=['基礎','標準','実戦']; const CORE_A_DIFFICULTY_RANK={'基礎':0,'標準':1,'実戦':2}; function coreChapterDifficultyTarget(pool){ const available=CORE_A_DIFFICULTY_LEVELS.reduce((a,k)=>(a"
+      ]
+    },
+    "bankCount": 710,
+    "coreCount": 550
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
