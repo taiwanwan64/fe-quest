@@ -1,0 +1,905 @@
+{
+  "version": "v275",
+  "previous": "v274",
+  "parent": "99f6020abc71823a3516e3e88a9c59b942c62d1f",
+  "result": "PASS — NO FINDINGS",
+  "summary": {
+    "finalCount": 43,
+    "traceCount": 20,
+    "semanticEdgeFinalCount": 37,
+    "boundaryOperatorFinalCount": 24,
+    "semanticEdgeTraceCount": 16,
+    "boundaryOperatorTraceCount": 12,
+    "byDomain": {
+      "制御": {
+        "count": 4,
+        "semanticEdge": 4,
+        "boundaryOperator": 1,
+        "ids": [
+          "bexam_ctrl_01",
+          "bexam_ctrl_02",
+          "bexam_ctrl_03",
+          "bexam_ctrl_04"
+        ],
+        "edgeIds": [
+          "bexam_ctrl_01",
+          "bexam_ctrl_02",
+          "bexam_ctrl_03",
+          "bexam_ctrl_04"
+        ],
+        "signals": {
+          "endpointWords": 4,
+          "zeroBoundary": 3
+        }
+      },
+      "一次元配列": {
+        "count": 5,
+        "semanticEdge": 5,
+        "boundaryOperator": 5,
+        "ids": [
+          "bexam_arr_01",
+          "bexam_arr_02",
+          "bexam_arr_03",
+          "bexam_arr_04",
+          "bexam_arr_05"
+        ],
+        "edgeIds": [
+          "bexam_arr_01",
+          "bexam_arr_02",
+          "bexam_arr_03",
+          "bexam_arr_04",
+          "bexam_arr_05"
+        ],
+        "signals": {
+          "notFound": 4,
+          "endpointWords": 2
+        }
+      },
+      "二次元配列": {
+        "count": 4,
+        "semanticEdge": 3,
+        "boundaryOperator": 4,
+        "ids": [
+          "bexam_mat_01",
+          "bexam_mat_02",
+          "bexam_mat_03",
+          "bexam_mat_04"
+        ],
+        "edgeIds": [
+          "bexam_mat_01",
+          "bexam_mat_02",
+          "bexam_mat_04"
+        ],
+        "signals": {
+          "endpointWords": 2,
+          "zeroBoundary": 1
+        }
+      },
+      "再帰・関数": {
+        "count": 5,
+        "semanticEdge": 5,
+        "boundaryOperator": 3,
+        "ids": [
+          "bexam_rec_01",
+          "bexam_rec_02",
+          "bexam_rec_03",
+          "bexam_rec_04",
+          "bexam_rec_05"
+        ],
+        "edgeIds": [
+          "bexam_rec_01",
+          "bexam_rec_02",
+          "bexam_rec_03",
+          "bexam_rec_04",
+          "bexam_rec_05"
+        ],
+        "signals": {
+          "endpointWords": 2,
+          "notFound": 3,
+          "zeroBoundary": 1
+        }
+      },
+      "木構造": {
+        "count": 5,
+        "semanticEdge": 5,
+        "boundaryOperator": 2,
+        "ids": [
+          "bexam_tree_01",
+          "bexam_tree_02",
+          "bexam_tree_03",
+          "bexam_tree_04",
+          "bexam_tree_05"
+        ],
+        "edgeIds": [
+          "bexam_tree_01",
+          "bexam_tree_02",
+          "bexam_tree_03",
+          "bexam_tree_04",
+          "bexam_tree_05"
+        ],
+        "signals": {
+          "emptyOrNull": 5
+        }
+      },
+      "オブジェクト指向": {
+        "count": 4,
+        "semanticEdge": 3,
+        "boundaryOperator": 1,
+        "ids": [
+          "bexam_obj_01",
+          "bexam_obj_02",
+          "bexam_obj_03",
+          "bexam_obj_04"
+        ],
+        "edgeIds": [
+          "bexam_obj_01",
+          "bexam_obj_03",
+          "bexam_obj_04"
+        ],
+        "signals": {
+          "emptyOrNull": 1,
+          "endpointWords": 3
+        }
+      },
+      "リスト": {
+        "count": 4,
+        "semanticEdge": 3,
+        "boundaryOperator": 1,
+        "ids": [
+          "bexam_list_01",
+          "bexam_list_02",
+          "bexam_list_03",
+          "bexam_list_04"
+        ],
+        "edgeIds": [
+          "bexam_list_02",
+          "bexam_list_03",
+          "bexam_list_04"
+        ],
+        "signals": {
+          "endpointWords": 2,
+          "emptyOrNull": 2
+        }
+      },
+      "スタック・キュー": {
+        "count": 4,
+        "semanticEdge": 3,
+        "boundaryOperator": 3,
+        "ids": [
+          "bexam_sq_01",
+          "bexam_sq_02",
+          "bexam_sq_03",
+          "bexam_sq_04"
+        ],
+        "edgeIds": [
+          "bexam_sq_01",
+          "bexam_sq_02",
+          "bexam_sq_03"
+        ],
+        "signals": {
+          "endpointWords": 3,
+          "notFound": 1
+        }
+      },
+      "ビット列": {
+        "count": 5,
+        "semanticEdge": 4,
+        "boundaryOperator": 1,
+        "ids": [
+          "bexam_bit_01",
+          "bexam_bit_02",
+          "bexam_bit_03",
+          "bexam_bit_04",
+          "bexam_bit_05"
+        ],
+        "edgeIds": [
+          "bexam_bit_02",
+          "bexam_bit_03",
+          "bexam_bit_04",
+          "bexam_bit_05"
+        ],
+        "signals": {
+          "endpointWords": 4
+        }
+      },
+      "探索・整列": {
+        "count": 3,
+        "semanticEdge": 2,
+        "boundaryOperator": 3,
+        "ids": [
+          "bexam_algo_01",
+          "bexam_algo_02",
+          "bexam_algo_03"
+        ],
+        "edgeIds": [
+          "bexam_algo_02",
+          "bexam_algo_03"
+        ],
+        "signals": {
+          "zeroBoundary": 2
+        }
+      }
+    },
+    "criticalDomains": [
+      "探索・整列",
+      "一次元配列",
+      "二次元配列",
+      "再帰・関数",
+      "リスト",
+      "木構造",
+      "スタック・キュー"
+    ]
+  },
+  "finalClassification": [
+    {
+      "id": "bexam_ctrl_01",
+      "domain": "制御",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_ctrl_02",
+      "domain": "制御",
+      "level": "標準",
+      "format": "実行回数",
+      "signals": [
+        "endpointWords",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_ctrl_03",
+      "domain": "制御",
+      "level": "標準",
+      "format": "途中状態",
+      "signals": [
+        "endpointWords",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_ctrl_04",
+      "domain": "制御",
+      "level": "応用",
+      "format": "実行回数",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_arr_01",
+      "domain": "一次元配列",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "notFound"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_arr_02",
+      "domain": "一次元配列",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_arr_03",
+      "domain": "一次元配列",
+      "level": "標準",
+      "format": "実行回数",
+      "signals": [
+        "notFound",
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_arr_04",
+      "domain": "一次元配列",
+      "level": "応用",
+      "format": "空欄補充",
+      "signals": [
+        "notFound"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_mat_01",
+      "domain": "二次元配列",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_mat_02",
+      "domain": "二次元配列",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_mat_03",
+      "domain": "二次元配列",
+      "level": "応用",
+      "format": "空欄補充",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_rec_01",
+      "domain": "再帰・関数",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_rec_02",
+      "domain": "再帰・関数",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_rec_03",
+      "domain": "再帰・関数",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "notFound",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_rec_04",
+      "domain": "再帰・関数",
+      "level": "応用",
+      "format": "空欄補充",
+      "signals": [
+        "notFound"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_tree_01",
+      "domain": "木構造",
+      "level": "標準",
+      "format": "途中状態",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_tree_02",
+      "domain": "木構造",
+      "level": "応用",
+      "format": "実行回数",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_tree_03",
+      "domain": "木構造",
+      "level": "応用",
+      "format": "変更予測",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_obj_01",
+      "domain": "オブジェクト指向",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "emptyOrNull",
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_obj_02",
+      "domain": "オブジェクト指向",
+      "level": "標準",
+      "format": "空欄補充",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_obj_03",
+      "domain": "オブジェクト指向",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_list_01",
+      "domain": "リスト",
+      "level": "応用",
+      "format": "空欄補充",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_list_02",
+      "domain": "リスト",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_list_03",
+      "domain": "リスト",
+      "level": "標準",
+      "format": "実行回数",
+      "signals": [
+        "emptyOrNull",
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_sq_01",
+      "domain": "スタック・キュー",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_sq_02",
+      "domain": "スタック・キュー",
+      "level": "標準",
+      "format": "途中状態",
+      "signals": [
+        "notFound",
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_sq_03",
+      "domain": "スタック・キュー",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_bit_01",
+      "domain": "ビット列",
+      "level": "標準",
+      "format": "空欄補充",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_bit_02",
+      "domain": "ビット列",
+      "level": "標準",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_bit_03",
+      "domain": "ビット列",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_algo_01",
+      "domain": "探索・整列",
+      "level": "応用",
+      "format": "実行回数",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_algo_02",
+      "domain": "探索・整列",
+      "level": "応用",
+      "format": "途中状態",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_arr_05",
+      "domain": "一次元配列",
+      "level": "応用",
+      "format": "空欄補充",
+      "signals": [
+        "notFound"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_mat_04",
+      "domain": "二次元配列",
+      "level": "応用",
+      "format": "途中状態",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_rec_05",
+      "domain": "再帰・関数",
+      "level": "応用",
+      "format": "実行回数",
+      "signals": [
+        "notFound"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_tree_04",
+      "domain": "木構造",
+      "level": "応用",
+      "format": "途中状態",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_list_04",
+      "domain": "リスト",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_sq_04",
+      "domain": "スタック・キュー",
+      "level": "応用",
+      "format": "途中状態",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_bit_04",
+      "domain": "ビット列",
+      "level": "応用",
+      "format": "変更予測",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_algo_03",
+      "domain": "探索・整列",
+      "level": "応用",
+      "format": "途中状態",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bexam_obj_04",
+      "domain": "オブジェクト指向",
+      "level": "標準",
+      "format": "途中状態",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_bit_05",
+      "domain": "ビット列",
+      "level": "応用",
+      "format": "処理結果",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bexam_tree_05",
+      "domain": "木構造",
+      "level": "標準",
+      "format": "途中状態",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    }
+  ],
+  "traceClassification": [
+    {
+      "id": "loop_sum",
+      "title": "ループで合計",
+      "skill": "",
+      "signals": [
+        "endpointWords",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "array_max",
+      "title": "配列の最大値",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "linear_search",
+      "title": "線形探索",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "stack_ops",
+      "title": "スタック操作",
+      "skill": "",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "recursion",
+      "title": "再帰呼出し",
+      "skill": "",
+      "signals": [
+        "baseCase"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "tree_dfs",
+      "title": "木の深さ優先探索",
+      "skill": "",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "count_even",
+      "title": "偶数を数える",
+      "skill": "",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "array_reverse",
+      "title": "配列を逆順にする",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "nested_loop",
+      "title": "二重ループ",
+      "skill": "",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "binary_search_b",
+      "title": "二分探索トレース",
+      "skill": "",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "bubble_sort_b",
+      "title": "バブルソート",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "selection_sort_b",
+      "title": "選択ソート",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "matrix_sum",
+      "title": "二次元配列の合計",
+      "skill": "",
+      "signals": [
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "matrix_find",
+      "title": "二次元配列から探索",
+      "skill": "",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": true
+    },
+    {
+      "id": "queue_ops",
+      "title": "キュー操作",
+      "skill": "",
+      "signals": [
+        "endpointWords"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    },
+    {
+      "id": "linked_list",
+      "title": "連結リストをたどる",
+      "skill": "",
+      "signals": [
+        "emptyOrNull"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "bit_mask",
+      "title": "ビットマスク",
+      "skill": "",
+      "signals": [
+        "emptyOrNull",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "object_counter",
+      "title": "オブジェクトの状態",
+      "skill": "",
+      "signals": [],
+      "semanticEdge": false,
+      "boundaryOperator": false
+    },
+    {
+      "id": "gcd_euclid",
+      "title": "ユークリッド互除法",
+      "skill": "",
+      "signals": [
+        "endpointWords",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": false
+    },
+    {
+      "id": "recursive_fib",
+      "title": "再帰でフィボナッチ",
+      "skill": "",
+      "signals": [
+        "notFound",
+        "zeroBoundary"
+      ],
+      "semanticEdge": true,
+      "boundaryOperator": true
+    }
+  ],
+  "findings": [],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
