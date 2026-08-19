@@ -1,0 +1,35 @@
+FE QUEST v245 — Subject B Security Review Reason Label Repair
+==============================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v244
+Source main: 028bb2e814b5d7cc24f4c77c758e95ea7414de59
+Resolved finding: subject_b_security_review_reason_action_route_mismatch
+Learner-facing change: security final-review reason labels/action copy only
+
+Repair
+------
+v244 found 30 explicit copy/route mismatches: all 15 security scenarios showed 「TRACEで1行ずつ確認」 for 「トレースミス」 and 「複合問題で確認」 for 「コード理解」 even though the correct destination remained the scenario-specific security exercise.
+v245 changes only the security review vocabulary: 「トレースミス」 is displayed/stored going forward as 「手順の追い違い」 and 「コード理解」 as 「対策の理解」. Their action copy now says 「セキュリティ演習で手順確認」 / 「セキュリティ演習で対策確認」.
+Existing stored legacy reason keys remain readable and map to the new security-specific wording, so no profile migration is required.
+
+Coverage
+--------
+Security scenarios validated: 15 / 15
+Legacy + new security reason keys resolve to the same security-specific action copy: yes
+Security target IDs/routes preserved: 15 / 15
+Algorithm review reason behavior preserved: 43 / 43
+
+Regression
+----------
+Question / TRACE / security / final-algorithm banks vs v244: identical.
+1000 deterministic final-session selection/order/options signatures vs v244: identical.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / algorithm pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/reference six release files byte-identical: yes
+
+Decision
+--------
+Proceed to v246 post-repair learner-flow audit across algorithm/security reason chips, rerender after reason selection, and direct destination action. If clean, close the v242-v246 review-action sequence and move to another learner-value frontier.

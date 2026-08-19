@@ -1,0 +1,33 @@
+{
+  "version": "v245",
+  "previous": "v244",
+  "parent": "028bb2e814b5d7cc24f4c77c758e95ea7414de59",
+  "result": "PASS — NO FINDINGS",
+  "findingResolved": "subject_b_security_review_reason_action_route_mismatch",
+  "securityScenarios": 15,
+  "legacyReasonKeysReadable": true,
+  "newVisibleReasons": [
+    "手順の追い違い",
+    "対策の理解"
+  ],
+  "securityRoutesPreserved": true,
+  "algorithmReviewBehaviorPreserved": true,
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
