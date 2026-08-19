@@ -1,0 +1,43 @@
+FE QUEST v257 — Subject B Learner-Local Adaptive Recommendation
+=================================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v256
+Source main: b11c5cf8ed592a1a5b895b8d5850e34a57ed82f4
+Learner-facing change in v257: yes — after enough Subject B experience, existing “next practice” guidance can use the learner's recent local first-answer evidence.
+
+Policy
+------
+The existing subjectBHubRecommendation remains the single recommendation surface. Local adaptation is gated until two full Subject B final runs are complete. For compound, algorithm mini-mock, and security mini-mock, only the most recent 20 locally recorded first-answer events per layer are considered. A layer needs at least 8 observations. The uniquely lowest recent first-answer accuracy can become the suggested short practice only when it is 70% or lower. If the two weakest eligible layers are tied, the existing recommendation is kept rather than making an arbitrary local choice. During the existing 0–3 day exam taper, the original Subject B recommendation is preserved unchanged.
+
+Evidence priority
+-----------------
+Accuracy chooses the layer. Response time never chooses or relabels a layer; when the selected layer has a median first-answer time of at least one second, the median is shown only as secondary “time is a guide” context. Full-final timing events are excluded from short-practice layer selection.
+
+Validation
+----------
+Before two final runs: existing recommendation preserved exactly.
+Seven samples: existing recommendation preserved exactly.
+Tied weakest layers: existing recommendation preserved exactly.
+Exam taper: adaptation disabled for 0–3 days remaining and allowed again outside the taper window.
+Eight-sample weak algorithm mini-mock case (63%): miniMock selected with local-evidence marker.
+All eligible layers at 75% or better: existing recommendation preserved exactly.
+Accuracy-vs-time conflict: lower-accuracy securityMock selected even when another layer was much slower.
+Recent-window probe: ten old failures followed by twenty recent successes produced a 20-event / 100% layer summary and no override.
+Sub-second median timing: no noisy response-time sentence added.
+
+Regression
+----------
+Question / TRACE / compound / security / final-algorithm banks: unchanged from v256.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Scoring, exam countdown, readiness calculation/thresholds, remediation targets, profile schema, and published difficulty labels: unchanged.
+Subject B guided-flow/taper self-check: preserved.
+Subject B semantic diagnostics: OK.
+Candidate/approved-content-reference six-file byte equality: yes.
+
+Decision
+--------
+The learner-local evidence can now influence only the already-established Subject B “what next” guidance, with conservative minimum-evidence gates, tie fallback, taper preservation, and accuracy-first selection. Next perform a post-recommendation audit against the actual hub/render/launch paths and sparse/tied data cases. If clean, close this adaptive-recommendation sequence rather than adding another dashboard or more learner-facing metrics.
