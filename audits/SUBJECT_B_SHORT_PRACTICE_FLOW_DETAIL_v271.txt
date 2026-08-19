@@ -1,0 +1,61 @@
+FE QUEST v271 — Subject B Short-Practice Flow Detail Audit
+=================================================================
+
+Result
+------
+PASS — DETAIL EVIDENCE CAPTURED
+Previous release: v270
+Source main: 1e5bc4160ca05a17b86ee920b4add40925fb855d
+Learner-facing change in v271: none
+
+Purpose
+-------
+v270 showed eight Subject-B-context confirmations, all around submit/exit paths, and no obvious repeated confirmation inside the named core functions. v271 narrows to high-frequency short-practice flows: TRACE, compound, algorithm mini mock and security mini mock. It captures submit helpers, answer/navigation bindings and whether TRACE prediction and advancement are represented as distinct interactions before any UX simplification is attempted.
+
+Function evidence
+-----------------
+startBExercise: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+renderBStep: present=True / confirm=0 / renderCalls=['renderBStep', 'renderBState', 'renderBVisual'] / finishCalls=['finishBExercise'] / indexMutations=['bStepIndex']
+showBPrediction: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+finishBExercise: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+startCompoundChallenge: present=True / confirm=0 / renderCalls=['renderCompoundQuestion'] / finishCalls=[] / indexMutations=['bCompoundIndex']
+renderCompoundQuestion: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+askSubmitCompound: present=True / confirm=1 / renderCalls=[] / finishCalls=['finishCompoundChallenge'] / indexMutations=[]
+finishCompoundChallenge: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+startBMiniMock: present=True / confirm=0 / renderCalls=['renderBMockQuestion'] / finishCalls=[] / indexMutations=['bMockIndex']
+renderBMockQuestion: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+askSubmitBMock: present=True / confirm=1 / renderCalls=[] / finishCalls=['finishBMiniMock'] / indexMutations=[]
+finishBMiniMock: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+startSecurityMock: present=True / confirm=0 / renderCalls=['renderSecurityMockQuestion'] / finishCalls=[] / indexMutations=['secMockIndex']
+renderSecurityMockQuestion: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+askSubmitSecurityMock: present=True / confirm=1 / renderCalls=[] / finishCalls=['finishSecurityMock'] / indexMutations=[]
+finishSecurityMock: present=True / confirm=0 / renderCalls=[] / finishCalls=[] / indexMutations=[]
+
+Binding evidence
+----------------
+traceNextControl: matches=9
+predictionControls: matches=12
+compoundControls: matches=12
+algorithmMiniMockControls: matches=12
+securityMockControls: matches=12
+TRACE prediction + advance both represented in captured source: True
+
+Findings
+--------
+None.
+
+Interpretation
+--------------
+Submission confirmation for a timed mini mock or a multi-question compound set is protective, especially when unanswered items remain. Exit confirmation is also protective because the current copy explicitly says answers are not saved. These are not treated as friction findings by default. TRACE may legitimately require a separate prediction choice and advance action because the pedagogical goal is to stop at an intermediate state; v271 records that structure without removing it automatically.
+
+Regression
+----------
+Captured short-practice function sources and binding snippets are unchanged from v270.
+Subject B authored banks are unchanged.
+Final contract remains 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If no repeated-confirmation finding appears, keep the protective submit/exit confirmations. The next optimization should focus on resume/start routing and completion-to-next-practice handoff, where an extra menu stop can cost a tap every session without protecting learner work.

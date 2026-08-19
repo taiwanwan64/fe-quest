@@ -1,0 +1,309 @@
+{
+  "version": "v271",
+  "previous": "v270",
+  "parent": "1e5bc4160ca05a17b86ee920b4add40925fb855d",
+  "result": "PASS — DETAIL EVIDENCE CAPTURED",
+  "functionStats": {
+    "startBExercise": {
+      "present": true,
+      "chars": 416,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "renderBStep": {
+      "present": true,
+      "chars": 733,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [
+        "renderBStep",
+        "renderBState",
+        "renderBVisual"
+      ],
+      "finishCalls": [
+        "finishBExercise"
+      ],
+      "indexMutations": [
+        "bStepIndex"
+      ],
+      "classAdds": [
+        "active"
+      ],
+      "classRemoves": [
+        "active",
+        "show"
+      ]
+    },
+    "showBPrediction": {
+      "present": true,
+      "chars": 815,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "finishBExercise": {
+      "present": true,
+      "chars": 150,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "startCompoundChallenge": {
+      "present": true,
+      "chars": 1024,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [
+        "renderCompoundQuestion"
+      ],
+      "finishCalls": [],
+      "indexMutations": [
+        "bCompoundIndex"
+      ],
+      "classAdds": [
+        "hidden",
+        "show"
+      ],
+      "classRemoves": [
+        "show"
+      ]
+    },
+    "renderCompoundQuestion": {
+      "present": true,
+      "chars": 535,
+      "confirmCalls": 0,
+      "answerDataHooks": [
+        "copt"
+      ],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "askSubmitCompound": {
+      "present": true,
+      "chars": 175,
+      "confirmCalls": 1,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [
+        "finishCompoundChallenge"
+      ],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "finishCompoundChallenge": {
+      "present": true,
+      "chars": 145,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "startBMiniMock": {
+      "present": true,
+      "chars": 458,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [
+        "renderBMockQuestion"
+      ],
+      "finishCalls": [],
+      "indexMutations": [
+        "bMockIndex"
+      ],
+      "classAdds": [
+        "hidden",
+        "show"
+      ],
+      "classRemoves": [
+        "show"
+      ]
+    },
+    "renderBMockQuestion": {
+      "present": true,
+      "chars": 498,
+      "confirmCalls": 0,
+      "answerDataHooks": [
+        "bmopt"
+      ],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "askSubmitBMock": {
+      "present": true,
+      "chars": 168,
+      "confirmCalls": 1,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [
+        "finishBMiniMock"
+      ],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "finishBMiniMock": {
+      "present": true,
+      "chars": 137,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "startSecurityMock": {
+      "present": true,
+      "chars": 486,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [
+        "renderSecurityMockQuestion"
+      ],
+      "finishCalls": [],
+      "indexMutations": [
+        "secMockIndex"
+      ],
+      "classAdds": [
+        "hidden",
+        "show"
+      ],
+      "classRemoves": [
+        "show"
+      ]
+    },
+    "renderSecurityMockQuestion": {
+      "present": true,
+      "chars": 542,
+      "confirmCalls": 0,
+      "answerDataHooks": [
+        "smopt"
+      ],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "askSubmitSecurityMock": {
+      "present": true,
+      "chars": 180,
+      "confirmCalls": 1,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [
+        "finishSecurityMock"
+      ],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    },
+    "finishSecurityMock": {
+      "present": true,
+      "chars": 144,
+      "confirmCalls": 0,
+      "answerDataHooks": [],
+      "renderCalls": [],
+      "finishCalls": [],
+      "indexMutations": [],
+      "classAdds": [],
+      "classRemoves": []
+    }
+  },
+  "bindingSnippets": {
+    "traceNextControl": [
+      "rcise-cta',message:'v119 focused exercise CTA contract missing',test:()=>!!document.getElementById('problems')&&!!document.querySelector('.quiz-actions')&&!!document.getElementById('quizSubmit')}, {id:'v110-subject-b-next-cards',message:'v110 Subject B next-action cards missing',test:()=>!!document.getElementById('subjectBNextCard')&&!!document.getElementById('subjectBProgressStrip')&&!!document.getElementById('bTraceNextCard')&&!!document.getElementById('secNextCard')&&!!document.getElementById('bPracticeNextCard')}, {id:'v102-legacy-quest-copy',message:'v102 legacy quest wording remains visible',test:()=>!document.body.innerText.includes('今日のクエスト')&&!document.body.innerText.includes('クエスト完了')} ]; function feqQuestionCueAudit(){ const giveawayActionCue=/(だけを(?:確認|変更|実施|行|監視|見る|使|管理|再実行)|だけで(?:判断|決定|対応|運用)|だけ(?:確認|変更|実施|",
+      ");}); document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))showBMockMenu();}); if(!profile.bProgress) profile.bProgress={}; B_EXERCISES.forEach(x=>{ if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=trac",
+      ">{ if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{",
+      "gress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{ const rec=subjectBHubRecommendation(); title.textC",
+      "null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{ const rec=subjectBHubRecommendation(); title.textContent='アルゴリズム20演習は完了しました'; desc.textContent",
+      "=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{ const rec=subjectBHubRecommendation(); title.textContent='アルゴリズム20演習は完了しました'; desc.textContent=rec.mode==='security'?'次はセキュリティ ケース演習へ進みます。':'短い",
+      "NextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getElementById('bTraceNextAction'); if(!title||!desc||!action)return; const next=traceNextRecommendation(); if(next){ title.textContent=next.title;desc.textContent=`${next.level}・${next.concept}`;action.textContent='この演習を始める →';action.onclick=()=>startBExercise(next.id); }else{ const rec=subjectBHubRecommendation(); title.textContent='アルゴリズム20演習は完了しました'; desc.textContent=rec.mode==='security'?'次はセキュリティ ケース演習へ進みます。':'短い実戦演習へ進めます。'; action.textContent=rec.mode==='security'?'セキュリティへ →",
+      "ion renderBGrid(){ const root=document.getElementById('bExerciseGrid'); if(!root) return; root.innerHTML=''; const done=B_EXERCISES.filter(ex=>(profile.bProgress?.[ex.id]||0)>=100).length; const visible=B_EXERCISES.filter(ex=>currentBFilter==='all'||ex.level===currentBFilter); visible.forEach(ex=>{ const pct=profile.bProgress?.[ex.id]||0; const card=document.createElement('div'); const nextId=traceNextRecommendation()?.id; card.className='b-card'+(pct>=100?' done':'')+(ex.id===nextId?' b-next-highlight':''); const diffClass=ex.level==='標準'?'medium':ex.level==='応用'?'hard':''; card.innerHTML=` <div class=\"b-card-top\"> <div class=\"b-card-icon\">${ex.icon}</div> <div> <div class=\"b-card-title\">${ex.title}</div> <div class=\"b-card-meta\">${ex.concept}</div> </",
+      "==level).length; const clear=B_EXERCISES.filter(x=>x.level===level&&(profile.bProgress?.[x.id]||0)>=100).length; return `${level}${clear}/${all}`; }).join(' ・ '); t.innerHTML=`<div>${done} / ${B_EXERCISES.length}</div><div style=\"font-size:14px;color:#8965ab;margin-top:2px\">${levels}</div>`; } root.querySelectorAll('[data-bex]').forEach(b=>b.onclick=()=>startBExercise(b.dataset.bex)); renderTraceNextCard(); if(typeof renderSubjectBHub==='function')renderSubjectBHub(); } document.getElementById('mapTrace')?.addEventListener('click',()=>{ showScreen('trace'); showBList(); }); function showBList(){ stopBMockTimer(); document.getElementById('bSelect').classList.remove('hidden'); document.getElementById('secSelect')?.classList.add('hidden'); document.getElementById('bMockSelect')?.classList.add('hidde"
+    ],
+    "predictionControls": [
+      "ndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQuestion();}); document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))showBMockMenu();}); if(!profile.bProgress) profile.bProgress={}; B_EXERCISES.forEach(x=>{ if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_EXERCISES.find(x=>(profile.bProgress?.[x.id]||0)<100); if(ex)return {id:ex.id,title:ex.title,level:ex.level,concept:ex.concept}; return null; } function renderTraceNextCard(){ const title=document.getElementById('bTraceNextTitle'),desc=document.getElementById('bTraceNextDesc'),action=document.getEleme",
+      ".getElementById('bMockResult')?.classList.remove('show'); document.getElementById('bLab').classList.remove('show'); renderBGrid(); } document.getElementById('bBackToList')?.addEventListener('click',showBList); document.getElementById('bNextExercise')?.addEventListener('click',continueSubjectBFlow); function startBExercise(id){ currentB=B_EXERCISES.find(x=>x.id===id); if(!currentB) return; bStepIndex=-1; bPredictionSatisfied=true; lastBState={}; document.getElementById('bSelect').classList.add('hidden'); document.getElementById('bLab').classList.add('show'); document.getElementById('bComplete').classList.remove('show'); document.getElementById('bLabTitle').textContent=currentB.title; document.getElementById('bLabMeta').textContent=`科目B・${currentB.concept}・${currentB.level}`; document.getElementById('bCode').inner",
+      "document.getElementById('bLabMeta').textContent=`科目B・${currentB.concept}・${currentB.level}`; document.getElementById('bCode').innerHTML=currentB.code.map((line,i)=>`<div class=\"b-code-line\" data-bline=\"${i}\">${escapeHtml(line)}</div>`).join(''); resetBView(); } function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); } function resetBView(){ bStepIndex=-1; bPredictionSatisfied=true; lastBState={}; document.querySelectorAll('.b-code-line').forEach(l=>l.classList.remove('active')); document.getElementById('bStateGrid').innerHTML='<div class=\"sub\">まだ実行していません。</div>'; document.getElementById('bVisual').innerHTML='<div class=\"sub\" style=\"text-align:center\">1行ずつ実行し、途中2か所で次の状態を予測します。</div>'; document.getElementById('bTraceMessage').textContent='最初の行から1行ずつ実行してください。'; document",
+      "rEach(l=>l.classList.remove('active')); document.getElementById('bStateGrid').innerHTML='<div class=\"sub\">まだ実行していません。</div>'; document.getElementById('bVisual').innerHTML='<div class=\"sub\" style=\"text-align:center\">1行ずつ実行し、途中2か所で次の状態を予測します。</div>'; document.getElementById('bTraceMessage').textContent='最初の行から1行ずつ実行してください。'; document.getElementById('bTraceProgress').style.width='0%'; document.getElementById('predictionBox').classList.remove('show'); document.getElementById('bStep').disabled=false; document.getElementById('bStep').textContent='▶ 次の行を実行'; document.getElementById('bComplete').classList.remove('show'); } document.getElementById('bReset')?.addEventListener('click',resetBView); document.getElementById('bStep')?.addEventListener('click',()=>{ if(!currentB) return; if(!bPredictionSatisfied){ popToast('予測問題に答えて",
+      "0%'; document.getElementById('predictionBox').classList.remove('show'); document.getElementById('bStep').disabled=false; document.getElementById('bStep').textContent='▶ 次の行を実行'; document.getElementById('bComplete').classList.remove('show'); } document.getElementById('bReset')?.addEventListener('click',resetBView); document.getElementById('bStep')?.addEventListener('click',()=>{ if(!currentB) return; if(!bPredictionSatisfied){ popToast('予測問題に答えてから進みましょう'); return; } if(bStepIndex < currentB.steps.length-1){ bStepIndex++; renderBStep(currentB.steps[bStepIndex]); } }); function renderBStep(step){ document.querySelectorAll('.b-code-line').forEach(l=>l.classList.remove('active')); const active=document.querySelector(`.b-code-line[data-bline=\"${step.line}\"]`); if(active) active.classList.add('active');",
+      "=>l.classList.remove('active')); const active=document.querySelector(`.b-code-line[data-bline=\"${step.line}\"]`); if(active) active.classList.add('active'); renderBState(step.state||{}); renderBVisual(step); document.getElementById('bTraceMessage').textContent=step.msg||''; document.getElementById('bTraceProgress').style.width=`${((bStepIndex+1)/currentB.steps.length)*100}%`; if(step.predict){ showBPrediction(step.predict); }else{ bPredictionSatisfied=true; document.getElementById('predictionBox').classList.remove('show'); } if(bStepIndex===currentB.steps.length-1 && !step.predict){ finishBExercise(); } } function renderBState(state){ const grid=document.getElementById('bStateGrid'); grid.innerHTML=''; Object.entries(state).forEach(([k,v])=>{ const changed=lastBState[k]!==undefined && Stri",
+      "active=document.querySelector(`.b-code-line[data-bline=\"${step.line}\"]`); if(active) active.classList.add('active'); renderBState(step.state||{}); renderBVisual(step); document.getElementById('bTraceMessage').textContent=step.msg||''; document.getElementById('bTraceProgress').style.width=`${((bStepIndex+1)/currentB.steps.length)*100}%`; if(step.predict){ showBPrediction(step.predict); }else{ bPredictionSatisfied=true; document.getElementById('predictionBox').classList.remove('show'); } if(bStepIndex===currentB.steps.length-1 && !step.predict){ finishBExercise(); } } function renderBState(state){ const grid=document.getElementById('bStateGrid'); grid.innerHTML=''; Object.entries(state).forEach(([k,v])=>{ const changed=lastBState[k]!==undefined && String(lastBState[k])!==String(v); const",
+      "\"${step.line}\"]`); if(active) active.classList.add('active'); renderBState(step.state||{}); renderBVisual(step); document.getElementById('bTraceMessage').textContent=step.msg||''; document.getElementById('bTraceProgress').style.width=`${((bStepIndex+1)/currentB.steps.length)*100}%`; if(step.predict){ showBPrediction(step.predict); }else{ bPredictionSatisfied=true; document.getElementById('predictionBox').classList.remove('show'); } if(bStepIndex===currentB.steps.length-1 && !step.predict){ finishBExercise(); } } function renderBState(state){ const grid=document.getElementById('bStateGrid'); grid.innerHTML=''; Object.entries(state).forEach(([k,v])=>{ const changed=lastBState[k]!==undefined && String(lastBState[k])!==String(v); const d=document.createElement('div'); d.className='state-c",
+      "ited=step.visited||[]; const mark=n=>visited.includes(n)?`[${n}]`:n; v.innerHTML=`<div class=\"tree-view\"> ${mark('A')} / \\\\ ${mark('B')} ${mark('C')} / \\\\ ${mark('D')} ${mark('E')}</div> <div class=\"visit-path\">出力：${escapeHtml(step.state?.output||'—')}</div>`; return; } v.innerHTML='<div class=\"sub\" style=\"text-align:center\">変数の変化を右上のSTATEで追いましょう。</div>'; } function showBPrediction(pred){ bPredictionSatisfied=false; const box=document.getElementById('predictionBox'); box.classList.add('show'); document.getElementById('predictionTitle').textContent='⚡ 次を予測：'+pred.q; const root=document.getElementById('predictionOptions'); root.innerHTML=''; pred.opts.forEach((o,i)=>{ const b=document.createElement('button'); b.className='prediction-option'; b.textContent=o; b.oncli",
+      "; const mark=n=>visited.includes(n)?`[${n}]`:n; v.innerHTML=`<div class=\"tree-view\"> ${mark('A')} / \\\\ ${mark('B')} ${mark('C')} / \\\\ ${mark('D')} ${mark('E')}</div> <div class=\"visit-path\">出力：${escapeHtml(step.state?.output||'—')}</div>`; return; } v.innerHTML='<div class=\"sub\" style=\"text-align:center\">変数の変化を右上のSTATEで追いましょう。</div>'; } function showBPrediction(pred){ bPredictionSatisfied=false; const box=document.getElementById('predictionBox'); box.classList.add('show'); document.getElementById('predictionTitle').textContent='⚡ 次を予測：'+pred.q; const root=document.getElementById('predictionOptions'); root.innerHTML=''; pred.opts.forEach((o,i)=>{ const b=document.createElement('button'); b.className='prediction-option'; b.textContent=o; b.onclick=()=>{ if(i==",
+      "ML=`<div class=\"tree-view\"> ${mark('A')} / \\\\ ${mark('B')} ${mark('C')} / \\\\ ${mark('D')} ${mark('E')}</div> <div class=\"visit-path\">出力：${escapeHtml(step.state?.output||'—')}</div>`; return; } v.innerHTML='<div class=\"sub\" style=\"text-align:center\">変数の変化を右上のSTATEで追いましょう。</div>'; } function showBPrediction(pred){ bPredictionSatisfied=false; const box=document.getElementById('predictionBox'); box.classList.add('show'); document.getElementById('predictionTitle').textContent='⚡ 次を予測：'+pred.q; const root=document.getElementById('predictionOptions'); root.innerHTML=''; pred.opts.forEach((o,i)=>{ const b=document.createElement('button'); b.className='prediction-option'; b.textContent=o; b.onclick=()=>{ if(i===pred.a){ b.classList.add('good'); bPredictionSatis",
+      "d('predictionBox'); box.classList.add('show'); document.getElementById('predictionTitle').textContent='⚡ 次を予測：'+pred.q; const root=document.getElementById('predictionOptions'); root.innerHTML=''; pred.opts.forEach((o,i)=>{ const b=document.createElement('button'); b.className='prediction-option'; b.textContent=o; b.onclick=()=>{ if(i===pred.a){ b.classList.add('good'); bPredictionSatisfied=true; root.querySelectorAll('button').forEach(x=>x.disabled=true); document.getElementById('bTraceMessage').textContent=pred.explain||'予測した状態と実際の処理を対応させて確認しましょう。'; popToast('予測正解！ +5 XP'); profile.xp += 5; saveProfile(); }else{ b.classList.add('bad'); popToast(pred.hint?`ヒント：${pred.hint}`:'現在の状態と次に実行する行を確認しましょう'); setTimeout(()=>b.classLi"
+    ],
+    "compoundControls": [
+      "stion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class=\"bmock-option ${ans===i?'selected':''}\" data-copt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class=\"${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}\" data-cq=\"${i}\">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Numb",
+      "nnerHTML=q.opts.map((opt,i)=>`<button class=\"bmock-option ${ans===i?'selected':''}\" data-copt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class=\"${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}\" data-cq=\"${i}\">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})} function askSubmitComp",
+      "v></div>`).join('')} document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=",
+      "bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockM",
+      ";document.getElementById('bCompoundResult')?.classList.remove('show');continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}}); const B_MOCK_COUNT=8; const B_MOCK_SECONDS=40*60; const B_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; const B_MOCK_EXTRA_DISTRACTOR={ loop_sum:'5',array_max:'",
+      "ow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}}); const B_MOCK_COUNT=8; const B_MOCK_SECONDS=40*60; const B_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2}; const B_MOCK_EXTRA_DISTRACTOR={ loop_sum:'5',array_max:'11',linear_search:'2',stack_ops:'8',recursion:'4',tree_dfs:'B', count_even:'4',array",
+      "aceArrayEligibleV264; globalThis.subjectBCountEvenRetraceVariantV264=subjectBCountEvenRetraceVariantV264; // ===== FE QUEST v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function",
+      "V264; globalThis.subjectBCountEvenRetraceVariantV264=subjectBCountEvenRetraceVariantV264; // ===== FE QUEST v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectB",
+      ".subjectBCountEvenRetraceVariantV264=subjectBCountEvenRetraceVariantV264; // ===== FE QUEST v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV2",
+      "leSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document.createElement!=='function')return; const id='feq-subject-b-mobile-tap-target-v268'; if(typeof document.getElementById==='function'&&document.getElementById(id))return; const style=document.createElement('style'); style.id=id; style.textContent=` #bCompoundNext,#bCompoundPrev,#bCompoundSubmit, #bFinalNext,#bFinalSubmit, #bMockNext,#bMockPrev,#bMockSubmitTop, #secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;} `; const root=document.head||document.documentElement; if(root&&typeof root.appendChild==='function')root.appendChild(style); })(); globalThis.SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC; function validateSubjectBSemantic",
+      "onRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document.createElement!=='function')return; const id='feq-subject-b-mobile-tap-target-v268'; if(typeof document.getElementById==='function'&&document.getElementById(id))return; const style=document.createElement('style'); style.id=id; style.textContent=` #bCompoundNext,#bCompoundPrev,#bCompoundSubmit, #bFinalNext,#bFinalSubmit, #bMockNext,#bMockPrev,#bMockSubmitTop, #secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;} `; const root=document.head||document.documentElement; if(root&&typeof root.appendChild==='function')root.appendChild(style); })(); globalThis.SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC; function validateSubjectBSemantics(){ const e",
+      "e, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document.createElement!=='function')return; const id='feq-subject-b-mobile-tap-target-v268'; if(typeof document.getElementById==='function'&&document.getElementById(id))return; const style=document.createElement('style'); style.id=id; style.textContent=` #bCompoundNext,#bCompoundPrev,#bCompoundSubmit, #bFinalNext,#bFinalSubmit, #bMockNext,#bMockPrev,#bMockSubmitTop, #secMockNext,#secMockPrev,#secMockSubmitTop{min-height:44px;} `; const root=document.head||document.documentElement; if(root&&typeof root.appendChild==='function')root.appendChild(style); })(); globalThis.SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC; function validateSubjectBSemantics(){ const errors=[]; const"
+    ],
+    "algorithmMiniMockControls": [
+      "ck-state-key\">${escapeHtml(k)}</div><div class=\"bmock-state-val\">${escapeHtml(v)}</div></div>`).join(''); document.getElementById('bMockVisual').innerHTML=bMockVisualHtml(item); document.getElementById('bMockQuestion').textContent=item.q; const answer=bMockAnswers[bMockIndex]; document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →'; document.getElementById('bM",
+      "etElementById('bMockVisual').innerHTML=bMockVisualHtml(item); document.getElementById('bMockQuestion').textContent=item.q; const answer=bMockAnswers[bMockIndex]; document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →'; document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex)); document.getElementById('bMockFlag').textContent=bM",
+      "wers[bMockIndex]; document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →'; document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex)); document.getElementById('bMockFlag').textContent=bMockFlags.has(bMockIndex)?'★ 後で見る':'☆ 後で見る'; renderBMockNav(); } function renderBMockNav(){ const root=document.getElementById('bMockNavGrid');",
+      "rHTML=item.options.map((opt,i)=>`<button class=\"bmock-option ${answer===i?'selected':''}\" data-bmopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join(''); document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();}); document.getElementById('bMockPrev').disabled=bMockIndex===0; document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →'; document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex)); document.getElementById('bMockFlag').textContent=bMockFlags.has(bMockIndex)?'★ 後で見る':'☆ 後で見る'; renderBMockNav(); } function renderBMockNav(){ const root=document.getElementById('bMockNavGrid'); root.innerHTML=bMockItems.map((_,i)=>`<button class=\"bmock-na",
+      "tn.onclick=()=>{document.getElementById('bMockResult')?.classList.remove('show');setBMode('trace');startBExercise(btn.dataset.bstudy);}); } document.getElementById('bMockStart')?.addEventListener('click',startBMiniMock); document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock); document.getElementById('bMockResultList')?.addEventListener('click',continueSubjectBFlow); document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock); document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}}); document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();}); document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(b",
+      "Mode('trace');startBExercise(btn.dataset.bstudy);}); } document.getElementById('bMockStart')?.addEventListener('click',startBMiniMock); document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock); document.getElementById('bMockResultList')?.addEventListener('click',continueSubjectBFlow); document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock); document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}}); document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();}); document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(bMockIndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQ",
+      "BMiniMock); document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock); document.getElementById('bMockResultList')?.addEventListener('click',continueSubjectBFlow); document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock); document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}}); document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();}); document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(bMockIndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQuestion();}); document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))sho",
+      "ockIndex>0){bMockIndex--;renderBMockQuestion();}}); document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();}); document.getElementById('bMockFlag')?.addEventListener('click',()=>{bMockFlags.has(bMockIndex)?bMockFlags.delete(bMockIndex):bMockFlags.add(bMockIndex);renderBMockQuestion();}); document.getElementById('bMockExit')?.addEventListener('click',()=>{if(confirm('実戦ミニ模試を終了しますか？回答は保存されません。'))showBMockMenu();}); if(!profile.bProgress) profile.bProgress={}; B_EXERCISES.forEach(x=>{ if(profile.bProgress[x.id]===undefined) profile.bProgress[x.id]=0; }); saveProfile(); let currentB=null; let bStepIndex=-1; let bPredictionSatisfied=true; let lastBState={}; let currentBFilter='all'; function traceNextRecommendation(){ const ex=B_",
+      "x):false; st.firstAt[key]=new Date().toISOString(); } function subjectBPerformanceWrapButtonsV254(layer,key,selector,correctIndex){ document.querySelectorAll(selector).forEach(btn=>{ const original=btn.onclick; if(typeof original!=='function'||btn.dataset?.feqPerfV254==='1')return; if(btn.dataset)btn.dataset.feqPerfV254='1'; btn.onclick=function(ev){ let selected=null; if(selector==='[data-bmopt]')selected=Number(btn.dataset.bmopt); else if(selector==='[data-copt]')selected=Number(btn.dataset.copt); else if(selector==='[data-smopt]')selected=Number(btn.dataset.smopt); else if(selector==='[data-bfopt]')selected=Number(btn.dataset.bfopt); subjectBPerformanceFreezeV254(layer,key,selected,correctIndex); return original.call(this,ev); }; }); } function subjectBPerformanceAnswe",
+      "erBMockQuestion; renderBMockQuestion=function(){ const item=bMockItems?.[bMockIndex]; if(item){ const key=subjectBPerformanceKeyV254('miniMock',item,bMockIndex); subjectBPerformanceBeforeRenderV254('miniMock',bMockItems,key,bMockAnswers?.[bMockIndex],subjectBPerformanceMetaV254('miniMock',item,bMockIndex)); const out=__renderBMockQuestionV254(); subjectBPerformanceWrapButtonsV254('miniMock',key,'[data-bmopt]',subjectBPerformanceAnswerIndexV254(item)); return out; } return __renderBMockQuestionV254(); }; const __renderSecurityMockQuestionV254=renderSecurityMockQuestion; renderSecurityMockQuestion=function(){ const item=secMockItems?.[secMockIndex]; if(item){ const key=subjectBPerformanceKeyV254('securityMock',item,secMockIndex); subjectBPerformanceBeforeRenderV254('securityMock',secMockItems,key,sec",
+      "venRetraceVariantV264; // ===== FE QUEST v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typ",
+      "riantV264; // ===== FE QUEST v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document"
+    ],
+    "securityMockControls": [
+      "t.title; document.getElementById('secMockIncidentText').textContent=item.incident.text; document.getElementById('secMockEvidence').innerHTML=securityMockEvidenceHtml(item); document.getElementById('secMockQuestion').textContent=item.q; const ans=secMockAnswers[secMockIndex]; document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →'; document",
+      "secMockEvidence').innerHTML=securityMockEvidenceHtml(item); document.getElementById('secMockQuestion').textContent=item.q; const ans=secMockAnswers[secMockIndex]; document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →'; document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex)); document.getElementById('",
+      "kIndex]; document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →'; document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex)); document.getElementById('secMockFlag').textContent=secMockFlags.has(secMockIndex)?'★ 後で見る':'☆ 後で見る'; renderSecurityMockNav(); } function renderSecurityMockNav(){ const root=documen",
+      "options.map((op,i)=>`<button class=\"secmock-option ${ans===i?'selected':''}\" data-smopt=\"${i}\">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join(''); document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()}); document.getElementById('secMockPrev').disabled=secMockIndex===0; document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →'; document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex)); document.getElementById('secMockFlag').textContent=secMockFlags.has(secMockIndex)?'★ 後で見る':'☆ 後で見る'; renderSecurityMockNav(); } function renderSecurityMockNav(){ const root=document.getElementById('secMockNavGrid'); root.innerHTML=secMockItems.ma",
+      "o(btn.dataset.sstudy)}); } document.getElementById('secMockStartMenu')?.addEventListener('click',startSecurityMock); document.getElementById('secMockRetry')?.addEventListener('click',startSecurityMock); document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');continueSubjectBFlow()}); document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock); document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}}); document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()}); document.getElementById('secMockFlag')?.addEv",
+      "ck',startSecurityMock); document.getElementById('secMockRetry')?.addEventListener('click',startSecurityMock); document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');continueSubjectBFlow()}); document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock); document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}}); document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()}); document.getElementById('secMockFlag')?.addEventListener('click',()=>{secMockFlags.has(secMockIndex)?secMockFlags.delete(secMockIndex)",
+      "cMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');continueSubjectBFlow()}); document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock); document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}}); document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()}); document.getElementById('secMockFlag')?.addEventListener('click',()=>{secMockFlags.has(secMockIndex)?secMockFlags.delete(secMockIndex):secMockFlags.add(secMockIndex);renderSecurityMockQuestion()}); document.getElementById('secMockExit')?.addEventListener('click',()=>{if(",
+      "stion()}}); document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()}); document.getElementById('secMockFlag')?.addEventListener('click',()=>{secMockFlags.has(secMockIndex)?secMockFlags.delete(secMockIndex):secMockFlags.add(secMockIndex);renderSecurityMockQuestion()}); document.getElementById('secMockExit')?.addEventListener('click',()=>{if(confirm('セキュリティ実戦を終了しますか？回答は保存されません。')){stopSecurityMockTimer();document.getElementById('secMockExam')?.classList.remove('show');setBMode('security')}}); if(!profile.securityBProgress) profile.securityBProgress={}; SECURITY_SCENARIOS.forEach(s=>{ if(profile.securityBProgress[s.id]===undefined) profile.securityBProgress[s.id]=0; }); ensureSecurityMockStats(); saveProfile(); le",
+      "SelectorAll(selector).forEach(btn=>{ const original=btn.onclick; if(typeof original!=='function'||btn.dataset?.feqPerfV254==='1')return; if(btn.dataset)btn.dataset.feqPerfV254='1'; btn.onclick=function(ev){ let selected=null; if(selector==='[data-bmopt]')selected=Number(btn.dataset.bmopt); else if(selector==='[data-copt]')selected=Number(btn.dataset.copt); else if(selector==='[data-smopt]')selected=Number(btn.dataset.smopt); else if(selector==='[data-bfopt]')selected=Number(btn.dataset.bfopt); subjectBPerformanceFreezeV254(layer,key,selected,correctIndex); return original.call(this,ev); }; }); } function subjectBPerformanceAnswerIndexV254(item){ if(!item||typeof item!=='object')return null; for(const key of ['a','answerIndex','correctIndex']){ const n=Number(item[key]",
+      "function(){ const item=secMockItems?.[secMockIndex]; if(item){ const key=subjectBPerformanceKeyV254('securityMock',item,secMockIndex); subjectBPerformanceBeforeRenderV254('securityMock',secMockItems,key,secMockAnswers?.[secMockIndex],subjectBPerformanceMetaV254('securityMock',item,secMockIndex)); const out=__renderSecurityMockQuestionV254(); subjectBPerformanceWrapButtonsV254('securityMock',key,'[data-smopt]',subjectBPerformanceAnswerIndexV254(item)); return out; } return __renderSecurityMockQuestionV254(); }; const __renderBFinalQuestionV254=renderBFinalQuestion; renderBFinalQuestion=function(){ const item=bFinalItems?.[bFinalIndex]; if(item){ const key=subjectBPerformanceKeyV254('final',item,bFinalIndex); subjectBPerformanceBeforeRenderV254('final',bFinalItems,key,bFinalAnswers?.[bFinalIndex],sub",
+      "v268 Subject B mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document.createElement!=='function')ret",
+      "mobile tap-target repair ===== const SUBJECT_B_MOBILE_TAP_TARGET_V268_SPEC=Object.freeze({ sourceAudit:'v267-subject-b-mobile-answer-tap-readiness', policy:'narrow-eleven-control-min-height-repair', warningFloorPx:40, repairedMinHeightPx:44, targets:Object.freeze([ 'bCompoundNext','bCompoundPrev','bCompoundSubmit','bFinalNext','bFinalSubmit', 'bMockNext','bMockPrev','bMockSubmitTop','secMockNext','secMockPrev','secMockSubmitTop' ]), answerChoiceSizingChanged:false, questionSelectionChanged:false, questionOrderChanged:false, scoringChanged:false, examCountdownChanged:false, readinessChanged:false, profileSchemaMigrationRequired:false, remoteTelemetry:false }); (function installSubjectBMobileTapTargetsV268(){ if(typeof document==='undefined'||typeof document.createElement!=='function')return; const i"
+    ]
+  },
+  "tracePredictionAndAdvanceEvidence": true,
+  "findings": [],
+  "semanticOK": true,
+  "candidateMechanicalSixFileByteEquality": true
+}
