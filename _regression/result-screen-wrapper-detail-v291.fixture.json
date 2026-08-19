@@ -1,0 +1,53 @@
+{
+  "version": "v291",
+  "previous": "v290",
+  "parent": "d7a0d24c6fad61e533fdfdc63e8bc7e8ae4a8e60",
+  "result": "PASS — WRAPPER DETAIL CAPTURED",
+  "summary": {
+    "dependencies": {
+      "renderBMockResult": [],
+      "renderBFinalResult": []
+    },
+    "routeCapableDependents": [],
+    "relatedNames": [
+      "continueSubjectBFlow",
+      "renderBFinalResult",
+      "renderBMockResult",
+      "renderPracticeNextCard"
+    ]
+  },
+  "related": {
+    "continueSubjectBFlow": {
+      "markers": [
+        "continueSubjectBFlow",
+        "launchSubjectBRecommendation",
+        "subjectBHubRecommendation"
+      ],
+      "source": "function continueSubjectBFlow(){\n  const rec=subjectBHubRecommendation();\n  launchSubjectBRecommendation(rec);\n}"
+    },
+    "renderBFinalResult": {
+      "markers": [
+        "renderBFinalResult"
+      ],
+      "source": "function(attempt,earned){\n  const out=__renderBFinalResultBeforeV245(attempt,earned);\n  const wrong=(attempt?.details||[]).filter(d=>!d.ok);\n  const rows=[...document.querySelectorAll('.bfinal-review-item.wrong')];\n  rows.forEach((row,i)=>{\n    const detail=wrong[i];\n    if(detail?.kind!=='security')return;\n    const key=bFinalMistakeKey(detail);\n    const stored=profile.bFinalMistakeStats?.[key]?.lastReason||'';\n    const canonical=subjectBSecurityReasonCanonicalV245(stored);\n    row.querySelectorAll('[data-bfreason]').forEach(btn=>{\n      if(btn.dataset.bfreason==='トレースミス'){\n        btn.dataset.bfreason='手順の追い違い';\n        btn.textContent='手順の追い違い';\n      }else if(btn.dataset.bfreason==='コード理解'){\n        btn.dataset.bfreason='対策の理解';\n        btn.textContent='対策の理解';\n      }\n      btn.classList.toggle('picked',btn.dataset.bfreason===canonical);\n    });\n  });\n  return out;\n}"
+    },
+    "renderBMockResult": {
+      "markers": [
+        "renderBMockResult",
+        "injectBMockReview"
+      ],
+      "source": "function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;}"
+    },
+    "renderPracticeNextCard": {
+      "markers": [
+        "launchSubjectBRecommendation",
+        "subjectBHubRecommendation",
+        "renderPracticeNextCard",
+        "onclick"
+      ],
+      "source": "function renderPracticeNextCard(){\n  const title=document.getElementById('bPracticeNextTitle'),desc=document.getElementById('bPracticeNextDesc'),action=document.getElementById('bPracticeNextAction');\n  if(!title||!desc||!action)return;\n  const rec=subjectBHubRecommendation();\n  if(rec.stage<3){\n    title.textContent=`先に ${rec.title}`;desc.textContent='実戦演習へ進む前に、未完了の基礎演習を1つ進めるのがおすすめです。';action.textContent='基礎演習へ →';\n  }else if(rec.mode==='final'){\n    title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →';\n  }else if(rec.mode==='securityMock'){\n    title.textContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →';\n  }else if(rec.mode==='miniMock'){\n    title.textContent='アルゴリズム ミニ模試';desc.textContent='8問・40分で、途中状態を連続して読み切れるか確認します。';action.textContent='ミニ模試を始める →';\n  }else{\n    title.textContent=rec.title||'複合問題を1セット';desc.textContent=rec.desc||'長いコードを3問で読みます。';action.textContent='複合問題を始める →';\n  }\n  action.onclick=()=>launchSubjectBRecommendation(rec);\n}"
+    }
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
