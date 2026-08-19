@@ -36,7 +36,8 @@ console.log('__V288__'+Buffer.from(JSON.stringify({{v:APP_VERSION,sources,sem:va
 
 def calls(src):
     if not src:return []
-    return sorted(set(re.findall(r'\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(',src)))-{'function','if','for','while','switch','catch'})
+    found=set(re.findall(r'\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(',src))
+    return sorted(found-{'function','if','for','while','switch','catch'})
 
 version,previous=context();parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip();req((version,previous)==('v288','v287'),'expects v287')
 source=Path('audits/DAILY_LEARNING_JOURNEY_ROUTE_v287.txt');req(source.exists() and 'PASS — ROUTE INVENTORY CAPTURED' in source.read_text(),'v287 evidence missing')
@@ -63,7 +64,6 @@ checks={
  'directPrimaryFunctionCount':len(direct),
  'launchDailyTaskCalls':launcher_calls
 }
-# The audit is diagnostic: absence of a direct function is a finding, not a validator failure.
 finding=None
 if not checks['dailyPlanLaunchesTask'] or not checks['dailyPlanFindsNext']:
     finding='Daily-plan renderer does not both resolve and launch the next unfinished task directly.'
