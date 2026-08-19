@@ -1,0 +1,101 @@
+FE QUEST v291 — Result-Screen Wrapper / Composed Return-Path Detail Audit
+=======================================================================
+
+Result
+------
+PASS — WRAPPER DETAIL CAPTURED
+Previous release: v290
+Source main: d7a0d24c6fad61e533fdfdc63e8bc7e8ae4a8e60
+Learner-facing change in v291: none
+
+Purpose
+-------
+v290 found that renderBMockResult and renderBFinalResult contain no inline guided-route markers. v291 inspects the functions that call or wrap those renderers and the known review/handoff installers so the final composed learner UI can be judged before any repair.
+
+Dependencies by renderer
+------------------------
+{
+  "renderBMockResult": [],
+  "renderBFinalResult": []
+}
+
+Route-capable dependents
+------------------------
+[]
+
+Related source names
+--------------------
+[
+  "continueSubjectBFlow",
+  "renderBFinalResult",
+  "renderBMockResult",
+  "renderPracticeNextCard"
+]
+
+Exact continueSubjectBFlow
+--------------------------
+function continueSubjectBFlow(){
+  const rec=subjectBHubRecommendation();
+  launchSubjectBRecommendation(rec);
+}
+
+Exact renderBFinalResult
+------------------------
+function(attempt,earned){
+  const out=__renderBFinalResultBeforeV245(attempt,earned);
+  const wrong=(attempt?.details||[]).filter(d=>!d.ok);
+  const rows=[...document.querySelectorAll('.bfinal-review-item.wrong')];
+  rows.forEach((row,i)=>{
+    const detail=wrong[i];
+    if(detail?.kind!=='security')return;
+    const key=bFinalMistakeKey(detail);
+    const stored=profile.bFinalMistakeStats?.[key]?.lastReason||'';
+    const canonical=subjectBSecurityReasonCanonicalV245(stored);
+    row.querySelectorAll('[data-bfreason]').forEach(btn=>{
+      if(btn.dataset.bfreason==='トレースミス'){
+        btn.dataset.bfreason='手順の追い違い';
+        btn.textContent='手順の追い違い';
+      }else if(btn.dataset.bfreason==='コード理解'){
+        btn.dataset.bfreason='対策の理解';
+        btn.textContent='対策の理解';
+      }
+      btn.classList.toggle('picked',btn.dataset.bfreason===canonical);
+    });
+  });
+  return out;
+}
+
+Exact renderBMockResult
+-----------------------
+function(attempt,earned){const out=_renderBMockResultV230(attempt,earned);injectBMockReview(attempt);return out;}
+
+Exact renderPracticeNextCard
+----------------------------
+function renderPracticeNextCard(){
+  const title=document.getElementById('bPracticeNextTitle'),desc=document.getElementById('bPracticeNextDesc'),action=document.getElementById('bPracticeNextAction');
+  if(!title||!desc||!action)return;
+  const rec=subjectBHubRecommendation();
+  if(rec.stage<3){
+    title.textContent=`先に ${rec.title}`;desc.textContent='実戦演習へ進む前に、未完了の基礎演習を1つ進めるのがおすすめです。';action.textContent='基礎演習へ →';
+  }else if(rec.mode==='final'){
+    title.textContent='短い実戦演習は一通り完了しました';desc.textContent='100分を確保できる日は、科目B 総合実戦で20問を通して確認できます。';action.textContent='総合実戦を確認 →';
+  }else if(rec.mode==='securityMock'){
+    title.textContent='セキュリティ ミニ模試';desc.textContent='次はケース判断を8問・20分でヒントなし確認します。';action.textContent='セキュリティ実戦へ →';
+  }else if(rec.mode==='miniMock'){
+    title.textContent='アルゴリズム ミニ模試';desc.textContent='8問・40分で、途中状態を連続して読み切れるか確認します。';action.textContent='ミニ模試を始める →';
+  }else{
+    title.textContent=rec.title||'複合問題を1セット';desc.textContent=rec.desc||'長いコードを3問で読みます。';action.textContent='複合問題を始める →';
+  }
+  action.onclick=()=>launchSubjectBRecommendation(rec);
+}
+
+Regression
+----------
+No learner-facing code changed.
+All captured result/wrapper sources are equivalent to v290.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+If the composed wrappers already inject one clear review/continue action for both mini mock and final, close the result-return sequence without UI changes. If either renderer has no route-capable dependent, perform one minimal repair at the existing wrapper/injection layer rather than redesigning the result screen.
