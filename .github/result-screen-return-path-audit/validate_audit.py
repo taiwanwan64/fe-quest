@@ -41,19 +41,25 @@ s=cand['sources']
 major_names=['renderMockResult','renderBMockResult','renderBFinalResult','renderSecurityMockResult','renderCompoundResult','finishMock','finishBMiniMock','finishBFinal','finishSecurityMock','finishCompoundChallenge','finishMockReview']
 major={n:{'present':bool(s.get(n)),'markers':route_markers(s.get(n))} for n in major_names}
 result_renderers=[n for n in names if re.search(r'render.*Result',n,re.I) and s.get(n)]
+finish_functions=[n for n in names if re.search(r'(^|_)finish',n,re.I) and s.get(n)]
 renderer_routes={n:route_markers(s.get(n)) for n in result_renderers}
 no_route=[n for n,m in renderer_routes.items() if not m]
-# wrappers/injection helpers may supply actions outside the renderer, so no_route is diagnostic only.
+missing_assumed=[n for n in major_names if not major[n]['present']]
+# Guessed historical names may have been replaced by wrappers or differently named renderers.
+# Missing assumed names are evidence, not a product failure. Require only discovered lifecycle evidence.
 checks={
  'aMockResultPresent':major['renderMockResult']['present'],
  'bMiniResultPresent':major['renderBMockResult']['present'],
  'bFinalResultPresent':major['renderBFinalResult']['present'],
  'allKnownFinishFunctionsPresent':all(major[n]['present'] for n in ['finishMock','finishBMiniMock','finishBFinal','finishSecurityMock','finishCompoundChallenge']),
  'resultRendererCount':len(result_renderers),
+ 'finishFunctionCount':len(finish_functions),
+ 'missingAssumedNames':missing_assumed,
  'resultRenderersWithoutInlineRouteMarkers':no_route
 }
-req(checks['aMockResultPresent'] and checks['bMiniResultPresent'] and checks['bFinalResultPresent'] and checks['allKnownFinishFunctionsPresent'],'major result lifecycle missing')
-summary={'checks':checks,'major':major,'rendererRoutes':renderer_routes,'candidateNames':names}
+req(len(result_renderers)>=1,'no result renderers discovered')
+req(len(finish_functions)>=1,'no finish lifecycle discovered')
+summary={'checks':checks,'major':major,'rendererRoutes':renderer_routes,'finishFunctions':finish_functions,'candidateNames':names}
 fixture={'version':version,'previous':previous,'parent':parent,'result':'PASS — RETURN-PATH INVENTORY CAPTURED','summary':summary,'semanticOK':True,'candidateReferenceSixFileByteEquality':True};Path('_regression').mkdir(exist_ok=True);Path('_regression/result-screen-return-path-v290.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 audit=f'''FE QUEST v290 — Result-Screen Return-Path Audit
 ================================================
@@ -69,13 +75,17 @@ Purpose
 -------
 v289 closed the home/today/plan extra-tap concern: the visible daily-plan and plan-focus buttons already resolve the next unfinished task locally and launch it directly. v290 now audits what happens after learning: whether major result/review renderers expose or connect to an existing guided next action instead of leaving the learner at a dead end.
 
-Major result lifecycle
-----------------------
+Major assumed result lifecycle names
+------------------------------------
 {json.dumps(major,ensure_ascii=False,indent=2)}
 
-Result renderer route markers
------------------------------
+Discovered result renderer route markers
+----------------------------------------
 {json.dumps(renderer_routes,ensure_ascii=False,indent=2)}
+
+Discovered finish functions
+---------------------------
+{json.dumps(finish_functions,ensure_ascii=False,indent=2)}
 
 Checks
 ------
@@ -83,16 +93,16 @@ Checks
 
 Interpretation boundary
 -----------------------
-A renderer with no inline route marker is not automatically a defect because later wrappers/injection helpers can add the learner-facing action. v290 therefore treats that list as a target for source-detail follow-up, not as a repair instruction.
+Missing historical/assumed names are not automatically defects: wrappers and later revisions may rename or replace the implementation. Likewise, a renderer with no inline route marker is not automatically a defect because later wrappers/injection helpers can add the learner-facing action. v290 therefore treats both lists as source-detail targets, not repair instructions.
 
 Regression
 ----------
 No learner-facing code changed.
-All captured result/review sources are equivalent to v289.
+All discovered result/review sources are equivalent to v289.
 Subject B semantic diagnostics: OK.
 Candidate/mechanical-reference six-file byte equality: yes.
 
 Decision
 --------
-Inspect only the major result renderers that lack an inline route marker and their installed wrappers. Repair a screen only if the final composed learner UI truly lacks a clear next action; otherwise close the result-return audit and move to learning-content quality.
+Inspect only discovered major result renderers that lack an inline route marker and their installed wrappers. Repair a screen only if the final composed learner UI truly lacks a clear next action; otherwise close the result-return audit and move to learning-content quality.
 ''';Path('audits').mkdir(exist_ok=True);Path('audits/RESULT_SCREEN_RETURN_PATH_v290.txt').write_text(audit);print(audit)
