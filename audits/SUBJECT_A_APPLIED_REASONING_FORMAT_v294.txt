@@ -1,0 +1,1082 @@
+FE QUEST v294 — Subject A Applied-Reasoning / Question-Format Audit
+=================================================================
+
+Result
+------
+PASS — FORMAT EVIDENCE CAPTURED
+Previous release: v293
+Source main: 8e037aaaf956361b6ef68320f8abd9e9cd22df3a
+Learner-facing change in v294: none
+
+Reference basis
+---------------
+The supplied 令和8年度 textbook organizes Subject A across 21 chapters and repeatedly places "出る順！ 過去問＆完全解説" inside those chapters. The supplied 令和8年度 problem book separately contains the 令和7年度公開問題 for Subject A plus four selected Subject A mock sets. These sources support auditing FE QUEST for breadth of problem-solving forms rather than treating Subject A as terminology recall alone. They do not prescribe a numeric quota for calculation/scenario/diagram questions, so the percentages below are diagnostic evidence only and are not asserted as official target ratios.
+
+Classification method
+---------------------
+Every QUESTION_BANK item with coreTopicId is classified by transparent stem-text heuristics into calculation/numeric, data/diagram/code interpretation, scenario/application, conceptual discrimination, and short definition-like forms. Labels are multi-valued except definition-like, which is excluded when calculation/data/scenario cues are present. Long stems (>=110 Japanese characters) count as scenario/application evidence. This is a source audit, not an exam-score model.
+
+Overall Subject A core bank
+---------------------------
+{
+  "count": 550,
+  "medianStemChars": 36.0,
+  "calc": {
+    "count": 100,
+    "pct": 18.2
+  },
+  "data": {
+    "count": 14,
+    "pct": 2.5
+  },
+  "scenario": {
+    "count": 44,
+    "pct": 8.0
+  },
+  "discrimination": {
+    "count": 399,
+    "pct": 72.5
+  },
+  "definitionLike": {
+    "count": 257,
+    "pct": 46.7
+  },
+  "appliedAny": {
+    "count": 144,
+    "pct": 26.2
+  }
+}
+
+Per chapter-prefix distribution
+-------------------------------
+{
+  "1": {
+    "count": 33,
+    "medianStemChars": 34,
+    "calc": {
+      "count": 16,
+      "pct": 48.5
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 22,
+      "pct": 66.7
+    },
+    "definitionLike": {
+      "count": 14,
+      "pct": 42.4
+    },
+    "appliedAny": {
+      "count": 16,
+      "pct": 48.5
+    }
+  },
+  "2": {
+    "count": 38,
+    "medianStemChars": 32.5,
+    "calc": {
+      "count": 13,
+      "pct": 34.2
+    },
+    "data": {
+      "count": 3,
+      "pct": 7.9
+    },
+    "scenario": {
+      "count": 1,
+      "pct": 2.6
+    },
+    "discrimination": {
+      "count": 26,
+      "pct": 68.4
+    },
+    "definitionLike": {
+      "count": 15,
+      "pct": 39.5
+    },
+    "appliedAny": {
+      "count": 14,
+      "pct": 36.8
+    }
+  },
+  "3": {
+    "count": 22,
+    "medianStemChars": 52.0,
+    "calc": {
+      "count": 3,
+      "pct": 13.6
+    },
+    "data": {
+      "count": 2,
+      "pct": 9.1
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 15,
+      "pct": 68.2
+    },
+    "definitionLike": {
+      "count": 11,
+      "pct": 50.0
+    },
+    "appliedAny": {
+      "count": 4,
+      "pct": 18.2
+    }
+  },
+  "4": {
+    "count": 26,
+    "medianStemChars": 43.5,
+    "calc": {
+      "count": 4,
+      "pct": 15.4
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 18,
+      "pct": 69.2
+    },
+    "definitionLike": {
+      "count": 14,
+      "pct": 53.8
+    },
+    "appliedAny": {
+      "count": 4,
+      "pct": 15.4
+    }
+  },
+  "5": {
+    "count": 18,
+    "medianStemChars": 55.0,
+    "calc": {
+      "count": 10,
+      "pct": 55.6
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 7,
+      "pct": 38.9
+    },
+    "discrimination": {
+      "count": 14,
+      "pct": 77.8
+    },
+    "definitionLike": {
+      "count": 2,
+      "pct": 11.1
+    },
+    "appliedAny": {
+      "count": 12,
+      "pct": 66.7
+    }
+  },
+  "6": {
+    "count": 24,
+    "medianStemChars": 53.5,
+    "calc": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 1,
+      "pct": 4.2
+    },
+    "discrimination": {
+      "count": 19,
+      "pct": 79.2
+    },
+    "definitionLike": {
+      "count": 16,
+      "pct": 66.7
+    },
+    "appliedAny": {
+      "count": 1,
+      "pct": 4.2
+    }
+  },
+  "7": {
+    "count": 8,
+    "medianStemChars": 35.5,
+    "calc": {
+      "count": 2,
+      "pct": 25.0
+    },
+    "data": {
+      "count": 1,
+      "pct": 12.5
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 6,
+      "pct": 75.0
+    },
+    "definitionLike": {
+      "count": 2,
+      "pct": 25.0
+    },
+    "appliedAny": {
+      "count": 3,
+      "pct": 37.5
+    }
+  },
+  "8": {
+    "count": 17,
+    "medianStemChars": 53,
+    "calc": {
+      "count": 4,
+      "pct": 23.5
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 4,
+      "pct": 23.5
+    },
+    "discrimination": {
+      "count": 11,
+      "pct": 64.7
+    },
+    "definitionLike": {
+      "count": 7,
+      "pct": 41.2
+    },
+    "appliedAny": {
+      "count": 7,
+      "pct": 41.2
+    }
+  },
+  "9": {
+    "count": 35,
+    "medianStemChars": 42,
+    "calc": {
+      "count": 3,
+      "pct": 8.6
+    },
+    "data": {
+      "count": 4,
+      "pct": 11.4
+    },
+    "scenario": {
+      "count": 3,
+      "pct": 8.6
+    },
+    "discrimination": {
+      "count": 27,
+      "pct": 77.1
+    },
+    "definitionLike": {
+      "count": 15,
+      "pct": 42.9
+    },
+    "appliedAny": {
+      "count": 9,
+      "pct": 25.7
+    }
+  },
+  "10": {
+    "count": 42,
+    "medianStemChars": 53.0,
+    "calc": {
+      "count": 12,
+      "pct": 28.6
+    },
+    "data": {
+      "count": 2,
+      "pct": 4.8
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 28,
+      "pct": 66.7
+    },
+    "definitionLike": {
+      "count": 13,
+      "pct": 31.0
+    },
+    "appliedAny": {
+      "count": 14,
+      "pct": 33.3
+    }
+  },
+  "11": {
+    "count": 34,
+    "medianStemChars": 35.0,
+    "calc": {
+      "count": 1,
+      "pct": 2.9
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 3,
+      "pct": 8.8
+    },
+    "discrimination": {
+      "count": 26,
+      "pct": 76.5
+    },
+    "definitionLike": {
+      "count": 15,
+      "pct": 44.1
+    },
+    "appliedAny": {
+      "count": 4,
+      "pct": 11.8
+    }
+  },
+  "12": {
+    "count": 32,
+    "medianStemChars": 32.0,
+    "calc": {
+      "count": 2,
+      "pct": 6.2
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 4,
+      "pct": 12.5
+    },
+    "discrimination": {
+      "count": 21,
+      "pct": 65.6
+    },
+    "definitionLike": {
+      "count": 14,
+      "pct": 43.8
+    },
+    "appliedAny": {
+      "count": 6,
+      "pct": 18.8
+    }
+  },
+  "13": {
+    "count": 16,
+    "medianStemChars": 31.5,
+    "calc": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "data": {
+      "count": 2,
+      "pct": 12.5
+    },
+    "scenario": {
+      "count": 2,
+      "pct": 12.5
+    },
+    "discrimination": {
+      "count": 12,
+      "pct": 75.0
+    },
+    "definitionLike": {
+      "count": 8,
+      "pct": 50.0
+    },
+    "appliedAny": {
+      "count": 4,
+      "pct": 25.0
+    }
+  },
+  "14": {
+    "count": 42,
+    "medianStemChars": 39.0,
+    "calc": {
+      "count": 6,
+      "pct": 14.3
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 4,
+      "pct": 9.5
+    },
+    "discrimination": {
+      "count": 31,
+      "pct": 73.8
+    },
+    "definitionLike": {
+      "count": 24,
+      "pct": 57.1
+    },
+    "appliedAny": {
+      "count": 8,
+      "pct": 19.0
+    }
+  },
+  "15": {
+    "count": 32,
+    "medianStemChars": 34.5,
+    "calc": {
+      "count": 3,
+      "pct": 9.4
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 6,
+      "pct": 18.8
+    },
+    "discrimination": {
+      "count": 26,
+      "pct": 81.2
+    },
+    "definitionLike": {
+      "count": 18,
+      "pct": 56.2
+    },
+    "appliedAny": {
+      "count": 9,
+      "pct": 28.1
+    }
+  },
+  "16": {
+    "count": 16,
+    "medianStemChars": 34.5,
+    "calc": {
+      "count": 1,
+      "pct": 6.2
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 4,
+      "pct": 25.0
+    },
+    "discrimination": {
+      "count": 12,
+      "pct": 75.0
+    },
+    "definitionLike": {
+      "count": 7,
+      "pct": 43.8
+    },
+    "appliedAny": {
+      "count": 5,
+      "pct": 31.2
+    }
+  },
+  "17": {
+    "count": 9,
+    "medianStemChars": 33,
+    "calc": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 7,
+      "pct": 77.8
+    },
+    "definitionLike": {
+      "count": 5,
+      "pct": 55.6
+    },
+    "appliedAny": {
+      "count": 0,
+      "pct": 0.0
+    }
+  },
+  "18": {
+    "count": 33,
+    "medianStemChars": 34,
+    "calc": {
+      "count": 5,
+      "pct": 15.2
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 3,
+      "pct": 9.1
+    },
+    "discrimination": {
+      "count": 25,
+      "pct": 75.8
+    },
+    "definitionLike": {
+      "count": 19,
+      "pct": 57.6
+    },
+    "appliedAny": {
+      "count": 7,
+      "pct": 21.2
+    }
+  },
+  "19": {
+    "count": 17,
+    "medianStemChars": 33,
+    "calc": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 13,
+      "pct": 76.5
+    },
+    "definitionLike": {
+      "count": 10,
+      "pct": 58.8
+    },
+    "appliedAny": {
+      "count": 0,
+      "pct": 0.0
+    }
+  },
+  "20": {
+    "count": 31,
+    "medianStemChars": 32,
+    "calc": {
+      "count": 15,
+      "pct": 48.4
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "discrimination": {
+      "count": 19,
+      "pct": 61.3
+    },
+    "definitionLike": {
+      "count": 12,
+      "pct": 38.7
+    },
+    "appliedAny": {
+      "count": 15,
+      "pct": 48.4
+    }
+  },
+  "21": {
+    "count": 25,
+    "medianStemChars": 35,
+    "calc": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "data": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "scenario": {
+      "count": 2,
+      "pct": 8.0
+    },
+    "discrimination": {
+      "count": 21,
+      "pct": 84.0
+    },
+    "definitionLike": {
+      "count": 16,
+      "pct": 64.0
+    },
+    "appliedAny": {
+      "count": 2,
+      "pct": 8.0
+    }
+  }
+}
+
+Conservative diagnostic signals
+-------------------------------
+[
+  {
+    "chapter": "17",
+    "type": "no_applied_form_detected",
+    "detail": {
+      "count": 9,
+      "medianStemChars": 33,
+      "calc": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "data": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "scenario": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "discrimination": {
+        "count": 7,
+        "pct": 77.8
+      },
+      "definitionLike": {
+        "count": 5,
+        "pct": 55.6
+      },
+      "appliedAny": {
+        "count": 0,
+        "pct": 0.0
+      }
+    }
+  },
+  {
+    "chapter": "19",
+    "type": "no_applied_form_detected",
+    "detail": {
+      "count": 17,
+      "medianStemChars": 33,
+      "calc": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "data": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "scenario": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "discrimination": {
+        "count": 13,
+        "pct": 76.5
+      },
+      "definitionLike": {
+        "count": 10,
+        "pct": 58.8
+      },
+      "appliedAny": {
+        "count": 0,
+        "pct": 0.0
+      }
+    }
+  }
+]
+
+Representative detected examples (IDs/stems only)
+-------------------------------------------------
+{
+  "calc": [
+    {
+      "id": "coreq_01_01_1",
+      "topic": "core_01_01",
+      "q": "1byteは何bit？"
+    },
+    {
+      "id": "coreq_01_01_2",
+      "topic": "core_01_01",
+      "q": "通信速度80Mbit/sの回線で40Mbyteのデータを送る。1byte=8bit、制御情報は無視すると、理想的な送信時間は何秒か。"
+    },
+    {
+      "id": "coreq_01_01_3",
+      "topic": "core_01_01",
+      "q": "64bitのデータ量は何byteか。"
+    },
+    {
+      "id": "coreq_01_03_3",
+      "topic": "core_01_03",
+      "q": "2進小数0.101₂を10進数へ直すときの計算として正しいものはどれか。"
+    },
+    {
+      "id": "coreq_01_05_1",
+      "topic": "core_01_05",
+      "q": "8bitの2の補数表現で-1は？"
+    },
+    {
+      "id": "coreq_01_05_2",
+      "topic": "core_01_05",
+      "q": "8bitの2の補数表現で-6を表したものはどれか。"
+    },
+    {
+      "id": "coreq_01_05_3",
+      "topic": "core_01_05",
+      "q": "8bitの2の補数で表現できる整数の範囲として正しいものはどれか。"
+    },
+    {
+      "id": "coreq_01_06_1",
+      "topic": "core_01_06",
+      "q": "2進101+11は？"
+    }
+  ],
+  "data": [
+    {
+      "id": "coreq_02_02_2",
+      "topic": "core_02_02",
+      "q": "入力A=1、B=1をNAND回路へ与えたときの出力はどれか。"
+    },
+    {
+      "id": "coreq_03_02_2",
+      "topic": "core_03_02",
+      "q": "次の疑似コードを実行したときsumの値はどれか。sum←0、iを1から4まで1ずつ増やしながらsum←sum+iを繰り返す。"
+    },
+    {
+      "id": "coreq_03_04_3",
+      "topic": "core_03_04",
+      "q": "プログラムを実行しながら、ソースコードを逐次解釈して処理したい。最も近い方式はどれか。"
+    },
+    {
+      "id": "coreq_07_02_3",
+      "topic": "core_07_02",
+      "q": "ある回路の出力が、現在の入力だけでなく直前まで保持していた状態にも依存する。この回路の分類として最も適切なものはどれか。"
+    },
+    {
+      "id": "coreq_09_03_2",
+      "topic": "core_09_03",
+      "q": "受注明細表に「商品ID、商品名、単価」を各明細行へ繰り返し保存している。商品名や単価の更新不整合を減らす設計として最も適切なものはどれか。"
+    },
+    {
+      "id": "coreq_09_06_2",
+      "topic": "core_09_06",
+      "q": "二つのトランザクションが同じ商品レコードを参照するが、どちらも更新は行わない。同時参照を許すために用いるロックとして最も適切なものはどれか。"
+    },
+    {
+      "id": "coreq_09_06_3",
+      "topic": "core_09_06",
+      "q": "在庫数を更新するトランザクションが、更新中の同じレコードへ他のトランザクションが競合アクセスすることを防ぎたい。最も適切なロックはどれか。"
+    },
+    {
+      "id": "coreq_10_06_2",
+      "topic": "core_10_06",
+      "q": "DNSでメールの配送先となるメールサーバを指定するレコードはどれか。"
+    }
+  ],
+  "scenario": [
+    {
+      "id": "coreq_05_01_3",
+      "topic": "core_05_01",
+      "q": "航空券を予約した直後に残席数を更新し、他の利用者の画面にも反映したい。最も適した処理方式はどれか。"
+    },
+    {
+      "id": "coreq_05_02_1",
+      "topic": "core_05_02",
+      "q": "利用者端末は画面表示を担当し、アプリケーションサーバが業務処理を行い、データベースサーバがデータを管理する構成はどれか。"
+    },
+    {
+      "id": "coreq_05_03_2",
+      "topic": "core_05_03",
+      "q": "あるシステムが30秒間に600件のトランザクションを処理した。平均スループットはどれか。"
+    },
+    {
+      "id": "coreq_05_03_3",
+      "topic": "core_05_03",
+      "q": "利用者が検索ボタンを押してから検索結果が画面へ表示されるまで0.8秒だった。この0.8秒を表す性能指標として最も近いものはどれか。"
+    },
+    {
+      "id": "coreq_05_04_2",
+      "topic": "core_05_04",
+      "q": "あるシステムでMTBFは変わらないまま、復旧手順の改善によってMTTRだけを短くした。この変更が稼働率へ与える影響として正しいものはどれか。"
+    },
+    {
+      "id": "coreq_06_05_3",
+      "topic": "core_06_05",
+      "q": "OSSライブラリを自社製品へ組み込んで顧客へ再配布する。再配布時に守るべき条件を判断するため、最初に確認すべきものはどれか。"
+    },
+    {
+      "id": "coreq_08_01_2",
+      "topic": "core_08_01",
+      "q": "PCに不慣れな利用者が、アイコンやメニューをマウスで選んで操作する画面を利用する。最も近いユーザーインタフェースはどれか。"
+    },
+    {
+      "id": "coreq_08_01_3",
+      "topic": "core_08_01",
+      "q": "サーバ管理者が、同じ管理処理を何台ものサーバで繰り返すため、コマンドをスクリプト化して自動実行したい。最も適した操作方式はどれか。"
+    }
+  ],
+  "definitionLike": [
+    {
+      "id": "coreq_01_02_2",
+      "topic": "core_01_02",
+      "q": "16進数で1桁として使用できる数字・記号の組合せとして正しいものはどれか。"
+    },
+    {
+      "id": "coreq_01_02_3",
+      "topic": "core_01_02",
+      "q": "n進数で、1桁に使える値の範囲を一般的に表したものはどれか。"
+    },
+    {
+      "id": "coreq_01_03_2",
+      "topic": "core_01_03",
+      "q": "2進数10101を10進数で表したものはどれか。"
+    },
+    {
+      "id": "coreq_01_04_2",
+      "topic": "core_01_04",
+      "q": "2進数1010 1111₂を16進数で表したものはどれか。"
+    },
+    {
+      "id": "coreq_01_04_3",
+      "topic": "core_01_04",
+      "q": "2進整数を8進数へ変換するときの手順として適切なものはどれか。"
+    },
+    {
+      "id": "coreq_01_06_2",
+      "topic": "core_01_06",
+      "q": "2進数1011₂と0110₂を加算した結果はどれか。"
+    },
+    {
+      "id": "coreq_01_07_2",
+      "topic": "core_01_07",
+      "q": "浮動小数点・シフト・演算誤差の説明として適切なものはどれか。"
+    },
+    {
+      "id": "coreq_01_07_3",
+      "topic": "core_01_07",
+      "q": "「浮動小数点・シフト・演算誤差」の類似用語を正しく区別した説明はどれか。"
+    }
+  ]
+}
+
+Question object shapes
+----------------------
+[
+  {
+    "count": 144,
+    "keys": [
+      "a",
+      "angle",
+      "applicationAudit",
+      "applicationDemand",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "distractorMode",
+      "distractorTopicIds",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "qualityAudit",
+      "stemAudit"
+    ]
+  },
+  {
+    "count": 69,
+    "keys": [
+      "a",
+      "angle",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "comparisonTopicIds",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "examDepth",
+      "examStyle",
+      "exp",
+      "hint",
+      "id",
+      "judgmentAudit",
+      "judgmentDemand",
+      "options",
+      "practicalAudit",
+      "q"
+    ]
+  },
+  {
+    "count": 68,
+    "keys": [
+      "a",
+      "angle",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "examDepth",
+      "exp",
+      "hint",
+      "id",
+      "judgmentAudit",
+      "judgmentDemand",
+      "options",
+      "practicalAudit",
+      "q",
+      "qualityAudit"
+    ]
+  },
+  {
+    "count": 65,
+    "keys": [
+      "a",
+      "angle",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "qualityAudit",
+      "recallAudit",
+      "recallDemand"
+    ]
+  },
+  {
+    "count": 49,
+    "keys": [
+      "a",
+      "angle",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "distractorAudit",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "recallAudit",
+      "recallDemand"
+    ]
+  },
+  {
+    "count": 47,
+    "keys": [
+      "a",
+      "angle",
+      "applicationAudit",
+      "applicationDemand",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "distractorMode",
+      "distractorTopicIds",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "stemAudit"
+    ]
+  },
+  {
+    "count": 35,
+    "keys": [
+      "a",
+      "angle",
+      "applicationAudit",
+      "applicationDemand",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "distractorMode",
+      "distractorTopicIds",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "qualityAudit",
+      "stemAudit",
+      "styleCueAudit"
+    ]
+  },
+  {
+    "count": 26,
+    "keys": [
+      "a",
+      "angle",
+      "applicationAudit",
+      "applicationDemand",
+      "cat",
+      "choiceExps",
+      "cognitiveLevel",
+      "concept",
+      "coreTopicId",
+      "difficulty",
+      "exp",
+      "hint",
+      "id",
+      "options",
+      "q",
+      "referenceBridgeAudit",
+      "stemAudit"
+    ]
+  }
+]
+
+Regression
+----------
+No learner-facing content changed.
+The core Subject A question rows are byte-data equivalent to v293.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file byte equality: yes.
+
+Decision
+--------
+Use the per-chapter evidence to choose the smallest learning-quality follow-up. A chapter is not repaired simply because its calculation/scenario share is low: some syllabus areas are naturally conceptual. Only chapters with an extreme short-definition concentration or no applied-form evidence should be opened for manual content inspection against the supplied textbook/problem-book structure. Any new questions must be original unless they are clearly eligible public examination questions; do not copy proprietary book questions.
