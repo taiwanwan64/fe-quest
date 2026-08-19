@@ -1,0 +1,31 @@
+FE QUEST v249 — Subject B Remediation Difficulty Repair
+========================================================
+
+Result
+------
+PASS — NO FINDINGS
+Previous release: v248
+Source main: 4a3de17554797e0bf6a8e49281d2dd39a66e59e5
+Learner-facing change in v249: yes — two standard two-dimensional-array final items now recover to the same-domain standard TRACE exercise matrix_sum instead of the advanced matrix_find exercise.
+
+Repair
+------
+- bexam_mat_01: matrix_find（応用） → matrix_sum（標準）
+- bexam_mat_02: matrix_find（応用） → matrix_sum（標準）
+
+Remaining cross-layer label mismatches
+--------------------------------------
+Four rows remain: bexam_tree_01, bexam_tree_05, bexam_list_02, bexam_list_03. Their domains currently have no same-domain TRACE exercise at the same or easier authored level, so v249 intentionally preserves their semantically closest recovery routes rather than forcing a misleading relabel or cross-domain detour.
+
+Regression
+----------
+Only the two intended final→TRACE route rows changed across all 43 final algorithm items.
+Question / TRACE / security / final-algorithm banks: unchanged.
+2000 deterministic final sessions: selection/order/options unchanged.
+Final contract: 100 min / 20 total / 16 algorithm + 4 security / pool 43 / high-trace 15 / floor 4.
+Subject B semantic diagnostics: OK.
+Candidate/reference six-file byte equality: yes.
+
+Decision
+--------
+The actionable part of the v247 calibration finding is repaired. Keep the four unavoidable cross-layer exceptions documented until a new same-domain TRACE exercise is intentionally authored; do not change difficulty labels just to eliminate an audit count. Follow with a post-repair audit, then move to learner-local calibration (accuracy and response-time evidence).

@@ -1,0 +1,38 @@
+{
+  "version": "v249",
+  "previous": "v248",
+  "parent": "4a3de17554797e0bf6a8e49281d2dd39a66e59e5",
+  "result": "PASS — NO FINDINGS",
+  "findingResolvedForAvailableAlternatives": true,
+  "repairedIds": [
+    "bexam_mat_01",
+    "bexam_mat_02"
+  ],
+  "harderBefore": 6,
+  "harderAfter": 4,
+  "documentedExceptions": [
+    "bexam_list_02",
+    "bexam_list_03",
+    "bexam_tree_01",
+    "bexam_tree_05"
+  ],
+  "allExceptionsLackSameDomainSameOrEasierTarget": true,
+  "bankHashes": {
+    "q": 3000665978,
+    "ex": 3397004348,
+    "sec": 4085726191,
+    "algo": 3993159588
+  },
+  "finalSignatureMatch": true,
+  "contracts": [
+    20,
+    16,
+    4,
+    6000,
+    43,
+    15,
+    4
+  ],
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
