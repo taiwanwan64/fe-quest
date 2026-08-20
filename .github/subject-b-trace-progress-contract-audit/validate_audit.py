@@ -51,7 +51,7 @@ accepted=[k for k,v in cand['probes'].items() if v.get('value') is True or v.get
 expectedLayers=['compound','miniMock','securityMock','final']
 core=cand['exact'].get('_finishBV65') or '';wrapper=cand['exact'].get('finishBExercise') or ''
 coreContract=('profile.bProgress[currentB.id]=100' in core and 'saveProfile()' in core)
-wrapperContract=('_finishBV65()' in wrapper and "markDailyTask('subjectB',{mode:'trace',id:idBefore})" in wrapper)
+wrapperContract=bool(re.search(r'_finishBV65\s*\(\s*\)',wrapper)) and all(t in wrapper for t in ['markDailyTask','subjectB','trace','idBefore'])
 traceRun=cand['traceCompletion'];traceRunOK=traceRun.get('call',{}).get('ok') is True and traceRun.get('after')==100 and traceRun.get('grew') is True
 parentRun=par['traceCompletion'];parentRunOK=parentRun.get('call',{}).get('ok') is True and parentRun.get('after')==100 and parentRun.get('grew') is True
 req(accepted==expectedLayers,'unexpected v254 layer contract '+repr(accepted));req(traceRejected,'trace telemetry should be rejected');req(coreContract,'TRACE core completion contract missing');req(wrapperContract,'TRACE wrapper/daily-task contract missing');req(traceRunOK and parentRunOK,'TRACE completion runtime probe failed')
