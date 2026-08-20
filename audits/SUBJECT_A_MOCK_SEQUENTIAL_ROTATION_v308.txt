@@ -1,0 +1,285 @@
+FE QUEST v308 — Subject A Mock Sequential Rotation Audit
+=========================================================
+
+Result
+------
+PASS — SEQUENTIAL MOCK ROTATION CHARACTERIZED
+Previous release: v307
+Source main: 53e11c0cae2cdf8982aef890c7e0eb517d2e66fd
+Learner-facing change: none
+
+Method
+------
+Build production mocks repeatedly; after each sequential session mirror the exact v307 finishMock mockQuestionStats seen/lastSeen write. Compare with fresh-profile sessions using deterministic seeds.
+
+Summary
+-------
+{
+  "method": "Build production mocks repeatedly; after each sequential session mirror the exact v307 finishMock mockQuestionStats seen/lastSeen write. Compare with fresh-profile sessions using deterministic seeds.",
+  "results": {
+    "full": {
+      "fresh": {
+        "mode": "full",
+        "runs": 200,
+        "adjacentOverlap": {
+          "min": 4,
+          "median": 10,
+          "max": 16,
+          "mean": 10.1,
+          "cv": 0.254
+        },
+        "distinctSelected": 628,
+        "top": [
+          {
+            "id": "coreq_03_02_1",
+            "n": 97
+          },
+          {
+            "id": "coreq_03_01_1",
+            "n": 92
+          },
+          {
+            "id": "algo-03",
+            "n": 90
+          },
+          {
+            "id": "coreq_10_01_2",
+            "n": 86
+          },
+          {
+            "id": "coreq_03_04_1",
+            "n": 83
+          },
+          {
+            "id": "challenge_039",
+            "n": 81
+          },
+          {
+            "id": "coreq_10_01_3",
+            "n": 81
+          },
+          {
+            "id": "coreq_01_07_1",
+            "n": 80
+          },
+          {
+            "id": "challenge_cmp_03_05",
+            "n": 77
+          },
+          {
+            "id": "algo-18",
+            "n": 74
+          }
+        ]
+      },
+      "sequential": {
+        "mode": "full",
+        "runs": 80,
+        "eligible": 710,
+        "distinctSelected": 628,
+        "neverSelected": 82,
+        "coveragePct": 88.5,
+        "sessionsTo90Pct": null,
+        "sessionsTo95Pct": null,
+        "sessionsTo100Pct": null,
+        "adjacentOverlap": {
+          "min": 0,
+          "median": 0,
+          "max": 1,
+          "mean": 0.03,
+          "cv": 6.205
+        },
+        "exposure": {
+          "min": 0,
+          "median": 6,
+          "max": 32,
+          "mean": 6.76,
+          "cv": 0.817
+        },
+        "top": [
+          {
+            "id": "coreq_03_04_1",
+            "n": 32
+          },
+          {
+            "id": "coreq_03_05_1",
+            "n": 32
+          },
+          {
+            "id": "coreq_03_01_1",
+            "n": 32
+          },
+          {
+            "id": "coreq_03_02_1",
+            "n": 32
+          },
+          {
+            "id": "coreq_03_03_1",
+            "n": 32
+          },
+          {
+            "id": "challenge_cmp_03_02",
+            "n": 23
+          },
+          {
+            "id": "challenge_017",
+            "n": 23
+          },
+          {
+            "id": "challenge_016",
+            "n": 23
+          },
+          {
+            "id": "challenge_015",
+            "n": 23
+          },
+          {
+            "id": "challenge_cmp_03_05",
+            "n": 23
+          }
+        ]
+      }
+    },
+    "half": {
+      "fresh": {
+        "mode": "half",
+        "runs": 200,
+        "adjacentOverlap": {
+          "min": 0,
+          "median": 3,
+          "max": 8,
+          "mean": 2.81,
+          "cv": 0.52
+        },
+        "distinctSelected": 613,
+        "top": [
+          {
+            "id": "algo-18",
+            "n": 70
+          },
+          {
+            "id": "algo-03",
+            "n": 53
+          },
+          {
+            "id": "coreq_03_01_1",
+            "n": 50
+          },
+          {
+            "id": "coreq_10_01_2",
+            "n": 47
+          },
+          {
+            "id": "db-11",
+            "n": 47
+          },
+          {
+            "id": "sec-02",
+            "n": 46
+          },
+          {
+            "id": "db-05",
+            "n": 46
+          },
+          {
+            "id": "coreq_03_02_1",
+            "n": 42
+          },
+          {
+            "id": "coreq_03_04_1",
+            "n": 42
+          },
+          {
+            "id": "challenge_cmp_03_05",
+            "n": 40
+          }
+        ]
+      },
+      "sequential": {
+        "mode": "half",
+        "runs": 120,
+        "eligible": 710,
+        "distinctSelected": 632,
+        "neverSelected": 78,
+        "coveragePct": 89,
+        "sessionsTo90Pct": null,
+        "sessionsTo95Pct": null,
+        "sessionsTo100Pct": null,
+        "adjacentOverlap": {
+          "min": 0,
+          "median": 0,
+          "max": 1,
+          "mean": 0.01,
+          "cv": 10.863
+        },
+        "exposure": {
+          "min": 0,
+          "median": 4,
+          "max": 24,
+          "mean": 5.07,
+          "cv": 0.871
+        },
+        "top": [
+          {
+            "id": "coreq_03_02_1",
+            "n": 24
+          },
+          {
+            "id": "coreq_03_04_1",
+            "n": 24
+          },
+          {
+            "id": "coreq_03_01_1",
+            "n": 24
+          },
+          {
+            "id": "coreq_03_05_1",
+            "n": 24
+          },
+          {
+            "id": "coreq_03_03_1",
+            "n": 24
+          },
+          {
+            "id": "algo-18",
+            "n": 19
+          },
+          {
+            "id": "coreq_03_04_3",
+            "n": 19
+          },
+          {
+            "id": "coreq_03_05_3",
+            "n": 19
+          },
+          {
+            "id": "coreq_03_03_3",
+            "n": 19
+          },
+          {
+            "id": "coreq_03_01_2",
+            "n": 19
+          }
+        ]
+      }
+    }
+  },
+  "findings": [
+    "full: sequential coverage remains below 95%",
+    "full: sequential exposure remains uneven",
+    "half: sequential coverage remains below 95%",
+    "half: sequential exposure remains uneven"
+  ],
+  "decision": "repair-needed"
+}
+
+Regression
+----------
+QUESTION_BANK and MOCK_BLUEPRINTS unchanged.
+Production selection/history functions unchanged from v307.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+The measured lifecycle still has a meaningful rotation weakness. Use these findings to design the smallest v309 repair rather than adding a broad new dashboard or policy layer.
