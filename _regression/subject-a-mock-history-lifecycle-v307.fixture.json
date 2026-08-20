@@ -1,0 +1,90 @@
+{
+  "version": "v307",
+  "previous": "v306",
+  "parent": "e43eeebeeae0402692eff6dad7d867242e1751b2",
+  "result": "PASS — MOCK HISTORY LIFECYCLE DISCOVERED",
+  "summary": {
+    "selectionReaders": {
+      "mockSeen": "function mockSeen(q){\n  return profile.mockQuestionStats?.[q.id]?.seen||0;\n}",
+      "mockLastSeen": "function mockLastSeen(q){\n  return profile.mockQuestionStats?.[q.id]?.lastSeen||'';\n}"
+    },
+    "candidateSort": "function mockCandidateSort(a,b){\n  const sa=mockSeen(a),sb=mockSeen(b);\n  if(sa!==sb)return sa-sb;\n  const la=mockLastSeen(a),lb=mockLastSeen(b);\n  if(la!==lb)return la.localeCompare(lb);\n  return Math.random()-.5;\n}",
+    "finishMock": "function finishMock(timeup=false){\n  recordMockQuestionTime();\n  if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}\n  const used=Math.min(mockInitialSeconds,Math.max(0,mockInitialSeconds-mockSeconds));\n  let correct=0,blank=0;\n  const byCat={};\n  const wrongs=[];\n\n  mockItems.forEach((q,i)=>{\n    const ans=mockAnswers[i];\n    const ok=ans===q.a;\n    const sourceId=q.sourceId||q.id;\n    const ms=profile.mockQuestionStats[sourceId]||(profile.mockQuestionStats[sourceId]={seen:0,correct:0,lastSeen:null});\n    ms.seen=(ms.seen||0)+1;\n    if(ok)ms.correct=(ms.correct||0)+1;\n    ms.lastSeen=localDateISO(0);\n    if(ans===null) blank++;\n    if(ok) correct++;\n    if(!byCat[q.cat]) byCat[q.cat]={correct:0,total:0};\n    byCat[q.cat].total++;\n    if(ok) byCat[q.cat].correct++;\n    ensureQuestionProfile();\n    const st=profile.qStats[q.sourceId||q.id];\n    const sec=mockQuestionSeconds[i]||0;\n    if(!ok){\n      wrongs.push({q,ans});\n      if(st){\n        st.attempts=(st.attempts||0)+1;\n        st.last=localDateISO(0);\n        st.streak=0;\n        if(ans===null && timeup) st.lastReason='時間不足';\n        adaptiveMemoryUpdate(st,'wrong',sec,st.lastReason,false);\n      }\n      registerReviewJourney(q,'mock');\n      applyQuestionSkillDelta(q,-1);\n    }else{\n      if(st){\n        st.attempts=(st.attempts||0)+1;\n        st.correct=(st.correct||0)+1;\n        st.last=localDateISO(0);\n        st.streak=(st.streak||0)+1;\n        adaptiveMemoryUpdate(st,'correct',sec,null,false);\n      }\n      applyQuestionSkillDelta(q,0.35);\n    }\n  });\n\n  const total=mockItems.length;\n  const rate=total?Math.round(correct/total*100):0;\n  const wrong=total-correct-blank;\n\n  const attemptDetails=mockItems.map((q,i)=>({\n    id:q.sourceId||q.id,\n    shownOptions:[...q.options],\n    correctIndex:q.a,\n    answerIndex:mockAnswers[i],\n    flagged:!!mockFlags[i],\n    seconds:mockQuestionSeconds[i]||0\n  }));\n  lastMockAttempt={\n    date:localDateISO(0),mode:mockMode,total,correct,blank,rate,seconds:used,\n    blueprint:mockCurrentBlueprint?structuredClone(mockCurrentBlueprint):null,\n    byCat:structuredClone(byCat),details:attemptDetails\n  };\n  profile.mockHistory.unshift(lastMockAttempt);\n  profile.mockHistory=profile.mockHistory.slice(0,10);\n  profile.xp += Math.round(correct*2);\n  saveProfile();\n\n  document.getElementById('mockExam').classList.remove('show');\n  document.getElementById('mockResult').classList.add('show');\n\n  document.getElementById('mockResultScore').textContent=`${rate}%`;\n  document.getElementById('mockStatCorrect').textContent=correct;\n  document.getElementById('mockStatWrong').textContent=wrong;\n  document.getElementById('mockStatBlank').textContent=blank;\n  document.getElementById('mockStatTime').textContent=`${Math.floor(used/60)}m`;\n\n  let message='弱点を見つけられたことが収穫です。';\n  let icon='📚';\n  if(rate>=85){message='かなり安定しています。見直し問題を中心に仕上げましょう。';icon='🏆';}\n  else if(rate>=70){message='良い位置です。誤答分野を復習するとさらに安定します。';icon='🎯';}\n  else if(rate>=55){message='基礎はつながっています。弱点の再学習を優先しましょう。';icon='📈';}\n  if(timeup) message='時間終了です。未回答を含めて、時間配分も復習材料にしましょう。';\n  document.getElementById('mockResultIcon').textContent=icon;\n  document.getElementById('mockResultMessage').textContent=message;\n  renderMockDiagnosis(lastMockAttempt,byCat);\n\n  const breakdown=document.getElementById('mockBreakdown');\n  breakdown.innerHTML='';\n  Object.entries(byCat).sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total)).forEach(([cat,v])=>{\n    const pct=Math.round(v.correct/v.total*100);\n    const d=document.createElement('div');\n    d.className='mock-break-row';\n    d.innerHTML=`<div class=\"mock-break-name\">${cat}</div><div class=\"progress\"><div style=\"width:${pct}%\"></div></div><div class=\"mock-break-pct\">${pct}%</div>`;\n    breakdown.appendChild(d);\n  });\n\n  const review=document.getElementById('mockReviewList');\n  review.innerHTML='';\n  wrongs.slice(0,8).forEach(x=>{\n    const d=document.createElement('div');\n    d.className='mock-review-item';\n    const selected=x.ans===null?'未回答':x.q.options[x.ans];\n    const stat=profile.mockMistakeStats?.[x.q.sourceId||x.q.id];\n    const j=journeyFor(x.q.sourceId||x.q.id);\n    const reason=stat?.lastReason||'原因未記録';\n    d.innerHTML=`<b>${x.q.cat}・${x.q.concept}</b><div class=\"sub\">${escapeHtml(x.q.q)}<br>あなた：${escapeHtml(selected)} ／ 正解：${escapeHtml(x.q.options[x.q.a])}</div><div class=\"sub\">原因：${escapeHtml(reason)}${j?` ／ 復習：${journeyStageLabel(j.stage)}`:''}</div>`;\n    review.appendChild(d);\n  });\n  if(!wrongs.length) review.innerHTML='<div class=\"sub\">全問正解です 🎉</div>';\n\n  const reviewBtn=document.getElementById('mockStartReview');\n  if(reviewBtn){\n    const hasReview=reviewCandidates(lastMockAttempt).length>0;\n    reviewBtn.style.display=hasReview?'':'none';\n    reviewBtn.classList.toggle('primary-action',hasReview);\n    document.getElementById('mockBackMenu')?.classList.toggle('primary-action',!hasReview);\n  }\n  renderMockHistory();\n  renderDailyPlan();\n  renderReadiness();\n}",
+    "buildMockQuestions": "function(modeOrCount){\n  const mode=typeof modeOrCount==='string'?modeOrCount:(modeOrCount===60?'full':'half');\n  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;\n  const quotas=mockCategoryQuotas(bp.count);\n  const difficultyByCat=allocateMockDifficultyByCategory(quotas,bp);\n  const conceptCounts={};\n  const cognitiveCounts={'想起':0,'適用':0,'判断':0};\n  const cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0};\n  const out=[];\n  const categoryOrder=shuffled([...MOCK_CATEGORIES]);\n\n  categoryOrder.forEach(cat=>{\n    const cap=mode==='half'?1:2;\n    MOCK_DIFFICULTY_LEVELS.forEach(level=>{\n      const n=difficultyByCat[cat][level]||0;\n      const pool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level);\n      out.push(...pickMockPool(pool,n,conceptCounts,cap,cognitiveCounts,cognitiveTarget,level));\n    });\n  });\n\n  const unique=[];\n  const seenIds=new Set();\n  for(const q of out){\n    if(!seenIds.has(q.id)){unique.push(q);seenIds.add(q.id);}\n  }\n  if(unique.length<bp.count){\n    unique.push(...QUESTION_BANK.filter(q=>!seenIds.has(q.id)).sort(mockCandidateSort).slice(0,bp.count-unique.length));\n  }\n\n  const picked=shuffled(unique.slice(0,bp.count));\n  const counts={\n    categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])),\n    difficulty:Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(level=>[level,picked.filter(q=>q.difficulty===level).length])),\n    cognitive:Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(level=>[level,picked.filter(q=>q.cognitiveLevel===level).length])),\n    unseen:picked.filter(q=>mockSeen(q)===0).length\n  };\n  mockCurrentBlueprint={mode,count:bp.count,quotas,difficultyByCat,counts};\n  return picked.map(randomizeMockQuestion);\n}",
+    "profileRefsByFunction": {
+      "mockSeen": [
+        "mockQuestionStats"
+      ],
+      "mockLastSeen": [
+        "mockQuestionStats"
+      ],
+      "mockCandidateSort": [],
+      "finishMock": [
+        "mockHistory",
+        "mockMistakeStats",
+        "mockQuestionStats",
+        "qStats",
+        "xp"
+      ],
+      "buildMockQuestions": []
+    },
+    "allProfileRefs": [
+      "mockHistory",
+      "mockMistakeStats",
+      "mockQuestionStats",
+      "qStats",
+      "xp"
+    ],
+    "seenLastSeenProfileRefs": [
+      "mockQuestionStats"
+    ],
+    "finishMockProfileRefs": [
+      "mockHistory",
+      "mockMistakeStats",
+      "mockQuestionStats",
+      "qStats",
+      "xp"
+    ],
+    "sharedReaderWriterProfileRefs": [
+      "mockQuestionStats"
+    ],
+    "initialProfileKeys": [
+      "activity",
+      "bCompoundHistory",
+      "bCompoundStats",
+      "bFinalHistory",
+      "bFinalMistakeStats",
+      "bFinalStats",
+      "bMockHistory",
+      "bMockStats",
+      "bProgress",
+      "chapterMastery",
+      "dailyPlans",
+      "diagnosticCompleted",
+      "diagnosticScores",
+      "lastStudyDate",
+      "lessonProgress",
+      "masteryHistory",
+      "mockHistory",
+      "mockMistakeStats",
+      "mockQuestionStats",
+      "profileMeta",
+      "profileSchemaVersion",
+      "qStats",
+      "reviewJourney",
+      "reviewJourneys",
+      "securityBProgress",
+      "securityMockHistory",
+      "securityMockStats",
+      "sessions",
+      "settings",
+      "skills",
+      "streak",
+      "techniqueStats",
+      "xp"
+    ],
+    "interpretation": "Use the exact discovered reader/writer fields in v308 sequential-session simulation; do not guess the mock history shape."
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
