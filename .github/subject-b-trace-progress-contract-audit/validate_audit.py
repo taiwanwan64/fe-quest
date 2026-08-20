@@ -12,6 +12,13 @@ def context():
 def scripts(path):
     h=Path(path).read_text();return '\n'.join(s for s in re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',h,re.S|re.I) if s.strip() and not s.lstrip().startswith('{'))
 
+def wrapper_contract(js):
+    marker='const _finishBV65=finishBExercise;'
+    i=js.find(marker)
+    if i<0:return False
+    window=js[i:i+900]
+    return all(t in window for t in ['finishBExercise=function','idBefore','_finishBV65()','markDailyTask','subjectB','mode:\'trace\''])
+
 def runtime(path):
     js=scripts(path);stub=runpy.run_path('.github/release/runtime_stub.py')['STUB']
     tail=r'''
@@ -44,17 +51,18 @@ version,previous=context();req((version,previous)==('v330','v329'),'expects v330
 p329=Path('_regression/early-use-transition-simulation-v329.fixture.json');req(p329.exists(),'v329 fixture missing');req(json.loads(p329.read_text()).get('result')=='FINDING — EARLY-USE TRANSITION NEEDS ROUTE DETAIL','v329 result')
 expected={'.github/subject-b-trace-progress-contract-audit/validate_audit.py','.github/workflows/subject-b-trace-progress-contract-audit.yml'};generated={'index.html','manifest.webmanifest','sw.js','_regression/subject-b-trace-progress-contract-audit-v330.fixture.json','audits/SUBJECT_B_TRACE_PROGRESS_CONTRACT_AUDIT_v330.txt'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(expected<=changed,'missing source');req(changed<=expected|generated,'source drift '+repr(sorted(changed-(expected|generated))))
+cand_js,par_js=scripts('_site/index.html'),scripts('_site_parent/index.html')
 cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v330' and par['v']=='v329','versions');req(cand['exact']==par['exact'],'audit-only contract drift');req(cand['sem'].get('ok') is True and par['sem'].get('ok') is True,'semantic')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
 traceRejected=cand['probes']['trace'].get('value') is False and not cand['probes']['trace'].get('grew')
 accepted=[k for k,v in cand['probes'].items() if v.get('value') is True or v.get('grew')]
 expectedLayers=['compound','miniMock','securityMock','final']
-core=cand['exact'].get('_finishBV65') or '';wrapper=cand['exact'].get('finishBExercise') or ''
+core=cand['exact'].get('_finishBV65') or ''
 coreContract=('profile.bProgress[currentB.id]=100' in core and 'saveProfile()' in core)
-wrapperContract=bool(re.search(r'_finishBV65\s*\(\s*\)',wrapper)) and all(t in wrapper for t in ['markDailyTask','subjectB','trace','idBefore'])
+wrapperContract=wrapper_contract(cand_js) and wrapper_contract(par_js)
 traceRun=cand['traceCompletion'];traceRunOK=traceRun.get('call',{}).get('ok') is True and traceRun.get('after')==100 and traceRun.get('grew') is True
 parentRun=par['traceCompletion'];parentRunOK=parentRun.get('call',{}).get('ok') is True and parentRun.get('after')==100 and parentRun.get('grew') is True
-req(accepted==expectedLayers,'unexpected v254 layer contract '+repr(accepted));req(traceRejected,'trace telemetry should be rejected');req(coreContract,'TRACE core completion contract missing');req(wrapperContract,'TRACE wrapper/daily-task contract missing');req(traceRunOK and parentRunOK,'TRACE completion runtime probe failed')
+req(accepted==expectedLayers,'unexpected v254 layer contract '+repr(accepted));req(traceRejected,'trace telemetry should be rejected');req(coreContract,'TRACE core completion contract missing');req(wrapperContract,'TRACE wrapper/daily-task source contract missing');req(traceRunOK and parentRunOK,'TRACE completion runtime probe failed')
 result='PASS — V329 TRACE TELEMETRY EXPECTATION WAS OUT OF CONTRACT'
 summary={
   'traceItem':cand['item'],
@@ -63,9 +71,8 @@ summary={
   'acceptedPerformanceLayers':accepted,
   'tracePerformanceRejected':traceRejected,
   'traceCoreCompletionSource':cand['exact'].get('_finishBV65'),
-  'traceCompletionWrapperSource':cand['exact'].get('finishBExercise'),
   'traceCoreContractResolved':coreContract,
-  'traceWrapperContractResolved':wrapperContract,
+  'traceWrapperSourceContractResolved':wrapperContract,
   'traceCompletionRuntimeProbe':traceRun,
   'interpretation':'v329 used the v254 response-time/performance recorder as though a short TRACE exercise were one of its instrumented layers. Production rejects layer=trace by design. Short TRACE completion instead flows through finishBExercise -> _finishBV65, which writes profile.bProgress[currentB.id]=100, saves the profile, and then marks the matching daily Subject B trace task. The disposable runtime confirms the first TRACE item advances from 0 to 100 through that real completion chain.',
   'decision':'RE-RUN EARLY-USE SIMULATION AGAINST THE REAL FINISHBEXERCISE/BPROGRESS TRACE CONTRACT, NOT V254 PERFORMANCE TELEMETRY'
