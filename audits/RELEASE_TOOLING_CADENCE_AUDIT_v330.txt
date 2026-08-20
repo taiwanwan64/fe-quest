@@ -1,0 +1,46 @@
+FE QUEST v330 — Release Tooling Cadence Audit
+====================================================
+
+Result
+------
+PASSED real GitHub Pages/Jekyll candidate/reference validation.
+
+Versionless tooling
+-------------------
+Branch-derived target: v330
+Previous release inferred and required: v329
+Stable tooling files: 5
+Adoption release: no
+Release-specific validation workflow/tool source files: 0
+Stable tooling deployed by Jekyll: no
+
+Reference proof
+---------------
+A mechanical conventional reference was created from origin/main and advanced from v329 to v330.
+Candidate and reference generated six release files are byte-identical: yes
+Production manifest remains direct JSON: yes
+Production sw.js remains direct JavaScript: yes
+
+Runtime
+-------
+Current adapter: runV330SelfCheck
+Retired adapters: 170 (runV160SelfCheck through runV329SelfCheck)
+Canonical runtime: 1,064,857 bytes / SHA-256 662415c8e2a82a648848ea50dbef1e377eb332b16a7e1641261f6514fac863fe
+Excluded volatile field: FEQUEST_SELF_CHECK.checkedAt
+Diagnostic archive: 58 / growth 0
+
+Generated HTML
+--------------
+3,647,121 bytes / SHA-256 e5b92c6297b8d0fff250239ec866dd2758601677d74e19cbdcf8080a00e2dae8
+
+Contracts
+---------
+Current 71/71
+Browser UI 23/23 + required DOM
+Critical 56/56
+Release sentinel 28/28
+CI 84/84
+Legacy 293 / raw22 / residual0
+Questions 710 / unique710
+Answers A178/B178/C177/D177
+Cognitive 想起166/適用323/判断221

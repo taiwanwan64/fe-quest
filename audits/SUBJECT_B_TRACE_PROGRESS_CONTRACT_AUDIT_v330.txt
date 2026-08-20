@@ -1,0 +1,83 @@
+FE QUEST v330 — Subject B TRACE Progress Contract Audit
+========================================================
+
+Result
+------
+PASS — V329 TRACE TELEMETRY EXPECTATION WAS OUT OF CONTRACT
+Previous release: v329
+Source main: 3f1164e24e63222bcee5c1a1914c1706924a0cdc
+Learner-facing change: none
+
+Purpose
+-------
+Resolve the sole v329 finding: determine whether the failed synthetic Subject B record indicates a product defect or an audit-harness mismatch between short TRACE progress and v254 performance telemetry.
+
+Summary
+-------
+{
+  "traceItem": {
+    "id": "loop_sum",
+    "level": "\u57fa\u790e"
+  },
+  "performanceRecorderSource": "function subjectBPerformanceRecordV254(event){\n  const layer=String(event?.layer||'');\n  if(!SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.layers.includes(layer))return false;\n  const sourceId=String(event?.sourceId||'').trim();if(!sourceId)return false;\n  const elapsedMs=Math.min(SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.maxElapsedMs,Math.max(0,Math.round(Number(event?.elapsedMs)||0)));\n  const row={layer,sourceId,level:String(event?.level||'\u6a19\u6e96'),ok:!!event?.ok,elapsedMs,at:String(event?.at||new Date().toISOString())};\n  const root=subjectBPerformanceRootV254();\n  root.events=[...root.events,row].slice(-SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC.eventLimit);\n  return true;\n}",
+  "performanceLayerProbes": {
+    "trace": {
+      "ok": true,
+      "value": false,
+      "grew": false
+    },
+    "compound": {
+      "ok": true,
+      "value": true,
+      "grew": true
+    },
+    "miniMock": {
+      "ok": true,
+      "value": true,
+      "grew": true
+    },
+    "securityMock": {
+      "ok": true,
+      "value": true,
+      "grew": true
+    },
+    "final": {
+      "ok": true,
+      "value": true,
+      "grew": true
+    }
+  },
+  "acceptedPerformanceLayers": [
+    "compound",
+    "miniMock",
+    "securityMock",
+    "final"
+  ],
+  "tracePerformanceRejected": true,
+  "traceCoreCompletionSource": "function finishBExercise(){\n  const old=profile.bProgress[currentB.id]||0;\n  profile.bProgress[currentB.id]=100;\n  profile.skills['\u30a2\u30eb\u30b4\u30ea\u30ba\u30e0']=clamp((profile.skills['\u30a2\u30eb\u30b4\u30ea\u30ba\u30e0']||50)+(old<100?3:1),0,100);\n  profile.xp += old<100?80:20;\n  saveProfile();\n\n  document.getElementById('bCompleteXp').textContent=`+${old<100?80:20} XP`;\n  document.getElementById('bCompleteText').textContent=`\u300c${currentB.concept}\u300d\u306e\u30c8\u30ec\u30fc\u30b9\u3092\u5b8c\u4e86\u3057\u307e\u3057\u305f\u3002`;\n  document.getElementById('bComplete').classList.add('show');\n  document.getElementById('bStep').disabled=true;\n  document.getElementById('bStep').textContent='\u2713 \u5b8c\u4e86';\n  renderBGrid();\n  updateSubjectBCompletionButton('bNextExercise');\n}",
+  "traceCoreContractResolved": true,
+  "traceWrapperSourceContractResolved": true,
+  "traceCompletionRuntimeProbe": {
+    "call": {
+      "ok": true
+    },
+    "before": 0,
+    "after": 100,
+    "xpBefore": 0,
+    "xpAfter": 80,
+    "grew": true
+  },
+  "interpretation": "v329 used the v254 response-time/performance recorder as though a short TRACE exercise were one of its instrumented layers. Production rejects layer=trace by design. Short TRACE completion instead flows through finishBExercise -> _finishBV65, which writes profile.bProgress[currentB.id]=100, saves the profile, and then marks the matching daily Subject B trace task. The disposable runtime confirms the first TRACE item advances from 0 to 100 through that real completion chain.",
+  "decision": "RE-RUN EARLY-USE SIMULATION AGAINST THE REAL FINISHBEXERCISE/BPROGRESS TRACE CONTRACT, NOT V254 PERFORMANCE TELEMETRY"
+}
+
+Regression
+----------
+Learner-facing behavior is unchanged from v329.
+Candidate and untouched v329 parent expose the same TRACE completion and v254 telemetry contracts.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+RE-RUN EARLY-USE SIMULATION AGAINST THE REAL FINISHBEXERCISE/BPROGRESS TRACE CONTRACT, NOT V254 PERFORMANCE TELEMETRY
