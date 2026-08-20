@@ -1,0 +1,90 @@
+name: FE QUEST exam taper learner-route audit
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/exam-taper-learner-route-audit/**'
+      - '.github/workflows/exam-taper-learner-route-audit.yml'
+
+permissions:
+  contents: write
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout head branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Resolve audit target
+        id: release
+        shell: bash
+        run: |
+          BRANCH="$GITHUB_HEAD_REF"
+          if [[ ! "$BRANCH" =~ ^exam-taper-learner-route-audit-(v[0-9]+)$ ]]; then exit 1; fi
+          VERSION="${BASH_REMATCH[1]}"; NUMBER="${VERSION#v}"; PREVIOUS="v$((NUMBER-1))"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"; echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+      - name: Materialize conventional release shell
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Build audit candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+      - name: Prepare mechanical target reference
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
+      - name: Build mechanical target reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_reference
+          destination: ./_site_reference
+          build_revision: ${{ github.sha }}
+          verbose: true
+      - name: Prepare untouched parent reference
+        run: |
+          rm -rf _parent_reference; mkdir _parent_reference; git archive origin/main | tar -x -C _parent_reference
+      - name: Build untouched parent reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_parent_reference
+          destination: ./_site_parent
+          build_revision: ${{ github.sha }}
+          verbose: true
+      - name: Validate standard release invariants
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
+      - name: Audit taper learner route
+        run: python3 .github/exam-taper-learner-route-audit/validate_audit.py
+      - name: Commit validated release shell and evidence
+        shell: bash
+        run: |
+          TARGET_BRANCH="$GITHUB_HEAD_REF"
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A _regression audits index.html manifest.webmanifest sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} taper learner-route audit"
+            git fetch origin "$TARGET_BRANCH"
+            git rebase "origin/$TARGET_BRANCH"
+            git push origin HEAD:"$TARGET_BRANCH"
+          fi
+      - name: Package release
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"; cd _site; zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-${{ steps.release.outputs.version }}-standalone
+          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          if-no-files-found: error
+          retention-days: 90
