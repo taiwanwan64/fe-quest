@@ -1,0 +1,53 @@
+FE QUEST v318 — Subject A Review Time-Budget Alignment Audit
+==============================================================
+
+Result
+------
+PASS — SUBJECT A REVIEW TIME BUDGET ALIGNED
+Previous release: v317
+Source main: 2ffcd968cfc1c787412fc6fcf4596b235e67995f
+Learner-facing change: none
+
+Purpose
+-------
+Check whether the v317 10-question review-session cap is consistent with the planner's review-minute allocation and the production per-question timing model before changing either policy.
+
+Summary
+-------
+{
+  "genericReviewQuestionCap": 10,
+  "noDueFallbackQuestions": 5,
+  "planner": {
+    "60min": {
+      "reviewMinutes": 10,
+      "secondsPerQuestionAtCap": 60.0
+    },
+    "90min": {
+      "reviewMinutes": 15,
+      "secondsPerQuestionAtCap": 90.0
+    }
+  },
+  "memoryTimingModel": {
+    "fastSecondsMax": 45,
+    "neutralSecondsMax": 90,
+    "slowBandSecondsMax": 150,
+    "verySlowAbove": 150
+  },
+  "timingInstrumentation": {
+    "answerAttemptSecondsPropagated": true,
+    "avgSecondsTracked": true,
+    "timedAnswersTracked": true
+  },
+  "interpretation": "The fixed 10-question generic review cap is internally aligned with the planner rather than arbitrary. A 60-minute daily plan reserves 10 review minutes, which equals 60 seconds per question at the 10-question cap; a 90-minute plan reserves 15 minutes, which equals 90 seconds per question. Both fall inside the memory model's neutral 46-90 second response band. The app also records actual first-attempt seconds into per-question avgSeconds/timedAnswers, so slower or hesitant answers already influence memory stability without requiring the daily planner to rush the learner. The planner minutes are therefore best treated as an estimate, not a hard deadline. A dynamic question cap based on response speed would add complexity and could punish slower reasoning without evidence of a queue-integrity problem.",
+  "decision": "KEEP 10-QUESTION CAP AND 10/15-MINUTE ALLOCATIONS \u2014 REVIEW CAPACITY SEQUENCE CLOSED"
+}
+
+Regression
+----------
+Learner-facing behavior, spacing, queue, review launch and planner allocation functions are unchanged from v317.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+Keep the current review capacity. The standard 60-minute plan implies about 60 seconds per question and the 90-minute plan about 90 seconds per question at the 10-question cap, both inside the production model's neutral timing band. Since backlog is preserved across days and actual response time already feeds memory scheduling, do not introduce a dynamic cap or more review minutes without learner evidence. Close the Subject A review-lifecycle/capacity sequence and move to a different learning-quality frontier.
