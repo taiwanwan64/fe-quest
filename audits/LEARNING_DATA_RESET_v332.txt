@@ -1,0 +1,26 @@
+FE QUEST v332 — Learning-Data Reset
+====================================
+
+Result
+------
+PASS — LEARNING-DATA RESET VALIDATED
+Previous release: v331
+Source main: 0b213475fa591b8034519543d6316764cb24d268
+
+Learner-facing behavior
+-----------------------
+- 「アプリ・データ」→「その他のデータ操作」に「学習データを初期化」を追加。
+- 教材進捗、問題・復習・模試・科目Bの学習状態、XP、ストリークなどを初回学習状態へ戻す。
+- 1日の学習時間、受験予定日、自動調整など profile.settings は保持する。
+- 実行前に復旧センター用の pre-manual-reset 復旧点を作成し、既存の復旧点と外部バックアップは保持する。
+- 旧進捗が自動復元されないよう last-good は初期化後プロフィールへ更新する。
+- UI再開状態、科目B総合実戦の再開状態、移行ジャーナル、旧一時復元データ、legacy profile mirror は消去する。
+- confirm の後に「初期化」の入力を要求する2段階確認。
+- PWA本体、Service Worker、Cache Storage は削除しない。
+
+Regression
+----------
+QUESTION_BANK: unchanged.
+Subject B semantic diagnostics: OK.
+Candidate/approved-reference six-file byte equality: yes.
+Standard release invariants are validated separately by release_validate.py.

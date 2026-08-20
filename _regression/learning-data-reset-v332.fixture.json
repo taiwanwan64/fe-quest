@@ -1,0 +1,29 @@
+{
+  "version": "v332",
+  "previous": "v331",
+  "parent": "0b213475fa591b8034519543d6316764cb24d268",
+  "result": "PASS — LEARNING-DATA RESET VALIDATED",
+  "policy": {
+    "scope": "learning-progress",
+    "preservesStudySettings": true,
+    "preservesDownloadedBackups": true,
+    "preservesRecoveryCenterSnapshots": true,
+    "createsPreResetRecoveryPoint": true,
+    "clearsAutomaticFallbackToOldProgress": true,
+    "clearsResumeState": true,
+    "clearsLegacyProfileMirrors": true,
+    "confirmationSteps": 2,
+    "remoteTelemetry": false
+  },
+  "settingsPreserved": true,
+  "resetCoreMatchesDefault": true,
+  "preResetRecoveryPoint": true,
+  "oldAutomaticFallbackRemoved": true,
+  "resumeAndTransientStateCleared": true,
+  "legacyProfileMirrorsCleared": true,
+  "twoStepConfirmation": true,
+  "pwaInstallAndCachePreserved": true,
+  "questionBankUnchanged": true,
+  "subjectBSemanticsOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
