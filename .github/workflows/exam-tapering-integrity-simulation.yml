@@ -1,8 +1,6 @@
 name: FE QUEST exam tapering integrity simulation
 
 on:
-  push:
-    branches: ['exam-tapering-integrity-simulation-v*']
   pull_request:
     branches: ['main']
     paths:
@@ -23,7 +21,7 @@ jobs:
       - name: Checkout head branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - name: Resolve audit target
         id: release
@@ -70,10 +68,15 @@ jobs:
       - name: Commit validated release shell and evidence
         shell: bash
         run: |
-          TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          TARGET_BRANCH="$GITHUB_HEAD_REF"
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A _regression audits index.html manifest.webmanifest sw.js
-          if ! git diff --cached --quiet; then git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} exam tapering integrity simulation"; git push origin HEAD:"$TARGET_BRANCH"; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} exam tapering integrity simulation"
+            git fetch origin "$TARGET_BRANCH"
+            git rebase "origin/$TARGET_BRANCH"
+            git push origin HEAD:"$TARGET_BRANCH"
+          fi
       - name: Package release
         shell: bash
         run: |
