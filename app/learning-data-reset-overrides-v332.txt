@@ -1,0 +1,120 @@
+// FE QUEST v332 — learner-controlled learning-data reset.
+// Reset only the learning profile. Keep study settings and leave external backups/recovery points available.
+const LEARNING_DATA_RESET_CONFIRM_TEXT_V332='初期化';
+
+function resetLearningProfileCandidateV332(current=profile){
+  const keepSettings=structuredClone(safeObject(current?.settings));
+  const now=new Date().toISOString();
+  const fresh=normalizeProfileData({...structuredClone(DEFAULT_PROFILE),settings:keepSettings});
+  fresh.settings=keepSettings;
+  fresh.profileMeta={
+    ...safeObject(fresh.profileMeta),
+    createdAt:now,
+    updatedAt:now,
+    lastAppVersion:APP_VERSION,
+    migratedFromSchema:null,
+    revision:profileBaseRevision,
+    lastWriterId:TAB_INSTANCE_ID
+  };
+  return fresh;
+}
+
+function performLearningDataResetV332(){
+  if(profileWriteBlocked||profileConflictBlocked){
+    return {ok:false,reason:'blocked'};
+  }
+  if(!acquireProfileWriteLease()){
+    markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');
+    return {ok:false,reason:'lease'};
+  }
+  let result=null;
+  try{
+    const next=stampProfileForSave(resetLearningProfileCandidateV332(profile));
+    result=writeCurrentProfile(next,{preservePrevious:false,skipConflictCheck:true});
+    profile=result.profile;
+
+    // An explicit reset must not leave the old profile as the automatic last-good fallback.
+    // Recovery-center checkpoints and downloaded backups remain available for deliberate recovery.
+    try{
+      localStorage.removeItem(LAST_GOOD_PROFILE_KEY);
+      localStorage.removeItem(LAST_GOOD_CHECKSUM_KEY);
+      localStorage.setItem(LAST_GOOD_PROFILE_KEY,result.raw);
+      localStorage.setItem(LAST_GOOD_CHECKSUM_KEY,result.checksum);
+    }catch(e){
+      try{localStorage.removeItem(LAST_GOOD_PROFILE_KEY);localStorage.removeItem(LAST_GOOD_CHECKSUM_KEY)}catch(_e){}
+      console.warn('Reset last-good mirror could not be refreshed',e);
+    }
+    try{localStorage.removeItem(CORRUPT_PROFILE_KEY)}catch(_e){}
+    try{localStorage.removeItem(UI_STATE_KEY)}catch(_e){}
+
+    rememberCommittedProfile(profile);
+    clearProfileSaveFailure();
+  }catch(e){
+    restoreCommittedProfileInMemory(false);
+    noteProfileSaveFailure(e);
+    console.warn('学習データの初期化に失敗しました。',e);
+    return {ok:false,reason:'write',error:String(e?.message||e)};
+  }finally{
+    releaseProfileWriteLease();
+  }
+
+  try{queueRecoveryCheckpoint('manual-reset',true)}catch(e){console.warn('Reset checkpoint queue failed',e)}
+  return {ok:true,profile:structuredClone(profile),settings:structuredClone(profile.settings||{})};
+}
+
+function requestLearningDataResetV332(){
+  const first=window.confirm(
+    '学習データを最初からやり直します。\n\n'+
+    '削除されるもの：教材の進捗、問題履歴、復習、模試履歴、科目B進捗、XP、ストリークなど\n\n'+
+    '残るもの：1日の学習時間、受験予定日、自動調整などの学習設定\n\n'+
+    '必要なら先に「バックアップを書き出す」を実行してください。続けますか？'
+  );
+  if(!first)return false;
+
+  const typed=window.prompt('最終確認です。学習データを初期化するには「初期化」と入力してください。','');
+  if(typed!==LEARNING_DATA_RESET_CONFIRM_TEXT_V332){
+    if(typed!==null)showAppNotice('info','初期化を中止しました','確認文字が一致しなかったため、学習データは変更していません。');
+    return false;
+  }
+
+  const result=performLearningDataResetV332();
+  if(!result.ok){
+    showAppNotice('error','初期化できませんでした','学習データは変更していません。ほかのFE QUEST画面を閉じてから、もう一度お試しください。');
+    return false;
+  }
+  window.alert('学習データを初期化しました。学習時間や受験予定日などの設定はそのままです。');
+  location.reload();
+  return true;
+}
+
+function installLearningDataResetV332(){
+  if(document.getElementById('resetLearningDataV332'))return true;
+  const host=document.querySelector('#pwaHealthCard .pwa-health-actions-advanced');
+  if(!host)return false;
+
+  const style=document.createElement('style');
+  style.id='learningDataResetStyleV332';
+  style.textContent=`
+    .learning-data-reset-v332{margin-top:12px;padding-top:12px;border-top:1px solid rgba(239,68,68,.28)}
+    .learning-data-reset-v332 .reset-title{font-weight:800;margin-bottom:4px}
+    .learning-data-reset-v332 .reset-help{font-size:12px;line-height:1.55;color:var(--muted,#64748b);margin-bottom:9px}
+    #resetLearningDataV332{width:100%;min-height:44px;border:1px solid #dc2626;background:transparent;color:#b91c1c;font-weight:800}
+    #resetLearningDataV332:active{transform:translateY(1px)}
+  `;
+  document.head.append(style);
+
+  const box=document.createElement('div');
+  box.className='learning-data-reset-v332';
+  const title=document.createElement('div');
+  title.className='reset-title';title.textContent='最初から学習する';
+  const help=document.createElement('div');
+  help.className='reset-help';help.textContent='教材・問題・復習・模試・科目B・XPなどの学習履歴を初期化します。学習時間や受験予定日などの設定は残ります。';
+  const btn=document.createElement('button');
+  btn.id='resetLearningDataV332';btn.type='button';btn.textContent='学習データを初期化';
+  btn.addEventListener('click',requestLearningDataResetV332);
+  box.append(title,help,btn);host.append(box);
+  return true;
+}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLearningDataResetV332,{once:true});
+else installLearningDataResetV332();
