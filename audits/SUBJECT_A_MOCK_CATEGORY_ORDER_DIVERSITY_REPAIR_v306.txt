@@ -1,0 +1,358 @@
+FE QUEST v306 — Subject A Mock Category-Order Diversity Repair
+=================================================================
+
+Result
+------
+PASS — CATEGORY-ORDER DIVERSITY REPAIR VALIDATED
+Previous release: v305
+Source main: 7a84812e03a701ced897f149341246cc767a3d4e
+Learner-facing change: Subject A mock category traversal is randomized before the existing greedy selector runs.
+
+Why this repair
+---------------
+v305 proved that the fixed category traversal order—not the cognitive label itself—caused strat-16 to appear in every full and half mock. v306 applies only the smaller category-order change and leaves difficulty traversal fixed.
+
+500-session runtime comparison
+------------------------------
+{
+  "sourceDecision": "v305 showed fixed category traversal is the dominant cause; apply the narrower category-only change",
+  "parent": {
+    "full": {
+      "mode": "full",
+      "runs": 500,
+      "invalidSessionCount": 0,
+      "blueprintMismatch": 0,
+      "strat16Pct": 100,
+      "neverSelected": 119,
+      "exposurePct": {
+        "min": 0,
+        "p50": 5.8,
+        "p90": 20.2,
+        "p95": 27.4,
+        "max": 100
+      },
+      "topExposure": [
+        {
+          "id": "strat-16",
+          "n": 500,
+          "pct": 100
+        },
+        {
+          "id": "coreq_03_01_1",
+          "n": 240,
+          "pct": 48
+        },
+        {
+          "id": "coreq_10_01_2",
+          "n": 225,
+          "pct": 45
+        },
+        {
+          "id": "algo-18",
+          "n": 213,
+          "pct": 42.6
+        },
+        {
+          "id": "coreq_03_05_1",
+          "n": 210,
+          "pct": 42
+        },
+        {
+          "id": "coreq_10_01_3",
+          "n": 209,
+          "pct": 41.8
+        },
+        {
+          "id": "algo-03",
+          "n": 203,
+          "pct": 40.6
+        },
+        {
+          "id": "coreq_03_02_1",
+          "n": 203,
+          "pct": 40.6
+        },
+        {
+          "id": "db-11",
+          "n": 197,
+          "pct": 39.4
+        },
+        {
+          "id": "db-05",
+          "n": 192,
+          "pct": 38.4
+        },
+        {
+          "id": "challenge_cmp_03_05",
+          "n": 189,
+          "pct": 37.8
+        },
+        {
+          "id": "coreq_01_07_1",
+          "n": 188,
+          "pct": 37.6
+        }
+      ]
+    },
+    "half": {
+      "mode": "half",
+      "runs": 500,
+      "invalidSessionCount": 0,
+      "blueprintMismatch": 0,
+      "strat16Pct": 100,
+      "neverSelected": 185,
+      "exposurePct": {
+        "min": 0,
+        "p50": 2.8,
+        "p90": 11,
+        "p95": 14.4,
+        "max": 100
+      },
+      "topExposure": [
+        {
+          "id": "strat-16",
+          "n": 500,
+          "pct": 100
+        },
+        {
+          "id": "algo-18",
+          "n": 159,
+          "pct": 31.8
+        },
+        {
+          "id": "algo-03",
+          "n": 152,
+          "pct": 30.4
+        },
+        {
+          "id": "coreq_03_02_1",
+          "n": 121,
+          "pct": 24.2
+        },
+        {
+          "id": "sec-02",
+          "n": 119,
+          "pct": 23.8
+        },
+        {
+          "id": "coreq_03_01_1",
+          "n": 115,
+          "pct": 23
+        },
+        {
+          "id": "coreq_10_01_3",
+          "n": 109,
+          "pct": 21.8
+        },
+        {
+          "id": "coreq_03_04_1",
+          "n": 107,
+          "pct": 21.4
+        },
+        {
+          "id": "coreq_10_01_2",
+          "n": 105,
+          "pct": 21
+        },
+        {
+          "id": "db-11",
+          "n": 105,
+          "pct": 21
+        },
+        {
+          "id": "db-05",
+          "n": 102,
+          "pct": 20.4
+        },
+        {
+          "id": "db-20",
+          "n": 102,
+          "pct": 20.4
+        }
+      ]
+    }
+  },
+  "candidate": {
+    "full": {
+      "mode": "full",
+      "runs": 500,
+      "invalidSessionCount": 0,
+      "blueprintMismatch": 0,
+      "strat16Pct": 13,
+      "neverSelected": 78,
+      "exposurePct": {
+        "min": 0,
+        "p50": 6,
+        "p90": 19.8,
+        "p95": 26.6,
+        "max": 48.2
+      },
+      "topExposure": [
+        {
+          "id": "coreq_03_01_1",
+          "n": 241,
+          "pct": 48.2
+        },
+        {
+          "id": "coreq_03_02_1",
+          "n": 223,
+          "pct": 44.6
+        },
+        {
+          "id": "coreq_10_01_2",
+          "n": 216,
+          "pct": 43.2
+        },
+        {
+          "id": "coreq_10_01_3",
+          "n": 211,
+          "pct": 42.2
+        },
+        {
+          "id": "db-11",
+          "n": 205,
+          "pct": 41
+        },
+        {
+          "id": "algo-03",
+          "n": 204,
+          "pct": 40.8
+        },
+        {
+          "id": "algo-18",
+          "n": 199,
+          "pct": 39.8
+        },
+        {
+          "id": "coreq_01_07_1",
+          "n": 193,
+          "pct": 38.6
+        },
+        {
+          "id": "coreq_03_03_1",
+          "n": 188,
+          "pct": 37.6
+        },
+        {
+          "id": "coreq_03_04_1",
+          "n": 186,
+          "pct": 37.2
+        },
+        {
+          "id": "challenge_cmp_03_05",
+          "n": 180,
+          "pct": 36
+        },
+        {
+          "id": "challenge_039",
+          "n": 177,
+          "pct": 35.4
+        }
+      ]
+    },
+    "half": {
+      "mode": "half",
+      "runs": 500,
+      "invalidSessionCount": 0,
+      "blueprintMismatch": 0,
+      "strat16Pct": 12,
+      "neverSelected": 81,
+      "exposurePct": {
+        "min": 0,
+        "p50": 2.6,
+        "p90": 10.6,
+        "p95": 14,
+        "max": 29.6
+      },
+      "topExposure": [
+        {
+          "id": "algo-18",
+          "n": 148,
+          "pct": 29.6
+        },
+        {
+          "id": "algo-03",
+          "n": 141,
+          "pct": 28.2
+        },
+        {
+          "id": "coreq_03_04_1",
+          "n": 127,
+          "pct": 25.4
+        },
+        {
+          "id": "coreq_10_01_2",
+          "n": 123,
+          "pct": 24.6
+        },
+        {
+          "id": "sec-02",
+          "n": 123,
+          "pct": 24.6
+        },
+        {
+          "id": "coreq_03_02_1",
+          "n": 117,
+          "pct": 23.4
+        },
+        {
+          "id": "challenge_cmp_03_05",
+          "n": 114,
+          "pct": 22.8
+        },
+        {
+          "id": "db-05",
+          "n": 113,
+          "pct": 22.6
+        },
+        {
+          "id": "coreq_03_01_1",
+          "n": 111,
+          "pct": 22.2
+        },
+        {
+          "id": "db-11",
+          "n": 111,
+          "pct": 22.2
+        },
+        {
+          "id": "coreq_10_01_3",
+          "n": 100,
+          "pct": 20
+        },
+        {
+          "id": "db-17",
+          "n": 93,
+          "pct": 18.6
+        }
+      ]
+    }
+  },
+  "fullStrat16ReductionPctPoints": 87,
+  "halfStrat16ReductionPctPoints": 88,
+  "preserved": [
+    "60/30 counts",
+    "category quotas",
+    "difficulty quotas",
+    "cognitive targets",
+    "concept caps",
+    "novelty ordering",
+    "question content",
+    "profile schema",
+    "Subject B semantics"
+  ]
+}
+
+Regression
+----------
+QUESTION_BANK content and answer keys: unchanged.
+MOCK_BLUEPRINTS: unchanged.
+Category, difficulty and cognitive counts: exact in every simulated full/half session.
+Duplicate question IDs: none.
+No new question exceeds 60% exposure in either mode.
+Subject B semantic diagnostics: OK.
+Candidate/approved-reference six-file byte equality: yes.
+
+Decision
+--------
+Keep the v306 category-only traversal repair. Do not also randomize difficulty traversal: the narrower change removes the pathological fixed slot while preserving every mock blueprint.

@@ -1,0 +1,57 @@
+// ===== FE QUEST v306 Subject A mock category-order diversity repair =====
+const SUBJECT_A_MOCK_SELECTION_DIVERSITY_V306_SPEC=Object.freeze({
+  sourceAudit:'v305-subject-a-mock-selection-order-simulation',
+  sourceFinding:'fixed-category-traversal-forces-strat-16',
+  policy:'randomize-category-traversal-only',
+  categoryQuotaChanged:false,
+  difficultyQuotaChanged:false,
+  cognitiveTargetChanged:false,
+  difficultyTraversalChanged:false,
+  conceptCapChanged:false,
+  noveltyOrderChanged:false,
+  questionContentChanged:false,
+  profileSchemaMigrationRequired:false,
+  remoteTelemetry:false
+});
+
+buildMockQuestions=function(modeOrCount){
+  const mode=typeof modeOrCount==='string'?modeOrCount:(modeOrCount===60?'full':'half');
+  const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;
+  const quotas=mockCategoryQuotas(bp.count);
+  const difficultyByCat=allocateMockDifficultyByCategory(quotas,bp);
+  const conceptCounts={};
+  const cognitiveCounts={'想起':0,'適用':0,'判断':0};
+  const cognitiveTarget=bp.cognitive||{'想起':0,'適用':bp.count,'判断':0};
+  const out=[];
+  const categoryOrder=shuffled([...MOCK_CATEGORIES]);
+
+  categoryOrder.forEach(cat=>{
+    const cap=mode==='half'?1:2;
+    MOCK_DIFFICULTY_LEVELS.forEach(level=>{
+      const n=difficultyByCat[cat][level]||0;
+      const pool=QUESTION_BANK.filter(q=>q.cat===cat&&q.difficulty===level);
+      out.push(...pickMockPool(pool,n,conceptCounts,cap,cognitiveCounts,cognitiveTarget,level));
+    });
+  });
+
+  const unique=[];
+  const seenIds=new Set();
+  for(const q of out){
+    if(!seenIds.has(q.id)){unique.push(q);seenIds.add(q.id);}
+  }
+  if(unique.length<bp.count){
+    unique.push(...QUESTION_BANK.filter(q=>!seenIds.has(q.id)).sort(mockCandidateSort).slice(0,bp.count-unique.length));
+  }
+
+  const picked=shuffled(unique.slice(0,bp.count));
+  const counts={
+    categories:Object.fromEntries(MOCK_CATEGORIES.map(c=>[c,picked.filter(q=>q.cat===c).length])),
+    difficulty:Object.fromEntries(MOCK_DIFFICULTY_LEVELS.map(level=>[level,picked.filter(q=>q.difficulty===level).length])),
+    cognitive:Object.fromEntries(MOCK_COGNITIVE_LEVELS.map(level=>[level,picked.filter(q=>q.cognitiveLevel===level).length])),
+    unseen:picked.filter(q=>mockSeen(q)===0).length
+  };
+  mockCurrentBlueprint={mode,count:bp.count,quotas,difficultyByCat,counts};
+  return picked.map(randomizeMockQuestion);
+};
+
+globalThis.SUBJECT_A_MOCK_SELECTION_DIVERSITY_V306_SPEC=SUBJECT_A_MOCK_SELECTION_DIVERSITY_V306_SPEC;
