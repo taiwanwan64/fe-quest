@@ -1,0 +1,35 @@
+{
+  "version": "v318",
+  "previous": "v317",
+  "parent": "2ffcd968cfc1c787412fc6fcf4596b235e67995f",
+  "result": "PASS \u2014 SUBJECT A REVIEW TIME BUDGET ALIGNED",
+  "summary": {
+    "genericReviewQuestionCap": 10,
+    "noDueFallbackQuestions": 5,
+    "planner": {
+      "60min": {
+        "reviewMinutes": 10,
+        "secondsPerQuestionAtCap": 60.0
+      },
+      "90min": {
+        "reviewMinutes": 15,
+        "secondsPerQuestionAtCap": 90.0
+      }
+    },
+    "memoryTimingModel": {
+      "fastSecondsMax": 45,
+      "neutralSecondsMax": 90,
+      "slowBandSecondsMax": 150,
+      "verySlowAbove": 150
+    },
+    "timingInstrumentation": {
+      "answerAttemptSecondsPropagated": true,
+      "avgSecondsTracked": true,
+      "timedAnswersTracked": true
+    },
+    "interpretation": "The fixed 10-question generic review cap is internally aligned with the planner rather than arbitrary. A 60-minute daily plan reserves 10 review minutes, which equals 60 seconds per question at the 10-question cap; a 90-minute plan reserves 15 minutes, which equals 90 seconds per question. Both fall inside the memory model's neutral 46-90 second response band. The app also records actual first-attempt seconds into per-question avgSeconds/timedAnswers, so slower or hesitant answers already influence memory stability without requiring the daily planner to rush the learner. The planner minutes are therefore best treated as an estimate, not a hard deadline. A dynamic question cap based on response speed would add complexity and could punish slower reasoning without evidence of a queue-integrity problem.",
+    "decision": "KEEP 10-QUESTION CAP AND 10/15-MINUTE ALLOCATIONS \u2014 REVIEW CAPACITY SEQUENCE CLOSED"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
