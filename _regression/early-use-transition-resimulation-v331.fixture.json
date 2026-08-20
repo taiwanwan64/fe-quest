@@ -1,0 +1,222 @@
+{
+  "version": "v331",
+  "previous": "v330",
+  "parent": "f249b07d5832d17551c4698b51687ad8bad26dbf",
+  "result": "PASS \u2014 EARLY-USE ROUTES COHERE THROUGH REAL TRACE COMPLETION",
+  "summary": {
+    "checks": {
+      "freshPlanActionable": true,
+      "todaySnapshotActionable": true,
+      "lessonReached100": true,
+      "lessonAdvanced": true,
+      "reviewJourneyCreated": true,
+      "traceRouteResolved": true,
+      "traceReached100": true,
+      "traceXpAwarded": true,
+      "traceTelemetryRemainsSeparate": true,
+      "subjectBDailyTaskMarked": true,
+      "nextSubjectBRouteAdvanced": true,
+      "postPlanActionable": true,
+      "postPlanAvoidsCompletedTrace": true
+    },
+    "outcome": {
+      "freshPlan": {
+        "ok": true,
+        "value": [
+          {
+            "type": "review",
+            "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          },
+          {
+            "type": "lesson",
+            "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d",
+            "minutes": 20,
+            "bmode": null,
+            "bid": null,
+            "lessonId": "core_01_01"
+          },
+          {
+            "type": "subjectB",
+            "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+            "minutes": 20,
+            "bmode": "trace",
+            "bid": "loop_sum",
+            "lessonId": null
+          },
+          {
+            "type": "boss",
+            "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          }
+        ]
+      },
+      "snapshot": {
+        "ok": true,
+        "tasks": [
+          {
+            "type": "review",
+            "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          },
+          {
+            "type": "lesson",
+            "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d",
+            "minutes": 20,
+            "bmode": null,
+            "bid": null,
+            "lessonId": "core_01_01"
+          },
+          {
+            "type": "subjectB",
+            "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+            "minutes": 20,
+            "bmode": "trace",
+            "bid": "loop_sum",
+            "lessonId": null
+          },
+          {
+            "type": "boss",
+            "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          }
+        ],
+        "bTask": {
+          "type": "subjectB",
+          "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+          "minutes": 20,
+          "bmode": "trace",
+          "bid": "loop_sum",
+          "lessonId": null
+        },
+        "bSlot": {
+          "ok": true,
+          "value": "subjectB"
+        }
+      },
+      "lessonId": "core_01_01",
+      "lessonBefore": 0,
+      "lessonMutationOK": true,
+      "lessonAfter": 100,
+      "nextLessonId": "core_01_02",
+      "reviewQuestionId": "theory-01",
+      "reviewBefore": 0,
+      "reviewMutationOK": true,
+      "reviewAfter": 1,
+      "reviewDailyValue": true,
+      "bChoice": {
+        "ok": true,
+        "value": {
+          "mode": "trace",
+          "id": "loop_sum",
+          "title": "\u30eb\u30fc\u30d7\u3067\u5408\u8a08"
+        }
+      },
+      "bId": "loop_sum",
+      "bBefore": 0,
+      "bMutationOK": true,
+      "bAfter": 100,
+      "bXpDelta": 80,
+      "traceTelemetryDelta": 0,
+      "dailyBefore": {
+        "ok": true,
+        "value": {
+          "done": {
+            "review": true
+          },
+          "doneKeys": [
+            "review"
+          ],
+          "sessionCount": 0,
+          "streak": 0,
+          "lastStudyDate": null
+        }
+      },
+      "dailyAfter": {
+        "ok": true,
+        "value": {
+          "done": {
+            "review": true,
+            "subjectB": true
+          },
+          "doneKeys": [
+            "review",
+            "subjectB"
+          ],
+          "sessionCount": 0,
+          "streak": 0,
+          "lastStudyDate": null
+        }
+      },
+      "postBChoice": {
+        "ok": true,
+        "value": {
+          "mode": "security",
+          "id": "phishing",
+          "title": "\u507d\u30ed\u30b0\u30a4\u30f3\u753b\u9762"
+        }
+      },
+      "postBTask": {
+        "type": "subjectB",
+        "title": "\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\uff1a\u507d\u30ed\u30b0\u30a4\u30f3\u753b\u9762",
+        "minutes": 20,
+        "bmode": "security",
+        "bid": "phishing",
+        "lessonId": null
+      },
+      "postPlan": {
+        "ok": true,
+        "value": [
+          {
+            "type": "review",
+            "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          },
+          {
+            "type": "lesson",
+            "title": "\u6570\u5024\u306e\u6570\u3048\u65b9",
+            "minutes": 20,
+            "bmode": null,
+            "bid": null,
+            "lessonId": "core_01_02"
+          },
+          {
+            "type": "subjectB",
+            "title": "\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\uff1a\u507d\u30ed\u30b0\u30a4\u30f3\u753b\u9762",
+            "minutes": 20,
+            "bmode": "security",
+            "bid": "phishing",
+            "lessonId": null
+          },
+          {
+            "type": "boss",
+            "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null
+          }
+        ]
+      }
+    },
+    "interpretation": "The v329 disposable early-use sequence was re-run after v330 clarified the contracts. This time Subject B uses the learner-facing finishBExercise chain rather than v254 timing telemetry. The first TRACE exercise moves from 0 to 100, awards its normal XP, marks the matching today-plan Subject B slot, leaves v254 timing telemetry untouched, and the next Subject B recommendation no longer points at the completed TRACE item. Lesson and review transitions remain coherent. This is a route/state-continuity test only, not evidence of seven-day retention or exam readiness.",
+    "decision": "PROCEED TO NEXT-DAY / MULTI-SESSION CONTINUITY DISCOVERY WITHOUT FABRICATING RETENTION"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
