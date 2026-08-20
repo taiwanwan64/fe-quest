@@ -6,6 +6,11 @@ on:
     paths:
       - '.github/learning-data-reset-v332/**'
       - '.github/workflows/learning-data-reset-v332-inspect.yml'
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/learning-data-reset-v332/**'
+      - '.github/workflows/learning-data-reset-v332-inspect.yml'
 
 permissions:
   contents: read
@@ -20,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
       - name: Materialize v332 shell
         run: GITHUB_REF_NAME='v332-staging' python3 .github/release/release_materialize.py
