@@ -1,0 +1,77 @@
+{
+  "version": "v315",
+  "previous": "v314",
+  "parent": "e7245603f8449ebd9f833c4a7bbc65a978e2af31",
+  "result": "PASS — SUBJECT A REVIEW QUEUE INTEGRITY COHERENT",
+  "summary": {
+    "configured": {
+      "dueToday": 40,
+      "dueTomorrow": 8,
+      "dueDay3": 5,
+      "guidedJourneyOverlap": 3
+    },
+    "day0": {
+      "active": 3,
+      "actionable": 3,
+      "configuredGenericDue": 37,
+      "allGenericDue": 37,
+      "workload": 40,
+      "forecast": [
+        {
+          "date": "2026-05-01",
+          "offset": 0,
+          "count": 40
+        },
+        {
+          "date": "2026-05-02",
+          "offset": 1,
+          "count": 8
+        },
+        {
+          "date": "2026-05-03",
+          "offset": 2,
+          "count": 0
+        },
+        {
+          "date": "2026-05-04",
+          "offset": 3,
+          "count": 5
+        }
+      ],
+      "topPreview": [
+        "theory-03",
+        "theory-04",
+        "db-04"
+      ],
+      "alloc60": {
+        "review": 10,
+        "lesson": 20,
+        "subjectB": 20,
+        "boss": 10
+      },
+      "alloc90": {
+        "review": 15,
+        "lesson": 30,
+        "subjectB": 30,
+        "boss": 15
+      }
+    },
+    "day1WithoutCompletion": {
+      "configuredGenericDue": 45,
+      "allGenericDue": 45,
+      "workload": 48
+    },
+    "day1AfterTenCorrectReviews": {
+      "processed": 10,
+      "configuredGenericDue": 35,
+      "allGenericDue": 35,
+      "workload": 38,
+      "controlledUnderlyingDueStates": 38
+    },
+    "retentionGuard": "isDue can surface an item before its explicit due date if measured retention falls below 80%. The controlled seed therefore keeps lastReviewDate/stability consistent with each explicit due date, matching states produced by adaptiveMemoryUpdate rather than manufacturing contradictory dates.",
+    "interpretation": "For a production-consistent controlled cohort, the queue preserves backlog instead of silently capping or dropping overdue items. Guided review journeys are excluded from the generic due list, so overlapping journey items do not appear twice in that queue. When a day is skipped, all controlled overdue work remains present on the next day; after 10 clean reviews, exactly those 10 leave the controlled current queue through their new future due dates. The home top-review list is only a 3-item preview, not a queue cap. The production profile may contain other tracked review items outside this seeded QUESTION_BANK cohort, so integrity assertions deliberately scope carryover to the controlled IDs while retaining total production workload metrics. One remaining design question is capacity: normal 60/90-minute plans allocate 10/15 minutes to review regardless of workload size. That is not itself a correctness bug, but it warrants inspection of the actual review-task launch size before changing allocation.",
+    "decision": "CONTROLLED QUEUE INTEGRITY PASS — INSPECT REVIEW TASK CAPACITY BEFORE ANY ALLOCATION CHANGE"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
