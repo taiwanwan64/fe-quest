@@ -25,6 +25,7 @@ const today=QUESTION_BANK.slice(0,40),tomorrow=QUESTION_BANK.slice(40,48),future
 const configuredIds=[...today,...tomorrow,...future].map(q=>q.id),configuredSet=new Set(configuredIds);
 today.forEach(q=>seed(q,'2026-05-01'));tomorrow.forEach(q=>seed(q,'2026-05-02'));future.forEach(q=>seed(q,'2026-05-04'));
 for(const q of today.slice(0,3))registerReviewJourney(q,'practice');
+const configuredState=()=>configuredIds.map(id=>{const st=profile.qStats[id];return {id,due:st?.due||null,attempts:st?.attempts||0,isDue:isDue(st),active:questionHasActiveJourney(id)};});
 const snapshot=()=>{
   const dueAll=dueQuestions().map(q=>q.id);
   return {
@@ -33,6 +34,7 @@ const snapshot=()=>{
     actionable:actionableReviewJourneys().map(j=>({id:j.id,stage:j.stage,due:j.due})),
     due:dueAll,
     configuredDue:dueAll.filter(id=>configuredSet.has(id)),
+    configuredState:configuredState(),
     workload:reviewWorkloadCount(),
     forecast:reviewForecast(4),
     top:topReviewCandidates(3).map(q=>q.id),
@@ -46,7 +48,7 @@ const process=dueQuestions().filter(q=>configuredSet.has(q.id)).slice(0,10);
 for(const q of process){const st=profile.qStats[q.id];st.attempts++;st.correct++;st.streak++;st.last=localDateISO(0);adaptiveMemoryUpdate(st,'correct',60,null,false);}
 const day1After=snapshot();
 const stateDueNow=configuredIds.filter(id=>{const st=profile.qStats[id];return st.attempts>0&&st.due&&st.due<=localDateISO(0);});
-const sources={reviewWorkloadCount:String(reviewWorkloadCount),reviewForecast:String(reviewForecast),dueQuestions:String(dueQuestions),buildTodayTasks:String(buildTodayTasks),taskAllocation:String(taskAllocation),activeReviewJourneys:String(activeReviewJourneys),actionableReviewJourneys:String(actionableReviewJourneys)};
+const sources={reviewWorkloadCount:String(reviewWorkloadCount),reviewForecast:String(reviewForecast),dueQuestions:String(dueQuestions),buildTodayTasks:String(buildTodayTasks),taskAllocation:String(taskAllocation),activeReviewJourneys:String(activeReviewJourneys),actionableReviewJourneys:String(actionableReviewJourneys),questionHasActiveJourney:String(questionHasActiveJourney),trackedQuestionPool:String(trackedQuestionPool)};
 console.log('__V315__'+Buffer.from(JSON.stringify({v:APP_VERSION,configured:{today:today.map(q=>q.id),tomorrow:tomorrow.map(q=>q.id),future:future.map(q=>q.id)},day0,day1Before,processed:process.map(q=>q.id),day1After,stateDueNow,sources,sem:validateSubjectBSemantics()})).toString('base64'));
 '''
     with tempfile.TemporaryDirectory() as td:
@@ -57,8 +59,10 @@ p314=Path('_regression/subject-a-review-queue-discovery-v314.fixture.json');req(
 expected={'.github/subject-a-review-queue-simulation/validate_audit.py','.github/workflows/subject-a-review-queue-simulation.yml'};generated={'index.html','manifest.webmanifest','sw.js','_regression/subject-a-review-queue-simulation-v315.fixture.json','audits/SUBJECT_A_REVIEW_QUEUE_SIMULATION_v315.txt'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(expected<=changed,'missing source');req(changed<=expected|generated,'source drift '+repr(sorted(changed-(expected|generated))))
 cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v315' and par['v']=='v314','versions');req({k:v for k,v in cand.items() if k not in ('v','sem')}=={k:v for k,v in par.items() if k not in ('v','sem')},'audit-only runtime drift');req(cand['sem'].get('ok') is True and par['sem'].get('ok') is True,'semantic')
-d0=cand['day0'];d1=cand['day1Before'];da=cand['day1After'];req(len(d0['active'])==3,'expected 3 active journeys');req(len(d0['configuredDue'])==37,'active journeys should be removed from configured generic due cohort');req(d0['workload']==len(d0['actionable'])+len(d0['due']),'workload formula mismatch');req([x['count'] for x in d0['forecast']][:4]==[40,8,0,5],'day0 forecast mismatch')
-req(len(d1['configuredDue'])==45,'controlled overdue items were dropped or tomorrow due set missing');req(len(cand['processed'])==10,'processing sample');req(len(da['configuredDue'])==35,'processed controlled due items did not leave generic queue');req(len(cand['stateDueNow'])==38,'controlled underlying due-state count mismatch');req(len(set(d0['due']))==len(d0['due']) and len(set(d1['due']))==len(d1['due']),'duplicate generic due IDs');req(len(d0['top'])==3,'home candidate display should remain a 3-item preview')
+d0=cand['day0'];d1=cand['day1Before'];da=cand['day1After']
+print('V315_DEBUG '+json.dumps({'day0ConfiguredDue':len(d0['configuredDue']),'day1ConfiguredDue':len(d1['configuredDue']),'day1AfterConfiguredDue':len(da['configuredDue']),'day0Active':d0['active'],'day1Active':d1['active'],'day1ConfiguredState':d1['configuredState'],'processed':cand['processed'],'stateDueNow':cand['stateDueNow'],'trackedQuestionPool':cand['sources']['trackedQuestionPool'],'questionHasActiveJourney':cand['sources']['questionHasActiveJourney']},ensure_ascii=False))
+req(len(d0['active'])==3,'expected 3 active journeys');req(len(d0['configuredDue'])==37,'active journeys should be removed from configured generic due cohort');req(d0['workload']==len(d0['actionable'])+len(d0['due']),'workload formula mismatch');req([x['count'] for x in d0['forecast']][:4]==[40,8,0,5],'day0 forecast mismatch')
+req(len(d1['configuredDue'])==45,f"controlled overdue count {len(d1['configuredDue'])}, expected 45");req(len(cand['processed'])==10,'processing sample');req(len(da['configuredDue'])==35,'processed controlled due items did not leave generic queue');req(len(cand['stateDueNow'])==38,'controlled underlying due-state count mismatch');req(len(set(d0['due']))==len(d0['due']) and len(set(d1['due']))==len(d1['due']),'duplicate generic due IDs');req(len(d0['top'])==3,'home candidate display should remain a 3-item preview')
 req(d0['alloc60'].get('review')==10 and d0['alloc90'].get('review')==15,'expected normal-plan review allocations changed')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png'];req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
 summary={
