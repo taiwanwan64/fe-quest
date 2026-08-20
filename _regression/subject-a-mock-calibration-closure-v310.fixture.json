@@ -1,0 +1,54 @@
+{
+  "version": "v310",
+  "previous": "v309",
+  "parent": "d727fd59a8711fc5f847811616d96f2419b5e9dc",
+  "result": "PASS — MOCK CALIBRATION SEQUENCE CLOSED",
+  "summary": {
+    "unreachedQuestions": 78,
+    "unreachedPrimaryFit": 0,
+    "unreachedPairs": {
+      "基礎→適用": 39,
+      "標準→想起": 19,
+      "基礎→判断": 20
+    },
+    "allowedCrossCalibrationPairs": [
+      "基礎→適用",
+      "基礎→判断",
+      "標準→想起"
+    ],
+    "practicalUnreached": 0,
+    "fullBlueprint": {
+      "difficulty": [
+        15,
+        30,
+        15
+      ],
+      "cognitive": [
+        15,
+        29,
+        16
+      ]
+    },
+    "halfBlueprint": {
+      "difficulty": [
+        8,
+        14,
+        8
+      ],
+      "cognitive": [
+        8,
+        13,
+        9
+      ]
+    },
+    "primaryMapping": {
+      "基礎": "想起",
+      "標準": "適用",
+      "実戦": "判断"
+    },
+    "interpretation": "The 78 unreached bank items are exclusively cross-calibration combinations. The mock blueprint deliberately aligns 基礎 with 想起, 標準 with 適用, and 実戦 with 判断, with one slot shifted from 適用 to 判断. mockCandidateSort already handles novelty inside the eligible calibration path. Forcing 100% bank exposure would weaken the intended mock calibration rather than fix a rotation bug.",
+    "decision": "KEEP CURRENT SELECTOR — UNREACHED SET IS CALIBRATION-CONSISTENT"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
