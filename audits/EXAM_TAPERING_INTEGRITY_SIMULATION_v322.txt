@@ -1,0 +1,137 @@
+FE QUEST v322 — Exam Tapering Integrity Simulation
+===================================================
+
+Result
+------
+PASS — EXAM TAPERING GUARDS INTACT
+Previous release: v321
+Source main: 1e8d0d4054115d5ceef98fae5ce6386a3a0b33c7
+Learner-facing change: none
+
+Purpose
+-------
+Re-check the production exam-day phase boundaries after the recent learning, review, mock and readiness changes. The audit covers exact 14/7/3/1/0-day states, the no-new-learning/no-long-exam protection boundary, and discovery of any explicit taper-specific daily-minute cap.
+
+Summary
+-------
+{
+  "phaseMatrix": [
+    {
+      "days": 14,
+      "id": "finalPractice",
+      "name": "\u76f4\u524d\u6f14\u7fd2\u671f",
+      "icon": "\ud83c\udfc1",
+      "ratios": {
+        "review": 0.3,
+        "lesson": 0.1,
+        "subjectB": 0.3,
+        "boss": 0.3
+      },
+      "allowNew": true,
+      "allowLongExam": true
+    },
+    {
+      "days": 7,
+      "id": "taper",
+      "name": "\u76f4\u524d\u8abf\u6574\u671f",
+      "icon": "\ud83e\udde0",
+      "ratios": {
+        "review": 0.35,
+        "lesson": 0.25,
+        "subjectB": 0.2,
+        "boss": 0.2
+      },
+      "allowNew": true,
+      "allowLongExam": true
+    },
+    {
+      "days": 3,
+      "id": "protect",
+      "name": "\u4ed5\u4e0a\u304c\u308a\u4fdd\u8b77\u671f",
+      "icon": "\ud83d\udee1\ufe0f",
+      "ratios": {
+        "review": 0.4,
+        "lesson": 0.4,
+        "subjectB": 0,
+        "boss": 0.2
+      },
+      "allowNew": false,
+      "allowLongExam": false
+    },
+    {
+      "days": 1,
+      "id": "eve",
+      "name": "\u524d\u65e5\u78ba\u8a8d",
+      "icon": "\ud83c\udf19",
+      "ratios": {
+        "review": 0.67,
+        "lesson": 0,
+        "subjectB": 0,
+        "boss": 0.33
+      },
+      "allowNew": false,
+      "allowLongExam": false
+    },
+    {
+      "days": 0,
+      "id": "examDay",
+      "name": "\u53d7\u9a13\u5f53\u65e5",
+      "icon": "\u2600\ufe0f",
+      "ratios": {
+        "review": 0,
+        "lesson": 0,
+        "subjectB": 0,
+        "boss": 1
+      },
+      "allowNew": false,
+      "allowLongExam": false
+    }
+  ],
+  "baselinePlanner": {
+    "60min": {
+      "review": 10,
+      "lesson": 20,
+      "subjectB": 20,
+      "boss": 10
+    },
+    "90min": {
+      "review": 15,
+      "lesson": 30,
+      "subjectB": 30,
+      "boss": 15
+    }
+  },
+  "taperBudgetFunctionCandidates": [
+    "examStudyPhase",
+    "feqLearningRuntimeChecks",
+    "finalFocusRecommendation",
+    "renderAllocation",
+    "taperFocusRecommendation",
+    "taperStudyCap",
+    "taperTaskAllocation",
+    "taskAllocation"
+  ],
+  "taperMinuteEvidenceResolved": true,
+  "guards": {
+    "day14LongPracticeAllowed": true,
+    "day7BoundedNewLearningAllowed": true,
+    "day3NoNewLearning": true,
+    "day3NoLongExam": true,
+    "day3GenericSubjectBShareZero": true,
+    "day1ReviewOnlyStructure": true,
+    "day0WarmupOnlyStructure": true,
+    "newLessonRuleStartsAtDay4": true
+  },
+  "interpretation": "The current production phase boundary remains conservative at the point that matters most: exact day 3 enters protect mode, disables new learning and long exams, and removes the generic Subject B allocation; day 1 removes lesson/Subject B work; exam day is a warm-up-only phase. Exact day 7 remains a taper phase where a small amount of bounded new learning can still be allowed, consistent with taperFocusRecommendation only opening a new lesson when days>=4. The audit also inventories any explicit 45/30/15-minute taper-cap implementation separately rather than inferring it from phase ratios.",
+  "decision": "KEEP PHASE GUARDS. If explicit taper-minute cap evidence is unresolved, inspect the planner-cap helper before changing learner behavior; otherwise proceed to end-to-end daily-plan simulation."
+}
+
+Regression
+----------
+Learner-facing behavior and tapering functions are unchanged from v321.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+Keep the existing phase guards. Exact day 3 still activates the hard protection boundary and exact day 1/day 0 reduce the plan further. Treat the daily-minute taper cap as a separately verified contract: if the runtime inventory resolves the cap helper, use it in the next end-to-end simulation; if it does not, perform a narrow helper-discovery audit rather than changing phase ratios.
