@@ -44,7 +44,7 @@ const modifiers={plain:{interval:ip,stability:plain.stability},hesitation:{inter
 
 setNow('2026-04-01');ensureQuestionProfile();const q=QUESTION_BANK[0];const qs=profile.qStats[q.id];Object.assign(qs,{attempts:1,correct:1,streak:1,stability:3,lapses:0,reviews:1,lastReviewDate:'2026-03-29',last:'2026-03-29',due:'2026-04-01'});
 let preJourneyDue=dueQuestions().some(x=>x.id===q.id),journeyError=null,journey=null,active=false,activeCount=null,withJourneyDue=null;
-try{profile.reviewJourneys=[];registerReviewJourney(q,'practice');journey=journeyFor(q.id);active=questionHasActiveJourney(q.id);activeCount=activeReviewJourneys().length;withJourneyDue=dueQuestions().some(x=>x.id===q.id);}catch(e){journeyError=String(e&&e.stack||e);}
+try{profile.reviewJourneys={};registerReviewJourney(q,'practice');journey=journeyFor(q.id);active=questionHasActiveJourney(q.id);activeCount=activeReviewJourneys().length;withJourneyDue=dueQuestions().some(x=>x.id===q.id);}catch(e){journeyError=String(e&&e.stack||e);}
 const savedRandom=Math.random;Math.random=()=>0.123456;const reviewItem=buildReviewItem(q);Math.random=savedRandom;
 const handoff={baseId:q.id,itemId:reviewItem?.id||null,sourceId:reviewItem?.sourceId||null,variant:!!reviewItem?.variant,sameObjectId:(reviewItem?.id===q.id)};
 
@@ -66,9 +66,6 @@ expected={'.github/subject-a-review-lifecycle-simulation/validate_audit.py','.gi
 generated={'index.html','manifest.webmanifest','sw.js','_regression/subject-a-review-lifecycle-simulation-v313.fixture.json','audits/SUBJECT_A_REVIEW_LIFECYCLE_SIMULATION_v313.txt'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines());req(expected<=changed,'missing source');req(changed<=expected|generated,'source drift '+repr(sorted(changed-(expected|generated))))
 cand,par=runtime('_site/index.html'),runtime('_site_parent/index.html');req(cand['v']=='v313' and par['v']=='v312','versions');req(cand['scenarios']==par['scenarios'] and cand['sources']==par['sources'],'audit-only runtime drift');req(cand['sem'].get('ok') is True and par['sem'].get('ok') is True,'semantic')
-print('V313_ROUTE_DEBUG '+json.dumps(cand['scenarios']['route'],ensure_ascii=False,sort_keys=True))
-for key in ['registerReviewJourney','registerReviewedMiss','markJourneyAnswer','activeReviewJourneys','journeyFor','questionHasActiveJourney']:
-    print('V313_SOURCE_'+key+' '+cand['sources'][key].replace('\n',' '))
 s=cand['scenarios'];req(s['correctDay0']['interval']==3,'first correct interval should be 3 days');req(s['correctDay0']['due'] is False and s['correctDay2']['due'] is False and s['correctDay3']['due'] is True,'first correct due timing');req(s['correctSecond']['interval']>s['correctDay0']['interval'] and s['correctThird']['interval']>s['correctSecond']['interval'],'correct intervals do not grow')
 w=s['wrong'];req(w['interval']==1 and w['recoveredInterval']==1,'wrong/recovered should stay 1-day');req(w['afterWrong']['lapses']==1,'wrong lapse not recorded');req(w['afterRecovered']['reviews']==w['afterWrong']['reviews'],'same-session recovery double-counted a review');req(w['afterRecovered']['stability']>=1.5,'recovery stability too low');req(w['recoveredNextDay']['due'] is True,'recovered item not due next day');req(w['afterRelearnCorrect']['interval']>=3,'relearned correct did not expand interval')
 m=s['modifiers'];req(m['fast']['stability']>=m['plain']['stability']>m['slow']['stability'],'speed modifier ordering');req(m['plain']['stability']>m['hesitation']['stability']>m['timeShort']['stability'],'reason modifier ordering')
