@@ -3,6 +3,11 @@ name: FE QUEST exam tapering integrity simulation
 on:
   push:
     branches: ['exam-tapering-integrity-simulation-v*']
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/exam-tapering-integrity-simulation/**'
+      - '.github/workflows/exam-tapering-integrity-simulation.yml'
 
 permissions:
   contents: write
@@ -15,9 +20,10 @@ jobs:
   validate:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
+      - name: Checkout head branch
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
       - name: Resolve audit target
         id: release
@@ -76,6 +82,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
-          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          path: FE_QUEST_PWA_${VERSION}.zip
           if-no-files-found: error
           retention-days: 90
