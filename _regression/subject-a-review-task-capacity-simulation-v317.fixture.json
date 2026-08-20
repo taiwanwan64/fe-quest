@@ -1,0 +1,144 @@
+{
+  "version": "v317",
+  "previous": "v316",
+  "parent": "d7a113813baac1136912f83d925ff28f2494aa20",
+  "result": "PASS \u2014 SUBJECT A REVIEW TASK LAUNCH CAPACITY CHARACTERIZED",
+  "summary": {
+    "normalReviewLaunches": [
+      {
+        "backlog": 0,
+        "dueBefore": 0,
+        "launched": 5,
+        "mode": "review",
+        "ids": [
+          "challenge_002",
+          "challenge_v92_14_09",
+          "sec-19",
+          "challenge_cmp_13_01",
+          "challenge_v92_08_04"
+        ]
+      },
+      {
+        "backlog": 3,
+        "dueBefore": 3,
+        "launched": 3,
+        "mode": "review",
+        "ids": [
+          "theory-03",
+          "theory-01",
+          "theory-02"
+        ]
+      },
+      {
+        "backlog": 10,
+        "dueBefore": 10,
+        "launched": 10,
+        "mode": "review",
+        "ids": [
+          "theory-03",
+          "theory-04",
+          "theory-01",
+          "theory-02",
+          "computer-02",
+          "computer-04",
+          "db-01",
+          "db-02",
+          "computer-01",
+          "computer-03"
+        ]
+      },
+      {
+        "backlog": 25,
+        "dueBefore": 25,
+        "launched": 10,
+        "mode": "review",
+        "ids": [
+          "theory-03",
+          "theory-04",
+          "db-04",
+          "net-03",
+          "algo-01",
+          "algo-02",
+          "algo-04",
+          "theory-01",
+          "theory-02",
+          "computer-02"
+        ]
+      },
+      {
+        "backlog": 40,
+        "dueBefore": 40,
+        "launched": 10,
+        "mode": "review",
+        "ids": [
+          "theory-03",
+          "theory-04",
+          "db-04",
+          "net-03",
+          "algo-01",
+          "algo-02",
+          "algo-04",
+          "sys-02",
+          "mgmt-08",
+          "theory-01"
+        ]
+      }
+    ],
+    "taperReview": {
+      "dueBefore": 25,
+      "launched": 5,
+      "ids": [
+        "theory-03",
+        "theory-04",
+        "db-04",
+        "net-03",
+        "algo-01"
+      ]
+    },
+    "guidedJourney": {
+      "before": {
+        "active": 1,
+        "actionable": 1,
+        "genericDue": 24,
+        "id": "theory-01"
+      },
+      "dailyTaskRoute": [
+        {
+          "kind": "journey",
+          "id": "theory-01"
+        }
+      ],
+      "journeyQuiz": {
+        "launched": 1,
+        "mode": "journey:theory-01",
+        "ids": [
+          "theory-01"
+        ]
+      }
+    },
+    "genericDailyTaskRoute": [
+      {
+        "kind": "quiz",
+        "mode": "review"
+      }
+    ],
+    "plannerReviewMinutes": {
+      "m60": {
+        "review": 10,
+        "lesson": 20,
+        "subjectB": 20,
+        "boss": 10
+      },
+      "m90": {
+        "review": 15,
+        "lesson": 30,
+        "subjectB": 30,
+        "boss": 15
+      }
+    },
+    "interpretation": "Normal review launch capacity is question-count based, not minute-budget based: with due work it launches every due item only while the queue is below 10, then caps the session at 10; with no due item it deliberately falls back to 5 weak questions. Taper review is fixed at 5. If an actionable guided recovery journey exists, the daily review task routes to the first journey instead of starting the generic due session, and the journey quiz itself contains one review item. The 60- and 90-minute planners still reserve 10 and 15 minutes respectively, but those minutes do not change the generic 10-question cap.",
+    "decision": "LAUNCH CAPACITY CHARACTERIZED \u2014 INSPECT TIME-BUDGET ALIGNMENT BEFORE CHANGING THE 10-QUESTION CAP"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
