@@ -1,0 +1,44 @@
+FE QUEST v311 — Subject A Mock-Excluded Route Reachability Audit
+================================================================
+
+Result
+------
+PASS — MOCK-EXCLUDED QUESTIONS REMAIN PRACTICE-REACHABLE
+Previous release: v310
+Source main: a2cd291ece0dd9ab0785650a75128d5acf84291a
+Learner-facing change: none
+
+Finding
+-------
+{
+  "mockExcludedQuestions": 78,
+  "randomBalancedPracticeObserved": 78,
+  "randomBalancedSessions": 2400,
+  "randomHitMin": 8,
+  "randomHitMedian": 43,
+  "randomHitMax": 74,
+  "categoryPrescriptionObserved": 78,
+  "categoryPrescriptionUnobserved": [],
+  "chooseRandomBalancedCallOccurrences": 3,
+  "callSnippets": [
+    "tegoryWeakness(q.cat)+levelGap+Math.min(20,urgency*.12); }; return shuffled(QUESTION_BANK).sort((a,b)=>score(b)-score(a)).slice(0,Math.min(n,QUESTION_BANK.length)); } function chooseRandomBalanced(n=10){ const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))]; let selected=[]; let pools={}; cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c))); let ci=0; while(selected.length<n && Object.values(pools).some(",
+    "e==='weak'){ quizItems=chooseWeakQuestions(10); }else if(mode==='boss'){ const days=examDaysRemaining(); quizItems=(days!=null&&days<=14)?chooseFinalBossQuestions(5):chooseRandomBalanced(5); }else if(String(mode).startsWith('cogcat:')){ const [,cat,level]=String(mode).split(':'); const targeted=QUESTION_BANK.filter(q=>q.cat===cat&&q.cognitiveLevel===level); const ranked=shuffled(targeted).sort((a,b)=>reviewUr",
+    "quizItems=shuffled(QUESTION_BANK.filter(q=>q.cat===cat)).slice(0,10); }else if(String(mode).startsWith('rx:')){ quizItems=buildPrescriptionQuiz(mode); }else{ quizItems=chooseRandomBalanced(10); } quizIndex=0; quizSelected=null; quizAnswered=false; quizCorrectCount=0; quizWrongCount=0; quizEarnedXp=0; quizPickedReason=null; quizRecoveredCount=0; stopQuestionPacer(); sessionLog=[]; document.getElementB"
+  ],
+  "randomSelectorSource": "function chooseRandomBalanced(n=10){\n  const cats=[...new Set(QUESTION_BANK.map(q=>q.cat))];\n  let selected=[];\n  let pools={};\n  cats.forEach(c=>pools[c]=shuffled(QUESTION_BANK.filter(q=>q.cat===c)));\n  let ci=0;\n  while(selected.length<n && Object.values(pools).some(p=>p.length)){\n    const c=cats[ci%cats.length];\n    if(pools[c].length) selected.push(pools[c].pop());\n    ci++;\n  }\n  return selected;\n}",
+  "prescriptionSelectorSource": "function buildPrescriptionQuiz(mode){\n  const p=String(mode).split(':');\n  const kind=p[1]||'knowledge',cat=p.slice(2).join(':')||weakestSkill();\n  const same=QUESTION_BANK.filter(q=>q.cat===cat);\n  let pool=[];\n  if(kind==='calc'){\n    pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS)));\n    if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CALC_KEYWORDS)&&!pool.some(x=>x.id===q.id)))];\n    return padQuizPool(pool,cat,8);\n  }\n  if(kind==='read'){\n    const words=['最も適切','適切','未満','以上','次に','主な','一般に','どれ'];\n    return padQuizPool(shuffled(same.filter(q=>words.some(w=>q.q.includes(w)))),cat,8);\n  }\n  if(kind==='contrast'){\n    pool=shuffled(same.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS)));\n    if(pool.length<6) pool=[...pool,...shuffled(QUESTION_BANK.filter(q=>questionMatchesKeywords(q,RX_CONTRAST_KEYWORDS)&&!pool.some(x=>x.id===q.id)))];\n    return padQuizPool(pool,cat,8);\n  }\n  if(kind==='repeat'){\n    const ids=new Set(repeatedWrongQuestions().map(x=>x.q.id));\n    return padQuizPool(shuffled(QUESTION_BANK.filter(q=>ids.has(q.id))),cat,8);\n  }\n  if(kind==='speed') return padQuizPool(shuffled(same),cat,10);\n  return padQuizPool(shuffled(same),cat,8);\n}",
+  "interpretation": "Every question excluded from the calibrated mock pool remains in QUESTION_BANK and was actually selected by the existing balanced-random practice selector. The selector builds category pools from the entire QUESTION_BANK without difficulty/cognitive exclusion. Therefore mock calibration does not make these questions unreachable to the learner.",
+  "decision": "KEEP MOCK CALIBRATION; NON-MOCK PRACTICE PRESERVES BANK REACHABILITY"
+}
+
+Regression
+----------
+QUESTION_BANK and practice selector implementations are unchanged from v310.
+All 78 v309 mock-excluded IDs still exist in the bank.
+All 78 were observed through chooseRandomBalanced during deterministic practice simulation.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+Do not force cross-calibration questions into the mock. The calibrated mock and broad practice routes serve different purposes: the mock preserves exam-like composition, while existing random/category practice keeps the wider bank learnable. This closes the reachability concern without adding another selector layer.
