@@ -1,0 +1,160 @@
+FE QUEST v320 — Subject A Readiness Calibration Simulation
+===========================================================
+
+Result
+------
+PASS — SUBJECT A READINESS ORDERING COHERENT; STALE-SIGNAL FINDING RECORDED
+Previous release: v319
+Source main: 1b3e3a7f311eb34b893951dff964065cf67952cc
+Learner-facing change: none
+
+Method
+------
+Run the production readiness formula on controlled fresh, lesson-only, lesson+high-skill/no-answer, strong Subject A-only, strong cross-subject, and stale-memory profiles. Subject B completion is seeded with the same percentage-valued progress shape consumed by objectCompletion. This checks evidence ordering and overconfidence without changing any readiness weights.
+
+Summary
+-------
+{
+  "scenarios": [
+    {
+      "name": "fresh",
+      "score": 4,
+      "components": {
+        "lesson": 0,
+        "aPractice": 18,
+        "aMock": 0,
+        "bTraining": 0,
+        "bExam": 0,
+        "memoryEvidence": 0,
+        "cognitive": 0
+      },
+      "memory": {
+        "attempted": 0,
+        "avg": 100,
+        "fresh": 0,
+        "soon": 0,
+        "due": 0
+      },
+      "cognitive": 0
+    },
+    {
+      "name": "lessonOnly",
+      "score": 29,
+      "components": {
+        "lesson": 100,
+        "aPractice": 18,
+        "aMock": 0,
+        "bTraining": 0,
+        "bExam": 0,
+        "memoryEvidence": 0,
+        "cognitive": 0
+      },
+      "memory": {
+        "attempted": 0,
+        "avg": 100,
+        "fresh": 0,
+        "soon": 0,
+        "due": 0
+      },
+      "cognitive": 0
+    },
+    {
+      "name": "lessonSkillOnly",
+      "score": 31,
+      "components": {
+        "lesson": 100,
+        "aPractice": 31,
+        "aMock": 0,
+        "bTraining": 0,
+        "bExam": 0,
+        "memoryEvidence": 0,
+        "cognitive": 0
+      },
+      "memory": {
+        "attempted": 0,
+        "avg": 100,
+        "fresh": 0,
+        "soon": 0,
+        "due": 0
+      },
+      "cognitive": 0
+    },
+    {
+      "name": "strongA",
+      "score": 66,
+      "components": {
+        "lesson": 100,
+        "aPractice": 97,
+        "aMock": 85,
+        "bTraining": 0,
+        "bExam": 0,
+        "memoryEvidence": 100,
+        "cognitive": 100
+      },
+      "memory": {
+        "attempted": 710,
+        "avg": 100,
+        "fresh": 710,
+        "soon": 0,
+        "due": 0
+      },
+      "cognitive": 100
+    },
+    {
+      "name": "fullStrong",
+      "score": 93,
+      "components": {
+        "lesson": 100,
+        "aPractice": 97,
+        "aMock": 85,
+        "bTraining": 100,
+        "bExam": 80,
+        "memoryEvidence": 100,
+        "cognitive": 100
+      },
+      "memory": {
+        "attempted": 710,
+        "avg": 100,
+        "fresh": 710,
+        "soon": 0,
+        "due": 0
+      },
+      "cognitive": 100
+    },
+    {
+      "name": "staleFull",
+      "score": 83,
+      "components": {
+        "lesson": 100,
+        "aPractice": 71,
+        "aMock": 85,
+        "bTraining": 100,
+        "bExam": 80,
+        "memoryEvidence": 0,
+        "cognitive": 60
+      },
+      "memory": {
+        "attempted": 710,
+        "avg": 0,
+        "fresh": 0,
+        "soon": 0,
+        "due": 710
+      },
+      "cognitive": 60
+    }
+  ],
+  "staleProfileStillAtOrAboveFinishingThreshold": true,
+  "seedCorrection": "Subject B progress entries are percentage values consumed by objectCompletion, so completed B exercises/security scenarios are seeded as 100 rather than boolean true.",
+  "interpretation": "Readiness is strongly evidence-gated at the low and middle ranges: lesson completion alone stays below 45%, nominally high Subject A skills without answer evidence stay below 45%, strong fresh Subject A evidence rises substantially but remains below the 80% finishing threshold until Subject B evidence is added, and a fully strong cross-subject profile reaches the high-readiness range. Staling every Subject A question sharply reduces cognitive and memory evidence and lowers the total score. However, because lessons, mocks, skills and Subject B evidence retain substantial weight, this deliberately strong historical profile can still remain at or above the 80% UI threshold even when every Subject A memory item is due. That does not prove a formula bug because the readiness label is not the strict mastery gate; it is a concrete presentation-consistency finding for the next audit.",
+  "decision": "KEEP WEIGHTS FOR NOW \u2014 AUDIT READINESS LABEL VS STRICT COURSE-MASTERY GATE FOR STALE PROFILES"
+}
+
+Regression
+----------
+Learner-facing behavior and readiness functions are unchanged from v319.
+Subject B semantic diagnostics: OK.
+Candidate/mechanical-reference six-file equality: yes.
+
+Decision
+--------
+Do not change readiness weights from this audit alone. The low/mid-range gating and cross-subject ordering are coherent, but an historically strong profile can remain in the >=80 UI band after all Subject A memory evidence becomes stale. v321 should compare that user-facing readiness label with courseMasteryStatus and any adjacent copy/actions. If the stricter gate is clearly presented, keep the formula; if the screen implies mastery despite failing the memory gate, repair presentation before changing scoring math.
