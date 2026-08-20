@@ -1,0 +1,172 @@
+{
+  "version": "v313",
+  "previous": "v312",
+  "parent": "dff85746c6409144b66f197be87759484460e893",
+  "result": "PASS — SUBJECT A REVIEW LIFECYCLE SEQUENCES COHERENT",
+  "summary": {
+    "firstCorrect": {
+      "interval": 3,
+      "stat": {
+        "attempts": 1,
+        "correct": 1,
+        "streak": 1,
+        "due": "2026-01-04",
+        "last": "2026-01-01",
+        "stability": 3,
+        "lapses": 0,
+        "reviews": 1,
+        "avgSeconds": 60,
+        "timedAnswers": 1,
+        "lastReviewDate": "2026-01-01",
+        "lastQuality": 4,
+        "recovered": 0
+      },
+      "retention": 100,
+      "due": false
+    },
+    "secondCorrect": {
+      "interval": 6,
+      "stat": {
+        "attempts": 2,
+        "correct": 2,
+        "streak": 2,
+        "due": "2026-01-10",
+        "last": "2026-01-04",
+        "stability": 5.9,
+        "lapses": 0,
+        "reviews": 2,
+        "avgSeconds": 60,
+        "timedAnswers": 2,
+        "lastReviewDate": "2026-01-04",
+        "lastQuality": 4,
+        "recovered": 0
+      }
+    },
+    "thirdCorrect": {
+      "interval": 13,
+      "stat": {
+        "attempts": 3,
+        "correct": 3,
+        "streak": 3,
+        "due": "2026-01-23",
+        "last": "2026-01-10",
+        "stability": 12.6,
+        "lapses": 0,
+        "reviews": 3,
+        "avgSeconds": 60,
+        "timedAnswers": 3,
+        "lastReviewDate": "2026-01-10",
+        "lastQuality": 4,
+        "recovered": 0
+      }
+    },
+    "wrongRecovery": {
+      "interval": 1,
+      "afterWrong": {
+        "attempts": 1,
+        "correct": 0,
+        "streak": 0,
+        "due": "2026-02-02",
+        "last": "2026-02-01",
+        "stability": 1,
+        "lapses": 1,
+        "reviews": 1,
+        "avgSeconds": 70,
+        "timedAnswers": 1,
+        "lastReviewDate": "2026-02-01",
+        "lastQuality": 1,
+        "recovered": 0
+      },
+      "recoveredInterval": 1,
+      "afterRecovered": {
+        "attempts": 1,
+        "correct": 0,
+        "streak": 0,
+        "due": "2026-02-02",
+        "last": "2026-02-01",
+        "stability": 1.5,
+        "lapses": 1,
+        "reviews": 1,
+        "avgSeconds": 70,
+        "timedAnswers": 1,
+        "lastReviewDate": "2026-02-01",
+        "lastQuality": 3,
+        "recovered": 1
+      },
+      "recoveredNextDay": {
+        "due": true,
+        "retention": 86
+      },
+      "afterRelearnCorrect": {
+        "interval": 3,
+        "stat": {
+          "attempts": 2,
+          "correct": 1,
+          "streak": 1,
+          "due": "2026-02-05",
+          "last": "2026-02-02",
+          "stability": 3,
+          "lapses": 1,
+          "reviews": 2,
+          "avgSeconds": 65,
+          "timedAnswers": 2,
+          "lastReviewDate": "2026-02-02",
+          "lastQuality": 4,
+          "recovered": 1
+        }
+      }
+    },
+    "modifiers": {
+      "plain": {
+        "interval": 20,
+        "stability": 19.6
+      },
+      "hesitation": {
+        "interval": 18,
+        "stability": 18
+      },
+      "timeShort": {
+        "interval": 17,
+        "stability": 16.7
+      },
+      "fast": {
+        "interval": 22,
+        "stability": 21.6
+      },
+      "slow": {
+        "interval": 16,
+        "stability": 15.7
+      }
+    },
+    "route": {
+      "questionId": "theory-01",
+      "preJourneyDue": true,
+      "journeyError": null,
+      "journey": {
+        "id": "theory-01",
+        "cat": "基礎理論",
+        "concept": "基数変換",
+        "lessonId": "core_01_04",
+        "stage": "relearn",
+        "misses": 1,
+        "lastWrong": "2026-04-01",
+        "source": "practice",
+        "due": "2026-04-01"
+      },
+      "active": true,
+      "activeCount": 1,
+      "withJourneyDue": false,
+      "handoff": {
+        "baseId": "theory-01",
+        "itemId": "variant:theory-01:1775044800000:12345",
+        "sourceId": "theory-01",
+        "variant": true,
+        "sameObjectId": false
+      }
+    },
+    "interpretation": "The current Subject A memory policy behaves coherently across representative sequences. A first clean correct answer schedules a 3-day review; repeated correct answers expand intervals; a wrong answer creates a 1-day lapse and same-session recovery does not erase that gap or double-count a review; hesitation/time-shortage and slow responses conservatively reduce stability growth. Due items enter the generic due queue, while an active review journey intentionally removes the same item from that queue so it is handled by the guided recovery route instead of being duplicated. buildReviewItem remains the variant/sibling handoff for later review exposure.",
+    "decision": "KEEP CURRENT SPACING POLICY — NO REPAIR WARRANTED FROM REPRESENTATIVE SEQUENCES"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
