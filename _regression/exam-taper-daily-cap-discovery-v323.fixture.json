@@ -1,0 +1,388 @@
+{
+  "version": "v323",
+  "previous": "v322",
+  "parent": "e23629ca85c0872c026c48315a4480dd3b823175",
+  "result": "PASS \u2014 TAPER DAILY-CAP HELPERS DISCOVERED",
+  "summary": {
+    "helperLengths": {
+      "taperStudyCap": 0,
+      "taperTaskAllocation": 2,
+      "taskAllocation": 1,
+      "examStudyPhase": 0
+    },
+    "sources": {
+      "taperStudyCap": "function taperStudyCap(days=examDaysRemaining()){\n  if(days==null||days<0||days>7)return null;\n  if(days>=4)return 45;\n  if(days>=2)return 30;\n  if(days===1)return 15;\n  return 10;\n}",
+      "taperTaskAllocation": "function taperTaskAllocation(total,days){\n  total=Math.max(5,Math.round(Number(total)||10));\n  if(days<=0)return {review:0,lesson:0,subjectB:0,boss:total};\n  if(days===1)return {review:Math.max(5,total-5),lesson:0,subjectB:0,boss:Math.min(5,total)};\n  if(days<=3)return {review:10,lesson:Math.max(5,total-15),subjectB:0,boss:5};\n  if(total<=30)return {review:10,lesson:10,subjectB:5,boss:5};\n  return {review:15,lesson:10,subjectB:10,boss:Math.max(5,total-35)};\n}",
+      "taskAllocation": "function taskAllocation(total){\n  total=Number(total)||effectiveStudyMinutes();const days=examDaysRemaining();\n  if(days!=null&&days>=0&&days<=6)return taperTaskAllocation(total,days);\n  if(days==null){if(total===30)return {review:5,lesson:10,subjectB:10,boss:5};if(total===45)return {review:5,lesson:15,subjectB:15,boss:10};if(total===90)return {review:15,lesson:30,subjectB:30,boss:15};if(total===60)return {review:10,lesson:20,subjectB:20,boss:10};}\n  return allocateByRatios(total,examStudyPhase(days).ratios);\n}",
+      "examStudyPhase": "function examStudyPhase(days=examDaysRemaining()){\n  if(days==null)return {id:'normal',name:'\u901a\u5e38\u5b66\u7fd2',icon:'\ud83d\udcd8',ratios:{review:.17,lesson:.33,subjectB:.33,boss:.17},allowNew:true,allowLongExam:true};\n  if(days<0)return {id:'expired',name:'\u53d7\u9a13\u65e5\u7d4c\u904e',icon:'\ud83d\udcc5',ratios:{review:.17,lesson:.33,subjectB:.33,boss:.17},allowNew:true,allowLongExam:true};\n  if(days>90)return {id:'foundation',name:'\u57fa\u790e\u62e1\u5f35\u671f',icon:'\ud83c\udf31',ratios:{review:.15,lesson:.35,subjectB:.30,boss:.20},allowNew:true,allowLongExam:true};\n  if(days>30)return {id:'build',name:'\u5b9f\u529b\u5f62\u6210\u671f',icon:'\ud83e\udde9',ratios:{review:.20,lesson:.25,subjectB:.35,boss:.20},allowNew:true,allowLongExam:true};\n  if(days>14)return {id:'finish',name:'\u4ed5\u4e0a\u3052\u671f',icon:'\ud83c\udfaf',ratios:{review:.25,lesson:.15,subjectB:.35,boss:.25},allowNew:true,allowLongExam:true};\n  if(days>7)return {id:'finalPractice',name:'\u76f4\u524d\u6f14\u7fd2\u671f',icon:'\ud83c\udfc1',ratios:{review:.30,lesson:.10,subjectB:.30,boss:.30},allowNew:true,allowLongExam:true};\n  if(days>3)return {id:'taper',name:'\u76f4\u524d\u8abf\u6574\u671f',icon:'\ud83e\udde0',ratios:{review:.35,lesson:.25,subjectB:.20,boss:.20},allowNew:true,allowLongExam:true};\n  if(days>1)return {id:'protect',name:'\u4ed5\u4e0a\u304c\u308a\u4fdd\u8b77\u671f',icon:'\ud83d\udee1\ufe0f',ratios:{review:.40,lesson:.40,subjectB:0,boss:.20},allowNew:false,allowLongExam:false};\n  if(days===1)return {id:'eve',name:'\u524d\u65e5\u78ba\u8a8d',icon:'\ud83c\udf19',ratios:{review:.67,lesson:0,subjectB:0,boss:.33},allowNew:false,allowLongExam:false};\n  return {id:'examDay',name:'\u53d7\u9a13\u5f53\u65e5',icon:'\u2600\ufe0f',ratios:{review:0,lesson:0,subjectB:0,boss:1},allowNew:false,allowLongExam:false};\n}"
+    },
+    "probes": {
+      "taperStudyCap": [
+        {
+          "args": [],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            60
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            90
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            14
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            7
+          ],
+          "ok": true,
+          "value": 45
+        },
+        {
+          "args": [
+            3
+          ],
+          "ok": true,
+          "value": 30
+        },
+        {
+          "args": [
+            1
+          ],
+          "ok": true,
+          "value": 15
+        },
+        {
+          "args": [
+            0
+          ],
+          "ok": true,
+          "value": 10
+        },
+        {
+          "args": [
+            60,
+            14
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            60,
+            7
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            60,
+            3
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            60,
+            1
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            60,
+            0
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            14,
+            60
+          ],
+          "ok": true,
+          "value": null
+        },
+        {
+          "args": [
+            7,
+            60
+          ],
+          "ok": true,
+          "value": 45
+        },
+        {
+          "args": [
+            3,
+            60
+          ],
+          "ok": true,
+          "value": 30
+        },
+        {
+          "args": [
+            1,
+            60
+          ],
+          "ok": true,
+          "value": 15
+        },
+        {
+          "args": [
+            0,
+            60
+          ],
+          "ok": true,
+          "value": 10
+        }
+      ],
+      "taperTaskAllocation": [
+        {
+          "args": [],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 15,
+            "lesson": 10,
+            "subjectB": 10,
+            "boss": 25
+          }
+        },
+        {
+          "args": [
+            90
+          ],
+          "ok": true,
+          "value": {
+            "review": 15,
+            "lesson": 10,
+            "subjectB": 10,
+            "boss": 55
+          }
+        },
+        {
+          "args": [
+            14
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            7
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            3
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            1
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            0
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            60,
+            14
+          ],
+          "ok": true,
+          "value": {
+            "review": 15,
+            "lesson": 10,
+            "subjectB": 10,
+            "boss": 25
+          }
+        },
+        {
+          "args": [
+            60,
+            7
+          ],
+          "ok": true,
+          "value": {
+            "review": 15,
+            "lesson": 10,
+            "subjectB": 10,
+            "boss": 25
+          }
+        },
+        {
+          "args": [
+            60,
+            3
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 45,
+            "subjectB": 0,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            60,
+            1
+          ],
+          "ok": true,
+          "value": {
+            "review": 55,
+            "lesson": 0,
+            "subjectB": 0,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            60,
+            0
+          ],
+          "ok": true,
+          "value": {
+            "review": 0,
+            "lesson": 0,
+            "subjectB": 0,
+            "boss": 60
+          }
+        },
+        {
+          "args": [
+            14,
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            7,
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            3,
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            1,
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        },
+        {
+          "args": [
+            0,
+            60
+          ],
+          "ok": true,
+          "value": {
+            "review": 10,
+            "lesson": 10,
+            "subjectB": 5,
+            "boss": 5
+          }
+        }
+      ]
+    },
+    "interpretation": "The production taper cap helpers are now captured verbatim and probed with zero-, one- and two-argument forms. A function length of zero is valid because the production helper may read exam timing and configured study minutes from profile/runtime state instead of formal parameters. The next simulation should use the actual helper source and state dependencies shown here rather than guessing a 45/30/15 contract.",
+    "decision": "USE DISCOVERED HELPER SOURCE/STATE DEPENDENCIES FOR END-TO-END DAILY-PLAN SIMULATION"
+  },
+  "semanticOK": true,
+  "candidateReferenceSixFileByteEquality": true
+}
