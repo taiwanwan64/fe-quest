@@ -1,0 +1,116 @@
+name: FE QUEST v334 Today Review next-question scroll repair
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'app/review-next-scroll-top-overrides-v334.txt'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - '.github/review-next-scroll-top-v334/**'
+      - '.github/workflows/review-next-scroll-top-v334.yml'
+
+permissions:
+  contents: read
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve v334 repair target
+        id: release
+        shell: bash
+        run: |
+          BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          if [[ ! "$BRANCH" =~ ^review-next-scroll-top-(v[0-9]+)$ ]]; then exit 1; fi
+          VERSION="${BASH_REMATCH[1]}"; NUMBER="${VERSION#v}"; PREVIOUS="v$((NUMBER-1))"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+
+      - name: Materialize conventional release shell
+        shell: bash
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          PREVIOUS: ${{ steps.release.outputs.previous }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os
+          version=os.environ['VERSION']; previous=os.environ['PREVIOUS']
+          idx=Path('index.html'); t=idx.read_text()
+          if f'<title>FE QUEST PWA {version}</title>' in t:
+              t=t.replace(f'<title>FE QUEST PWA {version}</title>',f'<title>FE QUEST PWA {previous}</title>',1)
+              t=t.replace(f"const APP_VERSION = '{version}';",f"const APP_VERSION = '{previous}';",1)
+              idx.write_text(t)
+          mp=Path('manifest.webmanifest'); m=json.loads(mp.read_text())
+          if m.get('name')==f'FE QUEST {version}':
+              m['name']=f'FE QUEST {previous}'
+              mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+          sw=Path('sw.js'); w=sw.read_text()
+          if f"const APP_VERSION = '{version}';" in w:
+              w=w.replace(f"const APP_VERSION = '{version}';",f"const APP_VERSION = '{previous}';",1)
+              w=w.replace(f"const CACHE_NAME = 'fe-quest-{version}-1';",f"const CACHE_NAME = 'fe-quest-{previous}-1';",1)
+              sw.write_text(w)
+          PY
+          GITHUB_REF_NAME="${VERSION}-staging" python3 .github/release/release_materialize.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build v334 candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Prepare approved v334 and parent references
+        run: python3 .github/review-next-scroll-top-v334/prepare_reference.py
+
+      - name: Build approved v334 reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_reference
+          destination: ./_site_reference
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Build untouched parent reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_parent_reference
+          destination: ./_site_parent
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Validate standard release invariants
+        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
+
+      - name: Validate Today Review scroll repair
+        run: python3 .github/review-next-scroll-top-v334/validate_scroll.py
+
+      - name: Package release
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          cd _site
+          zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-${{ steps.release.outputs.version }}-standalone
+          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          if-no-files-found: error
+          retention-days: 90
