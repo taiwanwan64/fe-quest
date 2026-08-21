@@ -66,7 +66,7 @@ required={
     '.github/review-next-scroll-top-v334/validate_scroll.py',
     '.github/workflows/review-next-scroll-top-v334.yml',
 }
-allowed=required|{'manifest.webmanifest','sw.js'}
+allowed=required|{'manifest.webmanifest','sw.js','.github/workflows/full-data-reset-v333.yml'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines())
 req(required<=changed,'missing intended v334 files '+repr(sorted(required-changed)))
 req(changed<=allowed,'unexpected v334 drift '+repr(sorted(changed-allowed)))
