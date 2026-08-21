@@ -20,6 +20,7 @@ env:
 
 jobs:
   validate:
+    if: startsWith(github.head_ref, 'review-next-scroll-top-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
