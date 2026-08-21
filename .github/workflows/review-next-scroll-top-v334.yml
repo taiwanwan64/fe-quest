@@ -1,18 +1,15 @@
-name: FE QUEST full-data reset v333
+name: FE QUEST v334 Today Review next-question scroll repair
 
 on:
   pull_request:
     branches: ['main']
     paths:
-      - 'app/learning-data-reset-overrides-v333.txt'
+      - 'app/review-next-scroll-top-overrides-v334.txt'
       - 'index.html'
       - 'manifest.webmanifest'
       - 'sw.js'
-      - '.github/full-data-reset-v333/**'
-      - '.github/workflows/full-data-reset-v333.yml'
-      - '.github/workflows/learning-data-reset-v332.yml'
-      - '.github/workflows/subject-a-mock-category-order-diversity-repair.yml'
-      - '.github/workflows/subject-b-trace-overlap-repair.yml'
+      - '.github/review-next-scroll-top-v334/**'
+      - '.github/workflows/review-next-scroll-top-v334.yml'
 
 permissions:
   contents: read
@@ -23,7 +20,6 @@ env:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'full-data-reset-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -31,12 +27,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve full reset release target
+      - name: Resolve v334 repair target
         id: release
         shell: bash
         run: |
           BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
-          if [[ ! "$BRANCH" =~ ^full-data-reset-(v[0-9]+)$ ]]; then exit 1; fi
+          if [[ ! "$BRANCH" =~ ^review-next-scroll-top-(v[0-9]+)$ ]]; then exit 1; fi
           VERSION="${BASH_REMATCH[1]}"; NUMBER="${VERSION#v}"; PREVIOUS="v$((NUMBER-1))"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
@@ -71,7 +67,7 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Build full-reset candidate
+      - name: Build v334 candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -79,10 +75,10 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Prepare approved full-reset and parent references
-        run: python3 .github/full-data-reset-v333/prepare_reference.py
+      - name: Prepare approved v334 and parent references
+        run: python3 .github/review-next-scroll-top-v334/prepare_reference.py
 
-      - name: Build approved full-reset reference
+      - name: Build approved v334 reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -101,8 +97,8 @@ jobs:
       - name: Validate standard release invariants
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
-      - name: Validate full active-profile reset behavior
-        run: python3 .github/full-data-reset-v333/validate_reset.py
+      - name: Validate Today Review scroll repair
+        run: python3 .github/review-next-scroll-top-v334/validate_scroll.py
 
       - name: Package release
         shell: bash

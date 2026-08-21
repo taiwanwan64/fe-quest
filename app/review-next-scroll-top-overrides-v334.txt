@@ -1,0 +1,49 @@
+// FE QUEST v334 — keep the next question at the top of the viewport in Today's Review.
+const REVIEW_NEXT_SCROLL_TOP_SPEC_V334=Object.freeze({
+  scope:'today-review-next-question',
+  mode:'review',
+  trigger:'answered-next-question',
+  target:'window-top',
+  behavior:'auto',
+  affectsOtherQuizModes:false
+});
+
+function shouldScrollReviewNextV334(mode,answered,index,total){
+  return mode==='review' && answered===true && index < total-1;
+}
+
+function scrollReviewQuestionToTopV334(){
+  const apply=()=>{
+    try{
+      window.scrollTo({top:0,left:0,behavior:'auto'});
+    }catch(_e){
+      window.scrollTo(0,0);
+    }
+  };
+  if(typeof requestAnimationFrame==='function') requestAnimationFrame(apply);
+  else setTimeout(apply,0);
+}
+
+function installReviewNextScrollTopV334(){
+  const button=document.getElementById('quizSubmit');
+  if(!button||button.dataset.reviewNextScrollTopV334==='1')return false;
+  button.dataset.reviewNextScrollTopV334='1';
+
+  // Capture the intent before the existing quiz handler resets quizAnswered while
+  // rendering the next question. The actual scroll runs on the next animation frame,
+  // after that synchronous render has completed.
+  button.addEventListener('click',()=>{
+    if(shouldScrollReviewNextV334(quizMode,quizAnswered,quizIndex,quizItems.length)){
+      scrollReviewQuestionToTopV334();
+    }
+  },{capture:true});
+  return true;
+}
+
+globalThis.REVIEW_NEXT_SCROLL_TOP_SPEC_V334=REVIEW_NEXT_SCROLL_TOP_SPEC_V334;
+globalThis.shouldScrollReviewNextV334=shouldScrollReviewNextV334;
+globalThis.scrollReviewQuestionToTopV334=scrollReviewQuestionToTopV334;
+globalThis.installReviewNextScrollTopV334=installReviewNextScrollTopV334;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installReviewNextScrollTopV334,{once:true});
+else installReviewNextScrollTopV334();
