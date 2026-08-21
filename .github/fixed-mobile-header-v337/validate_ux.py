@@ -89,7 +89,7 @@ for token in ['@media(max-width:720px)','position:fixed','top:0','left:0','right
     req(token.replace(' ','') in compact,'v337 fixed-header style contract missing '+token)
 for token in ['findAppHeaderV336','FE QUEST','querySelectorAll']:
     req(token in find,'v337 header discovery missing '+token)
-for token in ['getBoundingClientRect','offsetHeight','setProperty','--fequest-fixed-mobile-header-height-v337']:
+for token in ['getBoundingClientRect','offsetHeight','setProperty','FIXED_MOBILE_HEADER_SPACE_VAR_V337']:
     req(token in measure,'v337 flow reservation measurement missing '+token)
 for token in ['isFixedMobileHeaderModeV337','fequest-fixed-mobile-header-v337','fequest-fixed-mobile-header-space-v337','measureFixedMobileHeaderV337']:
     req(token in apply,'v337 mobile application contract missing '+token)
