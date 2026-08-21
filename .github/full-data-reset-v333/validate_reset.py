@@ -78,6 +78,9 @@ source_allowed={
     '.github/full-data-reset-v333/prepare_reference.py',
     '.github/full-data-reset-v333/validate_reset.py',
     '.github/workflows/full-data-reset-v333.yml',
+    '.github/workflows/learning-data-reset-v332.yml',
+    '.github/workflows/subject-a-mock-category-order-diversity-repair.yml',
+    '.github/workflows/subject-b-trace-overlap-repair.yml',
 }
 generated_allowed={
     'manifest.webmanifest','sw.js',
@@ -162,7 +165,7 @@ fixture={
 Path('_regression').mkdir(exist_ok=True)
 Path('_regression/full-data-reset-v333.fixture.json').write_text(json.dumps(fixture,ensure_ascii=False,indent=2)+'\n')
 
-audit=f'''FE QUEST v333 — Full Active-Profile Reset\n==========================================\n\nResult\n------\nPASS — FULL ACTIVE-PROFILE RESET VALIDATED\nPrevious release: v332\nSource main: {parent}\n\nLearner-facing behavior\n-----------------------\n- 「アプリ・データ」内の初期化を、学習履歴だけではなくアクティブプロフィール全体の初期化へ変更。\n- 教材進捗、問題・復習・模試・科目B、XP、ストリークを初回状態へ戻す。\n- 試験予定日、1日の学習時間、自動調整など profile.settings も DEFAULT_PROFILE に戻す。\n- その結果、試験準備度、残り日数、必要ペース、完了見込みなどの派生表示も初期状態から再計算される。\n- 実行前に復旧センター用の pre-manual-reset 復旧点を作成し、既存の復旧点と外部バックアップは安全のため保持する。\n- 旧プロフィールは自動復元されず、復旧センターから明示的に選んだ場合だけ戻せる。\n- UI再開状態、科目B総合実戦の再開状態、移行ジャーナル、旧一時復元データ、legacy profile mirror は消去する。\n- confirm の後に「初期化」の入力を要求する2段階確認。\n- PWA本体、Service Worker、Cache Storage は削除しない。\n\nRegression\n----------\nQUESTION_BANK: unchanged.\nSubject B semantic diagnostics: OK.\nCandidate/approved-reference six-file byte equality: yes.\nStandard release invariants are validated separately by release_validate.py.\n'''
+audit=f'''FE QUEST v333 — Full Active-Profile Reset\n==========================================\n\nResult\n------\nPASS — FULL ACTIVE-PROFILE RESET VALIDATED\nPrevious release: v332\nSource main: {parent}\n\nLearner-facing behavior\n-----------------------\n- 「アプリ・データ」内の初期化を、学習履歴だけではなくアクティブプロフィール全体の初期化へ変更。\n- 教材進捗、問題・復習・模試・科目B、XP、ストリークを初回状態へ戻す。\n- 試験予定日、1日の学習時間、自動調整など profile.settings も DEFAULT_PROFILE に戻す。\n- その結果、試験準備度、残り日数、必要ペース、完了見込みなどの派生表示も初期状態から再計算される。\n- 実行前に復旧センター用の pre-manual-reset 復旧点を作成し、既存の復旧点と外部バックアップは安全のため保持する。\n- 旧プロフィールは自動復元されず、復旧センターから明示的に選んだ場合だけ戻せる。\n- UI再開状態、科目B総合実戦の再開状態、移行ジャーナル、旧一時復元データ、legacy profile mirror は消去する。\n- confirm の後に「初期化」の入力を要求する2段階確認。\n- PWA本体、Service Worker、Cache Storage は削除しない。\n- 旧feature workflowは汎用index.html変更だけでは起動しないようトリガーを限定し、別リリースのPRを誤って失敗させない。\n\nRegression\n----------\nQUESTION_BANK: unchanged.\nSubject B semantic diagnostics: OK.\nCandidate/approved-reference six-file byte equality: yes.\nStandard release invariants are validated separately by release_validate.py.\n'''
 Path('audits').mkdir(exist_ok=True)
 Path('audits/FULL_DATA_RESET_v333.txt').write_text(audit)
 print(audit)
