@@ -1,8 +1,6 @@
 name: FE QUEST full-data reset v333
 
 on:
-  push:
-    branches: ['full-data-reset-v*']
   pull_request:
     branches: ['main']
     paths:
@@ -12,9 +10,12 @@ on:
       - 'sw.js'
       - '.github/full-data-reset-v333/**'
       - '.github/workflows/full-data-reset-v333.yml'
+      - '.github/workflows/learning-data-reset-v332.yml'
+      - '.github/workflows/subject-a-mock-category-order-diversity-repair.yml'
+      - '.github/workflows/subject-b-trace-overlap-repair.yml'
 
 permissions:
-  contents: write
+  contents: read
   pages: read
 
 env:
@@ -40,7 +41,31 @@ jobs:
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
 
       - name: Materialize conventional release shell
-        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_materialize.py
+        shell: bash
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          PREVIOUS: ${{ steps.release.outputs.previous }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os
+          version=os.environ['VERSION']; previous=os.environ['PREVIOUS']
+          idx=Path('index.html'); t=idx.read_text()
+          if f'<title>FE QUEST PWA {version}</title>' in t:
+              t=t.replace(f'<title>FE QUEST PWA {version}</title>',f'<title>FE QUEST PWA {previous}</title>',1)
+              t=t.replace(f"const APP_VERSION = '{version}';",f"const APP_VERSION = '{previous}';",1)
+              idx.write_text(t)
+          mp=Path('manifest.webmanifest'); m=json.loads(mp.read_text())
+          if m.get('name')==f'FE QUEST {version}':
+              m['name']=f'FE QUEST {previous}'
+              mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+          sw=Path('sw.js'); w=sw.read_text()
+          if f"const APP_VERSION = '{version}';" in w:
+              w=w.replace(f"const APP_VERSION = '{version}';",f"const APP_VERSION = '{previous}';",1)
+              w=w.replace(f"const CACHE_NAME = 'fe-quest-{version}-1';",f"const CACHE_NAME = 'fe-quest-{previous}-1';",1)
+              sw.write_text(w)
+          PY
+          GITHUB_REF_NAME="${VERSION}-staging" python3 .github/release/release_materialize.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -78,19 +103,6 @@ jobs:
       - name: Validate full active-profile reset behavior
         run: python3 .github/full-data-reset-v333/validate_reset.py
 
-      - name: Commit validated release shell and evidence
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: |
-          TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A _regression audits index.html manifest.webmanifest sw.js
-          if ! git diff --cached --quiet; then
-            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} full-data reset"
-            git push origin HEAD:"$TARGET_BRANCH"
-          fi
-
       - name: Package release
         shell: bash
         run: |
@@ -102,6 +114,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
-          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
+          path: FE_QUEST_PWA_${VERSION}.zip
           if-no-files-found: error
           retention-days: 90
