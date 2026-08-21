@@ -1,0 +1,133 @@
+// ===== FE QUEST v337: reliable fixed mobile header for iPhone/PWA =====
+const FIXED_MOBILE_HEADER_SPEC_V337=Object.freeze({
+  scope:'mobile-app-header-persistence',
+  mobileMaxWidth:720,
+  headerMode:'fixed',
+  safeAreaAware:true,
+  measuredFlowReservation:true,
+  desktopBehavior:'preserve-existing-sticky'
+});
+
+const FIXED_MOBILE_HEADER_QUERY_V337='(max-width: 720px)';
+const FIXED_MOBILE_HEADER_SPACE_VAR_V337='--fequest-fixed-mobile-header-height-v337';
+
+function isFixedMobileHeaderModeV337(){
+  if(typeof window==='undefined')return false;
+  if(typeof window.matchMedia==='function')return window.matchMedia(FIXED_MOBILE_HEADER_QUERY_V337).matches;
+  return Number(window.innerWidth||0)<=720;
+}
+
+function findFixedMobileHeaderV337(){
+  if(typeof globalThis.findAppHeaderV336==='function'){
+    const header=globalThis.findAppHeaderV336();
+    if(header)return header;
+  }
+  const candidates=[...document.querySelectorAll('header,[role="banner"],.app-header,.top-header,.topbar,.top-bar,.header')];
+  return candidates.find(node=>String(node?.textContent||'').replace(/\s+/g,' ').includes('FE QUEST'))||document.querySelector('header');
+}
+
+function fixedMobileHeaderAppV337(header){
+  return header?.closest?.('.app')||document.querySelector('.app');
+}
+
+function measureFixedMobileHeaderV337(header,app){
+  if(!header||!app)return 0;
+  let height=0;
+  try{height=Math.ceil(header.getBoundingClientRect().height||0);}catch(_e){}
+  if(!height)height=Math.ceil(header.offsetHeight||0);
+  if(height>0)app.style.setProperty(FIXED_MOBILE_HEADER_SPACE_VAR_V337,`${height}px`);
+  return height;
+}
+
+function clearFixedMobileHeaderV337(header,app){
+  header?.classList?.remove('fequest-fixed-mobile-header-v337');
+  app?.classList?.remove('fequest-fixed-mobile-header-space-v337');
+  app?.style?.removeProperty?.(FIXED_MOBILE_HEADER_SPACE_VAR_V337);
+}
+
+function applyFixedMobileHeaderV337(){
+  const header=findFixedMobileHeaderV337();
+  const app=fixedMobileHeaderAppV337(header);
+  if(!header||!app)return false;
+  if(!isFixedMobileHeaderModeV337()){
+    clearFixedMobileHeaderV337(header,app);
+    return false;
+  }
+  header.classList.add('fequest-fixed-mobile-header-v337');
+  app.classList.add('fequest-fixed-mobile-header-space-v337');
+  measureFixedMobileHeaderV337(header,app);
+  if(typeof requestAnimationFrame==='function')requestAnimationFrame(()=>measureFixedMobileHeaderV337(header,app));
+  return true;
+}
+
+function installFixedMobileHeaderStyleV337(){
+  if(document.getElementById('fixedMobileHeaderStyleV337'))return false;
+  const style=document.createElement('style');
+  style.id='fixedMobileHeaderStyleV337';
+  style.textContent=`
+    @media (max-width:720px){
+      .app.fequest-fixed-mobile-header-space-v337{
+        padding-top:var(${FIXED_MOBILE_HEADER_SPACE_VAR_V337},calc(58px + env(safe-area-inset-top))) !important;
+        transform:none !important;
+        filter:none !important;
+        perspective:none !important;
+        contain:none !important;
+      }
+      .fequest-fixed-mobile-header-v337{
+        position:fixed !important;
+        top:0 !important;
+        left:0 !important;
+        right:0 !important;
+        width:auto !important;
+        max-width:none !important;
+        margin:0 !important;
+        z-index:1400 !important;
+        transform:none !important;
+        background:var(--fequest-sticky-header-bg-v336,var(--panel,#fff)) !important;
+      }
+    }
+  `;
+  (document.head||document.documentElement).appendChild(style);
+  return true;
+}
+
+let fixedMobileHeaderObserverV337=null;
+let fixedMobileHeaderQueuedV337=false;
+
+function queueFixedMobileHeaderRefreshV337(){
+  if(fixedMobileHeaderQueuedV337)return;
+  fixedMobileHeaderQueuedV337=true;
+  const run=()=>{
+    fixedMobileHeaderQueuedV337=false;
+    applyFixedMobileHeaderV337();
+  };
+  if(typeof requestAnimationFrame==='function')requestAnimationFrame(run);
+  else if(typeof setTimeout==='function')setTimeout(run,0);
+  else run();
+}
+
+function installFixedMobileHeaderV337(){
+  installFixedMobileHeaderStyleV337();
+  applyFixedMobileHeaderV337();
+  if(typeof window!=='undefined'){
+    window.addEventListener?.('resize',queueFixedMobileHeaderRefreshV337,{passive:true});
+    window.addEventListener?.('orientationchange',queueFixedMobileHeaderRefreshV337,{passive:true});
+    window.visualViewport?.addEventListener?.('resize',queueFixedMobileHeaderRefreshV337,{passive:true});
+  }
+  if(typeof MutationObserver==='function'&&!fixedMobileHeaderObserverV337){
+    fixedMobileHeaderObserverV337=new MutationObserver(queueFixedMobileHeaderRefreshV337);
+    fixedMobileHeaderObserverV337.observe(document.body||document.documentElement,{childList:true,subtree:true});
+  }
+  return true;
+}
+
+globalThis.FIXED_MOBILE_HEADER_SPEC_V337=FIXED_MOBILE_HEADER_SPEC_V337;
+globalThis.isFixedMobileHeaderModeV337=isFixedMobileHeaderModeV337;
+globalThis.findFixedMobileHeaderV337=findFixedMobileHeaderV337;
+globalThis.measureFixedMobileHeaderV337=measureFixedMobileHeaderV337;
+globalThis.applyFixedMobileHeaderV337=applyFixedMobileHeaderV337;
+globalThis.installFixedMobileHeaderStyleV337=installFixedMobileHeaderStyleV337;
+globalThis.installFixedMobileHeaderV337=installFixedMobileHeaderV337;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installFixedMobileHeaderV337,{once:true});
+else installFixedMobileHeaderV337();
