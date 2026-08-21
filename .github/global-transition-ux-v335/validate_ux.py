@@ -25,7 +25,7 @@ def runtime(path):
     tail=r'''
 function fn(name){try{const v=eval(name);return typeof v==='function'?String(v):null}catch(e){return null}}
 function value(name){try{return eval(name)}catch(e){return null}}
-function label(s){return isForwardTransitionButtonV335({textContent:s})}
+function label(s){try{return typeof isForwardTransitionButtonV335==='function'?isForwardTransitionButtonV335({textContent:s}):null}catch(e){return null}}
 const out={
   v:APP_VERSION,
   spec:value('GLOBAL_TRANSITION_UX_SPEC_V335'),
