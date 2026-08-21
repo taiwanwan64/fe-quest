@@ -114,6 +114,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fe-quest-${{ steps.release.outputs.version }}-standalone
-          path: FE_QUEST_PWA_${VERSION}.zip
+          path: FE_QUEST_PWA_${{ steps.release.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 90
