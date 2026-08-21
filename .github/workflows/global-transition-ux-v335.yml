@@ -1,14 +1,15 @@
-name: FE QUEST v334 Today Review next-question scroll repair
+name: FE QUEST v335 global transition UX
 
 on:
   pull_request:
     branches: ['main']
     paths:
-      - 'app/review-next-scroll-top-overrides-v334.txt'
+      - 'app/global-transition-ux-overrides-v335.txt'
       - 'index.html'
       - 'manifest.webmanifest'
       - 'sw.js'
-      - '.github/review-next-scroll-top-v334/**'
+      - '.github/global-transition-ux-v335/**'
+      - '.github/workflows/global-transition-ux-v335.yml'
       - '.github/workflows/review-next-scroll-top-v334.yml'
 
 permissions:
@@ -20,7 +21,7 @@ env:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'review-next-scroll-top-v')
+    if: startsWith(github.head_ref, 'global-scroll-and-centered-cta-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -28,12 +29,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve v334 repair target
+      - name: Resolve v335 UX target
         id: release
         shell: bash
         run: |
           BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
-          if [[ ! "$BRANCH" =~ ^review-next-scroll-top-(v[0-9]+)$ ]]; then exit 1; fi
+          if [[ ! "$BRANCH" =~ ^global-scroll-and-centered-cta-(v[0-9]+)$ ]]; then exit 1; fi
           VERSION="${BASH_REMATCH[1]}"; NUMBER="${VERSION#v}"; PREVIOUS="v$((NUMBER-1))"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
@@ -56,6 +57,7 @@ jobs:
           mp=Path('manifest.webmanifest'); m=json.loads(mp.read_text())
           if m.get('name')==f'FE QUEST {version}':
               m['name']=f'FE QUEST {previous}'
+              m['description']=m.get('description','').replace(version,previous)
               mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
           sw=Path('sw.js'); w=sw.read_text()
           if f"const APP_VERSION = '{version}';" in w:
@@ -68,7 +70,7 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Build v334 candidate
+      - name: Build v335 candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -76,10 +78,10 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Prepare approved v334 and parent references
-        run: python3 .github/review-next-scroll-top-v334/prepare_reference.py
+      - name: Prepare approved v335 and parent references
+        run: python3 .github/global-transition-ux-v335/prepare_reference.py
 
-      - name: Build approved v334 reference
+      - name: Build approved v335 reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -98,8 +100,8 @@ jobs:
       - name: Validate standard release invariants
         run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/release_validate.py
 
-      - name: Validate Today Review scroll repair
-        run: python3 .github/review-next-scroll-top-v334/validate_scroll.py
+      - name: Validate global transition UX
+        run: python3 .github/global-transition-ux-v335/validate_ux.py
 
       - name: Package release
         shell: bash
