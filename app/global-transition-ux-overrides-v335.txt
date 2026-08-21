@@ -1,0 +1,116 @@
+// ===== FE QUEST v335: global forward-transition scroll + centered primary CTA =====
+const GLOBAL_TRANSITION_UX_SPEC_V335=Object.freeze({
+  scope:'screen-and-forward-content-transitions',
+  scrollTarget:'window-top',
+  scrollBehavior:'auto',
+  screenTransitions:true,
+  forwardButtonTransitions:true,
+  centeredSelectors:Object.freeze([
+    '.quiz-actions.single-primary #quizSubmit',
+    '.sec-next'
+  ])
+});
+
+function scrollViewportTopV335(){
+  const apply=()=>{
+    try{
+      window.scrollTo({top:0,left:0,behavior:'auto'});
+    }catch(_e){
+      window.scrollTo(0,0);
+    }
+    const root=document.scrollingElement||document.documentElement||document.body;
+    if(root)root.scrollTop=0;
+    if(document.documentElement)document.documentElement.scrollTop=0;
+    if(document.body)document.body.scrollTop=0;
+  };
+  if(typeof requestAnimationFrame==='function'){
+    requestAnimationFrame(()=>{
+      apply();
+      if(typeof setTimeout==='function')setTimeout(apply,0);
+    });
+  }else if(typeof setTimeout==='function'){
+    setTimeout(apply,0);
+  }else{
+    apply();
+  }
+}
+
+function isForwardTransitionButtonV335(button){
+  if(!button)return false;
+  const label=String(button.textContent||'').replace(/\s+/g,' ').trim();
+  if(!label)return false;
+  return /^(?:次の|次へ|次を|学習完了|問題演習|もう一度回答する|結果を見る|始める|開始|続ける)|(?:を始める|を開始)(?:\s*[→›»])?$/.test(label);
+}
+
+function installCenteredPrimaryCtaV335(){
+  if(document.getElementById('globalTransitionUxStyleV335'))return false;
+  const style=document.createElement('style');
+  style.id='globalTransitionUxStyleV335';
+  style.textContent=`
+    .quiz-actions.single-primary{
+      justify-content:center !important;
+    }
+    .quiz-actions.single-primary #quizSubmit,
+    .sec-next{
+      margin-left:auto !important;
+      margin-right:auto !important;
+      align-self:center !important;
+    }
+  `;
+  (document.head||document.documentElement).appendChild(style);
+  return true;
+}
+
+let globalTransitionLastScreenV335='';
+let globalTransitionObserverV335=null;
+
+function activeScreenIdV335(){
+  const active=document.querySelector('.screen.active');
+  return active ? String(active.id||active.getAttribute?.('data-screen')||'active-screen') : '';
+}
+
+function installScreenTransitionScrollV335(){
+  globalTransitionLastScreenV335=activeScreenIdV335();
+  if(typeof MutationObserver!=='function')return false;
+  const screens=[...document.querySelectorAll('.screen')];
+  if(!screens.length)return false;
+  globalTransitionObserverV335=new MutationObserver(()=>{
+    const next=activeScreenIdV335();
+    if(next&&globalTransitionLastScreenV335&&next!==globalTransitionLastScreenV335){
+      scrollViewportTopV335();
+    }
+    if(next)globalTransitionLastScreenV335=next;
+  });
+  screens.forEach(screen=>globalTransitionObserverV335.observe(screen,{attributes:true,attributeFilter:['class','style','hidden']}));
+  return true;
+}
+
+function installForwardTransitionScrollV335(){
+  if(document.documentElement?.dataset?.globalTransitionScrollV335==='1')return false;
+  if(document.documentElement?.dataset)document.documentElement.dataset.globalTransitionScrollV335='1';
+  document.addEventListener('click',event=>{
+    const target=event.target;
+    const button=target?.closest?.('button,[role="button"],a');
+    if(isForwardTransitionButtonV335(button))scrollViewportTopV335();
+  },true);
+  return true;
+}
+
+function installGlobalTransitionUxV335(){
+  installCenteredPrimaryCtaV335();
+  installForwardTransitionScrollV335();
+  installScreenTransitionScrollV335();
+  return true;
+}
+
+globalThis.GLOBAL_TRANSITION_UX_SPEC_V335=GLOBAL_TRANSITION_UX_SPEC_V335;
+globalThis.scrollViewportTopV335=scrollViewportTopV335;
+globalThis.isForwardTransitionButtonV335=isForwardTransitionButtonV335;
+globalThis.installCenteredPrimaryCtaV335=installCenteredPrimaryCtaV335;
+globalThis.activeScreenIdV335=activeScreenIdV335;
+globalThis.installScreenTransitionScrollV335=installScreenTransitionScrollV335;
+globalThis.installForwardTransitionScrollV335=installForwardTransitionScrollV335;
+globalThis.installGlobalTransitionUxV335=installGlobalTransitionUxV335;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installGlobalTransitionUxV335,{once:true});
+else installGlobalTransitionUxV335();
