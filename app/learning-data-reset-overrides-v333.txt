@@ -1,0 +1,176 @@
+// FE QUEST v333 — learner-controlled full active-profile reset.
+// Reset learning progress and study planning/settings while preserving deliberate recovery paths.
+const LEARNING_DATA_RESET_CONFIRM_TEXT_V333='初期化';
+const LEARNING_DATA_RESET_SPEC_V333=Object.freeze({
+  scope:'full-active-profile',
+  preservesStudySettings:false,
+  clearsExamSchedule:true,
+  clearsStudyPlanningSettings:true,
+  preservesDownloadedBackups:true,
+  preservesRecoveryCenterSnapshots:true,
+  createsPreResetRecoveryPoint:true,
+  clearsAutomaticFallbackToOldProgress:true,
+  clearsResumeState:true,
+  clearsLegacyProfileMirrors:true,
+  confirmationSteps:2,
+  remoteTelemetry:false
+});
+
+function resetLearningProfileCandidateV333(){
+  const now=new Date().toISOString();
+  const fresh=normalizeProfileData(structuredClone(DEFAULT_PROFILE));
+  fresh.profileMeta={
+    ...safeObject(fresh.profileMeta),
+    createdAt:now,
+    updatedAt:now,
+    lastAppVersion:APP_VERSION,
+    migratedFromSchema:null,
+    revision:profileBaseRevision,
+    lastWriterId:TAB_INSTANCE_ID
+  };
+  return fresh;
+}
+
+async function createPreResetRecoveryPointV333(){
+  try{
+    const result=await Promise.race([
+      writeRecoveryCheckpoint(profile,'pre-manual-reset',true),
+      new Promise(resolve=>setTimeout(()=>resolve(false),1800))
+    ]);
+    return result!==false;
+  }catch(e){
+    console.warn('Pre-reset recovery point could not be created',e);
+    return false;
+  }
+}
+
+function clearTransientLearningStateV333(){
+  const keys=[
+    CORRUPT_PROFILE_KEY,
+    UI_STATE_KEY,
+    BFINAL_RESUME_KEY,
+    PROFILE_MIGRATION_JOURNAL_KEY,
+    PRE_IMPORT_PROFILE_KEY,
+    PRE_MANUAL_RESTORE_PROFILE_KEY
+  ];
+  for(const key of keys){try{localStorage.removeItem(key)}catch(_e){}}
+  for(const key of LEGACY_STORAGE_KEYS){try{localStorage.removeItem(key)}catch(_e){}}
+  try{clearBFinalResume()}catch(_e){}
+  // A full reset must not recreate an old in-progress final during pagehide/reload.
+  try{bFinalItems=[];bFinalAnswers=[];bFinalFlags=new Set()}catch(_e){}
+}
+
+async function performLearningDataResetV333(){
+  if(profileWriteBlocked||profileConflictBlocked){
+    return {ok:false,reason:'blocked'};
+  }
+  if(!acquireProfileWriteLease()){
+    markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');
+    return {ok:false,reason:'lease'};
+  }
+
+  let result=null;
+  let recoveryPointCreated=false;
+  try{
+    // Keep one explicit recovery-center checkpoint for accidental reset recovery.
+    // It is never restored automatically; the learner must deliberately choose it.
+    recoveryPointCreated=await createPreResetRecoveryPointV333();
+
+    const next=stampProfileForSave(resetLearningProfileCandidateV333());
+    result=writeCurrentProfile(next,{preservePrevious:false,skipConflictCheck:true});
+    profile=result.profile;
+
+    // An explicit reset must not leave the old profile as the automatic last-good fallback.
+    try{
+      localStorage.removeItem(LAST_GOOD_PROFILE_KEY);
+      localStorage.removeItem(LAST_GOOD_CHECKSUM_KEY);
+      localStorage.setItem(LAST_GOOD_PROFILE_KEY,result.raw);
+      localStorage.setItem(LAST_GOOD_CHECKSUM_KEY,result.checksum);
+    }catch(e){
+      try{localStorage.removeItem(LAST_GOOD_PROFILE_KEY);localStorage.removeItem(LAST_GOOD_CHECKSUM_KEY)}catch(_e){}
+      console.warn('Reset last-good mirror could not be refreshed',e);
+    }
+
+    clearTransientLearningStateV333();
+    rememberCommittedProfile(profile);
+    clearProfileSaveFailure();
+  }catch(e){
+    restoreCommittedProfileInMemory(false);
+    noteProfileSaveFailure(e);
+    console.warn('FE QUESTの初期化に失敗しました。',e);
+    return {ok:false,reason:'write',error:String(e?.message||e)};
+  }finally{
+    releaseProfileWriteLease();
+  }
+
+  try{queueRecoveryCheckpoint('manual-reset',true)}catch(e){console.warn('Reset checkpoint queue failed',e)}
+  return {
+    ok:true,
+    profile:structuredClone(profile),
+    settings:structuredClone(profile.settings||{}),
+    recoveryPointCreated
+  };
+}
+
+async function requestLearningDataResetV333(){
+  const first=window.confirm(
+    'FE QUESTを最初からやり直します。\n\n'+
+    '初期化されるもの：教材の進捗、問題履歴、復習、模試履歴、科目B進捗、XP、ストリーク、試験予定日、1日の学習時間、自動調整、学習計画など\n\n'+
+    '初期化後は試験準備度や必要ペースなども、初回利用時の状態から再計算されます。\n\n'+
+    '安全のため、端末内の復旧点と書き出したバックアップは残ります。誤って初期化した場合だけ復旧センターから戻せます。続けますか？'
+  );
+  if(!first)return false;
+
+  const typed=window.prompt('最終確認です。FE QUESTを初期状態へ戻すには「初期化」と入力してください。','');
+  if(typed!==LEARNING_DATA_RESET_CONFIRM_TEXT_V333){
+    if(typed!==null)showAppNotice('info','初期化を中止しました','確認文字が一致しなかったため、データは変更していません。');
+    return false;
+  }
+
+  const result=await performLearningDataResetV333();
+  if(!result.ok){
+    showAppNotice('error','初期化できませんでした','データは変更していません。ほかのFE QUEST画面を閉じてから、もう一度お試しください。');
+    return false;
+  }
+  window.alert('FE QUESTを初期状態に戻しました。試験予定日や学習時間などの設定もリセットされています。');
+  location.reload();
+  return true;
+}
+
+function installLearningDataResetV333(){
+  if(document.getElementById('resetLearningDataV333'))return true;
+  const host=document.querySelector('#pwaHealthCard .pwa-health-actions-advanced');
+  if(!host)return false;
+
+  if(!document.getElementById('learningDataResetStyleV333')){
+    const style=document.createElement('style');
+    style.id='learningDataResetStyleV333';
+    style.textContent=`
+      .learning-data-reset-v333{width:100%;flex-basis:100%;margin-top:12px;padding-top:12px;border-top:1px solid rgba(239,68,68,.28)}
+      .learning-data-reset-v333 .reset-title{font-weight:800;margin-bottom:4px}
+      .learning-data-reset-v333 .reset-help{font-size:12px;line-height:1.55;color:var(--muted,#64748b);margin-bottom:9px}
+      #resetLearningDataV333{width:100%;min-height:44px;border:1px solid #dc2626;background:transparent;color:#b91c1c;font-weight:800;border-radius:12px}
+      #resetLearningDataV333:active{transform:translateY(1px)}
+    `;
+    document.head.append(style);
+  }
+
+  const box=document.createElement('div');
+  box.className='learning-data-reset-v333';
+  const title=document.createElement('div');
+  title.className='reset-title';title.textContent='FE QUESTを最初からやり直す';
+  const help=document.createElement('div');
+  help.className='reset-help';help.textContent='学習履歴に加えて、試験予定日・学習時間・自動調整などの設定も初期化します。安全のため復旧点と書き出したバックアップだけは残ります。';
+  const btn=document.createElement('button');
+  btn.id='resetLearningDataV333';btn.type='button';btn.textContent='FE QUESTを完全に初期化';
+  btn.addEventListener('click',requestLearningDataResetV333);
+  box.append(title,help,btn);host.append(box);
+  return true;
+}
+
+globalThis.LEARNING_DATA_RESET_SPEC_V333=LEARNING_DATA_RESET_SPEC_V333;
+globalThis.performLearningDataResetV333=performLearningDataResetV333;
+globalThis.installLearningDataResetV333=installLearningDataResetV333;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installLearningDataResetV333,{once:true});
+else installLearningDataResetV333();
