@@ -23,6 +23,7 @@ env:
 
 jobs:
   validate:
+    if: startsWith(github.head_ref, 'full-data-reset-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
