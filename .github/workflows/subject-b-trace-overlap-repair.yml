@@ -8,7 +8,6 @@ on:
     paths:
       - 'app/subject-b-trace-overlap-repair-overrides-v279.txt'
       - '_release/content-change-v279.json'
-      - 'index.html'
       - '.github/subject-b-trace-overlap-repair/**'
       - '.github/workflows/subject-b-trace-overlap-repair.yml'
 
@@ -21,6 +20,7 @@ env:
 
 jobs:
   validate:
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'subject-b-trace-overlap-repair-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
