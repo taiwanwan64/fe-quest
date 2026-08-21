@@ -20,6 +20,7 @@ env:
 
 jobs:
   validate:
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'subject-b-trace-overlap-repair-v')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
