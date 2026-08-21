@@ -8,6 +8,10 @@ const REVIEW_NEXT_SCROLL_TOP_SPEC_V334=Object.freeze({
   affectsOtherQuizModes:false
 });
 
+function shouldScrollReviewNextV334(mode,answered,index,total){
+  return mode==='review' && answered===true && index < total-1;
+}
+
 function scrollReviewQuestionToTopV334(){
   const apply=()=>{
     try{
@@ -29,16 +33,15 @@ function installReviewNextScrollTopV334(){
   // rendering the next question. The actual scroll runs on the next animation frame,
   // after that synchronous render has completed.
   button.addEventListener('click',()=>{
-    const shouldScroll=
-      quizMode==='review' &&
-      quizAnswered===true &&
-      quizIndex < quizItems.length-1;
-    if(shouldScroll) scrollReviewQuestionToTopV334();
+    if(shouldScrollReviewNextV334(quizMode,quizAnswered,quizIndex,quizItems.length)){
+      scrollReviewQuestionToTopV334();
+    }
   },{capture:true});
   return true;
 }
 
 globalThis.REVIEW_NEXT_SCROLL_TOP_SPEC_V334=REVIEW_NEXT_SCROLL_TOP_SPEC_V334;
+globalThis.shouldScrollReviewNextV334=shouldScrollReviewNextV334;
 globalThis.scrollReviewQuestionToTopV334=scrollReviewQuestionToTopV334;
 globalThis.installReviewNextScrollTopV334=installReviewNextScrollTopV334;
 
