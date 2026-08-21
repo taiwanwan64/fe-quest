@@ -1,0 +1,151 @@
+// ===== FE QUEST v336: persistent app header + centered learning completion CTA =====
+const STICKY_HEADER_CENTERED_CTA_SPEC_V336=Object.freeze({
+  scope:'persistent-app-header-and-learning-completion-cta',
+  headerMode:'sticky',
+  headerTop:0,
+  semanticHeaderDetection:true,
+  semanticCtaDetection:true,
+  centeredLearningCompletionCta:true
+});
+
+function normalizedUiTextV336(node){
+  return String(node?.textContent||'').replace(/\s+/g,' ').trim();
+}
+
+function isLearningCompletionCtaV336(button){
+  const label=normalizedUiTextV336(button);
+  return label.includes('学習完了') && label.includes('問題演習');
+}
+
+function applyLearningCompletionCtaCenteringV336(root=document){
+  let matched=0;
+  const buttons=[...root.querySelectorAll('button,[role="button"],a')];
+  buttons.forEach(button=>{
+    if(!isLearningCompletionCtaV336(button))return;
+    button.classList.add('fequest-centered-learning-cta-v336');
+    const parent=button.parentElement;
+    if(parent && parent.children?.length===1){
+      parent.classList.add('fequest-centered-learning-cta-wrap-v336');
+    }
+    matched++;
+  });
+  return matched;
+}
+
+function findAppHeaderV336(){
+  const selectors=['header','[role="banner"]','.app-header','.top-header','.topbar','.top-bar','.header'];
+  for(const selector of selectors){
+    for(const candidate of document.querySelectorAll(selector)){
+      const text=normalizedUiTextV336(candidate);
+      if(text.includes('FE QUEST'))return candidate;
+    }
+  }
+
+  const nodes=[...document.querySelectorAll('body *')];
+  const brand=nodes.find(node=>{
+    const text=normalizedUiTextV336(node);
+    return text==='FE QUEST' || (text.startsWith('FE QUEST') && text.length<=48);
+  });
+  if(!brand)return null;
+
+  let fallback=brand;
+  let node=brand;
+  for(let depth=0;depth<6 && node && node!==document.body;depth++,node=node.parentElement){
+    const text=normalizedUiTextV336(node);
+    if(!text.includes('FE QUEST'))break;
+    fallback=node;
+    const controls=node.querySelectorAll?.('button,a,img,[role="button"]')?.length||0;
+    const childCount=node.children?.length||0;
+    if(controls>=2 || childCount>=3)return node;
+  }
+  return fallback;
+}
+
+function applyPersistentAppHeaderV336(){
+  const header=findAppHeaderV336();
+  if(!header)return false;
+  header.classList.add('fequest-sticky-header-v336');
+  try{
+    const bg=getComputedStyle(header).backgroundColor;
+    if(bg && bg!=='transparent' && bg!=='rgba(0, 0, 0, 0)'){
+      header.style.setProperty('--fequest-sticky-header-bg-v336',bg);
+    }
+  }catch(_e){}
+  return true;
+}
+
+function installStickyHeaderCenteredCtaStyleV336(){
+  if(document.getElementById('stickyHeaderCenteredCtaStyleV336'))return false;
+  const style=document.createElement('style');
+  style.id='stickyHeaderCenteredCtaStyleV336';
+  style.textContent=`
+    .fequest-sticky-header-v336{
+      position:sticky !important;
+      top:0 !important;
+      z-index:1200 !important;
+      isolation:isolate;
+      background:var(--fequest-sticky-header-bg-v336,#fff) !important;
+    }
+    .fequest-centered-learning-cta-v336{
+      display:block !important;
+      margin-left:auto !important;
+      margin-right:auto !important;
+      align-self:center !important;
+      justify-self:center !important;
+      float:none !important;
+      left:auto !important;
+      right:auto !important;
+    }
+    .fequest-centered-learning-cta-wrap-v336{
+      display:flex !important;
+      justify-content:center !important;
+      align-items:center !important;
+      width:100%;
+    }
+  `;
+  (document.head||document.documentElement).appendChild(style);
+  return true;
+}
+
+let stickyHeaderCenteredCtaObserverV336=null;
+let stickyHeaderCenteredCtaQueuedV336=false;
+
+function refreshStickyHeaderCenteredCtaV336(){
+  applyPersistentAppHeaderV336();
+  applyLearningCompletionCtaCenteringV336();
+}
+
+function queueStickyHeaderCenteredCtaRefreshV336(){
+  if(stickyHeaderCenteredCtaQueuedV336)return;
+  stickyHeaderCenteredCtaQueuedV336=true;
+  const run=()=>{
+    stickyHeaderCenteredCtaQueuedV336=false;
+    refreshStickyHeaderCenteredCtaV336();
+  };
+  if(typeof requestAnimationFrame==='function')requestAnimationFrame(run);
+  else if(typeof setTimeout==='function')setTimeout(run,0);
+  else run();
+}
+
+function installStickyHeaderCenteredCtaV336(){
+  installStickyHeaderCenteredCtaStyleV336();
+  refreshStickyHeaderCenteredCtaV336();
+  if(typeof MutationObserver==='function' && !stickyHeaderCenteredCtaObserverV336){
+    stickyHeaderCenteredCtaObserverV336=new MutationObserver(queueStickyHeaderCenteredCtaRefreshV336);
+    stickyHeaderCenteredCtaObserverV336.observe(document.body||document.documentElement,{childList:true,subtree:true});
+  }
+  return true;
+}
+
+globalThis.STICKY_HEADER_CENTERED_CTA_SPEC_V336=STICKY_HEADER_CENTERED_CTA_SPEC_V336;
+globalThis.normalizedUiTextV336=normalizedUiTextV336;
+globalThis.isLearningCompletionCtaV336=isLearningCompletionCtaV336;
+globalThis.applyLearningCompletionCtaCenteringV336=applyLearningCompletionCtaCenteringV336;
+globalThis.findAppHeaderV336=findAppHeaderV336;
+globalThis.applyPersistentAppHeaderV336=applyPersistentAppHeaderV336;
+globalThis.installStickyHeaderCenteredCtaStyleV336=installStickyHeaderCenteredCtaStyleV336;
+globalThis.refreshStickyHeaderCenteredCtaV336=refreshStickyHeaderCenteredCtaV336;
+globalThis.installStickyHeaderCenteredCtaV336=installStickyHeaderCenteredCtaV336;
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installStickyHeaderCenteredCtaV336,{once:true});
+else installStickyHeaderCenteredCtaV336();
