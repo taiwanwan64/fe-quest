@@ -63,6 +63,7 @@ branch=context(); parent=subprocess.check_output(['git','rev-parse','origin/main
 expected={
  '.github/first-run-experience/discover_v340.py',
  '.github/first-run-experience/validate_v340.py',
+ '.github/first-run-experience/finalize_plan_v340.py',
  '.github/workflows/first-run-experience-v340.yml',
  'app/first-run-experience-v340.txt',
  'index.html'
