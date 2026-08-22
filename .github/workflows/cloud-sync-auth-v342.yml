@@ -1,0 +1,44 @@
+name: FE QUEST v342 Supabase auth boundary
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_auth_boundary.py'
+      - '.github/workflows/cloud-sync-auth-v342.yml'
+      - 'cloud/supabase/auth-boundary-v342.js'
+      - 'audits/V342_AUTH_BOUNDARY.md'
+      - '_regression/cloud-sync-auth-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-auth-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 auth branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate Supabase PKCE session boundary
+        run: python3 .github/cloud-sync-v342/validate_auth_boundary.py
+
+      - name: Verify reproducible auth evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_AUTH_BOUNDARY.md _regression/cloud-sync-auth-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_AUTH_BOUNDARY.md').read_text()
+          assert '13 / 13 AUTH BOUNDARY CASES PASS' in audit
+          assert 'email magic link with PKCE' in audit
+          auth=Path('cloud/supabase/auth-boundary-v342.js').read_text()
+          assert 'flowType' in auth and "'pkce'" in auth
+          assert 'scope' in auth and "'local'" in auth
+          assert 'cloud/supabase/auth-boundary-v342.js' not in Path('app/base-shell-v341.html').read_text()
+          print('V342_AUTH_BOUNDARY_VALIDATED_AND_NOT_PRODUCTION_LOADED')
+          PY
