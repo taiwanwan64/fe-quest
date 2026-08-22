@@ -24,9 +24,41 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+
+      - name: Normalize shell to v339 source state
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          idx=Path('index.html')
+          text=idx.read_text()
+          if '<title>FE QUEST PWA v340</title>' in text:
+              text=text.replace('<title>FE QUEST PWA v340</title>','<title>FE QUEST PWA v339</title>',1)
+              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
+              idx.write_text(text)
+
+          mp=Path('manifest.webmanifest')
+          m=json.loads(mp.read_text())
+          if m.get('name')=='FE QUEST v340':
+              m['name']='FE QUEST v339'
+              m['description']=m.get('description','').replace('v340','v339')
+              mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+
+          sw=Path('sw.js')
+          text=sw.read_text()
+          if "const APP_VERSION = 'v340';" in text:
+              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
+              text=text.replace("const CACHE_NAME = 'fe-quest-v340-1';","const CACHE_NAME = 'fe-quest-v339-1';",1)
+              sw.write_text(text)
+          PY
+
       - name: Materialize v340 shell
         run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_materialize.py
+
       - uses: actions/configure-pages@v5
+
       - name: Build candidate
         uses: actions/jekyll-build-pages@v1
         with:
@@ -34,8 +66,10 @@ jobs:
           destination: ./_site
           build_revision: ${{ github.sha }}
           verbose: true
+
       - name: Discover current first-run contract
         run: python3 .github/first-run-experience/discover_v340.py
+
       - name: Commit discovery and v340 shell
         shell: bash
         run: |
