@@ -1,0 +1,24 @@
+{
+  "name": "cloud-runtime-bootstrap-v342",
+  "result": "PASS",
+  "caseCount": 14,
+  "validatedCases": [
+    "default public config keeps cloud runtime disabled",
+    "secret service-role credential is rejected before assembly",
+    "enabled config requires HTTPS project URL",
+    "fresh learner detector stays false for empty profile",
+    "learner detector recognizes XP and question attempts",
+    "enabled config without pinned SDK fails open as sdk-missing",
+    "valid public config assembles runtime without starting it",
+    "runtime start initializes PKCE auth and installs local post-commit bridge",
+    "signed-in session still leaves sync opt-in disabled after startup",
+    "explicit enable performs first remote read and guarded upload",
+    "post-local-commit bridge queues newer local state without network",
+    "manual sync flushes queued local commit through guarded transport",
+    "runtime stop disposes auth subscription and restores original writer",
+    "stopped runtime cannot be restarted accidentally"
+  ],
+  "defaultEnabled": false,
+  "productionLoaded": false,
+  "externalDeploymentRequired": true
+}
