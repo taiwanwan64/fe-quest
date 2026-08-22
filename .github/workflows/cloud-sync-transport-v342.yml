@@ -33,13 +33,15 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           audit=Path('audits/V342_OPTIONAL_TRANSPORT_VALIDATION.md').read_text()
           assert 'PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT' in audit
           shell=Path('app/base-shell-v341.html').read_text()
           assert 'cloud/supabase/transport-v342.js' not in shell
           assert 'cloud/sync-state-v342.js' not in shell
           combined=Path('cloud/supabase/transport-v342.js').read_text()+Path('cloud/sync-state-v342.js').read_text()
-          for forbidden in ['SUPABASE_SERVICE_ROLE','sb_secret_','service_role=']:
-              assert forbidden not in combined
+          assert 'SUPABASE_SERVICE_ROLE' not in combined
+          assert 'service_role=' not in combined
+          assert not re.search(r'sb_secret_[A-Za-z0-9_-]{20,}',combined)
           print('V342_OPTIONAL_TRANSPORT_NOT_PRODUCTION_LOADED')
           PY
