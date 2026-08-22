@@ -13,6 +13,8 @@
     persistSession:true,
     autoRefreshToken:true,
     detectSessionInUrl:true,
+    emailTemplate:'redirect-to-token-hash',
+    callbackQuery:'token_hash+type=email',
     signOutScope:'local'
   });
 
@@ -38,6 +40,25 @@
     };
   }
 
+  function parseEmailTokenHashCallback(value){
+    if(!value)return null;
+    let url;
+    try{url=new URL(String(value),'https://fequest.invalid/')}catch(_e){return null}
+    const tokenHash=url.searchParams.get('token_hash');
+    const type=url.searchParams.get('type');
+    if(!tokenHash||type!=='email')return null;
+    return Object.freeze({tokenHash,type:'email'});
+  }
+
+  function sanitizedCallbackUrl(value){
+    if(!value)return null;
+    let url;
+    try{url=new URL(String(value),'https://fequest.invalid/')}catch(_e){return null}
+    url.searchParams.delete('token_hash');
+    url.searchParams.delete('type');
+    return url.toString();
+  }
+
   function createConfiguredClient(options){
     const o=options||{};
     if(typeof o.createClient!=='function')throw new TypeError('Supabase createClient function required');
@@ -58,13 +79,19 @@
     const o=options||{};
     const client=o.client;
     if(!client||!client.auth)throw new TypeError('Supabase auth client required');
-    if(typeof client.auth.getSession!=='function'||typeof client.auth.onAuthStateChange!=='function'||typeof client.auth.signInWithOtp!=='function'||typeof client.auth.signOut!=='function'){
+    if(typeof client.auth.getSession!=='function'||typeof client.auth.onAuthStateChange!=='function'||typeof client.auth.signInWithOtp!=='function'||typeof client.auth.verifyOtp!=='function'||typeof client.auth.signOut!=='function'){
       throw new TypeError('Supabase auth client methods missing');
     }
     const redirectTo=String(o.redirectTo||'');
     if(redirectTo&&!validHttps(redirectTo))throw new TypeError('https auth redirect required');
     const onSignedOut=typeof o.onSignedOut==='function'?o.onSignedOut:()=>{};
     const onAuthError=typeof o.onAuthError==='function'?o.onAuthError:()=>{};
+    const getLocationHref=typeof o.getLocationHref==='function'?o.getLocationHref:()=>{
+      try{return root.location&&typeof root.location.href==='string'?root.location.href:''}catch(_e){return ''}
+    };
+    const replaceLocation=typeof o.replaceLocation==='function'?o.replaceLocation:(next=>{
+      try{root.history&&typeof root.history.replaceState==='function'&&root.history.replaceState(root.history.state||null,'',next)}catch(_e){}
+    });
 
     let cached=null;
     let subscription=null;
@@ -99,8 +126,31 @@
       return snapshot();
     }
 
+    async function consumeEmailTokenHashCallback(){
+      const href=getLocationHref();
+      const callback=parseEmailTokenHashCallback(href);
+      if(!callback)return {ok:true,status:'none'};
+      let result;
+      try{result=await client.auth.verifyOtp({token_hash:callback.tokenHash,type:callback.type})}catch(error){
+        try{onAuthError(error,'PKCE_EMAIL_CALLBACK')}catch(_e){}
+        return {ok:false,status:'verify-error',error};
+      }
+      if(result&&result.error){
+        try{onAuthError(result.error,'PKCE_EMAIL_CALLBACK')}catch(_e){}
+        return {ok:false,status:'verify-error',error:result.error};
+      }
+      const clean=sanitizedCallbackUrl(href);
+      if(clean)try{replaceLocation(clean)}catch(_e){}
+      return {ok:true,status:'verified'};
+    }
+
     async function initialize(){
       if(initialized)return snapshot();
+      // Supabase's hosted passwordless guide requires PKCE magic-link templates to send
+      // token_hash + type=email back to the app, which the browser client exchanges with verifyOtp.
+      // A failed callback is nonfatal: local study still starts and the auth error is reported only
+      // through this isolated boundary.
+      await consumeEmailTokenHashCallback();
       let result;
       try{result=await client.auth.getSession()}catch(error){
         initialized=true;
@@ -174,10 +224,10 @@
       return true;
     }
 
-    return Object.freeze({initialize,snapshot,getAuthenticatedUserId,getAccessToken,sendMagicLink,signOutThisDevice,subscribe,dispose});
+    return Object.freeze({initialize,snapshot,getAuthenticatedUserId,getAccessToken,sendMagicLink,signOutThisDevice,consumeEmailTokenHashCallback,subscribe,dispose});
   }
 
-  const api=Object.freeze({AUTH_SPEC,createConfiguredClient,createAuthBoundary});
+  const api=Object.freeze({AUTH_SPEC,parseEmailTokenHashCallback,sanitizedCallbackUrl,createConfiguredClient,createAuthBoundary});
   root.FEQUEST_SUPABASE_AUTH_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
