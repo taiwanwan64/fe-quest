@@ -10,6 +10,8 @@ on:
       - 'cloud/sync-state-v342.js'
       - 'cloud/sync-engine-v342.js'
       - 'cloud/supabase/transport-v342.js'
+      - 'audits/V342_SYNC_ENGINE_VALIDATION.md'
+      - '_regression/cloud-sync-engine-v342.fixture.json'
 
 permissions:
   contents: read
