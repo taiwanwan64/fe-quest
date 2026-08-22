@@ -5,6 +5,9 @@ const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './assets/app-v341.css',
+  './assets/app-v341.js',
+  './assets/asset-manifest-v341.json',
   './icon-192.png',
   './icon-512.png',
   './apple-touch-icon.png'

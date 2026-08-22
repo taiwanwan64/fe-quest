@@ -1,0 +1,38 @@
+{
+  "version": "v341",
+  "strategy": "external-classic-script-and-stylesheet",
+  "sourceInlineIndex": {
+    "utf8Bytes": 3685589,
+    "sha256": "576e782e3fa82f49d0b3f263cd65c3aaa6c8e0ab1f42a96ae52843ced302dbd1"
+  },
+  "shell": {
+    "path": "index.html",
+    "estimatedUtf8Bytes": 94575,
+    "sha256": "2d4f2f0736a36da0b1304c86188ec965680296ae82942674082111ab1c88d273"
+  },
+  "assets": [
+    {
+      "path": "assets/app-v341.css",
+      "kind": "style",
+      "utf8Bytes": 231671,
+      "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e"
+    },
+    {
+      "path": "assets/app-v341.js",
+      "kind": "classic-script",
+      "utf8Bytes": 3359407,
+      "sha256": "b6511551be4c36c57f71330f75011874ee2e6b72cc318ac09a8fbf73bfb7861b"
+    }
+  ],
+  "executionContract": {
+    "styleTagCountBefore": 1,
+    "scriptTagCountBefore": 1,
+    "scriptType": "classic",
+    "scriptRegion": "body",
+    "currentScript": false,
+    "documentWrite": false,
+    "importMeta": false,
+    "moduleSyntax": false,
+    "orderPreserved": true
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "distribution-split-v341",
+  "version": "v341",
+  "previous": "v340",
+  "parentMainSha": "7f1a5cefe966e55ef5ec73dd7e7236fe020d847d",
+  "result": "PASS \u2014 3.68MB INLINE DOCUMENT SPLIT INTO A SMALL HTML SHELL + CACHED CSS/JS WITHOUT LEARNING SEMANTIC DRIFT",
+  "summary": {
+    "inlineHtmlBytes": 3685589,
+    "splitHtmlBytes": 94576,
+    "htmlReductionBytes": 3591013,
+    "htmlReductionPercent": 97.43,
+    "cssBytes": 231671,
+    "jsBytes": 3359407,
+    "byteReconstructable": true,
+    "offlineAssetCacheContract": true,
+    "questionCount": 710,
+    "questionBankUnchanged": true,
+    "subjectBContentUnchanged": true,
+    "adaptivePlannerContractUnchanged": true,
+    "profileSchemaUnchanged": true,
+    "subjectBSemanticOK": true,
+    "freshFirstRunContractPreserved": true,
+    "runtimeContractFailures": 0
+  },
+  "assetManifest": {
+    "version": "v341",
+    "strategy": "external-classic-script-and-stylesheet",
+    "sourceInlineIndex": {
+      "utf8Bytes": 3685589,
+      "sha256": "576e782e3fa82f49d0b3f263cd65c3aaa6c8e0ab1f42a96ae52843ced302dbd1"
+    },
+    "shell": {
+      "path": "index.html",
+      "estimatedUtf8Bytes": 94575,
+      "sha256": "2d4f2f0736a36da0b1304c86188ec965680296ae82942674082111ab1c88d273"
+    },
+    "assets": [
+      {
+        "path": "assets/app-v341.css",
+        "kind": "style",
+        "utf8Bytes": 231671,
+        "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e"
+      },
+      {
+        "path": "assets/app-v341.js",
+        "kind": "classic-script",
+        "utf8Bytes": 3359407,
+        "sha256": "b6511551be4c36c57f71330f75011874ee2e6b72cc318ac09a8fbf73bfb7861b"
+      }
+    ],
+    "executionContract": {
+      "styleTagCountBefore": 1,
+      "scriptTagCountBefore": 1,
+      "scriptType": "classic",
+      "scriptRegion": "body",
+      "currentScript": false,
+      "documentWrite": false,
+      "importMeta": false,
+      "moduleSyntax": false,
+      "orderPreserved": true
+    }
+  }
+}

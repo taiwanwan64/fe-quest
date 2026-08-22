@@ -5,9 +5,9 @@
 > 別チャット・別AIで開発を再開するときは、最初に GitHub の `main` とこの `FE_QUEST_DEVELOPMENT_PLAN.md` を確認してください。会話履歴や古い記憶より、GitHub の現行コードと本ファイルを優先します。
 
 最終更新: 2026-08-22  
-現行アプリ: **v340**  
+現行アプリ: **v341**  
 リポジトリ: `taiwanwan64/fe-quest`  
-次の計画バージョン: **v341**
+次の計画バージョン: **v342**
 
 ---
 
@@ -250,7 +250,7 @@ GitHubに `audits/post-v337-architecture-audit.md` 等の監査結果を保存�
 
 ---
 
-# v341 — 配信構造・巨大HTMLの分割
+# v341 — 配信構造・巨大HTMLの分割 ✅ 完了（2026-08-22）
 
 ### 目的
 
@@ -281,6 +281,20 @@ PWA・オフライン対応は維持する。単純に外部CDNへ逃がさな�
 - v340以前の保存データをそのまま読める
 - 主要学習画面の体感劣化なし
 - asset欠損時に破壊的エラーではなく復旧導線がある
+
+### v341 完了結果
+
+- 完成版HTMLを実測し、styleタグ **1個 / 231,671 bytes**、classic scriptタグ **1個 / 約3.36MB**、外部化後のHTML見込み約95KBであることを確認。
+- `document.currentScript` / `document.write` / `import.meta` / module構文など、単一classic scriptを外部化する際の主要hazardは **0件**。
+- production `index.html` を最小shellへ切り替え、CSSを `assets/app-v341.css`、JavaScriptを `assets/app-v341.js` へ分離。実行位置とclassic scriptの同期実行順は維持。
+- `assets/asset-manifest-v341.json` にassetのbytes / SHA-256 / 実行契約を固定。
+- Service WorkerのAPP_SHELLへCSS / JS / asset manifestを追加し、インストール後のオフライン再起動を維持。
+- 分割後HTML + CSS + JSから、承認済みinline v341 documentをbyte再構成できることをCIで確認。
+- 科目A **710問**、QUESTION_BANK、科目B content、Subject B semantics、`buildTodayTasks()`、試験日・学習時間配分、profile/settings key contract、初回設定判定に意味的差分なし。
+- profile schema変更なし。runtime contract failure 0。
+- 旧巨大source module群は移行・参照用としてrepo内に残すが、production rootからは直接bundleしない。
+- 詳細: `audits/DISTRIBUTION_SPLIT_v341.md`
+- 回帰基準: `_regression/distribution-split-v341.fixture.json`
 
 ---
 
@@ -459,17 +473,17 @@ v342で商用基盤が安定した後に着手する。
 
 ## 10. 直近の次アクション
 
-**次に着手する正式タスクは v341「配信構造・巨大HTMLの分割」。**
+**次に着手する正式タスクは v342「アカウント / クラウド同期 基盤」。**
 
-v338〜v340で実行経路の把握、runtime停止リスクの低減、初回価値伝達まで完了した。次は3.67MB級の単一完成HTMLを、**PWA・オフライン性・既存保存データを壊さず**段階的に分割する。
+v341でproduction配信を小さなHTML shell + versioned static assetsへ分離し、オフラインcache契約も固定した。これにより、巨大inline bundleへ状態同期を直接重ねる段階を抜け、クラウド同期をローカルファーストで設計できる状態になった。
 
 最初の順序:
 
-1. v340完成版の最新サイズ内訳を再計測し、`base-stable` 内のCSS / app logic / 科目A問題 / 教材 / 科目Bデータの実境界を特定する
-2. `index.html` をstatic shell化する際に最初に外へ出して安全な責務を1つ選び、小さな分割から始める
-3. app schema versionとは別のcontent/asset versionとmanifestを設計する
-4. Service Workerのprecache / runtime cache / update順序を、asset欠損時の復旧導線を含めて固定する
-5. v340以前のprofileをそのまま読み、オンライン初回・オフライン再起動・更新直後の3経路を回帰する
-6. 数値目標の1MB未満だけを追わず、起動速度・壊れにくさ・GitHub Pages互換性を優先して段階的に進める
+1. 現行profile schema v5 / revision / updatedAt / writerId / atomic保存 / recovery point / export payloadを同期契約として棚卸しする
+2. Supabase等の候補を費用・認証・RLS・バックアップ・無料枠・運用負荷で比較し、実装先を決める
+3. 「ローカルが正本で、通信可能時にクラウドへ同期」の状態遷移を先にfixture化する
+4. 端末A→端末B、オフライン編集→再接続、古いクラウドデータとの競合をシミュレーションする
+5. 既存ユーザーがログインしなくても今まで通り完全に学習できることを必須条件にする
+6. 認証・同期を追加しても、復旧センター / JSONエクスポート / last-known-goodを廃止しない
 
-`buildBFinal` と `subjectBHubRecommendation` の3段ラップは既知の内部負債として残っているが、v341では配信境界を明確にすることを主目的とし、無関係な大規模リファクタリングを同時に行わない。
+`buildBFinal` と `subjectBHubRecommendation` の残る3段wrapperは既知の内部負債として追跡を続けるが、v342では同期状態管理とデータ保護を最優先する。
