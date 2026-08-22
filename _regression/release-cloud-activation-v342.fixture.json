@@ -1,0 +1,24 @@
+{
+  "name": "release-cloud-activation-v342",
+  "result": "PASS",
+  "caseCount": 13,
+  "validatedCases": [
+    "v342 shell inserts one activation loader after the core app script",
+    "mechanical v342 CSS remains byte-identical to v341",
+    "mechanical v342 app JS changes only APP_VERSION",
+    "asset manifest declares same-origin fail-open cloud activation",
+    "asset manifest records the pinned local Supabase SDK",
+    "asset manifest precache order equals the fixed runtime dependency list",
+    "every cloud activation asset identity matches the vendored source bytes",
+    "v342 service worker precaches every cloud runtime asset exactly once",
+    "v342 service worker keeps existing offline behavior",
+    "v342 service worker advances version without mutating source v341 worker",
+    "materialized v342 remains cloud-disabled until auth redirect activation",
+    "cloud-aware split materialization is idempotent",
+    "current production v341 shell is unchanged by release-tooling validation"
+  ],
+  "cloudAssetCount": 15,
+  "sdk": "vendor/supabase/supabase-2.112.3.js",
+  "defaultEnabled": false,
+  "productionVersion": "v341"
+}
