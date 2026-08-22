@@ -1,14 +1,13 @@
 # FE QUEST v342 — Auth production setup readiness
 
-Result: **PASS — 23 / 23 AUTH-PRODUCTION CHECKS PASS**
+Result: **PASS — 25 / 25 AUTH-PRODUCTION CHECKS PASS**
 
-- the hosted Supabase Auth steps are fixed behind one unresolved input: the exact production FE QUEST HTTPS URL
-- Site URL and Additional Redirect URL must use that exact canonical root
-- the Magic Link template returns `token_hash` + `type=email` to the same root through `{{ .RedirectTo }}`
-- the documented template matches the existing PKCE `verifyOtp` callback implementation
-- the guide explicitly avoids an `/auth/confirm` route that does not exist in the static PWA
-- live acceptance covers signed-out local study, explicit first sync, second device, offline reconnect, both conflict resolutions, logout, account deletion, export/recovery, and final Supabase advisors
-- current public config remains disabled and v341 production remains cloud-free
-- release PR #107 remains gated until real hosted Auth configuration and live acceptance pass
+- canonical production URL is resolved as `https://taiwanwan64.github.io/fe-quest/`
+- public v342 config is activated for that exact root using the Supabase publishable key only
+- v341 production remains cloud-free, so this activation does not change the current released app
+- hosted Supabase Site URL, Additional Redirect URL, and Magic Link template remain an explicit manual Dashboard gate because the connected management tool does not expose those Auth mutations
+- the Magic Link contract returns `token_hash` + `type=email` to the static root through `{{ .RedirectTo }}` and matches the existing PKCE `verifyOtp` implementation
+- live acceptance still covers signed-out local study, explicit first sync, second device, offline reconnect, both conflict resolutions, logout, account deletion, export/recovery, and final Supabase advisors
+- release PR #107 remains gated until hosted Auth settings and real acceptance tests pass
 
-No production URL was guessed or activated by this change.
+The production URL is no longer guessed or unresolved.
