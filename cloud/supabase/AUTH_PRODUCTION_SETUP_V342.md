@@ -1,22 +1,28 @@
 # FE QUEST v342 — Supabase Auth production setup
 
-Status: **DO NOT ENABLE CLOUD SYNC UNTIL EVERY REQUIRED ITEM IS VERIFIED**
+Status: **PRODUCTION URL RESOLVED — DASHBOARD AUTH SETTINGS AND LIVE ACCEPTANCE STILL REQUIRED**
 
-This document converts the remaining hosted Supabase Auth settings into a deterministic release checklist. Replace `<FE_QUEST_PRODUCTION_URL>` only with the exact HTTPS URL that learners actually open in production. Do not guess the GitHub Pages URL.
+Canonical production URL:
+
+```text
+https://taiwanwan64.github.io/fe-quest/
+```
+
+This URL was supplied as the actual FE QUEST production root. Do not substitute a preview/staging URL for production Magic Links.
 
 ## 1. Required production URL
 
-Set one canonical URL including the trailing slash when the deployed FE QUEST root uses one:
+Use this exact HTTPS root, including the trailing slash:
 
 ```text
-<FE_QUEST_PRODUCTION_URL>
+https://taiwanwan64.github.io/fe-quest/
 ```
 
 Requirements:
 - HTTPS only.
-- Must be the exact deployed FE QUEST root that loads the v342 application.
+- Must remain the exact deployed FE QUEST root that learners open.
 - Do not use a preview/staging URL for production Magic Links.
-- Do not enable `cloud/public-config-v342.js` until this URL has been opened successfully in a normal browser.
+- If the public URL changes later, update both Supabase Auth settings and `cloud/public-config-v342.js` together before release.
 
 ## 2. Supabase Dashboard — URL Configuration
 
@@ -26,13 +32,15 @@ Open **Authentication → URL Configuration** and configure:
 
 ```text
 Site URL
-<FE_QUEST_PRODUCTION_URL>
+https://taiwanwan64.github.io/fe-quest/
 
 Additional Redirect URLs
-<FE_QUEST_PRODUCTION_URL>
+https://taiwanwan64.github.io/fe-quest/
 ```
 
 Use the exact URL rather than a broad wildcard. FE QUEST sends this same URL as `emailRedirectTo` from `signInWithOtp`.
+
+The connected Supabase management tool available to this project does not expose hosted Auth URL/template mutation, so these Dashboard values must be saved manually before live Magic Link testing. Do not mark this gate complete merely because the browser config has been committed.
 
 ## 3. Supabase Dashboard — Magic Link template
 
@@ -72,23 +80,14 @@ Email security scanners may prefetch one-time links. If real-world testing shows
 
 ## 5. Public browser configuration activation
 
-Only after Dashboard settings above are saved and verified, update:
-
-`cloud/public-config-v342.js`
-
-from:
-
-```js
-enabled:false,
-redirectTo:null
-```
-
-to:
+`cloud/public-config-v342.js` is now intentionally configured for the canonical production root:
 
 ```js
 enabled:true,
-redirectTo:'<FE_QUEST_PRODUCTION_URL>'
+redirectTo:'https://taiwanwan64.github.io/fe-quest/'
 ```
+
+This does **not** activate cloud sync in current v341 production because v341 does not load the v342 cloud runtime. It only makes the future v342 candidate ready to use the verified root once the hosted Auth settings above are saved.
 
 Keep these invariants:
 - provider remains `supabase`,
@@ -116,14 +115,22 @@ Do not promote v342 until every item passes:
 14. JSON export and Recovery Center remain usable independently of cloud sync.
 15. Run Supabase Security Advisor and Performance Advisor again after acceptance testing.
 
-## 7. Release gate
+## 7. Current backend verification
+
+As of the v342 activation preparation:
+- Supabase project `fe-quest` is active and healthy in `ap-northeast-1`.
+- `public.user_profiles` exists with RLS enabled and ownership tied to `auth.users`.
+- migrations `v342_cloud_sync_foundation` and `v342_revoke_anon_rpc_execute` are applied.
+- `fequest-delete-account-v342` Edge Function is active with JWT verification enabled.
+- Performance Advisor reports no lints.
+- Security Advisor reports the intentional `SECURITY DEFINER` warning for `fequest_commit_profile_v342`; the function verifies `auth.uid() = p_user_id`, uses a fixed search path, is executable only by `authenticated`, and direct INSERT/UPDATE/DELETE grants remain revoked. This warning is accepted by design so CAS writes can occur without granting blind table-write privileges to the browser.
+
+## 8. Release gate
 
 PR `#107` (`v342-staging`) must remain draft/unmerged until:
-- the exact production URL is verified,
 - URL Configuration and Magic Link template are saved in Supabase,
-- public config is activated with that exact URL,
 - the staging candidate is refreshed from latest `main`,
-- the full release suite passes again,
+- the full release suite passes again with the activated public config,
 - the live acceptance sequence above passes,
 - privacy policy remains accurate for the actual production behavior.
 
