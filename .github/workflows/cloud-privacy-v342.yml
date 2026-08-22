@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'cloud-privacy-v342')
+    if: startsWith(github.head_ref, 'cloud-privacy-v342') || startsWith(github.head_ref, 'cloud-activate-production-v342')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout privacy readiness branch
@@ -36,11 +36,14 @@ jobs:
           from pathlib import Path
           policy=Path('privacy.html').read_text()
           audit=Path('audits/V342_PRIVACY_READINESS.md').read_text()
+          config=Path('cloud/public-config-v342.js').read_text()
           shell=Path('app/base-shell-v341.html').read_text()
+          url='https://taiwanwan64.github.io/fe-quest/'
           assert 'PASS — 25 / 25 PRIVACY-READINESS CHECKS PASS' in audit
           assert 'クラウド同期は任意です' in policy
           assert 'Supabase' in policy and 'GitHub Pages' in policy
           assert '端末内の学習データは自動削除しません' in policy
+          assert 'enabled:true' in config and f"redirectTo:'{url}'" in config
           assert 'activation-loader-v342.js' not in shell
           print('V342_PRIVACY_DISCLOSURE_REPRODUCIBLE_AND_V341_ISOLATED')
           PY
