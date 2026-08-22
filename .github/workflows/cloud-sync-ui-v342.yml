@@ -1,0 +1,44 @@
+name: FE QUEST v342 cloud sync settings UI
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_sync_ui.py'
+      - '.github/workflows/cloud-sync-ui-v342.yml'
+      - 'cloud/sync-ui-v342.js'
+      - 'cloud/sync-ui-v342.css'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-ui-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 sync UI branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate optional local-first sync settings UI
+        run: python3 .github/cloud-sync-v342/validate_sync_ui.py
+
+      - name: Verify reproducible UI evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_SYNC_SETTINGS_UI.md _regression/cloud-sync-ui-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          ui=Path('cloud/sync-ui-v342.js').read_text()
+          audit=Path('audits/V342_SYNC_SETTINGS_UI.md').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert 'PASS — ' in audit and 'LEARNER-FACING SYNC UI CASES PASS' in audit
+          assert 'ログインしなくても' in ui
+          assert 'この端末のデータを使う' in ui and 'クラウドのデータを使う' in ui
+          assert 'fetch(' not in ui and 'saveProfile(' not in ui and 'writeCurrentProfile(' not in ui
+          assert 'cloud/sync-ui-v342.js' not in shell
+          print('V342_SYNC_UI_REPRODUCIBLE_AND_PRODUCTION_DISABLED')
+          PY
