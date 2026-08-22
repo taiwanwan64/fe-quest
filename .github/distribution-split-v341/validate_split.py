@@ -13,26 +13,26 @@ def scripts_inline(path):
 def runtime(js):
     stub=runpy.run_path('.github/release/runtime_stub.py')['STUB']
     tail=r'''
-const C=require('crypto');const H=v=>C.createHash('sha256').update(JSON.stringify(v)).digest('hex');
-const safe=f=>{try{return {ok:true,value:f()}}catch(e){return {ok:false,error:String(e&&e.stack||e)}}};
-const fhash=n=>safe(()=>H(String(eval(n))));
-const compact=t=>t?{type:t.type||null,title:t.title||null,minutes:Number(t.minutes)||0,bmode:t.bmode||null,bid:t.bid||null,lessonId:t.lessonId||null}:null;
-const out={
+const __v341Crypto=require('crypto');const __v341Hash=v=>__v341Crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
+const __v341Safe=f=>{try{return {ok:true,value:f()}}catch(e){return {ok:false,error:String(e&&e.stack||e)}}};
+const __v341Fhash=n=>__v341Safe(()=>__v341Hash(String(eval(n))));
+const __v341Compact=t=>t?{type:t.type||null,title:t.title||null,minutes:Number(t.minutes)||0,bmode:t.bmode||null,bid:t.bid||null,lessonId:t.lessonId||null}:null;
+const __v341Out={
  version:APP_VERSION,
  questionCount:QUESTION_BANK.length,
- questionHash:H(QUESTION_BANK),
+ questionHash:__v341Hash(QUESTION_BANK),
  answerDistribution:[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length),
  cognitiveDistribution:['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length),
- subjectBHash:H([B_EXERCISES,SECURITY_SCENARIOS,B_EXAM_ALGO_ITEMS,B_COMPOUND_SETS]),
- subjectBSemantics:safe(()=>validateSubjectBSemantics()),
- today:safe(()=>buildTodayTasks().map(compact)),
- functionHashes:Object.fromEntries(['buildTodayTasks','effectiveStudyMinutes','taskAllocation','examDaysRemaining','firstRunNeedsSetupV340','firstRunHasLearningHistoryV340'].map(n=>[n,fhash(n)])),
- firstRunNeed:safe(()=>firstRunNeedsSetupV340()),
+ subjectBHash:__v341Hash([B_EXERCISES,SECURITY_SCENARIOS,B_EXAM_ALGO_ITEMS,B_COMPOUND_SETS]),
+ subjectBSemantics:__v341Safe(()=>validateSubjectBSemantics()),
+ today:__v341Safe(()=>buildTodayTasks().map(__v341Compact)),
+ functionHashes:Object.fromEntries(['buildTodayTasks','effectiveStudyMinutes','taskAllocation','examDaysRemaining','firstRunNeedsSetupV340','firstRunHasLearningHistoryV340'].map(n=>[n,__v341Fhash(n)])),
+ firstRunNeed:__v341Safe(()=>firstRunNeedsSetupV340()),
  profileKeys:Object.keys(profile||{}).sort(),settingsKeys:Object.keys(profile?.settings||{}).sort(),
- self:safe(()=>({ok:FEQUEST_SELF_CHECK?.ok,current:FEQUEST_SELF_CHECK?.currentContract,browser:FEQUEST_SELF_CHECK?.browserUiContract,releaseVersion:FEQUEST_SELF_CHECK?.releaseVersion})),
+ self:__v341Safe(()=>({ok:FEQUEST_SELF_CHECK?.ok,current:FEQUEST_SELF_CHECK?.currentContract,browser:FEQUEST_SELF_CHECK?.browserUiContract,releaseVersion:FEQUEST_SELF_CHECK?.releaseVersion})),
  contracts:globalThis.FEQUEST_RUNTIME_CONTRACTS||{count:0}
 };
-console.log('__V341__'+Buffer.from(JSON.stringify(out)).toString('base64'));
+console.log('__V341__'+Buffer.from(JSON.stringify(__v341Out)).toString('base64'));
 '''
     with tempfile.TemporaryDirectory() as td:
         p=Path(td)/'run.js';p.write_text(stub+'\n'+js+'\n'+tail)
