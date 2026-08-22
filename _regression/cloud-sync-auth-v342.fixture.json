@@ -1,0 +1,31 @@
+{
+  "name": "cloud-sync-auth-v342",
+  "result": "PASS",
+  "caseCount": 13,
+  "validatedCases": [
+    "configured client uses PKCE and SDK session persistence",
+    "service-role style browser credential is rejected",
+    "initial signed-out session exposes no user or token",
+    "initialization registers exactly one auth state listener",
+    "SIGNED_IN updates synchronous engine identity cache",
+    "public snapshot never exposes access or refresh token",
+    "auth state refresh replaces cached authenticated identity",
+    "transport token callback reads current SDK session instead of a FE QUEST token store",
+    "magic-link sign-in normalizes email and uses configured redirect",
+    "device sign-out uses local scope and clears only cached auth identity",
+    "failed provider sign-out does not falsely clear local authenticated state",
+    "dispose unsubscribes auth listener without touching learner data",
+    "auth provider failure is nonfatal and independent from learner data"
+  ],
+  "authSpec": {
+    "provider": "supabase",
+    "method": "email-magic-link",
+    "flowType": "pkce",
+    "persistSession": true,
+    "autoRefreshToken": true,
+    "detectSessionInUrl": true,
+    "signOutScope": "local"
+  },
+  "productionLoaded": false,
+  "learnerPersistenceTouched": false
+}
