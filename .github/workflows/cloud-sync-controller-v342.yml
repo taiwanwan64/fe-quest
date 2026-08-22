@@ -1,0 +1,41 @@
+name: FE QUEST v342 sync controller
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_sync_controller.py'
+      - '.github/workflows/cloud-sync-controller-v342.yml'
+      - 'cloud/sync-controller-v342.js'
+      - 'audits/V342_SYNC_CONTROLLER.md'
+      - '_regression/cloud-sync-controller-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-controller-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 controller branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate first-link and two-device orchestration
+        run: python3 .github/cloud-sync-v342/validate_sync_controller.py
+
+      - name: Verify reproducible controller evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_SYNC_CONTROLLER.md _regression/cloud-sync-controller-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_SYNC_CONTROLLER.md').read_text()
+          assert '15 / 15 END-TO-END ORCHESTRATION CASES PASS' in audit
+          assert 'device A → device B' in audit
+          assert 'cloud/sync-controller-v342.js' not in Path('app/base-shell-v341.html').read_text()
+          print('V342_SYNC_CONTROLLER_VALIDATED_AND_NOT_PRODUCTION_LOADED')
+          PY

@@ -1,0 +1,27 @@
+{
+  "name": "cloud-sync-controller-v342",
+  "result": "PASS",
+  "caseCount": 15,
+  "validatedCases": [
+    "controller deep equality ignores object key order but detects value changes",
+    "first link with no remote uploads committed local profile",
+    "fresh second device automatically adopts authenticated remote history",
+    "fresh-device remote adoption creates recovery before replacing local state",
+    "first link with learning data on both sides becomes explicit conflict without write",
+    "sync-now while conflict pending performs zero network writes",
+    "conflict view rereads current remote instead of trusting stale payload",
+    "explicit keep-local promotes above freshly read remote then uploads through CAS",
+    "remote advance after prior sync becomes conflict rather than overwrite",
+    "explicit use-remote recovery/adoption produces next local revision and round-trips",
+    "offline first enable keeps local outbox pending without rolling back learner state",
+    "reconnect after offline first enable safely completes upload",
+    "exact same first-link payload is recognized and acknowledged without conflict",
+    "different authenticated account cannot reuse existing sync ancestry",
+    "disabling sync clears sync metadata only and leaves learner state intact"
+  ],
+  "deviceAToB": true,
+  "offlineReconnect": true,
+  "explicitConflictChoice": true,
+  "accountMismatchBlocked": true,
+  "productionLoaded": false
+}
