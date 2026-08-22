@@ -1,0 +1,43 @@
+name: FE QUEST v342 conflict reconciliation
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_conflict_reconciliation.py'
+      - '.github/workflows/cloud-sync-conflict-v342.yml'
+      - 'cloud/sync-state-v342.js'
+      - 'cloud/sync-engine-v342.js'
+      - 'cloud/reconciliation-v342.js'
+      - 'audits/V342_CONFLICT_RECONCILIATION.md'
+      - '_regression/cloud-sync-conflict-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-conflict-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 conflict branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate conflict persistence and explicit reconciliation
+        run: python3 .github/cloud-sync-v342/validate_conflict_reconciliation.py
+
+      - name: Verify reproducible conflict evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_CONFLICT_RECONCILIATION.md _regression/cloud-sync-conflict-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_CONFLICT_RECONCILIATION.md').read_text()
+          assert '16 / 16 CONFLICT / TWO-DEVICE SAFETY CASES PASS' in audit
+          assert 'zero transport writes while a conflict is pending' in audit
+          assert 'cloud/reconciliation-v342.js' not in Path('app/base-shell-v341.html').read_text()
+          print('V342_CONFLICT_RECONCILIATION_VALIDATED_AND_NOT_PRODUCTION_LOADED')
+          PY
