@@ -37,18 +37,37 @@
     const engine=o.engine;
     const createRecoveryPoint=o.createRecoveryPoint;
     const replaceLocalProfile=o.replaceLocalProfile;
+    const promoteLocalRevision=o.promoteLocalRevision;
     if(!stateApi||typeof stateApi.rebasePendingToRemote!=='function')throw new TypeError('sync state rebase api required');
     if(!engine||typeof engine.queueAfterLocalCommit!=='function')throw new TypeError('sync engine required');
     if(typeof createRecoveryPoint!=='function')throw new TypeError('recovery callback required');
     if(typeof replaceLocalProfile!=='function')throw new TypeError('local replacement callback required');
+    if(typeof promoteLocalRevision!=='function')throw new TypeError('local revision promotion callback required');
 
     function status(){return stateApi.load(storage)}
 
-    function keepLocal(remote){
-      const before=status();
+    async function keepLocal(remote){
+      let before=status();
       if(!before.pending)return {ok:false,status:'nothing-pending',state:before};
       let r=null;
       try{r=normalizeRemote(remote,{allowMissing:true})}catch(error){return {ok:false,status:'invalid-remote',error,state:before}}
+
+      // The guarded server RPC never allows an older/equal local revision to overwrite a
+      // newer remote merely because the user chose local. If needed, make a no-content-change
+      // local atomic commit at remote+1 first, then queue that real committed descriptor.
+      if(r&&before.pending.profileRevision<=r.revision){
+        let committed;
+        try{committed=await promoteLocalRevision(r.revision+1,{reason:'cloud-keep-local'})}catch(error){
+          return {ok:false,status:'local-promotion-failed',error,state:status()};
+        }
+        if(!committed||typeof committed!=='object'||Number(committed.revision)<=r.revision){
+          return {ok:false,status:'local-promotion-failed',state:status()};
+        }
+        const queued=engine.queueAfterLocalCommit(committed);
+        if(!queued||queued.ok!==true)return {ok:false,status:'local-promotion-outbox-error',queue:queued,state:status()};
+        before=status();
+      }
+
       const rebased=stateApi.rebasePendingToRemote(storage,r?{revision:r.revision,checksum:r.checksum}:{revision:null,checksum:null});
       if(!rebased.ok)return {ok:false,status:rebased.reason||'rebase-failed',state:rebased.state};
       return {ok:true,status:'local-selected-ready-to-flush',state:rebased.state};
@@ -65,10 +84,14 @@
       if(recovered!==true)return {ok:false,status:'recovery-failed',state:status()};
 
       let committed;
-      try{committed=await replaceLocalProfile(r.payload,{source:'cloud-conflict-resolution',remoteRevision:r.revision})}catch(error){
+      try{
+        committed=await replaceLocalProfile(r.payload,{source:'cloud-conflict-resolution',remoteRevision:r.revision,minimumRevision:r.revision+1});
+      }catch(error){
         return {ok:false,status:'local-replace-failed',error,state:status()};
       }
-      if(!committed||typeof committed!=='object')return {ok:false,status:'local-replace-failed',state:status()};
+      if(!committed||typeof committed!=='object'||Number(committed.revision)<=r.revision){
+        return {ok:false,status:'local-replace-failed',state:status()};
+      }
 
       // Queue the newly committed local state before rebasing its ancestry. If the production
       // post-save bridge already queued it, this is an idempotent coalesce of the same commit.
