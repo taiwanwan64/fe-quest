@@ -1,0 +1,45 @@
+name: FE QUEST v342 Auth production setup
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_auth_production_setup.py'
+      - '.github/workflows/auth-production-guide-v342.yml'
+      - 'cloud/supabase/AUTH_PRODUCTION_SETUP_V342.md'
+      - 'cloud/supabase/auth-boundary-v342.js'
+      - 'cloud/public-config-v342.js'
+      - 'privacy.html'
+      - 'audits/V342_AUTH_PRODUCTION_SETUP.md'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'auth-production-guide-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Auth production guide branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate hosted Auth production contract
+        run: python3 .github/cloud-sync-v342/validate_auth_production_setup.py
+
+      - name: Verify reproducible evidence and disabled production gate
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_AUTH_PRODUCTION_SETUP.md
+          python3 - <<'PY'
+          from pathlib import Path
+          setup=Path('cloud/supabase/AUTH_PRODUCTION_SETUP_V342.md').read_text()
+          audit=Path('audits/V342_AUTH_PRODUCTION_SETUP.md').read_text()
+          config=Path('cloud/public-config-v342.js').read_text()
+          assert 'PASS — 23 / 23 AUTH-PRODUCTION CHECKS PASS' in audit
+          assert '{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email' in setup
+          assert 'enabled:false' in config and 'redirectTo:null' in config
+          print('V342_AUTH_PRODUCTION_SETUP_REPRODUCIBLE_AND_DISABLED')
+          PY
