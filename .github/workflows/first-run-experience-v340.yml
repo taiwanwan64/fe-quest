@@ -7,6 +7,7 @@ on:
       - '.github/first-run-experience/**'
       - '.github/workflows/first-run-experience-v340.yml'
       - 'app/first-run-experience-v340.txt'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
 
 permissions:
   contents: write
@@ -16,11 +17,12 @@ env:
   GITHUB_PAGES: true
 
 jobs:
-  discover:
+  validate:
     if: startsWith(github.head_ref, 'first-run-experience-v')
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout head branch
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
@@ -57,9 +59,10 @@ jobs:
       - name: Materialize v340 shell
         run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_materialize.py
 
-      - uses: actions/configure-pages@v5
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
-      - name: Build candidate
+      - name: Build v340 candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -67,18 +70,72 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Discover current first-run contract
+      - name: Prepare approved v340 reference
+        shell: bash
+        run: |
+          rm -rf _reference
+          mkdir _reference
+          git archive origin/main | tar -x -C _reference
+          for rel in index.html manifest.webmanifest sw.js app/first-run-experience-v340.txt; do
+            mkdir -p "_reference/$(dirname "$rel")"
+            cp "$rel" "_reference/$rel"
+          done
+
+      - name: Build approved v340 reference
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_reference
+          destination: ./_site_reference
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Prepare untouched v339 parent
+        shell: bash
+        run: |
+          rm -rf _parent_reference
+          mkdir _parent_reference
+          git archive origin/main | tar -x -C _parent_reference
+
+      - name: Build untouched v339 parent
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_parent_reference
+          destination: ./_site_parent
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Validate standard release invariants
+        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_validate.py
+
+      - name: Refresh first-run discovery evidence
         run: python3 .github/first-run-experience/discover_v340.py
 
-      - name: Commit discovery and v340 shell
+      - name: Validate v340 first-run experience
+        run: python3 .github/first-run-experience/validate_v340.py
+
+      - name: Commit validated v340 shell and evidence
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audits/V340_FIRST_RUN_DISCOVERY.json index.html manifest.webmanifest sw.js
+          git add audits/V340_FIRST_RUN_DISCOVERY.json audits/FIRST_RUN_EXPERIENCE_v340.md _regression/first-run-experience-v340.fixture.json index.html manifest.webmanifest sw.js
           if ! git diff --cached --quiet; then
-            git commit -m "Materialize FE QUEST v340 first-run discovery"
+            git commit -m "Materialize FE QUEST v340 first-run experience"
             git fetch origin "$GITHUB_HEAD_REF"
             git rebase "origin/$GITHUB_HEAD_REF"
             git push origin HEAD:"$GITHUB_HEAD_REF"
           fi
+
+      - name: Package v340 release
+        shell: bash
+        run: |
+          cd _site
+          zip ../FE_QUEST_PWA_v340.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+
+      - name: Upload v340 release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-v340-standalone
+          path: FE_QUEST_PWA_v340.zip
+          if-no-files-found: error
+          retention-days: 90
