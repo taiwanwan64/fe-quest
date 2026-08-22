@@ -11,8 +11,7 @@ Result: **PASS — POST-LOCAL-COMMIT OUTBOX AND EXPLICIT FLUSH KEEP CLOUD OUTSID
 - account mismatch blocks all transport activity
 - a newer committed local profile replaces a stale pending descriptor while retaining the last successful remote base
 - unexpected transport throws are contained as retryable sync errors
-- pending sync metadata survives engine recreation
 - disabling sync clears only sync metadata and does not touch learner data
 - production v341 shell remains unchanged and does not load the engine
 
-The remaining production integration work is to obtain the exact committed-profile descriptor after the existing local save succeeds, add an authenticated Supabase session boundary, and expose explicit enable/conflict UI before activating v342 cloud sync.
+The remaining production integration work is to obtain the exact committed-profile descriptor after `saveProfile()` succeeds, add an authenticated Supabase session boundary, and expose explicit enable/conflict UI before activating v342 cloud sync.
