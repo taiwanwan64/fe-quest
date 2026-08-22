@@ -23,13 +23,13 @@ req(src_index==f'---\n---\n{{% include_relative app/base-shell-{version}.html %}
 for rel in [f'app/base-shell-{version}.html',f'assets/app-{version}.css',f'assets/app-{version}.js',f'assets/asset-manifest-{version}.json']:
     req(Path(rel).exists(),'target split source missing '+rel)
 
-# Mechanical identity against previous main split release.
+# Approved transform identity against previous main split release.
 prev_shell=subprocess.check_output(['git','show',parent+f':app/base-shell-{previous}.html']).decode()
 prev_css=subprocess.check_output(['git','show',parent+f':assets/app-{previous}.css'])
 prev_js=subprocess.check_output(['git','show',parent+f':assets/app-{previous}.js']).decode()
-req(Path(f'app/base-shell-{version}.html').read_text()==transform_shell(prev_shell,previous,version),'target shell not mechanical from parent')
+req(Path(f'app/base-shell-{version}.html').read_text()==transform_shell(prev_shell,previous,version),'target shell differs from approved transform')
 req(Path(f'assets/app-{version}.css').read_bytes()==prev_css,'mechanical CSS changed')
-req(Path(f'assets/app-{version}.js').read_text()==transform_js(prev_js,previous,version),'mechanical JS changed beyond APP_VERSION')
+req(Path(f'assets/app-{version}.js').read_text()==transform_js(prev_js,previous,version),'target JS differs from approved transform contract')
 
 manifest=json.loads(Path(f'assets/asset-manifest-{version}.json').read_text())
 req(manifest.get('version')==version and manifest.get('previousVersion')==previous,'asset manifest version chain')
@@ -43,6 +43,8 @@ req(f'<title>FE QUEST PWA {version}</title>' in prod,'built split title')
 req(f'./assets/app-{version}.css' in prod and f'./assets/app-{version}.js' in prod,'built asset refs')
 req(f'FEQUEST_ASSET_RECOVERY_{version.upper()}_START' in prod,'built recovery bootstrap')
 req("const APP_VERSION = '"+version+"';" in js,'external JS target version')
+if version=='v342':
+    req('#firstRunExperienceV340 input[type=date]{width:100%;min-width:0;max-width:100%;display:block;min-height:46px;' in js,'v342 Safari first-run date sizing hotfix')
 req(len(css)>200000 and len(js.encode())>3000000,'split payload size regression')
 inline_app=[x for x in re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>',prod,re.S|re.I) if x.strip()]
 req(len(inline_app)==1 and 'fequestAssetRecovery' in inline_app[0],'only recovery bootstrap may remain inline')
@@ -103,10 +105,10 @@ fx=json.loads(fixture.read_text())
 fx['validation']={
  'status':'passed','candidate_reference_release_file_equality':True,
  'splitHtml':ident('_site/index.html'),'externalCss':ident(f'_site/assets/app-{version}.css'),'externalJs':ident(f'_site/assets/app-{version}.js'),
- 'mechanicalCssByteIdenticalToPrevious':True,'mechanicalJsOnlyAppVersionChanged':True,'mechanicalShellOnlyVersionedDistributionRefsChanged':True,
+ 'mechanicalCssByteIdenticalToPrevious':True,'approvedJsTransformContract':True,'v342SafariFirstRunDateSizing':version=='v342','mechanicalShellOnlyVersionedDistributionRefsChanged':True,
  'questionCount':710,'answerDistribution':[178,178,177,177],'cognitiveDistribution':[166,323,221],
  'currentContract':'71/71','browserUiContract':23,'subjectBSemantics':True,'runtimeContractFailures':0,'freshFirstRunPreserved':True
 }
 fixture.write_text(json.dumps(fx,ensure_ascii=False,indent=2)+'\n')
-audit.write_text(audit.read_text().replace('pending real Jekyll candidate/reference + external-JS runtime validation','PASSED real Jekyll candidate/reference + external-JS runtime validation')+f'''\nValidated\n---------\nCandidate/reference release files: byte equal\nQuestion bank: 710; answers 178/178/177/177; cognitive 166/323/221\nCurrent contract: 71/71; browser UI contract: 23\nSubject B semantics: OK; runtime contract failures: 0\nFresh first-run contract: preserved\nSplit assets: service-worker precached; recovery bootstrap non-destructive\n''')
+audit.write_text(audit.read_text().replace('pending real Jekyll candidate/reference + external-JS runtime validation','PASSED real Jekyll candidate/reference + external-JS runtime validation')+f'''\nValidated\n---------\nCandidate/reference release files: byte equal\nQuestion bank: 710; answers 178/178/177/177; cognitive 166/323/221\nCurrent contract: 71/71; browser UI contract: 23\nSubject B semantics: OK; runtime contract failures: 0\nFresh first-run contract: preserved\nApproved JS transform: APP_VERSION plus v342 Safari date-input sizing correction\nSplit assets: service-worker precached; recovery bootstrap non-destructive\n''')
 print(f'FEQUEST_SPLIT_RELEASE_VALIDATION_OK version={version} previous={previous} questions=710 current=71/71 browser=23')
