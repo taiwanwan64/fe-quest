@@ -24,12 +24,12 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
 {
   "before": {
     "meta": {
-      "createdAt": "2026-08-22T04:28:02.487Z",
-      "updatedAt": "2026-08-22T04:28:02.784Z",
+      "createdAt": "2026-08-22T04:28:21.396Z",
+      "updatedAt": "2026-08-22T04:28:22.031Z",
       "lastAppVersion": "v341",
       "migratedFromSchema": null,
       "revision": 3,
-      "lastWriterId": "8ed80ab2-e5e7-4783-885c-df48fe198410"
+      "lastWriterId": "987b4a1c-5520-4013-850a-a8afc9391441"
     },
     "storage": [
       {
@@ -50,7 +50,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           "revision": 3,
           "writer": null,
           "hasChecksum": true,
-          "checksum": "fnv1a32:b2767242",
+          "checksum": "fnv1a32:3ee600e8",
           "payloadKeys": null,
           "payloadRevision": null,
           "payloadWriter": null
@@ -107,7 +107,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           ],
           "schema": 5,
           "revision": 2,
-          "writer": "8ed80ab2-e5e7-4783-885c-df48fe198410",
+          "writer": "987b4a1c-5520-4013-850a-a8afc9391441",
           "hasChecksum": false,
           "checksum": null,
           "payloadKeys": null,
@@ -156,7 +156,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           ],
           "schema": 5,
           "revision": 3,
-          "writer": "8ed80ab2-e5e7-4783-885c-df48fe198410",
+          "writer": "987b4a1c-5520-4013-850a-a8afc9391441",
           "hasChecksum": false,
           "checksum": null,
           "payloadKeys": null,
@@ -181,7 +181,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
       ],
       "revision": 3,
       "lastWriterId": null,
-      "checksum": "fnv1a32:b2767242",
+      "checksum": "fnv1a32:3ee600e8",
       "payloadSchema": null,
       "payloadRevision": null,
       "payloadUpdatedAt": null,
@@ -204,7 +204,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
       ],
       "revision": 3,
       "lastWriterId": null,
-      "checksum": "fnv1a32:b2767242",
+      "checksum": "fnv1a32:3ee600e8",
       "payloadSchema": null,
       "payloadRevision": null,
       "payloadUpdatedAt": null,
@@ -218,12 +218,12 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
   },
   "after": {
     "meta": {
-      "createdAt": "2026-08-22T04:28:02.487Z",
-      "updatedAt": "2026-08-22T04:28:03.078Z",
+      "createdAt": "2026-08-22T04:28:21.396Z",
+      "updatedAt": "2026-08-22T04:28:22.470Z",
       "lastAppVersion": "v341",
       "migratedFromSchema": null,
       "revision": 4,
-      "lastWriterId": "8ed80ab2-e5e7-4783-885c-df48fe198410"
+      "lastWriterId": "987b4a1c-5520-4013-850a-a8afc9391441"
     },
     "storage": [
       {
@@ -244,7 +244,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           "revision": 4,
           "writer": null,
           "hasChecksum": true,
-          "checksum": "fnv1a32:bfa55a4c",
+          "checksum": "fnv1a32:b19170ac",
           "payloadKeys": null,
           "payloadRevision": null,
           "payloadWriter": null
@@ -301,7 +301,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           ],
           "schema": 5,
           "revision": 3,
-          "writer": "8ed80ab2-e5e7-4783-885c-df48fe198410",
+          "writer": "987b4a1c-5520-4013-850a-a8afc9391441",
           "hasChecksum": false,
           "checksum": null,
           "payloadKeys": null,
@@ -350,7 +350,7 @@ Result: **PASS — EXACT LOCAL COMMIT BOUNDARY CAPTURED BEFORE PRODUCTION SYNC H
           ],
           "schema": 5,
           "revision": 4,
-          "writer": "8ed80ab2-e5e7-4783-885c-df48fe198410",
+          "writer": "987b4a1c-5520-4013-850a-a8afc9391441",
           "hasChecksum": false,
           "checksum": null,
           "payloadKeys": null,
