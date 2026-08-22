@@ -5,6 +5,7 @@ on:
     branches: ['main']
     paths:
       - '.github/release/split_release_common.py'
+      - '.github/release/release_validate_split.py'
       - 'v342-preview.html'
       - 'cloud/sync-ui-v342.css'
       - 'assets/asset-manifest-v342.json'
@@ -22,3 +23,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate Safari first-run date sizing
         run: python3 .github/cloud-sync-v342/validate_safari_first_run.py
+      - name: Syntax-check split release validator
+        run: python3 -m py_compile .github/release/release_validate_split.py
