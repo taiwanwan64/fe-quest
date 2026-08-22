@@ -1,0 +1,38 @@
+name: FE QUEST v342 cloud sync contract discovery
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/**'
+      - '.github/workflows/cloud-sync-contract-v342.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    if: startsWith(github.head_ref, 'cloud-sync-contract-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Discover local-first persistence and recovery contract
+        run: python3 .github/cloud-sync-v342/discover_contract.py
+
+      - name: Commit v342 discovery evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.json audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Record FE QUEST v342 cloud sync contract discovery"
+            git fetch origin "$GITHUB_HEAD_REF"
+            git rebase "origin/$GITHUB_HEAD_REF"
+            git push origin HEAD:"$GITHUB_HEAD_REF"
+          fi
