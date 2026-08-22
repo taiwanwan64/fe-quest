@@ -1,16 +1,31 @@
-const APP_VERSION = 'v341';
-const CACHE_NAME = 'fe-quest-v341-1';
+const APP_VERSION = 'v342';
+const CACHE_NAME = 'fe-quest-v342-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app-v341.css',
-  './assets/app-v341.js',
-  './assets/asset-manifest-v341.json',
+  './assets/app-v342.css',
+  './assets/app-v342.js',
+  './assets/asset-manifest-v342.json',
   './icon-192.png',
   './icon-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './cloud/activation-loader-v342.js',
+  './cloud/public-config-v342.js',
+  './cloud/sync-ui-v342.css',
+  './vendor/supabase/supabase-2.112.3.js',
+  './cloud/sync-contract-v342.js',
+  './cloud/sync-state-v342.js',
+  './cloud/sync-engine-v342.js',
+  './cloud/supabase/transport-v342.js',
+  './cloud/supabase/auth-boundary-v342.js',
+  './cloud/production-adapter-v342.js',
+  './cloud/reconciliation-v342.js',
+  './cloud/local-reconciliation-adapter-v342.js',
+  './cloud/sync-controller-v342.js',
+  './cloud/sync-ui-v342.js',
+  './cloud/runtime-bootstrap-v342.js'
 ];
 
 self.addEventListener('install', event => {

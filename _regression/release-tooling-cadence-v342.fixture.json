@@ -1,0 +1,105 @@
+{
+  "name": "release-tooling-cadence-v342",
+  "version": "v342",
+  "scope": "validate-versionless-split-release-tooling-against-mechanical-reference",
+  "branch": "v342-staging",
+  "parent_main_sha": "eba53a2b72fb3cc1c18600d6f452464a71daed95",
+  "previous_version": "v341",
+  "outer_shell": {
+    "strategy": "versioned-split-static-assets",
+    "files": [
+      "index.html",
+      "manifest.webmanifest",
+      "sw.js",
+      "app/base-shell-v342.html",
+      "assets/app-v342.css",
+      "assets/app-v342.js",
+      "assets/asset-manifest-v342.json"
+    ]
+  },
+  "previous_split_identity": {
+    "shell": {
+      "path": "app/base-shell-v341.html",
+      "utf8_bytes": 96063,
+      "sha256": "961ad4bf7b45a9f7959fe0a40b89100fd7f152e32ee8992a0c5e3c1deee0962d"
+    },
+    "css": {
+      "path": "assets/app-v341.css",
+      "utf8_bytes": 231671,
+      "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e"
+    },
+    "js": {
+      "path": "assets/app-v341.js",
+      "utf8_bytes": 3359407,
+      "sha256": "b6511551be4c36c57f71330f75011874ee2e6b72cc318ac09a8fbf73bfb7861b"
+    },
+    "asset_manifest": {
+      "path": "assets/asset-manifest-v341.json",
+      "utf8_bytes": 1177,
+      "sha256": "aafcd664b71616503868d03dfb9050c4b91d46dd5c688e78ae3491c710165922"
+    }
+  },
+  "target_split_identity": {
+    "shell": {
+      "path": "app/base-shell-v342.html",
+      "utf8_bytes": 96121,
+      "sha256": "39470a25c9dd6f2b299cec9721736e3d0e2f83342e4be37c95dc7e14b1daef33"
+    },
+    "css": {
+      "path": "assets/app-v342.css",
+      "utf8_bytes": 231671,
+      "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e"
+    },
+    "js": {
+      "path": "assets/app-v342.js",
+      "utf8_bytes": 3359448,
+      "sha256": "049bd51360b077db510a570944b83dbb24ed2affa9d11d224ae86fcd541b25fa"
+    },
+    "asset_manifest": {
+      "path": "assets/asset-manifest-v342.json",
+      "utf8_bytes": 5223,
+      "sha256": "6fddffa713c9d61af5c0db2e0b1dca2fbfedf258c5bf192df6c28a6565e6818f"
+    }
+  },
+  "validation": {
+    "status": "passed",
+    "candidate_reference_release_file_equality": true,
+    "splitHtml": {
+      "path": "_site/index.html",
+      "utf8_bytes": 96122,
+      "sha256": "623dde0a9fdea159bc6fd5282226447891a6d9c7f6f082bbeb2dc6a066e7962e"
+    },
+    "externalCss": {
+      "path": "_site/assets/app-v342.css",
+      "utf8_bytes": 231671,
+      "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e"
+    },
+    "externalJs": {
+      "path": "_site/assets/app-v342.js",
+      "utf8_bytes": 3359448,
+      "sha256": "049bd51360b077db510a570944b83dbb24ed2affa9d11d224ae86fcd541b25fa"
+    },
+    "mechanicalCssByteIdenticalToPrevious": true,
+    "approvedJsTransformContract": true,
+    "v342SafariFirstRunDateSizing": true,
+    "mechanicalShellOnlyVersionedDistributionRefsChanged": true,
+    "questionCount": 710,
+    "answerDistribution": [
+      178,
+      178,
+      177,
+      177
+    ],
+    "cognitiveDistribution": [
+      166,
+      323,
+      221
+    ],
+    "currentContract": "71/71",
+    "browserUiContract": 23,
+    "subjectBSemantics": true,
+    "runtimeContractFailures": 0,
+    "freshFirstRunPreserved": true
+  },
+  "already_materialized": false
+}
