@@ -1,0 +1,28 @@
+{
+  "name": "cloud-sync-conflict-v342",
+  "result": "PASS",
+  "caseCount": 16,
+  "validatedCases": [
+    "initial link with no remote uploads local",
+    "fresh local profile adopts existing remote without choice",
+    "existing local learning plus different remote requires choice",
+    "known identical payload is already synced",
+    "first divergent flush records persistent conflict",
+    "later local study preserves conflict while coalescing newest pending commit",
+    "unresolved conflict blocks automatic network retries",
+    "keep-local choice promotes a lower local revision above remote first",
+    "rebased keep-local commit passes guarded CAS and becomes remote",
+    "later remote advance is detected instead of overwritten by local numeric history",
+    "use-remote creates recovery point before replacing local learner state",
+    "adopted remote is committed locally above remote revision then rebased",
+    "adopted remote snapshot can round-trip as the next local committed revision",
+    "failed recovery checkpoint aborts remote adoption before local replacement",
+    "failed local replacement leaves conflict and pending ancestry unresolved",
+    "explicit keep-local can rebase a known remote deletion to null without hidden network work"
+  ],
+  "conflictBlocksTransport": true,
+  "localSavePreservesConflict": true,
+  "explicitChoiceRequired": true,
+  "remoteAdoptionRequiresRecovery": true,
+  "productionLoaded": false
+}
