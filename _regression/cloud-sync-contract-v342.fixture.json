@@ -1,0 +1,427 @@
+{
+  "name": "cloud-sync-contract-v342",
+  "sourceAppVersion": "v341",
+  "result": "PASS \u2014 LOCAL-FIRST OUTBOX + REMOTE CAS PREVENT SILENT STALE OVERWRITE",
+  "summary": {
+    "scenarioCount": 14,
+    "allPassed": true,
+    "localSaveBlockedBySync": false,
+    "twoDeviceStaleOverwritePrevented": true,
+    "equalRevisionDivergenceDetected": true,
+    "lostResponseRetryIdempotent": true,
+    "offlineOutboxCoalescesWithoutMovingBase": true,
+    "remoteMissingAfterPriorSyncIsConflict": true,
+    "rlsRequired": true,
+    "blindTableWritesRevoked": true,
+    "serviceRoleInPwaProhibited": true
+  },
+  "simulation": {
+    "contractVersion": 1,
+    "cases": [
+      {
+        "name": "no account never blocks local study",
+        "input": {
+          "authenticated": false,
+          "online": false,
+          "providerAvailable": false,
+          "localRevision": 3,
+          "localSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseRemoteRevision": null,
+          "remote": null
+        },
+        "expect": {
+          "status": "local-only",
+          "action": "none",
+          "blocksLocalSave": false,
+          "keepPending": false
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 3,
+          "baseRemoteRevision": null,
+          "status": "local-only",
+          "action": "none",
+          "keepPending": false
+        },
+        "pass": true
+      },
+      {
+        "name": "offline authenticated save stays pending",
+        "input": {
+          "authenticated": true,
+          "online": false,
+          "providerAvailable": true,
+          "localRevision": 10,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 9,
+          "remote": {
+            "revision": 9,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expect": {
+          "status": "pending-offline",
+          "action": "retry-later",
+          "blocksLocalSave": false,
+          "keepPending": true
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 10,
+          "baseRemoteRevision": 9,
+          "status": "pending-offline",
+          "action": "retry-later",
+          "keepPending": true
+        },
+        "pass": true
+      },
+      {
+        "name": "provider failure stays pending",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": false,
+          "localRevision": 10,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 9,
+          "remote": {
+            "revision": 9,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expect": {
+          "status": "pending-provider-error",
+          "action": "retry-later",
+          "blocksLocalSave": false,
+          "keepPending": true
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 10,
+          "baseRemoteRevision": 9,
+          "status": "pending-provider-error",
+          "action": "retry-later",
+          "keepPending": true
+        },
+        "pass": true
+      },
+      {
+        "name": "first cloud upload",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 3,
+          "localSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseRemoteRevision": null,
+          "remote": null
+        },
+        "expect": {
+          "status": "uploaded-new",
+          "action": "upload",
+          "blocksLocalSave": false,
+          "keepPending": false,
+          "nextRemoteRevision": 3
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 3,
+          "baseRemoteRevision": null,
+          "status": "uploaded-new",
+          "action": "upload",
+          "keepPending": false,
+          "nextRemoteRevision": 3
+        },
+        "pass": true
+      },
+      {
+        "name": "lost response retry is idempotent",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 3,
+          "localSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseRemoteRevision": null,
+          "remote": {
+            "revision": 3,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expect": {
+          "status": "already-synced",
+          "action": "noop",
+          "blocksLocalSave": false,
+          "keepPending": false,
+          "nextRemoteRevision": 3
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 3,
+          "baseRemoteRevision": null,
+          "status": "already-synced",
+          "action": "noop",
+          "keepPending": false,
+          "nextRemoteRevision": 3
+        },
+        "pass": true
+      },
+      {
+        "name": "normal update on unchanged remote",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 10,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 9,
+          "remote": {
+            "revision": 9,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expect": {
+          "status": "uploaded-update",
+          "action": "upload",
+          "blocksLocalSave": false,
+          "keepPending": false,
+          "nextRemoteRevision": 10
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 10,
+          "baseRemoteRevision": 9,
+          "status": "uploaded-update",
+          "action": "upload",
+          "keepPending": false,
+          "nextRemoteRevision": 10
+        },
+        "pass": true
+      },
+      {
+        "name": "same revision different payload diverges",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 10,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 9,
+          "remote": {
+            "revision": 10,
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        },
+        "expect": {
+          "status": "diverged-same-revision",
+          "action": "conflict",
+          "blocksLocalSave": false,
+          "keepPending": true,
+          "remoteRevision": 10
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 10,
+          "baseRemoteRevision": 9,
+          "status": "diverged-same-revision",
+          "action": "conflict",
+          "keepPending": true,
+          "remoteRevision": 10
+        },
+        "pass": true
+      },
+      {
+        "name": "remote changed since base blocks numerically newer local",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 15,
+          "localSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "baseRemoteRevision": 10,
+          "remote": {
+            "revision": 11,
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        },
+        "expect": {
+          "status": "remote-changed-conflict",
+          "action": "conflict",
+          "blocksLocalSave": false,
+          "keepPending": true,
+          "remoteRevision": 11
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 15,
+          "baseRemoteRevision": 10,
+          "status": "remote-changed-conflict",
+          "action": "conflict",
+          "keepPending": true,
+          "remoteRevision": 11
+        },
+        "pass": true
+      },
+      {
+        "name": "offline local revisions can jump when remote stayed at base",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 15,
+          "localSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "baseRemoteRevision": 10,
+          "remote": {
+            "revision": 10,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expect": {
+          "status": "uploaded-update",
+          "action": "upload",
+          "blocksLocalSave": false,
+          "keepPending": false,
+          "nextRemoteRevision": 15
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 15,
+          "baseRemoteRevision": 10,
+          "status": "uploaded-update",
+          "action": "upload",
+          "keepPending": false,
+          "nextRemoteRevision": 15
+        },
+        "pass": true
+      },
+      {
+        "name": "previously synced row missing is conflict",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 11,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 10,
+          "remote": null
+        },
+        "expect": {
+          "status": "remote-missing-conflict",
+          "action": "conflict",
+          "blocksLocalSave": false,
+          "keepPending": true
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 11,
+          "baseRemoteRevision": 10,
+          "status": "remote-missing-conflict",
+          "action": "conflict",
+          "keepPending": true
+        },
+        "pass": true
+      },
+      {
+        "name": "remote ahead of base is never overwritten",
+        "input": {
+          "authenticated": true,
+          "online": true,
+          "providerAvailable": true,
+          "localRevision": 9,
+          "localSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "baseRemoteRevision": 9,
+          "remote": {
+            "revision": 10,
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        },
+        "expect": {
+          "status": "remote-changed-conflict",
+          "action": "conflict",
+          "blocksLocalSave": false,
+          "keepPending": true,
+          "remoteRevision": 10
+        },
+        "got": {
+          "blocksLocalSave": false,
+          "localRevision": 9,
+          "baseRemoteRevision": 9,
+          "status": "remote-changed-conflict",
+          "action": "conflict",
+          "keepPending": true,
+          "remoteRevision": 10
+        },
+        "pass": true
+      },
+      {
+        "name": "two-device stale B cannot clobber A",
+        "a": {
+          "blocksLocalSave": false,
+          "localRevision": 11,
+          "baseRemoteRevision": 10,
+          "status": "uploaded-update",
+          "action": "upload",
+          "keepPending": false,
+          "nextRemoteRevision": 11
+        },
+        "b": {
+          "blocksLocalSave": false,
+          "localRevision": 20,
+          "baseRemoteRevision": 10,
+          "status": "remote-changed-conflict",
+          "action": "conflict",
+          "keepPending": true,
+          "remoteRevision": 11
+        },
+        "remote": {
+          "revision": 11,
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "pass": true
+      },
+      {
+        "name": "outbox coalesces latest local revision without moving base",
+        "q1": {
+          "contractVersion": 1,
+          "userId": "u",
+          "lastSyncedRemoteRevision": 10,
+          "lastSyncedSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "pending": {
+            "baseRemoteRevision": 10,
+            "profileRevision": 11,
+            "payloadSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "clientUpdatedAt": "2026-01-01T00:00:00Z",
+            "writerId": "A",
+            "queuedAt": "2026-08-22T03:45:20.317Z"
+          }
+        },
+        "q2": {
+          "contractVersion": 1,
+          "userId": "u",
+          "lastSyncedRemoteRevision": 10,
+          "lastSyncedSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "pending": {
+            "baseRemoteRevision": 10,
+            "profileRevision": 15,
+            "payloadSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "clientUpdatedAt": "2026-01-02T00:00:00Z",
+            "writerId": "A",
+            "queuedAt": "2026-08-22T03:45:20.317Z"
+          }
+        },
+        "pass": true
+      },
+      {
+        "name": "successful ack clears pending and advances base",
+        "ack": {
+          "contractVersion": 1,
+          "userId": "u",
+          "lastSyncedRemoteRevision": 15,
+          "lastSyncedSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "pending": null
+        },
+        "pass": true
+      }
+    ]
+  }
+}
