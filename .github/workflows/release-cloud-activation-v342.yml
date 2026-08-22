@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'release-cloud-activation-v342')
+    if: startsWith(github.head_ref, 'release-cloud-activation-v342') || startsWith(github.head_ref, 'cloud-activate-production-v342')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout release tooling branch
@@ -39,8 +39,9 @@ jobs:
           from pathlib import Path
           import json
           fx=json.loads(Path('_regression/release-cloud-activation-v342.fixture.json').read_text())
-          assert fx['result']=='PASS' and fx['caseCount']==13 and fx['cloudAssetCount']==15
-          assert fx['defaultEnabled'] is False and fx['productionVersion']=='v341'
-          assert 'PASS — 13 / 13 RELEASE-ACTIVATION CASES PASS' in Path('audits/V342_RELEASE_CLOUD_ACTIVATION.md').read_text()
+          assert fx['result']=='PASS' and fx['caseCount']==15 and fx['cloudAssetCount']==15
+          assert fx['defaultEnabled'] is True and fx['productionVersion']=='v341'
+          assert fx['redirectTo']=='https://taiwanwan64.github.io/fe-quest/'
+          assert 'PASS — 15 / 15 RELEASE-ACTIVATION CASES PASS' in Path('audits/V342_RELEASE_CLOUD_ACTIVATION.md').read_text()
           print('V342_CLOUD_AWARE_RELEASE_TOOLING_REPRODUCIBLE')
           PY
