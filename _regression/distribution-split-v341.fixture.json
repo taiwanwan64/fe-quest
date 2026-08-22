@@ -3,16 +3,17 @@
   "version": "v341",
   "previous": "v340",
   "parentMainSha": "7f1a5cefe966e55ef5ec73dd7e7236fe020d847d",
-  "result": "PASS \u2014 3.68MB INLINE DOCUMENT SPLIT INTO A SMALL HTML SHELL + CACHED CSS/JS WITHOUT LEARNING SEMANTIC DRIFT",
+  "result": "PASS \u2014 3.68MB INLINE DOCUMENT SPLIT INTO A SMALL HTML SHELL + CACHED CSS/JS WITH NON-DESTRUCTIVE ASSET RECOVERY AND NO LEARNING SEMANTIC DRIFT",
   "summary": {
     "inlineHtmlBytes": 3685589,
-    "splitHtmlBytes": 94576,
-    "htmlReductionBytes": 3591013,
-    "htmlReductionPercent": 97.43,
+    "splitHtmlBytes": 96064,
+    "htmlReductionBytes": 3589525,
+    "htmlReductionPercent": 97.39,
     "cssBytes": 231671,
     "jsBytes": 3359407,
-    "byteReconstructable": true,
+    "byteReconstructableAfterRemovingRecoveryBootstrap": true,
     "offlineAssetCacheContract": true,
+    "assetMissingRecoveryBootstrap": true,
     "questionCount": 710,
     "questionBankUnchanged": true,
     "subjectBContentUnchanged": true,
@@ -24,15 +25,15 @@
   },
   "assetManifest": {
     "version": "v341",
-    "strategy": "external-classic-script-and-stylesheet",
+    "strategy": "external-classic-script-and-stylesheet-with-inline-asset-recovery-bootstrap",
     "sourceInlineIndex": {
       "utf8Bytes": 3685589,
       "sha256": "576e782e3fa82f49d0b3f263cd65c3aaa6c8e0ab1f42a96ae52843ced302dbd1"
     },
     "shell": {
       "path": "index.html",
-      "estimatedUtf8Bytes": 94575,
-      "sha256": "2d4f2f0736a36da0b1304c86188ec965680296ae82942674082111ab1c88d273"
+      "estimatedUtf8Bytes": 96063,
+      "sha256": "961ad4bf7b45a9f7959fe0a40b89100fd7f152e32ee8992a0c5e3c1deee0962d"
     },
     "assets": [
       {
@@ -50,14 +51,16 @@
     ],
     "executionContract": {
       "styleTagCountBefore": 1,
-      "scriptTagCountBefore": 1,
+      "applicationScriptTagCountBefore": 1,
       "scriptType": "classic",
       "scriptRegion": "body",
       "currentScript": false,
       "documentWrite": false,
       "importMeta": false,
       "moduleSyntax": false,
-      "orderPreserved": true
+      "orderPreserved": true,
+      "assetRecoveryBootstrap": true,
+      "recoveryMutatesLearningData": false
     }
   }
 }

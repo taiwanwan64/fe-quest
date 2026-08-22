@@ -1,14 +1,14 @@
 {
   "version": "v341",
-  "strategy": "external-classic-script-and-stylesheet",
+  "strategy": "external-classic-script-and-stylesheet-with-inline-asset-recovery-bootstrap",
   "sourceInlineIndex": {
     "utf8Bytes": 3685589,
     "sha256": "576e782e3fa82f49d0b3f263cd65c3aaa6c8e0ab1f42a96ae52843ced302dbd1"
   },
   "shell": {
     "path": "index.html",
-    "estimatedUtf8Bytes": 94575,
-    "sha256": "2d4f2f0736a36da0b1304c86188ec965680296ae82942674082111ab1c88d273"
+    "estimatedUtf8Bytes": 96063,
+    "sha256": "961ad4bf7b45a9f7959fe0a40b89100fd7f152e32ee8992a0c5e3c1deee0962d"
   },
   "assets": [
     {
@@ -26,13 +26,15 @@
   ],
   "executionContract": {
     "styleTagCountBefore": 1,
-    "scriptTagCountBefore": 1,
+    "applicationScriptTagCountBefore": 1,
     "scriptType": "classic",
     "scriptRegion": "body",
     "currentScript": false,
     "documentWrite": false,
     "importMeta": false,
     "moduleSyntax": false,
-    "orderPreserved": true
+    "orderPreserved": true,
+    "assetRecoveryBootstrap": true,
+    "recoveryMutatesLearningData": false
   }
 }
