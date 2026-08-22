@@ -1,0 +1,50 @@
+{
+  "version": "v339",
+  "previous": "v338",
+  "parentMainSha": "0d767832de2ad4b3873bf230517cea5cc77300f7",
+  "result": "PASS \u2014 RUNTIME HARD-ASSERT STOP PATHS REMOVED; FINAL-RESULT WRAPPER DEPTH 5\u21923",
+  "summary": {
+    "runtimeHardAssertStopPaths": 0,
+    "runtimeContractRows": 54,
+    "ciStrictReplayPassed": true,
+    "wrapperDepthBefore": 5,
+    "wrapperDepthAfter": 3,
+    "wrapperChainAfter": [
+      "app/subject-b-final-remediation-overrides-v217.txt",
+      "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+      "app/subject-b-final-result-pipeline-v339.txt"
+    ],
+    "questionCount": 710,
+    "contentHashesUnchanged": true,
+    "adaptiveContractUnchanged": true,
+    "schemaChanged": false,
+    "subjectBSemanticOK": true,
+    "v134ToV140StandaloneFiles": 0
+  },
+  "pipelineSpec": {
+    "policy": "replace-three-final-result-wrapper-layers-with-one-explicit-pipeline",
+    "sourceAudit": "v338-post-v337-architecture-audit",
+    "replacesRenderWrappers": [
+      "v219",
+      "v243",
+      "v245"
+    ],
+    "preservesInnerWrappers": [
+      "v217",
+      "v230"
+    ],
+    "executionOrder": [
+      "v219-earned-display-normalization",
+      "v217-recovery-before/base/after",
+      "v230-choice-specific-feedback",
+      "v243-review-route",
+      "v245-security-reason-labels"
+    ],
+    "scoringChanged": false,
+    "persistedXpChanged": false,
+    "questionSelectionChanged": false,
+    "questionOrderChanged": false,
+    "readinessChanged": false,
+    "profileSchemaChanged": false
+  }
+}

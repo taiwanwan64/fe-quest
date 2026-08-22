@@ -1,0 +1,31 @@
+// ===== FE QUEST v339 Subject B final-result explicit pipeline =====
+const SUBJECT_B_FINAL_RESULT_PIPELINE_V339_SPEC=Object.freeze({
+  policy:'replace-three-final-result-wrapper-layers-with-one-explicit-pipeline',
+  sourceAudit:'v338-post-v337-architecture-audit',
+  replacesRenderWrappers:Object.freeze(['v219','v243','v245']),
+  preservesInnerWrappers:Object.freeze(['v217','v230']),
+  executionOrder:Object.freeze([
+    'v219-earned-display-normalization',
+    'v217-recovery-before/base/after',
+    'v230-choice-specific-feedback',
+    'v243-review-route',
+    'v245-security-reason-labels'
+  ]),
+  scoringChanged:false,
+  persistedXpChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  readinessChanged:false,
+  profileSchemaChanged:false
+});
+
+const __renderBFinalResultBeforeV339=renderBFinalResult;
+renderBFinalResult=function(attempt,earned){
+  const displayEarned=subjectBFinalEarnedForRenderV219(attempt,earned);
+  const out=__renderBFinalResultBeforeV339(attempt,displayEarned);
+  applyBFinalReviewRouteV243(attempt);
+  applyBFinalSecurityReasonLabelsV245(attempt);
+  return out;
+};
+
+globalThis.SUBJECT_B_FINAL_RESULT_PIPELINE_V339_SPEC=SUBJECT_B_FINAL_RESULT_PIPELINE_V339_SPEC;
