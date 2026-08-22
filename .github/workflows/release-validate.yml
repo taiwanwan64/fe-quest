@@ -107,21 +107,20 @@ jobs:
           echo "FEQUEST_RELEASE_VALIDATION_HEAD=$(git rev-parse HEAD)"
           echo "FEQUEST_RELEASE_VALIDATION_TREE=$(git rev-parse HEAD^{tree})"
 
-      - name: Package release
+      - name: Package release from built-site manifest
         shell: bash
         run: |
           VERSION="${{ steps.release.outputs.version }}"
-          cd _site
-          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
-            zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js "assets/app-${VERSION}.css" "assets/app-${VERSION}.js" "assets/asset-manifest-${VERSION}.json" icon-192.png icon-512.png apple-touch-icon.png
-          else
-            zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
-          fi
-          cd ..
+          LAYOUT="${{ steps.release.outputs.layout }}"
+          python3 .github/release/package_release.py \
+            --site _site \
+            --version "$VERSION" \
+            --layout "$LAYOUT" \
+            --output "FE_QUEST_PWA_${VERSION}.zip"
           wc -c "FE_QUEST_PWA_${VERSION}.zip"
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
           sha256sum _site/index.html _site/manifest.webmanifest _site/sw.js _site/icon-192.png _site/icon-512.png _site/apple-touch-icon.png
-          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+          if [[ "$LAYOUT" == "split" ]]; then
             sha256sum "_site/assets/app-${VERSION}.css" "_site/assets/app-${VERSION}.js" "_site/assets/asset-manifest-${VERSION}.json"
           fi
 
