@@ -99,6 +99,10 @@
       const userId=currentUser();
       if(!userId)return {ok:false,status:'signed-out',state};
       if(userId!==state.userId)return {ok:false,status:'account-mismatch',state};
+      // Once a remote divergence has been observed, retries are not an error-recovery action:
+      // they are a data-selection decision. Keep studying locally, but make zero network writes
+      // until an explicit reconciliation action rebases or adopts the remote state.
+      if(state.conflict)return {ok:false,status:'conflict-pending',conflict:true,state};
       if(!state.pending)return {ok:true,status:'nothing-pending',state};
 
       stateApi.recordAttempt(storage);
@@ -110,6 +114,10 @@
         const next=stateApi.recordFailure(storage,{kind:'local',retryable:true,message:String(error&&error.message||error)});
         return {ok:false,status:'local-descriptor-error',state:next};
       }
+
+      // A local save could have occurred while the descriptor was refreshed. The state store
+      // deliberately preserves conflicts across such saves, so check once more before transport.
+      if(state.conflict)return {ok:false,status:'conflict-pending',conflict:true,state};
 
       let result;
       try{
