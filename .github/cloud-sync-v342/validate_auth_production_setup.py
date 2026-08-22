@@ -1,10 +1,12 @@
 from pathlib import Path
+import re
 
 
 def req(ok, msg):
     if not ok:
         raise AssertionError(msg)
 
+URL = 'https://taiwanwan64.github.io/fe-quest/'
 setup = Path('cloud/supabase/AUTH_PRODUCTION_SETUP_V342.md')
 auth = Path('cloud/supabase/auth-boundary-v342.js')
 config = Path('cloud/public-config-v342.js')
@@ -20,9 +22,10 @@ p = privacy.read_text()
 prod = shell.read_text()
 
 checks = {
-    'guide blocks activation until verified URL exists': 'DO NOT ENABLE CLOUD SYNC UNTIL EVERY REQUIRED ITEM IS VERIFIED' in s and 'Do not guess the GitHub Pages URL' in s,
-    'guide requires exact HTTPS production root': '<FE_QUEST_PRODUCTION_URL>' in s and 'HTTPS only' in s,
-    'guide configures Site URL': 'Site URL' in s and 'Additional Redirect URLs' in s,
+    'guide records the exact canonical production URL': URL in s and '<FE_QUEST_PRODUCTION_URL>' not in s,
+    'guide requires exact HTTPS production root': 'HTTPS only' in s and 'including the trailing slash' in s,
+    'guide configures Site URL and redirect URL to the same root': 'Site URL' in s and 'Additional Redirect URLs' in s and s.count(URL) >= 5,
+    'guide records hosted Auth mutation as manual gate': 'does not expose hosted Auth URL/template mutation' in s and 'must be saved manually' in s,
     'guide uses RedirectTo token-hash Magic Link': '{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email' in s,
     'guide explicitly forbids nonexistent static callback route': 'Do not point the template at `/auth/confirm`' in s,
     'guide documents verifyOtp PKCE exchange': "verifyOtp({ token_hash, type: 'email' })" in s,
@@ -40,7 +43,8 @@ checks = {
     'guide warns about link scanners': 'Email security scanners may prefetch one-time links' in s,
     'auth implementation matches PKCE token-hash callback': "flowType:'pkce'" in a and "callbackQuery:'token_hash+type=email'" in a and "client.auth.verifyOtp({token_hash:callback.tokenHash,type:callback.type})" in a,
     'auth implementation sends explicit emailRedirectTo': 'options.emailRedirectTo=redirectTo' in a,
-    'current public config remains disabled': 'enabled:false' in c and 'redirectTo:null' in c,
+    'public config is activated for exact canonical root': 'enabled:true' in c and f"redirectTo:'{URL}'" in c,
+    'public config uses expected Supabase project and publishable key only': "url:'https://gkvgxnkoypypikxtyeoz.supabase.co'" in c and re.search(r"publishableKey:'sb_publishable_[A-Za-z0-9_-]+'", c) is not None,
     'privacy policy already discloses optional cloud sync': 'クラウド同期は任意です' in p,
     'v341 production shell stays cloud-free': 'activation-loader-v342.js' not in prod,
 }
@@ -49,11 +53,11 @@ for name, value in checks.items():
     req(value, name)
 
 for forbidden in ['sb_secret_', 'service_role_', 'SUPABASE_SERVICE_ROLE_KEY']:
-    # Placeholder/warning words are allowed in the guide, but no credential-looking assignment/value is.
     req((forbidden + '=') not in s and ('"' + forbidden) not in s, f'guide appears to embed forbidden credential value: {forbidden}')
+    req(forbidden not in c, f'public config embeds forbidden credential marker: {forbidden}')
 
 count = len(checks)
-report = f'''# FE QUEST v342 — Auth production setup readiness\n\nResult: **PASS — {count} / {count} AUTH-PRODUCTION CHECKS PASS**\n\n- the hosted Supabase Auth steps are fixed behind one unresolved input: the exact production FE QUEST HTTPS URL\n- Site URL and Additional Redirect URL must use that exact canonical root\n- the Magic Link template returns `token_hash` + `type=email` to the same root through `{{{{ .RedirectTo }}}}`\n- the documented template matches the existing PKCE `verifyOtp` callback implementation\n- the guide explicitly avoids an `/auth/confirm` route that does not exist in the static PWA\n- live acceptance covers signed-out local study, explicit first sync, second device, offline reconnect, both conflict resolutions, logout, account deletion, export/recovery, and final Supabase advisors\n- current public config remains disabled and v341 production remains cloud-free\n- release PR #107 remains gated until real hosted Auth configuration and live acceptance pass\n\nNo production URL was guessed or activated by this change.\n'''
+report = f'''# FE QUEST v342 — Auth production setup readiness\n\nResult: **PASS — {count} / {count} AUTH-PRODUCTION CHECKS PASS**\n\n- canonical production URL is resolved as `{URL}`\n- public v342 config is activated for that exact root using the Supabase publishable key only\n- v341 production remains cloud-free, so this activation does not change the current released app\n- hosted Supabase Site URL, Additional Redirect URL, and Magic Link template remain an explicit manual Dashboard gate because the connected management tool does not expose those Auth mutations\n- the Magic Link contract returns `token_hash` + `type=email` to the static root through `{{{{ .RedirectTo }}}}` and matches the existing PKCE `verifyOtp` implementation\n- live acceptance still covers signed-out local study, explicit first sync, second device, offline reconnect, both conflict resolutions, logout, account deletion, export/recovery, and final Supabase advisors\n- release PR #107 remains gated until hosted Auth settings and real acceptance tests pass\n\nThe production URL is no longer guessed or unresolved.\n'''
 Path('audits').mkdir(exist_ok=True)
 Path('audits/V342_AUTH_PRODUCTION_SETUP.md').write_text(report)
 print(report)
