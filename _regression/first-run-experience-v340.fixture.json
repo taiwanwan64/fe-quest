@@ -1,0 +1,91 @@
+{
+  "name": "first-run-experience-v340",
+  "version": "v340",
+  "previous": "v339",
+  "parentMainSha": "a6cc4ca404d56b561990248c1a0a2aae548981b8",
+  "result": "PASS \u2014 FIRST-RUN SETTINGS PRODUCE AN ACTIONABLE ADAPTIVE PLAN WITHOUT DISTURBING EXISTING LEARNERS",
+  "summary": {
+    "freshLearnerPrompted": true,
+    "configuredLearnerPrompted": false,
+    "existingLearnerPrompted": false,
+    "minutePresets": [
+      30,
+      45,
+      60,
+      90
+    ],
+    "configuredPlanActionable": true,
+    "configuredPlanMinutesMatchEffectiveMinutes": true,
+    "questionCount": 710,
+    "questionBankHashUnchanged": true,
+    "subjectBContentHashUnchanged": true,
+    "adaptivePlannerBaselineUnchanged": true,
+    "profileSchemaChanged": false,
+    "subjectBSemanticOK": true,
+    "coreRendererWrapperAdded": false,
+    "mobileBreakpointContract": "720px"
+  },
+  "probe": {
+    "available": true,
+    "fresh": true,
+    "freshHistory": false,
+    "spec": {
+      "policy": "fresh-learner-two-setting-adaptive-plan-introduction",
+      "requiredSetting": "examDate",
+      "minutePresets": [
+        30,
+        45,
+        60,
+        90
+      ],
+      "defaultMinutes": 60,
+      "autoPaceEnabledOnSetup": true,
+      "profileSchemaChanged": false,
+      "adaptivePlannerChanged": false,
+      "existingLearnerRouteChanged": false
+    },
+    "configuredNeed": false,
+    "configuredTasks": [
+      {
+        "type": "review",
+        "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+        "minutes": 5,
+        "bmode": null,
+        "bid": null,
+        "lessonId": null
+      },
+      {
+        "type": "lesson",
+        "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d",
+        "minutes": 15,
+        "bmode": null,
+        "bid": null,
+        "lessonId": "core_01_01"
+      },
+      {
+        "type": "subjectB",
+        "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+        "minutes": 15,
+        "bmode": "trace",
+        "bid": "loop_sum",
+        "lessonId": null
+      },
+      {
+        "type": "boss",
+        "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+        "minutes": 10,
+        "bmode": null,
+        "bid": null,
+        "lessonId": null
+      }
+    ],
+    "effective": 45,
+    "configuredTotal": 45,
+    "configuredSettings": {
+      "studyMinutes": 45,
+      "examDate": "2027-08-22",
+      "autoPace": true
+    },
+    "existingNeed": false
+  }
+}
