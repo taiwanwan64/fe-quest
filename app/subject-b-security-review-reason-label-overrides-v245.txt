@@ -16,7 +16,8 @@ const SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC=Object.freeze({
   questionOrderChanged:false,
   timingChanged:false,
   readinessChanged:false,
-  profileSchemaMigrationRequired:false
+  profileSchemaMigrationRequired:false,
+  v339Integration:'explicit-final-result-pipeline'
 });
 
 const __bFinalReviewReasonMetaBeforeV245=bFinalReviewReasonMeta;
@@ -33,9 +34,7 @@ bFinalReviewReasonMeta=function(reason,d){
   return __bFinalReviewReasonMetaBeforeV245(reason,d);
 };
 
-const __renderBFinalResultBeforeV245=renderBFinalResult;
-renderBFinalResult=function(attempt,earned){
-  const out=__renderBFinalResultBeforeV245(attempt,earned);
+function applyBFinalSecurityReasonLabelsV245(attempt){
   const wrong=(attempt?.details||[]).filter(d=>!d.ok);
   const rows=[...document.querySelectorAll('.bfinal-review-item.wrong')];
   rows.forEach((row,i)=>{
@@ -55,8 +54,8 @@ renderBFinalResult=function(attempt,earned){
       btn.classList.toggle('picked',btn.dataset.bfreason===canonical);
     });
   });
-  return out;
-};
+}
 
 globalThis.SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC=SUBJECT_B_SECURITY_REVIEW_REASON_V245_SPEC;
 globalThis.subjectBSecurityReasonCanonicalV245=subjectBSecurityReasonCanonicalV245;
+globalThis.applyBFinalSecurityReasonLabelsV245=applyBFinalSecurityReasonLabelsV245;
