@@ -1,13 +1,10 @@
 # FE QUEST v342 — Auth production setup readiness
 
-Result: **PASS — 25 / 25 AUTH-PRODUCTION CHECKS PASS**
+Result: **PASS — 33 / 33 AUTH-PRODUCTION CHECKS PASS**
 
-- canonical production URL is resolved as `https://taiwanwan64.github.io/fe-quest/`
-- public v342 config is activated for that exact root using the Supabase publishable key only
-- v341 production remains cloud-free, so this activation does not change the current released app
-- hosted Supabase Site URL, Additional Redirect URL, and Magic Link template remain an explicit manual Dashboard gate because the connected management tool does not expose those Auth mutations
-- the Magic Link contract returns `token_hash` + `type=email` to the static root through `{{ .RedirectTo }}` and matches the existing PKCE `verifyOtp` implementation
-- live acceptance still covers signed-out local study, explicit first sync, second device, offline reconnect, both conflict resolutions, logout, account deletion, export/recovery, and final Supabase advisors
-- release PR #107 remains gated until hosted Auth settings and real acceptance tests pass
-
-The production URL is no longer guessed or unresolved.
+- canonical production URL is `https://taiwanwan64.github.io/fe-quest/` and the isolated test callback is `https://taiwanwan64.github.io/fe-quest/v342-auth-test.html`
+- both Confirm sign up and Magic link or OTP are required to use the same PKCE token-hash browser callback
+- new-user automatic signup is explicitly covered so the first login cannot silently fall back to hosted `/verify`
+- public v342 config remains publishable-key only and v341 production remains cloud-free
+- live acceptance covers both first-time and returning-user Auth before cloud sync promotion
+- release PR #107 remains gated until real acceptance tests pass
