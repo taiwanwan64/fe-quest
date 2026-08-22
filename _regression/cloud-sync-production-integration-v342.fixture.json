@@ -1,0 +1,22 @@
+{
+  "name": "cloud-sync-production-integration-v342",
+  "result": "PASS",
+  "caseCount": 12,
+  "validatedCases": [
+    "existing atomic profile exposes local FNV checksum",
+    "adapter descriptor reuses exact local revision checksum writer and payload",
+    "production bridge installs one post-commit observer",
+    "disabled cloud never blocks or queues a successful local save",
+    "explicit enable queues already committed local snapshot without network",
+    "post-save hook queues only the newly committed revision",
+    "flush sends local revision checksum writer and exact profile payload",
+    "blocked local save creates no cloud outbox mutation",
+    "network failure cannot roll back successful local commit",
+    "bridge can restore original local writer exactly",
+    "legacy foundation metadata migrates to algorithm-prefixed checksum",
+    "Supabase transport carries prefixed local checksum through guarded RPC"
+  ],
+  "productionLoaded": false,
+  "localChecksum": "fnv1a32",
+  "sameRevisionServerComparison": "jsonb-payload-equality"
+}

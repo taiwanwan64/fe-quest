@@ -13,12 +13,14 @@
     const schema=Number(x.profileSchemaVersion);
     if(!Number.isSafeInteger(revision)||revision<0)throw new TypeError('committed revision required');
     if(!Number.isSafeInteger(schema)||schema<=0)throw new TypeError('profile schema version required');
-    if(typeof x.sha256!=='string'||!/^[0-9a-f]{64}$/.test(x.sha256))throw new TypeError('committed sha256 required');
+    const checksum=x.checksum??x.sha256;
+    if(typeof checksum!=='string'||!(/^(?:fnv1a32:[0-9a-f]{8}|sha256:[0-9a-f]{64})$/.test(checksum)||/^[0-9a-f]{64}$/.test(checksum)))throw new TypeError('committed checksum required');
+    const normalizedChecksum=/^[0-9a-f]{64}$/.test(checksum)?`sha256:${checksum}`:checksum;
     if(!x.payload||typeof x.payload!=='object')throw new TypeError('committed payload required');
     return {
       revision,
       profileSchemaVersion:schema,
-      sha256:x.sha256,
+      checksum:normalizedChecksum,
       updatedAt:x.updatedAt||null,
       writerId:x.writerId||null,
       payload:x.payload
@@ -55,7 +57,7 @@
       if(!userId)return {ok:true,status:'signed-out',state};
       if(userId!==state.userId)return {ok:false,status:'account-mismatch',state};
       const d=descriptor(committed);
-      const queued=stateApi.queue(storage,contract,{revision:d.revision,sha256:d.sha256,updatedAt:d.updatedAt,writerId:d.writerId},userId);
+      const queued=stateApi.queue(storage,contract,{revision:d.revision,checksum:d.checksum,updatedAt:d.updatedAt,writerId:d.writerId},userId);
       return queued.ok?{ok:true,status:'queued',state:queued.state}:{ok:false,status:queued.reason||'queue-failed',state:queued.state};
     }
 
@@ -71,7 +73,7 @@
       if(!bound.ok)return {ok:false,status:bound.reason||'account-mismatch',state:bound.state};
       let committed;
       try{committed=descriptor(getCommittedProfile())}catch(error){return {ok:false,status:'local-descriptor-error',error:String(error&&error.message||error),state:status()}}
-      const queued=stateApi.queue(storage,contract,{revision:committed.revision,sha256:committed.sha256,updatedAt:committed.updatedAt,writerId:committed.writerId},userId);
+      const queued=stateApi.queue(storage,contract,{revision:committed.revision,checksum:committed.checksum,updatedAt:committed.updatedAt,writerId:committed.writerId},userId);
       return queued.ok?{ok:true,status:'enabled-pending',state:queued.state}:{ok:false,status:queued.reason||'queue-failed',state:queued.state};
     }
 
@@ -83,8 +85,8 @@
     function ensurePendingMatchesCurrent(state,userId){
       const current=descriptor(getCommittedProfile());
       const pending=state.pending;
-      if(!pending||pending.profileRevision!==current.revision||pending.payloadSha256!==current.sha256){
-        const q=stateApi.queue(storage,contract,{revision:current.revision,sha256:current.sha256,updatedAt:current.updatedAt,writerId:current.writerId},userId);
+      if(!pending||pending.profileRevision!==current.revision||pending.payloadChecksum!==current.checksum){
+        const q=stateApi.queue(storage,contract,{revision:current.revision,checksum:current.checksum,updatedAt:current.updatedAt,writerId:current.writerId},userId);
         if(!q.ok)throw new Error(q.reason||'failed to refresh outbox');
         return {state:q.state,current};
       }
@@ -119,7 +121,7 @@
           clientUpdatedAt:current.updatedAt,
           writerId:current.writerId,
           payload:current.payload,
-          payloadSha256:current.sha256
+          payloadChecksum:current.checksum
         });
       }catch(error){
         result={ok:false,error:{kind:'transport',retryable:true,message:String(error&&error.message||error)}};
@@ -155,7 +157,7 @@
     return Object.freeze({status,enableForCurrentUser,disable,queueAfterLocalCommit,flush});
   }
 
-  const api=Object.freeze({createSyncEngine});
+  const api=Object.freeze({createSyncEngine,descriptor});
   root.FEQUEST_SYNC_ENGINE_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

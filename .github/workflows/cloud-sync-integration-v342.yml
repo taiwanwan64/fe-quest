@@ -1,0 +1,49 @@
+name: FE QUEST v342 production sync integration
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_integration.py'
+      - '.github/workflows/cloud-sync-integration-v342.yml'
+      - 'cloud/sync-contract-v342.js'
+      - 'cloud/sync-state-v342.js'
+      - 'cloud/sync-engine-v342.js'
+      - 'cloud/production-adapter-v342.js'
+      - 'cloud/supabase/transport-v342.js'
+      - 'cloud/supabase/v342_schema.sql'
+      - 'audits/V342_PRODUCTION_SAVE_INTEGRATION.md'
+      - '_regression/cloud-sync-production-integration-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-integration-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate exact local commit bridge and checksum alignment
+        run: python3 .github/cloud-sync-v342/validate_integration.py
+
+      - name: Verify reproducible integration evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_PRODUCTION_SAVE_INTEGRATION.md _regression/cloud-sync-production-integration-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_PRODUCTION_SAVE_INTEGRATION.md').read_text()
+          assert '12 / 12 LOCAL-FIRST INTEGRATION CASES PASS' in audit
+          assert 'fnv1a32:' in audit
+          assert 'JSONB payload equality' in audit
+          shell=Path('app/base-shell-v341.html').read_text()
+          for path in ['cloud/production-adapter-v342.js','cloud/sync-engine-v342.js','cloud/supabase/transport-v342.js']:
+              assert path not in shell
+          print('V342_PRODUCTION_SYNC_STILL_DISABLED_WITH_VALIDATED_POST_COMMIT_BRIDGE')
+          PY

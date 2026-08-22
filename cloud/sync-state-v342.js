@@ -5,20 +5,25 @@
   'use strict';
 
   const STORAGE_KEY='fequest.cloudSync.v342';
-  const STORE_VERSION=1;
+  const STORE_VERSION=2;
 
   function clone(value){return value==null?value:JSON.parse(JSON.stringify(value))}
-  function validSha(value){return typeof value==='string'&&/^[0-9a-f]{64}$/.test(value)}
+  function normalizeChecksum(value){
+    if(typeof value!=='string')return null;
+    if(/^fnv1a32:[0-9a-f]{8}$/.test(value)||/^sha256:[0-9a-f]{64}$/.test(value))return value;
+    if(/^[0-9a-f]{64}$/.test(value))return `sha256:${value}`;
+    return null;
+  }
   function validRevision(value){return value==null||(Number.isSafeInteger(Number(value))&&Number(value)>=0)}
   function cleanString(value,max=500){return typeof value==='string'?value.slice(0,max):null}
 
   function emptyState(){
     return {
       storeVersion:STORE_VERSION,
-      contractVersion:1,
+      contractVersion:2,
       userId:null,
       lastSyncedRemoteRevision:null,
-      lastSyncedSha256:null,
+      lastSyncedChecksum:null,
       pending:null,
       conflict:null,
       lastAttemptAt:null,
@@ -29,11 +34,12 @@
 
   function normalizePending(value){
     if(!value||typeof value!=='object')return null;
-    if(!validRevision(value.baseRemoteRevision)||!validRevision(value.profileRevision)||!validSha(value.payloadSha256))return null;
+    const checksum=normalizeChecksum(value.payloadChecksum??value.payloadSha256);
+    if(!validRevision(value.baseRemoteRevision)||!validRevision(value.profileRevision)||!checksum)return null;
     return {
       baseRemoteRevision:value.baseRemoteRevision==null?null:Number(value.baseRemoteRevision),
       profileRevision:Number(value.profileRevision),
-      payloadSha256:value.payloadSha256,
+      payloadChecksum:checksum,
       clientUpdatedAt:cleanString(value.clientUpdatedAt,100),
       writerId:cleanString(value.writerId,200),
       queuedAt:cleanString(value.queuedAt,100)
@@ -42,13 +48,16 @@
 
   function normalize(input){
     const s=emptyState();
-    if(!input||typeof input!=='object'||Number(input.storeVersion)!==STORE_VERSION)return s;
-    s.contractVersion=Number(input.contractVersion)===1?1:1;
+    if(!input||typeof input!=='object'||![1,2].includes(Number(input.storeVersion)))return s;
+    s.contractVersion=2;
     s.userId=cleanString(input.userId,200);
     s.lastSyncedRemoteRevision=validRevision(input.lastSyncedRemoteRevision)&&input.lastSyncedRemoteRevision!=null?Number(input.lastSyncedRemoteRevision):null;
-    s.lastSyncedSha256=validSha(input.lastSyncedSha256)?input.lastSyncedSha256:null;
+    s.lastSyncedChecksum=normalizeChecksum(input.lastSyncedChecksum??input.lastSyncedSha256);
     s.pending=normalizePending(input.pending);
-    s.conflict=input.conflict&&typeof input.conflict==='object'?clone(input.conflict):null;
+    s.conflict=input.conflict&&typeof input.conflict==='object'?{
+      ...clone(input.conflict),
+      remoteChecksum:normalizeChecksum(input.conflict.remoteChecksum??input.conflict.remoteSha256)
+    }:null;
     s.lastAttemptAt=cleanString(input.lastAttemptAt,100);
     s.lastSuccessAt=cleanString(input.lastSuccessAt,100);
     s.lastError=input.lastError&&typeof input.lastError==='object'?clone(input.lastError):null;
@@ -74,7 +83,7 @@
 
   function save(storage,state){
     const s=storageOrThrow(storage);
-    const next=normalize({...state,storeVersion:STORE_VERSION});
+    const next=normalize({...state,storeVersion:STORE_VERSION,contractVersion:2});
     s.setItem(STORAGE_KEY,JSON.stringify(next));
     return clone(next);
   }
@@ -98,7 +107,7 @@
     current.contractVersion=queued.contractVersion;
     current.pending=queued.pending;
     current.lastSyncedRemoteRevision=queued.lastSyncedRemoteRevision;
-    current.lastSyncedSha256=queued.lastSyncedSha256;
+    current.lastSyncedChecksum=queued.lastSyncedChecksum;
     current.conflict=null;
     current.lastError=null;
     return {ok:true,state:save(storage,current)};
@@ -123,10 +132,11 @@
 
   function recordConflict(storage,response){
     const current=load(storage);
+    const remoteChecksum=response?(response.remote_checksum??response.remote_sha256):null;
     current.conflict={
       status:cleanString(response&&response.sync_status,100)||'conflict',
       remoteRevision:validRevision(response&&response.remote_revision)&&response.remote_revision!=null?Number(response.remote_revision):null,
-      remoteSha256:validSha(response&&response.remote_sha256)?response.remote_sha256:null,
+      remoteChecksum:normalizeChecksum(remoteChecksum),
       detectedAt:new Date().toISOString()
     };
     current.lastError=null;
@@ -140,7 +150,7 @@
     current.contractVersion=ack.contractVersion;
     current.userId=ack.userId||current.userId;
     current.lastSyncedRemoteRevision=ack.lastSyncedRemoteRevision;
-    current.lastSyncedSha256=ack.lastSyncedSha256;
+    current.lastSyncedChecksum=ack.lastSyncedChecksum;
     current.pending=null;
     current.conflict=null;
     current.lastError=null;
