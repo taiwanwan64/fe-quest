@@ -5,6 +5,7 @@ def req(ok, msg):
     if not ok:
         raise AssertionError(msg)
 
+URL='https://taiwanwan64.github.io/fe-quest/'
 privacy = Path('privacy.html')
 config = Path('cloud/public-config-v342.js')
 shell = Path('app/base-shell-v341.html')
@@ -30,7 +31,7 @@ checks = {
     'security boundary is disclosed': 'publishable key' in text and '管理者用の秘密鍵は配置しません' in text and 'Row Level Security（RLS）' in text,
     'policy has an operational contact path': 'https://github.com/taiwanwan64/fe-quest/issues' in text,
     'policy warns it must match actual released behavior': '実際の公開機能と内容に差異が生じた場合' in text,
-    'current cloud config remains disabled': 'enabled:false' in config_text and 'redirectTo:null' in config_text,
+    'v342 public config is activated only for canonical production root': 'enabled:true' in config_text and f"redirectTo:'{URL}'" in config_text,
     'v341 production shell remains cloud-free': 'activation-loader-v342.js' not in prod,
 }
 
@@ -41,6 +42,7 @@ for name, ok in checks.items():
 
 for forbidden in ['sb_secret_', 'service_role_', 'SUPABASE_SERVICE_ROLE_KEY']:
     req(forbidden not in text, f'privacy page leaks forbidden credential material: {forbidden}')
+    req(forbidden not in config_text, f'public config leaks forbidden credential material: {forbidden}')
     passed += 1
 
 # The policy itself must not introduce analytics/ad scripts before that statement is changed.
@@ -48,7 +50,7 @@ for tracker in ['googletagmanager.com','google-analytics.com','connect.facebook.
     req(tracker not in text.lower(), f'privacy page embeds tracker: {tracker}')
     passed += 1
 
-report = f'''# FE QUEST v342 — Privacy readiness\n\nResult: **PASS — {passed} / {passed} PRIVACY-READINESS CHECKS PASS**\n\n- a public Japanese privacy policy now documents FE QUEST's local-first storage model\n- optional Supabase Auth/cloud synchronization and the data categories involved are disclosed\n- GitHub Pages and Supabase are identified as external infrastructure providers\n- the policy states that FE QUEST does not currently embed ad/third-party behavioral analytics SDKs or sell learner/email data for advertising\n- cloud account deletion and deliberate preservation of local learner data are separately explained\n- publishable-key/RLS security boundaries, conflict protection, JSON export, and recovery independence are documented\n- an operational GitHub Issues contact route is provided\n- the page contains no secret/service-role material or tracker script\n- cloud configuration remains disabled and v341 production behavior is unchanged\n\nBefore any future ads, analytics, payments, or additional processors are activated, this policy must be reviewed and updated to match the actual production behavior.\n'''
+report = f'''# FE QUEST v342 — Privacy readiness\n\nResult: **PASS — {passed} / {passed} PRIVACY-READINESS CHECKS PASS**\n\n- a public Japanese privacy policy documents FE QUEST's local-first storage model\n- optional Supabase Auth/cloud synchronization and the data categories involved are disclosed\n- GitHub Pages and Supabase are identified as external infrastructure providers\n- the policy states that FE QUEST does not currently embed ad/third-party behavioral analytics SDKs or sell learner/email data for advertising\n- cloud account deletion and deliberate preservation of local learner data are separately explained\n- publishable-key/RLS security boundaries, conflict protection, JSON export, and recovery independence are documented\n- an operational GitHub Issues contact route is provided\n- the page and public config contain no secret/service-role material, and the policy embeds no tracker script\n- v342 public config is prepared for the canonical root `{URL}` while current v341 production remains cloud-free\n\nBefore any future ads, analytics, payments, or additional processors are activated, this policy must be reviewed and updated to match the actual production behavior.\n'''
 Path('audits').mkdir(exist_ok=True)
 Path('audits/V342_PRIVACY_READINESS.md').write_text(report)
 print(report)

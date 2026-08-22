@@ -53,6 +53,16 @@ def source_is_split(root,version):
 def cloud_runtime_assets(version):
     return V342_CLOUD_RUNTIME_ASSETS if version=='v342' else ()
 
+def cloud_public_config(root,version):
+    if version!='v342':return {'enabled':False,'redirectTo':None}
+    q=Path(root)/'cloud/public-config-v342.js';req(q.exists(),'v342 public cloud config missing')
+    text=q.read_text()
+    enabled=re.search(r'\benabled\s*:\s*true\b',text) is not None
+    m=re.search(r"\bredirectTo\s*:\s*'([^']+)'",text)
+    redirect=m.group(1) if m else None
+    if enabled:req(redirect is not None and redirect.startswith('https://'),'enabled v342 cloud config requires https redirect')
+    return {'enabled':enabled,'redirectTo':redirect,'sha256':sha_bytes(q.read_bytes())}
+
 def transform_shell(text,previous,version):
     replacements=[
       (f'<title>FE QUEST PWA {previous}</title>',f'<title>FE QUEST PWA {version}</title>'),
@@ -110,9 +120,12 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
         for rel in cloud_assets:
             q=root/rel[2:];req(q.exists(),'v342 cloud runtime asset missing '+rel)
             b=q.read_bytes();cloud.append({'path':rel[2:],'utf8Bytes':len(b),'sha256':sha_bytes(b)})
+        public_config=cloud_public_config(root,version)
         result['cloudActivation']={
           'enabledByConfig':True,
-          'defaultConfigEnabled':False,
+          'defaultConfigEnabled':public_config['enabled'],
+          'configuredRedirectTo':public_config['redirectTo'],
+          'publicConfigSha256':public_config['sha256'],
           'entrypoint':'cloud/activation-loader-v342.js',
           'sdk':'vendor/supabase/supabase-2.112.3.js',
           'sameOriginOnly':True,
