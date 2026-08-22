@@ -1,0 +1,47 @@
+name: FE QUEST v342 local-first sync engine
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_engine.py'
+      - '.github/workflows/cloud-sync-engine-v342.yml'
+      - 'cloud/sync-contract-v342.js'
+      - 'cloud/sync-state-v342.js'
+      - 'cloud/sync-engine-v342.js'
+      - 'cloud/supabase/transport-v342.js'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-engine-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 engine branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate post-local-save queue and explicit flush engine
+        run: python3 .github/cloud-sync-v342/validate_engine.py
+
+      - name: Verify engine remains outside atomic save and production shell
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          engine=Path('cloud/sync-engine-v342.js').read_text()
+          audit=Path('audits/V342_SYNC_ENGINE_VALIDATION.md').read_text()
+          assert 'PASS — POST-LOCAL-COMMIT OUTBOX' in audit
+          assert 'fetch(' not in engine
+          assert not re.search(r'\bsaveProfile\s*\(',engine)
+          assert not re.search(r'\bwriteCurrentProfile\s*\(',engine)
+          assert 'queueAfterLocalCommit' in engine and 'flush' in engine
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert 'cloud/sync-engine-v342.js' not in shell
+          print('V342_ENGINE_STAYS_OUTSIDE_LOCAL_ATOMIC_WRITE_AND_PRODUCTION')
+          PY
