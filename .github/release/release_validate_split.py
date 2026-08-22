@@ -44,7 +44,13 @@ req(f'./assets/app-{version}.css' in prod and f'./assets/app-{version}.js' in pr
 req(f'FEQUEST_ASSET_RECOVERY_{version.upper()}_START' in prod,'built recovery bootstrap')
 req("const APP_VERSION = '"+version+"';" in js,'external JS target version')
 if version=='v342':
-    req('#firstRunExperienceV340 input[type=date]{width:100%;min-width:0;max-width:100%;display:block;min-height:46px;' in js,'v342 Safari first-run date sizing hotfix')
+    safari_selector='#firstRunExperienceV340 input[type=date]{width:auto;inline-size:auto;min-width:0;min-inline-size:0;max-width:100%;max-inline-size:100%;display:block;box-sizing:border-box;-webkit-min-logical-width:0;justify-self:stretch;align-self:stretch;overflow:hidden;min-height:46px;'
+    req(safari_selector in js,'v342 Safari first-run date sizing hotfix')
+    date_decl=js[js.index('#firstRunExperienceV340 input[type=date]{')+len('#firstRunExperienceV340 input[type=date]{'):]
+    date_decl=date_decl[:date_decl.index('}')]
+    date_parts={x.strip() for x in date_decl.split(';') if x.strip()}
+    req('width:100%' not in date_parts and 'inline-size:100%' not in date_parts,'v342 Safari date control must not force percentage width')
+    req('-webkit-appearance:none' not in date_parts and 'appearance:none' not in date_parts,'v342 Safari date control must preserve native appearance')
 req(len(css)>200000 and len(js.encode())>3000000,'split payload size regression')
 inline_app=[x for x in re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>',prod,re.S|re.I) if x.strip()]
 req(len(inline_app)==1 and 'fequestAssetRecovery' in inline_app[0],'only recovery bootstrap may remain inline')
@@ -110,5 +116,5 @@ fx['validation']={
  'currentContract':'71/71','browserUiContract':23,'subjectBSemantics':True,'runtimeContractFailures':0,'freshFirstRunPreserved':True
 }
 fixture.write_text(json.dumps(fx,ensure_ascii=False,indent=2)+'\n')
-audit.write_text(audit.read_text().replace('pending real Jekyll candidate/reference + external-JS runtime validation','PASSED real Jekyll candidate/reference + external-JS runtime validation')+f'''\nValidated\n---------\nCandidate/reference release files: byte equal\nQuestion bank: 710; answers 178/178/177/177; cognitive 166/323/221\nCurrent contract: 71/71; browser UI contract: 23\nSubject B semantics: OK; runtime contract failures: 0\nFresh first-run contract: preserved\nApproved JS transform: APP_VERSION plus v342 Safari date-input sizing correction\nSplit assets: service-worker precached; recovery bootstrap non-destructive\n''')
+audit.write_text(audit.read_text().replace('pending real Jekyll candidate/reference + external-JS runtime validation','PASSED real Jekyll candidate/reference + external-JS runtime validation')+f'''\nValidated\n---------\nCandidate/reference release files: byte equal\nQuestion bank: 710; answers 178/178/177/177; cognitive 166/323/221\nCurrent contract: 71/71; browser UI contract: 23\nSubject B semantics: OK; runtime contract failures: 0\nFresh first-run contract: preserved\nApproved JS transform: APP_VERSION plus v342 Safari date-input sizing correction without percentage width\nSplit assets: service-worker precached; recovery bootstrap non-destructive\n''')
 print(f'FEQUEST_SPLIT_RELEASE_VALIDATION_OK version={version} previous={previous} questions=710 current=71/71 browser=23')

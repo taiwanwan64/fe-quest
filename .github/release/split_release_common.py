@@ -44,15 +44,12 @@ def paths(root,version):
       'manifest':root/'manifest.webmanifest',
       'sw':root/'sw.js'
     }
-
 def source_is_split(root,version):
     p=paths(root,version)
     if not p['index'].exists():return False
     return f'{{% include_relative app/base-shell-{version}.html %}}' in p['index'].read_text()
-
 def cloud_runtime_assets(version):
     return V342_CLOUD_RUNTIME_ASSETS if version=='v342' else ()
-
 def cloud_public_config(root,version):
     if version!='v342':return {'enabled':False,'redirectTo':None}
     q=Path(root)/'cloud/public-config-v342.js';req(q.exists(),'v342 public cloud config missing')
@@ -62,7 +59,6 @@ def cloud_public_config(root,version):
     redirect=m.group(1) if m else None
     if enabled:req(redirect is not None and redirect.startswith('https://'),'enabled v342 cloud config requires https redirect')
     return {'enabled':enabled,'redirectTo':redirect,'sha256':sha_bytes(q.read_bytes())}
-
 def transform_shell(text,previous,version):
     replacements=[
       (f'<title>FE QUEST PWA {previous}</title>',f'<title>FE QUEST PWA {version}</title>'),
@@ -85,23 +81,21 @@ def transform_shell(text,previous,version):
         out=out.replace(app_tag,app_tag+'\n'+activation_tag,1)
         req(out.index(app_tag)<out.index(activation_tag),'v342 cloud activation must follow core application script')
     return out
-
 def transform_js(text,previous,version):
     old=f"const APP_VERSION = '{previous}';";new=f"const APP_VERSION = '{version}';"
     req(old in text,'previous APP_VERSION missing from split JS')
     out=text.replace(old,new,1)
     req(new in out,'target APP_VERSION missing from split JS')
     if version=='v342':
-        # iOS Safari keeps an intrinsic minimum width on date inputs. In the one-column
-        # first-run layout that can push the field beyond the viewport even with width:100%.
-        # Keep the native date control, but explicitly allow it to shrink inside the grid.
+        # WebKit 301648: on iOS 26, padded date/time controls can calculate width:100%
+        # wider than their containing block. Preserve the native picker, but avoid percentage
+        # width on the date control itself and let the already-clamped grid contain it.
         old_date='#firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;'
-        new_date='#firstRunExperienceV340 input[type=date]{width:100%;min-width:0;max-width:100%;display:block;min-height:46px;'
+        new_date='#firstRunExperienceV340 input[type=date]{width:auto;inline-size:auto;min-width:0;min-inline-size:0;max-width:100%;max-inline-size:100%;display:block;box-sizing:border-box;-webkit-min-logical-width:0;justify-self:stretch;align-self:stretch;overflow:hidden;min-height:46px;'
         req(old_date in out,'v342 first-run date style anchor missing')
         out=out.replace(old_date,new_date,1)
         req(new_date in out,'v342 Safari first-run date sizing hotfix missing')
     return out
-
 def build_asset_manifest(root,previous,version,previous_manifest=None):
     root=Path(root);p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
     cloud_assets=cloud_runtime_assets(version)
@@ -142,7 +136,6 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
           'assets':cloud
         }
     return result
-
 def materialize_tree(root,version,previous):
     root=Path(root);prev=paths(root,previous);target=paths(root,version)
     req(source_is_split(root,previous) or source_is_split(root,version),'root is not recognized split distribution')

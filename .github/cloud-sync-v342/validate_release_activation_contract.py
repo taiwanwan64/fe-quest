@@ -2,7 +2,7 @@ from pathlib import Path
 import json, shutil, sys, tempfile
 
 sys.path.insert(0, str(Path('.github/release').resolve()))
-from split_release_common import V342_CLOUD_RUNTIME_ASSETS, materialize_tree, req, sha_bytes
+from split_release_common import V342_CLOUD_RUNTIME_ASSETS, materialize_tree, req, sha_bytes, transform_js
 
 URL='https://taiwanwan64.github.io/fe-quest/'
 
@@ -34,7 +34,7 @@ with tempfile.TemporaryDirectory() as td:
     record(cases,'v342 shell inserts one activation loader after the core app script',shell.count(loader_tag)==1 and shell.index(app_tag)<shell.index(loader_tag))
     record(cases,'mechanical v342 CSS remains byte-identical to v341',p['css'].read_bytes()==source_css)
     generated_js=p['js'].read_text(); previous_js=source_js.decode()
-    record(cases,'mechanical v342 app JS changes only APP_VERSION',generated_js==previous_js.replace("const APP_VERSION = 'v341';","const APP_VERSION = 'v342';",1))
+    record(cases,'mechanical v342 app JS follows the approved APP_VERSION plus Safari date transform',generated_js==transform_js(previous_js,'v341','v342'))
 
     cloud=manifest.get('cloudActivation') or {}
     record(cases,'asset manifest declares same-origin fail-open cloud activation',cloud.get('sameOriginOnly') is True and cloud.get('defaultConfigEnabled') is True and manifest['executionContract'].get('cloudActivationFailOpen') is True)
@@ -69,7 +69,7 @@ record(cases,'current production v341 shell is unchanged by release-tooling vali
 req(len(cases)==15,'expected 15 release activation cases')
 req(all(x['pass'] for x in cases),'release activation contract failed')
 
-report=f'''# FE QUEST v342 — Cloud-aware split release contract\n\nResult: **PASS — 15 / 15 RELEASE-ACTIVATION CASES PASS**\n\n- v342 mechanical materialization adds exactly one external cloud activation loader after the core app script\n- the existing 231KB+ CSS stays byte-identical and application JS changes only `APP_VERSION`\n- the v342 asset manifest records the pinned same-origin cloud dependency identities\n- Service Worker precache contains the activation loader, activated public config, sync UI, pinned Supabase SDK, and all cloud modules\n- the manifest records the exact activated public-config hash and canonical redirect `{URL}`\n- all existing offline/navigation/stale-while-revalidate behavior remains intact\n- materialization remains idempotent\n- the v341 production shell and Service Worker source remain untouched\n\nThis validates the distribution wiring for the activated v342 release candidate while keeping current production on v341 until the release gate is explicitly completed.\n'''
+report=f'''# FE QUEST v342 — Cloud-aware split release contract\n\nResult: **PASS — 15 / 15 RELEASE-ACTIVATION CASES PASS**\n\n- v342 mechanical materialization adds exactly one external cloud activation loader after the core app script\n- the existing 231KB+ CSS stays byte-identical and application JS follows the approved `APP_VERSION` + native Safari date-sizing correction\n- the Safari correction avoids iOS 26/WebKit 301648 `width:100%` overflow without disabling the native date picker\n- the v342 asset manifest records the pinned same-origin cloud dependency identities\n- Service Worker precache contains the activation loader, activated public config, sync UI, pinned Supabase SDK, and all cloud modules\n- the manifest records the exact activated public-config hash and canonical redirect `{URL}`\n- all existing offline/navigation/stale-while-revalidate behavior remains intact\n- materialization remains idempotent\n- the v341 production shell and Service Worker source remain untouched\n\nThis validates the distribution wiring for the activated v342 release candidate while keeping current production on v341 until the release gate is explicitly completed.\n'''
 Path('audits/V342_RELEASE_CLOUD_ACTIVATION.md').write_text(report)
 Path('_regression/release-cloud-activation-v342.fixture.json').write_text(json.dumps({
   'name':'release-cloud-activation-v342','result':'PASS','caseCount':15,
