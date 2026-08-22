@@ -1,0 +1,26 @@
+{
+  "name": "cloud-sync-ui-v342",
+  "result": "PASS",
+  "caseCount": 16,
+  "validatedCases": [
+    "signed-out makes account optional and offers magic link",
+    "auth initialization never blocks local study copy",
+    "signed-in remains sync-disabled until explicit enable",
+    "synced state exposes manual sync and disable",
+    "pending local commit is clearly shown as locally saved",
+    "retryable network failure preserves local-first message",
+    "conflict requires explicit local or cloud choice",
+    "magic link is sent only through explicit UI action",
+    "enable delegates to guarded controller and binds sync",
+    "sync-now is explicit controller action",
+    "confirmed cloud choice delegates explicit remote resolution",
+    "cancelled destructive choice performs no reconciliation call",
+    "disable clears only sync controller state",
+    "sign-out delegates to auth boundary",
+    "auth subscription is disposed cleanly",
+    "busy UI removes competing actions"
+  ],
+  "productionLoaded": false,
+  "accountOptional": true,
+  "conflictChoiceExplicit": true
+}
