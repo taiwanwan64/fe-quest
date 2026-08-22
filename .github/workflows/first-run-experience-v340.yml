@@ -5,6 +5,7 @@ on:
     branches: ['main']
     paths:
       - '.github/workflows/first-run-experience-v340.yml'
+      - '.github/distribution-split-v341/validate_split.py'
 
 permissions:
   contents: write
