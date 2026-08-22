@@ -22,6 +22,7 @@ var checksum='fnv1a32:11111111';var originalWrites=0;var recovery=0;
 var profileWriteBlocked=false,profileConflictBlocked=false,profileBaseRevision=1;
 var writeCurrentProfile=function(p){originalWrites++;const rev=Number(p?.profileMeta?.revision||profile.profileMeta.revision)+1;profile=JSON.parse(JSON.stringify(p));profile.profileMeta={...(profile.profileMeta||{}),revision:rev,lastWriterId:'writer-a',updatedAt:'2026-08-22T00:01:00Z'};checksum=rev%2?'fnv1a32:33333333':'fnv1a32:22222222';profileBaseRevision=rev;return {profile,revision:rev,checksum}};
 function stampProfileForSave(p){return JSON.parse(JSON.stringify(p))}
+function normalizeProfileData(p){if(!p||typeof p!=='object')throw new TypeError('profile object required');return JSON.parse(JSON.stringify(p))}
 function currentAtomicProfile(){return {profile:JSON.parse(JSON.stringify(profile)),revision:profile.profileMeta.revision,checksum,writerId:profile.profileMeta.lastWriterId}}
 function rememberCommittedProfile(p){profile=JSON.parse(JSON.stringify(p));profileBaseRevision=Number(profile.profileMeta?.revision||profileBaseRevision);return profile}
 function acquireProfileWriteLease(){return true}function releaseProfileWriteLease(){}function clearProfileSaveFailure(){}function restoreCommittedProfileInMemory(){return true}function noteProfileSaveFailure(){}function markProfileConflict(){}
