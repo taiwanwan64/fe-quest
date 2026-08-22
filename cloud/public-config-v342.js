@@ -7,8 +7,8 @@
     version:1,
     enabled:false,
     provider:'supabase',
-    url:null,
-    publishableKey:null,
+    url:'https://gkvgxnkoypypikxtyeoz.supabase.co',
+    publishableKey:'sb_publishable_kRxdzyfjBDHEd9xMamQpYg_C8reUast',
     redirectTo:null
   });
 })(typeof globalThis!=='undefined'?globalThis:this);
