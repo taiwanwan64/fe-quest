@@ -79,7 +79,7 @@
     const o=options||{};
     const client=o.client;
     if(!client||!client.auth)throw new TypeError('Supabase auth client required');
-    if(typeof client.auth.getSession!=='function'||typeof client.auth.onAuthStateChange!=='function'||typeof client.auth.signInWithOtp!=='function'||typeof client.auth.verifyOtp!=='function'||typeof client.auth.signOut!=='function'){
+    if(typeof client.auth.getSession!=='function'||typeof client.auth.onAuthStateChange!=='function'||typeof client.auth.signInWithOtp!=='function'||typeof client.auth.signOut!=='function'){
       throw new TypeError('Supabase auth client methods missing');
     }
     const redirectTo=String(o.redirectTo||'');
@@ -130,6 +130,11 @@
       const href=getLocationHref();
       const callback=parseEmailTokenHashCallback(href);
       if(!callback)return {ok:true,status:'none'};
+      if(typeof client.auth.verifyOtp!=='function'){
+        const error=new Error('Supabase verifyOtp is required for PKCE email callback');
+        try{onAuthError(error,'PKCE_EMAIL_CALLBACK')}catch(_e){}
+        return {ok:false,status:'verify-unavailable',error};
+      }
       let result;
       try{result=await client.auth.verifyOtp({token_hash:callback.tokenHash,type:callback.type})}catch(error){
         try{onAuthError(error,'PKCE_EMAIL_CALLBACK')}catch(_e){}
