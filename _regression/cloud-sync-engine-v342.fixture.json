@@ -1,0 +1,31 @@
+{
+  "name": "cloud-sync-engine-v342",
+  "result": "PASS",
+  "summary": {
+    "caseCount": 12,
+    "allPassed": true,
+    "postLocalHookNetworkFree": true,
+    "explicitEnableRequired": true,
+    "conflictKeepsPending": true,
+    "crossAccountNetworkBlocked": true,
+    "staleOutboxCoalescedAtFlush": true,
+    "singleFlightFlush": true,
+    "transportThrowContained": true,
+    "disablePreservesLearnerData": true,
+    "productionV341Unchanged": true
+  },
+  "validatedCases": [
+    "disabled post-local hook is synchronous and network-free",
+    "explicit enable requires authenticated identity",
+    "explicit enable queues current commit without network",
+    "later local commit only coalesces pending outbox",
+    "explicit flush uploads and acknowledges",
+    "network failure keeps pending and never touches learner data",
+    "remote conflict keeps pending for reconciliation",
+    "account mismatch blocks all transport calls",
+    "flush refreshes stale pending descriptor but preserves remote base",
+    "concurrent flushes share one in-flight transport call",
+    "unexpected transport throw is contained and retryable",
+    "pending survives recreation and disable preserves learner data"
+  ]
+}
