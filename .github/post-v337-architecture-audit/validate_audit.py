@@ -96,13 +96,13 @@ def table(headers, rows):
     a=['| '+' | '.join(headers)+' |','| '+' | '.join('---' for _ in headers)+' |']; a += ['| '+' | '.join(str(v).replace('|','\\|').replace('\n',' ') for v in r)+' |' for r in rows]; return '\n'.join(a)
 
 branch,version,previous=ctx(); parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
-expected={'.github/post-v337-architecture-audit/validate_audit.py','.github/workflows/post-v337-architecture-audit-v338.yml','FE_QUEST_DEVELOPMENT_PLAN.md'}
-generated={'index.html','manifest.webmanifest','sw.js','_regression/post-v337-architecture-audit-v338.fixture.json','audits/post-v337-architecture-audit.md'}
+expected={'.github/post-v337-architecture-audit/validate_audit.py','.github/workflows/post-v337-architecture-audit-v338.yml'}
+generated={'index.html','manifest.webmanifest','sw.js','FE_QUEST_DEVELOPMENT_PLAN.md','_regression/post-v337-architecture-audit-v338.fixture.json','audits/post-v337-architecture-audit.md'}
 changed=set(subprocess.check_output(['git','diff','--name-only','origin/main...HEAD'],text=True).splitlines()); req(expected<=changed,'missing source'); req(changed<=expected|generated,'source drift '+repr(sorted(changed-(expected|generated))))
 
 cand=runtime('_site/index.html'); par=runtime('_site_parent/index.html'); req(cand['v']==version and par['v']==previous,'versions')
 for k in ('plan','snap','phases','alloc','lesson','b','tracked','schema','fnDigest'): req(cand[k]==par[k],'audit-only behavior drift '+k)
-req(cand['sem']['ok'] and par['sem']['ok'],'subject B semantic failure'); req(cand['schema']['value']['questions']==710,'710 question contract')
+req(cand['sem']['ok'] and par['sem']['ok'] and isinstance(cand['sem'].get('value'),dict) and isinstance(par['sem'].get('value'),dict) and cand['sem']['value'].get('ok') is True and par['sem']['value'].get('ok') is True,'subject B semantic failure'); req(cand['schema']['value']['questions']==710,'710 question contract')
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']; req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
 
 js=scripts('_site/index.html'); asserts=assert_rows(js); counts=Counter(x['class'] for x in asserts); inc,ov=include_inventory(); wraps=wrapper_rows(inc); size=size_info('_site/index.html'); roles=role_sizes(inc); starts=startup(js)
@@ -187,4 +187,17 @@ fixtureに `buildTodayTasks()`、`ensureTodayPlanSnapshot()`、`examStudyPhase()
 
 hard assert分類とwrap深度は安全な着手順を決める静的監査であり、意味を確認せず一括削除するためのものではない。v339も大規模一括書き換えを行わない。
 '''
-Path('audits').mkdir(exist_ok=True); Path('audits/post-v337-architecture-audit.md').write_text(report); print(report)
+Path('audits').mkdir(exist_ok=True); Path('audits/post-v337-architecture-audit.md').write_text(report)
+
+# Update the GitHub handoff source of truth only after every audit assertion above passed.
+plan_path=Path('FE_QUEST_DEVELOPMENT_PLAN.md'); plan_text=plan_path.read_text()
+req('現行アプリ: **v337**' in plan_text and '次の計画バージョン: **v338**' in plan_text,'development plan version drift')
+plan_text=plan_text.replace('現行アプリ: **v337**','現行アプリ: **v338**',1).replace('次の計画バージョン: **v338**','次の計画バージョン: **v339**',1)
+plan_text=plan_text.replace('# v338 — 技術的負債・実行経路の全体監査','# v338 — 技術的負債・実行経路の全体監査 ✅ 完了（2026-08-22）',1)
+marker='\n---\n\n# v339 — runtime安全化 + override整理 第1弾'
+req(marker in plan_text,'v339 marker missing')
+completion=f'''\n\n### v338 完了結果\n\n- audit-only v338として学習者向け挙動とユーザーデータスキーマを変更せず監査を完了。\n- runtime hard `assert()` を **{len(asserts)}件** 抽出し、CI移行候補 / diagnostic・contract統合候補 / runtime安全候補へ全件分類。\n- versioned overrideと現行`index.html`のinclude順をfixture化（現行組込み {len(inc_v)}件 / 未参照 {len(dormant)}件）。\n- 多重ラップ上位を静的に可視化し、v339の整理順を確定。\n- 完成版`index.html` **{size['total']:,} bytes** のCSS / JavaScript / include source構成を計測。\n- 起動時validation候補を棚卸し。\n- `buildTodayTasks()`、直前期フェーズ、学習配分、次教材/科目B選択、profile key contract等をv337 parentと比較する回帰fixtureを作成し、差分なしを確認。\n- 詳細: `audits/post-v337-architecture-audit.md`\n- 回帰基準: `_regression/post-v337-architecture-audit-v338.fixture.json`\n'''
+plan_text=plan_text.replace(marker,completion+marker,1)
+plan_text=re.sub(r'## 10\. 直近の次アクション\n.*\Z',f'''## 10. 直近の次アクション\n\n**次に着手する正式タスクは v339「runtime安全化 + override整理 第1弾」。**\n\nv338で実コードから監査基準が確定したため、v339では次の順で進める。\n\n1. v338 fixtureのhard assert「CI移行候補」からruntime停止経路を安全に外す\n2. diagnostic/contractと重複するassertを非破壊診断へ統合する\n3. 多重ラップ上位 {top} から1責務を選び、単一実装 + 明示hookへ整理する\n4. 未参照versioned overrideを「削除可能 / reference用途 / 保留」に分類する\n5. 各変更でv338 behavior contract、710問、130テーマ、Subject B semantics、保存・復旧・PWAを回帰確認する\n\nv339でも大規模一括書き換えは行わない。**v338で固定した現行挙動を1つずつ守りながら減らす。**\n''',plan_text,flags=re.S)
+plan_path.write_text(plan_text)
+print(report)
