@@ -40,6 +40,9 @@ r=await tr.deleteAccount();
 ok('unexpected deletion response fails closed',!r.ok&&r.error.kind==='provider');
 
 const baseState=()=>({userId:'11111111-1111-4111-8111-111111111111',pending:null,conflict:null,lastError:null,lastSuccessAt:null});
+let signedOutView=U.deriveView({initialized:true,signedIn:false,userId:null,email:null},baseState(),{accountDeletionAvailable:true});
+ok('signed-out learner never sees account deletion action',!signedOutView.actions.includes('delete-account'));
+
 let authSnap={initialized:true,signedIn:true,userId:'11111111-1111-4111-8111-111111111111',email:'learner@example.com'};
 let signouts=0,disables=0,deletes=0;
 const auth={snapshot:()=>authSnap,sendMagicLink:async()=>({ok:true}),signOutThisDevice:async()=>{signouts++;authSnap={initialized:true,signedIn:false,userId:null,email:null};return {ok:true}},subscribe:()=>()=>{}};
