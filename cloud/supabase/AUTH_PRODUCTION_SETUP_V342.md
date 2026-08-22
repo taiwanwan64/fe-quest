@@ -1,6 +1,6 @@
 # FE QUEST v342 — Supabase Auth production setup
 
-Status: **HOSTED AUTH SETTINGS CONFIGURED — LIVE ACCEPTANCE IN PROGRESS**
+Status: **HOSTED AUTH LIVE ACCEPTANCE PASS — LEARNER-PROFILE ACCEPTANCE IN PROGRESS**
 
 Canonical production URL:
 
@@ -131,11 +131,11 @@ Keep these invariants:
 
 ## 6. Required live acceptance sequence
 
-Do not promote v342 until every item passes:
+Do not promote v342 until every item passes. Items 2 and 3 are already evidenced in `audits/V342_LIVE_AUTH_ACCEPTANCE.md`; the learner-profile items remain release gates.
 
 1. Signed out: FE QUEST opens and local study/save works with no login.
-2. Existing confirmed email: request Magic Link; the live test page receives `token_hash` + `type=email`, verifies it, removes the one-time values from the visible URL, and `auth.getUser()` confirms the session server-side.
-3. Brand-new email: request login; Confirm sign up uses the same token-hash browser callback and completes the first session without falling back to hosted `/verify`.
+2. Existing confirmed email: request Magic Link; the live test page receives `token_hash` + `type=email`, verifies it, removes the one-time values from the visible URL, and `auth.getUser()` confirms the session server-side. **PASS 2026-08-22**
+3. Brand-new email: request login; Confirm sign up uses the same token-hash browser callback and completes the first session without falling back to hosted `/verify`. **PASS 2026-08-22**
 4. Signed in but sync disabled: no learner data is uploaded automatically.
 5. Explicitly enable sync: existing local profile uploads on first link when cloud is empty.
 6. Reload: authenticated session persists without disrupting local data.
@@ -149,9 +149,11 @@ Do not promote v342 until every item passes:
 14. JSON export and Recovery Center remain usable independently of cloud sync.
 15. Run Supabase Security Advisor and Performance Advisor again after acceptance testing.
 
-## 7. Live finding already verified
+## 7. Live Auth acceptance verified
 
-The first live attempt established that SMTP, user creation, email delivery, and redirect allowlisting were functioning: Supabase accepted `/otp`, created the Auth user, then a hosted `/verify` request confirmed the email. The absence of `last_sign_in_at` proved that email confirmation alone was not a completed FE QUEST PKCE session. This exposed the missing Confirm sign up template requirement, which is now part of the release gate and automated documentation checks.
+Returning-user and first-time-user passwordless PKCE Auth both passed against the live Supabase project on 2026-08-22. The evidence is recorded in `audits/V342_LIVE_AUTH_ACCEPTANCE.md`.
+
+The first live attempt established that SMTP, user creation, email delivery, and redirect allowlisting were functioning, but it also exposed that configuring only `Magic link or OTP` left first-time users on hosted `/verify`. After configuring the `Confirm sign up` template to use the same `token_hash` + `type=email` callback, the brand-new-user flow completed a FE QUEST browser session and `last_sign_in_at` advanced. Returning-user Magic Link PKCE passed as well.
 
 ## 8. Current backend verification
 
@@ -165,12 +167,18 @@ As of the v342 activation preparation:
 
 ## 9. Release gate
 
-PR `#107` (`v342-staging`) must remain draft/unmerged until:
-- URL Configuration, Confirm sign up, Magic link or OTP, and SMTP settings are saved in Supabase,
-- both returning-user and first-time-user PKCE email flows pass live testing,
-- the staging candidate is refreshed from latest `main`,
-- the full release suite passes again with the activated public config,
-- the remaining cloud sync acceptance sequence passes,
-- privacy policy remains accurate for the actual production behavior.
+PR `#107` was **closed unmerged** after it served as the initial materialized v342 staging checkpoint. Do not reopen or merge that stale staging PR. A fresh v342 staging/promotion PR must be created from the latest `main` only after the remaining live learner-profile acceptance gates are complete.
+
+Before a fresh promotion PR is merged:
+- explicit first sync / first local upload must pass,
+- session persistence and device/browser B adoption must pass,
+- offline → reconnect must pass,
+- stale-client conflict detection and both conflict choices must pass,
+- logout and account deletion behavior must pass,
+- JSON export and Recovery Center must remain usable,
+- Supabase advisors must be rerun,
+- the staging candidate must be refreshed from latest `main`,
+- the full release suite must pass again,
+- privacy policy must remain accurate for the actual production behavior.
 
 If any live cloud test fails, keep production on v341. Local-first behavior is the rollback boundary.
