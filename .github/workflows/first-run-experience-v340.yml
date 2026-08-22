@@ -4,38 +4,64 @@ on:
   pull_request:
     branches: ['main']
     paths:
+      - '.github/first-run-experience/**'
       - '.github/workflows/first-run-experience-v340.yml'
-      - '.github/release/split_release_common.py'
-      - '.github/release/release_materialize_split.py'
-      - '.github/release/prepare_reference_split.py'
-      - '.github/release/release_validate_split.py'
-      - '.github/workflows/release-validate.yml'
+      - 'app/first-run-experience-v340.txt'
 
 permissions:
-  contents: read
+  contents: write
   pages: read
 
 env:
   GITHUB_PAGES: true
 
 jobs:
-  v342_split_release_tooling_validation:
-    if: startsWith(github.head_ref, 'cloud-sync-contract-v342')
+  validate:
+    if: startsWith(github.head_ref, 'first-run-experience-v')
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout v342 tooling branch
+      - name: Checkout head branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Materialize mechanical v342 split release in workspace
-        run: GITHUB_REF_NAME="v342-staging" python3 .github/release/release_materialize_split.py
+      - name: Normalize shell to v339 source state
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          idx=Path('index.html')
+          text=idx.read_text()
+          if '<title>FE QUEST PWA v340</title>' in text:
+              text=text.replace('<title>FE QUEST PWA v340</title>','<title>FE QUEST PWA v339</title>',1)
+              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
+              idx.write_text(text)
+
+          mp=Path('manifest.webmanifest')
+          m=json.loads(mp.read_text())
+          if m.get('name')=='FE QUEST v340':
+              m['name']='FE QUEST v339'
+              m['description']=m.get('description','').replace('v340','v339')
+              mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+
+          sw=Path('sw.js')
+          text=sw.read_text()
+          if "const APP_VERSION = 'v340';" in text:
+              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
+              text=text.replace("const CACHE_NAME = 'fe-quest-v340-1';","const CACHE_NAME = 'fe-quest-v339-1';",1)
+              sw.write_text(text)
+          PY
+
+      - name: Materialize v340 shell
+        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_materialize.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Build split v342 candidate
+      - name: Build v340 candidate
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
@@ -43,10 +69,18 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Prepare mechanical v342 reference from main
-        run: GITHUB_REF_NAME="v342-staging" python3 .github/release/prepare_reference_split.py
+      - name: Prepare approved v340 reference
+        shell: bash
+        run: |
+          rm -rf _reference
+          mkdir _reference
+          git archive origin/main | tar -x -C _reference
+          for rel in index.html manifest.webmanifest sw.js app/first-run-experience-v340.txt; do
+            mkdir -p "_reference/$(dirname "$rel")"
+            cp "$rel" "_reference/$rel"
+          done
 
-      - name: Build split v342 reference
+      - name: Build approved v340 reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
@@ -54,16 +88,56 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Validate split release tooling and external-JS runtime
-        run: GITHUB_REF_NAME="v342-staging" python3 .github/release/release_validate_split.py
-
-      - name: Show release evidence without committing v342 product files
+      - name: Prepare untouched v339 parent
         shell: bash
         run: |
-          cat audits/RELEASE_TOOLING_CADENCE_AUDIT_v342.txt
-          python3 - <<'PY'
-          import json
-          x=json.load(open('_regression/release-tooling-cadence-v342.fixture.json'))
-          assert x['validation']['status']=='passed'
-          print('V342_SPLIT_RELEASE_TOOLING_FIXTURE_OK')
-          PY
+          rm -rf _parent_reference
+          mkdir _parent_reference
+          git archive origin/main | tar -x -C _parent_reference
+
+      - name: Build untouched v339 parent
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_parent_reference
+          destination: ./_site_parent
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Validate standard release invariants
+        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_validate.py
+
+      - name: Refresh first-run discovery evidence
+        run: python3 .github/first-run-experience/discover_v340.py
+
+      - name: Validate v340 first-run experience
+        run: python3 .github/first-run-experience/validate_v340.py
+
+      - name: Finalize development plan for v340
+        run: python3 .github/first-run-experience/finalize_plan_v340.py
+
+      - name: Commit validated v340 shell and evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audits/V340_FIRST_RUN_DISCOVERY.json audits/FIRST_RUN_EXPERIENCE_v340.md _regression/first-run-experience-v340.fixture.json FE_QUEST_DEVELOPMENT_PLAN.md index.html manifest.webmanifest sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST v340 first-run experience"
+            git fetch origin "$GITHUB_HEAD_REF"
+            git rebase "origin/$GITHUB_HEAD_REF"
+            git push origin HEAD:"$GITHUB_HEAD_REF"
+          fi
+
+      - name: Package v340 release
+        shell: bash
+        run: |
+          cd _site
+          zip ../FE_QUEST_PWA_v340.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+
+      - name: Upload v340 release
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-v340-standalone
+          path: FE_QUEST_PWA_v340.zip
+          if-no-files-found: error
+          retention-days: 90
