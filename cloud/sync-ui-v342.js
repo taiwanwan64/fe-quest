@@ -1,6 +1,6 @@
 // FE QUEST v342 learner-facing cloud sync settings UI.
 // This module owns presentation only. It never reads/writes learner profile data directly and
-// performs no network request except through the injected auth/controller actions chosen by the user.
+// performs no network request except through injected auth/controller/account actions chosen by the user.
 (function(root){
   'use strict';
 
@@ -9,7 +9,8 @@
     cardId:'cloudSyncCardV342',
     policy:'optional-local-first-explicit-conflict-choice',
     signedOutCopy:'ログインしなくても、これまで通りこの端末だけで学習できます。',
-    conflictCopy:'新しい学習履歴を自動で上書きしません。どちらを残すか選んでください。'
+    conflictCopy:'新しい学習履歴を自動で上書きしません。どちらを残すか選んでください。',
+    deletionCopy:'アカウントを削除すると、クラウド上の学習データも削除されます。この端末の学習データは残ります。'
   });
 
   function asState(value){return value&&typeof value==='object'?value:{}}
@@ -26,6 +27,7 @@
     const bound=Boolean(state.userId);
     const conflict=state.conflict&&typeof state.conflict==='object'?state.conflict:null;
     const pending=state.pending&&typeof state.pending==='object'?state.pending:null;
+    const deletionAvailable=Boolean(uiState.accountDeletionAvailable);
     let key='signed-out',title='クラウド同期はオフです',detail=UI_SPEC.signedOutCopy,tone='neutral',actions=['send-link'];
 
     if(!auth.initialized){key='initializing';title='アカウントを確認しています';detail='学習はそのまま続けられます。';actions=[]}
@@ -41,8 +43,9 @@
       const last=fmtTime(state.lastSuccessAt);detail=last?`最終同期: ${last}`:'この端末の学習データをクラウドへ同期します。';actions=['sync-now','disable','sign-out'];
     }
 
-    if(busy){title='処理しています';detail=busy==='magic-link'?'ログインリンクを送信しています。':'データを安全に確認しています。';actions=[]}
-    return Object.freeze({key,title,detail,tone,actions:Object.freeze(actions),signedIn,email:auth.email||null,bound,conflict,pending,lastError:state.lastError||null,notice});
+    if(signedIn&&deletionAvailable&&!actions.includes('delete-account'))actions.push('delete-account');
+    if(busy){title='処理しています';detail=busy==='magic-link'?'ログインリンクを送信しています。':busy==='delete-account'?'アカウントとクラウドデータを削除しています。':'データを安全に確認しています。';actions=[]}
+    return Object.freeze({key,title,detail,tone,actions:Object.freeze(actions),signedIn,email:auth.email||null,bound,conflict,pending,lastError:state.lastError||null,notice,deletionAvailable});
   }
 
   function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
@@ -51,6 +54,7 @@
     const o=options||{},auth=o.authBoundary,controller=o.controller;
     if(!auth||typeof auth.snapshot!=='function'||typeof auth.sendMagicLink!=='function'||typeof auth.signOutThisDevice!=='function')throw new TypeError('auth boundary required');
     if(!controller||typeof controller.state!=='function'||typeof controller.enableSync!=='function'||typeof controller.syncNow!=='function'||typeof controller.resolveConflict!=='function'||typeof controller.disableSync!=='function')throw new TypeError('sync controller required');
+    const deleteAccountAction=typeof o.deleteAccount==='function'?o.deleteAccount:null;
     const doc=o.document||(typeof document!=='undefined'?document:null);
     const confirmFn=typeof o.confirm==='function'?o.confirm:(message=>typeof root.confirm==='function'?root.confirm(message):false);
     const onMessage=typeof o.onMessage==='function'?o.onMessage:()=>{};
@@ -58,7 +62,7 @@
     let uiState={busy:null,notice:null};
 
     function state(){return controller.state()}
-    function view(){return deriveView(auth.snapshot(),state(),uiState)}
+    function view(){return deriveView(auth.snapshot(),state(),{...uiState,accountDeletionAvailable:Boolean(deleteAccountAction)})}
     function setNotice(kind,text){uiState={...uiState,notice:{kind,text:String(text||'')}};onMessage(uiState.notice);render()}
     async function run(kind,fn){
       if(uiState.busy)return {ok:false,status:'busy'};
@@ -109,6 +113,21 @@
       else setNotice('error','ログアウトできませんでした。');
       return result;
     }
+    async function deleteAccount(){
+      if(!deleteAccountAction)return {ok:false,status:'unsupported'};
+      if(!confirmFn('FE QUESTのアカウントとクラウド上の学習データを削除します。この端末の学習データは残ります。続けますか？'))return {ok:false,status:'cancelled'};
+      if(!confirmFn('この操作は取り消せません。本当にアカウントを削除しますか？'))return {ok:false,status:'cancelled'};
+      const result=await run('delete-account',()=>deleteAccountAction());
+      if(result&&result.ok){
+        try{controller.disableSync()}catch(_e){}
+        let signedOut={ok:false};
+        try{signedOut=await auth.signOutThisDevice()}catch(_e){}
+        setNotice('success','アカウントとクラウド上の学習データを削除しました。この端末の学習データは残っています。');
+        return {...result,signedOut:Boolean(signedOut&&signedOut.ok)};
+      }
+      setNotice('error','アカウントを削除できませんでした。クラウドデータは自動では変更していません。');
+      return result;
+    }
 
     function ensureNode(){
       if(node||!doc)return node;
@@ -132,7 +151,9 @@
       if(v.actions.includes('use-cloud'))buttons.push('<button type="button" data-sync-action="use-cloud">クラウドのデータを使う</button>');
       if(v.actions.includes('disable'))buttons.push('<button type="button" data-sync-action="disable">この端末の同期をオフ</button>');
       if(v.actions.includes('sign-out'))buttons.push('<button type="button" data-sync-action="sign-out">ログアウト</button>');
-      mount.innerHTML=`<div class="feq-sync-head"><div><h2>アカウント・クラウド同期</h2><div class="sub">端末変更やブラウザデータ削除に備えて学習履歴を同期できます。</div></div><span class="feq-sync-status ${escapeHtml(v.tone)}">${escapeHtml(v.title)}</span></div><div class="feq-sync-detail">${escapeHtml(v.detail)}</div>${v.email?`<div class="feq-sync-account">${escapeHtml(v.email)}</div>`:''}${notice}${signedOutForm}<div class="feq-sync-actions">${buttons.join('')}</div><div class="feq-sync-local-note">クラウドに接続できないときも学習とローカル保存は続けられます。JSONエクスポートと復旧センターも引き続き利用できます。</div>`;
+      if(v.actions.includes('delete-account'))buttons.push('<button type="button" class="feq-sync-danger" data-sync-action="delete-account">アカウントを削除</button>');
+      const deletionNote=v.signedIn&&v.deletionAvailable?`<div class="feq-sync-deletion-note">${escapeHtml(UI_SPEC.deletionCopy)}</div>`:'';
+      mount.innerHTML=`<div class="feq-sync-head"><div><h2>アカウント・クラウド同期</h2><div class="sub">端末変更やブラウザデータ削除に備えて学習履歴を同期できます。</div></div><span class="feq-sync-status ${escapeHtml(v.tone)}">${escapeHtml(v.title)}</span></div><div class="feq-sync-detail">${escapeHtml(v.detail)}</div>${v.email?`<div class="feq-sync-account">${escapeHtml(v.email)}</div>`:''}${notice}${signedOutForm}<div class="feq-sync-actions">${buttons.join('')}</div>${deletionNote}<div class="feq-sync-local-note">クラウドに接続できないときも学習とローカル保存は続けられます。JSONエクスポートと復旧センターも引き続き利用できます。</div>`;
       mount.querySelector?.('[data-sync-action="send-link"]')?.addEventListener('click',()=>sendMagicLink(mount.querySelector?.('#cloudSyncEmailV342')?.value||''));
       mount.querySelector?.('[data-sync-action="enable"]')?.addEventListener('click',enable);
       mount.querySelector?.('[data-sync-action="sync-now"]')?.addEventListener('click',syncNow);
@@ -140,6 +161,7 @@
       mount.querySelector?.('[data-sync-action="use-cloud"]')?.addEventListener('click',()=>resolve('remote'));
       mount.querySelector?.('[data-sync-action="disable"]')?.addEventListener('click',disable);
       mount.querySelector?.('[data-sync-action="sign-out"]')?.addEventListener('click',signOut);
+      mount.querySelector?.('[data-sync-action="delete-account"]')?.addEventListener('click',deleteAccount);
       return v;
     }
 
@@ -150,7 +172,7 @@
     }
     function dispose(){disposed=true;try{unsubscribe&&unsubscribe()}catch(_e){}unsubscribe=null;return true}
 
-    return Object.freeze({start,render,view,sendMagicLink,enable,syncNow,resolve,disable,signOut,dispose});
+    return Object.freeze({start,render,view,sendMagicLink,enable,syncNow,resolve,disable,signOut,deleteAccount,dispose});
   }
 
   const api=Object.freeze({UI_SPEC,deriveView,createSyncSettingsUI});
