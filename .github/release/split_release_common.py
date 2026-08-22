@@ -91,6 +91,15 @@ def transform_js(text,previous,version):
     req(old in text,'previous APP_VERSION missing from split JS')
     out=text.replace(old,new,1)
     req(new in out,'target APP_VERSION missing from split JS')
+    if version=='v342':
+        # iOS Safari keeps an intrinsic minimum width on date inputs. In the one-column
+        # first-run layout that can push the field beyond the viewport even with width:100%.
+        # Keep the native date control, but explicitly allow it to shrink inside the grid.
+        old_date='#firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;'
+        new_date='#firstRunExperienceV340 input[type=date]{width:100%;min-width:0;max-width:100%;display:block;min-height:46px;'
+        req(old_date in out,'v342 first-run date style anchor missing')
+        out=out.replace(old_date,new_date,1)
+        req(new_date in out,'v342 Safari first-run date sizing hotfix missing')
     return out
 
 def build_asset_manifest(root,previous,version,previous_manifest=None):
