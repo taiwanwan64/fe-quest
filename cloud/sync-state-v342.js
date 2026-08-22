@@ -103,12 +103,15 @@
     const bound=bindUser(storage,userId);
     if(!bound.ok)return bound;
     const current=bound.state;
+    const unresolved=current.conflict?clone(current.conflict):null;
     const queued=contract.queueCommittedProfile(current,committed);
     current.contractVersion=queued.contractVersion;
     current.pending=queued.pending;
     current.lastSyncedRemoteRevision=queued.lastSyncedRemoteRevision;
     current.lastSyncedChecksum=queued.lastSyncedChecksum;
-    current.conflict=null;
+    // A later local study save is not a conflict resolution decision. Keep the conflict
+    // visible and keep its original remote ancestry until the learner explicitly chooses.
+    current.conflict=unresolved;
     current.lastError=null;
     return {ok:true,state:save(storage,current)};
   }
@@ -143,6 +146,25 @@
     return save(storage,current);
   }
 
+  function rebasePendingToRemote(storage,remote){
+    const current=load(storage);
+    if(!current.pending)return {ok:false,reason:'nothing-pending',state:current};
+    const r=remote||{};
+    let revision=null,checksum=null;
+    if(r.revision!=null){
+      if(!validRevision(r.revision))return {ok:false,reason:'invalid-remote-revision',state:current};
+      revision=Number(r.revision);
+      checksum=normalizeChecksum(r.checksum??r.sha256);
+      if(!checksum)return {ok:false,reason:'invalid-remote-checksum',state:current};
+    }
+    current.lastSyncedRemoteRevision=revision;
+    current.lastSyncedChecksum=checksum;
+    current.pending.baseRemoteRevision=revision;
+    current.conflict=null;
+    current.lastError=null;
+    return {ok:true,state:save(storage,current)};
+  }
+
   function acknowledge(storage,contract,response){
     if(!contract||typeof contract.acknowledge!=='function')throw new TypeError('sync contract required');
     const current=load(storage);
@@ -164,7 +186,7 @@
     return save(storage,next);
   }
 
-  const api=Object.freeze({STORAGE_KEY,STORE_VERSION,emptyState,normalize,load,save,bindUser,queue,recordAttempt,recordFailure,recordConflict,acknowledge,clearAccountBinding});
+  const api=Object.freeze({STORAGE_KEY,STORE_VERSION,emptyState,normalize,load,save,bindUser,queue,recordAttempt,recordFailure,recordConflict,rebasePendingToRemote,acknowledge,clearAccountBinding});
   root.FEQUEST_SYNC_STATE_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
