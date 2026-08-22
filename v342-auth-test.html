@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>FE QUEST v342 認証テスト</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:#f5f7fb}
+    *{box-sizing:border-box}body{margin:0;padding:24px}.wrap{max-width:720px;margin:0 auto}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:22px;box-shadow:0 8px 30px rgba(15,23,42,.06)}h1{font-size:24px;margin:0 0 8px}.sub{color:#667085;line-height:1.6;margin-bottom:20px}.status{padding:14px;border-radius:12px;background:#eef2f6;line-height:1.6;margin:14px 0}.status.ok{background:#eaf8df}.status.warn{background:#fff4dc}.status.err{background:#ffe8e8}.row{display:grid;gap:10px;margin-top:16px}label{font-weight:800}input{min-height:46px;padding:0 12px;border:1px solid #d0d5dd;border-radius:12px;font:inherit}button{min-height:46px;padding:0 16px;border:1px solid #d0d5dd;border-radius:12px;background:#fff;font-weight:800;cursor:pointer}.primary{background:#58cc02;color:#fff;border-color:#58cc02}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.meta{font-size:12px;color:#667085;line-height:1.7;margin-top:18px;word-break:break-all}.hidden{display:none}@media(max-width:640px){body{padding:14px}.actions{display:grid}.actions button{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>FE QUEST v342 認証テスト</h1>
+      <div class="sub">本番v341の学習データやService Workerには触れず、Magic Link認証だけを実環境で確認する隔離ページです。</div>
+      <div id="status" class="status">認証状態を確認しています…</div>
+      <div id="signedOut" class="row hidden">
+        <label for="email">テストするメールアドレス</label>
+        <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
+        <button id="send" class="primary" type="button">ログインリンクを送る</button>
+      </div>
+      <div class="actions">
+        <button id="refresh" type="button">認証状態を再確認</button>
+        <button id="signout" class="hidden" type="button">この端末からログアウト</button>
+      </div>
+      <div id="meta" class="meta"></div>
+    </section>
+  </main>
+
+  <script src="./vendor/supabase/supabase-2.112.3.js"></script>
+  <script src="./cloud/public-config-v342.js"></script>
+  <script src="./cloud/supabase/auth-boundary-v342.js"></script>
+  <script>
+  (async function(){
+    'use strict';
+    const TEST_REDIRECT='https://taiwanwan64.github.io/fe-quest/v342-auth-test.html';
+    const statusNode=document.getElementById('status');
+    const signedOutNode=document.getElementById('signedOut');
+    const emailNode=document.getElementById('email');
+    const sendNode=document.getElementById('send');
+    const refreshNode=document.getElementById('refresh');
+    const signoutNode=document.getElementById('signout');
+    const metaNode=document.getElementById('meta');
+
+    function setStatus(kind,text){statusNode.className='status '+(kind||'');statusNode.textContent=text}
+    function setBusy(value){sendNode.disabled=value;refreshNode.disabled=value;signoutNode.disabled=value}
+    function setMeta(lines){metaNode.textContent=lines.filter(Boolean).join('\n')}
+
+    const config=globalThis.FEQUEST_PUBLIC_CLOUD_CONFIG_V342;
+    const authApi=globalThis.FEQUEST_SUPABASE_AUTH_V342;
+    const supabaseGlobal=globalThis.supabase;
+    if(!config||!authApi||!supabaseGlobal||typeof supabaseGlobal.createClient!=='function'){
+      setStatus('err','認証テスト用モジュールを読み込めませんでした。');
+      return;
+    }
+    if(location.origin+location.pathname!==TEST_REDIRECT){
+      setStatus('warn','このページは正規のGitHub Pages URLで開いてください。');
+      setMeta(['期待URL: '+TEST_REDIRECT,'現在URL: '+location.origin+location.pathname]);
+      return;
+    }
+
+    const client=authApi.createConfiguredClient({
+      createClient:supabaseGlobal.createClient,
+      url:config.url,
+      publishableKey:config.publishableKey
+    });
+    const boundary=authApi.createAuthBoundary({
+      client,
+      redirectTo:TEST_REDIRECT,
+      onAuthError:(error,stage)=>console.warn('FEQUEST_V342_AUTH_TEST',stage,error&&error.message?error.message:error)
+    });
+
+    async function render(){
+      const snap=boundary.snapshot();
+      signedOutNode.classList.toggle('hidden',Boolean(snap.signedIn));
+      signoutNode.classList.toggle('hidden',!snap.signedIn);
+      if(!snap.initialized){setStatus('','認証状態を確認しています…');return}
+      if(!snap.signedIn){
+        setStatus('warn','未ログインです。メールアドレスを入力してMagic Linkを送信してください。');
+        setMeta(['リダイレクト先: '+TEST_REDIRECT,'本番学習データ: 未使用','Service Worker: 未登録']);
+        return;
+      }
+      let verified=false;
+      try{
+        const result=await client.auth.getUser();
+        verified=Boolean(result&&result.data&&result.data.user&&result.data.user.id===snap.userId&&!result.error);
+      }catch(_e){}
+      setStatus(verified?'ok':'warn',verified?'ログイン成功です。Supabaseサーバーでもユーザーを確認できました。':'セッションはありますが、サーバー確認を完了できませんでした。');
+      setMeta([
+        'メール: '+(snap.email||'(取得なし)'),
+        'ユーザーID: '+snap.userId,
+        'サーバー確認: '+(verified?'OK':'未確認'),
+        'リダイレクト先: '+TEST_REDIRECT,
+        '本番学習データ: 未使用',
+        'Service Worker: 未登録'
+      ]);
+    }
+
+    sendNode.addEventListener('click',async()=>{
+      const email=String(emailNode.value||'').trim();
+      setBusy(true);setStatus('','ログインリンクを送信しています…');
+      let result;
+      try{result=await boundary.sendMagicLink(email)}catch(error){result={ok:false,error}}
+      setBusy(false);
+      if(result&&result.ok)setStatus('ok',result.email+' にログインリンクを送信しました。メール内の「FE QUESTにログイン」を押してください。');
+      else setStatus('err','ログインリンクを送信できませんでした。メールアドレス・SMTP設定・Redirect URLを確認してください。');
+    });
+
+    refreshNode.addEventListener('click',async()=>{setBusy(true);await render();setBusy(false)});
+    signoutNode.addEventListener('click',async()=>{
+      setBusy(true);
+      const result=await boundary.signOutThisDevice();
+      setBusy(false);
+      if(result&&result.ok){setStatus('ok','この端末からログアウトしました。');await render()}
+      else setStatus('err','ログアウトできませんでした。');
+    });
+
+    await boundary.initialize();
+    boundary.subscribe(()=>{render()});
+    await render();
+  })();
+  </script>
+</body>
+</html>
