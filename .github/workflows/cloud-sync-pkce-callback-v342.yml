@@ -1,0 +1,44 @@
+name: FE QUEST v342 PKCE magic-link callback
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_pkce_callback.py'
+      - '.github/workflows/cloud-sync-pkce-callback-v342.yml'
+      - 'cloud/supabase/auth-boundary-v342.js'
+      - 'audits/V342_PKCE_MAGIC_LINK_CALLBACK.md'
+      - '_regression/cloud-sync-pkce-callback-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-pkce-callback-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 PKCE callback branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate token-hash callback exchange
+        run: python3 .github/cloud-sync-v342/validate_pkce_callback.py
+
+      - name: Verify reproducible callback evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_PKCE_MAGIC_LINK_CALLBACK.md _regression/cloud-sync-pkce-callback-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          auth=Path('cloud/supabase/auth-boundary-v342.js').read_text()
+          audit=Path('audits/V342_PKCE_MAGIC_LINK_CALLBACK.md').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert '12 / 12 PKCE EMAIL CALLBACK CASES PASS' in audit
+          assert 'verifyOtp' in auth and 'token_hash' in auth and "type!=='email'" in auth
+          assert 'refresh_token' not in auth.lower()
+          assert 'cloud/supabase/auth-boundary-v342.js' not in shell
+          print('V342_PKCE_MAGIC_LINK_CALLBACK_REPRODUCIBLE_AND_PRODUCTION_DISABLED')
+          PY

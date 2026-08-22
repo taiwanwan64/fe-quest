@@ -1,0 +1,22 @@
+{
+  "name": "cloud-sync-pkce-callback-v342",
+  "result": "PASS",
+  "caseCount": 12,
+  "validatedCases": [
+    "token-hash email callback is parsed explicitly",
+    "non-email callback type is ignored",
+    "missing token hash is ignored",
+    "callback sanitizer removes auth token while preserving unrelated URL state",
+    "initialize exchanges PKCE token hash before reading session",
+    "successful callback removes one-time token from browser URL",
+    "initialization is idempotent and never reuses consumed token",
+    "missing verifyOtp during callback fails open for local study",
+    "expired callback is nonfatal and remains signed out",
+    "failed callback is not erased before learner can retry or diagnose",
+    "magic-link request still supplies exact production redirectTo",
+    "auth spec documents required PKCE email-template contract"
+  ],
+  "productionLoaded": false,
+  "callback": "token_hash+type=email",
+  "verifyMethod": "verifyOtp"
+}
