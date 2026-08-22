@@ -1,0 +1,23 @@
+{
+  "name": "cloud-sync-local-adoption-v342",
+  "result": "PASS",
+  "caseCount": 12,
+  "validatedCases": [
+    "forced recovery callback snapshots current local profile before cloud adoption",
+    "keep-local promotion creates a real atomic revision at or above requested minimum",
+    "revision promotion preserves learner content while stamping a new local commit",
+    "promotion preserves previous valid profile for rollback",
+    "remote adoption commits validated payload above observed remote revision",
+    "remote adoption becomes a local commit with local writer and fresh timestamp",
+    "remote adoption keeps the pre-adoption local commit as rollback data",
+    "future cloud schema is rejected before write lease without blocking local study",
+    "another-tab write lease blocks cloud reconciliation local mutation",
+    "existing local persistence block prevents cloud adoption without changing data",
+    "local write failure is surfaced and committed learner snapshot is restored",
+    "committed descriptor exposes only the exact atomic sync fields"
+  ],
+  "usesExistingAtomicPersistence": true,
+  "forcedRecoveryBeforeAdoption": true,
+  "futureSchemaBlocksCloudOnly": true,
+  "productionLoaded": false
+}
