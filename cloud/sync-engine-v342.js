@@ -146,7 +146,9 @@
 
     function flush(){
       if(inFlight)return inFlight;
-      inFlight=Promise.resolve().then(doFlush).finally(()=>{inFlight=null});
+      // Start the explicit network operation immediately. The caller already chose to flush;
+      // this also closes the tiny scheduling window where a second flush could observe no request yet.
+      inFlight=doFlush().finally(()=>{inFlight=null});
       return inFlight;
     }
 
