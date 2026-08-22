@@ -1,0 +1,14 @@
+{
+  "package": "@supabase/supabase-js",
+  "version": "2.112.3",
+  "format": "umd",
+  "target": "vendor/supabase/supabase-2.112.3.js",
+  "sources": [
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js",
+    "https://unpkg.com/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
+  ],
+  "requireByteEquality": true,
+  "runtimeGlobal": "supabase",
+  "requiredExport": "createClient",
+  "productionRuntimeCdnAllowed": false
+}

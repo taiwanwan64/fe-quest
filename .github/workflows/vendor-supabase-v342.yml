@@ -1,0 +1,88 @@
+name: FE QUEST v342 vendor Supabase browser SDK
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/workflows/vendor-supabase-v342.yml'
+      - 'cloud/supabase/vendor-policy-v342.json'
+      - 'vendor/supabase/**'
+      - 'audits/V342_SUPABASE_BROWSER_SDK.md'
+
+permissions:
+  contents: write
+
+jobs:
+  vendor:
+    if: startsWith(github.head_ref, 'vendor-supabase-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout SDK vendor branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Fetch pinned UMD bundle from two independent CDNs
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION='2.112.3'
+          mkdir -p vendor/supabase
+          curl --fail --location --retry 4 --retry-all-errors \
+            "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@${VERSION}/dist/umd/supabase.js" \
+            -o /tmp/supabase-jsdelivr.js
+          curl --fail --location --retry 4 --retry-all-errors \
+            "https://unpkg.com/@supabase/supabase-js@${VERSION}/dist/umd/supabase.js" \
+            -o /tmp/supabase-unpkg.js
+          cmp /tmp/supabase-jsdelivr.js /tmp/supabase-unpkg.js
+          cp /tmp/supabase-jsdelivr.js "vendor/supabase/supabase-${VERSION}.js"
+          sha256sum "vendor/supabase/supabase-${VERSION}.js" > "vendor/supabase/supabase-${VERSION}.sha256"
+
+      - name: Validate browser global and record evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm');
+          const p='vendor/supabase/supabase-2.112.3.js';
+          const src=fs.readFileSync(p,'utf8');
+          const context={console,setTimeout,clearTimeout,URL,URLSearchParams,fetch:async()=>{throw new Error('network forbidden during SDK load validation')}};
+          context.globalThis=context;context.self=context;context.window=context;
+          vm.createContext(context);vm.runInContext(src,context,{filename:p,timeout:5000});
+          if(!context.supabase||typeof context.supabase.createClient!=='function')throw new Error('Supabase UMD global/createClient missing');
+          console.log('SUPABASE_UMD_GLOBAL_OK');
+          NODE
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          p=Path('vendor/supabase/supabase-2.112.3.js')
+          b=p.read_bytes(); digest=hashlib.sha256(b).hexdigest()
+          manifest={
+            'package':'@supabase/supabase-js','version':'2.112.3','format':'umd',
+            'path':str(p),'bytes':len(b),'sha256':digest,
+            'sourcesByteEqual':True,'runtimeGlobal':'supabase','requiredExport':'createClient',
+            'runtimeExternalCdnRequired':False
+          }
+          Path('vendor/supabase/manifest-v342.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          report=f'''# FE QUEST v342 — Supabase browser SDK vendoring\n\nResult: **PASS — PINNED LOCAL SDK READY**\n\n- package: `@supabase/supabase-js`\n- pinned version: `2.112.3`\n- browser format: UMD\n- local path: `vendor/supabase/supabase-2.112.3.js`\n- bytes: `{len(b)}`\n- SHA-256: `{digest}`\n- jsDelivr and unpkg copies were byte-for-byte identical before vendoring\n- the vendored bundle exposes `globalThis.supabase.createClient` without making a network request during load validation\n- production runtime must load this same-origin file; runtime CDN loading is forbidden\n- v341 production remains unchanged and does not load this SDK\n'''
+          Path('audits').mkdir(exist_ok=True)
+          Path('audits/V342_SUPABASE_BROWSER_SDK.md').write_text(report)
+          print(report)
+          PY
+
+      - name: Commit deterministic vendor outputs to PR branch
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add vendor/supabase/supabase-2.112.3.js vendor/supabase/supabase-2.112.3.sha256 vendor/supabase/manifest-v342.json audits/V342_SUPABASE_BROWSER_SDK.md
+          if git diff --cached --quiet; then
+            echo 'Vendor outputs already reproducible.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Vendor Supabase JS 2.112.3 for v342'
+          git push origin "HEAD:${HEAD_REF}"
