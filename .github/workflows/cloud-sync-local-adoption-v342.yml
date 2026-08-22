@@ -1,0 +1,41 @@
+name: FE QUEST v342 local reconciliation adapter
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_local_reconciliation_adapter.py'
+      - '.github/workflows/cloud-sync-local-adoption-v342.yml'
+      - 'cloud/local-reconciliation-adapter-v342.js'
+      - 'audits/V342_LOCAL_RECONCILIATION_ADAPTER.md'
+      - '_regression/cloud-sync-local-adoption-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-local-adoption-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 local adoption branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate atomic local reconciliation callbacks
+        run: python3 .github/cloud-sync-v342/validate_local_reconciliation_adapter.py
+
+      - name: Verify reproducible local adoption evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_LOCAL_RECONCILIATION_ADAPTER.md _regression/cloud-sync-local-adoption-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_LOCAL_RECONCILIATION_ADAPTER.md').read_text()
+          assert '12 / 12 ATOMIC LOCAL-ADOPTION CASES PASS' in audit
+          assert 'forced recovery checkpoint' in audit
+          assert 'cloud/local-reconciliation-adapter-v342.js' not in Path('app/base-shell-v341.html').read_text()
+          print('V342_LOCAL_RECONCILIATION_CALLBACKS_VALIDATED_AND_NOT_PRODUCTION_LOADED')
+          PY
