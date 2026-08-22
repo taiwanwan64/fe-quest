@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'auth-production-guide-v342')
+    if: startsWith(github.head_ref, 'auth-production-guide-v342') || startsWith(github.head_ref, 'cloud-activate-production-v342')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Auth production guide branch
@@ -29,7 +29,7 @@ jobs:
       - name: Validate hosted Auth production contract
         run: python3 .github/cloud-sync-v342/validate_auth_production_setup.py
 
-      - name: Verify reproducible evidence and disabled production gate
+      - name: Verify reproducible evidence and resolved activation gate
         shell: bash
         run: |
           git diff --exit-code -- audits/V342_AUTH_PRODUCTION_SETUP.md
@@ -38,8 +38,11 @@ jobs:
           setup=Path('cloud/supabase/AUTH_PRODUCTION_SETUP_V342.md').read_text()
           audit=Path('audits/V342_AUTH_PRODUCTION_SETUP.md').read_text()
           config=Path('cloud/public-config-v342.js').read_text()
-          assert 'PASS — 23 / 23 AUTH-PRODUCTION CHECKS PASS' in audit
+          url='https://taiwanwan64.github.io/fe-quest/'
+          assert 'PASS — 25 / 25 AUTH-PRODUCTION CHECKS PASS' in audit
           assert '{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email' in setup
-          assert 'enabled:false' in config and 'redirectTo:null' in config
-          print('V342_AUTH_PRODUCTION_SETUP_REPRODUCIBLE_AND_DISABLED')
+          assert url in setup
+          assert 'enabled:true' in config and f"redirectTo:'{url}'" in config
+          assert 'activation-loader-v342.js' not in Path('app/base-shell-v341.html').read_text()
+          print('V342_AUTH_PRODUCTION_SETUP_REPRODUCIBLE_AND_RESOLVED')
           PY
