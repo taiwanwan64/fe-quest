@@ -1,0 +1,191 @@
+// ===== FE QUEST v340 first-run adaptive-plan experience =====
+const FIRST_RUN_EXPERIENCE_V340_SPEC=Object.freeze({
+  policy:'fresh-learner-two-setting-adaptive-plan-introduction',
+  requiredSetting:'examDate',
+  minutePresets:Object.freeze([30,45,60,90]),
+  defaultMinutes:60,
+  autoPaceEnabledOnSetup:true,
+  profileSchemaChanged:false,
+  adaptivePlannerChanged:false,
+  existingLearnerRouteChanged:false
+});
+
+function firstRunHasLearningHistoryV340(){
+  if(Number(profile?.xp)||0)return true;
+  if((profile?.sessions||[]).length)return true;
+  if(Object.values(profile?.lessonProgress||{}).some(v=>Number(v)>0))return true;
+  if(Object.values(profile?.bProgress||{}).some(v=>Number(v)>0))return true;
+  if(Object.values(profile?.qStats||{}).some(v=>Number(v?.attempts)>0))return true;
+  if(Object.values(profile?.activity||{}).some(v=>Number(v?.minutes)>0))return true;
+  return false;
+}
+
+function firstRunNeedsSetupV340(){
+  return !firstRunHasLearningHistoryV340()&&!String(profile?.settings?.examDate||'').trim();
+}
+
+function firstRunDateKeyV340(d=new Date()){
+  const x=new Date(d);x.setHours(12,0,0,0);
+  return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
+}
+
+function firstRunNodeV340(tag,cls,text){
+  const el=document.createElement(tag);
+  if(cls)el.className=cls;
+  if(text!=null)el.textContent=text;
+  return el;
+}
+
+function ensureFirstRunStyleV340(){
+  if(document.getElementById('firstRunExperienceStyleV340'))return;
+  const style=document.createElement('style');
+  style.id='firstRunExperienceStyleV340';
+  style.textContent=`
+    #firstRunExperienceV340{grid-column:1/-1;width:100%;box-sizing:border-box;margin:0 0 18px;padding:20px;border:1px solid rgba(88,204,2,.28);border-radius:20px;background:linear-gradient(180deg,#fff 0%,#f7fff1 100%);box-shadow:0 8px 28px rgba(22,45,12,.08)}
+    #firstRunExperienceV340 .v340-kicker{font-size:12px;font-weight:900;letter-spacing:.06em;color:#3f8f13;margin-bottom:5px}
+    #firstRunExperienceV340 h2{font-size:22px;line-height:1.35;margin:0 0 7px}
+    #firstRunExperienceV340 .v340-lead{margin:0;color:var(--muted,#657080);line-height:1.65;font-size:14px}
+    #firstRunExperienceV340 .v340-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px;margin-top:18px}
+    #firstRunExperienceV340 .v340-field{min-width:0}
+    #firstRunExperienceV340 label.v340-label{display:block;font-weight:850;font-size:13px;margin-bottom:7px}
+    #firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;box-sizing:border-box;border:1px solid #d8dee8;border-radius:12px;background:#fff;padding:0 12px;font:inherit;color:inherit}
+    #firstRunExperienceV340 .v340-minutes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+    #firstRunExperienceV340 .v340-minute{min-height:46px;border:1px solid #d8dee8;border-radius:12px;background:#fff;font:inherit;font-weight:850;color:inherit;cursor:pointer}
+    #firstRunExperienceV340 .v340-minute[aria-pressed=true]{border-color:#58cc02;background:#efffe6;color:#277608;box-shadow:inset 0 0 0 1px #58cc02}
+    #firstRunExperienceV340 .v340-help{font-size:12px;color:var(--muted,#657080);margin-top:6px;line-height:1.5}
+    #firstRunExperienceV340 .v340-error{display:none;margin-top:10px;padding:9px 11px;border-radius:10px;background:#fff1f1;color:#b42318;font-size:13px;font-weight:700}
+    #firstRunExperienceV340 .v340-error.show{display:block}
+    #firstRunExperienceV340 .v340-primary{display:block;width:min(100%,420px);min-height:50px;margin:18px auto 0;border:0;border-radius:14px;background:#58cc02;color:#fff;font:inherit;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #46a302}
+    #firstRunExperienceV340 .v340-primary:active{transform:translateY(2px);box-shadow:0 2px 0 #46a302}
+    #firstRunExperienceV340 .v340-plan-reason{margin:14px 0 0;padding:11px 13px;border-radius:12px;background:#eff8ff;color:#24527a;font-size:13px;line-height:1.6}
+    #firstRunExperienceV340 .v340-plan{display:grid;gap:8px;margin-top:14px}
+    #firstRunExperienceV340 .v340-task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:start;gap:10px;padding:11px 12px;border:1px solid #e4e9ef;border-radius:12px;background:#fff}
+    #firstRunExperienceV340 .v340-task-icon{font-size:19px;line-height:1.3}
+    #firstRunExperienceV340 .v340-task-title{font-weight:850;font-size:14px;line-height:1.4}
+    #firstRunExperienceV340 .v340-task-why{margin-top:2px;color:var(--muted,#657080);font-size:12px;line-height:1.45}
+    #firstRunExperienceV340 .v340-task-minutes{font-size:13px;font-weight:900;white-space:nowrap;color:#475467}
+    @media(max-width:720px){#firstRunExperienceV340{padding:17px 15px;border-radius:16px}#firstRunExperienceV340 h2{font-size:20px}#firstRunExperienceV340 .v340-fields{grid-template-columns:1fr;gap:14px}#firstRunExperienceV340 .v340-minutes{gap:6px}#firstRunExperienceV340 .v340-minute{min-height:48px;font-size:13px}#firstRunExperienceV340 .v340-primary{min-height:52px}}
+  `;
+  document.head.append(style);
+}
+
+function firstRunTaskWhyV340(task){
+  if(task?.desc)return String(task.desc);
+  if(task?.type==='review')return '忘れやすい内容を先に確認します。';
+  if(task?.type==='lesson')return '未完了の基礎教材を優先します。';
+  if(task?.type==='subjectB')return '科目Bの実戦力を毎日の計画に組み込みます。';
+  if(task?.type==='boss')return '最後に全体を短く確認します。';
+  return '今日の進捗に合わせた学習です。';
+}
+
+function renderFirstRunPlanReadyV340(root,tasks){
+  root.replaceChildren();
+  root.dataset.state='ready';
+  root.append(firstRunNodeV340('div','v340-kicker','あなた専用の計画'));
+  root.append(firstRunNodeV340('h2','', '今日の計画ができました'));
+  root.append(firstRunNodeV340('p','v340-lead','この順番は固定ではありません。学習の進み方・復習期限・間違い方に合わせて、次の日以降もFE QUESTが組み替えます。'));
+
+  const days=examDaysRemaining();
+  const minutes=effectiveStudyMinutes();
+  const reason=firstRunNodeV340('div','v340-plan-reason');
+  reason.textContent=`試験日まで${days===0?'今日':`${Math.max(0,days)}日`}・今日${minutes}分を基準に、復習・教材・科目B・総合確認へ配分しました。`;
+  root.append(reason);
+
+  const list=firstRunNodeV340('div','v340-plan');
+  (tasks||[]).forEach(task=>{
+    const row=firstRunNodeV340('div','v340-task');
+    row.append(firstRunNodeV340('div','v340-task-icon',task.icon||'•'));
+    const copy=firstRunNodeV340('div','');
+    copy.append(firstRunNodeV340('div','v340-task-title',task.title||'今日の学習'));
+    copy.append(firstRunNodeV340('div','v340-task-why',firstRunTaskWhyV340(task)));
+    row.append(copy);
+    row.append(firstRunNodeV340('div','v340-task-minutes',`${Number(task.minutes)||0}分`));
+    list.append(row);
+  });
+  root.append(list);
+
+  const start=firstRunNodeV340('button','v340-primary','最初の学習を始める →');
+  start.type='button';
+  start.id='firstRunStartV340';
+  start.addEventListener('click',()=>{
+    const first=(tasks||[])[0];
+    root.remove();
+    try{if(first&&typeof launchDailyTask==='function')launchDailyTask(first);else showScreen('home',{instant:true});}
+    catch(_){showScreen('home',{instant:true});}
+  });
+  root.append(start);
+}
+
+function buildFirstRunSetupV340(root){
+  root.replaceChildren();
+  root.dataset.state='setup';
+  root.append(firstRunNodeV340('div','v340-kicker','最初の30秒'));
+  root.append(firstRunNodeV340('h2','', '最初に2つだけ設定します'));
+  root.append(firstRunNodeV340('p','v340-lead','FE QUESTは、決めた計画をこなすだけの問題集ではありません。試験日と使える時間を基準に、学習した結果に合わせて「今日やること」を自動で変えます。'));
+
+  let selected=Number(profile?.settings?.studyMinutes)||60;
+  if(!FIRST_RUN_EXPERIENCE_V340_SPEC.minutePresets.includes(selected))selected=60;
+
+  const fields=firstRunNodeV340('div','v340-fields');
+  const dateField=firstRunNodeV340('div','v340-field');
+  const dateLabel=firstRunNodeV340('label','v340-label','受験予定日');
+  dateLabel.htmlFor='firstRunExamDateV340';
+  const date=firstRunNodeV340('input','');date.type='date';date.id='firstRunExamDateV340';date.min=firstRunDateKeyV340();date.value=profile?.settings?.examDate||'';
+  dateField.append(dateLabel,date,firstRunNodeV340('div','v340-help','残り日数に合わせて、新規学習・復習・直前期の負荷を調整します。'));
+
+  const minuteField=firstRunNodeV340('div','v340-field');
+  minuteField.append(firstRunNodeV340('div','v340-label','1日の学習時間'));
+  const minuteButtons=firstRunNodeV340('div','v340-minutes');
+  FIRST_RUN_EXPERIENCE_V340_SPEC.minutePresets.forEach(m=>{
+    const btn=firstRunNodeV340('button','v340-minute',`${m}分`);btn.type='button';btn.dataset.minutes=String(m);btn.setAttribute('aria-pressed',String(m===selected));
+    btn.addEventListener('click',()=>{selected=m;minuteButtons.querySelectorAll('.v340-minute').forEach(x=>x.setAttribute('aria-pressed',String(Number(x.dataset.minutes)===selected)));});
+    minuteButtons.append(btn);
+  });
+  minuteField.append(minuteButtons,firstRunNodeV340('div','v340-help','あとから学習計画でいつでも変更できます。'));
+  fields.append(dateField,minuteField);root.append(fields);
+
+  const error=firstRunNodeV340('div','v340-error');error.id='firstRunErrorV340';root.append(error);
+  const submit=firstRunNodeV340('button','v340-primary','今日の計画を作る →');submit.type='button';submit.id='firstRunCreatePlanV340';
+  submit.addEventListener('click',()=>{
+    const exam=String(date.value||'').trim();
+    if(!exam){error.textContent='受験予定日を選ぶと、試験日から逆算して今日の計画を作れます。';error.classList.add('show');date.focus();return;}
+    if(exam<firstRunDateKeyV340()){error.textContent='受験予定日は今日以降の日付を選んでください。';error.classList.add('show');date.focus();return;}
+    error.classList.remove('show');submit.disabled=true;submit.textContent='計画を作成中…';
+    profile.settings=profile.settings||{};
+    profile.settings.studyMinutes=selected;
+    profile.settings.examDate=exam;
+    profile.settings.autoPace=true;
+    const saved=saveProfile();
+    if(!saved){submit.disabled=false;submit.textContent='今日の計画を作る →';error.textContent='設定を保存できませんでした。少し待ってから、もう一度お試しください。';error.classList.add('show');return;}
+    let tasks=[];
+    try{tasks=ensureTodayPlanSnapshot(true)||[];}catch(_){tasks=buildTodayTasks?.()||[];}
+    renderFirstRunPlanReadyV340(root,tasks);
+  });
+  root.append(submit);
+}
+
+function renderFirstRunExperienceV340(){
+  const old=document.getElementById('firstRunExperienceV340');
+  if(!firstRunNeedsSetupV340()){if(old&&old.dataset.state!=='ready')old.remove();return false;}
+  const home=document.getElementById('home');if(!home)return false;
+  ensureFirstRunStyleV340();
+  const root=old||firstRunNodeV340('section','');
+  root.id='firstRunExperienceV340';root.setAttribute('aria-label','初回学習設定');
+  if(!old)home.prepend(root);
+  buildFirstRunSetupV340(root);
+  return true;
+}
+
+function installFirstRunExperienceV340(){
+  renderFirstRunExperienceV340();
+  document.addEventListener('click',e=>{
+    if(e.target?.id==='savePlanSettings')setTimeout(renderFirstRunExperienceV340,80);
+  },true);
+  window.addEventListener('pageshow',()=>setTimeout(renderFirstRunExperienceV340,0));
+}
+
+globalThis.FIRST_RUN_EXPERIENCE_V340_SPEC=FIRST_RUN_EXPERIENCE_V340_SPEC;
+globalThis.firstRunHasLearningHistoryV340=firstRunHasLearningHistoryV340;
+globalThis.firstRunNeedsSetupV340=firstRunNeedsSetupV340;
+globalThis.renderFirstRunExperienceV340=renderFirstRunExperienceV340;
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installFirstRunExperienceV340,{once:true});else installFirstRunExperienceV340();
