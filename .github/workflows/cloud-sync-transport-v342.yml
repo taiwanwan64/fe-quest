@@ -1,0 +1,53 @@
+name: FE QUEST v342 optional cloud transport
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_transport.py'
+      - '.github/workflows/cloud-sync-transport-v342.yml'
+      - 'cloud/sync-contract-v342.js'
+      - 'cloud/sync-state-v342.js'
+      - 'cloud/supabase/transport-v342.js'
+      - 'cloud/supabase/v342_schema.sql'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-transport-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 transport branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate optional transport and isolated sync state
+        run: python3 .github/cloud-sync-v342/validate_transport.py
+
+      - name: Verify transport slice remains opt-in credential-free and matches committed regression intent
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re,subprocess
+          audit=Path('audits/V342_OPTIONAL_TRANSPORT_VALIDATION.md').read_text()
+          generated=json.loads(Path('_regression/cloud-sync-transport-v342.fixture.json').read_text())
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:_regression/cloud-sync-transport-v342.fixture.json'],text=True))
+          assert 'PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT' in audit
+          assert generated['summary']['caseCount']==committed['summary']['caseCount']==15
+          assert generated['summary']['allPassed'] is True and committed['summary']['allPassed'] is True
+          generated_names=[x['name'] for x in generated['cases']]
+          assert generated_names==committed['validatedCases']
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert 'cloud/supabase/transport-v342.js' not in shell
+          assert 'cloud/sync-state-v342.js' not in shell
+          combined=Path('cloud/supabase/transport-v342.js').read_text()+Path('cloud/sync-state-v342.js').read_text()
+          assert 'SUPABASE_SERVICE_ROLE' not in combined
+          assert 'service_role=' not in combined
+          assert not re.search(r'sb_secret_[A-Za-z0-9_-]{20,}',combined)
+          print('V342_OPTIONAL_TRANSPORT_VALIDATED_AGAINST_COMMITTED_INTENT')
+          PY

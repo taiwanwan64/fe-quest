@@ -1,0 +1,35 @@
+{
+  "name": "cloud-sync-transport-v342",
+  "sourceAppVersion": "v341",
+  "result": "PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT + ISOLATED OUTBOX METADATA PRESERVE LOCAL-FIRST SAFETY",
+  "summary": {
+    "caseCount": 15,
+    "allPassed": true,
+    "syncStateSeparateFromProfileSchema": true,
+    "accountMismatchBlocksCrossAccountAncestry": true,
+    "signOutDoesNotDeleteLearnerData": true,
+    "noSessionNoNetwork": true,
+    "networkErrorsNonThrowingRetryable": true,
+    "rpcOnlyWrites": true,
+    "remoteConflictRequiresReconciliation": true,
+    "serviceRoleCredentialForbidden": true,
+    "productionV341StillCloudFree": true
+  },
+  "validatedCases": [
+    "corrupt sync metadata is isolated",
+    "first account binding succeeds",
+    "different account never inherits ancestry",
+    "outbox coalesces to latest local commit",
+    "outbox does not invent remote ancestry",
+    "successful ack advances base and clears pending",
+    "sign-out sync reset leaves learner storage untouched",
+    "service-role style key rejected",
+    "no auth session makes zero network calls",
+    "read uses authenticated RLS REST request",
+    "commit uses guarded RPC not blind table upsert",
+    "application conflict is returned for explicit reconciliation",
+    "network error is retryable and nonthrowing",
+    "expired session is classified as auth failure",
+    "provider outage remains retryable"
+  ]
+}
