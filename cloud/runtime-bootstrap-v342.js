@@ -89,7 +89,9 @@
       getLocalDescriptor:()=>bridge.getCommittedProfile(),hasLocalLearningData:payload=>hasLearningData(payload)
     });
     ui=modules.uiApi.createSyncSettingsUI({
-      authBoundary,controller,document:options.document??root.document,confirm:options.confirm,onMessage:options.onMessage
+      authBoundary,controller,
+      deleteAccount:typeof transport.deleteAccount==='function'?()=>transport.deleteAccount():null,
+      document:options.document??root.document,confirm:options.confirm,onMessage:options.onMessage
     });
 
     async function start(){
