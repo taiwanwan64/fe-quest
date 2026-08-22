@@ -50,12 +50,24 @@ jobs:
           print('V342_PROVIDER_CONTRACT_OK')
           PY
 
-      - name: Verify generated evidence is reproducible without mutating the PR branch
+      - name: Verify generated evidence is semantically reproducible without mutating the PR branch
         shell: bash
         run: |
-          git diff --exit-code -- audits/V342_SYNC_CONFLICT_SIMULATION.md _regression/cloud-sync-contract-v342.fixture.json
+          git diff --exit-code -- audits/V342_SYNC_CONFLICT_SIMULATION.md
           python3 - <<'PY'
           from pathlib import Path
+          import json,subprocess
+
+          generated=json.loads(Path('_regression/cloud-sync-contract-v342.fixture.json').read_text())
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:_regression/cloud-sync-contract-v342.fixture.json'],text=True))
+
+          def scrub(v):
+              if isinstance(v,dict):
+                  return {k:('<runtime-generated>' if k=='queuedAt' else scrub(x)) for k,x in v.items()}
+              if isinstance(v,list): return [scrub(x) for x in v]
+              return v
+
+          assert scrub(generated)==scrub(committed), 'semantic sync fixture drift'
           p=Path('audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md').read_text()
           assert 'PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFORE CLOUD CODE' in p
           print('V342_CONTRACT_EVIDENCE_VALIDATED_WITHOUT_BOT_PUSH')
