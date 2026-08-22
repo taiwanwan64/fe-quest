@@ -54,6 +54,13 @@ def chain(index,reader):
         out += [p]*len(re.findall(r'\brenderBFinalResult\s*=\s*function\s*\(',t))
     return out
 
+def assert_rows(js):
+    rows=[]
+    for line in js.splitlines():
+        if re.search(r'\bfunction\s+assert\s*\(',line): continue
+        if re.search(r'\bassert\s*\(',line): rows.append(line.strip())
+    return rows
+
 ctx(); parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
 expected={'.github/runtime-safety-override-cleanup/validate_v339.py','.github/workflows/runtime-safety-override-cleanup-v339.yml','index.html','app/subject-b-final-xp-overrides-v219.txt','app/subject-b-review-reason-route-overrides-v243.txt','app/subject-b-security-review-reason-label-overrides-v245.txt','app/subject-b-final-result-pipeline-v339.txt'}
 allowed=expected|{'manifest.webmanifest','sw.js','FE_QUEST_DEVELOPMENT_PLAN.md','_regression/runtime-safety-override-cleanup-v339.fixture.json','audits/RUNTIME_SAFETY_OVERRIDE_CLEANUP_v339.md'}
@@ -74,13 +81,14 @@ idx=Path('index.html').read_text(); par=show('origin/main','index.html')
 cc=chain(idx,lambda x:Path(x).read_text()); pc=chain(par,lambda x:show('origin/main',x))
 req(len(pc)==5 and len(cc)==3,'wrapper depth '+repr((pc,cc)))
 req(cc==['app/subject-b-final-remediation-overrides-v217.txt','app/subject-b-wrong-answer-feedback-overrides-v230.txt','app/subject-b-final-result-pipeline-v339.txt'],'wrapper chain '+repr(cc))
-asserts=len(re.findall(r'\bassert\s*\(',scripts('_site/index.html')))-1; req(asserts==54,'assert inventory '+str(asserts))
+asserts=assert_rows(scripts('_site/index.html')); parent_asserts=assert_rows(scripts('_site_parent/index.html'))
+req(len(asserts)==len(parent_asserts)==54,'assert contract rows '+repr((len(parent_asserts),len(asserts))))
 learning=Path('app/learning-patches.txt').read_text(); req(all(re.search(rf'\bv{n}\b',learning,re.I) for n in range(134,141)),'v134-v140 blocks')
 standalone=[x.name for x in Path('app').iterdir() if x.is_file() and re.search(r'v(?:13[4-9]|140)',x.name,re.I)]; req(not standalone,'standalone v134-v140 '+repr(standalone))
 files=['index.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','apple-touch-icon.png']; req(all((Path('_site')/x).read_bytes()==(Path('_site_reference')/x).read_bytes() for x in files),'reference mismatch')
 
-summary={'runtimeHardAssertStopPaths':0,'runtimeContractCalls':54,'ciStrictReplayPassed':True,'wrapperDepthBefore':5,'wrapperDepthAfter':3,'wrapperChainAfter':cc,'questionCount':710,'contentHashesUnchanged':True,'adaptiveContractUnchanged':True,'schemaChanged':False,'subjectBSemanticOK':True,'v134ToV140StandaloneFiles':0}
+summary={'runtimeHardAssertStopPaths':0,'runtimeContractRows':54,'ciStrictReplayPassed':True,'wrapperDepthBefore':5,'wrapperDepthAfter':3,'wrapperChainAfter':cc,'questionCount':710,'contentHashesUnchanged':True,'adaptiveContractUnchanged':True,'schemaChanged':False,'subjectBSemanticOK':True,'v134ToV140StandaloneFiles':0}
 fx={'version':V,'previous':P,'parentMainSha':parent,'result':'PASS — RUNTIME HARD-ASSERT STOP PATHS REMOVED; FINAL-RESULT WRAPPER DEPTH 5→3','summary':summary,'pipelineSpec':c['pipe']}
 Path('_regression').mkdir(exist_ok=True); Path('_regression/runtime-safety-override-cleanup-v339.fixture.json').write_text(json.dumps(fx,ensure_ascii=True,indent=2)+'\n')
-report=f'''# FE QUEST v339 — runtime safety + override cleanup phase 1\n\nResult: **{fx['result']}**\n\n- production hard-assert停止経路: **0**（54 contractは非破壊diagnostic化）\n- CI strict replay: **PASS**（同じ54 contractをthrow型で検証）\n- `renderBFinalResult` wrapper深度: **5 → 3**\n- v219 / v243 / v245: 個別wrapperから明示hookへ移行\n- v217 / v230: 実行順維持のためinner wrapperとして残置\n- 科目A 710問・QUESTION_BANK hash: **不変**\n- 科目B content hash / semantic diagnostics: **不変 / OK**\n- 適応学習主要contract・profile schema: **不変**\n- v134〜v140: standalone fileは0件で、既に `learning-patches.txt` に集約済み。405KB moduleの再配置はこの安全化フェーズでは行わない。\n\nPipeline順: v219 XP表示保持 → v217 recovery → v230 choice-specific feedback → v243 review route → v245 security reason labels。\n\n次はSource of Truthをv340へ更新し、初回体験・日常UX完成度向上へ進む。\n'''
+report=f'''# FE QUEST v339 — runtime safety + override cleanup phase 1\n\nResult: **{fx['result']}**\n\n- production hard-assert停止経路: **0**（54 contract rowは非破壊diagnostic化）\n- CI strict replay: **PASS**（同じ54 contract rowをthrow型で検証）\n- `renderBFinalResult` wrapper深度: **5 → 3**\n- v219 / v243 / v245: 個別wrapperから明示hookへ移行\n- v217 / v230: 実行順維持のためinner wrapperとして残置\n- 科目A 710問・QUESTION_BANK hash: **不変**\n- 科目B content hash / semantic diagnostics: **不変 / OK**\n- 適応学習主要contract・profile schema: **不変**\n- v134〜v140: standalone fileは0件で、既に `learning-patches.txt` に集約済み。405KB moduleの再配置はこの安全化フェーズでは行わない。\n\nPipeline順: v219 XP表示保持 → v217 recovery → v230 choice-specific feedback → v243 review route → v245 security reason labels。\n\n次はSource of Truthをv340へ更新し、初回体験・日常UX完成度向上へ進む。\n'''
 Path('audits').mkdir(exist_ok=True); Path('audits/RUNTIME_SAFETY_OVERRIDE_CLEANUP_v339.md').write_text(report); print(report)
