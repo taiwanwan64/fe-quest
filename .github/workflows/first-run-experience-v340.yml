@@ -1,0 +1,50 @@
+name: FE QUEST v340 first-run experience
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/first-run-experience/**'
+      - '.github/workflows/first-run-experience-v340.yml'
+      - 'app/first-run-experience-v340.txt'
+
+permissions:
+  contents: write
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  discover:
+    if: startsWith(github.head_ref, 'first-run-experience-v')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Materialize v340 shell
+        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_materialize.py
+      - uses: actions/configure-pages@v5
+      - name: Build candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+      - name: Discover current first-run contract
+        run: python3 .github/first-run-experience/discover_v340.py
+      - name: Commit discovery and v340 shell
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audits/V340_FIRST_RUN_DISCOVERY.json index.html manifest.webmanifest sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST v340 first-run discovery"
+            git fetch origin "$GITHUB_HEAD_REF"
+            git rebase "origin/$GITHUB_HEAD_REF"
+            git push origin HEAD:"$GITHUB_HEAD_REF"
+          fi
