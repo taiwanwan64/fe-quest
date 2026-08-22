@@ -1,0 +1,80 @@
+name: FE QUEST v341 distribution split
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/distribution-split-v341/**'
+      - '.github/workflows/distribution-split-v341.yml'
+      - 'assets/**'
+      - 'app/base-shell-v341.html'
+      - 'app/distribution-bootstrap-v341.txt'
+
+permissions:
+  contents: write
+  pages: read
+
+env:
+  GITHUB_PAGES: true
+
+jobs:
+  discover:
+    if: startsWith(github.head_ref, 'distribution-split-v')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Normalize shell to v340
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          idx=Path('index.html');t=idx.read_text()
+          if '<title>FE QUEST PWA v341</title>' in t:
+              t=t.replace('<title>FE QUEST PWA v341</title>','<title>FE QUEST PWA v340</title>',1)
+              t=t.replace("const APP_VERSION = 'v341';","const APP_VERSION = 'v340';",1)
+              idx.write_text(t)
+          mp=Path('manifest.webmanifest');m=json.loads(mp.read_text())
+          if m.get('name')=='FE QUEST v341':
+              m['name']='FE QUEST v340';m['description']=m.get('description','').replace('v341','v340');mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
+          sw=Path('sw.js');t=sw.read_text()
+          if "const APP_VERSION = 'v341';" in t:
+              t=t.replace("const APP_VERSION = 'v341';","const APP_VERSION = 'v340';",1)
+              t=t.replace("const CACHE_NAME = 'fe-quest-v341-1';","const CACHE_NAME = 'fe-quest-v340-1';",1)
+              sw.write_text(t)
+          PY
+
+      - name: Materialize v341 shell
+        run: GITHUB_REF_NAME="v341-staging" python3 .github/release/release_materialize.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build discovery candidate
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          build_revision: ${{ github.sha }}
+          verbose: true
+
+      - name: Discover distribution boundaries
+        run: python3 .github/distribution-split-v341/discover.py
+
+      - name: Commit discovery and shell
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audits/V341_DISTRIBUTION_DISCOVERY.json index.html manifest.webmanifest sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize FE QUEST v341 distribution discovery"
+            git fetch origin "$GITHUB_HEAD_REF"
+            git rebase "origin/$GITHUB_HEAD_REF"
+            git push origin HEAD:"$GITHUB_HEAD_REF"
+          fi
