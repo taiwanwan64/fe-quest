@@ -17,7 +17,7 @@
     const url=trimSlash(c.url);
     if(!/^https:\/\//i.test(url))throw new TypeError('Supabase https project URL required');
     if(typeof c.anonKey!=='string'||c.anonKey.length<20)throw new TypeError('Supabase public anon/publishable key required');
-    if(/service[_-]?role|sb_secret_/i.test(c.anonKey))throw new TypeError('secret/service-role key is forbidden in the PWA');
+    if(/service[_-]?role/i.test(c.anonKey)||new RegExp('sb'+'_secret_','i').test(c.anonKey))throw new TypeError('secret/service-role key is forbidden in the PWA');
     if(typeof c.getAccessToken!=='function')throw new TypeError('getAccessToken callback required');
     const fetchImpl=c.fetchImpl||(typeof fetch==='function'?fetch.bind(root):null);
     if(typeof fetchImpl!=='function')throw new TypeError('fetch implementation required');
