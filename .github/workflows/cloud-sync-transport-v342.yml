@@ -1,0 +1,45 @@
+name: FE QUEST v342 optional cloud transport
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_transport.py'
+      - '.github/workflows/cloud-sync-transport-v342.yml'
+      - 'cloud/sync-contract-v342.js'
+      - 'cloud/sync-state-v342.js'
+      - 'cloud/supabase/transport-v342.js'
+      - 'cloud/supabase/v342_schema.sql'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-transport-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 transport branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate optional transport and isolated sync state
+        run: python3 .github/cloud-sync-v342/validate_transport.py
+
+      - name: Verify transport slice remains opt-in and credential-free
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          audit=Path('audits/V342_OPTIONAL_TRANSPORT_VALIDATION.md').read_text()
+          assert 'PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT' in audit
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert 'cloud/supabase/transport-v342.js' not in shell
+          assert 'cloud/sync-state-v342.js' not in shell
+          combined=Path('cloud/supabase/transport-v342.js').read_text()+Path('cloud/sync-state-v342.js').read_text()
+          for forbidden in ['SUPABASE_SERVICE_ROLE','sb_secret_','service_role=']:
+              assert forbidden not in combined
+          print('V342_OPTIONAL_TRANSPORT_NOT_PRODUCTION_LOADED')
+          PY
