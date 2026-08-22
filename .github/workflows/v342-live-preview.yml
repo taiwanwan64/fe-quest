@@ -1,0 +1,34 @@
+name: FE QUEST v342 live preview isolation
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'v342-preview.html'
+      - 'app/base-shell-v342.html'
+      - 'assets/app-v342.css'
+      - 'assets/app-v342.js'
+      - 'assets/asset-manifest-v342.json'
+      - 'audits/V342_LIVE_AUTH_ACCEPTANCE.md'
+      - '.github/cloud-sync-v342/validate_live_preview.py'
+      - '.github/workflows/v342-live-preview.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'v342-live-preview')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Fetch main boundary
+        run: git fetch origin main:refs/remotes/origin/main
+
+      - name: Validate isolated v342 preview
+        run: python3 .github/cloud-sync-v342/validate_live_preview.py
