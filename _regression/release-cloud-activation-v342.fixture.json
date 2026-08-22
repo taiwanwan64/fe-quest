@@ -5,7 +5,7 @@
   "validatedCases": [
     "v342 shell inserts one activation loader after the core app script",
     "mechanical v342 CSS remains byte-identical to v341",
-    "mechanical v342 app JS changes only APP_VERSION",
+    "mechanical v342 app JS follows the approved APP_VERSION plus Safari date transform",
     "asset manifest declares same-origin fail-open cloud activation",
     "asset manifest records canonical production redirect",
     "asset manifest records the pinned local Supabase SDK",
