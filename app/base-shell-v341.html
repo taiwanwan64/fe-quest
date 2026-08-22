@@ -1,0 +1,1839 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#58cc02" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="FE QUEST" />
+<meta name="description" content="基本情報技術者試験の学習・問題演習・復習・模試をまとめた学習PWA" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>FE QUEST PWA v341</title>
+<!-- FEQUEST_ASSET_RECOVERY_V341_START -->
+<script>
+(()=>{const show=(kind)=>{const paint=()=>{if(document.getElementById('fequestAssetRecoveryV341'))return;const box=document.createElement('div');box.id='fequestAssetRecoveryV341';box.setAttribute('role','alert');box.style.cssText='position:fixed;inset:16px;z-index:2147483647;margin:auto;max-width:520px;height:max-content;padding:20px;border:1px solid #d9e2ec;border-radius:18px;background:#fff;color:#24313d;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 18px 50px rgba(15,23,42,.18)';box.innerHTML='<div style="font-size:20px;font-weight:800;margin-bottom:8px">FE QUESTを読み込めませんでした</div><div style="font-size:14px;line-height:1.65;margin-bottom:14px">必要なアプリファイルを取得できませんでした。通信状態を確認して再読み込みしてください。学習データは削除されません。</div><button type="button" style="min-height:48px;width:100%;border:0;border-radius:12px;background:#58cc02;color:#fff;font-weight:800;font-size:16px" onclick="location.reload()">再読み込み</button>';document.body.appendChild(box)};if(document.body)paint();else document.addEventListener('DOMContentLoaded',paint,{once:true})};addEventListener('error',e=>{const t=e&&e.target;if(t&&((t.tagName==='LINK'&&/stylesheet/i.test(t.rel||''))||t.tagName==='SCRIPT'))show(t.tagName.toLowerCase())},true)})();
+</script>
+<!-- FEQUEST_ASSET_RECOVERY_V341_END -->
+<link rel="stylesheet" href="./assets/app-v341.css">
+
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+<meta name="apple-mobile-web-app-title" content="FE QUEST" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">FE QUEST</div>
+    <div class="header-spacer"></div>
+    <div class="mobile-stats"><span class="mstat">🔥 <span id="streakMobile">0</span></span><span class="mstat">⭐ <span id="xpMobile">0</span></span></div>
+    <div class="stat-chip">🔥 <span id="streakTop">0</span>日</div>
+    <div class="stat-chip">⭐ <span id="xpTop">0</span> XP</div>
+    <button class="avatar ai-header-btn" id="aiFab" type="button" aria-label="BIT先生に質問する" aria-expanded="false" aria-controls="aiDrawer" title="BIT先生"><span aria-hidden="true">🤖</span></button>
+  </header>
+
+  <aside class="sidebar" role="navigation" aria-label="メインナビゲーション">
+    <button class="nav-btn active" data-screen="home" aria-current="page"><span class="ico" aria-hidden="true">🏠</span><span>ホーム</span></button>
+    <button class="nav-btn" data-screen="map"><span class="ico" aria-hidden="true">📚</span><span>学習</span></button>
+    <button class="nav-btn" data-screen="problems"><span class="ico" aria-hidden="true">✏️</span><span>演習</span></button>
+    <button class="nav-btn" data-screen="plan"><span class="ico" aria-hidden="true">📅</span><span>計画</span></button>
+    <button class="nav-btn nav-bottom" id="settingsBtn"><span class="ico" aria-hidden="true">⚙️</span><span>設定</span></button>
+  </aside>
+
+  <main id="mainContent">
+    <!-- HOME -->
+    <section id="home" class="screen active">
+      <h1 class="sr-only">ホーム</h1>
+
+      <div class="diag-banner" id="diagBanner">
+        <div class="diag-icon">🧭</div>
+        <div class="diag-copy">
+          <b>はじめに現在の実力を確認</b>
+          <div class="sub">12問・3〜5分ほど。結果から最初の学習内容を調整します。</div>
+        </div>
+        <button class="diag-start" id="startDiagnostic">実力診断を始める →</button>
+      </div>
+
+      <div class="today-plan" id="todayPlan">
+        <div class="today-plan-head">
+          <div class="today-plan-icon">🎯</div>
+          <div class="today-plan-copy">
+            <div class="today-plan-title">今日の学習</div>
+            <div class="today-plan-meta" id="todayPlanMeta">弱点と復習予定から自動編成しています。</div>
+          </div>
+          <div class="today-plan-score">試験準備度<b id="homeReadiness">0%</b></div>
+        </div>
+        <div class="daily-progress-wrap">
+          <div class="daily-progress-label"><span id="dailyProgressLabel">0 / 60分</span><span id="dailyDoneLabel">0 / 4 完了</span></div>
+          <div class="progress"><div id="dailyProgressBar" style="width:0%"></div></div>
+        </div>
+        <button class="today-resume" id="todayResumeBtn">今日の学習を始める →</button>
+        <div class="daily-tasks" id="dailyTaskList"></div>
+      </div>
+
+      <details class="home-secondary" id="homeReviewDetails">
+        <summary>復習候補を見る</summary>
+        <div class="mini-grid" id="homeReviewCandidates">
+          <div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- MOCK -->
+    <section id="mock" class="screen">
+      <div id="mockMenu" class="mock-menu">
+        <div class="screen-head">
+          <button class="back" data-screen="problems" aria-label="前の画面に戻る">←</button>
+          <div><h1>科目A 模試 📝</h1><div class="sub">本番を意識した時間配分を練習します。</div></div>
+        </div>
+
+        <div class="mock-hero">
+          <div class="mock-hero-icon">⏱️</div>
+          <div class="mock-hero-copy">
+            <div class="mock-hero-title">2026年度 現行形式対応</div>
+            <div class="mock-official">科目A：90分・60問・四肢択一。本番を意識した演習を行います。</div>
+          </div>
+        </div>
+
+        <details class="ux-secondary-details mock-secondary-details">
+          <summary>模試の出題設計を見る</summary>
+          <div class="mock-blueprint-card">
+          <div class="mock-blueprint-head">
+            <div>
+              <div class="mock-blueprint-kicker">FE QUEST 模試設計</div>
+              <b>毎回の出題バランスを自動調整</b>
+            </div>
+            <span class="mock-blueprint-badge">問題バンク710問</span>
+          </div>
+          <div class="mock-blueprint-grid">
+            <div><span>🧭</span><b>8分野</b><small>各分野の問題数差を最大1問に抑える</small></div>
+            <div><span>⚖️</span><b>難易度</b><small>基礎 → 標準 → 実戦の3段階から出題</small></div>
+            <div><span>🧠</span><b>思考段階</b><small>想起だけに偏らず、適用・判断まで含める</small></div>
+            <div><span>🔁</span><b>再出題</b><small>模試で未出題・出題回数が少ない問題を優先</small></div>
+            <div><span>🧩</span><b>論点</b><small>同じ論点への偏りをできるだけ回避</small></div>
+          </div>
+          <div class="mock-blueprint-note">※これはFE QUEST内の模試生成ルールです。公式試験の問題配分を示すものではありません。</div>
+        </div>
+        </details>
+
+        <div class="mock-cards">
+          <div class="mock-card featured">
+            <div class="mock-card-icon">🏁</div>
+            <div class="mock-card-title">フル模試</div>
+            <div class="mock-card-desc">60問を90分で解く本番形式。途中で問題に★を付けて、後から見直せます。</div>
+            <div class="mock-specs"><span class="mock-spec">60問</span><span class="mock-spec">90分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎15 / 標準30 / 実戦15</span><span class="mock-spec">想起15 / 適用29 / 判断16</span></div>
+            <button class="mock-start" data-mock-mode="full">本番形式を始める</button>
+          </div>
+
+          <div class="mock-card">
+            <div class="mock-card-icon">⚡</div>
+            <div class="mock-card-title">ハーフ模試</div>
+            <div class="mock-card-desc">時間がない日の実戦練習。30問・45分で、本番と同じ1問あたりのペースを練習します。</div>
+            <div class="mock-specs"><span class="mock-spec">30問</span><span class="mock-spec">45分</span><span class="mock-spec">8分野均等</span><span class="mock-spec">基礎8 / 標準14 / 実戦8</span><span class="mock-spec">想起8 / 適用13 / 判断9</span></div>
+            <button class="mock-start" data-mock-mode="half">ハーフ模試を始める</button>
+          </div>
+        </div>
+
+        <details class="ux-secondary-details mock-history-details">
+          <summary>模試履歴を見る</summary>
+          <div class="mock-history">
+            <div id="mockHistoryList"><div class="sub">まだ模試履歴がありません。</div></div>
+          </div>
+        </details>
+      </div>
+
+      <div id="mockExam" class="mock-exam">
+        <div class="mock-topbar">
+          <div class="mock-top-title"><b id="mockExamTitle">フル模試</b><span id="mockExamProgressText">問1 / 60</span></div>
+          <div class="mock-timer" id="mockTimer">90:00</div>
+          <button class="mock-finish-btn" id="mockFinish">終了・採点</button>
+        </div>
+
+        <div class="mock-layout">
+          <div class="mock-question-card">
+            <div class="mock-q-meta">
+              <span class="mock-q-num" id="mockQNum">問1</span>
+              <span class="mock-q-cat" id="mockQCat">分野</span>
+            </div>
+            <div class="mock-q-question" id="mockQuestion"></div>
+            <div class="mock-q-options" id="mockOptions"></div>
+            <div class="mock-q-actions">
+              <button class="mock-prev" id="mockPrev">← 前へ</button>
+              <button class="mock-flag" id="mockFlag">☆ あとで見直す</button>
+              <button class="mock-next" id="mockNext">次へ →</button>
+            </div>
+          </div>
+
+          <div class="mock-nav-panel">
+            <div class="mock-nav-title">問題マップ</div>
+            <div class="mock-nav-grid" id="mockNavGrid"></div>
+            <div class="mock-legend">青＝回答済み　★＝見直し　枠＝現在の問題</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mockResult" class="mock-result">
+        <div class="mock-result-hero">
+          <div class="mock-result-icon" id="mockResultIcon">📊</div>
+          <h1>模試結果</h1>
+          <div class="mock-result-score" id="mockResultScore">0%</div>
+          <div id="mockResultMessage"></div>
+          <div class="mock-result-note">FE QUEST内の正答率です。実際の試験のIRT評価によるスコアとは異なります。</div>
+
+          <div class="mock-result-stats">
+            <div class="mock-stat"><div class="sub">正解</div><div class="mock-stat-val" id="mockStatCorrect">0</div></div>
+            <div class="mock-stat"><div class="sub">不正解</div><div class="mock-stat-val" id="mockStatWrong">0</div></div>
+            <div class="mock-stat"><div class="sub">未回答</div><div class="mock-stat-val" id="mockStatBlank">0</div></div>
+            <div class="mock-stat"><div class="sub">所要時間</div><div class="mock-stat-val" id="mockStatTime">0m</div></div>
+          </div>
+        </div>
+
+        <div class="mock-diagnosis" id="mockDiagnosis"></div>
+
+        <div class="mock-result-actions">
+          <button class="reviewwrong" id="mockStartReview">誤答・見直しを確認 →</button>
+          <button class="backmock" id="mockBackMenu">演習へ戻る</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="again" id="mockRetry">同じ形式をもう一度解く</button></details>
+        </div>
+
+        <details class="result-detail-fold">
+          <summary>分野別結果・復習候補を見る</summary>
+          <div class="mock-result-grid">
+            <div class="mock-result-card"><h3>分野別正答率</h3><div id="mockBreakdown"></div></div>
+            <div class="mock-result-card"><h3>復習優先</h3><div class="mock-review-list" id="mockReviewList"></div></div>
+          </div>
+        </details>
+      </div>
+
+      <div id="mockReviewMode" class="mock-review-mode">
+        <div class="review-head">
+          <button class="back" id="reviewExit" aria-label="前の画面に戻る">←</button>
+          <div class="review-head-copy">
+            <h1>模試レビュー 🔍</h1>
+            <div class="review-progress-text" id="reviewProgressText">1 / 1</div>
+          </div>
+        </div>
+
+        <div class="review-card" id="reviewCard">
+          <div class="review-badges" id="reviewBadges"></div>
+          <div class="review-question" id="reviewQuestion"></div>
+          <div class="review-answer-grid">
+            <div class="review-answer user" id="reviewUserAnswer">
+              <div class="review-answer-label">あなたの回答</div>
+              <div class="review-answer-value" id="reviewUserAnswerValue"></div>
+            </div>
+            <div class="review-answer correct">
+              <div class="review-answer-label">正解</div>
+              <div class="review-answer-value" id="reviewCorrectAnswerValue"></div>
+            </div>
+          </div>
+          <div class="review-explain">
+            <b>解説</b>
+            <div id="reviewExplanation"></div>
+            <div class="sub" id="reviewHint" style="margin-top:8px"></div>
+          </div>
+
+          <div class="review-reason">
+            <div class="review-reason-title">なぜ間違えましたか？</div>
+            <div class="review-reason-chips">
+              <button class="review-reason-chip" data-mreason="知識不足">知識不足</button>
+              <button class="review-reason-chip" data-mreason="計算ミス">計算ミス</button>
+              <button class="review-reason-chip" data-mreason="読み違い">読み違い</button>
+              <button class="review-reason-chip" data-mreason="2択で迷った">2択で迷った</button>
+              <button class="review-reason-chip" data-mreason="時間不足">時間不足</button>
+            </div>
+          </div>
+
+          <div class="review-prescription" id="reviewPrescription">
+            <div class="review-prescription-head"><span>💊</span><b>次の一手</b></div>
+            <div id="reviewPrescriptionText">原因を選ぶと、復習方法を提案します。</div>
+            <div class="review-prescription-actions">
+              <button id="reviewPrescriptionMain">復習を開始 →</button>
+              <button id="reviewJourneyDirect">復習ルートを見る</button>
+            </div>
+          </div>
+
+          <div class="review-time" id="reviewTime"></div>
+
+          <div class="similar-box" id="similarBox">
+            <div class="similar-title">🧩 同じ分野の類題</div>
+            <div class="similar-q" id="similarQuestion"></div>
+            <div class="similar-options" id="similarOptions"></div>
+            <div class="similar-feedback" id="similarFeedback"></div>
+          </div>
+
+          <div class="review-actions">
+            <button id="reviewPrev">← 前へ</button>
+            <button class="similar-btn" id="reviewSimilar">類題を1問</button>
+            <button class="review-next" id="reviewNext">次へ →</button>
+          </div>
+        </div>
+
+        <div class="review-summary" id="reviewSummary">
+          <div class="review-summary-icon">🧠</div>
+          <h2>レビュー完了！</h2>
+          <div class="sub">間違い方まで記録したので、今後の弱点分析に利用できます。</div>
+          <div class="reason-summary" id="reasonSummary"></div>
+          <div class="priority-box" id="reviewPriority"></div>
+          <div class="review-summary-actions">
+            <button class="primary" id="reviewSummaryJourney">復習ルートを続ける →</button>
+            <button class="secondary" id="reviewSummaryRx">原因別ドリルを始める</button>
+            <button class="secondary" id="reviewSummaryBack">模試結果へ戻る</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COVERAGE -->
+    <section id="coverage" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="plan" aria-label="前の画面に戻る">←</button>
+        <div><h1>試験範囲カバレッジ 🧭</h1><div class="sub">基本情報技術者試験の主要分野について、教材・問題演習・科目B演習の進み具合を確認します。</div></div>
+      </div>
+
+      <div class="coverage-summary coverage-summary-compact">
+        <div class="coverage-icon">📚</div>
+        <div class="coverage-copy"><b>教材の総合進捗</b></div>
+        <div class="coverage-big" id="coverageOverall">0%</div>
+      </div>
+
+      <div class="coverage-grid" id="coverageGrid"></div>
+      <div class="coverage-legend">この%は各分野に対応するFE QUEST教材の完了状況です。試験での得点率や合格確率を表すものではありません。</div>
+    </section>
+
+    <!-- PLAN -->
+    <section id="plan" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
+        <div><h1>学習計画 📅</h1><div class="sub">1日の学習時間と現在の実力から、FE QUESTが優先順位を組み立てます。</div></div>
+      </div>
+
+      <div class="section-shortcuts" aria-label="計画の補助メニュー">
+        <button class="section-shortcut" data-screen="history"><span>📈</span><b>学習分析</b><small>伸び・定着を見る</small></button>
+        <button class="section-shortcut" data-screen="coverage"><span>🧭</span><b>試験範囲の進捗</b><small>分野別に確認</small></button>
+      </div>
+
+      <div class="ux-focus-card" id="planFocusCard">
+        <div class="ux-focus-icon" id="planFocusIcon">📅</div>
+        <div class="ux-focus-copy"><div class="ux-focus-kicker">今日の計画</div><div class="ux-focus-title" id="planFocusTitle">学習状況を確認中…</div><div class="ux-focus-desc" id="planFocusDesc"></div></div>
+        <button class="ux-focus-action" id="planFocusAction">今日の学習へ →</button>
+      </div>
+      <button class="ux-section-toggle" id="planDetailsToggle" aria-expanded="false">進捗・設定の詳細を表示</button>
+
+      <div class="plan-screen-grid">
+        <div>
+          <div class="planner-card" id="roadmapCard">
+            <h2>学習ロードマップ</h2>
+            <div class="sub">試験対策全体を5段階にまとめて進捗管理します。</div>
+            <div class="roadmap" id="roadmapList"></div>
+          </div>
+
+          <div class="planner-card" id="weekPlanCard">
+            <h2>今週の学習</h2>
+            <div class="sub">完了した「今日の学習」に割り当てられた時間の合計です。実際の経過時間ではありません。</div>
+            <div class="week-chart" id="weekChart"></div>
+            <button class="analytics-open" data-screen="history">学習分析を詳しく見る →</button>
+          </div>
+
+          <div class="planner-card">
+            <h2>試験準備度</h2>
+            <div class="readiness-gauge">
+              <div class="gauge-ring" id="readinessRing"><div class="gauge-value" id="readinessValue">0%</div></div>
+              <div class="gauge-copy">
+                <b id="readinessLabel">学習を始めましょう</b>
+                <div class="sub" id="readinessExplain">教材・科目A演習・科目A模試・科目B学習・科目B総合実戦・復習定着をまとめたFE QUEST独自の仕上がり指標です。合格確率ではありません。</div>
+              </div>
+            </div>
+            <div class="adaptive-note" id="adaptiveNote"></div>
+            <div class="readiness-breakdown" id="readinessBreakdown"></div>
+            <div class="adaptive-note" id="finalMasterSummary" style="margin-top:14px"></div>
+            <div class="readiness-breakdown" id="finalMasterGates"></div>
+            <div class="adaptive-note" id="finalFocusNote"></div>
+            <button class="planner-save" id="finalFocusAction">次の仕上げへ</button>
+          </div>
+
+          <div class="planner-card" id="memoryHealthCard">
+            <h2>記憶の健康状態 🧠</h2>
+            <div class="sub">一度学習した問題が、今どのくらい記憶に残っていそうかを推定します。</div>
+            <div class="memory-health-layout">
+              <div class="memory-ring" id="memoryHealthRing"><div><b id="memoryHealthValue">100%</b><span>推定保持</span></div></div>
+              <div class="memory-health-stats">
+                <div><span>安定</span><b id="memoryFreshCount">0</b></div>
+                <div><span>そろそろ</span><b id="memorySoonCount">0</b></div>
+                <div><span>要復習</span><b id="memoryDueCount">0</b></div>
+              </div>
+            </div>
+            <div class="adaptive-note" id="memoryHealthAdvice">問題演習をすると記憶モデルが育ちます。</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="planner-card" id="learningSettingsCard">
+            <h2>学習設定</h2>
+            <div class="planner-row">
+              <div class="planner-row-copy">
+                <div class="planner-label">1日の標準学習時間</div>
+                <div class="planner-help">今日の学習をこの時間を目安に組み立てます。</div>
+              </div>
+              <select class="planner-select" id="studyMinutesSetting">
+                <option value="30">30分</option>
+                <option value="45">45分</option>
+                <option value="60">60分</option>
+                <option value="90">90分</option>
+              </select>
+            </div>
+            <div class="planner-row">
+              <div class="planner-row-copy">
+                <div class="planner-label">受験予定日</div>
+                <div class="planner-help">設定すると、残り日数と進捗から毎日の学習配分を調整します。</div>
+              </div>
+              <input class="planner-input" id="examDateSetting" type="date">
+            </div>
+            <div class="planner-row">
+              <div class="planner-row-copy">
+                <div class="planner-label">試験日に合わせて自動調整</div>
+                <div class="planner-help">通常期は必要ペースに応じて最大120分まで調整し、残り7日以内は追い込みを避けて上限を段階的に下げます。</div>
+              </div>
+              <label class="pace-toggle"><input id="autoPaceSetting" type="checkbox"><span></span></label>
+            </div>
+            <button class="planner-save" id="savePlanSettings">設定を保存</button>
+          </div>
+
+          <div class="planner-card" id="pwaHealthCard">
+            <h2>アプリ・データ</h2>
+            <div class="sub">更新状態と、この端末に保存されている学習データを確認できます。</div>
+            <div class="install-card settings-install-card" id="installCard">
+              <div class="install-ico">📲</div>
+              <div class="install-copy">
+                <div class="install-title">ホーム画面から起動する</div>
+                <div class="sub">必要ならFE QUESTをアプリとしてホーム画面に追加できます。</div>
+              </div>
+              <button class="install-button" id="installPwaBtn">追加方法を見る</button>
+            </div>
+            <div class="pwa-health-grid">
+              <div class="pwa-health-item"><span>アプリ</span><b id="pwaVersionStatus">--</b></div>
+              <div class="pwa-health-item"><span>接続</span><b id="pwaNetworkStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>起動方法</span><b id="pwaDisplayStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>オフライン準備</span><b id="pwaWorkerStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>試験範囲</span><b class="good">Ver.9.2対応</b></div>
+              <div class="pwa-health-item"><span>データ形式</span><b id="profileSchemaStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>自動保護</span><b id="profileSnapshotStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>保存状態</span><b id="profileSaveStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>データ整合性</span><b id="profileIntegrityStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>外部バックアップ</span><b id="profileExportStatus">未作成</b></div>
+              <div class="pwa-health-item"><span>保存保護</span><b id="pwaPersistenceStatus">確認中</b></div>
+            </div>
+            <div class="pwa-health-item" style="margin-top:9px">
+              <span>ブラウザ保存領域</span><b id="pwaStorageStatus">確認中</b>
+              <div class="pwa-storage-bar"><div id="pwaStorageBar"></div></div>
+            </div>
+            <div class="pwa-health-actions">
+              <button class="primary" id="checkAppUpdate">更新を確認</button>
+              <button id="exportProfile">バックアップを書き出す</button>
+              <details class="data-maintenance-fold">
+                <summary>その他のデータ操作</summary>
+                <div class="pwa-health-actions-advanced">
+                  <button id="requestPersistentStorage">保存保護を強化</button>
+                  <button id="verifyProfileData">データを検査</button>
+                  <button id="runStorageSelfTest">安全性チェック</button>
+                  <button id="createRecoveryPoint">復旧点を今作る</button>
+                  <button id="importProfile">バックアップを読み込む</button>
+                  <button id="restorePreImport" class="hidden">直前の読込前データへ戻す</button>
+                  <button id="exportCorruptProfile" class="hidden">破損データを保全</button>
+                </div>
+              </details>
+            </div>
+            <input id="profileImportInput" type="file" accept="application/json,.json" hidden>
+            <details class="recovery-fold">
+              <summary>復旧センター（トラブル時）</summary>
+              <div class="recovery-center" id="recoveryCenter">
+              <div class="recovery-center-head">
+                <div><b>復旧センター</b><span>過去の正常な状態を確認し、必要なときだけ選んで戻せます。</span></div>
+                <button id="refreshRecoveryCenter">復旧候補を確認</button>
+              </div>
+              <div class="recovery-center-status" id="recoveryCenterStatus">復旧候補を読み込んでいます。</div>
+              <div class="recovery-list" id="recoveryPointList"></div>
+              <div class="recovery-center-actions">
+                <button id="restorePreManual" class="hidden">直前の手動復元前へ戻す</button>
+                <button id="exportRecoveryDiagnostics">診断レポートを書き出す</button>
+              </div>
+              </div>
+            </details>
+            <div class="pwa-health-note">学習データはこのブラウザ内に保存されます。通常はバックアップの書き出しだけで十分です。検査・読み込み・復旧は、保存状態に問題があるときだけ開いて使ってください。</div>
+          </div>
+
+          <div class="planner-card exam-pace-card" id="examPaceCard">
+            <h2>試験日ペース 📅</h2>
+            <div id="countdownBox"></div>
+            <div id="examPacePanel"></div>
+          </div>
+
+          <div class="planner-card">
+            <h2>今日の配分</h2>
+            <div class="sub" id="allocationPaceNote"></div>
+            <div id="planAllocation"></div>
+            <button class="planner-save secondary-plan-action" id="rebuildTodayPlan" style="margin-top:12px">未完了の今日の計画を再編成</button>
+            <div class="plan-snapshot-note">完了済みの項目は固定したまま、未完了分だけ現在の弱点・試験日設定に合わせて組み直します。</div>
+          </div>
+
+          <div class="planner-card" id="reviewForecastCard">
+            <h2>7日間の復習予報 🔁</h2>
+            <div class="sub">現在の記憶間隔から、復習に戻ってくる問題数を予測します。</div>
+            <div class="review-forecast" id="reviewForecast"></div>
+            <button class="planner-save" id="startForecastReview" style="margin-top:14px">今日の復習を始める</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- LEARNING ANALYTICS -->
+    <section id="history" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="plan" aria-label="前の画面に戻る">←</button>
+        <div><h1>学習分析 📈</h1><div class="sub">学習量だけでなく、伸び・停滞・定着・科目Bの得意な問題形式まで確認します。</div></div>
+      </div>
+
+      <div class="analytics-summary" id="analyticsSummary">
+        <div class="analytics-stat"><span>直近7日</span><b id="analytics7Min">0分</b><small>記録学習時間</small></div>
+        <div class="analytics-stat"><span>直近30日</span><b id="analytics30Days">0日</b><small>学習した日数</small></div>
+        <div class="analytics-stat"><span>定着</span><b id="analyticsStable">0</b><small>復習ルート完了</small></div>
+        <div class="analytics-stat"><span>進行中</span><b id="analyticsActiveRoutes">0</b><small>復習ルート</small></div>
+      </div>
+      <div class="analytics-note">記録学習時間は、今日の学習で完了した学習項目に割り当てた時間を集計したものです。実際の経過時間そのものではありません。</div>
+
+      <div class="analytics-card analytics-priority-card">
+        <div class="analytics-card-head"><div><h2>次に伸ばすポイント</h2><div class="sub">最初に見るべき1つだけを表示します。</div></div></div>
+        <div class="analytics-next" id="analyticsNext"></div>
+      </div>
+      <button class="ux-section-toggle" id="analyticsDetailsToggle" aria-expanded="false">詳しい分析を表示</button>
+
+      <div class="analytics-grid analytics-grid-top">
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>30日間の学習</h2><div class="sub">濃い日ほど記録学習時間が長い日です。</div></div><div class="analytics-total" id="analytics30Min">0分</div></div>
+          <div class="analytics-heatmap" id="analyticsHeatmap"></div>
+        </div>
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>最近の変化</h2><div class="sub">直近の回答と、その前の回答を分野ごとに比較します。</div></div></div>
+          <div class="analytics-signal-list" id="analyticsSignals"></div>
+        </div>
+      </div>
+
+      <div class="analytics-card" id="analyticsCategoryCard">
+        <div class="analytics-card-head">
+          <div><h2>8分野の現在地</h2><div class="sub">累積正答率・習熟度・最近の変化を並べて確認します。</div></div>
+          <div class="analytics-legend">↑ 改善　→ 横ばい　↓ 要注意</div>
+        </div>
+        <div class="analytics-category-list" id="analyticsCategories"></div>
+      </div>
+
+      <div class="analytics-grid" id="analyticsJourneyGrid">
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>復習で定着した論点 🔁</h2><div class="sub">教材→類題→後日復習を完了した論点です。</div></div><div class="analytics-total" id="analyticsStableTotal">0</div></div>
+          <div class="analytics-stage-grid" id="analyticsJourneyStages"></div>
+          <div class="analytics-stable-list" id="analyticsStableList"></div>
+        </div>
+        <div class="analytics-card">
+          <div class="analytics-card-head"><div><h2>科目B・形式別成績 💻</h2><div class="sub">実戦履歴から、どの読み方が得意かを集計します。</div></div></div>
+          <div class="analytics-format-list" id="analyticsBFormats"></div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- MAP -->
+    <section id="map" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
+        <div><h1>学習 📚</h1><div class="sub">まず1つだけおすすめを表示します。別のテーマを選びたいときは、その下の一覧から探せます。</div></div>
+      </div>
+
+      <div class="course-next-card" id="courseNextCard">
+        <div class="course-next-icon" id="courseNextIcon">📘</div>
+        <div class="course-next-copy">
+          <div class="course-next-kicker" id="courseNextKicker">次に学ぶ</div>
+          <div class="course-next-title" id="courseNextTitle">学習内容を確認中…</div>
+          <div class="course-next-desc" id="courseNextDesc">今日の学習計画と前回の位置から案内します。</div>
+        </div>
+        <button class="course-next-action" id="courseNextAction">始める →</button>
+      </div>
+
+      <div class="course-list-label">一覧から選ぶ</div>
+      <div class="course-subject-tabs" id="courseSubjectTabs" role="tablist" aria-label="学習コースの科目">
+        <button class="course-subject-tab active" data-course-subject="A" role="tab" aria-selected="true" aria-controls="subjectACoursePanel">
+          <span class="course-subject-icon">📘</span>
+          <span><b>科目A</b><small id="courseATabMeta">教材 0 / 130</small></span>
+        </button>
+        <button class="course-subject-tab subject-b" data-course-subject="B" role="tab" aria-selected="false" aria-controls="subjectBCoursePanel">
+          <span class="course-subject-icon">💻</span>
+          <span><b>科目B</b><small id="courseBTabMeta">基礎演習 0 / 35</small></span>
+        </button>
+      </div>
+
+      <div id="subjectACoursePanel" role="tabpanel" aria-hidden="false">
+        <div class="course-overview core-overview course-paired-overview">
+          <div class="course-overview-icon">📘</div>
+          <div class="course-overview-copy"><b>科目A コアコース</b><div class="sub"><span id="coreLessonCount">130</span>テーマ。各テーマの解説を1画面にまとめ、学習後はそのまま問題演習へ進みます。</div></div>
+          <div class="course-overview-side course-percent" id="coursePercent">0%</div>
+        </div>
+        <div class="core-course-tools">
+          <input id="coreCourseSearch" class="core-course-search" type="search" placeholder="用語・テーマを検索" aria-label="科目Aの用語・テーマを検索" autocomplete="off">
+          <div class="core-course-stats"><span id="coreDoneCount">0</span> / 130 教材完了</div>
+        </div>
+        <div id="coreCourseChapters" class="core-course-chapters"></div>
+        <details class="lab-course-details">
+          <summary>図解・操作ラボ（任意）</summary>
+          <div class="sub lab-course-note">科目A本編を補助する図解や操作演習です。本編進捗には含めません。</div>
+          <div id="labLessonGrid" class="lesson-grid"></div>
+        </details>
+      </div>
+
+      <div id="subjectBCoursePanel" class="subject-b-course course-panel-hidden" role="tabpanel" aria-hidden="true" hidden>
+        <div class="course-overview subject-b-overview course-paired-overview">
+          <div class="course-overview-icon subject-b-overview-icon">💻</div>
+          <div class="course-overview-copy"><b>科目B コアコース</b><div class="sub">プログラムトレース → セキュリティ → 複合演習 → 20問総合実戦の順に進めます。</div></div>
+          <div class="course-overview-side subject-b-overview-side">4ステップ</div>
+        </div>
+
+        <div class="subject-b-next-card" id="subjectBNextCard">
+          <div class="subject-b-next-icon" id="subjectBNextIcon">💻</div>
+          <div class="subject-b-next-copy">
+            <div class="subject-b-next-kicker" id="subjectBNextKicker">次に進む</div>
+            <div class="subject-b-next-title" id="subjectBNextTitle">科目Bの進捗を確認中…</div>
+            <div class="subject-b-next-desc" id="subjectBNextDesc">未完了の基礎演習と実戦履歴から、次の1件を案内します。</div>
+          </div>
+          <button class="subject-b-next-action" id="subjectBNextAction">始める →</button>
+        </div>
+
+        <div class="subject-b-progress-strip" id="subjectBProgressStrip" aria-label="科目Bの進捗"></div>
+
+        <details class="subject-b-mode-fold" id="subjectBModeFold">
+          <summary><span>別の学習モードを選ぶ</span><small>必要なときだけ4つのモードから選べます</small></summary>
+          <div class="subject-b-course-grid">
+            <button class="subject-b-course-card trace-card" data-course-bmode="trace">
+              <span class="subject-b-card-step">ステップ 1</span>
+              <span class="subject-b-card-icon">🧠</span>
+              <b>プログラムトレース</b>
+              <span>20演習</span>
+              <small>擬似コードを1行ずつ追い、変数・配列・スタック・キュー・再帰などの途中状態を予測します。</small>
+              <em>アルゴリズムを学ぶ →</em>
+            </button>
+            <button class="subject-b-course-card security-card" data-course-bmode="security">
+              <span class="subject-b-card-step">ステップ 2</span>
+              <span class="subject-b-card-icon">🛡️</span>
+              <b>セキュリティ ケース演習</b>
+              <span>15ケース</span>
+              <small>攻撃・認証・ログ・証明書・リスク対応を、状況を読んで判断する形で練習します。</small>
+              <em>セキュリティを学ぶ →</em>
+            </button>
+            <button class="subject-b-course-card mock-card" data-course-bmode="mock">
+              <span class="subject-b-card-step">ステップ 3</span>
+              <span class="subject-b-card-icon">🧩</span>
+              <b>複合・実戦演習</b>
+              <span>複合15セット＋ミニ模試</span>
+              <small>ヒント依存を減らし、複数の処理・条件をまとめて読む力を鍛えます。</small>
+              <em>実戦演習を開く →</em>
+            </button>
+            <button class="subject-b-course-card final-card" data-course-bmode="final">
+              <span class="subject-b-card-step">ステップ 4</span>
+              <span class="subject-b-card-icon">📝</span>
+              <b>科目B 総合実戦</b>
+              <span>擬似言語16問＋セキュリティ4問</span>
+              <small>20問を100分で解き、複数分野を通した実戦力を確認します。</small>
+              <em>総合実戦を開く →</em>
+            </button>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- WEAK -->
+    <section id="weak" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="problems" aria-label="前の画面に戻る">←</button>
+        <div>
+          <h1>苦手分析 🧠</h1>
+          <div class="sub">習熟度だけでなく、正答率・誤答理由・回答時間・繰り返し誤答をまとめて分析します。</div>
+        </div>
+      </div>
+
+      <div class="weak-hero">
+        <div class="weak-hero-icon">🎯</div>
+        <div class="weak-hero-copy">
+          <div class="weak-hero-label">次の優先項目</div>
+          <div class="weak-hero-title" id="weakTopTitle">学習データを分析中</div>
+          <div class="weak-hero-sub" id="weakTopSub"></div>
+          <button class="weak-top-action" id="weakTopAction">10問で確認 →</button>
+        </div>
+        <div class="weak-priority-score"><span id="weakTopScore">0</span><small>優先度</small></div>
+      </div>
+
+      <details class="ux-secondary-details weak-detail-fold">
+        <summary>詳しい苦手分析を見る</summary>
+      <div class="weak-section">
+        <div class="weak-section-head">
+          <div><h2>分野別分析</h2><div class="sub">優先度が高い順です。</div></div>
+        </div>
+        <div class="weak-category-grid" id="weakCategoryGrid"></div>
+      </div>
+
+      <div class="weak-two-col">
+        <div class="weak-panel">
+          <h2>間違い方の傾向</h2>
+          <div class="sub">問題演習・模試レビューで記録した原因です。</div>
+          <div id="weakReasonList" class="reason-bars"></div>
+        </div>
+
+        <div class="weak-panel">
+          <h2>次の一手</h2>
+          <div class="weak-advice-box" id="weakDeepAdvice"></div>
+        </div>
+      </div>
+
+      <div class="weak-two-col">
+        <div class="weak-panel">
+          <h2>繰り返し誤答</h2>
+          <div class="sub">同じ論点で何度もつまずいている問題を優先します。</div>
+          <div id="repeatWrongList" class="weak-list"></div>
+        </div>
+
+        <div class="weak-panel">
+          <h2>時間がかかった問題</h2>
+          <div class="sub">直近の模試から、考える時間が長かった問題を表示します。</div>
+          <div id="slowQuestionList" class="weak-list"></div>
+        </div>
+      </div>
+      </details>
+
+      <!-- Keep legacy nodes for existing profile refresh logic -->
+      <div id="skillList" style="display:none"></div>
+      <div id="weakAdvice" style="display:none"></div>
+    </section>
+
+    <!-- PROBLEMS -->
+    <section id="problems" class="screen">
+      <h1>演習 ✏️</h1>
+      <div class="sub">まず今やる1つを表示します。目的を変えたいときだけ、ほかの演習を選べます。</div>
+
+      <div class="exercise-next-card" id="exerciseNextCard">
+        <div class="exercise-next-icon" id="exerciseNextIcon">🧠</div>
+        <div class="exercise-next-copy">
+          <div class="exercise-next-kicker" id="exerciseNextKicker">次におすすめ</div>
+          <h2 id="exerciseNextTitle">今日の復習</h2>
+          <div class="sub" id="exerciseNextDesc">復習が必要な問題から始めます。</div>
+        </div>
+        <button class="primary" id="exerciseNextAction">始める →</button>
+      </div>
+
+      <div class="section-shortcuts" aria-label="演習の補助メニュー">
+        <button class="section-shortcut" data-screen="weak"><span>🧠</span><b>苦手分析</b><small>つまずきを確認</small></button>
+        <button class="section-shortcut" data-screen="mock"><span>📝</span><b>科目A 模試</b><small>本番形式で確認</small></button>
+      </div>
+
+      <div class="problem-hub" id="problemHub">
+        <details class="exercise-fold" id="reviewExerciseFold">
+          <summary><span>🔁</span><b>復習の状況</b><em><span id="dueCount">0</span>件</em></summary>
+          <div class="exercise-fold-body">
+            <div class="review-journey-card" id="reviewJourneyCard">
+              <div class="review-journey-head">
+                <div class="review-journey-icon">🔁</div>
+                <div class="review-journey-copy">
+                  <b>復習ルート</b>
+                  <span id="reviewJourneySummary">誤答した論点を「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。</span>
+                </div>
+                <div class="review-journey-count" id="reviewJourneyCount">0</div>
+              </div>
+              <div class="review-journey-empty" id="reviewJourneyEmpty">現在、途中の復習ルートはありません。</div>
+              <div class="review-journey-next" id="reviewJourneyNext" style="display:none">
+                <div class="review-journey-topic"><span id="reviewJourneyCat"></span><b id="reviewJourneyConcept"></b></div>
+                <div class="review-journey-steps" id="reviewJourneySteps"></div>
+                <div class="review-journey-guidance" id="reviewJourneyGuidance"></div>
+                <button class="review-journey-action" id="reviewJourneyAction">続ける →</button>
+              </div>
+            </div>
+            <div class="problem-mode compact-mode">
+              <div class="problem-mode-icon green">🧠</div>
+              <div class="problem-mode-copy">
+                <div class="problem-mode-title">今日の復習</div>
+                <div class="sub">忘却リスクが高い問題から最大10問を確認します。</div>
+              </div>
+              <button data-mode="review">始める</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="exercise-fold" id="otherExerciseFold">
+          <summary><span>✏️</span><b>その他の演習</b><em>目的を変える</em></summary>
+          <div class="exercise-fold-body exercise-mode-list">
+            <div class="problem-mode">
+              <div class="problem-mode-icon blue">🎯</div>
+              <div class="problem-mode-copy">
+                <div class="problem-mode-title">弱点10問</div>
+                <div class="sub">現在の習熟度が低い分野から自動選出します。</div>
+              </div>
+              <button data-mode="weak">始める</button>
+            </div>
+            <div class="problem-mode prescription-mode">
+              <div class="problem-mode-icon orange">🧭</div>
+              <div class="problem-mode-copy">
+                <div class="problem-mode-title">学習状況に合わせた演習 <span class="rx-mini" id="rxMiniLabel">分析中</span></div>
+                <div class="sub" id="rxMiniDesc">間違い方に合わせて演習方法を変えます。</div>
+              </div>
+              <button id="startPrescriptionBtn">始める</button>
+            </div>
+            <div class="problem-mode">
+              <div class="problem-mode-icon purple">🔀</div>
+              <div class="problem-mode-copy">
+                <div class="problem-mode-title">ランダム10問</div>
+                <div class="sub">8分野からバランスよく出題します。</div>
+              </div>
+              <button data-mode="random">始める</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="exercise-fold quiet-fold">
+          <summary><span>⚙️</span><b>復習の出題設定</b><em>任意</em></summary>
+          <div class="exercise-fold-body">
+            <div class="review-engine-card">
+              <div class="review-engine-icon">🧠</div>
+              <div class="review-engine-copy">
+                <b>バリエーション復習</b>
+                <div>同じ論点を別の数値・別の聞き方で確認します。</div>
+                <div class="review-engine-meta" id="variantCoverageText">生成可能な類題を確認中…</div>
+              </div>
+              <label class="switch-row">
+                <input type="checkbox" id="variantReviewToggle" checked>
+                <span>類題を優先</span>
+              </label>
+            </div>
+          </div>
+        </details>
+
+        <details class="exercise-fold quiet-fold">
+          <summary><span>🕘</span><b>最近の演習</b><em>履歴</em></summary>
+          <div class="exercise-fold-body">
+            <div class="history-box compact-history">
+              <div id="recentHistory"><div class="sub">まだ演習履歴がありません。</div></div>
+            </div>
+            <div class="bank-footnote">科目A 問題バンク：710問</div>
+          </div>
+        </details>
+      </div>
+
+      <div id="quizSession" style="display:none">
+        <div class="screen-head">
+          <button class="back" id="quitQuiz" aria-label="前の画面に戻る">←</button>
+          <div style="flex:1">
+            <h1 id="quizSessionTitle">問題演習</h1>
+            <div class="sub" id="quizSessionSub">科目A 問題演習</div>
+          </div>
+        </div>
+        <div class="rx-banner" id="rxBanner" style="display:none">
+          <div class="rx-banner-icon" id="rxBannerIcon">💊</div>
+          <div class="rx-banner-copy">
+            <b id="rxBannerTitle">処方ドリル</b>
+            <div id="rxBannerDesc">間違い方に合わせた練習です。</div>
+          </div>
+          <div class="rx-timer" id="rxTimer" style="display:none">15:00</div>
+        </div>
+
+        <div class="quiz-card">
+          <div class="quiz-top">
+            <span class="quiz-badge" id="quizCategory">分野</span>
+            <span class="variant-badge" id="variantBadge" style="display:none">バリエーション復習</span>
+            <span class="quiz-badge" id="quizDifficulty" style="background:var(--blue-soft);color:#087db4">標準</span>
+          </div>
+          <div class="quiz-question" id="quizQuestion"></div>
+
+          <div class="technique-box" id="rxTechnique" style="display:none">
+            <div class="technique-head">
+              <div class="technique-icon" id="rxTechniqueIcon">🧠</div>
+              <div>
+                <b id="rxTechniqueTitle">解く前の1ステップ</b>
+                <div class="sub" id="rxTechniqueDesc"></div>
+              </div>
+            </div>
+            <div id="rxTechniqueBody"></div>
+          </div>
+
+          <div class="quiz-options" id="quizOptions"></div>
+
+          <div class="quiz-explain" id="quizExplain">
+            <h3 id="quizResultTitle">解説</h3>
+            <div id="quizExplanation"></div>
+            <div class="quiz-hint" id="quizHint"></div>
+          </div>
+
+          <div class="reason-box" id="reasonBox">
+            <div class="reason-title">任意：間違えた理由</div>
+            <div class="reason-help">選ぶと、今後の弱点分析と演習内容の調整に使います。選ばなくても次へ進めます。</div>
+            <div class="reason-chips">
+              <button class="reason-chip" data-reason="用語を知らなかった">用語</button>
+              <button class="reason-chip" data-reason="計算方法を忘れた">計算</button>
+              <button class="reason-chip" data-reason="問題文を読み違えた">読み違い</button>
+              <button class="reason-chip" data-reason="2択まで迷った">2択で迷った</button>
+              <button class="reason-chip" data-reason="ほぼ分からなかった">分からない</button>
+            </div>
+          </div>
+
+          <div class="quiz-actions">
+            <button class="secondary" id="quizHintBtn">💡 ヒント</button>
+            <button class="primary" id="quizSubmit">回答する</button>
+          </div>
+
+          <div class="quiz-footer">
+            <div class="progress blue"><div id="quizProgress" style="width:0%"></div></div>
+            <div class="quiz-counter" id="quizCounter">1 / 10</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="quizResultScreen" style="display:none">
+        <div class="session-result">
+          <div style="font-size:62px">🎉</div>
+          <h1>演習完了！</h1>
+          <div class="session-score" id="sessionScore">80%</div>
+          <div class="sub" id="sessionComment"></div>
+
+          <div class="session-breakdown">
+            <div class="break-card"><div class="sub">初回正解</div><div class="break-num" id="sessionCorrect">0</div></div>
+            <div class="break-card"><div class="sub">初回不正解</div><div class="break-num" id="sessionWrong">0</div></div>
+            <div class="break-card" id="sessionRecoveredCard" style="display:none"><div class="sub">再挑戦で正解</div><div class="break-num" id="sessionRecovered">0</div></div>
+            <div class="break-card"><div class="sub">獲得XP</div><div class="break-num" id="sessionXp">0</div></div>
+          </div>
+
+          <div class="daily-note" id="sessionAdvice"></div>
+          <div class="session-review-actions">
+            <button class="primary" id="sessionContinueReview" style="display:none">復習を続ける →</button>
+            <button class="primary" id="sessionContinueDaily" style="display:none">今日の学習を続ける →</button>
+            <button class="secondary" id="sessionHome">演習一覧へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIAGNOSTIC -->
+    <section id="diagnostic" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="home" aria-label="前の画面に戻る">←</button>
+        <div>
+          <h1>初回実力診断 🧭</h1>
+          <div class="sub">短い診断で現在の基礎力をざっくり確認します。結果は端末内に保存されます。</div>
+        </div>
+      </div>
+
+      <div class="diag-card" id="diagIntro">
+        <div class="bot">🧭</div>
+        <h2 style="margin-top:16px">12問・3〜5分ほど</h2>
+        <div class="sub">基礎理論、コンピュータ、データベース、ネットワーク、セキュリティ、アルゴリズム、マネジメント、ストラテジから出題します。</div>
+        <div class="daily-note">満点を取る必要はありません。忘れている分野を見つけるための診断です。</div>
+        <button class="primary" id="diagBegin" style="margin-top:20px">診断を始める</button>
+      </div>
+
+      <div class="diag-card" id="diagQuiz" style="display:none">
+        <div class="diag-meta">
+          <span class="diag-category" id="diagCategory">カテゴリ</span>
+          <b id="diagCount">1 / 12</b>
+        </div>
+        <div class="progress blue"><div id="diagProgress" style="width:8%"></div></div>
+        <div class="diag-question" id="diagQuestion"></div>
+        <div class="diag-options" id="diagOptions"></div>
+        <div class="diag-nav">
+          <button class="secondary" id="diagPrev">← 戻る</button>
+          <button class="primary" id="diagNext">次へ →</button>
+        </div>
+      </div>
+
+      <div class="diag-card" id="diagResult" style="display:none">
+        <div style="font-size:58px">🎯</div>
+        <h2>診断完了！</h2>
+        <div class="sub">この結果をもとに、今後の学習を調整します。</div>
+        <div class="diag-result-grid" id="diagResultGrid"></div>
+        <div class="daily-note" id="diagResultAdvice"></div>
+        <button class="primary" id="diagFinish" style="margin-top:20px">診断結果を反映して学習を始める →</button>
+        <button class="reset-link" id="diagRedo">診断をやり直す</button>
+      </div>
+    </section>
+
+    <!-- LESSON -->
+    <section id="lesson" class="screen">
+      <div class="screen-head">
+        <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
+        <div style="flex:1">
+          <h1 id="lessonTitle">インタラクティブ学習</h1>
+          <div class="sub" id="lessonCategory">レッスン</div>
+        </div>
+      </div>
+
+      <div class="interactive-shell">
+        <div class="lesson-progress" id="lessonDots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="lesson-headline" id="lessonHeadline"></div>
+        <div class="lesson-copy" id="lessonCopy"></div>
+        <div class="interaction-guide" id="interactionGuide" style="display:none">
+          <span class="interaction-guide-icon">👆</span>
+          <div><b id="interactionGuideTitle">ここを操作</b><span id="interactionGuideText"></span></div>
+        </div>
+        <div class="lesson-stage" id="lessonStage"></div>
+        <div class="lesson-check" id="lessonCheck"></div>
+
+        <div class="lesson-nav">
+          <button class="secondary" id="lessonPrev">← 戻る</button>
+          <span class="lesson-step-label" id="lessonStepLabel">1 / 4</span>
+          <button class="primary" id="lessonNext">次へ →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACE -->
+    <section id="trace" class="screen">
+      <div id="bSelect" class="b-select">
+        <div class="screen-head">
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
+          <div><h1>科目B プログラムトレース 💻</h1><div class="sub">擬似コードを1行ずつ追い、基礎から二次元配列・リスト・再帰まで段階的に鍛えます。</div></div>
+        </div>
+
+        <details class="b-mode-switcher">
+
+
+          <summary><span class="b-mode-current-label">💻 アルゴリズム</span><span class="b-mode-switch-hint">他のモードへ</span></summary>
+
+
+          <div class="b-mode-tabs">
+          <button class="b-mode-tab active" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">📝 総合実戦</button>
+        </div>
+
+
+        </details>
+
+        <div class="b-hero">
+          <div class="b-hero-icon">🧪</div>
+          <div class="b-hero-copy">
+            <div class="b-hero-title">プログラムトレース演習</div>
+            <div class="sub">予測 → 次の行を実行 → 状態確認を繰り返して、頭の中でトレースする力を育てます。</div>
+          </div>
+          <div class="b-hero-progress" id="bProgressText">0 / 20</div>
+        </div>
+
+        <div class="b-mode-next-card" id="bTraceNextCard">
+          <div class="b-mode-next-icon">▶</div>
+          <div class="b-mode-next-copy"><span>次の未完了</span><b id="bTraceNextTitle">演習を確認中…</b><small id="bTraceNextDesc"></small></div>
+          <button id="bTraceNextAction">始める →</button>
+        </div>
+
+        <details class="b-list-tools-fold">
+          <summary>レベルの目安・絞り込み</summary>
+          <div class="b-learning-path">
+            <div class="b-path-step basic"><b>1 基礎</b><span>ループ・配列・キュー</span></div>
+            <div class="b-path-arrow">→</div>
+            <div class="b-path-step standard"><b>2 標準</b><span>探索・ソート・二次元配列</span></div>
+            <div class="b-path-arrow">→</div>
+            <div class="b-path-step advanced"><b>3 応用</b><span>木・リスト・再帰・複合処理</span></div>
+          </div>
+          <div class="b-filter-tabs" id="bFilterTabs">
+            <button class="b-filter active" data-bfilter="all">すべて</button>
+            <button class="b-filter" data-bfilter="基礎">基礎</button>
+            <button class="b-filter" data-bfilter="標準">標準</button>
+            <button class="b-filter" data-bfilter="応用">応用</button>
+          </div>
+        </details>
+
+        <div class="b-grid" id="bExerciseGrid"></div>
+      </div>
+
+      <div id="bLab" class="b-lab">
+        <div class="trace-title-row">
+          <button class="back" id="bBackToList" aria-label="前の画面に戻る">←</button>
+          <div class="trace-info">
+            <h1 id="bLabTitle">トレース</h1>
+            <div class="sub" id="bLabMeta"></div>
+          </div>
+        </div>
+
+        <div class="trace-workspace">
+          <div class="trace-code-panel">
+            <div class="trace-code-title">擬似コード</div>
+            <div id="bCode"></div>
+            <div class="trace-message" id="bTraceMessage">次の行を実行してください。</div>
+
+            <div class="prediction-box" id="predictionBox">
+              <div class="prediction-title" id="predictionTitle"></div>
+              <div class="prediction-options" id="predictionOptions"></div>
+            </div>
+
+            <div class="trace-controls">
+              <button class="reset-main" id="bReset">↺ リセット</button>
+              <button class="step-main" id="bStep">▶ 次の行を実行</button>
+            </div>
+          </div>
+
+          <div class="trace-state-panel">
+            <div class="trace-state-title">状態</div>
+            <div class="state-grid" id="bStateGrid"></div>
+            <div class="trace-visual" id="bVisual"></div>
+            <div class="progress purple" style="margin-top:14px"><div id="bTraceProgress" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="b-complete" id="bComplete">
+          <div class="b-complete-icon">✅</div>
+          <h2>トレース完了！</h2>
+          <div class="b-xp" id="bCompleteXp">+80 XP</div>
+          <div class="sub" id="bCompleteText"></div>
+          <button class="primary" id="bNextExercise" style="margin-top:18px">次の科目Bへ →</button>
+        </div>
+      </div>
+
+
+
+      <div id="bFinalSelect" class="bfinal-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
+          <div>
+            <h1>科目B 総合実戦 📝</h1>
+            <div class="sub">アルゴリズムと情報セキュリティを混ぜた20問を、100分で解きます。</div>
+          </div>
+        </div>
+
+        <details class="b-mode-switcher">
+
+
+          <summary><span class="b-mode-current-label">📝 総合実戦</span><span class="b-mode-switch-hint">他のモードへ</span></summary>
+
+
+          <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final active" data-bmode="final">📝 総合実戦</button>
+        </div>
+
+
+        </details>
+
+        <div class="bfinal-hero">
+          <div class="bfinal-hero-top">
+            <div class="bfinal-badge">100分・20問</div>
+            <div class="bfinal-best" id="bFinalBest">ベスト —</div>
+          </div>
+          <div class="bfinal-title">本番を意識した20問・100分</div>
+          <div class="sub">
+            本番型アルゴリズム40問プールから16問＋情報セキュリティ4問。ヒント・途中採点・ステップ操作はありません。
+            問題文を読み、必要なら手元でトレースして最後まで解き切ります。
+          </div>
+        </div>
+
+        <div class="bfinal-readiness" id="bFinalReadiness">
+          <div class="bfinal-readiness-icon" id="bFinalReadinessIcon">📚</div>
+          <div><span id="bFinalReadinessKicker">開始前の確認</span><b id="bFinalReadinessTitle">学習状況を確認中…</b><small id="bFinalReadinessDesc"></small></div>
+          <button id="bFinalPrepAction">科目Bの続きへ →</button>
+        </div>
+
+        <button class="bfinal-start" id="bFinalStart">20問の総合実戦を開始 →</button>
+
+        <details class="b-final-info-fold">
+          <summary>出題構成を確認する</summary>
+          <div class="bfinal-spec">
+            <div><span>20</span><b>問</b><small>全問回答</small></div>
+            <div><span>100</span><b>分</b><small>1問平均5分</small></div>
+            <div><span>16 + 4</span><b>構成</b><small>擬似言語＋セキュリティ</small></div>
+            <div><span>なし</span><b>途中採点</b><small>最後にまとめて確認</small></div>
+          </div>
+          <div class="bfinal-format">
+            <div class="bfinal-format-title">出題形式</div>
+            <div class="bfinal-format-chips">
+              <span>途中状態</span><span>空欄補充</span><span>処理結果</span><span>関数・再帰</span>
+              <span>配列・リスト</span><span>ビット列</span><span>ケース判断</span><span>ログ読解</span>
+            </div>
+            <div class="sub">複数の出題形式を横断して、科目Bの実戦力を確認します。</div>
+          </div>
+          <div class="bfinal-coverage-note">
+            <b>アルゴリズム16問は10分野を横断</b>
+            <span>制御・一次元配列・二次元配列・再帰/関数・木構造・オブジェクト指向・リスト・スタック/キュー・ビット列・探索/整列を毎回最低1問ずつ含めます。セキュリティ4問はログ読解とケース判断を含みます。</span>
+          </div>
+        </details>
+
+        <details class="b-history-fold">
+          <summary>最近の総合実戦</summary>
+          <div class="bmock-history">
+            <div id="bFinalHistory"></div>
+          </div>
+        </details>
+      </div>
+
+      <div id="bFinalExam" class="bfinal-exam">
+        <div class="bfinal-topbar">
+          <button class="back" id="bFinalExit" aria-label="終了して戻る">×</button>
+          <div class="bfinal-top-copy">
+            <b>科目B 総合実戦</b>
+            <span id="bFinalTopMeta">問題 1 / 20</span>
+          </div>
+          <div class="bfinal-progress-mini"><div id="bFinalProgressMini"></div></div>
+          <div class="bfinal-timer" id="bFinalTimer">100:00</div>
+          <button class="bfinal-submit" id="bFinalSubmit">提出</button>
+        </div>
+
+        <div class="bfinal-layout">
+          <main class="bfinal-question-card">
+            <div class="bfinal-qhead">
+              <span class="bfinal-qnum" id="bFinalQNum">Q1</span>
+              <span class="bfinal-qtype" id="bFinalQType">擬似言語</span>
+              <span class="bfinal-qformat" id="bFinalQFormat"></span>
+            </div>
+
+            <div id="bFinalAlgoBlock">
+              <div class="bfinal-context" id="bFinalAlgoContext"></div>
+              <div class="bmock-code-title">擬似コード</div>
+              <div class="bmock-code bfinal-code" id="bFinalCode"></div>
+              <div class="bfinal-data" id="bFinalAlgoData"></div>
+            </div>
+
+            <div id="bFinalSecurityBlock" class="hidden" hidden>
+              <div class="secmock-incident">
+                <div class="secmock-incident-head">
+                  <span id="bFinalSecIcon">⚠️</span><b id="bFinalSecTitle"></b>
+                </div>
+                <div id="bFinalSecText"></div>
+              </div>
+              <div class="secmock-evidence-title">判断材料・ログ</div>
+              <div class="secmock-evidence" id="bFinalSecEvidence"></div>
+            </div>
+
+            <div class="bfinal-question" id="bFinalQuestion"></div>
+            <div class="bfinal-options" id="bFinalOptions"></div>
+
+            <div class="bfinal-actions">
+              <button id="bFinalPrev">← 前へ</button>
+              <button id="bFinalFlag">☆ 後で見る</button>
+              <button id="bFinalNext" class="next">次へ →</button>
+            </div>
+          </main>
+
+          <aside class="bfinal-nav">
+            <div class="bfinal-nav-title">問題一覧</div>
+            <div class="bfinal-nav-sub">紫＝擬似言語 / 緑＝セキュリティ</div>
+            <div class="bfinal-nav-grid" id="bFinalNavGrid"></div>
+            <div class="bfinal-count" id="bFinalAnswerCount">0 / 20 回答</div>
+            <div class="bfinal-section-count">
+              <div><span id="bFinalAlgoAnswered">0</span>/16 擬似言語</div>
+              <div><span id="bFinalSecAnswered">0</span>/4 セキュリティ</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="bFinalResult" class="bfinal-result">
+        <div class="bfinal-result-hero">
+          <div class="bfinal-result-icon">📝</div>
+          <div class="bfinal-result-kicker">科目B 総合実戦</div>
+          <div class="bfinal-result-points" id="bFinalResultPoints">0%</div>
+          <div class="bfinal-result-denom"><small>正答率（アプリ内練習結果）</small></div>
+          <div class="bfinal-result-raw" id="bFinalResultRaw">0 / 20 正解</div>
+          <div class="sub" id="bFinalResultMessage"></div>
+        </div>
+
+        <div class="bfinal-result-stats">
+          <div><span id="bFinalStatCorrect">0</span><b>正解</b></div>
+          <div><span id="bFinalStatWrong">0</span><b>不正解</b></div>
+          <div><span id="bFinalStatBlank">0</span><b>未回答</b></div>
+          <div><span id="bFinalStatTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="bfinal-section-results">
+          <div class="bfinal-section-card algo">
+            <div class="bfinal-section-icon">💻</div>
+            <div><b>擬似言語</b><span id="bFinalAlgoScore">0 / 16</span></div>
+          </div>
+          <div class="bfinal-section-card security">
+            <div class="bfinal-section-icon">🛡️</div>
+            <div><b>情報セキュリティ</b><span id="bFinalSecScore">0 / 4</span></div>
+          </div>
+        </div>
+
+        <div class="bmock-result-actions">
+          <button class="primary" id="bFinalBackMenu">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bFinalRetry">総合実戦をもう一度解く</button></details>
+        </div>
+
+        <details class="result-detail-fold">
+          <summary>詳しい結果・全20問レビューを見る</summary>
+          <div class="bfinal-diagnosis" id="bFinalDiagnosis"></div>
+          <div class="bfinal-format-breakdown" id="bFinalFormatBreakdown"></div>
+          <div class="bmock-review-head"><h2>全20問レビュー</h2><div class="sub">誤答は、どの読み方で崩れたかまで確認できます。</div></div>
+          <div class="bfinal-review-list" id="bFinalReviewList"></div>
+        </details>
+      </div>
+
+      <div id="bMockSelect" class="bmock-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
+          <div><h1>科目B 実戦演習 🧩</h1><div class="sub">複合問題とアルゴリズム ミニ模試で、ヒントなしでも読み切れるか確認します。</div></div>
+        </div>
+        <details class="b-mode-switcher">
+
+          <summary><span class="b-mode-current-label">🧩 実戦演習</span><span class="b-mode-switch-hint">他のモードへ</span></summary>
+
+          <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam active" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">📝 総合実戦</button>
+        </div>
+
+        </details>
+
+        <div class="bmock-hero">
+          <div class="bmock-hero-icon">🧠</div>
+          <div class="bmock-hero-copy">
+            <div class="bmock-hero-title">ヒントなしで読む練習</div>
+            <div class="sub">まず短い複合問題で読み方を固め、必要に応じて8問のミニ模試で連続して解く力を確認します。</div>
+          </div>
+          <div class="bmock-hero-score" id="bMockBest">ミニ模試 —</div>
+        </div>
+
+        <div class="b-mode-next-card practice-next" id="bPracticeNextCard">
+          <div class="b-mode-next-icon">▶</div>
+          <div class="b-mode-next-copy"><span>次におすすめ</span><b id="bPracticeNextTitle">実戦内容を確認中…</b><small id="bPracticeNextDesc"></small></div>
+          <button id="bPracticeNextAction">始める →</button>
+        </div>
+
+        <details class="b-practice-options-fold">
+          <summary><span>別の実戦演習を選ぶ</span><small>複合問題と8問ミニ模試を手動で選べます</small></summary>
+          <div class="bmock-mode-cards">
+            <button class="bmock-mode-card mini" id="bMockStart">
+              <span class="bmock-mode-icon">📝</span>
+              <span class="bmock-mode-copy"><b>アルゴリズム ミニ模試</b><small>8問・40分 / 状態予測を連続で解く</small></span>
+              <span class="bmock-mode-go">→</span>
+            </button>
+            <button class="bmock-mode-card compound" id="bCompoundStart">
+              <span class="bmock-mode-icon">🧩</span>
+              <span class="bmock-mode-copy"><b>複合問題</b><small>15セット / 長いコード1題 + 設問3問</small></span>
+              <span class="bmock-mode-go">→</span>
+            </button>
+          </div>
+        </details>
+
+        <details class="b-practice-info-fold">
+          <summary>アルゴリズム ミニ模試の形式を見る</summary>
+          <div class="bmock-rules">
+            <div><span>8</span><b>問</b><small>途中状態予測</small></div>
+            <div><span>40</span><b>分</b><small>目安5分/問</small></div>
+            <div><span>2・4・2</span><b>難易度</b><small>基礎・標準・応用</small></div>
+            <div><span>0</span><b>ヒント</b><small>途中正誤も非表示</small></div>
+          </div>
+          <div class="bmock-notice">
+            <b>採点は最後にまとめて行います</b>
+            <span>回答は自由に行き来できます。「次の行を実行」「ヒント」「途中の正誤表示」はありません。</span>
+          </div>
+        </details>
+
+        <div class="bcompound-format-strip">
+          <span>🔢 トレース</span><span>🧩 空欄補充</span><span>🔧 変更予測</span><span>💡 処理理解</span>
+        </div>
+
+        <details class="b-history-fold">
+          <summary>最近の実戦記録</summary>
+          <div class="bmock-history-grid">
+            <div class="bmock-history">
+              <div class="bmock-history-title">アルゴリズム ミニ模試</div>
+              <div id="bMockHistory"></div>
+            </div>
+            <div class="bmock-history">
+              <div class="bmock-history-title">複合問題</div>
+              <div id="bCompoundHistoryMenu"></div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+
+      <div id="bCompoundExam" class="bcompound-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="bCompoundExit" aria-label="終了して戻る">×</button>
+          <div class="bmock-top-title"><b>複合問題</b><span>長文1題・設問3問</span></div>
+          <div class="bmock-timer" id="bCompoundTimer">20:00</div>
+          <button class="bmock-submit-top" id="bCompoundSubmit">提出</button>
+        </div>
+        <div class="bcompound-layout">
+          <section class="bcompound-code-pane">
+            <div class="bcompound-set-head"><span id="bCompoundLevel">標準</span><b id="bCompoundTitle">複合問題</b></div>
+            <div class="bcompound-lead" id="bCompoundLead"></div>
+            <div class="bmock-code-title">擬似コード</div>
+            <div class="bmock-code bcompound-code" id="bCompoundCode"></div>
+            <div class="bcompound-data" id="bCompoundData"></div>
+          </section>
+          <section class="bcompound-question-pane">
+            <div class="bcompound-q-progress" id="bCompoundQProgress">設問 1 / 3</div>
+            <div class="bcompound-question" id="bCompoundQuestion"></div>
+            <div class="bmock-options" id="bCompoundOptions"></div>
+            <div class="bcompound-qnav" id="bCompoundQNav"></div>
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="bCompoundPrev">← 前へ</button>
+              <button class="bmock-next" id="bCompoundNext">次へ →</button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="bCompoundResult" class="bcompound-result">
+        <div class="bmock-result-hero">
+          <div class="bmock-result-icon">🧩</div>
+          <div class="bmock-result-kicker">複合問題</div>
+          <div class="bmock-result-score" id="bCompoundResultScore">0 / 3</div>
+          <div class="sub" id="bCompoundResultMessage"></div>
+        </div>
+        <div class="bmock-result-stats">
+          <div><span id="bCompoundCorrect">0</span><b>正解</b></div>
+          <div><span id="bCompoundWrong">0</span><b>不正解</b></div>
+          <div><span id="bCompoundBlank">0</span><b>未回答</b></div>
+          <div><span id="bCompoundTime">00:00</span><b>所要時間</b></div>
+        </div>
+        <div class="bmock-result-actions">
+          <button class="primary" id="bCompoundBackMenu">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bCompoundRetry">別の複合問題を解く</button></details>
+        </div>
+        <details class="result-detail-fold"><summary>解答レビューを見る</summary><div class="bcompound-review" id="bCompoundReview"></div></details>
+      </div>
+
+      <div id="bMockExam" class="bmock-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="bMockExit" aria-label="終了して戻る">×</button>
+          <div class="bmock-top-title"><b>アルゴリズム ミニ模試</b><span>8問・ヒントなし</span></div>
+          <div class="bmock-timer" id="bMockTimer">40:00</div>
+          <button class="bmock-submit-top" id="bMockSubmitTop">提出</button>
+        </div>
+
+        <div class="bmock-layout">
+          <div class="bmock-question-card">
+            <div class="bmock-q-meta">
+              <span class="bmock-q-num" id="bMockQNum">問題 1 / 8</span>
+              <span class="bmock-q-label">科目B・アルゴリズム</span>
+            </div>
+
+            <div class="bmock-prompt">次の状態から処理を続けたとき、問いに答えてください。</div>
+
+            <div class="bmock-code-title">擬似コード</div>
+            <div class="bmock-code" id="bMockCode"></div>
+
+            <div class="bmock-snapshot-title">現在の状態</div>
+            <div class="bmock-state" id="bMockState"></div>
+            <div class="bmock-visual" id="bMockVisual"></div>
+
+            <div class="bmock-question" id="bMockQuestion"></div>
+            <div class="bmock-options" id="bMockOptions"></div>
+
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="bMockPrev">← 前へ</button>
+              <button class="bmock-flag" id="bMockFlag">☆ 後で見る</button>
+              <button class="bmock-next" id="bMockNext">次へ →</button>
+            </div>
+          </div>
+
+          <aside class="bmock-nav-panel">
+            <div class="bmock-nav-title">問題一覧</div>
+            <div class="bmock-nav-grid" id="bMockNavGrid"></div>
+            <div class="bmock-legend"><span>■ 回答済み</span><span>★ 後で見る</span></div>
+            <div class="bmock-answer-count" id="bMockAnswerCount">0 / 8 回答</div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="bMockResult" class="bmock-result">
+        <div class="bmock-result-hero">
+          <div class="bmock-result-icon">🎯</div>
+          <div class="bmock-result-kicker">アルゴリズム ミニ模試</div>
+          <div class="bmock-result-score" id="bMockResultScore">0 / 8</div>
+          <div class="sub" id="bMockResultMessage"></div>
+        </div>
+
+        <div class="bmock-result-stats">
+          <div><span id="bMockStatCorrect">0</span><b>正解</b></div>
+          <div><span id="bMockStatWrong">0</span><b>不正解</b></div>
+          <div><span id="bMockStatBlank">0</span><b>未回答</b></div>
+          <div><span id="bMockStatTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="bmock-result-actions">
+          <button class="primary" id="bMockResultList">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="bMockRetry">ミニ模試をもう一度解く</button></details>
+        </div>
+        <details class="result-detail-fold">
+          <summary>詳しい結果・解答レビューを見る</summary>
+          <div class="bmock-breakdown" id="bMockBreakdown"></div>
+          <div class="bmock-review-head"><h2>解答レビュー</h2><div class="sub">提出後だけ正解と理由を確認できます。</div></div>
+          <div class="bmock-review-list" id="bMockReviewList"></div>
+        </details>
+      </div>
+
+      <div id="secSelect" class="sec-select hidden">
+        <div class="screen-head">
+          <button class="back" data-screen="map" aria-label="前の画面に戻る">←</button>
+          <div><h1>科目B セキュリティ演習 🛡️</h1><div class="sub">状況・証拠・ログを読み、最も適切な判断を選びます。</div></div>
+        </div>
+
+        <details class="b-mode-switcher">
+
+
+          <summary><span class="b-mode-current-label">🛡️ セキュリティ</span><span class="b-mode-switch-hint">他のモードへ</span></summary>
+
+
+          <div class="b-mode-tabs">
+          <button class="b-mode-tab" data-bmode="trace">💻 アルゴリズム</button>
+          <button class="b-mode-tab security active" data-bmode="security">🛡️ セキュリティ</button>
+          <button class="b-mode-tab exam" data-bmode="mock">🎯 実戦</button>
+          <button class="b-mode-tab final" data-bmode="final">📝 総合実戦</button>
+        </div>
+
+
+        </details>
+
+        <div class="sec-hero">
+          <div class="sec-hero-icon">🛡️</div>
+          <div class="sec-hero-copy">
+            <div class="sec-hero-title">セキュリティ ケース演習</div>
+            <div class="sub">用語を当てるだけでなく「この状況なら何を優先するか」を考える訓練です。</div>
+          </div>
+          <div class="sec-hero-progress" id="secProgressText">0 / 15</div>
+        </div>
+
+        <div class="b-mode-next-card security-next" id="secNextCard">
+          <div class="b-mode-next-icon">▶</div>
+          <div class="b-mode-next-copy"><span>次の未完了</span><b id="secNextTitle">ケースを確認中…</b><small id="secNextDesc"></small></div>
+          <button id="secNextAction">始める →</button>
+        </div>
+
+        <details class="b-secondary-practice" id="secPracticeFold">
+          <summary><span>セキュリティ ミニ模試</span><small>ケース演習の理解をヒントなしで確認する8問・20分</small></summary>
+          <div class="sec-practical-card">
+            <div class="sec-practical-icon">📝</div>
+            <div class="sec-practical-copy">
+              <b>セキュリティ ミニ模試</b>
+              <span>ログ読解を最低2問含み、状況と証拠からヒントなしで判断します。</span>
+            </div>
+            <button id="secMockStartMenu">ミニ模試を始める →</button>
+          </div>
+        </details>
+
+        <details class="b-list-tools-fold compact">
+          <summary>表示するケースを絞り込む</summary>
+          <div class="sec-filter-tabs" id="secFilterTabs">
+            <button class="sec-filter active" data-secfilter="all">すべて</button>
+            <button class="sec-filter" data-secfilter="基礎">基礎</button>
+            <button class="sec-filter" data-secfilter="標準">標準</button>
+            <button class="sec-filter" data-secfilter="応用">応用</button>
+          </div>
+        </details>
+
+        <div class="sec-grid" id="secScenarioGrid"></div>
+      </div>
+
+
+      <div id="secMockExam" class="secmock-exam">
+        <div class="bmock-topbar">
+          <button class="back" id="secMockExit" aria-label="終了して戻る">×</button>
+          <div class="bmock-top-title"><b>セキュリティ ミニ模試</b><span>8問・ヒントなし</span></div>
+          <div class="secmock-timer" id="secMockTimer">20:00</div>
+          <button class="secmock-submit-top" id="secMockSubmitTop">提出</button>
+        </div>
+
+        <div class="secmock-layout">
+          <section class="secmock-question-card">
+            <div class="secmock-q-meta">
+              <span id="secMockQNum">問題 1 / 8</span>
+              <span>科目B・情報セキュリティ</span>
+            </div>
+
+            <div class="secmock-incident">
+              <div class="secmock-incident-head">
+                <span id="secMockIncidentIcon">⚠️</span>
+                <b id="secMockIncidentTitle"></b>
+              </div>
+              <div id="secMockIncidentText"></div>
+            </div>
+
+            <div class="secmock-evidence-title">判断材料・ログ</div>
+            <div class="secmock-evidence" id="secMockEvidence"></div>
+
+            <div class="secmock-question" id="secMockQuestion"></div>
+            <div class="secmock-options" id="secMockOptions"></div>
+
+            <div class="bmock-actions">
+              <button class="bmock-prev" id="secMockPrev">← 前へ</button>
+              <button class="bmock-flag" id="secMockFlag">☆ 後で見る</button>
+              <button class="bmock-next secmock-next" id="secMockNext">次へ →</button>
+            </div>
+          </section>
+
+          <aside class="bmock-nav-panel">
+            <div class="bmock-nav-title">問題一覧</div>
+            <div class="bmock-nav-grid" id="secMockNavGrid"></div>
+            <div class="bmock-legend"><span>■ 回答済み</span><span>★ 後で見る</span></div>
+            <div class="bmock-answer-count" id="secMockAnswerCount">0 / 8 回答</div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="secMockResult" class="secmock-result">
+        <div class="bmock-result-hero secmock-result-hero">
+          <div class="bmock-result-icon">🛡️</div>
+          <div class="bmock-result-kicker">セキュリティ ミニ模試</div>
+          <div class="bmock-result-score" id="secMockResultScore">0 / 8</div>
+          <div class="sub" id="secMockResultMessage"></div>
+        </div>
+
+        <div class="bmock-result-stats">
+          <div><span id="secMockCorrect">0</span><b>正解</b></div>
+          <div><span id="secMockWrong">0</span><b>不正解</b></div>
+          <div><span id="secMockBlank">0</span><b>未回答</b></div>
+          <div><span id="secMockTime">00:00</span><b>所要時間</b></div>
+        </div>
+
+        <div class="bmock-result-actions">
+          <button class="primary" id="secMockBackList">次の科目Bへ →</button>
+          <details class="result-more-actions"><summary>その他</summary><button class="secondary" id="secMockRetry">ミニ模試をもう一度解く</button></details>
+        </div>
+        <details class="result-detail-fold">
+          <summary>詳しい結果・解答レビューを見る</summary>
+          <div class="secmock-breakdown" id="secMockBreakdown"></div>
+          <div class="bmock-review-head"><h2>解答レビュー</h2><div class="sub">提出後にだけ正解・解説を表示します。</div></div>
+          <div class="secmock-review-list" id="secMockReviewList"></div>
+        </details>
+      </div>
+
+      <div id="secLab" class="sec-lab">
+        <div class="trace-title-row">
+          <button class="back" id="secBackToList" aria-label="前の画面に戻る">←</button>
+          <div class="trace-info">
+            <h1 id="secLabTitle">セキュリティ ケース演習</h1>
+            <div class="sub" id="secLabMeta">セキュリティ ケース演習</div>
+          </div>
+        </div>
+
+        <div class="incident-banner">
+          <div class="incident-top">
+            <div class="incident-icon" id="secIncidentIcon">⚠️</div>
+            <div class="incident-title" id="secIncidentTitle"></div>
+            <div class="incident-badge" id="secIncidentBadge"></div>
+          </div>
+          <div class="incident-text" id="secIncidentText"></div>
+        </div>
+
+        <div class="evidence-panel">
+          <div class="evidence-title">判断材料・ログ</div>
+          <div id="secEvidence"></div>
+        </div>
+
+        <div class="decision-panel">
+          <div class="decision-step">
+            <div class="decision-num" id="secDecisionNum">1</div>
+            <div class="decision-label">判断</div>
+          </div>
+          <div class="decision-question" id="secQuestion"></div>
+          <div class="decision-options" id="secOptions"></div>
+          <div class="decision-feedback" id="secFeedback"></div>
+          <button class="sec-next" id="secNext">次の判断へ →</button>
+          <div class="sec-progress-row">
+            <div class="progress"><div id="secStepProgress" style="width:0%;background:#18a889"></div></div>
+            <div class="sec-counter" id="secCounter">1 / 3</div>
+          </div>
+        </div>
+
+        <div class="sec-complete" id="secComplete">
+          <div class="sec-complete-icon">🛡️</div>
+          <h2>演習完了！</h2>
+          <div class="sec-xp" id="secCompleteXp">+80 XP</div>
+          <div class="sub" id="secCompleteText"></div>
+          <div class="sec-summary" id="secCompleteSummary"></div>
+          <button class="primary" id="secReturnList" style="margin-top:18px">次の科目Bへ →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" class="screen">
+      <div class="result-card">
+        <div class="result-icon">🏆</div>
+        <h1>今日の学習完了！</h1>
+        <div class="sub">今日の学習を完了しました。</div>
+        <div class="xp">+340 XP</div>
+
+        <div class="result-grid">
+          <div class="rbox"><div class="sub">学習時間</div><div class="rnum">58分</div></div>
+          <div class="rbox"><div class="sub">問題数</div><div class="rnum">22問</div></div>
+          <div class="rbox"><div class="sub">正答率</div><div class="rnum">82%</div></div>
+        </div>
+
+        <h3>今日の習得</h3>
+        <div><span class="tag good">✓ 二分探索</span><span class="tag good">✓ 配列</span><span class="tag good">✓ トレース</span></div>
+        <h3 style="margin-top:18px">次回の復習候補</h3>
+        <div><span class="tag warn">⚠ while終了条件</span><span class="tag warn">⚠ 配列の添字</span></div>
+
+        <div style="margin-top:26px"><button class="primary" id="resultHome">ホームへ戻る</button></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="rightbar">
+    <div class="right-card">
+      <h3>今日の学習</h3>
+      <div class="sub" id="rightDailyProgress">今日の計画を確認しています。</div>
+      <div class="right-daily-next" id="rightDailyNext">次にやる内容を確認しています。</div>
+      <button class="right-daily-action" id="rightDailyAction">続きから再開 →</button>
+    </div>
+
+    <div class="right-card">
+      <h3>試験準備度</h3>
+      <div id="rightReadiness" style="font-size:28px;font-weight:900">0%</div>
+      <div class="progress" style="margin-top:10px"><div id="rightReadinessBar" style="width:0%"></div></div>
+      <div class="sub" id="rightFocus" style="margin-top:10px">学習データを分析中</div>
+    </div>
+
+    <div class="right-card">
+      <h3>BIT先生</h3>
+      <div class="sub">分からないときだけ呼べるAI講師です。</div>
+      <button class="secondary" id="openAiSide" style="width:100%;margin-top:12px">🤖 質問する</button>
+    </div>
+  </aside>
+</div>
+
+
+
+<div class="drawer-backdrop" id="aiBackdrop" aria-hidden="true"></div>
+<div class="drawer" id="aiDrawer" role="dialog" aria-modal="true" aria-labelledby="aiDrawerTitle" aria-describedby="aiDrawerDesc" aria-hidden="true" inert>
+  <div class="drawer-head">
+    <div class="bot" aria-hidden="true">🤖</div>
+    <div><b id="aiDrawerTitle">BIT先生</b><div class="sub" id="aiDrawerDesc">AI講師（ローカルデモ）</div></div>
+    <button class="drawer-close" id="closeAi" aria-label="BIT先生を閉じる">×</button>
+  </div>
+  <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions">
+    <div class="bubble bot-bub">こんにちは！分からないところがあれば、その画面を見ながら一緒に整理します。</div>
+  </div>
+  <div class="quick">
+    <button data-q="もっと簡単に説明して">もっと簡単に</button>
+    <button data-q="なぜこの答えになるの？">なぜこの答え？</button>
+    <button data-q="図で説明して">図で説明</button>
+    <button data-q="似た問題を出して">似た問題</button>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="質問を入力…" aria-label="BIT先生への質問" enterkeyhint="send" />
+    <button id="sendChat" aria-label="質問を送信">➤</button>
+  </div>
+</div>
+
+
+<div class="pwa-modal-backdrop" id="pwaModal" role="dialog" aria-modal="true" aria-labelledby="pwaModalTitle" aria-hidden="true">
+  <div class="pwa-modal">
+    <h2 id="pwaModalTitle">📲 iPhoneに追加</h2>
+    <div class="sub">Safariでこのページを開いた状態で、次の操作をしてください。</div>
+    <div class="pwa-steps">
+      <div class="pwa-step">
+        <div class="step-num">1</div>
+        <div><b>共有ボタンをタップ</b><div class="sub">Safariの「共有」メニューを開きます。</div></div>
+      </div>
+      <div class="pwa-step">
+        <div class="step-num">2</div>
+        <div><b>「ホーム画面に追加」</b><div class="sub">共有メニューを下へスクロールすると表示されます。</div></div>
+      </div>
+      <div class="pwa-step">
+        <div class="step-num">3</div>
+        <div><b>「追加」をタップ</b><div class="sub">FE QUESTのアイコンがホーム画面に作成されます。</div></div>
+      </div>
+    </div>
+    <button class="pwa-close" id="closePwaModal">わかりました</button>
+  </div>
+</div>
+
+<div class="app-notice" id="appNotice" role="status" aria-live="polite">
+  <div class="app-notice-icon" id="appNoticeIcon">ℹ️</div>
+  <div class="app-notice-copy"><b id="appNoticeTitle">お知らせ</b><span id="appNoticeBody"></span></div>
+  <div class="app-notice-actions"><button class="primary" id="appNoticeAction">実行</button><button class="app-notice-close" id="appNoticeClose" aria-label="閉じる">×</button></div>
+</div>
+
+<div class="offline-pill" id="offlinePill" role="status" aria-live="polite">オフライン — 学習データは端末に保存されます</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">保存しました</div>
+
+<script src="./assets/app-v341.js"></script>
+</body>
+</html>
