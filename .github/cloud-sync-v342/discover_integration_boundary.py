@@ -38,12 +38,20 @@ for name in priority:
     s=fn_source(js,name)
     sources[name]=None if s is None else {'bytes':len(s.encode()),'sha256':sha(s),'source':s}
 
-all_names=sorted(set(re.findall(r'function\s+([A-Za-z_$][\w$]*)\s*\(',js)))
+# Keep this audit bounded. The 3.36MB production bundle contains hundreds of named functions;
+# repeatedly rescanning the whole bundle for every function makes Actions discovery needlessly slow.
+# Token windows are enough here because the exact priority function sources above carry the write-path contract.
 checksum_related=[]
-for name in all_names:
-    s=fn_source(js,name)
-    if s and re.search(r'checksum|sha256|hash|atomicProfileEnvelope|writeCurrentProfile',s,re.I):
-        checksum_related.append({'name':name,'bytes':len(s.encode()),'sha256':sha(s),'preview':s[:1200]})
+for token in ['checksum','sha256','atomicProfileEnvelope','writeCurrentProfile','profileMeta.revision','lastWriterId']:
+    matches=list(re.finditer(re.escape(token),js,re.I))
+    checksum_related.append({
+        'token':token,
+        'count':len(matches),
+        'windows':[
+            {'offset':m.start(),'preview':js[max(0,m.start()-350):min(len(js),m.start()+850)]}
+            for m in matches[:20]
+        ]
+    })
 
 constants=[]
 for m in re.finditer(r'\bconst\s+([A-Za-z_$][\w$]*(?:KEY|Key|key|SCHEMA|Schema|schema)[A-Za-z_$\w]*)\s*=\s*([^;\n]+)',js):
@@ -59,7 +67,7 @@ function __storage(){
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);const raw=localStorage.getItem(k);let parsed=null;
       try{parsed=JSON.parse(raw)}catch(e){}
-      out.push({key:k,bytes:Buffer.byteLength(String(raw||'')),json:parsed&&typeof parsed==='object'?{keys:Object.keys(parsed).sort(),schema:parsed.profileSchemaVersion??parsed.schema??null,revision:parsed.revision??parsed.profileMeta?.revision??null,writer:parsed.lastWriterId??parsed.profileMeta?.lastWriterId??null,hasChecksum:Object.prototype.hasOwnProperty.call(parsed,'checksum'),payloadKeys:parsed.payload&&typeof parsed.payload==='object'?Object.keys(parsed.payload).sort().slice(0,60):null}:null});
+      out.push({key:k,bytes:Buffer.byteLength(String(raw||'')),json:parsed&&typeof parsed==='object'?{keys:Object.keys(parsed).sort(),schema:parsed.profileSchemaVersion??parsed.schema??null,revision:parsed.revision??parsed.profileMeta?.revision??null,writer:parsed.lastWriterId??parsed.profileMeta?.lastWriterId??null,hasChecksum:Object.prototype.hasOwnProperty.call(parsed,'checksum'),checksum:parsed.checksum??null,payloadKeys:parsed.payload&&typeof parsed.payload==='object'?Object.keys(parsed.payload).sort().slice(0,60):null,payloadRevision:parsed.payload?.profileMeta?.revision??null,payloadWriter:parsed.payload?.profileMeta?.lastWriterId??null}:null});
     }
   }catch(e){return [{error:String(e)}]}
   return out.sort((a,b)=>String(a.key).localeCompare(String(b.key)));
@@ -73,7 +81,7 @@ const writeDescriptor=__safe(()=>{
 const saveResult=__safe(()=>saveProfile());
 const after={meta:JSON.parse(JSON.stringify(profile.profileMeta||{})),storage:__storage()};
 const committed=__safe(()=>typeof FEQ_LAST_COMMITTED_PROFILE!=='undefined'?FEQ_LAST_COMMITTED_PROFILE:null);
-const out={before,envelope:envelope.ok?{ok:true,value:{keys:Object.keys(envelope.value||{}).sort(),revision:envelope.value?.revision??null,lastWriterId:envelope.value?.lastWriterId??null,checksum:envelope.value?.checksum??null,payloadSchema:envelope.value?.payload?.profileSchemaVersion??null,payloadRevision:envelope.value?.payload?.profileMeta?.revision??null,serializedBytes:Buffer.byteLength(JSON.stringify(envelope.value||{}))}}:envelope,writeDescriptor,saveResult,after,committed};
+const out={before,envelope:envelope.ok?{ok:true,value:{keys:Object.keys(envelope.value||{}).sort(),revision:envelope.value?.revision??null,lastWriterId:envelope.value?.lastWriterId??null,checksum:envelope.value?.checksum??null,payloadSchema:envelope.value?.payload?.profileSchemaVersion??null,payloadRevision:envelope.value?.payload?.profileMeta?.revision??null,payloadUpdatedAt:envelope.value?.payload?.profileMeta?.updatedAt??null,payloadWriterId:envelope.value?.payload?.profileMeta?.lastWriterId??null,serializedBytes:Buffer.byteLength(JSON.stringify(envelope.value||{}))}}:envelope,writeDescriptor,saveResult,after,committed};
 console.log('__V342INT__'+Buffer.from(JSON.stringify(out)).toString('base64'));
 '''
 with tempfile.TemporaryDirectory() as td:
@@ -83,7 +91,7 @@ with tempfile.TemporaryDirectory() as td:
     m=re.search(r'__V342INT__([A-Za-z0-9+/=]+)',z.stdout);req(m is not None,'runtime marker missing')
     runtime=json.loads(base64.b64decode(m.group(1)))
 
-out={'audit':'FE QUEST v342 sync integration boundary discovery','sourceVersion':'v341','priorityFunctionSources':sources,'checksumRelatedFunctions':checksum_related,'storageAndSchemaConstants':constants,'runtime':runtime}
+out={'audit':'FE QUEST v342 sync integration boundary discovery','sourceVersion':'v341','priorityFunctionSources':sources,'checksumTokenWindows':checksum_related,'storageAndSchemaConstants':constants,'runtime':runtime}
 OUT.parent.mkdir(exist_ok=True);OUT.write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
 
 rows=[]
