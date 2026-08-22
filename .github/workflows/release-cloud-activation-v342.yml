@@ -1,0 +1,46 @@
+name: FE QUEST v342 cloud-aware split release tooling
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/release/split_release_common.py'
+      - '.github/cloud-sync-v342/validate_release_activation_contract.py'
+      - '.github/workflows/release-cloud-activation-v342.yml'
+      - 'cloud/activation-loader-v342.js'
+      - 'cloud/public-config-v342.js'
+      - 'cloud/**/*.js'
+      - 'vendor/supabase/**'
+      - 'audits/V342_RELEASE_CLOUD_ACTIVATION.md'
+      - '_regression/release-cloud-activation-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'release-cloud-activation-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout release tooling branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate cloud-aware v342 split materialization
+        run: python3 .github/cloud-sync-v342/validate_release_activation_contract.py
+
+      - name: Verify reproducible evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_RELEASE_CLOUD_ACTIVATION.md _regression/release-cloud-activation-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/release-cloud-activation-v342.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==13 and fx['cloudAssetCount']==15
+          assert fx['defaultEnabled'] is False and fx['productionVersion']=='v341'
+          assert 'PASS — 13 / 13 RELEASE-ACTIVATION CASES PASS' in Path('audits/V342_RELEASE_CLOUD_ACTIVATION.md').read_text()
+          print('V342_CLOUD_AWARE_RELEASE_TOOLING_REPRODUCIBLE')
+          PY
