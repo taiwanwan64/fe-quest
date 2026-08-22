@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 
 
 def req(ok, msg):
@@ -35,18 +34,21 @@ checks = {
     'v341 production shell remains cloud-free': 'activation-loader-v342.js' not in prod,
 }
 
+passed = 0
 for name, ok in checks.items():
     req(ok, name)
+    passed += 1
 
 for forbidden in ['sb_secret_', 'service_role_', 'SUPABASE_SERVICE_ROLE_KEY']:
     req(forbidden not in text, f'privacy page leaks forbidden credential material: {forbidden}')
+    passed += 1
 
 # The policy itself must not introduce analytics/ad scripts before that statement is changed.
 for tracker in ['googletagmanager.com','google-analytics.com','connect.facebook.net','cdn.segment.com','posthog','mixpanel']:
     req(tracker not in text.lower(), f'privacy page embeds tracker: {tracker}')
+    passed += 1
 
-result = len(checks) + 2
-report = f'''# FE QUEST v342 — Privacy readiness\n\nResult: **PASS — {result} / {result} PRIVACY-READINESS CHECKS PASS**\n\n- a public Japanese privacy policy now documents FE QUEST's local-first storage model\n- optional Supabase Auth/cloud synchronization and the data categories involved are disclosed\n- GitHub Pages and Supabase are identified as external infrastructure providers\n- the policy states that FE QUEST does not currently embed ad/third-party behavioral analytics SDKs or sell learner/email data for advertising\n- cloud account deletion and deliberate preservation of local learner data are separately explained\n- publishable-key/RLS security boundaries, conflict protection, JSON export, and recovery independence are documented\n- an operational GitHub Issues contact route is provided\n- the page contains no secret/service-role material or tracker script\n- cloud configuration remains disabled and v341 production behavior is unchanged\n\nBefore any future ads, analytics, payments, or additional processors are activated, this policy must be reviewed and updated to match the actual production behavior.\n'''
+report = f'''# FE QUEST v342 — Privacy readiness\n\nResult: **PASS — {passed} / {passed} PRIVACY-READINESS CHECKS PASS**\n\n- a public Japanese privacy policy now documents FE QUEST's local-first storage model\n- optional Supabase Auth/cloud synchronization and the data categories involved are disclosed\n- GitHub Pages and Supabase are identified as external infrastructure providers\n- the policy states that FE QUEST does not currently embed ad/third-party behavioral analytics SDKs or sell learner/email data for advertising\n- cloud account deletion and deliberate preservation of local learner data are separately explained\n- publishable-key/RLS security boundaries, conflict protection, JSON export, and recovery independence are documented\n- an operational GitHub Issues contact route is provided\n- the page contains no secret/service-role material or tracker script\n- cloud configuration remains disabled and v341 production behavior is unchanged\n\nBefore any future ads, analytics, payments, or additional processors are activated, this policy must be reviewed and updated to match the actual production behavior.\n'''
+Path('audits').mkdir(exist_ok=True)
 Path('audits/V342_PRIVACY_READINESS.md').write_text(report)
 print(report)
-'''
