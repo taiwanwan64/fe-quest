@@ -10,7 +10,7 @@ on:
       - 'audits/V342_PROVIDER_DECISION.md'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   discover:
@@ -50,15 +50,13 @@ jobs:
           print('V342_PROVIDER_CONTRACT_OK')
           PY
 
-      - name: Commit v342 contract evidence
+      - name: Verify generated evidence is reproducible without mutating the PR branch
         shell: bash
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.json audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md audits/V342_SYNC_CONFLICT_SIMULATION.md _regression/cloud-sync-contract-v342.fixture.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Record FE QUEST v342 sync contract evidence"
-            git fetch origin "$GITHUB_HEAD_REF"
-            git rebase "origin/$GITHUB_HEAD_REF"
-            git push origin HEAD:"$GITHUB_HEAD_REF"
-          fi
+          git diff --exit-code -- audits/V342_SYNC_CONFLICT_SIMULATION.md _regression/cloud-sync-contract-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md').read_text()
+          assert 'PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFORE CLOUD CODE' in p
+          print('V342_CONTRACT_EVIDENCE_VALIDATED_WITHOUT_BOT_PUSH')
+          PY
