@@ -53,10 +53,23 @@ jobs:
           build_revision: ${{ github.sha }}
           verbose: true
 
-      - name: Prepare mechanical v339 reference
-        run: GITHUB_REF_NAME="${{ steps.release.outputs.version }}-staging" python3 .github/release/prepare_reference.py
+      - name: Prepare approved v339 reference
+        shell: bash
+        run: |
+          rm -rf _reference
+          mkdir _reference
+          git archive origin/main | tar -x -C _reference
+          for rel in \
+            index.html manifest.webmanifest sw.js \
+            app/subject-b-final-xp-overrides-v219.txt \
+            app/subject-b-review-reason-route-overrides-v243.txt \
+            app/subject-b-security-review-reason-label-overrides-v245.txt \
+            app/subject-b-final-result-pipeline-v339.txt; do
+            mkdir -p "_reference/$(dirname "$rel")"
+            cp "$rel" "_reference/$rel"
+          done
 
-      - name: Build mechanical v339 reference
+      - name: Build approved v339 reference
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./_reference
