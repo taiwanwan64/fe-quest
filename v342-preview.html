@@ -2,7 +2,11 @@
 ---
 {% include_relative app/base-shell-v342.html %}
 <style id="fequestV342SafariFirstRunFix">
-#firstRunExperienceV340 input[type="date"]{min-width:0!important;max-width:100%!important;display:block!important}
+@media(max-width:720px){
+  #firstRunExperienceV340 .v340-fields{grid-template-columns:minmax(0,1fr)!important;min-width:0!important;max-width:100%!important;width:100%!important}
+  #firstRunExperienceV340 .v340-field{min-width:0!important;max-width:100%!important;width:100%!important}
+  #firstRunExperienceV340 input[type="date"]{width:100%!important;inline-size:100%!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;display:block!important;box-sizing:border-box!important}
+}
 </style>
 <script>
 (()=>{
