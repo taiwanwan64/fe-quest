@@ -1,0 +1,46 @@
+name: FE QUEST v342 privacy readiness
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_privacy_readiness.py'
+      - '.github/workflows/cloud-privacy-v342.yml'
+      - 'privacy.html'
+      - 'cloud/public-config-v342.js'
+      - 'app/base-shell-v341.html'
+      - 'audits/V342_PRIVACY_READINESS.md'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-privacy-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout privacy readiness branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate privacy disclosure against v342 behavior
+        run: python3 .github/cloud-sync-v342/validate_privacy_readiness.py
+
+      - name: Verify reproducible policy evidence and v341 isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_PRIVACY_READINESS.md
+          python3 - <<'PY'
+          from pathlib import Path
+          policy=Path('privacy.html').read_text()
+          audit=Path('audits/V342_PRIVACY_READINESS.md').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert 'PASS — 25 / 25 PRIVACY-READINESS CHECKS PASS' in audit
+          assert 'クラウド同期は任意です' in policy
+          assert 'Supabase' in policy and 'GitHub Pages' in policy
+          assert '端末内の学習データは自動削除しません' in policy
+          assert 'activation-loader-v342.js' not in shell
+          print('V342_PRIVACY_DISCLOSURE_REPRODUCIBLE_AND_V341_ISOLATED')
+          PY

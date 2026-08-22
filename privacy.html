@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>プライバシーポリシー | FE QUEST</title>
+<meta name="description" content="FE QUESTのローカル学習データ、任意のクラウド同期、アカウント情報の取り扱いについて説明します。">
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic UI",sans-serif;color:#24313d;background:#f6f8fb;line-height:1.75}*{box-sizing:border-box}body{margin:0}.wrap{width:min(760px,calc(100% - 32px));margin:32px auto 64px}.card{background:#fff;border:1px solid #dbe3ec;border-radius:20px;padding:clamp(22px,5vw,42px);box-shadow:0 12px 34px rgba(31,41,55,.06)}h1{margin:0 0 4px;font-size:clamp(26px,5vw,38px);line-height:1.25}h2{margin:34px 0 8px;font-size:20px}p,li{font-size:15px}.lead{margin:16px 0 0;font-size:16px}.meta{font-size:13px;color:#667085}.notice{margin:22px 0;padding:14px 16px;border-radius:14px;background:#eef8e8;border:1px solid #cde8bb}.back{display:inline-flex;align-items:center;min-height:44px;margin-bottom:14px;color:#237d00;font-weight:700;text-decoration:none}.back:focus-visible,a:focus-visible{outline:3px solid #9bd66f;outline-offset:3px}.foot{margin-top:36px;padding-top:20px;border-top:1px solid #e4e9ef;font-size:13px;color:#667085}a{color:#1769aa}@media(prefers-color-scheme:dark){:root{color:#edf2f7;background:#111827}.card{background:#182231;border-color:#344054;box-shadow:none}.meta,.foot{color:#aeb8c5}.notice{background:#193120;border-color:#315b38}.back{color:#8fdc6f}a{color:#8dc9ff}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="./">← FE QUESTに戻る</a>
+<article class="card">
+<h1>プライバシーポリシー</h1>
+<div class="meta">FE QUEST / 制定日: 2026年8月22日</div>
+<p class="lead">FE QUESTは、基本情報技術者試験の学習を支援するローカルファーストのWebアプリです。このページでは、端末内の学習データと、利用者が任意で有効にするクラウド同期のデータ取り扱いを説明します。</p>
+<div class="notice"><b>クラウド同期は任意です。</b><br>ログインしなくても学習できます。クラウド同期を有効にしない限り、FE QUESTの学習履歴は原則として利用中の端末内に保存されます。</div>
+
+<h2>1. 取り扱う情報</h2>
+<p>FE QUESTは、機能に応じて次の情報を取り扱います。</p>
+<ul>
+<li><b>端末内の学習データ:</b> 問題の回答履歴、正誤、学習進捗、復習状態、模試履歴、XP、学習設定など。</li>
+<li><b>クラウド同期を有効にした場合のアカウント情報:</b> ログインに使用するメールアドレスと、認証サービスが発行するセッション情報。</li>
+<li><b>クラウド同期を有効にした場合の学習データ:</b> 端末内で確定したFE QUESTプロフィールの同期用コピー。同期競合を安全に処理するため、更新日時、リビジョン、端末を区別する識別子、チェックサムなどを含みます。</li>
+</ul>
+
+<h2>2. 利用目的</h2>
+<ul>
+<li>学習進捗、復習予定、模試結果などを端末内で保存・表示するため。</li>
+<li>利用者がクラウド同期を有効にした場合に、端末変更やブラウザデータ消失に備えて学習履歴を同期するため。</li>
+<li>複数端末で同時に更新された際、意図しない上書きを避けて利用者に選択肢を提示するため。</li>
+<li>ログイン、ログアウト、アカウント削除など、利用者が明示的に選んだアカウント操作を提供するため。</li>
+</ul>
+
+<h2>3. 外部サービス</h2>
+<p>クラウド同期とログインにはSupabaseを利用します。Supabaseでは認証情報と同期対象の学習データが処理・保存されます。FE QUESTのWebページはGitHub Pagesを利用して配信します。各サービスにおける基盤側のデータ取り扱いについては、それぞれのサービス提供者の規約・プライバシー情報も適用される場合があります。</p>
+
+<h2>4. 広告・アクセス解析・データ販売</h2>
+<p>本ポリシー制定時点のFE QUESTには、広告配信SDKや第三者の行動分析SDKを組み込んでいません。また、FE QUESTが取得した学習データやメールアドレスを広告目的で第三者へ販売することはありません。将来これらの取り扱いを変更する場合は、本ポリシーを更新し、必要に応じて利用者へ分かる形で案内します。</p>
+
+<h2>5. ローカル保存とクラウド同期</h2>
+<p>FE QUESTはローカル保存を主とします。通信障害やクラウドサービスの障害が発生しても、可能な限り端末内で学習と保存を継続できる設計です。クラウド上の状態が別端末で変更されている場合、単純な最終更新時刻だけで自動上書きせず、必要に応じて利用者にどちらのデータを採用するか確認します。</p>
+
+<h2>6. 保存期間と削除</h2>
+<ul>
+<li><b>端末内のデータ:</b> 利用者がFE QUESTのデータ管理機能やブラウザのサイトデータ削除等で消去するまで端末に残る場合があります。</li>
+<li><b>クラウド上の学習データ:</b> アカウントが存在する間、同期用データとして保存されます。FE QUESTからアカウント削除を実行すると、対応するクラウド上の学習プロフィールも削除される設計です。</li>
+<li><b>アカウント削除後の端末データ:</b> 誤操作による学習履歴消失を避けるため、アカウントを削除しても端末内の学習データは自動削除しません。端末内データも削除したい場合は、別途データ管理機能から削除してください。</li>
+</ul>
+
+<h2>7. セキュリティ</h2>
+<p>ブラウザ版FE QUESTには、Supabaseの公開利用を前提としたpublishable keyのみを配置し、管理者用の秘密鍵は配置しません。クラウド上の学習プロフィールは、認証された利用者が自分自身のデータだけを読み取れるようRow Level Security（RLS）を利用します。複数端末からの更新には競合検知を設け、古い端末が新しいクラウドデータを無条件で上書きしないようにします。</p>
+
+<h2>8. JSONエクスポートと復旧機能</h2>
+<p>クラウド同期の利用有無にかかわらず、FE QUESTのJSONエクスポートや復旧機能は独立して利用できる設計です。エクスポートしたファイルの保管・共有は利用者自身で管理してください。</p>
+
+<h2>9. 未成年者の利用</h2>
+<p>FE QUESTは資格学習を目的とするサービスです。居住地域の法令や利用する外部サービスの条件上、保護者等の同意が必要な年齢の場合は、必要な同意を得たうえで利用してください。</p>
+
+<h2>10. ポリシーの変更</h2>
+<p>機能追加、利用サービスの変更、法令・運用上の必要性などに応じて本ポリシーを変更する場合があります。重要な変更がある場合は、FE QUEST内または公開ページ上で分かる形で案内します。</p>
+
+<h2>11. お問い合わせ</h2>
+<p>FE QUESTのデータ取り扱いに関する問い合わせや不具合報告は、公開リポジトリのIssueから受け付けます。</p>
+<p><a href="https://github.com/taiwanwan64/fe-quest/issues" rel="noopener noreferrer">FE QUEST GitHub Issues</a></p>
+
+<div class="foot">このポリシーは、クラウド同期を本番有効化する前のv342設計を基準に作成しています。実際の公開機能と内容に差異が生じた場合は、公開前に内容を更新します。</div>
+</article>
+</main>
+</body>
+</html>
