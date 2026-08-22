@@ -1,0 +1,46 @@
+name: FE QUEST v342 cloud runtime bootstrap
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_runtime_bootstrap.py'
+      - '.github/workflows/cloud-runtime-bootstrap-v342.yml'
+      - 'cloud/public-config-v342.js'
+      - 'cloud/runtime-bootstrap-v342.js'
+      - 'cloud/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-sync-bootstrap-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 bootstrap branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate disabled-by-default production activation boundary
+        run: python3 .github/cloud-sync-v342/validate_runtime_bootstrap.py
+
+      - name: Verify reproducible bootstrap evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_CLOUD_RUNTIME_BOOTSTRAP.md _regression/cloud-runtime-bootstrap-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          config=Path('cloud/public-config-v342.js').read_text()
+          bootstrap=Path('cloud/runtime-bootstrap-v342.js').read_text()
+          audit=Path('audits/V342_CLOUD_RUNTIME_BOOTSTRAP.md').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          assert '14 / 14 ACTIVATION-BOUNDARY CASES PASS' in audit
+          assert 'enabled:false' in config
+          assert 'publishableKey:null' in config and 'url:null' in config
+          assert 'fetch(' not in bootstrap and 'saveProfile(' not in bootstrap and 'writeCurrentProfile(' not in bootstrap
+          assert 'runtime-bootstrap-v342.js' not in shell and 'FEQUEST_PUBLIC_CLOUD_CONFIG_V342' not in shell
+          print('V342_CLOUD_BOOTSTRAP_REPRODUCIBLE_AND_DISABLED_BY_DEFAULT')
+          PY
