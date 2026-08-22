@@ -1,0 +1,48 @@
+name: FE QUEST v342 standalone release package
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/release/package_release.py'
+      - '.github/release/validate_package_release.py'
+      - '.github/workflows/release-package-v342.yml'
+      - '.github/workflows/release-validate.yml'
+      - '.github/release/split_release_common.py'
+      - 'cloud/**'
+      - 'vendor/supabase/**'
+      - 'privacy.html'
+      - 'audits/V342_STANDALONE_PACKAGE.md'
+      - '_regression/release-package-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'release-package-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout standalone package branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate manifest-driven standalone packaging
+        run: python3 .github/release/validate_package_release.py
+
+      - name: Verify reproducible package evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_STANDALONE_PACKAGE.md _regression/release-package-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/release-package-v342.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==12
+          assert fx['cloudAssetCount']==15 and fx['privacyIncluded'] is True
+          assert fx['pinnedSdk']=='vendor/supabase/supabase-2.112.3.js'
+          assert 'PASS — 12 / 12 STANDALONE-PACKAGE CASES PASS' in Path('audits/V342_STANDALONE_PACKAGE.md').read_text()
+          print('V342_STANDALONE_PACKAGE_REPRODUCIBLE')
+          PY
