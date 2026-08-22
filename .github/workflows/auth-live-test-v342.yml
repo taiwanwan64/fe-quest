@@ -1,0 +1,28 @@
+name: FE QUEST v342 live auth test
+
+on:
+  pull_request:
+    paths:
+      - 'v342-auth-test.html'
+      - 'cloud/public-config-v342.js'
+      - 'cloud/supabase/auth-boundary-v342.js'
+      - 'vendor/supabase/supabase-2.112.3.js'
+      - '.github/cloud-sync-v342/validate_auth_live_test.py'
+      - '.github/workflows/auth-live-test-v342.yml'
+  push:
+    branches: ['auth-live-test-v342']
+    paths:
+      - 'v342-auth-test.html'
+      - 'cloud/public-config-v342.js'
+      - 'cloud/supabase/auth-boundary-v342.js'
+      - 'vendor/supabase/supabase-2.112.3.js'
+      - '.github/cloud-sync-v342/validate_auth_live_test.py'
+      - '.github/workflows/auth-live-test-v342.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate isolated live auth page
+        run: python3 .github/cloud-sync-v342/validate_auth_live_test.py
