@@ -27,6 +27,7 @@
     for(const [name,value] of [
       ['writeCurrentProfile',typeof writeCurrentProfile==='function'],
       ['stampProfileForSave',typeof stampProfileForSave==='function'],
+      ['normalizeProfileData',typeof normalizeProfileData==='function'],
       ['currentAtomicProfile',typeof currentAtomicProfile==='function'],
       ['rememberCommittedProfile',typeof rememberCommittedProfile==='function'],
       ['acquireProfileWriteLease',typeof acquireProfileWriteLease==='function'],
@@ -86,7 +87,11 @@
 
     async function replaceLocalProfile(remotePayload,meta={}){
       if(!remotePayload||typeof remotePayload!=='object')throw new TypeError('remote profile payload required');
-      return commitPayload(remotePayload,meta.minimumRevision,{refresh:true,reason:'cloud-adopted'});
+      // Validate/migrate the remote payload before taking the write lease. A future or invalid
+      // cloud schema is a sync input problem, not a local-storage failure, and must never set
+      // profileWriteBlocked or stop the learner from continuing locally.
+      const validated=normalizeProfileData(remotePayload);
+      return commitPayload(validated,meta.minimumRevision,{refresh:true,reason:'cloud-adopted'});
     }
 
     return Object.freeze({createRecoveryPoint,promoteLocalRevision,replaceLocalProfile});
