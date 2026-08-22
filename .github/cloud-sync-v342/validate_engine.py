@@ -13,83 +13,104 @@ const C=require(process.argv[2]);
 const S=require(process.argv[3]);
 const E=require(process.argv[4]);
 const sha=c=>String(c).repeat(64).slice(0,64);
+const userA='11111111-1111-4111-8111-111111111111';
+const userB='22222222-2222-4222-8222-222222222222';
 class MemoryStorage{
   constructor(seed={}){this.m=new Map(Object.entries(seed))}
   getItem(k){return this.m.has(k)?this.m.get(k):null}
   setItem(k,v){this.m.set(k,String(v))}
   removeItem(k){this.m.delete(k)}
 }
+const desc=(r,c)=>({profileSchemaVersion:5,revision:r,sha256:sha(c||String(r)),updatedAt:`2026-01-${String(Math.min(r,28)).padStart(2,'0')}T00:00:00Z`,writerId:'device-A',payload:{revision:r,xp:r}});
 const cases=[];const ok=(name,cond,detail)=>cases.push({name,pass:Boolean(cond),detail:detail||null});
-const userA='11111111-1111-4111-8111-111111111111';
-const userB='22222222-2222-4222-8222-222222222222';
-const desc=(r,c='a')=>({profileSchemaVersion:5,revision:r,sha256:sha(c),updatedAt:`2026-01-${String(r).padStart(2,'0')}T00:00:00Z`,writerId:'device-A',payload:{revision:r,xp:r}});
-(async()=>{
-  let current=desc(1,'a');let user=null;let calls=[];
+function setup(transport,user=null,current=desc(1,'a')){
   const storage=new MemoryStorage({learnerProfile:'SAFE'});
-  const transport={commitProfile:async x=>{calls.push(x);return {ok:true,response:{sync_status:'uploaded-new',remote_revision:x.profileRevision,remote_sha256:x.payloadSha256}}}};
-  const engine=E.createSyncEngine({contract:C,stateApi:S,storage,transport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-
-  const disabledQueue=engine.queueAfterLocalCommit(current);
-  ok('post-local hook is network-free while disabled',disabledQueue.ok&&disabledQueue.status==='disabled'&&calls.length===0&&S.load(storage).pending===null);
-  const signedOutEnable=engine.enableForCurrentUser();
-  ok('enable requires authenticated identity',!signedOutEnable.ok&&signedOutEnable.status==='signed-out'&&calls.length===0);
-
-  user=userA;
-  const enabled=engine.enableForCurrentUser();
-  ok('explicit enable queues current committed profile without network',enabled.ok&&enabled.status==='enabled-pending'&&enabled.state.pending.profileRevision===1&&calls.length===0);
-  current=desc(2,'b');
-  const queued=engine.queueAfterLocalCommit(current);
-  ok('successful later local commit coalesces outbox only',queued.ok&&queued.state.pending.profileRevision===2&&calls.length===0);
-
-  const firstFlush=await engine.flush();
-  ok('explicit flush uploads and acknowledges',firstFlush.ok&&firstFlush.status==='uploaded-new'&&calls.length===1&&engine.status().pending===null&&engine.status().lastSyncedRemoteRevision===2);
-
-  current=desc(3,'c');engine.queueAfterLocalCommit(current);
-  calls=[];
-  const failingTransport={commitProfile:async x=>{calls.push(x);return {ok:false,error:{kind:'network',retryable:true,message:'offline'}}}};
-  const failEngine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:failingTransport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  const offline=await failEngine.flush();
-  ok('network failure keeps pending and never rolls back local data',!offline.ok&&offline.retryable&&engine.status().pending.profileRevision===3&&storage.getItem('learnerProfile')==='SAFE');
-
-  const conflictTransport={commitProfile:async x=>({ok:true,response:{sync_status:'remote-changed-conflict',remote_revision:4,remote_sha256:sha('d'),remote_payload:{revision:4}}})};
-  const conflictEngine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:conflictTransport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  const conflict=await conflictEngine.flush();
-  ok('remote conflict remains pending for explicit reconciliation',!conflict.ok&&conflict.conflict&&conflict.status==='remote-changed-conflict'&&conflict.state.pending.profileRevision===3&&conflict.state.conflict.remoteRevision===4);
-
-  user=userB;calls=[];
-  const mismatch=await failEngine.flush();
-  ok('different signed-in account makes zero transport calls',!mismatch.ok&&mismatch.status==='account-mismatch'&&calls.length===0&&S.load(storage).userId===userA);
-  user=userA;
-
-  // Restore a known successful base, queue revision 5, then let local advance to 6 before flush.
-  S.acknowledge(storage,C,{sync_status:'uploaded-update',remote_revision:2,remote_sha256:sha('b')});
-  current=desc(5,'e');engine.queueAfterLocalCommit(current);
-  current=desc(6,'f');
-  let coalescedArg=null;
-  const coalesceTransport={commitProfile:async x=>{coalescedArg=x;return {ok:true,response:{sync_status:'uploaded-update',remote_revision:6,remote_sha256:sha('f')}}}};
-  const coalesceEngine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:coalesceTransport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  const coalesced=await coalesceEngine.flush();
-  ok('flush refreshes stale outbox to newest committed local snapshot',coalesced.ok&&coalescedArg.profileRevision===6&&coalescedArg.baseRemoteRevision===2&&coalescedArg.payload.revision===6);
-
-  current=desc(7,'g');coalesceEngine.queueAfterLocalCommit(current);
-  let release;let slowCalls=0;
-  const slowTransport={commitProfile:x=>{slowCalls++;return new Promise(res=>{release=()=>res({ok:true,response:{sync_status:'uploaded-update',remote_revision:7,remote_sha256:sha('g')}})})}};
-  const slowEngine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:slowTransport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  const p1=slowEngine.flush();const p2=slowEngine.flush();
-  await new Promise(r=>setTimeout(r,0));
-  const oneCallBeforeRelease=slowCalls===1;release();const [r1,r2]=await Promise.all([p1,p2]);
-  ok('concurrent flushes share one in-flight transport operation',oneCallBeforeRelease&&slowCalls===1&&r1.ok&&r2.ok);
-
-  current=desc(8,'h');slowEngine.queueAfterLocalCommit(current);
-  const throwing=E.createSyncEngine({contract:C,stateApi:S,storage,transport:{commitProfile:async()=>{throw Error('boom')}},getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  const thrown=await throwing.flush();
-  ok('unexpected transport throw is contained and retryable',!thrown.ok&&thrown.retryable&&S.load(storage).pending.profileRevision===8);
-
-  const reloaded=E.createSyncEngine({contract:C,stateApi:S,storage,transport:failingTransport,getCommittedProfile:()=>current,getAuthenticatedUserId:()=>user});
-  ok('pending sync metadata survives engine recreation',reloaded.status().pending.profileRevision===8&&reloaded.status().userId===userA);
-  const off=reloaded.disable();
-  ok('disable clears only sync binding and preserves learner data',off.ok&&off.state.userId===null&&off.state.pending===null&&storage.getItem('learnerProfile')==='SAFE');
-
+  const holder={user,current};
+  let calls=0;
+  const wrapped={commitProfile:async x=>{calls++;return transport.commitProfile(x)}};
+  const engine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:wrapped,getCommittedProfile:()=>holder.current,getAuthenticatedUserId:()=>holder.user});
+  return {storage,holder,engine,calls:()=>calls};
+}
+const success=(status='uploaded-new')=>({commitProfile:async x=>({ok:true,response:{sync_status:status,remote_revision:x.profileRevision,remote_sha256:x.payloadSha256}})});
+(async()=>{
+  {
+    const x=setup(success(),null);
+    const r=x.engine.queueAfterLocalCommit(x.holder.current);
+    ok('disabled post-local hook is synchronous and network-free',r.ok&&r.status==='disabled'&&x.calls()===0&&S.load(x.storage).pending===null);
+  }
+  {
+    const x=setup(success(),null);
+    const r=x.engine.enableForCurrentUser();
+    ok('explicit enable requires authenticated identity',!r.ok&&r.status==='signed-out'&&x.calls()===0);
+  }
+  {
+    const x=setup(success(),userA);
+    const r=x.engine.enableForCurrentUser();
+    ok('explicit enable queues current commit without network',r.ok&&r.status==='enabled-pending'&&r.state.pending.profileRevision===1&&x.calls()===0);
+  }
+  {
+    const x=setup(success(),userA);
+    x.engine.enableForCurrentUser();x.holder.current=desc(2,'b');
+    const r=x.engine.queueAfterLocalCommit(x.holder.current);
+    ok('later local commit only coalesces pending outbox',r.ok&&r.state.pending.profileRevision===2&&r.state.pending.payloadSha256===sha('b')&&x.calls()===0);
+  }
+  {
+    const x=setup(success('uploaded-new'),userA);
+    x.engine.enableForCurrentUser();
+    const r=await x.engine.flush();
+    ok('explicit flush uploads and acknowledges',r.ok&&r.status==='uploaded-new'&&x.calls()===1&&x.engine.status().pending===null&&x.engine.status().lastSyncedRemoteRevision===1);
+  }
+  {
+    const x=setup({commitProfile:async()=>({ok:false,error:{kind:'network',retryable:true,message:'offline'}})},userA);
+    x.engine.enableForCurrentUser();
+    const r=await x.engine.flush();
+    ok('network failure keeps pending and never touches learner data',!r.ok&&r.retryable===true&&x.engine.status().pending.profileRevision===1&&x.storage.getItem('learnerProfile')==='SAFE');
+  }
+  {
+    const x=setup({commitProfile:async()=>({ok:true,response:{sync_status:'remote-changed-conflict',remote_revision:2,remote_sha256:sha('z'),remote_payload:{revision:2}}})},userA);
+    x.engine.enableForCurrentUser();
+    const r=await x.engine.flush();
+    ok('remote conflict keeps pending for reconciliation',!r.ok&&r.conflict===true&&r.status==='remote-changed-conflict'&&r.state.pending.profileRevision===1&&r.state.conflict.remoteRevision===2);
+  }
+  {
+    const x=setup(success(),userA);
+    x.engine.enableForCurrentUser();x.holder.user=userB;
+    const r=await x.engine.flush();
+    ok('account mismatch blocks all transport calls',!r.ok&&r.status==='account-mismatch'&&x.calls()===0&&x.engine.status().userId===userA);
+  }
+  {
+    let captured=null;
+    const transport={commitProfile:async arg=>{captured=arg;return {ok:true,response:{sync_status:arg.baseRemoteRevision==null?'uploaded-new':'uploaded-update',remote_revision:arg.profileRevision,remote_sha256:arg.payloadSha256}}}};
+    const x=setup(transport,userA,desc(1,'a'));
+    x.engine.enableForCurrentUser();await x.engine.flush();
+    x.holder.current=desc(2,'b');x.engine.queueAfterLocalCommit(x.holder.current);
+    x.holder.current=desc(3,'c');
+    const r=await x.engine.flush();
+    ok('flush refreshes stale pending descriptor but preserves remote base',r.ok&&captured.profileRevision===3&&captured.payload.revision===3&&captured.baseRemoteRevision===1&&x.engine.status().lastSyncedRemoteRevision===3);
+  }
+  {
+    let calls=0;
+    const delayed={commitProfile:async arg=>{calls++;await new Promise(r=>setTimeout(r,20));return {ok:true,response:{sync_status:'uploaded-new',remote_revision:arg.profileRevision,remote_sha256:arg.payloadSha256}}}};
+    const storage=new MemoryStorage({learnerProfile:'SAFE'});const holder={user:userA,current:desc(1,'a')};
+    const engine=E.createSyncEngine({contract:C,stateApi:S,storage,transport:delayed,getCommittedProfile:()=>holder.current,getAuthenticatedUserId:()=>holder.user});
+    engine.enableForCurrentUser();
+    const [a,b]=await Promise.all([engine.flush(),engine.flush()]);
+    ok('concurrent flushes share one in-flight transport call',calls===1&&a.ok&&b.ok&&a.status===b.status);
+  }
+  {
+    const x=setup({commitProfile:async()=>{throw Error('boom')}},userA);
+    x.engine.enableForCurrentUser();
+    const r=await x.engine.flush();
+    ok('unexpected transport throw is contained and retryable',!r.ok&&r.retryable===true&&x.engine.status().pending.profileRevision===1);
+  }
+  {
+    const x=setup({commitProfile:async()=>({ok:false,error:{kind:'provider',retryable:true,message:'down'}})},userA);
+    x.engine.enableForCurrentUser();await x.engine.flush();
+    const recreated=E.createSyncEngine({contract:C,stateApi:S,storage:x.storage,transport:success(),getCommittedProfile:()=>x.holder.current,getAuthenticatedUserId:()=>x.holder.user});
+    const survived=recreated.status().pending&&recreated.status().pending.profileRevision===1;
+    const off=recreated.disable();
+    ok('pending survives recreation and disable preserves learner data',survived&&off.ok&&off.state.userId===null&&off.state.pending===null&&x.storage.getItem('learnerProfile')==='SAFE');
+  }
   console.log('__ENGINE__'+Buffer.from(JSON.stringify({cases,count:cases.length,allPassed:cases.every(x=>x.pass)})).toString('base64'));
 })().catch(e=>{console.error(e);process.exit(1)});
 '''
