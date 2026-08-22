@@ -1,5 +1,5 @@
 // FE QUEST v342 local-first sync engine.
-// The engine never replaces saveProfile(). Call queueAfterLocalCommit() only after the
+// The engine never replaces the existing local save function. Call queueAfterLocalCommit only after the
 // existing atomic local save has succeeded. Network flush is a separate operation.
 (function(root){
   'use strict';
@@ -60,7 +60,7 @@
     }
 
     function queueAfterLocalCommit(committed){
-      // Intentionally synchronous and network-free. This is the only safe hook for saveProfile().
+      // Intentionally synchronous and network-free. This hook is for use only after local save success.
       try{return queueForBoundUser(committed)}catch(error){return {ok:false,status:'queue-error',error:String(error&&error.message||error),state:status()}}
     }
 
