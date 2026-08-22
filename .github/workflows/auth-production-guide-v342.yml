@@ -17,7 +17,6 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'auth-production-guide-v342') || startsWith(github.head_ref, 'cloud-activate-production-v342') || startsWith(github.head_ref, 'auth-confirm-signup-v342')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Auth production guide branch
@@ -40,9 +39,11 @@ jobs:
           config=Path('cloud/public-config-v342.js').read_text()
           url='https://taiwanwan64.github.io/fe-quest/'
           test_url='https://taiwanwan64.github.io/fe-quest/v342-auth-test.html'
-          assert 'PASS — 33 / 33 AUTH-PRODUCTION CHECKS PASS' in audit
+          assert 'PASS — 34 / 34 AUTH-PRODUCTION CHECKS PASS' in audit
           assert setup.count('{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email') >= 2
           assert 'Confirm sign up' in setup and 'Magic link or OTP' in setup
+          assert 'HOSTED AUTH LIVE ACCEPTANCE PASS' in setup
+          assert 'PR `#107` was **closed unmerged**' in setup
           assert url in setup and test_url in setup
           assert 'enabled:true' in config and f"redirectTo:'{url}'" in config
           assert 'activation-loader-v342.js' not in Path('app/base-shell-v341.html').read_text()
