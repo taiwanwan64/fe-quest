@@ -6,12 +6,12 @@ Result: **PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFOR
 {
   "schema": 5,
   "profileMeta": {
-    "createdAt": "2026-08-22T03:49:33.719Z",
-    "updatedAt": "2026-08-22T03:49:34.341Z",
+    "createdAt": "2026-08-22T03:55:45.808Z",
+    "updatedAt": "2026-08-22T03:55:46.492Z",
     "lastAppVersion": "v341",
     "migratedFromSchema": null,
     "revision": 3,
-    "lastWriterId": "6f3644c2-f8cd-4460-b6df-b7f22ad8186f"
+    "lastWriterId": "5643c6c0-815e-4fdd-9200-37142440d9ad"
   },
   "profileJsonBytesAtFreshBoot": 239594,
   "profileKeyCount": 33,
