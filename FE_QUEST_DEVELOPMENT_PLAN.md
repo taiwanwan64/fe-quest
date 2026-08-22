@@ -5,9 +5,9 @@
 > 別チャット・別AIで開発を再開するときは、最初に GitHub の `main` とこの `FE_QUEST_DEVELOPMENT_PLAN.md` を確認してください。会話履歴や古い記憶より、GitHub の現行コードと本ファイルを優先します。
 
 最終更新: 2026-08-22  
-現行アプリ: **v337**  
+現行アプリ: **v338**  
 リポジトリ: `taiwanwan64/fe-quest`  
-次の計画バージョン: **v338**
+次の計画バージョン: **v339**
 
 ---
 
@@ -104,7 +104,7 @@ v338〜v342の間は、睡眠・体調入力、バッジ大量追加、SNS機能
 
 ## 4. 次の5バージョン
 
-# v338 — 技術的負債・実行経路の全体監査
+# v338 — 技術的負債・実行経路の全体監査 ✅ 完了（2026-08-22）
 
 ### 目的
 
@@ -144,6 +144,19 @@ GitHubに `audits/post-v337-architecture-audit.md` 等の監査結果を保存�
 - override統合候補が依存順付きで一覧化されている
 - v337と同じ学習挙動を判定できる回帰fixtureが用意されている
 - ユーザーデータスキーマには変更を入れない
+
+
+### v338 完了結果
+
+- audit-only v338として学習者向け挙動とユーザーデータスキーマを変更せず監査を完了。
+- runtime hard `assert()` を **54件** 抽出し、CI移行候補 / diagnostic・contract統合候補 / runtime安全候補へ全件分類。
+- versioned overrideと現行`index.html`のinclude順をfixture化（現行組込み 36件 / 未参照 1件）。
+- 多重ラップ上位を静的に可視化し、v339の整理順を確定。
+- 完成版`index.html` **3,671,870 bytes** のCSS / JavaScript / include source構成を計測。
+- 起動時validation候補を棚卸し。
+- `buildTodayTasks()`、直前期フェーズ、学習配分、次教材/科目B選択、profile key contract等をv337 parentと比較する回帰fixtureを作成し、差分なしを確認。
+- 詳細: `audits/post-v337-architecture-audit.md`
+- 回帰基準: `_regression/post-v337-architecture-audit-v338.fixture.json`
 
 ---
 
@@ -419,15 +432,14 @@ v342で商用基盤が安定した後に着手する。
 
 ## 10. 直近の次アクション
 
-**次に着手する正式タスクは v338「技術的負債・実行経路の全体監査」。**
+**次に着手する正式タスクは v339「runtime安全化 + override整理 第1弾」。**
 
-v338では機能追加を急がず、以下を最初に行う。
+v338で実コードから監査基準が確定したため、v339では次の順で進める。
 
-1. runtime hard assert 全件抽出
-2. 多重ラップ関数の抽出と深度計測
-3. versioned override の責務・依存関係マップ作成
-4. 完成版3.67MBの構成比分析
-5. 自動調整ロジックの回帰契約強化
-6. v339で安全に除去できる対象の確定
+1. v338 fixtureのhard assert「CI移行候補」からruntime停止経路を安全に外す
+2. diagnostic/contractと重複するassertを非破壊診断へ統合する
+3. 多重ラップ上位 `renderBFinalResult`、`buildBFinal`、`subjectBHubRecommendation` から1責務を選び、単一実装 + 明示hookへ整理する
+4. 未参照versioned overrideを「削除可能 / reference用途 / 保留」に分類する
+5. 各変更でv338 behavior contract、710問、130テーマ、Subject B semantics、保存・復旧・PWAを回帰確認する
 
-この監査中でも、ユーザーが実使用で発見した明確なUX不具合は優先的に修正してよい。ただし、ロードマップの主目的を見失わない。
+v339でも大規模一括書き換えは行わない。**v338で固定した現行挙動を1つずつ守りながら減らす。**

@@ -1,0 +1,1251 @@
+{
+  "name": "post-v337-architecture-audit-v338",
+  "version": "v338",
+  "previous": "v337",
+  "parentMainSha": "112459d275ecc97d2d3b511ee39e21cb33fbae32",
+  "result": "PASS \u2014 V338 ARCHITECTURE INVENTORY COMPLETE; LEARNER BEHAVIOR UNCHANGED",
+  "hardAssert": {
+    "total": 54,
+    "classes": {
+      "CI\u79fb\u884c\u5019\u88dc": 47,
+      "runtime\u5b89\u5168\u5019\u88dc": 7
+    },
+    "inventory": [
+      {
+        "line": 7994,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V134_LEARNING_OVERRIDE_IDS.length===46,'v134 learning override count drift');"
+      },
+      {
+        "line": 7995,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V134_LEARNING_OVERRIDE_IDS.every(id=>QUESTION_BANK.some(q=>q.id===id&&q.qualityAudit==='v134-learning-effect-pass')),'v134 learning override application drift');"
+      },
+      {
+        "line": 7996,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V134_LEARNING_OVERRIDE_IDS.every(id=>{const q=QUESTION_BANK.find(x=>x.id===id);return Array.isArray(q.choiceExps)&&q.choiceExps.length===4;}),'v134 choice explanation coverage drift');"
+      },
+      {
+        "line": 7997,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V134_LEARNING_OVERRIDE_IDS.every(id=>{const q=QUESTION_BANK.find(x=>x.id===id);return !q.choiceExps.some(x=>/\u6761\u4ef6\u3092\u6b63\u3057\u304f\u5f0f\u3078\u5165\u308c\u308b\u3068\u6b63\u89e3\u5024\u306f|\u3053\u306e\u5b9a\u7fa9\u30fb\u6027\u8cea\u3068\u4e00\u81f4\u3057\u306a\u3044|\u3053\u306e\u5185\u5bb9\u306f\u300c/.test(x));}),'v134 generic distractor explanation drift');"
+      },
+      {
+        "line": 7998,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.find(q=>q.id==='coreq_01_03_1')?.exp.includes('1\u00d72^3')&&QUESTION_BANK.find(q=>q.id==='coreq_01_06_1')?.exp.includes('101+011=1000'),'v134 calculation explanation regression');"
+      },
+      {
+        "line": 8060,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS.length===61,'v136 override count drift');"
+      },
+      {
+        "line": 8061,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V136_SPECIFIC_OVERRIDE_IDS.every(id=>QUESTION_BANK.some(q=>q.id===id&&q.qualityAudit==='v136-specific-distractor-pass')),'v136 override application drift');"
+      },
+      {
+        "line": 8062,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.every(q=>!(q.choiceExps||[]).some(x=>String(x).includes('\u3053\u306e\u5b9a\u7fa9\u30fb\u6027\u8cea\u3068\u4e00\u81f4\u3057\u306a\u3044'))),'v136 generic explanation regression');"
+      },
+      {
+        "line": 8063,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.length===710,'v136 question count drift');"
+      },
+      {
+        "line": 8064,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert([178,178,177,177].every((n,i)=>QUESTION_BANK.filter(q=>q.a===i).length===n),'v136 answer distribution drift');"
+      },
+      {
+        "line": 8065,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert({\u60f3\u8d77:166,\u9069\u7528:323,\u5224\u65ad:221}.\u60f3\u8d77===QUESTION_BANK.filter(q=>q.cognitiveLevel==='\u60f3\u8d77').length&&{\u60f3\u8d77:166,\u9069\u7528:323,\u5224\u65ad:221}.\u9069\u7528===QUESTION_BANK.filter(q=>q.cognitiveLevel==='\u9069\u7528').length&&{\u60f3\u8d77:166,\u9069\u7528:323,\u5224\u65ad:221}.\u5224\u65ad===QUESTION_BANK.filter(q=>q.cognitiveLevel==='\u5224\u65ad').length,'v136 cognitive distribution drift');"
+      },
+      {
+        "line": 8070,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS.length===87,'v137 context override count drift');"
+      },
+      {
+        "line": 8071,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V137_CONTEXT_OVERRIDE_IDS.every(id=>QUESTION_BANK.some(q=>q.id===id&&q.qualityAudit==='v137-context-mismatch-pass')),'v137 context override application drift');"
+      },
+      {
+        "line": 8072,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.reduce((n,q)=>n+(q.choiceExps||[]).filter(x=>String(x).includes('\u3053\u306e\u554f\u984c\u3067\u6c42\u3081\u308b\u5185\u5bb9\u3068\u306f\u4e00\u81f4\u3057\u306a\u3044')).length,0)===0,'v137 generic mismatch explanation drift');"
+      },
+      {
+        "line": 8107,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V138_IDS.length===110,'v138 question count drift');"
+      },
+      {
+        "line": 8108,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(SUBJECT_A_V138_IDS).size===110,'v138 duplicate audit id');"
+      },
+      {
+        "line": 8109,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.reduce((n,q)=>n+(q.choiceExps||[]).filter(x=>String(x).includes('\u554f\u984c\u6587\u306e\u6761\u4ef6\u307e\u305f\u306f\u5b9a\u7fa9\u3068\u4e00\u81f4\u3057\u306a\u3044')).length,0)===0,'v138 generic condition mismatch remains');"
+      },
+      {
+        "line": 8110,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.filter(q=>q.qualityAudit==='v138-condition-specific-pass').length===110,'v138 application count drift');"
+      },
+      {
+        "line": 8120,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V139_IDS.length===30,'v139 target count drift');"
+      },
+      {
+        "line": 8121,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(SUBJECT_A_V139_IDS).size===30,'v139 duplicate target id');"
+      },
+      {
+        "line": 8122,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.length===710,'v139 question count drift');"
+      },
+      {
+        "line": 8123,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "SUBJECT_A_V139_IDS.forEach(qid=>{const q=QUESTION_BANK.find(x=>x.id===qid);assert(q&&q.qualityAudit==='v139-distractor-specificity-pass',`v139 marker missing: ${qid}`);assert(Array.isArray(q.choiceExps)&&q.choiceExps.length===4,`v139 choiceExps invalid: ${qid}`);const wrong=q.choiceExps.filter((_,i)=>i!==q.a);assert(new Set(wrong).size===3,`v139 duplicate wr"
+      },
+      {
+        "line": 8125,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(SUBJECT_A_V139_GLOBAL_DUP_WRONG_EXPLANATION_QUESTIONS.length===0,'v139 global duplicate wrong explanation remains');"
+      },
+      {
+        "line": 8177,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.length === 710, 'v141 question count drift');"
+      },
+      {
+        "line": 8178,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(QUESTION_BANK.map(q => q.id)).size === 710, 'v141 question id uniqueness drift');"
+      },
+      {
+        "line": 8179,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(targetIds.length === 103, `v141 target count drift: ${targetIds.length}`);"
+      },
+      {
+        "line": 8180,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(changedChoices === 282, `v141 changed-choice count drift: ${changedChoices}`);"
+      },
+      {
+        "line": 8181,
+        "function": "assert",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(beforeChars - afterChars === 14467, `v141 removed-character drift: ${beforeChars-afterChars}`);"
+      },
+      {
+        "line": 8182,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(answerDistribution.join(',') === '178,178,177,177', `v141 answer distribution drift: ${answerDistribution.join(',')}`);"
+      },
+      {
+        "line": 8183,
+        "function": "assert",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(cognitiveDistribution.\u60f3\u8d77 === 166 && cognitiveDistribution.\u9069\u7528 === 323 && cognitiveDistribution.\u5224\u65ad === 221,"
+      },
+      {
+        "line": 8185,
+        "function": "assert",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(targetIds.every(id => {"
+      },
+      {
+        "line": 8482,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(optionOutliersBefore.length===9,`v143 option outlier baseline drift: ${optionOutliersBefore.length}`);"
+      },
+      {
+        "line": 8483,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(Object.keys(optionPatches).length===9,'v143 option patch count drift');"
+      },
+      {
+        "line": 8484,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(optionOutliersAfter.length===0,`v143 option outlier remains: ${optionOutliersAfter.join(',')}`);"
+      },
+      {
+        "line": 8485,
+        "function": "applyV143LateFixes",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(depthShortBefore.length===32,`v143 depth-short baseline drift: ${depthShortBefore.length}`);"
+      },
+      {
+        "line": 8486,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(Object.keys(deepAdditions).length===32,'v143 enrichment patch count drift');"
+      },
+      {
+        "line": 8487,
+        "function": "applyV143LateFixes",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(depthShortAfter.length===0,`v143 depth-short remains: ${depthShortAfter.join(',')}`);"
+      },
+      {
+        "line": 8488,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(oldJudgmentOption.includes('\u3060\u3051\u78ba\u8a8d\u3059\u308b'),'v143 challenge_033 baseline cue drift');"
+      },
+      {
+        "line": 8489,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(!judgment.options.some(x=>String(x).includes('\u3060\u3051\u78ba\u8a8d\u3059\u308b')),'v143 challenge_033 giveaway cue remains');"
+      },
+      {
+        "line": 8490,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(QUESTION_BANK.length===710,'v143 question count drift');"
+      },
+      {
+        "line": 8491,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(QUESTION_BANK.map(q=>q.id)).size===710,'v143 question id uniqueness drift');"
+      },
+      {
+        "line": 8492,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(answerDistribution.join(',')==='178,178,177,177',`v143 answer distribution drift: ${answerDistribution.join(',')}`);"
+      },
+      {
+        "line": 8493,
+        "function": "applyV143LateFixes",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(cognitiveDistribution.\u60f3\u8d77===166&&cognitiveDistribution.\u9069\u7528===323&&cognitiveDistribution.\u5224\u65ad===221,"
+      },
+      {
+        "line": 16891,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(repaired.length===B_FINAL_COUNT&&algo.length===B_FINAL_ALGO_COUNT&&sec.length===B_FINAL_SEC_COUNT,'v208 final count drift');"
+      },
+      {
+        "line": 16892,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(levelCounts['\u6a19\u6e96']===8&&levelCounts['\u5fdc\u7528']===8,'v208 final algorithm level drift');"
+      },
+      {
+        "line": 16893,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(domains.size===B_FINAL_ALGO_DOMAINS.length&&B_FINAL_ALGO_DOMAINS.every(x=>domains.has(x)),'v208 final algorithm domain drift');"
+      },
+      {
+        "line": 16894,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(algo.map(x=>x.sourceId)).size===algo.length,'v208 final algorithm duplicate id');"
+      },
+      {
+        "line": 16895,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(bFinalHighTraceCountV208(algo)>=B_FINAL_HIGH_TRACE_FLOOR_V208,'v208 final sustained-trace floor unavailable');"
+      },
+      {
+        "line": 16972,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(B_EXAM_ALGO_ITEMS.length===40,'v211 source final algorithm pool drift');"
+      },
+      {
+        "line": 16973,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "runtime\u5b89\u5168\u5019\u88dc",
+        "context": "assert(SUBJECT_B_FINAL_POOL_V211_IDS.every(id=>!B_EXAM_ALGO_ITEMS.some(x=>x.id===id)),'v211 final algorithm id collision');"
+      },
+      {
+        "line": 17026,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(ordered.length===B_FINAL_COUNT&&algo.length===B_FINAL_ALGO_COUNT&&sec.length===B_FINAL_SEC_COUNT,'v214 final block count drift');"
+      },
+      {
+        "line": 17027,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(ordered.slice(0,B_FINAL_ALGO_COUNT).every(x=>x?.kind==='algo'),'v214 algorithm block order drift');"
+      },
+      {
+        "line": 17028,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(ordered.slice(B_FINAL_ALGO_COUNT).every(x=>x?.kind==='security'),'v214 security block order drift');"
+      },
+      {
+        "line": 17029,
+        "function": "bFinalRepairTraceFloorV208",
+        "class": "CI\u79fb\u884c\u5019\u88dc",
+        "context": "assert(new Set(ordered.map(x=>`${x.kind}:${x.sourceId}`)).size===ordered.length,'v214 stable partition duplicate id');"
+      }
+    ]
+  },
+  "overrides": {
+    "includeCount": 45,
+    "versionedCount": 37,
+    "includedVersioned": 36,
+    "dormantVersioned": 1,
+    "files": [
+      {
+        "path": "app/learning-quality-overrides.txt",
+        "bytes": 11515,
+        "version": null,
+        "included": true,
+        "order": 2
+      },
+      {
+        "path": "app/learning-quality-overrides-v191.txt",
+        "bytes": 8772,
+        "version": 191,
+        "included": true,
+        "order": 3
+      },
+      {
+        "path": "app/learning-quality-overrides-v191-contract.txt",
+        "bytes": 1089,
+        "version": 191,
+        "included": true,
+        "order": 4
+      },
+      {
+        "path": "app/learning-quality-overrides-v193.txt",
+        "bytes": 8985,
+        "version": 193,
+        "included": true,
+        "order": 5
+      },
+      {
+        "path": "app/learning-quality-overrides-v195.txt",
+        "bytes": 6704,
+        "version": 195,
+        "included": true,
+        "order": 6
+      },
+      {
+        "path": "app/learning-quality-overrides-v197.txt",
+        "bytes": 8307,
+        "version": 197,
+        "included": true,
+        "order": 7
+      },
+      {
+        "path": "app/subject-a-mock-selection-diversity-overrides-v306.txt",
+        "bytes": 2475,
+        "version": 306,
+        "included": true,
+        "order": 8
+      },
+      {
+        "path": "app/learning-data-reset-overrides-v333.txt",
+        "bytes": 7698,
+        "version": 333,
+        "included": true,
+        "order": 9
+      },
+      {
+        "path": "app/review-next-scroll-top-overrides-v334.txt",
+        "bytes": 1835,
+        "version": 334,
+        "included": true,
+        "order": 10
+      },
+      {
+        "path": "app/global-transition-ux-overrides-v335.txt",
+        "bytes": 4329,
+        "version": 335,
+        "included": true,
+        "order": 11
+      },
+      {
+        "path": "app/sticky-header-centered-cta-overrides-v336.txt",
+        "bytes": 5537,
+        "version": 336,
+        "included": true,
+        "order": 12
+      },
+      {
+        "path": "app/fixed-mobile-header-overrides-v337.txt",
+        "bytes": 5345,
+        "version": 337,
+        "included": true,
+        "order": 13
+      },
+      {
+        "path": "app/subject-b-security-overrides-v200.txt",
+        "bytes": 14833,
+        "version": 200,
+        "included": true,
+        "order": 14
+      },
+      {
+        "path": "app/subject-b-algorithm-overrides-v202.txt",
+        "bytes": 9007,
+        "version": 202,
+        "included": true,
+        "order": 15
+      },
+      {
+        "path": "app/subject-b-session-overrides-v205.txt",
+        "bytes": 2703,
+        "version": 205,
+        "included": true,
+        "order": 16
+      },
+      {
+        "path": "app/subject-b-final-overrides-v208.txt",
+        "bytes": 4099,
+        "version": 208,
+        "included": true,
+        "order": 17
+      },
+      {
+        "path": "app/subject-b-final-pool-overrides-v211.txt",
+        "bytes": 5687,
+        "version": 211,
+        "included": true,
+        "order": 18
+      },
+      {
+        "path": "app/subject-b-final-order-overrides-v214.txt",
+        "bytes": 1305,
+        "version": 214,
+        "included": true,
+        "order": 19
+      },
+      {
+        "path": "app/subject-b-final-remediation-overrides-v217.txt",
+        "bytes": 3060,
+        "version": 217,
+        "included": true,
+        "order": 20
+      },
+      {
+        "path": "app/subject-b-final-xp-overrides-v219.txt",
+        "bytes": 968,
+        "version": 219,
+        "included": true,
+        "order": 21
+      },
+      {
+        "path": "app/subject-b-readiness-overrides-v222.txt",
+        "bytes": 5072,
+        "version": 222,
+        "included": true,
+        "order": 22
+      },
+      {
+        "path": "app/subject-b-readiness-copy-overrides-v224.txt",
+        "bytes": 1380,
+        "version": 224,
+        "included": true,
+        "order": 23
+      },
+      {
+        "path": "app/subject-b-algorithm-domain-progression-overrides-v227.txt",
+        "bytes": 6801,
+        "version": 227,
+        "included": true,
+        "order": 24
+      },
+      {
+        "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+        "bytes": 21482,
+        "version": 230,
+        "included": true,
+        "order": 25
+      },
+      {
+        "path": "app/subject-b-distractor-quality-overrides-v233.txt",
+        "bytes": 2858,
+        "version": 233,
+        "included": true,
+        "order": 26
+      },
+      {
+        "path": "app/subject-b-trace-final-feedback-propagation-overrides-v235.txt",
+        "bytes": 2752,
+        "version": 235,
+        "included": true,
+        "order": 27
+      },
+      {
+        "path": "app/subject-b-final-security-rotation-overrides-v239.txt",
+        "bytes": 3148,
+        "version": 239,
+        "included": true,
+        "order": 28
+      },
+      {
+        "path": "app/subject-b-review-reason-route-overrides-v243.txt",
+        "bytes": 1973,
+        "version": 243,
+        "included": true,
+        "order": 29
+      },
+      {
+        "path": "app/subject-b-security-review-reason-label-overrides-v245.txt",
+        "bytes": 2902,
+        "version": 245,
+        "included": true,
+        "order": 30
+      },
+      {
+        "path": "app/subject-b-remediation-difficulty-overrides-v249.txt",
+        "bytes": 1339,
+        "version": 249,
+        "included": true,
+        "order": 31
+      },
+      {
+        "path": "app/subject-b-local-performance-overrides-v254.txt",
+        "bytes": 11303,
+        "version": 254,
+        "included": true,
+        "order": 32
+      },
+      {
+        "path": "app/subject-b-local-adaptive-recommendation-overrides-v257.txt",
+        "bytes": 4828,
+        "version": 257,
+        "included": true,
+        "order": 33
+      },
+      {
+        "path": "app/subject-b-transfer-retrace-overrides-v262.txt",
+        "bytes": 5546,
+        "version": 262,
+        "included": true,
+        "order": 34
+      },
+      {
+        "path": "app/subject-b-transfer-retrace-array-overrides-v264.txt",
+        "bytes": 6017,
+        "version": 264,
+        "included": true,
+        "order": 35
+      },
+      {
+        "path": "app/subject-b-mobile-tap-target-overrides-v268.txt",
+        "bytes": 1496,
+        "version": 268,
+        "included": true,
+        "order": 36
+      },
+      {
+        "path": "app/subject-b-final-handoff-overrides-v273.txt",
+        "bytes": 1320,
+        "version": 273,
+        "included": true,
+        "order": 37
+      },
+      {
+        "path": "app/subject-b-trace-overlap-repair-overrides-v279.txt",
+        "bytes": 1842,
+        "version": 279,
+        "included": true,
+        "order": 38
+      },
+      {
+        "path": "app/learning-data-reset-overrides-v332.txt",
+        "bytes": 7654,
+        "version": 332,
+        "included": false,
+        "order": null
+      }
+    ],
+    "topWrappedFunctions": [
+      {
+        "function": "renderBFinalResult",
+        "depth": 5,
+        "chain": [
+          {
+            "path": "app/subject-b-final-remediation-overrides-v217.txt",
+            "order": 20
+          },
+          {
+            "path": "app/subject-b-final-xp-overrides-v219.txt",
+            "order": 21
+          },
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          },
+          {
+            "path": "app/subject-b-review-reason-route-overrides-v243.txt",
+            "order": 29
+          },
+          {
+            "path": "app/subject-b-security-review-reason-label-overrides-v245.txt",
+            "order": 30
+          }
+        ]
+      },
+      {
+        "function": "buildBFinal",
+        "depth": 3,
+        "chain": [
+          {
+            "path": "app/subject-b-final-overrides-v208.txt",
+            "order": 17
+          },
+          {
+            "path": "app/subject-b-final-order-overrides-v214.txt",
+            "order": 19
+          },
+          {
+            "path": "app/subject-b-final-security-rotation-overrides-v239.txt",
+            "order": 28
+          }
+        ]
+      },
+      {
+        "function": "subjectBHubRecommendation",
+        "depth": 3,
+        "chain": [
+          {
+            "path": "app/subject-b-readiness-overrides-v222.txt",
+            "order": 22
+          },
+          {
+            "path": "app/subject-b-algorithm-domain-progression-overrides-v227.txt",
+            "order": 24
+          },
+          {
+            "path": "app/subject-b-local-adaptive-recommendation-overrides-v257.txt",
+            "order": 33
+          }
+        ]
+      },
+      {
+        "function": "finishCompoundChallenge",
+        "depth": 2,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          },
+          {
+            "path": "app/subject-b-local-performance-overrides-v254.txt",
+            "order": 32
+          }
+        ]
+      },
+      {
+        "function": "finishSecurityMock",
+        "depth": 2,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          },
+          {
+            "path": "app/subject-b-local-performance-overrides-v254.txt",
+            "order": 32
+          }
+        ]
+      },
+      {
+        "function": "startBExercise",
+        "depth": 2,
+        "chain": [
+          {
+            "path": "app/subject-b-transfer-retrace-overrides-v262.txt",
+            "order": 34
+          },
+          {
+            "path": "app/subject-b-transfer-retrace-array-overrides-v264.txt",
+            "order": 35
+          }
+        ]
+      },
+      {
+        "function": "answerSecDecision",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      },
+      {
+        "function": "bFinalRemediationTarget",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-remediation-difficulty-overrides-v249.txt",
+            "order": 31
+          }
+        ]
+      },
+      {
+        "function": "bFinalReviewReasonMeta",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-security-review-reason-label-overrides-v245.txt",
+            "order": 30
+          }
+        ]
+      },
+      {
+        "function": "bMockCandidateFromExercise",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      },
+      {
+        "function": "buildBMock",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-session-overrides-v205.txt",
+            "order": 16
+          }
+        ]
+      },
+      {
+        "function": "buildMockQuestions",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-a-mock-selection-diversity-overrides-v306.txt",
+            "order": 8
+          }
+        ]
+      },
+      {
+        "function": "finishBExercise",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-algorithm-domain-progression-overrides-v227.txt",
+            "order": 24
+          }
+        ]
+      },
+      {
+        "function": "finishBFinal",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-local-performance-overrides-v254.txt",
+            "order": 32
+          }
+        ]
+      },
+      {
+        "function": "finishBMiniMock",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-local-performance-overrides-v254.txt",
+            "order": 32
+          }
+        ]
+      },
+      {
+        "function": "makeFinalAlgoExam",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      },
+      {
+        "function": "makeFinalAlgoFromTrace",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-trace-final-feedback-propagation-overrides-v235.txt",
+            "order": 27
+          }
+        ]
+      },
+      {
+        "function": "makeFinalSecurity",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      },
+      {
+        "function": "randomizeCompoundSet",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      },
+      {
+        "function": "randomizeSecurityMockItem",
+        "depth": 1,
+        "chain": [
+          {
+            "path": "app/subject-b-wrong-answer-feedback-overrides-v230.txt",
+            "order": 25
+          }
+        ]
+      }
+    ]
+  },
+  "size": {
+    "built": {
+      "total": 3671870,
+      "css": 231671,
+      "js": 3345690,
+      "other": 94509,
+      "sha256": "da76cb243d6e59a0ff238194eb5e1ec655b60556e8a5c70c872f0866bae4bb2e"
+    },
+    "includedSourceRoleBytes": {
+      "base-stable": 2991671,
+      "learning-patches": 405723,
+      "\u79d1\u76eeB override": 123721,
+      "diagnostic/release": 77945,
+      "\u79d1\u76eeA quality override": 45372,
+      "UX/data behavior override": 24744,
+      "other included source": 2475
+    }
+  },
+  "startupValidationCandidates": [
+    {
+      "function": "runLessonUXAudit",
+      "bodyBytes": 24142,
+      "asserts": 0,
+      "tailCalls": 2
+    },
+    {
+      "function": "ensureVersionRecoveryCheckpoint",
+      "bodyBytes": 5581,
+      "asserts": 0,
+      "tailCalls": 2
+    },
+    {
+      "function": "runStorageSelfTest",
+      "bodyBytes": 4534,
+      "asserts": 0,
+      "tailCalls": 2
+    },
+    {
+      "function": "validateSubjectBSemantics",
+      "bodyBytes": 4146,
+      "asserts": 0,
+      "tailCalls": 1
+    },
+    {
+      "function": "checkForAppUpdate",
+      "bodyBytes": 1140,
+      "asserts": 0,
+      "tailCalls": 11
+    },
+    {
+      "function": "validateImportedProfile",
+      "bodyBytes": 196,
+      "asserts": 0,
+      "tailCalls": 2
+    }
+  ],
+  "behaviorContract": {
+    "candidateParentEqual": true,
+    "candidateReferenceSixFileByteEquality": true,
+    "snapshot": {
+      "v": "v338",
+      "plan": {
+        "ok": true,
+        "value": [
+          {
+            "type": "review",
+            "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null,
+            "topicId": null
+          },
+          {
+            "type": "lesson",
+            "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d",
+            "minutes": 20,
+            "bmode": null,
+            "bid": null,
+            "lessonId": "core_01_01",
+            "topicId": null
+          },
+          {
+            "type": "subjectB",
+            "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+            "minutes": 20,
+            "bmode": "trace",
+            "bid": "loop_sum",
+            "lessonId": null,
+            "topicId": null
+          },
+          {
+            "type": "boss",
+            "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null,
+            "topicId": null
+          }
+        ]
+      },
+      "snap": {
+        "ok": true,
+        "value": [
+          {
+            "type": "review",
+            "title": "\u8a18\u61b6\u306e\u5fa9\u7fd2",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null,
+            "topicId": null
+          },
+          {
+            "type": "lesson",
+            "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d",
+            "minutes": 20,
+            "bmode": null,
+            "bid": null,
+            "lessonId": "core_01_01",
+            "topicId": null
+          },
+          {
+            "type": "subjectB",
+            "title": "\u30d7\u30ed\u30b0\u30e9\u30e0\u30c8\u30ec\u30fc\u30b9\uff1a\u30eb\u30fc\u30d7\u3067\u5408\u8a08",
+            "minutes": 20,
+            "bmode": "trace",
+            "bid": "loop_sum",
+            "lessonId": null,
+            "topicId": null
+          },
+          {
+            "type": "boss",
+            "title": "\u4eca\u65e5\u306e\u7dcf\u5408\u30c1\u30a7\u30c3\u30af",
+            "minutes": 10,
+            "bmode": null,
+            "bid": null,
+            "lessonId": null,
+            "topicId": null
+          }
+        ]
+      },
+      "phases": {
+        "ok": true,
+        "value": [
+          {
+            "days": 14,
+            "phase": {
+              "id": "finalPractice",
+              "name": "\u76f4\u524d\u6f14\u7fd2\u671f",
+              "icon": "\ud83c\udfc1",
+              "ratios": {
+                "review": 0.3,
+                "lesson": 0.1,
+                "subjectB": 0.3,
+                "boss": 0.3
+              },
+              "allowNew": true,
+              "allowLongExam": true
+            }
+          },
+          {
+            "days": 7,
+            "phase": {
+              "id": "taper",
+              "name": "\u76f4\u524d\u8abf\u6574\u671f",
+              "icon": "\ud83e\udde0",
+              "ratios": {
+                "review": 0.35,
+                "lesson": 0.25,
+                "subjectB": 0.2,
+                "boss": 0.2
+              },
+              "allowNew": true,
+              "allowLongExam": true
+            }
+          },
+          {
+            "days": 3,
+            "phase": {
+              "id": "protect",
+              "name": "\u4ed5\u4e0a\u304c\u308a\u4fdd\u8b77\u671f",
+              "icon": "\ud83d\udee1\ufe0f",
+              "ratios": {
+                "review": 0.4,
+                "lesson": 0.4,
+                "subjectB": 0,
+                "boss": 0.2
+              },
+              "allowNew": false,
+              "allowLongExam": false
+            }
+          },
+          {
+            "days": 1,
+            "phase": {
+              "id": "eve",
+              "name": "\u524d\u65e5\u78ba\u8a8d",
+              "icon": "\ud83c\udf19",
+              "ratios": {
+                "review": 0.67,
+                "lesson": 0,
+                "subjectB": 0,
+                "boss": 0.33
+              },
+              "allowNew": false,
+              "allowLongExam": false
+            }
+          },
+          {
+            "days": 0,
+            "phase": {
+              "id": "examDay",
+              "name": "\u53d7\u9a13\u5f53\u65e5",
+              "icon": "\u2600\ufe0f",
+              "ratios": {
+                "review": 0,
+                "lesson": 0,
+                "subjectB": 0,
+                "boss": 1
+              },
+              "allowNew": false,
+              "allowLongExam": false
+            }
+          }
+        ]
+      },
+      "alloc": {
+        "ok": true,
+        "value": {
+          "m45": {
+            "review": 5,
+            "lesson": 15,
+            "subjectB": 15,
+            "boss": 10
+          },
+          "m60": {
+            "review": 10,
+            "lesson": 20,
+            "subjectB": 20,
+            "boss": 10
+          },
+          "m90": {
+            "review": 15,
+            "lesson": 30,
+            "subjectB": 30,
+            "boss": 15
+          }
+        }
+      },
+      "lesson": {
+        "ok": true,
+        "value": {
+          "id": "core_01_01",
+          "title": "\u30c7\u30fc\u30bf\u306e\u5358\u4f4d"
+        }
+      },
+      "b": {
+        "ok": true,
+        "value": {
+          "id": "loop_sum",
+          "mode": "trace",
+          "title": "\u30eb\u30fc\u30d7\u3067\u5408\u8a08"
+        }
+      },
+      "tracked": {
+        "ok": true,
+        "value": {
+          "count": 719,
+          "first": [
+            "theory-01",
+            "theory-02",
+            "theory-03",
+            "theory-04",
+            "computer-01"
+          ]
+        }
+      },
+      "schema": {
+        "ok": true,
+        "value": {
+          "profileKeys": [
+            "activity",
+            "bCompoundHistory",
+            "bCompoundStats",
+            "bFinalHistory",
+            "bFinalMistakeStats",
+            "bFinalStats",
+            "bMockHistory",
+            "bMockStats",
+            "bProgress",
+            "chapterMastery",
+            "dailyPlans",
+            "diagnosticCompleted",
+            "diagnosticScores",
+            "lastStudyDate",
+            "lessonProgress",
+            "masteryHistory",
+            "mockHistory",
+            "mockMistakeStats",
+            "mockQuestionStats",
+            "profileMeta",
+            "profileSchemaVersion",
+            "qStats",
+            "reviewJourney",
+            "reviewJourneys",
+            "securityBProgress",
+            "securityMockHistory",
+            "securityMockStats",
+            "sessions",
+            "settings",
+            "skills",
+            "streak",
+            "techniqueStats",
+            "xp"
+          ],
+          "settingsKeys": [
+            "autoPace",
+            "examDate",
+            "studyMinutes",
+            "variantReview"
+          ],
+          "questions": 710,
+          "b": 20
+        }
+      },
+      "sem": {
+        "ok": true,
+        "value": {
+          "ok": true,
+          "errors": [],
+          "domainCounts": {
+            "\u5236\u5fa1": 4,
+            "\u4e00\u6b21\u5143\u914d\u5217": 5,
+            "\u4e8c\u6b21\u5143\u914d\u5217": 4,
+            "\u518d\u5e30\u30fb\u95a2\u6570": 5,
+            "\u6728\u69cb\u9020": 5,
+            "\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u6307\u5411": 4,
+            "\u30ea\u30b9\u30c8": 4,
+            "\u30b9\u30bf\u30c3\u30af\u30fb\u30ad\u30e5\u30fc": 4,
+            "\u30d3\u30c3\u30c8\u5217": 5,
+            "\u63a2\u7d22\u30fb\u6574\u5217": 3
+          },
+          "levelCounts": {
+            "\u6a19\u6e96": 21,
+            "\u5fdc\u7528": 22
+          },
+          "answerPositions": {
+            "prediction": [
+              10,
+              10,
+              10,
+              10
+            ],
+            "compound": [
+              12,
+              11,
+              11,
+              11
+            ],
+            "security": [
+              12,
+              11,
+              11,
+              11
+            ],
+            "exam": [
+              11,
+              11,
+              11,
+              10
+            ]
+          }
+        }
+      },
+      "fnDigest": {
+        "buildTodayTasks": "c8ce694a2712f881da408e36c8b0519f596babbe687686e8da027f79d14629b9",
+        "ensureTodayPlanSnapshot": "e4a4d5ff70fb75ebd1884832fdb473b95cc3428ac0ec7ffc5322eff31f501f03",
+        "examStudyPhase": "418f5bf4aafeebb0984a0740b3f637ba4bb37df6239bcbd47c6c478f0001c18d",
+        "taskAllocation": "7a86bda8e35649288f053619de1c12ea8a7881b0303166cf5ae3db978e7fc56f",
+        "nextLessonChoice": "60d7f2af5333ff741f1368a5f3a5188f0214a3e0a1d33cef3a797032e1bf0eb1",
+        "nextBChoice": "2e3ab3f6ddcca186c9464ba06d87e2637215a3ab6a322c8637c5592c1ba3629b",
+        "trackedQuestionPool": "0c581a3eb07055270d93c3157bf3f0dd7444480d8801db0d1c06b20b461ee56f",
+        "validateSubjectBSemantics": "2ecc225a2382cf08e4d62492d771e924680ed978a8c3d4c585180839033fed9e"
+      }
+    },
+    "subjectBSemanticOK": true
+  },
+  "schemaChanged": false,
+  "learnerFacingChange": false
+}
