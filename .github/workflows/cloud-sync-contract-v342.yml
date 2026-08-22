@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/cloud-sync-v342/**'
       - '.github/workflows/cloud-sync-contract-v342.yml'
+      - 'cloud/**'
+      - 'audits/V342_PROVIDER_DECISION.md'
 
 permissions:
   contents: write
@@ -24,14 +26,38 @@ jobs:
       - name: Discover local-first persistence and recovery contract
         run: python3 .github/cloud-sync-v342/discover_contract.py
 
-      - name: Commit v342 discovery evidence
+      - name: Simulate offline and two-device conflict contract
+        run: python3 .github/cloud-sync-v342/simulate_sync_contract.py
+
+      - name: Validate provider decision is evidence-based and credential-free
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          decision=Path('audits/V342_PROVIDER_DECISION.md').read_text()
+          sql=Path('cloud/supabase/v342_schema.sql').read_text()
+          js=Path('cloud/sync-contract-v342.js').read_text()
+          assert '**Use Supabase' in decision
+          assert '239,594 bytes' in decision
+          assert '1 MiB maximum document size' in decision
+          assert 'service_role' in decision and 'never contain' in decision
+          assert 'auth.uid()' in sql and 'row level security' in sql.lower()
+          assert 'p_base_remote_revision' in sql and 'remote-changed-conflict' in sql
+          assert 'FEQUEST_SYNC_CONTRACT_V342' in js
+          forbidden=['SUPABASE_SERVICE_ROLE','service_role=','eyJhbGciOi','sb_secret_']
+          combined=decision+'\n'+sql+'\n'+js
+          assert not any(x in combined for x in forbidden)
+          print('V342_PROVIDER_CONTRACT_OK')
+          PY
+
+      - name: Commit v342 contract evidence
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.json audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md
+          git add audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.json audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md audits/V342_SYNC_CONFLICT_SIMULATION.md _regression/cloud-sync-contract-v342.fixture.json
           if ! git diff --cached --quiet; then
-            git commit -m "Record FE QUEST v342 cloud sync contract discovery"
+            git commit -m "Record FE QUEST v342 sync contract evidence"
             git fetch origin "$GITHUB_HEAD_REF"
             git rebase "origin/$GITHUB_HEAD_REF"
             git push origin HEAD:"$GITHUB_HEAD_REF"
