@@ -1,0 +1,22 @@
+{
+  "name": "release-package-v342",
+  "result": "PASS",
+  "caseCount": 12,
+  "validatedCases": [
+    "standalone v342 ZIP is created and non-empty",
+    "standalone package contains core PWA files",
+    "standalone package contains privacy policy",
+    "standalone package contains split application assets",
+    "standalone package contains every fixed cloud runtime asset",
+    "standalone package contains pinned local Supabase SDK",
+    "standalone package excludes source and CI-only files",
+    "standalone ZIP creation is deterministic",
+    "ZIP member bytes exactly equal built-site bytes",
+    "packager rejects a cloud asset whose bytes differ from manifest identity",
+    "packager rejects a missing cloud precache asset",
+    "inline packaging contract remains compatible"
+  ],
+  "cloudAssetCount": 15,
+  "privacyIncluded": true,
+  "pinnedSdk": "vendor/supabase/supabase-2.112.3.js"
+}
