@@ -12,9 +12,51 @@ create table if not exists public.user_profiles (
   client_updated_at timestamptz not null,
   writer_id text,
   payload jsonb not null,
-  payload_sha256 text not null check (payload_sha256 ~ '^[0-9a-f]{64}$'),
+  payload_checksum text not null check (payload_checksum ~ '^(fnv1a32:[0-9a-f]{8}|sha256:[0-9a-f]{64})$'),
   server_updated_at timestamptz not null default now()
 );
+
+-- Foundation builds created before the production persistence boundary was audited used
+-- a bare payload_sha256 column. If that unpublished/development schema exists, migrate it
+-- to an algorithm-prefixed checksum without touching profile revisions or payload JSON.
+alter table public.user_profiles add column if not exists payload_checksum text;
+
+do $$
+begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='user_profiles' and column_name='payload_sha256'
+  ) then
+    execute $sql$
+      update public.user_profiles
+      set payload_checksum = 'sha256:' || payload_sha256
+      where payload_checksum is null and payload_sha256 ~ '^[0-9a-f]{64}$'
+    $sql$;
+  end if;
+end $$;
+
+alter table public.user_profiles alter column payload_checksum set not null;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conrelid='public.user_profiles'::regclass and conname='user_profiles_payload_checksum_v342_check'
+  ) then
+    alter table public.user_profiles
+      add constraint user_profiles_payload_checksum_v342_check
+      check (payload_checksum ~ '^(fnv1a32:[0-9a-f]{8}|sha256:[0-9a-f]{64})$');
+  end if;
+end $$;
+
+-- The RPC signature uses the same SQL types as the early foundation version. Drop it
+-- before renaming its semantic checksum argument/return column so repeated setup is safe.
+drop function if exists public.fequest_commit_profile_v342(
+  uuid,bigint,integer,bigint,timestamptz,text,jsonb,text
+);
+
+-- Once legacy values have been copied, the ambiguous bare-SHA column is no longer needed.
+alter table public.user_profiles drop column if exists payload_sha256;
 
 comment on table public.user_profiles is
   'One local-first FE QUEST profile snapshot per authenticated user. Remote state is a backup/sync replica, never a prerequisite for local study.';
@@ -22,6 +64,8 @@ comment on column public.user_profiles.profile_revision is
   'Revision carried from the committed local profile. Do not use numeric comparison alone to infer ancestry across devices; compare-and-swap also checks the device last-synced remote revision.';
 comment on column public.user_profiles.payload is
   'Schema-versioned FE QUEST profile JSON. Keep local recovery/export independent from this remote copy.';
+comment on column public.user_profiles.payload_checksum is
+  'Checksum copied from the committed FE QUEST local atomic profile. The algorithm is explicit in the value, currently fnv1a32. Same-revision idempotency also compares JSONB payload equality to avoid relying on a 32-bit checksum alone.';
 
 alter table public.user_profiles enable row level security;
 alter table public.user_profiles force row level security;
@@ -75,7 +119,7 @@ end $$;
 -- p_base_remote_revision is the remote revision this device last successfully synced.
 -- It protects against the classic two-device case where a stale device accumulates a
 -- numerically higher local revision while another device has already changed the remote.
-create or replace function public.fequest_commit_profile_v342(
+create function public.fequest_commit_profile_v342(
   p_user_id uuid,
   p_base_remote_revision bigint,
   p_profile_schema_version integer,
@@ -83,12 +127,12 @@ create or replace function public.fequest_commit_profile_v342(
   p_client_updated_at timestamptz,
   p_writer_id text,
   p_payload jsonb,
-  p_payload_sha256 text
+  p_payload_checksum text
 )
 returns table (
   sync_status text,
   remote_revision bigint,
-  remote_sha256 text,
+  remote_checksum text,
   remote_client_updated_at timestamptz,
   remote_server_updated_at timestamptz,
   remote_payload jsonb
@@ -109,7 +153,7 @@ begin
   if p_profile_schema_version <= 0
      or p_profile_revision < 0
      or p_payload is null
-     or p_payload_sha256 !~ '^[0-9a-f]{64}$' then
+     or p_payload_checksum !~ '^(fnv1a32:[0-9a-f]{8}|sha256:[0-9a-f]{64})$' then
     raise exception 'FEQUEST_SYNC_INVALID_PAYLOAD' using errcode = '22023';
   end if;
 
@@ -134,44 +178,44 @@ begin
 
     insert into public.user_profiles(
       user_id, profile_schema_version, profile_revision, client_updated_at,
-      writer_id, payload, payload_sha256, server_updated_at
+      writer_id, payload, payload_checksum, server_updated_at
     ) values (
       p_user_id, p_profile_schema_version, p_profile_revision, p_client_updated_at,
-      p_writer_id, p_payload, p_payload_sha256, now()
+      p_writer_id, p_payload, p_payload_checksum, now()
     )
     returning * into v_row;
 
     return query select
       'uploaded-new'::text,
       v_row.profile_revision,
-      v_row.payload_sha256,
+      v_row.payload_checksum,
       v_row.client_updated_at,
       v_row.server_updated_at,
       v_row.payload;
     return;
   end if;
 
-  -- Exact replay is always safe and makes retry after a lost HTTP response idempotent.
+  -- Exact JSONB replay is always safe and makes retry after a lost HTTP response
+  -- idempotent. Do not rely on FNV-1a checksum equality alone for this decision.
   if p_profile_revision = v_row.profile_revision
-     and p_payload_sha256 = v_row.payload_sha256 then
+     and p_payload = v_row.payload then
     return query select
       'already-synced'::text,
       v_row.profile_revision,
-      v_row.payload_sha256,
+      v_row.payload_checksum,
       v_row.client_updated_at,
       v_row.server_updated_at,
       v_row.payload;
     return;
   end if;
 
-  -- Same revision but different content means two branches diverged. Never pick one
-  -- based on timestamps or writer id automatically.
-  if p_profile_revision = v_row.profile_revision
-     and p_payload_sha256 <> v_row.payload_sha256 then
+  -- Same revision but different JSON means two branches diverged, even in the
+  -- astronomically unlikely event that their non-cryptographic checksums collide.
+  if p_profile_revision = v_row.profile_revision then
     return query select
       'diverged-same-revision'::text,
       v_row.profile_revision,
-      v_row.payload_sha256,
+      v_row.payload_checksum,
       v_row.client_updated_at,
       v_row.server_updated_at,
       v_row.payload;
@@ -184,7 +228,7 @@ begin
     return query select
       'remote-changed-conflict'::text,
       v_row.profile_revision,
-      v_row.payload_sha256,
+      v_row.payload_checksum,
       v_row.client_updated_at,
       v_row.server_updated_at,
       v_row.payload;
@@ -195,7 +239,7 @@ begin
     return query select
       'remote-newer-or-equal'::text,
       v_row.profile_revision,
-      v_row.payload_sha256,
+      v_row.payload_checksum,
       v_row.client_updated_at,
       v_row.server_updated_at,
       v_row.payload;
@@ -208,7 +252,7 @@ begin
       client_updated_at = p_client_updated_at,
       writer_id = p_writer_id,
       payload = p_payload,
-      payload_sha256 = p_payload_sha256,
+      payload_checksum = p_payload_checksum,
       server_updated_at = now()
   where user_id = p_user_id
   returning * into v_row;
@@ -216,7 +260,7 @@ begin
   return query select
     'uploaded-update'::text,
     v_row.profile_revision,
-    v_row.payload_sha256,
+    v_row.payload_checksum,
     v_row.client_updated_at,
     v_row.server_updated_at,
     v_row.payload;
