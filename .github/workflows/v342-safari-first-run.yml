@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/release/split_release_common.py'
       - 'v342-preview.html'
+      - 'cloud/sync-ui-v342.css'
       - '.github/cloud-sync-v342/validate_safari_first_run.py'
       - '.github/workflows/v342-safari-first-run.yml'
 
@@ -14,7 +15,7 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'v342-safari-date-fix')
+    if: startsWith(github.head_ref, 'v342-safari-date-')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
