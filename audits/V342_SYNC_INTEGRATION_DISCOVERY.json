@@ -1,0 +1,753 @@
+{
+  "audit": "FE QUEST v342 sync integration boundary discovery",
+  "sourceVersion": "v341",
+  "priorityFunctionSources": {
+    "saveProfile": {
+      "bytes": 1921,
+      "sha256": "5d68a923f8ed5bdab807f51abf43d38567b9c05ea21c697d3eb2fdbc9aa1c816",
+      "source": "function saveProfile(){\n  // v117: top-level schema/backfill calls made while the one-file bundle is still\n  // declaring later modules must never refresh the whole UI. Defer them into one\n  // final save after every dataset/renderer exists.\n  if(!appBootComplete){bootProfileSavePending=true;return true;}\n  if(profileWriteBlocked||profileConflictBlocked){restoreCommittedProfileInMemory(true);return false;}\n  if(!acquireProfileWriteLease()){\n    restoreCommittedProfileInMemory(true);\n    markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');return false;\n  }\n  let saved=false;\n  try{\n    profile=stampProfileForSave(profile);\n    const result=writeCurrentProfile(profile,{preservePrevious:true});\n    profile=result.profile;rememberCommittedProfile(profile);clearProfileSaveFailure();\n    saved=true;\n  }catch(e){\n    restoreCommittedProfileInMemory(false);noteProfileSaveFailure(e);\n    if(e?.code==='PROFILE_REVISION_CONFLICT'){markProfileConflict();return false}\n    profileWriteBlocked=true;\n    console.warn('学習データの保存に失敗しました。',e);\n    setTimeout(()=>showAppNotice('error','保存できませんでした','現在の学習データは最後に正常保存できた状態へ戻しました。ページを再読み込みすると改善する場合があります。','再読み込み',()=>location.reload()),0);\n    setTimeout(()=>refreshPwaHealth?.(),0);\n    return false;\n  }finally{releaseProfileWriteLease()}\n\n  // A recovery-checkpoint or UI-rendering bug must never be misclassified as a\n  // storage failure. Persistence has already succeeded at this point.\n  try{queueRecoveryCheckpoint('autosave',false)}catch(e){console.warn('Recovery checkpoint queue failed',e)}\n  try{refreshProfileUI()}catch(e){\n    console.warn('UI refresh failed after a successful save',e);\n    setTimeout(()=>reportGlobalError?.(),0);\n  }\n  return saved;\n}"
+    },
+    "persistProfileSilently": {
+      "bytes": 1101,
+      "sha256": "bbd3b5948f4717407b648ac71da14dcd627e21d768bff3e6f41befe4a1442cc9",
+      "source": "function persistProfileSilently(){\n  if(!appBootComplete){bootProfileSavePending=true;return true;}\n  if(profileWriteBlocked||profileConflictBlocked){restoreCommittedProfileInMemory(false);return false;}\n  try{if(profileCommittedChecksum&&profileIntegrityChecksum(profile)===profileCommittedChecksum)return true}catch(_e){}\n  if(!acquireProfileWriteLease()){restoreCommittedProfileInMemory(false);return false;}\n  let saved=false;\n  try{\n    profile=stampProfileForSave(profile);\n    const result=writeCurrentProfile(profile,{preservePrevious:true});\n    profile=result.profile;rememberCommittedProfile(profile);clearProfileSaveFailure();\n    saved=true;\n  }catch(e){\n    restoreCommittedProfileInMemory(false);noteProfileSaveFailure(e);\n    if(e?.code==='PROFILE_REVISION_CONFLICT')markProfileConflict();\n    else{profileWriteBlocked=true;console.warn('silent save failed',e);setTimeout(()=>refreshPwaHealth?.(),0);}\n    return false;\n  }finally{releaseProfileWriteLease()}\n  try{queueRecoveryCheckpoint('autosave',false)}catch(e){console.warn('Recovery checkpoint queue failed',e)}\n  return saved;\n}"
+    },
+    "stampProfileForSave": {
+      "bytes": 316,
+      "sha256": "8a22526a06156dfed7b1a0872037c776d44270eff75f6f7f6ed3168071035039",
+      "source": "function stampProfileForSave(p){\n  const now=new Date().toISOString();\n  const normalized=normalizeProfileData(p);\n  normalized.profileMeta={\n    ...safeObject(normalized.profileMeta),\n    createdAt:normalized.profileMeta?.createdAt||now,\n    updatedAt:now,\n    lastAppVersion:APP_VERSION\n  };\n  return normalized;\n}"
+    },
+    "writeCurrentProfile": {
+      "bytes": 97,
+      "sha256": "1d91cdfbdc76fe7066975dcb51722216924dd79959a30e47d303a38a7b802bed",
+      "source": "function writeCurrentProfile(p,{preservePrevious=true,skipConflictCheck=false,exactRevision=null}"
+    },
+    "atomicProfileEnvelope": {
+      "bytes": 73,
+      "sha256": "e9f87fca807a5167125ae13197fac476e8979dc55c38b05c4063aff7d2f7bea9",
+      "source": "function atomicProfileEnvelope(p,{revision=null,writerId=TAB_INSTANCE_ID}"
+    },
+    "decodeAtomicProfileEnvelope": {
+      "bytes": 1095,
+      "sha256": "6f73f2a684b475d2662cdc7c3572f39ccbc741d9ea85c550c5fd2c5189285136",
+      "source": "function decodeAtomicProfileEnvelope(raw){\n  if(typeof raw!=='string'||!raw.trim())throw new Error('empty atomic profile');\n  const env=JSON.parse(raw);\n  if(!isPlainObject(env)||env.format!=='fequest-profile-atomic-v1'||!isPlainObject(env.profile))throw new Error('invalid atomic profile');\n  const schema=nonNegativeInt(env.profileSchemaVersion??env.profile.profileSchemaVersion,1);\n  if(schema>PROFILE_SCHEMA_VERSION)throw futureSchemaError(schema);\n  const actual=profileChecksumForSchema(env.profile,schema);\n  if(typeof env.checksum!=='string'||actual!==env.checksum)throw new Error('atomic profile checksum mismatch');\n  const normalized=normalizeProfileData(env.profile);\n  const rev=nonNegativeInt(env.revision??normalized.profileMeta?.revision,0);\n  normalized.profileMeta={...safeObject(normalized.profileMeta),revision:rev,lastWriterId:typeof env.writerId==='string'?env.writerId:(normalized.profileMeta?.lastWriterId||null)};\n  return {profile:normalized,revision:rev,writerId:normalized.profileMeta.lastWriterId,sourceSchema:schema,checksum:profileIntegrityChecksum(normalized)};\n}"
+    },
+    "rememberCommittedProfile": {
+      "bytes": 325,
+      "sha256": "8d0a737b9498b09c90393eae25f185bad4f9f3c32e093923e91534a986943cca",
+      "source": "function rememberCommittedProfile(p=profile){\n  const normalized=normalizeProfileData(p);\n  profileCommittedSnapshot=structuredClone(normalized);\n  profileCommittedChecksum=profileIntegrityChecksum(normalized);\n  profileBaseRevision=nonNegativeInt(normalized.profileMeta?.revision,profileBaseRevision);\n  return normalized;\n}"
+    },
+    "restoreCommittedProfileInMemory": {
+      "bytes": 371,
+      "sha256": "e55009d21901efa1bc65e06f3ea3494e69464d76dff89feda6b70dcd46337708",
+      "source": "function restoreCommittedProfileInMemory(refresh=true){\n  if(!profileCommittedSnapshot)return false;\n  profile=structuredClone(profileCommittedSnapshot);\n  profileCommittedChecksum=profileIntegrityChecksum(profile);\n  profileBaseRevision=nonNegativeInt(profile.profileMeta?.revision,profileBaseRevision);\n  if(refresh)try{refreshProfileUI?.()}catch(_e){}\n  return true;\n}"
+    },
+    "assertNoExternalProfileConflict": {
+      "bytes": 333,
+      "sha256": "10e84daa0afeced967b9932da891637677fb1ca9ae50879f27283f92790b5768",
+      "source": "function assertNoExternalProfileConflict(){\n  let atomic=null;try{atomic=currentAtomicProfile()}catch(e){throw e}\n  if(!atomic)return true;\n  if(atomic.revision>profileBaseRevision&&atomic.writerId!==TAB_INSTANCE_ID){\n    const e=new Error('profile revision conflict');e.code='PROFILE_REVISION_CONFLICT';throw e;\n  }\n  return true;\n}"
+    },
+    "acquireProfileWriteLease": {
+      "bytes": 435,
+      "sha256": "267fea5ef43412ee4f675789357d813703ef69397c87512393f6f6cf2f63a34b",
+      "source": "function acquireProfileWriteLease(){\n  const now=Date.now();\n  try{\n    const old=readWriterLease();\n    if(old?.tabId&&old.tabId!==TAB_INSTANCE_ID&&Number(old.expiresAt)>now)return false;\n    localStorage.setItem(PROFILE_WRITER_LEASE_KEY,JSON.stringify({tabId:TAB_INSTANCE_ID,expiresAt:now+WRITER_LEASE_MS}));\n    return readWriterLease()?.tabId===TAB_INSTANCE_ID;\n  }catch(e){console.warn('Writer lease unavailable',e);return true}\n}"
+    },
+    "releaseProfileWriteLease": {
+      "bytes": 158,
+      "sha256": "f16abbaf04e3dba61d38634527f837d77d508b202858a4a977dfdcd278687e3a",
+      "source": "function releaseProfileWriteLease(){try{const x=readWriterLease();if(x?.tabId===TAB_INSTANCE_ID)localStorage.removeItem(PROFILE_WRITER_LEASE_KEY)}catch(_e){}}"
+    },
+    "queueRecoveryCheckpoint": {
+      "bytes": 420,
+      "sha256": "d9055eb860c3cec39c8d24dcd93996850ef80ea3121f4e3a9c4fa297cb5e9145",
+      "source": "function queueRecoveryCheckpoint(reason='autosave',force=false){\n  if(profileWriteBlocked||profileConflictBlocked||typeof indexedDB==='undefined')return;\n  const now=Date.now();\n  if(!force&&now-recoveryCheckpointLastAt<RECOVERY_CHECKPOINT_INTERVAL)return;\n  setTimeout(()=>writeRecoveryCheckpoint(profile,reason,force).then(ok=>{if(ok)refreshPwaHealth?.();}).catch(e=>console.warn('Recovery checkpoint failed',e)),0);\n}"
+    },
+    "validRawWithChecksum": {
+      "bytes": 671,
+      "sha256": "21d886ce6e261b899c308dbfd29c5bb7f7d6f68a44c4826d5d9b6a7037855390",
+      "source": "function validRawWithChecksum(raw,expected=null){\n  if(typeof raw!=='string'||!raw.trim())throw new Error('empty profile');\n  const parsed=JSON.parse(raw);\n  if(!isPlainObject(parsed))throw new Error('profile is not an object');\n  const sourceSchema=profileSchemaNumber(parsed);\n  if(sourceSchema>PROFILE_SCHEMA_VERSION)throw futureSchemaError(sourceSchema);\n  const sourceChecksum=profileChecksumForSchema(parsed,sourceSchema);\n  if(expected&&expected!==sourceChecksum)throw new Error('profile checksum mismatch');\n  const normalized=normalizeProfileData(parsed);\n  return {profile:normalized,checksum:profileIntegrityChecksum(normalized),sourceChecksum,sourceSchema};\n}"
+    }
+  },
+  "checksumRelatedFunctions": [
+    {
+      "name": "atomicProfileEnvelope",
+      "bytes": 73,
+      "sha256": "e9f87fca807a5167125ae13197fac476e8979dc55c38b05c4063aff7d2f7bea9",
+      "preview": "function atomicProfileEnvelope(p,{revision=null,writerId=TAB_INSTANCE_ID}"
+    },
+    {
+      "name": "beginMigrationJournal",
+      "bytes": 282,
+      "sha256": "b62f5a7c33c0680f4fa7727f3360e3f6afc5b2fa89a3ed37286ead27676f4edf",
+      "preview": "function beginMigrationJournal(raw,checksum,fromSchema){\n  try{localStorage.setItem(PROFILE_MIGRATION_JOURNAL_KEY,JSON.stringify({format:'fequest-migration-v1',fromSchema,toSchema:PROFILE_SCHEMA_VERSION,startedAt:new Date().toISOString(),raw,checksum:checksum||null}))}catch(_e){}\n}"
+    },
+    {
+      "name": "bestCurrentRawForRollback",
+      "bytes": 395,
+      "sha256": "44151b919ad66ac7d38b29cc6eb09960fb505d1f45912893315343940fc3811d",
+      "preview": "function bestCurrentRawForRollback(){\n  try{const a=currentAtomicProfile();if(a)return {raw:JSON.stringify(a.profile),checksum:profileIntegrityChecksum(a.profile)}}catch(_e){}\n  const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return null;\n  try{const c=validRawWithChecksum(raw,localStorage.getItem(PROFILE_CHECKSUM_KEY)||null);return {raw,checksum:c.sourceChecksum}}catch(_e){return null}\n}"
+    },
+    {
+      "name": "currentAtomicProfile",
+      "bytes": 154,
+      "sha256": "56e9366aec1eb337393fd88a4c1bb06de528cd381df119aae75ae98281a43328",
+      "preview": "function currentAtomicProfile(){\n  const raw=localStorage.getItem(PROFILE_ATOMIC_KEY);\n  if(!raw)return null;\n  return decodeAtomicProfileEnvelope(raw);\n}"
+    },
+    {
+      "name": "decodeAtomicProfileEnvelope",
+      "bytes": 1095,
+      "sha256": "6f73f2a684b475d2662cdc7c3572f39ccbc741d9ea85c550c5fd2c5189285136",
+      "preview": "function decodeAtomicProfileEnvelope(raw){\n  if(typeof raw!=='string'||!raw.trim())throw new Error('empty atomic profile');\n  const env=JSON.parse(raw);\n  if(!isPlainObject(env)||env.format!=='fequest-profile-atomic-v1'||!isPlainObject(env.profile))throw new Error('invalid atomic profile');\n  const schema=nonNegativeInt(env.profileSchemaVersion??env.profile.profileSchemaVersion,1);\n  if(schema>PROFILE_SCHEMA_VERSION)throw futureSchemaError(schema);\n  const actual=profileChecksumForSchema(env.profile,schema);\n  if(typeof env.checksum!=='string'||actual!==env.checksum)throw new Error('atomic profile checksum mismatch');\n  const normalized=normalizeProfileData(env.profile);\n  const rev=nonNegativeInt(env.revision??normalized.profileMeta?.revision,0);\n  normalized.profileMeta={...safeObject(normalized.profileMeta),revision:rev,lastWriterId:typeof env.writerId==='string'?env.writerId:(normalized.profileMeta?.lastWriterId||null)};\n  return {profile:normalized,revision:rev,writerId:normalized.profileMeta.lastWriterId,sourceSchema:schema,checksum:profileIntegrityChecksum(normalized)};\n}"
+    },
+    {
+      "name": "decodeBackupPayload",
+      "bytes": 1421,
+      "sha256": "8cfcea79037d8e5d9b1bbb3e5da1ead816193919b05efd090ad91ad104f0f822",
+      "preview": "function decodeBackupPayload(parsed){\n  if(!isPlainObject(parsed))throw new Error('バックアップの形式が一致しません');\n  const candidate=isPlainObject(parsed.profile)?parsed.profile:parsed;\n  if(!validateImportedProfile(candidate))throw new Error('学習データとして認識できません');\n\n  const schema=nonNegativeInt(parsed.profileSchemaVersion??candidate.profileSchemaVersion??1,1);\n  if(schema>PROFILE_SCHEMA_VERSION)throw new Error('このバックアップは、より新しいFE QUESTで作成されています');\n\n  if(parsed.format==='fequest-backup-v2'){\n    if(typeof parsed.checksum!=='string')throw new Error('整合性情報がありません');\n    const actual=schema===3?profileIntegrityChecksumV3(candidate):schema===4?profileIntegrityChecksumV4(candidate):profileIntegrityChecksum(candidate);\n    if(actual!==parsed.checksum)throw new Error('整合性チェックに失敗しました。ファイルが破損または変更されています');\n  }else if(parsed.format && parsed.format!=='fequest-backup-v1'){\n    throw new Error('未対応のバックアップ形式です');\n  }\n\n  return {\n    profile:normalizeProfileData(candidate),\n    sourceFormat:parsed.format||'legacy-profile',\n    appVersion:typeof parsed.appVersion==='string'?parsed.appVersion:'旧形式',\n    exportedAt:typeof parsed.exportedAt==='string'?parsed.exportedAt:null,\n    sourceSchema:schema\n  };\n}"
+    },
+    {
+      "name": "feqLearningRuntimeChecks",
+      "bytes": 8070,
+      "sha256": "bce01e9457002412e2da557cdee1843e099985ff13d02880023f98c10c55d198",
+      "preview": "function feqLearningRuntimeChecks(){\n    return [\n      currentCheck('cognitive-review-policy','Cognitive demand must influence review and weakness drills',()=>\n        typeof cognitiveWeight==='function'&&cognitiveWeight({cognitiveLevel:'想起'})===0.8&&cognitiveWeight({cognitiveLevel:'適用'})===1&&cognitiveWeight({cognitiveLevel:'判断'})===1.25&&\n        typeof categoryCognitiveEvidence==='function'&&typeof subjectACognitiveEvidence==='function'&&\n        String(reviewUrgency).includes('cognitiveRisk')&&String(coreTopicLearningState).includes('advancedReady')&&String(startQuiz).includes('cogcat:'),5),\n      currentCheck('mastery-integrity','Mastery must require retention, higher-order evidence and chapter integration',()=>\n        typeof ensureChapterMasteryProfile==='function'&&typeof chapterIntegrationEvidence==='function'&&\n        String(coreTopicLearningState).includes('minRetention>=85')&&String(coreTopicLearningState).includes('advancedMasterReady')&&String(coreTopicLearningState).includes('chapterReady')&&\n        typeof courseMasteryStatus==='function'&&typeof finalFocusRecommendation==='function'&&\n        String(courseMasteryStatus).includes(\"name:'科目Aフル模試'\")&&String(courseMa"
+    },
+    {
+      "name": "feqPersistenceSafetyChecks",
+      "bytes": 8208,
+      "sha256": "88f82f05224f27db7a6f139d18f51a683cf422e261cbcae6f57aa0da0e58efcc",
+      "preview": "function feqPersistenceSafetyChecks(){\n    return [\n      currentCheck('daily-plan-versioning','Daily plan migration must preserve completed work and stamp the current plan version',()=>\n        typeof ensureTodayPlanSnapshot==='function'&&typeof rebuildTodayPlanPreservingDone==='function'&&\n        String(ensureTodayPlanSnapshot).includes(\"planVersion!=='v98'\")&&String(ensureTodayPlanSnapshot).includes(\"rec.planVersion='v98'\")&&\n        String(rebuildTodayPlanPreservingDone).includes(\"rec.planVersion='v98'\")&&String(rebuildTodayPlanPreservingDone).includes('done[slot]'),1),\n\n      currentCheck('legacy-backup-compatibility','Checksum-valid v96/v97 backups must still migrate safely to schema v5',()=>{\n        const v96Profile={profileSchemaVersion:3,xp:12,skills:{...DEFAULT_PROFILE.skills},lessonProgress:{legacyV96Probe:100}};\n        const v96Payload={format:'fequest-backup-v2',appVersion:'v96',profileSchemaVersion:3,exportedAt:'2026-08-14T00:00:00.000Z',checksum:profileIntegrityChecksumV3(v96Profile),profile:v96Profile};\n        const v96=decodeBackupPayload(v96Payload);\n        const v97Profile=normalizeProfileDataV4ForChecksum({profileSchemaVersion:4,xp:13,skills:{...DEFAULT_PRO"
+    },
+    {
+      "name": "feqReleaseBoundaryChecks",
+      "bytes": 3072,
+      "sha256": "0e7b2100b9bdf5bb799bb57848b6fcd567de5690a8e29911829153a68c830af9",
+      "preview": "function feqReleaseBoundaryChecks(){\n    const data=FEQ_DIAGNOSTIC_CONTRACT_DATA;\n    return [\n      currentCheck('legacy-assert-inventory','Legacy assertion classification must remain exact without historical diagnostic globals',()=>{const a=feqLegacyClassificationAudit();return a.total===293&&a.classified===293&&a.unique===293&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk&&typeof runAppSelfCheck==='undefined';},293),\n      currentCheck('production-shadow-policy','Production diagnostics must not execute or expose the legacy regression shadow',()=>typeof runAppSelfCheck==='undefined'&&typeof runV149LegacyShadowAudit==='undefined'&&data.legacyFixtureSpec.releaseOnly===true&&data.legacyFixtureSpec.productionBundled===false,0),\n      currentCheck('ci-sentinel-subinventory','All 84 CI-only legacy sentinels must remain decomposed into explicit no-gap/no-overlap groups',()=>{const a=feqExpandCiSentinelGroups();return a.classified===84&&a.unique===84&&a.duplicateCount===0&&a.exactCoverage&&a.declaredCountsOk;},84),\n      currentCheck('critical-curriculum-declarative-coverage','The 56 critical curriculum sentinels must retain an exact declarative map without release executors'"
+    },
+    {
+      "name": "feqSemanticBoundaryChecks",
+      "bytes": 2715,
+      "sha256": "7fc6016242642df7da1882daa3706a6f08480ee00210c4ec2c8977a515d7c86e",
+      "preview": "function feqSemanticBoundaryChecks(){\n    return [\n      currentCheck('semantic-diagnostic-runtime-contract','Production diagnostics must load the validated stable semantic runtime directly with zero build-time historical-name rewrites',()=>{const a=feqSemanticRuntimeBoundaryAudit(),s=FEQ_DIAGNOSTIC_RUNTIME_SPEC;return a.stable===17&&a.retired===46&&a.uniqueStable===17&&a.uniqueRetired===46&&a.presentStable===17&&a.leakedRetired.length===0&&a.stableWrapper===6&&a.retiredWrapper===6&&a.retiredAdapters===releaseSpec.retiredReleaseAdapterCount&&a.presentStableWrapper===6&&a.leakedRetiredWrapper.length===0&&a.leakedRetiredAdapters.length===0&&a.exactInventory&&a.ok&&releaseSpec.releaseVersion===APP_VERSION&&releaseSpec.currentReleaseAdapter===('runV'+APP_VERSION.slice(1)+'SelfCheck')&&releaseSpec.retiredReleaseAdapters.length===releaseSpec.retiredReleaseAdapterCount&&s.physicalRuntimeSourceCount===1&&s.physicalRuntimeModule==='app/runtime-semantic-diagnostics.txt'&&s.physicalRuntimeSha256==='88db821278597a5a2dc073da6935ceb979b39632b243fed9cd7846cd924abe50'&&s.physicalRuntimeUtf8Bytes===55525&&s.materializationFixture==='_regression/physical-semantic-runtime-source-v165.fixture.json'&&s"
+    },
+    {
+      "name": "getRecoveryCandidate",
+      "bytes": 502,
+      "sha256": "422669bdd0672f1928a28f7a000e770d64889f3ab86d8e58f5b10d818f5a70d7",
+      "preview": "function getRecoveryCandidate(kind,id){\n  if(kind==='last-good'){\n    const raw=localStorage.getItem(LAST_GOOD_PROFILE_KEY);if(!raw)throw new Error('一世代前のデータがありません');\n    return validRawWithChecksum(raw,localStorage.getItem(LAST_GOOD_CHECKSUM_KEY)||null).profile;\n  }\n  const rows=await recoverySnapshots();\n  const row=rows.find(x=>String(x.id)===String(id));if(!row)throw new Error('復旧点が見つかりません');\n  return decodeBackupPayload(row.payload).profile;\n}"
+    },
+    {
+      "name": "importLearningDataFile",
+      "bytes": 1565,
+      "sha256": "cc18e2d2d963eb5613ee5c9db010a3d5d286114c30f155003fa414f8b42df769",
+      "preview": "function importLearningDataFile(file){\n  try{\n    if(file?.size>5*1024*1024)throw new Error('バックアップファイルが大きすぎます');\n    const parsed=JSON.parse(await file.text());\n    const decoded=decodeBackupPayload(parsed);\n    const message=`現在の学習データを、次のバックアップで置き換えますか？\\n\\n${backupSummary(decoded)}\\n\\n現在のデータは端末内に一時退避され、あとから1回だけ戻せます。`;\n    if(!confirm(message))return;\n\n    const current=localStorage.getItem(STORAGE_KEY)||JSON.stringify(normalizeProfileData(profile));\n    localStorage.setItem(PRE_IMPORT_PROFILE_KEY,current);\n    if(!profileWriteBlocked)queueRecoveryCheckpoint('pre-import',true);\n\n    profileWriteBlocked=false;\n    profileRecoveryNeedsIndexedDb=false;\n    profile=stampProfileForSave(decoded.profile);\n    const importedResult=writeCurrentProfile(profile,{preservePrevious:true,skipConflictCheck:true});\n    profile=importedResult.profile;rememberCommittedProfile(profile);\n    profileConflictBlocked=false;profileConflictNoticeShown=false;\n    queueRecoveryCheckpoint('import',true);\n    localStorage.removeItem('fequest_bfinal_resume_v1');\n    localStorage.removeItem('fequest_ui_state_v2');\n\n    popToast('学習データを読み込みました');setTimeout(()=>location.reload(),500);\n  }catch(e){\n    console.warn"
+    },
+    {
+      "name": "loadProfile",
+      "bytes": 3752,
+      "sha256": "478dd2904d0682915aef97c270d4a3c5df6db19dc253baf28b075c953714c542",
+      "preview": "function loadProfile(){\n  recoverInterruptedMigrationIfNeeded();\n\n  const atomicRaw=localStorage.getItem(PROFILE_ATOMIC_KEY);\n  if(atomicRaw){\n    try{\n      const a=decodeAtomicProfileEnvelope(atomicRaw);\n      profileBaseRevision=a.revision;\n      repairCompatibilityMirror(a.profile);\n      return a.profile;\n    }catch(e){\n      console.warn('Atomic profile could not be used; checking compatibility mirror',e);\n      if(e?.code==='FUTURE_PROFILE_SCHEMA'){\n        profileRecoveryWarning=true;profileRecoveryReason=e?.message||String(e);profileRecoverySource='future';profileWriteBlocked=true;\n        return structuredClone(DEFAULT_PROFILE);\n      }\n      try{localStorage.setItem(CORRUPT_PROFILE_KEY,atomicRaw)}catch(_e){}\n    }\n  }\n\n  let raw=localStorage.getItem(STORAGE_KEY);\n  if(!raw){\n    for(const key of LEGACY_STORAGE_KEYS){\n      const legacy=localStorage.getItem(key);if(!legacy)continue;\n      try{\n        const parsed=JSON.parse(legacy),sourceSchema=profileSchemaNumber(parsed);\n        let migrated=normalizeProfileData(parsed);\n        migrated.profileMeta={...safeObject(migrated.profileMeta),lastAppVersion:APP_VERSION};\n        beginMigrationJournal(legacy,null,sourceSchema)"
+    },
+    {
+      "name": "makeBackupPayload",
+      "bytes": 324,
+      "sha256": "0fdcab5eb21589a3044466f419da07746748ff9134789df6e3c1755ccd6e5f4a",
+      "preview": "function makeBackupPayload(p=profile){\n  const normalized=normalizeProfileData(p);\n  return {\n    format:'fequest-backup-v2',\n    appVersion:APP_VERSION,\n    profileSchemaVersion:PROFILE_SCHEMA_VERSION,\n    exportedAt:new Date().toISOString(),\n    checksum:profileIntegrityChecksum(normalized),\n    profile:normalized\n  };\n}"
+    },
+    {
+      "name": "normalizeProfileDataV3ForChecksum",
+      "bytes": 1503,
+      "sha256": "ddf53dfb17937781a797ed7f45299be801dbe0acbe9269c8c43bd78e91752990",
+      "preview": "function normalizeProfileDataV3ForChecksum(input){\n  const p=isPlainObject(input)?input:{};\n  const base=structuredClone(DEFAULT_PROFILE);\n  base.profileSchemaVersion=3;\n  delete base.profileMeta;\n  delete base.masteryHistory;\n  const out={...base,...p};\n  out.profileSchemaVersion=3;\n  out.xp=nonNegativeInt(p.xp,0);\n  out.streak=nonNegativeInt(p.streak,0);\n  out.diagnosticCompleted=!!p.diagnosticCompleted;\n  out.diagnosticScores=safeObject(p.diagnosticScores);\n  out.skills={};\n  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));\n  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;\n  out.lessonProgress=normalizeProgressMap(p.lessonProgress);\n  out.bProgress=normalizeProgressMap(p.bProgress);\n  out.securityBProgress=normalizeProgressMap(p.securityBProgress);\n  ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',\n   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'\n  ].forEach(key=>out[key]=safeObject(p[key]));\n  out.sessions=safeArray(p.sessions,3000);\n  out.activity=safeObje"
+    },
+    {
+      "name": "normalizeProfileDataV4ForChecksum",
+      "bytes": 1845,
+      "sha256": "0fd8f8b9d32ad0327b053c0408801f5fc2b08246903f40338515817fab5eee35",
+      "preview": "function normalizeProfileDataV4ForChecksum(input){\n  const p=isPlainObject(input)?input:{};\n  const base=structuredClone(DEFAULT_PROFILE);\n  base.profileSchemaVersion=4;\n  base.profileMeta={createdAt:null,updatedAt:null,lastAppVersion:null,migratedFromSchema:null};\n  base.masteryHistory={};\n  const out={...base,...p};\n  out.profileSchemaVersion=4;\n  const pm=safeObject(p.profileMeta);\n  out.profileMeta={\n    createdAt:pm.createdAt??null,\n    updatedAt:pm.updatedAt??null,\n    lastAppVersion:pm.lastAppVersion??null,\n    migratedFromSchema:pm.migratedFromSchema??null\n  };\n  out.masteryHistory=safeObject(p.masteryHistory);\n  out.xp=nonNegativeInt(p.xp,0);\n  out.streak=nonNegativeInt(p.streak,0);\n  out.diagnosticCompleted=!!p.diagnosticCompleted;\n  out.diagnosticScores=safeObject(p.diagnosticScores);\n  out.skills={};\n  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));\n  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;\n  out.lessonProgress=normalizeProgressMap(p.lessonProgress);\n  out.bProgress=normalizeProgressMap(p.bProgress);\n  out.securityBProgress=normalizeProgressMap(p.securityBProgress);\n  "
+    },
+    {
+      "name": "performLearningDataResetV333",
+      "bytes": 1981,
+      "sha256": "93916450c62b22be73106181311202e450e6155203e5a4fa4c0785cdcd62dc24",
+      "preview": "function performLearningDataResetV333(){\n  if(profileWriteBlocked||profileConflictBlocked){\n    return {ok:false,reason:'blocked'};\n  }\n  if(!acquireProfileWriteLease()){\n    markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');\n    return {ok:false,reason:'lease'};\n  }\n\n  let result=null;\n  let recoveryPointCreated=false;\n  try{\n    // Keep one explicit recovery-center checkpoint for accidental reset recovery.\n    // It is never restored automatically; the learner must deliberately choose it.\n    recoveryPointCreated=await createPreResetRecoveryPointV333();\n\n    const next=stampProfileForSave(resetLearningProfileCandidateV333());\n    result=writeCurrentProfile(next,{preservePrevious:false,skipConflictCheck:true});\n    profile=result.profile;\n\n    // An explicit reset must not leave the old profile as the automatic last-good fallback.\n    try{\n      localStorage.removeItem(LAST_GOOD_PROFILE_KEY);\n      localStorage.removeItem(LAST_GOOD_CHECKSUM_KEY);\n      localStorage.setItem(LAST_GOOD_PROFILE_KEY,result.raw);\n      localStorage.setItem(LAST_GOOD_CHECKSUM_KEY,result.checksum);\n    }catch(e){\n      try{localStorage.removeItem(LAST_GOOD_PROFILE_KEY);localStorage.removeItem(LAST_GOOD"
+    },
+    {
+      "name": "persistProfileSilently",
+      "bytes": 1101,
+      "sha256": "bbd3b5948f4717407b648ac71da14dcd627e21d768bff3e6f41befe4a1442cc9",
+      "preview": "function persistProfileSilently(){\n  if(!appBootComplete){bootProfileSavePending=true;return true;}\n  if(profileWriteBlocked||profileConflictBlocked){restoreCommittedProfileInMemory(false);return false;}\n  try{if(profileCommittedChecksum&&profileIntegrityChecksum(profile)===profileCommittedChecksum)return true}catch(_e){}\n  if(!acquireProfileWriteLease()){restoreCommittedProfileInMemory(false);return false;}\n  let saved=false;\n  try{\n    profile=stampProfileForSave(profile);\n    const result=writeCurrentProfile(profile,{preservePrevious:true});\n    profile=result.profile;rememberCommittedProfile(profile);clearProfileSaveFailure();\n    saved=true;\n  }catch(e){\n    restoreCommittedProfileInMemory(false);noteProfileSaveFailure(e);\n    if(e?.code==='PROFILE_REVISION_CONFLICT')markProfileConflict();\n    else{profileWriteBlocked=true;console.warn('silent save failed',e);setTimeout(()=>refreshPwaHealth?.(),0);}\n    return false;\n  }finally{releaseProfileWriteLease()}\n  try{queueRecoveryCheckpoint('autosave',false)}catch(e){console.warn('Recovery checkpoint queue failed',e)}\n  return saved;\n}"
+    },
+    {
+      "name": "preservePreviousProfileIfValid",
+      "bytes": 319,
+      "sha256": "f71c6b050e0e37569613110dabfe062286af4890d16b440b34022c230d6d34ff",
+      "preview": "function preservePreviousProfileIfValid(nextRaw){\n  const prev=bestCurrentRawForRollback();\n  if(!prev||prev.raw===nextRaw)return;\n  try{localStorage.setItem(LAST_GOOD_PROFILE_KEY,prev.raw);localStorage.setItem(LAST_GOOD_CHECKSUM_KEY,prev.checksum)}catch(e){console.warn('Rollback snapshot could not be refreshed',e)}\n}"
+    },
+    {
+      "name": "profileChecksumForSchema",
+      "bytes": 215,
+      "sha256": "b3440bfb5f7bcdbb4c574dbed5435fafe725f940af5d96342db56c51178ad4e0",
+      "preview": "function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){\n  if(schema===3)return profileIntegrityChecksumV3(p);\n  if(schema===4)return profileIntegrityChecksumV4(p);\n  return profileIntegrityChecksum(p);\n}"
+    },
+    {
+      "name": "profileIntegrityChecksum",
+      "bytes": 107,
+      "sha256": "7feb7fdf15859175fcc908930b807da6da092b77d840eb901b0044aa3b79ad27",
+      "preview": "function profileIntegrityChecksum(p){\n  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileData(p)))}`;\n}"
+    },
+    {
+      "name": "profileIntegrityChecksumV3",
+      "bytes": 122,
+      "sha256": "2e93df2bf034f76426abee0af35250e53c5993d170315f96d1f1653766aa0c6b",
+      "preview": "function profileIntegrityChecksumV3(p){\n  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV3ForChecksum(p)))}`;\n}"
+    },
+    {
+      "name": "profileIntegrityChecksumV4",
+      "bytes": 122,
+      "sha256": "a7112559fe01077c388903f88ef55092bd81433363f3b11554309b560e53a2d5",
+      "preview": "function profileIntegrityChecksumV4(p){\n  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4ForChecksum(p)))}`;\n}"
+    },
+    {
+      "name": "quickProfileIntegrityState",
+      "bytes": 600,
+      "sha256": "80e9234fab07bb1c8f6363aae9c9a3fae40b027165b8fdc2d5eaf8bc22179691",
+      "preview": "function quickProfileIntegrityState(){\n  try{\n    const a=currentAtomicProfile();\n    if(!a)return {ok:false,label:'初回保存前'};\n    const mirror=localStorage.getItem(STORAGE_KEY);\n    const expected=localStorage.getItem(PROFILE_CHECKSUM_KEY);\n    if(!mirror)return {ok:false,label:'ミラー未作成'};\n    const checked=validRawWithChecksum(mirror,expected||null);\n    if(profileIntegrityChecksum(checked.profile)!==profileIntegrityChecksum(a.profile))return {ok:false,label:'ミラー差異'};\n    return {ok:true,label:'正常'};\n  }catch(e){return {ok:false,label:'要確認',error:e};}\n}"
+    },
+    {
+      "name": "recoverInterruptedMigrationIfNeeded",
+      "bytes": 875,
+      "sha256": "b0ddc3bdfa4823cf1c3d8bb679d3f64a07340003dc108af64bd525a3a461935f",
+      "preview": "function recoverInterruptedMigrationIfNeeded(){\n  const jr=localStorage.getItem(PROFILE_MIGRATION_JOURNAL_KEY);if(!jr)return false;\n  try{\n    const atomic=currentAtomicProfile();\n    if(atomic&&atomic.sourceSchema===PROFILE_SCHEMA_VERSION){finishMigrationJournal();return false}\n  }catch(_e){}\n  try{\n    const j=JSON.parse(jr);\n    if(j?.format==='fequest-migration-v1'&&typeof j.raw==='string'){\n      const checked=validRawWithChecksum(j.raw,j.checksum||null);\n      if(checked.sourceSchema<=PROFILE_SCHEMA_VERSION){\n        localStorage.setItem(STORAGE_KEY,j.raw);\n        if(j.checksum)localStorage.setItem(PROFILE_CHECKSUM_KEY,j.checksum);else localStorage.removeItem(PROFILE_CHECKSUM_KEY);\n        localStorage.removeItem(PROFILE_ATOMIC_KEY);\n      }\n    }\n  }catch(e){console.warn('Interrupted migration rollback failed',e)}\n  finishMigrationJournal();return true;\n}"
+    },
+    {
+      "name": "recoverLatestIndexedDbCheckpoint",
+      "bytes": 828,
+      "sha256": "8c46927b54d3add2d77c7e1d281f9aa08d47d7ce45a0f44103e83d68da85bb02",
+      "preview": "function recoverLatestIndexedDbCheckpoint(){\n  if(typeof indexedDB==='undefined')return false;\n  let rows=[];\n  try{rows=await recoverySnapshots()}catch(e){return false}\n  for(const row of rows){\n    try{\n      const decoded=decodeBackupPayload(row.payload);\n      profileWriteBlocked=false;\n      profileRecoveryNeedsIndexedDb=false;\n      profile=stampProfileForSave(decoded.profile);\n      const result=writeCurrentProfile(profile,{preservePrevious:false,skipConflictCheck:true});\n      profile=result.profile;rememberCommittedProfile(profile);\n      localStorage.setItem(LAST_GOOD_PROFILE_KEY,result.raw);\n      localStorage.setItem(LAST_GOOD_CHECKSUM_KEY,result.checksum);\n      profileRecoverySource='indexeddb';\n      return true;\n    }catch(e){console.warn('Skipped invalid recovery checkpoint',e)}\n  }\n  return false;\n}"
+    },
+    {
+      "name": "recoveryCandidates",
+      "bytes": 1193,
+      "sha256": "28289e37247a2ea9b8646b5c8d77107a19bc9bcc44901325213b5769b6bc35d1",
+      "preview": "function recoveryCandidates(){\n  const items=[];\n  const lastRaw=localStorage.getItem(LAST_GOOD_PROFILE_KEY);\n  if(lastRaw){\n    try{\n      const checked=validRawWithChecksum(lastRaw,localStorage.getItem(LAST_GOOD_CHECKSUM_KEY)||null);\n      items.push({kind:'last-good',id:'last-good',label:'一世代前の正常データ',createdAt:checked.profile.profileMeta?.updatedAt||null,reason:'一世代前',profile:checked.profile,valid:true});\n    }catch(e){items.push({kind:'last-good',id:'last-good',label:'一世代前のデータ',createdAt:null,reason:'一世代前',valid:false,error:e?.message||String(e)})}\n  }\n  if(typeof indexedDB!=='undefined'){\n    let rows=[];try{rows=await recoverySnapshots()}catch(e){rows=[]}\n    for(const row of rows){\n      try{\n        const decoded=decodeBackupPayload(row.payload);\n        items.push({kind:'idb',id:row.id,label:recoveryReasonText(row.reason),createdAt:row.createdAt||decoded.exportedAt,reason:row.reason,profile:decoded.profile,valid:true});\n      }catch(e){items.push({kind:'idb',id:row.id,label:recoveryReasonText(row.reason),createdAt:row.createdAt,reason:row.reason,valid:false,error:e?.message||String(e)})}\n    }\n  }\n  return items;\n}"
+    },
+    {
+      "name": "rememberCommittedProfile",
+      "bytes": 325,
+      "sha256": "8d0a737b9498b09c90393eae25f185bad4f9f3c32e093923e91534a986943cca",
+      "preview": "function rememberCommittedProfile(p=profile){\n  const normalized=normalizeProfileData(p);\n  profileCommittedSnapshot=structuredClone(normalized);\n  profileCommittedChecksum=profileIntegrityChecksum(normalized);\n  profileBaseRevision=nonNegativeInt(normalized.profileMeta?.revision,profileBaseRevision);\n  return normalized;\n}"
+    },
+    {
+      "name": "renderRecoveryCenter",
+      "bytes": 2321,
+      "sha256": "7556af84769e79c4dcce15a588605df22ef0772c84afde36eecc46b7f474180b",
+      "preview": "function renderRecoveryCenter(){\n  const list=document.getElementById('recoveryPointList'),status=document.getElementById('recoveryCenterStatus'),undo=document.getElementById('restorePreManual'),corrupt=document.getElementById('exportCorruptProfile');\n  if(!list||!status)return;\n  if(undo)undo.classList.toggle('hidden',!localStorage.getItem(PRE_MANUAL_RESTORE_PROFILE_KEY));\n  if(corrupt)corrupt.classList.toggle('hidden',!localStorage.getItem(CORRUPT_PROFILE_KEY));\n  list.replaceChildren();\n  if(profileRecoverySource==='future'){\n    status.textContent='保存データがこの画面より新しい形式です。復旧操作はせず、先にFE QUESTを更新してください。';status.className='recovery-center-status warn';return;\n  }\n  const items=await recoveryCandidates();\n  const valid=items.filter(x=>x.valid);\n  const currentChecksum=profileIntegrityChecksum(profile);\n  const restorable=valid.filter(x=>profileIntegrityChecksum(x.profile)!==currentChecksum);\n  status.textContent=restorable.length?`現在：${recoveryMetricsText(profile)}。戻せる過去データが${restorable.length}件あります。通常時は復元する必要はありません。`:'現在と異なる復旧候補はありません。現在データが正常なら、そのまま利用できます。';\n  status.className=`recovery-center-status ${valid.length?'good':''}`;\n  items.forEach(item=>{\n    const same=item.valid&&profil"
+    },
+    {
+      "name": "repairAtomicEnvelopeExact",
+      "bytes": 376,
+      "sha256": "356147e15f06f7a7ea07a49d326e2a00567a2e10c6870229b7c6d86e9a7748d9",
+      "preview": "function repairAtomicEnvelopeExact(p){\n  const normalized=normalizeProfileData(p),revision=nonNegativeInt(normalized.profileMeta?.revision,0);\n  const env=atomicProfileEnvelope(normalized,{revision,writerId:normalized.profileMeta?.lastWriterId||TAB_INSTANCE_ID});\n  localStorage.setItem(PROFILE_ATOMIC_KEY,JSON.stringify(env));profileBaseRevision=revision;return normalized;\n}"
+    },
+    {
+      "name": "repairCompatibilityMirror",
+      "bytes": 264,
+      "sha256": "d823fc5043170b20b876599be3834f9ec9911ba8006b674abeb5ccef78f880ea",
+      "preview": "function repairCompatibilityMirror(p){\n  try{const normalized=normalizeProfileData(p);localStorage.setItem(STORAGE_KEY,JSON.stringify(normalized));localStorage.setItem(PROFILE_CHECKSUM_KEY,profileIntegrityChecksum(normalized));return true}catch(_e){return false}\n}"
+    },
+    {
+      "name": "restoreCommittedProfileInMemory",
+      "bytes": 371,
+      "sha256": "e55009d21901efa1bc65e06f3ea3494e69464d76dff89feda6b70dcd46337708",
+      "preview": "function restoreCommittedProfileInMemory(refresh=true){\n  if(!profileCommittedSnapshot)return false;\n  profile=structuredClone(profileCommittedSnapshot);\n  profileCommittedChecksum=profileIntegrityChecksum(profile);\n  profileBaseRevision=nonNegativeInt(profile.profileMeta?.revision,profileBaseRevision);\n  if(refresh)try{refreshProfileUI?.()}catch(_e){}\n  return true;\n}"
+    },
+    {
+      "name": "restorePreImportProfile",
+      "bytes": 1674,
+      "sha256": "52f4df9d1fc52fe38ebdbed82ff405703243d7d9b9a81a9daf1c38a02c9a0e1e",
+      "preview": "function restorePreImportProfile(){\n  const raw=localStorage.getItem(PRE_IMPORT_PROFILE_KEY);\n  if(!raw){popToast('戻せる読込前データはありません');return false}\n  try{\n    const parsed=JSON.parse(raw);\n    if(!isPlainObject(parsed))throw new Error('profile is not an object');\n    if(!confirm('直前にバックアップを読み込む前の学習データへ戻しますか？'))return false;\n    const schema=profileSchemaNumber(parsed);\n    if(schema>PROFILE_SCHEMA_VERSION){\n      // Exact rollback is more important than forcing a downgrade conversion.\n      // Remove the current atomic envelope; otherwise it would remain authoritative on reload\n      // and the restored newer-format compatibility mirror would never be reached.\n      localStorage.setItem(STORAGE_KEY,raw);\n      localStorage.removeItem(PROFILE_CHECKSUM_KEY);\n      localStorage.removeItem(PROFILE_ATOMIC_KEY);\n    }else{\n      const restored=stampProfileForSave(parsed);\n      const restoredResult=writeCurrentProfile(restored,{preservePrevious:true,skipConflictCheck:true});\n      profile=restoredResult.profile;rememberCommittedProfile(profile);\n      queueRecoveryCheckpoint('pre-import-restore',true);\n    }\n    localStorage.removeItem(PRE_IMPORT_PROFILE_KEY);\n    localStorage.removeItem("
+    },
+    {
+      "name": "restorePreManualProfile",
+      "bytes": 1425,
+      "sha256": "b3bbe59d362fd187eace2a159f85e2d1ef3c44c65126f441404ea90db71f86bf",
+      "preview": "function restorePreManualProfile(){\n  const raw=localStorage.getItem(PRE_MANUAL_RESTORE_PROFILE_KEY);if(!raw){popToast('戻せる手動復元前データはありません');return false}\n  if(profileWriteBlocked||profileConflictBlocked){showAppNotice('error','この画面からは戻せません','最新状態を読み込んでから操作してください。','最新状態を読み込む',()=>location.reload());return false}\n  try{\n    const decoded=decodeBackupPayload(JSON.parse(raw));\n    if(!confirm(`直前の手動復元を取り消しますか？\n\n戻り先：${recoveryMetricsText(decoded.profile)}`))return false;\n    if(!acquireProfileWriteLease()){markProfileConflict();return false}\n    try{\n      assertNoExternalProfileConflict();\n      profile=stampProfileForSave(decoded.profile);const result=writeCurrentProfile(profile,{preservePrevious:true});profile=result.profile;rememberCommittedProfile(profile);\n      localStorage.removeItem(PRE_MANUAL_RESTORE_PROFILE_KEY);\n      localStorage.removeItem('fequest_bfinal_resume_v1');localStorage.removeItem('fequest_ui_state_v2');\n      popToast('手動復元前の状態へ戻しました');setTimeout(()=>location.reload(),500);return true;\n    }finally{releaseProfileWriteLease()}\n  }catch(e){showAppNotice('error','復元前の状態へ戻せませんでした',e?.message||'退避データの整合性を確認できませんでした。');return false}\n}"
+    },
+    {
+      "name": "restoreRecoveryCandidate",
+      "bytes": 2665,
+      "sha256": "39b482360745b305356f62aa158de1d2ff4ec57efed57a1bd8e4fbc3fbbaea62",
+      "preview": "function restoreRecoveryCandidate(kind,id,label='復旧点'){\n  if(profileRecoverySource==='future'){showAppNotice('error','先にFE QUESTを更新してください','新しい形式の保存データを古い画面から変更しないよう、復旧操作を停止しています。','更新を確認',()=>checkForAppUpdate(true));return false}\n  if(profileWriteBlocked||profileConflictBlocked){showAppNotice('error','この画面からは復元できません','保存が停止しているか、別の画面で新しい学習データがあります。最新状態を読み込んでから復旧センターを開いてください。','最新状態を読み込む',()=>location.reload());return false}\n  let candidate;try{candidate=await getRecoveryCandidate(kind,id)}catch(e){showAppNotice('error','復旧点を読み取れませんでした',e?.message||'復旧点の整合性を確認できませんでした。');renderRecoveryCenter();return false}\n  const currentText=recoveryMetricsText(profile),candidateText=recoveryMetricsText(candidate);\n  if(!confirm(`${label}へ戻しますか？\n\n現在：${currentText}\n復元先：${candidateText}\n\n現在の状態は「直前の手動復元前」として1回分退避します。`))return false;\n  if(!persistProfileSilently()){showAppNotice('error','復元を開始できません','現在の学習データを正常保存できなかったため、復元を中止しました。');return false}\n  if(!acquireProfileWriteLease()){markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');return false}\n  try{\n    assertNoExternalProfileConflict();\n    localStorage.setItem(PRE_MANUAL_RESTORE_PROFILE_KEY,JSON.stringify(makeBackupPayload(profile)));\n    try"
+    },
+    {
+      "name": "revalidateProfileFreshness",
+      "bytes": 1462,
+      "sha256": "9e69a08afd240e0a30b8d37cb9df51ac8a191dd2c6c000cdf2e7cd1048ab7aff",
+      "preview": "function revalidateProfileFreshness(reason='画面復帰'){\n  if(profileWriteBlocked||profileConflictBlocked)return false;\n  try{\n    const atomic=currentAtomicProfile();\n    if(!atomic)return true;\n    const rev=nonNegativeInt(atomic.revision,0);\n    const checksum=atomic.checksum||profileIntegrityChecksum(atomic.profile);\n    const externalWriter=atomic.writerId!==TAB_INSTANCE_ID;\n    const newer=rev>profileBaseRevision;\n    const rewound=rev<profileBaseRevision;\n    const sameRevisionChanged=rev===profileBaseRevision&&checksum!==profileCommittedChecksum;\n    if((externalWriter&&newer)||rewound||sameRevisionChanged){\n      restoreCommittedProfileInMemory(true);\n      markProfileConflict(`${reason}時に、別の保存世代を検出しました`);\n      return false;\n    }\n    return true;\n  }catch(e){\n    if(e?.code==='FUTURE_PROFILE_SCHEMA'){\n      restoreCommittedProfileInMemory(true);profileWriteBlocked=true;profileRecoverySource='future';profileRecoveryReason=e?.message||String(e);\n      showAppNotice?.('error','FE QUESTの更新が必要です','画面復帰時に、このアプリより新しい形式の学習データを検出しました。上書きを防ぐため保存を停止しています。','更新を確認',()=>checkForAppUpdate(true));\n      return false;\n    }\n    restoreCommittedProfileInMemory(true);markProfileConflict(`${rea"
+    },
+    {
+      "name": "runAppSelfCheck",
+      "bytes": 20000,
+      "sha256": "0e4ac46638b1435084be6862f805dcc16850cf42c23754733c27b5a60a22db8d",
+      "preview": "function runAppSelfCheck(){',\n    endMarker:'function runLessonUXAudit(){',\n    assertCount:293,\n    byteLength:49657,\n    sha256:'b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36',\n    productionBundled:false,\n    releaseOnly:true\n  });\n\n  function feqLegacyClassificationAudit(){\n    const buckets={\n      currentContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.currentContractCovered.ranges),\n      browserContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.browserContractCovered.ranges),\n      historicalMetadata:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.historicalMetadata.ranges),\n      ciOnlyLegacySentinels:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges)\n    };\n    const all=Object.values(buckets).flat();\n    const unique=[...new Set(all)].sort((a,b)=>a-b);\n    const expected=Array.from({length:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.total},(_,i)=>i+1);\n    return {\n      total:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAs"
+    },
+    {
+      "name": "runLessonUXAudit",
+      "bytes": 20000,
+      "sha256": "b99375f4aabcae66819de4decd6f3d6044bb0902f57358b94411b11bad489082",
+      "preview": "function runLessonUXAudit(){',\n    assertCount:293,\n    byteLength:49657,\n    sha256:'b7f6a3eea1e5c609844311ba9acfe17179df19e07b9c82354ff9ee87c6922f36',\n    productionBundled:false,\n    releaseOnly:true\n  });\n\n  function feqLegacyClassificationAudit(){\n    const buckets={\n      currentContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.currentContractCovered.ranges),\n      browserContractCovered:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.browserContractCovered.ranges),\n      historicalMetadata:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.historicalMetadata.ranges),\n      ciOnlyLegacySentinels:feqExpandLegacyRanges(globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.ciOnlyLegacySentinels.ranges)\n    };\n    const all=Object.values(buckets).flat();\n    const unique=[...new Set(all)].sort((a,b)=>a-b);\n    const expected=Array.from({length:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.total},(_,i)=>i+1);\n    return {\n      total:globalThis.FEQ_DIAGNOSTIC_CONTRACT_DATA.legacyAssertionInventory.total,\n      classified:all."
+    },
+    {
+      "name": "saveProfile",
+      "bytes": 1921,
+      "sha256": "5d68a923f8ed5bdab807f51abf43d38567b9c05ea21c697d3eb2fdbc9aa1c816",
+      "preview": "function saveProfile(){\n  // v117: top-level schema/backfill calls made while the one-file bundle is still\n  // declaring later modules must never refresh the whole UI. Defer them into one\n  // final save after every dataset/renderer exists.\n  if(!appBootComplete){bootProfileSavePending=true;return true;}\n  if(profileWriteBlocked||profileConflictBlocked){restoreCommittedProfileInMemory(true);return false;}\n  if(!acquireProfileWriteLease()){\n    restoreCommittedProfileInMemory(true);\n    markProfileConflict('別のFE QUEST画面がいま学習データを書き込んでいます');return false;\n  }\n  let saved=false;\n  try{\n    profile=stampProfileForSave(profile);\n    const result=writeCurrentProfile(profile,{preservePrevious:true});\n    profile=result.profile;rememberCommittedProfile(profile);clearProfileSaveFailure();\n    saved=true;\n  }catch(e){\n    restoreCommittedProfileInMemory(false);noteProfileSaveFailure(e);\n    if(e?.code==='PROFILE_REVISION_CONFLICT'){markProfileConflict();return false}\n    profileWriteBlocked=true;\n    console.warn('学習データの保存に失敗しました。',e);\n    setTimeout(()=>showAppNotice('error','保存できませんでした','現在の学習データは最後に正常保存できた状態へ戻しました。ページを再読み込みすると改善する場合があります。','再読み込み',()=>location.reload()),0);\n    setTimeout("
+    },
+    {
+      "name": "signatureView",
+      "bytes": 1008,
+      "sha256": "7c81bf82fa9cfd52451f4c0bb825b659c80205baefcd0a35b6e4d3e3357459c0",
+      "preview": "function signatureView(active){\n  const labels=['文書をハッシュ','秘密鍵で署名','公開鍵で検証'];\n  const current=Math.min(active,3);\n  return `<div class=\"signature-flow\">\n    <div class=\"sig-card ${flowState(0,current,3)}\"><div style=\"font-size:28px\">📄</div><b>文書をハッシュ</b><span class=\"sig-hash\">A7C4...</span></div>\n    <div class=\"cpu-arrow ${current===1?'flow-arrow-current':''}\">→</div>\n    <div class=\"sig-card ${flowState(1,current,3)}\"><div style=\"font-size:28px\">✍️</div><b>秘密鍵で署名</b><div class=\"sub\">署名データを作る</div></div>\n    <div class=\"cpu-arrow ${current===2?'flow-arrow-current':''}\">→</div>\n    <div class=\"sig-card ${flowState(2,current,3)}\"><div style=\"font-size:28px\">✅</div><b>公開鍵で検証</b><div class=\"sub\">本人性・改ざん確認</div></div>\n  </div>${current<3?stepPositionNote(`現在：${labels[current]}`, current+1, 3):stepPositionNote('署名と検証の流れをすべて確認しました')}`;\n}"
+    },
+    {
+      "name": "storeValidProfileSnapshot",
+      "bytes": 204,
+      "sha256": "74693b648ee7a93884ad53a2fade39f5e2fce2bfac7a53fce673503f8f422933",
+      "preview": "function storeValidProfileSnapshot(p){\n  const normalized=normalizeProfileData(p);\n  const result=writeCurrentProfile(normalized,{preservePrevious:true,skipConflictCheck:true});\n  return result.profile;\n}"
+    },
+    {
+      "name": "validRawWithChecksum",
+      "bytes": 671,
+      "sha256": "21d886ce6e261b899c308dbfd29c5bb7f7d6f68a44c4826d5d9b6a7037855390",
+      "preview": "function validRawWithChecksum(raw,expected=null){\n  if(typeof raw!=='string'||!raw.trim())throw new Error('empty profile');\n  const parsed=JSON.parse(raw);\n  if(!isPlainObject(parsed))throw new Error('profile is not an object');\n  const sourceSchema=profileSchemaNumber(parsed);\n  if(sourceSchema>PROFILE_SCHEMA_VERSION)throw futureSchemaError(sourceSchema);\n  const sourceChecksum=profileChecksumForSchema(parsed,sourceSchema);\n  if(expected&&expected!==sourceChecksum)throw new Error('profile checksum mismatch');\n  const normalized=normalizeProfileData(parsed);\n  return {profile:normalized,checksum:profileIntegrityChecksum(normalized),sourceChecksum,sourceSchema};\n}"
+    },
+    {
+      "name": "writeCurrentProfile",
+      "bytes": 97,
+      "sha256": "1d91cdfbdc76fe7066975dcb51722216924dd79959a30e47d303a38a7b802bed",
+      "preview": "function writeCurrentProfile(p,{preservePrevious=true,skipConflictCheck=false,exactRevision=null}"
+    }
+  ],
+  "storageAndSchemaConstants": [
+    {
+      "name": "UI_STATE_KEY",
+      "value": "'fequest_ui_state_v2'"
+    },
+    {
+      "name": "STORAGE_KEY",
+      "value": "'fequest_profile_v4'"
+    },
+    {
+      "name": "PROFILE_ATOMIC_KEY",
+      "value": "'fequest_profile_atomic_v1'"
+    },
+    {
+      "name": "PROFILE_MIGRATION_JOURNAL_KEY",
+      "value": "'fequest_profile_migration_journal_v1'"
+    },
+    {
+      "name": "PROFILE_WRITER_LEASE_KEY",
+      "value": "'fequest_profile_writer_lease_v1'"
+    },
+    {
+      "name": "PROFILE_VERSION_CHECKPOINT_KEY",
+      "value": "'fequest_profile_version_checkpoint_v1'"
+    },
+    {
+      "name": "PROFILE_LAST_EXPORT_KEY",
+      "value": "'fequest_profile_last_export_v1'"
+    },
+    {
+      "name": "CORRUPT_PROFILE_KEY",
+      "value": "'fequest_profile_corrupt_recovery'"
+    },
+    {
+      "name": "LAST_GOOD_PROFILE_KEY",
+      "value": "'fequest_profile_last_good_v1'"
+    },
+    {
+      "name": "PRE_IMPORT_PROFILE_KEY",
+      "value": "'fequest_profile_pre_import_v1'"
+    },
+    {
+      "name": "PRE_MANUAL_RESTORE_PROFILE_KEY",
+      "value": "'fequest_profile_pre_manual_restore_v1'"
+    },
+    {
+      "name": "PROFILE_CHECKSUM_KEY",
+      "value": "'fequest_profile_checksum_v1'"
+    },
+    {
+      "name": "LAST_GOOD_CHECKSUM_KEY",
+      "value": "'fequest_profile_last_good_checksum_v1'"
+    },
+    {
+      "name": "LEGACY_STORAGE_KEYS",
+      "value": "['fequest_profile_v3','fequest_profile_v2','fequest_profile_v1']"
+    },
+    {
+      "name": "PROFILE_SCHEMA_VERSION",
+      "value": "5"
+    },
+    {
+      "name": "fromSchema",
+      "value": "profileSchemaNumber(src)"
+    },
+    {
+      "name": "sourceSchema",
+      "value": "profileSchemaNumber(parsed)"
+    },
+    {
+      "name": "sourceSchema",
+      "value": "profileSchemaNumber(parsed)"
+    },
+    {
+      "name": "semanticKeys",
+      "value": "Object.freeze(['browserUiAdditions','legacyAssertionInventory','ciSentinelGroups','criticalCurriculumSpec','releaseSentinelSpec','legacyFixtureSpec'])"
+    },
+    {
+      "name": "provenanceKeys",
+      "value": "provenance?Object.keys(provenance).filter(k=>!['sourceModule','projectionMode'].includes(k)).sort():[]"
+    },
+    {
+      "name": "BFINAL_RESUME_KEY",
+      "value": "'fequest_bfinal_resume_v1'"
+    },
+    {
+      "name": "RX_CALC_KEYWORDS",
+      "value": "['基数','16進','データ量','稼働','信頼性','損益','財務','スループット','サブネット','画像']"
+    },
+    {
+      "name": "RX_CONTRAST_KEYWORDS",
+      "value": "['TCP','UDP','スタック','キュー','公開鍵','共通鍵','バックアップ','RAM','ROM','アジャイル','ウォーターフォール','SLA','監査','外部キー']"
+    },
+    {
+      "name": "contractKeys",
+      "value": "legacyIds.flatMap(id=>[`${id}:1`,`${id}:2`])"
+    }
+  ],
+  "runtime": {
+    "before": {
+      "meta": {
+        "createdAt": "2026-08-22T04:14:56.341Z",
+        "updatedAt": "2026-08-22T04:14:56.584Z",
+        "lastAppVersion": "v341",
+        "migratedFromSchema": null,
+        "revision": 3,
+        "lastWriterId": "cedaf689-cf69-4e7a-9a58-98ebbb108c43"
+      },
+      "storage": [
+        {
+          "key": "fequest_profile_atomic_v1",
+          "bytes": 239818,
+          "json": {
+            "keys": [
+              "appVersion",
+              "checksum",
+              "format",
+              "profile",
+              "profileSchemaVersion",
+              "revision",
+              "savedAt",
+              "writerId"
+            ],
+            "schema": 5,
+            "revision": 3,
+            "writer": null,
+            "hasChecksum": true,
+            "payloadKeys": null
+          }
+        },
+        {
+          "key": "fequest_profile_checksum_v1",
+          "bytes": 16,
+          "json": null
+        },
+        {
+          "key": "fequest_profile_last_good_checksum_v1",
+          "bytes": 16,
+          "json": null
+        },
+        {
+          "key": "fequest_profile_last_good_v1",
+          "bytes": 229325,
+          "json": {
+            "keys": [
+              "activity",
+              "bCompoundHistory",
+              "bCompoundStats",
+              "bFinalHistory",
+              "bFinalMistakeStats",
+              "bFinalStats",
+              "bMockHistory",
+              "bMockStats",
+              "bProgress",
+              "chapterMastery",
+              "dailyPlans",
+              "diagnosticCompleted",
+              "diagnosticScores",
+              "lastStudyDate",
+              "lessonProgress",
+              "masteryHistory",
+              "mockHistory",
+              "mockMistakeStats",
+              "mockQuestionStats",
+              "profileMeta",
+              "profileSchemaVersion",
+              "qStats",
+              "reviewJourney",
+              "reviewJourneys",
+              "securityBProgress",
+              "securityMockHistory",
+              "securityMockStats",
+              "sessions",
+              "settings",
+              "skills",
+              "streak",
+              "techniqueStats",
+              "xp"
+            ],
+            "schema": 5,
+            "revision": 2,
+            "writer": "cedaf689-cf69-4e7a-9a58-98ebbb108c43",
+            "hasChecksum": false,
+            "payloadKeys": null
+          }
+        },
+        {
+          "key": "fequest_profile_v4",
+          "bytes": 239594,
+          "json": {
+            "keys": [
+              "activity",
+              "bCompoundHistory",
+              "bCompoundStats",
+              "bFinalHistory",
+              "bFinalMistakeStats",
+              "bFinalStats",
+              "bMockHistory",
+              "bMockStats",
+              "bProgress",
+              "chapterMastery",
+              "dailyPlans",
+              "diagnosticCompleted",
+              "diagnosticScores",
+              "lastStudyDate",
+              "lessonProgress",
+              "masteryHistory",
+              "mockHistory",
+              "mockMistakeStats",
+              "mockQuestionStats",
+              "profileMeta",
+              "profileSchemaVersion",
+              "qStats",
+              "reviewJourney",
+              "reviewJourneys",
+              "securityBProgress",
+              "securityMockHistory",
+              "securityMockStats",
+              "sessions",
+              "settings",
+              "skills",
+              "streak",
+              "techniqueStats",
+              "xp"
+            ],
+            "schema": 5,
+            "revision": 3,
+            "writer": "cedaf689-cf69-4e7a-9a58-98ebbb108c43",
+            "hasChecksum": false,
+            "payloadKeys": null
+          }
+        }
+      ]
+    },
+    "envelope": {
+      "ok": true,
+      "value": {
+        "keys": [
+          "appVersion",
+          "checksum",
+          "format",
+          "profile",
+          "profileSchemaVersion",
+          "revision",
+          "savedAt",
+          "writerId"
+        ],
+        "revision": 3,
+        "lastWriterId": null,
+        "checksum": "fnv1a32:088ea85e",
+        "payloadSchema": null,
+        "payloadRevision": null,
+        "serializedBytes": 239818
+      }
+    },
+    "writeDescriptor": {
+      "ok": true,
+      "value": {
+        "keys": [
+          "appVersion",
+          "checksum",
+          "format",
+          "profile",
+          "profileSchemaVersion",
+          "revision",
+          "savedAt",
+          "writerId"
+        ],
+        "revision": 3,
+        "lastWriterId": null,
+        "checksum": "fnv1a32:088ea85e",
+        "payloadSchema": null,
+        "payloadRevision": null,
+        "payloadUpdatedAt": null,
+        "payloadWriterId": null,
+        "serializedBytes": 239818
+      }
+    },
+    "saveResult": {
+      "ok": true,
+      "value": true
+    },
+    "after": {
+      "meta": {
+        "createdAt": "2026-08-22T04:14:56.341Z",
+        "updatedAt": "2026-08-22T04:14:56.842Z",
+        "lastAppVersion": "v341",
+        "migratedFromSchema": null,
+        "revision": 4,
+        "lastWriterId": "cedaf689-cf69-4e7a-9a58-98ebbb108c43"
+      },
+      "storage": [
+        {
+          "key": "fequest_profile_atomic_v1",
+          "bytes": 239818,
+          "json": {
+            "keys": [
+              "appVersion",
+              "checksum",
+              "format",
+              "profile",
+              "profileSchemaVersion",
+              "revision",
+              "savedAt",
+              "writerId"
+            ],
+            "schema": 5,
+            "revision": 4,
+            "writer": null,
+            "hasChecksum": true,
+            "payloadKeys": null
+          }
+        },
+        {
+          "key": "fequest_profile_checksum_v1",
+          "bytes": 16,
+          "json": null
+        },
+        {
+          "key": "fequest_profile_last_good_checksum_v1",
+          "bytes": 16,
+          "json": null
+        },
+        {
+          "key": "fequest_profile_last_good_v1",
+          "bytes": 239594,
+          "json": {
+            "keys": [
+              "activity",
+              "bCompoundHistory",
+              "bCompoundStats",
+              "bFinalHistory",
+              "bFinalMistakeStats",
+              "bFinalStats",
+              "bMockHistory",
+              "bMockStats",
+              "bProgress",
+              "chapterMastery",
+              "dailyPlans",
+              "diagnosticCompleted",
+              "diagnosticScores",
+              "lastStudyDate",
+              "lessonProgress",
+              "masteryHistory",
+              "mockHistory",
+              "mockMistakeStats",
+              "mockQuestionStats",
+              "profileMeta",
+              "profileSchemaVersion",
+              "qStats",
+              "reviewJourney",
+              "reviewJourneys",
+              "securityBProgress",
+              "securityMockHistory",
+              "securityMockStats",
+              "sessions",
+              "settings",
+              "skills",
+              "streak",
+              "techniqueStats",
+              "xp"
+            ],
+            "schema": 5,
+            "revision": 3,
+            "writer": "cedaf689-cf69-4e7a-9a58-98ebbb108c43",
+            "hasChecksum": false,
+            "payloadKeys": null
+          }
+        },
+        {
+          "key": "fequest_profile_v4",
+          "bytes": 239594,
+          "json": {
+            "keys": [
+              "activity",
+              "bCompoundHistory",
+              "bCompoundStats",
+              "bFinalHistory",
+              "bFinalMistakeStats",
+              "bFinalStats",
+              "bMockHistory",
+              "bMockStats",
+              "bProgress",
+              "chapterMastery",
+              "dailyPlans",
+              "diagnosticCompleted",
+              "diagnosticScores",
+              "lastStudyDate",
+              "lessonProgress",
+              "masteryHistory",
+              "mockHistory",
+              "mockMistakeStats",
+              "mockQuestionStats",
+              "profileMeta",
+              "profileSchemaVersion",
+              "qStats",
+              "reviewJourney",
+              "reviewJourneys",
+              "securityBProgress",
+              "securityMockHistory",
+              "securityMockStats",
+              "sessions",
+              "settings",
+              "skills",
+              "streak",
+              "techniqueStats",
+              "xp"
+            ],
+            "schema": 5,
+            "revision": 4,
+            "writer": "cedaf689-cf69-4e7a-9a58-98ebbb108c43",
+            "hasChecksum": false,
+            "payloadKeys": null
+          }
+        }
+      ]
+    },
+    "committed": {
+      "ok": true,
+      "value": null
+    }
+  }
+}
