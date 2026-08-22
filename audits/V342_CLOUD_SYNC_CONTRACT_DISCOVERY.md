@@ -6,13 +6,14 @@ Result: **PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFOR
 {
   "schema": 5,
   "profileMeta": {
-    "createdAt": "2026-08-22T03:39:06.035Z",
-    "updatedAt": "2026-08-22T03:39:06.328Z",
+    "createdAt": "2026-08-22T03:40:43.814Z",
+    "updatedAt": "2026-08-22T03:40:44.356Z",
     "lastAppVersion": "v341",
     "migratedFromSchema": null,
     "revision": 3,
-    "lastWriterId": "28165cd7-305c-4da5-a74c-0415f6fb0ce3"
+    "lastWriterId": "2b81709a-dc54-441c-8a7f-c0917517a016"
   },
+  "profileJsonBytesAtFreshBoot": 239594,
   "profileKeyCount": 33,
   "settingsKeys": [
     "autoPace",
@@ -21,6 +22,257 @@ Result: **PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFOR
     "variantReview"
   ],
   "persistenceFunctions": 87,
+  "metadataOwnershipMatrix": [
+    {
+      "function": "acquireProfileWriteLease",
+      "tokens": [
+        "acquireProfileWriteLease"
+      ]
+    },
+    {
+      "function": "assertNoExternalProfileConflict",
+      "tokens": [
+        "revision"
+      ]
+    },
+    {
+      "function": "atomicProfileEnvelope",
+      "tokens": [
+        "revision"
+      ]
+    },
+    {
+      "function": "beginMigrationJournal",
+      "tokens": [
+        "checksum"
+      ]
+    },
+    {
+      "function": "decodeAtomicProfileEnvelope",
+      "tokens": [
+        "revision",
+        "lastWriterId",
+        "profileSchemaVersion",
+        "checksum"
+      ]
+    },
+    {
+      "function": "decodeBackupPayload",
+      "tokens": [
+        "profileSchemaVersion",
+        "checksum"
+      ]
+    },
+    {
+      "function": "exportRecoveryDiagnostics",
+      "tokens": [
+        "revision",
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "feqPersistenceSafetyChecks",
+      "tokens": [
+        "revision",
+        "updatedAt",
+        "profileSchemaVersion",
+        "checksum",
+        "writeCurrentProfile",
+        "acquireProfileWriteLease"
+      ]
+    },
+    {
+      "function": "importLearningDataFile",
+      "tokens": [
+        "writeCurrentProfile",
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "loadProfile",
+      "tokens": [
+        "revision",
+        "checksum",
+        "writeCurrentProfile"
+      ]
+    },
+    {
+      "function": "makeBackupPayload",
+      "tokens": [
+        "profileSchemaVersion",
+        "checksum"
+      ]
+    },
+    {
+      "function": "migrateProfileData",
+      "tokens": [
+        "revision",
+        "lastWriterId",
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "normalizeProfileData",
+      "tokens": [
+        "revision",
+        "lastWriterId",
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "normalizeProfileDataV3ForChecksum",
+      "tokens": [
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "normalizeProfileDataV4ForChecksum",
+      "tokens": [
+        "updatedAt",
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "performLearningDataResetV333",
+      "tokens": [
+        "checksum",
+        "writeCurrentProfile",
+        "acquireProfileWriteLease",
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "persistProfileSilently",
+      "tokens": [
+        "writeCurrentProfile",
+        "acquireProfileWriteLease",
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "preservePreviousProfileIfValid",
+      "tokens": [
+        "checksum"
+      ]
+    },
+    {
+      "function": "profileSchemaNumber",
+      "tokens": [
+        "profileSchemaVersion"
+      ]
+    },
+    {
+      "function": "queueRecoveryCheckpoint",
+      "tokens": [
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "recoverInterruptedMigrationIfNeeded",
+      "tokens": [
+        "checksum"
+      ]
+    },
+    {
+      "function": "recoveryCandidates",
+      "tokens": [
+        "updatedAt"
+      ]
+    },
+    {
+      "function": "rememberCommittedProfile",
+      "tokens": [
+        "revision"
+      ]
+    },
+    {
+      "function": "repairAtomicEnvelopeExact",
+      "tokens": [
+        "revision",
+        "lastWriterId"
+      ]
+    },
+    {
+      "function": "resetLearningProfileCandidateV333",
+      "tokens": [
+        "revision",
+        "updatedAt",
+        "lastWriterId"
+      ]
+    },
+    {
+      "function": "restoreCommittedProfileInMemory",
+      "tokens": [
+        "revision"
+      ]
+    },
+    {
+      "function": "restorePreImportProfile",
+      "tokens": [
+        "writeCurrentProfile",
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "restorePreManualProfile",
+      "tokens": [
+        "writeCurrentProfile",
+        "acquireProfileWriteLease"
+      ]
+    },
+    {
+      "function": "restoreRecoveryCandidate",
+      "tokens": [
+        "writeCurrentProfile",
+        "acquireProfileWriteLease"
+      ]
+    },
+    {
+      "function": "revalidateProfileFreshness",
+      "tokens": [
+        "revision",
+        "checksum"
+      ]
+    },
+    {
+      "function": "saveProfile",
+      "tokens": [
+        "writeCurrentProfile",
+        "acquireProfileWriteLease",
+        "queueRecoveryCheckpoint"
+      ]
+    },
+    {
+      "function": "stampProfileForSave",
+      "tokens": [
+        "updatedAt"
+      ]
+    },
+    {
+      "function": "storeValidProfileSnapshot",
+      "tokens": [
+        "writeCurrentProfile"
+      ]
+    },
+    {
+      "function": "validRawWithChecksum",
+      "tokens": [
+        "checksum"
+      ]
+    },
+    {
+      "function": "writeCurrentProfile",
+      "tokens": [
+        "writeCurrentProfile"
+      ]
+    },
+    {
+      "function": "writeRecoveryCheckpoint",
+      "tokens": [
+        "profileSchemaVersion"
+      ]
+    }
+  ],
   "literalStorageKeys": 2,
   "indexedDBNames": [],
   "writeBoundaryEvidence": {
@@ -55,6 +307,8 @@ Result: **PASS — CURRENT LOCAL-FIRST WRITE/RECOVERY CONTRACT INVENTORIED BEFOR
 ## Decision
 
 Cloud code must not be inserted inside the atomic local write before persistence succeeds. The safe first integration point is an asynchronous/outbox-style hook after a successful local commit, with revision metadata carried to the remote record. Authentication and provider failures must therefore be non-blocking for normal study.
+
+The fresh profile JSON byte count is recorded because a one-record-per-user backend must leave ample headroom as question history grows. Provider selection should prefer a variable-schema JSON payload without forcing FE QUEST to shard its 33-key profile model prematurely.
 
 The v341 distribution cutover also means the old stable release materializer still assumes an inline root template. v342 must make release tooling split-aware before attempting a conventional v342 materialization; this is a developer-release concern, not a learner data regression.
 
