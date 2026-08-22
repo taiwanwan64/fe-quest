@@ -2,10 +2,12 @@
 ---
 {% include_relative app/base-shell-v342.html %}
 <style id="fequestV342SafariFirstRunFix">
+/* WebKit 301648: on iOS 26 a padded native date input can overflow when width:100% is used.
+   Keep native appearance, avoid percentage width on the date control, and clamp its grid ancestors. */
 @media(max-width:720px){
-  #firstRunExperienceV340 .v340-fields{grid-template-columns:minmax(0,1fr)!important;min-width:0!important;max-width:100%!important;width:100%!important}
-  #firstRunExperienceV340 .v340-field{min-width:0!important;max-width:100%!important;width:100%!important}
-  #firstRunExperienceV340 input[type="date"]{width:100%!important;inline-size:100%!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;display:block!important;box-sizing:border-box!important}
+  #firstRunExperienceV340 .v340-fields{grid-template-columns:minmax(0,1fr)!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;width:100%!important}
+  #firstRunExperienceV340 .v340-field{min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;width:100%!important}
+  #firstRunExperienceV340 input[type="date"]{width:auto!important;inline-size:auto!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;display:block!important;box-sizing:border-box!important;-webkit-min-logical-width:0!important;justify-self:stretch!important;align-self:stretch!important;overflow:hidden!important}
 }
 </style>
 <script>
@@ -16,6 +18,7 @@
   document.head.appendChild(meta);
   const badge=document.createElement('div');
   badge.id='fequestV342PreviewBadge';
+  badge.dataset.safariFix='webkit-301648';
   badge.setAttribute('role','status');
   badge.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:2147483646;max-width:720px;margin:auto;padding:8px 12px;border:1px solid #f59e0b;border-radius:12px;background:#fff7df;color:#6b4f00;font:700 12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 28px rgba(15,23,42,.16);text-align:center;pointer-events:none';
   badge.textContent='v342 検証用プレビュー — シークレット / プライベートブラウズ専用です。本番の学習データでは使わないでください。';
