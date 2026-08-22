@@ -1,10 +1,10 @@
 // FE QUEST v342 provider-neutral local-first sync contract.
-// This module is intentionally NOT loaded by production v341 yet.
-// It defines the deterministic decisions that the eventual transport adapter must obey.
+// This module remains opt-in until authenticated cloud sync is deliberately activated.
+// The local profile revision/checksum stay authoritative; cloud never invents a second revision.
 (function(root){
   'use strict';
 
-  const CONTRACT_VERSION=1;
+  const CONTRACT_VERSION=2;
   const STATUS=Object.freeze({
     LOCAL_ONLY:'local-only',
     PENDING_OFFLINE:'pending-offline',
@@ -29,21 +29,33 @@
     return finiteRevision(value,name);
   }
 
-  function validSha(value){return typeof value==='string'&&/^[0-9a-f]{64}$/.test(value)}
+  function normalizeChecksum(value){
+    if(typeof value!=='string')throw new TypeError('profile checksum required');
+    if(/^fnv1a32:[0-9a-f]{8}$/.test(value))return value;
+    if(/^sha256:[0-9a-f]{64}$/.test(value))return value;
+    // Foundation builds before the production boundary was discovered stored bare SHA-256.
+    if(/^[0-9a-f]{64}$/.test(value))return `sha256:${value}`;
+    throw new TypeError('unsupported profile checksum');
+  }
+
+  function optionalChecksum(value){
+    if(value==null)return null;
+    try{return normalizeChecksum(value)}catch(_){return null}
+  }
 
   function normalizeCommitted(input){
     if(!input||typeof input!=='object')throw new TypeError('committed profile metadata required');
     const revision=finiteRevision(input.revision,'local revision');
-    if(!validSha(input.sha256))throw new TypeError('local sha256 must be lowercase hex');
-    return {revision,sha256:input.sha256,updatedAt:input.updatedAt||null,writerId:input.writerId||null};
+    const checksum=normalizeChecksum(input.checksum??input.sha256);
+    return {revision,checksum,updatedAt:input.updatedAt||null,writerId:input.writerId||null};
   }
 
   function normalizeRemote(remote){
     if(remote==null)return null;
     if(typeof remote!=='object')throw new TypeError('remote must be null or object');
     const revision=finiteRevision(remote.revision,'remote revision');
-    if(!validSha(remote.sha256))throw new TypeError('remote sha256 must be lowercase hex');
-    return {revision,sha256:remote.sha256,updatedAt:remote.updatedAt||null};
+    const checksum=normalizeChecksum(remote.checksum??remote.sha256);
+    return {revision,checksum,updatedAt:remote.updatedAt||null};
   }
 
   // Called only after the existing FE QUEST atomic local write has succeeded.
@@ -57,11 +69,11 @@
       contractVersion:CONTRACT_VERSION,
       userId:current.userId||null,
       lastSyncedRemoteRevision:base,
-      lastSyncedSha256:validSha(current.lastSyncedSha256)?current.lastSyncedSha256:null,
+      lastSyncedChecksum:optionalChecksum(current.lastSyncedChecksum??current.lastSyncedSha256),
       pending:{
         baseRemoteRevision:base,
         profileRevision:c.revision,
-        payloadSha256:c.sha256,
+        payloadChecksum:c.checksum,
         clientUpdatedAt:c.updatedAt,
         writerId:c.writerId,
         queuedAt:new Date().toISOString()
@@ -73,7 +85,7 @@
     const x=input||{};
     const local=normalizeCommitted({
       revision:x.localRevision,
-      sha256:x.localSha256,
+      checksum:x.localChecksum??x.localSha256,
       updatedAt:x.clientUpdatedAt,
       writerId:x.writerId
     });
@@ -90,12 +102,14 @@
       return {...common,status:STATUS.UPLOAD_NEW,action:'upload',keepPending:false,nextRemoteRevision:local.revision};
     }
 
-    // Lost-response retries are safe even when the caller still carries an older base.
-    if(local.revision===remote.revision&&local.sha256===remote.sha256){
+    // Client-side equality is a fast deterministic hint. The server RPC additionally compares
+    // JSONB payload equality for same-revision requests, so an FNV-1a collision cannot silently
+    // turn divergent learner data into an idempotent replay.
+    if(local.revision===remote.revision&&local.checksum===remote.checksum){
       return {...common,status:STATUS.ALREADY_SYNCED,action:'noop',keepPending:false,nextRemoteRevision:remote.revision};
     }
 
-    if(local.revision===remote.revision&&local.sha256!==remote.sha256){
+    if(local.revision===remote.revision&&local.checksum!==remote.checksum){
       return {...common,status:STATUS.DIVERGED,action:'conflict',keepPending:true,remoteRevision:remote.revision};
     }
 
@@ -116,17 +130,17 @@
       throw new TypeError('successful server response required');
     }
     const revision=finiteRevision(response.remote_revision,'ack remote revision');
-    if(!validSha(response.remote_sha256))throw new TypeError('ack sha256 required');
+    const checksum=normalizeChecksum(response.remote_checksum??response.remote_sha256);
     return {
       contractVersion:CONTRACT_VERSION,
       userId:syncMeta.userId||null,
       lastSyncedRemoteRevision:revision,
-      lastSyncedSha256:response.remote_sha256,
+      lastSyncedChecksum:checksum,
       pending:null
     };
   }
 
-  const api=Object.freeze({CONTRACT_VERSION,STATUS,queueCommittedProfile,decideCommit,acknowledge});
+  const api=Object.freeze({CONTRACT_VERSION,STATUS,normalizeChecksum,queueCommittedProfile,decideCommit,acknowledge});
   root.FEQUEST_SYNC_CONTRACT_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
