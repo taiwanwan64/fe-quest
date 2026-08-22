@@ -1,0 +1,50 @@
+name: FE QUEST v342 cloud activation loader
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_activation_loader.py'
+      - '.github/workflows/cloud-activation-loader-v342.yml'
+      - 'cloud/activation-loader-v342.js'
+      - 'cloud/public-config-v342.js'
+      - 'vendor/supabase/**'
+      - 'audits/V342_CLOUD_ACTIVATION_LOADER.md'
+      - '_regression/cloud-activation-loader-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'cloud-activation-loader-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 activation loader branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate same-origin fail-open activation loader
+        run: python3 .github/cloud-sync-v342/validate_activation_loader.py
+
+      - name: Verify reproducible activation evidence and v341 isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_CLOUD_ACTIVATION_LOADER.md _regression/cloud-activation-loader-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          loader=Path('cloud/activation-loader-v342.js').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          manifest=json.loads(Path('vendor/supabase/manifest-v342.json').read_text())
+          bundle=Path(manifest['path']).read_bytes()
+          assert manifest['version']=='2.112.3'
+          assert hashlib.sha256(bundle).hexdigest()==manifest['sha256']
+          assert './vendor/supabase/supabase-2.112.3.js' in loader
+          assert 'http://' not in loader and 'https://' not in loader
+          assert 'activation-loader-v342.js' not in shell
+          assert 'PASS — 13 / 13 ACTIVATION-LOADER CASES PASS' in Path('audits/V342_CLOUD_ACTIVATION_LOADER.md').read_text()
+          print('V342_CLOUD_ACTIVATION_LOADER_REPRODUCIBLE_AND_V341_ISOLATED')
+          PY

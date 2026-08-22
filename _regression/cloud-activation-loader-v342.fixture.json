@@ -1,0 +1,25 @@
+{
+  "name": "cloud-activation-loader-v342",
+  "result": "PASS",
+  "caseCount": 13,
+  "validatedCases": [
+    "disabled config loads zero cloud assets",
+    "missing global config loads only the fixed same-origin config asset",
+    "enabled activation loads sync UI stylesheet exactly once",
+    "pinned local SDK is the first executable cloud dependency",
+    "cloud modules load sequentially in declared dependency order",
+    "runtime assembly happens only after all fixed cloud scripts load",
+    "validated runtime is started exactly once",
+    "asset failure fails open and stops before later cloud modules",
+    "activation start is single-flight",
+    "runtime not-ready result remains fail-open",
+    "stopped activation cannot start later",
+    "activation asset validator rejects external and traversal paths",
+    "activation spec contains no runtime CDN URL"
+  ],
+  "sdkVersion": "2.112.3",
+  "sdkSha256": "ec004176d101aec77aeef266aa1c94411287fe2039c65ea5f6c72f5e14b3847d",
+  "sameOriginOnly": true,
+  "defaultEnabled": false,
+  "productionLoaded": false
+}
