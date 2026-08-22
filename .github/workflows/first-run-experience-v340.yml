@@ -4,140 +4,62 @@ on:
   pull_request:
     branches: ['main']
     paths:
-      - '.github/first-run-experience/**'
       - '.github/workflows/first-run-experience-v340.yml'
-      - 'app/first-run-experience-v340.txt'
+      - '.github/cloud-sync-v342/**'
+      - 'cloud/**'
+      - 'audits/V342_PROVIDER_DECISION.md'
 
 permissions:
   contents: write
-  pages: read
-
-env:
-  GITHUB_PAGES: true
 
 jobs:
-  validate:
-    if: startsWith(github.head_ref, 'first-run-experience-v')
+  v342_contract_validation:
+    if: startsWith(github.head_ref, 'cloud-sync-contract-v342')
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout head branch
+      - name: Checkout v342 head
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Normalize shell to v339 source state
+      - name: Discover current local-first persistence contract
+        run: python3 .github/cloud-sync-v342/discover_contract.py
+
+      - name: Simulate offline and two-device conflict contract
+        run: python3 .github/cloud-sync-v342/simulate_sync_contract.py
+
+      - name: Validate provider and security contract
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import json
-
-          idx=Path('index.html')
-          text=idx.read_text()
-          if '<title>FE QUEST PWA v340</title>' in text:
-              text=text.replace('<title>FE QUEST PWA v340</title>','<title>FE QUEST PWA v339</title>',1)
-              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
-              idx.write_text(text)
-
-          mp=Path('manifest.webmanifest')
-          m=json.loads(mp.read_text())
-          if m.get('name')=='FE QUEST v340':
-              m['name']='FE QUEST v339'
-              m['description']=m.get('description','').replace('v340','v339')
-              mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
-
-          sw=Path('sw.js')
-          text=sw.read_text()
-          if "const APP_VERSION = 'v340';" in text:
-              text=text.replace("const APP_VERSION = 'v340';","const APP_VERSION = 'v339';",1)
-              text=text.replace("const CACHE_NAME = 'fe-quest-v340-1';","const CACHE_NAME = 'fe-quest-v339-1';",1)
-              sw.write_text(text)
+          decision=Path('audits/V342_PROVIDER_DECISION.md').read_text()
+          sql=Path('cloud/supabase/v342_schema.sql').read_text()
+          js=Path('cloud/sync-contract-v342.js').read_text()
+          assert '**Use Supabase' in decision
+          assert '239,594 bytes' in decision
+          assert '1 MiB maximum document size' in decision
+          assert 'service_role' in decision and 'never contain' in decision
+          assert 'auth.uid()' in sql and 'row level security' in sql.lower()
+          assert 'p_base_remote_revision' in sql and 'remote-changed-conflict' in sql
+          assert 'revoke insert, update, delete on public.user_profiles from authenticated' in sql
+          assert 'FEQUEST_SYNC_CONTRACT_V342' in js
+          forbidden=['SUPABASE_SERVICE_ROLE','service_role=','eyJhbGciOi','sb_secret_']
+          combined=decision+'\n'+sql+'\n'+js
+          assert not any(x in combined for x in forbidden)
+          print('V342_PROVIDER_SECURITY_CONTRACT_OK')
           PY
 
-      - name: Materialize v340 shell
-        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_materialize.py
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build v340 candidate
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
-          build_revision: ${{ github.sha }}
-          verbose: true
-
-      - name: Prepare approved v340 reference
-        shell: bash
-        run: |
-          rm -rf _reference
-          mkdir _reference
-          git archive origin/main | tar -x -C _reference
-          for rel in index.html manifest.webmanifest sw.js app/first-run-experience-v340.txt; do
-            mkdir -p "_reference/$(dirname "$rel")"
-            cp "$rel" "_reference/$rel"
-          done
-
-      - name: Build approved v340 reference
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./_reference
-          destination: ./_site_reference
-          build_revision: ${{ github.sha }}
-          verbose: true
-
-      - name: Prepare untouched v339 parent
-        shell: bash
-        run: |
-          rm -rf _parent_reference
-          mkdir _parent_reference
-          git archive origin/main | tar -x -C _parent_reference
-
-      - name: Build untouched v339 parent
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./_parent_reference
-          destination: ./_site_parent
-          build_revision: ${{ github.sha }}
-          verbose: true
-
-      - name: Validate standard release invariants
-        run: GITHUB_REF_NAME="v340-staging" python3 .github/release/release_validate.py
-
-      - name: Refresh first-run discovery evidence
-        run: python3 .github/first-run-experience/discover_v340.py
-
-      - name: Validate v340 first-run experience
-        run: python3 .github/first-run-experience/validate_v340.py
-
-      - name: Finalize development plan for v340
-        run: python3 .github/first-run-experience/finalize_plan_v340.py
-
-      - name: Commit validated v340 shell and evidence
+      - name: Commit v342 validation evidence
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audits/V340_FIRST_RUN_DISCOVERY.json audits/FIRST_RUN_EXPERIENCE_v340.md _regression/first-run-experience-v340.fixture.json FE_QUEST_DEVELOPMENT_PLAN.md index.html manifest.webmanifest sw.js
+          git add audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.json audits/V342_CLOUD_SYNC_CONTRACT_DISCOVERY.md audits/V342_SYNC_CONFLICT_SIMULATION.md _regression/cloud-sync-contract-v342.fixture.json
           if ! git diff --cached --quiet; then
-            git commit -m "Materialize FE QUEST v340 first-run experience"
+            git commit -m "Validate FE QUEST v342 local-first sync contract"
             git fetch origin "$GITHUB_HEAD_REF"
             git rebase "origin/$GITHUB_HEAD_REF"
             git push origin HEAD:"$GITHUB_HEAD_REF"
           fi
-
-      - name: Package v340 release
-        shell: bash
-        run: |
-          cd _site
-          zip ../FE_QUEST_PWA_v340.zip index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
-
-      - name: Upload v340 release
-        uses: actions/upload-artifact@v4
-        with:
-          name: fe-quest-v340-standalone
-          path: FE_QUEST_PWA_v340.zip
-          if-no-files-found: error
-          retention-days: 90
