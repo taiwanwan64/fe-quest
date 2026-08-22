@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve release target
+      - name: Resolve release target and distribution layout
         id: release
         shell: bash
         run: |
@@ -31,13 +31,25 @@ jobs:
           VERSION="${GITHUB_REF_NAME%-staging}"
           NUMBER="${VERSION#v}"
           PREVIOUS="v$((NUMBER-1))"
+          if grep -q "include_relative app/base-shell-v[0-9][0-9]*.html" index.html; then
+            LAYOUT="split"
+          else
+            LAYOUT="inline"
+          fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
           echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
-          echo "FEQUEST_RELEASE_TARGET version=$VERSION previous=$PREVIOUS"
+          echo "layout=$LAYOUT" >> "$GITHUB_OUTPUT"
+          echo "FEQUEST_RELEASE_TARGET version=$VERSION previous=$PREVIOUS layout=$LAYOUT"
 
       - name: Materialize release with stable tooling
-        run: python3 .github/release/release_materialize.py
+        shell: bash
+        run: |
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            python3 .github/release/release_materialize_split.py
+          else
+            python3 .github/release/release_materialize.py
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -51,7 +63,13 @@ jobs:
           verbose: true
 
       - name: Prepare mechanical conventional reference
-        run: python3 .github/release/prepare_reference.py
+        shell: bash
+        run: |
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            python3 .github/release/prepare_reference_split.py
+          else
+            python3 .github/release/prepare_reference.py
+          fi
 
       - name: Build reference release
         uses: actions/jekyll-build-pages@v1
@@ -62,18 +80,28 @@ jobs:
           verbose: true
 
       - name: Validate release and stable tooling
-        run: python3 .github/release/release_validate.py
+        shell: bash
+        run: |
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            python3 .github/release/release_validate_split.py
+          else
+            python3 .github/release/release_validate.py
+          fi
 
       - name: Commit validated materialized source and evidence
         shell: bash
         run: |
+          VERSION="${{ steps.release.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A _regression audits index.html manifest.webmanifest sw.js
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            git add "app/base-shell-${VERSION}.html" "assets/app-${VERSION}.css" "assets/app-${VERSION}.js" "assets/asset-manifest-${VERSION}.json"
+          fi
           if git diff --cached --quiet; then
             echo "FEQUEST_RELEASE_SOURCE_ALREADY_COMMITTED"
           else
-            git commit -m "Materialize FE QUEST ${{ steps.release.outputs.version }} with stable release tooling"
+            git commit -m "Materialize FE QUEST ${VERSION} with stable release tooling"
             git push origin HEAD:"$GITHUB_REF_NAME"
           fi
           echo "FEQUEST_RELEASE_VALIDATION_HEAD=$(git rev-parse HEAD)"
@@ -84,11 +112,18 @@ jobs:
         run: |
           VERSION="${{ steps.release.outputs.version }}"
           cd _site
-          zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js "assets/app-${VERSION}.css" "assets/app-${VERSION}.js" "assets/asset-manifest-${VERSION}.json" icon-192.png icon-512.png apple-touch-icon.png
+          else
+            zip "../FE_QUEST_PWA_${VERSION}.zip" index.html manifest.webmanifest sw.js icon-192.png icon-512.png apple-touch-icon.png
+          fi
           cd ..
           wc -c "FE_QUEST_PWA_${VERSION}.zip"
           sha256sum "FE_QUEST_PWA_${VERSION}.zip"
           sha256sum _site/index.html _site/manifest.webmanifest _site/sw.js _site/icon-192.png _site/icon-512.png _site/apple-touch-icon.png
+          if [[ "${{ steps.release.outputs.layout }}" == "split" ]]; then
+            sha256sum "_site/assets/app-${VERSION}.css" "_site/assets/app-${VERSION}.js" "_site/assets/asset-manifest-${VERSION}.json"
+          fi
 
       - name: Upload release
         uses: actions/upload-artifact@v4
