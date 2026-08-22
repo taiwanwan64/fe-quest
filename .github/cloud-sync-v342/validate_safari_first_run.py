@@ -2,7 +2,6 @@ from pathlib import Path
 import hashlib
 import importlib.util
 import json
-import re
 
 
 def req(ok, msg):
@@ -30,6 +29,10 @@ def declaration(text, selector):
     return text[start:end]
 
 
+def has_decl(decl, name, value):
+    return f'{name}:{value}' in {part.strip() for part in decl.split(';') if part.strip()}
+
+
 transformed_date = declaration(out, '#firstRunExperienceV340 input[type=date]{')
 cloud_date = declaration(cloud_css, override_selector)
 preview_date = declaration(preview, override_selector)
@@ -39,16 +42,16 @@ cloud_bytes = cloud_path.read_bytes()
 checks = {
     'v341 source still contains the original percentage-width date rule': '#firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;' in src,
     'v342 transform keeps target version': "const APP_VERSION = 'v342';" in out,
-    'v342 transform avoids WebKit 301648 percentage width trigger': transformed_prefix in out and 'width:100%' not in transformed_date and 'inline-size:100%' not in transformed_date,
-    'v342 transform preserves native appearance': '-webkit-appearance:none' not in transformed_date and 'appearance:none' not in transformed_date,
+    'v342 transform avoids WebKit 301648 percentage width trigger': transformed_prefix in out and not has_decl(transformed_date, 'width', '100%') and not has_decl(transformed_date, 'inline-size', '100%'),
+    'v342 transform preserves native appearance': not has_decl(transformed_date, '-webkit-appearance', 'none') and not has_decl(transformed_date, 'appearance', 'none'),
     'cloud style clamps mobile grid min-content sizing': mobile_grid in cloud_css,
-    'cloud date override uses intrinsic width plus logical clamps': 'width:auto!important' in cloud_date and 'inline-size:auto!important' in cloud_date and 'min-inline-size:0!important' in cloud_date and 'max-inline-size:100%!important' in cloud_date,
-    'cloud date override adds WebKit logical minimum and stretch containment': '-webkit-min-logical-width:0!important' in cloud_date and 'justify-self:stretch!important' in cloud_date and 'align-self:stretch!important' in cloud_date,
-    'cloud date override does not force percentage width': 'width:100%!important' not in cloud_date and 'inline-size:100%!important' not in cloud_date,
+    'cloud date override uses intrinsic width plus logical clamps': has_decl(cloud_date, 'width', 'auto!important') and has_decl(cloud_date, 'inline-size', 'auto!important') and has_decl(cloud_date, 'min-inline-size', '0!important') and has_decl(cloud_date, 'max-inline-size', '100%!important'),
+    'cloud date override adds WebKit logical minimum and stretch containment': has_decl(cloud_date, '-webkit-min-logical-width', '0!important') and has_decl(cloud_date, 'justify-self', 'stretch!important') and has_decl(cloud_date, 'align-self', 'stretch!important'),
+    'cloud date override does not force percentage width': not has_decl(cloud_date, 'width', '100%!important') and not has_decl(cloud_date, 'inline-size', '100%!important'),
     'preview includes same mobile grid clamp': mobile_grid in preview,
-    'preview uses same no-percentage native date containment': 'width:auto!important' in preview_date and 'inline-size:auto!important' in preview_date and '-webkit-min-logical-width:0!important' in preview_date and 'width:100%!important' not in preview_date,
+    'preview uses same no-percentage native date containment': has_decl(preview_date, 'width', 'auto!important') and has_decl(preview_date, 'inline-size', 'auto!important') and has_decl(preview_date, '-webkit-min-logical-width', '0!important') and not has_decl(preview_date, 'width', '100%!important'),
     'preview carries a cache-identifiable WebKit fix marker': "badge.dataset.safariFix='webkit-301648'" in preview,
-    'native date appearance remains intact in deployed overrides': '-webkit-appearance:none' not in cloud_css and '-webkit-appearance:none' not in preview and 'appearance:none' not in cloud_date and 'appearance:none' not in preview_date,
+    'native date appearance remains intact in deployed overrides': '-webkit-appearance:none' not in cloud_css and '-webkit-appearance:none' not in preview and not has_decl(cloud_date, 'appearance', 'none!important') and not has_decl(preview_date, 'appearance', 'none!important'),
     'v342 asset manifest records current cloud stylesheet bytes': manifest_row['utf8Bytes'] == len(cloud_bytes),
     'v342 asset manifest records current cloud stylesheet hash': manifest_row['sha256'] == hashlib.sha256(cloud_bytes).hexdigest(),
     'production root remains v341': 'base-shell-v341.html' in Path('index.html').read_text() and 'base-shell-v342.html' not in Path('index.html').read_text(),
