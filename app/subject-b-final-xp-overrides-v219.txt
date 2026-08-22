@@ -7,18 +7,19 @@ const SUBJECT_B_FINAL_XP_V219_SPEC=Object.freeze({
   reasonHistoryChanged:false,
   remediationTargetsChanged:false,
   recoveryEntryChanged:false,
-  displayOnly:true
+  displayOnly:true,
+  v339Integration:'explicit-final-result-pipeline'
 });
 
 const __bFinalEarnedDisplayV219=new WeakMap();
-const __renderBFinalResultBeforeV219=renderBFinalResult;
-renderBFinalResult=function(a,earned){
+function subjectBFinalEarnedForRenderV219(a,earned){
   const normalized=Math.max(0,Number(earned)||0);
   if(a&&typeof a==='object'){
     if(normalized>0||!__bFinalEarnedDisplayV219.has(a))__bFinalEarnedDisplayV219.set(a,normalized);
-    return __renderBFinalResultBeforeV219(a,__bFinalEarnedDisplayV219.get(a));
+    return __bFinalEarnedDisplayV219.get(a);
   }
-  return __renderBFinalResultBeforeV219(a,normalized);
-};
+  return normalized;
+}
 
 globalThis.SUBJECT_B_FINAL_XP_V219_SPEC=SUBJECT_B_FINAL_XP_V219_SPEC;
+globalThis.subjectBFinalEarnedForRenderV219=subjectBFinalEarnedForRenderV219;
