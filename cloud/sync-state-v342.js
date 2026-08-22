@@ -49,7 +49,7 @@
   function normalize(input){
     const s=emptyState();
     if(!input||typeof input!=='object'||![1,2].includes(Number(input.storeVersion)))return s;
-    s.contractVersion=Number(input.contractVersion)>=2?2:2;
+    s.contractVersion=2;
     s.userId=cleanString(input.userId,200);
     s.lastSyncedRemoteRevision=validRevision(input.lastSyncedRemoteRevision)&&input.lastSyncedRemoteRevision!=null?Number(input.lastSyncedRemoteRevision):null;
     s.lastSyncedChecksum=normalizeChecksum(input.lastSyncedChecksum??input.lastSyncedSha256);
@@ -132,10 +132,11 @@
 
   function recordConflict(storage,response){
     const current=load(storage);
+    const remoteChecksum=response?(response.remote_checksum??response.remote_sha256):null;
     current.conflict={
       status:cleanString(response&&response.sync_status,100)||'conflict',
       remoteRevision:validRevision(response&&response.remote_revision)&&response.remote_revision!=null?Number(response.remote_revision):null,
-      remoteChecksum:normalizeChecksum(response&&response.remote_checksum??response&&response.remote_sha256),
+      remoteChecksum:normalizeChecksum(remoteChecksum),
       detectedAt:new Date().toISOString()
     };
     current.lastError=null;
