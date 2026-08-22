@@ -5,9 +5,9 @@
 > 別チャット・別AIで開発を再開するときは、最初に GitHub の `main` とこの `FE_QUEST_DEVELOPMENT_PLAN.md` を確認してください。会話履歴や古い記憶より、GitHub の現行コードと本ファイルを優先します。
 
 最終更新: 2026-08-22  
-現行アプリ: **v338**  
+現行アプリ: **v339**  
 リポジトリ: `taiwanwan64/fe-quest`  
-次の計画バージョン: **v339**
+次の計画バージョン: **v340**
 
 ---
 
@@ -145,7 +145,6 @@ GitHubに `audits/post-v337-architecture-audit.md` 等の監査結果を保存�
 - v337と同じ学習挙動を判定できる回帰fixtureが用意されている
 - ユーザーデータスキーマには変更を入れない
 
-
 ### v338 完了結果
 
 - audit-only v338として学習者向け挙動とユーザーデータスキーマを変更せず監査を完了。
@@ -160,7 +159,7 @@ GitHubに `audits/post-v337-architecture-audit.md` 等の監査結果を保存�
 
 ---
 
-# v339 — runtime安全化 + override整理 第1弾
+# v339 — runtime安全化 + override整理 第1弾 ✅ 完了（2026-08-22）
 
 ### 目的
 
@@ -185,6 +184,20 @@ GitHubに `audits/post-v337-architecture-audit.md` 等の監査結果を保存�
 - 対象関数について不要な多重ラップが減る
 - 問題バンク・教材・科目Bの意味的差分がない
 - v337基準の主要ユーザージャーニーが全て通る
+
+### v339 完了結果
+
+- production runtime の `assert()` は、失敗を `FEQUEST_RUNTIME_CONTRACTS` とconsoleへ記録する**非破壊diagnostic**へ変更し、hard assert によるアプリ全体の停止経路を **0** にした。
+- v338で固定した **54 contract row** は削除せず、CIでは同じbuilt candidateのguardをstrict throwへ差し替えて再実行し、品質ゲートを維持した。
+- `renderBFinalResult` の多重ラップを **5段 → 3段** に削減。
+  - v219 XP表示保持、v243 復習ルート、v245 セキュリティ理由表示を個別wrapperから明示hookへ移行。
+  - v217 recovery と v230 choice-specific feedback は既存の呼出順を守るためinner wrapperとして残した。
+  - v339の明示pipeline順は「v219 → v217 → v230 → v243 → v245」。
+- 科目A **710問**、QUESTION_BANK hash、科目B content hash、Subject B semantic diagnostics、適応学習主要contract、profile/settings schemaに意味的差分なし。
+- v134〜v140は実コード上すでに独立versioned file群ではなく `app/learning-patches.txt` に集約済みだったため、405KB級content moduleをこの安全化フェーズで大規模再配置しない判断とした。
+- 残る多重ラップ上位の整理候補は `buildBFinal` と `subjectBHubRecommendation`（各3段）。v340の初回UXを優先し、必要時に後続の内部整理で扱う。
+- 詳細: `audits/RUNTIME_SAFETY_OVERRIDE_CLEANUP_v339.md`
+- 回帰基準: `_regression/runtime-safety-override-cleanup-v339.fixture.json`
 
 ---
 
@@ -432,14 +445,17 @@ v342で商用基盤が安定した後に着手する。
 
 ## 10. 直近の次アクション
 
-**次に着手する正式タスクは v339「runtime安全化 + override整理 第1弾」。**
+**次に着手する正式タスクは v340「初回体験 + 日常利用UX完成度向上」。**
 
-v338で実コードから監査基準が確定したため、v339では次の順で進める。
+v339で起動停止リスクと最深の多重ラップを減らしたため、v340ではFE QUEST最大の差別化である「学習結果に応じて今日の計画が変わる」価値を初回から理解できる体験へ仕上げる。
 
-1. v338 fixtureのhard assert「CI移行候補」からruntime停止経路を安全に外す
-2. diagnostic/contractと重複するassertを非破壊診断へ統合する
-3. 多重ラップ上位 `renderBFinalResult`、`buildBFinal`、`subjectBHubRecommendation` から1責務を選び、単一実装 + 明示hookへ整理する
-4. 未参照versioned overrideを「削除可能 / reference用途 / 保留」に分類する
-5. 各変更でv338 behavior contract、710問、130テーマ、Subject B semantics、保存・復旧・PWAを回帰確認する
+最初の順序:
 
-v339でも大規模一括書き換えは行わない。**v338で固定した現行挙動を1つずつ守りながら減らす。**
+1. 現行の初回オンボーディング実装と保存条件を実コードから再監査する
+2. 試験予定日と1日の学習時間を数十秒以内に設定できる最短導線を設計する
+3. 設定直後に生成された「あなたの今日の計画」を見せ、普通の問題集との差を伝える
+4. 「なぜこの学習なのか」を1〜2行で説明する根拠表示を、既存の自動調整シグナルから生成できるか検証する
+5. 新規 / 3日目 / 1週間の状態を回帰シミュレーションし、既存ユーザーの保存データ・日常導線を壊さないことを確認する
+6. iPhone実機基準でホーム・学習計画・初回設定の主CTA、safe-area、固定ヘッダー、下部ナビ、スクロール位置を確認する
+
+内部整理はここで止めるわけではない。`buildBFinal` と `subjectBHubRecommendation` の3段ラップは把握済みの負債として残すが、**v340では初回価値伝達と日常UXを優先**する。
