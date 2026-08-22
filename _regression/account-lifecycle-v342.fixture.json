@@ -1,0 +1,22 @@
+{
+  "name": "account-lifecycle-v342",
+  "result": "PASS",
+  "caseCount": 12,
+  "validatedCases": [
+    "signed-out account deletion performs zero network requests",
+    "transport calls only the authenticated deletion Edge Function",
+    "deletion transport sends publishable key and user JWT only",
+    "deletion transport requires the fixed explicit confirmation payload",
+    "unexpected deletion response fails closed",
+    "signed-out learner never sees account deletion action",
+    "signed-in learner sees explicit account deletion action only when backend action exists",
+    "successful deletion requires two confirmations and calls backend exactly once",
+    "successful deletion clears sync metadata and signs out this device",
+    "cancelled second destructive confirmation performs no deletion call",
+    "backend deletion failure preserves account and sync state",
+    "account deletion action is absent when runtime has no deletion backend"
+  ],
+  "cloudAccountDeletion": true,
+  "localDataPreserved": true,
+  "productionLoaded": false
+}

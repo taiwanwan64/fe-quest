@@ -1,0 +1,50 @@
+name: FE QUEST v342 account lifecycle
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/cloud-sync-v342/validate_account_lifecycle.py'
+      - '.github/workflows/cloud-sync-account-lifecycle-v342.yml'
+      - 'cloud/supabase/transport-v342.js'
+      - 'cloud/supabase/functions/fequest-delete-account-v342/**'
+      - 'cloud/supabase/v342_revoke_anon_rpc.sql'
+      - 'cloud/runtime-bootstrap-v342.js'
+      - 'cloud/sync-ui-v342.js'
+      - 'cloud/sync-ui-v342.css'
+      - 'audits/V342_ACCOUNT_LIFECYCLE.md'
+      - '_regression/account-lifecycle-v342.fixture.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'account-lifecycle-v342')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v342 account lifecycle branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate account lifecycle boundary
+        run: python3 .github/cloud-sync-v342/validate_account_lifecycle.py
+
+      - name: Verify reproducible lifecycle evidence and production isolation
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V342_ACCOUNT_LIFECYCLE.md _regression/account-lifecycle-v342.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          edge=Path('cloud/supabase/functions/fequest-delete-account-v342/index.ts').read_text()
+          shell=Path('app/base-shell-v341.html').read_text()
+          audit=Path('audits/V342_ACCOUNT_LIFECYCLE.md').read_text()
+          assert 'PASS — 12 / 12 ACCOUNT-LIFECYCLE CASES PASS' in audit
+          assert "withSupabase({ auth: 'user' }" in edge
+          assert 'ctx.supabaseAdmin.auth.admin.deleteUser(userId)' in edge
+          assert 'sb_secret_' not in edge and 'service_role_' not in edge
+          assert 'fequest-delete-account-v342' not in shell
+          print('V342_ACCOUNT_LIFECYCLE_REPRODUCIBLE_AND_PRODUCTION_DISABLED')
+          PY

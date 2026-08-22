@@ -6,6 +6,8 @@
 
   const RPC_NAME='fequest_commit_profile_v342';
   const TABLE='user_profiles';
+  const DELETE_ACCOUNT_FUNCTION='fequest-delete-account-v342';
+  const DELETE_ACCOUNT_CONFIRM='delete-fequest-account';
 
   function trimSlash(v){return String(v||'').replace(/\/+$/,'')}
   function safeMessage(value){return typeof value==='string'?value.slice(0,500):null}
@@ -124,10 +126,22 @@
       }
     }
 
-    return Object.freeze({provider:'supabase',rpcName:RPC_NAME,readProfile,commitProfile});
+    async function deleteAccount(){
+      const result=await request(`/functions/v1/${DELETE_ACCOUNT_FUNCTION}`,{
+        method:'POST',
+        body:JSON.stringify({confirm:DELETE_ACCOUNT_CONFIRM})
+      });
+      if(!result.ok)return result;
+      if(!result.data||result.data.ok!==true||result.data.status!=='deleted'){
+        return {ok:false,status:result.status,error:{kind:'provider',retryable:true,message:'Invalid account deletion response'}};
+      }
+      return {ok:true,status:result.status,response:{status:'deleted'}};
+    }
+
+    return Object.freeze({provider:'supabase',rpcName:RPC_NAME,readProfile,commitProfile,deleteAccount});
   }
 
-  const api=Object.freeze({RPC_NAME,TABLE,validatePublicConfig,createSupabaseTransport});
+  const api=Object.freeze({RPC_NAME,TABLE,DELETE_ACCOUNT_FUNCTION,DELETE_ACCOUNT_CONFIRM,validatePublicConfig,createSupabaseTransport});
   root.FEQUEST_SUPABASE_TRANSPORT_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
