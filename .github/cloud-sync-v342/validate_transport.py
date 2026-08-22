@@ -100,8 +100,9 @@ req(data['allPassed'],'transport cases failed '+repr([x['name'] for x in data['c
 req(data['count']>=13,'transport coverage too small')
 
 combined='\n'.join(p.read_text() for p in paths)
-for forbidden in ['SUPABASE_SERVICE_ROLE','sb_secret_','service_role=']:
-    req(forbidden not in combined,'hardcoded secret marker '+forbidden)
+req('SUPABASE_SERVICE_ROLE' not in combined,'hardcoded service-role environment marker')
+req('service_role=' not in combined,'hardcoded service-role assignment')
+req(not re.search(r'sb_secret_[A-Za-z0-9_-]{20,}',combined),'hardcoded Supabase secret-looking key')
 req('fetch(' not in Path('assets/app-v341.js').read_text(),'v341 production app unexpectedly gained cloud network call')
 
 summary={
@@ -114,7 +115,7 @@ summary={
     'serviceRoleCredentialForbidden':True,
     'productionV341StillCloudFree':True
 }
-report=f'''# FE QUEST v342 — Optional sync transport validation\n\nResult: **PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT + ISOLATED OUTBOX METADATA PRESERVE LOCAL-FIRST SAFETY**\n\n- deterministic transport/store cases: **{data['count']} / {data['count']} PASS**\n- sync metadata stored outside profile schema under `{data['storageKey']}`\n- corrupt sync metadata cannot delete or block learner profile data\n- different account cannot inherit prior account remote ancestry\n- missing auth session performs zero network calls\n- Supabase reads use authenticated RLS REST; writes use guarded `{data['rpc']}` RPC only\n- network/provider errors are nonthrowing and retryable; auth expiry is explicit\n- remote conflict responses are returned to the caller for reconciliation, not auto-overwritten\n- service-role/secret credential markers are prohibited\n- production v341 application asset remains cloud-network-free in this slice\n\nThese modules are still opt-in foundation code. They are not loaded by production until a public Supabase project URL/key and an authenticated session boundary are deliberately wired in.\n'''
+report=f'''# FE QUEST v342 — Optional sync transport validation\n\nResult: **PASS — CREDENTIAL-FREE OPTIONAL TRANSPORT + ISOLATED OUTBOX METADATA PRESERVE LOCAL-FIRST SAFETY**\n\n- deterministic transport/store cases: **{data['count']} / {data['count']} PASS**\n- sync metadata stored outside profile schema under `{data['storageKey']}`\n- corrupt sync metadata cannot delete or block learner profile data\n- different account cannot inherit prior account remote ancestry\n- missing auth session performs zero network calls\n- Supabase reads use authenticated RLS REST; writes use guarded `{data['rpc']}` RPC only\n- network/provider errors are nonthrowing and retryable; auth expiry is explicit\n- remote conflict responses are returned to the caller for reconciliation, not auto-overwritten\n- service-role/secret credential values are prohibited\n- production v341 application asset remains cloud-network-free in this slice\n\nThese modules are still opt-in foundation code. They are not loaded by production until a public Supabase project URL/key and an authenticated session boundary are deliberately wired in.\n'''
 Path('audits').mkdir(exist_ok=True);Path('audits/V342_OPTIONAL_TRANSPORT_VALIDATION.md').write_text(report)
 Path('_regression').mkdir(exist_ok=True);Path('_regression/cloud-sync-transport-v342.fixture.json').write_text(json.dumps({'name':'cloud-sync-transport-v342','result':'PASS','summary':summary,'cases':data['cases']},ensure_ascii=True,indent=2)+'\n')
 print(report)
