@@ -1,0 +1,94 @@
+{
+  "version": "v341-discovery",
+  "builtBytes": 3685589,
+  "headEndOffset": 232502,
+  "bodyStartOffset": 232510,
+  "bodyEndOffset": 2284978,
+  "styleTagCount": 1,
+  "stylePayloadBytes": 231671,
+  "styles": [
+    {
+      "order": 1,
+      "bytes": 231671,
+      "attrs": {},
+      "region": "head",
+      "sha256": "9ba822f0008fd28bbd09794d997bc34c9538394b71850b580cbadb6f70713f3e",
+      "prefix": " :root{ --bg:#f6f8fb; --panel:#ffffff; --text:#24313d; --muted:#758394; --line:#e8edf2; --green:#58cc02; --green-dark:#46a302; --green-soft:#efffe"
+    }
+  ],
+  "scriptTagCount": 1,
+  "inlineScriptCount": 1,
+  "classicInlineCount": 1,
+  "nonClassicInlineCount": 0,
+  "scriptPayloadBytes": 3359407,
+  "scripts": [
+    {
+      "order": 1,
+      "bytes": 3359407,
+      "attrs": {},
+      "type": "classic",
+      "src": null,
+      "inline": true,
+      "region": "body",
+      "sha256": "b6511551be4c36c57f71330f75011874ee2e6b72cc318ac09a8fbf73bfb7861b",
+      "prefix": " const screens = [...document.querySelectorAll('.screen')]; const navBtns = [...document.querySelectorAll('.nav-btn[data-screen]')]; const UI_STATE_KEY='fequest_ui_state_v2'; const SAFE_RESUME_SCREENS=new Set(['home','ma",
+      "hazards": {
+        "currentScript": false,
+        "documentWrite": false,
+        "importMeta": false,
+        "moduleSyntax": false,
+        "sourceURL": false
+      }
+    }
+  ],
+  "externalScriptCount": 0,
+  "payloadFreeHtmlEstimateBytes": 94548,
+  "allClassicInlineSameRegion": true,
+  "classicRegions": [
+    "body"
+  ],
+  "hazardCounts": {
+    "currentScript": 0,
+    "documentWrite": 0,
+    "importMeta": 0,
+    "moduleSyntax": 0,
+    "sourceURL": 0
+  },
+  "dataMarkers": [
+    {
+      "name": "QUESTION_BANK",
+      "occurrences": 178,
+      "firstOffset": 33712
+    },
+    {
+      "name": "LESSONS",
+      "occurrences": 41,
+      "firstOffset": 206250
+    },
+    {
+      "name": "CORE_A_CURRICULUM",
+      "occurrences": 19,
+      "firstOffset": 238330
+    },
+    {
+      "name": "B_EXERCISES",
+      "occurrences": 49,
+      "firstOffset": 1198633
+    },
+    {
+      "name": "SECURITY_SCENARIOS",
+      "occurrences": 51,
+      "firstOffset": 1199301
+    },
+    {
+      "name": "B_EXAM_ALGO_ITEMS",
+      "occurrences": 28,
+      "firstOffset": 1590443
+    },
+    {
+      "name": "B_COMPOUND_SETS",
+      "occurrences": 12,
+      "firstOffset": 1198956
+    }
+  ]
+}
