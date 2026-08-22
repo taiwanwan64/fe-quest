@@ -2,6 +2,25 @@ from pathlib import Path
 import hashlib,json,os,re,shutil,subprocess
 
 
+V342_CLOUD_RUNTIME_ASSETS=(
+  './cloud/activation-loader-v342.js',
+  './cloud/public-config-v342.js',
+  './cloud/sync-ui-v342.css',
+  './vendor/supabase/supabase-2.112.3.js',
+  './cloud/sync-contract-v342.js',
+  './cloud/sync-state-v342.js',
+  './cloud/sync-engine-v342.js',
+  './cloud/supabase/transport-v342.js',
+  './cloud/supabase/auth-boundary-v342.js',
+  './cloud/production-adapter-v342.js',
+  './cloud/reconciliation-v342.js',
+  './cloud/local-reconciliation-adapter-v342.js',
+  './cloud/sync-controller-v342.js',
+  './cloud/sync-ui-v342.js',
+  './cloud/runtime-bootstrap-v342.js'
+)
+
+
 def req(ok,msg):
     if not ok: raise AssertionError(msg)
 def sha_bytes(b): return hashlib.sha256(b).hexdigest()
@@ -31,6 +50,9 @@ def source_is_split(root,version):
     if not p['index'].exists():return False
     return f'{{% include_relative app/base-shell-{version}.html %}}' in p['index'].read_text()
 
+def cloud_runtime_assets(version):
+    return V342_CLOUD_RUNTIME_ASSETS if version=='v342' else ()
+
 def transform_shell(text,previous,version):
     replacements=[
       (f'<title>FE QUEST PWA {previous}</title>',f'<title>FE QUEST PWA {version}</title>'),
@@ -45,6 +67,13 @@ def transform_shell(text,previous,version):
     req(f'<title>FE QUEST PWA {version}</title>' in out,'target shell title')
     req(f'./assets/app-{version}.css' in out and f'./assets/app-{version}.js' in out,'target shell asset refs')
     req(f'FEQUEST_ASSET_RECOVERY_{version.upper()}_START' in out,'target recovery bootstrap marker')
+    if version=='v342':
+        app_tag=f'<script src="./assets/app-{version}.js"></script>'
+        activation_tag='<script src="./cloud/activation-loader-v342.js"></script>'
+        req(app_tag in out,'v342 core app script tag missing before cloud activation insertion')
+        req(activation_tag not in out,'v342 cloud activation loader unexpectedly already present')
+        out=out.replace(app_tag,app_tag+'\n'+activation_tag,1)
+        req(out.index(app_tag)<out.index(activation_tag),'v342 cloud activation must follow core application script')
     return out
 
 def transform_js(text,previous,version):
@@ -55,13 +84,16 @@ def transform_js(text,previous,version):
     return out
 
 def build_asset_manifest(root,previous,version,previous_manifest=None):
-    p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
+    root=Path(root);p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
+    cloud_assets=cloud_runtime_assets(version)
     execution={
-      'applicationScriptTagCount':1,'scriptType':'classic','scriptRegion':'body',
+      'applicationScriptTagCount':2 if cloud_assets else 1,'scriptType':'classic','scriptRegion':'body',
       'currentScript':False,'documentWrite':False,'importMeta':False,'moduleSyntax':False,
-      'orderPreserved':True,'assetRecoveryBootstrap':True,'recoveryMutatesLearningData':False
+      'orderPreserved':True,'assetRecoveryBootstrap':True,'recoveryMutatesLearningData':False,
+      'cloudActivationEntrypoint':'cloud/activation-loader-v342.js' if cloud_assets else None,
+      'cloudActivationFailOpen':True if cloud_assets else None
     }
-    return {
+    result={
       'version':version,
       'previousVersion':previous,
       'strategy':'versioned-split-shell-classic-script-stylesheet',
@@ -73,6 +105,21 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
       ],
       'executionContract':execution
     }
+    if cloud_assets:
+        cloud=[]
+        for rel in cloud_assets:
+            q=root/rel[2:];req(q.exists(),'v342 cloud runtime asset missing '+rel)
+            b=q.read_bytes();cloud.append({'path':rel[2:],'utf8Bytes':len(b),'sha256':sha_bytes(b)})
+        result['cloudActivation']={
+          'enabledByConfig':True,
+          'defaultConfigEnabled':False,
+          'entrypoint':'cloud/activation-loader-v342.js',
+          'sdk':'vendor/supabase/supabase-2.112.3.js',
+          'sameOriginOnly':True,
+          'precache':[x['path'] for x in cloud],
+          'assets':cloud
+        }
+    return result
 
 def materialize_tree(root,version,previous):
     root=Path(root);prev=paths(root,previous);target=paths(root,version)
@@ -114,6 +161,13 @@ def materialize_tree(root,version,previous):
       (f"'./assets/asset-manifest-{previous}.json'",f"'./assets/asset-manifest-{version}.json'")
     ]:
         req(old in w,'previous SW asset ref missing '+old);w=w.replace(old,new,1)
+    cloud_assets=cloud_runtime_assets(version)
+    if cloud_assets:
+        anchor="  './apple-touch-icon.png'\n];"
+        req(anchor in w,'service worker app-shell anchor missing for v342 cloud precache')
+        for rel in cloud_assets:req((root/rel[2:]).exists(),'service worker cloud precache source missing '+rel)
+        lines=',\n'.join(f"  '{rel}'" for rel in cloud_assets)
+        w=w.replace(anchor,"  './apple-touch-icon.png',\n"+lines+'\n];',1)
     for token in ['GET_VERSION','networkWithTimeout','staleWhileRevalidate',"request.headers.has('range')"]:req(token in w,'SW behavior '+token)
     target['sw'].write_text(w)
     return {'already_materialized':False,'files':target}
