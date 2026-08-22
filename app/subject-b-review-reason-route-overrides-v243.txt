@@ -13,7 +13,8 @@ const SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC=Object.freeze({
   scoringChanged:false,
   timingChanged:false,
   readinessChanged:false,
-  profileSchemaChanged:false
+  profileSchemaChanged:false,
+  v339Integration:'explicit-final-result-pipeline'
 });
 
 function subjectBFinalReviewTargetV243(detail,reason){
@@ -22,9 +23,7 @@ function subjectBFinalReviewTargetV243(detail,reason){
   return base;
 }
 
-const __renderBFinalResultBeforeV243=renderBFinalResult;
-renderBFinalResult=function(attempt,earned){
-  const out=__renderBFinalResultBeforeV243(attempt,earned);
+function applyBFinalReviewRouteV243(attempt){
   const wrong=(attempt?.details||[]).filter(d=>!d.ok);
   const buttons=[...document.querySelectorAll('[data-bfinalstudy]')];
   buttons.forEach((btn,i)=>{
@@ -41,8 +40,8 @@ renderBFinalResult=function(attempt,earned){
     };
     btn.dataset.bfinalRouteV243='compound';
   });
-  return out;
-};
+}
 
 globalThis.SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC=SUBJECT_B_REVIEW_REASON_ROUTE_V243_SPEC;
 globalThis.subjectBFinalReviewTargetV243=subjectBFinalReviewTargetV243;
+globalThis.applyBFinalReviewRouteV243=applyBFinalReviewRouteV243;
