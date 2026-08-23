@@ -8,6 +8,8 @@ on:
       - '.github/release/split_release_common.py'
       - '.github/release/runtime_stub.py'
       - '.github/workflows/v345-exam-pace-presentation.yml'
+      - '_regression/v345-exam-pace-presentation.fixture.json'
+      - 'audits/V345_EXAM_PACE_PRESENTATION.md'
       - 'assets/app-v344.js'
       - 'assets/app-v344.css'
       - 'app/base-shell-v344.html'
@@ -27,6 +29,19 @@ jobs:
           fetch-depth: 0
       - name: Validate v345 exam pace presentation
         run: python3 .github/v345/validate_exam_pace_presentation.py
+      - name: Verify reproducible evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V345_EXAM_PACE_PRESENTATION.md _regression/v345-exam-pace-presentation.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v345-exam-pace-presentation.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==44
+          assert fx['productionVersion']=='v344' and fx['targetVersion']=='v345' and fx['profileSchema']==5
+          assert 'PASS — 44 / 44 V345 EXAM-PACE CASES PASS' in Path('audits/V345_EXAM_PACE_PRESENTATION.md').read_text()
+          print('V345_EXAM_PACE_EVIDENCE_REPRODUCIBLE')
+          PY
       - name: Verify production v344 remains untouched
         shell: bash
         run: |
