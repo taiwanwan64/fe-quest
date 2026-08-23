@@ -1,0 +1,23 @@
+{
+  "name": "v343-weekly-trend-audit",
+  "result": "PASS",
+  "productionVersion": "v343",
+  "bundleUtf8Bytes": 3364023,
+  "bundleSha256": "efdb0a40a3616d4cf5296003be9976b2e39c528251fe19f573e0a6548ebe4ef3",
+  "attemptStreamSources": [
+    "profile.sessions[].log",
+    "profile.mockHistory[].details"
+  ],
+  "quizSessionRetention": 20,
+  "savedAttemptRowsPerQuizSession": 10,
+  "mockHistoryRetention": 10,
+  "normalizerReadCaps": {
+    "sessions": 3000,
+    "mockHistory": 100
+  },
+  "qStatsCanReconstructPriorWeek": false,
+  "twoCalendarWeekCompletenessGuaranteed": false,
+  "safeToWeightTodayPlanWithoutSchemaOrRetentionChange": false,
+  "recommendation": "do-not-add-weekly-trend-weighting-in-v343",
+  "productionRuntimeChanged": false
+}
