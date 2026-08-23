@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/v343/audit_adaptive_evidence.py'
       - '.github/workflows/v343-adaptive-evidence-discovery.yml'
+      - '_regression/v343-adaptive-evidence-discovery.fixture.json'
+      - 'audits/V343_ADAPTIVE_EVIDENCE_DISCOVERY.md'
       - 'assets/app-v342.js'
 
 permissions:
@@ -24,6 +26,31 @@ jobs:
 
       - name: Audit existing adaptive-learning evidence signals
         run: python3 .github/v343/audit_adaptive_evidence.py
+
+      - name: Verify documented evidence contract
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v343-adaptive-evidence-discovery.fixture.json').read_text())
+          assert fx['result']=='PASS'
+          assert fx['sourceVersion']=='v342' and fx['productionVersion']=='v342'
+          assert fx['profileSchemaChangeRequired'] is False
+          assert fx['questionStats']['hasAverageSeconds'] is True
+          assert fx['questionStats']['hasTimedAnswerCount'] is True
+          assert fx['subjectATiming']['practicePerQuestionSeconds'] is True
+          assert fx['subjectATiming']['mockPerQuestionSeconds'] is True
+          assert abs(sum(fx['currentCategoryPriorityWeights'].values())-1.0)<1e-9
+          assert fx['subjectBPrecedent']['usesMinimumSamples'] is True
+          assert fx['subjectBPrecedent']['requiresUniqueWeakLayer'] is True
+          assert fx['recommendedFirstImplementation']['schemaFree'] is True
+          assert fx['recommendedFirstImplementation']['doNotLetSlowTimingAloneForceARecommendation'] is True
+          audit=Path('audits/V343_ADAPTIVE_EVIDENCE_DISCOVERY.md').read_text()
+          assert 'schema-free first precision upgrade' in audit
+          assert 'minimum-sample gate' in audit
+          print('V343_ADAPTIVE_EVIDENCE_DOCUMENTED')
+          PY
 
       - name: Verify discovery does not modify production v342 files
         shell: bash
