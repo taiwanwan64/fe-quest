@@ -49,7 +49,7 @@ def function_spans():
             i+=1
     return found
 
-spans=function_spans()
+spans=function_spans();span_map={name:(a,b) for name,a,b in spans}
 relevant_tokens=[
  'qStats','mockQuestionStats','mockMistakeStats','bMockStats','bFinalStats','bFinalMistakeStats',
  'lastReason','mistake','reason','elapsed','duration','answerTime','responseTime','startedAt','lastSeen',
@@ -69,6 +69,18 @@ timing_patterns={
  'responseMs':r'responseMs','elapsedMs':r'elapsedMs'
 }
 containers=['qStats','mockQuestionStats','mockMistakeStats','bMockStats','bFinalStats','bFinalMistakeStats','techniqueStats']
+selected_functions=[
+ 'ensureQuestionProfile','adaptiveMemoryUpdate','gradeCurrentQuestion','finishQuizSession','finishMock',
+ 'mockAttemptDiagnostics','reasonForQuestion','categoryAnalytics','aggregateWeakReasons','recommendedPrescription',
+ 'analyticsAttemptStream','subjectBPerformanceStateV254','subjectBPerformanceRecordV254',
+ 'subjectBPerformanceSummaryV254','subjectBLocalLayerStatsV257','subjectBLocalAdaptiveRecommendationV257',
+ 'bFinalAutoDiagnosis','finishBFinal','buildTodayTasks','recentQuizRate'
+]
+function_bodies={}
+for name in selected_functions:
+    if name not in span_map:continue
+    a,b=span_map[name];body=re.sub(r'\s+',' ',js[a:b]).strip()
+    function_bodies[name]=body[:7000]
 
 report={
  'bundle':{'path':str(JS_PATH),'bytes':len(js.encode()),'sha256':hashlib.sha256(js.encode()).hexdigest()},
@@ -78,6 +90,8 @@ report={
  'lastReasonMentions':count(r'lastReason'),
  'mistakeReasonLikeMentions':count(r'(?:mistake|wrong|review)[A-Za-z_$]*Reason|reason[A-Za-z_$]*',re.I),
  'functionsWithEvidence':function_hits,
+ 'selectedFunctionBodies':function_bodies,
+ 'reasonContexts':{t:contexts(re.escape(t),radius=320,limit=5) for t in reason_terms if js.count(t)},
  'contexts':{
    'qStats':contexts(r'qStats',limit=10),
    'lastReason':contexts(r'lastReason',limit=12),
@@ -94,6 +108,8 @@ assert report['bundle']['bytes']>3_000_000
 assert report['containers']['qStats']['mentions']>0
 assert report['containers']['bFinalMistakeStats']['mentions']>0
 assert 'buildTodayTasks' in report['functionsWithEvidence'] or js.count('buildTodayTasks')>0
+assert 'adaptiveMemoryUpdate' in function_bodies and 'gradeCurrentQuestion' in function_bodies
+assert 'subjectBLocalAdaptiveRecommendationV257' in function_bodies
 
 print('V343_ADAPTIVE_EVIDENCE_DISCOVERY_BEGIN')
 print(json.dumps(report,ensure_ascii=False,indent=2))
