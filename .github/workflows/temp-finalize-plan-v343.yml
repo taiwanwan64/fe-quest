@@ -1,0 +1,36 @@
+name: FE QUEST one-shot v343 plan finalization
+
+on:
+  push:
+    branches: ['v343-plan-finalize']
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v343-plan-finalize
+          fetch-depth: 0
+      - name: Finalize source-of-truth plan
+        run: python3 .github/temp_finalize_plan_v343.py
+      - name: Verify v343 completion and v344 handoff
+        shell: bash
+        run: |
+          grep -F '現行アプリ: **v343**' FE_QUEST_DEVELOPMENT_PLAN.md
+          grep -F '次の計画バージョン: **v344**' FE_QUEST_DEVELOPMENT_PLAN.md
+          grep -F '### v343 — 適応学習の精度向上 ✅ 完了（2026-08-23）' FE_QUEST_DEVELOPMENT_PLAN.md
+          grep -F '次の正式タスクは v344「学習成果の見せ方」' FE_QUEST_DEVELOPMENT_PLAN.md
+          grep -F '{% include_relative app/base-shell-v343.html %}' index.html
+      - name: Commit only the finalized plan
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/temp_finalize_plan_v343.py .github/workflows/temp-finalize-plan-v343.yml
+          git add FE_QUEST_DEVELOPMENT_PLAN.md .github/temp_finalize_plan_v343.py .github/workflows/temp-finalize-plan-v343.yml
+          git commit -m 'Finalize v343 plan and hand off to v344'
+          git push origin HEAD:v343-plan-finalize
