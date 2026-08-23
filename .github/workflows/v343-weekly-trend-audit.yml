@@ -1,0 +1,31 @@
+name: FE QUEST v343 weekly trend audit
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v343/audit_weekly_trend.py'
+      - '.github/workflows/v343-weekly-trend-audit.yml'
+      - 'assets/app-v343.js'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: startsWith(github.head_ref, 'v343-weekly-trend-audit')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout weekly trend audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Audit existing dated history for two-week trend weighting
+        run: python3 .github/v343/audit_weekly_trend.py
+      - name: Verify audit-only scope
+        shell: bash
+        run: |
+          grep -F '{% include_relative app/base-shell-v343.html %}' index.html
+          grep -F "const APP_VERSION = 'v343';" sw.js
+          git diff --exit-code origin/main...HEAD -- index.html sw.js app/base-shell-v343.html assets/app-v343.css assets/app-v343.js assets/asset-manifest-v343.json cloud vendor/supabase/supabase-2.112.3.js
