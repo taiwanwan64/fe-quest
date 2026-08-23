@@ -1,0 +1,33 @@
+name: FE QUEST one-shot v344 report evidence finalization
+
+on:
+  push:
+    branches: ['v344-recent-learning-report']
+    paths:
+      - '.github/temp_finalize_v344_report_pr.py'
+      - '.github/workflows/temp-finalize-v344-report-pr.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v344-recent-learning-report
+          fetch-depth: 0
+      - name: Apply evidence and release-validator corrections
+        run: python3 .github/temp_finalize_v344_report_pr.py
+      - name: Validate Python syntax
+        run: python3 -m py_compile .github/v344/validate_recent_learning_report.py .github/release/release_validate_split.py
+      - name: Commit intended finalization only
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/temp_finalize_v344_report_pr.py .github/workflows/temp-finalize-v344-report-pr.yml
+          git add .github/v344/validate_recent_learning_report.py .github/release/release_validate_split.py .github/workflows/v344-recent-learning-report.yml .github/temp_finalize_v344_report_pr.py .github/workflows/temp-finalize-v344-report-pr.yml
+          git commit -m 'Make v344 report evidence reproducible'
+          git push origin HEAD:v344-recent-learning-report
