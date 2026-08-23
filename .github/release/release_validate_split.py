@@ -1,7 +1,7 @@
 from pathlib import Path
 from html.parser import HTMLParser
 import base64,hashlib,json,re,runpy,subprocess,tempfile
-from split_release_common import release_context,req,sha_bytes,ident,transform_shell,transform_js,cloud_runtime_assets
+from split_release_common import release_context,req,sha_bytes,ident,transform_shell,transform_css,transform_js,cloud_runtime_assets
 
 branch,version,number,previous=release_context()
 parent=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
@@ -26,9 +26,10 @@ for rel in [f'app/base-shell-{version}.html',f'assets/app-{version}.css',f'asset
 # Approved transform identity against previous main split release.
 prev_shell=subprocess.check_output(['git','show',parent+f':app/base-shell-{previous}.html']).decode()
 prev_css=subprocess.check_output(['git','show',parent+f':assets/app-{previous}.css'])
+prev_css_text=prev_css.decode()
 prev_js=subprocess.check_output(['git','show',parent+f':assets/app-{previous}.js']).decode()
 req(Path(f'app/base-shell-{version}.html').read_text()==transform_shell(prev_shell,previous,version),'target shell differs from approved transform')
-req(Path(f'assets/app-{version}.css').read_bytes()==prev_css,'mechanical CSS changed')
+req(Path(f'assets/app-{version}.css').read_text()==transform_css(prev_css_text,previous,version),'target CSS differs from approved transform contract')
 req(Path(f'assets/app-{version}.js').read_text()==transform_js(prev_js,previous,version),'target JS differs from approved transform contract')
 
 manifest=json.loads(Path(f'assets/asset-manifest-{version}.json').read_text())
@@ -129,7 +130,7 @@ fx=json.loads(fixture.read_text())
 fx['validation']={
  'status':'passed','candidate_reference_release_file_equality':True,
  'splitHtml':ident('_site/index.html'),'externalCss':ident(f'_site/assets/app-{version}.css'),'externalJs':ident(f'_site/assets/app-{version}.js'),
- 'mechanicalCssByteIdenticalToPrevious':True,'approvedJsTransformContract':True,
+ 'mechanicalCssByteIdenticalToPrevious':Path(f'assets/app-{version}.css').read_bytes()==prev_css,'approvedCssTransformContract':True,'approvedJsTransformContract':True,
  'v342SafariFirstRunDateSizing':number>=342,'safariFirstRunDateSizing':number>=342,
  'cloudRuntimeInherited':bool(cloud_assets),'mechanicalShellOnlyVersionedDistributionRefsChanged':True,
  'questionCount':710,'answerDistribution':[178,178,177,177],'cognitiveDistribution':[166,323,221],

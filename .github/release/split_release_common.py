@@ -23,6 +23,7 @@ CLOUD_RUNTIME_INTRODUCED_AT=342
 CLOUD_ACTIVATION_ENTRYPOINT='./cloud/activation-loader-v342.js'
 CLOUD_PUBLIC_CONFIG_PATH='cloud/public-config-v342.js'
 V343_ADAPTIVE_PRECISION_SOURCE='app/adaptive-precision-v343.js'
+V344_LEARNING_OUTCOMES_SOURCE='app/learning-outcomes-v344.js'
 
 
 def req(ok,msg):
@@ -90,6 +91,22 @@ def transform_shell(text,previous,version):
             out=out.replace(app_tag,app_tag+'\n'+activation_tag,1)
         req(out.count(activation_tag)==1,'cloud activation loader must appear exactly once')
         req(out.index(app_tag)<out.index(activation_tag),'cloud activation must follow core application script')
+    if version=='v344':
+        report_anchor='      <div class="analytics-card analytics-priority-card">'
+        req(report_anchor in out,'v344 analytics priority anchor missing')
+        req('id="analyticsOutcomeReport"' not in out,'v344 learning outcome report unexpectedly already materialized')
+        report='''      <div class="analytics-card v344-outcome-card" id="analyticsOutcomeReport">
+        <div class="analytics-card-head"><div><h2>最近の学習レポート</h2><div class="sub">保存されている学習記録の範囲で、最近の成果と次の重点をまとめます。</div></div></div>
+        <div class="v344-outcome-grid">
+          <div class="v344-outcome-item"><span>学習ペース</span><b id="analyticsOutcomeActivity">0分 / 0日</b><small id="analyticsOutcomeActivityNote">直近7日の記録から集計します。</small></div>
+          <div class="v344-outcome-item"><span>最近伸びた分野</span><b id="analyticsOutcomeGrowth">比較データを集めています</b><small id="analyticsOutcomeGrowthNote">保存済み回答の範囲で比較します。</small></div>
+          <div class="v344-outcome-item"><span>次に伸ばすポイント</span><b id="analyticsOutcomeNext">演習データを集める</b><small id="analyticsOutcomeNextNote">現在の学習記録から案内します。</small></div>
+        </div>
+        <div class="v344-outcome-evidence-note">正答率の変化は「直近の保存済み回答」と「その前の保存済み回答」を比べます。今週と先週の完全な成績比較ではありません。</div>
+      </div>
+'''
+        out=out.replace(report_anchor,report+report_anchor,1)
+        req(out.count('id="analyticsOutcomeReport"')==1,'v344 learning outcome report must appear exactly once')
     return out
 def replace_named_function(text,name,replacement):
     m=re.search(rf'\bfunction\s+{re.escape(name)}\s*\([^)]*\)\s*\{{',text)
@@ -111,6 +128,27 @@ def replace_named_function(text,name,replacement):
                     return text[:m.start()]+replacement.strip()+text[end:]
         i+=1
     raise AssertionError('unterminated named function '+name)
+def transform_css(text,previous,version):
+    out=text
+    if version=='v344':
+        marker='/* ===== v344: bounded learning outcome report ===== */'
+        req(marker not in out,'v344 learning outcome CSS unexpectedly already materialized')
+        block='''
+
+/* ===== v344: bounded learning outcome report ===== */
+.v344-outcome-card{border-color:#d9e6ec;background:linear-gradient(180deg,#fff 0%,#fbfdfe 100%)}
+.v344-outcome-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.v344-outcome-item{min-width:0;border:1px solid #e1e8ec;border-radius:15px;background:#fff;padding:13px}
+.v344-outcome-item span{display:block;font-size:14px;color:var(--muted);font-weight:900;margin-bottom:5px}
+.v344-outcome-item b{display:block;font-size:17px;line-height:1.45;color:#17324a;overflow-wrap:anywhere}
+.v344-outcome-item small{display:block;font-size:14px;line-height:1.55;color:#5f7383;margin-top:5px}
+.v344-outcome-evidence-note{font-size:14px;line-height:1.6;color:#667887;margin-top:10px}
+@media(max-width:700px){.v344-outcome-grid{grid-template-columns:1fr}.v344-outcome-item{padding:12px}}
+'''
+        out=out.rstrip()+block+'\n'
+        req(out.count(marker)==1,'v344 learning outcome CSS must appear exactly once')
+    return out
+
 def transform_js(text,previous,version,feature_source=None):
     old=f"const APP_VERSION = '{previous}';";new=f"const APP_VERSION = '{version}';"
     req(old in text,'previous APP_VERSION missing from split JS')
@@ -131,6 +169,14 @@ def transform_js(text,previous,version,feature_source=None):
         out=replace_named_function(out,'recommendedPrescription',feature)
         req(out.count('const V343_ADAPTIVE_PRECISION_SPEC=')==1,'v343 adaptive precision must be injected exactly once')
         req(out.count('function recommendedPrescription()')==1,'v343 recommended prescription replacement must be unique')
+    if version=='v344':
+        feature=feature_source if feature_source is not None else Path(V344_LEARNING_OUTCOMES_SOURCE).read_text()
+        req('V344_LEARNING_OUTCOMES_SPEC' in feature,'v344 learning outcomes source marker missing')
+        req('V344_LEARNING_OUTCOMES_SPEC' not in out,'v344 learning outcomes unexpectedly already materialized')
+        out=replace_named_function(out,'renderLearningAnalytics',feature)
+        req(out.count('const V344_LEARNING_OUTCOMES_SPEC=')==1,'v344 learning outcomes must be injected exactly once')
+        req(out.count('function renderLearningAnalytics()')==1,'v344 analytics render replacement must be unique')
+        req(out.count('function learningOutcomeReportDecisionV344(')==1,'v344 report decision helper must be unique')
     return out
 def build_asset_manifest(root,previous,version,previous_manifest=None):
     root=Path(root);p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
@@ -161,6 +207,15 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
         result['adaptivePrecision']={
           'version':'v343','sourcePath':V343_ADAPTIVE_PRECISION_SOURCE,
           'utf8Bytes':len(feature_b),'sha256':sha_bytes(feature_b),'profileSchemaChange':False
+        }
+    if version=='v344':
+        feature_path=root/V344_LEARNING_OUTCOMES_SOURCE
+        req(feature_path.exists(),'v344 learning outcomes source missing')
+        feature_b=feature_path.read_bytes()
+        result['learningOutcomes']={
+          'version':'v344','sourcePath':V344_LEARNING_OUTCOMES_SOURCE,
+          'utf8Bytes':len(feature_b),'sha256':sha_bytes(feature_b),'profileSchemaChange':False,
+          'evidenceBasis':'bounded-recorded-answers-and-calendar-activity'
         }
     if cloud_assets:
         cloud=[]
@@ -195,8 +250,10 @@ def materialize_tree(root,version,previous):
 
     target['shell'].parent.mkdir(parents=True,exist_ok=True);target['css'].parent.mkdir(parents=True,exist_ok=True)
     target['shell'].write_text(transform_shell(prev['shell'].read_text(),previous,version))
-    shutil.copyfile(prev['css'],target['css'])
-    feature_source=(root/V343_ADAPTIVE_PRECISION_SOURCE).read_text() if version=='v343' else None
+    target['css'].write_text(transform_css(prev['css'].read_text(),previous,version))
+    feature_source=None
+    if version=='v343':feature_source=(root/V343_ADAPTIVE_PRECISION_SOURCE).read_text()
+    elif version=='v344':feature_source=(root/V344_LEARNING_OUTCOMES_SOURCE).read_text()
     target['js'].write_text(transform_js(prev['js'].read_text(),previous,version,feature_source))
     target['asset_manifest'].write_text(json.dumps(build_asset_manifest(root,previous,version,{
       'version':previous,
