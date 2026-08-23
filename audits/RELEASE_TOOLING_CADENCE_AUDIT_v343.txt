@@ -1,0 +1,33 @@
+FE QUEST v343 — Split Release Tooling Cadence Audit
+===========================================================
+
+Target
+------
+Branch: v343-staging
+Version: v343
+Previous: v342
+Parent main: 66e55d72beb2a46b9149c099a40536e8c0e52b82
+
+Candidate
+---------
+Versionless split tooling derives the target from vNNN-staging.
+The v341+ distribution remains a small root include + versioned base shell + external CSS/classic JS + asset manifest.
+Previous release split assets are byte-identical to origin/main before materialization.
+CSS is copied byte-exact; application JS advances APP_VERSION while preserving the Safari native date sizing correction introduced in v342.
+The cloud runtime introduced in v342 is inherited by later releases until deliberately superseded.
+Service Worker cache names and versioned app asset paths advance while cloud runtime precache entries remain exactly once.
+
+Validation status
+-----------------
+PASSED real Jekyll candidate/reference + external-JS runtime validation
+
+Validated
+---------
+Candidate/reference release files: byte equal
+Question bank: 710; answers 178/178/177/177; cognitive 166/323/221
+Current contract: 71/71; browser UI contract: 23
+Subject B semantics: OK; runtime contract failures: 0
+Fresh first-run contract: preserved
+Safari native date-input sizing correction: preserved
+Cloud runtime continuity: preserved
+Split assets: service-worker precached; recovery bootstrap non-destructive
