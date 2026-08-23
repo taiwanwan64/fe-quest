@@ -72,5 +72,21 @@ rec('simulation leaves v343 production untouched',all(Path(k).read_bytes()==v fo
 rec('production root remains v343',b'base-shell-v343.html' in Path('index.html').read_bytes())
 report={'name':'v344-recent-learning-report','result':'PASS','caseCount':len(cases),'productionVersion':'v343','targetVersion':'v344','profileSchema':5,'validatedCases':[x['name'] for x in cases]}
 Path('_regression/v344-recent-learning-report.fixture.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
-Path('audits/V344_RECENT_LEARNING_REPORT.md').write_text(f'# FE QUEST v344 — Recent learning report\n\nResult: **PASS — {len(cases)} / {len(cases)} V344 REPORT CASES PASS**\n\nDisplay-only report using calendar-indexed activity plus bounded recorded-answer windows with exact sample counts. No profile schema or learner-data write change. Production remains v343 during validation.\n')
+Path('audits/V344_RECENT_LEARNING_REPORT.md').write_text(f'''# FE QUEST v344 — Recent learning report
+
+Result: **PASS — {len(cases)} / {len(cases)} V344 REPORT CASES PASS**
+
+The v344 candidate adds one compact, display-only "最近の学習レポート" card near the top of the existing learning analytics screen.
+
+The report separates two kinds of evidence deliberately:
+
+- learning pace uses calendar-indexed activity and can state the last 7 days of recorded learning time / active days;
+- category improvement uses bounded saved-answer windows, exposes the actual recent/previous sample counts, and explicitly does not claim a complete week-vs-week comparison.
+
+An increase smaller than 8 points is not labelled as meaningful growth. The next-focus summary keeps the existing priority: an active review journey first, otherwise the weakest attempted category by cumulative accuracy/mastery. No additional learner-data write, profile field, or pass-probability representation is introduced.
+
+Validation preserved the 710-question bank, answer distribution `[178,178,177,177]`, cognitive distribution `[166,323,221]`, Subject B semantics, fresh first-run, current contract 71/71, Browser UI contract 23, runtime contract failures 0, profile schema v5, v342 cloud runtime continuity, and production v343 source bytes.
+
+Production remains **v343** during this candidate validation.
+''')
 print(f'PASS — {len(cases)}/{len(cases)} V344 RECENT LEARNING REPORT CASES PASS')
