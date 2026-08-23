@@ -18,11 +18,29 @@ for needle in needles:
         if len(loc)>=12: break
     occ[needle]=loc
 
-# collect compact surrounding snippets by line for relevant Japanese strings and likely render funcs
 lines=js.splitlines()
 def around(line_no,radius=5):
     a=max(1,line_no-radius);b=min(len(lines),line_no+radius)
     return {'start':a,'end':b,'text':'\n'.join(f'{i}: {lines[i-1]}' for i in range(a,b+1))}
+
+def extract_named_function(src,name):
+    m=re.search(rf'\bfunction\s+{re.escape(name)}\s*\([^)]*\)\s*\{{',src)
+    if not m:return None
+    i=m.end()-1;depth=0;quote=None;esc=False
+    while i<len(src):
+        ch=src[i]
+        if quote:
+            if esc:esc=False
+            elif ch=='\\':esc=True
+            elif ch==quote:quote=None
+        else:
+            if ch in "'\"`":quote=ch
+            elif ch=='{':depth+=1
+            elif ch=='}':
+                depth-=1
+                if depth==0:return src[m.start():i+1]
+        i+=1
+    raise RuntimeError(name)
 
 snips=[]
 seen=set()
@@ -31,7 +49,6 @@ for needle in ['次に伸ばすポイント','学習分析','準備度']:
         if ln not in seen:
             snips.append({'needle':needle,**around(ln,6)});seen.add(ln)
 
-# inspect declarations of interesting funcs only, first line + nearby lines
 func_snips=[]
 for n in interesting[:80]:
     m=re.search(rf'\bfunction\s+{re.escape(n)}\s*\([^)]*\)\s*\{{',js)
@@ -39,11 +56,32 @@ for n in interesting[:80]:
     ln=js.count('\n',0,m.start())+1
     func_snips.append(around(ln,3))
 
-# identify candidate DOM ids/classes in shell containing analytics/profile/insight terminology
 ids=re.findall(r'\bid=["\']([^"\']+)["\']',shell)
 classes=re.findall(r'\bclass=["\']([^"\']+)["\']',shell)
 candidate_ids=[x for x in ids if re.search(r'analytics|analysis|profile|progress|insight|readiness',x,re.I)]
 candidate_classes=sorted({c for group in classes for c in group.split() if re.search(r'analytics|analysis|profile|progress|insight|readiness',c,re.I)})
+
+# Exact existing analytics implementation and markup location, to choose a no-wrapper integration hook.
+exact_funcs={n:extract_named_function(js,n) for n in [
+  'analyticsAttemptStream','analyticsTrend','analyticsCategorySnapshot','renderAnalyticsSignals','renderAnalyticsNext','renderLearningAnalytics'
+]}
+
+shell_lines=shell.splitlines()
+def shell_region_for_id(id_,radius=24):
+    for i,line in enumerate(shell_lines,1):
+        if f'id="{id_}"' in line or f"id='{id_}'" in line:
+            a=max(1,i-radius);b=min(len(shell_lines),i+radius)
+            return {'start':a,'end':b,'text':'\n'.join(f'{n}: {shell_lines[n-1]}' for n in range(a,b+1))}
+    return None
+
+# Existing analytics CSS block(s), compactly extracted around selectors.
+css_lines=css.splitlines()
+css_regions=[]
+for i,line in enumerate(css_lines,1):
+    if '.analytics-summary' in line or '.analytics-next' in line or '.analytics-grid-top' in line:
+        a=max(1,i-4);b=min(len(css_lines),i+18)
+        text='\n'.join(f'{n}: {css_lines[n-1]}' for n in range(a,b+1))
+        if text not in [x['text'] for x in css_regions]:css_regions.append({'start':a,'end':b,'text':text})
 
 out={
  'bundle':{'bytes':len(js.encode()),'sha256':hashlib.sha256(js.encode()).hexdigest(),'functionCount':len(names)},
@@ -53,6 +91,9 @@ out={
  'candidateClasses':candidate_classes,
  'stringSnippets':snips,
  'functionSnippets':func_snips,
+ 'exactFunctions':exact_funcs,
+ 'analyticsShellRegion':shell_region_for_id('analyticsSummary',35),
+ 'analyticsCssRegions':css_regions[:8],
 }
 print('V344_OUTCOMES_DISCOVERY_BEGIN')
 print(json.dumps(out,ensure_ascii=False,indent=2))
