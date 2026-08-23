@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/v343/audit_weekly_trend.py'
       - '.github/workflows/v343-weekly-trend-audit.yml'
+      - '_regression/v343-weekly-trend-audit.fixture.json'
+      - 'audits/V343_WEEKLY_TREND_AUDIT.md'
       - 'assets/app-v343.js'
 
 permissions:
@@ -23,6 +25,22 @@ jobs:
           fetch-depth: 0
       - name: Audit existing dated history for two-week trend weighting
         run: python3 .github/v343/audit_weekly_trend.py
+      - name: Verify recorded decision evidence
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v343-weekly-trend-audit.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['productionVersion']=='v343'
+          assert fx['quizSessionRetention']==20 and fx['savedAttemptRowsPerQuizSession']==10 and fx['mockHistoryRetention']==10
+          assert fx['twoCalendarWeekCompletenessGuaranteed'] is False
+          assert fx['safeToWeightTodayPlanWithoutSchemaOrRetentionChange'] is False
+          assert fx['recommendation']=='do-not-add-weekly-trend-weighting-in-v343'
+          text=Path('audits/V343_WEEKLY_TREND_AUDIT.md').read_text()
+          assert 'do not add weekly trend weighting to v343' in text
+          print('V343_WEEKLY_TREND_DECISION_EVIDENCE_REPRODUCIBLE')
+          PY
       - name: Verify audit-only scope
         shell: bash
         run: |
