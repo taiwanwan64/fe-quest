@@ -26,13 +26,13 @@ function examPaceOutcomeDecisionV345(p={}){
       state:'taper',tone:'good',icon:phaseIcon,
       title:reduced?`直前調整：${baseline}→${effective}分/日`:`直前調整：${effective}分/日`,
       detail:reduced
-        ? `${phase}・${when}。追い込みで増やさず、通常クエストを${cap}分上限へ段階的に抑えています。FE QUEST内の残り学習量を全部消化する時期ではありません。`
-        : `${phase}・${when}。現在の設定${baseline}分/日は直前期上限${cap}分以内です。負荷を増やさず、既習範囲の確認を優先します。`
+        ? `${phase}・${when}。追い込みで増やさず、通常クエストを${cap}分上限へ段階的に抑えています。FE QUEST内の残り学習量を全部消化する時期ではありません。この表示は合格確率ではありません。`
+        : `${phase}・${when}。現在の設定${baseline}分/日は直前期上限${cap}分以内です。負荷を増やさず、既習範囲の確認を優先します。この表示は合格確率ではありません。`
     };
   }
   const remaining=Math.max(0,Number(p?.remaining)||0);
   if(remaining<=0){
-    return {state:'complete',tone:'good',icon:'✅',title:'主要メニューは完了済み',detail:`${phase}・${when}。新しい詰め込みより、復習と実戦確認を優先してください。`};
+    return {state:'complete',tone:'good',icon:'✅',title:'主要メニューは完了済み',detail:`${phase}・${when}。新しい詰め込みより、復習と実戦確認を優先してください。この表示は合格確率ではありません。`};
   }
   const required=Math.max(0,Math.ceil(Number(p?.required)||0));
   const current=Math.max(0,Math.round(Number(p?.currentPace)||0));
@@ -55,7 +55,7 @@ function examPaceOutcomeDecisionV345(p={}){
   }
   return {
     state:'pace',tone,icon:phaseIcon,
-    title:`必要${required}分 / 現在${current}分`,
+    title:`必要${required}分/日・現在${current}分/日`,
     detail:`${phase}・${when}。${statusCopy[p?.status]||statusCopy.ok}${source}。${adjustment}必要ペースはFE QUEST内の推奨メニュー消化の目安で、合格確率ではありません。`
   };
 }
