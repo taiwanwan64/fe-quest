@@ -1,0 +1,14 @@
+name: FE QUEST v345 discover exam pace renderer
+on:
+  push:
+    branches: ['v345-exam-pace-presentation']
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v345-exam-pace-presentation
+      - run: python3 .github/v345/discover_exam_pace_renderer.py
