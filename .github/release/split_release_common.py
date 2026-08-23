@@ -19,6 +19,9 @@ V342_CLOUD_RUNTIME_ASSETS=(
   './cloud/sync-ui-v342.js',
   './cloud/runtime-bootstrap-v342.js'
 )
+CLOUD_RUNTIME_INTRODUCED_AT=342
+CLOUD_ACTIVATION_ENTRYPOINT='./cloud/activation-loader-v342.js'
+CLOUD_PUBLIC_CONFIG_PATH='cloud/public-config-v342.js'
 
 
 def req(ok,msg):
@@ -26,6 +29,9 @@ def req(ok,msg):
 def sha_bytes(b): return hashlib.sha256(b).hexdigest()
 def ident(path):
     p=Path(path);b=p.read_bytes();return {'path':p.as_posix(),'utf8_bytes':len(b),'sha256':sha_bytes(b)}
+def version_number(version):
+    m=re.fullmatch(r'v(\d+)',str(version));req(m is not None,'version must match vNNN')
+    return int(m.group(1))
 def release_context():
     branch=os.environ.get('GITHUB_REF_NAME') or subprocess.check_output(['git','branch','--show-current'],text=True).strip()
     m=re.fullmatch(r'(v(\d+))-staging',branch)
@@ -49,15 +55,17 @@ def source_is_split(root,version):
     if not p['index'].exists():return False
     return f'{{% include_relative app/base-shell-{version}.html %}}' in p['index'].read_text()
 def cloud_runtime_assets(version):
-    return V342_CLOUD_RUNTIME_ASSETS if version=='v342' else ()
+    # v342 introduced the current cloud implementation. Later app releases inherit the
+    # same pinned runtime until a deliberately versioned cloud runtime supersedes it.
+    return V342_CLOUD_RUNTIME_ASSETS if version_number(version)>=CLOUD_RUNTIME_INTRODUCED_AT else ()
 def cloud_public_config(root,version):
-    if version!='v342':return {'enabled':False,'redirectTo':None}
-    q=Path(root)/'cloud/public-config-v342.js';req(q.exists(),'v342 public cloud config missing')
+    if version_number(version)<CLOUD_RUNTIME_INTRODUCED_AT:return {'enabled':False,'redirectTo':None}
+    q=Path(root)/CLOUD_PUBLIC_CONFIG_PATH;req(q.exists(),'cloud public config missing')
     text=q.read_text()
     enabled=re.search(r'\benabled\s*:\s*true\b',text) is not None
     m=re.search(r"\bredirectTo\s*:\s*'([^']+)'",text)
     redirect=m.group(1) if m else None
-    if enabled:req(redirect is not None and redirect.startswith('https://'),'enabled v342 cloud config requires https redirect')
+    if enabled:req(redirect is not None and redirect.startswith('https://'),'enabled cloud config requires https redirect')
     return {'enabled':enabled,'redirectTo':redirect,'sha256':sha_bytes(q.read_bytes())}
 def transform_shell(text,previous,version):
     replacements=[
@@ -73,28 +81,28 @@ def transform_shell(text,previous,version):
     req(f'<title>FE QUEST PWA {version}</title>' in out,'target shell title')
     req(f'./assets/app-{version}.css' in out and f'./assets/app-{version}.js' in out,'target shell asset refs')
     req(f'FEQUEST_ASSET_RECOVERY_{version.upper()}_START' in out,'target recovery bootstrap marker')
-    if version=='v342':
+    if cloud_runtime_assets(version):
         app_tag=f'<script src="./assets/app-{version}.js"></script>'
-        activation_tag='<script src="./cloud/activation-loader-v342.js"></script>'
-        req(app_tag in out,'v342 core app script tag missing before cloud activation insertion')
-        req(activation_tag not in out,'v342 cloud activation loader unexpectedly already present')
-        out=out.replace(app_tag,app_tag+'\n'+activation_tag,1)
-        req(out.index(app_tag)<out.index(activation_tag),'v342 cloud activation must follow core application script')
+        activation_tag=f'<script src="{CLOUD_ACTIVATION_ENTRYPOINT}"></script>'
+        req(app_tag in out,'cloud-enabled release core app script tag missing')
+        if activation_tag not in out:
+            out=out.replace(app_tag,app_tag+'\n'+activation_tag,1)
+        req(out.count(activation_tag)==1,'cloud activation loader must appear exactly once')
+        req(out.index(app_tag)<out.index(activation_tag),'cloud activation must follow core application script')
     return out
 def transform_js(text,previous,version):
     old=f"const APP_VERSION = '{previous}';";new=f"const APP_VERSION = '{version}';"
     req(old in text,'previous APP_VERSION missing from split JS')
     out=text.replace(old,new,1)
     req(new in out,'target APP_VERSION missing from split JS')
-    if version=='v342':
+    if version_number(version)>=CLOUD_RUNTIME_INTRODUCED_AT:
         # WebKit 301648: on iOS 26, padded date/time controls can calculate width:100%
-        # wider than their containing block. Preserve the native picker, but avoid percentage
-        # width on the date control itself and let the already-clamped grid contain it.
+        # wider than their containing block. v342 introduced this native-picker-preserving
+        # correction; later releases must inherit it rather than reverting to percentage width.
         old_date='#firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;'
         new_date='#firstRunExperienceV340 input[type=date]{width:auto;inline-size:auto;min-width:0;min-inline-size:0;max-width:100%;max-inline-size:100%;display:block;box-sizing:border-box;-webkit-min-logical-width:0;justify-self:stretch;align-self:stretch;overflow:hidden;min-height:46px;'
-        req(old_date in out,'v342 first-run date style anchor missing')
-        out=out.replace(old_date,new_date,1)
-        req(new_date in out,'v342 Safari first-run date sizing hotfix missing')
+        if old_date in out:out=out.replace(old_date,new_date,1)
+        req(new_date in out,'Safari first-run date sizing correction missing')
     return out
 def build_asset_manifest(root,previous,version,previous_manifest=None):
     root=Path(root);p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
@@ -103,7 +111,7 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
       'applicationScriptTagCount':2 if cloud_assets else 1,'scriptType':'classic','scriptRegion':'body',
       'currentScript':False,'documentWrite':False,'importMeta':False,'moduleSyntax':False,
       'orderPreserved':True,'assetRecoveryBootstrap':True,'recoveryMutatesLearningData':False,
-      'cloudActivationEntrypoint':'cloud/activation-loader-v342.js' if cloud_assets else None,
+      'cloudActivationEntrypoint':CLOUD_ACTIVATION_ENTRYPOINT[2:] if cloud_assets else None,
       'cloudActivationFailOpen':True if cloud_assets else None
     }
     result={
@@ -121,7 +129,7 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
     if cloud_assets:
         cloud=[]
         for rel in cloud_assets:
-            q=root/rel[2:];req(q.exists(),'v342 cloud runtime asset missing '+rel)
+            q=root/rel[2:];req(q.exists(),'cloud runtime asset missing '+rel)
             b=q.read_bytes();cloud.append({'path':rel[2:],'utf8Bytes':len(b),'sha256':sha_bytes(b)})
         public_config=cloud_public_config(root,version)
         result['cloudActivation']={
@@ -129,7 +137,7 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
           'defaultConfigEnabled':public_config['enabled'],
           'configuredRedirectTo':public_config['redirectTo'],
           'publicConfigSha256':public_config['sha256'],
-          'entrypoint':'cloud/activation-loader-v342.js',
+          'entrypoint':CLOUD_ACTIVATION_ENTRYPOINT[2:],
           'sdk':'vendor/supabase/supabase-2.112.3.js',
           'sameOriginOnly':True,
           'precache':[x['path'] for x in cloud],
@@ -178,11 +186,16 @@ def materialize_tree(root,version,previous):
         req(old in w,'previous SW asset ref missing '+old);w=w.replace(old,new,1)
     cloud_assets=cloud_runtime_assets(version)
     if cloud_assets:
-        anchor="  './apple-touch-icon.png'\n];"
-        req(anchor in w,'service worker app-shell anchor missing for v342 cloud precache')
         for rel in cloud_assets:req((root/rel[2:]).exists(),'service worker cloud precache source missing '+rel)
-        lines=',\n'.join(f"  '{rel}'" for rel in cloud_assets)
-        w=w.replace(anchor,"  './apple-touch-icon.png',\n"+lines+'\n];',1)
+        missing=[rel for rel in cloud_assets if f"'{rel}'" not in w]
+        if missing:
+            app_shell_start=w.find('const APP_SHELL = [');close=w.find('\n];',app_shell_start)
+            req(app_shell_start>=0 and close>app_shell_start,'service worker app-shell closing anchor missing')
+            before=w[:close].rstrip()
+            if not before.endswith(','):before+=','
+            addition='\n'+',\n'.join(f"  '{rel}'" for rel in missing)
+            w=before+addition+w[close:]
+        for rel in cloud_assets:req(w.count(f"'{rel}'")==1,'service worker cloud asset must be precached exactly once '+rel)
     for token in ['GET_VERSION','networkWithTimeout','staleWhileRevalidate',"request.headers.has('range')"]:req(token in w,'SW behavior '+token)
     target['sw'].write_text(w)
     return {'already_materialized':False,'files':target}
