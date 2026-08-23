@@ -1,0 +1,109 @@
+{
+  "name": "release-tooling-cadence-v345",
+  "version": "v345",
+  "scope": "validate-versionless-split-release-tooling-against-mechanical-reference",
+  "branch": "v345-staging",
+  "parent_main_sha": "b398f442b6c0753bd1b0b0d9c369a8993cbaf4bd",
+  "previous_version": "v344",
+  "outer_shell": {
+    "strategy": "versioned-split-static-assets",
+    "files": [
+      "index.html",
+      "manifest.webmanifest",
+      "sw.js",
+      "app/base-shell-v345.html",
+      "assets/app-v345.css",
+      "assets/app-v345.js",
+      "assets/asset-manifest-v345.json"
+    ]
+  },
+  "previous_split_identity": {
+    "shell": {
+      "path": "app/base-shell-v344.html",
+      "utf8_bytes": 97418,
+      "sha256": "09501dbe2146968c0e311a6d30d47e2d78bd4428fc08c0ca883054e1d2b03bba"
+    },
+    "css": {
+      "path": "assets/app-v344.css",
+      "utf8_bytes": 232524,
+      "sha256": "feecf79bd436418d7dd71687e701210ae449f3c20ff45f4c4451c7ce062eb36e"
+    },
+    "js": {
+      "path": "assets/app-v344.js",
+      "utf8_bytes": 3368505,
+      "sha256": "314c1d98ee651c87547a57079b6e8a1f8ddf1edf6d880fabf1a8a9d7e9eb86b0"
+    },
+    "asset_manifest": {
+      "path": "assets/asset-manifest-v344.json",
+      "utf8_bytes": 5535,
+      "sha256": "b7885dcdcccf20fa8336014634f26c1c44fc856784854a5ba776307ad245c352"
+    }
+  },
+  "target_split_identity": {
+    "shell": {
+      "path": "app/base-shell-v345.html",
+      "utf8_bytes": 97891,
+      "sha256": "6f1b0bd65ee807221d7081140783d456c8a267f132cbe350d28537deeb45efef"
+    },
+    "css": {
+      "path": "assets/app-v345.css",
+      "utf8_bytes": 233647,
+      "sha256": "62fe8f371d5c050596f89feeca8151ab9a7623f534e67af13e11d9af53d48518"
+    },
+    "js": {
+      "path": "assets/app-v345.js",
+      "utf8_bytes": 3372792,
+      "sha256": "daba34060342a659b24f08254c98790b54a44e3652d1bc5ac96ce4c96d153f9f"
+    },
+    "asset_manifest": {
+      "path": "assets/asset-manifest-v345.json",
+      "utf8_bytes": 5559,
+      "sha256": "e90f8e8f6a4ee21814efdb2fdafb4c8adf08a4f3859a13dc8aa1e12b55bf4d15"
+    }
+  },
+  "validation": {
+    "status": "passed",
+    "candidate_reference_release_file_equality": true,
+    "splitHtml": {
+      "path": "_site/index.html",
+      "utf8_bytes": 97892,
+      "sha256": "59115192210995f7b1083f128cf048ded902882d4a3af83d6b41f1ed17405e6d"
+    },
+    "externalCss": {
+      "path": "_site/assets/app-v345.css",
+      "utf8_bytes": 233647,
+      "sha256": "62fe8f371d5c050596f89feeca8151ab9a7623f534e67af13e11d9af53d48518"
+    },
+    "externalJs": {
+      "path": "_site/assets/app-v345.js",
+      "utf8_bytes": 3372792,
+      "sha256": "daba34060342a659b24f08254c98790b54a44e3652d1bc5ac96ce4c96d153f9f"
+    },
+    "mechanicalCssByteIdenticalToPrevious": false,
+    "approvedCssTransformContract": true,
+    "approvedJsTransformContract": true,
+    "v342SafariFirstRunDateSizing": true,
+    "safariFirstRunDateSizing": true,
+    "cloudRuntimeInherited": true,
+    "approvedShellTransformContract": true,
+    "mechanicalShellOnlyVersionedDistributionRefsChanged": true,
+    "questionCount": 710,
+    "answerDistribution": [
+      178,
+      178,
+      177,
+      177
+    ],
+    "cognitiveDistribution": [
+      166,
+      323,
+      221
+    ],
+    "currentContract": "71/71",
+    "browserUiContract": 23,
+    "subjectBSemantics": true,
+    "runtimeContractFailures": 0,
+    "freshFirstRunPreserved": true
+  },
+  "already_materialized": false
+}
