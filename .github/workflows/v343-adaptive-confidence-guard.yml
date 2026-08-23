@@ -9,6 +9,8 @@ on:
       - '.github/release/split_release_common.py'
       - '.github/release/runtime_stub.py'
       - '.github/workflows/v343-adaptive-confidence-guard.yml'
+      - '_regression/v343-adaptive-confidence-guard.fixture.json'
+      - 'audits/V343_ADAPTIVE_CONFIDENCE_GUARD.md'
       - 'assets/app-v342.js'
       - 'app/base-shell-v342.html'
       - 'assets/app-v342.css'
@@ -32,6 +34,21 @@ jobs:
 
       - name: Validate adaptive evidence confidence and release transform
         run: python3 .github/v343/validate_adaptive_confidence_guard.py
+
+      - name: Verify reproducible adaptive evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V343_ADAPTIVE_CONFIDENCE_GUARD.md _regression/v343-adaptive-confidence-guard.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v343-adaptive-confidence-guard.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==38
+          assert fx['productionVersion']=='v342' and fx['targetVersion']=='v343'
+          assert fx['profileSchema']==5
+          assert 'PASS — 38 / 38 ADAPTIVE-CONFIDENCE CASES PASS' in Path('audits/V343_ADAPTIVE_CONFIDENCE_GUARD.md').read_text()
+          print('V343_ADAPTIVE_CONFIDENCE_EVIDENCE_REPRODUCIBLE')
+          PY
 
       - name: Verify production v342 remains untouched
         shell: bash
