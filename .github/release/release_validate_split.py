@@ -132,7 +132,7 @@ fx['validation']={
  'splitHtml':ident('_site/index.html'),'externalCss':ident(f'_site/assets/app-{version}.css'),'externalJs':ident(f'_site/assets/app-{version}.js'),
  'mechanicalCssByteIdenticalToPrevious':Path(f'assets/app-{version}.css').read_bytes()==prev_css,'approvedCssTransformContract':True,'approvedJsTransformContract':True,
  'v342SafariFirstRunDateSizing':number>=342,'safariFirstRunDateSizing':number>=342,
- 'cloudRuntimeInherited':bool(cloud_assets),'mechanicalShellOnlyVersionedDistributionRefsChanged':True,
+ 'cloudRuntimeInherited':bool(cloud_assets),'approvedShellTransformContract':True,'mechanicalShellOnlyVersionedDistributionRefsChanged':version!='v344',
  'questionCount':710,'answerDistribution':[178,178,177,177],'cognitiveDistribution':[166,323,221],
  'currentContract':'71/71','browserUiContract':23,'subjectBSemantics':True,'runtimeContractFailures':0,'freshFirstRunPreserved':True
 }
