@@ -54,6 +54,21 @@ jobs:
           node --check /tmp/v344-generated.js
       - name: Validate v344 bounded learning report
         run: python3 .github/v344/validate_recent_learning_report.py
+      - name: Verify reproducible v344 report evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V344_RECENT_LEARNING_REPORT.md _regression/v344-recent-learning-report.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v344-recent-learning-report.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==35
+          assert fx['productionVersion']=='v343' and fx['targetVersion']=='v344' and fx['profileSchema']==5
+          text=Path('audits/V344_RECENT_LEARNING_REPORT.md').read_text()
+          assert 'PASS — 35 / 35 V344 REPORT CASES PASS' in text
+          assert 'complete week-vs-week comparison' in text
+          print('V344_RECENT_LEARNING_REPORT_EVIDENCE_REPRODUCIBLE')
+          PY
       - name: Syntax check generic release validators
         run: python3 -m py_compile .github/release/split_release_common.py .github/release/release_validate_split.py .github/release/release_materialize_split.py
       - name: Verify production v343 is byte-untouched
