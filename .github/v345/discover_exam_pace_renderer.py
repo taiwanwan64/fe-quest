@@ -22,12 +22,9 @@ def extract_named(name):
             i+=1
     return out
 
-for name in ['examPaceStatus','renderExamPace','remainingLearningMinutes','recentLearningPace','estimatedFinishDate','paceDateText']:
+for name in ['estimateRemainingStudyMinutes','recentCalendarPace','examPaceStatus','renderExamPace','effectiveStudyMinutes','buildTodayTasks']:
     defs=extract_named(name)
     print(f'=== {name} COUNT {len(defs)} ===')
     for pos,src in defs:
         print('POSITION',pos)
         print(src)
-
-for token in ['examPaceStatus=','const examPaceStatus','let examPaceStatus','var examPaceStatus']:
-    print(token,js.count(token))
