@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   validate:
-    if: startsWith(github.head_ref, 'cloud-activation-loader-v342')
+    if: startsWith(github.head_ref, 'cloud-activation-loader-v342') || startsWith(github.head_ref, 'release-cloud-activation-v342')
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout v342 activation loader branch
