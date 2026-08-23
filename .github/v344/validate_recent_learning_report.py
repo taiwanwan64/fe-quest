@@ -43,9 +43,10 @@ const __v344Scenarios={
  small:learningOutcomeReportDecisionV344({trends:[__v344T('データベース',7,77,70,8,6)],snapshots:[__v344S('データベース',9,68,62)]}),
  review:learningOutcomeReportDecisionV344({trends:[__v344T('アルゴリズム',12,72,60,9,5)],snapshots:[__v344S('アルゴリズム',14,50,55)],activeReview:{concept:'スタック',guidance:'後日復習まで進めます。'}})
 };
+const __v344FirstRun=firstRunNeedsSetupV340();
 ensureQuestionProfile();profile.sessions=[{date:'2026-08-23',log:Array.from({length:10},(_,i)=>({cat:'ネットワーク',ok:i<8}))},{date:'2026-08-20',log:Array.from({length:4},(_,i)=>({cat:'ネットワーク',ok:i<2}))}];profile.mockHistory=[];
 const __v344RealTrend=analyticsOutcomeTrendV344('ネットワーク');
-const __v344Result={version:APP_VERSION,schema:PROFILE_SCHEMA_VERSION,q:QUESTION_BANK.length,a:[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length),c:['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length),b:validateSubjectBSemantics(),first:firstRunNeedsSetupV340(),self:{ok:FEQUEST_SELF_CHECK?.ok,current:FEQUEST_SELF_CHECK?.currentContract,browser:FEQUEST_SELF_CHECK?.browserUiContract,releaseVersion:FEQUEST_SELF_CHECK?.releaseVersion},contracts:globalThis.FEQUEST_RUNTIME_CONTRACTS||{count:0},sc:__v344Scenarios,rt:__v344RealTrend};
+const __v344Result={version:APP_VERSION,schema:PROFILE_SCHEMA_VERSION,q:QUESTION_BANK.length,a:[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length),c:['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length),b:validateSubjectBSemantics(),first:__v344FirstRun,self:{ok:FEQUEST_SELF_CHECK?.ok,current:FEQUEST_SELF_CHECK?.currentContract,browser:FEQUEST_SELF_CHECK?.browserUiContract,releaseVersion:FEQUEST_SELF_CHECK?.releaseVersion},contracts:globalThis.FEQUEST_RUNTIME_CONTRACTS||{count:0},sc:__v344Scenarios,rt:__v344RealTrend};
 console.log('__V344__'+Buffer.from(JSON.stringify(__v344Result)).toString('base64'));
 '''
   rp=root/'runtime.js';rp.write_text(stub+'\n'+js+'\n'+tail)
