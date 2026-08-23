@@ -9623,7 +9623,7 @@ function ensureFirstRunStyleV340(){
     #firstRunExperienceV340 .v340-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px;margin-top:18px}
     #firstRunExperienceV340 .v340-field{min-width:0}
     #firstRunExperienceV340 label.v340-label{display:block;font-weight:850;font-size:13px;margin-bottom:7px}
-    #firstRunExperienceV340 input[type=date]{width:100%;min-height:46px;box-sizing:border-box;border:1px solid #d8dee8;border-radius:12px;background:#fff;padding:0 12px;font:inherit;color:inherit}
+    #firstRunExperienceV340 input[type=date]{width:auto;inline-size:auto;min-width:0;min-inline-size:0;max-width:100%;max-inline-size:100%;display:block;box-sizing:border-box;-webkit-min-logical-width:0;justify-self:stretch;align-self:stretch;overflow:hidden;min-height:46px;box-sizing:border-box;border:1px solid #d8dee8;border-radius:12px;background:#fff;padding:0 12px;font:inherit;color:inherit}
     #firstRunExperienceV340 .v340-minutes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
     #firstRunExperienceV340 .v340-minute{min-height:46px;border:1px solid #d8dee8;border-radius:12px;background:#fff;font:inherit;font-weight:850;color:inherit;cursor:pointer}
     #firstRunExperienceV340 .v340-minute[aria-pressed=true]{border-color:#58cc02;background:#efffe6;color:#277608;box-shadow:inset 0 0 0 1px #58cc02}
