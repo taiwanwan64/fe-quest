@@ -1,0 +1,41 @@
+name: FE QUEST v343 adaptive confidence guard
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'app/adaptive-precision-v343.js'
+      - '.github/v343/validate_adaptive_confidence_guard.py'
+      - '.github/release/split_release_common.py'
+      - '.github/release/runtime_stub.py'
+      - '.github/workflows/v343-adaptive-confidence-guard.yml'
+      - 'assets/app-v342.js'
+      - 'app/base-shell-v342.html'
+      - 'assets/app-v342.css'
+      - 'assets/asset-manifest-v342.json'
+      - 'cloud/**'
+      - 'vendor/supabase/supabase-2.112.3.js'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'v343-adaptive-confidence-guard')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout v343 adaptive branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Validate adaptive evidence confidence and release transform
+        run: python3 .github/v343/validate_adaptive_confidence_guard.py
+
+      - name: Verify production v342 remains untouched
+        shell: bash
+        run: |
+          grep -F '{% include_relative app/base-shell-v342.html %}' index.html
+          grep -F "const APP_VERSION = 'v342';" sw.js
+          git diff --exit-code origin/main...HEAD -- index.html sw.js app/base-shell-v342.html assets/app-v342.css assets/app-v342.js assets/asset-manifest-v342.json cloud vendor/supabase/supabase-2.112.3.js
