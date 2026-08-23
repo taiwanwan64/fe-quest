@@ -1,0 +1,50 @@
+name: FE QUEST v344 learning outcomes discovery
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v344/discover_learning_outcomes.py'
+      - '.github/workflows/v344-outcomes-discovery.yml'
+      - '_regression/v344-learning-outcomes-discovery.fixture.json'
+      - 'audits/V344_LEARNING_OUTCOMES_DISCOVERY.md'
+      - 'assets/app-v343.js'
+      - 'app/base-shell-v343.html'
+      - 'assets/app-v343.css'
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    if: startsWith(github.head_ref, 'v344-outcomes-discovery')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Discover existing data and UI hooks
+        run: python3 .github/v344/discover_learning_outcomes.py
+      - name: Verify recorded discovery evidence
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v344-learning-outcomes-discovery.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['productionVersion']=='v343' and fx['profileSchema']==5
+          assert fx['existingAnalytics']['namedRenderFunction']=='renderLearningAnalytics'
+          assert fx['existingAnalytics']['trendBasis']=='recorded-answer-windows'
+          assert fx['safePresentationRules']['doNotLabelAccuracyTrendAsThisWeekVsLastWeek'] is True
+          assert fx['safePresentationRules']['noProfileSchemaChangeRequired'] is True
+          text=Path('audits/V344_LEARNING_OUTCOMES_DISCOVERY.md').read_text()
+          assert '最近の学習レポート' in text and '今週 vs 先週' in text
+          print('V344_LEARNING_OUTCOMES_DISCOVERY_EVIDENCE_REPRODUCIBLE')
+          PY
+      - name: Verify discovery-only scope
+        shell: bash
+        run: |
+          grep -F '{% include_relative app/base-shell-v343.html %}' index.html
+          grep -F "const APP_VERSION = 'v343';" sw.js
+          git diff --exit-code origin/main...HEAD -- index.html sw.js app/base-shell-v343.html assets/app-v343.css assets/app-v343.js assets/asset-manifest-v343.json cloud vendor/supabase/supabase-2.112.3.js

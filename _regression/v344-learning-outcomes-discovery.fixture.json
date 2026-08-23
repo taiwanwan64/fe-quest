@@ -1,0 +1,29 @@
+{
+  "name": "v344-learning-outcomes-discovery",
+  "result": "PASS",
+  "productionVersion": "v343",
+  "profileSchema": 5,
+  "bundleSha256": "efdb0a40a3616d4cf5296003be9976b2e39c528251fe19f573e0a6548ebe4ef3",
+  "existingAnalytics": {
+    "screenId": "history",
+    "priorityId": "analyticsNext",
+    "signalsId": "analyticsSignals",
+    "summaryIds": ["analytics7Min", "analytics30Days", "analyticsStable", "analyticsActiveRoutes"],
+    "namedRenderFunction": "renderLearningAnalytics",
+    "trendFunction": "analyticsTrend",
+    "trendBasis": "recorded-answer-windows",
+    "recentWindowMax": 10,
+    "previousWindowMax": 10,
+    "minimumRowsPerWindow": 3
+  },
+  "safePresentationRules": {
+    "calendarMetricsAllowed": ["recorded learning minutes", "active learning days"],
+    "accuracyTrendMustUseRecordedAnswerWindowLanguage": true,
+    "doNotLabelAccuracyTrendAsThisWeekVsLastWeek": true,
+    "doNotCallReadinessPassProbability": true,
+    "noProfileSchemaChangeRequired": true,
+    "preferredIntegration": "named renderLearningAnalytics replacement during v344 materialization",
+    "avoidNewRuntimeWrapper": true
+  },
+  "productionRuntimeChanged": false
+}
