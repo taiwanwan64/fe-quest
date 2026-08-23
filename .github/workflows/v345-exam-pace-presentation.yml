@@ -1,0 +1,50 @@
+name: FE QUEST v345 exam pace presentation
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'app/exam-pace-v345.js'
+      - '.github/v345/validate_exam_pace_presentation.py'
+      - '.github/release/split_release_common.py'
+      - '.github/release/runtime_stub.py'
+      - '.github/workflows/v345-exam-pace-presentation.yml'
+      - '_regression/v345-exam-pace-presentation.fixture.json'
+      - 'audits/V345_EXAM_PACE_PRESENTATION.md'
+      - 'assets/app-v344.js'
+      - 'assets/app-v344.css'
+      - 'app/base-shell-v344.html'
+      - 'assets/asset-manifest-v344.json'
+      - 'cloud/**'
+      - 'vendor/supabase/supabase-2.112.3.js'
+permissions:
+  contents: read
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'v345-exam-pace-presentation')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Validate v345 exam pace presentation
+        run: python3 .github/v345/validate_exam_pace_presentation.py
+      - name: Verify reproducible evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- audits/V345_EXAM_PACE_PRESENTATION.md _regression/v345-exam-pace-presentation.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v345-exam-pace-presentation.fixture.json').read_text())
+          assert fx['result']=='PASS' and fx['caseCount']==44
+          assert fx['productionVersion']=='v344' and fx['targetVersion']=='v345' and fx['profileSchema']==5
+          assert 'PASS — 44 / 44 V345 EXAM-PACE CASES PASS' in Path('audits/V345_EXAM_PACE_PRESENTATION.md').read_text()
+          print('V345_EXAM_PACE_EVIDENCE_REPRODUCIBLE')
+          PY
+      - name: Verify production v344 remains untouched
+        shell: bash
+        run: |
+          grep -F '{% include_relative app/base-shell-v344.html %}' index.html
+          grep -F "const APP_VERSION = 'v344';" sw.js
+          git diff --exit-code origin/main...HEAD -- index.html sw.js app/base-shell-v344.html assets/app-v344.css assets/app-v344.js assets/asset-manifest-v344.json cloud vendor/supabase/supabase-2.112.3.js
