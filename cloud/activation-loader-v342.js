@@ -32,6 +32,26 @@
   }
   function assetId(kind,path){return `fequest-v342-${kind}-${path.replace(/[^a-z0-9]+/gi,'-')}`}
 
+  function installConnectivityNoticeRecovery(){
+    const d=root.document;
+    if(!d||typeof root.addEventListener!=='function')return false;
+    if(root.FEQUEST_V342_CONNECTIVITY_NOTICE_RECOVERY_INSTALLED)return true;
+    const clearStaleOfflineNotice=()=>{
+      try{
+        if(root.navigator?.onLine!==true)return false;
+        const notice=d.getElementById?.('appNotice');
+        if(!notice||!notice.classList?.contains('offline'))return false;
+        notice.className='app-notice';
+        return true;
+      }catch(_e){return false}
+    };
+    root.addEventListener('online',clearStaleOfflineNotice);
+    root.addEventListener('pageshow',clearStaleOfflineNotice);
+    root.FEQUEST_V342_CONNECTIVITY_NOTICE_RECOVERY_INSTALLED=true;
+    clearStaleOfflineNotice();
+    return true;
+  }
+
   function defaultLoadScript(path,doc){
     const p=localAssetPath(path),d=doc||root.document;
     if(!d||typeof d.createElement!=='function')return Promise.reject(new Error('document unavailable'));
@@ -118,13 +138,14 @@
   }
 
   function autoStart(){
+    installConnectivityNoticeRecovery();
     const loader=createActivationLoader();
     root.FEQUEST_CLOUD_ACTIVATION_INSTANCE_V342=loader;
     loader.start().catch(error=>{try{console.warn('FE QUEST cloud activation failed; local study continues',error)}catch(_e){}});
     return loader;
   }
 
-  const api=Object.freeze({ACTIVATION_SPEC,localAssetPath,createActivationLoader,autoStart});
+  const api=Object.freeze({ACTIVATION_SPEC,localAssetPath,installConnectivityNoticeRecovery,createActivationLoader,autoStart});
   root.FEQUEST_CLOUD_ACTIVATION_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   if(typeof document!=='undefined')Promise.resolve().then(()=>autoStart());

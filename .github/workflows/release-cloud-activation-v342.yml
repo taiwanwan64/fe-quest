@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/release/split_release_common.py'
       - '.github/cloud-sync-v342/validate_release_activation_contract.py'
+      - '.github/cloud-sync-v342/validate_connectivity_notice_v342.js'
       - '.github/workflows/release-cloud-activation-v342.yml'
       - 'cloud/activation-loader-v342.js'
       - 'cloud/public-config-v342.js'
@@ -30,6 +31,9 @@ jobs:
 
       - name: Validate cloud-aware v342 split materialization
         run: python3 .github/cloud-sync-v342/validate_release_activation_contract.py
+
+      - name: Validate reconnect notice recovery
+        run: node .github/cloud-sync-v342/validate_connectivity_notice_v342.js
 
       - name: Verify reproducible evidence
         shell: bash
