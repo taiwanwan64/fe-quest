@@ -43,6 +43,7 @@ with tempfile.TemporaryDirectory() as td:
 const __gSafe=f=>{try{return {ok:true,value:f()}}catch(e){return {ok:false,error:String(e&&e.stack||e)}}};
 const __decision=(top,e)=>subjectAPrescriptionDecisionV343(top,e);
 const __top=(accuracy=60,repeats=0)=>({cat:'ネットワーク',priority:70,accuracy,repeats});
+const __firstRun=__gSafe(()=>firstRunNeedsSetupV340());
 const __scenarios={
  sparseReason:__decision(__top(60,0),{reason:'計算ミス',reasonSupport:1,recentReasonSupport:1,reasonConfident:false,timedAnswers:2,avgSeconds:70,timingConfident:false}),
  repeatedCalc:__decision(__top(60,0),{reason:'計算ミス',reasonSupport:2,recentReasonSupport:2,reasonConfident:true,timedAnswers:4,avgSeconds:70,timingConfident:false}),
@@ -69,7 +70,7 @@ const __result={
  answerDistribution:[0,1,2,3].map(i=>QUESTION_BANK.filter(q=>q.a===i).length),
  cognitiveDistribution:['想起','適用','判断'].map(k=>QUESTION_BANK.filter(q=>q.cognitiveLevel===k).length),
  subjectB:__gSafe(()=>validateSubjectBSemantics()),
- firstRun:__gSafe(()=>firstRunNeedsSetupV340()),
+ firstRun:__firstRun,
  self:__gSafe(()=>({ok:FEQUEST_SELF_CHECK?.ok,current:FEQUEST_SELF_CHECK?.currentContract,browser:FEQUEST_SELF_CHECK?.browserUiContract,releaseVersion:FEQUEST_SELF_CHECK?.releaseVersion})),
  contracts:globalThis.FEQUEST_RUNTIME_CONTRACTS||{count:0},
  scenarios:__scenarios,
