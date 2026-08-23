@@ -1,0 +1,21 @@
+name: FE QUEST v344 exam pace discovery
+
+on:
+  push:
+    branches: ['v344-exam-pace-discovery']
+    paths:
+      - '.github/v344/discover_exam_pace.py'
+      - '.github/workflows/v344-exam-pace-discovery.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v344-exam-pace-discovery
+      - name: Discover existing exam pace signals
+        run: python3 .github/v344/discover_exam_pace.py
