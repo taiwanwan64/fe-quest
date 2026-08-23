@@ -22,6 +22,7 @@ V342_CLOUD_RUNTIME_ASSETS=(
 CLOUD_RUNTIME_INTRODUCED_AT=342
 CLOUD_ACTIVATION_ENTRYPOINT='./cloud/activation-loader-v342.js'
 CLOUD_PUBLIC_CONFIG_PATH='cloud/public-config-v342.js'
+V343_ADAPTIVE_PRECISION_SOURCE='app/adaptive-precision-v343.js'
 
 
 def req(ok,msg):
@@ -90,7 +91,27 @@ def transform_shell(text,previous,version):
         req(out.count(activation_tag)==1,'cloud activation loader must appear exactly once')
         req(out.index(app_tag)<out.index(activation_tag),'cloud activation must follow core application script')
     return out
-def transform_js(text,previous,version):
+def replace_named_function(text,name,replacement):
+    m=re.search(rf'\bfunction\s+{re.escape(name)}\s*\([^)]*\)\s*\{{',text)
+    req(m is not None,'named function missing '+name)
+    i=m.end()-1;depth=0;quote=None;escape=False
+    while i<len(text):
+        ch=text[i]
+        if quote:
+            if escape:escape=False
+            elif ch=='\\':escape=True
+            elif ch==quote:quote=None
+        else:
+            if ch in "'\"`":quote=ch
+            elif ch=='{':depth+=1
+            elif ch=='}':
+                depth-=1
+                if depth==0:
+                    end=i+1
+                    return text[:m.start()]+replacement.strip()+text[end:]
+        i+=1
+    raise AssertionError('unterminated named function '+name)
+def transform_js(text,previous,version,feature_source=None):
     old=f"const APP_VERSION = '{previous}';";new=f"const APP_VERSION = '{version}';"
     req(old in text,'previous APP_VERSION missing from split JS')
     out=text.replace(old,new,1)
@@ -103,6 +124,13 @@ def transform_js(text,previous,version):
         new_date='#firstRunExperienceV340 input[type=date]{width:auto;inline-size:auto;min-width:0;min-inline-size:0;max-width:100%;max-inline-size:100%;display:block;box-sizing:border-box;-webkit-min-logical-width:0;justify-self:stretch;align-self:stretch;overflow:hidden;min-height:46px;'
         if old_date in out:out=out.replace(old_date,new_date,1)
         req(new_date in out,'Safari first-run date sizing correction missing')
+    if version=='v343':
+        feature=feature_source if feature_source is not None else Path(V343_ADAPTIVE_PRECISION_SOURCE).read_text()
+        req('V343_ADAPTIVE_PRECISION_SPEC' in feature,'v343 adaptive precision source marker missing')
+        req('V343_ADAPTIVE_PRECISION_SPEC' not in out,'v343 adaptive precision unexpectedly already materialized')
+        out=replace_named_function(out,'recommendedPrescription',feature)
+        req(out.count('const V343_ADAPTIVE_PRECISION_SPEC=')==1,'v343 adaptive precision must be injected exactly once')
+        req(out.count('function recommendedPrescription()')==1,'v343 recommended prescription replacement must be unique')
     return out
 def build_asset_manifest(root,previous,version,previous_manifest=None):
     root=Path(root);p=paths(root,version);shell_b=p['shell'].read_bytes();css_b=p['css'].read_bytes();js_b=p['js'].read_bytes()
@@ -126,6 +154,14 @@ def build_asset_manifest(root,previous,version,previous_manifest=None):
       ],
       'executionContract':execution
     }
+    if version=='v343':
+        feature_path=root/V343_ADAPTIVE_PRECISION_SOURCE
+        req(feature_path.exists(),'v343 adaptive precision source missing')
+        feature_b=feature_path.read_bytes()
+        result['adaptivePrecision']={
+          'version':'v343','sourcePath':V343_ADAPTIVE_PRECISION_SOURCE,
+          'utf8Bytes':len(feature_b),'sha256':sha_bytes(feature_b),'profileSchemaChange':False
+        }
     if cloud_assets:
         cloud=[]
         for rel in cloud_assets:
@@ -160,7 +196,8 @@ def materialize_tree(root,version,previous):
     target['shell'].parent.mkdir(parents=True,exist_ok=True);target['css'].parent.mkdir(parents=True,exist_ok=True)
     target['shell'].write_text(transform_shell(prev['shell'].read_text(),previous,version))
     shutil.copyfile(prev['css'],target['css'])
-    target['js'].write_text(transform_js(prev['js'].read_text(),previous,version))
+    feature_source=(root/V343_ADAPTIVE_PRECISION_SOURCE).read_text() if version=='v343' else None
+    target['js'].write_text(transform_js(prev['js'].read_text(),previous,version,feature_source))
     target['asset_manifest'].write_text(json.dumps(build_asset_manifest(root,previous,version,{
       'version':previous,
       'assetManifestSha256':sha_bytes(prev['asset_manifest'].read_bytes()),
