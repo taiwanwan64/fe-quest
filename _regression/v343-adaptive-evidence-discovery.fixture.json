@@ -1,0 +1,61 @@
+{
+  "name": "v343-adaptive-evidence-discovery",
+  "result": "PASS",
+  "sourceVersion": "v342",
+  "productionVersion": "v342",
+  "profileSchemaChangeRequired": false,
+  "questionStats": {
+    "hasAttemptCount": true,
+    "hasCorrectCount": true,
+    "hasLastReason": true,
+    "hasAverageSeconds": true,
+    "hasTimedAnswerCount": true,
+    "hasStability": true,
+    "hasLapses": true,
+    "hasRecoveryEvidence": true
+  },
+  "subjectATiming": {
+    "practicePerQuestionSeconds": true,
+    "mockPerQuestionSeconds": true,
+    "sessionLogSeconds": true,
+    "memorySchedulingConsumesSeconds": true
+  },
+  "subjectAReasonSignals": [
+    "知識不足",
+    "計算ミス",
+    "読み違い",
+    "2択で迷った",
+    "時間不足"
+  ],
+  "currentCategoryPriorityWeights": {
+    "masteryRisk": 0.34,
+    "accuracyRisk": 0.18,
+    "cognitiveRisk": 0.20,
+    "mockRisk": 0.10,
+    "timeRisk": 0.06,
+    "repeatRisk": 0.12
+  },
+  "currentPrescriptionUsesReason": true,
+  "dailyPlanConsumesPrescription": true,
+  "subjectBPrecedent": {
+    "persistsElapsedMs": true,
+    "usesMinimumSamples": true,
+    "requiresUniqueWeakLayer": true,
+    "usesAccuracyThreshold": true,
+    "responseTimeIsSupportingEvidence": true
+  },
+  "identifiedPrecisionGaps": [
+    "dominant Subject A reason is primarily derived from per-question lastReason rather than recency/frequency confidence",
+    "normalized analytics attempt stream omits seconds and reason even though source records contain timing/reason evidence",
+    "recentQuizRate only averages the latest five session rates",
+    "Subject A has no explicit minimum-sample confidence gate before reason/time-driven prescription selection"
+  ],
+  "recommendedFirstImplementation": {
+    "schemaFree": true,
+    "reuseExistingEvidence": true,
+    "addMinimumSampleGates": true,
+    "keepAccuracyAndRepeatedErrorsPrimary": true,
+    "doNotLetSlowTimingAloneForceARecommendation": true,
+    "preserveCurrentDailyPlanHook": true
+  }
+}
