@@ -1,0 +1,32 @@
+name: FE QUEST v347 beta journey dry run
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v347/audit_beta_journey.py'
+      - '.github/workflows/v347-beta-journey-dry-run.yml'
+      - 'docs/EXTERNAL_BETA_DRY_RUN_v347.md'
+      - 'docs/BETA_MEASUREMENT_PLAN_v346.md'
+      - '.github/ISSUE_TEMPLATE/beta-feedback.md'
+      - 'privacy.html'
+      - 'index.html'
+      - 'sw.js'
+      - 'app/base-shell-v345.html'
+      - 'assets/app-v345.js'
+      - 'cloud/sync-ui-v342.js'
+      - '.github/release/runtime_stub.py'
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Audit beta learner journey
+        run: python3 .github/v347/audit_beta_journey.py
