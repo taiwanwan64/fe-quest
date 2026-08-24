@@ -1,9 +1,10 @@
 # FE QUEST v348 — Production Browser Acceptance
 
-Status: **PENDING CI LIVE-BROWSER RUN**  
+Status: **PASS — LIVE PRODUCTION ACCEPTED IN CHROMIUM + WEBKIT**  
 Production under test: **v345**  
 Target: `https://taiwanwan64.github.io/fe-quest/`  
-Profile schema: **v5**
+Profile schema: **v5**  
+Passing workflow run: **32722971975**
 
 ## Purpose
 
@@ -11,22 +12,37 @@ v346 cleared the operational/privacy gates for a small external beta, and v347 v
 
 This is an audit/acceptance version only. It does not publish v348 runtime assets and does not change learner data, content, planning logic, cloud sync, Recovery Center, or the production service worker.
 
-## Browser journey under test
+## Result
 
-For a fresh browser context, both desktop Chromium and mobile-sized WebKit must verify:
+The live-browser workflow passed in both target cases:
 
-1. live production loads as FE QUEST v345 without the asset-recovery error UI;
-2. the v340 first-run setup appears;
-3. a future exam date can be saved and today's adaptive plan is generated without reload;
-4. the ready plan contains at least one task and exposes the primary start action;
-5. starting the plan leaves Home and opens the first learning route;
-6. returning Home and opening the diagnostic renders the first diagnostic question/options;
-7. returning Home from an intentionally interrupted diagnostic does not corrupt navigation or saved first-run settings;
-8. reloading preserves first-run settings and does not reopen the setup overlay;
-9. `privacy.html` returns successfully and still describes the current v345 local-first/optional-cloud baseline;
-10. no uncaught browser `pageerror` occurs during the journey.
+- desktop Chromium, 1440 × 1000
+- mobile-sized WebKit, 390 × 844 with touch/mobile context
 
-The workflow stores screenshots and a JSON result as a short-lived GitHub Actions artifact. It does **not** add product analytics or send learner history anywhere.
+Both engines confirmed:
+
+1. HTTP 200 and title `FE QUEST PWA v345`;
+2. fresh first-run setup was visible;
+3. a future exam date was saved;
+4. the fresh adaptive plan contained four tasks;
+5. the primary first-run action opened a learning route (`problems` in the passing run);
+6. diagnostic entry rendered four answer choices;
+7. returning Home from an intentionally interrupted diagnostic succeeded;
+8. reload preserved first-run settings and did not reopen the setup overlay;
+9. `privacy.html` returned HTTP 200 and matched the current v345 policy baseline;
+10. uncaught browser `pageerror`: **0** in both engines;
+11. asset-recovery error UI: **not shown**.
+
+The passing fresh-plan presentation in both engines contained the same four learner-facing tasks:
+
+- 記憶の復習
+- データの単位
+- プログラムトレース：ループで合計
+- 今日の総合チェック
+
+Chromium completed with no failed requests. WebKit recorded one `cloud/reconciliation-v342.js` request cancelled at a navigation/reload boundary, with no console error, uncaught page error, or learner-flow failure. It is retained in the evidence rather than hidden.
+
+The workflow uploaded seven evidence files (JSON + screenshots) as the short-lived `v348-production-browser-evidence` Actions artifact.
 
 ## First CI finding and test correction
 
@@ -38,7 +54,7 @@ That assertion did not match the intended onboarding sequence. The completed-dia
 
 The complete 12-question diagnostic-finish handoff and normal today-resume route are already contract-covered by v347. v348 verifies the real-browser diagnostic entry and first-question rendering rather than scripting answers to the whole diagnostic merely to satisfy CI.
 
-Optional Supabase requests can also be blocked by the hosted CI network. Because cloud sync is optional/local-first, v348 records those browser console messages but does not reinterpret CI DNS/CORS reachability as a learner-runtime failure. Cloud-sync behavior remains protected by the existing v342/v343 contracts and is not re-certified as a live cloud test by v348.
+Optional cloud sync is not re-certified as a live cloud test by v348. The v348 acceptance target is the local-first learner journey; cloud-sync behavior remains protected by the existing v342/v343 contracts and dedicated acceptance history.
 
 A WebKit engine run is also not represented as a physical iPhone/iPad Safari test. One final physical-device pass remains a human go/no-go gate before external invitations.
 
@@ -54,6 +70,8 @@ A WebKit engine run is also not represented as a physical iPhone/iPad Safari tes
 - no paywall
 - no external tester invitations
 
-## Merge gate
+## Decision
 
-Do not merge until the v348 workflow has completed successfully against the live production URL and this document has been updated with the recorded result.
+**Automated production-browser gate: cleared.**
+
+v348 may be merged as an audit/operations milestone. The remaining pre-invitation gate is one real physical-device pass using `docs/EXTERNAL_BETA_DRY_RUN_v347.md`, followed by a human decision on whether to invite the first 10–30 testers.
