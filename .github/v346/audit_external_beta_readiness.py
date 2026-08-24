@@ -86,5 +86,7 @@ if not fixture.exists():
     raise AssertionError('v346 beta readiness fixture missing')
 expected=json.loads(fixture.read_text())
 if expected!=report:
+    print('EXPECTED='+json.dumps(expected,ensure_ascii=False,sort_keys=True))
+    print('ACTUAL='+json.dumps(report,ensure_ascii=False,sort_keys=True))
     raise AssertionError('v346 beta readiness fixture drifted from the audited repository state')
 print(f"PASS — {len(checks)}/{len(checks)} BASELINE CHECKS; {len(blockers)} BETA-READINESS ITEMS RECORDED")
