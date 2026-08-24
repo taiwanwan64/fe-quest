@@ -101,27 +101,22 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         require(option_count >= 2, f"{name}: diagnostic first question/options were not rendered")
         page.screenshot(path=str(case_dir / "02-diagnostic-entry.png"), full_page=True)
 
+        # Deliberately do not assert the Home today-resume CTA after abandoning the
+        # diagnostic. The product keeps onboarding gated until the diagnostic is
+        # completed; the completed-diagnostic -> today-task handoff is contract-covered
+        # by v347 and belongs in the final human end-to-end pass.
         page.locator('.nav-btn[data-screen="home"]').first.click()
         page.locator("#home").wait_for(state="visible", timeout=15_000)
-        resume = page.locator("#todayResumeBtn")
-        require(resume.is_visible(), f"{name}: today resume CTA is not visible")
-        require(not resume.is_disabled(), f"{name}: today resume CTA is unexpectedly disabled")
-        result["todayResumeText"] = resume.inner_text()
-        resume.click()
-        page.wait_for_timeout(700)
-        resume_screen = active_screen(page)
-        result["todayResumeScreen"] = resume_screen
-        require(resume_screen not in (None, "home"), f"{name}: today resume did not open a task")
+        result["homeAfterDiagnosticAbort"] = active_screen(page) == "home"
+        require(result["homeAfterDiagnosticAbort"], f"{name}: could not return home from diagnostic")
 
-        page.locator('.nav-btn[data-screen="home"]').first.click()
-        page.locator("#home").wait_for(state="visible", timeout=15_000)
         page.reload(wait_until="domcontentloaded", timeout=90_000)
         page.locator("#home").wait_for(state="visible", timeout=30_000)
         page.wait_for_timeout(500)
         first_run_after_reload = page.locator("#firstRunExperienceV340").count() > 0 and page.locator("#firstRunExperienceV340").first.is_visible()
         result["firstRunVisibleAfterReload"] = first_run_after_reload
         require(not first_run_after_reload, f"{name}: saved first-run settings were lost after reload")
-        require(page.locator("#todayResumeBtn").is_visible(), f"{name}: today CTA missing after reload")
+        require(page.locator("#startDiagnostic").is_visible(), f"{name}: diagnostic CTA missing after reload")
         require(page.locator("#fequestAssetRecoveryV345").count() == 0, f"{name}: asset recovery UI appeared after reload")
         page.screenshot(path=str(case_dir / "03-home-after-reload.png"), full_page=True)
 
@@ -182,7 +177,8 @@ def main() -> int:
         "notes": [
             "This verifies live GitHub Pages in Chromium and WebKit engines.",
             "It is not a substitute for one final physical-device Safari/Chrome pass before inviting external testers.",
-            "The 12-question diagnostic completion handoff remains contract-covered by v347; v348 verifies real-browser diagnostic entry and first-question rendering.",
+            "The 12-question diagnostic completion handoff and today-resume route remain contract-covered by v347; v348 verifies real-browser diagnostic entry and first-question rendering without asserting UI that is intentionally gated while the diagnostic is incomplete.",
+            "Optional Supabase requests may be blocked by the CI network; product acceptance is based on the local-first learner path and uncaught browser errors, not availability of optional cloud sync in the runner.",
         ],
     }
     report_path = OUT / "result.json"
