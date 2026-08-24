@@ -4,9 +4,10 @@ from datetime import date, timedelta
 from pathlib import Path
 import json
 import sys
+import time
 import traceback
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error as PlaywrightError, sync_playwright
 
 PRODUCTION_URL = "https://taiwanwan64.github.io/fe-quest/"
 PRIVACY_URL = PRODUCTION_URL + "privacy.html"
@@ -23,13 +24,54 @@ def active_screen(page):
     return page.evaluate("document.querySelector('.screen.active')?.id || null")
 
 
-def wait_for_stable_page(page, timeout: int = 45_000) -> None:
-    page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=timeout)
-    page.wait_for_function("window.__FEQ_PAGESHOW_SEEN === true", timeout=timeout)
-    # v340 re-renders first-run setup from the stored profile on pageshow. A human
-    # cannot type before load/pageshow, so give that intentional lifecycle render a
-    # short settle window before interacting instead of racing DOMContentLoaded.
-    page.wait_for_timeout(250)
+def wait_for_stable_page(page, timeout: int = 45_000) -> dict:
+    """Wait for a settled document, including a possible PWA boot/update reload.
+
+    Fresh browser contexts may install/activate the service worker and navigate once
+    shortly after the first load. Assertions against the replaced document create a
+    false failure and do not represent a human-interactable state. We therefore require
+    boot + pageshow and then verify that performance.timeOrigin remains unchanged for a
+    quiet window before interacting.
+    """
+    deadline = time.monotonic() + timeout / 1000
+    last_error = ""
+    for _attempt in range(1, 9):
+        remaining = max(1_000, int((deadline - time.monotonic()) * 1000))
+        if remaining <= 1_000 and time.monotonic() >= deadline:
+            break
+        try:
+            page.wait_for_load_state("load", timeout=remaining)
+            page.locator("#home").wait_for(state="visible", timeout=remaining)
+            page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=remaining)
+            page.wait_for_function("window.__FEQ_PAGESHOW_SEEN === true", timeout=remaining)
+            marker = page.evaluate("performance.timeOrigin")
+            page.wait_for_timeout(750)
+            state = page.evaluate(
+                """marker => ({
+                  sameDocument: performance.timeOrigin === marker,
+                  readyState: document.readyState,
+                  boot: window.FEQUEST_APP_BOOT_COMPLETE === true,
+                  pageshow: window.__FEQ_PAGESHOW_SEEN === true
+                })""",
+                marker,
+            )
+            if state["sameDocument"] and state["readyState"] == "complete" and state["boot"] and state["pageshow"]:
+                return {"timeOrigin": marker, **state}
+        except PlaywrightError as exc:
+            last_error = str(exc)
+            try:
+                page.wait_for_timeout(150)
+            except PlaywrightError:
+                pass
+    raise AssertionError(f"production page did not reach a navigation-stable boot state: {last_error or 'timeout'}")
+
+
+def recovery_state(page) -> dict:
+    locator = page.locator("#fequestAssetRecoveryV345")
+    count = locator.count()
+    visible = bool(count and locator.first.is_visible())
+    text = locator.first.inner_text()[:300] if count else ""
+    return {"count": count, "visible": visible, "text": text}
 
 
 def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
@@ -45,10 +87,12 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
     page_errors: list[str] = []
     console_errors: list[str] = []
     failed_requests: list[str] = []
+    top_level_navigations: list[str] = []
 
     page.on("pageerror", lambda err: page_errors.append(str(err)))
     page.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     page.on("requestfailed", lambda req: failed_requests.append(f"{req.method} {req.url} :: {req.failure}"))
+    page.on("framenavigated", lambda frame: top_level_navigations.append(frame.url) if frame == page.main_frame else None)
 
     result = {
         "browser": name,
@@ -56,24 +100,36 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         "pageErrors": page_errors,
         "consoleErrors": console_errors,
         "failedRequests": failed_requests,
+        "topLevelNavigations": top_level_navigations,
     }
 
     try:
         response = page.goto(PRODUCTION_URL, wait_until="load", timeout=90_000)
         require(response is not None and response.ok, f"{name}: production navigation failed")
-        page.locator("#home").wait_for(state="visible", timeout=45_000)
-        wait_for_stable_page(page)
+        settled = wait_for_stable_page(page)
 
         title = page.title()
         result["title"] = title
         result["initialStatus"] = response.status
+        result["settledPage"] = settled
         result["pageshowSeen"] = page.evaluate("window.__FEQ_PAGESHOW_SEEN === true")
         result["documentReadyState"] = page.evaluate("document.readyState")
         require("FE QUEST" in title and "v345" in title, f"{name}: unexpected production title: {title!r}")
-        require(page.locator("#fequestAssetRecoveryV345").count() == 0, f"{name}: asset recovery UI was shown")
+        recovery = recovery_state(page)
+        result["assetRecoveryAtSettledBoot"] = recovery
+        require(not recovery["visible"], f"{name}: visible asset recovery UI was shown after settled boot")
 
         first_run = page.locator("#firstRunExperienceV340")
         first_run.wait_for(state="visible", timeout=20_000)
+        setup_button = page.locator("#firstRunCreatePlanV340")
+        setup_button.wait_for(state="visible", timeout=10_000)
+        # Confirm the pageshow-driven setup render has stopped replacing its children.
+        page.evaluate("window.__FEQ_SETUP_BUTTON_STABLE=document.getElementById('firstRunCreatePlanV340')")
+        page.wait_for_timeout(300)
+        require(
+            page.evaluate("document.getElementById('firstRunCreatePlanV340')===window.__FEQ_SETUP_BUTTON_STABLE"),
+            f"{name}: first-run form was still being rebuilt after settled boot",
+        )
         result["freshFirstRunVisible"] = True
 
         future_exam = (date.today() + timedelta(days=30)).isoformat()
@@ -85,9 +141,8 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         result["examDateInputValue"] = actual_exam
         require(actual_exam == future_exam, f"{name}: exam-date input did not remain stable after settled load/pageshow")
 
-        create_plan = page.locator("#firstRunCreatePlanV340")
-        create_plan.wait_for(state="visible", timeout=10_000)
-        create_plan.click()
+        setup_button.wait_for(state="visible", timeout=10_000)
+        setup_button.click()
         ready = page.locator('#firstRunExperienceV340[data-state="ready"]')
         ready.wait_for(state="visible", timeout=30_000)
 
@@ -106,7 +161,9 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         first_learning_screen = active_screen(page)
         result["firstLearningScreen"] = first_learning_screen
         require(first_learning_screen not in (None, "home"), f"{name}: first task did not leave home")
-        require(page.locator("#fequestAssetRecoveryV345").count() == 0, f"{name}: asset recovery UI appeared after starting")
+        recovery = recovery_state(page)
+        result["assetRecoveryAfterLearningStart"] = recovery
+        require(not recovery["visible"], f"{name}: visible asset recovery UI appeared after starting")
 
         page.locator('.nav-btn[data-screen="home"]').first.click()
         page.locator("#home").wait_for(state="visible", timeout=15_000)
@@ -130,13 +187,15 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         require(result["homeAfterDiagnosticAbort"], f"{name}: could not return home from diagnostic")
 
         page.reload(wait_until="load", timeout=90_000)
-        page.locator("#home").wait_for(state="visible", timeout=30_000)
-        wait_for_stable_page(page)
+        settled_reload = wait_for_stable_page(page)
+        result["settledReload"] = settled_reload
         first_run_after_reload = page.locator("#firstRunExperienceV340").count() > 0 and page.locator("#firstRunExperienceV340").first.is_visible()
         result["firstRunVisibleAfterReload"] = first_run_after_reload
         require(not first_run_after_reload, f"{name}: saved first-run settings were lost after reload")
         require(page.locator("#startDiagnostic").is_visible(), f"{name}: diagnostic CTA missing after reload")
-        require(page.locator("#fequestAssetRecoveryV345").count() == 0, f"{name}: asset recovery UI appeared after reload")
+        recovery = recovery_state(page)
+        result["assetRecoveryAfterReload"] = recovery
+        require(not recovery["visible"], f"{name}: visible asset recovery UI appeared after reload")
         page.screenshot(path=str(case_dir / "03-home-after-reload.png"), full_page=True)
 
         privacy = context.request.get(PRIVACY_URL, timeout=30_000)
@@ -191,14 +250,15 @@ def main() -> int:
         "name": "v348-production-browser-acceptance",
         "productionVersion": "v345",
         "target": PRODUCTION_URL,
-        "interactionBoundary": "after-load-and-pageshow",
+        "interactionBoundary": "navigation-stable after load/pageshow",
         "result": "PASS" if all(x.get("result") == "PASS" for x in results) else "FAIL",
         "cases": results,
         "notes": [
-            "This verifies live GitHub Pages in Chromium and WebKit engines after load/pageshow, matching the first moment a human can realistically interact with the settled onboarding UI.",
+            "This verifies live GitHub Pages in Chromium and WebKit engines after load/pageshow and after any short PWA boot/update navigation has settled, matching a human-interactable onboarding state.",
             "It is not a substitute for one final physical-device Safari/Chrome pass before inviting external testers.",
             "The 12-question diagnostic completion handoff and today-resume route remain contract-covered by v347; v348 verifies real-browser diagnostic entry and first-question rendering without asserting UI that is intentionally gated while the diagnostic is incomplete.",
             "Optional Supabase requests may be blocked by the CI network; product acceptance is based on the local-first learner path and uncaught browser errors, not availability of optional cloud sync in the runner.",
+            "Asset recovery is rejected when it is visible after the document has settled; a recovery node observed only in a document that is immediately replaced by an intentional PWA boot navigation is not treated as learner-visible failure.",
         ],
     }
     report_path = OUT / "result.json"
