@@ -1,86 +1,98 @@
-# FE QUEST v346 — External beta readiness audit
+# FE QUEST v346 — External beta preparation readiness
 
 Date: 2026-08-24  
 Production baseline: **v345**  
-Result: **READY FOR PREPARATION / NOT YET READY TO INVITE EXTERNAL TESTERS**
+Result: **BETA PREPARATION GATES CLEARED**
 
-## Why this audit comes next
+External invitations remain a manual go/no-go decision. This milestone prepares the repository for a small external beta without changing learner behavior or adding silent analytics.
 
-The production app has reached v345 with the recent-learning report and exam-date-aware pace presentation already released. The roadmap's next phase is a small external beta rather than another large learner-facing feature. Before inviting people outside the developer's own devices, this audit checks whether the existing account/cloud/recovery foundation is safe enough and identifies the smallest remaining beta-preparation work.
+## Why this comes next
 
-This is intentionally an **audit-only** step. It does not change learner data, profile schema, question content, adaptive planning, cloud synchronization behavior, or the production version.
+Production is v345 with the recent-learning report and exam-date-aware pace presentation already released. The roadmap's next practical phase is a small external beta rather than another large learner-facing feature or an immediate paywall.
 
-## Baseline confirmed
+This v346 work therefore focuses on the minimum safety and feedback foundation needed before inviting 10–30 people.
 
-The automated audit locks the following current contracts:
+## Production baseline confirmed
 
-- Production root and Service Worker are v345.
+The automated audit locks these current contracts:
+
+- Production root and Service Worker remain v345.
 - Profile schema remains v5.
-- The v345 exam-pace presentation is materialized in production and keeps the explicit "not pass probability" wording.
-- Supabase browser configuration is enabled through an HTTPS endpoint and uses the publishable key contract rather than a service-role assignment.
+- The v345 exam-pace presentation is materialized and retains the explicit "not pass probability" wording.
+- Supabase browser configuration is enabled through an HTTPS endpoint and uses a publishable key rather than a service-role assignment.
 - Magic Link redirects to the canonical GitHub Pages production root.
 - Cloud sync remains optional and local-first; signing in is not required to continue learning.
-- Sync conflicts continue to require an explicit learner choice instead of silently overwriting newer local progress.
-- Learner-facing account deletion is present and states that cloud learning data is deleted while local learning data remains.
+- Sync conflicts require an explicit learner choice instead of silently overwriting progress.
+- Learner-facing account deletion remains available and deletes cloud learning data while preserving local learning data.
 
-These are important because the first external beta should not weaken the data-protection work already completed in v342-v345.
+## Beta-preparation work completed
 
-## Remaining items before external invitations
+### 1. Privacy policy refreshed for the current production baseline
 
-### 1. Public privacy / beta-use information — must fix before invite
+An existing `privacy.html` was present and already described the local-first and optional-cloud design. Its footer still referred to the pre-v342 cloud-enablement stage, so it was refreshed to the current v345 production baseline.
 
-No public privacy-policy / beta-use document was found at the audited repository paths.
+The policy now also warns users not to place email addresses, authentication tokens, or full JSON exports in public GitHub Issues. It continues to state that FE QUEST does not currently include a third-party behavior-analytics SDK.
 
-Because the beta can use email Magic Link authentication and cloud learning-data synchronization, external testers need a clear public explanation of at least:
+### 2. Structured beta feedback route added
 
-- what data FE QUEST stores locally and in the cloud;
-- why the data is used;
-- whether optional beta measurement is collected;
-- how cloud sync can be disabled;
-- how an account and cloud data can be deleted;
-- how a tester can ask a privacy or support question.
+`.github/ISSUE_TEMPLATE/beta-feedback.md` gives testers a consistent way to report:
 
-This should be written before invitations rather than inferred from implementation comments.
+- what they were trying to do;
+- actual vs. expected behavior;
+- reproduction steps;
+- broad device/browser/PWA information;
+- whether learning-data persistence or cloud sync may have been affected.
 
-### 2. Explicit beta feedback / bug-report route — must fix before invite
+The template explicitly warns against posting Magic Links, authentication tokens, Supabase sessions, full JSON exports, or full localStorage/IndexedDB contents in a public issue.
 
-No dedicated beta feedback/support file or issue template was found at the audited paths.
+### 3. Minimal-consent beta measurement plan defined
 
-For a 10-30 person beta, the feedback route should make it easy to report:
+`docs/BETA_MEASUREMENT_PLAN_v346.md` defines the first 10–30 tester evaluation without adding automatic product analytics.
 
-- what the tester was trying to do;
-- app version and broad environment;
-- what happened vs. what was expected;
-- whether the problem affected learning-data persistence or cloud sync.
+The first cohort will focus on:
 
-Do **not** ask testers to paste raw exported learning data, authentication tokens, email addresses, or full localStorage contents into public reports.
+- day 1 / 3 / 7 / 30 continuation using a small manual beta-management record;
+- whether learners actually start from "今日の学習";
+- whether FE QUEST reduces the burden of deciding what to study next;
+- early friction in first-run setup, outcome/pace presentation, Subject B navigation, persistence, recovery, and cloud sync.
 
-### 3. Beta measurement plan — design before invite
+Question-level learning history, raw JSON exports, browser-storage dumps, authentication data, and other unnecessary personal information are excluded from the beta-management record.
 
-The roadmap proposes observing day 1 / 3 / 7 / 30 continuation, use of the automatically generated daily plan, and whether FE QUEST reduced the need to decide what to study next.
+If automated analytics becomes necessary later, the event fields, storage, retention, deletion, notice/consent, and privacy-policy update must be defined before implementation.
 
-The current audit deliberately does **not** add third-party analytics or silent tracking. Before measurement is implemented, decide the minimum data needed and how consent/notice will work. For the first 10-30 testers, a lightweight manual or explicitly opted-in approach is preferable to introducing a new analytics stack simply to obtain early signals.
+## Automated gate
 
-## Recommended next implementation order
+The v346 audit now covers **24 checks** across production versioning, profile schema, cloud configuration, local-first conflict/deletion behavior, privacy wording, beta feedback safety, and the minimal measurement plan.
 
-1. Add a public privacy / beta-use page that accurately reflects the current local-first + optional-cloud behavior.
-2. Add a dedicated beta feedback route and a safe diagnostic-information format that excludes learning content and account secrets.
-3. Define the minimum beta metrics and consent model; only then decide whether product analytics code is necessary.
-4. Re-run the v346 readiness audit and invite a small external cohort only after the must-fix items are cleared.
+Expected result:
 
-## What not to change in this phase
+- 24 / 24 checks pass
+- 0 open beta-preparation blockers
+- production remains v345
+- profile schema remains v5
 
-- Do not add a paywall merely because the old roadmap mentioned a Premium pilot.
-- Do not alter the 710-question bank or Subject B semantics for beta-readiness work.
-- Do not migrate profile schema unless a concrete beta requirement cannot be met without it.
-- Do not make cloud sync mandatory.
-- Do not weaken Recovery Center / JSON export / local-first persistence in order to simplify beta support.
-- Do not add silent third-party tracking before the privacy/measurement design is explicit.
+A green CI result means the repository matches this preparation contract. It does not automatically authorize inviting testers.
+
+## Remaining human gates before invitations
+
+1. Read `privacy.html` and the beta measurement document once as a prospective tester and confirm the wording is understandable.
+2. Dry-run the beta feedback Issue template with a harmless sample report and confirm it asks for enough information without requesting sensitive data.
+3. Reconfirm the existing production regressions and cloud-sync path are healthy.
+4. Only then invite a small 10–30 person cohort and keep the first beta deliberately narrow.
+
+## What this phase does not change
+
+- No paywall or Premium gate is added.
+- No question-bank or Subject B semantic content is changed.
+- No adaptive-planning behavior is changed.
+- No profile-schema migration is introduced.
+- Cloud sync is not made mandatory.
+- Recovery Center, JSON export, and local-first persistence are not weakened.
+- No third-party analytics or silent behavioral tracking is added.
+- Production assets remain v345; v346 is a beta-preparation milestone, not a learner-runtime release.
 
 ## Automation
 
 CI entry point: `.github/v346/audit_external_beta_readiness.py`  
 Regression fixture: `_regression/v346-external-beta-readiness.fixture.json`  
 Workflow: `.github/workflows/v346-external-beta-readiness.yml`
-
-The audit currently records 12 production/baseline checks and 3 beta-readiness items. A passing audit means the repository state matches this assessment; it does **not** mean external invitations are approved yet.
