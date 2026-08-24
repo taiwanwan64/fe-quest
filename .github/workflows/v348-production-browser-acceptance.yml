@@ -1,0 +1,61 @@
+name: FE QUEST v348 production browser acceptance
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v348/production_browser_acceptance.py'
+      - '.github/workflows/v348-production-browser-acceptance.yml'
+      - 'audits/V348_PRODUCTION_BROWSER_ACCEPTANCE.md'
+      - 'docs/EXTERNAL_BETA_DRY_RUN_v347.md'
+      - 'privacy.html'
+      - 'index.html'
+      - 'sw.js'
+      - 'app/base-shell-v345.html'
+      - 'assets/app-v345.js'
+      - 'assets/app-v345.css'
+      - 'cloud/**'
+      - 'vendor/supabase/supabase-2.112.3.js'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-acceptance:
+    if: startsWith(github.head_ref, 'v348-production-browser-acceptance')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Verify branch is audit-only
+        shell: bash
+        run: |
+          changed="$(git diff --name-only origin/main...HEAD)"
+          echo "$changed"
+          if echo "$changed" | grep -Ev '^(\.github/v348/production_browser_acceptance\.py|\.github/workflows/v348-production-browser-acceptance\.yml|audits/V348_PRODUCTION_BROWSER_ACCEPTANCE\.md)$' | grep -q .; then
+            echo 'Unexpected production/source change in v348 audit branch' >&2
+            exit 1
+          fi
+      - name: Run live production browser acceptance
+        run: python .github/v348/production_browser_acceptance.py
+      - name: Show browser evidence summary
+        if: always()
+        run: cat _browser_evidence/v348/result.json || true
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v348-production-browser-evidence
+          path: _browser_evidence/v348/
+          if-no-files-found: warn
+          retention-days: 14
