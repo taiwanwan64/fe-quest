@@ -1,0 +1,46 @@
+{
+  "name": "v346-external-beta-readiness-audit",
+  "result": "READY_FOR_PREP_NOT_INVITES",
+  "productionVersion": "v345",
+  "profileSchema": 5,
+  "checks": [
+    {"name": "production root is v345", "pass": true, "detail": ""},
+    {"name": "service worker is v345", "pass": true, "detail": ""},
+    {"name": "profile schema remains v5", "pass": true, "detail": ""},
+    {"name": "v345 exam pace feature is materialized", "pass": true, "detail": ""},
+    {"name": "cloud config is explicitly enabled", "pass": true, "detail": ""},
+    {"name": "cloud endpoint is https", "pass": true, "detail": ""},
+    {"name": "magic-link redirect is production https", "pass": true, "detail": ""},
+    {"name": "browser config uses a publishable key", "pass": true, "detail": ""},
+    {"name": "browser config contains no service-role assignment", "pass": true, "detail": ""},
+    {"name": "cloud sync remains optional/local-first", "pass": true, "detail": ""},
+    {"name": "account deletion is learner-facing", "pass": true, "detail": ""},
+    {"name": "conflict choice remains explicit", "pass": true, "detail": ""}
+  ],
+  "blockers": [
+    {
+      "id": "public-policy",
+      "severity": "must-fix-before-invite",
+      "summary": "公開プライバシー方針／β利用条件が未整備",
+      "reason": "メール認証とクラウド学習データを扱うため、外部β招待前に保存内容・利用目的・削除方法・問い合わせ先を明示する必要がある。"
+    },
+    {
+      "id": "feedback-route",
+      "severity": "must-fix-before-invite",
+      "summary": "外部β利用者向けの明示的なフィードバック／不具合報告導線が未整備",
+      "reason": "10〜30人規模のβでは、問題発生時に学習データを壊さず再現情報を回収できる窓口が必要。"
+    },
+    {
+      "id": "beta-measurement-plan",
+      "severity": "design-before-invite",
+      "summary": "β評価指標の収集方法が未確定",
+      "reason": "継続率・今日の学習利用率・価値実感を、第三者トラッキングを勝手に追加せず、同意を含む方法で決める必要がある。"
+    }
+  ],
+  "notes": [],
+  "recommendedNext": [
+    "公開プライバシー方針／β利用条件を用意する",
+    "βフィードバック導線と非機微な再現情報の収集方法を用意する",
+    "10〜30人βの評価指標を、同意と最小収集の原則で定義する"
+  ]
+}
