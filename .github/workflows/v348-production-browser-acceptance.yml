@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/v348/production_browser_acceptance.py'
       - '.github/v348/local_fail_open_probe.py'
+      - '.github/v348/local_first_run_lifecycle_probe.py'
       - '.github/workflows/v348-production-browser-acceptance.yml'
       - 'audits/V348_PRODUCTION_BROWSER_ACCEPTANCE.md'
       - 'docs/EXTERNAL_BETA_DRY_RUN_v347.md'
@@ -43,7 +44,7 @@ jobs:
         run: |
           changed="$(git diff --name-only origin/main...HEAD)"
           echo "$changed"
-          if echo "$changed" | grep -Ev '^(\.github/v348/production_browser_acceptance\.py|\.github/v348/local_fail_open_probe\.py|\.github/workflows/v348-production-browser-acceptance\.yml|audits/V348_PRODUCTION_BROWSER_ACCEPTANCE\.md)$' | grep -q .; then
+          if echo "$changed" | grep -Ev '^(\.github/v348/production_browser_acceptance\.py|\.github/v348/local_fail_open_probe\.py|\.github/v348/local_first_run_lifecycle_probe\.py|\.github/workflows/v348-production-browser-acceptance\.yml|audits/V348_PRODUCTION_BROWSER_ACCEPTANCE\.md)$' | grep -q .; then
             echo 'Unexpected production/source change in v348 audit branch' >&2
             exit 1
           fi
@@ -51,6 +52,10 @@ jobs:
         id: local_probe
         continue-on-error: true
         run: python .github/v348/local_fail_open_probe.py
+      - name: Probe deterministic Chromium first-run lifecycle
+        id: first_run_probe
+        continue-on-error: true
+        run: python .github/v348/local_first_run_lifecycle_probe.py
       - name: Run live production browser acceptance
         id: live_acceptance
         continue-on-error: true
@@ -59,6 +64,7 @@ jobs:
         if: always()
         run: |
           cat _browser_evidence/v348/local-fail-open.json || true
+          cat _browser_evidence/v348/local-first-run-lifecycle.json || true
           cat _browser_evidence/v348/result.json || true
       - name: Upload browser evidence
         if: always()
@@ -68,9 +74,10 @@ jobs:
           path: _browser_evidence/v348/
           if-no-files-found: warn
           retention-days: 14
-      - name: Enforce both acceptance gates
+      - name: Enforce all acceptance gates
         if: always()
         shell: bash
         run: |
           test "${{ steps.local_probe.outcome }}" = "success"
+          test "${{ steps.first_run_probe.outcome }}" = "success"
           test "${{ steps.live_acceptance.outcome }}" = "success"
