@@ -21,16 +21,24 @@ For a fresh browser context, both desktop Chromium and mobile-sized WebKit must 
 4. the ready plan contains at least one task and exposes the primary start action;
 5. starting the plan leaves Home and opens the first learning route;
 6. returning Home and opening the diagnostic renders the first diagnostic question/options;
-7. the Home `todayResumeBtn` remains an enabled route into the current unfinished task;
+7. returning Home from an intentionally interrupted diagnostic does not corrupt navigation or saved first-run settings;
 8. reloading preserves first-run settings and does not reopen the setup overlay;
 9. `privacy.html` returns successfully and still describes the current v345 local-first/optional-cloud baseline;
 10. no uncaught browser `pageerror` occurs during the journey.
 
 The workflow stores screenshots and a JSON result as a short-lived GitHub Actions artifact. It does **not** add product analytics or send learner history anywhere.
 
+## First CI finding and test correction
+
+The first live-browser run successfully loaded production, generated four fresh-plan tasks in both engines, opened the first learning route, and rendered four diagnostic choices. It then failed because the test abandoned the diagnostic and incorrectly expected the normal Home `todayResumeBtn` to be visible immediately afterward.
+
+That assertion did not match the intended onboarding sequence. The completed-diagnostic → Home → today-task handoff is already contract-covered by v347, while an incomplete diagnostic may continue to gate the normal Home study CTA. v348 therefore no longer treats the intentionally interrupted state as if diagnosis had finished. No production code was changed in response to this test-only finding.
+
 ## Boundary
 
-The complete 12-question diagnostic-finish handoff is already contract-covered by v347. v348 verifies the real-browser diagnostic entry and first-question rendering rather than scripting answers to the whole diagnostic merely to satisfy CI.
+The complete 12-question diagnostic-finish handoff and normal today-resume route are already contract-covered by v347. v348 verifies the real-browser diagnostic entry and first-question rendering rather than scripting answers to the whole diagnostic merely to satisfy CI.
+
+Optional Supabase requests can also be blocked by the hosted CI network. Because cloud sync is optional/local-first, v348 records those browser console messages but does not reinterpret CI DNS/CORS reachability as a learner-runtime failure. Cloud-sync behavior remains protected by the existing v342/v343 contracts and is not re-certified as a live cloud test by v348.
 
 A WebKit engine run is also not represented as a physical iPhone/iPad Safari test. One final physical-device pass remains a human go/no-go gate before external invitations.
 
