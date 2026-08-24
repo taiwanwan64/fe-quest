@@ -81,7 +81,10 @@ report={
     ]
 }
 
-out=ROOT/'_regression/v346-external-beta-readiness.fixture.json'
-out.parent.mkdir(exist_ok=True)
-out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+fixture=ROOT/'_regression/v346-external-beta-readiness.fixture.json'
+if not fixture.exists():
+    raise AssertionError('v346 beta readiness fixture missing')
+expected=json.loads(fixture.read_text())
+if expected!=report:
+    raise AssertionError('v346 beta readiness fixture drifted from the audited repository state')
 print(f"PASS — {len(checks)}/{len(checks)} BASELINE CHECKS; {len(blockers)} BETA-READINESS ITEMS RECORDED")
