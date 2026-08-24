@@ -1,6 +1,6 @@
 {
   "name": "v346-external-beta-readiness-audit",
-  "result": "READY_FOR_PREP_NOT_INVITES",
+  "result": "BETA_PREP_GATES_CLEARED",
   "productionVersion": "v345",
   "profileSchema": 5,
   "checks": [
@@ -15,32 +15,29 @@
     {"name": "browser config contains no service-role assignment", "pass": true, "detail": ""},
     {"name": "cloud sync remains optional/local-first", "pass": true, "detail": ""},
     {"name": "account deletion is learner-facing", "pass": true, "detail": ""},
-    {"name": "conflict choice remains explicit", "pass": true, "detail": ""}
+    {"name": "conflict choice remains explicit", "pass": true, "detail": ""},
+    {"name": "public privacy policy exists", "pass": true, "detail": ""},
+    {"name": "privacy policy reflects current v345 baseline", "pass": true, "detail": ""},
+    {"name": "privacy policy warns against sensitive public issue data", "pass": true, "detail": ""},
+    {"name": "privacy policy preserves no-third-party-analytics statement", "pass": true, "detail": ""},
+    {"name": "structured beta feedback template exists", "pass": true, "detail": ""},
+    {"name": "beta feedback avoids sensitive diagnostic dumps", "pass": true, "detail": ""},
+    {"name": "beta feedback asks about learning-data impact", "pass": true, "detail": ""},
+    {"name": "minimal beta measurement plan exists", "pass": true, "detail": ""},
+    {"name": "measurement plan avoids silent analytics", "pass": true, "detail": ""},
+    {"name": "measurement plan covers day 1 3 7 30", "pass": true, "detail": ""},
+    {"name": "measurement plan tests FE QUEST core value", "pass": true, "detail": ""},
+    {"name": "measurement plan requires policy review before future analytics", "pass": true, "detail": ""}
   ],
-  "blockers": [
-    {
-      "id": "public-policy",
-      "severity": "must-fix-before-invite",
-      "summary": "公開プライバシー方針／β利用条件が未整備",
-      "reason": "メール認証とクラウド学習データを扱うため、外部β招待前に保存内容・利用目的・削除方法・問い合わせ先を明示する必要がある。"
-    },
-    {
-      "id": "feedback-route",
-      "severity": "must-fix-before-invite",
-      "summary": "外部β利用者向けの明示的なフィードバック／不具合報告導線が未整備",
-      "reason": "10〜30人規模のβでは、問題発生時に学習データを壊さず再現情報を回収できる窓口が必要。"
-    },
-    {
-      "id": "beta-measurement-plan",
-      "severity": "design-before-invite",
-      "summary": "β評価指標の収集方法が未確定",
-      "reason": "継続率・今日の学習利用率・価値実感を、第三者トラッキングを勝手に追加せず、同意を含む方法で決める必要がある。"
-    }
+  "blockers": [],
+  "notes": [
+    {"id": "public-policy", "files": ["privacy.html"], "status": "current-v345-baseline"},
+    {"id": "feedback-route", "files": [".github/ISSUE_TEMPLATE/beta-feedback.md"], "status": "structured-public-route"},
+    {"id": "beta-measurement-plan", "files": ["docs/BETA_MEASUREMENT_PLAN_v346.md"], "status": "manual-minimal-consent-first"}
   ],
-  "notes": [],
   "recommendedNext": [
-    "公開プライバシー方針／β利用条件を用意する",
-    "βフィードバック導線と非機微な再現情報の収集方法を用意する",
-    "10〜30人βの評価指標を、同意と最小収集の原則で定義する"
+    "招待前にprivacy.htmlとβ運用文書を人が最終確認する",
+    "βフィードバックIssueテンプレートを1件ドライランする",
+    "production v345の既存回帰とクラウド同期を再確認してから10〜30人の小規模βを開始する"
   ]
 }
