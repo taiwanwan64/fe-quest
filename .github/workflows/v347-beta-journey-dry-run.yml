@@ -1,0 +1,52 @@
+name: FE QUEST v347 beta journey dry run
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v347/audit_beta_journey.py'
+      - '.github/workflows/v347-beta-journey-dry-run.yml'
+      - 'docs/EXTERNAL_BETA_DRY_RUN_v347.md'
+      - 'docs/BETA_MEASUREMENT_PLAN_v346.md'
+      - '.github/ISSUE_TEMPLATE/beta-feedback.md'
+      - 'privacy.html'
+      - 'audits/V347_EXTERNAL_BETA_JOURNEY_DRY_RUN.md'
+      - '_regression/v347-beta-journey-dry-run.fixture.json'
+      - 'index.html'
+      - 'sw.js'
+      - 'app/base-shell-v345.html'
+      - 'assets/app-v345.js'
+      - 'cloud/sync-ui-v342.js'
+      - '.github/release/runtime_stub.py'
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Audit beta learner journey
+        run: python3 .github/v347/audit_beta_journey.py
+      - name: Verify reproducible evidence
+        shell: bash
+        run: |
+          git diff --exit-code -- _regression/v347-beta-journey-dry-run.fixture.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          fx=json.loads(Path('_regression/v347-beta-journey-dry-run.fixture.json').read_text())
+          assert fx['result']=='PASS'
+          assert fx['productionVersion']=='v345' and fx['profileSchema']==5
+          assert fx['caseCount']==51 and fx['runtimeTaskCount']==4
+          assert fx['runtimeTaskTypes']==['review','lesson','subjectB','boss']
+          audit=Path('audits/V347_EXTERNAL_BETA_JOURNEY_DRY_RUN.md').read_text()
+          assert 'PASS — 51 / 51 checks' in audit
+          assert 'Current Contract: **71 / 71**' in audit
+          assert 'Runtime contract failures: **0**' in audit
+          print('V347_BETA_JOURNEY_EVIDENCE_REPRODUCIBLE')
+          PY
