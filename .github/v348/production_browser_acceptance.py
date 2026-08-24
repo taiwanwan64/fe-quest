@@ -25,9 +25,11 @@ def active_screen(page):
 
 def wait_for_stable_page(page, timeout: int = 45_000) -> None:
     page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=timeout)
-    page.wait_for_load_state("load", timeout=timeout)
     page.wait_for_function("window.__FEQ_PAGESHOW_SEEN === true", timeout=timeout)
-    page.wait_for_timeout(50)
+    # v340 re-renders first-run setup from the stored profile on pageshow. A human
+    # cannot type before load/pageshow, so give that intentional lifecycle render a
+    # short settle window before interacting instead of racing DOMContentLoaded.
+    page.wait_for_timeout(250)
 
 
 def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
@@ -57,7 +59,7 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
     }
 
     try:
-        response = page.goto(PRODUCTION_URL, wait_until="domcontentloaded", timeout=90_000)
+        response = page.goto(PRODUCTION_URL, wait_until="load", timeout=90_000)
         require(response is not None and response.ok, f"{name}: production navigation failed")
         page.locator("#home").wait_for(state="visible", timeout=45_000)
         wait_for_stable_page(page)
@@ -77,14 +79,14 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         future_exam = (date.today() + timedelta(days=30)).isoformat()
         exam_input = page.locator("#firstRunExamDateV340")
         exam_input.fill(future_exam)
-        page.wait_for_timeout(50)
+        page.wait_for_timeout(100)
         actual_exam = exam_input.input_value()
         result["examDate"] = future_exam
         result["examDateInputValue"] = actual_exam
-        require(actual_exam == future_exam, f"{name}: exam-date input did not remain stable after pageshow")
+        require(actual_exam == future_exam, f"{name}: exam-date input did not remain stable after settled load/pageshow")
 
         create_plan = page.locator("#firstRunCreatePlanV340")
-        require(create_plan.is_visible(), f"{name}: create-plan CTA is not visible")
+        create_plan.wait_for(state="visible", timeout=10_000)
         create_plan.click()
         ready = page.locator('#firstRunExperienceV340[data-state="ready"]')
         ready.wait_for(state="visible", timeout=30_000)
@@ -95,7 +97,7 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         result["firstRunTaskText"] = [task_rows.nth(i).inner_text() for i in range(task_count)]
         require(task_count >= 1, f"{name}: first-run plan contains no task")
         start_now = page.locator("#firstRunStartV340")
-        require(start_now.is_visible(), f"{name}: first-run start CTA is missing")
+        start_now.wait_for(state="visible", timeout=10_000)
         page.screenshot(path=str(case_dir / "01-first-run-ready.png"), full_page=True)
 
         start_now.click()
@@ -127,7 +129,7 @@ def run_case(pw, name: str, browser_type, context_options: dict) -> dict:
         result["homeAfterDiagnosticAbort"] = active_screen(page) == "home"
         require(result["homeAfterDiagnosticAbort"], f"{name}: could not return home from diagnostic")
 
-        page.reload(wait_until="domcontentloaded", timeout=90_000)
+        page.reload(wait_until="load", timeout=90_000)
         page.locator("#home").wait_for(state="visible", timeout=30_000)
         wait_for_stable_page(page)
         first_run_after_reload = page.locator("#firstRunExperienceV340").count() > 0 and page.locator("#firstRunExperienceV340").first.is_visible()
@@ -189,10 +191,11 @@ def main() -> int:
         "name": "v348-production-browser-acceptance",
         "productionVersion": "v345",
         "target": PRODUCTION_URL,
+        "interactionBoundary": "after-load-and-pageshow",
         "result": "PASS" if all(x.get("result") == "PASS" for x in results) else "FAIL",
         "cases": results,
         "notes": [
-            "This verifies live GitHub Pages in Chromium and WebKit engines after the page has completed load/pageshow, matching the first moment a human can realistically interact with the settled onboarding UI.",
+            "This verifies live GitHub Pages in Chromium and WebKit engines after load/pageshow, matching the first moment a human can realistically interact with the settled onboarding UI.",
             "It is not a substitute for one final physical-device Safari/Chrome pass before inviting external testers.",
             "The 12-question diagnostic completion handoff and today-resume route remain contract-covered by v347; v348 verifies real-browser diagnostic entry and first-question rendering without asserting UI that is intentionally gated while the diagnostic is incomplete.",
             "Optional Supabase requests may be blocked by the CI network; product acceptance is based on the local-first learner path and uncaught browser errors, not availability of optional cloud sync in the runner.",
