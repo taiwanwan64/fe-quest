@@ -1,0 +1,27 @@
+name: FE QUEST v346 external beta readiness
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v346/audit_external_beta_readiness.py'
+      - '.github/workflows/v346-external-beta-readiness.yml'
+      - 'audits/V346_EXTERNAL_BETA_READINESS.md'
+      - '_regression/v346-external-beta-readiness.fixture.json'
+      - 'cloud/public-config-v342.js'
+      - 'cloud/sync-ui-v342.js'
+      - 'index.html'
+      - 'sw.js'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit external beta readiness
+        run: python3 .github/v346/audit_external_beta_readiness.py
+      - name: Verify audit outputs are reproducible
+        run: git diff --exit-code -- _regression/v346-external-beta-readiness.fixture.json
