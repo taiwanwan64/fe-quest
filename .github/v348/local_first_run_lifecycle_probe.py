@@ -6,7 +6,6 @@ from pathlib import Path
 from threading import Thread
 import json
 import sys
-import time
 
 from playwright.sync_api import sync_playwright
 
@@ -39,29 +38,54 @@ def snapshot(page, label: str) -> dict:
     return page.evaluate(
         """label => {
           const root=document.getElementById('firstRunExperienceV340');
+          const date=document.getElementById('firstRunExamDateV340');
+          const submit=document.getElementById('firstRunCreatePlanV340');
+          const error=document.getElementById('firstRunErrorV340');
           const primary=document.getElementById('firstRunPrimaryActionV340');
           const right=document.getElementById('rightDailyAction');
           const progress=document.getElementById('rightDailyProgress');
           const next=document.getElementById('rightDailyNext');
+          const selectedMinute=document.querySelector('.v340-minute[aria-pressed="true"]');
           const visible=el=>!!el && getComputedStyle(el).display!=='none' && getComputedStyle(el).visibility!=='hidden' && el.getBoundingClientRect().width>0 && el.getBoundingClientRect().height>0;
-          let examDate=null, taskCount=null, setupNeeded=null;
-          try{examDate=eval('profile.settings.examDate||profile.examDate||null')}catch(_e){}
-          try{taskCount=eval('(ensureTodayPlanSnapshot(false)||[]).length')}catch(_e){}
-          try{setupNeeded=eval('firstRunNeedsSetupV340()')}catch(_e){}
+          const read=(expr)=>{try{return {ok:true,value:eval(expr)}}catch(e){return {ok:false,error:String(e)}}};
+          const pExam=read("profile?.settings?.examDate||null");
+          const pMinutes=read("profile?.settings?.studyMinutes||null");
+          const setup=read("firstRunNeedsSetupV340()");
+          const tasks=read("(ensureTodayPlanSnapshot(false)||[]).length");
+          const boot=read("appBootComplete");
+          const pending=read("bootProfileSavePending");
+          const writeBlocked=read("profileWriteBlocked");
+          const conflictBlocked=read("profileConflictBlocked");
+          const saveFailure=read("lastProfileSaveFailure||''");
           return {
             label,
             rootPresent:!!root,
             rootState:root?.dataset?.state||null,
             rootVisible:visible(root),
+            dateValue:date?.value||null,
+            submitPresent:!!submit,
+            submitVisible:visible(submit),
+            submitDisabled:submit?.disabled??null,
+            submitText:submit?.textContent?.trim()||null,
+            errorText:error?.textContent?.trim()||null,
+            errorVisible:visible(error),
+            selectedMinutes:selectedMinute?.dataset?.minutes||null,
             primaryPresent:!!primary,
             primaryVisible:visible(primary),
             rightText:right?.textContent?.trim()||null,
             rightVisible:visible(right),
             rightProgress:progress?.textContent?.trim()||null,
             rightNext:next?.textContent?.trim()||null,
-            examDate,
-            taskCount,
-            setupNeeded
+            profileExamDate:pExam.value??null,
+            profileStudyMinutes:pMinutes.value??null,
+            setupNeeded:setup.value??null,
+            taskCount:tasks.value??null,
+            appBootComplete:boot.value??window.FEQUEST_APP_BOOT_COMPLETE??null,
+            bootProfileSavePending:pending.value??null,
+            profileWriteBlocked:writeBlocked.value??null,
+            profileConflictBlocked:conflictBlocked.value??null,
+            lastProfileSaveFailure:saveFailure.value??null,
+            evalErrors:[pExam,pMinutes,setup,tasks,boot,pending,writeBlocked,conflictBlocked,saveFailure].filter(x=>!x.ok).map(x=>x.error)
           };
         }""",
         label,
@@ -81,28 +105,39 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
 
     response = page.goto(base_url, wait_until=wait_until, timeout=60_000)
     page.locator("#firstRunExperienceV340").wait_for(state="visible", timeout=30_000)
-    if wait_until == "domcontentloaded":
-        page.wait_for_timeout(1_000)
-    before = snapshot(page, "before-click")
-    exam_date = (date.today() + timedelta(days=30)).isoformat()
-    page.locator("#firstRunExamDateV340").fill(exam_date)
-    page.locator("#firstRunCreatePlanV340").click()
+    page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=30_000)
+    before = snapshot(page, "boot-complete-before-input")
 
-    samples = []
-    for delay in (0, 50, 200, 500, 1000, 3000):
-        if delay:
-            page.wait_for_timeout(delay - (0 if not samples else [0,50,200,500,1000,3000][len(samples)-1]))
-        samples.append(snapshot(page, f"after-{delay}ms"))
+    exam_date = (date.today() + timedelta(days=30)).isoformat()
+    date_input = page.locator("#firstRunExamDateV340")
+    date_input.fill(exam_date)
+    minute = page.locator('.v340-minute[data-minutes="60"]')
+    if minute.count():
+        minute.click()
+    after_input = snapshot(page, "after-input-before-click")
+    actual_date = date_input.input_value()
+    if actual_date != exam_date:
+        raise AssertionError(f"Chromium date input mismatch: expected {exam_date}, got {actual_date!r}")
+
+    page.locator("#firstRunCreatePlanV340").click()
+    samples = [snapshot(page, "after-0ms")]
+    elapsed = 0
+    for target in (50, 200, 500, 1000, 3000):
+        page.wait_for_timeout(target - elapsed)
+        elapsed = target
+        samples.append(snapshot(page, f"after-{target}ms"))
 
     ever_ready = any(s["rootState"] == "ready" and s["rootVisible"] for s in samples)
     ever_primary = any(s["primaryVisible"] for s in samples)
     final = samples[-1]
-    generated = (final.get("taskCount") or 0) >= 1 and bool(final.get("examDate"))
+    generated = (final.get("taskCount") or 0) >= 1 and final.get("profileExamDate") == exam_date
     result = {
         "iteration": index,
         "waitUntil": wait_until,
         "httpStatus": response.status if response else None,
+        "examDateExpected": exam_date,
         "before": before,
+        "afterInput": after_input,
         "samples": samples,
         "everReadyVisible": ever_ready,
         "everPrimaryVisible": ever_primary,
