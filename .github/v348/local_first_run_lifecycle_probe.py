@@ -59,6 +59,8 @@ def snapshot(page, label: str) -> dict:
           const saveFailure=read("lastProfileSaveFailure||''");
           return {
             label,
+            documentReadyState:document.readyState,
+            pageshowSeen:window.__FEQ_PAGESHOW_SEEN===true,
             rootPresent:!!root,
             rootState:root?.dataset?.state||null,
             rootVisible:visible(root),
@@ -96,6 +98,10 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
     browser = pw.chromium.launch()
     context = browser.new_context(viewport={"width": 1440, "height": 1000}, locale="ja-JP")
     page = context.new_page()
+    page.add_init_script(
+        """window.__FEQ_PAGESHOW_SEEN=false;
+        addEventListener('pageshow',()=>{window.__FEQ_PAGESHOW_SEEN=true;},{once:true});"""
+    )
     page_errors: list[str] = []
     console_errors: list[str] = []
     failed_requests: list[str] = []
@@ -106,7 +112,10 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
     response = page.goto(base_url, wait_until=wait_until, timeout=60_000)
     page.locator("#firstRunExperienceV340").wait_for(state="visible", timeout=30_000)
     page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=30_000)
-    before = snapshot(page, "boot-complete-before-input")
+    page.wait_for_load_state("load", timeout=30_000)
+    page.wait_for_function("window.__FEQ_PAGESHOW_SEEN === true", timeout=30_000)
+    page.wait_for_timeout(50)
+    before = snapshot(page, "stable-after-pageshow-before-input")
 
     exam_date = (date.today() + timedelta(days=30)).isoformat()
     date_input = page.locator("#firstRunExamDateV340")
@@ -114,10 +123,10 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
     minute = page.locator('.v340-minute[data-minutes="60"]')
     if minute.count():
         minute.click()
+    page.wait_for_timeout(50)
     after_input = snapshot(page, "after-input-before-click")
     actual_date = date_input.input_value()
-    if actual_date != exam_date:
-        raise AssertionError(f"Chromium date input mismatch: expected {exam_date}, got {actual_date!r}")
+    input_stable = actual_date == exam_date
 
     page.locator("#firstRunCreatePlanV340").click()
     samples = [snapshot(page, "after-0ms")]
@@ -136,6 +145,7 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
         "waitUntil": wait_until,
         "httpStatus": response.status if response else None,
         "examDateExpected": exam_date,
+        "dateInputStable": input_stable,
         "before": before,
         "afterInput": after_input,
         "samples": samples,
@@ -145,7 +155,7 @@ def run_once(pw, base_url: str, index: int, wait_until: str) -> dict:
         "pageErrors": page_errors,
         "consoleErrors": console_errors,
         "failedRequests": failed_requests,
-        "pass": ever_ready and ever_primary and generated and not page_errors,
+        "pass": input_stable and ever_ready and ever_primary and generated and not page_errors,
     }
     context.close()
     browser.close()
