@@ -1,0 +1,93 @@
+/* ===== v351: progress / settings desktop layout polish ===== */
+#plan .plan-screen-grid>div{min-width:0}
+#plan .plan-screen-grid .planner-card{min-width:0}
+#plan .plan-screen-grid .planner-card h2{line-height:1.35}
+#plan .plan-screen-grid .planner-card>.sub{line-height:1.65}
+
+#plan .feq-cloud-sync-card{min-width:0;gap:12px}
+#plan .feq-sync-head{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+#plan .feq-sync-head>div{min-width:0}
+#plan .feq-sync-head h2{
+  margin:0 0 5px;
+  line-height:1.35;
+  white-space:nowrap;
+  word-break:normal;
+  overflow-wrap:normal;
+}
+#plan .feq-sync-head .sub,#plan .feq-sync-detail{
+  line-height:1.65;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+#plan .feq-sync-status{
+  justify-self:start;
+  width:max-content;
+  max-width:100%;
+  white-space:normal;
+  text-align:left;
+}
+#plan .feq-sync-email{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+#plan .feq-sync-email label{grid-column:auto}
+#plan .feq-sync-email input{width:100%;min-width:0}
+#plan .feq-sync-email button{
+  justify-self:start;
+  width:auto;
+  min-width:0;
+  padding-inline:16px;
+  white-space:nowrap;
+}
+#plan .feq-sync-local-note{line-height:1.7}
+
+#pwaHealthCard .settings-install-card{
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr);
+  align-items:center;
+  column-gap:12px;
+  row-gap:9px;
+}
+#pwaHealthCard .settings-install-card .install-ico{grid-column:1;grid-row:1}
+#pwaHealthCard .settings-install-card .install-copy{grid-column:2;grid-row:1;min-width:0}
+#pwaHealthCard .settings-install-card .install-title{
+  line-height:1.4;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+#pwaHealthCard .settings-install-card .sub{line-height:1.65;margin-top:3px}
+#pwaHealthCard .settings-install-card .install-button{
+  grid-column:2;
+  justify-self:start;
+  width:auto;
+  max-width:100%;
+}
+#pwaHealthCard .pwa-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#pwaHealthCard .pwa-health-item{min-width:0}
+#pwaHealthCard .pwa-health-item b{overflow-wrap:break-word;word-break:normal}
+
+@media(min-width:1450px){
+  main:has(>#plan.active){max-width:1180px}
+  #plan .plan-screen-grid{
+    grid-template-columns:minmax(0,1fr) minmax(390px,.78fr);
+    gap:22px;
+    align-items:start;
+  }
+}
+
+@media(min-width:721px) and (max-width:1449px){
+  #plan .plan-screen-grid{grid-template-columns:minmax(0,1fr)}
+  #pwaHealthCard .pwa-health-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #pwaHealthCard .settings-install-card{
+    grid-template-columns:44px minmax(0,1fr) auto;
+  }
+  #pwaHealthCard .settings-install-card .install-button{
+    grid-column:3;
+    grid-row:1;
+    justify-self:end;
+  }
+}
+
+@media(max-width:720px){
+  #plan .feq-sync-head h2{white-space:normal}
+  #plan .feq-sync-email button{width:100%;justify-self:stretch}
+  #pwaHealthCard .pwa-health-grid{grid-template-columns:minmax(0,1fr)}
+  #pwaHealthCard .settings-install-card .install-button{width:100%;justify-self:stretch}
+}
