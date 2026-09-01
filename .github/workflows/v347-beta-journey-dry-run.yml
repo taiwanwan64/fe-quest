@@ -24,6 +24,7 @@ permissions:
 
 jobs:
   dry-run:
+    if: startsWith(github.head_ref, 'v347-beta-journey-dry-run')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
