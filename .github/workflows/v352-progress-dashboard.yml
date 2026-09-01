@@ -1,0 +1,63 @@
+name: FE QUEST v352 progress dashboard
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v352/**'
+      - '.github/workflows/v352-progress-dashboard.yml'
+      - '.github/workflows/v352-materialize-progress-dashboard.yml'
+      - 'audits/V352_PROGRESS_DASHBOARD.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v352.html'
+      - 'app/progress-dashboard-v352.html'
+      - 'app/progress-dashboard-layout-v352.css'
+      - 'assets/app-v352.css'
+      - 'assets/app-v352.js'
+      - 'assets/asset-manifest-v352.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v352-dashboard:
+    if: startsWith(github.head_ref, 'v352-progress-dashboard')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict the learner-facing change
+        shell: bash
+        run: |
+          changed="$(git diff --name-only origin/main...HEAD)"
+          echo "$changed"
+          if echo "$changed" | grep -Ev '^(\.github/v352/.*|\.github/workflows/v352-progress-dashboard\.yml|\.github/workflows/v352-materialize-progress-dashboard\.yml|audits/V352_PROGRESS_DASHBOARD\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v352\.html|app/progress-dashboard-v352\.html|app/progress-dashboard-layout-v352\.css|assets/app-v352\.css|assets/app-v352\.js|assets/asset-manifest-v352\.json)$' | grep -q .; then
+            echo 'Unexpected file in the v352 dashboard release' >&2
+            exit 1
+          fi
+          test -z "$(git diff --name-only origin/main...HEAD -- app/base-shell-v351.html assets/app-v351.css assets/app-v351.js assets/asset-manifest-v351.json cloud/)"
+      - name: Validate static release and data boundaries
+        run: python .github/v352/validate_progress_dashboard.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Validate responsive dashboard layout
+        run: python .github/v352/browser_progress_dashboard.py
+      - name: Upload dashboard evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v352-progress-dashboard-evidence
+          path: _browser_evidence/v352/
+          if-no-files-found: warn
+          retention-days: 14
