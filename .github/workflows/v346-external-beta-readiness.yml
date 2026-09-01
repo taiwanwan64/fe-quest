@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   audit:
+    if: startsWith(github.head_ref, 'v346-beta-readiness')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
