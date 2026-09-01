@@ -40,3 +40,5 @@ jobs:
           fi
           git commit -m 'Materialize FE QUEST v352 split release'
           git push origin HEAD:v352-progress-dashboard
+
+# The first source push after this workflow exists materializes the versioned assets.
