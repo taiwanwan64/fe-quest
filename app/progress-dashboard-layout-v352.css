@@ -1,0 +1,131 @@
+/* ===== v352: learning-priority progress dashboard ===== */
+#plan.plan-compact .plan-dashboard-grid,
+#plan.plan-compact #planDataFold{display:none}
+
+#plan .plan-dashboard-grid{
+  display:grid;
+  gap:18px;
+  margin-top:20px;
+}
+#plan .plan-dashboard-top-grid,
+#plan .plan-dashboard-lower-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  align-items:start;
+}
+#plan .plan-dashboard-column{display:grid;gap:18px;align-content:start;min-width:0}
+#plan .plan-dashboard-grid .planner-card{
+  min-width:0;
+  margin:0;
+}
+#plan .plan-dashboard-grid .exam-pace-card.hidden-by-plan{display:block}
+#plan #weekPlanCard,
+#plan #reviewForecastCard{
+  display:flex;
+  flex-direction:column;
+}
+#plan #weekPlanCard .analytics-open,
+#plan #reviewForecastCard .planner-save{margin-top:auto}
+
+#plan .readiness-detail-fold{
+  margin-top:13px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fafcfd;
+}
+#plan .readiness-detail-fold>summary{
+  padding:11px 13px;
+  cursor:pointer;
+  list-style:none;
+  color:#5e7180;
+  font-weight:900;
+}
+#plan .readiness-detail-fold>summary::-webkit-details-marker{display:none}
+#plan .readiness-detail-fold>summary:after{content:'＋';float:right;color:var(--muted)}
+#plan .readiness-detail-fold[open]>summary:after{content:'−'}
+#plan .readiness-detail-body{padding:0 12px 12px}
+
+#plan .plan-data-fold{
+  margin-top:18px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:#f8fafb;
+  box-shadow:0 7px 20px rgba(38,56,70,.05);
+  overflow:hidden;
+}
+#plan .plan-data-fold>summary{
+  min-height:64px;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  cursor:pointer;
+  list-style:none;
+  color:var(--text);
+}
+#plan .plan-data-fold>summary::-webkit-details-marker{display:none}
+#plan .plan-data-fold>summary>span:first-child{min-width:0}
+#plan .plan-data-fold>summary b{display:block;font-size:17px;line-height:1.4}
+#plan .plan-data-fold>summary small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+#plan .plan-data-fold>summary:after{
+  content:'＋';
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:#fff;
+  border:1px solid var(--line);
+  color:#647785;
+  font-size:19px;
+  font-weight:900;
+}
+#plan .plan-data-fold[open]>summary{border-bottom:1px solid var(--line)}
+#plan .plan-data-fold[open]>summary:after{content:'−'}
+#plan .plan-data-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  align-items:start;
+  padding:18px;
+}
+#plan .plan-data-grid>.planner-card{min-width:0;margin:0}
+
+@media(min-width:1101px){
+  #plan .plan-screen-grid{grid-template-columns:minmax(0,1fr)}
+  #plan .plan-data-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #pwaHealthCard .pwa-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #pwaHealthCard .settings-install-card{grid-template-columns:44px minmax(0,1fr)}
+  #pwaHealthCard .settings-install-card .install-button{
+    grid-column:2;
+    grid-row:auto;
+    justify-self:start;
+  }
+}
+
+@media(max-width:1100px){
+  #plan .plan-dashboard-top-grid,
+  #plan .plan-data-grid{grid-template-columns:minmax(0,1fr)}
+  #plan .plan-dashboard-lower-grid{grid-template-columns:minmax(0,1fr)}
+  #plan .plan-dashboard-lower-grid>.plan-dashboard-column{display:contents}
+  #plan #readinessCard{grid-row:1}
+  #plan #memoryHealthCard{grid-row:2}
+  #plan #roadmapCard{grid-row:3}
+  #plan #learningSettingsCard{grid-row:4}
+}
+
+@media(max-width:720px){
+  #plan .plan-dashboard-grid{gap:14px}
+  #plan .plan-data-fold{border-radius:18px}
+  #plan .plan-data-fold>summary{padding:13px 15px}
+  #plan .plan-data-grid{gap:14px;padding:14px}
+}

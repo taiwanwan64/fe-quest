@@ -1,0 +1,182 @@
+      <div class="plan-screen-grid plan-dashboard-grid" aria-label="進捗・設定ダッシュボード">
+        <div class="plan-dashboard-top-grid">
+        <div class="planner-card exam-pace-card" id="examPaceCard">
+          <h2>試験日ペース 📅</h2>
+          <div id="countdownBox"></div>
+          <div id="examPacePanel"></div>
+        </div>
+
+        <div class="planner-card" id="todayAllocationCard">
+          <h2>今日の配分</h2>
+          <div class="sub" id="allocationPaceNote"></div>
+          <div id="planAllocation"></div>
+          <button class="planner-save secondary-plan-action" id="rebuildTodayPlan" style="margin-top:12px">未完了の今日の計画を再編成</button>
+          <div class="plan-snapshot-note">完了済みの項目は固定したまま、未完了分だけ現在の弱点・試験日設定に合わせて組み直します。</div>
+        </div>
+
+        <div class="planner-card" id="weekPlanCard">
+          <h2>今週の学習</h2>
+          <div class="sub">完了した「今日の学習」に割り当てられた時間の合計です。実際の経過時間ではありません。</div>
+          <div class="week-chart" id="weekChart"></div>
+          <button class="analytics-open" data-screen="history">学習分析を詳しく見る →</button>
+        </div>
+
+        <div class="planner-card" id="reviewForecastCard">
+          <h2>7日間の復習予報 🔁</h2>
+          <div class="sub">現在の記憶間隔から、復習に戻ってくる問題数を予測します。</div>
+          <div class="review-forecast" id="reviewForecast"></div>
+          <button class="planner-save" id="startForecastReview" style="margin-top:14px">今日の復習を始める</button>
+        </div>
+        </div>
+
+        <div class="plan-dashboard-lower-grid">
+          <div class="plan-dashboard-column">
+
+        <div class="planner-card" id="readinessCard">
+          <h2>試験準備度</h2>
+          <div class="readiness-gauge">
+            <div class="gauge-ring" id="readinessRing"><div class="gauge-value" id="readinessValue">0%</div></div>
+            <div class="gauge-copy">
+              <b id="readinessLabel">学習を始めましょう</b>
+              <div class="sub" id="readinessExplain">教材・科目A演習・科目A模試・科目B学習・科目B総合実戦・復習定着をまとめたFE QUEST独自の仕上がり指標です。合格確率ではありません。</div>
+            </div>
+          </div>
+          <div class="adaptive-note" id="adaptiveNote"></div>
+          <div class="readiness-breakdown" id="readinessBreakdown"></div>
+          <details class="readiness-detail-fold">
+            <summary>仕上げ判定の詳細</summary>
+            <div class="readiness-detail-body">
+              <div class="adaptive-note" id="finalMasterSummary"></div>
+              <div class="readiness-breakdown" id="finalMasterGates"></div>
+              <div class="adaptive-note" id="finalFocusNote"></div>
+              <button class="planner-save" id="finalFocusAction">次の仕上げへ</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="planner-card" id="learningSettingsCard">
+          <h2>学習設定</h2>
+          <div class="planner-row">
+            <div class="planner-row-copy">
+              <div class="planner-label">1日の標準学習時間</div>
+              <div class="planner-help">今日の学習をこの時間を目安に組み立てます。</div>
+            </div>
+            <select class="planner-select" id="studyMinutesSetting">
+              <option value="30">30分</option>
+              <option value="45">45分</option>
+              <option value="60">60分</option>
+              <option value="90">90分</option>
+            </select>
+          </div>
+          <div class="planner-row">
+            <div class="planner-row-copy">
+              <div class="planner-label">受験予定日</div>
+              <div class="planner-help">設定すると、残り日数と進捗から毎日の学習配分を調整します。</div>
+            </div>
+            <input class="planner-input" id="examDateSetting" type="date">
+          </div>
+          <div class="planner-row">
+            <div class="planner-row-copy">
+              <div class="planner-label">試験日に合わせて自動調整</div>
+              <div class="planner-help">通常期は必要ペースに応じて最大120分まで調整し、残り7日以内は追い込みを避けて上限を段階的に下げます。</div>
+            </div>
+            <label class="pace-toggle"><input id="autoPaceSetting" type="checkbox"><span></span></label>
+          </div>
+          <button class="planner-save" id="savePlanSettings">設定を保存</button>
+        </div>
+          </div>
+
+          <div class="plan-dashboard-column">
+
+        <div class="planner-card" id="memoryHealthCard">
+          <h2>記憶の健康状態 🧠</h2>
+          <div class="sub">一度学習した問題が、今どのくらい記憶に残っていそうかを推定します。</div>
+          <div class="memory-health-layout">
+            <div class="memory-ring" id="memoryHealthRing"><div><b id="memoryHealthValue">100%</b><span>推定保持</span></div></div>
+            <div class="memory-health-stats">
+              <div><span>安定</span><b id="memoryFreshCount">0</b></div>
+              <div><span>そろそろ</span><b id="memorySoonCount">0</b></div>
+              <div><span>要復習</span><b id="memoryDueCount">0</b></div>
+            </div>
+          </div>
+          <div class="adaptive-note" id="memoryHealthAdvice">問題演習をすると記憶モデルが育ちます。</div>
+        </div>
+
+        <div class="planner-card" id="roadmapCard">
+          <h2>学習ロードマップ</h2>
+          <div class="sub">試験対策全体を5段階にまとめて進捗管理します。</div>
+          <div class="roadmap" id="roadmapList"></div>
+        </div>
+          </div>
+        </div>
+      </div>
+
+      <details class="plan-data-fold" id="planDataFold">
+        <summary>
+          <span><b>アカウント・アプリ・データ</b><small>同期、更新状態、バックアップ、復旧は必要なときだけ確認できます。</small></span>
+        </summary>
+        <div class="plan-data-grid">
+          <div class="planner-card" id="pwaHealthCard">
+            <h2>アプリ・データ</h2>
+            <div class="sub">更新状態と、この端末に保存されている学習データを確認できます。</div>
+            <div class="install-card settings-install-card" id="installCard">
+              <div class="install-ico">📲</div>
+              <div class="install-copy">
+                <div class="install-title">ホーム画面から起動する</div>
+                <div class="sub">必要ならFE QUESTをアプリとしてホーム画面に追加できます。</div>
+              </div>
+              <button class="install-button" id="installPwaBtn">追加方法を見る</button>
+            </div>
+            <div class="pwa-health-grid">
+              <div class="pwa-health-item"><span>アプリ</span><b id="pwaVersionStatus">--</b></div>
+              <div class="pwa-health-item"><span>接続</span><b id="pwaNetworkStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>起動方法</span><b id="pwaDisplayStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>オフライン準備</span><b id="pwaWorkerStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>試験範囲</span><b class="good">Ver.9.2対応</b></div>
+              <div class="pwa-health-item"><span>データ形式</span><b id="profileSchemaStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>自動保護</span><b id="profileSnapshotStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>保存状態</span><b id="profileSaveStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>データ整合性</span><b id="profileIntegrityStatus">確認中</b></div>
+              <div class="pwa-health-item"><span>外部バックアップ</span><b id="profileExportStatus">未作成</b></div>
+              <div class="pwa-health-item"><span>保存保護</span><b id="pwaPersistenceStatus">確認中</b></div>
+            </div>
+            <div class="pwa-health-item" style="margin-top:9px">
+              <span>ブラウザ保存領域</span><b id="pwaStorageStatus">確認中</b>
+              <div class="pwa-storage-bar"><div id="pwaStorageBar"></div></div>
+            </div>
+            <div class="pwa-health-actions">
+              <button class="primary" id="checkAppUpdate">更新を確認</button>
+              <button id="exportProfile">バックアップを書き出す</button>
+              <details class="data-maintenance-fold">
+                <summary>その他のデータ操作</summary>
+                <div class="pwa-health-actions-advanced">
+                  <button id="requestPersistentStorage">保存保護を強化</button>
+                  <button id="verifyProfileData">データを検査</button>
+                  <button id="runStorageSelfTest">安全性チェック</button>
+                  <button id="createRecoveryPoint">復旧点を今作る</button>
+                  <button id="importProfile">バックアップを読み込む</button>
+                  <button id="restorePreImport" class="hidden">直前の読込前データへ戻す</button>
+                  <button id="exportCorruptProfile" class="hidden">破損データを保全</button>
+                </div>
+              </details>
+            </div>
+            <input id="profileImportInput" type="file" accept="application/json,.json" hidden>
+            <details class="recovery-fold">
+              <summary>復旧センター（トラブル時）</summary>
+              <div class="recovery-center" id="recoveryCenter">
+                <div class="recovery-center-head">
+                  <div><b>復旧センター</b><span>過去の正常な状態を確認し、必要なときだけ選んで戻せます。</span></div>
+                  <button id="refreshRecoveryCenter">復旧候補を確認</button>
+                </div>
+                <div class="recovery-center-status" id="recoveryCenterStatus">復旧候補を読み込んでいます。</div>
+                <div class="recovery-list" id="recoveryPointList"></div>
+                <div class="recovery-center-actions">
+                  <button id="restorePreManual" class="hidden">直前の手動復元前へ戻す</button>
+                  <button id="exportRecoveryDiagnostics">診断レポートを書き出す</button>
+                </div>
+              </div>
+            </details>
+            <div class="pwa-health-note">学習データはこのブラウザ内に保存されます。通常はバックアップの書き出しだけで十分です。検査・読み込み・復旧は、保存状態に問題があるときだけ開いて使ってください。</div>
+          </div>
+        </div>
+      </details>

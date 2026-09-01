@@ -1,0 +1,44 @@
+name: Materialize FE QUEST v352 progress dashboard
+
+on:
+  push:
+    branches: ['v352-progress-dashboard']
+    paths:
+      - 'app/progress-dashboard-v352.html'
+      - 'app/progress-dashboard-layout-v352.css'
+      - '.github/v352/materialize_progress_dashboard.py'
+      - '.github/workflows/v352-materialize-progress-dashboard.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v352-progress-dashboard
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v352/materialize_progress_dashboard.py
+      - name: Validate generated release
+        run: python .github/v352/validate_progress_dashboard.py
+      - name: Commit generated v352 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v352.html assets/app-v352.css assets/app-v352.js assets/asset-manifest-v352.json
+          if git diff --cached --quiet; then
+            echo 'v352 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v352 split release'
+          git push origin HEAD:v352-progress-dashboard
+
+# The first source push after this workflow exists materializes the versioned assets.
