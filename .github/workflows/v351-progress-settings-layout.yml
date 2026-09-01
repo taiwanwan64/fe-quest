@@ -7,6 +7,8 @@ on:
       - '.github/v351/**'
       - '.github/workflows/v351-progress-settings-layout.yml'
       - '.github/workflows/v351-materialize-progress-settings-layout.yml'
+      - '.github/workflows/v346-external-beta-readiness.yml'
+      - '.github/workflows/v347-beta-journey-dry-run.yml'
       - 'audits/V351_PROGRESS_SETTINGS_LAYOUT.md'
       - 'FE_QUEST_DEVELOPMENT_PLAN.md'
       - 'index.html'
@@ -39,7 +41,7 @@ jobs:
         run: |
           changed="$(git diff --name-only origin/main...HEAD)"
           echo "$changed"
-          if echo "$changed" | grep -Ev '^(\.github/v351/|\.github/workflows/v351-progress-settings-layout\.yml|\.github/workflows/v351-materialize-progress-settings-layout\.yml|audits/V351_PROGRESS_SETTINGS_LAYOUT\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v351\.html|app/progress-settings-layout-v351\.css|assets/app-v351\.css|assets/app-v351\.js|assets/asset-manifest-v351\.json)$' | grep -q .; then
+          if echo "$changed" | grep -Ev '^(\.github/v351/.*|\.github/workflows/v351-progress-settings-layout\.yml|\.github/workflows/v351-materialize-progress-settings-layout\.yml|\.github/workflows/v346-external-beta-readiness\.yml|\.github/workflows/v347-beta-journey-dry-run\.yml|audits/V351_PROGRESS_SETTINGS_LAYOUT\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v351\.html|app/progress-settings-layout-v351\.css|assets/app-v351\.css|assets/app-v351\.js|assets/asset-manifest-v351\.json)$' | grep -q .; then
             echo 'Unexpected file in the v351 layout release' >&2
             exit 1
           fi
