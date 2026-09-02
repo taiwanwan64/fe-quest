@@ -1,0 +1,67 @@
+/* ===== v356: subnet network/host boundary lesson diagram ===== */
+.core-subnet-diagram-v356{margin:15px 0 2px;padding:17px;border:1px solid #cddfec;border-radius:17px;background:#fbfdff;color:#243f52}
+.core-subnet-diagram-v356 *{box-sizing:border-box}
+.core-subnet-diagram-v356 figcaption{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 5px}
+.core-subnet-diagram-v356 figcaption>span{color:#2368aa;font-size:13px;font-weight:900;letter-spacing:.04em}
+.core-subnet-diagram-v356 figcaption>b{color:#17364b;font-size:17px;line-height:1.45}
+.core-subnet-lead-v356{margin:0 0 13px!important;color:#5a6f7f!important;line-height:1.7!important}
+.core-subnet-lead-v356 code{display:inline-block;max-width:100%;padding:2px 6px;border-radius:6px;background:#eef5fa;color:#245f91;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:900;white-space:nowrap}
+.core-subnet-summary-v356{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:11px}
+.core-subnet-summary-v356>div{min-width:0;padding:10px;border:1px solid #dbe6ed;border-radius:11px;background:#fff}
+.core-subnet-summary-v356 span{display:block;margin-bottom:3px;color:#687d8b;font-size:10px;font-weight:900}
+.core-subnet-summary-v356 b{display:block;color:#244b66;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.45;overflow-wrap:anywhere}
+.core-subnet-summary-v356 small{display:block;margin-top:2px;color:#71828c;font-size:9.5px;font-weight:800}
+.core-subnet-legend-v356{display:flex;align-items:center;justify-content:flex-end;gap:8px 14px;flex-wrap:wrap;margin-bottom:7px;color:#5f7482;font-size:10px;font-weight:800}
+.core-subnet-legend-v356 span{display:inline-flex;align-items:center;gap:5px}
+.core-subnet-legend-v356 i{width:12px;height:12px;border-radius:4px}
+.core-subnet-legend-v356 .is-network i{background:#dceefd;border:1px solid #72a9d3}
+.core-subnet-legend-v356 .is-host i{background:#fff0c9;border:1px solid #d8a84e}
+.core-subnet-legend-v356 b{color:#385d73}
+.core-subnet-binary-v356{display:grid;gap:7px;padding:12px;border:1px solid #d9e5ec;border-radius:14px;background:#fff}
+.core-subnet-column-head-v356{display:grid;grid-template-columns:minmax(0,26fr) 4px minmax(0,6fr);gap:0;margin-left:112px;color:#607786;font-size:10px;font-weight:900;text-align:center}
+.core-subnet-column-head-v356 span:first-child{color:#286c9d}
+.core-subnet-column-head-v356 span:last-child{color:#93671d}
+.core-subnet-column-head-v356 i{background:#8d774e;border-radius:999px}
+.core-subnet-binary-row-v356{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px;align-items:center;min-width:0}
+.core-subnet-row-label-v356{min-width:0;text-align:right}
+.core-subnet-row-label-v356 b{display:block;color:#35566b;font-size:11px;line-height:1.35;word-break:keep-all}
+.core-subnet-row-label-v356 small{display:block;color:#71828c;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:9px;line-height:1.35;overflow-wrap:anywhere}
+.core-subnet-bitline-v356{display:grid;grid-template-columns:minmax(0,26fr) 4px minmax(0,6fr);gap:0;align-items:stretch;min-width:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;font-weight:900;line-height:1.4}
+.core-subnet-network-bits-v356,.core-subnet-host-bits-v356{display:flex;align-items:center;justify-content:center;min-width:0;min-height:38px;padding:7px 5px}
+.core-subnet-network-bits-v356{border:1px solid #b8d7ed;border-right:0;border-radius:9px 0 0 9px;background:#e8f4fd;color:#245f91}
+.core-subnet-host-bits-v356{border:1px solid #e4c478;border-left:0;border-radius:0 9px 9px 0;background:#fff3d5;color:#815a20}
+.core-subnet-network-bits-v356 span,.core-subnet-host-bits-v356 span{white-space:nowrap}
+.core-subnet-network-bits-v356 em{padding:0 2px;color:#7d9aab;font-style:normal}
+.core-subnet-boundary-v356{display:block;background:#8d774e;box-shadow:0 0 0 2px #fff}
+.core-subnet-and-v356{display:flex;align-items:center;justify-content:center;gap:7px;margin-left:112px;padding:3px;color:#617786;font-size:10px;line-height:1.4;text-align:center}
+.core-subnet-and-v356 span{display:inline-flex;align-items:center;padding:2px 6px;border-radius:999px;background:#edf2f5;color:#426276;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:900}
+.core-subnet-and-v356 b{font-weight:800;word-break:keep-all;overflow-wrap:break-word}
+.core-subnet-result-v356{display:flex;align-items:flex-start;gap:9px;margin-top:12px;padding:11px 12px;border-radius:13px;background:#e8f5ee;color:#47675a}
+.core-subnet-result-v356>span{display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;border-radius:999px;background:#2e8b64;color:#fff;font-size:13px;font-weight:900}
+.core-subnet-result-v356 div{min-width:0}
+.core-subnet-result-v356 b{display:block;color:#176a4c;font-size:13px;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
+.core-subnet-result-v356 small{display:block;margin-top:2px;color:#5f766b;font-size:10.5px;font-weight:800;line-height:1.55}
+@media(max-width:720px){
+  .core-subnet-summary-v356{grid-template-columns:1fr}
+  .core-subnet-summary-v356>div{padding:9px 10px}
+  .core-subnet-summary-v356 span{display:inline;margin:0 7px 0 0}
+  .core-subnet-summary-v356 b{display:inline;font-size:11px}
+  .core-subnet-summary-v356 small{display:inline;margin-left:7px}
+  .core-subnet-column-head-v356{margin-left:0}
+  .core-subnet-binary-row-v356{grid-template-columns:1fr;gap:4px}
+  .core-subnet-row-label-v356{display:flex;align-items:baseline;justify-content:space-between;gap:7px;text-align:left}
+  .core-subnet-and-v356{margin-left:0}
+}
+@media(max-width:480px){
+  .core-subnet-diagram-v356{padding:14px;margin-top:13px}
+  .core-subnet-binary-v356{padding:10px 8px}
+  .core-subnet-bitline-v356{font-size:9.5px}
+  .core-subnet-network-bits-v356,.core-subnet-host-bits-v356{padding:7px 3px}
+  .core-subnet-network-bits-v356 em{padding:0 1px}
+  .core-subnet-column-head-v356{font-size:9px}
+  .core-subnet-legend-v356{justify-content:flex-start}
+}
+@media(max-width:360px){
+  .core-subnet-bitline-v356{font-size:8.5px}
+  .core-subnet-binary-v356{padding-inline:6px}
+}
