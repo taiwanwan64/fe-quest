@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v359 critical path diagram
+
+on:
+  push:
+    branches: ['v359-critical-path-diagram']
+    paths:
+      - 'app/critical-path-diagram-v359.js'
+      - 'app/critical-path-diagram-v359.css'
+      - '.github/v359/materialize_critical_path_diagram.py'
+      - '.github/workflows/v359-materialize-critical-path-diagram.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v359-critical-path-diagram
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v359/materialize_critical_path_diagram.py
+      - name: Validate generated release
+        run: python .github/v359/validate_critical_path_diagram.py
+      - name: Commit generated v359 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v359.html assets/app-v359.css assets/app-v359.js assets/asset-manifest-v359.json
+          if git diff --cached --quiet; then
+            echo 'v359 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v359 split release'
+          git push origin HEAD:v359-critical-path-diagram
