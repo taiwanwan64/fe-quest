@@ -1,0 +1,56 @@
+/* v358: logic gate and automata trace lesson diagrams */
+.core-logic-trace-diagram-v358,.core-automata-trace-diagram-v358{margin:24px 0;padding:22px;border:1px solid #d2dcf0;border-radius:22px;background:linear-gradient(145deg,#f8fbff,#f4f6ff);box-shadow:0 14px 32px rgba(30,64,175,.09);min-width:0;overflow:hidden;color:#172033}
+.core-logic-trace-diagram-v358 figcaption,.core-automata-trace-diagram-v358 figcaption{font-size:clamp(20px,2.4vw,28px);font-weight:900;line-height:1.3;word-break:keep-all;overflow-wrap:anywhere}
+.core-trace-lead-v358{margin:8px 0 18px;color:#526079;line-height:1.75;word-break:normal;overflow-wrap:anywhere}
+.core-trace-lead-v358 code,.core-automata-input-v358 b,.core-logic-flow-v358 output,.core-trace-steps-v358 code{font-variant-numeric:tabular-nums}
+.core-logic-flow-v358{display:grid;grid-template-columns:minmax(120px,.75fr) 34px minmax(210px,1.35fr) 34px minmax(150px,.9fr);gap:10px;align-items:center;min-width:0}
+.core-logic-flow-v358 section{min-width:0}
+.core-logic-inputs-v358{display:grid;gap:10px}
+.core-logic-inputs-v358 span{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid #cbd8ee;border-radius:14px;background:#fff;font-weight:800;color:#44516a}
+.core-logic-inputs-v358 b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#263b8e;color:#fff;font-size:18px}
+.core-trace-arrow-v358{display:grid;place-items:center;font-style:normal;font-size:28px;font-weight:900;color:#8190ac}
+.core-logic-middle-v358{display:grid;gap:10px}
+.core-logic-middle-v358 div,.core-logic-output-v358{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:center;padding:12px;border:1px solid #cbd8ee;border-radius:15px;background:#fff;min-width:0}
+.core-logic-middle-v358 b,.core-logic-output-v358>b{display:grid;place-items:center;min-width:50px;min-height:38px;padding:3px 8px;border-radius:11px;color:#fff;font-size:13px;letter-spacing:.05em}
+.core-gate-or-v358{background:#2563eb}.core-gate-not-v358{background:#7c3aed}.core-gate-and-v358{background:#0f766e}
+.core-logic-middle-v358 span,.core-logic-output-v358 span{font-size:13px;font-weight:800;color:#526079;word-break:keep-all}
+.core-logic-middle-v358 output,.core-logic-output-v358 output{padding:7px 9px;border-radius:9px;background:#eef4ff;color:#1e3a8a;font-weight:900;white-space:nowrap}
+.core-logic-output-v358{grid-template-columns:1fr;justify-items:center;text-align:center;padding:17px 12px;background:#effdf8;border-color:#9ed9c9}
+.core-logic-output-v358 output{background:#0f766e;color:#fff;font-size:16px}
+.core-trace-steps-v358{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 0;padding:0;list-style:none}
+.core-trace-steps-v358 li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 9px;align-items:center;padding:11px 12px;border-radius:13px;background:#fff;border:1px solid #dbe4f3;min-width:0}
+.core-trace-steps-v358 li>b{grid-row:1/3;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#263b8e;color:#fff}
+.core-trace-steps-v358 span{font-weight:800;color:#44516a;word-break:keep-all}.core-trace-steps-v358 code{font-size:12px;color:#526079;overflow-wrap:anywhere}
+.core-trace-rule-v358{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;margin:16px 0 0;padding:13px 15px;border-radius:14px;background:#fff7dc;border:1px solid #f1d37a;line-height:1.65;color:#5b4a17;min-width:0}
+.core-trace-rule-v358 b{color:#805d00;white-space:nowrap}.core-trace-rule-v358{word-break:normal;overflow-wrap:anywhere}
+.core-automata-rules-v358{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.core-automata-rules-v358>div{display:grid;grid-template-columns:auto repeat(2,minmax(0,1fr));gap:9px;align-items:center;padding:11px 13px;border-radius:14px;background:#fff;border:1px solid #d6e0f1;min-width:0}
+.core-automata-rules-v358 b{color:#263b8e;word-break:keep-all}.core-automata-rules-v358 span{text-align:center;color:#526079;font-weight:800;white-space:nowrap}
+.core-automata-input-v358{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 14px;padding:9px 14px;width:max-content;max-width:100%;box-sizing:border-box;border-radius:999px;background:#263b8e;color:#fff}
+.core-automata-input-v358 span{font-size:12px;font-weight:800;opacity:.8}.core-automata-input-v358 b{font-size:18px;letter-spacing:.08em;white-space:nowrap}
+.core-automata-trace-v358{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:0;padding:0;list-style:none;min-width:0}
+.core-automata-trace-v358 li{position:relative;display:grid;justify-items:center;gap:3px;padding:13px 10px;border-radius:17px;border:2px solid;min-width:0;text-align:center}
+.core-automata-trace-v358 li+li::before{content:"→";position:absolute;left:-20px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:900;color:#8190ac}
+.core-automata-trace-v358 small{font-weight:800;opacity:.72}.core-automata-trace-v358 li>b{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;font-size:24px;color:#fff}.core-automata-trace-v358 span{font-size:12px;font-weight:800;word-break:keep-all;overflow-wrap:anywhere}
+.core-state-a-v358{background:#eef2ff;border-color:#8998dc;color:#293478}.core-state-a-v358>b{background:#3f51b5}
+.core-state-b-v358{background:#ecfeff;border-color:#72c7cf;color:#155e68}.core-state-b-v358>b{background:#0e8996}
+@media(max-width:720px){
+  .core-logic-trace-diagram-v358,.core-automata-trace-diagram-v358{padding:18px 14px;border-radius:18px}
+  .core-logic-flow-v358{grid-template-columns:minmax(0,1fr);gap:8px}
+  .core-trace-arrow-v358{height:22px;transform:rotate(90deg);font-size:24px}
+  .core-logic-middle-v358 div{grid-template-columns:auto minmax(0,1fr) auto}
+  .core-logic-output-v358{max-width:260px;width:100%;box-sizing:border-box;justify-self:center}
+  .core-trace-steps-v358{grid-template-columns:1fr}
+  .core-automata-trace-v358{grid-template-columns:1fr;gap:24px;max-width:300px;margin-inline:auto}
+  .core-automata-trace-v358 li+li::before{content:"↓";left:50%;top:-25px;transform:translateX(-50%);font-size:20px}
+  .core-automata-rules-v358{grid-template-columns:1fr}
+  .core-trace-rule-v358{grid-template-columns:1fr;gap:4px}
+  .core-trace-rule-v358 b{white-space:normal}
+}
+@media(max-width:390px){
+  .core-logic-trace-diagram-v358,.core-automata-trace-diagram-v358{padding-inline:11px}
+  .core-logic-middle-v358 div{grid-template-columns:auto minmax(0,1fr)}
+  .core-logic-middle-v358 output{grid-column:1/-1;justify-self:stretch;text-align:center}
+  .core-automata-rules-v358>div{grid-template-columns:1fr 1fr}
+  .core-automata-rules-v358 b{grid-column:1/-1;text-align:center}
+}
