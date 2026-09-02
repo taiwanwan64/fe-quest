@@ -142,6 +142,8 @@ def run_case(pw, base_url: str, name: str, engine: str, viewport: dict, mobile: 
     expected_columns = 1 if viewport["width"] <= 820 else 5
 
     def metrics_pass(metrics: dict) -> bool:
+        # Internal card overflow is checked separately from document overflow so a
+        # single unbreakable Japanese label cannot be hidden by the outer layout.
         return all((
             metrics["diagramCount"] == 1,
             metrics["trackCount"] == 2,
