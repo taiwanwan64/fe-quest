@@ -2,6 +2,8 @@
 
 Status: IMPLEMENTED — release checks pending.
 
+First browser run 33696525421 identified a 320px sum overflow and unequal mobile task alignment. The scoped CSS now stacks both sum results consistently at narrow widths and overrides inherited article paragraph rules. A connector-metric bug (reading coordinates from DOM nodes instead of measured route records) was corrected without weakening its tolerance. Browser verification is being repeated.
+
 ## Scope
 
 - Baseline: main v358, a9eeac0a303ad2ddb6475d544ddf2ce20b058293.
