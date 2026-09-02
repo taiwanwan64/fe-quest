@@ -1,0 +1,63 @@
+name: FE QUEST v356 subnet boundary diagram
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v356/**'
+      - '.github/workflows/v356-subnet-boundary-diagram.yml'
+      - '.github/workflows/v356-materialize-subnet-boundary-diagram.yml'
+      - 'audits/V356_SUBNET_BOUNDARY_DIAGRAM.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v356.html'
+      - 'app/subnet-boundary-diagram-v356.js'
+      - 'app/subnet-boundary-diagram-v356.css'
+      - 'assets/app-v356.css'
+      - 'assets/app-v356.js'
+      - 'assets/asset-manifest-v356.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v356-subnet-boundary-diagram:
+    if: startsWith(github.head_ref, 'v356-subnet-boundary-diagram')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict the learner-facing change
+        shell: bash
+        run: |
+          changed="$(git diff --name-only origin/main...HEAD)"
+          echo "$changed"
+          if echo "$changed" | grep -Ev '^(\.github/v356/.*|\.github/workflows/v356-subnet-boundary-diagram\.yml|\.github/workflows/v356-materialize-subnet-boundary-diagram\.yml|audits/V356_SUBNET_BOUNDARY_DIAGRAM\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v356\.html|app/subnet-boundary-diagram-v356\.js|app/subnet-boundary-diagram-v356\.css|assets/app-v356\.css|assets/app-v356\.js|assets/asset-manifest-v356\.json)$' | grep -q .; then
+            echo 'Unexpected file in the v356 subnet boundary release' >&2
+            exit 1
+          fi
+          test -z "$(git diff --name-only origin/main...HEAD -- app/base-shell-v355.html assets/app-v355.css assets/app-v355.js assets/asset-manifest-v355.json cloud/)"
+      - name: Validate static release and data boundaries
+        run: python .github/v356/validate_subnet_boundary_diagram.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Validate responsive subnet diagram
+        run: python .github/v356/browser_subnet_boundary_diagram.py
+      - name: Upload subnet diagram evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v356-subnet-boundary-diagram-evidence
+          path: _browser_evidence/v356/
+          if-no-files-found: warn
+          retention-days: 14
