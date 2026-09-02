@@ -105,7 +105,7 @@ def collect(page) -> dict:
             routes:routeData,
             pathColumns:getComputedStyle(pathGrid).gridTemplateColumns.split(' ').length,
             noteColumns:getComputedStyle(notes).gridTemplateColumns.split(' ').length,
-            connectorErrors:routes.map((r,i)=>Math.max(
+            connectorErrors:routeData.map((r,i)=>Math.max(
               Math.abs((i?split.right-1:split.left+1)-(r.x+r.width/2)),
               Math.abs((i?join.right-1:join.left+1)-(r.x+r.width/2)))),
             overflows:tracked.filter(n=>n.scrollWidth>n.clientWidth+1).map(n=>n.className||n.tagName),
@@ -148,8 +148,12 @@ def run_case(pw, base_url, name, engine, viewport, mobile=False):
         page.wait_for_timeout(200)
         metrics = collect(page)
         OUT.mkdir(parents=True, exist_ok=True)
-        figure.screenshot(path=str(OUT / f"{name}.png"))
-        page.screenshot(path=str(OUT / f"{name}-context.png"), full_page=True)
+        # Keep an unmodified viewport capture, then isolate the tall figure for
+        # visual review. Visibility-only screenshot CSS preserves measured layout
+        # and prevents fixed app chrome from being stitched across the figure.
+        figure.scroll_into_view_if_needed()
+        page.screenshot(path=str(OUT / f"{name}-context.png"))
+        figure.screenshot(path=str(OUT / f"{name}.png"), style="body *{visibility:hidden!important}.core-critical-path-v359,.core-critical-path-v359 *{visibility:visible!important}")
         # Rerender must not duplicate the figure.
         page.evaluate("startLesson('core_14_04')")
         figure.wait_for(state="visible")
@@ -173,6 +177,7 @@ def run_case(pw, base_url, name, engine, viewport, mobile=False):
             abs(a["barRatio"] - 1) < .01, abs(b["barRatio"] - 5/7) < .01,
             abs(a["y"] - b["y"]) < 1, abs(a["width"] - b["width"]) < 1,
             abs(a["height"] - b["height"]) < 1,
+            all(abs(x["y"] - y["y"]) < 1 for x, y in zip(a["tasks"], b["tasks"])),
             max(metrics["connectorErrors"]) < 2,
             not metrics["overflows"], not metrics["documentOverflow"],
             metrics["hasJoin"], metrics["hasDelay"], not errors,
