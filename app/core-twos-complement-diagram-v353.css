@@ -1,0 +1,35 @@
+/* ===== v353: inline two's-complement lesson diagram ===== */
+.core-inline-diagram-v353{margin:15px 0 2px;padding:17px;border:1px solid #cfe2d9;border-radius:17px;background:#fbfffd;color:#243f52}
+.core-inline-diagram-v353 figcaption{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 5px}
+.core-inline-diagram-v353 figcaption span{color:#197a59;font-size:13px;font-weight:900;letter-spacing:.04em}
+.core-inline-diagram-v353 figcaption b{color:#17364b;font-size:17px;line-height:1.45}
+.core-twos-lead-v353{margin:0 0 14px!important;color:#567067!important;line-height:1.7!important}
+.core-twos-flow-v353{display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr) 64px minmax(0,1fr);align-items:stretch;gap:8px}
+.core-twos-step-v353{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:13px 11px;border-radius:14px;background:#f1f8f5}
+.core-twos-step-v353.is-start{background:#e7f2fc}
+.core-twos-step-v353.is-result{background:#dff4eb}
+.core-twos-step-label-v353{color:#567067;font-size:12px;font-weight:900;line-height:1.4}
+.core-twos-number-v353{display:flex;align-items:baseline;gap:6px;min-width:0;flex-wrap:nowrap;white-space:nowrap}
+.core-twos-number-v353 code{display:inline-block;max-width:none!important;padding:0;background:transparent;color:#173329;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(16px,1.55vw,20px);font-weight:900;letter-spacing:.03em;line-height:1.35;white-space:nowrap;overflow-wrap:normal!important}
+.core-twos-sign-v353{display:inline-block;flex:0 0 auto;max-width:none!important;color:#2368aa;font-size:16px;font-weight:1000;line-height:1.35;white-space:nowrap;overflow-wrap:normal!important}
+.core-twos-step-v353.is-result .core-twos-sign-v353{color:#197a59}
+.core-twos-arrow-v353{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;color:#197a59}
+.core-twos-arrow-glyph-v353{font-size:22px;font-weight:900;line-height:1}
+.core-twos-arrow-glyph-v353 i{font-style:normal}
+.core-twos-arrow-narrow-v353{display:none}
+.core-twos-arrow-v353 small{color:#567067;font-size:11px;font-weight:900;line-height:1.35}
+.core-twos-caution-v353{display:grid;grid-template-columns:auto 1fr;gap:4px;margin-top:13px;padding:11px 13px;border-radius:13px;background:#fff6da;color:#665833;font-size:14px;line-height:1.65}
+.core-twos-caution-v353 b{color:#8a5a00}
+@media(max-width:720px){
+  .core-inline-diagram-v353{padding:14px;margin-top:13px}
+  .core-twos-flow-v353{grid-template-columns:1fr;gap:7px}
+  .core-twos-step-v353{min-height:82px;padding:12px}
+  .core-twos-number-v353 code{font-size:20px}
+  .core-twos-arrow-v353{min-height:31px;flex-direction:row;gap:7px}
+  .core-twos-arrow-wide-v353{display:none}
+  .core-twos-arrow-narrow-v353{display:inline}
+  .core-twos-arrow-v353 small{font-size:12px}
+}
+@media(max-width:360px){
+  .core-twos-number-v353 code{font-size:18px;letter-spacing:.02em}
+}

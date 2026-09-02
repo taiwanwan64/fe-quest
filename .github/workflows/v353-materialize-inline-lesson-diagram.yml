@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v353 inline lesson diagram
+
+on:
+  push:
+    branches: ['v353-inline-lesson-diagram']
+    paths:
+      - 'app/core-twos-complement-diagram-v353.js'
+      - 'app/core-twos-complement-diagram-v353.css'
+      - '.github/v353/materialize_inline_lesson_diagram.py'
+      - '.github/workflows/v353-materialize-inline-lesson-diagram.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v353-inline-lesson-diagram
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v353/materialize_inline_lesson_diagram.py
+      - name: Validate generated release
+        run: python .github/v353/validate_inline_lesson_diagram.py
+      - name: Commit generated v353 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v353.html assets/app-v353.css assets/app-v353.js assets/asset-manifest-v353.json
+          if git diff --cached --quiet; then
+            echo 'v353 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v353 split release'
+          git push origin HEAD:v353-inline-lesson-diagram
