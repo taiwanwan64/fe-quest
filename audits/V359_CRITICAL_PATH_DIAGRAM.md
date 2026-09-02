@@ -1,8 +1,8 @@
 # V359 — Critical path duration comparison
 
-Status: IMPLEMENTED — release checks pending.
+Status: PASS — AUTOMATED LESSON DIAGRAM GATE CLEARED.
 
-First browser run 33696525421 identified a 320px sum overflow and unequal mobile task alignment. The scoped CSS now stacks both sum results consistently at narrow widths and overrides inherited article paragraph rules. A connector-metric bug (reading coordinates from DOM nodes instead of measured route records) was corrected without weakening its tolerance. Browser verification is being repeated.
+First browser run 33696525421 identified a 320px sum overflow and unequal mobile task alignment. The scoped CSS now stacks both sum results consistently at narrow widths and overrides inherited article paragraph rules. A connector-metric bug (reading coordinates from DOM nodes instead of measured route records) was corrected without weakening its tolerance. The revised browser suite passes all four conditions.
 
 ## Scope
 
@@ -21,6 +21,10 @@ The release changes only the application version, the new renderer/mount, append
 
 ## Verification
 
+- Verified code head: `becb56c69237d5c593da22d0d92f7899d4f0352f`.
+- [GitHub Actions run 33696911915](https://github.com/taiwanwan64/fe-quest/actions/runs/33696911915): static **33/33 PASS**, browser **4/4 PASS**.
+- Chromium 1366/1024 and WebKit 390/320: no diagram/document overflow, no uncaught page errors, correct 7/5-day sums and 0/2-day float, matched row positions, and 1px connector alignment error (within the 2px threshold).
+- Visual review: desktop, 390px and 320px diagram screenshots plus the unmodified 390px app viewport were inspected. Sums, route labels, arrows and task rows are readable and aligned. Isolated tall-figure captures use visibility-only screenshot CSS to omit fixed app chrome; layout metrics and the context viewport capture are taken in the unmodified app.
 - Static contract checks exact generated JS/CSS/shell deltas, source and asset hashes, renderer scope, numerical examples, version pointers and syntax.
 - Browser checks use Chromium at 1366/1024 px and Playwright WebKit at 390/320 px. They read visible task values, verify sums/float, proportional duration bars, connector alignment, overflow, repeat rendering, existing memory/logic/automata diagrams, and uncaught errors.
 - Screenshots and machine-readable results are retained as CI artifacts. WebKit automation is not a claim of physical iPhone testing.
