@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v358 logic and automata trace diagrams
+
+on:
+  push:
+    branches: ['v358-logic-automata-trace-diagrams']
+    paths:
+      - 'app/logic-automata-trace-diagram-v358.js'
+      - 'app/logic-automata-trace-diagram-v358.css'
+      - '.github/v358/materialize_logic_automata_trace_diagrams.py'
+      - '.github/workflows/v358-materialize-logic-automata-trace-diagrams.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v358-logic-automata-trace-diagrams
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v358/materialize_logic_automata_trace_diagrams.py
+      - name: Validate generated release
+        run: python .github/v358/validate_logic_automata_trace_diagrams.py
+      - name: Commit generated v358 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v358.html assets/app-v358.css assets/app-v358.js assets/asset-manifest-v358.json
+          if git diff --cached --quiet; then
+            echo 'v358 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v358 split release'
+          git push origin HEAD:v358-logic-automata-trace-diagrams

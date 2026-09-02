@@ -1,0 +1,164 @@
+{
+  "version": "v358",
+  "previousVersion": "v357",
+  "strategy": "versioned-split-shell-classic-script-stylesheet",
+  "sourceRelease": {
+    "version": "v357",
+    "assetManifestSha256": "46a9bbcd033cd98c62758b364ec399d22c0aea68fd72767d3634e5ab8dc9c4a4",
+    "shellSha256": "1d34eb871a1f022c1526e75c6a1e6788bf61aa8a541bb12b34d2b037b957adb3",
+    "cssSha256": "bc59d67d5ccb36208bcfb3ef44cb4e4d1daeec6d6d37ab94c77d80bcaebdc06a",
+    "jsSha256": "7819e9cbe2791cb3d46a2514cefaefd94c3d56781a603ef48a811df5b745c30a"
+  },
+  "shell": {
+    "sourcePath": "app/base-shell-v358.html",
+    "utf8Bytes": 98573,
+    "sha256": "f849810886388168d7eebe80dfe9904038642cf1f38234a41713b7264240d06f"
+  },
+  "assets": [
+    {
+      "path": "assets/app-v358.css",
+      "kind": "style",
+      "utf8Bytes": 272931,
+      "sha256": "dff8d73c0c234147698a435f583be4f5b3bfb5496dbdb49d02d8ccdb82720331"
+    },
+    {
+      "path": "assets/app-v358.js",
+      "kind": "classic-script",
+      "utf8Bytes": 3392942,
+      "sha256": "12c0c3defe10d6e8e930a2a9ef513b04ab9258a7d9062a9ea4ce57fa9fbe640b"
+    }
+  ],
+  "executionContract": {
+    "applicationScriptTagCount": 2,
+    "scriptType": "classic",
+    "scriptRegion": "body",
+    "currentScript": false,
+    "documentWrite": false,
+    "importMeta": false,
+    "moduleSyntax": false,
+    "orderPreserved": true,
+    "assetRecoveryBootstrap": true,
+    "recoveryMutatesLearningData": false,
+    "cloudActivationEntrypoint": "cloud/activation-loader-v342.js",
+    "cloudActivationFailOpen": true
+  },
+  "cloudActivation": {
+    "enabledByConfig": true,
+    "defaultConfigEnabled": true,
+    "configuredRedirectTo": "https://taiwanwan64.github.io/fe-quest/",
+    "publicConfigSha256": "79da3ba34aeb1a00c3c35ff04dae2e58ca45afb9ecd5f31793d816569d8e5a69",
+    "entrypoint": "cloud/activation-loader-v342.js",
+    "sdk": "vendor/supabase/supabase-2.112.3.js",
+    "sameOriginOnly": true,
+    "precache": [
+      "cloud/activation-loader-v342.js",
+      "cloud/public-config-v342.js",
+      "cloud/sync-ui-v342.css",
+      "vendor/supabase/supabase-2.112.3.js",
+      "cloud/sync-contract-v342.js",
+      "cloud/sync-state-v342.js",
+      "cloud/sync-engine-v342.js",
+      "cloud/supabase/transport-v342.js",
+      "cloud/supabase/auth-boundary-v342.js",
+      "cloud/production-adapter-v342.js",
+      "cloud/reconciliation-v342.js",
+      "cloud/local-reconciliation-adapter-v342.js",
+      "cloud/sync-controller-v342.js",
+      "cloud/sync-ui-v342.js",
+      "cloud/runtime-bootstrap-v342.js"
+    ],
+    "assets": [
+      {
+        "path": "cloud/activation-loader-v342.js",
+        "utf8Bytes": 7963,
+        "sha256": "3c2a959f08114c50147031050c07b0ea4bd4861425ab67fb6509e50172b951af"
+      },
+      {
+        "path": "cloud/public-config-v342.js",
+        "utf8Bytes": 636,
+        "sha256": "79da3ba34aeb1a00c3c35ff04dae2e58ca45afb9ecd5f31793d816569d8e5a69"
+      },
+      {
+        "path": "cloud/sync-ui-v342.css",
+        "utf8Bytes": 2893,
+        "sha256": "337ee08bd91d85631707fe91b85e6bd4f83ea9e1aa8c3a9f787abde7e947b64b"
+      },
+      {
+        "path": "vendor/supabase/supabase-2.112.3.js",
+        "utf8Bytes": 211907,
+        "sha256": "ec004176d101aec77aeef266aa1c94411287fe2039c65ea5f6c72f5e14b3847d"
+      },
+      {
+        "path": "cloud/sync-contract-v342.js",
+        "utf8Bytes": 6480,
+        "sha256": "e0e62ee7b10e8baf3bf24592b395be4ed5dd923782e727ed86924670c23fd99a"
+      },
+      {
+        "path": "cloud/sync-state-v342.js",
+        "utf8Bytes": 7934,
+        "sha256": "2f1dde4ba7ca244419f6b3c57f95fa25e5e0a38662e94dc9e2faccd4b0d55d79"
+      },
+      {
+        "path": "cloud/sync-engine-v342.js",
+        "utf8Bytes": 8664,
+        "sha256": "53df41000e1d1c524f9e91951e1c63c9cd2dd6cd3cfdceac3f76092d62071db0"
+      },
+      {
+        "path": "cloud/supabase/transport-v342.js",
+        "utf8Bytes": 7467,
+        "sha256": "a92fd752c8b8f95d6ba0fb7fa006aa4df523f4fe64e5920bda6d13d96428e63b"
+      },
+      {
+        "path": "cloud/supabase/auth-boundary-v342.js",
+        "utf8Bytes": 9966,
+        "sha256": "a5a2e6bb4da41a8792362d8d760371b413c7ea276ceb990c78f97533bba21adc"
+      },
+      {
+        "path": "cloud/production-adapter-v342.js",
+        "utf8Bytes": 4950,
+        "sha256": "92988e3f8c1216a6f4680818cf2fcbcf579168ea15286598205d52e59273c7b0"
+      },
+      {
+        "path": "cloud/reconciliation-v342.js",
+        "utf8Bytes": 6440,
+        "sha256": "c158fef7b73535e237955bed4dc54c54fe3b37312a36d7139023c695f6003747"
+      },
+      {
+        "path": "cloud/local-reconciliation-adapter-v342.js",
+        "utf8Bytes": 5405,
+        "sha256": "befccc518216aefedbb4410e24163e224aff4b972799f4cbce2946a4152bb77c"
+      },
+      {
+        "path": "cloud/sync-controller-v342.js",
+        "utf8Bytes": 7863,
+        "sha256": "450cf33cf304f501e427b8ec57329d94de27095e4321c375172b7d78d29071d1"
+      },
+      {
+        "path": "cloud/sync-ui-v342.js",
+        "utf8Bytes": 14720,
+        "sha256": "30c3bafb15f190c0d7402971ae2ab335f128e09bb78de6c3ede7fd2d6a8ff291"
+      },
+      {
+        "path": "cloud/runtime-bootstrap-v342.js",
+        "utf8Bytes": 7803,
+        "sha256": "dfc792d9aaa650d677bde5b867e3ade42645492eda0b61c8b64542d888019c06"
+      }
+    ]
+  },
+  "logicAutomataTraceDiagrams": {
+    "version": "v358",
+    "scope": [
+      "core-02-02-logic-gate-trace",
+      "core-02-04-automata-state-trace"
+    ],
+    "profileSchemaChange": false,
+    "questionBankChange": false,
+    "curriculumTextChange": false,
+    "cloudRuntimeChange": false,
+    "interactionRequired": false,
+    "jsSourcePath": "app/logic-automata-trace-diagram-v358.js",
+    "jsSourceSha256": "ff8513c50f3099c3014ffc10ebb5412eefde5ea86db54e2e97eab2055e115c3c",
+    "cssSourcePath": "app/logic-automata-trace-diagram-v358.css",
+    "cssSourceSha256": "54a31cdd0378d8718401e8b155c4b6a5b4f61629d82c52e78e4030a1e52e6dfe"
+  }
+}
