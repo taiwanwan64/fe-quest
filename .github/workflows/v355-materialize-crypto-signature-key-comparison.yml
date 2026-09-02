@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v355 crypto signature key comparison
+
+on:
+  push:
+    branches: ['v355-crypto-signature-key-comparison']
+    paths:
+      - 'app/crypto-signature-key-comparison-v355.js'
+      - 'app/crypto-signature-key-comparison-v355.css'
+      - '.github/v355/materialize_crypto_signature_key_comparison.py'
+      - '.github/workflows/v355-materialize-crypto-signature-key-comparison.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v355-crypto-signature-key-comparison
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v355/materialize_crypto_signature_key_comparison.py
+      - name: Validate generated release
+        run: python .github/v355/validate_crypto_signature_key_comparison.py
+      - name: Commit generated v355 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v355.html assets/app-v355.css assets/app-v355.js assets/asset-manifest-v355.json
+          if git diff --cached --quiet; then
+            echo 'v355 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v355 split release'
+          git push origin HEAD:v355-crypto-signature-key-comparison
