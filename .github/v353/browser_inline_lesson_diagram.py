@@ -6,8 +6,9 @@ from threading import Thread
 import json
 import os
 import sys
+import time
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error as PlaywrightError, sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +34,41 @@ class Handler(SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
         super().do_GET()
+
+
+def wait_for_stable_page(page, timeout: int = 45_000) -> dict:
+    """Wait through a possible first-load PWA activation navigation."""
+    deadline = time.monotonic() + timeout / 1000
+    last_error = ""
+    for _attempt in range(1, 9):
+        remaining = max(1_000, int((deadline - time.monotonic()) * 1000))
+        if remaining <= 1_000 and time.monotonic() >= deadline:
+            break
+        try:
+            page.wait_for_load_state("load", timeout=remaining)
+            page.locator("#home").wait_for(state="visible", timeout=remaining)
+            page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=remaining)
+            page.wait_for_function("window.__FEQ_PAGESHOW_SEEN === true", timeout=remaining)
+            marker = page.evaluate("performance.timeOrigin")
+            page.wait_for_timeout(750)
+            state = page.evaluate(
+                """marker => ({
+                  sameDocument: performance.timeOrigin === marker,
+                  readyState: document.readyState,
+                  boot: window.FEQUEST_APP_BOOT_COMPLETE === true,
+                  pageshow: window.__FEQ_PAGESHOW_SEEN === true
+                })""",
+                marker,
+            )
+            if state["sameDocument"] and state["readyState"] == "complete" and state["boot"] and state["pageshow"]:
+                return {"timeOrigin": marker, **state}
+        except PlaywrightError as exc:
+            last_error = str(exc)
+            try:
+                page.wait_for_timeout(150)
+            except PlaywrightError:
+                pass
+    raise AssertionError(f"page did not reach a navigation-stable boot state: {last_error or 'timeout'}")
 
 
 def collect(page) -> dict:
@@ -74,11 +110,14 @@ def run_case(pw, base_url: str, name: str, engine: str, viewport: dict, mobile: 
         device_scale_factor=2 if mobile else 1,
     )
     page = context.new_page()
+    page.add_init_script(
+        """window.__FEQ_PAGESHOW_SEEN=false;
+        addEventListener('pageshow',()=>{window.__FEQ_PAGESHOW_SEEN=true;},{once:true});"""
+    )
     page_errors: list[str] = []
     page.on("pageerror", lambda error: page_errors.append(str(error)))
     response = page.goto(base_url, wait_until="load", timeout=60_000)
-    page.locator("#home").wait_for(state="visible", timeout=30_000)
-    page.wait_for_function("window.FEQUEST_APP_BOOT_COMPLETE === true", timeout=30_000)
+    stable = wait_for_stable_page(page)
     page.evaluate("startLesson('core_01_05')")
     page.locator(".core-twos-diagram-v353").wait_for(state="visible", timeout=30_000)
     page.wait_for_timeout(250)
@@ -112,6 +151,7 @@ def run_case(pw, base_url: str, name: str, engine: str, viewport: dict, mobile: 
         "name": name,
         "engine": engine,
         "httpStatus": response.status if response else None,
+        "stableDocument": stable,
         "metrics": metrics,
         "pageErrors": page_errors,
         "pass": passed,
