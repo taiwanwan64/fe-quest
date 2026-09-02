@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v354 database normalization diagram
+
+on:
+  push:
+    branches: ['v354-database-normalization-diagram']
+    paths:
+      - 'app/database-normalization-diagram-v354.js'
+      - 'app/database-normalization-diagram-v354.css'
+      - '.github/v354/materialize_database_normalization_diagram.py'
+      - '.github/workflows/v354-materialize-database-normalization-diagram.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v354-database-normalization-diagram
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v354/materialize_database_normalization_diagram.py
+      - name: Validate generated release
+        run: python .github/v354/validate_database_normalization_diagram.py
+      - name: Commit generated v354 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v354.html assets/app-v354.css assets/app-v354.js assets/asset-manifest-v354.json
+          if git diff --cached --quiet; then
+            echo 'v354 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v354 split release'
+          git push origin HEAD:v354-database-normalization-diagram
