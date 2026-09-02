@@ -1,0 +1,58 @@
+/* ===== v355: public-key encryption and digital-signature key comparison ===== */
+.core-keycompare-diagram-v355{margin:15px 0 2px;padding:17px;border:1px solid #d1dfe9;border-radius:17px;background:#fbfdff;color:#243f52}
+.core-keycompare-diagram-v355 *{box-sizing:border-box}
+.core-keycompare-diagram-v355 figcaption{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 5px}
+.core-keycompare-diagram-v355 figcaption>span{color:#2368aa;font-size:13px;font-weight:900;letter-spacing:.04em}
+.core-keycompare-diagram-v355 figcaption>b{color:#17364b;font-size:17px;line-height:1.45}
+.core-keycompare-lead-v355{margin:0 0 14px!important;color:#5a6f7f!important;line-height:1.7!important}
+.core-keycompare-stack-v355{display:grid;gap:10px}
+.core-keycompare-row-v355{min-width:0;padding:13px;border:1px solid #d9e5ed;border-radius:15px;background:#fff}
+.core-keycompare-row-v355.is-encryption{border-color:#c9dded;background:#f8fcff}
+.core-keycompare-row-v355.is-signature{border-color:#ded8ec;background:#fcfaff}
+.core-keycompare-row-head-v355{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.core-keycompare-row-head-v355>div{display:flex;align-items:center;gap:8px;min-width:0}
+.core-keycompare-row-head-v355>div>span{display:inline-flex;align-items:center;min-height:24px;padding:3px 8px;border-radius:999px;background:#e4f0fa;color:#245f91;font-size:11px;font-weight:900;white-space:nowrap}
+.core-keycompare-row-v355.is-signature .core-keycompare-row-head-v355>div>span{background:#eee8f8;color:#67518a}
+.core-keycompare-row-head-v355 h3{margin:0;color:#17364b;font-size:15px;line-height:1.4;word-break:keep-all}
+.core-keycompare-row-head-v355 p{display:flex;align-items:baseline;gap:7px;margin:0!important;text-align:right;line-height:1.4!important}
+.core-keycompare-row-head-v355 p b{color:#294f6c;font-size:12px;word-break:keep-all}
+.core-keycompare-row-head-v355 p small{color:#6b7d89;font-size:10px;font-weight:900;white-space:nowrap}
+.core-keycompare-track-v355{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,.8fr) 28px minmax(0,1fr);align-items:stretch;gap:7px}
+.core-keycompare-step-v355,.core-keycompare-payload-v355{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:11px 9px;border:1px solid #dce6ec;border-radius:12px;background:#fff;text-align:center}
+.core-keycompare-actor-v355{color:#607584;font-size:10px;font-weight:900;letter-spacing:.04em}
+.core-keycompare-action-v355{color:#17364b;font-size:12px;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
+.core-keycompare-key-v355{display:inline-flex;align-items:center;justify-content:center;gap:4px;max-width:100%;padding:5px 7px;border-radius:8px;font-size:11px;font-weight:900;line-height:1.4;word-break:keep-all;overflow-wrap:break-word}
+.core-keycompare-key-v355 i{font-style:normal;flex:0 0 auto}
+.core-keycompare-key-v355.is-public{background:#e7f2fc;color:#245f91;border:1px solid #bdd8ed}
+.core-keycompare-key-v355.is-private{background:#fff0d9;color:#79551e;border:1px solid #e5c58f}
+.core-keycompare-step-v355 small,.core-keycompare-payload-v355 small{color:#687c89;font-size:9.5px;font-weight:800;line-height:1.45;word-break:keep-all;overflow-wrap:break-word}
+.core-keycompare-payload-v355{background:#f5f8fa;border-style:dashed}
+.core-keycompare-payload-v355>span{font-size:19px;line-height:1}
+.core-keycompare-payload-v355>b{color:#355467;font-size:11px;line-height:1.4;word-break:keep-all}
+.core-keycompare-arrow-v355{display:grid;place-items:center;color:#54758e;font-size:20px;font-weight:900}
+.core-keycompare-arrow-v355 i{font-style:normal}
+.core-keycompare-arrow-v355 .is-narrow{display:none}
+.core-keycompare-memory-v355{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:12px;padding:11px 12px;border-radius:13px;background:#edf5f9;color:#476273;font-size:11px;line-height:1.5}
+.core-keycompare-memory-v355>b{align-self:center;color:#1e5b82;white-space:nowrap}
+.core-keycompare-memory-v355>div{display:grid;grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:5px;min-width:0;padding:6px 7px;border-radius:9px;background:#fff}
+.core-keycompare-memory-v355>div>span{color:#637887;font-size:10px;font-weight:900;white-space:nowrap}
+.core-keycompare-memory-v355 strong{text-align:center;color:#294f6c;font-size:10px;word-break:keep-all;overflow-wrap:break-word}
+.core-keycompare-memory-v355 i{color:#55798f;font-style:normal;font-weight:900}
+@media(max-width:820px){
+  .core-keycompare-track-v355{grid-template-columns:1fr;gap:7px}
+  .core-keycompare-arrow-v355{min-height:25px}
+  .core-keycompare-arrow-v355 .is-wide{display:none}
+  .core-keycompare-arrow-v355 .is-narrow{display:inline}
+  .core-keycompare-step-v355,.core-keycompare-payload-v355{min-height:78px}
+  .core-keycompare-memory-v355{grid-template-columns:1fr 1fr}
+  .core-keycompare-memory-v355>b{grid-column:1/-1}
+}
+@media(max-width:480px){
+  .core-keycompare-diagram-v355{padding:14px;margin-top:13px}
+  .core-keycompare-row-v355{padding:11px}
+  .core-keycompare-row-head-v355{align-items:flex-start;flex-direction:column;gap:5px}
+  .core-keycompare-row-head-v355 p{text-align:left}
+  .core-keycompare-step-v355,.core-keycompare-payload-v355{padding:10px 8px}
+  .core-keycompare-memory-v355{grid-template-columns:1fr}
+  .core-keycompare-memory-v355>b{grid-column:auto}
+}
