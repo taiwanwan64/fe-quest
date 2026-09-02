@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v356 subnet boundary diagram
+
+on:
+  push:
+    branches: ['v356-subnet-boundary-diagram']
+    paths:
+      - 'app/subnet-boundary-diagram-v356.js'
+      - 'app/subnet-boundary-diagram-v356.css'
+      - '.github/v356/materialize_subnet_boundary_diagram.py'
+      - '.github/workflows/v356-materialize-subnet-boundary-diagram.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v356-subnet-boundary-diagram
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v356/materialize_subnet_boundary_diagram.py
+      - name: Validate generated release
+        run: python .github/v356/validate_subnet_boundary_diagram.py
+      - name: Commit generated v356 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v356.html assets/app-v356.css assets/app-v356.js assets/asset-manifest-v356.json
+          if git diff --cached --quiet; then
+            echo 'v356 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v356 split release'
+          git push origin HEAD:v356-subnet-boundary-diagram
