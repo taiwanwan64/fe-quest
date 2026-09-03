@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v365 linked list diagrams
+on:
+  push:
+    branches: ['v365-linked-list-diagrams']
+    paths: ['app/linked-list-diagrams-v365.js','app/linked-list-diagrams-v365.css','.github/v365/materialize_linked_list_diagrams.py','.github/workflows/v365-materialize-linked-list-diagrams.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v365-linked-list-diagrams, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v365/materialize_linked_list_diagrams.py
+      - run: python .github/v365/validate_linked_list_diagrams.py
+      - name: Commit generated v365 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v365.html assets/app-v365.css assets/app-v365.js assets/asset-manifest-v365.json
+          if git diff --cached --quiet; then echo 'v365 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v365 split release'
+          git push origin HEAD:v365-linked-list-diagrams

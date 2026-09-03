@@ -1,0 +1,36 @@
+name: FE QUEST v365 linked list diagrams
+on:
+  pull_request:
+    branches: ['main']
+    paths: ['.github/v365/**','.github/workflows/v365-*.yml','audits/V365_LINKED_LIST_DIAGRAMS.md','FE_QUEST_DEVELOPMENT_PLAN.md','index.html','manifest.webmanifest','sw.js','app/base-shell-v365.html','app/linked-list-diagrams-v365.js','app/linked-list-diagrams-v365.css','assets/app-v365.css','assets/app-v365.js','assets/asset-manifest-v365.json']
+permissions: {contents: read}
+jobs:
+  validate-v365-linked-list-diagrams:
+    if: github.head_ref == 'v365-linked-list-diagrams'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Restrict learner-facing change
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v365/.*|\.github/workflows/v365-(linked-list-diagrams|materialize-linked-list-diagrams)\.yml|audits/V365_LINKED_LIST_DIAGRAMS\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v365\.html|app/linked-list-diagrams-v365\.(js|css)|assets/app-v365\.(js|css)|assets/asset-manifest-v365\.json)$"
+          unexpected=[p for p in paths if not re.fullmatch(allowed,p)]
+          assert not unexpected,unexpected
+          print("PASS bounded v365 file set:",len(paths))'
+      - run: python .github/v365/validate_linked_list_diagrams.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - run: node .github/v365/browser_linked_list_diagrams.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: v365-linked-list-diagrams-evidence, path: _browser_evidence/v365/, if-no-files-found: warn, retention-days: 14}
