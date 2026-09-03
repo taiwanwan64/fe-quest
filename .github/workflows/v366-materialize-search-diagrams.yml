@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v366 search diagrams
+on:
+  push:
+    branches: ['v366-search-diagrams']
+    paths: ['app/search-diagrams-v366.js','app/search-diagrams-v366.css','.github/v366/materialize_search_diagrams.py','.github/workflows/v366-materialize-search-diagrams.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v366-search-diagrams, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v366/materialize_search_diagrams.py
+      - run: python .github/v366/validate_search_diagrams.py
+      - name: Commit generated v366 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v366.html assets/app-v366.css assets/app-v366.js assets/asset-manifest-v366.json
+          if git diff --cached --quiet; then echo 'v366 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v366 split release'
+          git push origin HEAD:v366-search-diagrams

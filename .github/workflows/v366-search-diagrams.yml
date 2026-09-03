@@ -1,0 +1,36 @@
+name: FE QUEST v366 search diagrams
+on:
+  pull_request:
+    branches: ['main']
+    paths: ['.github/v366/**','.github/workflows/v366-*.yml','audits/V366_SEARCH_DIAGRAMS.md','FE_QUEST_DEVELOPMENT_PLAN.md','index.html','manifest.webmanifest','sw.js','app/base-shell-v366.html','app/search-diagrams-v366.js','app/search-diagrams-v366.css','assets/app-v366.css','assets/app-v366.js','assets/asset-manifest-v366.json']
+permissions: {contents: read}
+jobs:
+  validate-v366-search-diagrams:
+    if: github.head_ref == 'v366-search-diagrams'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Restrict learner-facing change
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v366/.*|\.github/workflows/v366-(search-diagrams|materialize-search-diagrams)\.yml|audits/V366_SEARCH_DIAGRAMS\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v366\.html|app/search-diagrams-v366\.(js|css)|assets/app-v366\.(js|css)|assets/asset-manifest-v366\.json)$"
+          unexpected=[p for p in paths if not re.fullmatch(allowed,p)]
+          assert not unexpected,unexpected
+          print("PASS bounded v366 file set:",len(paths))'
+      - run: python .github/v366/validate_search_diagrams.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - run: node .github/v366/browser_search_diagrams.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: v366-search-diagrams-evidence, path: _browser_evidence/v366/, if-no-files-found: warn, retention-days: 14}
