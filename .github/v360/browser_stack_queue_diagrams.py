@@ -75,7 +75,8 @@ def layout(page, selector):
         panels,cells,
         overflows:blocks.filter(n=>n.scrollWidth>n.clientWidth+1).map(n=>n.className||n.tagName),
         documentOverflow:document.documentElement.scrollWidth>innerWidth+1,
-        smallButtons:[...root.querySelectorAll('button')].filter(n=>n.getBoundingClientRect().height<44).length
+        smallButtons:[...root.querySelectorAll('button')].filter(n=>n.getBoundingClientRect().height<44).length,
+        buttonRows:['pop','push','dequeue','enqueue'].map(op=>{const n=root.querySelector(`[data-sq-op="${op}"]`);if(!n)return null;const r=n.getBoundingClientRect();return {y:r.y,height:r.height};})
       };
     }''')
 
@@ -145,6 +146,8 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         capture('.sq-demo-v360', 'interactive')
         metrics['interactive'] = layout(page, '.sq-demo-v360')
         check('interactive layout and touch sizes', not metrics['interactive']['overflows'] and not metrics['interactive']['documentOverflow'] and metrics['interactive']['smallButtons'] == 0)
+        pop,push,dequeue,enqueue = metrics['interactive']['buttonRows']
+        check('paired control rows have equal heights and positions', all(abs(a[k]-b[k])<1 for a,b in ((pop,dequeue),(push,enqueue)) for k in ('y','height')))
         click('reset')
         check('reset after completion retains gate and initial values', done() and values(page,'stack') == ['C','B','A'] and values(page,'queue') == ['A','B','C'])
         for value in ['C','B','A']:
