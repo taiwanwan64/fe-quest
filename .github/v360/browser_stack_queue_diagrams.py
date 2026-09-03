@@ -4,15 +4,33 @@ from threading import Thread
 import json
 import os
 import sys
+import time
 import traceback
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error as PlaywrightError, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / '.github/v359'))
-from browser_critical_path_diagram import wait_for_stable_page
-
 OUT = ROOT / '_browser_evidence/v360'
+
+
+def wait_for_stable_page(page):
+    # On reload the app may restore the lesson instead of displaying Home.
+    # Wait for the same boot/pageshow boundary without requiring a screen.
+    deadline = time.monotonic() + 45
+    for _ in range(8):
+        remaining = max(1000, int((deadline-time.monotonic())*1000))
+        try:
+            page.wait_for_load_state('load', timeout=remaining)
+            page.wait_for_function('window.FEQUEST_APP_BOOT_COMPLETE===true && window.__FEQ_PAGESHOW_SEEN===true', timeout=remaining)
+            marker = page.evaluate('performance.timeOrigin')
+            page.wait_for_timeout(750)
+            state = page.evaluate('marker=>({sameDocument:performance.timeOrigin===marker,readyState:document.readyState,boot:window.FEQUEST_APP_BOOT_COMPLETE===true,pageshow:window.__FEQ_PAGESHOW_SEEN===true})',marker)
+            if state['sameDocument'] and state['readyState']=='complete' and state['boot'] and state['pageshow']:
+                return {'timeOrigin':marker,**state}
+        except PlaywrightError:
+            if time.monotonic() >= deadline:
+                raise
+    raise AssertionError('Navigation-stable boot/pageshow boundary not reached')
 
 
 class Handler(SimpleHTTPRequestHandler):
