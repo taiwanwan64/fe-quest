@@ -88,6 +88,7 @@ function renderStackQueueExperienceV360(stage){
     if(!button||!demo.contains(button)||button.disabled) return;
     const result=stackQueueApplyV360(state,button.dataset.sqOp);
     if(!result.event) return;
+    const hadFocus=document.activeElement===button;
     state=result.state;
     const event=result.event;
     if(event.operation==='pop') dsSeen.add('stack');
@@ -98,7 +99,7 @@ function renderStackQueueExperienceV360(stage){
       :`${event.operation.toUpperCase()}：${event.value}を${event.adding?'追加':'取り出し'}ました。${event.kind==='stack'?'スタック（底 → 頂上）':'キュー（先頭 → 末尾）'}：${listText(event.before)} から ${listText(event.after)} へ。`;
     // Controls are not recreated. If a focused control reaches its limit, move
     // focus to the inverse operation so keyboard users can keep experimenting.
-    if(button.disabled&&document.activeElement===button){
+    if(button.disabled&&hadFocus){
       const inverse={pop:'push',push:'pop',dequeue:'enqueue',enqueue:'dequeue'}[event.operation];
       demo.querySelector(`[data-sq-op="${inverse}"]`)?.focus({preventScroll:true});
     }
