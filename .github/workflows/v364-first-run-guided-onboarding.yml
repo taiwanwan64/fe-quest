@@ -1,0 +1,65 @@
+name: FE QUEST v364 guided first run
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v364/**'
+      - '.github/workflows/v364-*.yml'
+      - 'audits/V364_GUIDED_FIRST_RUN.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v364.html'
+      - 'app/first-run-guided-onboarding-v364.js'
+      - 'assets/app-v364.css'
+      - 'assets/app-v364.js'
+      - 'assets/asset-manifest-v364.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v364-guided-first-run:
+    if: github.head_ref == 'v364-first-run-guided-onboarding'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restrict learner-facing change
+        shell: bash
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v364/.*|\.github/workflows/v364-(first-run-guided-onboarding|materialize-first-run-guided-onboarding)\.yml|audits/V364_GUIDED_FIRST_RUN\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v364\.html|app/first-run-guided-onboarding-v364\.js|assets/app-v364\.(js|css)|assets/asset-manifest-v364\.json)$"
+          unexpected=[path for path in paths if not re.fullmatch(allowed,path)]
+          assert not unexpected,unexpected
+          print("PASS bounded v364 file set:",len(paths))
+          '
+      - name: Validate static release and onboarding contract
+        run: python .github/v364/validate_first_run_guided_onboarding.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - name: Validate guided first-run journey
+        run: node .github/v364/browser_first_run_guided_onboarding.cjs
+      - name: Upload onboarding evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v364-guided-first-run-evidence
+          path: _browser_evidence/v364/
+          if-no-files-found: warn
+          retention-days: 14
