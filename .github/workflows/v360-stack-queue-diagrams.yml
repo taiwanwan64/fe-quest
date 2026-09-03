@@ -1,0 +1,63 @@
+name: FE QUEST v360 stack queue diagrams
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v360/**'
+      - '.github/workflows/v360-stack-queue-diagrams.yml'
+      - '.github/workflows/v360-materialize-stack-queue-diagrams.yml'
+      - 'audits/V360_STACK_QUEUE_DIAGRAMS.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v360.html'
+      - 'app/stack-queue-diagrams-v360.js'
+      - 'app/stack-queue-diagrams-v360.css'
+      - 'assets/app-v360.css'
+      - 'assets/app-v360.js'
+      - 'assets/asset-manifest-v360.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v360-stack-queue-diagrams:
+    if: startsWith(github.head_ref, 'v360-stack-queue-diagrams')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict the learner-facing change
+        shell: bash
+        run: |
+          changed="$(git diff --name-only origin/main...HEAD)"
+          echo "$changed"
+          if echo "$changed" | grep -Ev '^(\.github/v360/.*|\.github/workflows/v360-stack-queue-diagrams\.yml|\.github/workflows/v360-materialize-stack-queue-diagrams\.yml|audits/V360_STACK_QUEUE_DIAGRAMS\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v360\.html|app/stack-queue-diagrams-v360\.js|app/stack-queue-diagrams-v360\.css|assets/app-v360\.css|assets/app-v360\.js|assets/asset-manifest-v360\.json)$' | grep -q .; then
+            echo 'Unexpected file in the v360 stack queue release' >&2
+            exit 1
+          fi
+          test -z "$(git diff --name-only origin/main...HEAD -- app/base-shell-v359.html assets/app-v359.css assets/app-v359.js assets/asset-manifest-v359.json cloud/)"
+      - name: Validate static release and data boundaries
+        run: python .github/v360/validate_stack_queue_diagrams.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Validate responsive stack queue diagrams
+        run: python .github/v360/browser_stack_queue_diagrams.py
+      - name: Upload stack queue diagrams evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v360-stack-queue-diagrams-evidence
+          path: _browser_evidence/v360/
+          if-no-files-found: warn
+          retention-days: 14

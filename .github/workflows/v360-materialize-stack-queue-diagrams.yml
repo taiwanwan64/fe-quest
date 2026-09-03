@@ -1,0 +1,42 @@
+name: Materialize FE QUEST v360 stack queue diagrams
+
+on:
+  push:
+    branches: ['v360-stack-queue-diagrams']
+    paths:
+      - 'app/stack-queue-diagrams-v360.js'
+      - 'app/stack-queue-diagrams-v360.css'
+      - '.github/v360/materialize_stack_queue_diagrams.py'
+      - '.github/workflows/v360-materialize-stack-queue-diagrams.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v360-stack-queue-diagrams
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v360/materialize_stack_queue_diagrams.py
+      - name: Validate generated release
+        run: python .github/v360/validate_stack_queue_diagrams.py
+      - name: Commit generated v360 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v360.html assets/app-v360.css assets/app-v360.js assets/asset-manifest-v360.json
+          if git diff --cached --quiet; then
+            echo 'v360 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v360 split release'
+          git push origin HEAD:v360-stack-queue-diagrams
