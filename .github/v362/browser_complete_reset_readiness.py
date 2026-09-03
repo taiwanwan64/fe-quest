@@ -100,7 +100,7 @@ def run_case(pw,base,name,engine,viewport,mobile=False):
         check("two confirmations and completion alert occurred",dialogs==["confirm","prompt","alert"])
 
         state=page.evaluate("""()=>{
-          showScreen('plan');renderReadiness();
+          showScreen('plan');setPlanDetailsOpen(true);renderReadiness();
           const attempts=Object.values(profile.qStats||{}).reduce((sum,s)=>sum+(Number(s?.attempts)||0),0);
           const completedLessons=Object.values(profile.lessonProgress||{}).filter(x=>Number(x)>=100).length;
           const completedB=Object.values(profile.bProgress||{}).filter(x=>Number(x)>=100).length+
@@ -128,6 +128,7 @@ def run_case(pw,base,name,engine,viewport,mobile=False):
         check("neutral internal priors remain for adaptive selection",state["skills"] and all(value==50 for value in state["skills"]))
         check("reset profile persisted without seeded values",'"xp":777' not in state["storageRaw"] and "2030-01-01" not in state["storageRaw"])
         check("no page errors or recovery screen",not errors and page.locator("#fequestAssetRecoveryV362").count()==0)
+        page.locator("#readinessCard").wait_for(state="visible")
         page.locator("#readinessCard").screenshot(path=str(OUT/f"{name}-reset-readiness.png"))
         return {"name":name,"engine":engine,"checks":checks,"dialogs":dialogs,"state":state,"pageErrors":errors,"pass":True}
     except Exception:
