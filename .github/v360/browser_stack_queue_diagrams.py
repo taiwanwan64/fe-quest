@@ -100,6 +100,7 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         return page.evaluate('lessonInteractiveDone')
 
     def capture(selector, suffix):
+        page.wait_for_function("!document.getElementById('toast')?.classList.contains('show')")
         node = page.locator(selector)
         node.scroll_into_view_if_needed()
         page.screenshot(path=str(OUT / f'{name}-{suffix}-context.png'))
