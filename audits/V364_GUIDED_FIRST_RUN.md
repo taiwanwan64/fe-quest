@@ -1,6 +1,6 @@
 # v364 — Guided first-run onboarding
 
-Status: IMPLEMENTED — static release contract passed; browser acceptance pending.
+Status: ACCEPTED — static and Chromium/WebKit browser acceptance passed.
 
 ## Finding
 
@@ -60,7 +60,7 @@ was still present, and the exercise helper used the unnecessarily restrictive ph
 
 ## Observed results
 
-- Local static/release contract: 35/35 PASS.
+- Static/release contract: 36/36 PASS.
 - v363 memory model: 5/5 PASS.
 - v362 complete-reset readiness model: 5/5 PASS.
 - v360 stack/queue model: 15/15 PASS.
@@ -68,5 +68,8 @@ was still present, and the exercise helper used the unnecessarily restrictive ph
 - Initial browser run `33746505215` caught the desktop/tablet grid still reserving hidden side
   columns and allowing them to intercept input. The first-run grid now collapses to one column;
   the corrected Chromium/WebKit run is the merge gate.
-- Local browser binaries were unavailable in the work environment; the repository workflow is the
-  authoritative Chromium/WebKit acceptance gate before merge.
+- Corrected GitHub Actions run `33747054639`: 92/92 browser checks PASS across Chromium at
+  1366/1024px and WebKit at 390/320px, with zero uncaught page errors.
+- All 16 evidence screenshots (account, settings, diagnostic and first home at each width) were
+  visually reviewed; navigation remains absent until the result is acknowledged, the guided cards
+  stay within the viewport and the resulting home restores normal navigation.
