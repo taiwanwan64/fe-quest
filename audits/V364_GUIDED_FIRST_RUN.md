@@ -65,5 +65,8 @@ was still present, and the exercise helper used the unnecessarily restrictive ph
 - v362 complete-reset readiness model: 5/5 PASS.
 - v360 stack/queue model: 15/15 PASS.
 - Runtime JavaScript syntax: PASS.
+- Initial browser run `33746505215` caught the desktop/tablet grid still reserving hidden side
+  columns and allowing them to intercept input. The first-run grid now collapses to one column;
+  the corrected Chromium/WebKit run is the merge gate.
 - Local browser binaries were unavailable in the work environment; the repository workflow is the
   authoritative Chromium/WebKit acceptance gate before merge.
