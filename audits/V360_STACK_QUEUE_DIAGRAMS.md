@@ -1,6 +1,6 @@
 # v360 — Stack / queue comparison and interactive state diagrams
 
-Status: PENDING — browser CI and visual acceptance required before merge.
+Status: PASS — static/model/browser gates and screenshot review cleared. Implementation head `2aa408f92581db197c66ca65bc6501e735f4cb68` passed [run 33701481843, attempt 2](https://github.com/taiwanwan64/fe-quest/actions/runs/33701481843/attempts/2) after the repository owner approved execution. The documentation-only final head must also pass CI before merge; its run is recorded in [PR #154](https://github.com/taiwanwan64/fe-quest/pull/154).
 
 ## Authorized scope
 
@@ -33,9 +33,9 @@ python .github/v360/browser_stack_queue_diagrams.py
 
 Local static contract: 33/33 PASS. Reducer/renderer unit tests: 15/15 PASS, including a seeded 600-operation reference comparison, LIFO/FIFO, bounds, reset, immutability, escaping and operation-label idempotence.
 
-Browser gate: PENDING. Chromium 1366/1024 and WebKit 390/320 test responsive layout, static scope, repeated operations, before/after status, keyboard focus, both reset stages, unchanged interaction and quiz gates, XP/lesson completion, reload persistence and fresh demo state.
+Browser gate: 4/4 PASS, 40 checks per viewport (160/160 assertions). Chromium 1366/1024 and WebKit 390/320 test responsive layout, static scope, repeated operations, before/after status, keyboard focus, both reset stages, unchanged interaction and quiz gates, XP/lesson completion, reload persistence and fresh demo state. No uncaught page errors or horizontal overflow were recorded. Paired control rows have equal positions/heights: 46px on desktop/tablet and 56px on both mobile widths.
 
-Visual evidence will be captured under `_browser_evidence/v360/` in the CI artifact. Browser WebKit is not physical-device Safari testing.
+Visual evidence is captured under `_browser_evidence/v360/` in the CI artifact `v360-stack-queue-diagrams-evidence` (artifact ID `9873899858`). Final screenshot review confirmed atomic operation/arrow labels, explicit mobile label lines and equal-height paired controls. Browser WebKit is not physical-device Safari testing.
 
 ## Initial acceptance findings
 
