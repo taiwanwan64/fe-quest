@@ -7112,7 +7112,7 @@ const LESSONS = {
       {
         headline:'同じA→B→Cでも出てくる順番が違う',
         copy:'スタックならCが先、キューならAが先。構造の違いが処理順に直結します。',
-        render:()=>stackQueueAfterRemovalViewV360()
+        render:()=>dataStructureView(['A','B'],['B','C'])
       },
       {
         headline:'ミニチェック',
@@ -11864,8 +11864,10 @@ function coreTopicStackQueueDiagramViewV360(id){
   </figure>`;
 }
 
-function stackQueueAfterRemovalViewV360(){
-  return `<div class="sq-demo-v360"><p class="sq-lead-v360">最初のA → B → Cから、POPでC、DEQUEUEでAを1回ずつ取り出した後です。今度はどちらもBが次に出ます。</p>${stackQueueCardsV360(['A','B'],['B','C'])}</div>`;
+function stackQueueOperationTextV360(text){
+  // Here POP names a stack operation, not the mail protocol. An explicit label
+  // also prevents the existing generic abbreviation expander from mixing them.
+  return String(text??'').replace(/\bPOP\b(?!\s*[（(])/g,'POP（取り出し操作）');
 }
 
 function renderStackQueueExperienceV360(stage){
@@ -11941,7 +11943,7 @@ function coreTopicArticleView(id){
 
     <section class="core-article-section">
       <h2>仕組み</h2>
-      <p>${politeCoreHtml(t.example)}</p>
+      <p>${politeCoreHtml(id==='core_03_01'?stackQueueOperationTextV360(t.example):t.example)}</p>
       ${coreTopicInlineDiagramViewV353(id)}
       ${coreTopicDatabaseDiagramViewV354(id)}
       ${coreTopicCryptoSignatureDiagramViewV355(id)}
@@ -11990,8 +11992,8 @@ function renderLesson(){
   document.getElementById('lessonCategory').textContent=`${lesson.cat}・レッスン`;
   const headline=document.getElementById('lessonHeadline');
   const copy=document.getElementById('lessonCopy');
-  headline.textContent=expandLearningAbbreviations(page.headline||'');
-  copy.textContent=expandLearningAbbreviations(page.copy||'');
+  headline.textContent=expandLearningAbbreviations(activeLesson==='stackqueue'?stackQueueOperationTextV360(page.headline):page.headline||'');
+  copy.textContent=expandLearningAbbreviations(activeLesson==='stackqueue'?stackQueueOperationTextV360(page.copy):page.copy||'');
   headline.style.display=isCore?'none':'';
   copy.style.display=isCore?'none':'';
   updateInteractionGuide(page);

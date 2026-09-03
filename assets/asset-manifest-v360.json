@@ -24,8 +24,8 @@
     {
       "path": "assets/app-v360.js",
       "kind": "classic-script",
-      "utf8Bytes": 3402824,
-      "sha256": "d9d1b28a0a4f3229f6f87e4388c86338d2766b6a33a1dc49e793cbbaed868dbe"
+      "utf8Bytes": 3403025,
+      "sha256": "2f5cec3e43c5ac85927fa740c3754d252d5c39e22bfec79ff35597b60bfe3fe4"
     }
   ],
   "executionContract": {
@@ -156,10 +156,14 @@
     "curriculumTextChange": false,
     "cloudRuntimeChange": false,
     "coreInteractionRequired": false,
+    "popDisplayDisambiguation": [
+      "stackqueue",
+      "core_03_01.example"
+    ],
     "legacyCompletion": "one successful POP and one successful DEQUEUE, unchanged",
     "demoStorage": "ephemeral closure only; reset preserves operation completion",
     "jsSourcePath": "app/stack-queue-diagrams-v360.js",
-    "jsSourceSha256": "5375b884c91db760d7daf34997e8879354b7ffe7f3634524198b83144aaebd7d",
+    "jsSourceSha256": "104a53caa74afaffe9ab38ec1c10e004cc362ae4cbe4b555404b0e10c4b8fc50",
     "cssSourcePath": "app/stack-queue-diagrams-v360.css",
     "cssSourceSha256": "4d7bba8280c94890f4c6abc47dfaa714d8f34cb11d6bc6111ba81ecc00775169"
   }
