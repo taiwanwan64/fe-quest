@@ -1,6 +1,6 @@
 # v362 — Complete reset readiness correction
 
-Status: implementation prepared. Static, browser and screenshot gates must pass before merge; final results are recorded in the release PR.
+Status: PASS — complete-reset readiness gate cleared.
 
 ## Finding
 
@@ -22,3 +22,18 @@ The cause was not stale storage. The internal category-skill prior deliberately 
 - A semantic model must distinguish neutral priors from diagnostic/attempt evidence.
 - Browser automation must seed progress/settings, invoke the real reset button through confirm → prompt → alert, survive reload, and assert total readiness 0%, all six readiness components 0%, cleared learning evidence, first-use planning settings, persistent reset data, and no page errors.
 - Target browsers: Chromium 1366/1024 and WebKit 390/320. WebKit does not claim physical iPhone Safari testing.
+
+## Observed results
+
+- Implementation/test head: `e6e30339b7261b81ab446c23c8442f46322e089a`
+- GitHub Actions run: `33719286913` — success
+- Static/source-of-truth contract: 25/25 PASS
+- Readiness semantic model: 5/5 PASS
+- Existing v360 stack/queue semantic model: 15/15 PASS (unchanged)
+- Real reset browser journeys: 4/4 PASS, 44/44 assertions
+- Dialog sequence: confirm → prompt (`初期化`) → alert in all four journeys
+- Post-reset result: total readiness 0% and all six readiness components 0%
+- Stored evidence and planning settings reset to first-use state; neutral internal skill priors remain 50
+- Uncaught page errors and unexpected recovery UI: 0
+- Evidence artifact: `v362-complete-reset-readiness-evidence` (`9879655972`)
+- Screenshot review: Chromium 1366/1024 and WebKit 390/320 all show the corrected 0% state without readiness-card layout breakage
