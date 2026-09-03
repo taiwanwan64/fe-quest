@@ -1,0 +1,41 @@
+name: Materialize FE QUEST v363 memory health unmeasured
+
+on:
+  push:
+    branches: ['v363-memory-health-unmeasured']
+    paths:
+      - 'app/memory-health-unmeasured-v363.js'
+      - '.github/v363/materialize_memory_health_unmeasured.py'
+      - '.github/workflows/v363-materialize-memory-health-unmeasured.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v363-memory-health-unmeasured
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v363/materialize_memory_health_unmeasured.py
+      - name: Validate generated release
+        run: python .github/v363/validate_memory_health_unmeasured.py
+      - name: Commit generated v363 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v363.html assets/app-v363.css assets/app-v363.js assets/asset-manifest-v363.json
+          if git diff --cached --quiet; then
+            echo 'v363 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v363 split release'
+          git push origin HEAD:v363-memory-health-unmeasured
