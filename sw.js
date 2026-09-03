@@ -1,13 +1,13 @@
-const APP_VERSION = 'v360';
-const CACHE_NAME = 'fe-quest-v360-1';
+const APP_VERSION = 'v361';
+const CACHE_NAME = 'fe-quest-v361-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app-v360.css',
-  './assets/app-v360.js',
-  './assets/asset-manifest-v360.json',
+  './assets/app-v361.css',
+  './assets/app-v361.js',
+  './assets/asset-manifest-v361.json',
   './icon-192.png',
   './icon-512.png',
   './apple-touch-icon.png',

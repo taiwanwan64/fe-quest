@@ -1,0 +1,62 @@
+name: FE QUEST v361 stack queue output order
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v361/**'
+      - '.github/workflows/v361-*.yml'
+      - 'audits/V361_STACK_QUEUE_OUTPUT_ORDER.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v361.html'
+      - 'app/stack-queue-output-order-v361.json'
+      - 'assets/app-v361.css'
+      - 'assets/app-v361.js'
+      - 'assets/asset-manifest-v361.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v361-output-order:
+    if: github.head_ref == 'v361-stack-queue-output-order'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict change to result-card wording and release files
+        shell: bash
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re, sys
+          paths = sys.stdin.read().splitlines()
+          allowed = r"^(\.github/v361/.*|\.github/workflows/v361-(stack-queue-output-order|materialize-stack-queue-output-order)\.yml|audits/V361_STACK_QUEUE_OUTPUT_ORDER\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v361\.html|app/stack-queue-output-order-v361\.json|assets/app-v361\.(js|css)|assets/asset-manifest-v361\.json)$"
+          unexpected = [p for p in paths if not re.fullmatch(allowed, p)]
+          assert not unexpected, unexpected
+          print("PASS bounded v361 file set:", len(paths))
+          '
+      - name: Validate release and semantic output order
+        run: python .github/v361/validate_stack_queue_output_order.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Verify four responsive views and preserved learning behavior
+        run: python .github/v361/browser_stack_queue_output_order.py
+      - name: Upload output-order evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v361-stack-queue-output-order-evidence
+          path: _browser_evidence/v361/
+          if-no-files-found: warn
+          retention-days: 14
