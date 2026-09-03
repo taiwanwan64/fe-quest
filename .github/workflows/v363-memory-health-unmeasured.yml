@@ -1,0 +1,62 @@
+name: FE QUEST v363 memory health unmeasured
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v363/**'
+      - '.github/workflows/v363-*.yml'
+      - 'audits/V363_MEMORY_HEALTH_UNMEASURED.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v363.html'
+      - 'app/memory-health-unmeasured-v363.js'
+      - 'assets/app-v363.css'
+      - 'assets/app-v363.js'
+      - 'assets/asset-manifest-v363.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v363-memory-health:
+    if: github.head_ref == 'v363-memory-health-unmeasured'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict learner-facing change
+        shell: bash
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v363/.*|\.github/workflows/v363-(memory-health-unmeasured|materialize-memory-health-unmeasured)\.yml|audits/V363_MEMORY_HEALTH_UNMEASURED\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v363\.html|app/memory-health-unmeasured-v363\.js|assets/app-v363\.(js|css)|assets/asset-manifest-v363\.json)$"
+          unexpected=[path for path in paths if not re.fullmatch(allowed,path)]
+          assert not unexpected,unexpected
+          print("PASS bounded v363 file set:",len(paths))
+          '
+      - name: Validate static release and memory semantics
+        run: python .github/v363/validate_memory_health_unmeasured.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Validate fresh, measured and reset memory states
+        run: python .github/v363/browser_memory_health_unmeasured.py
+      - name: Upload memory-health evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v363-memory-health-unmeasured-evidence
+          path: _browser_evidence/v363/
+          if-no-files-found: warn
+          retention-days: 14
