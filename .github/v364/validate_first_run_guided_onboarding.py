@@ -59,6 +59,11 @@ check("production index selects v364",read("index.html")=="---\n---\n{% include_
 css_marker="/* ===== v364: guided first-run onboarding ===== */"
 css=read("assets/app-v364.css")
 check("CSS inherits v363 and adds one onboarding layer",css.startswith(read("assets/app-v363.css").rstrip()+"\n\n"+css_marker) and css.count(css_marker)==1)
+check("first-run desktop grid collapses to the guided route",all(token in css for token in (
+    "body.fequest-first-run-v364 .app{grid-template-columns:minmax(0,1fr)!important}",
+    "body.fequest-first-run-v364 header{grid-column:1!important}",
+    "body.fequest-first-run-v364 .rightbar{display:none!important}",
+)))
 check("navigation and diagnostic back are hidden only during first run",all(token in css for token in ("body.fequest-first-run-v364 .sidebar{display:none!important}","body.fequest-first-run-v364 #diagnostic .screen-head .back{display:none!important}")))
 
 manifest=json.loads(read("assets/asset-manifest-v364.json"))

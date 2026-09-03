@@ -44,7 +44,10 @@ target["shell"].write_text(shell)
 css_patch = r'''
 
 /* ===== v364: guided first-run onboarding ===== */
+body.fequest-first-run-v364 .app{grid-template-columns:minmax(0,1fr)!important}
+body.fequest-first-run-v364 header{grid-column:1!important}
 body.fequest-first-run-v364 .sidebar{display:none!important}
+body.fequest-first-run-v364 .rightbar{display:none!important}
 body.fequest-first-run-v364 main{margin-left:0!important;max-width:760px!important;padding-bottom:36px!important}
 body.fequest-first-run-v364 header .mobile-stats,
 body.fequest-first-run-v364 header .stat-chip,

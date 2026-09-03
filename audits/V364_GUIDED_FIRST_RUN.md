@@ -24,6 +24,8 @@ was still present, and the exercise helper used the unnecessarily restrictive ph
   5. home with the generated daily plan.
 - The sidebar/bottom navigation, settings/stat controls and BIT teacher entry are hidden during
   the first-run route and unlock only after the learner acknowledges the diagnostic result.
+- The desktop grid collapses to one content column during onboarding, so hidden side content cannot
+  reserve space or intercept input.
 - The account screen delegates the explicit send action to the existing v342 authentication UI.
   Authentication remains optional, and cloud activation failure never blocks the skip route.
 - Existing learners with a completed diagnostic or actual learning history bypass the new gate.
