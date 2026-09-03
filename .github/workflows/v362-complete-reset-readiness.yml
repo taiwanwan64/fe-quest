@@ -1,0 +1,62 @@
+name: FE QUEST v362 complete reset readiness
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - '.github/v362/**'
+      - '.github/workflows/v362-*.yml'
+      - 'audits/V362_COMPLETE_RESET_READINESS.md'
+      - 'FE_QUEST_DEVELOPMENT_PLAN.md'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'app/base-shell-v362.html'
+      - 'app/complete-reset-readiness-v362.js'
+      - 'assets/app-v362.css'
+      - 'assets/app-v362.js'
+      - 'assets/asset-manifest-v362.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v362-complete-reset:
+    if: github.head_ref == 'v362-complete-reset-readiness'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restrict learner-facing change
+        shell: bash
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v362/.*|\.github/workflows/v362-(complete-reset-readiness|materialize-complete-reset-readiness)\.yml|audits/V362_COMPLETE_RESET_READINESS\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v362\.html|app/complete-reset-readiness-v362\.js|assets/app-v362\.(js|css)|assets/asset-manifest-v362\.json)$"
+          unexpected=[path for path in paths if not re.fullmatch(allowed,path)]
+          assert not unexpected,unexpected
+          print("PASS bounded v362 file set:",len(paths))
+          '
+      - name: Validate static release and reset semantics
+        run: python .github/v362/validate_complete_reset_readiness.py
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Validate complete reset in four responsive browsers
+        run: python .github/v362/browser_complete_reset_readiness.py
+      - name: Upload reset evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v362-complete-reset-readiness-evidence
+          path: _browser_evidence/v362/
+          if-no-files-found: warn
+          retention-days: 14
