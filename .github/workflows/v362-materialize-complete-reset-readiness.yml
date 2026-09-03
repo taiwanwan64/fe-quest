@@ -1,0 +1,41 @@
+name: Materialize FE QUEST v362 complete reset readiness
+
+on:
+  push:
+    branches: ['v362-complete-reset-readiness']
+    paths:
+      - 'app/complete-reset-readiness-v362.js'
+      - '.github/v362/materialize_complete_reset_readiness.py'
+      - '.github/workflows/v362-materialize-complete-reset-readiness.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v362-complete-reset-readiness
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize versioned split release
+        run: python .github/v362/materialize_complete_reset_readiness.py
+      - name: Validate generated release
+        run: python .github/v362/validate_complete_reset_readiness.py
+      - name: Commit generated v362 assets
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v362.html assets/app-v362.css assets/app-v362.js assets/asset-manifest-v362.json
+          if git diff --cached --quiet; then
+            echo 'v362 assets already materialized'
+            exit 0
+          fi
+          git commit -m 'Materialize FE QUEST v362 split release'
+          git push origin HEAD:v362-complete-reset-readiness
