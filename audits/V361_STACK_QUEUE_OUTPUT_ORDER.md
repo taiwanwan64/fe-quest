@@ -1,6 +1,6 @@
 # v361 — Unambiguous remaining output order
 
-Status: implemented; browser CI and screenshot review required before merge. Final verification and deployment results are recorded in the release PR.
+Status: PASS — implementation head `e8972118278003b48215d2acf8c1cd8415c415aa` passed [run 33703793373](https://github.com/taiwanwan64/fe-quest/actions/runs/33703793373). Static/model/browser gates and screenshot review cleared. The documentation-only final head must pass CI before merge; final CI and deployment results are recorded in [PR #155](https://github.com/taiwanwan64/fe-quest/pull/155).
 
 ## Scope
 
@@ -26,3 +26,5 @@ The static contract checks the full JS against exactly the version bump plus the
 The semantic regression test executes the actual v361 renderer and reducer, removes the first item, then drains each structure and compares those outputs with the rendered result cards.
 
 The v360 browser suite is retained as a historical test. The v361 suite repeats its 40 checks per viewport, adding four checks for the shared label and output order. Target viewports: Chromium 1366/1024 and WebKit 390/320. It checks display overflow, interaction/quiz gates, keyboard controls, reset, XP and persistence after reload. CI screenshots must be inspected before merge. WebKit tests do not claim physical iPhone Safari testing.
+
+Observed results: static contract **23/23 PASS**, unchanged baseline reducer/renderer **15/15 PASS**, actual v361 remaining-order model **5/5 PASS**, and browser gate **4/4 viewports / 176/176 assertions PASS**. No uncaught page errors or horizontal overflow were recorded. Desktop and mobile screenshot review confirmed the shared labels and B → A / B → C output order, including the 320px layout. Evidence artifact: `9874502041`, `v361-stack-queue-output-order-evidence`.
