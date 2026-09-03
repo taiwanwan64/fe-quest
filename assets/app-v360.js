@@ -11838,12 +11838,12 @@ function stackQueueCardsV360(stack,queue){
     const name=isStack?'スタック':'キュー';
     const shown=isStack?[...values].reverse():[...values];
     return `<section class="sq-panel-v360 sq-${kind}-v360" data-sq-kind="${kind}" aria-label="${name}の現在の中身">
-      <h4>${name}</h4><div class="sq-rule-name-v360">${isStack?'LIFO・後入れ先出し':'FIFO・先入れ先出し'}</div>
-      <div class="sq-end-v360"><b>${isStack?'TOP（頂上）':'FRONT（先頭）'}</b><span>${isStack?'追加 ↓ ／ 取り出し ↑':'取り出し ↑'}</span></div>
+      <h4>${name}</h4><div class="sq-rule-name-v360"><span>${isStack?'LIFO':'FIFO'}</span><span>${isStack?'後入れ先出し':'先入れ先出し'}</span></div>
+      <div class="sq-end-v360"><b><span>${isStack?'TOP':'FRONT'}</span><span>${isStack?'（頂上）':'（先頭）'}</span></b><span class="sq-actions-v360">${isStack?'<span>追加 ↓</span>':''}<span>取り出し ↑</span></span></div>
       <ol class="sq-values-v360" aria-label="${isStack?'頂上から底':'先頭から末尾'}の順">
         ${shown.length?shown.map((value,i)=>`<li class="${i===0?'sq-next-v360':''}" data-sq-value="${escapeHtml(String(value))}"><b>${escapeHtml(String(value))}</b>${i===0?'<span>次に出る</span>':''}</li>`).join(''):'<li class="sq-empty-v360">空です</li>'}
       </ol>
-      <div class="sq-end-v360 sq-bottom-v360"><b>${isStack?'底（ここからは出し入れしない）':'REAR（末尾）'}</b><span>${isStack?'同じ側から出し入れ':'追加 ↑'}</span></div>
+      <div class="sq-end-v360 sq-bottom-v360"><b>${isStack?'底':'<span>REAR</span><span>（末尾）</span>'}</b><span>${isStack?'操作しない側':'追加 ↑'}</span></div>
     </section>`;
   };
   return `<div class="sq-cards-v360">${panel('stack',stack)}${panel('queue',queue)}</div>`;
@@ -11876,8 +11876,8 @@ function renderStackQueueExperienceV360(stage){
     <p class="sq-lead-v360">まずPOPとDEQUEUEを1回ずつ試しましょう。追加や繰り返し操作は任意です。最初は両方ともA → B → Cの順に追加済みです。</p>
     <div class="sq-board-v360"></div>
     <div class="sq-controls-v360">
-      <div role="group" aria-label="スタックの操作"><button type="button" data-sq-op="pop" id="popStack">POP：取り出す</button><button type="button" data-sq-op="push" id="pushStackV360">PUSH：追加する</button></div>
-      <div role="group" aria-label="キューの操作"><button type="button" data-sq-op="dequeue" id="deqQueue">DEQUEUE：取り出す</button><button type="button" data-sq-op="enqueue" id="enqQueueV360">ENQUEUE：追加する</button></div>
+      <div role="group" aria-label="スタックの操作"><button type="button" data-sq-op="pop" id="popStack"><span>POP：</span><span>取り出す</span></button><button type="button" data-sq-op="push" id="pushStackV360"><span>PUSH：</span><span>追加する</span></button></div>
+      <div role="group" aria-label="キューの操作"><button type="button" data-sq-op="dequeue" id="deqQueue"><span>DEQUEUE：</span><span>取り出す</span></button><button type="button" data-sq-op="enqueue" id="enqQueueV360"><span>ENQUEUE：</span><span>追加する</span></button></div>
     </div>
     <p class="sq-event-v360" role="status" aria-live="polite" aria-atomic="true">初期状態です。スタックはC、キューはAが次に出ます。</p>
     <p class="sq-progress-v360"></p>
