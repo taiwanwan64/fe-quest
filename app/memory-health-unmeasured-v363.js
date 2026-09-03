@@ -3,7 +3,7 @@ function memoryHealth(){
   const attempted=trackedQuestionPool()
     .map(q=>({q,st:profile.qStats[q.id]}))
     .filter(x=>x.st?.attempts>0);
-  // An empty evidence set has no retention rate. Keep the numeric fallback at
+  // An empty learning-evidence set has no retention rate. Keep the numeric fallback at
   // zero for downstream calculations; the dashboard presents it as unmeasured.
   if(!attempted.length) return {attempted:0,avg:0,fresh:0,soon:0,due:0};
   const rows=attempted.map(x=>({...x,retention:memoryRetention(x.st),weight:cognitiveWeight(x.q)}));
