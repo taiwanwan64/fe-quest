@@ -41,7 +41,9 @@ start, end = expected.index('function dataStructureView(stack,queue){'), expecte
 expected = expected[:start] + 'function dataStructureView(stack,queue){\n  return stackQueueCardsV360(stack,queue);\n}\n' + expected[end:]
 start, end = expected.index("  if(type==='stackqueue'){"), expected.index("  if(type==='sql'){")
 expected = expected[:start] + "  if(type==='stackqueue'){\n    renderStackQueueExperienceV360(stage);\n  }\n\n" + expected[end:]
-expected = expected.replace("render:()=>dataStructureView(['A','B'],['B','C'])", 'render:()=>stackQueueAfterRemovalViewV360()', 1)
+for field in ('headline', 'copy'):
+    expected = expected.replace(f"expandLearningAbbreviations(page.{field}||'')", f"expandLearningAbbreviations(activeLesson==='stackqueue'?stackQueueOperationTextV360(page.{field}):page.{field}||'')", 1)
+expected = expected.replace('${politeCoreHtml(t.example)}', "${politeCoreHtml(id==='core_03_01'?stackQueueOperationTextV360(t.example):t.example)}", 1)
 check('runtime diff is limited to version and stack queue presentation/controller', js == expected)
 check('core renderer and mount are unique', js.count('function coreTopicStackQueueDiagramViewV360(id)') == 1 and js.count('${coreTopicStackQueueDiagramViewV360(id)}') == 1)
 check('legacy shared renderer is wired once', js.count('return stackQueueCardsV360(stack,queue);') == 1)
@@ -62,6 +64,7 @@ check('cloud loader unchanged', shell.count('<script src="./cloud/activation-loa
 check('manifest versions current', manifest['version'] == 'v360' and manifest['previousVersion'] == 'v359')
 diagram = manifest['stackQueueDiagrams']
 check('manifest scope and boundaries', diagram['scope'] == ['core_03_01', 'stackqueue'] and all(diagram[k] is False for k in ('profileSchemaChange', 'questionBankChange', 'curriculumTextChange', 'cloudRuntimeChange', 'coreInteractionRequired')))
+check('POP disambiguation is limited to target presentation', diagram['popDisplayDisambiguation'] == ['stackqueue', 'core_03_01.example'])
 check('renderer source hash', diagram['jsSourceSha256'] == sha(source_path))
 check('stylesheet source hash', diagram['cssSourceSha256'] == sha(style_path))
 assets = {a['path']: a for a in manifest['assets']}

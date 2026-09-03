@@ -24,9 +24,14 @@ start, end = js.index("function dataStructureView(stack,queue){"), js.index("fun
 js = js[:start] + "function dataStructureView(stack,queue){\n  return stackQueueCardsV360(stack,queue);\n}\n" + js[end:]
 start, end = js.index("  if(type==='stackqueue'){"), js.index("  if(type==='sql'){")
 js = js[:start] + "  if(type==='stackqueue'){\n    renderStackQueueExperienceV360(stage);\n  }\n\n" + js[end:]
-after = "render:()=>dataStructureView(['A','B'],['B','C'])"
-assert js.count(after) == 1
-js = js.replace(after, "render:()=>stackQueueAfterRemovalViewV360()", 1)
+for field in ('headline', 'copy'):
+    old = f"expandLearningAbbreviations(page.{field}||'')"
+    new = f"expandLearningAbbreviations(activeLesson==='stackqueue'?stackQueueOperationTextV360(page.{field}):page.{field}||'')"
+    assert js.count(old) == 1
+    js = js.replace(old, new, 1)
+old = '${politeCoreHtml(t.example)}'
+assert js.count(old) == 1
+js = js.replace(old, "${politeCoreHtml(id==='core_03_01'?stackQueueOperationTextV360(t.example):t.example)}", 1)
 target["js"].write_text(js)
 manifest = build_asset_manifest(ROOT, PREVIOUS, TARGET, {
     "version": PREVIOUS,
@@ -40,6 +45,7 @@ manifest["stackQueueDiagrams"] = {
     "profileSchemaChange": False, "questionBankChange": False,
     "curriculumTextChange": False, "cloudRuntimeChange": False,
     "coreInteractionRequired": False,
+    "popDisplayDisambiguation": ["stackqueue", "core_03_01.example"],
     "legacyCompletion": "one successful POP and one successful DEQUEUE, unchanged",
     "demoStorage": "ephemeral closure only; reset preserves operation completion",
     "jsSourcePath": JS_SOURCE.relative_to(ROOT).as_posix(),

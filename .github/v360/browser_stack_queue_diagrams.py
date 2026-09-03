@@ -22,10 +22,14 @@ def wait_for_stable_page(page):
         try:
             page.wait_for_load_state('load', timeout=remaining)
             page.wait_for_function('window.FEQUEST_APP_BOOT_COMPLETE===true && window.__FEQ_PAGESHOW_SEEN===true', timeout=remaining)
+            # A fresh service worker calls clients.claim(), triggering the app's
+            # controllerchange reload after boot. Wait for control, then verify
+            # the resulting document is stable before entering a lesson.
+            page.wait_for_function("navigator.serviceWorker.controller?.state==='activated'", timeout=remaining)
             marker = page.evaluate('performance.timeOrigin')
             page.wait_for_timeout(750)
-            state = page.evaluate('marker=>({sameDocument:performance.timeOrigin===marker,readyState:document.readyState,boot:window.FEQUEST_APP_BOOT_COMPLETE===true,pageshow:window.__FEQ_PAGESHOW_SEEN===true})',marker)
-            if state['sameDocument'] and state['readyState']=='complete' and state['boot'] and state['pageshow']:
+            state = page.evaluate('marker=>({sameDocument:performance.timeOrigin===marker,readyState:document.readyState,boot:window.FEQUEST_APP_BOOT_COMPLETE===true,pageshow:window.__FEQ_PAGESHOW_SEEN===true,controlled:navigator.serviceWorker.controller?.state===\'activated\'})',marker)
+            if state['sameDocument'] and state['readyState']=='complete' and state['boot'] and state['pageshow'] and state['controlled']:
                 return {'timeOrigin':marker,**state}
         except PlaywrightError:
             if time.monotonic() >= deadline:
@@ -112,6 +116,7 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         page.locator('.sq-figure-v360').wait_for(state='visible')
         check('static visual order and next values', values(page, 'stack') == ['C','B','A'] and values(page, 'queue') == ['A','B','C'])
         check('core diagram does not add controls or gate', page.locator('.sq-figure-v360 button').count() == 0 and done())
+        check('article POP is not expanded as mail protocol', 'Post Office Protocol' not in page.locator('.core-article').inner_text() and 'POP（取り出し操作）' in page.locator('.core-article').inner_text())
         metrics['core'] = layout(page, '.sq-figure-v360')
         a, b = metrics['core']['panels']
         check('equal side-by-side comparison and aligned cells', a['x'] < b['x'] and abs(a['y']-b['y']) < 1 and abs(a['width']-b['width']) < 1 and all(abs(x-y)<1 for x,y in zip(*metrics['core']['cells'])))
@@ -121,6 +126,7 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         check('rerender has one figure', page.locator('.sq-figure-v360').count() == 1)
 
         page.evaluate("startLesson('stackqueue')")
+        check('existing density audit keeps the three-page lab', page.evaluate('LESSONS.stackqueue.pages.length') == 3)
         check('legacy first page uses same TOP FRONT REAR view', values(page, 'stack') == ['C','B','A'] and values(page, 'queue') == ['A','B','C'])
         page.locator('#lessonNext').click()
         page.locator('[data-sq-op="pop"]').wait_for(state='visible')
@@ -134,6 +140,7 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         check('reset before completion keeps confirmed POP but not completion', not done() and page.evaluate("dsSeen.has('stack')&&!dsSeen.has('queue')") and values(page,'stack') == ['C','B','A'])
         click('dequeue')
         check('DEQUEUE removes A and unlocks after both removals', values(page,'queue') == ['B','C'] and done() and 'Aを取り出し' in page.locator('.sq-event-v360').inner_text())
+        check('existing recap is shown as completion takeaway', 'スタックならCが先、キューならAが先' in page.locator('#lessonCheck').inner_text())
         capture('.sq-demo-v360', 'interactive')
         metrics['interactive'] = layout(page, '.sq-demo-v360')
         check('interactive layout and touch sizes', not metrics['interactive']['overflows'] and not metrics['interactive']['documentOverflow'] and metrics['interactive']['smallButtons'] == 0)
@@ -162,11 +169,11 @@ def run_case(pw, base, name, engine, viewport, mobile=False):
         click('reset')
         check('exercise does not mutate saved lesson progress or XP', learning(page) == before)
         page.locator('#lessonNext').click()
-        check('after-removal page identifies both next B', page.evaluate('lessonStep') == 2 and values(page,'stack') == ['B','A'] and values(page,'queue') == ['B','C'] and 'どちらもBが次に出ます' in page.locator('.sq-lead-v360').inner_text())
+        page.locator('#lessonQuizOptions').wait_for(state='visible')
+        check('four-choice quiz unchanged and gated', page.evaluate('lessonStep') == 2 and page.locator('#lessonQuizOptions button').count() == 4 and page.evaluate("LESSONS.stackqueue.pages[2].quiz.answer") == 2 and not done())
+        check('quiz POP names the stack operation', 'Post Office Protocol' not in page.locator('#lessonCopy').inner_text() and 'POP（取り出し操作）' in page.locator('#lessonCopy').inner_text())
         page.locator('#lessonNext').click()
-        check('four-choice quiz unchanged and gated', page.locator('#lessonQuizOptions button').count() == 4 and page.evaluate("LESSONS.stackqueue.pages[3].quiz.answer") == 2 and not done())
-        page.locator('#lessonNext').click()
-        check('quiz cannot be skipped', page.evaluate('lessonStep') == 3 and learning(page) == before)
+        check('quiz cannot be skipped', page.evaluate('lessonStep') == 2 and learning(page) == before)
         page.locator('#lessonQuizOptions [data-i="2"]').click()
         page.locator('#lessonNext').click()
         expected = {'progress': {**before['progress'], 'stackqueue': 100}, 'xp': before['xp'] + (15 if before['progress'].get('stackqueue',0) >= 100 else 50)}

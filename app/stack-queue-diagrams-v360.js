@@ -53,8 +53,10 @@ function coreTopicStackQueueDiagramViewV360(id){
   </figure>`;
 }
 
-function stackQueueAfterRemovalViewV360(){
-  return `<div class="sq-demo-v360"><p class="sq-lead-v360">最初のA → B → Cから、POPでC、DEQUEUEでAを1回ずつ取り出した後です。今度はどちらもBが次に出ます。</p>${stackQueueCardsV360(['A','B'],['B','C'])}</div>`;
+function stackQueueOperationTextV360(text){
+  // Here POP names a stack operation, not the mail protocol. An explicit label
+  // also prevents the existing generic abbreviation expander from mixing them.
+  return String(text??'').replace(/\bPOP\b(?!\s*[（(])/g,'POP（取り出し操作）');
 }
 
 function renderStackQueueExperienceV360(stage){
