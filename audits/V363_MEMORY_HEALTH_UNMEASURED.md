@@ -1,6 +1,6 @@
 # v363 — Memory health unmeasured state
 
-Status: implementation prepared. Static, browser and screenshot gates must pass before merge; final results are recorded in the release PR.
+Status: PASS — fresh/reset memory-health presentation gate cleared.
 
 ## Finding
 
@@ -29,3 +29,19 @@ An empty evidence set has no meaningful retention percentage. Showing 0% alone w
 - A semantic model must cover empty, measured, weighted and zero-attempt-placeholder states.
 - Browser automation must verify fresh → measured → real complete reset → unmeasured across Chromium 1366/1024 and WebKit 390/320.
 - Screenshots must show the unmeasured caption inside the ring without wrapping or overflow.
+
+## Observed results
+
+- Implementation/test head: `269e6b531e301ad7fbea8879ffaac5539dd4949a`
+- GitHub Actions run: `33725439700` — success
+- Static/release contract: 31/31 PASS
+- Memory-health semantic model: 5/5 PASS
+- Existing v362 complete-reset readiness model: 5/5 PASS
+- Existing v360 stack/queue semantic model: 15/15 PASS
+- Browser journeys: 4/4 PASS, 48/48 assertions
+- Fresh state: `attempted: 0`, `avg: 0`, `未計測`, `問題演習後に表示`, all three counts 0
+- Measured state: one real attempt restores `100%`, `推定保持` and the measured ring
+- Complete reset: confirm → prompt (`初期化`) → alert → reload restores the unmeasured state
+- Uncaught page errors and unexpected recovery UI: 0
+- Evidence artifact: `v363-memory-health-unmeasured-evidence` (`9881826312`)
+- Screenshot review: Chromium 1366/1024 and WebKit 390/320 all keep the unmeasured value and no-wrap caption inside the ring
