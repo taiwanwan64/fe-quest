@@ -1,0 +1,8 @@
+/* ===== v368: align sort panel headings on mobile ===== */
+@media(max-width:700px){
+  .sort-compare-v367>.sort-panel-v367{width:100%}
+  .sort-panel-v367 h4{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;justify-items:stretch;gap:6px}
+  .sort-panel-v367 h4>span{display:block;min-width:0;white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
+  .sort-panel-v367 h4>small{display:block;width:100%;min-width:0;white-space:nowrap}
+  .sort-flow-row-v367>div,.sort-cells-v367{width:100%}
+}

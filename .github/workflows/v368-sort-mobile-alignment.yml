@@ -1,0 +1,36 @@
+name: FE QUEST v368 sort mobile alignment
+on:
+  pull_request:
+    branches: ['main']
+    paths: ['.github/v368/**','.github/workflows/v368-*.yml','audits/V368_SORT_MOBILE_ALIGNMENT.md','FE_QUEST_DEVELOPMENT_PLAN.md','index.html','manifest.webmanifest','sw.js','app/base-shell-v368.html','app/sort-mobile-alignment-v368.css','assets/app-v368.css','assets/app-v368.js','assets/asset-manifest-v368.json']
+permissions: {contents: read}
+jobs:
+  validate-v368-sort-mobile-alignment:
+    if: github.head_ref == 'v368-sort-mobile-alignment'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Restrict learner-facing change
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v368/.*|\.github/workflows/v368-(sort-mobile-alignment|materialize-sort-mobile-alignment)\.yml|audits/V368_SORT_MOBILE_ALIGNMENT\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v368\.html|app/sort-mobile-alignment-v368\.css|assets/app-v368\.(js|css)|assets/asset-manifest-v368\.json)$"
+          unexpected=[p for p in paths if not re.fullmatch(allowed,p)]
+          assert not unexpected,unexpected
+          print("PASS bounded v368 file set:",len(paths))'
+      - run: python .github/v368/validate_sort_mobile_alignment.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - run: node .github/v368/browser_sort_mobile_alignment.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: v368-sort-mobile-alignment-evidence, path: _browser_evidence/v368/, if-no-files-found: warn, retention-days: 14}
