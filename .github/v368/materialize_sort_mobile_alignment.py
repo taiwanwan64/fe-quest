@@ -15,9 +15,10 @@ MARKER = "v368: align sort panel headings on mobile"
 result = materialize_tree(ROOT, TARGET, PREVIOUS)
 target, previous = result["files"], paths(ROOT, PREVIOUS)
 source = SOURCE.read_text().strip()
+expected_css = previous["css"].read_text().rstrip() + "\n\n" + source + "\n"
 
-if MARKER not in target["css"].read_text():
-    target["css"].write_text(target["css"].read_text().rstrip() + "\n\n" + source + "\n")
+if target["css"].read_text() != expected_css:
+    target["css"].write_text(expected_css)
 
 if target["css"].read_text().count(MARKER) != 1:
     raise AssertionError("v368 mobile alignment source must be materialized exactly once")

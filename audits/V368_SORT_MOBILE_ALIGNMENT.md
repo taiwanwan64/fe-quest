@@ -4,11 +4,12 @@ Status: implementation and local acceptance in progress.
 
 ## Reported friction
 
-At a 402 CSS px mobile viewport, the bubble-sort heading wrapped as `バブルソー / ト`, while the selection-sort heading remained on one line. The badge beside the title also wrapped. Although both outer panels used the same grid width, the horizontal heading layout gave the longer bubble-sort title less usable space and made the two explanations look uneven.
+At a 402 CSS px mobile viewport, the bubble-sort heading wrapped as `バブルソー / ト`, while the selection-sort heading remained on one line. The badge beside the title also wrapped. The `bubble` class on the sort panel collided with the older generic chat-bubble rule, which applied `max-width: 88%`, margin, font size, and line height to the bubble-sort panel only. The horizontal heading layout then made the remaining difference more visible.
 
 ## Learner-facing change
 
 - Keep the desktop two-column heading presentation unchanged.
+- Reset the generic chat-bubble width, margin, font-size, and line-height inside both sort panels.
 - At 700 px and below, place the algorithm title and its explanatory badge on two consistent rows.
 - Keep both titles and both badges on one line.
 - Explicitly stretch both sort panels, row content areas, and array regions to the same available width.
