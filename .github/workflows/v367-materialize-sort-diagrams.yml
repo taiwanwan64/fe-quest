@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v367 sort diagrams
+on:
+  push:
+    branches: ['v367-sort-diagrams']
+    paths: ['app/sort-diagrams-v367.js','app/sort-diagrams-v367.css','.github/v367/materialize_sort_diagrams.py','.github/workflows/v367-materialize-sort-diagrams.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v367-sort-diagrams, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v367/materialize_sort_diagrams.py
+      - run: python .github/v367/validate_sort_diagrams.py
+      - name: Commit generated v367 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v367.html assets/app-v367.css assets/app-v367.js assets/asset-manifest-v367.json
+          if git diff --cached --quiet; then echo 'v367 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v367 split release'
+          git push origin HEAD:v367-sort-diagrams
