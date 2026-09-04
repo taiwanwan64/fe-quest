@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v368 sort mobile alignment
+on:
+  push:
+    branches: ['v368-sort-mobile-alignment']
+    paths: ['app/sort-mobile-alignment-v368.css','.github/v368/materialize_sort_mobile_alignment.py','.github/workflows/v368-materialize-sort-mobile-alignment.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v368-sort-mobile-alignment, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v368/materialize_sort_mobile_alignment.py
+      - run: python .github/v368/validate_sort_mobile_alignment.py
+      - name: Commit generated v368 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v368.html assets/app-v368.css assets/app-v368.js assets/asset-manifest-v368.json
+          if git diff --cached --quiet; then echo 'v368 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v368 split release'
+          git push origin HEAD:v368-sort-mobile-alignment
