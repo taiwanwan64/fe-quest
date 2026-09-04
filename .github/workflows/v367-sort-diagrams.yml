@@ -1,0 +1,36 @@
+name: FE QUEST v367 sort diagrams
+on:
+  pull_request:
+    branches: ['main']
+    paths: ['.github/v367/**','.github/workflows/v367-*.yml','audits/V367_SORT_DIAGRAMS.md','FE_QUEST_DEVELOPMENT_PLAN.md','index.html','manifest.webmanifest','sw.js','app/base-shell-v367.html','app/sort-diagrams-v367.js','app/sort-diagrams-v367.css','assets/app-v367.css','assets/app-v367.js','assets/asset-manifest-v367.json']
+permissions: {contents: read}
+jobs:
+  validate-v367-sort-diagrams:
+    if: github.head_ref == 'v367-sort-diagrams'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Restrict learner-facing change
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v367/.*|\.github/workflows/v367-(sort-diagrams|materialize-sort-diagrams)\.yml|audits/V367_SORT_DIAGRAMS\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v367\.html|app/sort-diagrams-v367\.(js|css)|assets/app-v367\.(js|css)|assets/asset-manifest-v367\.json)$"
+          unexpected=[p for p in paths if not re.fullmatch(allowed,p)]
+          assert not unexpected,unexpected
+          print("PASS bounded v367 file set:",len(paths))'
+      - run: python .github/v367/validate_sort_diagrams.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - run: node .github/v367/browser_sort_diagrams.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: v367-sort-diagrams-evidence, path: _browser_evidence/v367/, if-no-files-found: warn, retention-days: 14}
