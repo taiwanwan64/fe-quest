@@ -33,3 +33,5 @@ node .github/v368/browser_sort_mobile_alignment.cjs
 ```
 
 The browser gate checks desktop Chromium 1366 and mobile WebKit at 402, 390, and 320 CSS px. It verifies equal panel and array-region widths, one-line titles and badges, equal mobile heading and badge widths, preserved desktop layout, no overflow, unchanged saved learning state, and no uncaught errors or recovery UI.
+
+The first browser run correctly rejected the release because the existing generic `.bubble` rule still limited the bubble-sort panel to 88% width. The corrected override resets that inherited maximum width together with its unrelated chat margin, font size, and line height before the final acceptance run.
