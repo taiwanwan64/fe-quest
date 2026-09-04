@@ -5454,8 +5454,9 @@ body.fequest-first-run-v364 #diagnostic .screen-head>div{width:100%;text-align:c
 @media(max-width:390px){.sort-figure-v367{padding-inline:9px}.sort-panel-v367{padding-inline:7px}.sort-flow-row-v367{grid-template-columns:42px minmax(0,1fr);gap:4px}.sort-cells-v367,.sort-trace-cells-v367{gap:2px}.sort-cell-wrap-v367{max-width:42px}.sort-flow-note-v367{font-size:8px}.sort-trace-cell-wrap-v367{min-width:38px}.sort-trace-marker-v367{font-size:8px}.sort-trace-v367 .trace-array-cell{padding-inline:5px;font-size:13px}}
 
 /* ===== v368: align sort panel headings on mobile ===== */
+.sort-compare-v367>.sort-panel-v367{width:100%;max-width:none;margin:0;font-size:inherit;line-height:normal}
+.sort-panel-v367 h4>span{line-height:1.35}
 @media(max-width:700px){
-  .sort-compare-v367>.sort-panel-v367{width:100%}
   .sort-panel-v367 h4{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;justify-items:stretch;gap:6px}
   .sort-panel-v367 h4>span{display:block;min-width:0;white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
   .sort-panel-v367 h4>small{display:block;width:100%;min-width:0;white-space:nowrap}
