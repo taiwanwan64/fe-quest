@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v371 paging diagram
+on:
+  push:
+    branches: ['v371-paging-diagram']
+    paths: ['app/paging-diagram-v371.js','app/paging-diagram-v371.css','.github/v371/materialize_paging_diagram.py','.github/workflows/v371-materialize-paging-diagram.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v371-paging-diagram, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v371/materialize_paging_diagram.py
+      - run: python .github/v371/validate_paging_diagram.py
+      - name: Commit generated v371 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v371.html assets/app-v371.css assets/app-v371.js assets/asset-manifest-v371.json
+          if git diff --cached --quiet; then echo 'v371 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v371 split release'
+          git push origin HEAD:v371-paging-diagram
