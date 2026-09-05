@@ -1,0 +1,40 @@
+/* ===== v372: backup scope and restore-chain comparison ===== */
+.backup-figure-v372{box-sizing:border-box;min-width:0;margin:24px 0;padding:22px;border:1px solid #d7e2e7;border-radius:22px;background:linear-gradient(145deg,#fbfdff,#f8fcfa);color:#233746;text-align:left}
+.backup-figure-v372 *{box-sizing:border-box;min-width:0}
+.backup-figure-v372 figcaption{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 8px}
+.backup-figure-v372 figcaption>span{color:#426e85;font-size:13px;font-weight:950}
+.backup-figure-v372 figcaption>b{color:#293b50;font-size:clamp(19px,2.2vw,26px);line-height:1.4;word-break:keep-all;overflow-wrap:anywhere}
+.backup-figure-v372 p{font-size:14px!important;line-height:1.7!important;color:#526775!important;overflow-wrap:anywhere}
+.backup-lead-v372{margin:0 0 12px!important}
+.backup-timeline-v372{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0 0 12px;padding:0;list-style:none}
+.backup-timeline-v372 li{display:grid;gap:3px;padding:9px 5px;background:#edf3f6;border-radius:10px;text-align:center;font-size:13px;line-height:1.5;color:#385d70}
+.backup-timeline-v372 li>span{font-size:12px}
+.backup-premise-v372{margin:0 0 14px!important}
+.backup-methods-v372{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.backup-methods-v372.is-single{grid-template-columns:1fr}
+.backup-method-v372{display:flex;flex-direction:column;width:100%;padding:13px;border:1px solid #b9cddb;border-top:4px solid #5489b0;border-radius:16px;background:#fff}
+.backup-method-v372[data-backup-method=differential]{border-color:#d5c5e6;border-top-color:#8763b1}
+.backup-method-v372[data-backup-method=incremental]{border-color:#bcd7c9;border-top-color:#539577}
+.backup-method-v372 h3{margin:0 0 5px;color:#2b5672;font-size:18px;line-height:1.5}
+.backup-method-v372[data-backup-method=differential] h3{color:#68498c}
+.backup-method-v372[data-backup-method=incremental] h3{color:#306c53}
+.backup-rule-v372{margin:0 0 12px!important;min-height:3.4em}
+.backup-method-v372 h4{margin:0 0 8px;color:#3f5b6a;font-size:14px;line-height:1.5}
+.backup-saves-v372{display:grid;gap:6px;list-style:none;margin:0;padding:0}
+.backup-saves-v372>li{display:grid;grid-template-columns:30px minmax(0,1fr);align-items:center;gap:5px;min-height:36px;border-bottom:1px solid #e2e9ed;padding:3px 0}
+.backup-saves-v372>li>b{font-size:13px;color:#496779;line-height:1.5}
+.backup-saves-v372>li>div{display:flex;flex-wrap:wrap;gap:4px}
+.backup-token-v372{display:inline-grid;place-items:center;min-width:22px;height:26px;border:1px solid #b7cdda;border-radius:6px;background:#e8f1f7;color:#2e5873;font-size:13px;font-weight:800;line-height:1}
+.backup-method-v372[data-backup-method=differential] .backup-token-v372:not(.is-base){border-color:#cbb7e1;background:#f0e8f9;color:#614080}
+.backup-method-v372[data-backup-method=incremental] .backup-token-v372:not(.is-base){border-color:#add0bf;background:#e7f4ed;color:#2a6048}
+.backup-token-v372.is-base{background:#edf0f3;border-color:#c9d2d9;color:#41596b}
+.backup-restore-v372{margin-top:15px;padding:10px 9px;border-radius:12px;background:#f3f7f9}
+.backup-restore-v372 ol{display:grid;gap:7px;list-style:none;margin:0;padding:0}
+.backup-restore-v372 li{display:grid;grid-template-columns:23px minmax(0,1fr);align-items:center;gap:7px;color:#385465;font-size:14px;line-height:1.5}
+.backup-restore-v372 li>b{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#dfeaf0;color:#3c5a6c;font-size:12px}
+.backup-result-v372{margin:10px 0 0!important}
+.backup-takeaway-v372{display:grid;gap:5px;margin:14px 0 0!important;padding:12px 14px;border-radius:13px;background:#eaf3f4}
+.backup-takeaway-v372>b{color:#285867}
+@media(max-width:900px){.backup-methods-v372{grid-template-columns:1fr}.backup-rule-v372{min-height:0}.backup-timeline-v372 li{padding-inline:3px}}
+@media(max-width:700px){.backup-figure-v372{padding:17px 13px}.backup-method-v372{padding:12px}.backup-timeline-v372{grid-template-columns:1fr;gap:5px}.backup-timeline-v372 li{grid-template-columns:32px minmax(0,1fr);text-align:left;padding:6px 9px;gap:7px}.backup-timeline-v372 li>span{font-size:13px}}
+@media(max-width:390px){.backup-figure-v372{padding-inline:9px}.backup-method-v372{padding:10px 7px}.backup-takeaway-v372{padding:10px}.backup-saves-v372>li{gap:4px}}

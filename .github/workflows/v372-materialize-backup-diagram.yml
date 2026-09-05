@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v372 backup diagram
+on:
+  push:
+    branches: ['v372-backup-diagram']
+    paths: ['app/backup-diagram-v372.js','app/backup-diagram-v372.css','.github/v372/materialize_backup_diagram.py','.github/workflows/v372-materialize-backup-diagram.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v372-backup-diagram, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v372/materialize_backup_diagram.py
+      - run: python .github/v372/validate_backup_diagram.py
+      - name: Commit generated v372 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v372.html assets/app-v372.css assets/app-v372.js assets/asset-manifest-v372.json
+          if git diff --cached --quiet; then echo 'v372 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v372 split release'
+          git push origin HEAD:v372-backup-diagram
