@@ -1,0 +1,36 @@
+name: FE QUEST v369 SQL join diagram
+on:
+  pull_request:
+    branches: ['main']
+    paths: ['.github/v369/**','.github/workflows/v369-*.yml','audits/V369_SQL_JOIN_DIAGRAM.md','FE_QUEST_DEVELOPMENT_PLAN.md','index.html','manifest.webmanifest','sw.js','app/base-shell-v369.html','app/sql-join-diagram-v369.js','app/sql-join-diagram-v369.css','assets/app-v369.css','assets/app-v369.js','assets/asset-manifest-v369.json']
+permissions: {contents: read}
+jobs:
+  validate-v369-sql-join-diagram:
+    if: github.head_ref == 'v369-sql-join-diagram'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Restrict learner-facing change
+        run: |
+          git diff --name-only origin/main...HEAD | python -c '
+          import re,sys
+          paths=sys.stdin.read().splitlines()
+          allowed=r"^(\.github/v369/.*|\.github/workflows/v369-(sql-join-diagram|materialize-sql-join-diagram)\.yml|audits/V369_SQL_JOIN_DIAGRAM\.md|FE_QUEST_DEVELOPMENT_PLAN\.md|index\.html|manifest\.webmanifest|sw\.js|app/base-shell-v369\.html|app/sql-join-diagram-v369\.(js|css)|assets/app-v369\.(js|css)|assets/asset-manifest-v369\.json)$"
+          unexpected=[p for p in paths if not re.fullmatch(allowed,p)]
+          assert not unexpected,unexpected
+          print("PASS bounded v369 file set:",len(paths))'
+      - run: python .github/v369/validate_sql_join_diagram.py
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium webkit
+      - run: node .github/v369/browser_sql_join_diagram.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: v369-sql-join-diagram-evidence, path: _browser_evidence/v369/, if-no-files-found: warn, retention-days: 14}
