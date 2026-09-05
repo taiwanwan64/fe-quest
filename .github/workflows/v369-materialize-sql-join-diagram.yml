@@ -1,0 +1,25 @@
+name: Materialize FE QUEST v369 SQL join diagram
+on:
+  push:
+    branches: ['v369-sql-join-diagram']
+    paths: ['app/sql-join-diagram-v369.js','app/sql-join-diagram-v369.css','.github/v369/materialize_sql_join_diagram.py','.github/workflows/v369-materialize-sql-join-diagram.yml']
+permissions: {contents: write}
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: v369-sql-join-diagram, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python .github/v369/materialize_sql_join_diagram.py
+      - run: python .github/v369/validate_sql_join_diagram.py
+      - name: Commit generated v369 assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js app/base-shell-v369.html assets/app-v369.css assets/app-v369.js assets/asset-manifest-v369.json
+          if git diff --cached --quiet; then echo 'v369 assets already materialized'; exit 0; fi
+          git commit -m 'Materialize FE QUEST v369 split release'
+          git push origin HEAD:v369-sql-join-diagram
