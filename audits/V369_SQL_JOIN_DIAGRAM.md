@@ -33,3 +33,5 @@ node .github/v369/browser_sql_join_diagram.cjs
 ```
 
 The browser gate checks Chromium at 1366 CSS px and WebKit at 402, 390, and 320 CSS px. It verifies source/result card widths, 2-row and 3-row result cardinalities, the unmatched `NULL` row, readable join labels, no overflow, unchanged learning state, and no uncaught errors or recovery UI.
+
+Review follow-up: the first WebKit run found a two-pixel title-span overflow at 402 CSS px. The result-card heading switches to the same stacked label layout through 420 CSS px; 390 and 320 CSS px retain their compact table rules.
