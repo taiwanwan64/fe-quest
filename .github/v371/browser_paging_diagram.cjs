@@ -55,7 +55,7 @@ async function runCase(type,name,viewport,isMobile=false){
     await page.screenshot({path:path.join(OUT,name+'-context.png')});
     // Element captures span many viewports. Exclude fixed screen chrome only
     // for the figure image; the context image and all measurements are unmodified.
-    await figure.screenshot({path:path.join(OUT,name+'-figure.png'),style:'body>header,body>.app>nav,.ai-fab,.drawer,.drawer-backdrop,.toast{visibility:hidden!important}'});
+    await figure.screenshot({path:path.join(OUT,name+'-figure.png'),style:'.app>header,.app>.sidebar,.ai-fab,.drawer,.drawer-backdrop,.toast{visibility:hidden!important}'});
     await page.evaluate(()=>startLesson('core_06_01'));
     check('reopening creates exactly one diagram',await page.locator('.paging-figure-v371').count()===1);
     await page.evaluate(()=>startLesson('core_06_03'));

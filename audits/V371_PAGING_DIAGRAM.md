@@ -1,6 +1,6 @@
 # v371 — Paging mapping and replacement diagram
 
-Status: implementation and local static/model checks complete; browser CI required before merge.
+Status: implementation complete; release acceptance is tracked by the final checks on [PR #165](https://github.com/taiwanwan64/fe-quest/pull/165).
 
 ## Learner-facing goal
 
@@ -37,3 +37,12 @@ node .github/v371/browser_paging_diagram.cjs
 - Static/split contract: 24/24 PASS locally.
 - Browser gate: Chromium 1366px and mobile-sized WebKit 402/390/320px; verify equal card/table widths, one-line titles and frame labels, both page tables, constant frame count, ordered steps, no overflow, no learning-state mutation, safe reopen, target-only rendering, and no runtime errors/recovery UI.
 - Automated WebKit coverage is not a claim of physical iPhone testing.
+
+## Browser evidence
+
+- Initial acceptance: [Actions run 33948831214](https://github.com/taiwanwan64/fe-quest/actions/runs/33948831214), 13 checks × 4 viewports PASS.
+- Equal before/after panel widths: desktop 373px, mobile 402px viewport 278px, 390px viewport 274px, 320px viewport 210px.
+- Both page tables and all frame labels are correct and free of overflow.
+- Visual review shortened the overall caption to avoid a one-character last line; the final gate also requires the caption to stay on one line.
+- Context screenshots retain the real UI. Figure-only screenshots hide fixed header/navigation/chat chrome during capture, avoiding full-height screenshot compositing artifacts; measurements and runtime remain unmodified.
+- Final browser checks: 14 per viewport, with the same safety and scope boundaries. The final PR head must pass before merge; its check and PR summary are the acceptance record.
