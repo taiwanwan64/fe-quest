@@ -12,6 +12,7 @@ async function metrics(figure){
       panelWidths:panels.map(e=>e.getBoundingClientRect().width),
       tableWidths:panels.map(e=>e.querySelector('table').getBoundingClientRect().width),
       titleLines:panels.map(e=>lineCount(e.querySelector('h3'))),
+      captionLines:lineCount(node.querySelector('figcaption>b')),
       frameLabelLines:[...node.querySelectorAll('.paging-frames-v371 li>b')].map(lineCount),
       maps:panels.map(e=>[...e.querySelectorAll('tbody tr')].map(r=>[Number(r.dataset.page),r.dataset.frame])),
       frames:panels.map(e=>[...e.querySelectorAll('.paging-frames-v371 li')].map(r=>Number(r.dataset.page))),
@@ -42,6 +43,7 @@ async function runCase(type,name,viewport,isMobile=false){
     const equal=xs=>xs.length===2&&Math.abs(xs[0]-xs[1])<=1;
     check('before/after cards and tables have equal width',equal(m.panelWidths)&&equal(m.tableWidths));
     check('titles and physical page labels stay on one line',m.titleLines.every(x=>x===1)&&m.frameLabelLines.every(x=>x===1));
+    check('figure title stays on one line',m.captionLines===1);
     check('before page table maps virtual pages correctly',JSON.stringify(m.maps[0])==='[[0,"2"],[1,"0"],[2,"absent"],[3,"1"]]');
     check('after page table updates both affected entries',JSON.stringify(m.maps[1])==='[[0,"2"],[1,"absent"],[2,"0"],[3,"1"]]');
     check('only frame 0 is replaced; three frames remain',JSON.stringify(m.frames)==='[[1,3,0],[2,3,0]]');
@@ -51,7 +53,9 @@ async function runCase(type,name,viewport,isMobile=false){
     check('learning state remains unchanged',await learningState()===before);
     fs.mkdirSync(OUT,{recursive:true});
     await page.screenshot({path:path.join(OUT,name+'-context.png')});
-    await figure.screenshot({path:path.join(OUT,name+'-figure.png')});
+    // Element captures span many viewports. Exclude fixed screen chrome only
+    // for the figure image; the context image and all measurements are unmodified.
+    await figure.screenshot({path:path.join(OUT,name+'-figure.png'),style:'body>header,body>.app>nav,.ai-fab,.drawer,.drawer-backdrop,.toast{visibility:hidden!important}'});
     await page.evaluate(()=>startLesson('core_06_01'));
     check('reopening creates exactly one diagram',await page.locator('.paging-figure-v371').count()===1);
     await page.evaluate(()=>startLesson('core_06_03'));

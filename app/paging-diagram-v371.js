@@ -24,7 +24,7 @@ function coreTopicPagingDiagramViewV371(id){
     </section>`;
   };
   return `<figure class="paging-figure-v371" aria-labelledby="pagingCaptionV371" data-paging-diagram="core">
-    <figcaption id="pagingCaptionV371"><span>図で確認</span><b>必要なページを主記憶へ読み込む</b></figcaption>
+    <figcaption id="pagingCaptionV371"><span>図で確認</span><b>ページと主記憶の対応</b></figcaption>
     <p class="paging-lead-v371">仮想記憶を固定長の「ページ」に分け、主記憶の同じ大きさの枠（フレーム）に対応させます。</p>
     <p class="paging-premise-v371">この例は仮想ページ4枚・主記憶3枠。ページ2を参照し、枠0のページ1を置き換えます。置換対象は例として指定しています。</p>
     <div class="paging-panels-v371" role="group" aria-label="ページ2の読込み前と読込み後の比較">
