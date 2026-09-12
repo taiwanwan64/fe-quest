@@ -1,0 +1,144 @@
+name: Verify FE QUEST v377 live UX
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-v377-live.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live-v377:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      BASE_URL: https://taiwanwan64.github.io/fe-quest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Allow Pages propagation
+        run: sleep 30
+      - name: Verify deployed bytes and sanitized boundary
+        run: |
+          set -euo pipefail
+          TMP="$RUNNER_TEMP/deployed"
+          mkdir -p "$TMP"
+          while IFS= read -r file; do
+            case "$file" in
+              .github/*|README.md) continue ;;
+            esac
+            mkdir -p "$TMP/$(dirname "$file")"
+            ok=0
+            for attempt in {1..8}; do
+              if curl --fail --silent --show-error --location \
+                -H 'Cache-Control: no-cache' \
+                "$BASE_URL/$file?verify=$GITHUB_SHA-$attempt" -o "$TMP/$file" \
+                && cmp --silent "$file" "$TMP/$file"; then
+                ok=1
+                break
+              fi
+              sleep 5
+            done
+            test "$ok" -eq 1 || { echo "deployed byte drift: $file" >&2; exit 1; }
+          done < <(git ls-files)
+          grep -Fq "const APP_VERSION = 'v377';" "$TMP/assets/app-v377.js"
+          grep -Fq "const APP_VERSION = 'v377';" "$TMP/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-1';" "$TMP/sw.js"
+          grep -Fq './assets/first-impression-ux-v377.js' "$TMP/index.html"
+          grep -Fq './assets/first-impression-ux-v377.css' "$TMP/index.html"
+          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$TMP/cloud/public-config-v342.js"
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$TMP"
+          node <<'NODE'
+          const fs=require('node:fs');
+          const path=process.env.RUNNER_TEMP+'/deployed/assets/question-catalog-v376.json';
+          const c=JSON.parse(fs.readFileSync(path,'utf8'));
+          if(c.version!=='v376-catalog-1'||!Array.isArray(c.items)||c.items.length!==904)throw new Error('catalog inventory mismatch');
+          const forbidden=new Set(['q','stem','question','options','opts','a','answer','answerIndex','correctIndex','correctText','exp','explain','explanation','choiceExps','choiceExplanations']);
+          const walk=v=>{if(Array.isArray(v))return v.forEach(walk);if(!v||typeof v!=='object')return;for(const [k,x] of Object.entries(v)){if(forbidden.has(k))throw new Error(`protected catalog key: ${k}`);walk(x)}};
+          walk(c);
+          console.log('PASS live v377 catalog: 904 metadata-only records');
+          NODE
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Verify actual live desktop and mobile first impression
+        run: |
+          node <<'NODE'
+          const {chromium}=require('playwright');
+          const BASE=process.env.BASE_URL;
+          const assert=(ok,msg)=>{if(!ok)throw new Error(msg)};
+          (async()=>{
+            const browser=await chromium.launch();
+            try{
+              const desktop=await browser.newContext({viewport:{width:1440,height:900},locale:'ja-JP'});
+              const page=await desktop.newPage();
+              const errors=[];
+              page.on('pageerror',e=>errors.push(String(e?.stack||e)));
+              await page.goto(`${BASE}/?v377-live=${Date.now()}`,{waitUntil:'load',timeout:30000});
+              await page.waitForSelector('#firstRunGuidedV364',{state:'visible',timeout:15000});
+              const box=await page.locator('#firstRunGuidedV364').boundingBox();
+              assert(box,'first-run card missing');
+              assert(Math.abs((box.x+box.width/2)-720)<=36,`first-run card not centered: ${JSON.stringify(box)}`);
+              assert(box.width<=700,`first-run card too wide: ${box.width}`);
+
+              let swReady=false;
+              for(let i=0;i<4&&!swReady;i++){
+                try{
+                  swReady=await page.evaluate(async()=>{await navigator.serviceWorker.ready;return true});
+                }catch(_e){await page.waitForTimeout(500)}
+              }
+              assert(swReady,'v377 service worker did not become ready');
+              const swVersion=await page.evaluate(async()=>{
+                const reg=await navigator.serviceWorker.ready;
+                const worker=navigator.serviceWorker.controller||reg.active;
+                if(!worker)throw new Error('no service worker');
+                return await new Promise((resolve,reject)=>{
+                  const timer=setTimeout(()=>reject(new Error('SW version timeout')),5000);
+                  const handler=e=>{if(e.data?.type==='APP_VERSION'){clearTimeout(timer);navigator.serviceWorker.removeEventListener('message',handler);resolve(e.data.version)}};
+                  navigator.serviceWorker.addEventListener('message',handler);
+                  worker.postMessage({type:'GET_VERSION'});
+                });
+              });
+              assert(swVersion==='v377',`live service worker version mismatch: ${swVersion}`);
+
+              await page.locator('#firstRunAccountSkipV364').click();
+              await page.locator('#firstV373Minutes').waitFor({state:'visible',timeout:10000});
+              await page.locator('#firstV373Minutes').fill('10');
+              await page.locator('#firstRunSettingsContinueV364').click();
+              await page.waitForSelector('#v377BetaInviteNotice',{state:'visible',timeout:10000});
+              const notice=(await page.locator('#v377BetaInviteNotice').innerText()).replace(/\s+/g,' ');
+              assert(notice.includes('現在は招待制βテスト中です'),'live beta status explanation missing');
+              assert(notice.includes('ログインは学習データの引継ぎ'),'live login-role explanation missing');
+              assert(notice.includes('招待コードはβ期間中の問題アクセス確認'),'live invite-role explanation missing');
+              assert((await page.locator('#diagBegin').innerText()).includes('招待コード'),'live diagnostic CTA does not preview invite step');
+              await page.locator('#diagBegin').click();
+              await page.waitForSelector('#fequestV376AccessDialog',{state:'visible',timeout:10000});
+              assert((await page.locator('#fequestV376AccessTitle').innerText())==='βテスト招待コード','live invite title mismatch');
+              assert((await page.locator('label[for="fequestV376AccessInput"]').innerText())==='招待コード','live invite label mismatch');
+              const dialog=(await page.locator('#fequestV376AccessDialog').innerText()).replace(/\s+/g,' ');
+              assert(dialog.includes('タブを閉じると破棄されます'),'live tab-scope explanation missing');
+              assert(!dialog.includes('テスター用アクセスコード'),'legacy access-code title still visible');
+              assert((await page.locator('#fequestV376AccessCancel').innerText())==='戻る','live cancel copy mismatch');
+              assert((await page.locator('#fequestV376AccessSubmit').innerText())==='診断を始める','live diagnostic submit copy mismatch');
+              await page.locator('#fequestV376AccessCancel').click();
+              assert(errors.length===0,`desktop page errors: ${errors.join(' | ')}`);
+              await desktop.close();
+
+              const mobile=await browser.newContext({viewport:{width:390,height:844},locale:'ja-JP'});
+              const m=await mobile.newPage();
+              await m.goto(`${BASE}/?v377-mobile=${Date.now()}`,{waitUntil:'load',timeout:30000});
+              await m.waitForSelector('#firstRunGuidedV364',{state:'visible',timeout:15000});
+              const overflow=await m.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+              assert(overflow<=1,`mobile horizontal overflow: ${overflow}px`);
+              const mobileBox=await m.locator('#firstRunGuidedV364').boundingBox();
+              assert(mobileBox&&mobileBox.x>=0&&mobileBox.x+mobileBox.width<=391,`mobile first-run card overflow: ${JSON.stringify(mobileBox)}`);
+              await mobile.close();
+              console.log('PASS live v377: deployed bytes + sanitized boundary + v377 SW + centered desktop + explained beta gate + mobile layout');
+            }finally{await browser.close()}
+          })().catch(e=>{console.error(e?.stack||e);process.exitCode=1});
+          NODE
