@@ -9644,7 +9644,8 @@ function readinessComponents(){
   const skillVals=sortedSkills().map(x=>x[1]);
   const skill=skillVals.length?Math.round(skillVals.reduce((a,b)=>a+b,0)/skillVals.length):0;
   const quiz=recentQuizRate();
-  const cognitive=subjectACognitiveEvidence();
+  const cognitiveRaw=subjectACognitiveEvidence();
+  const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;
   // profile.skills starts at a neutral 50 for adaptive question selection. It is
   // not learning evidence and must not make a fresh/reset learner look 18% done.
   const aPractice=subjectAPracticeEvidenceV362()
