@@ -5,7 +5,8 @@
   'use strict';
 
   const PUBLIC_ENHANCEMENT_PATHS=Object.freeze([
-    './assets/ipa92-sort-lab-v377.js'
+    './assets/ipa92-sort-lab-v377.js',
+    './assets/ipa92-graph-lab-v377.js'
   ]);
   const ACTIVATION_SPEC=Object.freeze({
     version:'v342',
