@@ -8,6 +8,24 @@
     './assets/ipa92-sort-lab-v377.js',
     './assets/ipa92-graph-lab-v377.js'
   ]);
+  // Public-safe metadata only. Protected stems/options/answers/explanations remain in Supabase.
+  // This script is intentionally loaded after app-v377.js so it can extend the existing lexical QUESTION_BANK
+  // without rewriting the 1MB sanitized application bundle.
+  const IPA92_SUBJECT_A_METADATA=Object.freeze([
+    Object.freeze({id:'ipa92_a_graph_01',sourcePool:'subject_a',cat:'応用数学',difficulty:'基礎',concept:'グラフ理論（頂点・辺・経路）',coreTopicId:'core_03_01',angle:'application',cognitiveLevel:'適用',applicationDemand:'状況適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_graph_02',sourcePool:'subject_a',cat:'応用数学',difficulty:'標準',concept:'グラフ理論（次数）',coreTopicId:'core_03_01',angle:'application',cognitiveLevel:'適用',applicationDemand:'手順適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_hypothesis_01',sourcePool:'subject_a',cat:'応用数学',difficulty:'基礎',concept:'仮説検定（帰無仮説）',coreTopicId:'core_02_06',angle:'knowledge',cognitiveLevel:'想起',recallDemand:'原則・関係',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_hypothesis_02',sourcePool:'subject_a',cat:'応用数学',difficulty:'標準',concept:'仮説検定（p値）',coreTopicId:'core_02_06',angle:'application',cognitiveLevel:'適用',applicationDemand:'役割選択',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_hypothesis_03',sourcePool:'subject_a',cat:'応用数学',difficulty:'標準',concept:'仮説検定（第1種・第2種過誤）',coreTopicId:'core_02_06',angle:'discrimination',cognitiveLevel:'判断',judgmentDemand:'対応関係',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_markov_01',sourcePool:'subject_a',cat:'応用数学',difficulty:'基礎',concept:'マルコフ過程（状態遷移）',coreTopicId:'core_02_06',angle:'application',cognitiveLevel:'適用',applicationDemand:'状況適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_markov_02',sourcePool:'subject_a',cat:'応用数学',difficulty:'標準',concept:'マルコフ過程（マルコフ性）',coreTopicId:'core_02_06',angle:'knowledge',cognitiveLevel:'想起',recallDemand:'原則・関係',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_predicate_01',sourcePool:'subject_a',cat:'基礎理論',difficulty:'基礎',concept:'述語論理（全称・存在量化）',coreTopicId:'core_02_01',angle:'application',cognitiveLevel:'適用',applicationDemand:'状況適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_predicate_02',sourcePool:'subject_a',cat:'基礎理論',difficulty:'標準',concept:'述語論理（量化記号の否定）',coreTopicId:'core_02_01',angle:'discrimination',cognitiveLevel:'判断',judgmentDemand:'論理変換',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_predicate_03',sourcePool:'subject_a',cat:'基礎理論',difficulty:'基礎',concept:'演繹法・帰納法',coreTopicId:'core_02_01',angle:'application',cognitiveLevel:'適用',applicationDemand:'役割選択',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_regexp_01',sourcePool:'subject_a',cat:'基礎理論',difficulty:'基礎',concept:'正規表現（繰返し）',coreTopicId:'core_02_04',angle:'application',cognitiveLevel:'適用',applicationDemand:'状況適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_regexp_02',sourcePool:'subject_a',cat:'基礎理論',difficulty:'標準',concept:'BNF（終端・非終端記号）',coreTopicId:'core_02_04',angle:'application',cognitiveLevel:'適用',applicationDemand:'状況適用',qualityAudit:'ipa92-original-v1'}),
+    Object.freeze({id:'ipa92_a_regexp_03',sourcePool:'subject_a',cat:'基礎理論',difficulty:'標準',concept:'形式言語（閉包）',coreTopicId:'core_02_04',angle:'discrimination',cognitiveLevel:'判断',judgmentDemand:'文脈比較',qualityAudit:'ipa92-original-v1'})
+  ]);
   const ACTIVATION_SPEC=Object.freeze({
     version:'v342',
     configPath:'./cloud/public-config-v342.js',
@@ -28,6 +46,24 @@
     ]),
     policy:'same-origin-pinned-sdk-fail-open-local-first'
   });
+
+  function installIpa92SubjectAMetadata(){
+    try{
+      if(typeof QUESTION_BANK==='undefined'||!Array.isArray(QUESTION_BANK))return Object.freeze({ok:false,status:'subject-a-bank-unavailable',added:0});
+      const existing=new Set(QUESTION_BANK.map(item=>item?.id).filter(Boolean));
+      let added=0;
+      for(const item of IPA92_SUBJECT_A_METADATA){
+        if(existing.has(item.id))continue;
+        QUESTION_BANK.push({...item});
+        existing.add(item.id);
+        added++;
+      }
+      const complete=IPA92_SUBJECT_A_METADATA.every(item=>existing.has(item.id));
+      return Object.freeze({ok:complete,status:complete?'installed':'incomplete',added,total:IPA92_SUBJECT_A_METADATA.length});
+    }catch(error){
+      return Object.freeze({ok:false,status:'install-failed',added:0,error:String(error?.message||error)});
+    }
+  }
 
   function localAssetPath(value){
     const path=String(value||'');
@@ -157,7 +193,10 @@
     return loader;
   }
 
-  const api=Object.freeze({ACTIVATION_SPEC,PUBLIC_ENHANCEMENT_PATHS,localAssetPath,installConnectivityNoticeRecovery,loadPublicEnhancements,createActivationLoader,autoStart});
+  const metadataInstall=installIpa92SubjectAMetadata();
+  root.FEQUEST_IPA92_SUBJECT_A_METADATA=IPA92_SUBJECT_A_METADATA;
+  root.FEQUEST_IPA92_SUBJECT_A_METADATA_INSTALL=metadataInstall;
+  const api=Object.freeze({ACTIVATION_SPEC,PUBLIC_ENHANCEMENT_PATHS,IPA92_SUBJECT_A_METADATA,installIpa92SubjectAMetadata,localAssetPath,installConnectivityNoticeRecovery,loadPublicEnhancements,createActivationLoader,autoStart});
   root.FEQUEST_CLOUD_ACTIVATION_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   if(typeof document!=='undefined')Promise.resolve().then(()=>autoStart());
