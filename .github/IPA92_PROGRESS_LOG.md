@@ -155,3 +155,38 @@
 - 著作物の独自問題・本文を転載しない。
 - 1つのまとまりごとにPR/CI/mergeの証跡を残す。
 - `.github/ipa92-coverage.json` の状態を、実装の事実より先に完了へしない。
+
+## 2026-09-12 — P0操作教材・P1教材ソースを追加しcoverageを再同期
+
+この節は上の古い「次にやること」より新しい現在地であり、再開時はこちらを優先する。
+
+### 公開側
+- P0集合・ベン図に加え、マージ/挿入/シェル/ヒープソートのタッチ操作ラボ、グラフ理論・探索ラボを本番Pagesへ導入済み。
+- public PR #17でP0の実装済み項目を `in-progress` へ同期済み。
+- P1教材ソースの進捗に合わせ、数値解法、線形計画法、多重化、UML/DFD/E-R図、分散DB/2相コミット、GPU、TLB/ページ置換、SDN、OAuth、RTO/RPO、信頼性設計、EOQ、リファクタリング/レビュー、PWMを `in-progress` へ同期する。
+- OOP/SOLID/DDD/MVC/デザインパターンは独立追跡項目 `FE92-DESIGN-OOP-SOLID-DDD` を新設する。
+- OAuthはVer.9.2で直接確認した必須側、OpenID Connectは関連知識の補足として扱い、必須範囲を過剰拡張しない。
+
+### private教材正本
+以下はすべてprivate PR → Protected Lessons CI成功 → main merge済み。
+- PR #10: DB・設計モデリング（E-R、DFD、UML、分散DB、2相コミット）
+- PR #11: OS・アーキテクチャ（GPU、SIMD、仮想記憶、TLB、FIFO/LRU）
+- PR #12: ネットワーク・認可（SDN/OpenFlow/NFV、OAuth）
+- PR #13: 信頼性・サービス継続（フェールセーフ等、RTO/RPO/RLO）
+- PR #14: 在庫管理・EOQ
+- PR #15: 数値解法、線形計画法、PWM、リファクタリング/レビュー
+- PR #16: OOP、SOLID、多相性、DDD、MVC、デザインパターン
+- private main基準: `cc05766799cf56f969347072e8a10ae4a787158e`
+
+### 意図的に未完了
+- protected lessonの現行オーバーレイは、本番 `Import protected lessons` 未実行のため `verified-covered` へ上げない。
+- P0/P1の対応問題は、現在の正本パイプラインを特定してから追加・検証する。古い問題材料化スクリプトをそのまま正本と仮定しない。
+- `interactive: required` のUML/E-R、TLB/ページ置換等は公開操作教材とスマホ相当確認が必要。
+- 23中分類・96小分類より下の細目/用語例インベントリは未完了。
+
+### 現在の次作業
+1. public coverage同期PRをCI成功後mainへマージする。
+2. private repoで現行の問題正本・問題Import経路を特定し、P0/P1にオリジナル問題を追加する安全な経路を確立する。
+3. `interactive: required` のP1操作教材を追加する。
+4. 正規の手動 `workflow_dispatch` が利用可能になった時点でprotected lessonsを本番Importし、130件・表示・ハッシュを確認する。
+5. 96小分類より下の細目/用語例を公式Ver.9.2から登録して、残存ギャップを再監査する。
