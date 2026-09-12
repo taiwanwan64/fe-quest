@@ -4,10 +4,17 @@
 const GATE_URL='https://gkvgxnkoypypikxtyeoz.supabase.co/functions/v1/fequest-question-gate-v376';
 const SCRIPT_URL=document.currentScript?.src||document.baseURI;
 const CATALOG_URL=new URL('question-catalog-v376.json',SCRIPT_URL).toString();
+const IPA92_CATALOG_URL=new URL('question-catalog-ipa92-v1.json',SCRIPT_URL).toString();
+const BASE_CATALOG_VERSION='v376-catalog-1';
+const IPA92_CATALOG_VERSION='ipa92-catalog-v1';
+const BASE_CATALOG_TOTAL=904;
+const IPA92_CATALOG_TOTAL=13;
+const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;
 const ACCESS_SESSION_KEY='fequest_beta_access_v376';
 const MAX_BATCH=20;
 const MAX_CACHE=60;
 const REQUEST_TIMEOUT_MS=15000;
+const PROTECTED_CATALOG_KEYS=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
 
 let memoryAccessCode='';
 let catalogPromise=null;
@@ -107,18 +114,44 @@ function safeCatalogItem(item){
   return !!item&&typeof item==='object'&&typeof item.id==='string'&&typeof item.sourcePool==='string';
 }
 
+function safeIpa92CatalogItem(item){
+  if(!safeCatalogItem(item)||item.sourcePool!=='subject_a'||!/^ipa92_a_[A-Za-z0-9_-]+$/.test(item.id))return false;
+  if(Object.keys(item).some(key=>PROTECTED_CATALOG_KEYS.has(key)))return false;
+  return typeof item.cat==='string'&&typeof item.concept==='string'&&/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||''));
+}
+
+function mergedCounts(baseCounts){
+  const counts={...(baseCounts&&typeof baseCounts==='object'?baseCounts:{})};
+  counts.subjectA=Number(counts.subjectA||0)+IPA92_CATALOG_TOTAL;
+  counts.trackedSubjectA=Number(counts.trackedSubjectA||0)+IPA92_CATALOG_TOTAL;
+  counts.catalogQuestions=Number(counts.catalogQuestions||BASE_CATALOG_TOTAL)+IPA92_CATALOG_TOTAL;
+  return Object.freeze(counts);
+}
+
 async function loadCatalog(){
   if(!catalogPromise){
-    catalogPromise=fetchJson(CATALOG_URL).then(catalog=>{
-      if(catalog?.version!=='v376-catalog-1'||!Array.isArray(catalog.items)||catalog.items.length!==904){
+    catalogPromise=Promise.all([fetchJson(CATALOG_URL),fetchJson(IPA92_CATALOG_URL)]).then(([catalog,ipa92])=>{
+      if(catalog?.version!==BASE_CATALOG_VERSION||!Array.isArray(catalog.items)||catalog.items.length!==BASE_CATALOG_TOTAL){
         throw new Error('question_catalog_invalid');
       }
       if(!catalog.items.every(safeCatalogItem))throw new Error('question_catalog_invalid');
-      const ids=catalog.items.map(item=>item.id);
-      if(new Set(ids).size!==ids.length)throw new Error('question_catalog_duplicate_ids');
+      if(ipa92?.version!==IPA92_CATALOG_VERSION||ipa92?.contentVersion!=='ipa92-questions-v1'||!Array.isArray(ipa92.items)||ipa92.items.length!==IPA92_CATALOG_TOTAL){
+        throw new Error('ipa92_question_catalog_invalid');
+      }
+      if(!ipa92.items.every(safeIpa92CatalogItem))throw new Error('ipa92_question_catalog_invalid');
+      const baseIds=catalog.items.map(item=>item.id);
+      const extensionIds=ipa92.items.map(item=>item.id);
+      if(new Set(baseIds).size!==baseIds.length)throw new Error('question_catalog_duplicate_ids');
+      if(new Set(extensionIds).size!==extensionIds.length)throw new Error('ipa92_question_catalog_duplicate_ids');
+      const mergedIds=[...baseIds,...extensionIds];
+      if(new Set(mergedIds).size!==MERGED_CATALOG_TOTAL)throw new Error('question_catalog_extension_collision');
+      const items=[...catalog.items,...ipa92.items].map(item=>Object.freeze({...item}));
       return Object.freeze({
         ...catalog,
-        items:Object.freeze(catalog.items.map(item=>Object.freeze({...item}))),
+        version:`${BASE_CATALOG_VERSION}+${IPA92_CATALOG_VERSION}`,
+        extensionContentVersion:ipa92.contentVersion,
+        counts:mergedCounts(catalog.counts),
+        items:Object.freeze(items),
       });
     }).catch(error=>{catalogPromise=null;throw error});
   }
@@ -264,9 +297,10 @@ async function resumeTraceTail(questionId){
 }
 
 window.FEQUEST_PROTECTED_CONTENT=Object.freeze({
-  version:'v376-provider-1',
+  version:'v376-provider-2-ipa92',
   maxBatch:MAX_BATCH,
   maxCache:MAX_CACHE,
+  catalogTotal:MERGED_CATALOG_TOTAL,
   setAccessCode,
   clearAccessCode,
   hasAccessCode,
