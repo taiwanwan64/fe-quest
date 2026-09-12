@@ -1,0 +1,50 @@
+name: Materialize v377-6 sanitized app patch
+
+on:
+  push:
+    branches: [v377-post-diagnostic-ux-deploy]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: v377-post-diagnostic-ux-deploy
+      - name: Apply exact sanitized readiness fallback
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('assets/app-v377.js')
+          s=p.read_text(encoding='utf-8')
+          old='  const cognitive=subjectACognitiveEvidence();'
+          new='  const cognitiveRaw=subjectACognitiveEvidence();\n  const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;'
+          n=s.count(old)
+          if n==1:
+              s=s.replace(old,new)
+              p.write_text(s,encoding='utf-8')
+          elif n==0 and s.count(new)==1:
+              print('sanitized fallback already materialized')
+          else:
+              raise SystemExit(f'unexpected sanitized readiness marker count: old={n} new={s.count(new)}')
+          PY
+          grep -Fq "function subjectACognitiveEvidence(){return undefined;}/* FEQUEST_V376_REDACTED_FUNCTION */" assets/app-v377.js
+          grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" assets/app-v377.js
+          grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" assets/app-v377.js
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' .
+      - name: Commit materialized sanitized app
+        run: |
+          if git diff --quiet -- assets/app-v377.js; then
+            echo 'No app change needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/app-v377.js
+          git commit -m 'Materialize v377-6 sanitized readiness fallback'
+          git push origin HEAD:v377-post-diagnostic-ux-deploy
