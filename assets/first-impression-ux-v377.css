@@ -1,6 +1,6 @@
-/* FE QUEST v377 — first-impression UX overlay.
- * Keep this file presentation-only: protected-content authorization remains
- * enforced by the existing v376 server/client gate.
+/* FE QUEST v377 — first-impression and IPA 9.2 UX enhancement layer.
+ * Protected-content authorization remains enforced by the existing v376
+ * server/client gate. This layer only improves presentation and learning UX.
  */
 
 @media (min-width: 900px) {
@@ -91,6 +91,371 @@ body.study-block-active-v373 main {
   padding-bottom: 0 !important;
 }
 
+/* During the complete Ver.9.2 audit, do not imply that every syllabus detail has
+ * already been verified. */
+#pwaHealthCard .ipa92-coverage-progress {
+  color: #9a6700 !important;
+}
+
+/* IPA Ver.9.2 touch lab: Venn diagram. */
+.ipa92-lab-card {
+  appearance: none;
+  width: 100%;
+  min-height: 104px;
+  display: grid;
+  grid-template-columns: 48px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #d8e5cf;
+  border-radius: 18px;
+  background: #fff;
+  color: #24313d;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(15,23,42,.06);
+}
+
+.ipa92-lab-card:hover,
+.ipa92-lab-card:focus-visible {
+  border-color: #58cc02;
+  outline: 3px solid rgba(88,204,2,.16);
+  outline-offset: 2px;
+}
+
+.ipa92-lab-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef9e7;
+  color: #2f6f16;
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.ipa92-lab-copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.ipa92-lab-copy small {
+  color: #61706a;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ipa92-lab-copy b {
+  font-size: 17px;
+}
+
+.ipa92-lab-copy em {
+  color: #61706a;
+  font-size: 12px;
+  line-height: 1.5;
+  font-style: normal;
+}
+
+.ipa92-lab-go {
+  color: #2f6f16;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+body.ipa92-venn-open {
+  overflow: hidden;
+}
+
+.ipa92-venn-backdrop[hidden] {
+  display: none !important;
+}
+
+.ipa92-venn-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482000;
+  display: grid;
+  place-items: center;
+  padding: max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));
+  background: rgba(15,23,42,.58);
+  backdrop-filter: blur(4px);
+}
+
+.ipa92-venn-dialog {
+  box-sizing: border-box;
+  width: min(760px,100%);
+  max-height: min(880px,calc(100dvh - 24px));
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  border-radius: 22px;
+  background: #fff;
+  color: #24313d;
+  box-shadow: 0 28px 80px rgba(15,23,42,.28);
+}
+
+.ipa92-venn-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ipa92-venn-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: #2f6f16;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+.ipa92-venn-head h2 {
+  margin: 0;
+  font-size: clamp(20px,4vw,28px);
+  line-height: 1.25;
+}
+
+.ipa92-venn-close {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #d8dee5;
+  border-radius: 50%;
+  background: #fff;
+  color: #334155;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ipa92-venn-close:focus-visible,
+.ipa92-venn-operations button:focus-visible,
+.ipa92-venn-region-controls button:focus-visible,
+.ipa92-venn-practice-actions button:focus-visible {
+  outline: 3px solid rgba(88,204,2,.25);
+  outline-offset: 2px;
+}
+
+.ipa92-venn-lead {
+  margin: 10px 0 14px;
+  color: #52606d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.ipa92-venn-operations {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+  scrollbar-width: thin;
+}
+
+.ipa92-venn-operations button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 8px 13px;
+  border: 1px solid #d7dfe7;
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ipa92-venn-operations button.is-active {
+  border-color: #58cc02;
+  background: #eef9e7;
+  color: #2f6f16;
+}
+
+.ipa92-venn-stage {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(180px,230px);
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #fbfcfd;
+}
+
+#ipa92VennSvg {
+  width: 100%;
+  min-width: 0;
+  max-height: 330px;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ipa92-venn-universe {
+  fill: #fff;
+  stroke: #94a3b8;
+  stroke-width: 2;
+}
+
+.ipa92-venn-circle {
+  fill: rgba(255,255,255,.02);
+  stroke: #334155;
+  stroke-width: 2.5;
+}
+
+.ipa92-venn-highlight {
+  fill: #58cc02;
+  opacity: 0;
+  stroke: #2f6f16;
+  stroke-width: 3;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.ipa92-venn-highlight.is-active {
+  opacity: .34;
+}
+
+.ipa92-venn-label {
+  fill: #24313d;
+  font-size: 20px;
+  font-weight: 900;
+  pointer-events: none;
+}
+
+.ipa92-venn-universe-label {
+  fill: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.ipa92-venn-readout {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+  min-height: 120px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #e2e8f0;
+}
+
+.ipa92-venn-readout b {
+  font-size: 22px;
+  color: #1f5f0c;
+}
+
+.ipa92-venn-readout span {
+  color: #52606d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.ipa92-venn-region-controls {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ipa92-venn-region-controls button {
+  min-height: 44px;
+  padding: 8px 6px;
+  border: 1px solid #d7dfe7;
+  border-radius: 11px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ipa92-venn-region-controls button.is-active {
+  border-color: #2f6f16;
+  background: #eef9e7;
+  color: #1f5f0c;
+  box-shadow: inset 0 0 0 1px #2f6f16;
+}
+
+.ipa92-demorgan-note {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  background: #f7f5ff;
+  border: 1px solid #ded8fa;
+}
+
+.ipa92-demorgan-note b {
+  color: #4c3f91;
+  font-size: 13px;
+}
+
+.ipa92-demorgan-note span {
+  color: #5f6272;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ipa92-venn-practice {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #d8e5cf;
+  border-radius: 14px;
+  background: #f8fcf5;
+}
+
+.ipa92-venn-practice > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.ipa92-venn-practice b {
+  font-size: 13px;
+}
+
+.ipa92-venn-practice span {
+  color: #61706a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ipa92-venn-practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ipa92-venn-practice-actions button {
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 11px;
+  background: #58cc02;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.ipa92-venn-practice-actions button:last-child {
+  background: #334155;
+}
+
+.ipa92-venn-practice-actions button:disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
 @media (max-width: 899px) {
   body.fequest-first-run-v364 #mainContent {
     width: auto;
@@ -103,5 +468,63 @@ body.study-block-active-v373 main {
   #studyBlockBarV373[data-v377-inline="1"] {
     width: 100% !important;
     margin-top: 14px !important;
+  }
+
+  .ipa92-lab-card {
+    grid-template-columns: 42px minmax(0,1fr);
+    min-height: 96px;
+    padding: 14px;
+  }
+
+  .ipa92-lab-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 23px;
+  }
+
+  .ipa92-lab-go {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .ipa92-venn-dialog {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .ipa92-venn-stage {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  #ipa92VennSvg {
+    max-height: 290px;
+  }
+
+  .ipa92-venn-readout {
+    min-height: 0;
+  }
+
+  .ipa92-venn-region-controls {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .ipa92-venn-practice {
+    grid-template-columns: 1fr;
+  }
+
+  .ipa92-venn-practice-actions {
+    justify-content: stretch;
+  }
+
+  .ipa92-venn-practice-actions button {
+    flex: 1 1 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ipa92-venn-highlight {
+    transition: none;
   }
 }
