@@ -20,11 +20,64 @@ jobs:
       - name: Validate JavaScript syntax
         run: |
           node --check .github/scripts/check-ipa92-coverage.mjs
+          node --check assets/protected-content-provider-v376.js
           node --check assets/first-impression-ux-v377.js
           node --check assets/ipa92-sort-lab-v377.js
           node --check assets/ipa92-graph-lab-v377.js
           node --check cloud/activation-loader-v342.js
           node --check sw.js
+      - name: Validate IPA 9.2 public question metadata and runtime merge
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const extension=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1.json','utf8'));
+          if(extension.version!=='ipa92-catalog-v1'||extension.contentVersion!=='ipa92-questions-v1')throw new Error('IPA 9.2 extension catalog version mismatch');
+          if(!Array.isArray(extension.items)||extension.items.length!==13)throw new Error(`IPA 9.2 extension count mismatch: ${extension.items?.length}`);
+          const ids=extension.items.map(item=>item.id);
+          if(new Set(ids).size!==13||ids.some(id=>!/^ipa92_a_[A-Za-z0-9_-]+$/.test(id)))throw new Error('IPA 9.2 extension IDs invalid');
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          for(const item of extension.items){
+            if(item.sourcePool!=='subject_a')throw new Error(`unexpected source pool: ${item.id}`);
+            if(typeof item.cat!=='string'||typeof item.concept!=='string'||!/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||'')))throw new Error(`invalid safe metadata: ${item.id}`);
+            const leaked=Object.keys(item).find(key=>protectedKeys.has(key));
+            if(leaked)throw new Error(`protected field leaked in public catalog: ${item.id}:${leaked}`);
+          }
+
+          const loader=fs.readFileSync('cloud/activation-loader-v342.js','utf8');
+          const context={console,setTimeout,clearTimeout,URL};
+          vm.createContext(context);
+          vm.runInContext(`const QUESTION_BANK=[];\n${loader}\nglobalThis.__BANK__=QUESTION_BANK;`,context,{filename:'cloud/activation-loader-v342.js'});
+          const bank=context.__BANK__;
+          if(!Array.isArray(bank)||bank.length!==13)throw new Error(`runtime metadata install mismatch: ${bank?.length}`);
+          const bankIds=bank.map(item=>item.id).sort();
+          const catalogIds=[...ids].sort();
+          if(JSON.stringify(bankIds)!==JSON.stringify(catalogIds))throw new Error('runtime metadata IDs differ from public extension catalog');
+          if(context.FEQUEST_IPA92_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('runtime metadata installer did not report success');
+
+          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
+          const provider=fs.readFileSync('assets/protected-content-provider-v376.js','utf8');
+          const providerContext={
+            console,setTimeout,clearTimeout,URL,AbortController,
+            document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376.js'},baseURI:'https://example.test/'},
+            sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},
+            fetch:async url=>({ok:true,status:200,json:async()=>String(url).endsWith('question-catalog-ipa92-v1.json')?extension:base}),
+            window:{}
+          };
+          vm.createContext(providerContext);
+          vm.runInContext(provider,providerContext,{filename:'assets/protected-content-provider-v376.js'});
+          (async()=>{
+            const merged=await providerContext.window.FEQUEST_PROTECTED_CONTENT.loadCatalog();
+            if(merged.items.length!==917)throw new Error(`merged catalog count mismatch: ${merged.items.length}`);
+            if(merged.counts?.subjectA!==723)throw new Error(`merged subjectA count mismatch: ${merged.counts?.subjectA}`);
+            if(merged.counts?.trackedSubjectA!==732)throw new Error(`merged trackedSubjectA count mismatch: ${merged.counts?.trackedSubjectA}`);
+            if(merged.counts?.catalogQuestions!==917)throw new Error(`merged catalogQuestions mismatch: ${merged.counts?.catalogQuestions}`);
+            const mergedIds=merged.items.map(item=>item.id);
+            if(new Set(mergedIds).size!==917)throw new Error('merged catalog duplicate IDs');
+            for(const id of ids)if(!mergedIds.includes(id))throw new Error(`merged catalog missing ${id}`);
+            console.log(`PASS IPA 9.2 public question runtime: base=${base.items.length} extension=${ids.length} merged=${merged.items.length}`);
+          })().catch(error=>{console.error(error);process.exitCode=1});
+          NODE
       - name: Execute IPA 9.2 sorting algorithm self-check
         run: |
           node <<'NODE'
@@ -86,6 +139,9 @@ jobs:
             ./ "$RUNNER_TEMP/site/"
           test -f "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/app-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-v376.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1.json"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
           test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
@@ -99,9 +155,15 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-9';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-10';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const IPA92_CATALOG_TOTAL=13;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "question-catalog-ipa92-v1.json" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "const IPA92_SUBJECT_A_METADATA=Object.freeze([" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "installIpa92SubjectAMetadata();" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
           grep -Fq "const VERSION='v377-first-impression-ux-7';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "observerMode:'scoped-readiness'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "blankShellRecovery:'guarded-v2'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
@@ -119,4 +181,4 @@ jobs:
           grep -Fq "globalThis.FEQUEST_IPA92_GRAPH_LAB" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
           grep -Fq "validateGraph();" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
-          sha256sum "$RUNNER_TEMP/site/assets/app-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js" "$RUNNER_TEMP/site/sw.js"
+          sha256sum "$RUNNER_TEMP/site/assets/app-v377.js" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js" "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1.json" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js" "$RUNNER_TEMP/site/sw.js"
