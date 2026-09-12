@@ -1,0 +1,151 @@
+name: Qualify FE QUEST v377 promotion
+
+on:
+  push:
+    branches: [v377-promotion]
+    paths:
+      - '.github/workflows/promote-v377.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  qualify-and-materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v377-promotion
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Materialize v377 from already-qualified v376 deploy tree
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          import json
+
+          root=Path('.')
+          old_app=root/'assets/app-v376.js'
+          new_app=root/'assets/app-v377.js'
+          old_css=root/'assets/app-v376.css'
+          new_css=root/'assets/app-v377.css'
+          assert old_app.is_file() and old_css.is_file()
+          assert (root/'assets/first-impression-ux-v377.js').is_file()
+          assert (root/'assets/first-impression-ux-v377.css').is_file()
+
+          def once(text, old, new, label):
+              n=text.count(old)
+              if n != 1:
+                  raise SystemExit(f'{label} marker drift: {n}')
+              return text.replace(old,new,1)
+
+          app=old_app.read_text()
+          app=once(app,"const APP_VERSION = 'v376';","const APP_VERSION = 'v377';",'app version')
+          new_app.write_text(app)
+          old_app.unlink()
+          new_css.write_bytes(old_css.read_bytes())
+          old_css.unlink()
+
+          index=(root/'index.html').read_text()
+          index=once(index,'<title>FE QUEST PWA v376</title>','<title>FE QUEST PWA v377</title>','title')
+          index=once(index,'<link rel="stylesheet" href="./assets/app-v376.css">','<link rel="stylesheet" href="./assets/app-v377.css">\n<link rel="stylesheet" href="./assets/first-impression-ux-v377.css">','stylesheet')
+          index=once(index,'<script src="./assets/app-v376.js"></script>','<script src="./assets/app-v377.js"></script>','app script')
+          index=once(index,'<script src="./assets/protected-b-final-bridge-v376.js"></script>','<script src="./assets/protected-b-final-bridge-v376.js"></script>\n<script src="./assets/first-impression-ux-v377.js"></script>','UX script')
+          (root/'index.html').write_text(index)
+
+          sw=(root/'sw.js').read_text()
+          sw=once(sw,"const APP_VERSION = 'v376';","const APP_VERSION = 'v377';",'SW version')
+          sw=once(sw,"const CACHE_NAME = 'fe-quest-v376-1';","const CACHE_NAME = 'fe-quest-v377-1';",'SW cache')
+          sw=once(sw,'"./assets/app-v376.css",','"./assets/app-v377.css",\n  "./assets/first-impression-ux-v377.css",','SW CSS')
+          sw=once(sw,'"./assets/app-v376.js",','"./assets/app-v377.js",','SW app')
+          sw=once(sw,'"./assets/protected-b-final-bridge-v376.js",','"./assets/protected-b-final-bridge-v376.js",\n  "./assets/first-impression-ux-v377.js",','SW UX')
+          (root/'sw.js').write_text(sw)
+
+          manifest=json.loads((root/'manifest.webmanifest').read_text())
+          if manifest.get('name')!='FE QUEST v376':
+              raise SystemExit(f"manifest marker drift: {manifest.get('name')}")
+          manifest['name']='FE QUEST v377'
+          manifest['description']=str(manifest.get('description','')).replace('v376','v377')
+          (root/'manifest.webmanifest').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Validate sanitized deploy-only v377 tree
+        run: |
+          set -euo pipefail
+          test -f assets/app-v377.js
+          test -f assets/app-v377.css
+          test -f assets/first-impression-ux-v377.js
+          test -f assets/first-impression-ux-v377.css
+          test ! -e assets/app-v376.js
+          test ! -e assets/app-v376.css
+          grep -Fq "const APP_VERSION = 'v377';" assets/app-v377.js
+          ! grep -Fq "const APP_VERSION = 'v376';" assets/app-v377.js
+          grep -Fq "const APP_VERSION = 'v377';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-1';" sw.js
+          grep -Fq './assets/first-impression-ux-v377.js' index.html
+          grep -Fq './assets/first-impression-ux-v377.css' index.html
+          grep -Fq 'βテスト招待コード' assets/first-impression-ux-v377.js
+          grep -Fq '現在は招待制βテスト中です。' assets/first-impression-ux-v377.js
+          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" cloud/public-config-v342.js
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' . --exclude-dir=.git --exclude-dir=.github
+          node <<'NODE'
+          const fs=require('node:fs');
+          const c=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
+          if(c.version!=='v376-catalog-1'||!Array.isArray(c.items)||c.items.length!==904)throw new Error('catalog inventory mismatch');
+          const forbidden=new Set(['q','stem','question','options','opts','a','answer','answerIndex','correctIndex','correctText','exp','explain','explanation','choiceExps','choiceExplanations']);
+          const walk=v=>{if(Array.isArray(v))return v.forEach(walk);if(!v||typeof v!=='object')return;for(const [k,x] of Object.entries(v)){if(forbidden.has(k))throw new Error(`protected catalog key: ${k}`);walk(x)}};
+          walk(c);
+          console.log('PASS deploy catalog: 904 metadata-only records');
+          NODE
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Browser-test promotion tree
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >"$RUNNER_TEMP/http.log" 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && break || sleep 1; done
+          node <<'NODE'
+          const {chromium}=require('playwright');
+          const assert=(ok,msg)=>{if(!ok)throw new Error(msg)};
+          (async()=>{
+            const browser=await chromium.launch();
+            try{
+              const context=await browser.newContext({viewport:{width:1440,height:900},locale:'ja-JP'});
+              const page=await context.newPage();
+              await page.goto('http://127.0.0.1:4173/?promotion=1',{waitUntil:'load',timeout:30000});
+              await page.waitForSelector('#firstRunGuidedV364',{state:'visible',timeout:15000});
+              const box=await page.locator('#firstRunGuidedV364').boundingBox();
+              assert(box&&Math.abs((box.x+box.width/2)-720)<=36,`first-run card not centered: ${JSON.stringify(box)}`);
+              await page.locator('#firstRunAccountSkipV364').click();
+              await page.locator('#firstV373Minutes').fill('10');
+              await page.locator('#firstRunSettingsContinueV364').click();
+              await page.waitForSelector('#v377BetaInviteNotice',{state:'visible',timeout:10000});
+              assert((await page.locator('#diagBegin').innerText()).includes('招待コード'),'diagnostic CTA does not preview invite code');
+              await page.locator('#diagBegin').click();
+              await page.waitForSelector('#fequestV376AccessDialog',{state:'visible',timeout:10000});
+              assert((await page.locator('#fequestV376AccessTitle').innerText())==='βテスト招待コード','invite dialog title mismatch');
+              assert((await page.locator('#fequestV376AccessSubmit').innerText())==='診断を始める','invite dialog CTA mismatch');
+              const v=await page.evaluate(()=>globalThis.FEQUEST_FIRST_IMPRESSION_UX_V377?.version||'');
+              assert(v==='v377-first-impression-ux-1',`UX runtime missing: ${v}`);
+              await context.close();
+            }finally{await browser.close()}
+          })().catch(e=>{console.error(e?.stack||e);process.exitCode=1});
+          NODE
+      - name: Commit qualified v377 tree to promotion branch
+        run: |
+          set -euo pipefail
+          rm .github/workflows/promote-v377.yml
+          git config user.name 'taiwanwan64'
+          git config user.email 'taiwanwan64@gmail.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'deploy: qualify FE QUEST v377 first-impression UX'
+          git push origin HEAD:v377-promotion
