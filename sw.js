@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-10';
+const CACHE_NAME = 'fe-quest-v377-11';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./assets/first-impression-ux-v377.js",
   "./assets/ipa92-sort-lab-v377.js",
   "./assets/ipa92-graph-lab-v377.js",
+  "./assets/ipa92-modeling-lab-v377.js",
   "./assets/question-catalog-v376.json",
   "./assets/question-catalog-ipa92-v1.json",
   "./icon-192.png",
