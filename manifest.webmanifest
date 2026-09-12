@@ -1,0 +1,35 @@
+{
+  "id": "./",
+  "name": "FE QUEST v376",
+  "short_name": "FE QUEST",
+  "description": "基本情報技術者試験向けPWA。v376。ローカルファーストの適応学習・復旧・分割配信構造を維持する。",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6f8fb",
+  "theme_color": "#58cc02",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
+  "prefer_related_applications": false
+}
