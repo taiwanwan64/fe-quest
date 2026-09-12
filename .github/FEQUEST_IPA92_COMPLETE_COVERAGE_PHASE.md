@@ -9,7 +9,7 @@ Production baseline at phase start: FE QUEST `v377`, PWA cache `v377-6`
 
 この文書は、FE QUEST を IPA「基本情報技術者試験（レベル2）シラバス Ver.9.2」に細目レベルで対応させる長期フェーズの永続ハンドオフです。
 
-別の ChatGPT / Work チャット、別の開発セッション、または利用制限解除後に再開する場合は、過去の会話記憶ではなく GitHub の現状を正とし、最初にこの文書と `.github/ipa92-coverage.json` を読むこと。
+別の ChatGPT / Work チャット、別の開発セッション、または利用制限解除後に再開する場合は、過去の会話記憶ではなく GitHub の現状を正とし、最初にこの文書、`.github/IPA92_PROGRESS_LOG.md`、`.github/ipa92-coverage.json` を読むこと。
 
 ## 2. 正とする資料
 
@@ -99,9 +99,9 @@ Production baseline at phase start: FE QUEST `v377`, PWA cache `v377-6`
 
 ## 7. 初期監査で判明した重点補強領域
 
-詳細は `.github/ipa92-coverage.json` を正とする。
+詳細は `.github/ipa92-coverage.json` を正とする。この節はフェーズ開始時の監査結果であり、実装後の現在状態はカバレッジ表と進捗ログを参照する。
 
-### P0 — 現時点で未対応または直接確認が弱い
+### P0 — フェーズ開始時に未対応または直接確認が弱かった項目
 - 集合・ベン図
 - 述語論理
 - 形式言語 / BNF / 正規表現
@@ -149,7 +149,7 @@ Production baseline at phase start: FE QUEST `v377`, PWA cache `v377-6`
 
 ## 8. 実装順序
 
-### Phase A — カバレッジ基盤（最初に完了させる）
+### Phase A — カバレッジ基盤
 1. この永続ハンドオフ文書をGitHubへ置く
 2. 機械可読な `.github/ipa92-coverage.json` を作る
 3. CIで形式・ID重複・状態値を監査する
@@ -189,17 +189,18 @@ Production baseline at phase start: FE QUEST `v377`, PWA cache `v377-6`
 
 新しいチャットでは、次を実行する。
 
-1. `taiwanwan64/fe-quest` の `main`、全ブランチ、open PR、最新CIを確認
+1. `taiwanwan64/fe-quest` と `taiwanwan64/fe-quest-private-source` の現在の `main`、open PR、最新CIを確認
 2. `.github/FEQUEST_IPA92_COMPLETE_COVERAGE_PHASE.md` を読む
-3. `.github/ipa92-coverage.json` を読む
-4. open PR / 作業ブランチがあれば差分を確認
-5. `status: in-progress` の最優先項目から続行
-6. GitHubの現状がこの文書の記載より新しい場合はGitHubの現状を優先
-7. 区切りごとにカバレッジ表の状態と `last_updated` を更新
+3. `.github/IPA92_PROGRESS_LOG.md` の最新エントリを読む
+4. `.github/ipa92-coverage.json` を読む
+5. open PR / 作業ブランチがあれば差分を確認
+6. `status: in-progress` の最優先項目から続行
+7. GitHubの現状が文書の記載より新しい場合はGitHubの現状を優先
+8. 区切りごとにカバレッジ表の状態と進捗ログを更新
 
 再開用の指示例:
 
-> FE QUESTの「IPA Ver.9.2完全対応フェーズ」の続きです。GitHubの現状を正として main・作業ブランチ・PR・CI を確認し、`.github/FEQUEST_IPA92_COMPLETE_COVERAGE_PHASE.md` と `.github/ipa92-coverage.json` を読んで、未完了の最優先項目から続けてください。
+> FE QUESTの「IPA Ver.9.2完全対応フェーズ」の続きです。GitHubの現状を正として公開・非公開リポジトリの main・作業ブランチ・PR・CI を確認し、`.github/FEQUEST_IPA92_COMPLETE_COVERAGE_PHASE.md`、`.github/IPA92_PROGRESS_LOG.md`、`.github/ipa92-coverage.json` を読んで、未完了の最優先項目から続けてください。
 
 ## 11. フェーズ開始時のGitHub状態
 
@@ -216,7 +217,12 @@ Production baseline at phase start: FE QUEST `v377`, PWA cache `v377-6`
 
 ## 12. 現在の次アクション
 
-1. カバレッジ表とCI監査を導入する
-2. IPA Ver.9.2の全細目登録を進める
-3. 最初のユーザー向け実装として「集合・ベン図」のタッチ操作型教材を追加する
-4. ベン図に対応する理解確認問題を追加し、既存の集合問題へ接続する
+2026-09-12時点で、P0教材ソースはprivate側へ実装済み。公開側ではベン図、マージ/挿入/シェル/ヒープソート、グラフ理論のタッチ操作ラボまで導入済み。これらを `verified-covered` に上げる前に、次を進める。
+
+1. `.github/ipa92-coverage.json` の実装済みP0項目を `in-progress` へ同期し、実装状況と機械可読状態を一致させる
+2. private mainから正規の `Import protected lessons` を実行し、最新オーバーレイを含む130件のImportと本番表示を確認する
+3. P0各項目の対応問題を追加・検証し、「教材だけ」で完了扱いにしない
+4. ベン図・整列・グラフ操作ラボをiPhone相当の狭い画面で確認し、タッチ・スクロール・誤操作・表示崩れを検証する
+5. P0の完了条件を満たした項目だけ `verified-covered` へ上げる
+6. P1補強（UML/DFD/E-R、TLB/ページ置換等）とOOPを含む横断監査へ進む
+7. 最終的にIPA全96小分類を「教材・問題・図解/操作・履歴互換」の各軸で照合する
