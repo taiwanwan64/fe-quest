@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 
-const VERSION='v377-first-impression-ux-5';
+const VERSION='v377-first-impression-ux-6';
 const NOTICE_ID='v377BetaInviteNotice';
 const READINESS_UNKNOWN_NOTE='演習結果など、判定に必要なデータがそろうと自動で算出されます。';
 const INVALID_PERCENT_RE=/(?:NaN|Infinity|-Infinity)\s*%/;
@@ -99,9 +99,6 @@ function recoverFirstRunShell(){
     return 'existing-home';
   }
 
-  // A persisted account-passed marker can leave first-run suppression active while the
-  // guided root/diagnostic route is absent. Reset only that onboarding presentation
-  // marker and rebuild a visible first-run route; profile, learning history and auth stay intact.
   resetOnboardingAccountMarker();
   document.getElementById('firstRunGuidedV364')?.remove();
   try{
@@ -112,8 +109,6 @@ function recoverFirstRunShell(){
     return 'onboarding-restored';
   }
 
-  // Last-resort visible route. Never clear learner/profile/auth storage merely to escape
-  // a presentation dead-end.
   showHomeSafely();
   return 'home-fallback';
 }
@@ -231,6 +226,19 @@ function sanitizeUnknownPercentages(root){
   return changed;
 }
 
+function sanitizeCompactReadiness(value,bar){
+  if(!value)return;
+  if(hasInvalidPercent(value.textContent)){
+    setTextIfChanged(value,'算出中');
+    value.dataset.v377ReadinessUnknown='1';
+    if(bar)bar.style.width='0%';
+    return;
+  }
+  if(value.dataset.v377ReadinessUnknown==='1'&&FINITE_PERCENT_RE.test(value.textContent||'')){
+    delete value.dataset.v377ReadinessUnknown;
+  }
+}
+
 function enhanceReadiness(){
   const card=document.getElementById('readinessCard');
   const value=document.getElementById('readinessValue');
@@ -239,12 +247,15 @@ function enhanceReadiness(){
   const explain=document.getElementById('readinessExplain');
   const breakdown=document.getElementById('readinessBreakdown');
   const home=document.getElementById('homeReadiness');
+  const right=document.getElementById('rightReadiness');
+  const rightBar=document.getElementById('rightReadinessBar');
 
   const valueWasInvalid=hasInvalidPercent(value?.textContent);
   const breakdownWasInvalid=hasInvalidPercent(breakdown?.textContent);
   const homeWasInvalid=hasInvalidPercent(home?.textContent);
 
   if(breakdownWasInvalid)sanitizeUnknownPercentages(breakdown);
+  sanitizeCompactReadiness(right,rightBar);
 
   if(home){
     if(homeWasInvalid){
@@ -294,6 +305,15 @@ function enhanceReadiness(){
   }
 }
 
+function relocateStudyBlockBar(){
+  const bar=document.getElementById('studyBlockBarV373');
+  if(!bar||bar.hidden)return;
+  const active=[...document.querySelectorAll('.screen.active')].find(elementVisible);
+  if(!active)return;
+  if(bar.parentElement!==active)active.appendChild(bar);
+  bar.dataset.v377Inline='1';
+}
+
 function scheduleApply(){
   if(applyScheduled)return;
   applyScheduled=true;
@@ -309,7 +329,7 @@ function ensureScopedReadinessObserver(){
   if(!readinessObserver){
     readinessObserver=new MutationObserver(()=>scheduleApply());
   }
-  for(const target of [document.getElementById('readinessCard'),document.getElementById('homeReadiness')]){
+  for(const target of [document.getElementById('readinessCard'),document.getElementById('homeReadiness'),document.getElementById('rightReadiness')]){
     if(!target||readinessTargets.has(target))continue;
     readinessObserver.observe(target,{childList:true,subtree:true,characterData:true});
     readinessTargets.add(target);
@@ -320,6 +340,7 @@ function apply(){
   enhanceDiagnosticIntro();
   enhanceAccessDialog();
   enhanceReadiness();
+  relocateStudyBlockBar();
   ensureScopedReadinessObserver();
   scheduleHealthCheck(700);
 }
@@ -327,16 +348,12 @@ function apply(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleApply,{once:true});
 else scheduleApply();
 
-// Observe only structural changes globally. Character-data observation is deliberately
-// limited to the readiness regions so normal rendering cannot flood the observer.
 const structureObserver=new MutationObserver(()=>{
   scheduleApply();
   scheduleHealthCheck(700);
 });
 structureObserver.observe(document.documentElement,{childList:true,subtree:true});
 
-// Startup guard for persisted/PWA states. These checks are intentionally delayed so
-// valid screen transitions get time to settle before a blank shell is repaired.
 setTimeout(()=>checkBlankShell(false),900);
 setTimeout(()=>checkBlankShell(false),2400);
 setTimeout(()=>checkBlankShell(false),5200);
@@ -345,6 +362,7 @@ globalThis.FEQUEST_FIRST_IMPRESSION_UX_V377=Object.freeze({
   version:VERSION,
   observerMode:'scoped-readiness',
   blankShellRecovery:'guarded-v2',
+  studyBlockBarMode:'inline-active-screen',
   refresh:scheduleApply,
   recoverNow:()=>checkBlankShell(true),
   routeHealthy:routeIsHealthy,
