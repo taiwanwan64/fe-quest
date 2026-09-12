@@ -1,11 +1,15 @@
 (()=>{
 'use strict';
 
-const VERSION='v377-first-impression-ux-2';
+const VERSION='v377-first-impression-ux-3';
 const NOTICE_ID='v377BetaInviteNotice';
 const READINESS_UNKNOWN_NOTE='演習結果など、判定に必要なデータがそろうと自動で算出されます。';
 const INVALID_PERCENT_RE=/(?:NaN|Infinity|-Infinity)\s*%/;
 const FINITE_PERCENT_RE=/^\s*(?:100|\d{1,2})%\s*$/;
+
+let applyScheduled=false;
+let readinessObserver=null;
+let readinessTargets=new WeakSet();
 
 function protectedProvider(){
   return globalThis.FEQUEST_PROTECTED_CONTENT;
@@ -167,20 +171,47 @@ function enhanceReadiness(){
   }
 }
 
+function scheduleApply(){
+  if(applyScheduled)return;
+  applyScheduled=true;
+  const run=()=>{
+    applyScheduled=false;
+    apply();
+  };
+  if(typeof requestAnimationFrame==='function')requestAnimationFrame(run);
+  else setTimeout(run,0);
+}
+
+function ensureScopedReadinessObserver(){
+  if(!readinessObserver){
+    readinessObserver=new MutationObserver(()=>scheduleApply());
+  }
+  for(const target of [document.getElementById('readinessCard'),document.getElementById('homeReadiness')]){
+    if(!target||readinessTargets.has(target))continue;
+    readinessObserver.observe(target,{childList:true,subtree:true,characterData:true});
+    readinessTargets.add(target);
+  }
+}
+
 function apply(){
   enhanceDiagnosticIntro();
   enhanceAccessDialog();
   enhanceReadiness();
+  ensureScopedReadinessObserver();
 }
 
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});
-else apply();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleApply,{once:true});
+else scheduleApply();
 
-const observer=new MutationObserver(()=>apply());
-observer.observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+// Observe only structural changes globally. Character-data observation is deliberately
+// limited to the two readiness regions above so startup rendering cannot be flooded by
+// unrelated text mutations on large desktop sessions.
+const structureObserver=new MutationObserver(()=>scheduleApply());
+structureObserver.observe(document.documentElement,{childList:true,subtree:true});
 
 globalThis.FEQUEST_FIRST_IMPRESSION_UX_V377=Object.freeze({
   version:VERSION,
-  refresh:apply,
+  observerMode:'scoped-readiness',
+  refresh:scheduleApply,
 });
 })();
