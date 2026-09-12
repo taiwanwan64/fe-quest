@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-3';
+const CACHE_NAME = 'fe-quest-v377-5';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -38,6 +38,7 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
+  // v117 emergency hotfix: v116 can enter a false save-block loop during startup.
   // Activate this release immediately so the learner only needs one normal reload.
   self.skipWaiting();
   event.waitUntil(

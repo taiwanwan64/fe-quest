@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 
-const VERSION='v377-first-impression-ux-3';
+const VERSION='v377-first-impression-ux-5';
 const NOTICE_ID='v377BetaInviteNotice';
 const READINESS_UNKNOWN_NOTE='演習結果など、判定に必要なデータがそろうと自動で算出されます。';
 const INVALID_PERCENT_RE=/(?:NaN|Infinity|-Infinity)\s*%/;
@@ -10,6 +10,10 @@ const FINITE_PERCENT_RE=/^\s*(?:100|\d{1,2})%\s*$/;
 let applyScheduled=false;
 let readinessObserver=null;
 let readinessTargets=new WeakSet();
+let healthTimer=null;
+let recoveryRunning=false;
+let recoveryCount=0;
+let lastRecoveryAt=0;
 
 function protectedProvider(){
   return globalThis.FEQUEST_PROTECTED_CONTENT;
@@ -19,9 +23,128 @@ function hasInviteCode(){
   try{return protectedProvider()?.hasAccessCode?.()===true}catch(_error){return false}
 }
 
+function elementVisible(element){
+  if(!element||!element.isConnected)return false;
+  const style=getComputedStyle(element);
+  if(style.display==='none'||style.visibility==='hidden'||Number(style.opacity)===0)return false;
+  const rect=element.getBoundingClientRect();
+  return rect.width>0&&rect.height>0;
+}
+
+function elementHasVisibleContent(root){
+  if(!elementVisible(root))return false;
+  const selector='h1,h2,h3,h4,p,li,button,a,input,select,textarea,img,svg,canvas,video,[role="button"],[role="status"],.card,.panel,.page';
+  const candidates=root.matches?.(selector)?[root,...root.querySelectorAll(selector)]:[...root.querySelectorAll(selector)];
+  return candidates.some(element=>{
+    if(!elementVisible(element))return false;
+    if(element.matches('input,select,textarea,img,svg,canvas,video'))return true;
+    return (element.textContent||'').trim().length>0;
+  });
+}
+
 function diagnosticIsVisible(){
   const screen=document.getElementById('diagnostic');
-  return !!screen&&(screen.classList.contains('active')||getComputedStyle(screen).display!=='none');
+  return !!screen&&screen.classList.contains('active')&&elementHasVisibleContent(screen);
+}
+
+function routeIsHealthy(){
+  const guided=document.getElementById('firstRunGuidedV364');
+  const accessDialog=document.getElementById('fequestV376AccessDialog');
+  if(document.body.classList.contains('fequest-first-run-v364')){
+    return elementHasVisibleContent(guided)||diagnosticIsVisible()||elementVisible(accessDialog);
+  }
+  if(elementHasVisibleContent(guided)||elementVisible(accessDialog))return true;
+  return [...document.querySelectorAll('.screen.active')].some(elementHasVisibleContent);
+}
+
+function clearFirstRunPresentation(){
+  document.body.classList.remove('fequest-first-run-v364','fequest-first-run-welcome-v364','fequest-first-run-guide-v364','fequest-first-run-diagnostic-v366');
+  document.body.removeAttribute('data-first-run-step-v364');
+  document.body.removeAttribute('data-first-run-guided-v364');
+  document.body.removeAttribute('data-first-run-cleanup-v364');
+  try{
+    sessionStorage.removeItem('fequest_first_run_guided_session_v364');
+    sessionStorage.removeItem('fequest_first_run_cleanup_pending_v364');
+  }catch(_error){}
+}
+
+function showHomeSafely(){
+  clearFirstRunPresentation();
+  try{
+    if(typeof showScreen==='function')showScreen('home',{replaceHistory:true,instant:true});
+  }catch(_error){}
+  const home=document.getElementById('home');
+  if(home){
+    for(const screen of document.querySelectorAll('.screen.active'))if(screen!==home)screen.classList.remove('active');
+    home.classList.add('active');
+  }
+  try{if(typeof refreshProfileUI==='function')refreshProfileUI()}catch(_error){}
+}
+
+function resetOnboardingAccountMarker(){
+  try{
+    if(typeof writeUiState==='function'){
+      writeUiState({onboardingAccountV364:''});
+      return true;
+    }
+  }catch(_error){}
+  return false;
+}
+
+function recoverFirstRunShell(){
+  let existing=false;
+  try{existing=typeof firstRunExistingLearnerV364==='function'&&firstRunExistingLearnerV364()}catch(_error){}
+  if(existing){
+    showHomeSafely();
+    return 'existing-home';
+  }
+
+  // A persisted account-passed marker can leave first-run suppression active while the
+  // guided root/diagnostic route is absent. Reset only that onboarding presentation
+  // marker and rebuild a visible first-run route; profile, learning history and auth stay intact.
+  resetOnboardingAccountMarker();
+  document.getElementById('firstRunGuidedV364')?.remove();
+  try{
+    if(typeof installFirstRunGuidedV364==='function')installFirstRunGuidedV364();
+  }catch(_error){}
+
+  if(elementHasVisibleContent(document.getElementById('firstRunGuidedV364'))||diagnosticIsVisible()||elementVisible(document.getElementById('fequestV376AccessDialog'))){
+    return 'onboarding-restored';
+  }
+
+  // Last-resort visible route. Never clear learner/profile/auth storage merely to escape
+  // a presentation dead-end.
+  showHomeSafely();
+  return 'home-fallback';
+}
+
+function checkBlankShell(force=false){
+  if(recoveryRunning||routeIsHealthy())return false;
+  if(!force&&document.readyState==='loading')return false;
+  if(!force&&document.hidden)return false;
+  const now=Date.now();
+  if(!force&&now-lastRecoveryAt<1200)return false;
+  if(recoveryCount>=3&&!force)return false;
+
+  recoveryRunning=true;
+  recoveryCount+=1;
+  lastRecoveryAt=now;
+  let result='none';
+  try{
+    result=document.body.classList.contains('fequest-first-run-v364')?recoverFirstRunShell():(showHomeSafely(),'home-restored');
+    document.documentElement.dataset.v377BlankShellRecovery=result;
+  }finally{
+    recoveryRunning=false;
+  }
+  return routeIsHealthy();
+}
+
+function scheduleHealthCheck(delay=600){
+  if(healthTimer!==null)return;
+  healthTimer=setTimeout(()=>{
+    healthTimer=null;
+    checkBlankShell(false);
+  },delay);
 }
 
 function enhanceDiagnosticIntro(){
@@ -198,20 +321,32 @@ function apply(){
   enhanceAccessDialog();
   enhanceReadiness();
   ensureScopedReadinessObserver();
+  scheduleHealthCheck(700);
 }
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleApply,{once:true});
 else scheduleApply();
 
 // Observe only structural changes globally. Character-data observation is deliberately
-// limited to the two readiness regions above so startup rendering cannot be flooded by
-// unrelated text mutations on large desktop sessions.
-const structureObserver=new MutationObserver(()=>scheduleApply());
+// limited to the readiness regions so normal rendering cannot flood the observer.
+const structureObserver=new MutationObserver(()=>{
+  scheduleApply();
+  scheduleHealthCheck(700);
+});
 structureObserver.observe(document.documentElement,{childList:true,subtree:true});
+
+// Startup guard for persisted/PWA states. These checks are intentionally delayed so
+// valid screen transitions get time to settle before a blank shell is repaired.
+setTimeout(()=>checkBlankShell(false),900);
+setTimeout(()=>checkBlankShell(false),2400);
+setTimeout(()=>checkBlankShell(false),5200);
 
 globalThis.FEQUEST_FIRST_IMPRESSION_UX_V377=Object.freeze({
   version:VERSION,
   observerMode:'scoped-readiness',
+  blankShellRecovery:'guarded-v2',
   refresh:scheduleApply,
+  recoverNow:()=>checkBlankShell(true),
+  routeHealthy:routeIsHealthy,
 });
 })();
