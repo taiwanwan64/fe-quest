@@ -4,6 +4,9 @@
 (function(root){
   'use strict';
 
+  const PUBLIC_ENHANCEMENT_PATHS=Object.freeze([
+    './assets/ipa92-sort-lab-v377.js'
+  ]);
   const ACTIVATION_SPEC=Object.freeze({
     version:'v342',
     configPath:'./cloud/public-config-v342.js',
@@ -81,6 +84,13 @@
     });
   }
 
+  function loadPublicEnhancements(){
+    for(const path of PUBLIC_ENHANCEMENT_PATHS){
+      defaultLoadScript(path).catch(error=>{try{console.warn(`FE QUEST public enhancement failed: ${path}; core study continues`,error)}catch(_e){}});
+    }
+    return true;
+  }
+
   function createActivationLoader(options={}){
     const loadScript=typeof options.loadScript==='function'?options.loadScript:(path=>defaultLoadScript(path,options.document));
     const loadStyle=typeof options.loadStyle==='function'?options.loadStyle:(path=>defaultLoadStyle(path,options.document));
@@ -139,13 +149,14 @@
 
   function autoStart(){
     installConnectivityNoticeRecovery();
+    loadPublicEnhancements();
     const loader=createActivationLoader();
     root.FEQUEST_CLOUD_ACTIVATION_INSTANCE_V342=loader;
     loader.start().catch(error=>{try{console.warn('FE QUEST cloud activation failed; local study continues',error)}catch(_e){}});
     return loader;
   }
 
-  const api=Object.freeze({ACTIVATION_SPEC,localAssetPath,installConnectivityNoticeRecovery,createActivationLoader,autoStart});
+  const api=Object.freeze({ACTIVATION_SPEC,PUBLIC_ENHANCEMENT_PATHS,localAssetPath,installConnectivityNoticeRecovery,loadPublicEnhancements,createActivationLoader,autoStart});
   root.FEQUEST_CLOUD_ACTIVATION_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   if(typeof document!=='undefined')Promise.resolve().then(()=>autoStart());
