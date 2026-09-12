@@ -79,20 +79,31 @@ jobs:
             const page=await context.newPage();
             const errors=[];
             page.on('pageerror',e=>errors.push(String(e?.stack||e)));
+            const waitBoot=()=>page.waitForFunction(()=>globalThis.FEQUEST_APP_BOOT_COMPLETE===true&&globalThis.studyInstalledV373===true&&!!globalThis.FEQUEST_PROTECTED_CONTENT&&!!globalThis.FEQUEST_PROTECTED_LESSONS,null,{timeout:20000});
             try{
               stage='load';
               await page.goto(`${BASE}/?live=${Date.now()}`,{waitUntil:'load',timeout:30000});
-              await page.waitForFunction(()=>globalThis.FEQUEST_APP_BOOT_COMPLETE===true&&globalThis.studyInstalledV373===true&&!!globalThis.FEQUEST_PROTECTED_CONTENT&&!!globalThis.FEQUEST_PROTECTED_LESSONS,null,{timeout:20000});
-              assert(await page.evaluate(()=>typeof globalThis.runV376SelfCheck==='function'),'v376 self-check adapter missing');
-              await page.evaluate(code=>{
-                globalThis.FEQUEST_PROTECTED_CONTENT.setAccessCode(code,{rememberForTab:true});
-                globalThis.FEQUEST_PROTECTED_LESSONS.setAccessCode(code,{rememberForTab:true});
-              },accessCode);
+              await waitBoot();
 
-              stage='service-worker';
+              stage='service-worker-stabilize';
+              let ready=false;
+              for(let attempt=0;attempt<4&&!ready;attempt++){
+                try{
+                  await page.waitForLoadState('load',{timeout:10000});
+                  await waitBoot();
+                  ready=await page.evaluate(async()=>{await navigator.serviceWorker.ready;return true;});
+                }catch(e){
+                  if(!String(e).includes('Execution context was destroyed'))throw e;
+                  await page.waitForTimeout(500);
+                }
+              }
+              assert(ready,'service worker did not stabilize');
+              await page.waitForTimeout(750);
+              await page.reload({waitUntil:'load',timeout:30000});
+              await waitBoot();
               const swVersion=await page.evaluate(async()=>{
                 const reg=await navigator.serviceWorker.ready;
-                const worker=reg.active||navigator.serviceWorker.controller;
+                const worker=navigator.serviceWorker.controller||reg.active;
                 if(!worker)throw new Error('service worker not active');
                 return await new Promise((resolve,reject)=>{
                   const timer=setTimeout(()=>reject(new Error('service worker version timeout')),5000);
@@ -102,9 +113,14 @@ jobs:
                 });
               });
               assert(swVersion==='v376',`service worker version mismatch: ${swVersion}`);
+              assert(await page.evaluate(()=>typeof globalThis.runV376SelfCheck==='function'),'v376 self-check adapter missing');
               await page.waitForTimeout(500);
               const mismatchNotice=await page.locator('#appNotice.show #appNoticeTitle').filter({hasText:'アプリ更新が必要です'}).count();
               assert(mismatchNotice===0,'app/service-worker version mismatch notice appeared');
+              await page.evaluate(code=>{
+                globalThis.FEQUEST_PROTECTED_CONTENT.setAccessCode(code,{rememberForTab:true});
+                globalThis.FEQUEST_PROTECTED_LESSONS.setAccessCode(code,{rememberForTab:true});
+              },accessCode);
 
               stage='first-run-diagnostic';
               await page.locator('#firstRunAccountSkipV364').click();
@@ -122,7 +138,7 @@ jobs:
               await page.locator('#diagFinish').click();
               await page.waitForSelector('#diagnosticPlanV373',{state:'visible',timeout:10000});
               await page.reload({waitUntil:'load',timeout:30000});
-              await page.waitForFunction(()=>globalThis.FEQUEST_APP_BOOT_COMPLETE===true&&globalThis.studyInstalledV373===true,null,{timeout:20000});
+              await waitBoot();
               await page.waitForSelector('#confirmPlanV373',{state:'visible',timeout:10000});
               await page.locator('#confirmPlanV373').click();
               await page.waitForSelector('#home.active #todayPlan',{state:'visible',timeout:10000});
@@ -147,7 +163,7 @@ jobs:
               await page.evaluate(()=>{globalThis.studyActiveV373.seconds=20;pauseStudyBlockV373();});
               assert(await page.locator('#home.active').isVisible(),'pause did not return to home');
               await page.reload({waitUntil:'load',timeout:30000});
-              await page.waitForFunction(()=>globalThis.FEQUEST_APP_BOOT_COMPLETE===true&&globalThis.studyInstalledV373===true,null,{timeout:20000});
+              await waitBoot();
               await page.locator('#todayResumeBtn').click();
               await page.waitForSelector('#lesson.active',{state:'visible',timeout:15000});
               const resumed=await page.evaluate(()=>({seconds:globalThis.studyActiveV373?.seconds||0,progress:profile.lessonProgress?.core_01_01||0,xp:profile.xp}));
@@ -161,7 +177,7 @@ jobs:
               assert((await page.locator('body').count())===1,'offline service-worker shell unavailable');
               await context.setOffline(false);
               await page.reload({waitUntil:'load',timeout:30000});
-              await page.waitForFunction(()=>globalThis.FEQUEST_APP_BOOT_COMPLETE===true,null,{timeout:20000});
+              await waitBoot();
 
               assert(errors.length===0,`page errors: ${errors.join(' | ')}`);
               console.log('PASS live staging: deployed bytes + v376 SW + real diagnostic/grading + bounded lesson + pause/reload + offline/reconnect');
