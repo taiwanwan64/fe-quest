@@ -142,10 +142,10 @@ jobs:
       - name: Commit qualified v377 tree to promotion branch
         run: |
           set -euo pipefail
-          rm .github/workflows/promote-v377.yml
+          rm -rf node_modules package-lock.json npm-shrinkwrap.json
           git config user.name 'taiwanwan64'
           git config user.email 'taiwanwan64@gmail.com'
-          git add -A
+          git add -A -- ':!.github/workflows/promote-v377.yml'
           git diff --cached --check
           git commit -m 'deploy: qualify FE QUEST v377 first-impression UX'
           git push origin HEAD:v377-promotion
