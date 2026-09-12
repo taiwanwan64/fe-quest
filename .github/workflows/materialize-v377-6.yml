@@ -36,7 +36,7 @@ jobs:
           grep -Fq "function subjectACognitiveEvidence(){return undefined;}/* FEQUEST_V376_REDACTED_FUNCTION */" assets/app-v377.js
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" assets/app-v377.js
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" assets/app-v377.js
-          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' .
+          ! grep -RIl --exclude-dir='.git' --exclude-dir='.github' --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' .
       - name: Commit materialized sanitized app
         run: |
           if git diff --quiet -- assets/app-v377.js; then
