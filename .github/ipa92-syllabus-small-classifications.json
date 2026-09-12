@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "authority": "IPA",
+  "exam": "基本情報技術者試験（レベル2）",
+  "syllabus_version": "9.2",
+  "published": "2026-01-08",
+  "source": "https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf",
+  "purpose": "IPA Ver.9.2完全対応フェーズで、FE QUEST側の既存テーマだけを母集団にせず、公式シラバス側から漏れを検出するための監査インデックス",
+  "index_scope": "中分類と、その直下の小分類を全件登録。各小分類内の番号付き内容・用語例は次段階のfine-grained inventoryで追跡する。",
+  "middle_category_count": 23,
+  "small_classification_count": 96,
+  "fine_grained_inventory_complete": false,
+  "middle_categories": [
+    {
+      "id": "FE92-M01",
+      "large_category": "基礎理論",
+      "name": "基礎理論",
+      "small_classifications": [
+        {"id":"FE92-M01-S01","name":"離散数学"},
+        {"id":"FE92-M01-S02","name":"応用数学"},
+        {"id":"FE92-M01-S03","name":"情報に関する理論"},
+        {"id":"FE92-M01-S04","name":"通信に関する理論"},
+        {"id":"FE92-M01-S05","name":"計測・制御に関する理論"}
+      ]
+    },
+    {
+      "id": "FE92-M02",
+      "large_category": "基礎理論",
+      "name": "アルゴリズムとプログラミング",
+      "small_classifications": [
+        {"id":"FE92-M02-S01","name":"データ構造"},
+        {"id":"FE92-M02-S02","name":"アルゴリズム"},
+        {"id":"FE92-M02-S03","name":"プログラミング"},
+        {"id":"FE92-M02-S04","name":"プログラム言語"},
+        {"id":"FE92-M02-S05","name":"その他の言語"}
+      ]
+    },
+    {
+      "id": "FE92-M03",
+      "large_category": "コンピュータシステム",
+      "name": "コンピュータ構成要素",
+      "small_classifications": [
+        {"id":"FE92-M03-S01","name":"プロセッサ"},
+        {"id":"FE92-M03-S02","name":"メモリ"},
+        {"id":"FE92-M03-S03","name":"バス"},
+        {"id":"FE92-M03-S04","name":"入出力デバイス"},
+        {"id":"FE92-M03-S05","name":"入出力装置"}
+      ]
+    },
+    {
+      "id": "FE92-M04",
+      "large_category": "コンピュータシステム",
+      "name": "システム構成要素",
+      "small_classifications": [
+        {"id":"FE92-M04-S01","name":"システムの構成"},
+        {"id":"FE92-M04-S02","name":"システムの評価指標"}
+      ]
+    },
+    {
+      "id": "FE92-M05",
+      "large_category": "コンピュータシステム",
+      "name": "ソフトウェア",
+      "small_classifications": [
+        {"id":"FE92-M05-S01","name":"オペレーティングシステム"},
+        {"id":"FE92-M05-S02","name":"ミドルウェア"},
+        {"id":"FE92-M05-S03","name":"ファイルシステム"},
+        {"id":"FE92-M05-S04","name":"開発ツール"},
+        {"id":"FE92-M05-S05","name":"オープンソースソフトウェア"}
+      ]
+    },
+    {
+      "id": "FE92-M06",
+      "large_category": "コンピュータシステム",
+      "name": "ハードウェア",
+      "small_classifications": [
+        {"id":"FE92-M06-S01","name":"ハードウェア"}
+      ]
+    },
+    {
+      "id": "FE92-M07",
+      "large_category": "技術要素",
+      "name": "ユーザーインタフェース",
+      "small_classifications": [
+        {"id":"FE92-M07-S01","name":"ユーザーインタフェース技術"},
+        {"id":"FE92-M07-S02","name":"UX/UIデザイン"}
+      ]
+    },
+    {
+      "id": "FE92-M08",
+      "large_category": "技術要素",
+      "name": "情報メディア",
+      "small_classifications": [
+        {"id":"FE92-M08-S01","name":"マルチメディア技術"},
+        {"id":"FE92-M08-S02","name":"マルチメディア応用"}
+      ]
+    },
+    {
+      "id": "FE92-M09",
+      "large_category": "技術要素",
+      "name": "データベース",
+      "small_classifications": [
+        {"id":"FE92-M09-S01","name":"データベース方式"},
+        {"id":"FE92-M09-S02","name":"データベース設計"},
+        {"id":"FE92-M09-S03","name":"データ操作"},
+        {"id":"FE92-M09-S04","name":"トランザクション処理"},
+        {"id":"FE92-M09-S05","name":"データベース応用"}
+      ]
+    },
+    {
+      "id": "FE92-M10",
+      "large_category": "技術要素",
+      "name": "ネットワーク",
+      "small_classifications": [
+        {"id":"FE92-M10-S01","name":"ネットワーク方式"},
+        {"id":"FE92-M10-S02","name":"データ通信と制御"},
+        {"id":"FE92-M10-S03","name":"通信プロトコル"},
+        {"id":"FE92-M10-S04","name":"ネットワーク管理"},
+        {"id":"FE92-M10-S05","name":"ネットワーク応用"}
+      ]
+    },
+    {
+      "id": "FE92-M11",
+      "large_category": "技術要素",
+      "name": "セキュリティ",
+      "small_classifications": [
+        {"id":"FE92-M11-S01","name":"情報セキュリティ"},
+        {"id":"FE92-M11-S02","name":"情報セキュリティ管理"},
+        {"id":"FE92-M11-S03","name":"セキュリティ技術評価"},
+        {"id":"FE92-M11-S04","name":"情報セキュリティ対策"},
+        {"id":"FE92-M11-S05","name":"セキュリティ実装技術"}
+      ]
+    },
+    {
+      "id": "FE92-M12",
+      "large_category": "開発技術",
+      "name": "システム開発技術",
+      "small_classifications": [
+        {"id":"FE92-M12-S01","name":"システム要件定義・ソフトウェア要件定義"},
+        {"id":"FE92-M12-S02","name":"設計"},
+        {"id":"FE92-M12-S03","name":"実装・構築"},
+        {"id":"FE92-M12-S04","name":"統合・テスト"},
+        {"id":"FE92-M12-S05","name":"導入・受入れ支援"},
+        {"id":"FE92-M12-S06","name":"保守・廃棄"}
+      ]
+    },
+    {
+      "id": "FE92-M13",
+      "large_category": "開発技術",
+      "name": "ソフトウェア開発管理技術",
+      "small_classifications": [
+        {"id":"FE92-M13-S01","name":"開発プロセス・手法"},
+        {"id":"FE92-M13-S02","name":"知的財産適用管理"},
+        {"id":"FE92-M13-S03","name":"開発環境管理"},
+        {"id":"FE92-M13-S04","name":"構成管理・変更管理"}
+      ]
+    },
+    {
+      "id": "FE92-M14",
+      "large_category": "プロジェクトマネジメント",
+      "name": "プロジェクトマネジメント",
+      "small_classifications": [
+        {"id":"FE92-M14-S01","name":"プロジェクトマネジメント"},
+        {"id":"FE92-M14-S02","name":"プロジェクトの統合"},
+        {"id":"FE92-M14-S03","name":"プロジェクトのステークホルダ"},
+        {"id":"FE92-M14-S04","name":"プロジェクトのスコープ"},
+        {"id":"FE92-M14-S05","name":"プロジェクトの資源"},
+        {"id":"FE92-M14-S06","name":"プロジェクトの時間"},
+        {"id":"FE92-M14-S07","name":"プロジェクトのコスト"},
+        {"id":"FE92-M14-S08","name":"プロジェクトのリスク"},
+        {"id":"FE92-M14-S09","name":"プロジェクトの品質"},
+        {"id":"FE92-M14-S10","name":"プロジェクトの調達"},
+        {"id":"FE92-M14-S11","name":"プロジェクトのコミュニケーション"}
+      ]
+    },
+    {
+      "id": "FE92-M15",
+      "large_category": "サービスマネジメント",
+      "name": "サービスマネジメント",
+      "small_classifications": [
+        {"id":"FE92-M15-S01","name":"サービスマネジメント"},
+        {"id":"FE92-M15-S02","name":"サービスマネジメントシステムの計画及び運用"},
+        {"id":"FE92-M15-S03","name":"パフォーマンス評価及び改善"},
+        {"id":"FE92-M15-S04","name":"サービスの運用"},
+        {"id":"FE92-M15-S05","name":"ファシリティマネジメント"}
+      ]
+    },
+    {
+      "id": "FE92-M16",
+      "large_category": "サービスマネジメント",
+      "name": "システム監査",
+      "small_classifications": [
+        {"id":"FE92-M16-S01","name":"システム監査"},
+        {"id":"FE92-M16-S02","name":"内部統制"}
+      ]
+    },
+    {
+      "id": "FE92-M17",
+      "large_category": "システム戦略",
+      "name": "システム戦略",
+      "small_classifications": [
+        {"id":"FE92-M17-S01","name":"情報システム戦略"},
+        {"id":"FE92-M17-S02","name":"業務プロセス"},
+        {"id":"FE92-M17-S03","name":"ソリューションビジネス"},
+        {"id":"FE92-M17-S04","name":"システム活用促進・評価"}
+      ]
+    },
+    {
+      "id": "FE92-M18",
+      "large_category": "システム戦略",
+      "name": "システム企画",
+      "small_classifications": [
+        {"id":"FE92-M18-S01","name":"システム化計画"},
+        {"id":"FE92-M18-S02","name":"要件定義"},
+        {"id":"FE92-M18-S03","name":"調達計画・実施"}
+      ]
+    },
+    {
+      "id": "FE92-M19",
+      "large_category": "経営戦略",
+      "name": "経営戦略マネジメント",
+      "small_classifications": [
+        {"id":"FE92-M19-S01","name":"経営戦略手法"},
+        {"id":"FE92-M19-S02","name":"マーケティング"},
+        {"id":"FE92-M19-S03","name":"ビジネス戦略と目標・評価"},
+        {"id":"FE92-M19-S04","name":"経営管理システム"}
+      ]
+    },
+    {
+      "id": "FE92-M20",
+      "large_category": "経営戦略",
+      "name": "技術戦略マネジメント",
+      "small_classifications": [
+        {"id":"FE92-M20-S01","name":"技術開発戦略の立案"},
+        {"id":"FE92-M20-S02","name":"技術開発計画"}
+      ]
+    },
+    {
+      "id": "FE92-M21",
+      "large_category": "経営戦略",
+      "name": "ビジネスインダストリ",
+      "small_classifications": [
+        {"id":"FE92-M21-S01","name":"ビジネスシステム"},
+        {"id":"FE92-M21-S02","name":"エンジニアリングシステム"},
+        {"id":"FE92-M21-S03","name":"e-ビジネス"},
+        {"id":"FE92-M21-S04","name":"民生機器"},
+        {"id":"FE92-M21-S05","name":"産業機器"}
+      ]
+    },
+    {
+      "id": "FE92-M22",
+      "large_category": "企業と法務",
+      "name": "企業活動",
+      "small_classifications": [
+        {"id":"FE92-M22-S01","name":"経営・組織論"},
+        {"id":"FE92-M22-S02","name":"業務分析・データ利活用"},
+        {"id":"FE92-M22-S03","name":"会計・財務"}
+      ]
+    },
+    {
+      "id": "FE92-M23",
+      "large_category": "企業と法務",
+      "name": "法務",
+      "small_classifications": [
+        {"id":"FE92-M23-S01","name":"知的財産権"},
+        {"id":"FE92-M23-S02","name":"セキュリティ関連法規"},
+        {"id":"FE92-M23-S03","name":"労働関連・取引関連法規"},
+        {"id":"FE92-M23-S04","name":"その他の法律・ガイドライン・技術者倫理"},
+        {"id":"FE92-M23-S05","name":"標準化関連"}
+      ]
+    }
+  ]
+}
