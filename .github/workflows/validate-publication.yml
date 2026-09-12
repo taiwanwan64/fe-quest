@@ -21,6 +21,8 @@ jobs:
         run: |
           node --check .github/scripts/check-ipa92-coverage.mjs
           node --check assets/first-impression-ux-v377.js
+          node --check assets/ipa92-sort-lab-v377.js
+          node --check cloud/activation-loader-v342.js
           node --check sw.js
       - name: Validate deploy-only publication
         run: |
@@ -35,6 +37,8 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/app-v377.js"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
           test -f "$RUNNER_TEMP/site/sw.js"
           test ! -e "$RUNNER_TEMP/site/.github"
           test ! -e "$RUNNER_TEMP/site/supabase"
@@ -43,7 +47,8 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-7';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-8';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const VERSION='v377-first-impression-ux-7';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "observerMode:'scoped-readiness'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "blankShellRecovery:'guarded-v2'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
@@ -55,5 +60,9 @@ jobs:
           grep -Fq '#diagIntro #diagBegin' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
           grep -Fq '#studyBlockBarV373[data-v377-inline="1"]' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
           grep -Fq '.ipa92-venn-backdrop' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq "./assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_SORT_LAB" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          grep -Fq "const ALGORITHM_ORDER=Object.freeze(['merge','insertion','shell','heap']);" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          grep -Fq "validateAlgorithms();" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
-          sha256sum "$RUNNER_TEMP/site/assets/app-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/sw.js"
+          sha256sum "$RUNNER_TEMP/site/assets/app-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js" "$RUNNER_TEMP/site/sw.js"
