@@ -1,19 +1,21 @@
-const APP_VERSION = 'v376';
-const CACHE_NAME = 'fe-quest-v376-1';
+const APP_VERSION = 'v377';
+const CACHE_NAME = 'fe-quest-v377-1';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./assets/app-v376.css",
+  "./assets/app-v377.css",
+  "./assets/first-impression-ux-v377.css",
   "./assets/protected-content-provider-v376.js",
   "./assets/protected-lesson-provider-v376.js",
-  "./assets/app-v376.js",
+  "./assets/app-v377.js",
   "./assets/protected-flow-bridge-v376.js",
   "./assets/protected-b-trace-bridge-v376.js",
   "./assets/protected-b-security-bridge-v376.js",
   "./assets/protected-b-exam-bridge-v376.js",
   "./assets/protected-b-final-bridge-v376.js",
+  "./assets/first-impression-ux-v377.js",
   "./assets/question-catalog-v376.json",
   "./icon-192.png",
   "./icon-512.png",
