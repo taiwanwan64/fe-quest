@@ -1,4 +1,4 @@
-name: Deploy sanitized FE QUEST staging to Pages
+name: Deploy sanitized FE QUEST production to Pages
 
 on:
   push:
@@ -45,6 +45,8 @@ jobs:
           grep -Fq "const APP_VERSION = 'v376';" "$RUNNER_TEMP/site/assets/app-v376.js"
           ! grep -Fq "const APP_VERSION = 'v375';" "$RUNNER_TEMP/site/assets/app-v376.js"
           grep -Fq "const APP_VERSION = 'v376';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v376-1';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$RUNNER_TEMP/site/cloud/public-config-v342.js"
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
