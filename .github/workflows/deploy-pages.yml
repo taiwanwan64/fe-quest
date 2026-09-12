@@ -42,6 +42,9 @@ jobs:
           test ! -e "$RUNNER_TEMP/site/.github"
           test ! -e "$RUNNER_TEMP/site/supabase"
           test ! -e "$RUNNER_TEMP/site/assets/app-v375.js"
+          grep -Fq "const APP_VERSION = 'v376';" "$RUNNER_TEMP/site/assets/app-v376.js"
+          ! grep -Fq "const APP_VERSION = 'v375';" "$RUNNER_TEMP/site/assets/app-v376.js"
+          grep -Fq "const APP_VERSION = 'v376';" "$RUNNER_TEMP/site/sw.js"
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
