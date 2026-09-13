@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '22'
       - name: Generate v18 activation files
-        run: node .github/tools/generate-ipa92-v18.cjs
+        run: node .github/tools/run-generate-ipa92-v18.cjs
       - name: Commit generated non-workflow and staged workflow files
         env:
           BRANCH: ipa92-v18-public-activation-20260914
