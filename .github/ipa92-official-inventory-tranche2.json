@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "auditId": "ipa92-official-tranche2-20260913",
+  "authority": {
+    "organization": "IPA",
+    "exam": "基本情報技術者試験（レベル2）",
+    "syllabusVersion": "9.2",
+    "published": "2026-01-08",
+    "officialIndex": "https://www.ipa.go.jp/shiken/syllabus/gaiyou.html",
+    "officialPdf": "https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf"
+  },
+  "productionSnapshot": {
+    "publicMain": "a273b788218812dce6e053da5aa178c2e9276f95",
+    "privateMain": "89d50789e5ca0776f53e977ae649f7f4e20c9aaa",
+    "activeQuestions": 987,
+    "activeLessons": 130
+  },
+  "method": {
+    "scope": "大分類2 コンピュータシステム / 中分類3〜6",
+    "unit": "official content / example-term probe plus semantic spot-check",
+    "questionEvidence": "case-insensitive term occurrence across active question metadata/stem/options/explanation/hint, followed by semantic spot-check where needed",
+    "lessonEvidence": "case-insensitive term occurrence across active protected lesson payload",
+    "warning": "Zero term hits are not by themselves proof of semantic absence; short ASCII tokens can also create substring noise. no-direct-evidence means no reliable direct evidence was found in this pass, not a final missing verdict.",
+    "statuses": ["direct-covered", "mixed-evidence", "lesson-only", "no-direct-evidence"]
+  },
+  "findings": [
+    {"id":"FE92-T2-CPU-CPI","section":"コンピュータ構成要素/プロセッサ","officialFocus":"CPIとクロック周波数による性能評価","questionHits":10,"lessonHits":2,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-CPU-RISC-CISC","section":"コンピュータ構成要素/プロセッサ","officialFocus":"RISC・CISC","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-CPU-PIPELINE","section":"コンピュータ構成要素/プロセッサ","officialFocus":"パイプライン","questionHits":1,"lessonHits":3,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T2-CPU-SUPERSCALAR-VLIW","section":"コンピュータ構成要素/プロセッサ","officialFocus":"スーパースカラ・VLIW","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-CPU-SIMD","section":"コンピュータ構成要素/プロセッサ","officialFocus":"SIMDと並列処理方式","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T2-CPU-MULTIPROCESSOR","section":"コンピュータ構成要素/プロセッサ","officialFocus":"アムダールの法則・マルチプロセッサ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-MEM-DRAM","section":"コンピュータ構成要素/メモリ","officialFocus":"DRAM","questionHits":7,"lessonHits":2,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-MEM-SRAM","section":"コンピュータ構成要素/メモリ","officialFocus":"SRAM","questionHits":5,"lessonHits":2,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-MEM-WRITE-POLICY","section":"コンピュータ構成要素/メモリ","officialFocus":"ライトスルー・ライトバック","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-MEM-INTERLEAVE","section":"コンピュータ構成要素/メモリ","officialFocus":"メモリインターリーブ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-MEM-EFFECTIVE-ACCESS","section":"コンピュータ構成要素/メモリ","officialFocus":"実効アクセス時間","questionHits":0,"lessonHits":0,"status":"mixed-evidence","recommendedAction":"normalize-terminology","evidenceNote":"exact term is absent, but an active question directly calculates average cache access time from hit/miss times and hit rate"},
+    {"id":"FE92-T2-MEM-WEAR","section":"コンピュータ構成要素/メモリ","officialFocus":"ウェアレベリング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-BUS-ADDRESS","section":"コンピュータ構成要素/バス","officialFocus":"アドレスバス","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-BUS-DATA","section":"コンピュータ構成要素/バス","officialFocus":"データバス","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-BUS-CONTROL-PCI","section":"コンピュータ構成要素/バス","officialFocus":"コントロールバス・PCI","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-IO-HDMI","section":"コンピュータ構成要素/入出力デバイス","officialFocus":"HDMI","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-IO-NFC","section":"コンピュータ構成要素/入出力デバイス","officialFocus":"NFC","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-IO-DMA","section":"コンピュータ構成要素/入出力デバイス","officialFocus":"DMA","questionHits":4,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-IO-INTERFACES","section":"コンピュータ構成要素/入出力デバイス","officialFocus":"Thunderbolt・RS-232C・Zigbee","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-IO-HOTPLUG","section":"コンピュータ構成要素/入出力デバイス","officialFocus":"ホットプラグ","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T2-IO-OCR","section":"コンピュータ構成要素/入出力装置","officialFocus":"OCR","questionHits":4,"lessonHits":5,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-IO-OMR","section":"コンピュータ構成要素/入出力装置","officialFocus":"OMR","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-IO-PRINTERS","section":"コンピュータ構成要素/入出力装置","officialFocus":"レーザープリンター・3Dプリンター","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-IO-DEFRAG","section":"コンピュータ構成要素/入出力装置","officialFocus":"デフラグメンテーション","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-SYS-DUAL-DUPLEX","section":"システム構成要素/システムの構成","officialFocus":"デュアルシステム・デュプレックスシステム","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-SYS-IAC","section":"システム構成要素/システムの構成","officialFocus":"IaC","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T2-SYS-EDGE","section":"システム構成要素/システムの構成","officialFocus":"エッジコンピューティング","questionHits":4,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-SYS-VDI-FAAS","section":"システム構成要素/システムの構成","officialFocus":"VDI・FaaS","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-SYS-HPC","section":"システム構成要素/システムの構成","officialFocus":"HPC","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-SYS-RPC","section":"システム構成要素/システムの構成","officialFocus":"RPC","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-SYS-RAID5","section":"システム構成要素/システムの構成","officialFocus":"RAID5","questionHits":2,"lessonHits":0,"status":"mixed-evidence","recommendedAction":"add-lesson-depth-after-review"},
+    {"id":"FE92-T2-SYS-NAS-SAN","section":"システム構成要素/システムの構成","officialFocus":"NAS・SAN","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-SYS-FOOLPROOF","section":"システム構成要素/システムの構成","officialFocus":"フールプルーフ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-PERF-BENCHMARK","section":"システム構成要素/システムの評価指標","officialFocus":"ベンチマーク","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T2-PERF-CAPACITY","section":"システム構成要素/システムの評価指標","officialFocus":"キャパシティプランニング・スケールアウト/アップ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-RELIAB-MTBF","section":"システム構成要素/システムの評価指標","officialFocus":"MTBF","questionHits":7,"lessonHits":2,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-RELIAB-MTTR","section":"システム構成要素/システムの評価指標","officialFocus":"MTTR","questionHits":6,"lessonHits":3,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-RELIAB-RASIS","section":"システム構成要素/システムの評価指標","officialFocus":"RASIS","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-ECON-TCO","section":"システム構成要素/システムの評価指標","officialFocus":"TCO","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-OS-ROUNDROBIN","section":"ソフトウェア/オペレーティングシステム","officialFocus":"ラウンドロビン","questionHits":7,"lessonHits":3,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-OS-KERNEL","section":"ソフトウェア/オペレーティングシステム","officialFocus":"マイクロカーネル・モノリシックカーネル","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-OS-SWAPPING","section":"ソフトウェア/オペレーティングシステム","officialFocus":"スワッピング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-OS-LRU","section":"ソフトウェア/オペレーティングシステム","officialFocus":"LRUページ置換","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-OS-SEGMENT-PAGING","section":"ソフトウェア/オペレーティングシステム","officialFocus":"セグメントページング方式","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-OS-LDAP","section":"ソフトウェア/オペレーティングシステム","officialFocus":"LDAPによるユーザー管理","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-MW-API","section":"ソフトウェア/ミドルウェア","officialFocus":"API","questionHits":3,"lessonHits":4,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-MW-COMPONENTWARE","section":"ソフトウェア/ミドルウェア","officialFocus":"DLL・CORBA・OSGi等のライブラリ/コンポーネントウェア","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-FS-PATHS","section":"ソフトウェア/ファイルシステム","officialFocus":"絶対パス・相対パス","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-FS-NTFS","section":"ソフトウェア/ファイルシステム","officialFocus":"NTFS・シンボリックリンク","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-FS-BACKUP","section":"ソフトウェア/ファイルシステム","officialFocus":"差分バックアップ・増分バックアップ","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T2-DEV-LOW-NOCODE","section":"ソフトウェア/開発ツール","officialFocus":"ローコード・ノーコードツール","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-DEV-CROSS-PREPROCESS","section":"ソフトウェア/開発ツール","officialFocus":"クロスコンパイラ・プリプロセッサ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-OSS-GPL","section":"ソフトウェア/オープンソースソフトウェア","officialFocus":"GPL","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T2-OSS-APACHE-FREEBSD","section":"ソフトウェア/オープンソースソフトウェア","officialFocus":"Apacheライセンス・FreeBSD","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T2-HW-FLIPFLOP","section":"ハードウェア/ハードウェア","officialFocus":"フリップフロップ","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-HW-PWM","section":"ハードウェア/ハードウェア","officialFocus":"PWM制御","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-HW-SEQUENCE","section":"ハードウェア/ハードウェア","officialFocus":"シーケンス制御","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T2-HW-FPGA-DIODE","section":"ハードウェア/ハードウェア","officialFocus":"FPGA・ダイオード","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T2-HW-TRANSISTOR","section":"ハードウェア/ハードウェア","officialFocus":"トランジスタ","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T2-HW-POWER","section":"ハードウェア/ハードウェア","officialFocus":"組込み機器の消費電力","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"}
+  ],
+  "summary": {
+    "findingCount": 60,
+    "directCovered": 20,
+    "mixedEvidence": 6,
+    "lessonOnly": 4,
+    "noDirectEvidence": 30,
+    "inventoryComplete": false,
+    "verifiedCoveredPromotions": 0
+  }
+}
