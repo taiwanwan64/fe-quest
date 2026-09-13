@@ -2,11 +2,11 @@
 
 ## Purpose
 
-The tranche 1–9 evidence-ledger traversal has reached all 9 large classifications and all 23 middle classifications. This file is the next-stage queue: it ranks **semantic review**, not confirmed missing content.
+The tranche 1–9 evidence-ledger traversal has reached all 9 large classifications and all 23 middle classifications. This file ranks **semantic review**, not confirmed missing content.
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current 1003 questions and 130 lessons.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1031 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -16,25 +16,40 @@ A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson
 
 These priorities are review order only; they are not claims about exam frequency.
 
-## SR-P0 — first semantic-review pass
+## Completed first-pass semantic review / remediation
+
+The first bundle was semantically reviewed before content was added. Broader neighboring concepts already covered in the corpus were not duplicated solely because an exact official term was absent.
+
+### Added in v8
+
+- SLI / SLO
+- service request / known error
+- SaaS / PaaS / IaaS
+- public/private/hybrid cloud deployment models
+- XAI / HITL / hallucination
+- anonymized / pseudonymized information
+- 中小受託取引適正化法
+
+### Added in v9
+
+- ITIL / JIS Q 20000
+- CAB / PIR
+- DevOps / DevSecOps / TDD / SRE / MLOps
+- GDPR / JIS Q 15001 / 電子署名法
+
+These are now direct-practice artifacts, but they are **not automatically `verified-covered`**. Practice-density, mobile/visual, and learning-history gates remain separate.
+
+## SR-P0 — remaining semantic-review pass
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Development practices: DevOps / DevSecOps / TDD / SRE | weak or zero exact-term evidence in tranche 4 | check `core_13_01` and adjacent development-model material for equivalent workflow/automation/continuous-delivery concepts |
-| Test design: boundary/equivalence/coverage/stub-driver variants | exact terms are uneven, but broader test content exists | distinguish genuine gaps from paraphrased test-design coverage before adding questions |
-| Service management framework: ITIL / JIS Q 20000 | zero exact-term evidence in tranche 6 | check whether service-management lessons already teach the framework concepts without the formal names |
-| Service objectives: SLI / SLO | zero exact-term evidence; SLA is strong | determine whether SLI/SLO are separately taught or only SLA is covered |
-| Service operation: service request / known error / CAB / PIR | zero or thin exact-term evidence | inspect incident/problem/change-management material for semantic coverage |
-| Cloud service models: SaaS / PaaS / IaaS | zero exact-term evidence in tranche 7 | inspect solution-business/cloud questions for model-level distinctions |
-| Cloud deployment/modern cloud: public/private/hybrid, cloud-native, cloud-by-default | zero exact-term evidence | verify whether current cloud material is broad enough for the official examples |
-| AI utilization: XAI / HITL / hallucination | zero exact-term evidence in tranche 8 | inspect AI/LLM material added in v2 and baseline for these application/risk concepts |
-| Privacy: anonymized/pseudonymized information / GDPR / JIS Q 15001 | zero exact-term evidence in tranche 9 | inspect privacy-law material for current terminology and distinctions |
-| Ver.9.2 legal update: 中小受託取引適正化法 | lesson-only exact-term evidence | verify lesson depth and add direct practice only if needed |
-| Platform/e-signature legal updates | zero exact-term evidence | review Information Distribution Platform Act and Electronic Signature Act coverage |
-| UI accessibility standards: WCAG / responsive design / usability evaluation | weak or zero fine-grained evidence in tranche 3 | separate existing accessibility/usability coverage from missing standards/evaluation techniques |
-| Database architecture: three-schema / NoSQL types | zero fine-grained evidence in tranche 3 | inspect broad DB-design/database-system content for semantic equivalents |
-| Network access/control: CSMA/CD, CSMA/CA, spanning tree, RADIUS/QoS | zero fine-grained evidence in tranche 3 | check whether current network questions cover mechanisms without exact labels |
-| Security platform boot/control: secure boot | zero fine-grained evidence in tranche 3 | inspect security architecture content before adding a targeted item |
+| Test design: boundary/equivalence/coverage/stub-driver variants | exact terms are uneven, while broader test content exists | distinguish genuine gaps from paraphrased test-design coverage before adding questions |
+| Cloud-native / cloud-by-default | service/deployment models are now directly covered, but these modernization terms remain weak | decide whether the parent cloud concepts are sufficient or a direct item is warranted |
+| Platform/legal update | 電子署名法 now has direct practice; platform-provider legal terminology remains weak | review 情報流通プラットフォーム対処法 and neighboring provider-liability/legal material |
+| UI accessibility standards | weak/zero fine-grained evidence | review WCAG, responsive design, usability evaluation against existing UI/accessibility lessons |
+| Database architecture | zero/weak fine-grained evidence | inspect three-schema architecture and NoSQL-type distinctions against broad DB content |
+| Network access/control | zero/weak fine-grained evidence | review CSMA/CD, CSMA/CA, spanning tree, RADIUS and QoS against current network mechanisms |
+| Security platform boot/control | zero fine-grained evidence | inspect secure boot and neighboring hardware/OS/security architecture content |
 
 ## SR-P1 — second semantic-review pass
 
@@ -54,7 +69,7 @@ These priorities are review order only; they are not claims about exam frequency
 | Corporate/data analysis: BCP/BCM/BIA, regression/moving average, BI/data mining, box plot/heat map | thin/zero evidence | inspect OR/statistics/business-analysis content for equivalent practice |
 | Accounting: balance sheet / P&L / cash-flow statement / ROA / ROE | lesson-only or mixed | determine whether direct calculation/interpretation practice is sufficient |
 | Labor/contracts: 36 Agreement, Worker Dispatching Act, disguised contracting, NDA/GPL/LGPL | mixed/lesson-only/zero | verify distinctions and current legal naming |
-| Standards bodies: JIS/ITU/IEC/IETF/IEEE/W3C | mixed/lesson-only/zero | determine whether one representative standards question can cover several examples without overfitting |
+| Standards bodies: JIS/ITU/IEC/IETF/IEEE/W3C | mixed/lesson-only/zero | determine whether representative standards practice can cover several examples without overfitting |
 
 ## SR-P2 — later / representative-only review
 
@@ -72,14 +87,15 @@ Before creating content for any backlog item:
 6. expose only public-safe metadata after the production import is verified;
 7. keep `verified-covered` closed until practice/visual/mobile/history gates are satisfied.
 
-## Recommended first review bundle
+## Recommended next review bundle
 
-The first bundle should stay small and cross-check five clusters before any new batch is drafted:
+The next bundle should focus on the remaining SR-P0 clusters without expanding too broadly:
 
-- service management: ITIL + SLI/SLO + service request/known error;
-- cloud: SaaS/PaaS/IaaS + deployment models;
-- AI utilization: XAI + HITL + hallucination;
-- privacy/legal: anonymized/pseudonymized information + GDPR/JIS Q 15001 + 中小受託取引適正化法;
-- development practices: DevOps/DevSecOps + TDD/SRE.
+- UI/accessibility: WCAG + responsive design + usability evaluation;
+- database: three-schema architecture + representative NoSQL types;
+- network: CSMA/CD + CSMA/CA + spanning tree + RADIUS/QoS;
+- platform security: secure boot;
+- platform/legal: 情報流通プラットフォーム対処法 and neighboring provider-liability concepts;
+- test design: only the variants that remain genuinely thin after semantic review.
 
-This bundle is broad enough to reveal whether the exact-term audit is undercounting semantic coverage, while remaining small enough to review without destabilizing the production bank.
+This keeps the next protected batch small while moving from broad syllabus traversal toward evidence-backed closure of the remaining high-priority gaps.
