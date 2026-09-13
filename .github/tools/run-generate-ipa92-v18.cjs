@@ -1,5 +1,5 @@
 const fs=require('node:fs');
-const vm=require('node:vm');
+const path=require('node:path');
 const file='.github/tools/generate-ipa92-v18.cjs';
 const lines=fs.readFileSync(file,'utf8').split(/\r?\n/);
 
@@ -26,4 +26,6 @@ const deployCatalog=`          grep -Fq '"./assets/question-catalog-ipa92-v15.js
 replaceLine('deploy sw catalog',stmt('deploy',deployCatalog,deployCatalog+`\n          grep -Fq '"./assets/question-catalog-ipa92-v18.json"' "$RUNNER_TEMP/site/sw.js"`,'deploy sw catalog'));
 
 const source=lines.join('\n');
-new vm.Script(source,{filename:file}).runInThisContext();
+const resolved=path.resolve(file);
+const execute=new Function('require','process','console','__dirname','__filename',source);
+execute(require,process,console,path.dirname(resolved),resolved);
