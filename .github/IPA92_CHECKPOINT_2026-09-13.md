@@ -45,21 +45,27 @@ Supabase `fequest_question_bank_private` の active 件数を本番DBで再集�
 
 ## 公開アプリ側の状態
 
-public repository `taiwanwan64/fe-quest` の、この作業開始時点の main は `2fe9d778972d82513f90db958a6165f583d3ce2c`。
+PR #28 で v1〜v6 の public-safe catalog/runtime metadata を公開runtimeへ統合した。問題本文・選択肢・正答・解説・hint は引き続き Supabase/private source 側にのみ置く。
 
-本番DBには987問あるが、公開アプリの safe catalog / runtime metadata はまだ v1 の13問までしか取り込んでいない。`assets/protected-content-provider-v376.js` は baseline 904 + v1 13 = 917件を前提とし、`cloud/activation-loader-v342.js` も v1 のsafe metadata 13件だけを `QUESTION_BANK` に追加している。したがって、**DB import 完了 = 公開アプリで987問利用可能、ではない**。
+- baseline safe catalog: 904
+- IPA Ver.9.2 extension safe catalog: 83
+- merged protected catalog contract: **987**
+- PWA cache: `fe-quest-v377-12`
+- runtime metadata installer: v1〜v6 の実production ID 83件
 
-v2〜v6 の問題本文・選択肢・正答・解説を公開せず、`id / sourcePool / cat / difficulty / concept / coreTopicId` 等の public-safe metadata のみを公開runtimeへ統合する工程を次に行う。
+この統合作業中に、従来の公開v1 safe metadataが `ipa92_a_graph_01` 等の旧IDを持つ一方、本番DB/ private source は `ipa92_a_graph_001` 等を使っている不整合を発見した。PR #28 では public-safe metadataを本番の実IDへ合わせた。protected bankのID自体は変更していない。
+
+PR #28 の publication validation は成功した。ただしmerge直後のPages #44は、deploy workflow側に `fe-quest-v377-11` / extension 13件 / v1 catalogを前提とする旧guardrailが残っていたためartifact buildで停止した。これはアプリruntimeの失敗ではなくdeploy-only検査の世代不一致であり、次の修正PRで v1〜v6 / 83件 / cache v12 のcontractへ同期する。
 
 ## IPA Ver.9.2 inventory
 
 公式IPA Ver.9.2は23中分類・96小分類で構成される。現在の `.github/ipa92-coverage.json` は `inventory_state: partial-baseline` / `inventory_complete: false` のままであり、P0/P1追加項目がsource-ready/import済みになったことだけを理由に completion gate を上げない。
 
-細目・用語例の公式監査は `.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md` に切り分けて進める。まず大分類1「基礎理論」から、既存904問 + v1〜v6 + protected lessons + interactive lab の証拠を照合し、「既存で十分」「薄い」「未登録」を区別する。単に coverage manifest に未登録という理由だけで `missing` とは判定しない。
+細目・用語例の公式監査は `.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md` に切り分けて開始済み。大分類1「基礎理論」について、既存904問 + v1〜v6 + protected lessons + interactive lab の証拠を照合し、「source-covered」「thin」「missing」「verification-pending」を区別している。単に coverage manifest に未登録という理由だけで `missing` とは判定しない。
 
 ## 残タスク順序
 
-1. v2〜v6 の public-safe catalog/runtime metadata を公開アプリへ統合し、987件の catalog/runtime contract をCIで固定する。
+1. Pages deploy guardrailを987件runtime contractへ同期し、本番Pages公開成功まで確認する。
 2. 公式IPA Ver.9.2の96小分類より下の内容・用語例を順次監査し、partial inventory を拡張する。
 3. UML/DFD/E-R、TLB/ページ置換、Venn、sort、graph を iPhone 相当の狭い画面で目視・タッチ・スクロール干渉QAする。
 4. lesson/practice/interactive/history compatibility が検証できた項目だけ `verified-covered` へ上げる。
