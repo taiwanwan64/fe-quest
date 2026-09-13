@@ -18,6 +18,7 @@ jobs:
       - name: Validate JavaScript syntax
         run: |
           node --check assets/protected-content-provider-v376-v7.js
+          node --check assets/protected-content-provider-v376-v8.js
           node --check cloud/public-config-v342.js
           node --check sw.js
       - name: Validate v7 public-safe catalog
@@ -47,7 +48,7 @@ jobs:
           }
           console.log('PASS v7 safe catalog: 16 items');
           NODE
-      - name: Validate protected provider merges to 1003
+      - name: Validate historical v7 protected provider merges to 1003
         run: |
           node <<'NODE'
           const fs=require('node:fs');
@@ -82,10 +83,10 @@ jobs:
             const ids=merged.items.map(item=>item.id);
             if(new Set(ids).size!==1003)throw new Error('merged duplicate IDs');
             for(const item of v7.items)if(!ids.includes(item.id))throw new Error(`merged catalog missing ${item.id}`);
-            console.log('PASS protected provider merged catalog: 1003');
+            console.log('PASS historical v7 provider merged catalog: 1003');
           })().catch(error=>{console.error(error);process.exitCode=1});
           NODE
-      - name: Validate v7 runtime metadata activation
+      - name: Validate v7 metadata survives latest runtime activation
         run: |
           node <<'NODE'
           const fs=require('node:fs');
@@ -102,8 +103,8 @@ jobs:
             getElementById(){return null;},
             createElement(tag){if(tag!=='script')throw new Error('unexpected element');return script;},
             head:{appendChild(node){
-              if(node!==script||node.src!=='./assets/protected-content-provider-v376-v7.js')throw new Error(`unexpected v7 provider src: ${node.src}`);
-              context.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-4-ipa92-v1-v7',catalogTotal:1003};
+              if(node!==script||node.src!=='./assets/protected-content-provider-v376-v8.js')throw new Error(`unexpected latest provider src: ${node.src}`);
+              context.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-5-ipa92-v1-v8',catalogTotal:1019};
               listeners.load();
             }}
           };
@@ -112,14 +113,17 @@ jobs:
           vm.runInContext(`const QUESTION_BANK=${JSON.stringify(legacyItems)};\n${source}\nglobalThis.__BANK__=QUESTION_BANK;`,context,{filename:'cloud/public-config-v342.js'});
           (async()=>{
             const ready=await context.FEQUEST_IPA92_V7_PROVIDER_READY;
-            if(!ready?.ok)throw new Error(`v7 provider activation failed: ${JSON.stringify(ready)}`);
+            if(!ready?.ok)throw new Error(`latest provider activation failed: ${JSON.stringify(ready)}`);
             const bank=context.__BANK__;
-            if(bank.length!==99)throw new Error(`runtime metadata total mismatch: ${bank.length}`);
+            if(bank.length!==115)throw new Error(`runtime metadata total mismatch: ${bank.length}`);
             const v7=context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA;
+            const v8=context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA;
             if(!Array.isArray(v7)||v7.length!==16)throw new Error('runtime v7 metadata mismatch');
+            if(!Array.isArray(v8)||v8.length!==16)throw new Error('runtime v8 metadata mismatch');
             if(context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('runtime v7 installer failed');
-            for(const item of v7)if(!bank.some(q=>q.id===item.id))throw new Error(`runtime missing ${item.id}`);
-            console.log('PASS v7 runtime metadata activation: legacy=83 v7=16 total=99');
+            if(context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('runtime v8 installer failed');
+            for(const item of v7)if(!bank.some(q=>q.id===item.id))throw new Error(`runtime missing historical v7 item ${item.id}`);
+            console.log('PASS v7 metadata preserved under latest runtime: legacy=83 v7=16 v8=16 total=115');
           })().catch(error=>{console.error(error);process.exitCode=1});
           NODE
       - name: Validate service-worker publication assets
