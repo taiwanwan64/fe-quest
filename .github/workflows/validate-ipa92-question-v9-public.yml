@@ -1,0 +1,139 @@
+name: Validate IPA 9.2 question v9 public activation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v9-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout publication candidate
+        uses: actions/checkout@v6
+      - name: Validate JavaScript syntax
+        run: |
+          node --check assets/protected-content-provider-v376-v9.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Validate v9 public-safe catalog
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v9.json','utf8'));
+          const expectedIds=[
+            'ipa92_a_itil_001','ipa92_a_jis20000_001','ipa92_a_cab_001','ipa92_a_pir_001',
+            'ipa92_a_devops_001','ipa92_a_devsecops_001','ipa92_a_tdd_001','ipa92_a_sre_001','ipa92_a_mlops_001',
+            'ipa92_a_gdpr_001','ipa92_a_jis15001_001','ipa92_a_esign_law_001'
+          ];
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          if(catalog.version!=='ipa92-catalog-v9'||catalog.contentVersion!=='ipa92-questions-v9')throw new Error('v9 catalog version mismatch');
+          if(JSON.stringify(catalog.contentVersions)!==JSON.stringify(['ipa92-questions-v9']))throw new Error('v9 contentVersions mismatch');
+          if(catalog.counts?.subjectA!==12||catalog.counts?.catalogQuestions!==12)throw new Error('v9 counts mismatch');
+          if(!Array.isArray(catalog.items)||catalog.items.length!==12)throw new Error('v9 item count mismatch');
+          const ids=catalog.items.map(item=>item.id);
+          if(JSON.stringify(ids)!==JSON.stringify(expectedIds))throw new Error('v9 IDs/order mismatch');
+          if(new Set(ids).size!==12)throw new Error('v9 duplicate IDs');
+          for(const item of catalog.items){
+            if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v9')throw new Error(`v9 metadata contract mismatch: ${item.id}`);
+            if(typeof item.cat!=='string'||typeof item.concept!=='string'||!/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||'')))throw new Error(`v9 unsafe/incomplete metadata: ${item.id}`);
+            const leaked=Object.keys(item).find(key=>protectedKeys.has(key));
+            if(leaked)throw new Error(`protected field leaked: ${item.id}:${leaked}`);
+          }
+          console.log('PASS v9 safe catalog: 12 items');
+          NODE
+      - name: Validate protected provider merges to 1031
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
+          const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));
+          const v7=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v7.json','utf8'));
+          const v8=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v8.json','utf8'));
+          const v9=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v9.json','utf8'));
+          const source=fs.readFileSync('assets/protected-content-provider-v376-v9.js','utf8');
+          const context={
+            console,setTimeout,clearTimeout,URL,AbortController,
+            document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v9.js'},baseURI:'https://example.test/'},
+            sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},
+            fetch:async url=>{
+              const s=String(url);
+              const data=s.endsWith('question-catalog-ipa92-v9.json')?v9:s.endsWith('question-catalog-ipa92-v8.json')?v8:s.endsWith('question-catalog-ipa92-v7.json')?v7:s.endsWith('question-catalog-ipa92-v1-v6.json')?legacy:base;
+              return {ok:true,status:200,json:async()=>data};
+            },
+            window:{}
+          };
+          vm.createContext(context);
+          vm.runInContext(source,context,{filename:'assets/protected-content-provider-v376-v9.js'});
+          (async()=>{
+            const api=context.window.FEQUEST_PROTECTED_CONTENT;
+            if(api?.version!=='v376-provider-6-ipa92-v1-v9'||api.catalogTotal!==1031)throw new Error('v9 provider contract mismatch');
+            const merged=await api.loadCatalog();
+            if(merged.items.length!==1031)throw new Error(`merged total mismatch: ${merged.items.length}`);
+            if(merged.counts?.subjectA!==837)throw new Error(`merged subjectA mismatch: ${merged.counts?.subjectA}`);
+            if(merged.counts?.trackedSubjectA!==846)throw new Error(`merged trackedSubjectA mismatch: ${merged.counts?.trackedSubjectA}`);
+            if(merged.counts?.catalogQuestions!==1031)throw new Error(`merged catalogQuestions mismatch: ${merged.counts?.catalogQuestions}`);
+            const expectedVersions=['ipa92-questions-v1','ipa92-questions-v2','ipa92-questions-v3','ipa92-questions-v4','ipa92-questions-v5','ipa92-questions-v6','ipa92-questions-v7','ipa92-questions-v8','ipa92-questions-v9'];
+            if(JSON.stringify(merged.extensionContentVersions)!==JSON.stringify(expectedVersions))throw new Error('merged content versions mismatch');
+            const ids=merged.items.map(item=>item.id);
+            if(new Set(ids).size!==1031)throw new Error('merged duplicate IDs');
+            for(const item of v9.items)if(!ids.includes(item.id))throw new Error(`merged catalog missing ${item.id}`);
+            console.log('PASS protected provider merged catalog: 1031');
+          })().catch(error=>{console.error(error);process.exitCode=1});
+          NODE
+      - name: Validate v9 runtime metadata activation
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const source=fs.readFileSync('cloud/public-config-v342.js','utf8');
+          const legacyItems=Array.from({length:83},(_,i)=>({id:`legacy_${i}`}));
+          const listeners={};
+          const script={id:'',src:'',async:true,addEventListener(type,fn){listeners[type]=fn;}};
+          const document={
+            baseURI:'https://example.test/',getElementById(){return null;},
+            createElement(tag){if(tag!=='script')throw new Error('unexpected element');return script;},
+            head:{appendChild(node){
+              if(node!==script||node.src!=='./assets/protected-content-provider-v376-v9.js')throw new Error(`unexpected v9 provider src: ${node.src}`);
+              context.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-6-ipa92-v1-v9',catalogTotal:1031};
+              listeners.load();
+            }}
+          };
+          const context={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-3-ipa92-v1-v6',catalogTotal:987}};
+          vm.createContext(context);
+          vm.runInContext(`const QUESTION_BANK=${JSON.stringify(legacyItems)};\n${source}\nglobalThis.__BANK__=QUESTION_BANK;`,context,{filename:'cloud/public-config-v342.js'});
+          (async()=>{
+            const ready=await context.FEQUEST_IPA92_V9_PROVIDER_READY;
+            if(!ready?.ok)throw new Error(`v9 provider activation failed: ${JSON.stringify(ready)}`);
+            if(context.FEQUEST_IPA92_V7_PROVIDER_READY!==context.FEQUEST_IPA92_V9_PROVIDER_READY||context.FEQUEST_IPA92_V8_PROVIDER_READY!==context.FEQUEST_IPA92_V9_PROVIDER_READY)throw new Error('historical readiness alias does not point at latest provider');
+            const bank=context.__BANK__;
+            if(bank.length!==127)throw new Error(`runtime metadata total mismatch: ${bank.length}`);
+            const v7=context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA;
+            const v8=context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA;
+            const v9=context.FEQUEST_IPA92_V9_SUBJECT_A_METADATA;
+            if(!Array.isArray(v7)||v7.length!==16)throw new Error('runtime v7 metadata mismatch');
+            if(!Array.isArray(v8)||v8.length!==16)throw new Error('runtime v8 metadata mismatch');
+            if(!Array.isArray(v9)||v9.length!==12)throw new Error('runtime v9 metadata mismatch');
+            if(context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL?.ok!==true||context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL?.ok!==true||context.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('runtime metadata installer failed');
+            for(const item of [...v7,...v8,...v9])if(!bank.some(q=>q.id===item.id))throw new Error(`runtime missing ${item.id}`);
+            console.log('PASS v9 runtime metadata activation: legacy=83 v7=16 v8=16 v9=12 total=127');
+          })().catch(error=>{console.error(error);process.exitCode=1});
+          NODE
+      - name: Validate service-worker publication assets
+        run: |
+          grep -Fq '"./assets/protected-content-provider-v376-v9.js"' sw.js
+          grep -Fq '"./assets/question-catalog-ipa92-v9.json"' sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-12';" sw.js
+          test -f assets/protected-content-provider-v376-v9.js
+          test -f assets/question-catalog-ipa92-v9.json
+      - name: Validate verified import checkpoint
+        run: |
+          grep -Fq 'active protected question total after import: **1031**' .github/IPA92_V9_ACTIVATION_2026-09-13.md
+          grep -Fq 'e3cc83a1f0f92404f361d49e32089c5ca22f3da3' .github/IPA92_V9_ACTIVATION_2026-09-13.md
+          grep -Fq '64618ca447addac7bd1482c8669e8025f3a04d9b874f8983467106c96214e384' .github/IPA92_V9_ACTIVATION_2026-09-13.md
+          grep -Fq '34740945338' .github/IPA92_V9_ACTIVATION_2026-09-13.md
