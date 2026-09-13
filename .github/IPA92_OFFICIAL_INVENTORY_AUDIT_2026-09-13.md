@@ -109,6 +109,32 @@ baselineに `core_02_09` 計測・制御理論があり、v5でPWMを追加済�
 - 次の作業は、未登録=missing と決め打ちせず、baselineのsafe metadata・lesson topic・追加batch・interactive labを照合して各小分類を `source-covered / thin / missing / verification-pending` に分解すること。
 - `verified-covered` は、content sourceがあるだけでは付けない。practice密度、必要visual/interactive、iPhone相当QA、学習履歴互換まで確認してから昇格させる。
 
+## 用語例レベルの定量probe — 2026-09-13
+
+本番の active question 987件と protected lesson 130件を対象に、公式 Ver.9.2 の内容・用語例を直接含むかを確認する exact-term probe を実施した。結果は `.github/ipa92-official-inventory-tranche1.json` に保存した。
+
+重要: exact-term 0件だけで意味上の未対応を断定しない。そのため台帳上は `direct-covered / mixed-evidence / lesson-only / no-direct-evidence` の4段階に留め、`missing` や `verified-covered` への昇格は semantic review とQA後に行う。
+
+### 中分類1「基礎理論」の主要所見
+
+- 離散数学: ド・モルガンは直接practiceあり。一方、BCD/パック10進数は question/lesson とも直接証跡0で、次の semantic review 対象。
+- 応用数学: 数値解析や仮説検定はv1/v5で強化済みだが、M/M/1、ベイズ/代表分布、回帰・推定・尤度、動的計画法に直接証跡0。線形代数はlesson証跡はあるが、固有値/逆行列等の直接practiceが薄い。
+- 情報に関する理論: ハフマン、計算量は直接practiceあり。ASCII/JIS/Unicode等の文字表現、コンパイル過程の字句/構文/意味解析、関数型/論理型言語は直接証跡0。既存の「コンパイラ」問題は主としてコンパイラとインタプリタの役割差であり、公式が求めるコンパイル過程とは別に扱う。
+- 通信に関する理論: CRCは直接practiceあり。ハミング/ECC/チェックサム、半二重/全二重、調歩/SYN等はlesson証跡はあるが直接practice 0で `lesson-only`。
+- 計測・制御: フィードフォワードは直接practiceあり。フィルタリング、応答特性/制御安定性、代表センサーの種類は直接証跡0。
+
+### 中分類2「アルゴリズムとプログラミング」の主要所見
+
+公式用語例までprobe範囲を広げた。
+
+- データ構造: スタック/キュー/基本木構造は既存演習があるが、動的配列、双方向/環状リスト、B木、AVL木は直接証跡0。
+- アルゴリズム: v6でマージ/挿入/シェル/ヒープ/文字列照合/コントロールブレーク/決定表を補強済み。クイックソートは question/lesson 各1で `mixed-evidence`。ハッシュ表探索、ダイクストラ/ベルマンフォード、自然言語処理の形態素解析・係り受け解析・n-gramは直接証跡0。
+- プログラミング: コーディング標準とAjaxは追加済み。モジュール分割/命名規則はlesson-only、オーバーライド/オーバーロード/抽象データ型は直接証跡0。
+- プログラム言語: Javaの直接証跡はあるが、ECMAScript/Python等のスクリプト言語分類は直接証跡0。
+- その他の言語: HTML/SQLは既存証跡が厚い。XMLはlesson-onlyで直接practice 0。
+
+このprobeにより、これまでの「大項目は概ねsource-covered」という判断を、**直接practiceがある項目 / lessonだけの項目 / 直接証跡が見つからない項目**へ分解できた。これが次の targeted content batch の根拠になる。
+
 ## 次の監査tranche
 
-次は大分類1の用語例レベルをもう一段下げて gap を確定した後、大分類2「コンピュータシステム」へ進む。特に `待ち行列理論 / 線形代数 / 文字コード / 計算量 / コンパイラ / 言語論 / 誤り検出訂正` は、baselineに関連sourceがあるかではなく、FEレベルの直接practiceが十分かを確認する。
+Tranche 1のexact-term evidence ledger作成まで完了した。次は、`no-direct-evidence` のうち優先度が高い項目を semantic review して本当に不足しているものだけを小さな独立batchへ切り出す。同時に公式監査を大分類2「コンピュータシステム」（中分類3〜6）へ進める。

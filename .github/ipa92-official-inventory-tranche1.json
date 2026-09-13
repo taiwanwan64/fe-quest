@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "auditId": "ipa92-official-tranche1-20260913",
+  "authority": {
+    "organization": "IPA",
+    "exam": "基本情報技術者試験（レベル2）",
+    "syllabusVersion": "9.2",
+    "published": "2026-01-08",
+    "officialIndex": "https://www.ipa.go.jp/shiken/syllabus/gaiyou.html",
+    "officialPdf": "https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf"
+  },
+  "productionSnapshot": {
+    "publicMain": "b4142e4ae641e0f915e92ea7c4c33a25eff30290",
+    "privateMain": "89d50789e5ca0776f53e977ae649f7f4e20c9aaa",
+    "activeQuestions": 987,
+    "activeLessons": 130,
+    "questionVersions": {
+      "v376-protected-final": 904,
+      "ipa92-questions-v1": 13,
+      "ipa92-questions-v2": 14,
+      "ipa92-questions-v3": 12,
+      "ipa92-questions-v4": 12,
+      "ipa92-questions-v5": 16,
+      "ipa92-questions-v6": 16
+    }
+  },
+  "method": {
+    "unit": "official content / example-term probe",
+    "questionEvidence": "case-insensitive exact-term occurrence across active question catalog/stem/options/explanation/hint",
+    "lessonEvidence": "case-insensitive exact-term occurrence across active protected lesson payload",
+    "warning": "Zero exact-term hits are not by themselves proof of semantic absence. Items marked no-direct-evidence require semantic review before content is generated.",
+    "statuses": ["direct-covered", "mixed-evidence", "lesson-only", "no-direct-evidence"]
+  },
+  "findings": [
+    {"id":"FE92-T1-NUMREP-BCD","section":"基礎理論/離散数学","officialFocus":"BCD・パック10進数","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-NUMREP-FLOAT","section":"基礎理論/離散数学","officialFocus":"固定小数点・単精度/倍精度浮動小数点","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T1-LOGIC-DEMORGAN","section":"基礎理論/離散数学","officialFocus":"ド・モルガンの法則","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+
+    {"id":"FE92-T1-STATS-BAYES-DIST","section":"基礎理論/応用数学","officialFocus":"ベイズの定理・代表的確率分布","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-STATS-INFERENCE","section":"基礎理論/応用数学","officialFocus":"回帰・点推定/区間推定・尤度","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-LINEAR-ALGEBRA","section":"基礎理論/応用数学","officialFocus":"線形代数・固有値・逆行列・数列","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T1-NUMERICAL-INTERPOLATION","section":"基礎理論/応用数学","officialFocus":"補間法","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T1-QUEUEING-MM1","section":"基礎理論/応用数学","officialFocus":"待ち行列理論・M/M/1","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-OPT-DP","section":"基礎理論/応用数学","officialFocus":"動的計画法","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T1-INFO-HUFFMAN","section":"基礎理論/情報に関する理論","officialFocus":"ハフマン符号・情報源符号化","questionHits":3,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T1-CHAR-CODES","section":"基礎理論/情報に関する理論","officialFocus":"ASCII・JIS・Shift_JIS・Unicode・UCS・ゾーン10進","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-COMPLEXITY","section":"基礎理論/情報に関する理論","officialFocus":"計算量・オーダー記法","questionHits":3,"lessonHits":3,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T1-COMPILER-PHASES","section":"基礎理論/情報に関する理論","officialFocus":"字句解析・構文解析・意味解析・コード生成・最適化","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-LANGUAGE-PARADIGMS","section":"基礎理論/情報に関する理論","officialFocus":"手続型・関数型・論理型・オブジェクト指向言語","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T1-COMMS-CRC","section":"基礎理論/通信に関する理論","officialFocus":"CRC","questionHits":6,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T1-COMMS-FEC","section":"基礎理論/通信に関する理論","officialFocus":"ハミング符号・ECC・チェックサム","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T1-COMMS-DUPLEX","section":"基礎理論/通信に関する理論","officialFocus":"単方向・半二重・全二重","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T1-COMMS-SYNC-DETAIL","section":"基礎理論/通信に関する理論","officialFocus":"調歩同期・SYN同期・キャラクター同期・フラグ同期","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+
+    {"id":"FE92-T1-CONTROL-FEEDFORWARD","section":"基礎理論/計測・制御に関する理論","officialFocus":"フィードフォワード制御","questionHits":4,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T1-SIGNAL-FILTERING","section":"基礎理論/計測・制御に関する理論","officialFocus":"フィルタリング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-CONTROL-DYNAMICS","section":"基礎理論/計測・制御に関する理論","officialFocus":"応答特性・制御安定性","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-SENSOR-BREADTH","section":"基礎理論/計測・制御に関する理論","officialFocus":"光学/ジャイロ/ひずみゲージ/ホール素子等のセンサー","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T1-DS-ADVANCED","section":"アルゴリズムとプログラミング/データ構造","officialFocus":"動的配列・双方向/環状リスト・B木・AVL木","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-ALGO-QUICKSORT","section":"アルゴリズムとプログラミング/アルゴリズム","officialFocus":"クイックソート","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T1-ALGO-HASH-SEARCH","section":"アルゴリズムとプログラミング/アルゴリズム","officialFocus":"ハッシュ表探索法","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-ALGO-SHORTEST","section":"アルゴリズムとプログラミング/アルゴリズム","officialFocus":"ダイクストラ法・ベルマンフォード法","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-ALGO-NLP","section":"アルゴリズムとプログラミング/アルゴリズム","officialFocus":"形態素解析・係り受け解析・n-gram等","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-PROG-OOP-DETAIL","section":"アルゴリズムとプログラミング/プログラミング","officialFocus":"オーバーライド・オーバーロード・抽象データ型","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-PROG-STRUCTURE","section":"アルゴリズムとプログラミング/プログラミング","officialFocus":"モジュール分割・命名規則","questionHits":0,"lessonHits":2,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T1-PROG-WEB-AJAX","section":"アルゴリズムとプログラミング/プログラミング","officialFocus":"Webプログラミング・Ajax","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T1-LANG-SCRIPT","section":"アルゴリズムとプログラミング/プログラム言語","officialFocus":"ECMAScript・Python等のスクリプト言語","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T1-MARKUP-XML","section":"アルゴリズムとプログラミング/その他の言語","officialFocus":"XML","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"}
+  ],
+  "summary": {
+    "findingCount": 32,
+    "directCovered": 5,
+    "mixedEvidence": 3,
+    "lessonOnly": 7,
+    "noDirectEvidence": 17,
+    "inventoryComplete": false,
+    "verifiedCoveredPromotions": 0
+  }
+}

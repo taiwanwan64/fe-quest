@@ -1,0 +1,24 @@
+name: Validate IPA 9.2 official inventory
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/ipa92-official-inventory-tranche1.json'
+      - '.github/scripts/check-ipa92-official-inventory.mjs'
+      - '.github/workflows/validate-ipa92-official-inventory.yml'
+      - '.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout inventory candidate
+        uses: actions/checkout@v6
+      - name: Validate inventory ledger
+        run: node .github/scripts/check-ipa92-official-inventory.mjs
