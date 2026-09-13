@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-11';
+const CACHE_NAME = 'fe-quest-v377-12';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -22,6 +22,7 @@ const APP_SHELL = [
   "./assets/ipa92-memory-lab-v377.js",
   "./assets/question-catalog-v376.json",
   "./assets/question-catalog-ipa92-v1.json",
+  "./assets/question-catalog-ipa92-v1-v6.json",
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",
@@ -43,7 +44,6 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  // v117 emergency hotfix: v116 can enter a false save-block loop during startup.
   // Activate this release immediately so the learner only needs one normal reload.
   self.skipWaiting();
   event.waitUntil(
