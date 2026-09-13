@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - '.github/ipa92-official-inventory-tranche1.json'
+      - '.github/ipa92-official-inventory-tranche*.json'
       - '.github/scripts/check-ipa92-official-inventory.mjs'
       - '.github/workflows/validate-ipa92-official-inventory.yml'
       - '.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md'
@@ -20,5 +20,5 @@ jobs:
     steps:
       - name: Checkout inventory candidate
         uses: actions/checkout@v6
-      - name: Validate inventory ledger
+      - name: Validate inventory ledgers
         run: node .github/scripts/check-ipa92-official-inventory.mjs
