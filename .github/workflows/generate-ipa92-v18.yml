@@ -6,6 +6,7 @@ on:
       - ipa92-v18-public-activation-20260914
     paths:
       - '.github/workflows/generate-ipa92-v18.yml'
+      - '.github/tools/run-generate-ipa92-v18.cjs'
 
 permissions:
   contents: write
