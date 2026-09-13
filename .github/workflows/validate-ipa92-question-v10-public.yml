@@ -132,7 +132,7 @@ jobs:
         run: |
           grep -Fq '"./assets/protected-content-provider-v376-v10.js"' sw.js
           grep -Fq '"./assets/question-catalog-ipa92-v10.json"' sw.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-13';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-12';" sw.js
           test -f assets/protected-content-provider-v376-v10.js
           test -f assets/question-catalog-ipa92-v10.json
       - name: Validate verified import checkpoint
