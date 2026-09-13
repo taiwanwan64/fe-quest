@@ -1,0 +1,39 @@
+name: Apply IPA 9.2 v16 public activation
+
+on:
+  push:
+    branches:
+      - ipa92-v16-public-activation-20260913
+    paths:
+      - '.github/scripts/apply-v16-public-activation.cjs'
+      - '.github/workflows/apply-v16-public-activation.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ipa92-v16-public-activation-20260913
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply public activation changes
+        run: node .github/scripts/apply-v16-public-activation.cjs
+      - name: Commit transformed publication candidate
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Activate IPA 9.2 IT governance batch v16'
+          git push origin HEAD:ipa92-v16-public-activation-20260913
