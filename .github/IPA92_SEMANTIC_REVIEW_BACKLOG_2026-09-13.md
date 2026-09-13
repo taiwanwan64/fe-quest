@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1082 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1086 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -26,9 +26,10 @@ Broader neighboring concepts already covered in the corpus were not duplicated s
 - **v11:** 情報流通プラットフォーム対処法/発信者情報; cloud-native/cloud-by-default; test driver and stub/driver distinction. The former SR-P0 queue completed its first pass here.
 - **v12 requirements engineering:** SysML/UML; user stories/acceptance criteria; use-case diagrams; mockups; prototyping; mockup/prototype distinction. Bidirectional traceability was reviewed but not duplicated because requirements-to-design/test traceability already existed semantically.
 - **v13 development-process variants:** low-code, no-code, pair programming, mob programming, KPT, YAGNI.
-- **v14 project-management detail:** PMO, WBS dictionary, COCOMO, CCB. Responsibility matrix/RACI was reviewed but not duplicated because existing `core_14_03` lesson/practice already teaches the relevant role/responsibility-matrix semantics.
+- **v14 project-management detail:** PMO, WBS dictionary, COCOMO, CCB. Responsibility matrix/RACI was reviewed but not duplicated because existing material already teaches the relevant role/responsibility-matrix semantics.
 - **v15 service/facility:** AIOps, operations job scheduling, hot-aisle/cold-aisle layout, MDF, Green IT. Existing CPU scheduling was explicitly treated as a different concept from operations job scheduling.
 - **v16 IT governance/internal control:** COSO, CSA, JIS Q 38500 / IT governance, and IT general controls versus application controls. Existing system-audit/internal-control fundamentals counted as semantic evidence; only the missing distinctions were added.
+- **v17 enterprise architecture:** EA direct practice, WFA, SOA, and the Zachman framework. The existing `core_16_01` lesson already taught whole-enterprise optimization and EA viewpoints, so the remediation kept that semantic foundation and added only the missing direct distinctions.
 
 ## SR-P0 — first pass complete
 
@@ -38,12 +39,11 @@ SR-P0 is therefore no longer the immediate content-expansion queue. Practice-den
 
 ## SR-P1 — remaining semantic-review pass
 
-Requirements engineering, development-process variants, project-management detail, service/facility, and IT governance/internal control have completed their first semantic-review/remediation pass through v12–v16. The remaining SR-P1 queue is:
+Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, and enterprise architecture have completed their first semantic-review/remediation pass through v12–v17. The remaining SR-P1 queue is:
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Enterprise architecture: EA direct practice, SOA, WFA, Zachman framework | EA lesson-only; SOA/WFA/Zachman zero direct evidence | inspect `core_16_01` and adjacent system-strategy material; add only distinct EA decision rules/examples |
-| Strategy frameworks: VRIO, value chain, growth matrix, 3C | weak/zero evidence | compare to existing SWOT/STP/PPM/KPI material |
+| Strategy frameworks: VRIO, value chain, growth matrix, 3C | weak/zero evidence | compare to existing SWOT/STP/PPM/KPI material and distinguish frameworks before adding practice |
 | Modern marketing: journey map, persona, dynamic pricing, subscription, omnichannel, SEO/LPO | zero evidence | decide which official examples need direct practice versus lesson mention |
 | Technology strategy: MOT, open innovation, innovation dilemma, lean startup, PoC/PoV | mostly zero evidence | inspect technology-strategy core topics and roadmap material |
 | Digital business: digital twin, CPS, smart contract, eKYC, CBDC, NFT | zero evidence | check business-system/e-business semantic coverage |
@@ -77,13 +77,13 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-Next, review **enterprise architecture** narrowly against the current production corpus:
+Next, review **strategy frameworks** narrowly against the current production corpus:
 
-- EA itself: the live `core_16_01` lesson already teaches whole-enterprise optimization and the business/data/application/technology viewpoints, but there is no dedicated direct EA practice;
-- WFA: IPA Ver.9.2 places WFA (Work Flow Architecture / 業務流れ図) under business architecture;
-- SOA: IPA Ver.9.2 places SOA under application architecture;
-- Zachman framework: IPA Ver.9.2 lists it as an EA framework/example.
+- VRIO
+- value chain / value-chain analysis
+- growth matrix / Ansoff-style product-market growth directions where applicable to the official syllabus wording
+- 3C
 
-Production probes currently show no direct SOA/WFA/Zachman evidence. Create direct practice only for distinct learning decisions that are not already covered by the existing information-system-strategy questions. Preserve the existing EA lesson semantics rather than duplicating generic “全体最適” questions.
+First compare these with existing SWOT, STP, PPM, KPI/KGI, competitive-strategy and corporate-strategy material. Exact-term absence is not enough to justify a question: the review should identify the distinct decision rule each framework teaches and avoid creating four interchangeable definition questions.
 
 In parallel, continue practice-density verification on classifications whose syllabus breadth is already strong.
