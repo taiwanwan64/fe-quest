@@ -76,6 +76,17 @@
     {"id":"ipa92_a_condition_coverage_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"条件網羅","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v10"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V11_METADATA=Object.freeze([
+    {"id":"ipa92_a_platform_law_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"情報流通プラットフォーム対処法","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_platform_law_002","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"情報流通プラットフォーム対処法と発信者情報","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_cloud_native_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"クラウドネイティブ","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_cloud_native_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"クラウドリフトとクラウドネイティブ","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_cloud_by_default_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"クラウドバイデフォルト","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_cloud_by_default_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"クラウドバイデフォルトの判断","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_test_driver_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"ドライバ","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v11"},
+    {"id":"ipa92_a_test_driver_002","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"スタブとドライバ","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v11"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -98,30 +109,33 @@
   function installV8Metadata(){return installMetadata(IPA92_V8_METADATA,'v8',16)}
   function installV9Metadata(){return installMetadata(IPA92_V9_METADATA,'v9',12)}
   function installV10Metadata(){return installMetadata(IPA92_V10_METADATA,'v10',16)}
+  function installV11Metadata(){return installMetadata(IPA92_V11_METADATA,'v11',8)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
     const v9Install=installV9Metadata();
     const v10Install=installV10Metadata();
+    const v11Install=installV11Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
     root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA_INSTALL=v10Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1047;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install});
+    root.FEQUEST_IPA92_V11_SUBJECT_A_METADATA_INSTALL=v11Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1055;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install});
   }
 
-  function activateV10Provider(){
+  function activateV11Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v10-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v11-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -129,7 +143,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v10.js';
+      script.src='./assets/protected-content-provider-v376-v11.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -141,9 +155,11 @@
   root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA=IPA92_V8_METADATA;
   root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA=IPA92_V9_METADATA;
   root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA=IPA92_V10_METADATA;
-  const latestProviderReady=activateV10Provider();
-  root.FEQUEST_IPA92_V10_PROVIDER_READY=latestProviderReady;
+  root.FEQUEST_IPA92_V11_SUBJECT_A_METADATA=IPA92_V11_METADATA;
+  const latestProviderReady=activateV11Provider();
+  root.FEQUEST_IPA92_V11_PROVIDER_READY=latestProviderReady;
   // Backward-compatible readiness aliases: historical callers wait for the latest provider.
+  root.FEQUEST_IPA92_V10_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V9_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V8_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V7_PROVIDER_READY=latestProviderReady;
