@@ -7,6 +7,7 @@ const files=fs.readdirSync(root)
   .sort((a,b)=>a.localeCompare(b,'en',{numeric:true}));
 const allowed=new Set(['direct-covered','mixed-evidence','lesson-only','no-direct-evidence']);
 const forbiddenKeys=new Set(['stem','options','answerIndex','answer_index','explanation','hint','choiceExplanations','choice_explanations']);
+const expectedQuestionSnapshots=new Map([[1,987],[2,987],[3,987],[4,1003]]);
 
 function fail(message){throw new Error(message)}
 function scan(value,trail=[]){
@@ -25,7 +26,9 @@ function validateFile(name){
   if(!Number.isInteger(tranche)||tranche<1)fail(`invalid tranche filename: ${name}`);
   if(data.schemaVersion!==1)fail(`${name}: unexpected inventory schemaVersion`);
   if(data.authority?.organization!=='IPA'||data.authority?.syllabusVersion!=='9.2')fail(`${name}: unexpected syllabus authority/version`);
-  if(data.productionSnapshot?.activeQuestions!==987)fail(`${name}: production question snapshot must remain 987 for this ledger generation`);
+  const expectedQuestions=expectedQuestionSnapshots.get(tranche);
+  if(expectedQuestions===undefined)fail(`${name}: production question snapshot has not been registered in validator`);
+  if(data.productionSnapshot?.activeQuestions!==expectedQuestions)fail(`${name}: production question snapshot must be ${expectedQuestions}`);
   if(data.productionSnapshot?.activeLessons!==130)fail(`${name}: production lesson snapshot must remain 130 for this ledger generation`);
   if(!Array.isArray(data.findings)||data.findings.length===0)fail(`${name}: findings must be non-empty`);
 
@@ -55,7 +58,7 @@ function validateFile(name){
   if(s.noDirectEvidence!==(counts['no-direct-evidence']||0))fail(`${name}: summary noDirectEvidence mismatch`);
   if(s.inventoryComplete!==false||s.verifiedCoveredPromotions!==0)fail(`${name}: tranche must not claim completion/verification`);
   scan(data,[name]);
-  console.log(`PASS ${name}: findings=${data.findings.length} direct=${counts['direct-covered']||0} mixed=${counts['mixed-evidence']||0} lessonOnly=${counts['lesson-only']||0} noDirect=${counts['no-direct-evidence']||0}`);
+  console.log(`PASS ${name}: questions=${expectedQuestions} findings=${data.findings.length} direct=${counts['direct-covered']||0} mixed=${counts['mixed-evidence']||0} lessonOnly=${counts['lesson-only']||0} noDirect=${counts['no-direct-evidence']||0}`);
 }
 
 if(files.length<2)fail(`expected at least tranche1 and tranche2 ledgers, found ${files.length}`);
