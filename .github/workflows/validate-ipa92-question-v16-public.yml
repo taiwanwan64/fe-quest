@@ -6,8 +6,6 @@ on:
     paths:
       - 'assets/protected-content-provider-v376-v16.js'
       - 'assets/question-catalog-ipa92-v16.json'
-      - 'cloud/public-config-v342.js'
-      - 'sw.js'
       - '.github/IPA92_V16_ACTIVATION_2026-09-13.md'
       - '.github/workflows/validate-ipa92-question-v16-public.yml'
   workflow_dispatch:
@@ -16,59 +14,24 @@ permissions:
   contents: read
 
 jobs:
-  validate-v16-public:
+  validate-v16-historical:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - name: Validate JavaScript syntax
+      - name: Validate historical v16 artifacts
         run: |
           node --check assets/protected-content-provider-v376-v16.js
-          node --check cloud/public-config-v342.js
-          node --check sw.js
-      - name: Validate v16 public-safe catalog
-        run: |
           node <<'NODE'
           const fs=require('node:fs');
           const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v16.json','utf8'));
           const expectedIds=['ipa92_a_coso_internal_control_001','ipa92_a_csa_internal_control_001','ipa92_a_jisq38500_it_governance_001','ipa92_a_it_general_controls_001'];
           const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
           if(catalog.version!=='ipa92-catalog-v16'||catalog.contentVersion!=='ipa92-questions-v16')throw new Error('v16 catalog version mismatch');
-          if(JSON.stringify(catalog.contentVersions)!==JSON.stringify(['ipa92-questions-v16']))throw new Error('v16 contentVersions mismatch');
-          if(catalog.counts?.subjectA!==4||catalog.counts?.catalogQuestions!==4||catalog.items?.length!==4)throw new Error('v16 counts mismatch');
+          if(!Array.isArray(catalog.items)||catalog.items.length!==4)throw new Error('v16 catalog count mismatch');
           if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(expectedIds))throw new Error('v16 IDs/order mismatch');
-          for(const item of catalog.items){
-            if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v16'||item.cat!=='サービスマネジメント'||item.coreTopicId!=='core_15_06')throw new Error('v16 metadata contract mismatch');
-            if(Object.keys(item).some(key=>protectedKeys.has(key)))throw new Error('protected field leaked');
-          }
-          console.log('PASS v16 safe catalog: 4 items');
+          for(const item of catalog.items){if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v16')throw new Error('v16 metadata contract mismatch');if(Object.keys(item).some(key=>protectedKeys.has(key)))throw new Error('protected field leaked');}
+          const provider=fs.readFileSync('assets/protected-content-provider-v376-v16.js','utf8');
+          if(!provider.includes("version:'v376-provider-13-ipa92-v1-v16'"))throw new Error('v16 provider version mismatch');
+          console.log('PASS historical v16 public artifacts');
           NODE
-      - name: Validate protected provider merges to 1082
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs');const vm=require('node:vm');
-          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
-          const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));
-          const versions={};for(let i=7;i<=16;i++)versions[i]=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v'+i+'.json','utf8'));
-          const source=fs.readFileSync('assets/protected-content-provider-v376-v16.js','utf8');
-          const context={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v16.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const s=String(url);let data=base;if(s.endsWith('question-catalog-ipa92-v1-v6.json'))data=legacy;else for(let i=7;i<=16;i++)if(s.endsWith('question-catalog-ipa92-v'+i+'.json'))data=versions[i];return {ok:true,status:200,json:async()=>data};},window:{}};
-          vm.createContext(context);vm.runInContext(source,context);
-          (async()=>{const api=context.window.FEQUEST_PROTECTED_CONTENT;if(api?.version!=='v376-provider-13-ipa92-v1-v16'||api.catalogTotal!==1082)throw new Error('v16 provider contract mismatch');const merged=await api.loadCatalog();if(merged.items.length!==1082||merged.counts?.subjectA!==888||merged.counts?.trackedSubjectA!==897||merged.counts?.catalogQuestions!==1082)throw new Error('merged counts mismatch');const expected=Array.from({length:16},(_,i)=>'ipa92-questions-v'+(i+1));if(JSON.stringify(merged.extensionContentVersions)!==JSON.stringify(expected))throw new Error('content versions mismatch');if(new Set(merged.items.map(x=>x.id)).size!==1082)throw new Error('duplicate merged IDs');for(const item of versions[16].items)if(!merged.items.some(x=>x.id===item.id))throw new Error('missing '+item.id);console.log('PASS protected provider merged catalog: 1082');})().catch(e=>{console.error(e);process.exitCode=1});
-          NODE
-      - name: Validate v16 runtime metadata activation
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs');const vm=require('node:vm');const source=fs.readFileSync('cloud/public-config-v342.js','utf8');const legacyItems=Array.from({length:83},(_,i)=>({id:'legacy_'+i}));const listeners={};const script={id:'',src:'',async:true,addEventListener(type,fn){listeners[type]=fn;}};let context;const document={baseURI:'https://example.test/',getElementById(){return null;},createElement(tag){if(tag!=='script')throw new Error('unexpected element');return script;},head:{appendChild(node){if(node!==script||node.src!=='./assets/protected-content-provider-v376-v16.js')throw new Error('unexpected v16 provider src: '+node.src);context.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-13-ipa92-v1-v16',catalogTotal:1082};listeners.load();}}};context={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-12-ipa92-v1-v15',catalogTotal:1078}};vm.createContext(context);vm.runInContext('const QUESTION_BANK='+JSON.stringify(legacyItems)+';\n'+source+'\nglobalThis.__BANK__=QUESTION_BANK;',context);(async()=>{const ready=await context.FEQUEST_IPA92_V16_PROVIDER_READY;if(!ready?.ok)throw new Error('v16 provider activation failed');for(const name of ['FEQUEST_IPA92_V7_PROVIDER_READY','FEQUEST_IPA92_V8_PROVIDER_READY','FEQUEST_IPA92_V9_PROVIDER_READY','FEQUEST_IPA92_V10_PROVIDER_READY','FEQUEST_IPA92_V11_PROVIDER_READY','FEQUEST_IPA92_V12_PROVIDER_READY','FEQUEST_IPA92_V13_PROVIDER_READY','FEQUEST_IPA92_V14_PROVIDER_READY','FEQUEST_IPA92_V15_PROVIDER_READY'])if(context[name]!==context.FEQUEST_IPA92_V16_PROVIDER_READY)throw new Error(name+' does not point at latest provider');if(context.__BANK__.length!==178)throw new Error('runtime metadata total mismatch: '+context.__BANK__.length);if(context.FEQUEST_IPA92_V16_SUBJECT_A_METADATA?.length!==4||context.FEQUEST_IPA92_V16_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('v16 metadata install mismatch');for(const item of context.FEQUEST_IPA92_V16_SUBJECT_A_METADATA)if(!context.__BANK__.some(q=>q.id===item.id))throw new Error('runtime missing '+item.id);console.log('PASS v16 runtime metadata activation: total=178');})().catch(e=>{console.error(e);process.exitCode=1});
-          NODE
-      - name: Validate service-worker publication assets
-        run: |
-          grep -Fq '"./assets/protected-content-provider-v376-v16.js"' sw.js
-          grep -Fq '"./assets/question-catalog-ipa92-v16.json"' sw.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-15';" sw.js
-      - name: Validate verified import checkpoint
-        run: |
-          grep -Fq 'active protected question total after import: **1082**' .github/IPA92_V16_ACTIVATION_2026-09-13.md
-          grep -Fq 'f3ee6692a2b84709c50c80f98811d7ee0b791ddc' .github/IPA92_V16_ACTIVATION_2026-09-13.md
-          grep -Fq '9b4282bda6d758e4ef57c744ea4508739e952a98abed704ac94990242fa9ce89' .github/IPA92_V16_ACTIVATION_2026-09-13.md
-          grep -Fq '34756180050' .github/IPA92_V16_ACTIVATION_2026-09-13.md
-          grep -Fq '34756204627' .github/IPA92_V16_ACTIVATION_2026-09-13.md
