@@ -4,11 +4,16 @@
 const GATE_URL='https://gkvgxnkoypypikxtyeoz.supabase.co/functions/v1/fequest-question-gate-v376';
 const SCRIPT_URL=document.currentScript?.src||document.baseURI;
 const CATALOG_URL=new URL('question-catalog-v376.json',SCRIPT_URL).toString();
-const IPA92_CATALOG_URL=new URL('question-catalog-ipa92-v1.json',SCRIPT_URL).toString();
+const IPA92_CATALOG_URL=new URL('question-catalog-ipa92-v1-v6.json',SCRIPT_URL).toString();
 const BASE_CATALOG_VERSION='v376-catalog-1';
-const IPA92_CATALOG_VERSION='ipa92-catalog-v1';
+const IPA92_CATALOG_VERSION='ipa92-catalog-v1-v6';
+const IPA92_CONTENT_VERSION='ipa92-questions-v1-v6';
+const IPA92_CONTENT_VERSIONS=Object.freeze([
+  'ipa92-questions-v1','ipa92-questions-v2','ipa92-questions-v3',
+  'ipa92-questions-v4','ipa92-questions-v5','ipa92-questions-v6'
+]);
 const BASE_CATALOG_TOTAL=904;
-const IPA92_CATALOG_TOTAL=13;
+const IPA92_CATALOG_TOTAL=83;
 const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;
 const ACCESS_SESSION_KEY='fequest_beta_access_v376';
 const MAX_BATCH=20;
@@ -120,6 +125,10 @@ function safeIpa92CatalogItem(item){
   return typeof item.cat==='string'&&typeof item.concept==='string'&&/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||''));
 }
 
+function sameStringArray(actual,expected){
+  return Array.isArray(actual)&&actual.length===expected.length&&actual.every((value,index)=>value===expected[index]);
+}
+
 function mergedCounts(baseCounts){
   const counts={...(baseCounts&&typeof baseCounts==='object'?baseCounts:{})};
   counts.subjectA=Number(counts.subjectA||0)+IPA92_CATALOG_TOTAL;
@@ -135,7 +144,12 @@ async function loadCatalog(){
         throw new Error('question_catalog_invalid');
       }
       if(!catalog.items.every(safeCatalogItem))throw new Error('question_catalog_invalid');
-      if(ipa92?.version!==IPA92_CATALOG_VERSION||ipa92?.contentVersion!=='ipa92-questions-v1'||!Array.isArray(ipa92.items)||ipa92.items.length!==IPA92_CATALOG_TOTAL){
+      if(
+        ipa92?.version!==IPA92_CATALOG_VERSION||
+        ipa92?.contentVersion!==IPA92_CONTENT_VERSION||
+        !sameStringArray(ipa92?.contentVersions,IPA92_CONTENT_VERSIONS)||
+        !Array.isArray(ipa92.items)||ipa92.items.length!==IPA92_CATALOG_TOTAL
+      ){
         throw new Error('ipa92_question_catalog_invalid');
       }
       if(!ipa92.items.every(safeIpa92CatalogItem))throw new Error('ipa92_question_catalog_invalid');
@@ -150,6 +164,7 @@ async function loadCatalog(){
         ...catalog,
         version:`${BASE_CATALOG_VERSION}+${IPA92_CATALOG_VERSION}`,
         extensionContentVersion:ipa92.contentVersion,
+        extensionContentVersions:Object.freeze([...ipa92.contentVersions]),
         counts:mergedCounts(catalog.counts),
         items:Object.freeze(items),
       });
@@ -297,7 +312,7 @@ async function resumeTraceTail(questionId){
 }
 
 window.FEQUEST_PROTECTED_CONTENT=Object.freeze({
-  version:'v376-provider-2-ipa92',
+  version:'v376-provider-3-ipa92-v1-v6',
   maxBatch:MAX_BATCH,
   maxCache:MAX_CACHE,
   catalogTotal:MERGED_CATALOG_TOTAL,
