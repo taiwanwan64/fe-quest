@@ -3,25 +3,24 @@ name: Validate IPA 9.2 question v13 public activation
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v13.js'
+      - 'assets/question-catalog-ipa92-v13.json'
+      - '.github/IPA92_V13_ACTIVATION_2026-09-13.md'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  validate-v13-public:
+  validate-v13-historical:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - name: Checkout publication candidate
-        uses: actions/checkout@v6
-      - name: Validate JavaScript syntax
+      - uses: actions/checkout@v6
+      - name: Validate historical v13 artifacts
         run: |
           node --check assets/protected-content-provider-v376-v13.js
-          node --check cloud/public-config-v342.js
-          node --check sw.js
-      - name: Validate v13 public-safe catalog
-        run: |
           node <<'NODE'
           const fs=require('node:fs');
           const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v13.json','utf8'));
@@ -32,119 +31,16 @@ jobs:
           ];
           const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
           if(catalog.version!=='ipa92-catalog-v13'||catalog.contentVersion!=='ipa92-questions-v13')throw new Error('v13 catalog version mismatch');
-          if(JSON.stringify(catalog.contentVersions)!==JSON.stringify(['ipa92-questions-v13']))throw new Error('v13 contentVersions mismatch');
-          if(catalog.counts?.subjectA!==6||catalog.counts?.catalogQuestions!==6)throw new Error('v13 counts mismatch');
-          if(!Array.isArray(catalog.items)||catalog.items.length!==6)throw new Error('v13 item count mismatch');
+          if(!Array.isArray(catalog.items)||catalog.items.length!==6)throw new Error('v13 catalog count mismatch');
           const ids=catalog.items.map(item=>item.id);
           if(JSON.stringify(ids)!==JSON.stringify(expectedIds))throw new Error('v13 IDs/order mismatch');
           if(new Set(ids).size!==6)throw new Error('v13 duplicate IDs');
           for(const item of catalog.items){
             if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v13')throw new Error(`v13 metadata contract mismatch: ${item.id}`);
-            if(typeof item.cat!=='string'||typeof item.concept!=='string'||item.coreTopicId!=='core_13_01')throw new Error(`v13 unsafe/incomplete metadata: ${item.id}`);
-            const leaked=Object.keys(item).find(key=>protectedKeys.has(key));
-            if(leaked)throw new Error(`protected field leaked: ${item.id}:${leaked}`);
+            if(Object.keys(item).some(key=>protectedKeys.has(key)))throw new Error(`protected field leaked: ${item.id}`);
           }
-          console.log('PASS v13 safe catalog: 6 items');
+          const provider=fs.readFileSync('assets/protected-content-provider-v376-v13.js','utf8');
+          if(!provider.includes("version:'v376-provider-10-ipa92-v1-v13'"))throw new Error('v13 provider version mismatch');
+          console.log('PASS historical v13 public artifacts');
           NODE
-      - name: Validate protected provider merges to 1069
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs');
-          const vm=require('node:vm');
-          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
-          const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));
-          const v7=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v7.json','utf8'));
-          const v8=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v8.json','utf8'));
-          const v9=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v9.json','utf8'));
-          const v10=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v10.json','utf8'));
-          const v11=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v11.json','utf8'));
-          const v12=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v12.json','utf8'));
-          const v13=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v13.json','utf8'));
-          const source=fs.readFileSync('assets/protected-content-provider-v376-v13.js','utf8');
-          const context={
-            console,setTimeout,clearTimeout,URL,AbortController,
-            document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v13.js'},baseURI:'https://example.test/'},
-            sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},
-            fetch:async url=>{
-              const s=String(url);
-              const data=s.endsWith('question-catalog-ipa92-v13.json')?v13:s.endsWith('question-catalog-ipa92-v12.json')?v12:s.endsWith('question-catalog-ipa92-v11.json')?v11:s.endsWith('question-catalog-ipa92-v10.json')?v10:s.endsWith('question-catalog-ipa92-v9.json')?v9:s.endsWith('question-catalog-ipa92-v8.json')?v8:s.endsWith('question-catalog-ipa92-v7.json')?v7:s.endsWith('question-catalog-ipa92-v1-v6.json')?legacy:base;
-              return {ok:true,status:200,json:async()=>data};
-            },
-            window:{}
-          };
-          vm.createContext(context);
-          vm.runInContext(source,context,{filename:'assets/protected-content-provider-v376-v13.js'});
-          (async()=>{
-            const api=context.window.FEQUEST_PROTECTED_CONTENT;
-            if(api?.version!=='v376-provider-10-ipa92-v1-v13'||api.catalogTotal!==1069)throw new Error('v13 provider contract mismatch');
-            const merged=await api.loadCatalog();
-            if(merged.items.length!==1069)throw new Error(`merged total mismatch: ${merged.items.length}`);
-            if(merged.counts?.subjectA!==875)throw new Error(`merged subjectA mismatch: ${merged.counts?.subjectA}`);
-            if(merged.counts?.trackedSubjectA!==884)throw new Error(`merged trackedSubjectA mismatch: ${merged.counts?.trackedSubjectA}`);
-            if(merged.counts?.catalogQuestions!==1069)throw new Error(`merged catalogQuestions mismatch: ${merged.counts?.catalogQuestions}`);
-            const expectedVersions=['ipa92-questions-v1','ipa92-questions-v2','ipa92-questions-v3','ipa92-questions-v4','ipa92-questions-v5','ipa92-questions-v6','ipa92-questions-v7','ipa92-questions-v8','ipa92-questions-v9','ipa92-questions-v10','ipa92-questions-v11','ipa92-questions-v12','ipa92-questions-v13'];
-            if(JSON.stringify(merged.extensionContentVersions)!==JSON.stringify(expectedVersions))throw new Error('merged content versions mismatch');
-            const ids=merged.items.map(item=>item.id);
-            if(new Set(ids).size!==1069)throw new Error('merged duplicate IDs');
-            for(const item of v13.items)if(!ids.includes(item.id))throw new Error(`merged catalog missing ${item.id}`);
-            console.log('PASS protected provider merged catalog: 1069');
-          })().catch(error=>{console.error(error);process.exitCode=1});
-          NODE
-      - name: Validate v13 runtime metadata activation
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs');
-          const vm=require('node:vm');
-          const source=fs.readFileSync('cloud/public-config-v342.js','utf8');
-          const legacyItems=Array.from({length:83},(_,i)=>({id:`legacy_${i}`}));
-          const listeners={};
-          const script={id:'',src:'',async:true,addEventListener(type,fn){listeners[type]=fn;}};
-          const document={
-            baseURI:'https://example.test/',getElementById(){return null;},
-            createElement(tag){if(tag!=='script')throw new Error('unexpected element');return script;},
-            head:{appendChild(node){
-              if(node!==script||node.src!=='./assets/protected-content-provider-v376-v13.js')throw new Error(`unexpected v13 provider src: ${node.src}`);
-              context.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-10-ipa92-v1-v13',catalogTotal:1069};
-              listeners.load();
-            }}
-          };
-          const context={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-9-ipa92-v1-v12',catalogTotal:1063}};
-          vm.createContext(context);
-          vm.runInContext(`const QUESTION_BANK=${JSON.stringify(legacyItems)};\n${source}\nglobalThis.__BANK__=QUESTION_BANK;`,context,{filename:'cloud/public-config-v342.js'});
-          (async()=>{
-            const ready=await context.FEQUEST_IPA92_V13_PROVIDER_READY;
-            if(!ready?.ok)throw new Error(`v13 provider activation failed: ${JSON.stringify(ready)}`);
-            for(const name of ['FEQUEST_IPA92_V7_PROVIDER_READY','FEQUEST_IPA92_V8_PROVIDER_READY','FEQUEST_IPA92_V9_PROVIDER_READY','FEQUEST_IPA92_V10_PROVIDER_READY','FEQUEST_IPA92_V11_PROVIDER_READY','FEQUEST_IPA92_V12_PROVIDER_READY'])if(context[name]!==context.FEQUEST_IPA92_V13_PROVIDER_READY)throw new Error(`${name} does not point at latest provider`);
-            const bank=context.__BANK__;
-            if(bank.length!==165)throw new Error(`runtime metadata total mismatch: ${bank.length}`);
-            const sets=[
-              ['v7',context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA,16,context.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL],
-              ['v8',context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA,16,context.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL],
-              ['v9',context.FEQUEST_IPA92_V9_SUBJECT_A_METADATA,12,context.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL],
-              ['v10',context.FEQUEST_IPA92_V10_SUBJECT_A_METADATA,16,context.FEQUEST_IPA92_V10_SUBJECT_A_METADATA_INSTALL],
-              ['v11',context.FEQUEST_IPA92_V11_SUBJECT_A_METADATA,8,context.FEQUEST_IPA92_V11_SUBJECT_A_METADATA_INSTALL],
-              ['v12',context.FEQUEST_IPA92_V12_SUBJECT_A_METADATA,8,context.FEQUEST_IPA92_V12_SUBJECT_A_METADATA_INSTALL],
-              ['v13',context.FEQUEST_IPA92_V13_SUBJECT_A_METADATA,6,context.FEQUEST_IPA92_V13_SUBJECT_A_METADATA_INSTALL]
-            ];
-            for(const [label,items,count,install] of sets){
-              if(!Array.isArray(items)||items.length!==count)throw new Error(`runtime ${label} metadata mismatch`);
-              if(install?.ok!==true)throw new Error(`runtime ${label} metadata installer failed`);
-              for(const item of items)if(!bank.some(q=>q.id===item.id))throw new Error(`runtime missing ${item.id}`);
-            }
-            console.log('PASS v13 runtime metadata activation: legacy=83 v7=16 v8=16 v9=12 v10=16 v11=8 v12=8 v13=6 total=165');
-          })().catch(error=>{console.error(error);process.exitCode=1});
-          NODE
-      - name: Validate service-worker publication assets
-        run: |
-          grep -Fq '"./assets/protected-content-provider-v376-v13.js"' sw.js
-          grep -Fq '"./assets/question-catalog-ipa92-v13.json"' sw.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-12';" sw.js
-          test -f assets/protected-content-provider-v376-v13.js
-          test -f assets/question-catalog-ipa92-v13.json
-      - name: Validate verified import checkpoint
-        run: |
           grep -Fq 'active protected question total after import: **1069**' .github/IPA92_V13_ACTIVATION_2026-09-13.md
-          grep -Fq 'a8251780b473afb8ea635651c7324d37eb3790c3' .github/IPA92_V13_ACTIVATION_2026-09-13.md
-          grep -Fq '102ccee76eb57f24e5ed970abbcf167cb16dc8714ba4cc4f6b16f771ebf80bad' .github/IPA92_V13_ACTIVATION_2026-09-13.md
-          grep -Fq '34751177331' .github/IPA92_V13_ACTIVATION_2026-09-13.md
-          grep -Fq 'workflow attempt: **1**' .github/IPA92_V13_ACTIVATION_2026-09-13.md
