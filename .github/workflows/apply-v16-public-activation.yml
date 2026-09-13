@@ -6,6 +6,7 @@ on:
       - ipa92-v16-public-activation-20260913
     paths:
       - '.github/scripts/apply-v16-public-activation.cjs'
+      - '.github/scripts/repair-v16-public-activation.cjs'
       - '.github/workflows/apply-v16-public-activation.yml'
 
 permissions:
@@ -23,8 +24,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Apply public activation changes
-        run: node .github/scripts/apply-v16-public-activation.cjs
+      - name: Repair and apply public activation changes
+        run: node .github/scripts/repair-v16-public-activation.cjs
       - name: Commit transformed publication candidate
         run: |
           set -euo pipefail
