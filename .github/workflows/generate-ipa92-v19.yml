@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/generate-ipa92-v19.yml'
       - '.github/tools/generate-ipa92-v19.cjs'
+      - '.github/tools/run-generate-ipa92-v19.cjs'
 
 permissions:
   contents: write
@@ -23,7 +24,7 @@ jobs:
         with:
           node-version: '22'
       - name: Generate v19 activation files
-        run: node .github/tools/generate-ipa92-v19.cjs
+        run: node .github/tools/run-generate-ipa92-v19.cjs
       - name: Commit generated non-workflow and staged workflow files
         env:
           BRANCH: ipa92-v19-public-activation-20260914
