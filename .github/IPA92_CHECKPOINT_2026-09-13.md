@@ -7,12 +7,12 @@
 2026-09-13 の最新確認時点:
 
 - public repository: `taiwanwan64/fe-quest`
-- public main: `e2e1e4bd8b85bdcac922698c6f196fc9d034ee8f`
+- public main after v12 activation: `5eb23fd375b3ac811524afd0ef892bfdf1e020b8`
 - private repository: `taiwanwan64/fe-quest-private-source`
-- private main: `17fa3f92a8a569c7500794f4fe0b32b33caa6c53`
-- active protected questions: **1055**
+- private main: `e3920bb8178c7d85518c988d547776b9760fa410`
+- active protected questions: **1063**
 - active protected lessons: **130**
-- protected question runtime contract: baseline 904 + IPA Ver.9.2 v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 = **1055**
+- protected question runtime contract: baseline 904 + IPA Ver.9.2 v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 + v12 8 = **1063**
 - PWA cache remains `fe-quest-v377-12`
 
 Latest protected imports were performed through the existing `private main + workflow_dispatch + GitHub OIDC` path and verified in production.
@@ -39,27 +39,38 @@ Latest protected imports were performed through the existing `private main + wor
 - production total after import: **1055**
 - public-safe activation: PR #46, merge commit `e2e1e4bd8b85bdcac922698c6f196fc9d034ee8f`
 
-The first v11 import attempt failed before staging because the v11 import Edge Function did not yet exist. `fequest-ipa92-question-import-v11` was then deployed with the same GitHub OIDC trust boundary as prior batches and the failed workflow was rerun successfully. Production staging is clean and no failed-attempt rows remain.
+### Question batch v12
+
+- content version: `ipa92-questions-v12`
+- active count: 8
+- staging rows after finalization: 0
+- import manifest rows: 1
+- source commit: `e3920bb8178c7d85518c988d547776b9760fa410`
+- payload SHA-256: `736d2202b9ba1499975588ce33a1d906e8ffba640227de5707a51639670c3a82`
+- imported at: `2026-09-13 09:40:20.152+00`
+- import workflow run: `34749958968`, attempt 1 — success
+- production total after import: **1063**
+- public-safe activation: PR #48, merge commit `5eb23fd375b3ac811524afd0ef892bfdf1e020b8`
 
 Protected stems/options/answers/explanations/hints remain private. The public repository contains only safe metadata and the browser provider contract.
 
 ## Pages / CI state
 
-PR #46 passed the current latest-provider and publication checks before merge:
+PR #48 passed both current release checks before merge:
 
-- `Validate IPA 9.2 question v11 public activation`
-- `Validate sanitized FE QUEST publication`
+- `Validate IPA 9.2 question v12 public activation` — run `34750312043` — success
+- `Validate sanitized FE QUEST publication` — run `34750312020` — success
 
-The v10 validator was converted to an immutable historical-artifact check during the v11 activation, matching the existing v7/v8/v9 pattern. Historical validators no longer treat an older provider as the latest runtime.
+The v11 validator was converted to an immutable historical-artifact check during the v12 activation, matching the existing historical-validator pattern. Historical readiness aliases now resolve to the latest provider rather than pinning callers to older catalogs.
 
-Post-merge Pages run #62 (`34748125505`) completed successfully for main `e2e1e4bd...`.
+Post-merge Pages run #64 (`34750357918`) completed successfully for main `5eb23fd375b3ac811524afd0ef892bfdf1e020b8`.
 
 The latest provider contract is:
 
-- provider version: `v376-provider-8-ipa92-v1-v11`
-- merged catalog total: **1055**
-- extension content versions: v1 through v11
-- historical v7/v8/v9/v10 readiness aliases resolve to the latest provider
+- provider version: `v376-provider-9-ipa92-v1-v12`
+- merged catalog total: **1063**
+- extension content versions: v1 through v12
+- historical v7/v8/v9/v10/v11 readiness aliases resolve to the latest provider
 
 ## Official IPA Ver.9.2 inventory milestone
 
@@ -109,15 +120,28 @@ Boundary-value analysis and equivalence partitioning were deliberately not dupli
 - cloud-native / cloud-by-default
 - test driver and stub/driver distinction
 
-The reduced SR-P0 remainder explicitly named after v10 has now been semantically reviewed and, where a genuine direct-practice gap was confirmed, remediated by v11.
+The reduced SR-P0 remainder explicitly named after v10 has been semantically reviewed and, where a genuine direct-practice gap was confirmed, remediated by v11.
+
+### v12 remediation — first SR-P1 bundle
+
+After semantic review of the live 1055-question / 130-lesson corpus, v12 adds direct practice for:
+
+- SysML and the SysML/UML distinction
+- user stories and acceptance criteria
+- UML use-case diagrams
+- mockups
+- prototyping
+- mockup/prototype distinction
+
+Bidirectional traceability was reviewed but deliberately not duplicated. Existing lessons and direct practice already teach semantic traceability from requirements through design and testing even though the exact official phrase is sparse.
 
 ## Completion gates remain closed
 
 `.github/ipa92-coverage.json` intentionally remains `inventory_state: partial-baseline` and `inventory_complete: false`.
 
-Large-classification traversal and the targeted P0 remediation sequence are complete, but **full coverage is not yet verified**. The following remain open:
+Large-classification traversal, targeted P0 remediation, and the first SR-P1 requirements-engineering review bundle are complete, but **full coverage is not yet verified**. The following remain open:
 
-- semantic review of remaining zero/mixed/lesson-only findings outside the completed targeted P0 bundle
+- semantic review of remaining zero/mixed/lesson-only findings outside completed bundles
 - practice-density verification
 - required interactive/visual verification
 - iPhone-equivalent visual/touch/scroll QA
@@ -127,11 +151,11 @@ Do not promote a topic to `verified-covered` merely because it is source-ready, 
 
 ## Next work order
 
-1. Continue semantic review of the remaining zero/mixed/lesson-only evidence-ledger findings, prioritizing exam-relevant concepts with weak direct-practice evidence.
-2. Do not create new questions from exact-term misses alone; inspect current protected questions and lesson payloads semantically first.
-3. Begin practice-density verification for classifications whose direct conceptual coverage is already strong, separating breadth coverage from enough repetition to learn reliably.
+1. Continue SR-P1 semantic review with the development-process variants bundle: low-code/no-code, pair/mob programming, KPT, and YAGNI. Inspect current protected questions and lesson payloads semantically before creating anything.
+2. For each remaining SR-P1 cluster, prefer semantic equivalence and representative coverage over one-question-per-term expansion. Create a small original private batch only for confirmed learning gaps.
+3. Begin practice-density verification for classifications whose direct conceptual coverage is already strong, separating syllabus breadth from enough repetition to learn reliably.
 4. Expand mobile/touch/iPhone-equivalent QA and verify required interactive/visual learning paths without weakening non-interactive fallbacks.
-5. Verify learning-history and save/restore compatibility across the enlarged 1055-question catalog before any coverage-complete promotion.
+5. Verify learning-history and save/restore compatibility across the enlarged **1063-question** catalog before any coverage-complete promotion.
 
 ## Safety rules
 
