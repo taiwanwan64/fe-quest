@@ -23,43 +23,65 @@
     {"id":"ipa92_a_shortest_path_002","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"ベルマンフォード法","coreTopicId":"core_03_03","qualityAudit":"ipa92-original-v7"}
   ].map(item=>Object.freeze(item)));
 
-  function installV7Metadata(){
+  const IPA92_V8_METADATA=Object.freeze([
+    {"id":"ipa92_a_sli_slo_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"SLIとSLO","coreTopicId":"core_15_02","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sli_slo_002","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"SLO","coreTopicId":"core_15_02","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_service_request_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"サービス要求","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_known_error_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"既知の誤り","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_model_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"SaaS","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_model_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"PaaSとIaaS","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_deploy_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"パブリッククラウドとプライベートクラウド","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_deploy_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"ハイブリッドクラウド","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_xai_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"XAI","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hitl_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"HITL","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hallucination_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"ハルシネーション","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hallucination_002","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"生成AI出力の検証","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_privacy_anon_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"匿名加工情報","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_privacy_pseudo_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"仮名加工情報","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sme_fairtrade_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"中小受託取引適正化法","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sme_fairtrade_002","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"情報成果物作成委託","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v8"}
+  ].map(item=>Object.freeze(item)));
+
+  function installMetadata(items,label){
     try{
-      if(IPA92_V7_METADATA.length!==16)return Object.freeze({ok:false,status:'v7-safe-metadata-invalid',added:0,total:IPA92_V7_METADATA.length});
-      if(typeof QUESTION_BANK==='undefined'||!Array.isArray(QUESTION_BANK))return Object.freeze({ok:false,status:'subject-a-bank-unavailable',added:0,total:IPA92_V7_METADATA.length});
+      if(!Array.isArray(items)||items.length!==16)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
+      if(typeof QUESTION_BANK==='undefined'||!Array.isArray(QUESTION_BANK))return Object.freeze({ok:false,status:'subject-a-bank-unavailable',added:0,total:items.length});
       const existing=new Set(QUESTION_BANK.map(item=>item?.id).filter(Boolean));
       let added=0;
-      for(const item of IPA92_V7_METADATA){
+      for(const item of items){
         if(existing.has(item.id))continue;
         QUESTION_BANK.push({...item});
         existing.add(item.id);
         added++;
       }
-      const complete=IPA92_V7_METADATA.every(item=>existing.has(item.id));
-      return Object.freeze({ok:complete,status:complete?'installed':'incomplete',added,total:IPA92_V7_METADATA.length});
+      const complete=items.every(item=>existing.has(item.id));
+      return Object.freeze({ok:complete,status:complete?'installed':'incomplete',added,total:items.length});
     }catch(error){
-      return Object.freeze({ok:false,status:'install-failed',added:0,total:IPA92_V7_METADATA.length,error:String(error?.message||error)});
+      return Object.freeze({ok:false,status:'install-failed',added:0,total:items?.length||0,error:String(error?.message||error)});
     }
   }
+  function installV7Metadata(){return installMetadata(IPA92_V7_METADATA,'v7')}
+  function installV8Metadata(){return installMetadata(IPA92_V8_METADATA,'v8')}
+  function finishLatestActivation(reused){
+    const v7Install=installV7Metadata();
+    const v8Install=installV8Metadata();
+    root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
+    root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1019;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install});
+  }
 
-  function activateV7Provider(){
+  function activateV8Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-4-ipa92-v1-v7'){
-      const install=installV7Metadata();
-      root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=install;
-      return Promise.resolve({ok:install.ok,status:install.status,reused:true});
-    }
-    const id='fequest-ipa92-v7-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v8-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
-        const finish=()=>{
-          const install=installV7Metadata();
-          root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=install;
-          resolve({ok:install.ok,status:install.status,reused:true});
-        };
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-4-ipa92-v1-v7')return finish();
+        const finish=()=>resolve(finishLatestActivation(true));
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -67,20 +89,20 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v7.js';
+      script.src='./assets/protected-content-provider-v376-v8.js';
       script.async=false;
-      script.addEventListener('load',()=>{
-        const install=installV7Metadata();
-        root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=install;
-        resolve({ok:install.ok&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1003,status:install.ok?'activated':'metadata-install-failed',reused:false});
-      },{once:true});
+      script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
       (d.head||d.body||d.documentElement).appendChild(script);
     });
   }
 
   root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA=IPA92_V7_METADATA;
-  root.FEQUEST_IPA92_V7_PROVIDER_READY=activateV7Provider();
+  root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA=IPA92_V8_METADATA;
+  const latestProviderReady=activateV8Provider();
+  root.FEQUEST_IPA92_V8_PROVIDER_READY=latestProviderReady;
+  // Backward-compatible readiness alias: callers that previously awaited v7 now wait for the latest provider.
+  root.FEQUEST_IPA92_V7_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_PUBLIC_CLOUD_CONFIG_V342=Object.freeze({
     version:1,
     enabled:true,
