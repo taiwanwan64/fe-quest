@@ -6,7 +6,9 @@
 
   const PUBLIC_ENHANCEMENT_PATHS=Object.freeze([
     './assets/ipa92-sort-lab-v377.js',
-    './assets/ipa92-graph-lab-v377.js'
+    './assets/ipa92-graph-lab-v377.js',
+    './assets/ipa92-modeling-lab-v377.js',
+    './assets/ipa92-memory-lab-v377.js'
   ]);
   // Public-safe metadata only. Protected stems/options/answers/explanations remain in Supabase.
   // This script is intentionally loaded after app-v377.js so it can extend the existing lexical QUESTION_BANK
