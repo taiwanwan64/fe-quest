@@ -42,9 +42,24 @@
     {"id":"ipa92_a_sme_fairtrade_002","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"情報成果物作成委託","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v8"}
   ].map(item=>Object.freeze(item)));
 
-  function installMetadata(items,label){
+  const IPA92_V9_METADATA=Object.freeze([
+    {"id":"ipa92_a_itil_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"ITIL","coreTopicId":"core_15_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_jis20000_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"JIS Q 20000","coreTopicId":"core_15_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_cab_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"CAB","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_pir_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"PIR","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_devops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"DevOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_devsecops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"DevSecOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_tdd_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"テスト駆動開発（TDD）","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_sre_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"SRE","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_mlops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"MLOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_gdpr_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"GDPR","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_jis15001_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"JIS Q 15001","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_esign_law_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"電子署名法","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"}
+  ].map(item=>Object.freeze(item)));
+
+  function installMetadata(items,label,expectedTotal){
     try{
-      if(!Array.isArray(items)||items.length!==16)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
+      if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
       if(typeof QUESTION_BANK==='undefined'||!Array.isArray(QUESTION_BANK))return Object.freeze({ok:false,status:'subject-a-bank-unavailable',added:0,total:items.length});
       const existing=new Set(QUESTION_BANK.map(item=>item?.id).filter(Boolean));
       let added=0;
@@ -60,28 +75,31 @@
       return Object.freeze({ok:false,status:'install-failed',added:0,total:items?.length||0,error:String(error?.message||error)});
     }
   }
-  function installV7Metadata(){return installMetadata(IPA92_V7_METADATA,'v7')}
-  function installV8Metadata(){return installMetadata(IPA92_V8_METADATA,'v8')}
+  function installV7Metadata(){return installMetadata(IPA92_V7_METADATA,'v7',16)}
+  function installV8Metadata(){return installMetadata(IPA92_V8_METADATA,'v8',16)}
+  function installV9Metadata(){return installMetadata(IPA92_V9_METADATA,'v9',12)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
+    const v9Install=installV9Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1019;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install});
+    root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1031;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install});
   }
 
-  function activateV8Provider(){
+  function activateV9Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v8-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v9-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-5-ipa92-v1-v8')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -89,7 +107,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v8.js';
+      script.src='./assets/protected-content-provider-v376-v9.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -99,9 +117,11 @@
 
   root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA=IPA92_V7_METADATA;
   root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA=IPA92_V8_METADATA;
-  const latestProviderReady=activateV8Provider();
+  root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA=IPA92_V9_METADATA;
+  const latestProviderReady=activateV9Provider();
+  root.FEQUEST_IPA92_V9_PROVIDER_READY=latestProviderReady;
+  // Backward-compatible readiness aliases: historical callers wait for the latest provider.
   root.FEQUEST_IPA92_V8_PROVIDER_READY=latestProviderReady;
-  // Backward-compatible readiness alias: callers that previously awaited v7 now wait for the latest provider.
   root.FEQUEST_IPA92_V7_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_PUBLIC_CLOUD_CONFIG_V342=Object.freeze({
     version:1,
