@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1047 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1069 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -18,7 +18,7 @@ These priorities are review order only; they are not claims about exam frequency
 
 ## Completed first-pass semantic review / remediation
 
-Broader neighboring concepts already covered in the corpus were not duplicated solely because an exact official term was absent.
+Broader neighboring concepts already covered in the corpus were not duplicated solely because an exact official term was absent. Direct-practice additions below are **not automatically `verified-covered`**; practice-density, visual/interactive need, mobile QA, and learning-history gates remain separate.
 
 ### Added in v8
 
@@ -49,25 +49,47 @@ Broader neighboring concepts already covered in the corpus were not duplicated s
 
 Boundary-value analysis and equivalence partitioning were reviewed but not duplicated because production already contained direct semantic practice under the synonymous Japanese terms `境界値分析` and `同値分割`.
 
-These artifacts are now direct-practice additions, but they are **not automatically `verified-covered`**. Practice-density, visual/interactive need, mobile QA, and learning-history gates remain separate.
+### Added in v11 — remaining SR-P0 bundle
 
-## SR-P0 — reduced semantic-review remainder
+- 情報流通プラットフォーム対処法 / 発信者情報
+- cloud-native / cloud-by-default
+- test driver and stub/driver distinction
+
+The former SR-P0 queue has therefore completed its first semantic-review/remediation pass. This does not promote those topics to `verified-covered`.
+
+### Added/reviewed in v12 — requirements engineering
+
+- SysML / SysML and UML distinction
+- user stories / acceptance criteria
+- use-case diagrams
+- mockups
+- prototyping / mockup-prototype distinction
+- bidirectional traceability was reviewed but not duplicated because requirements-to-design/test traceability already existed semantically in current lessons and direct practice
+
+### Added in v13 — development-process variants
+
+- low-code development
+- no-code development
+- pair programming
+- mob programming
+- KPT
+- YAGNI
+
+Existing agile/Scrum/DevOps/TDD and neighboring development-model coverage was deliberately retained rather than expanded redundantly.
+
+## SR-P0 — first pass complete
+
+The former immediate SR-P0 clusters for UI/accessibility, database architecture, network/access control, secure boot, test-driver variants, cloud modernization terminology, and platform/provider legal terminology have all received semantic review. Confirmed gaps were remediated through v10–v11; already-covered concepts were not duplicated.
+
+SR-P0 is therefore no longer the immediate content-expansion queue. Practice-density and the other final verification gates remain open independently.
+
+## SR-P1 — remaining semantic-review pass
+
+The requirements-engineering and development-process-variants clusters have completed their first semantic-review/remediation pass through v12–v13. The remaining SR-P1 queue is:
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Test design: driver and remaining white-box variants | stub and condition coverage now have direct practice; broader test content also exists | inspect driver/top-down-vs-bottom-up and other remaining variants semantically before adding anything |
-| Cloud-native / cloud-by-default | service/deployment models are directly covered, but modernization terminology remains weak | decide whether parent cloud concepts are sufficient or a direct item is warranted |
-| Platform/provider legal update | 電子署名法 and 中小受託取引適正化法 have direct practice; platform-provider legal terminology remains weak | review 情報流通プラットフォーム対処法 and neighboring provider-liability/disclosure material |
-
-The former SR-P0 UI/accessibility, database-architecture, network-access/control, and secure-boot clusters were remediated in v10 and therefore leave this immediate semantic-review queue. That does **not** promote them to `verified-covered`.
-
-## SR-P1 — second semantic-review pass
-
-| Cluster | Current evidence signal | Review target |
-|---|---|---|
-| Requirements engineering: SysML, user stories, bidirectional traceability | weak/zero exact evidence | verify broader requirements and modeling coverage |
-| Development process variants: low-code/no-code, pair/mob programming, KPT/YAGNI | zero evidence | determine independent FE-level practice need vs parent agile coverage |
-| Project-management detail: PMO, CCB, WBS dictionary, responsibility matrix, COCOMO | zero/thin evidence | compare against existing WBS/EVM/PERT/Gantt/project-management material |
+| Project-management detail: PMO, CCB, WBS dictionary, responsibility matrix, COCOMO | zero/thin exact evidence | compare against existing WBS/EVM/PERT/Gantt/project-management material and add only distinctions that are genuinely missing |
 | Service/facility: AIOps, job scheduling, hot/cold aisle, MDF, Green IT | zero evidence | confirm whether parent operations/facility topics already provide sufficient conceptual coverage |
 | IT governance/internal control: COSO, CSA, JIS Q 38500, general IT controls | zero evidence | inspect system-audit/internal-control core topics for equivalent wording |
 | Enterprise architecture: SOA, WFA, Zachman framework | zero evidence | inspect EA/system-strategy lesson structure before remediation |
@@ -99,10 +121,14 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-The next pass should stay narrow and review the remaining SR-P0 items before moving into SR-P1:
+Next, review the **project-management detail** cluster narrowly:
 
-- platform/provider law: 情報流通プラットフォーム対処法 and closely related disclosure/removal/provider-liability concepts;
-- cloud terminology: cloud-native and cloud-by-default, checking whether existing SaaS/PaaS/IaaS and deployment-model practice is already sufficient;
-- test design: driver/top-down-vs-bottom-up and any remaining white-box variants that survive semantic review.
+- PMO
+- CCB
+- WBS dictionary
+- responsibility matrix
+- COCOMO
 
-If these concepts are already adequately taught by broader wording, they should be recorded as semantic coverage rather than given redundant questions.
+This review should first compare the live project-management questions and lessons against existing WBS, EVM, PERT, Gantt, risk, scope, and change-control teaching. Add direct practice only for concepts whose distinguishing decision rule is genuinely absent.
+
+In parallel, begin practice-density verification on classifications whose breadth is already strong. This is a separate question from whether a syllabus term exists at least once: the goal is to identify topics that need more varied repetition for reliable learning without turning the catalog into repetitive term-definition drills.
