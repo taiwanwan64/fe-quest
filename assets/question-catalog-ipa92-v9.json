@@ -1,0 +1,20 @@
+{
+  "version": "ipa92-catalog-v9",
+  "contentVersion": "ipa92-questions-v9",
+  "contentVersions": ["ipa92-questions-v9"],
+  "counts": {"subjectA": 12, "catalogQuestions": 12},
+  "items": [
+    {"id":"ipa92_a_itil_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"ITIL","coreTopicId":"core_15_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_jis20000_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"JIS Q 20000","coreTopicId":"core_15_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_cab_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"CAB","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_pir_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"PIR","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_devops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"DevOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_devsecops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"DevSecOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_tdd_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"テスト駆動開発（TDD）","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_sre_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"SRE","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_mlops_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"MLOps","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_gdpr_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"GDPR","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_jis15001_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"JIS Q 15001","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"},
+    {"id":"ipa92_a_esign_law_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"電子署名法","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"}
+  ]
+}
