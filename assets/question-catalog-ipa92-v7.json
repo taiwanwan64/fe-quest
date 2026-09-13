@@ -1,0 +1,24 @@
+{
+  "version": "ipa92-catalog-v7",
+  "contentVersion": "ipa92-questions-v7",
+  "contentVersions": ["ipa92-questions-v7"],
+  "counts": {"subjectA": 16, "catalogQuestions": 16},
+  "items": [
+    {"id":"ipa92_a_mm1_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"M/M/1モデルの利用率","coreTopicId":"core_02_06","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_mm1_002","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"M/M/1モデルの平均系内数","coreTopicId":"core_02_06","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_charcode_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"Unicodeと文字コード","coreTopicId":"core_02_08","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_charcode_002","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"UTF-8","coreTopicId":"core_02_08","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_risc_cisc_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"RISC","coreTopicId":"core_04_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_risc_cisc_002","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"CISC","coreTopicId":"core_04_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_cache_write_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"ライトスルー方式","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_cache_write_002","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"メモリインターリーブ","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_kernel_arch_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"マイクロカーネル","coreTopicId":"core_06_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_kernel_arch_002","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"モノリシックカーネル","coreTopicId":"core_06_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_errorcode_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"ハミング符号","coreTopicId":"core_10_09","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_errorcode_002","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"チェックサム","coreTopicId":"core_10_09","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_balanced_tree_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"AVL木","coreTopicId":"core_03_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_balanced_tree_002","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"B木","coreTopicId":"core_03_01","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_shortest_path_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"ダイクストラ法","coreTopicId":"core_03_03","qualityAudit":"ipa92-original-v7"},
+    {"id":"ipa92_a_shortest_path_002","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"ベルマンフォード法","coreTopicId":"core_03_03","qualityAudit":"ipa92-original-v7"}
+  ]
+}
