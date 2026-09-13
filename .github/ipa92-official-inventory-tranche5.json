@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "auditId": "ipa92-official-tranche5-20260913",
+  "authority": {
+    "organization": "IPA",
+    "exam": "基本情報技術者試験（レベル2）",
+    "syllabusVersion": "9.2",
+    "published": "2026-01-08",
+    "officialIndex": "https://www.ipa.go.jp/shiken/syllabus/gaiyou.html",
+    "officialPdf": "https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf"
+  },
+  "productionSnapshot": {
+    "publicMain": "1584da57d063ce46b5907c2811401ee60e27894e",
+    "privateMain": "c7ed16e435b75a3c45b384fcd215319aab52dd1b",
+    "activeQuestions": 1003,
+    "activeLessons": 130,
+    "note": "Uses the verified production snapshot after question batch v7 activation."
+  },
+  "method": {
+    "scope": "大分類5 プロジェクトマネジメント / 中分類14",
+    "unit": "official example-term probe plus semantic follow-up",
+    "questionEvidence": "case-insensitive term occurrence across active question metadata/stem/options/explanation/hint/choice explanations/extra",
+    "lessonEvidence": "case-insensitive term occurrence across active protected lesson payload",
+    "warning": "Zero exact-term hits are not proof of semantic absence. Broad project-management questions may express the same concept without the official example term, so no-direct-evidence remains a review queue rather than a final missing verdict.",
+    "statuses": ["direct-covered", "mixed-evidence", "lesson-only", "no-direct-evidence"]
+  },
+  "findings": [
+    {"id":"FE92-T5-FOUND-PMBOK","section":"プロジェクトマネジメント/基礎","officialFocus":"PMBOK","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-FOUND-JIS21500","section":"プロジェクトマネジメント/基礎","officialFocus":"JIS Q 21500","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-FOUND-PMO","section":"プロジェクトマネジメント/基礎","officialFocus":"PMO","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-FOUND-SPONSOR","section":"プロジェクトマネジメント/基礎","officialFocus":"プロジェクトスポンサー","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-FOUND-TAILORING","section":"プロジェクトマネジメント/基礎","officialFocus":"テーラリング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-INT-CHARTER","section":"プロジェクトマネジメント/統合","officialFocus":"プロジェクト憲章","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T5-INT-CCB","section":"プロジェクトマネジメント/統合","officialFocus":"CCB","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-INT-BASELINE","section":"プロジェクトマネジメント/統合","officialFocus":"ベースライン","questionHits":1,"lessonHits":3,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T5-INT-LESSONS","section":"プロジェクトマネジメント/統合","officialFocus":"得た教訓","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-STK-REGISTER","section":"プロジェクトマネジメント/ステークホルダ","officialFocus":"ステークホルダ登録簿","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-STK-ANALYSIS","section":"プロジェクトマネジメント/ステークホルダ","officialFocus":"ステークホルダ分析","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-SCOPE-WBS","section":"プロジェクトマネジメント/スコープ","officialFocus":"WBS","questionHits":7,"lessonHits":9,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T5-SCOPE-WBS-DICT","section":"プロジェクトマネジメント/スコープ","officialFocus":"WBS辞書","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-SCOPE-WORK-PACKAGE","section":"プロジェクトマネジメント/スコープ","officialFocus":"ワークパッケージ","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-SCOPE-CREEP","section":"プロジェクトマネジメント/スコープ","officialFocus":"スコープクリープ","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+
+    {"id":"FE92-T5-RES-RAM","section":"プロジェクトマネジメント/資源","officialFocus":"責任分担マトリックス","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-RES-OBS","section":"プロジェクトマネジメント/資源","officialFocus":"OBS","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-TIME-PERT","section":"プロジェクトマネジメント/時間","officialFocus":"PERT","questionHits":4,"lessonHits":9,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T5-TIME-CPM","section":"プロジェクトマネジメント/時間","officialFocus":"CPM・クリティカルパス法","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-with-synonyms"},
+    {"id":"FE92-T5-TIME-GANTT","section":"プロジェクトマネジメント/時間","officialFocus":"ガントチャート","questionHits":5,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T5-TIME-MILESTONE","section":"プロジェクトマネジメント/時間","officialFocus":"マイルストーン","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T5-TIME-CRASHING","section":"プロジェクトマネジメント/時間","officialFocus":"クラッシング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-TIME-FAST-TRACK","section":"プロジェクトマネジメント/時間","officialFocus":"ファストトラッキング","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-COST-EVM","section":"プロジェクトマネジメント/コスト","officialFocus":"EVM","questionHits":4,"lessonHits":3,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T5-COST-FP","section":"プロジェクトマネジメント/コスト","officialFocus":"ファンクションポイント法","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-with-synonyms"},
+    {"id":"FE92-T5-COST-COCOMO","section":"プロジェクトマネジメント/コスト","officialFocus":"COCOMO","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-COST-BASELINE","section":"プロジェクトマネジメント/コスト","officialFocus":"コストベースライン","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-RISK-REGISTER","section":"プロジェクトマネジメント/リスク","officialFocus":"リスク登録簿","questionHits":2,"lessonHits":1,"status":"direct-covered","recommendedAction":"verification-only"},
+    {"id":"FE92-T5-RISK-QUAL","section":"プロジェクトマネジメント/リスク","officialFocus":"リスクの定性的分析","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-RISK-QUANT","section":"プロジェクトマネジメント/リスク","officialFocus":"リスクの定量的分析","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-QUAL-PLAN","section":"プロジェクトマネジメント/品質","officialFocus":"品質計画","questionHits":0,"lessonHits":1,"status":"lesson-only","recommendedAction":"add-direct-practice-after-review"},
+    {"id":"FE92-T5-QUAL-INSPECTION","section":"プロジェクトマネジメント/品質","officialFocus":"検査報告書","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-QUAL-PREVENTIVE","section":"プロジェクトマネジメント/品質","officialFocus":"予防処置","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-PROC-SUPPLIER","section":"プロジェクトマネジメント/調達","officialFocus":"供給者の選定","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-PROC-ORDER","section":"プロジェクトマネジメント/調達","officialFocus":"注文書","questionHits":1,"lessonHits":1,"status":"mixed-evidence","recommendedAction":"review-depth"},
+    {"id":"FE92-T5-PROC-STRATEGY","section":"プロジェクトマネジメント/調達","officialFocus":"調達戦略","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+
+    {"id":"FE92-T5-COMM-REPORT","section":"プロジェクトマネジメント/コミュニケーション","officialFocus":"進捗報告書","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-with-synonyms"},
+    {"id":"FE92-T5-COMM-PUSH","section":"プロジェクトマネジメント/コミュニケーション","officialFocus":"プッシュ型コミュニケーション","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-COMM-PULL","section":"プロジェクトマネジメント/コミュニケーション","officialFocus":"プル型コミュニケーション","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"},
+    {"id":"FE92-T5-COMM-CHANNEL","section":"プロジェクトマネジメント/コミュニケーション","officialFocus":"コミュニケーションチャネル","questionHits":0,"lessonHits":0,"status":"no-direct-evidence","recommendedAction":"semantic-review-then-targeted-content"}
+  ],
+  "summary": {
+    "findingCount": 40,
+    "directCovered": 5,
+    "mixedEvidence": 3,
+    "lessonOnly": 3,
+    "noDirectEvidence": 29,
+    "inventoryComplete": false,
+    "verifiedCoveredPromotions": 0
+  }
+}
