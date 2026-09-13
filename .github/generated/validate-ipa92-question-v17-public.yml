@@ -1,0 +1,37 @@
+name: Validate IPA 9.2 question v17 public activation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v17.js'
+      - 'assets/question-catalog-ipa92-v17.json'
+      - '.github/IPA92_V17_ACTIVATION_2026-09-14.md'
+      - '.github/workflows/validate-ipa92-question-v17-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v17-historical:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate historical v17 artifacts
+        run: |
+          node --check assets/protected-content-provider-v376-v17.js
+          node <<'NODE'
+          const fs=require('node:fs');
+          const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v17.json','utf8'));
+          const expectedIds=['ipa92_a_enterprise_architecture_001','ipa92_a_wfa_001','ipa92_a_soa_001','ipa92_a_zachman_framework_001'];
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          if(catalog.version!=='ipa92-catalog-v17'||catalog.contentVersion!=='ipa92-questions-v17')throw new Error('v17 catalog version mismatch');
+          if(!Array.isArray(catalog.items)||catalog.items.length!==4)throw new Error('v17 catalog count mismatch');
+          if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(expectedIds))throw new Error('v17 IDs/order mismatch');
+          for(const item of catalog.items){if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v17')throw new Error('v17 metadata contract mismatch');if(Object.keys(item).some(key=>protectedKeys.has(key)))throw new Error('protected field leaked');}
+          const provider=fs.readFileSync('assets/protected-content-provider-v376-v17.js','utf8');
+          if(!provider.includes("version:'v376-provider-14-ipa92-v1-v17'"))throw new Error('v17 provider version mismatch');
+          console.log('PASS historical v17 public artifacts');
+          NODE
