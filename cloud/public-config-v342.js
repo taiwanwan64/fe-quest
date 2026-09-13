@@ -87,6 +87,17 @@
     {"id":"ipa92_a_test_driver_002","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"スタブとドライバ","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v11"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V12_METADATA=Object.freeze([
+    {"id":"ipa92_a_sysml_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"SysML","coreTopicId":"core_12_02","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_sysml_002","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"SysMLとUML","coreTopicId":"core_12_02","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_user_story_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"ユーザーストーリー","coreTopicId":"core_12_02","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_user_story_002","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"ユーザーストーリーと受入条件","coreTopicId":"core_12_02","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_usecase_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"ユースケース図","coreTopicId":"core_12_03","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_mockup_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"モックアップ","coreTopicId":"core_12_03","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_prototype_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"プロトタイピング","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v12"},
+    {"id":"ipa92_a_mockup_prototype_001","sourcePool":"subject_a","cat":"ソフトウェア開発管理技術","difficulty":"standard","concept":"モックアップとプロトタイプ","coreTopicId":"core_13_01","qualityAudit":"ipa92-original-v12"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -110,32 +121,35 @@
   function installV9Metadata(){return installMetadata(IPA92_V9_METADATA,'v9',12)}
   function installV10Metadata(){return installMetadata(IPA92_V10_METADATA,'v10',16)}
   function installV11Metadata(){return installMetadata(IPA92_V11_METADATA,'v11',8)}
+  function installV12Metadata(){return installMetadata(IPA92_V12_METADATA,'v12',8)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
     const v9Install=installV9Metadata();
     const v10Install=installV10Metadata();
     const v11Install=installV11Metadata();
+    const v12Install=installV12Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
     root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA_INSTALL=v10Install;
     root.FEQUEST_IPA92_V11_SUBJECT_A_METADATA_INSTALL=v11Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1055;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install});
+    root.FEQUEST_IPA92_V12_SUBJECT_A_METADATA_INSTALL=v12Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-9-ipa92-v1-v12'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1063;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install});
   }
 
-  function activateV11Provider(){
+  function activateV12Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v11-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-9-ipa92-v1-v12')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v12-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-8-ipa92-v1-v11')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-9-ipa92-v1-v12')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -143,7 +157,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v11.js';
+      script.src='./assets/protected-content-provider-v376-v12.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -156,9 +170,11 @@
   root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA=IPA92_V9_METADATA;
   root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA=IPA92_V10_METADATA;
   root.FEQUEST_IPA92_V11_SUBJECT_A_METADATA=IPA92_V11_METADATA;
-  const latestProviderReady=activateV11Provider();
-  root.FEQUEST_IPA92_V11_PROVIDER_READY=latestProviderReady;
+  root.FEQUEST_IPA92_V12_SUBJECT_A_METADATA=IPA92_V12_METADATA;
+  const latestProviderReady=activateV12Provider();
+  root.FEQUEST_IPA92_V12_PROVIDER_READY=latestProviderReady;
   // Backward-compatible readiness aliases: historical callers wait for the latest provider.
+  root.FEQUEST_IPA92_V11_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V10_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V9_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V8_PROVIDER_READY=latestProviderReady;
