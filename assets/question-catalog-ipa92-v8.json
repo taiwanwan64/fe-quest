@@ -1,0 +1,24 @@
+{
+  "version": "ipa92-catalog-v8",
+  "contentVersion": "ipa92-questions-v8",
+  "contentVersions": ["ipa92-questions-v8"],
+  "counts": {"subjectA": 16, "catalogQuestions": 16},
+  "items": [
+    {"id":"ipa92_a_sli_slo_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"SLIとSLO","coreTopicId":"core_15_02","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sli_slo_002","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"SLO","coreTopicId":"core_15_02","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_service_request_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"サービス要求","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_known_error_001","sourcePool":"subject_a","cat":"サービスマネジメント","difficulty":"standard","concept":"既知の誤り","coreTopicId":"core_15_08","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_model_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"SaaS","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_model_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"PaaSとIaaS","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_deploy_001","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"パブリッククラウドとプライベートクラウド","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_cloud_deploy_002","sourcePool":"subject_a","cat":"システム戦略","difficulty":"standard","concept":"ハイブリッドクラウド","coreTopicId":"core_16_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_xai_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"XAI","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hitl_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"HITL","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hallucination_001","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"ハルシネーション","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_ai_hallucination_002","sourcePool":"subject_a","cat":"基礎理論","difficulty":"standard","concept":"生成AI出力の検証","coreTopicId":"core_02_05","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_privacy_anon_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"匿名加工情報","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_privacy_pseudo_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"仮名加工情報","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sme_fairtrade_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"中小受託取引適正化法","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v8"},
+    {"id":"ipa92_a_sme_fairtrade_002","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"情報成果物作成委託","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v8"}
+  ]
+}
