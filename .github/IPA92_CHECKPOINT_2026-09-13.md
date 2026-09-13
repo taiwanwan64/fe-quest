@@ -7,15 +7,20 @@
 2026-09-13 の最新確認時点:
 
 - public repository: `taiwanwan64/fe-quest`
-- public main after v13 activation: `25f997060a154f693045594ce06d464cec96e1c6`
+- public main after v14 activation: `c891dcb725f0cbdf10747bd21a595a45f6e39ccd`
 - private repository: `taiwanwan64/fe-quest-private-source`
-- private main: `a8251780b473afb8ea635651c7324d37eb3790c3`
-- active protected questions: **1069**
+- private main: `5e559865621fbc810b8d3e3abd1b1db9625e304e`
+- active protected questions: **1073**
 - active protected lessons: **130**
-- protected question runtime contract: baseline 904 + IPA Ver.9.2 v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 + v12 8 + v13 6 = **1069**
-- PWA cache remains `fe-quest-v377-12`
+- protected question runtime contract: baseline 904 + IPA Ver.9.2 v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 + v12 8 + v13 6 + v14 4 = **1073**
+- PWA cache: `fe-quest-v377-13`
+- latest provider version: `v376-provider-11-ipa92-v1-v14`
+- public merged catalog total: **1073**
+- public extension metadata total: **169**
+- merged Subject-A count: **879**
+- tracked Subject-A count: **888**
 
-Latest protected imports were performed through the existing `private main + workflow_dispatch + GitHub OIDC` path and verified in production.
+Latest protected imports were performed through the existing `private main + workflow_dispatch + GitHub OIDC` path and verified in production. Protected stems/options/answers/explanations/hints remain private. The public repository contains only safe metadata and the browser provider contract.
 
 ### Question batch v10
 
@@ -65,25 +70,36 @@ Latest protected imports were performed through the existing `private main + wor
 - production total after import: **1069**
 - public-safe activation: PR #50, merge commit `25f997060a154f693045594ce06d464cec96e1c6`
 
-Protected stems/options/answers/explanations/hints remain private. The public repository contains only safe metadata and the browser provider contract.
+### Question batch v14
+
+- content version: `ipa92-questions-v14`
+- active count: 4
+- staging rows after finalization: 0
+- import manifest rows: 1
+- source commit: `5e559865621fbc810b8d3e3abd1b1db9625e304e`
+- payload SHA-256: `97ae7336e982f4e6dace924c061556332d5a7a8ae3836a90d9b44f32d188669a`
+- imported at: `2026-09-13 10:40:59.46+00`
+- import workflow run: `34752476889`, attempt 1 — success
+- production total after import: **1073**
+- public-safe activation: PR #52, merge commit `c891dcb725f0cbdf10747bd21a595a45f6e39ccd`
 
 ## Pages / CI state
 
-PR #50 passed both current release checks before merge:
+PR #52 passed both current release checks before merge:
 
-- `Validate IPA 9.2 question v13 public activation` — run `34751579621` — success
-- `Validate sanitized FE QUEST publication` — run `34751579578` — success
+- `Validate IPA 9.2 question v14 public activation` — run `34753097832` — success
+- `Validate sanitized FE QUEST publication` — run `34753097811` — success
 
-The v12 validator was converted to an immutable historical-artifact check during the v13 activation, matching the existing historical-validator pattern. Historical readiness aliases now resolve to the latest provider rather than pinning callers to older catalogs.
+The sanitized-publication and Pages deployment guards were advanced to the `fe-quest-v377-13` cache contract and now explicitly verify that the v14 public-safe provider/catalog assets are included in the deploy artifact. The v13 validator was converted to an immutable historical-artifact check during the v14 activation, matching the existing historical-validator pattern. Historical readiness aliases now resolve to the latest provider rather than pinning callers to older catalogs.
 
-Post-merge Pages run #66 (`34751602125`) completed successfully for main `25f997060a154f693045594ce06d464cec96e1c6`.
+Post-merge Pages run #72 (`34753148637`) completed successfully for main `c891dcb725f0cbdf10747bd21a595a45f6e39ccd`.
 
 The latest provider contract is:
 
-- provider version: `v376-provider-10-ipa92-v1-v13`
-- merged catalog total: **1069**
-- extension content versions: v1 through v13
-- historical v7/v8/v9/v10/v11/v12 readiness aliases resolve to the latest provider
+- provider version: `v376-provider-11-ipa92-v1-v14`
+- merged catalog total: **1073**
+- extension content versions: v1 through v14
+- historical v7/v8/v9/v10/v11/v12/v13 readiness aliases resolve to the latest provider
 
 ## Official IPA Ver.9.2 inventory milestone
 
@@ -161,11 +177,24 @@ After semantic review of the live 1063-question / 130-lesson corpus, v13 added o
 
 Existing agile, Scrum, DevOps, DevSecOps, TDD, SRE, MLOps, prototyping, and general development-model material was retained rather than duplicated. The development-process SR-P1 bundle is therefore complete at the source/import/deploy level, not at the final `verified-covered` level.
 
+### v14 remediation — project-management details
+
+After semantic review of the live 1069-question / 130-lesson corpus, v14 added representative direct practice for four confirmed gaps:
+
+- PMO
+- WBS dictionary
+- COCOMO
+- CCB
+
+A separate responsibility-matrix/RACI item was deliberately not added. Existing `core_14_03` lesson/practice already teaches the relevant role/responsibility-matrix semantics sufficiently for this review pass, so exact-term sparsity was not treated as a learning gap by itself.
+
+The project-management SR-P1 bundle is complete at the source/import/deploy level, not at the final `verified-covered` level.
+
 ## Completion gates remain closed
 
 `.github/ipa92-coverage.json` intentionally remains `inventory_state: partial-baseline` and `inventory_complete: false`.
 
-Large-classification traversal, targeted P0 remediation, the requirements-engineering SR-P1 bundle, and the development-process SR-P1 bundle are complete, but **full coverage is not yet verified**. The following remain open:
+Large-classification traversal, targeted P0 remediation, requirements-engineering SR-P1, development-process SR-P1, and project-management SR-P1 source/import/deploy work are complete, but **full coverage is not yet verified**. The following remain open:
 
 - semantic review of remaining zero/mixed/lesson-only findings outside completed bundles
 - practice-density verification
@@ -177,11 +206,11 @@ Do not promote a topic to `verified-covered` merely because it is source-ready, 
 
 ## Next work order
 
-1. Continue SR-P1 semantic review with the project-management detail bundle: PMO, CCB, WBS dictionary, responsibility matrix, and COCOMO. Inspect current protected questions and lessons semantically before creating anything.
+1. Re-read the live semantic-review backlog/evidence ledgers and continue with the next remaining SR-P1/SR-P2 cluster; do not infer the next target from this checkpoint alone.
 2. In parallel, begin practice-density verification for classifications whose conceptual breadth is already strong; distinguish syllabus breadth from enough varied repetition to learn reliably.
-3. For each remaining SR-P1 cluster, prefer semantic equivalence and representative coverage over one-question-per-term expansion. Create a small original private batch only for confirmed learning gaps.
+3. For each remaining semantic cluster, prefer semantic equivalence and representative coverage over one-question-per-term expansion. Create a small original private batch only for confirmed learning gaps.
 4. Expand mobile/touch/iPhone-equivalent QA and verify required interactive/visual learning paths without weakening non-interactive fallbacks.
-5. Verify learning-history and save/restore compatibility across the enlarged **1069-question** catalog before any coverage-complete promotion.
+5. Verify learning-history and save/restore compatibility across the enlarged **1073-question** catalog before any coverage-complete promotion.
 
 ## Safety rules
 
