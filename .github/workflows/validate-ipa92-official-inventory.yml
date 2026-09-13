@@ -8,6 +8,7 @@ on:
       - '.github/scripts/check-ipa92-official-inventory.mjs'
       - '.github/workflows/validate-ipa92-official-inventory.yml'
       - '.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md'
+      - '.github/IPA92_OFFICIAL_INVENTORY_TRANCHE*.md'
   workflow_dispatch:
 
 permissions:
