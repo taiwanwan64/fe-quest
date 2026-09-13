@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1031 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1047 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -18,7 +18,7 @@ These priorities are review order only; they are not claims about exam frequency
 
 ## Completed first-pass semantic review / remediation
 
-The first bundle was semantically reviewed before content was added. Broader neighboring concepts already covered in the corpus were not duplicated solely because an exact official term was absent.
+Broader neighboring concepts already covered in the corpus were not duplicated solely because an exact official term was absent.
 
 ### Added in v8
 
@@ -37,19 +37,29 @@ The first bundle was semantically reviewed before content was added. Broader nei
 - DevOps / DevSecOps / TDD / SRE / MLOps
 - GDPR / JIS Q 15001 / 電子署名法
 
-These are now direct-practice artifacts, but they are **not automatically `verified-covered`**. Practice-density, mobile/visual, and learning-history gates remain separate.
+### Added in v10
 
-## SR-P0 — remaining semantic-review pass
+- WCAG / responsive Web design / heuristic evaluation / usability testing
+- three-schema architecture
+- key-value / document-oriented NoSQL
+- CSMA/CD / CSMA/CA / spanning tree
+- RADIUS / QoS
+- secure boot
+- stub / condition coverage
+
+Boundary-value analysis and equivalence partitioning were reviewed but not duplicated because production already contained direct semantic practice under the synonymous Japanese terms `境界値分析` and `同値分割`.
+
+These artifacts are now direct-practice additions, but they are **not automatically `verified-covered`**. Practice-density, visual/interactive need, mobile QA, and learning-history gates remain separate.
+
+## SR-P0 — reduced semantic-review remainder
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Test design: boundary/equivalence/coverage/stub-driver variants | exact terms are uneven, while broader test content exists | distinguish genuine gaps from paraphrased test-design coverage before adding questions |
-| Cloud-native / cloud-by-default | service/deployment models are now directly covered, but these modernization terms remain weak | decide whether the parent cloud concepts are sufficient or a direct item is warranted |
-| Platform/legal update | 電子署名法 now has direct practice; platform-provider legal terminology remains weak | review 情報流通プラットフォーム対処法 and neighboring provider-liability/legal material |
-| UI accessibility standards | weak/zero fine-grained evidence | review WCAG, responsive design, usability evaluation against existing UI/accessibility lessons |
-| Database architecture | zero/weak fine-grained evidence | inspect three-schema architecture and NoSQL-type distinctions against broad DB content |
-| Network access/control | zero/weak fine-grained evidence | review CSMA/CD, CSMA/CA, spanning tree, RADIUS and QoS against current network mechanisms |
-| Security platform boot/control | zero fine-grained evidence | inspect secure boot and neighboring hardware/OS/security architecture content |
+| Test design: driver and remaining white-box variants | stub and condition coverage now have direct practice; broader test content also exists | inspect driver/top-down-vs-bottom-up and other remaining variants semantically before adding anything |
+| Cloud-native / cloud-by-default | service/deployment models are directly covered, but modernization terminology remains weak | decide whether parent cloud concepts are sufficient or a direct item is warranted |
+| Platform/provider legal update | 電子署名法 and 中小受託取引適正化法 have direct practice; platform-provider legal terminology remains weak | review 情報流通プラットフォーム対処法 and neighboring provider-liability/disclosure material |
+
+The former SR-P0 UI/accessibility, database-architecture, network-access/control, and secure-boot clusters were remediated in v10 and therefore leave this immediate semantic-review queue. That does **not** promote them to `verified-covered`.
 
 ## SR-P1 — second semantic-review pass
 
@@ -89,13 +99,10 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-The next bundle should focus on the remaining SR-P0 clusters without expanding too broadly:
+The next pass should stay narrow and review the remaining SR-P0 items before moving into SR-P1:
 
-- UI/accessibility: WCAG + responsive design + usability evaluation;
-- database: three-schema architecture + representative NoSQL types;
-- network: CSMA/CD + CSMA/CA + spanning tree + RADIUS/QoS;
-- platform security: secure boot;
-- platform/legal: 情報流通プラットフォーム対処法 and neighboring provider-liability concepts;
-- test design: only the variants that remain genuinely thin after semantic review.
+- platform/provider law: 情報流通プラットフォーム対処法 and closely related disclosure/removal/provider-liability concepts;
+- cloud terminology: cloud-native and cloud-by-default, checking whether existing SaaS/PaaS/IaaS and deployment-model practice is already sufficient;
+- test design: driver/top-down-vs-bottom-up and any remaining white-box variants that survive semantic review.
 
-This keeps the next protected batch small while moving from broad syllabus traversal toward evidence-backed closure of the remaining high-priority gaps.
+If these concepts are already adequately taught by broader wording, they should be recorded as semantic coverage rather than given redundant questions.
