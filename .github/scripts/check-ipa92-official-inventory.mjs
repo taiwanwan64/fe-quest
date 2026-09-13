@@ -7,7 +7,7 @@ const files=fs.readdirSync(root)
   .sort((a,b)=>a.localeCompare(b,'en',{numeric:true}));
 const allowed=new Set(['direct-covered','mixed-evidence','lesson-only','no-direct-evidence']);
 const forbiddenKeys=new Set(['stem','options','answerIndex','answer_index','explanation','hint','choiceExplanations','choice_explanations']);
-const expectedQuestionSnapshots=new Map([[1,987],[2,987],[3,987],[4,1003],[5,1003]]);
+const expectedQuestionSnapshots=new Map([[1,987],[2,987],[3,987],[4,1003],[5,1003],[6,1003]]);
 
 function fail(message){throw new Error(message)}
 function scan(value,trail=[]){
