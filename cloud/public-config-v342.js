@@ -57,6 +57,25 @@
     {"id":"ipa92_a_esign_law_001","sourcePool":"subject_a","cat":"企業と法務","difficulty":"standard","concept":"電子署名法","coreTopicId":"core_21_03","qualityAudit":"ipa92-original-v9"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V10_METADATA=Object.freeze([
+    {"id":"ipa92_a_wcag_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"WCAG","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_responsive_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"レスポンシブWebデザイン","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_heuristic_eval_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"ヒューリスティック評価","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_usability_test_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"ユーザビリティテスト","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_three_schema_001","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"3層スキーマ・外部スキーマ","coreTopicId":"core_09_01","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_three_schema_002","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"概念スキーマと内部スキーマ","coreTopicId":"core_09_01","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_nosql_types_001","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"キーバリュー型データベース","coreTopicId":"core_09_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_nosql_types_002","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"ドキュメント指向データベース","coreTopicId":"core_09_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_csma_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"CSMA/CD","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_csma_002","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"CSMA/CA","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_spanning_tree_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"スパニングツリー","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_radius_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"RADIUS","coreTopicId":"core_10_10","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_qos_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"QoS","coreTopicId":"core_10_10","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_secure_boot_001","sourcePool":"subject_a","cat":"セキュリティ","difficulty":"standard","concept":"セキュアブート","coreTopicId":"core_11_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_stub_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"スタブ","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_condition_coverage_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"条件網羅","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v10"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -78,28 +97,31 @@
   function installV7Metadata(){return installMetadata(IPA92_V7_METADATA,'v7',16)}
   function installV8Metadata(){return installMetadata(IPA92_V8_METADATA,'v8',16)}
   function installV9Metadata(){return installMetadata(IPA92_V9_METADATA,'v9',12)}
+  function installV10Metadata(){return installMetadata(IPA92_V10_METADATA,'v10',16)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
     const v9Install=installV9Metadata();
+    const v10Install=installV10Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1031;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install});
+    root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA_INSTALL=v10Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1047;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install});
   }
 
-  function activateV9Provider(){
+  function activateV10Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v9-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v10-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-6-ipa92-v1-v9')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-7-ipa92-v1-v10')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -107,7 +129,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v9.js';
+      script.src='./assets/protected-content-provider-v376-v10.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -118,9 +140,11 @@
   root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA=IPA92_V7_METADATA;
   root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA=IPA92_V8_METADATA;
   root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA=IPA92_V9_METADATA;
-  const latestProviderReady=activateV9Provider();
-  root.FEQUEST_IPA92_V9_PROVIDER_READY=latestProviderReady;
+  root.FEQUEST_IPA92_V10_SUBJECT_A_METADATA=IPA92_V10_METADATA;
+  const latestProviderReady=activateV10Provider();
+  root.FEQUEST_IPA92_V10_PROVIDER_READY=latestProviderReady;
   // Backward-compatible readiness aliases: historical callers wait for the latest provider.
+  root.FEQUEST_IPA92_V9_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V8_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V7_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_PUBLIC_CLOUD_CONFIG_V342=Object.freeze({

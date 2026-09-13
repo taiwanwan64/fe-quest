@@ -1,0 +1,24 @@
+{
+  "version": "ipa92-catalog-v10",
+  "contentVersion": "ipa92-questions-v10",
+  "contentVersions": ["ipa92-questions-v10"],
+  "counts": {"subjectA": 16, "catalogQuestions": 16},
+  "items": [
+    {"id":"ipa92_a_wcag_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"WCAG","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_responsive_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"レスポンシブWebデザイン","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_heuristic_eval_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"ヒューリスティック評価","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_usability_test_001","sourcePool":"subject_a","cat":"ユーザーインタフェース","difficulty":"standard","concept":"ユーザビリティテスト","coreTopicId":"core_08_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_three_schema_001","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"3層スキーマ・外部スキーマ","coreTopicId":"core_09_01","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_three_schema_002","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"概念スキーマと内部スキーマ","coreTopicId":"core_09_01","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_nosql_types_001","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"キーバリュー型データベース","coreTopicId":"core_09_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_nosql_types_002","sourcePool":"subject_a","cat":"データベース","difficulty":"standard","concept":"ドキュメント指向データベース","coreTopicId":"core_09_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_csma_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"CSMA/CD","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_csma_002","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"CSMA/CA","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_spanning_tree_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"スパニングツリー","coreTopicId":"core_10_02","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_radius_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"RADIUS","coreTopicId":"core_10_10","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_qos_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"QoS","coreTopicId":"core_10_10","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_secure_boot_001","sourcePool":"subject_a","cat":"セキュリティ","difficulty":"standard","concept":"セキュアブート","coreTopicId":"core_11_08","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_stub_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"スタブ","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v10"},
+    {"id":"ipa92_a_condition_coverage_001","sourcePool":"subject_a","cat":"システム開発技術","difficulty":"standard","concept":"条件網羅","coreTopicId":"core_12_05","qualityAudit":"ipa92-original-v10"}
+  ]
+}
