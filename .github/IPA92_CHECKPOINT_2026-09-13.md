@@ -1,82 +1,104 @@
 # FE QUEST — IPA Ver.9.2 checkpoint — 2026-09-13
 
-このファイルは `.github/IPA92_PROGRESS_LOG.md` より新しい現在地を残すチェックポイントです。再開時は、まず GitHub の現在の main / open PR / CI と Supabase の本番状態を確認し、GitHub/Supabase の実状態がこの文書より新しい場合はそちらを正とします。
+このファイルは再開用チェックポイントです。**再開時は必ず GitHub の main / open PR / CI と Supabase の本番状態を先に確認し、実状態を正とします。**
 
-## 2026-09-13 production import 検証結果
+## Current production snapshot
 
-private repository `taiwanwan64/fe-quest-private-source` の main は `89d50789e5ca0776f53e977ae649f7f4e20c9aaa`。同 main から手動 `workflow_dispatch` された question v2 → v3 → v4 → v5 → v6 と protected lessons の最新6 workflow はすべて `success` を確認した。
+2026-09-13 の最新確認時点:
 
-### Question bank
+- public repository: `taiwanwan64/fe-quest`
+- public main: `7264680e8c139d4387d4a8cebd8e4d5875275c8a`
+- private repository: `taiwanwan64/fe-quest-private-source`
+- private main: `c7ed16e435b75a3c45b384fcd215319aab52dd1b`
+- active protected questions: **1003**
+- active protected lessons: **130**
+- protected question runtime contract: baseline 904 + IPA Ver.9.2 v1–v6 83 + v7 16 = **1003**
+- PWA cache remains `fe-quest-v377-12`
 
-Supabase `fequest_question_bank_private` の active 件数を本番DBで再集計し、次を確認済み。
+Question batch v7 was imported through the existing protected `private main + workflow_dispatch + GitHub OIDC` path and verified in production:
 
-- `v376-protected-final`: 904
-- `ipa92-questions-v1`: 13
-- `ipa92-questions-v2`: 14
-- `ipa92-questions-v3`: 12
-- `ipa92-questions-v4`: 12
-- `ipa92-questions-v5`: 16
-- `ipa92-questions-v6`: 16
-- **合計: 987**
+- content version: `ipa92-questions-v7`
+- active count: 16
+- source commit: `c7ed16e435b75a3c45b384fcd215319aab52dd1b`
+- payload SHA-256: `f391fc2de17d851a1270ff8120e9076ab99dbada0e0fde991908a88aa26c74c5`
 
-期待した 917 → 931 → 943 → 955 → 971 → 987 の import chain と一致する。
+Public-safe v7 metadata/runtime activation was merged by PR #33. Protected stems/options/answers/explanations/hints remain private.
 
-`fequest_question_imports_private` も v1〜v6 を確認した。v2〜v6 はすべて source commit `89d50789e5ca0776f53e977ae649f7f4e20c9aaa` から取り込まれている。
+## Pages / CI state
 
-| batch | count | payload SHA-256 |
-|---|---:|---|
-| v2 | 14 | `b55280b5c9c904b54d4b502e328be9f68f17f52fa0986ab5918c0c68ff3a2034` |
-| v3 | 12 | `b59cffdae4536526361192fb943b70fdeb1fff18c990c5b145488aa689b97556` |
-| v4 | 12 | `648ad39cfda14278da4b2a06f59fe8127f96c0a8ed2318f958b0856ac5149484` |
-| v5 | 16 | `51de1b1a3a94ec14540384d00e0da24b0302e1920b9ae4afc775d82b40f9e781` |
-| v6 | 16 | `a299f38fa7ed528d5d7df10bc65a09b24d21af6694080a09bfba38d72077a303` |
+The old deploy-guardrail failure from Pages #44 is resolved and is no longer an open issue.
 
-### Protected lessons
+Key successful deployments:
 
-`Import protected lessons` の最新 workflow も成功した。本番 `fequest_lesson_bank_private` は `v376-lessons-1` が active 130件。最新 import manifest は次のとおり。
+- PR #29: deploy guardrails synchronized to v1–v6 / 987 runtime; Pages #45 succeeded.
+- PR #33: v7 public-safe activation / 1003 runtime; Pages #49 succeeded.
+- PR #36: service-management/system-audit inventory; Pages #52 succeeded.
+- PR #37: system-strategy/system-planning inventory; Pages #53 succeeded.
+- PR #38: management-strategy inventory; Pages #54 succeeded.
+- PR #39: corporate-activity/legal inventory; Pages #55 succeeded.
 
-- content version: `v376-lessons-1`
-- total: 130
-- payload SHA-256: `52257af7772349de44c936325f4be8ed5308b0d35a73e9fd9dbadb61c4f960fa`
-- source commit: `89d50789e5ca0776f53e977ae649f7f4e20c9aaa`
-- imported at: `2026-09-13 02:54:56 UTC`
+For PR #39, all three pull-request checks passed before merge:
 
-重要: lesson の content version は新名称には変わらず `v376-lessons-1` のまま再materialize/importされた。workflow成功・130件・新しい payload hash/source commit は確認できているため、現時点ではこれを失敗扱いしない。将来 versioning contract を見直す場合は importer の意図を先に監査する。
+- `Validate IPA 9.2 official inventory`
+- `Validate sanitized FE QUEST publication`
+- `Validate IPA 9.2 question v7 public activation`
 
-## 公開アプリ側の状態
+The post-merge Pages run #55 (`34739006190`) completed successfully for main `7264680e...`.
 
-PR #28 で v1〜v6 の public-safe catalog/runtime metadata を公開runtimeへ統合した。問題本文・選択肢・正答・解説・hint は引き続き Supabase/private source 側にのみ置く。
+## Official IPA Ver.9.2 inventory milestone
 
-- baseline safe catalog: 904
-- IPA Ver.9.2 extension safe catalog: 83
-- merged protected catalog contract: **987**
-- PWA cache: `fe-quest-v377-12`
-- runtime metadata installer: v1〜v6 の実production ID 83件
+Authority:
 
-この統合作業中に、従来の公開v1 safe metadataが `ipa92_a_graph_01` 等の旧IDを持つ一方、本番DB/ private source は `ipa92_a_graph_001` 等を使っている不整合を発見した。PR #28 では public-safe metadataを本番の実IDへ合わせた。protected bankのID自体は変更していない。
+- IPA 基本情報技術者試験シラバス Ver.9.2
+- published 2026-01-08
+- official structure: 9 large classifications / 23 middle classifications / 96 small classifications
 
-PR #28 の publication validation は成功した。ただしmerge直後のPages #44は、deploy workflow側に `fe-quest-v377-11` / extension 13件 / v1 catalogを前提とする旧guardrailが残っていたためartifact buildで停止した。これはアプリruntimeの失敗ではなくdeploy-only検査の世代不一致であり、次の修正PRで v1〜v6 / 83件 / cache v12 のcontractへ同期する。
+The evidence-ledger audit has now traversed **all 9 large classifications and all 23 middle classifications**:
 
-## IPA Ver.9.2 inventory
+1. tranche 1 — 基礎理論
+2. tranche 2 — アルゴリズムとプログラミング等
+3. tranche 3 — 技術要素 / 中分類7–11
+4. tranche 4 — 開発技術 / 中分類12–13
+5. tranche 5 — プロジェクトマネジメント / 中分類14
+6. tranche 6 — サービスマネジメント・システム監査 / 中分類15–16
+7. tranche 7 — システム戦略・システム企画 / 中分類17–18
+8. tranche 8 — 経営戦略 / 中分類19–21
+9. tranche 9 — 企業活動・法務 / 中分類22–23
 
-公式IPA Ver.9.2は23中分類・96小分類で構成される。現在の `.github/ipa92-coverage.json` は `inventory_state: partial-baseline` / `inventory_complete: false` のままであり、P0/P1追加項目がsource-ready/import済みになったことだけを理由に completion gate を上げない。
+Each ledger deliberately distinguishes `direct-covered`, `mixed-evidence`, `lesson-only`, and `no-direct-evidence`. Exact-term zero hits are **not** final missing verdicts; semantic review is required before new content is created.
 
-細目・用語例の公式監査は `.github/IPA92_OFFICIAL_INVENTORY_AUDIT_2026-09-13.md` に切り分けて開始済み。大分類1「基礎理論」について、既存904問 + v1〜v6 + protected lessons + interactive lab の証拠を照合し、「source-covered」「thin」「missing」「verification-pending」を区別している。単に coverage manifest に未登録という理由だけで `missing` とは判定しない。
+The final tranche 9 ledger contains 97 findings: direct 12 / mixed 15 / lesson-only 14 / no-direct 56. Important Ver.9.2 legal review candidates include privacy/legal updates and `中小受託取引適正化法`, which currently has lesson-only exact-term evidence.
 
-## 残タスク順序
+## Completion gates remain closed
 
-1. Pages deploy guardrailを987件runtime contractへ同期し、本番Pages公開成功まで確認する。
-2. 公式IPA Ver.9.2の96小分類より下の内容・用語例を順次監査し、partial inventory を拡張する。
-3. UML/DFD/E-R、TLB/ページ置換、Venn、sort、graph を iPhone 相当の狭い画面で目視・タッチ・スクロール干渉QAする。
-4. lesson/practice/interactive/history compatibility が検証できた項目だけ `verified-covered` へ上げる。
-5. すべての公式項目登録・不足解消・QA・履歴互換が満たされた時だけ completion gate を完了扱いにする。
+`.github/ipa92-coverage.json` intentionally remains `inventory_state: partial-baseline` and `inventory_complete: false`.
 
-## 安全ルール
+Large-classification traversal is complete, but **full coverage is not yet verified**. The following remain open:
 
-- GitHub/Supabase の現在状態を常に正とする。
-- 問題・教材・課金ロジックは private/protected 境界を維持する。
-- public repo へ問題本文・選択肢・正答・解説・hintを出さない。
-- 著作物の独自問題・本文を転載しない。追加問題は原則オリジナルにする。
-- 既存問題ID・正答・学習履歴・保存/復旧仕様を不用意に変更しない。
-- Import の `private main + workflow_dispatch + GitHub OIDC` 境界を弱めない。
-- 実装済み、import済み、公開runtime統合済み、`verified-covered` を明確に区別する。
+- semantic review of zero/mixed/lesson-only findings
+- collision checks against the 1003-question / 130-lesson production corpus
+- targeted remediation for genuine gaps
+- practice-density verification
+- required interactive/visual verification
+- iPhone-equivalent visual/touch/scroll QA
+- learning-history / save-restore compatibility verification
+
+Do not promote a topic to `verified-covered` merely because it is source-ready, imported, or present in an exact-term probe.
+
+## Next work order
+
+1. Consolidate tranche 1–9 findings into a ranked **semantic-review backlog**.
+2. Review high-priority candidates against broader wording and neighboring core-topic content before declaring any genuine gap.
+3. For confirmed gaps, create only small original private question/lesson batches after ID/content collision checks.
+4. Import through the existing protected workflow only; then expose public-safe metadata after production verification.
+5. Run mobile/touch QA and history compatibility checks before any completion gate is promoted.
+
+## Safety rules
+
+- GitHub/Supabase current state is always the source of truth.
+- Keep question/material/paywall logic behind the private/protected boundary.
+- Never publish protected stems, options, answers, explanations, hints or choice explanations.
+- Do not copy copyrighted proprietary questions; new questions are original unless they are public official past questions handled under the project policy.
+- Preserve existing IDs, answers, learner history, and save/restore contracts.
+- Never weaken the `private main + workflow_dispatch + GitHub OIDC` import boundary.
+- Keep `implemented`, `imported`, `deployed`, `source-covered`, and `verified-covered` as separate states.
