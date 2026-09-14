@@ -1,0 +1,44 @@
+name: Generate IPA 9.2 v27 public artifacts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/tmp-generate-v27-public.cjs'
+      - '.github/workflows/generate-ipa92-v27-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ipa92-v27-public-activation-20260915
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate v27 public artifacts
+        run: |
+          node .github/tmp-generate-v27-public.cjs
+          node --check assets/protected-content-provider-v376-v27.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Commit generated artifacts
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/question-catalog-ipa92-v27.json assets/protected-content-provider-v376-v27.js cloud/public-config-v342.js sw.js .github/IPA92_V27_ACTIVATION_2026-09-15.md
+          if git diff --cached --quiet; then
+            echo 'No generated changes.'
+            exit 0
+          fi
+          git commit -m 'Generate IPA 9.2 v27 public artifacts'
+          git push origin HEAD:ipa92-v27-public-activation-20260915
