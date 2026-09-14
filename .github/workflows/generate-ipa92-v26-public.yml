@@ -25,6 +25,9 @@ jobs:
           node-version: '22'
       - name: Generate v26 public artifacts
         run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          git checkout origin/main -- assets/protected-content-provider-v376-v25.js cloud/public-config-v342.js sw.js .github/workflows/deploy-pages.yml .github/workflows/validate-publication.yml
           python3 - <<'PY'
           from pathlib import Path
           p=Path('.github/tmp-generate-v26-public.cjs')
@@ -36,6 +39,15 @@ jobs:
           p.write_text(s.replace(old,new))
           PY
           node .github/tmp-generate-v26-public.cjs
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('cloud/public-config-v342.js')
+          s=p.read_text()
+          old="catalogTotal===1124"
+          if old not in s:
+              raise SystemExit('catalog total marker not found')
+          p.write_text(s.replace(old,"catalogTotal===1129"))
+          PY
       - name: Commit generated artifacts
         run: |
           set -euo pipefail
