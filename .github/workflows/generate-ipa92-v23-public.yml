@@ -1,0 +1,116 @@
+name: Generate IPA 9.2 v23 public activation
+
+on:
+  push:
+    branches: [ipa92-v23-public-activation-20260914]
+    paths:
+      - '.github/workflows/generate-ipa92-v23-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ipa92-v23-public-activation-20260914
+      - name: Generate v23 activation files
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          function mustReplace(s,a,b,label){if(!s.includes(a))throw new Error('missing pattern '+label);return s.replace(a,b)}
+          function appendAfter(s,a,b,label){return mustReplace(s,a,a+b,label)}
+          function appendAfterLine(s,needle,line,label){
+            const i=s.indexOf(needle); if(i<0)throw new Error('missing line '+label);
+            const e=s.indexOf('\n',i); if(e<0)throw new Error('unterminated line '+label);
+            return s.slice(0,e+1)+line+'\n'+s.slice(e+1);
+          }
+
+          const v23Items=[
+            {id:'ipa92_a_bcp_bcm_bia_001',sourcePool:'subject_a',cat:'ストラテジ',difficulty:'standard',concept:'BCP・BCM・BIA',coreTopicId:'core_20_01',qualityAudit:'ipa92-original-v23'},
+            {id:'ipa92_a_regression_moving_average_001',sourcePool:'subject_a',cat:'ストラテジ',difficulty:'standard',concept:'回帰分析と移動平均',coreTopicId:'core_20_07',qualityAudit:'ipa92-original-v23'},
+            {id:'ipa92_a_bi_data_mining_001',sourcePool:'subject_a',cat:'ストラテジ',difficulty:'standard',concept:'BIとデータマイニング',coreTopicId:'core_20_07',qualityAudit:'ipa92-original-v23'},
+            {id:'ipa92_a_boxplot_001',sourcePool:'subject_a',cat:'ストラテジ',difficulty:'standard',concept:'箱ひげ図',coreTopicId:'core_20_07',qualityAudit:'ipa92-original-v23'},
+            {id:'ipa92_a_heatmap_001',sourcePool:'subject_a',cat:'ストラテジ',difficulty:'standard',concept:'ヒートマップ',coreTopicId:'core_20_07',qualityAudit:'ipa92-original-v23'}
+          ];
+          fs.writeFileSync('assets/question-catalog-ipa92-v23.json',JSON.stringify({version:'ipa92-catalog-v23',contentVersion:'ipa92-questions-v23',contentVersions:['ipa92-questions-v23'],counts:{subjectA:5,catalogQuestions:5},items:v23Items},null,2)+'\n');
+
+          let p=fs.readFileSync('assets/protected-content-provider-v376-v22.js','utf8');
+          p=appendAfter(p,"const IPA92_V22_CATALOG_URL=new URL('question-catalog-ipa92-v22.json',SCRIPT_URL).toString();\n","const IPA92_V23_CATALOG_URL=new URL('question-catalog-ipa92-v23.json',SCRIPT_URL).toString();\n",'provider catalog url');
+          p=appendAfter(p,"const IPA92_V22_CATALOG_VERSION='ipa92-catalog-v22';\n","const IPA92_V23_CATALOG_VERSION='ipa92-catalog-v23';\n",'provider catalog version');
+          p=appendAfter(p,"const IPA92_V22_CONTENT_VERSION='ipa92-questions-v22';\n","const IPA92_V23_CONTENT_VERSION='ipa92-questions-v23';\n",'provider content version');
+          p=appendAfter(p,"const IPA92_V22_TOTAL=5;\n","const IPA92_V23_TOTAL=5;\n",'provider total');
+          p=mustReplace(p,"+IPA92_V22_TOTAL;\nconst MERGED_CATALOG_TOTAL","+IPA92_V22_TOTAL+IPA92_V23_TOTAL;\nconst MERGED_CATALOG_TOTAL",'provider extension total');
+          p=mustReplace(p,"fetchJson(IPA92_V21_CATALOG_URL),fetchJson(IPA92_V22_CATALOG_URL)\n","fetchJson(IPA92_V21_CATALOG_URL),fetchJson(IPA92_V22_CATALOG_URL),fetchJson(IPA92_V23_CATALOG_URL)\n",'provider fetch list');
+          p=mustReplace(p,"]).then(([base,legacy,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22])=>{","]).then(([base,legacy,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22,v23])=>{",'provider destructure');
+          p=mustReplace(p,"        ['v22',v22,IPA92_V22_CATALOG_VERSION,IPA92_V22_CONTENT_VERSION,IPA92_V22_TOTAL,'ipa92-original-v22']\n      ];","        ['v22',v22,IPA92_V22_CATALOG_VERSION,IPA92_V22_CONTENT_VERSION,IPA92_V22_TOTAL,'ipa92-original-v22'],\n        ['v23',v23,IPA92_V23_CATALOG_VERSION,IPA92_V23_CONTENT_VERSION,IPA92_V23_TOTAL,'ipa92-original-v23']\n      ];",'provider entries');
+          p=mustReplace(p,"...v21.items,...v22.items];","...v21.items,...v22.items,...v23.items];",'provider items');
+          p=mustReplace(p,"IPA92_V21_CONTENT_VERSION,IPA92_V22_CONTENT_VERSION]),","IPA92_V21_CONTENT_VERSION,IPA92_V22_CONTENT_VERSION,IPA92_V23_CONTENT_VERSION]),",'provider versions');
+          p=p.replaceAll('ipa92-catalog-v1-v22','ipa92-catalog-v1-v23').replaceAll('ipa92-questions-v1-v22','ipa92-questions-v1-v23');
+          p=mustReplace(p,"version:'v376-provider-19-ipa92-v1-v22'","version:'v376-provider-20-ipa92-v1-v23'",'provider api version');
+          fs.writeFileSync('assets/protected-content-provider-v376-v23.js',p);
+
+          let c=fs.readFileSync('cloud/public-config-v342.js','utf8');
+          const meta=`  const IPA92_V23_METADATA=Object.freeze([\n${v23Items.map(x=>'    '+JSON.stringify(x)).join(',\n')}\n  ].map(item=>Object.freeze(item)));\n\n`;
+          c=mustReplace(c,'  function installMetadata(items,label,expectedTotal){',meta+'  function installMetadata(items,label,expectedTotal){','config metadata');
+          c=appendAfter(c,"  function installV22Metadata(){return installMetadata(IPA92_V22_METADATA,'v22',5)}\n","  function installV23Metadata(){return installMetadata(IPA92_V23_METADATA,'v23',5)}\n",'config installer');
+          c=appendAfter(c,'    const v22Install=installV22Metadata();\n','    const v23Install=installV23Metadata();\n','config install call');
+          c=appendAfter(c,'    root.FEQUEST_IPA92_V22_SUBJECT_A_METADATA_INSTALL=v22Install;\n','    root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA_INSTALL=v23Install;\n','config install root');
+          c=mustReplace(c,"    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-19-ipa92-v1-v22'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1109;","    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-20-ipa92-v1-v23'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1114;",'config provider contract');
+          c=mustReplace(c,'&&v21Install.ok&&v22Install.ok;','&&v21Install.ok&&v22Install.ok&&v23Install.ok;','config ok');
+          c=mustReplace(c,'v21:v21Install,v22:v22Install});','v21:v21Install,v22:v22Install,v23:v23Install});','config return');
+          c=mustReplace(c,'  function activateV22Provider(){','  function activateV23Provider(){','config activate name');
+          c=c.replaceAll("v376-provider-19-ipa92-v1-v22","v376-provider-20-ipa92-v1-v23");
+          c=mustReplace(c,"    const id='fequest-ipa92-v22-provider';","    const id='fequest-ipa92-v23-provider';",'config script id');
+          c=mustReplace(c,"      script.src='./assets/protected-content-provider-v376-v22.js';","      script.src='./assets/protected-content-provider-v376-v23.js';",'config src');
+          c=appendAfter(c,'  root.FEQUEST_IPA92_V22_SUBJECT_A_METADATA=IPA92_V22_METADATA;\n','  root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA=IPA92_V23_METADATA;\n','config metadata root');
+          c=mustReplace(c,'  const latestProviderReady=activateV22Provider();','  const latestProviderReady=activateV23Provider();','config latest activate');
+          c=mustReplace(c,'  root.FEQUEST_IPA92_V22_PROVIDER_READY=latestProviderReady;\n','  root.FEQUEST_IPA92_V23_PROVIDER_READY=latestProviderReady;\n  root.FEQUEST_IPA92_V22_PROVIDER_READY=latestProviderReady;\n','config latest ready');
+          fs.writeFileSync('cloud/public-config-v342.js',c);
+
+          let sw=fs.readFileSync('sw.js','utf8');
+          sw=mustReplace(sw,"const CACHE_NAME = 'fe-quest-v377-21';","const CACHE_NAME = 'fe-quest-v377-22';",'sw cache');
+          sw=appendAfter(sw,'  "./assets/protected-content-provider-v376-v22.js",\n','  "./assets/protected-content-provider-v376-v23.js",\n','sw provider');
+          sw=appendAfter(sw,'  "./assets/question-catalog-ipa92-v22.json",\n','  "./assets/question-catalog-ipa92-v23.json",\n','sw catalog');
+          fs.writeFileSync('sw.js',sw);
+
+          fs.writeFileSync('.github/IPA92_V23_ACTIVATION_2026-09-14.md',`# FE QUEST — IPA Ver.9.2 v23 public activation — 2026-09-14\n\n## Scope\n\nThis activation publishes only public-safe metadata and runtime contracts for the protected v23 corporate/data-analysis batch. Protected stems, options, answers, explanations, hints and lesson bodies remain private.\n\n## Verified protected production evidence\n\n- private source merge commit: \`e6370801e8cab8f451069247a62d4ebb5fa7e55e\`\n- automatic dispatcher run: \`34827264719\` — success\n- automatic unified protected import run: \`34827274400\` — success\n- content version: \`ipa92-questions-v23\`\n- v23 active questions: **5**\n- v23 staging rows after finalization: **0**\n- active protected question total after import: **1114**\n- active protected lesson total: **130**\n- v23 payload SHA-256: \`71735cf3daa883f221d93d518c69d3834ea9d82fb6af2112a844cce705b8ca15\`\n- latest lesson payload SHA-256: \`3766bfbc1005c05036c1f47a3ef08ceeaf1354e01dc72afc83d1c2882b6f636c\`\n- lesson manifest source commit: \`e6370801e8cab8f451069247a62d4ebb5fa7e55e\`\n- lesson database content version remains \`v376-lessons-1\`\n\n## Semantic decisions\n\nFive original application/comparison questions cover nine ideas: BIA/BCP/BCM, regression analysis/moving average, BI/data mining, box plot and heat map. Existing statistics, risk-management and dashboard/data-quality material remains the foundation rather than being duplicated. Box-plot wording explicitly avoids assuming that whiskers always equal the exact minimum and maximum, because conventions differ.\n\n## Public runtime target\n\n- provider: \`v376-provider-20-ipa92-v1-v23\`\n- merged protected catalog total: **1114**\n- extension safe metadata total: **210**\n- merged Subject-A count: **920**\n- tracked Subject-A count: **929**\n- PWA cache: \`fe-quest-v377-22\`\n`);
+
+          fs.mkdirSync('.github/generated',{recursive:true});
+          fs.writeFileSync('.github/generated/validate-ipa92-question-v22-public.yml',`name: Validate IPA 9.2 question v22 historical artifacts\n\non:\n  pull_request:\n    branches: [main]\n    paths:\n      - 'assets/protected-content-provider-v376-v22.js'\n      - 'assets/question-catalog-ipa92-v22.json'\n      - '.github/IPA92_V22_ACTIVATION_2026-09-14.md'\n      - '.github/workflows/validate-ipa92-question-v22-public.yml'\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  validate-v22-history:\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    steps:\n      - uses: actions/checkout@v6\n      - name: Validate immutable v22 artifacts\n        run: |\n          node --check assets/protected-content-provider-v376-v22.js\n          node -e \"const c=require('./assets/question-catalog-ipa92-v22.json');if(c.version!=='ipa92-catalog-v22'||c.contentVersion!=='ipa92-questions-v22'||c.items?.length!==5)process.exit(1)\"\n          grep -Fq \"version:'v376-provider-19-ipa92-v1-v22'\" assets/protected-content-provider-v376-v22.js\n          grep -Fq 'active protected question total after import: **1109**' .github/IPA92_V22_ACTIVATION_2026-09-14.md\n`);
+
+          fs.writeFileSync('.github/generated/validate-ipa92-question-v23-public.yml',`name: Validate IPA 9.2 question v23 public activation\n\non:\n  pull_request:\n    branches: [main]\n    paths:\n      - 'assets/protected-content-provider-v376-v23.js'\n      - 'assets/question-catalog-ipa92-v23.json'\n      - 'cloud/public-config-v342.js'\n      - 'sw.js'\n      - '.github/IPA92_V23_ACTIVATION_2026-09-14.md'\n      - '.github/workflows/validate-ipa92-question-v23-public.yml'\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  validate-v23-public:\n    runs-on: ubuntu-24.04\n    timeout-minutes: 5\n    steps:\n      - uses: actions/checkout@v6\n      - name: Validate JavaScript syntax\n        run: |\n          node --check assets/protected-content-provider-v376-v23.js\n          node --check cloud/public-config-v342.js\n          node --check sw.js\n      - name: Validate v23 safe catalog and provider\n        run: |\n          node <<'CHECK'\n          const fs=require('node:fs'),vm=require('node:vm');\n          const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v23.json','utf8'));\n          const ids=['ipa92_a_bcp_bcm_bia_001','ipa92_a_regression_moving_average_001','ipa92_a_bi_data_mining_001','ipa92_a_boxplot_001','ipa92_a_heatmap_001'];\n          const topics=['core_20_01','core_20_07','core_20_07','core_20_07','core_20_07'];\n          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);\n          if(c.version!=='ipa92-catalog-v23'||c.contentVersion!=='ipa92-questions-v23'||JSON.stringify(c.contentVersions)!==JSON.stringify(['ipa92-questions-v23'])||c.counts?.subjectA!==5||c.counts?.catalogQuestions!==5||c.items?.length!==5||JSON.stringify(c.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v23 catalog contract');\n          c.items.forEach((item,i)=>{if(item.sourcePool!=='subject_a'||item.cat!=='ストラテジ'||item.difficulty!=='standard'||item.coreTopicId!==topics[i]||item.qualityAudit!=='ipa92-original-v23'||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('v23 safe metadata '+item.id)});\n          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));const versions={};for(let i=7;i<=23;i++)versions[i]=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v'+i+'.json','utf8'));const source=fs.readFileSync('assets/protected-content-provider-v376-v23.js','utf8');\n          const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v23.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const s=String(url);let data=base;if(s.endsWith('question-catalog-ipa92-v1-v6.json'))data=legacy;else for(let i=7;i<=23;i++)if(s.endsWith('question-catalog-ipa92-v'+i+'.json'))data=versions[i];return {ok:true,status:200,json:async()=>data}},window:{}};vm.createContext(ctx);vm.runInContext(source,ctx);\n          (async()=>{const api=ctx.window.FEQUEST_PROTECTED_CONTENT;if(api?.version!=='v376-provider-20-ipa92-v1-v23'||api.catalogTotal!==1114)throw new Error('provider contract');const m=await api.loadCatalog();if(m.items.length!==1114||m.counts?.subjectA!==920||m.counts?.trackedSubjectA!==929||m.counts?.catalogQuestions!==1114)throw new Error('merged counts');const expected=Array.from({length:23},(_,i)=>'ipa92-questions-v'+(i+1));if(JSON.stringify(m.extensionContentVersions)!==JSON.stringify(expected)||new Set(m.items.map(x=>x.id)).size!==1114)throw new Error('versions/ids');console.log('PASS provider 1114')})().catch(e=>{console.error(e);process.exitCode=1});\n          CHECK\n      - name: Validate runtime metadata and release evidence\n        run: |\n          node <<'CHECK'\n          const fs=require('node:fs'),vm=require('node:vm');const source=fs.readFileSync('cloud/public-config-v342.js','utf8');const bank=Array.from({length:83},(_,i)=>({id:'legacy_'+i}));const listeners={};const script={id:'',src:'',async:true,addEventListener(t,f){listeners[t]=f}};let ctx;const document={getElementById(){return null},createElement(){return script},head:{appendChild(n){if(n.src!=='./assets/protected-content-provider-v376-v23.js')throw new Error('provider src');ctx.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-20-ipa92-v1-v23',catalogTotal:1114};listeners.load()}}};ctx={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-19-ipa92-v1-v22',catalogTotal:1109}};vm.createContext(ctx);vm.runInContext('const QUESTION_BANK='+JSON.stringify(bank)+';\\n'+source+'\\nglobalThis.__BANK__=QUESTION_BANK;',ctx);(async()=>{const r=await ctx.FEQUEST_IPA92_V23_PROVIDER_READY;if(!r?.ok||ctx.__BANK__.length!==210||ctx.FEQUEST_IPA92_V23_SUBJECT_A_METADATA?.length!==5)throw new Error('runtime metadata');for(let i=7;i<=22;i++)if(ctx['FEQUEST_IPA92_V'+i+'_PROVIDER_READY']!==ctx.FEQUEST_IPA92_V23_PROVIDER_READY)throw new Error('alias '+i);console.log('PASS runtime metadata 210')})().catch(e=>{console.error(e);process.exitCode=1});\n          CHECK\n          grep -Fq '\"./assets/protected-content-provider-v376-v23.js\"' sw.js\n          grep -Fq '\"./assets/question-catalog-ipa92-v23.json\"' sw.js\n          grep -Fq \"const CACHE_NAME = 'fe-quest-v377-22';\" sw.js\n          grep -Fq 'active protected question total after import: **1114**' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n          grep -Fq 'e6370801e8cab8f451069247a62d4ebb5fa7e55e' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n          grep -Fq '71735cf3daa883f221d93d518c69d3834ea9d82fb6af2112a844cce705b8ca15' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n          grep -Fq '34827264719' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n          grep -Fq '34827274400' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n          grep -Fq 'v376-lessons-1' .github/IPA92_V23_ACTIVATION_2026-09-14.md\n`);
+
+          let pub=fs.readFileSync('.github/workflows/validate-publication.yml','utf8');
+          pub=appendAfterLine(pub,'node --check assets/protected-content-provider-v376-v22.js','          node --check assets/protected-content-provider-v376-v23.js','publication syntax');
+          pub=appendAfterLine(pub,'test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v22.js"','          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"','publication provider file');
+          pub=appendAfterLine(pub,'test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v22.json"','          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v23.json"','publication catalog file');
+          pub=mustReplace(pub,"const CACHE_NAME = 'fe-quest-v377-21';","const CACHE_NAME = 'fe-quest-v377-22';",'publication cache');
+          pub=appendAfterLine(pub,'./assets/protected-content-provider-v376-v22.js','          grep -Fq '\''\"./assets/protected-content-provider-v376-v23.js\"'\'' "$RUNNER_TEMP/site/sw.js"','publication sw provider');
+          pub=appendAfterLine(pub,'./assets/question-catalog-ipa92-v22.json','          grep -Fq '\''\"./assets/question-catalog-ipa92-v23.json\"'\'' "$RUNNER_TEMP/site/sw.js"','publication sw catalog');
+          pub=appendAfterLine(pub,"version:'v376-provider-19-ipa92-v1-v22'",'          grep -Fq "version:'\''v376-provider-20-ipa92-v1-v23'\''" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"','publication provider marker');
+          fs.writeFileSync('.github/generated/validate-publication.yml',pub);
+
+          let deploy=fs.readFileSync('.github/workflows/deploy-pages.yml','utf8');
+          deploy=appendAfterLine(deploy,'test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v22.js"','          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"','deploy provider file');
+          deploy=appendAfterLine(deploy,'test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v22.json"','          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v23.json"','deploy catalog file');
+          deploy=mustReplace(deploy,"const CACHE_NAME = 'fe-quest-v377-21';","const CACHE_NAME = 'fe-quest-v377-22';",'deploy cache');
+          deploy=appendAfterLine(deploy,'./assets/protected-content-provider-v376-v22.js','          grep -Fq '\''\"./assets/protected-content-provider-v376-v23.js\"'\'' "$RUNNER_TEMP/site/sw.js"','deploy sw provider');
+          deploy=appendAfterLine(deploy,'./assets/question-catalog-ipa92-v22.json','          grep -Fq '\''\"./assets/question-catalog-ipa92-v23.json\"'\'' "$RUNNER_TEMP/site/sw.js"','deploy sw catalog');
+          deploy=appendAfterLine(deploy,"version:'v376-provider-19-ipa92-v1-v22'",'          grep -Fq "version:'\''v376-provider-20-ipa92-v1-v23'\''" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"','deploy provider marker');
+          fs.writeFileSync('.github/generated/deploy-pages.yml',deploy);
+
+          require('node:child_process').execFileSync(process.execPath,['--check','assets/protected-content-provider-v376-v23.js'],{stdio:'inherit'});
+          require('node:child_process').execFileSync(process.execPath,['--check','cloud/public-config-v342.js'],{stdio:'inherit'});
+          require('node:child_process').execFileSync(process.execPath,['--check','sw.js'],{stdio:'inherit'});
+          NODE
+      - name: Commit generated non-workflow and staged workflow files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/question-catalog-ipa92-v23.json assets/protected-content-provider-v376-v23.js cloud/public-config-v342.js sw.js .github/IPA92_V23_ACTIVATION_2026-09-14.md .github/generated
+          git commit -m 'Generate IPA 9.2 v23 public activation assets'
+          git push origin HEAD:ipa92-v23-public-activation-20260914
