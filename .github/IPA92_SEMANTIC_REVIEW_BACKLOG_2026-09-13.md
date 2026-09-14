@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1089 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1094 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -31,6 +31,7 @@ Broader neighboring concepts already covered in the corpus were not duplicated s
 - **v16 IT governance/internal control:** COSO, CSA, JIS Q 38500 / IT governance, and IT general controls versus application controls. Existing system-audit/internal-control fundamentals counted as semantic evidence; only the missing distinctions were added.
 - **v17 enterprise architecture:** EA direct practice, WFA, SOA, and the Zachman framework. The existing `core_16_01` lesson already taught whole-enterprise optimization and EA viewpoints, so the remediation kept that semantic foundation and added only the missing direct distinctions.
 - **v18 strategy frameworks:** VRIO, growth matrix, and 3C received direct original Subject-A practice. Value-chain analysis already had direct semantic practice, so no duplicate question was added; its lesson context was reinforced instead.
+- **v19 modern marketing:** persona + customer-journey map, dynamic pricing, subscription model, omnichannel, and SEO + LPO received five original application/comparison questions plus protected lesson reinforcement. Seven official terms were intentionally represented by five distinct decision/application patterns rather than one definition question per term.
 
 ## SR-P0 — first pass complete
 
@@ -40,12 +41,11 @@ SR-P0 is therefore no longer the immediate content-expansion queue. Practice-den
 
 ## SR-P1 — remaining semantic-review pass
 
-Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, and strategy frameworks have completed their first semantic-review/remediation pass through v12–v18. The remaining SR-P1 queue is:
+Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, strategy frameworks, and modern marketing have completed their first semantic-review/remediation pass through v12–v19. The remaining SR-P1 queue is:
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Modern marketing: journey map, persona, dynamic pricing, subscription, omnichannel, SEO/LPO | zero/thin evidence | compare against existing marketing, STP, customer-analysis and Web-marketing material; decide which official examples need direct practice versus lesson mention |
-| Technology strategy: MOT, open innovation, innovation dilemma, lean startup, PoC/PoV | mostly zero evidence | inspect technology-strategy core topics and roadmap material |
+| Technology strategy: MOT, open innovation, innovation dilemma, lean startup, PoC/PoV | mostly zero evidence | inspect technology-strategy core topics and roadmap/materialization content; separate technology-management strategy from generic project/development terminology |
 | Digital business: digital twin, CPS, smart contract, eKYC, CBDC, NFT | zero evidence | check business-system/e-business semantic coverage |
 | Industrial/consumer tech: edge AI, HEMS, M2M, smart factory/agriculture, MaaS, autonomous driving | zero evidence | verify parent IoT/business-industry coverage and prioritize representative examples |
 | Corporate/data analysis: BCP/BCM/BIA, regression/moving average, BI/data mining, box plot/heat map | thin/zero evidence | inspect OR/statistics/business-analysis content for equivalent practice |
@@ -77,15 +77,14 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-Next, review **modern marketing** narrowly against the current production corpus:
+Next, review **technology strategy** narrowly against the current production corpus:
 
-- customer journey map
-- persona
-- dynamic pricing
-- subscription business/model
-- omnichannel
-- SEO / LPO
+- MOT (Management of Technology)
+- open innovation
+- innovation dilemma / innovator's dilemma
+- lean startup
+- PoC / PoV
 
-First compare these with existing marketing fundamentals, STP, customer segmentation, CRM, e-commerce and Web-marketing material. Exact-term absence alone is not enough to justify a question. Identify the distinct decision rule or application each item teaches, and avoid a six-question bundle made only of interchangeable term definitions.
+First compare these with existing technology-management, R&D/roadmap, innovation, business-strategy, prototype/verification, and development-process material. Exact-term absence alone is not enough to justify a question. Identify the distinct decision rule each concept teaches — for example, technology-to-business-value management, internal/external knowledge use, incumbent innovation conflict, hypothesis-driven rapid learning, and feasibility/value verification — and avoid a bundle made only of interchangeable term definitions.
 
 In parallel, continue practice-density verification on classifications whose syllabus breadth is already strong.
