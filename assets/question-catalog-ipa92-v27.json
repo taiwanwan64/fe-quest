@@ -1,0 +1,58 @@
+{
+  "version": "ipa92-catalog-v27",
+  "contentVersion": "ipa92-questions-v27",
+  "contentVersions": [
+    "ipa92-questions-v27"
+  ],
+  "counts": {
+    "subjectA": 5,
+    "catalogQuestions": 5
+  },
+  "items": [
+    {
+      "id": "ipa92_a_linear_algebra_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "行列・逆行列・固有値",
+      "coreTopicId": "core_02_07",
+      "qualityAudit": "ipa92-original-v27"
+    },
+    {
+      "id": "ipa92_a_sequences_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "等差数列と等比数列",
+      "coreTopicId": "core_02_07",
+      "qualityAudit": "ipa92-original-v27"
+    },
+    {
+      "id": "ipa92_a_interpolation_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "補間法",
+      "coreTopicId": "core_02_07",
+      "qualityAudit": "ipa92-original-v27"
+    },
+    {
+      "id": "ipa92_a_dynamic_programming_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "動的計画法",
+      "coreTopicId": "core_02_07",
+      "qualityAudit": "ipa92-original-v27"
+    },
+    {
+      "id": "ipa92_a_hash_search_001",
+      "sourcePool": "subject_a",
+      "cat": "アルゴリズム",
+      "difficulty": "standard",
+      "concept": "ハッシュ表探索と衝突処理",
+      "coreTopicId": "core_03_03",
+      "qualityAudit": "ipa92-original-v27"
+    }
+  ]
+}
