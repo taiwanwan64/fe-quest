@@ -1,4 +1,4 @@
-name: Validate IPA 9.2 question v19 public activation
+name: Validate IPA 9.2 question v19 historical artifacts
 
 on:
   pull_request:
@@ -6,8 +6,6 @@ on:
     paths:
       - 'assets/protected-content-provider-v376-v19.js'
       - 'assets/question-catalog-ipa92-v19.json'
-      - 'cloud/public-config-v342.js'
-      - 'sw.js'
       - '.github/IPA92_V19_ACTIVATION_2026-09-14.md'
       - '.github/workflows/validate-ipa92-question-v19-public.yml'
   workflow_dispatch:
@@ -16,31 +14,22 @@ permissions:
   contents: read
 
 jobs:
-  validate-v19-public:
+  validate-v19-history:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - name: Validate JavaScript syntax
+      - name: Validate immutable v19 artifacts
         run: |
           node --check assets/protected-content-provider-v376-v19.js
-          node --check cloud/public-config-v342.js
-          node --check sw.js
-      - name: Validate v19 safe catalog and provider
-        run: |
           node <<'NODE'
-          const fs=require('node:fs'),vm=require('node:vm');const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v19.json','utf8'));const ids=['ipa92_a_persona_journey_001','ipa92_a_dynamic_pricing_001','ipa92_a_subscription_model_001','ipa92_a_omnichannel_001','ipa92_a_seo_lpo_001'];const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);if(c.version!=='ipa92-catalog-v19'||c.contentVersion!=='ipa92-questions-v19'||JSON.stringify(c.contentVersions)!==JSON.stringify(['ipa92-questions-v19'])||c.counts?.subjectA!==5||c.items?.length!==5||JSON.stringify(c.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v19 catalog contract');for(const item of c.items){if(item.sourcePool!=='subject_a'||item.cat!=='経営戦略'||item.coreTopicId!=='core_18_05'||item.qualityAudit!=='ipa92-original-v19'||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('v19 safe metadata')}const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));const versions={};for(let i=7;i<=19;i++)versions[i]=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v'+i+'.json','utf8'));const source=fs.readFileSync('assets/protected-content-provider-v376-v19.js','utf8');const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v19.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const s=String(url);let data=base;if(s.endsWith('question-catalog-ipa92-v1-v6.json'))data=legacy;else for(let i=7;i<=19;i++)if(s.endsWith('question-catalog-ipa92-v'+i+'.json'))data=versions[i];return {ok:true,status:200,json:async()=>data}},window:{}};vm.createContext(ctx);vm.runInContext(source,ctx);(async()=>{const api=ctx.window.FEQUEST_PROTECTED_CONTENT;if(api?.version!=='v376-provider-16-ipa92-v1-v19'||api.catalogTotal!==1094)throw new Error('provider contract');const m=await api.loadCatalog();if(m.items.length!==1094||m.counts?.subjectA!==900||m.counts?.trackedSubjectA!==909||m.counts?.catalogQuestions!==1094)throw new Error('merged counts');const expected=Array.from({length:19},(_,i)=>'ipa92-questions-v'+(i+1));if(JSON.stringify(m.extensionContentVersions)!==JSON.stringify(expected)||new Set(m.items.map(x=>x.id)).size!==1094)throw new Error('versions/ids');console.log('PASS provider 1094')})().catch(e=>{console.error(e);process.exitCode=1});
+          const fs=require('node:fs');
+          const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v19.json','utf8'));
+          const ids=['ipa92_a_persona_journey_001','ipa92_a_dynamic_pricing_001','ipa92_a_subscription_model_001','ipa92_a_omnichannel_001','ipa92_a_seo_lpo_001'];
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          if(c.version!=='ipa92-catalog-v19'||c.contentVersion!=='ipa92-questions-v19'||c.items?.length!==5||JSON.stringify(c.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v19 catalog drift');
+          for(const item of c.items)if(item.qualityAudit!=='ipa92-original-v19'||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('v19 public metadata drift');
+          const p=fs.readFileSync('assets/protected-content-provider-v376-v19.js','utf8');
+          if(!p.includes("version:'v376-provider-16-ipa92-v1-v19'")||!p.includes("const IPA92_V19_TOTAL=5;"))throw new Error('v19 provider drift');
+          console.log('PASS immutable v19 public artifacts');
           NODE
-      - name: Validate runtime metadata and release evidence
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs'),vm=require('node:vm');const source=fs.readFileSync('cloud/public-config-v342.js','utf8');const bank=Array.from({length:83},(_,i)=>({id:'legacy_'+i}));const listeners={};const script={id:'',src:'',async:true,addEventListener(t,f){listeners[t]=f}};let ctx;const document={getElementById(){return null},createElement(){return script},head:{appendChild(n){if(n.src!=='./assets/protected-content-provider-v376-v19.js')throw new Error('provider src');ctx.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-16-ipa92-v1-v19',catalogTotal:1094};listeners.load()}}};ctx={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-15-ipa92-v1-v18',catalogTotal:1089}};vm.createContext(ctx);vm.runInContext('const QUESTION_BANK='+JSON.stringify(bank)+';\n'+source+'\nglobalThis.__BANK__=QUESTION_BANK;',ctx);(async()=>{const r=await ctx.FEQUEST_IPA92_V19_PROVIDER_READY;if(!r?.ok||ctx.__BANK__.length!==190||ctx.FEQUEST_IPA92_V19_SUBJECT_A_METADATA?.length!==5)throw new Error('runtime metadata');for(let i=7;i<=18;i++)if(ctx['FEQUEST_IPA92_V'+i+'_PROVIDER_READY']!==ctx.FEQUEST_IPA92_V19_PROVIDER_READY)throw new Error('alias '+i);console.log('PASS runtime metadata 190')})().catch(e=>{console.error(e);process.exitCode=1});
-          NODE
-          grep -Fq '"./assets/protected-content-provider-v376-v19.js"' sw.js
-          grep -Fq '"./assets/question-catalog-ipa92-v19.json"' sw.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-18';" sw.js
-          grep -Fq 'active protected question total after import: **1094**' .github/IPA92_V19_ACTIVATION_2026-09-14.md
-          grep -Fq 'b3c632878700adef7ae5d2ca3055f8647f5028f9' .github/IPA92_V19_ACTIVATION_2026-09-14.md
-          grep -Fq 'e71184f6366e79d9b9acb8ca73848e1f2932da6919bfac4daf604d61bbbb770b' .github/IPA92_V19_ACTIVATION_2026-09-14.md
-          grep -Fq '34790343337' .github/IPA92_V19_ACTIVATION_2026-09-14.md
-          grep -Fq '34790346760' .github/IPA92_V19_ACTIVATION_2026-09-14.md
