@@ -15,4 +15,4 @@
 
 Only public-safe catalog metadata is published for v25: IDs, pool, category, difficulty, concept, core topic and quality-audit marker. Question stems, options, answers, hints, explanations and protected lesson bodies remain in the private source repository / protected Supabase storage.
 
-The v25 public provider extends the merged protected catalog from **1119** to **1124** questions and retains the existing question-gate flow. Service-worker cache identity is advanced so installed PWA clients receive the new provider and catalog.
+The v25 public provider extends the merged protected catalog from **1119** to **1124** questions and retains the existing question-gate flow. The merged Subject A count is **930**, with **939** tracked Subject A items. Service-worker cache identity is advanced so installed PWA clients receive the new provider and catalog.
