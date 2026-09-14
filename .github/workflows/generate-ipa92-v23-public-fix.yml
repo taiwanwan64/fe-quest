@@ -1,0 +1,50 @@
+name: Generate IPA 9.2 v23 public activation fix
+
+on:
+  push:
+    branches: [ipa92-v23-public-activation-20260914]
+    paths:
+      - '.github/workflows/generate-ipa92-v23-public-fix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ipa92-v23-public-activation-20260914
+      - name: Run corrected v23 generator
+        run: |
+          node <<'WRAP'
+          const fs=require('node:fs');
+          const src=fs.readFileSync('.github/workflows/generate-ipa92-v23-public.yml','utf8');
+          const start=src.indexOf("          node <<'NODE'\n");
+          const end=src.indexOf('\n          NODE',start);
+          if(start<0||end<0)throw new Error('generator block not found');
+          let code=src.slice(start+"          node <<'NODE'\n".length,end).split('\n').map(line=>line.startsWith('          ')?line.slice(10):line).join('\n');
+          const replacements=[
+            ["pub=appendAfterLine(pub,'./assets/protected-content-provider-v376-v22.js'", "pub=appendAfterLine(pub,'./assets/protected-content-provider-v376-v22.js',`          grep -Fq '\"./assets/protected-content-provider-v376-v23.js\"' \"$RUNNER_TEMP/site/sw.js\"`,'publication sw provider');"],
+            ["pub=appendAfterLine(pub,'./assets/question-catalog-ipa92-v22.json'", "pub=appendAfterLine(pub,'./assets/question-catalog-ipa92-v22.json',`          grep -Fq '\"./assets/question-catalog-ipa92-v23.json\"' \"$RUNNER_TEMP/site/sw.js\"`,'publication sw catalog');"],
+            ["pub=appendAfterLine(pub,\"version:'v376-provider-19-ipa92-v1-v22'\"", "pub=appendAfterLine(pub,\"version:'v376-provider-19-ipa92-v1-v22'\",`          grep -Fq \"version:'v376-provider-20-ipa92-v1-v23'\" \"$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js\"`,'publication provider marker');"],
+            ["deploy=appendAfterLine(deploy,'./assets/protected-content-provider-v376-v22.js'", "deploy=appendAfterLine(deploy,'./assets/protected-content-provider-v376-v22.js',`          grep -Fq '\"./assets/protected-content-provider-v376-v23.js\"' \"$RUNNER_TEMP/site/sw.js\"`,'deploy sw provider');"],
+            ["deploy=appendAfterLine(deploy,'./assets/question-catalog-ipa92-v22.json'", "deploy=appendAfterLine(deploy,'./assets/question-catalog-ipa92-v22.json',`          grep -Fq '\"./assets/question-catalog-ipa92-v23.json\"' \"$RUNNER_TEMP/site/sw.js\"`,'deploy sw catalog');"],
+            ["deploy=appendAfterLine(deploy,\"version:'v376-provider-19-ipa92-v1-v22'\"", "deploy=appendAfterLine(deploy,\"version:'v376-provider-19-ipa92-v1-v22'\",`          grep -Fq \"version:'v376-provider-20-ipa92-v1-v23'\" \"$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js\"`,'deploy provider marker');"]
+          ];
+          for(const [prefix,replacement] of replacements){
+            const lines=code.split('\n'); const i=lines.findIndex(line=>line.trimStart().startsWith(prefix));
+            if(i<0)throw new Error('fix target missing '+prefix);
+            lines[i]=replacement; code=lines.join('\n');
+          }
+          new Function('require','process','console',code)(require,process,console);
+          WRAP
+      - name: Commit generated non-workflow and staged workflow files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/question-catalog-ipa92-v23.json assets/protected-content-provider-v376-v23.js cloud/public-config-v342.js sw.js .github/IPA92_V23_ACTIVATION_2026-09-14.md .github/generated
+          git commit -m 'Generate IPA 9.2 v23 public activation assets'
+          git push origin HEAD:ipa92-v23-public-activation-20260914
