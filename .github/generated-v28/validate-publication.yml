@@ -1,0 +1,333 @@
+name: Validate sanitized FE QUEST publication
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout publication candidate
+        uses: actions/checkout@v6
+      - name: Validate IPA 9.2 coverage manifest
+        run: node .github/scripts/check-ipa92-coverage.mjs
+      - name: Validate JavaScript syntax
+        run: |
+          node --check .github/scripts/check-ipa92-coverage.mjs
+          node --check assets/protected-content-provider-v376.js
+          node --check assets/protected-content-provider-v376-v15.js
+          node --check assets/protected-content-provider-v376-v16.js
+          node --check assets/protected-content-provider-v376-v17.js
+          node --check assets/protected-content-provider-v376-v18.js
+          node --check assets/protected-content-provider-v376-v19.js
+          node --check assets/protected-content-provider-v376-v20.js
+          node --check assets/protected-content-provider-v376-v21.js
+          node --check assets/protected-content-provider-v376-v22.js
+          node --check assets/protected-content-provider-v376-v23.js
+          node --check assets/protected-content-provider-v376-v24.js
+          node --check assets/protected-content-provider-v376-v25.js
+          node --check assets/protected-content-provider-v376-v26.js
+          node --check assets/protected-content-provider-v376-v27.js
+          node --check assets/protected-content-provider-v376-v28.js
+          node --check assets/first-impression-ux-v377.js
+          node --check assets/ipa92-sort-lab-v377.js
+          node --check assets/ipa92-graph-lab-v377.js
+          node --check assets/ipa92-modeling-lab-v377.js
+          node --check assets/ipa92-memory-lab-v377.js
+          node --check cloud/activation-loader-v342.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Validate IPA 9.2 public question metadata and runtime merge
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const extension=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));
+          const contentVersions=['ipa92-questions-v1','ipa92-questions-v2','ipa92-questions-v3','ipa92-questions-v4','ipa92-questions-v5','ipa92-questions-v6'];
+          if(extension.version!=='ipa92-catalog-v1-v6'||extension.contentVersion!=='ipa92-questions-v1-v6')throw new Error('IPA 9.2 extension catalog version mismatch');
+          if(JSON.stringify(extension.contentVersions)!==JSON.stringify(contentVersions))throw new Error('IPA 9.2 extension contentVersions mismatch');
+          if(!Array.isArray(extension.items)||extension.items.length!==83)throw new Error(`IPA 9.2 extension count mismatch: ${extension.items?.length}`);
+          if(extension.counts?.subjectA!==83||extension.counts?.catalogQuestions!==83)throw new Error('IPA 9.2 extension counts invalid');
+          const ids=extension.items.map(item=>item.id);
+          if(new Set(ids).size!==83||ids.some(id=>!/^ipa92_a_[A-Za-z0-9_-]+$/.test(id)))throw new Error('IPA 9.2 extension IDs invalid');
+          const expectedAuditCounts={
+            'ipa92-original-v1':13,
+            'ipa92-original-v2':14,
+            'ipa92-original-v3':12,
+            'ipa92-original-v4':12,
+            'ipa92-original-v5':16,
+            'ipa92-original-v6':16,
+          };
+          const auditCounts={};
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          for(const item of extension.items){
+            if(item.sourcePool!=='subject_a')throw new Error(`unexpected source pool: ${item.id}`);
+            if(typeof item.cat!=='string'||typeof item.concept!=='string'||!/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||'')))throw new Error(`invalid safe metadata: ${item.id}`);
+            const leaked=Object.keys(item).find(key=>protectedKeys.has(key));
+            if(leaked)throw new Error(`protected field leaked in public catalog: ${item.id}:${leaked}`);
+            auditCounts[item.qualityAudit]=(auditCounts[item.qualityAudit]||0)+1;
+          }
+          if(JSON.stringify(auditCounts)!==JSON.stringify(expectedAuditCounts))throw new Error(`IPA 9.2 batch counts invalid: ${JSON.stringify(auditCounts)}`);
+
+          const loader=fs.readFileSync('cloud/activation-loader-v342.js','utf8');
+          const context={console,setTimeout,clearTimeout,URL};
+          vm.createContext(context);
+          vm.runInContext(`const QUESTION_BANK=[];\n${loader}\nglobalThis.__BANK__=QUESTION_BANK;`,context,{filename:'cloud/activation-loader-v342.js'});
+          const bank=context.__BANK__;
+          if(!Array.isArray(bank)||bank.length!==83)throw new Error(`runtime metadata install mismatch: ${bank?.length}`);
+          const bankIds=bank.map(item=>item.id).sort();
+          const catalogIds=[...ids].sort();
+          if(JSON.stringify(bankIds)!==JSON.stringify(catalogIds))throw new Error('runtime metadata IDs differ from public extension catalog');
+          if(context.FEQUEST_IPA92_SUBJECT_A_METADATA_INSTALL?.ok!==true)throw new Error('runtime metadata installer did not report success');
+          if(context.FEQUEST_IPA92_SUBJECT_A_METADATA_INSTALL?.total!==83)throw new Error('runtime metadata installer total mismatch');
+
+          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
+          const provider=fs.readFileSync('assets/protected-content-provider-v376.js','utf8');
+          const providerContext={
+            console,setTimeout,clearTimeout,URL,AbortController,
+            document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376.js'},baseURI:'https://example.test/'},
+            sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},
+            fetch:async url=>({ok:true,status:200,json:async()=>String(url).endsWith('question-catalog-ipa92-v1-v6.json')?extension:base}),
+            window:{}
+          };
+          vm.createContext(providerContext);
+          vm.runInContext(provider,providerContext,{filename:'assets/protected-content-provider-v376.js'});
+          (async()=>{
+            const merged=await providerContext.window.FEQUEST_PROTECTED_CONTENT.loadCatalog();
+            if(merged.items.length!==987)throw new Error(`merged catalog count mismatch: ${merged.items.length}`);
+            if(merged.counts?.subjectA!==793)throw new Error(`merged subjectA count mismatch: ${merged.counts?.subjectA}`);
+            if(merged.counts?.trackedSubjectA!==802)throw new Error(`merged trackedSubjectA count mismatch: ${merged.counts?.trackedSubjectA}`);
+            if(merged.counts?.catalogQuestions!==987)throw new Error(`merged catalogQuestions mismatch: ${merged.counts?.catalogQuestions}`);
+            if(JSON.stringify(merged.extensionContentVersions)!==JSON.stringify(contentVersions))throw new Error('merged contentVersions mismatch');
+            const mergedIds=merged.items.map(item=>item.id);
+            if(new Set(mergedIds).size!==987)throw new Error('merged catalog duplicate IDs');
+            for(const id of ids)if(!mergedIds.includes(id))throw new Error(`merged catalog missing ${id}`);
+            console.log(`PASS IPA 9.2 public question runtime: base=${base.items.length} extension=${ids.length} merged=${merged.items.length}`);
+          })().catch(error=>{console.error(error);process.exitCode=1});
+          NODE
+      - name: Execute IPA 9.2 sorting algorithm self-check
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const file='assets/ipa92-sort-lab-v377.js';
+          const source=fs.readFileSync(file,'utf8');
+          const marker='function injectStyles(){';
+          const cut=source.indexOf(marker);
+          if(cut<0)throw new Error('sort lab test extraction marker missing');
+          const executable=source.slice(0,cut)+`\nglobalThis.__IPA92_SORT_TEST__={buildSteps,validateAlgorithms,ALGORITHM_ORDER};\n})();`;
+          const context={console};
+          vm.createContext(context);
+          vm.runInContext(executable,context,{filename:file});
+          const api=context.__IPA92_SORT_TEST__;
+          if(!api||api.validateAlgorithms()!==true)throw new Error('sort lab validation did not pass');
+          const expected='1,3,4,5,6,8';
+          for(const key of api.ALGORITHM_ORDER){
+            const steps=api.buildSteps(key);
+            if(!Array.isArray(steps)||steps.length<2)throw new Error(`no usable steps for ${key}`);
+            const actual=steps.at(-1).values.join(',');
+            if(actual!==expected)throw new Error(`${key} final state ${actual} != ${expected}`);
+            console.log(`PASS ${key}: steps=${steps.length} final=${actual}`);
+          }
+          NODE
+      - name: Execute IPA 9.2 graph theory self-check
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const file='assets/ipa92-graph-lab-v377.js';
+          const source=fs.readFileSync(file,'utf8');
+          const marker='function injectStyles(){';
+          const cut=source.indexOf(marker);
+          if(cut<0)throw new Error('graph lab test extraction marker missing');
+          const executable=source.slice(0,cut)+`\nglobalThis.__IPA92_GRAPH_TEST__={validateGraph,bfs,dfs,shortestPath,neighbors,NODE_ORDER};\n})();`;
+          const context={console};
+          vm.createContext(context);
+          vm.runInContext(executable,context,{filename:file});
+          const api=context.__IPA92_GRAPH_TEST__;
+          if(!api||api.validateGraph()!==true)throw new Error('graph lab validation did not pass');
+          const bfs=api.bfs('A',false);
+          const dfs=api.dfs('A',false);
+          const shortest=api.shortestPath('A','F',false);
+          if(new Set(bfs).size!==api.NODE_ORDER.length)throw new Error(`BFS coverage invalid: ${bfs}`);
+          if(new Set(dfs).size!==api.NODE_ORDER.length)throw new Error(`DFS coverage invalid: ${dfs}`);
+          if(!shortest||shortest.length!==4)throw new Error(`shortest path invalid: ${shortest}`);
+          if(api.shortestPath('F','A',true)!==null)throw new Error('directed reverse path unexpectedly exists');
+          console.log(`PASS graph: BFS=${bfs.join('>')} DFS=${dfs.join('>')} shortest=${shortest.join('>')}`);
+          NODE
+      - name: Execute IPA 9.2 modeling lab self-check
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const file='assets/ipa92-modeling-lab-v377.js';
+          const source=fs.readFileSync(file,'utf8');
+          const marker='function injectStyles(){';
+          const cut=source.indexOf(marker);
+          if(cut<0)throw new Error('modeling lab test extraction marker missing');
+          const executable=source.slice(0,cut)+`\nglobalThis.__IPA92_MODELING_TEST__={validateModelingLab,answerPractice,MODES,MODELS};\n})();`;
+          const context={console};
+          vm.createContext(context);
+          vm.runInContext(executable,context,{filename:file});
+          const api=context.__IPA92_MODELING_TEST__;
+          if(!api||api.validateModelingLab()!==true)throw new Error('modeling lab validation did not pass');
+          if(api.answerPractice('uml',1).correct!==true||api.answerPractice('dfd',0).correct!==true||api.answerPractice('er',1).correct!==true)throw new Error('modeling practice contract failed');
+          console.log(`PASS modeling lab: modes=${api.MODES.join(',')}`);
+          NODE
+      - name: Execute IPA 9.2 memory lab self-check
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const file='assets/ipa92-memory-lab-v377.js';
+          const source=fs.readFileSync(file,'utf8');
+          const marker='function injectStyles(){';
+          const cut=source.indexOf(marker);
+          if(cut<0)throw new Error('memory lab test extraction marker missing');
+          const executable=source.slice(0,cut)+`\nglobalThis.__IPA92_MEMORY_TEST__={validateMemoryLab,simulate,REFERENCES,ALGORITHMS};\n})();`;
+          const context={console};
+          vm.createContext(context);
+          vm.runInContext(executable,context,{filename:file});
+          const api=context.__IPA92_MEMORY_TEST__;
+          if(!api||api.validateMemoryLab()!==true)throw new Error('memory lab validation did not pass');
+          const fifo=api.simulate('fifo').at(-1);
+          const lru=api.simulate('lru').at(-1);
+          if(fifo.pageFaults!==6||lru.pageFaults!==7)throw new Error(`page replacement totals invalid: fifo=${fifo.pageFaults} lru=${lru.pageFaults}`);
+          console.log(`PASS memory lab: refs=${api.REFERENCES.join(',')} fifoFaults=${fifo.pageFaults} lruFaults=${lru.pageFaults}`);
+          NODE
+      - name: Validate deploy-only publication
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/site"
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='README.md' \
+            ./ "$RUNNER_TEMP/site/"
+          test -f "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/app-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v15.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v16.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v17.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v18.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v19.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v20.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v21.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v22.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v23.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v24.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v24.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v25.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v25.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v26.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v26.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v27.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v27.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v28.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v28.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-v376.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1-v6.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v15.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v16.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v17.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v18.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v19.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v20.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v21.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v22.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v23.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v23.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v24.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v24.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v25.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v25.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v26.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v26.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v27.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v27.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v28.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v28.json"
+          test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          test -f "$RUNNER_TEMP/site/sw.js"
+          test ! -e "$RUNNER_TEMP/site/.github"
+          test ! -e "$RUNNER_TEMP/site/supabase"
+          grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function subjectACognitiveEvidence(){return undefined;}/* FEQUEST_V376_REDACTED_FUNCTION */" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-25';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-memory-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v1-v6.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v15.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v15.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v16.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v17.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v18.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v19.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v20.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v16.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v17.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v18.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v19.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v20.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const IPA92_CATALOG_TOTAL=83;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "question-catalog-ipa92-v1-v6.json" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "version:'v376-provider-12-ipa92-v1-v15'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v15.js"
+          grep -Fq "version:'v376-provider-13-ipa92-v1-v16'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v16.js"
+          grep -Fq "version:'v376-provider-14-ipa92-v1-v17'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v17.js"
+          grep -Fq "version:'v376-provider-15-ipa92-v1-v18'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v18.js"
+          grep -Fq "version:'v376-provider-16-ipa92-v1-v19'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v19.js"
+          grep -Fq "version:'v376-provider-17-ipa92-v1-v20'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v20.js"
+          grep -Fq "version:'v376-provider-20-ipa92-v1-v23'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v23.js"
+          grep -Fq "version:'v376-provider-21-ipa92-v1-v24'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v24.js"
+          grep -Fq "version:'v376-provider-22-ipa92-v1-v25'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v25.js"
+          grep -Fq "version:'v376-provider-23-ipa92-v1-v26'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v26.js"
+          grep -Fq "version:'v376-provider-24-ipa92-v1-v27'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v27.js"
+          grep -Fq "version:'v376-provider-25-ipa92-v1-v28'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v28.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v21.js"
+          grep -Fq "const IPA92_SUBJECT_A_METADATA=Object.freeze([" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "installIpa92SubjectAMetadata();" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "const VERSION='v377-first-impression-ux-7';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "observerMode:'scoped-readiness'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "blankShellRecovery:'guarded-v2'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "studyBlockBarMode:'inline-active-screen'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "ipa92VennLab:'touch-v1'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "Ver.9.2対応強化中" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "sanitizeCompactReadiness(right,rightBar);" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "relocateStudyBlockBar();" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq '#diagIntro #diagBegin' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '#studyBlockBarV373[data-v377-inline="1"]' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '.ipa92-venn-backdrop' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq "./assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-modeling-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-memory-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_SORT_LAB" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_GRAPH_LAB" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MODELING_LAB" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MEMORY_LAB" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          grep -Fq "validateGraph();" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          grep -Fq "validateModelingLab();" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          grep -Fq "validateMemoryLab();" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
+          sha256sum "$RUNNER_TEMP/site/assets/app-v377.js" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v15.js" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v16.js" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v19.js" "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1-v6.json" "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v19.json" "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v15.json" "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v16.json" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js" "$RUNNER_TEMP/site/sw.js"

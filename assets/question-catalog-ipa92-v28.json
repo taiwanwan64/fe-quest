@@ -1,0 +1,58 @@
+{
+  "version": "ipa92-catalog-v28",
+  "contentVersion": "ipa92-questions-v28",
+  "contentVersions": [
+    "ipa92-questions-v28"
+  ],
+  "counts": {
+    "subjectA": 5,
+    "catalogQuestions": 5
+  },
+  "items": [
+    {
+      "id": "ipa92_a_nlp_analysis_001",
+      "sourcePool": "subject_a",
+      "cat": "アルゴリズム",
+      "difficulty": "standard",
+      "concept": "形態素解析・係り受け解析・n-gram",
+      "coreTopicId": "core_03_03",
+      "qualityAudit": "ipa92-original-v28"
+    },
+    {
+      "id": "ipa92_a_script_languages_001",
+      "sourcePool": "subject_a",
+      "cat": "アルゴリズム",
+      "difficulty": "standard",
+      "concept": "ECMAScriptとPython",
+      "coreTopicId": "core_03_04",
+      "qualityAudit": "ipa92-original-v28"
+    },
+    {
+      "id": "ipa92_a_override_overload_001",
+      "sourcePool": "subject_a",
+      "cat": "ソフトウェア",
+      "difficulty": "standard",
+      "concept": "オーバーライドとオーバーロード",
+      "coreTopicId": "core_12_04",
+      "qualityAudit": "ipa92-original-v28"
+    },
+    {
+      "id": "ipa92_a_abstract_data_type_001",
+      "sourcePool": "subject_a",
+      "cat": "ソフトウェア",
+      "difficulty": "standard",
+      "concept": "抽象データ型（ADT）",
+      "coreTopicId": "core_12_04",
+      "qualityAudit": "ipa92-original-v28"
+    },
+    {
+      "id": "ipa92_a_xml_001",
+      "sourcePool": "subject_a",
+      "cat": "プログラミング",
+      "difficulty": "standard",
+      "concept": "XML",
+      "coreTopicId": "core_03_05",
+      "qualityAudit": "ipa92-original-v28"
+    }
+  ]
+}
