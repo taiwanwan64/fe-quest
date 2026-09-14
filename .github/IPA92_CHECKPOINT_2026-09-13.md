@@ -7,36 +7,24 @@
 2026-09-14 の最新確認時点:
 
 - public repository: `taiwanwan64/fe-quest`
-- public main after v18 activation: `7cf4dc3179e9281b4a97dc0369bd1df5c3b483a1`
+- public main after v19 activation: `cd4b5a88863dcba948c0370ac57a029326bdc89d`
 - private repository: `taiwanwan64/fe-quest-private-source`
-- private main: `7314adcab7cac74b7781b6d7718793796105c5eb`
-- open PRs immediately after v18 activation: public **0** / private **0**
-- active protected questions: **1089**
+- private main: `b3c632878700adef7ae5d2ca3055f8647f5028f9`
+- open PRs immediately after v19 activation: public **0** / private **0**
+- active protected questions: **1094**
 - active protected lessons: **130**
-- protected question runtime contract: baseline 904 + IPA Ver.9.2 extensions v1–v18 **185** = **1089**
-  - v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 + v12 8 + v13 6 + v14 4 + v15 5 + v16 4 + v17 4 + v18 3 = 185
-- PWA cache: `fe-quest-v377-17`
-- latest provider version: `v376-provider-15-ipa92-v1-v18`
-- public merged catalog total: **1089**
-- public extension metadata total: **185**
-- merged Subject-A count: **895**
-- tracked Subject-A count: **904**
+- protected question runtime contract: baseline 904 + IPA Ver.9.2 extensions v1–v19 **190** = **1094**
+  - v1–v6 83 + v7 16 + v8 16 + v9 12 + v10 16 + v11 8 + v12 8 + v13 6 + v14 4 + v15 5 + v16 4 + v17 4 + v18 3 + v19 5 = 190
+- PWA cache: `fe-quest-v377-18`
+- latest provider version: `v376-provider-16-ipa92-v1-v19`
+- public merged catalog total: **1094**
+- public extension metadata total: **190**
+- merged Subject-A count: **900**
+- tracked Subject-A count: **909**
 
-Protected imports are now automated without weakening the production authorization boundary. Relevant changes merged to private `main` trigger an automatic dispatcher, which invokes the trusted `Import latest protected content` workflow in a `workflow_dispatch` context; that importer obtains GitHub OIDC credentials and performs the production import. Protected stems/options/answers/explanations/hints and lesson bodies remain private. The public repository contains safe metadata and browser provider contracts only.
+Protected imports are automated without weakening the production authorization boundary. Relevant changes merged to private `main` trigger the automatic dispatcher, which invokes the trusted `Import latest protected content` workflow in a `workflow_dispatch` context; that importer obtains GitHub OIDC credentials and performs the production import. Protected stems/options/answers/explanations/hints and lesson bodies remain private. The public repository contains safe metadata and browser provider contracts only.
 
 ## Recent protected batches
-
-### v14
-- content version: `ipa92-questions-v14`
-- active count: 4
-- production total after import: **1073**
-- public-safe activation: PR #52
-
-### v15
-- content version: `ipa92-questions-v15`
-- active count: 5
-- production total after import: **1078**
-- public-safe activation: PR #54
 
 ### v16 — IT governance / internal control
 - content version: `ipa92-questions-v16`
@@ -56,28 +44,36 @@ Protected imports are now automated without weakening the production authorizati
 - content version: `ipa92-questions-v18`
 - active count: **3**
 - staging rows after finalization: **0**
-- source commit recorded by latest automatic import: `7314adcab7cac74b7781b6d7718793796105c5eb`
-- payload SHA-256: `fa4a0f9e6404e5a3d0e010168c4d188e65561e4115e1448735505c67200d0b1c`
-- imported at: `2026-09-13 23:08:12.827+00`
-- automatic dispatcher run: `34788793844` — success
-- automatic unified protected import run: `34788801896` — success
 - production total after import: **1089**
-- public-safe activation: PR #60, merge commit `7cf4dc3179e9281b4a97dc0369bd1df5c3b483a1`
+- public-safe activation: PR #60
 - remediation: VRIO, growth matrix, 3C direct practice; value-chain analysis was not duplicated because direct semantic practice already existed, while lesson context was reinforced
 
-Protected lessons remain **130** active rows. The latest lesson import manifest still uses `content_version: v376-lessons-1`; v18 overlays update protected lesson bodies while preserving stable lesson IDs and the existing lesson-bank version contract.
+### v19 — modern marketing
+- content version: `ipa92-questions-v19`
+- active count: **5**
+- staging rows after finalization: **0**
+- private source / manifest source commit: `b3c632878700adef7ae5d2ca3055f8647f5028f9`
+- payload SHA-256: `e71184f6366e79d9b9acb8ca73848e1f2932da6919bfac4daf604d61bbbb770b`
+- imported at: `2026-09-13 23:40:26.086+00`
+- automatic dispatcher run: `34790343337` — success
+- automatic unified protected import run: `34790346760` — success
+- production total after import: **1094**
+- public-safe activation: PR #62, merge commit `cd4b5a88863dcba948c0370ac57a029326bdc89d`
+- remediation: persona + customer-journey map, dynamic pricing, subscription model, omnichannel, SEO + LPO. Seven official terms were intentionally covered with five comparison/application questions rather than interchangeable definition questions.
+
+Protected lessons remain **130** active rows. The latest lesson import manifest still uses `content_version: v376-lessons-1`; v19 extends the protected `core_18_05` marketing lesson while preserving stable lesson IDs and the existing lesson-bank version contract. Latest protected lesson payload SHA-256 is `32afd16bb8c8591f3bf948772ce6214f48c595a99c1d34cd2cffb203f9fd02d0` from source commit `b3c632878700adef7ae5d2ca3055f8647f5028f9`.
 
 ## Pages / CI state
 
-PR #60 passed the release checks before merge:
+PR #62 passed the release checks before merge:
 
-- `Validate IPA 9.2 question v17 public activation` — run `34789819600` — success
-- `Validate IPA 9.2 question v18 public activation` — run `34789819629` — success
-- `Validate sanitized FE QUEST publication` — run `34789819580` — success
+- `Validate IPA 9.2 question v18 public activation` — run `34801729311` — success
+- `Validate IPA 9.2 question v19 public activation` — run `34801729360` — success
+- `Validate sanitized FE QUEST publication` — run `34801729347` — success
 
-Post-merge Pages run #80 (`34789840355`) completed successfully for main `7cf4dc3179e9281b4a97dc0369bd1df5c3b483a1`.
+Post-merge Pages run #82 (`34801768040`) completed successfully for main `cd4b5a88863dcba948c0370ac57a029326bdc89d`.
 
-The publication and Pages guards now verify the v18 public-safe provider/catalog assets and the `fe-quest-v377-17` cache contract. Historical provider/catalog artifacts remain immutable; historical readiness aliases resolve to the latest provider so callers do not pin the browser runtime to an older catalog.
+The publication and Pages guards verify the v19 public-safe provider/catalog assets and the `fe-quest-v377-18` cache contract. Historical provider/catalog artifacts remain immutable; historical readiness aliases resolve to the latest provider so callers do not pin the browser runtime to an older catalog.
 
 ## Official IPA Ver.9.2 inventory milestone
 
@@ -98,6 +94,7 @@ The evidence-ledger audit has traversed **all 9 large classifications and all 23
 - **v16 IT governance/internal control:** COSO, CSA, JIS Q 38500 / IT governance, IT general controls vs application controls.
 - **v17 enterprise architecture:** EA direct practice, WFA, SOA, Zachman framework.
 - **v18 strategy frameworks:** VRIO, growth matrix, 3C. Existing value-chain direct practice was retained rather than duplicated; lesson context was expanded.
+- **v19 modern marketing:** persona/customer-journey map, dynamic pricing, subscription model, omnichannel, SEO/LPO. The batch emphasizes distinctions and application rather than one-definition-per-term expansion.
 
 The completed bundles above are complete at the source/import/deploy level only; they are not automatically `verified-covered`.
 
@@ -111,13 +108,13 @@ Full coverage is **not yet verified**. Open gates remain:
 - practice-density verification
 - required interactive/visual verification
 - iPhone-equivalent visual/touch/scroll QA
-- learning-history / save-restore compatibility verification across the enlarged **1089-question** catalog
+- learning-history / save-restore compatibility verification across the enlarged **1094-question** catalog
 
 Do not promote a topic to `verified-covered` merely because it is source-ready, imported, deployed, or present in an exact-term probe.
 
 ## Next work order
 
-1. Re-read the live semantic-review backlog and current production corpus, then continue with the next remaining SR-P1 cluster: **modern marketing** (journey map, persona, dynamic pricing, subscription, omnichannel, SEO/LPO). Check semantic equivalence and collisions before creating any v19 content.
+1. Re-read the live semantic-review backlog and current production corpus, then continue with the next remaining SR-P1 cluster: **technology strategy** — MOT, open innovation, innovation dilemma, lean startup, PoC/PoV. Check semantic equivalence, neighboring technology-management content, and collisions before creating any v20 content.
 2. In parallel, continue practice-density verification for classifications whose syllabus breadth is already strong.
 3. Prefer semantic equivalence and representative coverage over one-question-per-term expansion. Create a small original private batch only for confirmed learning gaps.
 4. Expand mobile/touch/iPhone-equivalent QA and verify required interactive/visual learning paths without weakening non-interactive fallbacks.
