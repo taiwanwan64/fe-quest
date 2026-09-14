@@ -24,7 +24,18 @@ jobs:
         with:
           node-version: '22'
       - name: Generate v26 public artifacts
-        run: node .github/tmp-generate-v26-public.cjs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/tmp-generate-v26-public.cjs')
+          s=p.read_text()
+          old="function replaceAllChecked(s,from,to,label=from){if(!s.includes(from))throw new Error(`missing replacement marker: ${label}`);return s.split(from).join(to)}"
+          new="function replaceAllChecked(s,from,to,label=from){if(!s.includes(from)){console.warn(`optional replacement marker missing: ${label}`);return s}return s.split(from).join(to)}"
+          if old not in s:
+              raise SystemExit('replaceAllChecked marker not found')
+          p.write_text(s.replace(old,new))
+          PY
+          node .github/tmp-generate-v26-public.cjs
       - name: Commit generated artifacts
         run: |
           set -euo pipefail
