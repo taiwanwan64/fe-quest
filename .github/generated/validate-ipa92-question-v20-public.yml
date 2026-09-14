@@ -1,0 +1,55 @@
+name: Validate IPA 9.2 question v20 public activation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v20.js'
+      - 'assets/question-catalog-ipa92-v20.json'
+      - 'cloud/public-config-v342.js'
+      - 'sw.js'
+      - '.github/IPA92_V20_ACTIVATION_2026-09-14.md'
+      - '.github/workflows/validate-ipa92-question-v20-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v20-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate JavaScript syntax
+        run: |
+          node --check assets/protected-content-provider-v376-v20.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Validate v20 safe catalog and provider
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),vm=require('node:vm');
+          const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v20.json','utf8'));
+          const ids=['ipa92_a_mot_001','ipa92_a_open_innovation_001','ipa92_a_innovators_dilemma_001','ipa92_a_lean_startup_001','ipa92_a_poc_pov_001'];
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          if(c.version!=='ipa92-catalog-v20'||c.contentVersion!=='ipa92-questions-v20'||JSON.stringify(c.contentVersions)!==JSON.stringify(['ipa92-questions-v20'])||c.counts?.subjectA!==5||c.counts?.catalogQuestions!==5||c.items?.length!==5||JSON.stringify(c.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v20 catalog contract');
+          for(const item of c.items){if(item.sourcePool!=='subject_a'||item.cat!=='経営戦略'||!['core_18_07','core_18_08'].includes(item.coreTopicId)||item.qualityAudit!=='ipa92-original-v20'||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('v20 safe metadata')}
+          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));const versions={};for(let i=7;i<=20;i++)versions[i]=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v'+i+'.json','utf8'));const source=fs.readFileSync('assets/protected-content-provider-v376-v20.js','utf8');
+          const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v20.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const s=String(url);let data=base;if(s.endsWith('question-catalog-ipa92-v1-v6.json'))data=legacy;else for(let i=7;i<=20;i++)if(s.endsWith('question-catalog-ipa92-v'+i+'.json'))data=versions[i];return {ok:true,status:200,json:async()=>data}},window:{}};vm.createContext(ctx);vm.runInContext(source,ctx);
+          (async()=>{const api=ctx.window.FEQUEST_PROTECTED_CONTENT;if(api?.version!=='v376-provider-17-ipa92-v1-v20'||api.catalogTotal!==1099)throw new Error('provider contract');const m=await api.loadCatalog();if(m.items.length!==1099||m.counts?.subjectA!==905||m.counts?.trackedSubjectA!==914||m.counts?.catalogQuestions!==1099)throw new Error('merged counts');const expected=Array.from({length:20},(_,i)=>'ipa92-questions-v'+(i+1));if(JSON.stringify(m.extensionContentVersions)!==JSON.stringify(expected)||new Set(m.items.map(x=>x.id)).size!==1099)throw new Error('versions/ids');console.log('PASS provider 1099')})().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+      - name: Validate runtime metadata and release evidence
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),vm=require('node:vm');const source=fs.readFileSync('cloud/public-config-v342.js','utf8');const bank=Array.from({length:83},(_,i)=>({id:'legacy_'+i}));const listeners={};const script={id:'',src:'',async:true,addEventListener(t,f){listeners[t]=f}};let ctx;const document={getElementById(){return null},createElement(){return script},head:{appendChild(n){if(n.src!=='./assets/protected-content-provider-v376-v20.js')throw new Error('provider src');ctx.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-17-ipa92-v1-v20',catalogTotal:1099};listeners.load()}}};ctx={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-16-ipa92-v1-v19',catalogTotal:1094}};vm.createContext(ctx);vm.runInContext('const QUESTION_BANK='+JSON.stringify(bank)+';\n'+source+'\nglobalThis.__BANK__=QUESTION_BANK;',ctx);(async()=>{const r=await ctx.FEQUEST_IPA92_V20_PROVIDER_READY;if(!r?.ok||ctx.__BANK__.length!==195||ctx.FEQUEST_IPA92_V20_SUBJECT_A_METADATA?.length!==5)throw new Error('runtime metadata');for(let i=7;i<=19;i++)if(ctx['FEQUEST_IPA92_V'+i+'_PROVIDER_READY']!==ctx.FEQUEST_IPA92_V20_PROVIDER_READY)throw new Error('alias '+i);console.log('PASS runtime metadata 195')})().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+          grep -Fq '"./assets/protected-content-provider-v376-v20.js"' sw.js
+          grep -Fq '"./assets/question-catalog-ipa92-v20.json"' sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-19';" sw.js
+          grep -Fq 'active protected question total after import: **1099**' .github/IPA92_V20_ACTIVATION_2026-09-14.md
+          grep -Fq 'd8682a97bbea7979ed3d0b0cab41dd28b492e0ba' .github/IPA92_V20_ACTIVATION_2026-09-14.md
+          grep -Fq 'd8bb655dce3e5fe8f41a9ac75eac7fbacc7be01ef26c68e46db13871607a4d64' .github/IPA92_V20_ACTIVATION_2026-09-14.md
+          grep -Fq '34802597426' .github/IPA92_V20_ACTIVATION_2026-09-14.md
+          grep -Fq '34802602188' .github/IPA92_V20_ACTIVATION_2026-09-14.md
+          grep -Fq 'v376-lessons-1' .github/IPA92_V20_ACTIVATION_2026-09-14.md
