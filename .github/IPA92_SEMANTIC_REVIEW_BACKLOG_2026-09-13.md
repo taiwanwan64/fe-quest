@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1099 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1104 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -32,7 +32,8 @@ Broader neighboring concepts already covered in the corpus were not duplicated s
 - **v17 enterprise architecture:** EA, WFA, SOA, and the Zachman framework.
 - **v18 strategy frameworks:** VRIO, growth matrix, and 3C. Value-chain analysis already had direct semantic practice, so no duplicate question was added; its lesson context was reinforced instead.
 - **v19 modern marketing:** persona + customer-journey map, dynamic pricing, subscription model, omnichannel, and SEO + LPO. Seven official terms were represented by five application/comparison questions rather than one definition question per term.
-- **v20 technology strategy:** MOT, open innovation, innovator's dilemma, lean startup, and PoC/PoV. Existing technology-development/roadmap semantics were kept as the foundation, while five original questions add six missing decision distinctions. False substring evidence (`Promotion` for MOT and `SPOC` for PoC) was explicitly rejected before remediation.
+- **v20 technology strategy:** MOT, open innovation, innovator's dilemma, lean startup, and PoC/PoV. Existing technology-development/roadmap semantics were kept as the foundation, while five original questions add six missing decision distinctions.
+- **v21 digital business:** digital twin/CPS, smart contract, eKYC, CBDC, NFT. Existing IoT/e-business foundations were retained; five original comparison/application questions cover six missing named patterns without one-definition-per-term inflation.
 
 ## SR-P0 — first pass complete
 
@@ -42,11 +43,10 @@ SR-P0 is therefore no longer the immediate content-expansion queue. Practice-den
 
 ## SR-P1 — remaining semantic-review pass
 
-Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, strategy frameworks, modern marketing, and technology strategy have completed their first semantic-review/remediation pass through v12–v20. The remaining SR-P1 queue is:
+Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, strategy frameworks, modern marketing, technology strategy, and digital business have completed their first semantic-review/remediation pass through v12–v21. The remaining SR-P1 queue is:
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Digital business: digital twin, CPS, smart contract, eKYC, CBDC, NFT | zero/thin evidence | inspect e-business, IoT, finance/payment and distributed-ledger content; distinguish parent concepts from named application patterns |
 | Industrial/consumer tech: edge AI, HEMS, M2M, smart factory/agriculture, MaaS, autonomous driving | zero evidence | verify parent IoT/business-industry coverage and prioritize representative examples |
 | Corporate/data analysis: BCP/BCM/BIA, regression/moving average, BI/data mining, box plot/heat map | thin/zero evidence | inspect OR/statistics/business-analysis content for equivalent practice |
 | Accounting: balance sheet / P&L / cash-flow statement / ROA / ROE | lesson-only or mixed | determine whether direct calculation/interpretation practice is sufficient |
@@ -77,15 +77,15 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-Next, review **digital business** narrowly against the current production corpus:
+Next, review **industrial/consumer technology** narrowly against the current production corpus:
 
-- digital twin
-- CPS (Cyber-Physical System)
-- smart contract
-- eKYC
-- CBDC
-- NFT
+- edge AI
+- HEMS
+- M2M
+- smart factory / smart agriculture
+- MaaS
+- autonomous driving
 
-First inspect existing IoT, blockchain/distributed-ledger, authentication/identity, electronic payment/finance and e-business material. Exact-term absence alone is not enough to justify a question. Prefer distinct decision/application rules — for example, physical/virtual synchronization, real-world/control-loop integration, self-executing contract logic, remote identity verification, central-bank digital currency, and non-fungible token identity — and avoid six interchangeable vocabulary questions.
+First inspect existing IoT, edge computing, AI inference, sensor/actuator, manufacturing/agriculture, mobility and business-system material. Exact-term absence alone is not enough to justify a question. Prefer representative distinctions — for example, inference near the data source, household energy optimization, machine-to-machine communication, IoT-driven industrial optimization, integrated mobility services, and sensing/decision/control in automated vehicles — rather than six interchangeable vocabulary questions.
 
 In parallel, continue practice-density verification on classifications whose syllabus breadth is already strong.
