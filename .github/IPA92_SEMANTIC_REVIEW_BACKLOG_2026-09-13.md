@@ -6,7 +6,7 @@ The tranche 1–9 evidence-ledger traversal has reached all 9 large classificati
 
 A topic belongs here when exact-term evidence is weak (`mixed-evidence`, `lesson-only`, or `no-direct-evidence`) but the official Ver.9.2 syllabus makes the concept worth checking against broader wording, neighboring core topics, and existing lesson context.
 
-**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1104 questions / 130 lessons** production corpus.
+**Do not create a new protected batch solely because a term appears here.** Each candidate must first survive semantic review and collision checks against the current **1109 questions / 130 lessons** production corpus.
 
 ## Priority contract
 
@@ -34,6 +34,7 @@ Broader neighboring concepts already covered in the corpus were not duplicated s
 - **v19 modern marketing:** persona + customer-journey map, dynamic pricing, subscription model, omnichannel, and SEO + LPO. Seven official terms were represented by five application/comparison questions rather than one definition question per term.
 - **v20 technology strategy:** MOT, open innovation, innovator's dilemma, lean startup, and PoC/PoV. Existing technology-development/roadmap semantics were kept as the foundation, while five original questions add six missing decision distinctions.
 - **v21 digital business:** digital twin/CPS, smart contract, eKYC, CBDC, NFT. Existing IoT/e-business foundations were retained; five original comparison/application questions cover six missing named patterns without one-definition-per-term inflation.
+- **v22 industrial/consumer technology:** edge AI, HEMS, M2M, smart factory/smart agriculture, MaaS/autonomous driving. Existing edge-computing, IoT and FA/CIM practice remained the parent foundation; five questions cover seven named ideas through application and comparison rather than vocabulary duplication.
 
 ## SR-P0 — first pass complete
 
@@ -43,12 +44,11 @@ SR-P0 is therefore no longer the immediate content-expansion queue. Practice-den
 
 ## SR-P1 — remaining semantic-review pass
 
-Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, strategy frameworks, modern marketing, technology strategy, and digital business have completed their first semantic-review/remediation pass through v12–v21. The remaining SR-P1 queue is:
+Requirements engineering, development-process variants, project-management detail, service/facility, IT governance/internal control, enterprise architecture, strategy frameworks, modern marketing, technology strategy, digital business, and industrial/consumer technology have completed their first semantic-review/remediation pass through v12–v22. The remaining SR-P1 queue is:
 
 | Cluster | Current evidence signal | Review target |
 |---|---|---|
-| Industrial/consumer tech: edge AI, HEMS, M2M, smart factory/agriculture, MaaS, autonomous driving | zero evidence | verify parent IoT/business-industry coverage and prioritize representative examples |
-| Corporate/data analysis: BCP/BCM/BIA, regression/moving average, BI/data mining, box plot/heat map | thin/zero evidence | inspect OR/statistics/business-analysis content for equivalent practice |
+| Corporate/data analysis: BCP/BCM/BIA, regression/moving average, BI/data mining, box plot/heat map | thin/zero evidence | inspect continuity, statistics and business-analysis content for equivalent practice before adding questions |
 | Accounting: balance sheet / P&L / cash-flow statement / ROA / ROE | lesson-only or mixed | determine whether direct calculation/interpretation practice is sufficient |
 | Labor/contracts: 36 Agreement, Worker Dispatching Act, disguised contracting, NDA/GPL/LGPL | mixed/lesson-only/zero | verify distinctions and current legal naming |
 | Standards bodies: JIS/ITU/IEC/IETF/IEEE/W3C | mixed/lesson-only/zero | determine whether representative standards practice can cover several examples without overfitting |
@@ -77,15 +77,13 @@ Before creating content for any backlog item:
 
 ## Recommended next review bundle
 
-Next, review **industrial/consumer technology** narrowly against the current production corpus:
+Next, review **corporate/data analysis** narrowly against the current production corpus:
 
-- edge AI
-- HEMS
-- M2M
-- smart factory / smart agriculture
-- MaaS
-- autonomous driving
+- BCP / BCM / BIA
+- regression analysis / moving average
+- BI / data mining
+- box plot / heat map
 
-First inspect existing IoT, edge computing, AI inference, sensor/actuator, manufacturing/agriculture, mobility and business-system material. Exact-term absence alone is not enough to justify a question. Prefer representative distinctions — for example, inference near the data source, household energy optimization, machine-to-machine communication, IoT-driven industrial optimization, integrated mobility services, and sensing/decision/control in automated vehicles — rather than six interchangeable vocabulary questions.
+First inspect existing business-continuity, risk, statistics, forecasting, data-analysis and visualization material. Exact-term absence alone is not enough to justify a new question. Prefer useful distinctions — for example, plan versus management process versus impact analysis, explanatory/predictive relationship versus smoothing of time-series variation, decision-support analytics versus pattern discovery, and distribution visualization versus matrix/intensity visualization — rather than one interchangeable definition question per term.
 
 In parallel, continue practice-density verification on classifications whose syllabus breadth is already strong.
