@@ -1,0 +1,58 @@
+{
+  "version": "ipa92-catalog-v29",
+  "contentVersion": "ipa92-questions-v29",
+  "contentVersions": [
+    "ipa92-questions-v29"
+  ],
+  "counts": {
+    "subjectA": 5,
+    "catalogQuestions": 5
+  },
+  "items": [
+    {
+      "id": "ipa92_a_dynamic_array_001",
+      "sourcePool": "subject_a",
+      "cat": "アルゴリズム",
+      "difficulty": "standard",
+      "concept": "動的配列",
+      "coreTopicId": "core_03_01",
+      "qualityAudit": "ipa92-original-v29"
+    },
+    {
+      "id": "ipa92_a_linked_list_variants_001",
+      "sourcePool": "subject_a",
+      "cat": "アルゴリズム",
+      "difficulty": "standard",
+      "concept": "双方向リストと環状リスト",
+      "coreTopicId": "core_03_01",
+      "qualityAudit": "ipa92-original-v29"
+    },
+    {
+      "id": "ipa92_a_frequency_filters_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "ローパスフィルタとハイパスフィルタ",
+      "coreTopicId": "core_02_09",
+      "qualityAudit": "ipa92-original-v29"
+    },
+    {
+      "id": "ipa92_a_control_response_stability_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "過渡応答・定常応答・制御安定性",
+      "coreTopicId": "core_02_09",
+      "qualityAudit": "ipa92-original-v29"
+    },
+    {
+      "id": "ipa92_a_sensor_types_001",
+      "sourcePool": "subject_a",
+      "cat": "基礎理論",
+      "difficulty": "standard",
+      "concept": "ジャイロセンサ・ひずみゲージ・ホール素子",
+      "coreTopicId": "core_02_09",
+      "qualityAudit": "ipa92-original-v29"
+    }
+  ]
+}
