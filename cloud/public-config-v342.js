@@ -214,6 +214,14 @@
     {"id":"ipa92_a_hash_search_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"ハッシュ表探索と衝突処理","coreTopicId":"core_03_03","qualityAudit":"ipa92-original-v27"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V28_METADATA=Object.freeze([
+    {"id":"ipa92_a_nlp_analysis_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"形態素解析・係り受け解析・n-gram","coreTopicId":"core_03_03","qualityAudit":"ipa92-original-v28"},
+    {"id":"ipa92_a_script_languages_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"ECMAScriptとPython","coreTopicId":"core_03_04","qualityAudit":"ipa92-original-v28"},
+    {"id":"ipa92_a_override_overload_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"オーバーライドとオーバーロード","coreTopicId":"core_12_04","qualityAudit":"ipa92-original-v28"},
+    {"id":"ipa92_a_abstract_data_type_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"抽象データ型（ADT）","coreTopicId":"core_12_04","qualityAudit":"ipa92-original-v28"},
+    {"id":"ipa92_a_xml_001","sourcePool":"subject_a","cat":"プログラミング","difficulty":"standard","concept":"XML","coreTopicId":"core_03_05","qualityAudit":"ipa92-original-v28"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -253,6 +261,7 @@
   function installV25Metadata(){return installMetadata(IPA92_V25_METADATA,'v25',5)}
   function installV26Metadata(){return installMetadata(IPA92_V26_METADATA,'v26',5)}
   function installV27Metadata(){return installMetadata(IPA92_V27_METADATA,'v27',5)}
+  function installV28Metadata(){return installMetadata(IPA92_V28_METADATA,'v28',5)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
@@ -275,6 +284,7 @@
     const v25Install=installV25Metadata();
     const v26Install=installV26Metadata();
     const v27Install=installV27Metadata();
+    const v28Install=installV28Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
@@ -296,21 +306,22 @@
     root.FEQUEST_IPA92_V25_SUBJECT_A_METADATA_INSTALL=v25Install;
     root.FEQUEST_IPA92_V26_SUBJECT_A_METADATA_INSTALL=v26Install;
     root.FEQUEST_IPA92_V27_SUBJECT_A_METADATA_INSTALL=v27Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-24-ipa92-v1-v27'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1134;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install});
+    root.FEQUEST_IPA92_V28_SUBJECT_A_METADATA_INSTALL=v28Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-25-ipa92-v1-v28'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1139;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install});
   }
 
-  function activateV27Provider(){
+  function activateV28Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-24-ipa92-v1-v27')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v27-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-25-ipa92-v1-v28')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v28-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-24-ipa92-v1-v27')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-25-ipa92-v1-v28')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -318,7 +329,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v27.js';
+      script.src='./assets/protected-content-provider-v376-v28.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -347,7 +358,9 @@
   root.FEQUEST_IPA92_V25_SUBJECT_A_METADATA=IPA92_V25_METADATA;
   root.FEQUEST_IPA92_V26_SUBJECT_A_METADATA=IPA92_V26_METADATA;
   root.FEQUEST_IPA92_V27_SUBJECT_A_METADATA=IPA92_V27_METADATA;
-  const latestProviderReady=activateV27Provider();
+  root.FEQUEST_IPA92_V28_SUBJECT_A_METADATA=IPA92_V28_METADATA;
+  const latestProviderReady=activateV28Provider();
+  root.FEQUEST_IPA92_V28_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V27_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V26_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V25_PROVIDER_READY=latestProviderReady;

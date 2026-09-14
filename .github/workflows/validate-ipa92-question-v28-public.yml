@@ -1,0 +1,53 @@
+name: Validate IPA 9.2 question v28 public activation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v28.js'
+      - 'assets/question-catalog-ipa92-v28.json'
+      - 'cloud/public-config-v342.js'
+      - 'sw.js'
+      - '.github/IPA92_V28_ACTIVATION_2026-09-15.md'
+      - '.github/workflows/validate-ipa92-question-v28-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v28-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate JavaScript syntax
+        run: |
+          node --check assets/protected-content-provider-v376-v28.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Validate v28 safe public contract
+        run: |
+          node <<'CHECK'
+          const fs=require('node:fs');
+          const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v28.json','utf8'));
+          const provider=fs.readFileSync('assets/protected-content-provider-v376-v28.js','utf8');
+          const config=fs.readFileSync('cloud/public-config-v342.js','utf8');
+          const sw=fs.readFileSync('sw.js','utf8');
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          const ids=["ipa92_a_nlp_analysis_001","ipa92_a_script_languages_001","ipa92_a_override_overload_001","ipa92_a_abstract_data_type_001","ipa92_a_xml_001"];
+          if(catalog.version!=='ipa92-catalog-v28'||catalog.contentVersion!=='ipa92-questions-v28'||catalog.items?.length!==5)throw new Error('v28 catalog contract');
+          if(catalog.counts?.subjectA!==5||catalog.counts?.catalogQuestions!==5)throw new Error('v28 catalog counts');
+          if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v28 catalog ids');
+          for(const item of catalog.items){if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v28'||typeof item.cat!=='string'||typeof item.concept!=='string'||!/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||'')))throw new Error('invalid v28 safe metadata');if(Object.keys(item).some(key=>protectedKeys.has(key)))throw new Error('protected field leaked');}
+          if(!provider.includes("version:'v376-provider-25-ipa92-v1-v28'")||!provider.includes('const IPA92_V28_TOTAL=5;')||!provider.includes("const IPA92_V28_CONTENT_VERSION='ipa92-questions-v28';"))throw new Error('v28 provider contract');
+          if(!config.includes('const IPA92_V28_METADATA=Object.freeze([')||!config.includes('activateV28Provider()')||!config.includes('catalogTotal===1139'))throw new Error('v28 public config contract');
+          if(!sw.includes('"./assets/protected-content-provider-v376-v28.js"')||!sw.includes('"./assets/question-catalog-ipa92-v28.json"'))throw new Error('v28 service worker assets');
+          if(!sw.includes("const CACHE_NAME = 'fe-quest-v377-25';"))throw new Error('unexpected cache identity');
+          console.log('PASS v28 public contract: 5 safe metadata items, merged production total 1139');
+          CHECK
+      - name: Validate production evidence marker
+        run: |
+          grep -Fq 'active protected question total after import: **1139**' .github/IPA92_V28_ACTIVATION_2026-09-15.md
+          grep -Fq 'd909e1e1cc82967704182a768eab6363160cb259' .github/IPA92_V28_ACTIVATION_2026-09-15.md
+          grep -Fq 'f87267eb21b0e23eb33884ca9e9297f4c5ba04a3e2175cb9afd222fe829f04c8' .github/IPA92_V28_ACTIVATION_2026-09-15.md
