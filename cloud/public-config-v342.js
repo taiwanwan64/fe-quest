@@ -182,6 +182,14 @@
     {"id":"ipa92_a_heatmap_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"ヒートマップ","coreTopicId":"core_20_07","qualityAudit":"ipa92-original-v23"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V24_METADATA=Object.freeze([
+    {"id":"ipa92_a_financial_statements_roles_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"財務諸表の役割","coreTopicId":"core_20_05","qualityAudit":"ipa92-original-v24"},
+    {"id":"ipa92_a_roa_roe_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"ROAとROE","coreTopicId":"core_20_05","qualityAudit":"ipa92-original-v24"},
+    {"id":"ipa92_a_equity_fixed_ratio_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"自己資本比率と固定比率","coreTopicId":"core_20_05","qualityAudit":"ipa92-original-v24"},
+    {"id":"ipa92_a_margin_of_safety_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"安全余裕率","coreTopicId":"core_20_04","qualityAudit":"ipa92-original-v24"},
+    {"id":"ipa92_a_cashflow_classification_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"キャッシュフローの区分","coreTopicId":"core_20_05","qualityAudit":"ipa92-original-v24"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -217,6 +225,7 @@
   function installV21Metadata(){return installMetadata(IPA92_V21_METADATA,'v21',5)}
   function installV22Metadata(){return installMetadata(IPA92_V22_METADATA,'v22',5)}
   function installV23Metadata(){return installMetadata(IPA92_V23_METADATA,'v23',5)}
+  function installV24Metadata(){return installMetadata(IPA92_V24_METADATA,'v24',5)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
@@ -235,6 +244,7 @@
     const v21Install=installV21Metadata();
     const v22Install=installV22Metadata();
     const v23Install=installV23Metadata();
+    const v24Install=installV24Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
@@ -252,21 +262,22 @@
     root.FEQUEST_IPA92_V21_SUBJECT_A_METADATA_INSTALL=v21Install;
     root.FEQUEST_IPA92_V22_SUBJECT_A_METADATA_INSTALL=v22Install;
     root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA_INSTALL=v23Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-20-ipa92-v1-v23'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1114;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install});
+    root.FEQUEST_IPA92_V24_SUBJECT_A_METADATA_INSTALL=v24Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-21-ipa92-v1-v24'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1119;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install});
   }
 
-  function activateV23Provider(){
+  function activateV24Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-20-ipa92-v1-v23')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v23-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-21-ipa92-v1-v24')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v24-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-20-ipa92-v1-v23')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-21-ipa92-v1-v24')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -274,7 +285,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v23.js';
+      script.src='./assets/protected-content-provider-v376-v24.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -299,7 +310,9 @@
   root.FEQUEST_IPA92_V21_SUBJECT_A_METADATA=IPA92_V21_METADATA;
   root.FEQUEST_IPA92_V22_SUBJECT_A_METADATA=IPA92_V22_METADATA;
   root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA=IPA92_V23_METADATA;
-  const latestProviderReady=activateV23Provider();
+  root.FEQUEST_IPA92_V24_SUBJECT_A_METADATA=IPA92_V24_METADATA;
+  const latestProviderReady=activateV24Provider();
+  root.FEQUEST_IPA92_V24_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V23_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V22_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V21_PROVIDER_READY=latestProviderReady;
