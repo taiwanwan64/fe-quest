@@ -285,7 +285,7 @@
     root.FEQUEST_IPA92_V24_SUBJECT_A_METADATA_INSTALL=v24Install;
     root.FEQUEST_IPA92_V25_SUBJECT_A_METADATA_INSTALL=v25Install;
     root.FEQUEST_IPA92_V26_SUBJECT_A_METADATA_INSTALL=v26Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-23-ipa92-v1-v26'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1124;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-23-ipa92-v1-v26'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1129;
     const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok;
     return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install});
   }
