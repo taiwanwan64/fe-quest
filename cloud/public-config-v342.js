@@ -198,6 +198,14 @@
     {"id":"ipa92_a_language_paradigms_001","sourcePool":"subject_a","cat":"アルゴリズム","difficulty":"standard","concept":"プログラミング言語のパラダイム","coreTopicId":"core_03_04","qualityAudit":"ipa92-original-v25"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V26_METADATA=Object.freeze([
+    {"id":"ipa92_a_article36_agreement_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"36協定","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v26"},
+    {"id":"ipa92_a_nda_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"秘密保持契約（NDA）","coreTopicId":"core_21_04","qualityAudit":"ipa92-original-v26"},
+    {"id":"ipa92_a_gpl_lgpl_001","sourcePool":"subject_a","cat":"コンピュータ","difficulty":"standard","concept":"GPLとLGPL","coreTopicId":"core_06_05","qualityAudit":"ipa92-original-v26"},
+    {"id":"ipa92_a_web_internet_standards_bodies_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"W3C・IETF・IEEE","coreTopicId":"core_21_06","qualityAudit":"ipa92-original-v26"},
+    {"id":"ipa92_a_jis_itu_iec_001","sourcePool":"subject_a","cat":"ストラテジ","difficulty":"standard","concept":"JIS・ITU・IEC","coreTopicId":"core_21_06","qualityAudit":"ipa92-original-v26"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -235,6 +243,7 @@
   function installV23Metadata(){return installMetadata(IPA92_V23_METADATA,'v23',5)}
   function installV24Metadata(){return installMetadata(IPA92_V24_METADATA,'v24',5)}
   function installV25Metadata(){return installMetadata(IPA92_V25_METADATA,'v25',5)}
+  function installV26Metadata(){return installMetadata(IPA92_V26_METADATA,'v26',5)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
@@ -255,6 +264,7 @@
     const v23Install=installV23Metadata();
     const v24Install=installV24Metadata();
     const v25Install=installV25Metadata();
+    const v26Install=installV26Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
@@ -274,21 +284,22 @@
     root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA_INSTALL=v23Install;
     root.FEQUEST_IPA92_V24_SUBJECT_A_METADATA_INSTALL=v24Install;
     root.FEQUEST_IPA92_V25_SUBJECT_A_METADATA_INSTALL=v25Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-22-ipa92-v1-v25'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1124;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install});
+    root.FEQUEST_IPA92_V26_SUBJECT_A_METADATA_INSTALL=v26Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-23-ipa92-v1-v26'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1124;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install});
   }
 
-  function activateV25Provider(){
+  function activateV26Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-22-ipa92-v1-v25')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v25-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-23-ipa92-v1-v26')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v26-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-22-ipa92-v1-v25')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-23-ipa92-v1-v26')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -296,7 +307,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v25.js';
+      script.src='./assets/protected-content-provider-v376-v26.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -323,7 +334,9 @@
   root.FEQUEST_IPA92_V23_SUBJECT_A_METADATA=IPA92_V23_METADATA;
   root.FEQUEST_IPA92_V24_SUBJECT_A_METADATA=IPA92_V24_METADATA;
   root.FEQUEST_IPA92_V25_SUBJECT_A_METADATA=IPA92_V25_METADATA;
-  const latestProviderReady=activateV25Provider();
+  root.FEQUEST_IPA92_V26_SUBJECT_A_METADATA=IPA92_V26_METADATA;
+  const latestProviderReady=activateV26Provider();
+  root.FEQUEST_IPA92_V26_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V25_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V24_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V23_PROVIDER_READY=latestProviderReady;
