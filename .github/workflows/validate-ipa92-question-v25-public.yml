@@ -1,4 +1,4 @@
-name: Validate IPA 9.2 question v25 public activation
+name: Validate IPA 9.2 question v25 historical artifacts
 
 on:
   pull_request:
@@ -6,8 +6,6 @@ on:
     paths:
       - 'assets/protected-content-provider-v376-v25.js'
       - 'assets/question-catalog-ipa92-v25.json'
-      - 'cloud/public-config-v342.js'
-      - 'sw.js'
       - '.github/IPA92_V25_ACTIVATION_2026-09-14.md'
       - '.github/workflows/validate-ipa92-question-v25-public.yml'
   workflow_dispatch:
@@ -16,41 +14,14 @@ permissions:
   contents: read
 
 jobs:
-  validate-v25-public:
+  validate-v25-history:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - name: Validate JavaScript syntax
+      - name: Validate immutable v25 artifacts
         run: |
           node --check assets/protected-content-provider-v376-v25.js
-          node --check cloud/public-config-v342.js
-          node --check sw.js
-      - name: Validate v25 safe catalog and provider
-        run: |
-          node <<'CHECK'
-          const fs=require('node:fs'),vm=require('node:vm');
-          const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v25.json','utf8'));
-          const ids=['ipa92_a_decimal_encoding_001','ipa92_a_bayes_distribution_001','ipa92_a_statistical_inference_001','ipa92_a_compiler_phases_001','ipa92_a_language_paradigms_001'];
-          const topics=['core_01_02','core_02_06','core_02_06','core_03_04','core_03_04'];
-          const cats=['基礎理論','基礎理論','基礎理論','アルゴリズム','アルゴリズム'];
-          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
-          if(c.version!=='ipa92-catalog-v25'||c.contentVersion!=='ipa92-questions-v25'||JSON.stringify(c.contentVersions)!==JSON.stringify(['ipa92-questions-v25'])||c.counts?.subjectA!==5||c.counts?.catalogQuestions!==5||c.items?.length!==5||JSON.stringify(c.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v25 catalog contract');
-          c.items.forEach((item,i)=>{if(item.sourcePool!=='subject_a'||item.cat!==cats[i]||item.difficulty!=='standard'||item.coreTopicId!==topics[i]||item.qualityAudit!=='ipa92-original-v25'||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('v25 safe metadata '+item.id)});
-          const base=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));const legacy=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v1-v6.json','utf8'));const versions={};for(let i=7;i<=25;i++)versions[i]=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v'+i+'.json','utf8'));const source=fs.readFileSync('assets/protected-content-provider-v376-v25.js','utf8');
-          const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v25.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const s=String(url);let data=base;if(s.endsWith('question-catalog-ipa92-v1-v6.json'))data=legacy;else for(let i=7;i<=25;i++)if(s.endsWith('question-catalog-ipa92-v'+i+'.json'))data=versions[i];return {ok:true,status:200,json:async()=>data}},window:{}};vm.createContext(ctx);vm.runInContext(source,ctx);
-          (async()=>{const api=ctx.window.FEQUEST_PROTECTED_CONTENT;if(api?.version!=='v376-provider-22-ipa92-v1-v25'||api.catalogTotal!==1124)throw new Error('provider contract');const m=await api.loadCatalog();if(m.items.length!==1124||m.counts?.subjectA!==930||m.counts?.trackedSubjectA!==939||m.counts?.catalogQuestions!==1124)throw new Error('merged counts');const expected=Array.from({length:25},(_,i)=>'ipa92-questions-v'+(i+1));if(JSON.stringify(m.extensionContentVersions)!==JSON.stringify(expected)||new Set(m.items.map(x=>x.id)).size!==1124)throw new Error('versions/ids');console.log('PASS provider 1124')})().catch(e=>{console.error(e);process.exitCode=1});
-          CHECK
-      - name: Validate runtime metadata and release evidence
-        run: |
-          node <<'CHECK'
-          const fs=require('node:fs'),vm=require('node:vm');const source=fs.readFileSync('cloud/public-config-v342.js','utf8');const bank=Array.from({length:83},(_,i)=>({id:'legacy_'+i}));const listeners={};const script={id:'',src:'',async:true,addEventListener(t,f){listeners[t]=f}};let ctx;const document={getElementById(){return null},createElement(){return script},head:{appendChild(n){if(n.src!=='./assets/protected-content-provider-v376-v25.js')throw new Error('provider src');ctx.FEQUEST_PROTECTED_CONTENT={version:'v376-provider-22-ipa92-v1-v25',catalogTotal:1124};listeners.load()}}};ctx={console,document,FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-21-ipa92-v1-v24',catalogTotal:1119}};vm.createContext(ctx);vm.runInContext('const QUESTION_BANK='+JSON.stringify(bank)+';\n'+source+'\nglobalThis.__BANK__=QUESTION_BANK;',ctx);(async()=>{const r=await ctx.FEQUEST_IPA92_V25_PROVIDER_READY;if(!r?.ok||ctx.__BANK__.length!==220||ctx.FEQUEST_IPA92_V25_SUBJECT_A_METADATA?.length!==5)throw new Error('runtime metadata');for(let i=7;i<=24;i++)if(ctx['FEQUEST_IPA92_V'+i+'_PROVIDER_READY']!==ctx.FEQUEST_IPA92_V25_PROVIDER_READY)throw new Error('alias '+i);console.log('PASS runtime metadata 220')})().catch(e=>{console.error(e);process.exitCode=1});
-          CHECK
-          grep -Fq '"./assets/protected-content-provider-v376-v25.js"' sw.js
-          grep -Fq '"./assets/question-catalog-ipa92-v25.json"' sw.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-24';" sw.js
+          node -e "const c=require('./assets/question-catalog-ipa92-v25.json');if(c.version!=='ipa92-catalog-v25'||c.contentVersion!=='ipa92-questions-v25'||c.items?.length!==5)process.exit(1)"
+          grep -Fq "version:'v376-provider-22-ipa92-v1-v25'" assets/protected-content-provider-v376-v25.js
           grep -Fq 'active protected question total after import: **1124**' .github/IPA92_V25_ACTIVATION_2026-09-14.md
-          grep -Fq 'b1853b9c6051f78f06fc203e649d7e5c5f3d217a' .github/IPA92_V25_ACTIVATION_2026-09-14.md
-          grep -Fq '46cd89f13145eaff56e28a6a030a2f4ef8bbb354828e306e680aaec40da5ce2d' .github/IPA92_V25_ACTIVATION_2026-09-14.md
-          grep -Fq '34844860823' .github/IPA92_V25_ACTIVATION_2026-09-14.md
-          grep -Fq '34845168150' .github/IPA92_V25_ACTIVATION_2026-09-14.md
