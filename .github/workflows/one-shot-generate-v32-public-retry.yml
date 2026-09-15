@@ -1,0 +1,41 @@
+name: One-shot retry IPA 9.2 v32 public activation
+
+on:
+  push:
+    branches: [ipa92-v32-public-activation-20260915]
+    paths:
+      - '.github/workflows/one-shot-generate-v32-public-retry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-v32-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ipa92-v32-public-activation-20260915
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Correct generator marker and generate
+        run: |
+          python - <<'PY'
+          p='.github/tmp-generate-v32-public.cjs'
+          s=open(p,encoding='utf-8').read()
+          s=s.replace("function installMetadata(items,label,expected){","function installMetadata(items,label,expectedTotal){")
+          open(p,'w',encoding='utf-8').write(s)
+          PY
+          node .github/tmp-generate-v32-public.cjs
+      - name: Commit generated non-workflow artifacts and staged workflows
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/protected-content-provider-v376-v32.js cloud/public-config-v342.js sw.js .github/generated-v32
+          git diff --cached --quiet && exit 0
+          git commit -m 'Generate IPA 9.2 v32 public activation artifacts'
+          git push origin HEAD:ipa92-v32-public-activation-20260915
