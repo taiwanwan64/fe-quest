@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-26';
+const CACHE_NAME = 'fe-quest-v377-27';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -31,6 +31,7 @@ const APP_SHELL = [
   "./assets/protected-content-provider-v376-v27.js",
   "./assets/protected-content-provider-v376-v28.js",
   "./assets/protected-content-provider-v376-v29.js",
+  "./assets/protected-content-provider-v376-v30.js",
   "./assets/protected-lesson-provider-v376.js",
   "./assets/app-v377.js",
   "./assets/protected-flow-bridge-v376.js",
@@ -69,6 +70,7 @@ const APP_SHELL = [
   "./assets/question-catalog-ipa92-v27.json",
   "./assets/question-catalog-ipa92-v28.json",
   "./assets/question-catalog-ipa92-v29.json",
+  "./assets/question-catalog-ipa92-v30.json",
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",

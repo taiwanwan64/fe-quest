@@ -1,0 +1,51 @@
+name: Validate IPA 9.2 question v30 public activation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v30.js'
+      - 'assets/question-catalog-ipa92-v30.json'
+      - 'cloud/public-config-v342.js'
+      - 'sw.js'
+      - '.github/IPA92_V30_ACTIVATION_2026-09-15.md'
+      - '.github/workflows/validate-ipa92-question-v30-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v30-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate JavaScript syntax
+        run: |
+          node --check assets/protected-content-provider-v376-v30.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+      - name: Validate v30 safe public contract and runtime merge
+        run: |
+          node <<'CHECK'
+          const fs=require('node:fs');const vm=require('node:vm');
+          const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v30.json','utf8'));const provider=fs.readFileSync('assets/protected-content-provider-v376-v30.js','utf8');const config=fs.readFileSync('cloud/public-config-v342.js','utf8');const sw=fs.readFileSync('sw.js','utf8');
+          const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
+          const ids=['ipa92_a_duplex_modes_001','ipa92_a_start_stop_sync_001','ipa92_a_character_sync_001','ipa92_a_flag_sync_001'];
+          if(catalog.version!=='ipa92-catalog-v30'||catalog.contentVersion!=='ipa92-questions-v30'||catalog.items?.length!==4||catalog.counts?.subjectA!==4||catalog.counts?.catalogQuestions!==4)throw new Error('v30 catalog contract');
+          if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v30 ids');
+          for(const item of catalog.items){if(item.sourcePool!=='subject_a'||item.qualityAudit!=='ipa92-original-v30'||item.cat!=='ネットワーク'||!/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||''))||Object.keys(item).some(k=>protectedKeys.has(k)))throw new Error('invalid safe metadata');}
+          if(!provider.includes("version:'v376-provider-27-ipa92-v1-v30'")||!provider.includes('const IPA92_V30_TOTAL=4;')||!provider.includes("const IPA92_V30_CONTENT_VERSION='ipa92-questions-v30';"))throw new Error('provider contract');
+          if(!config.includes('const IPA92_V30_METADATA=Object.freeze([')||!config.includes('activateV30Provider()')||!config.includes('catalogTotal===1148'))throw new Error('config contract');
+          if(!sw.includes('"./assets/protected-content-provider-v376-v30.js"')||!sw.includes('"./assets/question-catalog-ipa92-v30.json"')||!sw.includes("const CACHE_NAME = 'fe-quest-v377-27';"))throw new Error('sw contract');
+          const context={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v30.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const name=new URL(String(url)).pathname.split('/').pop();return {ok:true,status:200,json:async()=>JSON.parse(fs.readFileSync('assets/'+name,'utf8'))}},window:{}};vm.createContext(context);vm.runInContext(provider,context);
+          (async()=>{const merged=await context.window.FEQUEST_PROTECTED_CONTENT.loadCatalog();if(merged.items.length!==1148||merged.counts?.subjectA!==954||merged.counts?.trackedSubjectA!==963||merged.counts?.catalogQuestions!==1148)throw new Error('merged counts');for(const id of ids)if(!merged.items.some(x=>x.id===id))throw new Error('missing '+id);console.log('PASS v30 public contract: 4 safe metadata items, merged production total 1148');})().catch(e=>{console.error(e);process.exitCode=1});
+          CHECK
+      - name: Validate production evidence marker
+        run: |
+          grep -Fq 'active protected question total after import: **1148**' .github/IPA92_V30_ACTIVATION_2026-09-15.md
+          grep -Fq '8520a895d39e8b2e0a645df888bbac4f4dcf0e11' .github/IPA92_V30_ACTIVATION_2026-09-15.md
+          grep -Fq 'd1955a437224d917065512f638133f301bd56fbda8b8cf220f839fcbf0d12802' .github/IPA92_V30_ACTIVATION_2026-09-15.md
+          grep -Fq '34926019955' .github/IPA92_V30_ACTIVATION_2026-09-15.md
+          grep -Fq 'v376-lessons-1' .github/IPA92_V30_ACTIVATION_2026-09-15.md
