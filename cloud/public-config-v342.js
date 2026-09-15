@@ -245,6 +245,14 @@
     {"id":"ipa92_a_segment_paging_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"セグメンテーションとセグメントページング","coreTopicId":"core_06_01","qualityAudit":"ipa92-original-v31"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V32_METADATA=Object.freeze([
+    {"id":"ipa92_a_dimm_sodimm_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"DIMMとSO-DIMM","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v32"},
+    {"id":"ipa92_a_wear_leveling_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"ウェアレベリング","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v32"},
+    {"id":"ipa92_a_disk_cache_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"ディスクキャッシュ","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v32"},
+    {"id":"ipa92_a_storage_media_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"RAMファイルとストリーマ","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v32"},
+    {"id":"ipa92_a_cache_write_back_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"ライトバック方式とライトスルー方式","coreTopicId":"core_04_03","qualityAudit":"ipa92-original-v32"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -288,6 +296,7 @@
   function installV29Metadata(){return installMetadata(IPA92_V29_METADATA,'v29',5)}
   function installV30Metadata(){return installMetadata(IPA92_V30_METADATA,'v30',4)}
   function installV31Metadata(){return installMetadata(IPA92_V31_METADATA,'v31',5)}
+  function installV32Metadata(){return installMetadata(IPA92_V32_METADATA,'v32',5)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
@@ -314,6 +323,7 @@
     const v29Install=installV29Metadata();
     const v30Install=installV30Metadata();
     const v31Install=installV31Metadata();
+    const v32Install=installV32Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
@@ -339,21 +349,22 @@
     root.FEQUEST_IPA92_V29_SUBJECT_A_METADATA_INSTALL=v29Install;
     root.FEQUEST_IPA92_V30_SUBJECT_A_METADATA_INSTALL=v30Install;
     root.FEQUEST_IPA92_V31_SUBJECT_A_METADATA_INSTALL=v31Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-28-ipa92-v1-v31'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1153;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok&&v29Install.ok&&v30Install.ok&&v31Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install,v29:v29Install,v30:v30Install,v31:v31Install});
+    root.FEQUEST_IPA92_V32_SUBJECT_A_METADATA_INSTALL=v32Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-29-ipa92-v1-v32'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1158;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok&&v29Install.ok&&v30Install.ok&&v31Install.ok&&v32Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install,v29:v29Install,v30:v30Install,v31:v31Install,v32:v32Install});
   }
 
-  function activateV31Provider(){
+  function activateV32Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-28-ipa92-v1-v31')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v31-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-29-ipa92-v1-v32')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v32-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-28-ipa92-v1-v31')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-29-ipa92-v1-v32')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -361,7 +372,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v31.js';
+      script.src='./assets/protected-content-provider-v376-v32.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -394,7 +405,9 @@
   root.FEQUEST_IPA92_V29_SUBJECT_A_METADATA=IPA92_V29_METADATA;
   root.FEQUEST_IPA92_V30_SUBJECT_A_METADATA=IPA92_V30_METADATA;
   root.FEQUEST_IPA92_V31_SUBJECT_A_METADATA=IPA92_V31_METADATA;
-  const latestProviderReady=activateV31Provider();
+  root.FEQUEST_IPA92_V32_SUBJECT_A_METADATA=IPA92_V32_METADATA;
+  const latestProviderReady=activateV32Provider();
+  root.FEQUEST_IPA92_V32_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V31_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V30_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V29_PROVIDER_READY=latestProviderReady;

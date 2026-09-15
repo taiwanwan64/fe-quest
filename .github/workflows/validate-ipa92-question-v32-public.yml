@@ -1,0 +1,38 @@
+name: Validate IPA 9.2 question v32 public activation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v32.js'
+      - 'assets/question-catalog-ipa92-v32.json'
+      - 'cloud/public-config-v342.js'
+      - 'sw.js'
+      - '.github/IPA92_V32_ACTIVATION_2026-09-15.md'
+      - '.github/workflows/validate-ipa92-question-v32-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v32-public:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate syntax and safe metadata
+        run: |
+          node --check assets/protected-content-provider-v376-v32.js
+          node --check cloud/public-config-v342.js
+          node --check sw.js
+          node <<'NODE'
+          const fs=require('node:fs');const vm=require('node:vm');const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v32.json','utf8'));const provider=fs.readFileSync('assets/protected-content-provider-v376-v32.js','utf8');const config=fs.readFileSync('cloud/public-config-v342.js','utf8');const sw=fs.readFileSync('sw.js','utf8');const ids=['ipa92_a_dimm_sodimm_001','ipa92_a_wear_leveling_001','ipa92_a_disk_cache_001','ipa92_a_storage_media_001','ipa92_a_cache_write_back_001'];const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);if(catalog.version!=='ipa92-catalog-v32'||catalog.contentVersion!=='ipa92-questions-v32'||catalog.items?.length!==5||catalog.counts?.subjectA!==5)throw new Error('v32 catalog contract');if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v32 ids');for(const x of catalog.items){if(x.sourcePool!=='subject_a'||x.qualityAudit!=='ipa92-original-v32'||x.cat!=='コンピュータ構成要素'||x.coreTopicId!=='core_04_03'||Object.keys(x).some(k=>protectedKeys.has(k)))throw new Error('unsafe v32 metadata');}if(!provider.includes("version:'v376-provider-29-ipa92-v1-v32'")||!provider.includes('const IPA92_V32_TOTAL=5;'))throw new Error('provider contract');if(!config.includes('IPA92_V32_METADATA')||!config.includes('activateV32Provider()')||!config.includes('catalogTotal===1158'))throw new Error('config contract');if(!sw.includes('protected-content-provider-v376-v32.js')||!sw.includes('question-catalog-ipa92-v32.json')||!sw.includes("fe-quest-v377-29"))throw new Error('sw contract');const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v32.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const n=new URL(String(url)).pathname.split('/').pop();return {ok:true,status:200,json:async()=>JSON.parse(fs.readFileSync('assets/'+n,'utf8'))}},window:{}};vm.createContext(ctx);vm.runInContext(provider,ctx);(async()=>{const merged=await ctx.window.FEQUEST_PROTECTED_CONTENT.loadCatalog();if(merged.items.length!==1158||merged.counts?.subjectA!==964||merged.counts?.trackedSubjectA!==973||merged.counts?.catalogQuestions!==1158)throw new Error('merged counts');for(const id of ids)if(!merged.items.some(x=>x.id===id))throw new Error('missing '+id);console.log('PASS v32 public runtime total=1158');})().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+      - name: Validate production evidence
+        run: |
+          grep -Fq 'active protected question total after import: **1158**' .github/IPA92_V32_ACTIVATION_2026-09-15.md
+          grep -Fq 'ea295d105dc3167c6ed312ff964250963d205bc0' .github/IPA92_V32_ACTIVATION_2026-09-15.md
+          grep -Fq '407c5aa018f08e5af08065dcbcd85b01b0c7f7a474f645c5ede188414023d991' .github/IPA92_V32_ACTIVATION_2026-09-15.md
+          grep -Fq '34954588910' .github/IPA92_V32_ACTIVATION_2026-09-15.md
+          grep -Fq '4926b05bfcadd548abd9b8116dec69160d5e3297b732282bc359c17052aaf22c' .github/IPA92_V32_ACTIVATION_2026-09-15.md
