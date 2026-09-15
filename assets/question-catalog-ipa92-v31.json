@@ -1,0 +1,13 @@
+{
+  "version": "ipa92-catalog-v31",
+  "contentVersion": "ipa92-questions-v31",
+  "contentVersions": ["ipa92-questions-v31"],
+  "counts": {"subjectA": 5, "catalogQuestions": 5},
+  "items": [
+    {"id":"ipa92_a_superscalar_vliw_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"スーパースカラとVLIW","coreTopicId":"core_04_01","qualityAudit":"ipa92-original-v31"},
+    {"id":"ipa92_a_amdahl_law_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"アムダールの法則","coreTopicId":"core_04_01","qualityAudit":"ipa92-original-v31"},
+    {"id":"ipa92_a_flynn_architecture_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"SISD・SIMD・MISD・MIMD","coreTopicId":"core_04_01","qualityAudit":"ipa92-original-v31"},
+    {"id":"ipa92_a_swapping_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"スワッピングとページング","coreTopicId":"core_06_01","qualityAudit":"ipa92-original-v31"},
+    {"id":"ipa92_a_segment_paging_001","sourcePool":"subject_a","cat":"ソフトウェア","difficulty":"standard","concept":"セグメンテーションとセグメントページング","coreTopicId":"core_06_01","qualityAudit":"ipa92-original-v31"}
+  ]
+}
