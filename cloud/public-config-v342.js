@@ -261,6 +261,14 @@
     {"id":"ipa92_a_system_bus_roles_001","sourcePool":"subject_a","cat":"コンピュータ構成要素","difficulty":"standard","concept":"アドレスバス・データバス・制御バス","coreTopicId":"core_04_06","qualityAudit":"ipa92-original-v33"}
   ].map(item=>Object.freeze(item)));
 
+  const IPA92_V34_METADATA=Object.freeze([
+    {"id":"ipa92_a_dual_duplex_system_001","sourcePool":"subject_a","cat":"システム構成要素","difficulty":"standard","concept":"デュアルシステムとデュプレックスシステム","coreTopicId":"core_05_02","qualityAudit":"ipa92-original-v34"},
+    {"id":"ipa92_a_hot_cold_standby_001","sourcePool":"subject_a","cat":"システム構成要素","difficulty":"standard","concept":"ホットスタンバイとコールドスタンバイ","coreTopicId":"core_05_02","qualityAudit":"ipa92-original-v34"},
+    {"id":"ipa92_a_benchmark_001","sourcePool":"subject_a","cat":"システム構成要素","difficulty":"standard","concept":"ベンチマーク","coreTopicId":"core_05_03","qualityAudit":"ipa92-original-v34"},
+    {"id":"ipa92_a_rasis_001","sourcePool":"subject_a","cat":"システム構成要素","difficulty":"standard","concept":"RASIS","coreTopicId":"core_05_04","qualityAudit":"ipa92-original-v34"},
+    {"id":"ipa92_a_foolproof_001","sourcePool":"subject_a","cat":"システム構成要素","difficulty":"standard","concept":"フールプルーフ","coreTopicId":"core_05_04","qualityAudit":"ipa92-original-v34"}
+  ].map(item=>Object.freeze(item)));
+
   function installMetadata(items,label,expectedTotal){
     try{
       if(!Array.isArray(items)||items.length!==expectedTotal)return Object.freeze({ok:false,status:`${label}-safe-metadata-invalid`,added:0,total:items?.length||0});
@@ -306,6 +314,7 @@
   function installV31Metadata(){return installMetadata(IPA92_V31_METADATA,'v31',5)}
   function installV32Metadata(){return installMetadata(IPA92_V32_METADATA,'v32',5)}
   function installV33Metadata(){return installMetadata(IPA92_V33_METADATA,'v33',5)}
+  function installV34Metadata(){return installMetadata(IPA92_V34_METADATA,'v34',5)}
   function finishLatestActivation(reused){
     const v7Install=installV7Metadata();
     const v8Install=installV8Metadata();
@@ -334,6 +343,7 @@
     const v31Install=installV31Metadata();
     const v32Install=installV32Metadata();
     const v33Install=installV33Metadata();
+    const v34Install=installV34Metadata();
     root.FEQUEST_IPA92_V7_SUBJECT_A_METADATA_INSTALL=v7Install;
     root.FEQUEST_IPA92_V8_SUBJECT_A_METADATA_INSTALL=v8Install;
     root.FEQUEST_IPA92_V9_SUBJECT_A_METADATA_INSTALL=v9Install;
@@ -361,21 +371,22 @@
     root.FEQUEST_IPA92_V31_SUBJECT_A_METADATA_INSTALL=v31Install;
     root.FEQUEST_IPA92_V32_SUBJECT_A_METADATA_INSTALL=v32Install;
     root.FEQUEST_IPA92_V33_SUBJECT_A_METADATA_INSTALL=v33Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-30-ipa92-v1-v33'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1163;
-    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok&&v29Install.ok&&v30Install.ok&&v31Install.ok&&v32Install.ok&&v33Install.ok;
-    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install,v29:v29Install,v30:v30Install,v31:v31Install,v32:v32Install,v33:v33Install});
+    root.FEQUEST_IPA92_V34_SUBJECT_A_METADATA_INSTALL=v34Install;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-31-ipa92-v1-v34'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1168;
+    const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok&&v29Install.ok&&v30Install.ok&&v31Install.ok&&v32Install.ok&&v33Install.ok&&v34Install.ok;
+    return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install,v29:v29Install,v30:v30Install,v31:v31Install,v32:v32Install,v33:v33Install,v34:v34Install});
   }
 
-  function activateV33Provider(){
+  function activateV34Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-30-ipa92-v1-v33')return Promise.resolve(finishLatestActivation(true));
-    const id='fequest-ipa92-v33-provider';
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-31-ipa92-v1-v34')return Promise.resolve(finishLatestActivation(true));
+    const id='fequest-ipa92-v34-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-30-ipa92-v1-v33')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-31-ipa92-v1-v34')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
@@ -383,7 +394,7 @@
     return new Promise(resolve=>{
       const script=d.createElement('script');
       script.id=id;
-      script.src='./assets/protected-content-provider-v376-v33.js';
+      script.src='./assets/protected-content-provider-v376-v34.js';
       script.async=false;
       script.addEventListener('load',()=>resolve(finishLatestActivation(false)),{once:true});
       script.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:false}),{once:true});
@@ -418,7 +429,9 @@
   root.FEQUEST_IPA92_V31_SUBJECT_A_METADATA=IPA92_V31_METADATA;
   root.FEQUEST_IPA92_V32_SUBJECT_A_METADATA=IPA92_V32_METADATA;
   root.FEQUEST_IPA92_V33_SUBJECT_A_METADATA=IPA92_V33_METADATA;
-  const latestProviderReady=activateV33Provider();
+  root.FEQUEST_IPA92_V34_SUBJECT_A_METADATA=IPA92_V34_METADATA;
+  const latestProviderReady=activateV34Provider();
+  root.FEQUEST_IPA92_V34_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V33_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V32_PROVIDER_READY=latestProviderReady;
   root.FEQUEST_IPA92_V31_PROVIDER_READY=latestProviderReady;

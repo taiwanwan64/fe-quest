@@ -1,0 +1,24 @@
+name: Validate IPA 9.2 question v33 historical artifacts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/protected-content-provider-v376-v33.js'
+      - 'assets/question-catalog-ipa92-v33.json'
+      - '.github/workflows/validate-ipa92-question-v33-public.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v33-historical:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - run: node --check assets/protected-content-provider-v376-v33.js
+      - run: |
+          node <<'NODE'
+          const fs=require('node:fs');const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v33.json','utf8'));const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);if(c.version!=='ipa92-catalog-v33'||c.contentVersion!=='ipa92-questions-v33'||c.items?.length!==5)throw new Error('v33 historical catalog');for(const x of c.items)if(Object.keys(x).some(k=>forbidden.has(k)))throw new Error('protected field leaked');console.log('PASS v33 historical artifacts');
+          NODE
