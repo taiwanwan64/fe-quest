@@ -1,0 +1,12 @@
+{
+  "version": "ipa92-catalog-v30",
+  "contentVersion": "ipa92-questions-v30",
+  "contentVersions": ["ipa92-questions-v30"],
+  "counts": {"subjectA": 4, "catalogQuestions": 4},
+  "items": [
+    {"id":"ipa92_a_duplex_modes_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"単方向・半二重・全二重通信","coreTopicId":"core_10_01","qualityAudit":"ipa92-original-v30"},
+    {"id":"ipa92_a_start_stop_sync_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"調歩同期とスタート・ストップビット","coreTopicId":"core_10_09","qualityAudit":"ipa92-original-v30"},
+    {"id":"ipa92_a_character_sync_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"キャラクタ同期とSYN文字","coreTopicId":"core_10_09","qualityAudit":"ipa92-original-v30"},
+    {"id":"ipa92_a_flag_sync_001","sourcePool":"subject_a","cat":"ネットワーク","difficulty":"standard","concept":"フラグ同期とフレーム境界","coreTopicId":"core_10_09","qualityAudit":"ipa92-original-v30"}
+  ]
+}
