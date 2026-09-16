@@ -41,6 +41,7 @@ jobs:
           node --check assets/protected-content-provider-v376-v32.js
           node --check assets/protected-content-provider-v376-v33.js
           node --check assets/protected-content-provider-v376-v34.js
+          node --check assets/protected-content-provider-v376-v35.js
           node --check assets/first-impression-ux-v377.js
           node --check assets/ipa92-sort-lab-v377.js
           node --check assets/ipa92-graph-lab-v377.js
@@ -248,6 +249,7 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v32.js"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v33.js"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v34.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-v376.json"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1.json"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1-v6.json"
@@ -280,6 +282,7 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v32.json"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v33.json"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v34.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v35.json"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
           test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
@@ -295,7 +298,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-31';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-32';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
