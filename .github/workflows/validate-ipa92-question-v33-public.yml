@@ -1,4 +1,4 @@
-name: Validate IPA 9.2 question v33 public activation
+name: Validate IPA 9.2 question v33 historical artifacts
 
 on:
   pull_request:
@@ -6,9 +6,6 @@ on:
     paths:
       - 'assets/protected-content-provider-v376-v33.js'
       - 'assets/question-catalog-ipa92-v33.json'
-      - 'cloud/public-config-v342.js'
-      - 'sw.js'
-      - '.github/IPA92_V33_ACTIVATION_2026-09-15.md'
       - '.github/workflows/validate-ipa92-question-v33-public.yml'
   workflow_dispatch:
 
@@ -16,23 +13,12 @@ permissions:
   contents: read
 
 jobs:
-  validate-v33-public:
+  validate-v33-historical:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - name: Validate syntax and safe metadata
-        run: |
-          node --check assets/protected-content-provider-v376-v33.js
-          node --check cloud/public-config-v342.js
-          node --check sw.js
+      - run: node --check assets/protected-content-provider-v376-v33.js
+      - run: |
           node <<'NODE'
-          const fs=require('node:fs');const vm=require('node:vm');const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v33.json','utf8'));const provider=fs.readFileSync('assets/protected-content-provider-v376-v33.js','utf8');const config=fs.readFileSync('cloud/public-config-v342.js','utf8');const sw=fs.readFileSync('sw.js','utf8');const ids=['ipa92_a_serial_parallel_io_001','ipa92_a_video_interfaces_001','ipa92_a_input_readers_001','ipa92_a_dma_io_001','ipa92_a_system_bus_roles_001'];const topics=['core_04_04','core_04_04','core_04_05','core_04_06','core_04_06'];const protectedKeys=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);if(catalog.version!=='ipa92-catalog-v33'||catalog.contentVersion!=='ipa92-questions-v33'||catalog.items?.length!==5||catalog.counts?.subjectA!==5)throw new Error('v33 catalog contract');if(JSON.stringify(catalog.items.map(x=>x.id))!==JSON.stringify(ids))throw new Error('v33 ids');for(let i=0;i<catalog.items.length;i++){const x=catalog.items[i];if(x.sourcePool!=='subject_a'||x.qualityAudit!=='ipa92-original-v33'||x.cat!=='コンピュータ構成要素'||x.coreTopicId!==topics[i]||Object.keys(x).some(k=>protectedKeys.has(k)))throw new Error('unsafe v33 metadata');}if(!provider.includes("version:'v376-provider-30-ipa92-v1-v33'")||!provider.includes('const IPA92_V33_TOTAL=5;'))throw new Error('provider contract');if(!config.includes('IPA92_V33_METADATA')||!config.includes('activateV33Provider()')||!config.includes('catalogTotal===1163'))throw new Error('config contract');if(!sw.includes('protected-content-provider-v376-v33.js')||!sw.includes('question-catalog-ipa92-v33.json')||!sw.includes("fe-quest-v377-30"))throw new Error('sw contract');const ctx={console,setTimeout,clearTimeout,URL,AbortController,document:{currentScript:{src:'https://example.test/assets/protected-content-provider-v376-v33.js'},baseURI:'https://example.test/'},sessionStorage:{getItem(){return null},setItem(){},removeItem(){}},fetch:async url=>{const n=new URL(String(url)).pathname.split('/').pop();return {ok:true,status:200,json:async()=>JSON.parse(fs.readFileSync('assets/'+n,'utf8'))}},window:{}};vm.createContext(ctx);vm.runInContext(provider,ctx);(async()=>{const merged=await ctx.window.FEQUEST_PROTECTED_CONTENT.loadCatalog();if(merged.items.length!==1163||merged.counts?.subjectA!==969||merged.counts?.trackedSubjectA!==978||merged.counts?.catalogQuestions!==1163)throw new Error('merged counts');for(const id of ids)if(!merged.items.some(x=>x.id===id))throw new Error('missing '+id);console.log('PASS v33 public runtime total=1163');})().catch(e=>{console.error(e);process.exitCode=1});
+          const fs=require('node:fs');const c=JSON.parse(fs.readFileSync('assets/question-catalog-ipa92-v33.json','utf8'));const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);if(c.version!=='ipa92-catalog-v33'||c.contentVersion!=='ipa92-questions-v33'||c.items?.length!==5)throw new Error('v33 historical catalog');for(const x of c.items)if(Object.keys(x).some(k=>forbidden.has(k)))throw new Error('protected field leaked');console.log('PASS v33 historical artifacts');
           NODE
-      - name: Validate production evidence
-        run: |
-          grep -Fq 'active protected questions after import: 1163' .github/IPA92_V33_ACTIVATION_2026-09-15.md
-          grep -Fq '42af240a41d48eaa36a6988d78c7b4df4ce64093' .github/IPA92_V33_ACTIVATION_2026-09-15.md
-          grep -Fq 'de05efc065a54ac4c7403b071f6d56f732ae75f2d67d06a35bad206c9fc270de' .github/IPA92_V33_ACTIVATION_2026-09-15.md
-          grep -Fq '34962374663' .github/IPA92_V33_ACTIVATION_2026-09-15.md
-          grep -Fq '4926b05bfcadd548abd9b8116dec69160d5e3297b732282bc359c17052aaf22c' .github/IPA92_V33_ACTIVATION_2026-09-15.md
