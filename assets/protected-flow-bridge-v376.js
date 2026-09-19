@@ -180,15 +180,22 @@ async function finishDiagnostic(){
     Object.entries(categories).forEach(([category,value])=>{
       scores[category]=Math.round(value.correct/value.total*100);
     });
-    Object.keys(profile.skills).forEach(category=>{
-      const raw=scores[category];
-      if(raw!==undefined){
+    const firstDiagnostic=profile.diagnosticCompleted!==true;
+    if(firstDiagnostic){
+      Object.keys(profile.skills).forEach(category=>{
+        const raw=scores[category];
+        if(raw===undefined)return;
         const sampleCount=categories[category].total;
-        const prior=profile.skills[category]??60;
-        const weight=sampleCount>=2?0.65:0.45;
-        profile.skills[category]=Math.round(prior*(1-weight)+raw*weight);
-      }
-    });
+        const prior=Number.isFinite(Number(profile.skills[category]))?Number(profile.skills[category]):50;
+        const errorRate=Math.max(0,Math.min(1,(100-raw)/100));
+        // The first diagnostic is a screening test, not proof of mastery.
+        // Correct answers keep a neutral baseline; wrong answers only flag
+        // likely weak areas, with less weight for a one-question field.
+        const confidence=sampleCount>=2?1:.6;
+        const screened=Math.round(50-errorRate*25*confidence);
+        profile.skills[category]=Math.min(prior,screened);
+      });
+    }
     profile.diagnosticCompleted=true;
     profile.diagnosticScores=scores;
     profile.xp+=120;
