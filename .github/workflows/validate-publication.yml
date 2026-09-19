@@ -59,6 +59,8 @@ jobs:
           grep -Fq "root.querySelectorAll('table:not([class])')" assets/app-v377.js
           grep -Fq "fequestPrepareResponsiveLessonTablesV377(stage);" assets/app-v377.js
           grep -Fq ".fequest-responsive-content-table-v377.is-two-column" assets/app-v377.css
+          grep -Fq "#lesson .ipa92-coverage-extension > h3" assets/app-v377.css
+          grep -Fq "margin-top:30px;" assets/app-v377.css
           grep -Fq "Ver.9.2補強：" assets/app-v377.js
           grep -Fq "function fequestCollapseRepeatedLearningDetailsV377" assets/app-v377.js
           grep -Fq "fequestCollapseRepeatedLearningDetailsV377(learningDetailRoots);" assets/app-v377.js
@@ -71,8 +73,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-50';" sw.js
-          grep -Fq "fe-quest-v377-50" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-51';" sw.js
+          grep -Fq "fe-quest-v377-51" .github/workflows/deploy-pages.yml
       - name: Validate plan UI hotfix
         run: |
           grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
@@ -397,7 +399,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-50';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-51';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
