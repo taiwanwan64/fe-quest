@@ -100,6 +100,15 @@ jobs:
           grep -Fq 'value.correct} / ${value.total} 正解' assets/protected-flow-bridge-v376.js
           grep -Fq "renderDiagnosticResult(scores,categories);" assets/protected-flow-bridge-v376.js
           ! grep -Fq '今日の学習は${effectiveStudyMinutes()}分を目安に自動調整します。' assets/protected-flow-bridge-v376.js
+          grep -Fq "function diagnosticOverallRateV377()" assets/app-v377.js
+          grep -Fq "Math.round(diagnosticOverallRateV377()*.25)" assets/app-v377.js
+          grep -Fq "sampleCount>=2?.20:.10" assets/app-v377.js
+          grep -Fq "if(!showA&&typeof renderSubjectBHub==='function')renderSubjectBHub();" assets/app-v377.js
+          grep -Fq "const firstDiagnostic=profile.diagnosticCompleted!==true;" assets/protected-flow-bridge-v376.js
+          grep -Fq "const screened=Math.round(50-errorRate*25*confidence);" assets/protected-flow-bridge-v376.js
+          ! grep -Fq "科目Bの進捗を確認中…" index.html
+          ! grep -Fq "必要なときだけ4つのモードから選べます" index.html
+          grep -Fq "プログラムトレースから始める" index.html
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
           node <<'NODE'
@@ -348,7 +357,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-41';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-42';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
