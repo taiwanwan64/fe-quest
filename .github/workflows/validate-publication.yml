@@ -75,14 +75,19 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-53';" sw.js
-          grep -Fq "fe-quest-v377-53" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-54';" sw.js
+          grep -Fq "fe-quest-v377-54" .github/workflows/deploy-pages.yml
           grep -Fq "ビット／バイトと通信速度の単位" assets/app-v377.js
           grep -Fq "1バイト＝8ビット" assets/app-v377.js
           grep -Fq "function coreChapterFormulaHtml(text)" assets/app-v377.js
           grep -Fq "\"BCD\":\"Binary Coded Decimal\"" assets/app-v377.js
           grep -Fq "v377-53: lesson readability floor + chapter guide readability" assets/app-v377.css
           grep -Fq "font-size:18px;" assets/app-v377.css
+          grep -Fq "集合・ベン図と論理演算" assets/app-v377.js
+          grep -Fq "半加算器：S＝X XOR Y、C＝X AND Y" assets/app-v377.js
+          grep -Fq "演算優先順位：括弧 ＞ NOT ＞ AND ＞ OR" assets/app-v377.js
+          grep -Fq "v377-54: chapter 2 diagram readability" assets/app-v377.css
+          grep -Fq "#lesson .core-automata-trace-v358 span" assets/app-v377.css
       - name: Validate plan UI hotfix
         run: |
           grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
@@ -407,7 +412,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-53';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-54';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
