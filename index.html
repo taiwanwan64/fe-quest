@@ -1868,9 +1868,8 @@
 (function(){
   if(globalThis.__fequestPlanInverseActionsV378||typeof planningFieldsV373!=='function')return;
   globalThis.__fequestPlanInverseActionsV378=true;
-  const originalPlanningFieldsV373=planningFieldsV373;
-  planningFieldsV373=function(...args){
-    const root=originalPlanningFieldsV373.apply(this,args);
+  function patchPlanningFieldsV378(root){
+    if(!root)return root;
     const dateBlock=root.querySelector('[data-date]');
     const minutesBlock=root.querySelector('[data-minutes]');
     const dateInput=dateBlock?.querySelector('input[type="date"]');
@@ -1889,7 +1888,12 @@
       if(dateInput)dateInput.after(useDate);else dateBlock?.append(useDate);
     }
     return root;
+  }
+  const originalPlanningFieldsV373=planningFieldsV373;
+  planningFieldsV373=function(...args){
+    return patchPlanningFieldsV378(originalPlanningFieldsV373.apply(this,args));
   };
+  document.querySelectorAll('.planning-fields-v373').forEach(patchPlanningFieldsV378);
 })();
 </script>
 <script src="./assets/protected-flow-bridge-v376.js"></script>
