@@ -24,6 +24,8 @@
     background:var(--bg);
     color:var(--text);
   }
+  /* Keep the desktop shell horizontally fixed when a long screen adds a vertical scrollbar. */
+  @media(min-width:721px){html{scrollbar-gutter:stable}}
   button,input{font:inherit}
   button{cursor:pointer}
   .app{
