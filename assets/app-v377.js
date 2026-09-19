@@ -11343,6 +11343,7 @@ function analyticsMinutes(days){
   for(let i=0;i<days;i++) total+=Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0);
   return total;
 }
+function analyticsDisplayMinutes(value){return Math.max(0,Math.round(Number(value)||0))}
 function analyticsActiveDays(days){
   let n=0;for(let i=0;i<days;i++)if(Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0)>0)n++;return n;
 }
@@ -11379,7 +11380,7 @@ function renderAnalyticsHeatmap(){
   const root=document.getElementById('analyticsHeatmap');if(!root)return;
   const vals=[];for(let i=29;i>=0;i--)vals.push({date:analyticsDateMinus(i),min:Number(profile.activity?.[analyticsDateMinus(i)]?.minutes||0)});
   const max=Math.max(1,...vals.map(x=>x.min));
-  root.innerHTML=vals.map(x=>{const ratio=x.min/max;const lv=x.min<=0?'':ratio<=.25?'lv1':ratio<=.5?'lv2':ratio<=.75?'lv3':'lv4';return `<div class="analytics-day ${lv} ${x.date===localDateISO(0)?'today':''}" title="${x.date}：${x.min}分"></div>`}).join('')+`<div class="analytics-heatmap-labels" style="grid-column:1/-1"><span>${vals[0].date.slice(5)}</span><span>今日</span></div>`;
+  root.innerHTML=vals.map(x=>{const ratio=x.min/max;const lv=x.min<=0?'':ratio<=.25?'lv1':ratio<=.5?'lv2':ratio<=.75?'lv3':'lv4';return `<div class="analytics-day ${lv} ${x.date===localDateISO(0)?'today':''}" title="${x.date}：${analyticsDisplayMinutes(x.min)}分"></div>`}).join('')+`<div class="analytics-heatmap-labels" style="grid-column:1/-1"><span>${vals[0].date.slice(5)}</span><span>今日</span></div>`;
 }
 function renderAnalyticsSignals(snaps){
   const root=document.getElementById('analyticsSignals');if(!root)return;
@@ -11526,7 +11527,7 @@ function renderLearningOutcomeReportV344(){
   if(!activity||!activityNote||!growth||!growthNote||!next||!nextNote)return;
 
   const report=learningOutcomeReportV344();
-  activity.textContent=`${report.activity.minutes}分 / ${report.activity.activeDays}日`;
+  activity.textContent=`${analyticsDisplayMinutes(report.activity.minutes)}分 / ${report.activity.activeDays}日`;
   activityNote.textContent='直近7日の記録学習時間と学習日数です。';
 
   if(report.growthState==='growth'){
@@ -11549,8 +11550,8 @@ function renderLearningOutcomeReportV344(){
 function renderLearningAnalytics(){
   ensureQuestionProfile();
   const seven=analyticsMinutes(7),thirty=analyticsMinutes(30),days=analyticsActiveDays(30),journeys=analyticsJourneyCounts();
-  document.getElementById('analytics7Min').textContent=`${seven}分`;
-  document.getElementById('analytics30Min').textContent=`${thirty}分`;
+  document.getElementById('analytics7Min').textContent=`${analyticsDisplayMinutes(seven)}分`;
+  document.getElementById('analytics30Min').textContent=`${analyticsDisplayMinutes(thirty)}分`;
   document.getElementById('analytics30Days').textContent=`${days}日`;
   document.getElementById('analyticsStable').textContent=journeys.stable;
   document.getElementById('analyticsActiveRoutes').textContent=journeys.relearn+journeys.verify+journeys.spaced;
