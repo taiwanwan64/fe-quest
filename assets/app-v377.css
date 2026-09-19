@@ -4166,6 +4166,34 @@
   .core-compare-table tbody tr:last-child td{border-bottom:0}
 
 
+  /* ===== v377: reference-material priority callout ===== */
+  #lesson .core-reference-priority-v377{
+    margin:18px 0;
+    padding:15px 16px;
+    border:1px solid #fed7aa;
+    border-left:5px solid #ea580c;
+    border-radius:14px;
+    background:#fff7ed;
+  }
+  #lesson .core-reference-priority-v377 > h2{
+    margin:0 0 9px;
+    color:#9a3412;
+    font-size:18px;
+    line-height:1.45;
+  }
+  #lesson .core-reference-priority-v377 strong{
+    color:#c2410c;
+    font-weight:900;
+  }
+  #lesson .core-reference-priority-v377 .core-reference-alert-v377{
+    color:#b91c1c;
+    font-weight:900;
+  }
+  #lesson .core-reference-priority-v377 table{margin-top:10px;}
+  @media(max-width:620px){
+    #lesson .core-reference-priority-v377{margin:16px 0;padding:14px 13px;}
+  }
+
   /* ===== v377: supplemental lesson subheading rhythm ===== */
   #lesson .ipa92-coverage-extension > h3{
     margin:24px 0 10px;
