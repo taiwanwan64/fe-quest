@@ -62,6 +62,7 @@ jobs:
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
           grep -Fq "const CACHE_NAME = 'fe-quest-v377-46';" sw.js
+          grep -Fq "fe-quest-v377-46" .github/workflows/deploy-pages.yml
       - name: Validate plan UI hotfix
         run: |
           grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
