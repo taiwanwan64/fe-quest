@@ -86,6 +86,8 @@ jobs:
           grep -Fq "集合・ベン図と論理演算" assets/app-v377.js
           grep -Fq "半加算器：S＝X XOR Y、C＝X AND Y" assets/app-v377.js
           grep -Fq "演算優先順位：括弧 ＞ NOT ＞ AND ＞ OR" assets/app-v377.js
+          grep -Fq "v377-54: chapter 2 diagram readability" assets/app-v377.css
+          grep -Fq "#lesson .core-automata-trace-v358 span" assets/app-v377.css
       - name: Validate plan UI hotfix
         run: |
           grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
