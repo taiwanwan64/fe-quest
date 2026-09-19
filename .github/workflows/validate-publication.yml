@@ -83,6 +83,9 @@ jobs:
           grep -Fq "\"BCD\":\"Binary Coded Decimal\"" assets/app-v377.js
           grep -Fq "v377-53: lesson readability floor + chapter guide readability" assets/app-v377.css
           grep -Fq "font-size:18px;" assets/app-v377.css
+          grep -Fq "v377-55: lesson card spacing rhythm" assets/app-v377.css
+          grep -Fq "#lesson .core-article-section .core-trace-rule-v358" assets/app-v377.css
+          grep -Fq "margin-top:24px!important;" assets/app-v377.css
           grep -Fq "集合・ベン図と論理演算" assets/app-v377.js
           grep -Fq "半加算器：S＝X XOR Y、C＝X AND Y" assets/app-v377.js
           grep -Fq "演算優先順位：括弧 ＞ NOT ＞ AND ＞ OR" assets/app-v377.js
