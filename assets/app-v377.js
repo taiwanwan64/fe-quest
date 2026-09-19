@@ -5510,16 +5510,16 @@ function renderLearningEntry(){
 
   const rec=getDailyRecord();
   const tasks=ensureTodayPlanSnapshot();
-  const pendingLearn=tasks.find(t=>dailyTaskSlot(t)==='learn'&&!dailyTaskDone(rec,t));
+  const pendingLearn=tasks.find(t=>dailyTaskIsLearningEntryV373(t)&&!dailyTaskDone(rec,t));
   if(pendingLearn){
     kicker.textContent='今日の学習枠';
     icon.textContent=pendingLearn.icon||'📚';
     title.textContent=pendingLearn.title;
     desc.textContent=`${pendingLearn.minutes}分の予定。今日の計画に沿ってここから始めます。`;
     action.disabled=false;action.textContent='今日の学習を始める →';action.onclick=()=>launchDailyTask(pendingLearn);
-    const isB=pendingLearn.type==='subjectB'||(pendingLearn.type==='finalFocus'&&pendingLearn.focus?.kind==='subjectB');
+    const isB=pendingLearn.type==='subjectB'||(pendingLearn.type==='studyBlockV373'&&pendingLearn.lane==='subjectB')||(pendingLearn.type==='finalFocus'&&pendingLearn.focus?.kind==='subjectB');
     if(isB){
-      const b=pendingLearn.type==='subjectB'?{mode:pendingLearn.bmode,id:pendingLearn.bid}:pendingLearn.focus?.b;
+      const b=pendingLearn.type==='subjectB'?{mode:pendingLearn.bmode,id:pendingLearn.bid}:pendingLearn.type==='finalFocus'?pendingLearn.focus?.b:null;
       setCourseSubject('B',false);updateCourseBRecommendedCard(b?.mode);
     }else{
       setCourseSubject('A',false);updateCourseBRecommendedCard(null);
@@ -14999,6 +14999,11 @@ function buildTodayTasks(){return studyBlocksV373(effectiveStudyMinutes());}
 function dailyTaskSlot(t){
   if(t?.type==='studyBlockV373'||t?.type==='scheduledExamV373')return t.slot;
   if(!t)return '';if(['lesson','prescription','finalFocus'].includes(t.type))return 'learn';if(t.type==='taperReview')return 'review';if(t.type==='warmup')return 'boss';return t.type;
+}
+function dailyTaskIsLearningEntryV373(t){
+  if(!t)return false;
+  if(t.type==='studyBlockV373')return ['lesson','subjectB'].includes(t.lane);
+  return dailyTaskSlot(t)==='learn'||t.type==='subjectB';
 }
 function dailyTaskDone(rec,t){return t?.type==='studyBlockV373'?!!rec.done?.[t.slot]:!!(rec.done?.[dailyTaskSlot(t)]||rec.done?.[t.type]);}
 function ensureTodayPlanSnapshot(force=false){
