@@ -1190,7 +1190,7 @@ function journeyStepHtml(j){
   return rows.map((r,i)=>`<div class="journey-step ${i<idx?'done':i===idx?'current':''}"><div class="n">${i<idx?'✓':r[0]}</div><b>${r[1]}</b><span>${r[2]}</span></div>`).join('');
 }
 function journeyGuidance(j){
-  if(j.stage==='relearn')return j.lessonId?'まず短い教材で論点を整理します。読み終えたら、そのまま類題へ進みます。':'この論点は専用教材がないため、類題から確認します。';
+  if(j.stage==='relearn')return j.lessonId?'まず短い教材でテーマを整理します。読み終えたら、そのまま類題へ進みます。':'このテーマは専用教材がないため、類題から確認します。';
   if(j.stage==='verify')return '答えを覚えているだけではなく、条件を変えた類題を最初の回答で正解できるか確認します。';
   if(j.stage==='spaced')return j.due<=localDateISO(0)?'間隔を空けた再確認のタイミングです。ここを初見正解できれば定着扱いになります。':`次回は ${j.due} に再確認します。今は別の学習を進めて構いません。`;
   return '定着しました。';
@@ -1198,7 +1198,7 @@ function journeyGuidance(j){
 function renderReviewJourneyHub(){
   const all=activeReviewJourneys(),count=document.getElementById('reviewJourneyCount');if(count)count.textContent=all.length;
   const empty=document.getElementById('reviewJourneyEmpty'),next=document.getElementById('reviewJourneyNext');if(!empty||!next)return;
-  if(!all.length){empty.style.display='';next.style.display='none';document.getElementById('reviewJourneySummary').textContent='誤答した論点を「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。';return;}
+  if(!all.length){empty.style.display='';next.style.display='none';document.getElementById('reviewJourneySummary').textContent='誤答したテーマを「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。';return;}
   const j=all[0];empty.style.display='none';next.style.display='';document.getElementById('reviewJourneySummary').textContent=`${all.length}件の復習ルートが進行中です。次にやる1件だけ表示しています。`;
   document.getElementById('reviewJourneyCat').textContent=j.cat;document.getElementById('reviewJourneyConcept').textContent=j.concept;
   document.getElementById('reviewJourneySteps').innerHTML=journeyStepHtml(j);document.getElementById('reviewJourneyGuidance').textContent=journeyGuidance(j);
