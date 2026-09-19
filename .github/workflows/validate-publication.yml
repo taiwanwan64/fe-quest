@@ -66,6 +66,13 @@ jobs:
           ! grep -Fq "必要時間の目安を使う" assets/app-v377.js
           ! grep -Fq "目安の時期を仮の日付にする" assets/app-v377.js
           ! grep -Fq "未定の場合は「時間から」か「どちらも未定」を選べます。提案された時期は予約日ではありません。" assets/app-v377.js
+          ! grep -Fq "回して選ぶ" assets/app-v377.js
+          ! grep -Fq "data-wheel-open" assets/app-v377.js
+          grep -Fq "output.dataset.invalid=String(!valid)" assets/app-v377.js
+          grep -Fq "confirmStudyPlanLeaveV373" assets/app-v377.js
+          grep -Fq "prev==='plan'&&id!=='plan'" assets/app-v377.js
+          grep -Fq ".study-inverse-action-v373{width:100%;min-height:46px;margin-top:10px" assets/app-v377.css
+          grep -Fq ".minute-picker-v373 output[data-invalid=true]{color:#ad2929;font-weight:700}" assets/app-v377.css
           grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
@@ -315,7 +322,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-35';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-36';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"

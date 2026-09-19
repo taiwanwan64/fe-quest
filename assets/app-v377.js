@@ -188,6 +188,7 @@ function showScreen(id,opts={}){
   const exists=screens.some(s=>s.id===id);
   if(!exists)id='home';
   const prev=activeScreenId();
+  if(prev==='plan'&&id!=='plan'&&!opts.skipUnsavedPlanGuard&&typeof confirmStudyPlanLeaveV373==='function'&&!confirmStudyPlanLeaveV373())return false;
   screens.forEach(s => {
     const active=s.id===id;
     s.classList.toggle('active',active);
@@ -205,6 +206,7 @@ function showScreen(id,opts={}){
   if(!opts.fromHistory && !opts.noHistory && prev!==id)appHistoryPush(id);
   if(opts.replaceHistory)appHistoryReplace(id,opts.depth||0);
   if(!opts.keepScroll)window.scrollTo({top:0, behavior:opts.instant?'auto':'smooth'});
+  return true;
 }
 function appBack(fallback='home'){
   const st=window.history?.state;
@@ -216,7 +218,10 @@ function appBack(fallback='home'){
 }
 window.addEventListener('popstate',e=>{
   const target=e.state?.feqScreen;
-  if(target)showScreen(target,{fromHistory:true,instant:true});
+  if(target){
+    const current=activeScreenId();
+    if(showScreen(target,{fromHistory:true,instant:true})===false)appHistoryPush(current);
+  }
 });
 
 document.querySelectorAll('[data-screen]').forEach(btn=>{
@@ -15033,19 +15038,11 @@ function examPaceOutcomeDecisionV345(p={}){
 }
 function minutePickerV373(id,value=60){
   const root=document.createElement('div');root.className='minute-picker-v373';
-  root.innerHTML=`<label for="${id}">学習時間（分）</label><div class="minute-input-v373"><button type="button" data-minus aria-label="1分減らす">−</button><input id="${id}" type="number" min="10" max="480" step="1" inputmode="numeric" value="${studyMinutesV373(value)}"><button type="button" data-plus aria-label="1分増やす">＋</button><span>分</span></div><button type="button" data-wheel-open>回して選ぶ</button><div class="minute-wheel-v373" hidden role="listbox" aria-label="学習時間を回して選ぶ" tabindex="0"></div><output aria-live="polite"></output>`;
-  const input=root.querySelector('input'),output=root.querySelector('output'),wheel=root.querySelector('.minute-wheel-v373');
-  const update=()=>{const n=Number(input.value);output.textContent=input.validity.valid&&input.value?`${Math.floor(n/60)?Math.floor(n/60)+'時間':''}${n%60?n%60+'分':''}／休憩を除く1日合計`: '10〜480の整数を入力してください';};
+  root.innerHTML=`<label for="${id}">学習時間（分）</label><div class="minute-input-v373"><button type="button" data-minus aria-label="1分減らす">−</button><input id="${id}" type="number" min="10" max="480" step="1" inputmode="numeric" value="${studyMinutesV373(value)}"><button type="button" data-plus aria-label="1分増やす">＋</button><span>分</span></div><output aria-live="polite"></output>`;
+  const input=root.querySelector('input'),output=root.querySelector('output');
+  const update=()=>{const n=Number(input.value),valid=Boolean(input.value)&&input.validity.valid;output.dataset.invalid=String(!valid);output.textContent=valid?`${Math.floor(n/60)?Math.floor(n/60)+'時間':''}${n%60?n%60+'分':''}／休憩を除く1日合計`:'10〜480の整数を入力してください';};
   input.addEventListener('input',update);update();
   for(const [selector,delta] of [['[data-minus]',-1],['[data-plus]',1]])root.querySelector(selector).onclick=()=>{input.value=Math.max(10,Math.min(480,studyMinutesV373(input.value)+delta));input.dispatchEvent(new Event('input',{bubbles:true}));};
-  root.querySelector('[data-wheel-open]').onclick=()=>{
-    wheel.hidden=!wheel.hidden;if(wheel.hidden)return;
-    if(!wheel.children.length)for(let n=10;n<=480;n++){const item=document.createElement('button');item.type='button';item.role='option';item.textContent=n+'分';item.dataset.value=n;item.onclick=()=>{input.value=n;input.dispatchEvent(new Event('input',{bubbles:true}));wheel.hidden=true;input.focus();};wheel.append(item);}
-    for(const item of wheel.children)item.setAttribute('aria-selected',String(Number(item.dataset.value)===Number(input.value)));
-    wheel.scrollTop=(studyMinutesV373(input.value)-10)*40;wheel.focus();
-  };
-  let wheelTimer;wheel.addEventListener('scroll',()=>{clearTimeout(wheelTimer);wheelTimer=setTimeout(()=>{if(wheel.hidden)return;const n=Math.min(480,Math.max(10,10+Math.round(wheel.scrollTop/40)));input.value=n;input.dispatchEvent(new Event('input',{bubbles:true}));for(const item of wheel.children)item.setAttribute('aria-selected',String(Number(item.dataset.value)===n));},120);});
-  wheel.onkeydown=e=>{if(e.key==='Escape'){wheel.hidden=true;input.focus();}if(['ArrowDown','ArrowUp'].includes(e.key)){e.preventDefault();input.value=Math.max(10,Math.min(480,studyMinutesV373(input.value)+(e.key==='ArrowDown'?1:-1)));input.dispatchEvent(new Event('input',{bubbles:true}));wheel.scrollTop=(Number(input.value)-10)*40;}};
   return root;
 }
 function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
@@ -15089,17 +15086,34 @@ function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
   proposals.querySelector('[data-use-time]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(!f.needHigh||f.needHigh>480)throw Error('時間を算出できないか、480分を超えています。日付と学習する曜日を見直してください。');input.value=Math.max(10,f.needHigh);mode.value='both';root.querySelectorAll('[data-weekday]').forEach(n=>{if(n.value!==''&&Number(n.value)!==0)n.value='';});input.dispatchEvent(new Event('input'));refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
   proposals.querySelector('[data-use-date]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(f.highDays==null)throw Error('学習する日と時間を設定してください。');const d=new Date();d.setDate(d.getDate()+f.highDays);date.value=dateKey(d);mode.value='both';root.querySelector('[data-date]').hidden=false;refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
   const timeAction=proposals.querySelector('[data-use-time]'),dateAction=proposals.querySelector('[data-use-date]');
+  timeAction.classList.add('study-inverse-action-v373');dateAction.classList.add('study-inverse-action-v373');
   root.querySelector('[data-minutes] .minute-input-v373')?.after(timeAction);date.after(dateAction);
   let refreshTimer;root.querySelector('[data-preview]').after(proposals);root.addEventListener('change',refresh);root.addEventListener('input',()=>{clearTimeout(refreshTimer);refreshTimer=setTimeout(refresh,200);});refresh();return root;
 }
+function plannerFieldSnapshotV373(root){
+  return JSON.stringify([...root.querySelectorAll('input,select')].map((el,i)=>[el.id||el.name||el.dataset.weekday||el.dataset.examKind||el.dataset.examDate||i,el.type==='checkbox'?Boolean(el.checked):el.value]));
+}
+function setStudyPlanDirtyV373(dirty){globalThis.studyPlanDirtyV373=Boolean(dirty);}
+function confirmStudyPlanLeaveV373(){
+  if(!globalThis.studyPlanDirtyV373)return true;
+  if(!window.confirm('学習計画の変更が保存されていません。保存せずに移動しますか？'))return false;
+  setStudyPlanDirtyV373(false);
+  const card=document.getElementById('learningSettingsCard');
+  if(card){card.dataset.settingsKeyV373='';installPlannerSettingsV373();}
+  return true;
+}
+window.addEventListener('beforeunload',e=>{if(!globalThis.studyPlanDirtyV373)return;e.preventDefault();e.returnValue='';});
 function installPlannerSettingsV373(){
   const root=document.getElementById('learningSettingsCard');if(!root)return;
   const s=studySettingsV373(),key=JSON.stringify([dateKey(),s.studyMinutes,s.examDate,s.planningModeV373,s.weekdaysV373,s.todayV373,s.longExamV373]);
   if(root.dataset.settingsKeyV373===key)return;
   root.dataset.v373='true';root.dataset.settingsKeyV373=key;root.innerHTML='<h2>学習時間と受験の計画</h2>';
   const fields=planningFieldsV373('planV373',studySettingsV373(),true);root.append(fields);
+  const baseline=plannerFieldSnapshotV373(fields);
+  const syncDirty=()=>setStudyPlanDirtyV373(plannerFieldSnapshotV373(fields)!==baseline);
+  fields.addEventListener('input',syncDirty);fields.addEventListener('change',syncDirty);setStudyPlanDirtyV373(false);
   const save=document.createElement('button');save.className='planner-save';save.id='savePlanV373';save.textContent='この条件で計画を保存';
-  save.onclick=()=>{try{if(globalThis.studyActiveV373&&!pauseStudyBlockV373(false))throw Error('進行中の学習を保存してから設定を変更してください。');const settings=fields.readSettings();profile.settings=settings;if(!saveProfile())throw Error('保存できませんでした。設定は反映していません。');rebuildTodayPlanPreservingDone();renderPlannerScreen();popToast('完了済みを残して計画を更新しました');}catch(e){fields.querySelector('[data-error]').textContent=e.message;}};
+  save.onclick=()=>{try{if(globalThis.studyActiveV373&&!pauseStudyBlockV373(false))throw Error('進行中の学習を保存してから設定を変更してください。');const settings=fields.readSettings();profile.settings=settings;if(!saveProfile())throw Error('保存できませんでした。設定は反映していません。');setStudyPlanDirtyV373(false);rebuildTodayPlanPreservingDone();renderPlannerScreen();popToast('完了済みを残して計画を更新しました');}catch(e){fields.querySelector('[data-error]').textContent=e.message;}};
   root.append(save);
 }
 function firstRunNeedsSettingsV364(){return !studySettingsV373().planningConfiguredV373&&!String(studySettingsV373().examDate||'').trim();}
