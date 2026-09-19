@@ -61,9 +61,11 @@ jobs:
           grep -Fq "analyticsDisplayMinutes(seven)" assets/app-v377.js
           grep -Fq "analyticsDisplayMinutes(thirty)" assets/app-v377.js
           grep -Fq "#planFocusAction,#openStudySettingsV373{height:46px;min-height:46px" assets/app-v377.css
-          grep -Fq "__fequestPlanInverseActionsV378" index.html
-          grep -Fq "受験予定日から逆算する" index.html
-          grep -Fq "学習時間から逆算する" index.html
+          grep -Fq "受験予定日から逆算する" assets/app-v377.js
+          grep -Fq "学習時間から逆算する" assets/app-v377.js
+          ! grep -Fq "必要時間の目安を使う" assets/app-v377.js
+          ! grep -Fq "目安の時期を仮の日付にする" assets/app-v377.js
+          ! grep -Fq "未定の場合は「時間から」か「どちらも未定」を選べます。提案された時期は予約日ではありません。" assets/app-v377.js
           grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
