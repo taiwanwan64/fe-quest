@@ -134,22 +134,28 @@ function renderDiagnostic(){
   }
 }
 
-function renderDiagnosticResult(scores){
+function renderDiagnosticResult(scores,categories){
   setDisplay('diagQuiz','none');
   setDisplay('diagResult','block');
   const grid=el('diagResultGrid');
   if(grid){
     grid.innerHTML='';
-    sortedSkills().forEach(([category,value])=>{
+    Object.entries(categories).forEach(([category,value])=>{
       const node=document.createElement('div');
       node.className='diag-result';
-      node.innerHTML=`<div class="sub">${category}</div><div class="diag-score">${value}%</div>`;
+      node.innerHTML=`<div class="sub">${category}</div><div class="diag-score">${value.correct} / ${value.total} 正解</div>`;
       grid.appendChild(node);
     });
   }
-  const weak=sortedSkills().slice(0,3).map(item=>item[0]);
+  const weak=Object.entries(categories)
+    .filter(([,value])=>value.correct<value.total)
+    .sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total))
+    .slice(0,3)
+    .map(([category])=>category);
   const advice=el('diagResultAdvice');
-  if(advice)advice.textContent=`まずは「${weak.join('・')}」を重点的に進めます。今日の学習は${effectiveStudyMinutes()}分を目安に自動調整します。`;
+  if(advice)advice.textContent=weak.length
+    ?`まずは「${weak.join('・')}」を重点的に進めます。`
+    :'今回の12問では、すべて正解でした。学習を進めながら優先順位を更新します。';
 }
 
 async function finishDiagnostic(){
@@ -187,7 +193,7 @@ async function finishDiagnostic(){
     profile.diagnosticScores=scores;
     profile.xp+=120;
     saveProfile();
-    renderDiagnosticResult(scores);
+    renderDiagnosticResult(scores,categories);
     provider().clearProtectedCache();
     return true;
   }catch(error){

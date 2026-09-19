@@ -14642,7 +14642,7 @@ setTimeout(()=>ensureVersionRecoveryCheckpoint().then(()=>renderRecoveryCenter()
 // This layer changes presentation/routing only. Account use remains optional and the existing
 // v342 local-first cloud boundary continues to own authentication and synchronization.
 const FIRST_RUN_GUIDED_V364_SPEC=Object.freeze({
-  policy:'optional-account-then-settings-then-diagnostic-then-home',
+  policy:'optional-account-then-diagnostic-then-plan-review-then-home',
   accountRequired:false,
   navigationLockedUntilDiagnostic:true,
   existingLearnerRouteChanged:false,
@@ -14676,10 +14676,7 @@ function firstRunGuidedActiveV364(){
   return firstRunGuidedSessionV364||!firstRunExistingLearnerV364();
 }
 
-function firstRunGuidedTotalStepsV364(){
-  const saved=Number(readUiState()?.[FIRST_RUN_TOTAL_STEPS_V364]);
-  return saved===2||saved===3?saved:(firstRunNeedsSettingsV364()?3:2);
-}
+function firstRunGuidedTotalStepsV364(){return 2;}
 
 function firstRunGuidedNodeV364(tag,cls,text){
   const node=document.createElement(tag);
@@ -14756,11 +14753,9 @@ function renderFirstRunShellV364(root,step,title,lead){
 }
 
 function advancePastFirstRunAccountV364(mode){
-  writeUiState({[FIRST_RUN_ACCOUNT_STATE_V364]:mode});
+  writeUiState({[FIRST_RUN_ACCOUNT_STATE_V364]:mode,[FIRST_RUN_TOTAL_STEPS_V364]:2});
   stopFirstRunCloudWatchV364();
-  const root=document.getElementById('firstRunGuidedV364');
-  if(firstRunNeedsSettingsV364())renderFirstRunSettingsV364(root);
-  else startFirstRunDiagnosticV364();
+  startFirstRunDiagnosticV364();
 }
 
 function renderFirstRunAccountV364(root,signedInEmail=''){
@@ -14838,18 +14833,16 @@ function installFirstRunGuidedV364(){
     return false;
   }
   firstRunGuidedSessionV364=true;
-  if(![2,3].includes(Number(readUiState()?.[FIRST_RUN_TOTAL_STEPS_V364]))){
-    writeUiState({[FIRST_RUN_TOTAL_STEPS_V364]:firstRunNeedsSettingsV364()?3:2});
+  if(Number(readUiState()?.[FIRST_RUN_TOTAL_STEPS_V364])!==2){
+    writeUiState({[FIRST_RUN_TOTAL_STEPS_V364]:2});
   }
   document.body.classList.add('fequest-first-run-v364');
   document.getElementById('firstRunExperienceV340')?.remove();
   const home=document.getElementById('home');if(!home)return false;
   let root=document.getElementById('firstRunGuidedV364');
   if(!root){root=firstRunGuidedNodeV364('section','first-run-guided-v364');root.id='firstRunGuidedV364';root.setAttribute('aria-label','初回設定');home.prepend(root);}
-  if(firstRunAccountPassedV364()){
-    if(firstRunNeedsSettingsV364())renderFirstRunSettingsV364(root);
-    else startFirstRunDiagnosticV364();
-  }else renderFirstRunAccountV364(root,firstRunCloudSignedInV364());
+  if(firstRunAccountPassedV364())startFirstRunDiagnosticV364();
+  else renderFirstRunAccountV364(root,firstRunCloudSignedInV364());
   originalShowScreenV364('home',{replaceHistory:true,instant:true});
   return true;
 }
@@ -15128,7 +15121,7 @@ function finishGuidedDiagnosticV364(){
   if(!globalThis.studyPlanReviewV373){
     globalThis.studyPlanReviewV373=true;profile.settings={...studySettingsV373(),planReviewPendingV373:true};if(!saveProfile())return false;
     for(const id of ['diagIntro','diagQuiz','diagResult'])document.getElementById(id).style.display='none';
-    let root=document.getElementById('diagnosticPlanV373');if(root)root.remove();root=document.createElement('section');root.id='diagnosticPlanV373';root.className='planner-card';root.innerHTML='<h2>診断をもとに計画を確認</h2><p>必要時間は目安です。続けられる時間を選んでください。今の条件のままでも開始できます。</p>';
+    let root=document.getElementById('diagnosticPlanV373');if(root)root.remove();root=document.createElement('section');root.id='diagnosticPlanV373';root.className='planner-card';root.innerHTML='<h2>診断をもとに計画を確認</h2><p>診断結果と教材量から必要時間の目安を見積もり、設定した学習時間・受験予定日で無理がないか確認します。必要時間は目安です。</p>';
     const fields=planningFieldsV373('reviewV373');root.append(fields);
     const apply=document.createElement('button');apply.className='planner-save';apply.textContent='この条件でホームへ →';apply.id='confirmPlanV373';
     apply.onclick=()=>{try{profile.settings={...fields.readSettings(),planReviewPendingV373:false};if(!saveProfile())throw Error('保存できませんでした。');globalThis.studyPlanReviewV373=false;root.remove();completePlanReviewV373();}catch(e){fields.querySelector('[data-error]').textContent=e.message;}};root.append(apply);document.getElementById('diagnostic').append(root);root.scrollIntoView({block:'start'});return false;
