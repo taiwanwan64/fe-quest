@@ -84,6 +84,10 @@ jobs:
           grep -Fq "next.todayV373=null;" assets/app-v377.js
           grep -Fq "曜日ごとの時間</summary>" assets/app-v377.js
           grep -Fq "学習を進めると、復習の進み具合や科目B・模試の結果をもとに必要時間の目安を更新します。" assets/app-v377.js
+          grep -Fq "function dailyTaskIsLearningEntryV373" assets/app-v377.js
+          grep -Fq "tasks.find(t=>dailyTaskIsLearningEntryV373(t)&&!dailyTaskDone(rec,t))" assets/app-v377.js
+          grep -Fq "pendingLearn.type==='studyBlockV373'&&pendingLearn.lane==='subjectB'" assets/app-v377.js
+          ! grep -Fq "tasks.find(t=>dailyTaskSlot(t)==='learn'&&!dailyTaskDone(rec,t))" assets/app-v377.js
           grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
@@ -333,7 +337,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-38';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-39';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
