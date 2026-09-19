@@ -6652,3 +6652,214 @@ body.study-block-active-v373 main{padding-bottom:180px}
     #lesson .feedback-loop-v378{display:grid}
     #lesson .feedback-loop-v378 i{transform:rotate(90deg);text-align:center}
   }
+
+
+  /* ===== v377-59: logic truth tables and MIL diagrams ===== */
+  #lesson .logic-truth-table-v379,
+  #lesson .logic-not-table-v379,
+  #lesson .full-adder-truth-v379{
+    margin-top:18px;
+    margin-bottom:22px;
+  }
+
+  #lesson .mil-symbol-grid-v379{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+    margin:22px 0;
+  }
+  #lesson .mil-symbol-grid-v379 figure{
+    margin:0;
+    padding:12px 10px 10px;
+    border:1px solid #d7e5eb;
+    border-radius:15px;
+    background:#fbfdfe;
+    text-align:center;
+  }
+  #lesson .mil-symbol-grid-v379 svg{
+    width:100%;
+    max-width:180px;
+    height:auto;
+  }
+  #lesson .mil-symbol-grid-v379 svg line,
+  #lesson .mil-symbol-grid-v379 svg path,
+  #lesson .mil-symbol-grid-v379 svg circle{
+    fill:#fff;
+    stroke:#294d60;
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  #lesson .mil-symbol-grid-v379 figure figcaption{
+    margin-top:4px;
+    font-size:17px;
+    font-weight:900;
+    color:#17364b;
+  }
+
+  #lesson .half-adder-mil-v379{
+    padding:18px 15px;
+  }
+  #lesson .half-adder-output-order-v379{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  #lesson .half-adder-output-order-v379 span{
+    display:grid;
+    gap:3px;
+    padding:10px 12px;
+    border-radius:13px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .half-adder-output-order-v379 b{
+    font-size:22px;
+    color:#17364b;
+  }
+  #lesson .half-adder-output-order-v379 small{
+    font-size:15px;
+    font-weight:800;
+    color:#607580;
+  }
+  #lesson .half-adder-mil-v379 svg{
+    width:100%;
+    max-width:600px;
+    height:auto;
+    display:block;
+    margin:auto;
+  }
+  #lesson .half-adder-mil-v379 svg line{
+    stroke:#587783;
+    stroke-width:4;
+    stroke-linecap:round;
+  }
+  #lesson .half-adder-mil-v379 .mil-gate-shape-v379{
+    fill:#fff;
+    stroke:#294d60;
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  #lesson .half-adder-mil-v379 .mil-text-v379,
+  #lesson .half-adder-mil-v379 .mil-output-label-v379{
+    font-size:26px;
+    font-weight:900;
+    fill:#17364b;
+  }
+  #lesson .half-adder-mil-v379 .mil-gate-label-v379{
+    font-size:20px;
+    font-weight:900;
+    fill:#294d60;
+  }
+  #lesson .half-adder-mil-v379 p{
+    margin:10px 0 0!important;
+    text-align:center;
+  }
+
+  #lesson .full-adder-flow-v379{
+    display:grid;
+    gap:10px;
+    margin-top:20px;
+    margin-bottom:22px;
+  }
+  #lesson .full-adder-input-row-v379{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  #lesson .full-adder-input-row-v379 span,
+  #lesson .full-adder-block-v379,
+  #lesson .full-adder-or-v379{
+    padding:12px 14px;
+    border:1px solid #d7e5eb;
+    border-radius:14px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .full-adder-input-row-v379 span{
+    font-size:20px;
+    font-weight:900;
+    color:#17364b;
+  }
+  #lesson .full-adder-arrow-v379{
+    text-align:center;
+    font-size:24px;
+    color:#78909c;
+  }
+  #lesson .full-adder-block-v379{
+    display:grid;
+    gap:4px;
+  }
+  #lesson .full-adder-block-v379 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .full-adder-block-v379 span{
+    font-size:16px;
+    color:#607580;
+  }
+  #lesson .full-adder-split-v379{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    font-size:16px;
+    font-weight:850;
+    color:#506b79;
+    text-align:center;
+  }
+  #lesson .full-adder-cin-v379{
+    display:grid;
+    grid-template-columns:110px minmax(0,1fr);
+    align-items:center;
+    gap:12px;
+  }
+  #lesson .full-adder-cin-v379 > span{
+    font-size:17px;
+    font-weight:900;
+    color:#9a3412;
+    text-align:center;
+  }
+  #lesson .full-adder-or-v379{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  #lesson .full-adder-or-v379 b{
+    padding:7px 13px;
+    border-radius:10px;
+    background:#eef8fb;
+    font-size:18px;
+    color:#17455b;
+  }
+  #lesson .full-adder-or-v379 span,
+  #lesson .full-adder-or-v379 strong,
+  #lesson .full-adder-or-v379 i{
+    font-size:17px;
+    font-style:normal;
+  }
+
+  @media(max-width:620px){
+    #lesson .mil-symbol-grid-v379{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+    #lesson .half-adder-mil-v379 .mil-text-v379,
+    #lesson .half-adder-mil-v379 .mil-output-label-v379{
+      font-size:24px;
+    }
+  }
+  @media(max-width:390px){
+    #lesson .mil-symbol-grid-v379{
+      grid-template-columns:1fr 1fr;
+    }
+    #lesson .full-adder-cin-v379{
+      grid-template-columns:1fr;
+    }
+    #lesson .full-adder-split-v379{
+      grid-template-columns:1fr;
+    }
+  }
