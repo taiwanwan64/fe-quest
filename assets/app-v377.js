@@ -5280,11 +5280,14 @@ function fequestLocalizeLearningEnglishTextV377(text){
   let s=String(text??'');
   for(const [from,to] of FEQUEST_LEARNING_PHRASE_OVERRIDES_V377)s=s.split(from).join(to);
   const entries=Object.entries(LEARNING_ENGLISH_GLOSSES_JA_V377).sort((a,b)=>b[0].length-a[0].length);
-  for(const [english,japanese] of entries){
-    const en=fequestEscapeRegExpV377(english),ja=fequestEscapeRegExpV377(japanese);
-    const re=new RegExp(en+'(?!\\s*(?:[／/]\\s*'+ja+'|[（(]\\s*'+ja+'\\s*[）)]))','g');
-    s=s.replace(re,english+'／'+japanese);
-  }
+  const byEnglish=Object.fromEntries(entries);
+  const pattern=new RegExp(entries.map(([english])=>fequestEscapeRegExpV377(english)).join('|'),'g');
+  s=s.replace(pattern,(english,offset,whole)=>{
+    const japanese=byEnglish[english];
+    const after=String(whole).slice(offset+english.length).trimStart();
+    const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')');
+    return alreadyLocalized?english:english+'／'+japanese;
+  });
   return s;
 }
 function fequestLocalizeProtectedLessonArticleV377(topicId,article){
