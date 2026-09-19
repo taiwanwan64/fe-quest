@@ -5697,3 +5697,81 @@ body.study-block-active-v373 main{padding-bottom:180px}
 #diagnosticPlanV373{max-width:650px;margin:16px auto;scroll-margin-top:110px}
 #learningSettingsCard .planner-save{margin-top:16px}
 @media(max-width:700px){.study-week-v373{grid-template-columns:repeat(2,minmax(0,1fr))}.first-run-guided-v364{max-width:100%;min-width:0}.planning-fields-v373{gap:12px}.study-forecast-v373 dd{font-size:15px}#studyBlockBarV373{font-size:12px}}
+
+
+  /* ===== v377-53: lesson readability floor + chapter guide readability ===== */
+  .core-chapter-guide-kicker{font-size:17px}
+  .core-chapter-guide-goal{font-size:18px;line-height:1.85}
+  .core-chapter-guide-card b{font-size:18px}
+  .core-chapter-guide-card li{font-size:17px;line-height:1.8}
+  .core-chapter-guide-watch{font-size:17px;line-height:1.8}
+  .core-chapter-guide sup{font-size:.72em;line-height:0;vertical-align:super}
+
+  #lesson .core-article-beginner p,
+  #lesson .core-article-section p,
+  #lesson .core-article-pitfall p,
+  #lesson .core-article-points li,
+  #lesson .core-article-extra li,
+  #lesson .core-calc-guide li,
+  #lesson .beginner-term b,
+  #lesson .beginner-term span,
+  #lesson .ipa92-coverage-extension p,
+  #lesson .ipa92-coverage-extension li,
+  #lesson .core-reference-priority-v377 p,
+  #lesson .core-reference-priority-v377 li{
+    font-size:18px;
+    line-height:1.9;
+  }
+  #lesson .core-article-section h2,
+  #lesson .core-article-pitfall h2,
+  #lesson .core-article-beginner h2{
+    font-size:23px;
+    line-height:1.5;
+  }
+  #lesson .ipa92-coverage-extension > h3{
+    font-size:20px;
+    line-height:1.55;
+  }
+  #lesson .core-reference-priority-v377 > h2{
+    font-size:21px;
+    line-height:1.5;
+  }
+  #lesson .fequest-responsive-content-table-v377 th,
+  #lesson .fequest-responsive-content-table-v377 td,
+  #lesson .core-article table th,
+  #lesson .core-article table td{
+    font-size:18px;
+    line-height:1.75;
+  }
+  #lesson .core-article code,
+  #lesson .ipa92-coverage-extension code{
+    font-size:18px;
+  }
+  #lesson .core-article pre{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  @media(max-width:620px){
+    #lesson .core-article-beginner p,
+    #lesson .core-article-section p,
+    #lesson .core-article-pitfall p,
+    #lesson .core-article-points li,
+    #lesson .core-article-extra li,
+    #lesson .core-calc-guide li,
+    #lesson .beginner-term b,
+    #lesson .beginner-term span,
+    #lesson .ipa92-coverage-extension p,
+    #lesson .ipa92-coverage-extension li,
+    #lesson .core-reference-priority-v377 p,
+    #lesson .core-reference-priority-v377 li,
+    #lesson .fequest-responsive-content-table-v377 th,
+    #lesson .fequest-responsive-content-table-v377 td{
+      font-size:18px;
+    }
+    #lesson .fequest-responsive-content-table-v377.is-two-column tbody tr > :first-child{
+      font-size:18px;
+    }
+    #lesson .fequest-responsive-content-table-v377:not(.is-two-column) tbody tr > *::before{
+      font-size:16px;
+    }
+  }
