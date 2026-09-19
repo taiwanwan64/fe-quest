@@ -6088,3 +6088,567 @@ body.study-block-active-v373 main{padding-bottom:180px}
       gap:8px;
     }
   }
+
+
+  /* ===== v377-58: chapter 1-2 visual learning ===== */
+  #lesson .fe-visual-card-v378{
+    margin:22px 0;
+    padding:18px;
+    border:1px solid #d7e5eb;
+    border-radius:18px;
+    background:#f9fcfd;
+    box-shadow:0 1px 0 rgba(15,42,58,.04);
+  }
+  #lesson .visual-title-v378{
+    margin-bottom:12px;
+    font-size:20px;
+    font-weight:900;
+    text-align:center;
+    color:#17364b;
+  }
+  #lesson .visual-caption-v378,
+  #lesson .visual-note-v378{
+    margin-top:12px!important;
+    font-size:17px!important;
+    line-height:1.7;
+    text-align:center;
+    color:#506b79;
+  }
+
+  /* chapter 1: bit / radix / weights */
+  #lesson .bit-byte-row-v378{
+    display:grid;
+    grid-template-columns:repeat(8,minmax(0,1fr));
+    gap:6px;
+  }
+  #lesson .bit-cell-v378{
+    display:grid;
+    place-items:center;
+    aspect-ratio:1/1;
+    border:2px solid #4f8aa0;
+    border-radius:10px;
+    background:#eef8fb;
+    font-size:20px;
+    font-weight:900;
+    color:#17455b;
+  }
+  #lesson .radix-count-v378{
+    display:grid;
+    gap:10px;
+  }
+  #lesson .radix-count-v378 > div{
+    display:grid;
+    grid-template-columns:86px repeat(5,minmax(0,1fr));
+    align-items:center;
+    gap:6px;
+  }
+  #lesson .radix-count-v378 b{
+    font-size:17px;
+    color:#17364b;
+  }
+  #lesson .radix-count-v378 span{
+    padding:8px 4px;
+    border-radius:9px;
+    background:#eef6f8;
+    text-align:center;
+    font-size:17px;
+    font-weight:850;
+  }
+  #lesson .bcd-compare-v378{
+    display:grid;
+    gap:12px;
+  }
+  #lesson .bcd-path-v378{
+    display:grid;
+    grid-template-columns:110px 64px 28px minmax(0,1fr);
+    align-items:center;
+    gap:8px;
+    padding:12px;
+    border-radius:13px;
+    background:#fff;
+  }
+  #lesson .bcd-path-v378 b,
+  #lesson .bcd-path-v378 span,
+  #lesson .bcd-path-v378 code{
+    font-size:17px;
+  }
+  #lesson .bcd-path-v378 small{
+    grid-column:2/-1;
+    font-size:15px;
+    color:#607580;
+  }
+
+  #lesson .weight-visual-v378{
+    display:grid;
+    gap:9px;
+  }
+  #lesson .weight-row-v378{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    text-align:center;
+  }
+  #lesson .weight-label-v378 span{
+    font-size:16px;
+    font-weight:800;
+    color:#6b7f89;
+  }
+  #lesson .weight-bits-v378 span{
+    padding:10px 4px;
+    border:2px solid #4f8aa0;
+    border-radius:10px;
+    background:#eef8fb;
+    font-size:22px;
+    font-weight:900;
+    color:#17364b;
+  }
+  #lesson .weight-sum-v378{
+    font-size:18px;
+    text-align:center;
+    color:#264d60;
+  }
+
+  #lesson .conversion-flow-v378{
+    display:grid;
+    gap:8px;
+  }
+  #lesson .conversion-flow-v378 > div{
+    display:grid;
+    grid-template-columns:58px 58px 1fr;
+    align-items:center;
+    gap:8px;
+    padding:9px 12px;
+    border-radius:12px;
+    background:#fff;
+  }
+  #lesson .conversion-flow-v378 b,
+  #lesson .conversion-flow-v378 span,
+  #lesson .conversion-flow-v378 em{
+    font-size:17px;
+    font-style:normal;
+  }
+  #lesson .conversion-flow-v378 em{
+    font-weight:850;
+    color:#b45309;
+  }
+  #lesson .conversion-flow-v378 p{
+    margin:8px 0 0!important;
+    text-align:center;
+  }
+  #lesson .nibble-visual-v378{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    text-align:center;
+  }
+  #lesson .nibble-visual-v378 > div{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:12px;
+    border-radius:12px;
+    background:#fff;
+  }
+  #lesson .nibble-visual-v378 code,
+  #lesson .nibble-visual-v378 strong{
+    font-size:20px;
+  }
+  #lesson .nibble-visual-v378 p{
+    grid-column:1/-1;
+    margin:0!important;
+  }
+
+  #lesson .twos-complement-flow-v378,
+  #lesson .shift-visual-v378{
+    display:grid;
+    gap:10px;
+    text-align:center;
+  }
+  #lesson .twos-complement-flow-v378 > div,
+  #lesson .shift-visual-v378 > div{
+    display:grid;
+    gap:5px;
+    padding:13px;
+    border:1px solid #d6e4ea;
+    border-radius:13px;
+    background:#fff;
+  }
+  #lesson .twos-complement-flow-v378 code,
+  #lesson .shift-visual-v378 code{
+    font-size:21px;
+    font-weight:900;
+    letter-spacing:.06em;
+  }
+  #lesson .twos-complement-flow-v378 > span,
+  #lesson .shift-visual-v378 > span{
+    font-size:16px;
+    font-weight:850;
+    color:#607580;
+  }
+  #lesson .twos-complement-flow-v378 .is-answer,
+  #lesson .shift-visual-v378 .is-answer{
+    border-color:#f6c57b;
+    background:#fff7ed;
+  }
+  #lesson .number-range-v378{
+    display:grid;
+    grid-template-columns:auto 1fr auto 1fr auto;
+    align-items:center;
+    gap:8px;
+  }
+  #lesson .number-range-v378 i{
+    height:4px;
+    border-radius:999px;
+    background:#8eb0bd;
+  }
+  #lesson .number-range-v378 span,
+  #lesson .number-range-v378 b{
+    font-size:18px;
+  }
+  #lesson .number-range-v378 small{
+    grid-column:1/-1;
+    margin-top:6px;
+    text-align:center;
+    font-size:16px;
+    color:#607580;
+  }
+  #lesson .binary-add-visual-v378{
+    display:grid;
+    gap:8px;
+    text-align:center;
+  }
+  #lesson .binary-add-col-v378{
+    display:flex;
+    justify-content:center;
+    align-items:baseline;
+    gap:12px;
+    color:#b45309;
+  }
+  #lesson .binary-add-col-v378 b{
+    font-size:20px;
+  }
+  #lesson .binary-add-main-v378{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+  #lesson .binary-add-main-v378 code{
+    font-size:25px;
+    font-weight:900;
+  }
+  #lesson .binary-add-visual-v378 p{
+    margin:0!important;
+  }
+
+  #lesson .float-parts-v378{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  #lesson .float-parts-v378 > span{
+    position:relative;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    padding:10px 12px;
+    border-radius:12px;
+    font-size:24px;
+    font-weight:900;
+  }
+  #lesson .float-parts-v378 small{
+    font-size:14px;
+    font-weight:800;
+  }
+  #lesson .float-sign-v378{background:#fff7ed;color:#9a3412}
+  #lesson .float-mantissa-v378{background:#eef8fb;color:#17455b}
+  #lesson .float-times-v378{background:#f4f4f5;color:#3f3f46}
+  #lesson .float-exponent-v378{
+    align-self:flex-start;
+    margin-left:-14px;
+    padding:5px 8px!important;
+    background:#f3e8ff;
+    color:#6b21a8;
+    font-size:18px!important;
+  }
+
+  /* chapter 2 */
+  #lesson .venn-compare-v378{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  #lesson .venn-panel-v378{
+    display:grid;
+    gap:5px;
+    text-align:center;
+  }
+  #lesson .venn-panel-v378 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .venn-panel-v378 svg{
+    width:100%;
+    max-width:220px;
+    margin:auto;
+  }
+  #lesson .venn-panel-v378 text{
+    font-size:16px;
+    font-weight:900;
+    fill:#17364b;
+  }
+  #lesson .venn-a-v378,
+  #lesson .venn-b-v378{
+    fill:#dceff6;
+    fill-opacity:.65;
+    stroke:#4f8aa0;
+    stroke-width:2;
+  }
+  #lesson .venn-hit-v378{fill:#f59e0b;fill-opacity:.72}
+  #lesson .venn-union-v378{fill:#9dd5e3;fill-opacity:.58;stroke:#4f8aa0;stroke-width:2}
+  #lesson .venn-panel-v378 span{font-size:16px;color:#607580}
+
+  #lesson .quantifier-visual-v378{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  #lesson .quantifier-visual-v378 > div{
+    display:grid;
+    gap:6px;
+    padding:14px;
+    border-radius:14px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .quantifier-visual-v378 b{
+    font-size:30px;
+    color:#3b6d82;
+  }
+  #lesson .quantifier-visual-v378 strong{font-size:18px}
+  #lesson .quantifier-visual-v378 span,
+  #lesson .quantifier-visual-v378 em{font-size:16px;font-style:normal}
+
+  #lesson .half-adder-visual-v378{
+    display:grid;
+    gap:8px;
+    text-align:center;
+  }
+  #lesson .adder-inputs-v378,
+  #lesson .adder-gates-v378,
+  #lesson .adder-results-v378{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  #lesson .adder-inputs-v378 span,
+  #lesson .adder-gates-v378 b,
+  #lesson .adder-results-v378 span{
+    padding:10px;
+    border-radius:12px;
+    background:#fff;
+    font-size:18px;
+    font-weight:900;
+  }
+  #lesson .adder-gates-v378 b:first-child{background:#eef8fb;color:#17455b}
+  #lesson .adder-gates-v378 b:last-child{background:#fff7ed;color:#9a3412}
+  #lesson .adder-branch-v378{font-size:24px;color:#78909c}
+  #lesson .half-adder-visual-v378 p{margin:4px 0 0!important}
+
+  #lesson .operand-visual-v378{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  #lesson .operand-chip-v378,
+  #lesson .operator-chip-v378{
+    display:grid;
+    gap:5px;
+    min-width:76px;
+    padding:12px;
+    border-radius:13px;
+    text-align:center;
+    font-size:26px;
+    font-weight:900;
+  }
+  #lesson .operand-chip-v378{background:#eef8fb;color:#17455b}
+  #lesson .operator-chip-v378{background:#fff7ed;color:#9a3412}
+  #lesson .operand-visual-v378 small{font-size:13px}
+  #lesson .notation-flow-v378{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  #lesson .notation-flow-v378 > div{
+    display:grid;
+    gap:5px;
+    padding:11px 13px;
+    border-radius:12px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .notation-flow-v378 code{font-size:18px;font-weight:900}
+  #lesson .notation-flow-v378 small{font-size:14px;color:#607580}
+
+  #lesson .automaton-model-v378{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  #lesson .automaton-model-v378 > div{
+    display:grid;
+    gap:5px;
+    min-width:130px;
+    padding:13px;
+    border-radius:14px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .automaton-model-v378 .is-state{background:#eef8fb;border:2px solid #4f8aa0}
+  #lesson .automaton-model-v378 b{font-size:18px}
+  #lesson .automaton-model-v378 span{font-size:15px}
+  #lesson .automaton-model-v378 i{font-size:22px;font-style:normal;color:#78909c}
+
+  #lesson .ai-hierarchy-v378{padding:14px}
+  #lesson .ai-level-v378{
+    padding:12px;
+    border-radius:16px;
+    text-align:left;
+  }
+  #lesson .ai-level-v378 b{font-size:17px}
+  #lesson .ai-l1-v378{background:#e8f4f8}
+  #lesson .ai-l2-v378{margin:10px 0 0 9%;background:#dff1e4}
+  #lesson .ai-l3-v378{margin:10px 0 0 9%;background:#fff1d6}
+  #lesson .ai-l4-v378{margin:10px 0 0 9%;background:#f2e8fb}
+
+  #lesson .matrix-visual-v378{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    overflow-x:auto;
+  }
+  #lesson .matrix-bracket-v378{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px 12px;
+    padding:10px 15px;
+    border-left:3px solid #4f6470;
+    border-right:3px solid #4f6470;
+  }
+  #lesson .vector-bracket-v378{
+    display:grid;
+    gap:6px;
+    padding:10px 12px;
+    border-left:3px solid #4f6470;
+    border-right:3px solid #4f6470;
+  }
+  #lesson .matrix-visual-v378 span{font-size:17px;white-space:nowrap}
+  #lesson .bisection-visual-v378{
+    display:grid;
+    gap:11px;
+  }
+  #lesson .bisection-visual-v378 > div{
+    display:grid;
+    grid-template-columns:64px minmax(0,1fr) 110px;
+    align-items:center;
+    gap:10px;
+  }
+  #lesson .bisection-visual-v378 i{
+    display:block;
+    width:var(--w);
+    height:16px;
+    border-radius:999px;
+    background:#4f8aa0;
+  }
+  #lesson .bisection-visual-v378 span,
+  #lesson .bisection-visual-v378 small{font-size:15px}
+
+  #lesson .info-amount-v378{
+    display:grid;
+    gap:12px;
+  }
+  #lesson .info-amount-v378 > div{
+    display:grid;
+    grid-template-columns:76px minmax(0,1fr) 72px;
+    align-items:center;
+    gap:10px;
+  }
+  #lesson .info-amount-v378 b,
+  #lesson .info-amount-v378 em{font-size:17px;font-style:normal}
+  #lesson .info-amount-v378 > div > span{
+    display:block;
+    height:20px;
+    border-radius:999px;
+    background:#e8eef1;
+    overflow:hidden;
+  }
+  #lesson .info-amount-v378 i{
+    display:block;
+    width:var(--w);
+    height:100%;
+    border-radius:inherit;
+    background:#4f8aa0;
+  }
+
+  #lesson .feedback-loop-v378{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    flex-wrap:wrap;
+  }
+  #lesson .feedback-loop-v378 > div:not(.feedback-return-v378){
+    display:grid;
+    gap:4px;
+    min-width:108px;
+    padding:11px;
+    border-radius:12px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .feedback-loop-v378 b{font-size:17px}
+  #lesson .feedback-loop-v378 span{font-size:14px}
+  #lesson .feedback-loop-v378 i{font-style:normal;font-size:20px;color:#78909c}
+  #lesson .feedback-return-v378{
+    flex-basis:100%;
+    margin-top:4px;
+    font-size:16px;
+    font-weight:850;
+    text-align:center;
+    color:#b45309;
+  }
+
+  @media(max-width:620px){
+    #lesson .fe-visual-card-v378{padding:15px 13px}
+    #lesson .bit-byte-row-v378{gap:4px}
+    #lesson .bit-cell-v378{font-size:18px;border-radius:8px}
+    #lesson .bcd-path-v378{grid-template-columns:96px 54px 20px minmax(0,1fr)}
+    #lesson .bcd-path-v378 b,
+    #lesson .bcd-path-v378 span,
+    #lesson .bcd-path-v378 code{font-size:16px}
+    #lesson .venn-compare-v378{grid-template-columns:1fr}
+    #lesson .quantifier-visual-v378{grid-template-columns:1fr}
+    #lesson .matrix-visual-v378{justify-content:flex-start}
+    #lesson .bisection-visual-v378 > div{grid-template-columns:58px minmax(0,1fr) 96px}
+  }
+  @media(max-width:390px){
+    #lesson .radix-count-v378 > div{grid-template-columns:72px repeat(5,minmax(0,1fr))}
+    #lesson .radix-count-v378 b,
+    #lesson .radix-count-v378 span{font-size:15px}
+    #lesson .bcd-path-v378{grid-template-columns:1fr;gap:5px;text-align:center}
+    #lesson .bcd-path-v378 small{grid-column:auto}
+    #lesson .automaton-model-v378{display:grid}
+    #lesson .automaton-model-v378 i{transform:rotate(90deg);text-align:center}
+    #lesson .feedback-loop-v378{display:grid}
+    #lesson .feedback-loop-v378 i{transform:rotate(90deg);text-align:center}
+  }
