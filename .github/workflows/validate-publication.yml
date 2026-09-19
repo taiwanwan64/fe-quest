@@ -77,6 +77,9 @@ jobs:
           grep -Fq "OR（論理和）" assets/app-v377.js
           grep -Fq "const CACHE_NAME = 'fe-quest-v377-56';" sw.js
           grep -Fq "fe-quest-v377-56" .github/workflows/deploy-pages.yml
+          grep -Fq "next.disabled=false;" assets/app-v377.js
+          grep -Fq "next.removeAttribute('aria-disabled');" assets/app-v377.js
+          grep -Fq "next.disabled=true;" assets/app-v377.js
           grep -Fq "ビット／バイトと通信速度の単位" assets/app-v377.js
           grep -Fq "1バイト＝8ビット" assets/app-v377.js
           grep -Fq "function coreChapterFormulaHtml(text)" assets/app-v377.js
