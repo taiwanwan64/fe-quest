@@ -51,6 +51,17 @@ jobs:
           node --check cloud/activation-loader-v342.js
           node --check cloud/public-config-v342.js
           node --check sw.js
+      - name: Validate bilingual learning terminology
+        run: |
+          grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
+          grep -Fq "return fequestLocalizeProtectedLessonArticleV377(id,article);" assets/app-v377.js
+          grep -Fq "Politics（政治）・Economy（経済）・Society（社会）・Technology（技術）" assets/app-v377.js
+          grep -Fq '"Key Performance Indicator":"重要業績評価指標"' assets/app-v377.js
+          grep -Fq '"Key Goal Indicator":"重要目標達成指標"' assets/app-v377.js
+          grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
+          grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
+          grep -Fq "OR（論理和）" assets/app-v377.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-46';" sw.js
       - name: Validate plan UI hotfix
         run: |
           grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
@@ -375,7 +386,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-45';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-46';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
