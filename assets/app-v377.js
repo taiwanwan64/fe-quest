@@ -5290,6 +5290,13 @@ function fequestLocalizeLearningEnglishTextV377(text){
   });
   return s;
 }
+function fequestNaturalizeLessonVersionLabelsV377(text){
+  return String(text??'')
+    .replaceAll('Ver.9.2補強：','')
+    .replaceAll('Ver.9.2では、','試験では、')
+    .replaceAll('Ver.9.2補強では','ここでは')
+    .replaceAll('Ver.9.2の当該用語例ではOAuthが明示されています','OAuthが代表例として挙げられます');
+}
 function fequestLocalizeProtectedLessonArticleV377(topicId,article){
   const template=document.createElement('template');
   template.innerHTML=String(article??'');
@@ -5297,7 +5304,7 @@ function fequestLocalizeProtectedLessonArticleV377(topicId,article){
   let node;
   while((node=walker.nextNode())){
     if(node.parentElement?.closest('code,pre,kbd,samp'))continue;
-    let value=String(node.nodeValue??'');
+    let value=fequestNaturalizeLessonVersionLabelsV377(node.nodeValue);
     if(FEQUEST_LOGICAL_OR_TOPIC_IDS_V377.has(topicId)){
       value=value.split('OR（Operations Research）').join('OR（論理和）');
       value=value.split('OR (Operations Research)').join('OR（論理和）');
@@ -5355,6 +5362,23 @@ function fequestCollapseRepeatedLearningDetailsV377(roots){
       node.nodeValue=fequestCollapseRepeatedLearningDetailsTextV377(node.nodeValue,seen);
     }
   }
+}
+function fequestPrepareResponsiveLessonTablesV377(root){
+  if(!root?.querySelectorAll)return;
+  root.querySelectorAll('.core-article table:not([class])').forEach(table=>{
+    const headers=[...table.querySelectorAll('thead tr:first-child > th')].map(cell=>String(cell.textContent||'').trim());
+    if(!headers.length)return;
+    const rows=[...table.querySelectorAll('tbody > tr')];
+    const colCount=Math.max(headers.length,...rows.map(row=>row.children.length));
+    table.classList.add('fequest-responsive-content-table-v377');
+    if(colCount===2)table.classList.add('is-two-column');
+    rows.forEach(row=>{
+      [...row.children].forEach((cell,index)=>{
+        const label=headers[index]||'';
+        if(label)cell.dataset.fequestLabel=label;
+      });
+    });
+  });
 }
 function expandLearningAbbreviations(text){
   let s=String(text??'');
@@ -7115,6 +7139,7 @@ function renderLessonLegacyV376(){
   if(page.interactive) renderInteractive(page.interactive,stage);
   if(page.quiz) renderLessonQuiz(page.quiz,stage);
 
+  fequestPrepareResponsiveLessonTablesV377(stage);
   const learningDetailRoots=[];
   if(headline.style.display!=='none')learningDetailRoots.push(headline);
   if(copy.style.display!=='none')learningDetailRoots.push(copy);
