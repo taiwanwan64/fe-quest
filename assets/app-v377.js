@@ -5306,6 +5306,56 @@ function fequestLocalizeProtectedLessonArticleV377(topicId,article){
   }
   return template.innerHTML;
 }
+function fequestLearningDetailVariantsV377(abbr,full){
+  const japanese=LEARNING_ENGLISH_GLOSSES_JA_V377[full]||'';
+  const variants=[
+    `${abbr}（${full}${japanese?'／'+japanese:''}）`,
+    `${abbr}（${full}）`,
+    `${abbr}(${full}${japanese?'/'+japanese:''})`,
+    `${abbr}(${full})`
+  ];
+  if(abbr==='SWOT'){
+    variants.unshift(
+      'SWOT（Strengths（強み）, Weaknesses（弱み）, Opportunities（機会）, Threats（脅威））',
+      'SWOT（Strengths（強み）・Weaknesses（弱み）・Opportunities（機会）・Threats（脅威））'
+    );
+  }
+  if(abbr==='PEST'){
+    variants.unshift(
+      'PEST（Politics（政治）, Economy（経済）, Society（社会）, Technology（技術））',
+      'PEST（Politics（政治）・Economy（経済）・Society（社会）・Technology（技術））'
+    );
+  }
+  return [...new Set(variants.filter(Boolean))].sort((a,b)=>b.length-a.length);
+}
+function fequestCollapseRepeatedLearningDetailsTextV377(text,seen){
+  let s=String(text??'');
+  const entries=Object.entries(LEARNING_ABBREVIATIONS).sort((a,b)=>b[0].length-a[0].length);
+  for(const [abbr,full] of entries){
+    for(const variant of fequestLearningDetailVariantsV377(abbr,full)){
+      const re=new RegExp(fequestEscapeRegExpV377(variant),'g');
+      s=s.replace(re,match=>{
+        if(seen.has(abbr))return abbr;
+        seen.add(abbr);
+        return match;
+      });
+    }
+  }
+  return s;
+}
+function fequestCollapseRepeatedLearningDetailsV377(roots){
+  const seen=new Set();
+  for(const root of (Array.isArray(roots)?roots:[roots])){
+    if(!root)continue;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    let node;
+    while((node=walker.nextNode())){
+      const parent=node.parentElement;
+      if(parent?.closest('code,pre,kbd,samp,[hidden],[aria-hidden="true"],details:not([open])'))continue;
+      node.nodeValue=fequestCollapseRepeatedLearningDetailsTextV377(node.nodeValue,seen);
+    }
+  }
+}
 function expandLearningAbbreviations(text){
   let s=String(text??'');
   const entries=Object.entries(LEARNING_ABBREVIATIONS).sort((a,b)=>b[0].length-a[0].length);
@@ -7064,6 +7114,12 @@ function renderLessonLegacyV376(){
   }else if(introGuide){ stage.innerHTML=introGuide; }
   if(page.interactive) renderInteractive(page.interactive,stage);
   if(page.quiz) renderLessonQuiz(page.quiz,stage);
+
+  const learningDetailRoots=[];
+  if(headline.style.display!=='none')learningDetailRoots.push(headline);
+  if(copy.style.display!=='none')learningDetailRoots.push(copy);
+  learningDetailRoots.push(stage);
+  fequestCollapseRepeatedLearningDetailsV377(learningDetailRoots);
 
   const prev=document.getElementById('lessonPrev');
   prev.style.display=(isCore||lessonStep===0)?'none':'';
