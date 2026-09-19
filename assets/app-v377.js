@@ -5365,7 +5365,7 @@ function fequestCollapseRepeatedLearningDetailsV377(roots){
 }
 function fequestPrepareResponsiveLessonTablesV377(root){
   if(!root?.querySelectorAll)return;
-  root.querySelectorAll('.core-article table:not([class])').forEach(table=>{
+  root.querySelectorAll('table:not([class])').forEach(table=>{
     const headers=[...table.querySelectorAll('thead tr:first-child > th')].map(cell=>String(cell.textContent||'').trim());
     if(!headers.length)return;
     const rows=[...table.querySelectorAll('tbody > tr')];
