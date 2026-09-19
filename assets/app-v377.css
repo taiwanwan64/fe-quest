@@ -5872,3 +5872,219 @@ body.study-block-active-v373 main{padding-bottom:180px}
       margin-bottom:20px;
     }
   }
+
+
+  /* ===== v377-57: probability statistics visual learning ===== */
+  #lesson .stats-visual-section-v377{
+    overflow:visible;
+  }
+  #lesson .stats-outcome-grid-v377{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin:20px 0 24px;
+  }
+  #lesson .stats-outcome-grid-v377 > div{
+    display:grid;
+    gap:5px;
+    padding:16px 14px;
+    border:1px solid #cfe3ee;
+    border-radius:16px;
+    background:#f7fbfd;
+    text-align:center;
+  }
+  #lesson .stats-outcome-grid-v377 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .stats-outcome-grid-v377 span{
+    font-size:18px;
+    font-weight:850;
+    color:#29566d;
+  }
+  #lesson .stats-outcome-grid-v377 em{
+    font-size:17px;
+    font-style:normal;
+    font-weight:900;
+    color:#2f6b3d;
+  }
+
+  #lesson .stats-spread-v377{
+    display:grid;
+    gap:18px;
+    margin:20px 0;
+  }
+  #lesson .stats-series-v377{
+    padding:16px 15px;
+    border:1px solid #d8e6ec;
+    border-radius:16px;
+    background:#fff;
+  }
+  #lesson .stats-series-head-v377{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+  }
+  #lesson .stats-series-head-v377 b{
+    font-size:22px;
+    color:#17364b;
+  }
+  #lesson .stats-series-head-v377 span{
+    font-size:17px;
+    font-weight:800;
+    color:#536b79;
+  }
+  #lesson .stats-dot-area-v377{
+    position:relative;
+    height:82px;
+    margin:10px 10px 0;
+    border-bottom:2px solid #9db3bf;
+  }
+  #lesson .stats-mean-line-v377{
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:2px;
+    background:#f59e0b;
+    transform:translateX(-50%);
+    opacity:.75;
+  }
+  #lesson .stats-dot-v377{
+    position:absolute;
+    left:calc((var(--pos) - 1) * 12.5%);
+    bottom:calc(10px + (var(--stack) - 1) * 19px);
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    background:#2f7b90;
+    border:2px solid #fff;
+    box-shadow:0 0 0 1px #2f7b90;
+    transform:translateX(-50%);
+  }
+  #lesson .stats-axis-labels-v377{
+    display:grid;
+    grid-template-columns:repeat(9,1fr);
+    gap:0;
+    margin:5px 2px 0;
+    text-align:center;
+  }
+  #lesson .stats-axis-labels-v377 span{
+    font-size:16px;
+    color:#647984;
+  }
+  #lesson .stats-axis-labels-v377 .is-mean{
+    font-weight:900;
+    color:#b45309;
+  }
+  #lesson .stats-series-note-v377{
+    margin-top:10px!important;
+    font-size:17px!important;
+    font-weight:850;
+    text-align:center;
+    color:#294d60;
+  }
+
+  #lesson .stats-formula-flow-v377{
+    display:grid;
+    gap:9px;
+    margin:20px 0 24px;
+  }
+  #lesson .stats-formula-flow-v377 > div:not(.stats-flow-arrow-v377){
+    display:grid;
+    gap:6px;
+    padding:15px 16px;
+    border:1px solid #d8e6ec;
+    border-radius:15px;
+    background:#f8fbfc;
+  }
+  #lesson .stats-formula-flow-v377 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .stats-formula-flow-v377 span{
+    font-size:19px;
+    font-weight:850;
+    color:#264d60;
+  }
+  #lesson .stats-formula-flow-v377 em{
+    font-size:16px;
+    font-style:normal;
+    font-weight:900;
+    color:#b45309;
+  }
+  #lesson .stats-flow-arrow-v377{
+    text-align:center;
+    font-size:24px;
+    line-height:1;
+    color:#78909c;
+  }
+
+  #lesson .stats-likelihood-v377{
+    display:grid;
+    gap:12px;
+    margin:18px 0 22px;
+  }
+  #lesson .stats-likelihood-v377 > div{
+    display:grid;
+    grid-template-columns:76px minmax(0,1fr) 68px;
+    align-items:center;
+    gap:10px;
+  }
+  #lesson .stats-likelihood-v377 b,
+  #lesson .stats-likelihood-v377 em{
+    font-size:17px;
+    font-style:normal;
+  }
+  #lesson .stats-likelihood-v377 > div > span{
+    display:block;
+    height:18px;
+    overflow:hidden;
+    border-radius:999px;
+    background:#e8eef1;
+  }
+  #lesson .stats-likelihood-v377 i{
+    display:block;
+    width:var(--w);
+    height:100%;
+    border-radius:inherit;
+    background:#7ba7b8;
+  }
+  #lesson .stats-likelihood-v377 .is-best i{
+    background:#ea580c;
+  }
+  #lesson .stats-likelihood-v377 .is-best b,
+  #lesson .stats-likelihood-v377 .is-best em{
+    color:#c2410c;
+    font-weight:900;
+  }
+
+  #lesson ruby rt{
+    font-size:.58em;
+    font-weight:700;
+  }
+
+  @media(max-width:620px){
+    #lesson .stats-outcome-grid-v377{
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    #lesson .stats-outcome-grid-v377 > div{
+      padding:14px 10px;
+    }
+    #lesson .stats-series-head-v377{
+      align-items:flex-start;
+      flex-direction:column;
+      gap:3px;
+    }
+    #lesson .stats-dot-area-v377{
+      margin-left:7px;
+      margin-right:7px;
+    }
+    #lesson .stats-likelihood-v377 > div{
+      grid-template-columns:64px minmax(0,1fr) 58px;
+      gap:8px;
+    }
+  }
