@@ -22,6 +22,13 @@
 - 参考資料で強調されている「間違えやすい関係」は、FE QUEST側では core-reference-priority-v377 と core-reference-alert-v377 を使い、オレンジ/赤系の視覚差を付ける。
 - 01-06のシフト演算は、FE QUESTの既存構成では浮動小数点・シフトを扱う core_01_07 に補強する。章構成の違いだけで重複教材は作らない。
 
-## 次
+## 実装記録
 
+- 保護教材パッチ版: v376-lessons-ref-ch1-20260919
+- 対象: core_01_01〜core_01_07 の7レッスン
+- 7レッスンすべてに重要ポイント用の強調セクションを1件ずつ追加し、対応するtopic.pointsも補強した。
+- 保護教材本文はSupabaseのprivate lesson bankに保持し、公開GitHubには本文を保存していない。
+- private import manifestに7件のパッチ記録とSHA-256を保持する。
+
+## 次
 第2章へ進む際も .github/REFERENCE_MATERIAL_AUDIT_POLICY.md の手順を用い、章内を順番に監査する。
