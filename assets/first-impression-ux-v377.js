@@ -182,7 +182,7 @@ function enhanceDiagnosticIntro(){
     notice.id=NOTICE_ID;
     notice.className='v377-beta-invite-notice';
     notice.setAttribute('role','note');
-    notice.innerHTML='<strong>現在は招待制βテスト中です。</strong><br>ログインは学習データの引継ぎに、招待コードはβ期間中の問題アクセス確認に使います。診断を始める際に、案内された招待コードを1回入力してください。';
+    notice.innerHTML='<strong>現在は招待制βテスト中です。</strong><br>診断を始める際に、案内された招待コードを1回入力してください。';
     begin.insertAdjacentElement('beforebegin',notice);
   }
 
@@ -203,7 +203,7 @@ function enhanceAccessDialog(){
 
   if(title)title.textContent='βテスト招待コード';
   if(description&&description.tagName==='P'){
-    description.textContent='FE QUESTは現在、招待制βテスト中です。ログインは学習データの引継ぎに、招待コードはβ期間中の問題アクセス確認に使います。案内された招待コードを入力してください。';
+    description.textContent='FE QUESTは現在、招待制βテスト中です。案内された招待コードを入力してください。';
   }
   if(label)label.textContent='招待コード';
   if(cancel)cancel.textContent='戻る';
