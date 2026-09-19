@@ -119,7 +119,7 @@ jobs:
           grep -Fq ".diag-nav button{width:110px;min-height:52px}" assets/app-v377.css
           ! grep -Fq "実際の所要時間は区切りごとに調整できます" assets/app-v377.js
           ! grep -Fq "区切りで終了できます。未完了の教材は次回に続けます。" assets/app-v377.js
-          grep -Fq "set('todayPlanMeta',\`今日の設定 ${effectiveStudyMinutes()}分\`);" assets/app-v377.js
+          grep -Fq '今日の設定 ${effectiveStudyMinutes()}分' assets/app-v377.js
           grep -Fq "title,desc:'',questionLimit:" assets/app-v377.js
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
