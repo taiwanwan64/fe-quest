@@ -7155,6 +7155,10 @@ function renderLessonLegacyV376(){
   prev.style.display=(isCore||lessonStep===0)?'none':'';
   prev.disabled=isCore||lessonStep===0;
   const next=document.getElementById('lessonNext');
+  // Protected lesson loading temporarily disables this button.
+  // Once the hydrated lesson is rendered, always restore the ready state.
+  next.disabled=false;
+  next.removeAttribute('aria-disabled');
   if(isCore){
     next.textContent='学習完了 → 問題演習';
   }else if(lessonStep===lesson.pages.length-1){
