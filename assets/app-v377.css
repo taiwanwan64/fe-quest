@@ -1026,6 +1026,7 @@
   .diag-nav{
     display:flex;gap:10px;justify-content:flex-end;margin-top:18px;
   }
+  .diag-nav button{width:110px;min-height:52px}
   .diag-result-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;
   }
@@ -1608,6 +1609,7 @@
   .state-grid{
     display:grid;grid-template-columns:repeat(2,1fr);gap:9px;
   }
+  .state-grid>.sub{grid-column:1/-1;white-space:nowrap}
   .state-card{
     padding:12px;border-radius:15px;background:#f8fafc;border:1px solid var(--line);
   }
