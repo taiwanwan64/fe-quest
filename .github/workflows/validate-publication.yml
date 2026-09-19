@@ -60,6 +60,8 @@ jobs:
           grep -Fq "fequestPrepareResponsiveLessonTablesV377(stage);" assets/app-v377.js
           grep -Fq ".fequest-responsive-content-table-v377.is-two-column" assets/app-v377.css
           grep -Fq "#lesson .ipa92-coverage-extension > h3" assets/app-v377.css
+          grep -Fq "#lesson .core-reference-priority-v377" assets/app-v377.css
+          grep -Fq ".core-reference-alert-v377" assets/app-v377.css
           grep -Fq "margin-top:30px;" assets/app-v377.css
           grep -Fq "Ver.9.2補強：" assets/app-v377.js
           grep -Fq "function fequestCollapseRepeatedLearningDetailsV377" assets/app-v377.js
