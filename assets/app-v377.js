@@ -5329,6 +5329,7 @@ function setCourseSubject(subject,save=true){
     btn.setAttribute('aria-selected',String(selected));
     btn.tabIndex=selected?0:-1;
   });
+  if(!showA&&typeof renderSubjectBHub==='function')renderSubjectBHub();
   if(save){
     profile.settings=profile.settings||{};
     profile.settings.lastCourseSubject=activeCourseSubject;
@@ -9639,9 +9640,20 @@ function recentAverageRate(rows,limit=3){
   return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
 }
 function subjectAPracticeEvidenceV362(){
-  if(profile.diagnosticCompleted===true)return true;
-  if(Object.keys(safeObject(profile.diagnosticScores)).length)return true;
   return Object.values(safeObject(profile.qStats)).some(stat=>(Number(stat?.attempts)||0)>0);
+}
+function diagnosticOverallRateV377(){
+  if(profile.diagnosticCompleted!==true)return 0;
+  let correct=0,total=0;
+  const scores=safeObject(profile.diagnosticScores);
+  const cats=[...new Set(DIAG_QUESTIONS.map(q=>q.category))];
+  for(const cat of cats){
+    const n=DIAG_QUESTIONS.filter(q=>q.category===cat).length;
+    const score=Number(scores[cat]);
+    if(!n||!Number.isFinite(score))continue;
+    correct+=Math.round(score/100*n);total+=n;
+  }
+  return total?Math.round(correct/total*100):0;
 }
 
 function readinessComponents(){
@@ -9651,11 +9663,12 @@ function readinessComponents(){
   const quiz=recentQuizRate();
   const cognitiveRaw=subjectACognitiveEvidence();
   const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;
-  // profile.skills starts at a neutral 50 for adaptive question selection. It is
-  // not learning evidence and must not make a fresh/reset learner look 18% done.
+  // The 12-question diagnostic is only a screening signal. Before normal
+  // practice evidence exists, it can contribute at most 25 points to the
+  // 科目A演習 component, i.e. at most 5 points to overall readiness.
   const aPractice=subjectAPracticeEvidenceV362()
     ? Math.round(skill*.35 + quiz*.30 + cognitive*.35)
-    : 0;
+    : Math.round(diagnosticOverallRateV377()*.25);
 
   const fullMocks=(profile.mockHistory||[]).filter(x=>x.mode==='full');
   const halfMocks=(profile.mockHistory||[]).filter(x=>x.mode==='half');
@@ -14891,8 +14904,13 @@ function studyEstimateV373(){
   const lessonMinutes=readSamples.length>=5?Math.max(7,Math.min(35,studyMedianV373(readSamples.map(s=>s.minutes),14))):14;
   let lessons=0,questions=0,subjectB=0;
   for(const id of CORE_A_IDS){
-    const t=CORE_A_TOPIC_MAP[id],diag=profile.diagnosticScores?.[t?.skill];
-    const weakness=Number.isFinite(diag)&&diag<50?1.1:1;
+    const t=CORE_A_TOPIC_MAP[id],diag=Number(profile.diagnosticScores?.[t?.skill]);
+    const sampleCount=DIAG_QUESTIONS.filter(q=>q.category===t?.skill).length;
+    const errorRate=Number.isFinite(diag)?Math.max(0,Math.min(1,(100-diag)/100)):0;
+    // A correct answer never shortens the normal curriculum estimate.
+    // Because each field has only 1–2 screening questions, wrong answers add
+    // only a confidence-weighted cushion: up to +10% (1 question) / +20% (2+).
+    const weakness=1+errorRate*(sampleCount>=2?.20:.10);
     lessons+=(1-clamp(profile.lessonProgress?.[id]||0,0,100)/100)*lessonMinutes*weakness;
   }
   for(const q of QUESTION_BANK){
