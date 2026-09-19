@@ -150,7 +150,7 @@
       <details class="home-secondary" id="homeReviewDetails">
         <summary>復習候補を見る</summary>
         <div class="mini-grid" id="homeReviewCandidates">
-          <div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>
+          <div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうなテーマをここに表示します。</div></div>
         </div>
       </details>
     </section>
@@ -186,7 +186,7 @@
             <div><span>⚖️</span><b>難易度</b><small>基礎 → 標準 → 実戦の3段階から出題</small></div>
             <div><span>🧠</span><b>思考段階</b><small>想起だけに偏らず、適用・判断まで含める</small></div>
             <div><span>🔁</span><b>再出題</b><small>模試で未出題・出題回数が少ない問題を優先</small></div>
-            <div><span>🧩</span><b>論点</b><small>同じ論点への偏りをできるだけ回避</small></div>
+            <div><span>🧩</span><b>テーマ</b><small>同じテーマへの偏りをできるだけ回避</small></div>
           </div>
           <div class="mock-blueprint-note">※これはFE QUEST内の模試生成ルールです。公式試験の問題配分を示すものではありません。</div>
         </div>
@@ -636,7 +636,7 @@
 
       <div class="analytics-grid" id="analyticsJourneyGrid">
         <div class="analytics-card">
-          <div class="analytics-card-head"><div><h2>復習で定着した論点 🔁</h2><div class="sub">教材→類題→後日復習を完了した論点です。</div></div><div class="analytics-total" id="analyticsStableTotal">0</div></div>
+          <div class="analytics-card-head"><div><h2>復習で定着したテーマ 🔁</h2><div class="sub">教材→類題→後日復習を完了したテーマです。</div></div><div class="analytics-total" id="analyticsStableTotal">0</div></div>
           <div class="analytics-stage-grid" id="analyticsJourneyStages"></div>
           <div class="analytics-stable-list" id="analyticsStableList"></div>
         </div>
@@ -801,7 +801,7 @@
       <div class="weak-two-col">
         <div class="weak-panel">
           <h2>繰り返し誤答</h2>
-          <div class="sub">同じ論点で何度もつまずいている問題を優先します。</div>
+          <div class="sub">同じテーマで何度もつまずいている問題を優先します。</div>
           <div id="repeatWrongList" class="weak-list"></div>
         </div>
 
@@ -847,7 +847,7 @@
                 <div class="review-journey-icon">🔁</div>
                 <div class="review-journey-copy">
                   <b>復習ルート</b>
-                  <span id="reviewJourneySummary">誤答した論点を「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。</span>
+                  <span id="reviewJourneySummary">誤答したテーマを「理解し直す → 別問題で確認 → 日を空けて定着確認」の順で案内します。</span>
                 </div>
                 <div class="review-journey-count" id="reviewJourneyCount">0</div>
               </div>
@@ -907,7 +907,7 @@
               <div class="review-engine-icon">🧠</div>
               <div class="review-engine-copy">
                 <b>バリエーション復習</b>
-                <div>同じ論点を別の数値・別の聞き方で確認します。</div>
+                <div>同じテーマを別の数値・別の聞き方で確認します。</div>
                 <div class="review-engine-meta" id="variantCoverageText">生成可能な類題を確認中…</div>
               </div>
               <label class="switch-row">
