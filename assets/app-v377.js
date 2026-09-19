@@ -14882,7 +14882,6 @@ function studyMinutesV373(value,fallback=60){
 }
 function studySettingsV373(){return profile.settings||{};}
 function studyDayMinutesV373(settings=studySettingsV373(),date=new Date(),override=true){
-  if(override&&settings.todayV373?.date===dateKey(date))return studyMinutesV373(settings.todayV373.minutes);
   const day=settings.weekdaysV373?.[date.getDay()];
   return day===0?0:studyMinutesV373(day,studyMinutesV373(settings.studyMinutes));
 }
@@ -14959,7 +14958,7 @@ function studyForecastHTMLV373(settings=studySettingsV373()){
     ${f.days>0?`<div><dt>受験日までに必要な時間</dt><dd>${f.needLow==null?'学習する曜日を設定してください':`学習する日あたり約${f.needLow}〜${f.needHigh}分`}</dd></div>`:''}</dl>
     ${f.needHigh>480?'<p>必要時間の目安が設定上限の480分を超えています。受験時期の見直しを検討してください。</p>':''}
     ${f.ratio<.95?`<p>直近の実測ペースでは、余裕を含む目安は${studyRangeDateV373(f.actualHighDays)}です。設定どおりの見通しと差があります。</p>`:''}
-    <p class="study-help-v373">合格を保証する予測ではありません。復習する間隔を確保し、科目Bや模試の結果も確認します。まず1〜2週間学び、実際の進み方に合わせて見直します。</p>
+    <p class="study-help-v373">合格を保証する予測ではありません。学習を進めると、復習の進み具合や科目B・模試の結果をもとに必要時間の目安を更新します。1〜2週間学んだ後に、もう一度この計画を確認してください。</p>
     <details><summary>見積もりの内訳</summary><p>教材 約${Math.ceil(e.parts.lessons/60)}時間／科目A演習 約${Math.ceil(e.parts.questions/60)}時間／科目B 約${Math.ceil(e.parts.subjectB/60)}時間／模試 約${Math.ceil(e.parts.exam/60)}時間／再学習 約${Math.ceil(e.parts.review/60)}時間。これに復習・休める余裕を加えています。アプリ外での学習は自動計測しません。</p></details></div>`;
 }
 function estimateRemainingStudyMinutes(){return studyEstimateV373().high;}
@@ -15052,12 +15051,10 @@ function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
   root.querySelector('[data-minutes]').append(minutePickerV373(prefix+'Minutes',settings.studyMinutes));
   const input=root.querySelector('#'+prefix+'Minutes');
   if(advanced){
-    const extra=root.querySelector('[data-advanced]');extra.innerHTML='<details><summary>曜日ごとの時間・今日だけ変更</summary><div class="study-week-v373"></div><label><input type="checkbox" data-today>今日だけ別の時間にする</label><div data-today-picker></div></details>';
+    const extra=root.querySelector('[data-advanced]');extra.innerHTML='<details><summary>曜日ごとの時間</summary><div class="study-week-v373"></div></details>';
     const dayNames=['日','月','火','水','木','金','土'];
     dayNames.forEach((day,i)=>{const label=document.createElement('label');label.textContent=day+'曜';const n=document.createElement('input');n.type='number';n.min=0;n.max=480;n.step=1;n.placeholder='標準';n.dataset.weekday=i;n.value=settings.weekdaysV373?.[i]??'';label.append(n);extra.querySelector('.study-week-v373').append(label);});
     const help=document.createElement('p');help.className='study-help-v373';help.textContent='空欄は標準時間、0は休み。学習する日は10〜480分に設定します。';extra.querySelector('.study-week-v373').after(help);
-    extra.querySelector('[data-today-picker]').append(minutePickerV373(prefix+'Today',settings.todayV373?.date===dateKey()?settings.todayV373.minutes:settings.studyMinutes));
-    extra.querySelector('[data-today]').checked=settings.todayV373?.date===dateKey();
     const exam=document.createElement('details');exam.innerHTML='<summary>まとまった時間に模試を予定する</summary><label>模試の種類<select data-exam-kind><option value="">予定しない</option><option value="a">科目A フル模試（90分）</option><option value="b">科目B 総合実戦（100分）</option></select></label><label>実施日<input type="date" data-exam-date></label><p class="study-help-v373">その日の学習時間内に全時間を確保できる場合だけ、当日の計画に入れます。模試は途中で短く切り分けません。試験直前3日間には予定しません。</p>';
     exam.querySelector('[data-exam-kind]').value=settings.longExamV373?.kind||'';exam.querySelector('[data-exam-date]').value=settings.longExamV373?.date||'';extra.append(exam);
   }
@@ -15067,12 +15064,10 @@ function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
     const next={...studySettingsV373(),studyMinutes:Number(input.value),examDate:date.value||'',planningModeV373:date.value?'both':'time',planningConfiguredV373:true,autoPace:false};
     if(advanced){
       next.weekdaysV373={};for(const n of root.querySelectorAll('[data-weekday]')){if(n.value==='')continue;const v=Number(n.value);if(!n.validity.valid||(v!==0&&v<10))throw Error('曜日別は休みの0、または10〜480分の整数で入力してください。');next.weekdaysV373[n.dataset.weekday]=v;}
-      const on=root.querySelector('[data-today]').checked,todayInput=root.querySelector('#'+prefix+'Today');
-      if(on&&(!todayInput.value||!todayInput.validity.valid))throw Error('今日の時間は10〜480分の整数で入力してください。');
-      next.todayV373=on?{date:dateKey(),minutes:Number(todayInput.value)}:null;
+      next.todayV373=null;
       const kind=root.querySelector('[data-exam-kind]').value,examDate=root.querySelector('[data-exam-date]').value;
       if(kind){if(!examDate||examDate<dateKey())throw Error('模試の実施日は今日以降に設定してください。');const d=new Date(examDate+'T12:00:00'),minutes=kind==='a'?90:100;
-        if(studyDayMinutesV373(next,d)<minutes)throw Error(`模試には${minutes}分を確保してください。曜日別または今日の時間を調整できます。`);
+        if(studyDayMinutesV373(next,d)<minutes)throw Error(`模試には${minutes}分を確保してください。曜日別の時間を調整できます。`);
         if(next.examDate){const gap=Math.round((new Date(next.examDate+'T12:00:00')-d)/86400000);if(gap>=0&&gap<=3)throw Error('試験直前3日間を避けて模試を予定してください。');}
       }next.longExamV373=kind?{kind,date:examDate}:null;
     }return next;
@@ -15102,7 +15097,7 @@ function confirmStudyPlanLeaveV373(){
 window.addEventListener('beforeunload',e=>{if(!globalThis.studyPlanDirtyV373)return;e.preventDefault();e.returnValue='';});
 function installPlannerSettingsV373(){
   const root=document.getElementById('learningSettingsCard');if(!root)return;
-  const s=studySettingsV373(),key=JSON.stringify([dateKey(),s.studyMinutes,s.examDate,s.planningModeV373,s.weekdaysV373,s.todayV373,s.longExamV373]);
+  const s=studySettingsV373(),key=JSON.stringify([dateKey(),s.studyMinutes,s.examDate,s.planningModeV373,s.weekdaysV373,s.longExamV373]);
   if(root.dataset.settingsKeyV373===key)return;
   root.dataset.v373='true';root.dataset.settingsKeyV373=key;root.innerHTML='<h2>学習時間と受験の計画</h2>';
   const fields=planningFieldsV373('planV373',studySettingsV373(),true);root.append(fields);
