@@ -15047,12 +15047,10 @@ function minutePickerV373(id,value=60){
 }
 function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
   const root=document.createElement('div');root.className='planning-fields-v373';
-  root.innerHTML=`<label for="${prefix}Mode">決まっていることから考える</label><select id="${prefix}Mode"><option value="both">日付・時間とも決定</option><option value="date">受験日から時間を考える</option><option value="time">時間から時期を考える</option><option value="unsure">どちらも未定</option></select><div data-date><label for="${prefix}Date">受験予定日（未定でも可）</label><input type="date" id="${prefix}Date"></div><div data-minutes></div><div data-advanced></div><div data-preview></div><p data-error role="alert"></p>`;
-  const mode=root.querySelector('select'),date=root.querySelector('input[type=date]');mode.value=settings.planningModeV373||(settings.examDate?'both':'time');date.value=settings.examDate||'';date.min=dateKey();
+  root.innerHTML=`<div data-date><label for="${prefix}Date">受験予定日（未定でも可）</label><input type="date" id="${prefix}Date"></div><div data-minutes></div><div data-advanced></div><div data-preview></div><p data-error role="alert"></p>`;
+  const date=root.querySelector('input[type=date]');date.value=settings.examDate||'';date.min=dateKey();
   root.querySelector('[data-minutes]').append(minutePickerV373(prefix+'Minutes',settings.studyMinutes));
   const input=root.querySelector('#'+prefix+'Minutes');
-  mode.onchange=()=>{if(['time','unsure'].includes(mode.value))date.value='';if(mode.value==='unsure'){input.value=60;input.dispatchEvent(new Event('input',{bubbles:true}));}root.querySelector('[data-date]').hidden=['time','unsure'].includes(mode.value);refresh();};
-  root.querySelector('[data-date]').hidden=['time','unsure'].includes(mode.value);
   if(advanced){
     const extra=root.querySelector('[data-advanced]');extra.innerHTML='<details><summary>曜日ごとの時間・今日だけ変更</summary><div class="study-week-v373"></div><label><input type="checkbox" data-today>今日だけ別の時間にする</label><div data-today-picker></div></details>';
     const dayNames=['日','月','火','水','木','金','土'];
@@ -15065,9 +15063,8 @@ function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
   }
   root.readSettings=()=>{
     if(!input.value||!input.validity.valid)throw Error('学習時間は10〜480分の整数で入力してください。');
-    if(['date','both'].includes(mode.value)&&!date.value)throw Error('受験日を入力するか「使える時間から」「どちらも未定」を選んでください。');
     if(date.value&&(!date.validity.valid||date.value<dateKey()))throw Error('受験日は今日以降の日付を入力してください。');
-    const next={...studySettingsV373(),studyMinutes:Number(input.value),examDate:date.value||'',planningModeV373:mode.value,planningConfiguredV373:true,autoPace:false};
+    const next={...studySettingsV373(),studyMinutes:Number(input.value),examDate:date.value||'',planningModeV373:date.value?'both':'time',planningConfiguredV373:true,autoPace:false};
     if(advanced){
       next.weekdaysV373={};for(const n of root.querySelectorAll('[data-weekday]')){if(n.value==='')continue;const v=Number(n.value);if(!n.validity.valid||(v!==0&&v<10))throw Error('曜日別は休みの0、または10〜480分の整数で入力してください。');next.weekdaysV373[n.dataset.weekday]=v;}
       const on=root.querySelector('[data-today]').checked,todayInput=root.querySelector('#'+prefix+'Today');
@@ -15083,8 +15080,8 @@ function planningFieldsV373(prefix,settings=studySettingsV373(),advanced=false){
   function refresh(){try{root.querySelector('[data-preview]').innerHTML=studyForecastHTMLV373(root.readSettings());root.querySelector('[data-error]').textContent='';}catch(e){root.querySelector('[data-error]').textContent=e.message;}}
   const proposals=document.createElement('div');proposals.className='study-actions-v373';proposals.dataset.proposals='';
   proposals.innerHTML='<button type="button" data-use-time>受験予定日から逆算する</button><button type="button" data-use-date>学習時間から逆算する</button><p class="study-help-v373">選ぶと入力欄が変わります。保存・確定するまでは現在の計画に反映しません。</p>';
-  proposals.querySelector('[data-use-time]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(!f.needHigh||f.needHigh>480)throw Error('時間を算出できないか、480分を超えています。日付と学習する曜日を見直してください。');input.value=Math.max(10,f.needHigh);mode.value='both';root.querySelectorAll('[data-weekday]').forEach(n=>{if(n.value!==''&&Number(n.value)!==0)n.value='';});input.dispatchEvent(new Event('input'));refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
-  proposals.querySelector('[data-use-date]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(f.highDays==null)throw Error('学習する日と時間を設定してください。');const d=new Date();d.setDate(d.getDate()+f.highDays);date.value=dateKey(d);mode.value='both';root.querySelector('[data-date]').hidden=false;refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
+  proposals.querySelector('[data-use-time]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(!f.needHigh||f.needHigh>480)throw Error('時間を算出できないか、480分を超えています。受験予定日と学習する曜日を見直してください。');input.value=Math.max(10,f.needHigh);root.querySelectorAll('[data-weekday]').forEach(n=>{if(n.value!==''&&Number(n.value)!==0)n.value='';});input.dispatchEvent(new Event('input'));refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
+  proposals.querySelector('[data-use-date]').onclick=()=>{try{const f=studyForecastV373(root.readSettings());if(f.highDays==null)throw Error('学習する日と時間を設定してください。');const d=new Date();d.setDate(d.getDate()+f.highDays);date.value=dateKey(d);date.dispatchEvent(new Event('input',{bubbles:true}));refresh();}catch(e){root.querySelector('[data-error]').textContent=e.message;}};
   const timeAction=proposals.querySelector('[data-use-time]'),dateAction=proposals.querySelector('[data-use-date]');
   timeAction.classList.add('study-inverse-action-v373');dateAction.classList.add('study-inverse-action-v373');
   root.querySelector('[data-minutes] .minute-input-v373')?.after(timeAction);date.after(dateAction);
