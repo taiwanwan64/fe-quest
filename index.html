@@ -1879,7 +1879,7 @@
       if(help.textContent.includes('未定の場合は「時間から」か「どちらも未定」を選べます。提案された時期は予約日ではありません。'))help.remove();
     }
     if(useTime){
-      useTime.textContent='受験予定日から逆算';
+      useTime.textContent='受験予定日から逆算する';
       const minuteInput=minutesBlock?.querySelector('.minute-input-v373');
       if(minuteInput)minuteInput.after(useTime);else minutesBlock?.append(useTime);
     }
