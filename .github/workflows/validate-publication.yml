@@ -112,6 +112,12 @@ jobs:
           ! grep -Fq "論点" index.html
           grep -Fq "復習で定着したテーマ" index.html
           grep -Fq "このテーマを復習 →" assets/app-v377.js
+          ! grep -Fq "まず短い教材で論点を整理します。" assets/app-v377.js
+          ! grep -Fq "この論点は専用教材がないため" assets/app-v377.js
+          ! grep -Fq "誤答した論点を「理解し直す" assets/app-v377.js
+          grep -Fq "まず短い教材でテーマを整理します。" assets/app-v377.js
+          grep -Fq "このテーマは専用教材がないため" assets/app-v377.js
+          grep -Fq "誤答したテーマを「理解し直す" assets/app-v377.js
           ! grep -Fq "この論点を復習 →" assets/app-v377.js
           ! grep -Fq "ログインは学習データの引継ぎに、招待コードはβ期間中の問題アクセス確認に使います。" assets/first-impression-ux-v377.js
           grep -Fq "診断を始める際に、案内された招待コードを1回入力してください。" assets/first-impression-ux-v377.js
@@ -369,7 +375,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-44';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-45';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
