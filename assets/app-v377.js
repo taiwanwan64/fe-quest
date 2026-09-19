@@ -10907,7 +10907,7 @@ function renderMockDiagnosis(attempt,byCat){
   root.innerHTML=`<div class="mock-diagnosis-title">今回の模試診断</div><div class="mock-diagnosis-grid">
     <div class="mock-diagnosis-item"><span>最優先分野</span><b>${x.weakest?escapeHtml(x.weakest.cat):'—'}</b><small>${x.weakest?`正答率 ${x.weakest.pct}%`:'十分なデータがありません'}</small></div>
     <div class="mock-diagnosis-item"><span>時間を使った問題</span><b>${x.slow}問</b><small>目安 ${x.target}秒/問 の1.35倍を超えた問題</small></div>
-    <div class="mock-diagnosis-item"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>過去にも模試レビューで誤答した論点</small></div>
+    <div class="mock-diagnosis-item"><span>繰り返し誤答</span><b>${x.repeat}問</b><small>過去にも模試レビューで誤答したテーマ</small></div>
   </div>`;
 }
 function reasonPrescription(reason,q){
@@ -11718,7 +11718,7 @@ function renderWeakDashboard(){
     card.innerHTML=`
       <div class="weak-cat-head">
         <div class="weak-cat-rank">#${idx+1}</div>
-        <div class="weak-cat-copy"><div class="weak-cat-title">${a.cat}</div><div class="sub">${a.repeats?`繰り返し誤答 ${a.repeats}論点`:'繰り返し誤答なし'}</div></div>
+        <div class="weak-cat-copy"><div class="weak-cat-title">${a.cat}</div><div class="sub">${a.repeats?`繰り返し誤答 ${a.repeats}テーマ`:'繰り返し誤答なし'}</div></div>
         <div class="weak-cat-priority">${a.priority}<small>優先度</small></div>
       </div>
       <div class="weak-metrics">
@@ -11768,7 +11768,7 @@ function renderWeakDashboard(){
     <div class="weak-list-item">
       <div class="weak-list-top"><div class="weak-list-title">${x.q.cat}・${x.q.concept}</div><span class="weak-list-badge">${x.count}回</span></div>
       <div class="weak-list-sub">${escapeHtml(x.q.q)}${x.reason?`<br>直近の原因：${escapeHtml(x.reason)}`:''}${x.due?`<br>次回復習：${x.due}`:''}</div>
-      <button class="weak-list-action" data-weakqid="${escapeHtml(x.q.id)}">この論点を復習 →</button>
+      <button class="weak-list-action" data-weakqid="${escapeHtml(x.q.id)}">このテーマを復習 →</button>
     </div>`).join(''):'<div class="weak-empty">繰り返し誤答はまだありません。</div>';
 
   const slow=slowMockQuestions();
@@ -11776,7 +11776,7 @@ function renderWeakDashboard(){
     <div class="weak-list-item">
       <div class="weak-list-top"><div class="weak-list-title">${x.q.cat}・${x.q.concept}</div><span class="weak-list-badge">${x.d.seconds}秒</span></div>
       <div class="weak-list-sub">${escapeHtml(x.q.q)}</div>
-      <button class="weak-list-action secondary" data-weakqid="${escapeHtml(x.q.id)}">同じ論点をもう1問 →</button>
+      <button class="weak-list-action secondary" data-weakqid="${escapeHtml(x.q.id)}">同じテーマをもう1問 →</button>
     </div>`).join(''):'<div class="weak-empty">模試を受けると、問題別の時間分析が表示されます。</div>';
 
   document.querySelectorAll('[data-weakqid]').forEach(btn=>btn.onclick=()=>{
@@ -11960,7 +11960,7 @@ function renderRxTechnique(q){
     const reason=ms?.lastReason||qs?.lastReason||'原因未記録';
     rxTechniqueReady=false;
     rxTechniqueData={confirmed:false};
-    body.innerHTML=`<div class="repeat-memory"><b>この論点の誤答記録：約${misses}回</b><br>直近の原因：${reason}<br>今回は同じ原因を避けて解きます。</div>
+    body.innerHTML=`<div class="repeat-memory"><b>このテーマの誤答記録：約${misses}回</b><br>直近の原因：${reason}<br>今回は同じ原因を避けて解きます。</div>
       <button class="repeat-confirm" id="repeatConfirm">前回のつまずきを確認した</button>`;
     document.getElementById('repeatConfirm').onclick=e=>{
       rxTechniqueData.confirmed=true;rxTechniqueReady=true;
@@ -12119,7 +12119,7 @@ function prescriptionMeta(modeOrRx){
     read:{icon:'🔍',title:`${rx.cat}：条件語ドリル`,desc:'「最も適切」「以上・未満」など条件を意識して解きます。'},
     contrast:{icon:'⚖️',title:`${rx.cat}：比較ドリル`,desc:'似た用語・方式の違いを根拠付きで選ぶ練習です。'},
     speed:{icon:'⏱️',title:`${rx.cat}：15分スプリント`,desc:'10問を15分。1問90秒を目安に時間配分を練習します。'},
-    repeat:{icon:'🔁',title:`${rx.cat}：繰り返し誤答つぶし`,desc:'何度も間違えている問題・論点を最優先で解き直します。'}
+    repeat:{icon:'🔁',title:`${rx.cat}：繰り返し誤答つぶし`,desc:'何度も間違えている問題・テーマを最優先で解き直します。'}
   };
   return map[rx.kind]||map.knowledge;
 }
@@ -12241,7 +12241,7 @@ function renderHomeReviewCandidates(){
   if(!root) return;
   const items=topReviewCandidates(3);
   if(!items.length){
-    root.innerHTML='<div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうな論点をここに表示します。</div></div>';
+    root.innerHTML='<div class="mini-card"><div class="big">🧠</div><b>学習データ待ち</b><div class="sub">問題を解くと、忘れそうなテーマをここに表示します。</div></div>';
     return;
   }
   const icons={'基礎理論':'🔢','コンピュータ':'⚙️','データベース':'🗃️','ネットワーク':'🌐','セキュリティ':'🛡️','アルゴリズム':'🧩','マネジメント':'📋','ストラテジ':'📈'};
@@ -12328,7 +12328,7 @@ function refreshVariantReviewUI(){
   if(t)t.checked=profile.settings.variantReview!==false;
   const c=variantCoverage();
   const e=document.getElementById('variantCoverageText');
-  if(e)e.textContent=`パラメータ生成 ${c.concepts}論点・${c.direct}問を直接対応。その他は同じテーマの別問題を優先し、なければ元問題を復習。`;
+  if(e)e.textContent=`パラメータ生成 ${c.concepts}テーマ・${c.direct}問を直接対応。その他は同じテーマの別問題を優先し、なければ元問題を復習。`;
 }
 document.getElementById('variantReviewToggle')?.addEventListener('change',e=>{
   profile.settings.variantReview=!!e.target.checked;
