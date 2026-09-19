@@ -1864,6 +1864,34 @@
 <script src="./assets/protected-content-provider-v376.js"></script>
 <script src="./assets/protected-lesson-provider-v376.js"></script>
 <script src="./assets/app-v377.js"></script>
+<script>
+(function(){
+  if(globalThis.__fequestPlanInverseActionsV378||typeof planningFieldsV373!=='function')return;
+  globalThis.__fequestPlanInverseActionsV378=true;
+  const originalPlanningFieldsV373=planningFieldsV373;
+  planningFieldsV373=function(...args){
+    const root=originalPlanningFieldsV373.apply(this,args);
+    const dateBlock=root.querySelector('[data-date]');
+    const minutesBlock=root.querySelector('[data-minutes]');
+    const dateInput=dateBlock?.querySelector('input[type="date"]');
+    const useTime=root.querySelector('[data-use-time]');
+    const useDate=root.querySelector('[data-use-date]');
+    for(const help of dateBlock?.querySelectorAll('.study-help-v373')||[]){
+      if(help.textContent.includes('未定の場合は「時間から」か「どちらも未定」を選べます。提案された時期は予約日ではありません。'))help.remove();
+    }
+    if(useTime){
+      useTime.textContent='受験予定日から逆算';
+      const minuteInput=minutesBlock?.querySelector('.minute-input-v373');
+      if(minuteInput)minuteInput.after(useTime);else minutesBlock?.append(useTime);
+    }
+    if(useDate){
+      useDate.textContent='学習時間から逆算する';
+      if(dateInput)dateInput.after(useDate);else dateBlock?.append(useDate);
+    }
+    return root;
+  };
+})();
+</script>
 <script src="./assets/protected-flow-bridge-v376.js"></script>
 <script src="./assets/protected-b-trace-bridge-v376.js"></script>
 <script src="./assets/protected-b-security-bridge-v376.js"></script>
