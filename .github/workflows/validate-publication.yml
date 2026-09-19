@@ -73,6 +73,11 @@ jobs:
           grep -Fq "prev==='plan'&&id!=='plan'" assets/app-v377.js
           grep -Fq ".study-inverse-action-v373{width:100%;min-height:46px;margin-top:10px" assets/app-v377.css
           grep -Fq ".minute-picker-v373 output[data-invalid=true]{color:#ad2929;font-weight:700}" assets/app-v377.css
+          ! grep -Fq "決まっていることから考える" assets/app-v377.js
+          ! grep -Fq 'id="${prefix}Mode"' assets/app-v377.js
+          grep -Fq "planningModeV373:date.value?'both':'time'" assets/app-v377.js
+          grep -Fq ".minute-input-v373 input{height:44px;min-height:44px!important;padding:6px 10px!important" assets/app-v377.css
+          grep -Fq ".minute-picker-v373>.study-inverse-action-v373{margin-top:2px}" assets/app-v377.css
           grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
@@ -322,7 +327,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-36';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-37';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
