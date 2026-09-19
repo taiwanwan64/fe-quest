@@ -6863,3 +6863,420 @@ body.study-block-active-v373 main{padding-bottom:180px}
       grid-template-columns:1fr;
     }
   }
+
+
+  /* ===== v377-60: logic mobile alignment and extra visuals ===== */
+
+  /* Truth tables: keep cells aligned and readable on narrow phones. */
+  #lesson .logic-table-block-v380{
+    margin:18px 0 22px;
+  }
+  #lesson .logic-table-block-v380 h3{
+    margin:0 0 10px;
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .logic-truth-table-v380,
+  #lesson .logic-invert-table-v380,
+  #lesson .logic-not-table-v380,
+  #lesson .full-adder-truth-v380{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    background:#fff;
+  }
+  #lesson .logic-truth-table-v380 th,
+  #lesson .logic-truth-table-v380 td,
+  #lesson .logic-invert-table-v380 th,
+  #lesson .logic-invert-table-v380 td,
+  #lesson .logic-not-table-v380 th,
+  #lesson .logic-not-table-v380 td,
+  #lesson .full-adder-truth-v380 th,
+  #lesson .full-adder-truth-v380 td{
+    padding:10px 6px;
+    border:1px solid #cadbe3;
+    text-align:center;
+    vertical-align:middle;
+    white-space:nowrap;
+    font-size:17px;
+    line-height:1.35;
+  }
+  #lesson .logic-truth-table-v380 th,
+  #lesson .logic-invert-table-v380 th,
+  #lesson .logic-not-table-v380 th,
+  #lesson .full-adder-truth-v380 th{
+    background:#eef6f8;
+    color:#17364b;
+    font-weight:900;
+  }
+  #lesson .logic-table-pair-v380{
+    display:grid;
+    grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+    gap:16px;
+    align-items:start;
+  }
+  #lesson .logic-table-pair-v380 .logic-table-block-v380{
+    margin-top:0;
+  }
+  #lesson .logic-table-scroll-v380{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    margin:16px 0 22px;
+    border-radius:12px;
+  }
+  #lesson .logic-table-scroll-v380 .full-adder-truth-v380{
+    min-width:540px;
+    margin:0;
+  }
+
+  /* Full adder: carry path always left, sum path always right. */
+  #lesson .full-adder-flow-v380{
+    display:grid;
+    gap:12px;
+    margin-top:20px;
+    margin-bottom:24px;
+    padding:18px 15px;
+  }
+  #lesson .fa-inputs-v380{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  #lesson .fa-inputs-v380 span,
+  #lesson .fa-half-v380,
+  #lesson .fa-carry-v380,
+  #lesson .fa-sum-v380,
+  #lesson .fa-or-v380,
+  #lesson .fa-final-s-v380{
+    padding:12px 14px;
+    border:1px solid #d6e4ea;
+    border-radius:14px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .fa-inputs-v380 span{
+    font-size:21px;
+    font-weight:900;
+    color:#17364b;
+  }
+  #lesson .fa-arrow-v380{
+    text-align:center;
+    font-size:24px;
+    color:#78909c;
+  }
+  #lesson .fa-half-v380{
+    display:grid;
+    gap:4px;
+  }
+  #lesson .fa-half-v380 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .fa-half-v380 span{
+    font-size:16px;
+    color:#607580;
+  }
+  #lesson .fa-output-row-v380,
+  #lesson .fa-final-row-v380{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  #lesson .fa-carry-v380{
+    background:#fff7ed;
+    border-color:#f5c98b;
+  }
+  #lesson .fa-sum-v380,
+  #lesson .fa-final-s-v380{
+    background:#eef8fb;
+    border-color:#bcd9e4;
+  }
+  #lesson .fa-carry-v380 b,
+  #lesson .fa-sum-v380 b,
+  #lesson .fa-final-s-v380 b{
+    display:block;
+    font-size:21px;
+    color:#17364b;
+  }
+  #lesson .fa-carry-v380 small,
+  #lesson .fa-sum-v380 small{
+    display:block;
+    margin-top:3px;
+    font-size:15px;
+    font-weight:800;
+    color:#607580;
+  }
+  #lesson .fa-stage2-v380{
+    display:grid;
+    grid-template-columns:1fr 1.55fr;
+    gap:14px;
+    align-items:stretch;
+  }
+  #lesson .fa-carry-route-v380{
+    display:grid;
+    place-items:center;
+    align-content:center;
+    gap:5px;
+    padding:12px;
+    border:1px dashed #e6b66d;
+    border-radius:14px;
+    background:#fffaf2;
+    text-align:center;
+  }
+  #lesson .fa-carry-route-v380 b{
+    font-size:20px;
+    color:#9a3412;
+  }
+  #lesson .fa-carry-route-v380 span{
+    font-size:15px;
+    color:#7c5a33;
+  }
+  #lesson .fa-carry-route-v380 i{
+    font-size:24px;
+    font-style:normal;
+    color:#b7791f;
+  }
+  #lesson .fa-stage2-main-v380{
+    display:grid;
+    grid-template-columns:76px minmax(0,1fr);
+    gap:8px;
+    align-items:center;
+  }
+  #lesson .fa-cin-v380{
+    font-size:17px;
+    font-weight:900;
+    color:#9a3412;
+    text-align:center;
+  }
+  #lesson .fa-or-v380{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    flex-wrap:wrap;
+    background:#fff7ed;
+    border-color:#f5c98b;
+  }
+  #lesson .fa-or-v380 span,
+  #lesson .fa-or-v380 i,
+  #lesson .fa-or-v380 strong{
+    font-size:17px;
+    font-style:normal;
+  }
+  #lesson .fa-or-v380 b{
+    padding:6px 11px;
+    border-radius:9px;
+    background:#eef8fb;
+    color:#17455b;
+    font-size:18px;
+  }
+  #lesson .fa-final-s-v380{
+    display:grid;
+    place-items:center;
+    align-content:center;
+    gap:3px;
+  }
+  #lesson .fa-final-s-v380 span{
+    font-size:15px;
+    color:#607580;
+  }
+  #lesson .full-adder-flow-v380 > p{
+    margin:2px 0 0!important;
+    text-align:center;
+  }
+
+  /* Three equivalent ways to express one logical rule. */
+  #lesson .logic-three-views-grid-v380{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+    margin:18px 0;
+  }
+  #lesson .logic-three-views-grid-v380 > div{
+    display:grid;
+    gap:8px;
+    align-content:start;
+    min-height:140px;
+    padding:14px 12px;
+    border:1px solid #d7e5eb;
+    border-radius:14px;
+    background:#fff;
+    text-align:center;
+  }
+  #lesson .logic-three-views-grid-v380 b{
+    font-size:18px;
+    color:#17364b;
+  }
+  #lesson .logic-three-views-grid-v380 small{
+    font-size:15px;
+    line-height:1.45;
+    color:#607580;
+  }
+  #lesson .mini-and-gate-v380{
+    display:grid;
+    place-items:center;
+    min-height:48px;
+    border-radius:8px 24px 24px 8px;
+    border:2px solid #4f7180;
+    font-size:17px;
+    font-weight:900;
+    color:#17364b;
+  }
+  #lesson .mini-truth-v380,
+  #lesson .logic-three-views-grid-v380 code{
+    display:grid;
+    place-items:center;
+    min-height:48px;
+    font-size:17px;
+    font-weight:850;
+    color:#264d60;
+  }
+
+  /* Venn diagrams: AND / OR / NOT in one consistent row. */
+  #lesson .venn-compare-v380{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+  }
+  #lesson .venn-panel-v380{
+    display:grid;
+    gap:5px;
+    text-align:center;
+  }
+  #lesson .venn-panel-v380 b{
+    font-size:17px;
+    color:#17364b;
+  }
+  #lesson .venn-panel-v380 svg{
+    width:100%;
+    max-width:190px;
+    margin:auto;
+  }
+  #lesson .venn-panel-v380 text{
+    font-size:16px;
+    font-weight:900;
+    fill:#17364b;
+  }
+  #lesson .venn-panel-v380 span{
+    font-size:15px;
+    color:#607580;
+  }
+  #lesson .venn-outline-v380{
+    fill:#dceff6;
+    fill-opacity:.35;
+    stroke:#4f8aa0;
+    stroke-width:2;
+  }
+  #lesson .venn-hit-v380{
+    fill:#f59e0b;
+    fill-opacity:.72;
+  }
+  #lesson .venn-union-v380{
+    fill:#9dd5e3;
+    fill-opacity:.62;
+    stroke:#4f8aa0;
+    stroke-width:2;
+  }
+  #lesson .venn-universe-v380{
+    fill:#f7d98f;
+    stroke:#c78b22;
+    stroke-width:2;
+  }
+  #lesson .venn-cutout-v380{
+    fill:#fff;
+    stroke:#4f8aa0;
+    stroke-width:2;
+  }
+
+  /* De Morgan: make the transformation visible, not just textual. */
+  #lesson .demorgan-visual-v380{
+    display:grid;
+    gap:10px;
+    margin:18px 0 20px;
+    padding:16px;
+    border:1px solid #ead8b0;
+    border-radius:16px;
+    background:#fffaf0;
+  }
+  #lesson .demorgan-visual-v380 > div:not(.demorgan-arrow-v380){
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);
+    align-items:center;
+    gap:8px;
+  }
+  #lesson .demorgan-visual-v380 code{
+    display:block;
+    padding:10px 8px;
+    border-radius:10px;
+    background:#fff;
+    text-align:center;
+    font-size:17px;
+    font-weight:850;
+    white-space:normal;
+  }
+  #lesson .demorgan-visual-v380 > div > span{
+    font-size:20px;
+    font-weight:900;
+    color:#b45309;
+  }
+  #lesson .demorgan-arrow-v380{
+    padding:8px 10px;
+    border-radius:10px;
+    background:#fff3d9;
+    text-align:center;
+    font-size:16px;
+    color:#7c5a33;
+  }
+
+  @media(max-width:620px){
+    #lesson .logic-table-pair-v380{
+      grid-template-columns:1fr;
+      gap:6px;
+    }
+    #lesson .logic-truth-table-v380 th,
+    #lesson .logic-truth-table-v380 td,
+    #lesson .logic-invert-table-v380 th,
+    #lesson .logic-invert-table-v380 td,
+    #lesson .logic-not-table-v380 th,
+    #lesson .logic-not-table-v380 td{
+      padding:9px 4px;
+      font-size:16px;
+    }
+    #lesson .logic-three-views-grid-v380{
+      grid-template-columns:1fr;
+    }
+    #lesson .logic-three-views-grid-v380 > div{
+      min-height:0;
+    }
+    #lesson .venn-compare-v380{
+      grid-template-columns:1fr;
+    }
+    #lesson .venn-panel-v380 svg{
+      max-width:220px;
+    }
+  }
+  @media(max-width:390px){
+    #lesson .fa-stage2-v380{
+      grid-template-columns:1fr 1.35fr;
+      gap:9px;
+    }
+    #lesson .fa-stage2-main-v380{
+      grid-template-columns:1fr;
+    }
+    #lesson .fa-cin-v380{
+      padding-bottom:2px;
+    }
+    #lesson .fa-inputs-v380,
+    #lesson .fa-output-row-v380,
+    #lesson .fa-final-row-v380{
+      gap:9px;
+    }
+    #lesson .demorgan-visual-v380 > div:not(.demorgan-arrow-v380){
+      grid-template-columns:1fr;
+    }
+    #lesson .demorgan-visual-v380 > div > span{
+      transform:rotate(90deg);
+      text-align:center;
+    }
+  }
