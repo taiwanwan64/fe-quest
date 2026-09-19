@@ -77,6 +77,10 @@ jobs:
           grep -Fq "OR（論理和）" assets/app-v377.js
           grep -Fq "const CACHE_NAME = 'fe-quest-v377-57';" sw.js
           grep -Fq "fe-quest-v377-57" .github/workflows/deploy-pages.yml
+          grep -Fq "v377-57: probability statistics visual learning" assets/app-v377.css
+          grep -Fq "#lesson .stats-dot-area-v377" assets/app-v377.css
+          grep -Fq "#lesson .stats-likelihood-v377" assets/app-v377.css
+          grep -Fq "#lesson ruby rt" assets/app-v377.css
           grep -Fq "next.disabled=false;" assets/app-v377.js
           grep -Fq "next.removeAttribute('aria-disabled');" assets/app-v377.js
           grep -Fq "next.disabled=true;" assets/app-v377.js
