@@ -117,6 +117,10 @@ jobs:
           grep -Fq "診断を始める際に、案内された招待コードを1回入力してください。" assets/first-impression-ux-v377.js
           grep -Fq ".state-grid>.sub{grid-column:1/-1;white-space:nowrap}" assets/app-v377.css
           grep -Fq ".diag-nav button{width:110px;min-height:52px}" assets/app-v377.css
+          ! grep -Fq "実際の所要時間は区切りごとに調整できます" assets/app-v377.js
+          ! grep -Fq "区切りで終了できます。未完了の教材は次回に続けます。" assets/app-v377.js
+          grep -Fq "set('todayPlanMeta',\`今日の設定 ${effectiveStudyMinutes()}分\`);" assets/app-v377.js
+          grep -Fq "title,desc:'',questionLimit:" assets/app-v377.js
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
           node <<'NODE'
@@ -365,7 +369,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-43';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-44';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
