@@ -90,6 +90,16 @@ jobs:
           ! grep -Fq "tasks.find(t=>dailyTaskSlot(t)==='learn'&&!dailyTaskDone(rec,t))" assets/app-v377.js
           grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
           grep -Fq "@media(min-width:721px){html{scrollbar-gutter:stable}}" assets/app-v377.css
+          grep -Fq "現在の理解度をざっくり確認し、最初に学ぶ内容を調整するための診断です。分からない問題があっても大丈夫です。" index.html
+          ! grep -Fq "忘れている分野を見つけるための診断です。" index.html
+          grep -Fq "policy:'optional-account-then-diagnostic-then-plan-review-then-home'" assets/app-v377.js
+          grep -Fq "function firstRunGuidedTotalStepsV364(){return 2;}" assets/app-v377.js
+          grep -Fq "writeUiState({[FIRST_RUN_ACCOUNT_STATE_V364]:mode,[FIRST_RUN_TOTAL_STEPS_V364]:2});" assets/app-v377.js
+          ! grep -Fq "if(firstRunNeedsSettingsV364())renderFirstRunSettingsV364(root);" assets/app-v377.js
+          grep -Fq "診断結果と教材量から必要時間の目安を見積もり、設定した学習時間・受験予定日で無理がないか確認します。必要時間は目安です。" assets/app-v377.js
+          grep -Fq "value.correct} / ${value.total} 正解" assets/protected-flow-bridge-v376.js
+          grep -Fq "renderDiagnosticResult(scores,categories);" assets/protected-flow-bridge-v376.js
+          ! grep -Fq "今日の学習は${effectiveStudyMinutes()}分を目安に自動調整します。" assets/protected-flow-bridge-v376.js
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
           node <<'NODE'
@@ -338,7 +348,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-40';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-41';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
