@@ -5775,3 +5775,52 @@ body.study-block-active-v373 main{padding-bottom:180px}
       font-size:16px;
     }
   }
+
+
+  /* ===== v377-54: chapter 2 diagram readability ===== */
+  #lesson .core-trace-lead-v358,
+  #lesson .core-logic-inputs-v358 span,
+  #lesson .core-logic-middle-v358 b,
+  #lesson .core-logic-output-v358 > b,
+  #lesson .core-logic-middle-v358 span,
+  #lesson .core-logic-middle-v358 output,
+  #lesson .core-logic-output-v358 span,
+  #lesson .core-logic-output-v358 output,
+  #lesson .core-trace-steps-v358 span,
+  #lesson .core-trace-steps-v358 code,
+  #lesson .core-trace-rule-v358,
+  #lesson .core-automata-rules-v358 b,
+  #lesson .core-automata-rules-v358 span,
+  #lesson .core-automata-input-v358 span,
+  #lesson .core-automata-input-v358 b,
+  #lesson .core-automata-trace-v358 small,
+  #lesson .core-automata-trace-v358 span{
+    font-size:18px;
+    line-height:1.7;
+  }
+  #lesson .core-logic-inputs-v358 b{
+    font-size:20px;
+  }
+  #lesson .core-trace-steps-v358 li > b{
+    font-size:18px;
+  }
+  @media(max-width:390px){
+    #lesson .core-logic-middle-v358 div{
+      grid-template-columns:1fr;
+    }
+    #lesson .core-logic-middle-v358 b,
+    #lesson .core-logic-middle-v358 span,
+    #lesson .core-logic-middle-v358 output{
+      width:100%;
+      box-sizing:border-box;
+      text-align:center;
+      justify-self:stretch;
+    }
+    #lesson .core-automata-rules-v358 > div{
+      grid-template-columns:1fr;
+      text-align:center;
+    }
+    #lesson .core-automata-rules-v358 b{
+      grid-column:auto;
+    }
+  }
