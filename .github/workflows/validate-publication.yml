@@ -19,6 +19,7 @@ jobs:
         run: node .github/scripts/check-ipa92-coverage.mjs
       - name: Validate JavaScript syntax
         run: |
+          node --check assets/app-v377.js
           node --check .github/scripts/check-ipa92-coverage.mjs
           node --check assets/protected-content-provider-v376.js
           node --check assets/protected-content-provider-v376-v15.js
@@ -50,6 +51,13 @@ jobs:
           node --check cloud/activation-loader-v342.js
           node --check cloud/public-config-v342.js
           node --check sw.js
+      - name: Validate plan UI hotfix
+        run: |
+          grep -Fq "displayMinutes?displayMinutes+'分':''" assets/app-v377.js
+          ! grep -Fq "x.min?x.min+'m':''" assets/app-v377.js
+          grep -Fq "Math.max(0,Number(profile.activity?.[k]?.minutes)||0)" assets/app-v377.js
+          grep -Fq "#planFocusAction,#openStudySettingsV373{height:46px;min-height:46px" assets/app-v377.css
+          grep -Fq "@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}" assets/app-v377.css
       - name: Validate IPA 9.2 public question metadata and runtime merge
         run: |
           node <<'NODE'
@@ -298,7 +306,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-32';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-33';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"

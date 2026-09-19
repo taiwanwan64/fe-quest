@@ -10368,14 +10368,15 @@ function renderWeekChart(){
     const d=new Date();
     d.setDate(d.getDate()-i);
     const k=dateKey(d);
-    days.push({d,k,min:profile.activity?.[k]?.minutes||0});
+    days.push({d,k,min:Math.max(0,Number(profile.activity?.[k]?.minutes)||0)});
   }
   const max=Math.max(60,...days.map(x=>x.min));
   days.forEach(x=>{
     const pct=Math.max(3,Math.round(x.min/max*100));
     const c=document.createElement('div');
     c.className='day-col';
-    c.innerHTML=`<div class="day-min">${x.min?x.min+'m':''}</div>
+    const displayMinutes=x.min>0?Math.max(1,Math.round(x.min)):0;
+    c.innerHTML=`<div class="day-min">${displayMinutes?displayMinutes+'分':''}</div>
       <div class="day-bar-wrap"><div class="day-bar" style="height:${x.min?pct:3}%"></div></div>
       <div class="day-name">${names[x.d.getDay()]}</div>`;
     root.appendChild(c);

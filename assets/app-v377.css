@@ -5602,7 +5602,9 @@ body.fequest-first-run-v364 #diagnostic .screen-head>div{width:100%;text-align:c
 #studyBlockBarV373{position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:calc(85px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100% - 24px));display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;border:1px solid #bcd3b0;border-radius:14px;background:#f7fff2;box-shadow:0 3px 15px #22331120;color:#315129;font-size:13px}
 #studyBlockBarV373 button{flex-shrink:0;max-width:50%;padding:10px;border:0;border-radius:10px;background:#4b9a27;color:white;font-weight:800;min-height:44px}
 body.study-block-active-v373 main{padding-bottom:180px}
-#openStudySettingsV373{margin-top:10px;white-space:normal}
+#planFocusAction,#openStudySettingsV373{height:46px;min-height:46px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;align-self:center;margin-top:0}
+#openStudySettingsV373{white-space:normal}
+@media(max-width:720px){#planFocusAction,#openStudySettingsV373{width:100%;height:auto;min-height:46px;margin-left:0}}
 #diagnosticPlanV373{max-width:650px;margin:16px auto;scroll-margin-top:110px}
 #learningSettingsCard .planner-save{margin-top:16px}
 @media(max-width:700px){.study-week-v373{grid-template-columns:repeat(2,minmax(0,1fr))}.first-run-guided-v364{max-width:100%;min-width:0}.planning-fields-v373{gap:12px}.study-forecast-v373 dd{font-size:15px}#studyBlockBarV373{font-size:12px}}
