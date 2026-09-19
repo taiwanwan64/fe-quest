@@ -15002,7 +15002,7 @@ function studyBlocksV373(total,offset=0){
     if(days!=null&&days>=0&&days<=3)lane='review';
     if(minutes<questionMinutes+1)lane='lesson';
     const title={lesson:'教材を区切りまで読む',review:'復習と解説の確認',subjectB:minutes<15?'科目Bの基礎を読む':'科目Bを1ステップずつ練習',quiz:'弱点問題と解説の確認'}[lane];
-    out.push({type:'studyBlockV373',slot:`v373-${i}`,lane,minutes,icon:{lesson:'📘',review:'🧠',subjectB:'💻',quiz:'✏️'}[lane],bg:'blue',title,desc:`${minutes}分を目安に、区切りで終了できます。未完了の教材は次回に続けます。`,questionLimit:['review','quiz'].includes(lane)?Math.max(1,Math.min(8,Math.floor((minutes-1)/questionMinutes))):0});
+    out.push({type:'studyBlockV373',slot:`v373-${i}`,lane,minutes,icon:{lesson:'📘',review:'🧠',subjectB:'💻',quiz:'✏️'}[lane],bg:'blue',title,desc:'',questionLimit:['review','quiz'].includes(lane)?Math.max(1,Math.min(8,Math.floor((minutes-1)/questionMinutes))):0});
     left-=minutes;i++;
   }return out;
 }
@@ -15262,7 +15262,7 @@ function renderDailyPlan(){
   const set=(id,text)=>{const e=document.getElementById(id);if(e)e.textContent=text;};
   set('dailyProgressLabel',`${doneMinutes} / ${target}分（課題の目安）`);set('dailyDoneLabel',`${done.length} / ${tasks.length} 完了`);
   const bar=document.getElementById('dailyProgressBar');if(bar)bar.style.width=(target?Math.min(100,doneMinutes/target*100):100)+'%';
-  set('todayPlanMeta',`今日の設定 ${effectiveStudyMinutes()}分・実際の所要時間は区切りごとに調整できます`);
+  set('todayPlanMeta',`今日の設定 ${effectiveStudyMinutes()}分`);
   set('homeReadiness',calcReadiness()+'%');
   root.innerHTML='';
   const pending=tasks.filter(t=>!dailyTaskDone(rec,t)),visible=[...done,...pending.slice(0,3)];
