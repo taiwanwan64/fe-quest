@@ -24,15 +24,16 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `b3c0dd0852f90c8722de1032730739b6c176bb8c`
+- main: `64fdd47eb91a6dbdebdcfd8e5ebce977b51c9ebc`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35484864653`、success
-- PWA cache contract: `fe-quest-v377-66`
+- 最新本番 deploy: GitHub Actions run `35486361519`、success
+- PWA cache contract: `fe-quest-v377-67`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
 - 第4章詳細図解 PR: #122、merged
+- 第5章詳細図解 PR: #128、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -75,7 +76,7 @@
 - `BIT先生` はブランド名として変換対象外
 - PR #126 の publication / v35 CI success、Pages deploy run `35485465052` success
 
-## 4. 直前まで完了した教材品質改善
+## 5. 直前まで完了した教材品質改善
 
 ### 第1章
 
@@ -122,7 +123,21 @@
 - 第4章専用CSS: `assets/ch4-depth-v384.css`
 - PR #122 のCI（publication / v35）success、Pages deploy run `35483023544` success
 
-## 5. 今後も守る教材監査方針
+### 第5章
+
+`.github/reference-audits/CH05_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_05_01`〜`core_05_04` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- バッチ/リアルタイム、Webシステム、シンプレックス/デュプレックス/デュアル、ホット/コールドスタンバイ、RAID 0〜6を補強
+- レスポンスタイムとターンアラウンドタイムの範囲を参考資料の試験向け整理へ統一
+- ベンチマーク、キャパシティプランニング、スケールアウト/スケールアップ、RASIS、MTBF/MTTR、多重化を図解
+- protected lesson content version: `v376-lessons-ch5-visual-depth-v386-20260920`
+- lesson import manifest source commit: `64fdd47eb91a6dbdebdcfd8e5ebce977b51c9ebc`
+- payload SHA-256: `68b98b033230246babec0401023c44588aeffa074272dafceca54280a6428b41`
+- 第5章専用CSS: `assets/ch5-depth-v386.css`
+- PR #128 のCI（publication / v35）success、Pages deploy run `35486361519` success
+
+## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
 
@@ -140,13 +155,13 @@
 - カード・図・表の上下余白とモバイル崩れも同時監査する
 - 章の作業後は `.github/reference-audits/` に監査記録を残す
 
-## 6. 次のデフォルト作業
+## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第5章へ進み、第1章〜第4章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第6章へ進み、第1章〜第5章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第5章をページ画像も含めて確認
+1. 参考書の第6章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
@@ -158,14 +173,14 @@
 10. PR → CI success → merge → Pages deploy success を確認
 11. lesson import manifest を source commit と紐付けて記録
 
-## 7. リポジトリと保護教材の役割
+## 8. リポジトリと保護教材の役割
 
 - GitHub 公開リポジトリ: アプリコード、CSS、CI、監査方針、概念レベルの監査記録
 - protected lesson bank: 教材本文の正本
 - 教材本文そのものを公開GitHubへコピーしない
 - lesson bank を更新した場合、merge 後の source commit と content_version を import manifest に記録する
 
-## 8. 作業上の既定権限
+## 9. 作業上の既定権限
 
 過去にユーザーから、通常の FE QUEST 改修について **PR作成・マージ・本番公開まで進めてよい** と明示的な許可がある。
 ただし、次は勝手に行わない。
@@ -175,7 +190,7 @@
 - 重大な設計変更
 - 既存問題や学習履歴の不用意な削除
 
-## 9. 再開時の注意
+## 10. 再開時の注意
 
 - 「GitHubを直接編集できない」と過去の誤認を繰り返さず、まず利用可能なGitHub連携を実際に確認する。
 - open PR があれば、新しいブランチを勝手に作る前にそのPRの内容とCIを確認する。
