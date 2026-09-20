@@ -1,0 +1,116 @@
+# FE QUEST — 次チャット引き継ぎ
+
+> **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
+
+## 次チャットでユーザーが送る文
+
+> FE QUEST開発の続きです。最新版をGitHubから実際に読み取り、main・現在の作業ブランチ・PR・CIの状態を確認して、前回の続きから進めてください。過去の記憶だけで判断せず、GitHubの現状を正としてください。
+
+この一文を受けたら、以下の順で復旧してください。
+
+## 1. 最初に確認するもの
+
+1. `main` の最新 SHA
+2. open PR 一覧
+3. open PR があれば head branch と最新 SHA
+4. GitHub Actions の直近 CI / Pages deploy の状態
+5. `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`
+6. `.github/reference-audits/` の最新章監査
+7. 必要な場合は保護教材の lesson bank の現行 payload / content_version
+
+過去会話の記憶より、上記 live 情報を優先すること。
+
+## 2. 2026-09-20 時点のスナップショット
+
+このファイル作成直前の確認値。**次回は必ず再確認すること。**
+
+- main: `c98fcb793892ee02d51a7d0dea166b319a2ca517`
+- open PR: 0
+- active work PR: なし
+- 最新本番 deploy: GitHub Actions run `35478326347`、success
+- PWA cache contract: `fe-quest-v377-62`
+- 第1章詳細図解 PR: #118、merged
+- 第2章詳細図解 PR: #117、merged
+
+## 3. 直前まで完了した教材品質改善
+
+### 第1章
+
+`.github/reference-audits/CH01_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_01_01`〜`core_01_07` を初学者向けに再監査・補強済み
+- データ単位、接頭語、基数、桁の重み、基数変換、負の2進数、2進四則演算、浮動小数点、シフトを具体例・表・図で補強
+- protected lesson content version: `v376-lessons-ch1-visual-depth-v382-20260920`
+- 本文の英字 `bit` / `byte` は原則ビット / バイトへ統一
+- `2^(n-1)` 型ではなく上付き指数を優先
+- 新規図解の主要本文は18px、補助ラベルは16px以上を基準
+
+### 第2章
+
+`.github/reference-audits/CH02_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_02_01`〜`core_02_09` を詳細図解レベルへ補強済み
+- 集合・ベン図、ド・モルガン、真理値表、MIL記号、半/全加算器、構文木、スタック、状態遷移、AI、統計、数値解析、情報理論、制御を図・表・具体例で補強
+- `core_02_03`〜`core_02_09` content version: `v376-lessons-ch2-visual-depth-v381-20260920`
+- 論理回路の加算器は左=Carry(C/Cout)、右=Sum(S)で統一
+- 横長表はスマホで崩さず、分割または横スクロールで扱う
+
+## 4. 今後も守る教材監査方針
+
+正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
+
+- 章単位・節順で進める
+- IPAシラバスを試験範囲の正本とし、参考書は説明不足・重要文脈・つまずきポイントの監査資料として使う
+- 参考書の赤字・オレンジ字・太字・囲み・図注記など視覚的強調も見る
+- 初出用語は、その語を初めて使う位置でやさしく説明する
+- 略語は正式名称だけで終えず、意味・具体例・似た概念との違いまで必要に応じて示す
+- 抽象説明だけで終えず、具体例・途中計算・変換前後を付ける
+- 図で理解した方が早い内容はHTML/CSS/SVGのFE QUEST独自図解を入れる
+- 参考書の文章・図版は転載しない
+- 主要本文18px以上、補助ラベル16px以上をスマホ基準にする
+- 数式の指数・対数の底は上付き/下付き表記を優先する
+- 不要な読み仮名は付けず、最尤法・尤度のような難読語の初出に絞る
+- カード・図・表の上下余白とモバイル崩れも同時監査する
+- 章の作業後は `.github/reference-audits/` に監査記録を残す
+
+## 5. 次のデフォルト作業
+
+ユーザーから別の具体的な修正指示がなければ、**参考書の第3章へ進み、第1章・第2章と同じ粒度で章単位監査を始める。**
+
+手順:
+
+1. 参考書の第3章をページ画像も含めて確認
+2. 強調箇所・図表・初出用語・具体例を抽出
+3. IPA範囲との対応を確認
+4. FE QUEST の対応 lesson ID / payload を live で読む
+5. covered / thin / missing を判断
+6. thin / missing のみ補強
+7. スマホ図解・表・文字サイズまで確認
+8. protected lesson bank を更新
+9. 公開GitHub側のCSS / audit doc / CI contract / PWA cache を必要に応じて更新
+10. PR → CI success → merge → Pages deploy success を確認
+11. lesson import manifest を source commit と紐付けて記録
+
+## 6. リポジトリと保護教材の役割
+
+- GitHub 公開リポジトリ: アプリコード、CSS、CI、監査方針、概念レベルの監査記録
+- protected lesson bank: 教材本文の正本
+- 教材本文そのものを公開GitHubへコピーしない
+- lesson bank を更新した場合、merge 後の source commit と content_version を import manifest に記録する
+
+## 7. 作業上の既定権限
+
+過去にユーザーから、通常の FE QUEST 改修について **PR作成・マージ・本番公開まで進めてよい** と明示的な許可がある。
+ただし、次は勝手に行わない。
+
+- 有料サービスの契約・課金
+- 本番学習データを壊す可能性が高い変更
+- 重大な設計変更
+- 既存問題や学習履歴の不用意な削除
+
+## 8. 再開時の注意
+
+- 「GitHubを直接編集できない」と過去の誤認を繰り返さず、まず利用可能なGitHub連携を実際に確認する。
+- open PR があれば、新しいブランチを勝手に作る前にそのPRの内容とCIを確認する。
+- main がこのスナップショットより進んでいたら、**必ず新しいmainを正とする**。
+- ユーザーの新しい指示がこのファイルの「次のデフォルト作業」と競合した場合は、ユーザーの新しい指示を優先する。
