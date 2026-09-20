@@ -198,3 +198,18 @@ IPA公式シラバスを試験範囲の正本とし、FE QUESTに既にある3�
 
 - PWA cache contract: `fe-quest-v377-71`
 - 第9章CSSをindex / service worker / publication CI / Pages CIへ接続。
+
+
+## 本番反映
+
+- PR: #136
+- merge commit: `4abdb84d0a854ac5de03f44e847fcbd3bb285f36`
+- pull request validation:
+  - `Validate sanitized FE QUEST publication` run `35488206333`: success
+  - `Validate IPA 9.2 question v35 public activation` run `35488206320`: success
+- Pages deploy: run `35488223618`: success
+- lesson import manifest:
+  - content version: `v376-lessons-ch9-visual-depth-v390-20260920`
+  - total count: 7
+  - payload SHA-256: `29b4527e98e5bf849b7909597b3304472815f02f8d64786bdc4be32386421e07`
+  - source commit: `4abdb84d0a854ac5de03f44e847fcbd3bb285f36`
