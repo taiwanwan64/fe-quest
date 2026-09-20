@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `0c45f3beac1f83477c46a5fca57047826824edf7`
+- main: `62ac4251452d9e5946cdc0abcdaa20ac2b53d366`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35507296596`、success
-- PWA cache contract: `fe-quest-v377-83`
+- 最新本番 deploy: GitHub Actions run `35508766208`、success
+- PWA cache contract: `fe-quest-v377-84`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -50,6 +50,7 @@
 - 第19章詳細図解 PR: #156、merged
 - 第20章詳細図解 PR: #158、merged
 - 第21章詳細図解 PR: #160、merged
+- 第22章科目B合格戦略 PR: #162、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -427,6 +428,23 @@
 - 第21章専用CSS: `assets/ch21-depth-v402.css`
 - PR #160 のCI（publication / v35）success、Pages deploy run `35507296596` success
 
+
+### 第22章
+
+`.github/reference-audits/CH22_SUBJECT_B_STRATEGY_AUDIT_2026-09-20.md`
+
+- 参考資料の22-01〜22-03をページ画像まで確認し、科目Bの本番構成・学習戦略を既存導線へ補強済み
+- 科目Bコアコースへ100分 / 20問 / アルゴリズム16問＋情報セキュリティ4問 / 1000点満点・基準点600点の整理を追加
+- 本試験の選択肢数とFE QUEST内4択練習が同一ではないことを明示
+- アルゴリズム画面へ、特定言語の文法暗記より擬似言語の処理理解を優先する学び方を追加
+- セキュリティ画面へ、テクノロジ分野全体との連携と「状況→証拠・ログ→問い」の長文読解方針を追加
+- 公式公開問題を早めに見て形式・レベル感を確認する方針を追加
+- protected lesson bank / question bank は変更なし。Chapter 22用のlesson import manifest追加も不要
+- 第22章専用CSS: `assets/ch22-strategy-v403.css`
+- source commit: `62ac4251452d9e5946cdc0abcdaa20ac2b53d366`
+- PR #162 のCI（publication / v35）success、Pages deploy run `35508766208` success
+- PWA cache contract: `fe-quest-v377-84`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -447,21 +465,21 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第22章「【科目B】の合格戦略」へ進み、科目Bの既存教材・問題設計と照合して監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第1章「文法」へ進み、FE QUESTの科目Bトレース・実戦教材と照合して章単位監査を始める。**
 
 手順:
 
-1. 参考書の第22章をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第1章「文法」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
-4. FE QUEST の対応 lesson ID / payload を live で読む
+4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
 5. covered / thin / missing を判断
 6. thin / missing のみ補強
 7. スマホ図解・表・文字サイズまで確認
-8. protected lesson bank を更新
+8. 必要な場合だけprotected question / lesson bankを更新し、既存の科目B問題設計を不用意に壊さない
 9. 公開GitHub側のCSS / audit doc / CI contract / PWA cache を必要に応じて更新
 10. PR → CI success → merge → Pages deploy success を確認
-11. lesson import manifest を source commit と紐付けて記録
+11. protected lesson bankを更新した場合のみlesson import manifestをsource commitと紐付けて記録
 
 ## 8. リポジトリと保護教材の役割
 
