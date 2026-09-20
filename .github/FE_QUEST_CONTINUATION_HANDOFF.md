@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `a23c811ba5b81ee6a40294961e5371cc76aba93c`
+- main: `2ee2ba899bcf499f7918a8af795c803a2c9542cf`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35502349083`、success
-- PWA cache contract: `fe-quest-v377-77`
+- 最新本番 deploy: GitHub Actions run `35502859323`、success
+- PWA cache contract: `fe-quest-v377-78`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -44,6 +44,7 @@
 - 第13章詳細図解 PR: #144、merged
 - 第14章詳細図解 PR: #146、merged
 - 第15章詳細図解 PR: #148、merged
+- 第16章詳細図解 PR: #150、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -311,6 +312,24 @@
 - 第15章専用CSS: `assets/ch15-depth-v396.css`
 - PR #148 のCI（publication / v35）success、Pages deploy run `35502349083` success
 
+
+### 第16章
+
+`.github/reference-audits/CH16_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_16_01`〜`core_16_04` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 経営理念→ビジョン→企業戦略→事業戦略→機能別戦略、部分最適 / 全体最適、EA 4分類を補強
+- RPA / BPO / ワークフローシステムを比較し、BPR / BPMの抜本的 / 継続的を再確認
+- オンプレミス / ハウジング / ホスティング / クラウドを敷地・所有者で比較し、SOAを図解
+- BI / データウェアハウス、ビッグデータ3V、データレイク、データマイニング、マーケットバスケット分析を補強
+- デジタルリテラシー / デジタルディバイドを補強
+- 既存のAs-Is / To-Be、SaaS / PaaS / IaaS、クラウドネイティブ等は削除せず保持
+- protected lesson content version: `v376-lessons-ch16-visual-depth-v397-20260920`
+- lesson import manifest source commit: `2ee2ba899bcf499f7918a8af795c803a2c9542cf`
+- payload SHA-256: `9649360b0cf8c1dd6e84a3c3135be543d4b29cf951b20fd3f699fdd1b1560b31`
+- 第16章専用CSS: `assets/ch16-depth-v397.css`
+- PR #150 のCI（publication / v35）success、Pages deploy run `35502859323` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -331,11 +350,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第16章「システム戦略」へ進み、第1章〜第15章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第17章「システム企画」へ進み、第1章〜第16章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第16章をページ画像も含めて確認
+1. 参考書の第17章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
