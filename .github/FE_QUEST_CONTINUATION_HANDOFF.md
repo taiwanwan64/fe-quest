@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `62ac4251452d9e5946cdc0abcdaa20ac2b53d366`
+- main: `051061c4401c9ba7885f5d507b74466dc4f69675`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35508766208`、success
-- PWA cache contract: `fe-quest-v377-84`
+- 最新本番 deploy: GitHub Actions run `35509802329`、success
+- PWA cache contract: `fe-quest-v377-85`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -51,6 +51,7 @@
 - 第20章詳細図解 PR: #158、merged
 - 第21章詳細図解 PR: #160、merged
 - 第22章科目B合格戦略 PR: #162、merged
+- 科目B専用参考書 第1章「文法」 PR: #164、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -445,6 +446,23 @@
 - PR #162 のCI（publication / v35）success、Pages deploy run `35508766208` success
 - PWA cache contract: `fe-quest-v377-84`
 
+
+### 科目B専用参考書 第1部 第1章「文法」
+
+`.github/reference-audits/BBOOK_CH01_GRAMMAR_AUDIT_2026-09-20.md`
+
+- 第1章を章扉から練習問題・解説までページ画像で確認済み
+- protected `b_exercise` 20演習（40問）をlive照合
+- 5つの変数型＋未定義、代入、算術 / 関係 / 論理演算子を補強
+- if / elseif / else、while / do、forの読み方を補強
+- 関数 / 手続 / 引数 / 戻り値、局所変数 / 大域変数を補強
+- 紙のトレース表の書き方、値が変わらない制御行の省略、頻出変数名を補強
+- protected lesson / question bank は変更なし
+- 専用CSS: `assets/bbook-ch01-grammar-v404.css`
+- source commit: `051061c4401c9ba7885f5d507b74466dc4f69675`
+- PR #164 のCI（publication / v35）success、Pages deploy run `35509802329` success
+- PWA cache contract: `fe-quest-v377-85`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -465,11 +483,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第1章「文法」へ進み、FE QUESTの科目Bトレース・実戦教材と照合して章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第2章「一次元配列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第1章「文法」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第2章「一次元配列」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
