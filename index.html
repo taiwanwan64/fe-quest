@@ -113,6 +113,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
 <link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
 <link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">
+<link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1539,7 +1540,121 @@ x ← 20</div>
             </section>
           </div>
         </details>
-\n        <div class="b-mode-next-card" id="bTraceNextCard">
+\n
+        <details class="b-recursion-v408">
+          <summary>再帰トレース：呼出しと戻りを分けて追う</summary>
+          <div class="b-recursion-body-v408">
+            <p>再帰は、処理の途中で<strong>自分自身をもう一度呼び出す</strong>書き方です。難しく見える原因は、同じ関数名・同じ変数名が何度も出ることです。1回の大きな処理として追わず、<strong>呼出しごとに別の実行</strong>として分けます。</p>
+
+            <section class="b-recursion-section-v408">
+              <h3>1. 同じ関数でも、呼出しごとに引数は別</h3>
+              <div class="b-recursion-code-v408">procedure rec(n)
+    if n = 1
+        return
+    endif
+    rec(n - 2)
+    n を出力
+endprocedure</div>
+              <div class="b-recursion-stack-v408">
+                <div class="b-recursion-frame-v408"><b>rec(5)</b><small>この呼出しの n = 5</small></div>
+                <div class="b-recursion-frame-v408"><b>rec(3)</b><small>この呼出しの n = 3</small></div>
+                <div class="b-recursion-frame-v408"><b>rec(1)</b><small>この呼出しの n = 1</small></div>
+              </div>
+              <p class="b-recursion-note-v408">変数名は全部nでも、値は共有しません。FE QUESTの「スタック」表示でも、呼出しが増えるたびに別の実行状態が積み重なっていると考えます。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>2. まず停止条件まで「内側へ」進む</h3>
+              <p>最初に確認するのは、再帰を止める条件です。FE QUESTではこれを<strong>基底条件</strong>と呼ぶことがあります。</p>
+              <div class="b-recursion-flow-v408">
+                <span>rec(5)</span><i>→</i><span>rec(3)</span><i>→</i><span>rec(1)</span><i>→</i><span>return</span>
+              </div>
+              <p class="b-recursion-alert-v408">停止条件へ近づくように引数が変化しているかも確認します。停止条件へ到達しない再帰は終わりません。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>3. 内側が終わったら、呼出し元の「次の行」へ戻る</h3>
+              <div class="b-recursion-return-v408">
+                <div><b>呼出し方向</b><br>rec(5) → rec(3) → rec(1)<br>呼出し先を先に実行</div>
+                <i>↔</i>
+                <div><b>戻り方向</b><br>rec(1) → rec(3) → rec(5)<br>呼出しの次の行から再開</div>
+              </div>
+              <p>上の例では、rec(1)がreturnしたあと、rec(3)の「nを出力」へ戻ります。その次にrec(5)の「nを出力」へ戻ります。</p>
+              <p class="b-recursion-good-v408"><strong>再帰呼出しの下にある処理は、すぐには実行されません。</strong>呼出し先が最後まで終わってから実行されます。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>4. 再帰呼出しの「前」と「後」で出力順が変わる</h3>
+              <div class="b-recursion-code-v408">procedure p(n)
+    if n = 0
+        return
+    endif
+    n を出力
+    p(n - 1)
+    n を出力
+endprocedure</div>
+              <div class="b-recursion-grid-v408">
+                <div class="b-recursion-card-v408"><b>呼出し前の出力</b><span>内側へ進む途中で実行されるので、3 → 2 → 1 の順。</span></div>
+                <div class="b-recursion-card-v408"><b>呼出し後の出力</b><span>外側へ戻る途中で実行されるので、1 → 2 → 3 の順。</span></div>
+              </div>
+              <p class="b-recursion-note-v408">p(3)なら全体の出力は「3 2 1 1 2 3」です。「どの行が再帰呼出しより上か下か」を見るだけでも順序を予測できます。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>5. 戻り値は、最も内側から1段ずつ外へ返す</h3>
+              <div class="b-recursion-code-v408">function sum(n)
+    if n = 1
+        return 1
+    endif
+    return n + sum(n - 1)
+endfunction</div>
+              <div class="b-recursion-flow-v408">
+                <span>sum(1)=1</span><i>→</i><span>sum(2)=2+1</span><i>→</i><span>sum(3)=3+3</span><i>→</i><span>sum(4)=4+6</span>
+              </div>
+              <p>呼出し順は外側から内側ですが、戻り値の計算は内側から外側です。呼出し順と戻り値の確定順を同じ向きに書かないようにします。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>6. 「a ← r(x - 1)」は2段階で読む</h3>
+              <div class="b-recursion-flow-v408">
+                <span>① r(x - 1)を呼ぶ</span><i>→</i><span>② 戻り値を待つ</span><i>→</i><span>③ aへ代入</span>
+              </div>
+              <p>再帰関数が戻るまではaへの代入は完了しません。関数呼出しと代入を一度に処理しようとせず、先に呼出し先を最後まで追います。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>7. 自分自身を2回呼ぶなら、上の呼出しを終えてから次へ</h3>
+              <div class="b-recursion-code-v408">a ← r(x - 1)
+b ← r(x - 2)
+return a + b</div>
+              <div class="b-recursion-table-v408">
+                <table>
+                  <thead><tr><th>順番</th><th>実行するもの</th><th>その時点のポイント</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td>r(x - 1)</td><td>この再帰呼出しを最後まで完了する。</td></tr>
+                    <tr><td>2</td><td>aへ代入</td><td>返ってきた値をaへ保存する。</td></tr>
+                    <tr><td>3</td><td>r(x - 2)</td><td>次の再帰呼出しを最後まで完了する。</td></tr>
+                    <tr><td>4</td><td>bへ代入 → a + b</td><td>両方の戻り値がそろってから加算する。</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-recursion-alert-v408">枝分かれ図を一気に頭の中で展開しないでください。実際の実行順は上から1行ずつです。左側の呼出しが終わってから次の行へ進みます。</p>
+            </section>
+
+            <section class="b-recursion-section-v408">
+              <h3>8. トレース表は「呼出し1回＝1つの枠」で作る</h3>
+              <div class="b-recursion-grid-v408">
+                <div class="b-recursion-card-v408"><b>① 呼出しごとに枠を分ける</b><span>同じnやxでも、別の呼出しなら別の値として記録。</span></div>
+                <div class="b-recursion-card-v408"><b>② 停止条件まで進む</b><span>まず内側へ進み、どこでreturnするかを確定。</span></div>
+                <div class="b-recursion-card-v408"><b>③ 戻る場所を書く</b><span>呼出し元の「再帰呼出しの次の行」へ戻る。</span></div>
+                <div class="b-recursion-card-v408"><b>④ 戻り値を外側へ渡す</b><span>代入や計算がある場合は、戻ってから実行する。</span></div>
+              </div>
+              <p class="b-recursion-good-v408">再帰が苦手なときは、コード全体を何度も読み直すより、呼出しごとに小さなトレース表を分ける方が安全です。</p>
+            </section>
+          </div>
+        </details>
+
+        <div class="b-mode-next-card" id="bTraceNextCard">
           <div class="b-mode-next-icon">▶</div>
           <div class="b-mode-next-copy"><span>次の未完了</span><b id="bTraceNextTitle">演習を確認中…</b><small id="bTraceNextDesc"></small></div>
           <button id="bTraceNextAction">始める →</button>
