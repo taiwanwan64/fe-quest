@@ -111,6 +111,7 @@
 <link rel="stylesheet" href="./assets/ch22-strategy-v403.css">
 <link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css">
 <link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
+<link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1368,6 +1369,106 @@ value[1] ← 60</div>
                 </table>
               </div>
               <p class="b-array-note-v405">FE QUESTの「状態」表示は、紙のトレース表を画面上で補助するものです。本番を意識するなら、慣れてきたら自分でも箱と要素番号を書いてから予測してください。</p>
+            </section>
+          </div>
+        </details>
+
+        <details class="b-matrix-v406">
+          <summary>二次元配列＋条件変換：行・列・ド・モルガン</summary>
+          <div class="b-matrix-body-v406">
+            <p>二次元配列は、値を<strong>行（上下）と列（左右）</strong>の2方向に並べるデータ構造です。科目Bでは、表を自分で描いて位置関係を固定すると読み違いが減ります。</p>
+
+            <section class="b-matrix-section-v406">
+              <h3>1. value[行, 列] の順で読む</h3>
+              <div class="b-matrix-figure-v406" aria-label="二次元配列の例">
+                <span class="head"></span><span class="head">列1</span><span class="head">列2</span><span class="head">列3</span><span class="head">列4</span>
+                <span class="head">行1</span><span>11</span><span>12</span><span>13</span><span>14</span>
+                <span class="head">行2</span><span>21</span><span class="hit">22</span><span>23</span><span>24</span>
+                <span class="head">行3</span><span>31</span><span>32</span><span>33</span><span>34</span>
+              </div>
+              <div class="b-matrix-grid-v406">
+                <div class="b-matrix-card-v406"><b>value[2, 2]</b><span>2行2列の要素なので、この図では22。</span></div>
+                <div class="b-matrix-card-v406"><b>行数 / 列数</b><span>箱が何行・何列あるか。行番号 / 列番号とは別です。</span></div>
+                <div class="b-matrix-card-v406"><b>行の要素番号</b><span>上下方向の位置。参考資料とFE QUESTの対象問題では1から数えます。</span></div>
+                <div class="b-matrix-card-v406"><b>列の要素番号</b><span>左右方向の位置。こちらも1から数えます。</span></div>
+              </div>
+              <p class="b-matrix-note-v406">「行→列」の順です。カタカナの「ギョウ」は縦方向、「レツ」は横方向、と向きを固定して覚えると迷いにくくなります。</p>
+            </section>
+
+            <section class="b-matrix-section-v406">
+              <h3>2. 二重ループは外側が行、内側が列</h3>
+              <div class="b-matrix-code-v406">for r ← 1 to 3
+    for c ← 1 to 4
+        value[r, c] を処理
+    endfor
+endfor</div>
+              <div class="b-matrix-flow-v406">
+                <span>(1,1)</span><i>→</i><span>(1,2)</span><i>→</i><span>(1,3)</span><i>→</i><span>(1,4)</span><i>→</i><span>(2,1)</span>
+              </div>
+              <p>内側の列cを最後まで進めてから、外側の行rを次へ進めます。行優先で走査する問題はこの順序をそのまま追います。</p>
+            </section>
+
+            <section class="b-matrix-section-v406">
+              <h3>3. 上下左右は添字の増減で読む</h3>
+              <div class="b-matrix-table-v406">
+                <table>
+                  <thead><tr><th>位置</th><th>式</th><th>変わる要素番号</th></tr></thead>
+                  <tbody>
+                    <tr><td>上</td><td>value[r - 1, c]</td><td>行だけ -1</td></tr>
+                    <tr><td>下</td><td>value[r + 1, c]</td><td>行だけ +1</td></tr>
+                    <tr><td>左</td><td>value[r, c - 1]</td><td>列だけ -1</td></tr>
+                    <tr><td>右</td><td>value[r, c + 1]</td><td>列だけ +1</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-matrix-alert-v406">端の要素で隣を参照するときは範囲外に注意します。たとえば1行目で r - 1 を参照すると0行目になり、この表記体系では範囲外です。</p>
+            </section>
+
+            <section class="b-matrix-section-v406">
+              <h3>4. 「配列の配列」は長方形とは限らない</h3>
+              <div class="b-matrix-code-v406">value ← {{11, 12}, {21, 22, 23}, {}}</div>
+              <p>配列の配列では、親配列の各要素が子配列への参照を持ちます。子配列ごとに要素数が違ってもよく、ギザギザの形になるため<strong>ジャグ配列</strong>とも呼ばれます。</p>
+              <div class="b-matrix-grid-v406">
+                <div class="b-matrix-card-v406"><b>二次元配列</b><span>各行の要素数が同じ。表にすると長方形。</span></div>
+                <div class="b-matrix-card-v406"><b>配列の配列</b><span>子配列ごとに要素数が異なってよい。親配列を経由して要素へアクセスします。</span></div>
+              </div>
+            </section>
+
+            <section class="b-matrix-section-v406">
+              <h3>5. 終了条件は、そのままwhileへ入れない</h3>
+              <p>問題文が「100以上になったら終了」と書いているとき、whileに必要なのは<strong>まだ続ける条件</strong>です。</p>
+              <div class="b-demorgan-v406">
+                <div><b>終了条件</b><br>num ≥ 100</div>
+                <i>→ 否定 →</i>
+                <div><b>継続条件</b><br>num &lt; 100</div>
+              </div>
+              <div class="b-matrix-table-v406">
+                <table>
+                  <thead><tr><th>元の関係</th><th>否定後</th><th>元の関係</th><th>否定後</th></tr></thead>
+                  <tbody>
+                    <tr><td>&gt;</td><td>≤</td><td>≥</td><td>&lt;</td></tr>
+                    <tr><td>&lt;</td><td>≥</td><td>≤</td><td>&gt;</td></tr>
+                    <tr><td>=</td><td>≠</td><td>≠</td><td>=</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="b-matrix-section-v406">
+              <h3>6. and / or があるならド・モルガン</h3>
+              <p>終了条件が複合条件なら、次の3手順で継続条件へ変換します。</p>
+              <div class="b-matrix-grid-v406">
+                <div class="b-matrix-card-v406"><b>① そのまま条件式にする</b><span>まず問題文の「終了する条件」を式にします。</span></div>
+                <div class="b-matrix-card-v406"><b>② 各関係演算子を否定</b><span>≤→&gt;、=→≠ のように一つずつ反転します。</span></div>
+                <div class="b-matrix-card-v406"><b>③ and / or を入れ替える</b><span>and→or、or→and に変換します。</span></div>
+                <div class="b-matrix-card-v406"><b>結果を継続条件として使う</b><span>whileの中に入れるのは「まだ終了していない条件」です。</span></div>
+              </div>
+              <div class="b-demorgan-v406">
+                <div><b>終了条件</b><br>(i ≤ 0) or (j ≤ 0)</div>
+                <i>→ 否定 →</i>
+                <div><b>継続条件</b><br>(i &gt; 0) and (j &gt; 0)</div>
+              </div>
+              <p class="b-matrix-note-v406">科目Aで学ぶド・モルガンの法則を、科目Bでは「終了条件をwhileの継続条件へ直す道具」として使います。</p>
             </section>
           </div>
         </details>
