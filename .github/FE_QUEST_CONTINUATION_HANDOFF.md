@@ -24,17 +24,46 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `ab2f7738640764bd6047a4b14c276515d791496c`
+- main: `b3c0dd0852f90c8722de1032730739b6c176bb8c`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35483023544`、success
-- PWA cache contract: `fe-quest-v377-64`
+- 最新本番 deploy: GitHub Actions run `35484864653`、success
+- PWA cache contract: `fe-quest-v377-65`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
 - 第4章詳細図解 PR: #122、merged
+- テスター用アクセスコード一時解除 PR: #124、merged
 
-## 3. 直前まで完了した教材品質改善
+## 3. 現在のテストアクセス状態
+
+2026-09-20、ユーザー指示により **テスター用アクセスコード入力をいったん解除** した。
+
+- 問題・教材とも、通常利用時にアクセスコード入力ダイアログを出さずに利用できる。
+- `assets/protected-content-provider-v376.js`、`assets/protected-content-provider-v376-v35.js`、`assets/protected-lesson-provider-v376.js` は `OPEN_PREVIEW_ACCESS=true`。
+- 初回診断前の「招待コードを入力してください」という案内は非表示化済み。
+- 入力ダイアログの実装自体は削除せず、将来アクセス制限を戻しやすいよう残してある。
+- Supabase Edge Function:
+  - `fequest-question-gate-v376` version 3
+  - `fequest-lesson-gate-v376` version 2
+  - コード未入力のオープンプレビュー要求をサーバ側の専用アクセス枠へ割り当てる。
+- Supabase `fequest_beta_access_private` に `open-preview-v1` を有効化。
+  - max questions/day: 500
+  - max lessons/day: 500
+  - max questions/session: 60
+  - max sessions: 100000
+- 問題本文・教材本文の正本は引き続き private bank にあり、公開GitHubへ移していない。
+- PR #124 の publication / v35 CI は success、Pages deploy run `35484864653` も success。
+
+### アクセスコード制を戻す場合
+
+1. 上記3 provider の `OPEN_PREVIEW_ACCESS` を `false` に戻す。
+2. question / lesson gate の `OPEN_PREVIEW` を `false` に戻して再deployする。
+3. `fequest_beta_access_private` の `open-preview-v1` を disable する。
+4. PWA cache contract と CI の期待値を同時に更新する。
+5. PR → CI success → merge → Pages deploy success を確認する。
+
+## 4. 直前まで完了した教材品質改善
 
 ### 第1章
 
@@ -81,7 +110,7 @@
 - 第4章専用CSS: `assets/ch4-depth-v384.css`
 - PR #122 のCI（publication / v35）success、Pages deploy run `35483023544` success
 
-## 4. 今後も守る教材監査方針
+## 5. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
 
@@ -99,7 +128,7 @@
 - カード・図・表の上下余白とモバイル崩れも同時監査する
 - 章の作業後は `.github/reference-audits/` に監査記録を残す
 
-## 5. 次のデフォルト作業
+## 6. 次のデフォルト作業
 
 ユーザーから別の具体的な修正指示がなければ、**参考書の第5章へ進み、第1章〜第4章と同じ粒度で章単位監査を始める。**
 
@@ -117,14 +146,14 @@
 10. PR → CI success → merge → Pages deploy success を確認
 11. lesson import manifest を source commit と紐付けて記録
 
-## 6. リポジトリと保護教材の役割
+## 7. リポジトリと保護教材の役割
 
 - GitHub 公開リポジトリ: アプリコード、CSS、CI、監査方針、概念レベルの監査記録
 - protected lesson bank: 教材本文の正本
 - 教材本文そのものを公開GitHubへコピーしない
 - lesson bank を更新した場合、merge 後の source commit と content_version を import manifest に記録する
 
-## 7. 作業上の既定権限
+## 8. 作業上の既定権限
 
 過去にユーザーから、通常の FE QUEST 改修について **PR作成・マージ・本番公開まで進めてよい** と明示的な許可がある。
 ただし、次は勝手に行わない。
@@ -134,7 +163,7 @@
 - 重大な設計変更
 - 既存問題や学習履歴の不用意な削除
 
-## 8. 再開時の注意
+## 9. 再開時の注意
 
 - 「GitHubを直接編集できない」と過去の誤認を繰り返さず、まず利用可能なGitHub連携を実際に確認する。
 - open PR があれば、新しいブランチを勝手に作る前にそのPRの内容とCIを確認する。
