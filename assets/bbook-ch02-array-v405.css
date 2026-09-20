@@ -1,0 +1,56 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 2 One-dimensional arrays — v405
+   Public guide only; protected question bodies remain in Supabase. */
+
+#bSelect .b-array-v405{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .b-array-v405>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:17px;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .b-array-v405>summary::-webkit-details-marker{display:none}
+#bSelect .b-array-v405>summary::after{content:"＋";float:right}
+#bSelect .b-array-v405[open]>summary::after{content:"−"}
+#bSelect .b-array-body-v405{padding:0 16px 16px}
+#bSelect .b-array-body-v405 p,
+#bSelect .b-array-body-v405 li{font-size:17px;line-height:1.65}
+#bSelect .b-array-section-v405{margin-top:14px;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-array-section-v405>h3{margin:0 0 10px;font-size:19px;color:#17364b}
+#bSelect .b-array-grid-v405{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-array-card-v405{padding:11px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-array-card-v405 b{display:block;font-size:17px;color:#17364b}
+#bSelect .b-array-card-v405 span{display:block;margin-top:4px;font-size:15px;line-height:1.5;color:#425b68}
+#bSelect .b-array-figure-v405{display:flex;align-items:flex-end;justify-content:center;gap:0;margin:14px auto;max-width:540px}
+#bSelect .b-array-cell-v405{min-width:54px;text-align:center}
+#bSelect .b-array-cell-v405 small{display:block;margin-bottom:4px;font-size:14px;color:#6b7c86}
+#bSelect .b-array-cell-v405 strong{display:block;padding:10px 7px;border:1px solid #aebfc7;border-right:0;background:#fff;font-size:18px}
+#bSelect .b-array-cell-v405:last-child strong{border-right:1px solid #aebfc7}
+#bSelect .b-array-code-v405{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f1f5f9;border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.55;white-space:pre-wrap}
+#bSelect .b-array-flow-v405{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:10px 0}
+#bSelect .b-array-flow-v405 span{padding:8px 10px;border:1px solid #c9d8de;border-radius:9px;background:#fbfdfe;font-size:15px;font-weight:800}
+#bSelect .b-array-flow-v405 i{font-style:normal;color:#b45309}
+#bSelect .b-array-note-v405{margin-top:10px;padding:11px 13px;border-left:4px solid #f59e0b;border-radius:9px;background:#fff7ed;font-size:16px;line-height:1.55}
+#bSelect .b-array-error-v405{margin-top:10px;padding:11px 13px;border-left:4px solid #b42318;border-radius:9px;background:#fff5f5;font-size:16px;line-height:1.55}
+#bSelect .b-array-table-v405{overflow-x:auto}
+#bSelect .b-array-table-v405 table{width:100%;min-width:640px;border-collapse:collapse;background:#fff}
+#bSelect .b-array-table-v405 th,
+#bSelect .b-array-table-v405 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#bSelect .b-array-table-v405 th{background:#eef5f8;color:#17364b}
+@media(max-width:760px){
+  #bSelect .b-array-grid-v405{grid-template-columns:1fr}
+  #bSelect .b-array-cell-v405{min-width:48px}
+}
+@media(max-width:480px){
+  #bSelect .b-array-v405>summary{font-size:16px;padding:13px 14px}
+  #bSelect .b-array-body-v405{padding:0 14px 14px}
+  #bSelect .b-array-cell-v405{min-width:42px}
+  #bSelect .b-array-cell-v405 strong{font-size:16px;padding:9px 5px}
+}
