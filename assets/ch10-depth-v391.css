@@ -1,0 +1,50 @@
+/* FE QUEST Chapter 10 depth visuals — v391 */
+#lesson .ch10-depth-v391{margin-top:22px}
+#lesson .ch10-depth-v391 p,#lesson .ch10-depth-v391 li{font-size:18px;line-height:1.72}
+#lesson .ch10-depth-v391 small,#lesson .ch10-depth-v391 .ch10-helper-v391{font-size:16px;line-height:1.5}
+#lesson .ch10-depth-v391 code{font-size:17px;white-space:normal}
+#lesson .ch10-visual-v391{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch10-visual-v391>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch10-note-v391{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch10-grid-v391{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch10-card-v391{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch10-card-v391>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch10-card-v391>span,#lesson .ch10-card-v391>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .net-flow-v391{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .net-flow-v391 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .net-flow-v391 i{font-style:normal;color:#b45309}
+#lesson .net-3-v391{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .net-4-v391{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .net-3-v391>div,#lesson .net-4-v391>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .net-3-v391 b,#lesson .net-4-v391 b{display:block;font-size:17px;color:#17364b}
+#lesson .net-3-v391 span,#lesson .net-4-v391 span{display:block;margin-top:4px;font-size:15px;line-height:1.4;color:#425b68}
+#lesson .bitbar-v391{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:10px 0}
+#lesson .bitbar-v391 span{padding:9px 5px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;text-align:center;font-size:15px;font-weight:800}
+#lesson .osi-table-v391{overflow-x:auto}
+#lesson .osi-table-v391 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
+#lesson .osi-table-v391 th,#lesson .osi-table-v391 td{border:1px solid #c9d8de;padding:9px;font-size:15px;text-align:center}
+#lesson .osi-table-v391 th{background:#eef5f8;color:#17364b}
+#lesson .lockless-table-v391{overflow-x:auto}
+#lesson .lockless-table-v391 table{width:100%;min-width:560px;border-collapse:collapse;background:#fff}
+#lesson .lockless-table-v391 th,#lesson .lockless-table-v391 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .lockless-table-v391 th{background:#eef5f8;color:#17364b}
+#lesson .topology-v391{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .topology-v391>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
+#lesson .topology-v391 b{display:block;font-size:17px;color:#17364b}
+#lesson .mail-head-v391{display:grid;grid-template-columns:100px 1fr;gap:8px;margin:8px 0}
+#lesson .mail-head-v391 b,#lesson .mail-head-v391 span{padding:9px 10px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;font-size:16px}
+#lesson .parity-v391{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+#lesson .parity-v391 span{padding:9px 10px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;font-size:16px;font-weight:800}
+@media(max-width:760px){
+ #lesson .net-4-v391,#lesson .topology-v391{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #lesson .net-3-v391{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+ #lesson .ch10-grid-v391{grid-template-columns:1fr}
+ #lesson .mail-head-v391{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+ #lesson .ch10-visual-v391{padding:13px}
+ #lesson .net-4-v391,#lesson .topology-v391{grid-template-columns:1fr}
+ #lesson .bitbar-v391{grid-template-columns:repeat(2,1fr)}
+}
