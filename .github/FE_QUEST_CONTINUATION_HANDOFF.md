@@ -24,13 +24,14 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `c98fcb793892ee02d51a7d0dea166b319a2ca517`
+- main: `25b5e037b387069ff1d4e6c3d2b1d05b836623e1`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35478326347`、success
-- PWA cache contract: `fe-quest-v377-62`
+- 最新本番 deploy: GitHub Actions run `35480599277`、success
+- PWA cache contract: `fe-quest-v377-63`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
+- 第3章詳細図解 PR: #120、merged
 
 ## 3. 直前まで完了した教材品質改善
 
@@ -55,6 +56,18 @@
 - 論理回路の加算器は左=Carry(C/Cout)、右=Sum(S)で統一
 - 横長表はスマホで崩さず、分割または横スクロールで扱う
 
+### 第3章
+
+`.github/reference-audits/CH03_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_03_01`〜`core_03_05` を参考資料のページ画像まで確認して詳細図解レベルへ補強済み
+- 2次元配列、木構造・二分探索木、流れ図、クイックソート、プログラムの4性質、Java系用語、HTML/XML/CSS/Ajaxを補強
+- protected lesson content version: `v376-lessons-ch3-visual-depth-v383-20260920`
+- lesson import manifest source commit: `25b5e037b387069ff1d4e6c3d2b1d05b836623e1`
+- payload SHA-256: `a7d374183f31ad084d1d02b90f3c2abc69435da42772a5c03340a20adf156ffa`
+- 第3章専用CSS: `assets/ch3-depth-v383.css`
+- PR #120 のCI（publication / v35）success、Pages deploy run `35480599277` success
+
 ## 4. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -75,11 +88,11 @@
 
 ## 5. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第3章へ進み、第1章・第2章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第4章へ進み、第1章〜第3章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第3章をページ画像も含めて確認
+1. 参考書の第4章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む

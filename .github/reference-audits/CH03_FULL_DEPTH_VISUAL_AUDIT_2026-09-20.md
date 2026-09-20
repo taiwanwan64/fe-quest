@@ -113,3 +113,18 @@ IPA公式シラバスを試験範囲の正本とし、既存のIPA 9.2補強内�
 - 文字列としての `\\n` 残存なし。
 - 既存のIPA 9.2補強セクションを保持したまま追加。
 - 参考資料の図表・文章は転載せず、独自の例・配列・SVG・比較カードとして実装。
+
+
+## 本番反映
+
+- PR: #120
+- merge commit: `25b5e037b387069ff1d4e6c3d2b1d05b836623e1`
+- pull request validation:
+  - `Validate sanitized FE QUEST publication` run `35480579187`: success
+  - `Validate IPA 9.2 question v35 public activation` run `35480579165`: success
+- Pages deploy: run `35480599277`: success
+- lesson import manifest:
+  - content version: `v376-lessons-ch3-visual-depth-v383-20260920`
+  - total count: 5
+  - payload SHA-256: `a7d374183f31ad084d1d02b90f3c2abc69435da42772a5c03340a20adf156ffa`
+  - source commit: `25b5e037b387069ff1d4e6c3d2b1d05b836623e1`
