@@ -16,6 +16,7 @@ const BASE_CATALOG_TOTAL=904;
 const IPA92_CATALOG_TOTAL=83;
 const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;
 const ACCESS_SESSION_KEY='fequest_beta_access_v376';
+const OPEN_PREVIEW_ACCESS=true;
 const MAX_BATCH=20;
 const MAX_CACHE=60;
 const REQUEST_TIMEOUT_MS=15000;
@@ -41,6 +42,7 @@ function currentAccessCode(){
   if(memoryAccessCode)return memoryAccessCode;
   const stored=readSessionAccessCode();
   if(stored){memoryAccessCode=stored;return stored}
+  if(OPEN_PREVIEW_ACCESS)return '';
   throw new Error('beta_access_required');
 }
 
@@ -84,7 +86,7 @@ function clearAccessCode(){
 }
 
 function hasAccessCode(){
-  return !!(memoryAccessCode||readSessionAccessCode());
+  return OPEN_PREVIEW_ACCESS||!!(memoryAccessCode||readSessionAccessCode());
 }
 
 async function fetchJson(url,options={}){
