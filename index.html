@@ -110,6 +110,7 @@
 <link rel="stylesheet" href="./assets/ch21-depth-v402.css">
 <link rel="stylesheet" href="./assets/ch22-strategy-v403.css">
 <link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css">
+<link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1302,6 +1303,71 @@ endfor</div>
                   </tbody>
                 </table>
               </div>
+            </section>
+          </div>
+        </details>
+
+        <details class="b-array-v405">
+          <summary>一次元配列の読み方：要素番号・隣接・範囲外</summary>
+          <div class="b-array-body-v405">
+            <p>科目Bでは、配列を頭の中だけで追わず、<strong>要素番号と値を横一列の箱として描く</strong>と安全です。FE QUESTの科目B一次元配列問題も、本試験の表記に合わせて<strong>要素番号1始まり</strong>に統一しています。</p>
+
+            <section class="b-array-section-v405">
+              <h3>1. 要素数・要素・要素番号を分ける</h3>
+              <div class="b-array-figure-v405" aria-label="一次元配列の例">
+                <div class="b-array-cell-v405"><small>1</small><strong>10</strong></div>
+                <div class="b-array-cell-v405"><small>2</small><strong>20</strong></div>
+                <div class="b-array-cell-v405"><small>3</small><strong>30</strong></div>
+                <div class="b-array-cell-v405"><small>4</small><strong>40</strong></div>
+                <div class="b-array-cell-v405"><small>5</small><strong>50</strong></div>
+              </div>
+              <div class="b-array-grid-v405">
+                <div class="b-array-card-v405"><b>要素数</b><span>値を入れる箱の個数。この例では5。</span></div>
+                <div class="b-array-card-v405"><b>要素</b><span>箱そのもの、または箱に格納されている値。</span></div>
+                <div class="b-array-card-v405"><b>要素番号</b><span>どの箱かを示す番号。Index / Idx と書かれることもあります。</span></div>
+                <div class="b-array-card-v405"><b>value[3]</b><span>3番目の要素を表し、この例では30。</span></div>
+              </div>
+            </section>
+
+            <section class="b-array-section-v405">
+              <h3>2. 宣言・初期化・要素代入</h3>
+              <div class="b-array-code-v405">整数型の配列: value
+value ← [10, 20, 30, 40, 50]
+value[1] ← 60</div>
+              <p>配列を作るだけの宣言と、値を一緒に入れる初期化は別です。個別要素へ代入するときは <strong>配列名[要素番号]</strong> を使います。</p>
+              <p class="b-array-note-v405">問題文で「配列の要素番号は1から始まる」と書かれていたら、先頭は <strong>[1]</strong> です。0番目を作らないようにします。</p>
+            </section>
+
+            <section class="b-array-section-v405">
+              <h3>3. 可変長配列は末尾へ追加できる</h3>
+              <div class="b-array-flow-v405">
+                <span>[]</span><i>→ 0を追加</i><span>[0]</span><i>→ 1を追加</i><span>[0, 1]</span>
+              </div>
+              <p>参考資料では、要素数0の配列から始めて、末尾へ値を追加することで要素数を増やす例を扱っています。FE QUESTの「out の末尾に追加」もこの考え方です。</p>
+            </section>
+
+            <section class="b-array-section-v405">
+              <h3>4. iの左隣と右隣</h3>
+              <div class="b-array-flow-v405">
+                <span>value[i - 1]<br>左隣</span><i>←</i><span>value[i]<br>現在</span><i>→</i><span>value[i + 1]<br>右隣</span>
+              </div>
+              <p>配列の処理では、現在位置の前後を参照する形が頻出します。「-1は左、+1は右」と位置関係で読むと追いやすくなります。</p>
+              <p class="b-array-error-v405">先頭より左、末尾より右の要素番号を参照すると範囲外です。例：要素数5の配列で value[0] や value[6] を参照しないようにします。</p>
+            </section>
+
+            <section class="b-array-section-v405">
+              <h3>5. 配列トレースは変化した場所を記録する</h3>
+              <div class="b-array-table-v405">
+                <table>
+                  <thead><tr><th>タイミング</th><th>書き方</th><th>理由</th></tr></thead>
+                  <tbody>
+                    <tr><td>開始時</td><td>全要素を書く</td><td>初期状態を取り違えないため。</td></tr>
+                    <tr><td>処理中</td><td>値が変化した要素を中心に書く</td><td>毎回全要素を書き直す手間を減らすため。</td></tr>
+                    <tr><td>終了時</td><td>全要素をもう一度確認</td><td>最終状態の書き漏れを防ぐため。</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-array-note-v405">FE QUESTの「状態」表示は、紙のトレース表を画面上で補助するものです。本番を意識するなら、慣れてきたら自分でも箱と要素番号を書いてから予測してください。</p>
             </section>
           </div>
         </details>
