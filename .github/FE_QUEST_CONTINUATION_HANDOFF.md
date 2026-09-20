@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `2f7a61b905f37e4697b44073c249219b3400c0c8`
+- main: `075e9323dd88a71d0a93bb3d829c7ded4d9e665e`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35504569272`、success
-- PWA cache contract: `fe-quest-v377-81`
+- 最新本番 deploy: GitHub Actions run `35505516967`、success
+- PWA cache contract: `fe-quest-v377-82`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -48,6 +48,7 @@
 - 第17章詳細図解 PR: #152、merged
 - 第18章詳細図解 PR: #154、merged
 - 第19章詳細図解 PR: #156、merged
+- 第20章詳細図解 PR: #158、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -387,6 +388,25 @@
 - 第19章専用CSS: `assets/ch19-depth-v400.css`
 - PR #156 のCI（publication / v35）success、Pages deploy run `35504569272` success
 
+
+### 第20章
+
+`.github/reference-audits/CH20_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_20_01`〜`core_20_06` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 経営理念 / ビジョン / 経営戦略を補強
+- 5組織形態、CEO / CIO / CFO / CTO / CCO、OJT / Off-JT、ワークシェアリング、DE&Iを補強
+- ABC分析、散布図 / 回帰分析、重み付け総合評価法、期待値を補強
+- 損益分岐点の売上線 / 費用線、目標利益を含む必要売上高を補強
+- B/S、利益の段階、C/F 3区分、黒字倒産を補強
+- 流動 / 固定資産、棚卸、FIFO、売上原価、定額 / 定率法、固定資産売却損を補強
+- `core_20_07` と既存IPA追加教材は削除せず保持
+- protected lesson content version: `v376-lessons-ch20-visual-depth-v401-20260920`
+- lesson import manifest source commit: `075e9323dd88a71d0a93bb3d829c7ded4d9e665e`
+- payload SHA-256: `ec59920770d5790ca848741339f0568c64628b42072c2dea611a250ef8b5d1eb`
+- 第20章専用CSS: `assets/ch20-depth-v401.css`
+- PR #158 のCI（publication / v35）success、Pages deploy run `35505516967` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -407,11 +427,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第20章「企業活動」へ進み、第1章〜第19章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第21章「法務」へ進み、第1章〜第20章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第20章をページ画像も含めて確認
+1. 参考書の第21章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
