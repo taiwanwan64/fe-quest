@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `96a1e0e93ae7464b6aa1d21fd613c78062f6d0bf`
+- main: `f38aba36d0eea1ebc892b1a412f76d5ad8c953a2`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35491070797`、success
-- PWA cache contract: `fe-quest-v377-75`
+- 最新本番 deploy: GitHub Actions run `35498384773`、success
+- PWA cache contract: `fe-quest-v377-76`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -42,6 +42,7 @@
 - 第11章詳細図解 PR: #140、merged
 - 第12章詳細図解 PR: #142、merged
 - 第13章詳細図解 PR: #144、merged
+- 第14章詳細図解 PR: #146、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -270,6 +271,25 @@
 - 第13章専用CSS: `assets/ch13-depth-v394.css`
 - PR #144 のCI（publication / v35）success、Pages deploy run `35491070797` success
 
+
+### 第14章
+
+`.github/reference-audits/CH14_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_14_01`〜`core_14_06` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- プロジェクトの有期性・独自性、PMBOK 10知識エリア、WBS / ワークパッケージを補強
+- 開発工数・開発期間・工数配分比率を具体例つきで図解
+- トレンドチャート、アローダイアグラム記号、プレシデンスダイアグラムのFS/FF/SS/SFを補強
+- クリティカルパス、クラッシング / ファストトラッキングを比較
+- 各種見積り手法、ファンクションポイント5分類と算出手順を補強
+- リスク回避 / 移転 / 低減 / 保有を4カードで比較
+- `core_14_07`〜`core_14_10` と既存IPA追加教材は削除せず保持
+- protected lesson content version: `v376-lessons-ch14-visual-depth-v395-20260920`
+- lesson import manifest source commit: `f38aba36d0eea1ebc892b1a412f76d5ad8c953a2`
+- payload SHA-256: `08781090735568f2bdd37776405728403ec8b2bb8b017e158572b58f529a1cfe`
+- 第14章専用CSS: `assets/ch14-depth-v395.css`
+- PR #146 のCI（publication / v35）success、Pages deploy run `35498384773` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -290,11 +310,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第14章「プロジェクトマネジメント」へ進み、第1章〜第13章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第15章「サービスマネジメントとシステム監査」へ進み、第1章〜第14章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第14章をページ画像も含めて確認
+1. 参考書の第15章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
