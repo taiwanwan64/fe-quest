@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `2ee2ba899bcf499f7918a8af795c803a2c9542cf`
+- main: `2d4206afbf55b6691ae0686d6713338c25dc770a`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35502859323`、success
-- PWA cache contract: `fe-quest-v377-78`
+- 最新本番 deploy: GitHub Actions run `35503361609`、success
+- PWA cache contract: `fe-quest-v377-79`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -45,6 +45,7 @@
 - 第14章詳細図解 PR: #146、merged
 - 第15章詳細図解 PR: #148、merged
 - 第16章詳細図解 PR: #150、merged
+- 第17章詳細図解 PR: #152、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -330,6 +331,23 @@
 - 第16章専用CSS: `assets/ch16-depth-v397.css`
 - PR #150 のCI（publication / v35）success、Pages deploy run `35502859323` success
 
+
+### 第17章
+
+`.github/reference-audits/CH17_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_17_01`〜`core_17_02` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 経営者 / 情報システム部 / ユーザー / ベンダーの関係と、企画 / 要件定義 / 調達で確認するニーズの違いを補強
+- システム化構想 / システム化計画、ROI、ITポートフォリオ、プライバシーバイデザインを補強
+- 利害関係者ニーズ、業務要件3分類、非機能要件の代表分類と開発基準・標準を補強
+- RFI→RFP→提案書→選定→契約の流れ、RFIの2目的、提案依頼書 / 提案書の作成主体を補強
+- CSR調達 / グリーン調達 / カーボンフットプリント、ISO 14001を補強
+- protected lesson content version: `v376-lessons-ch17-visual-depth-v398-20260920`
+- lesson import manifest source commit: `2d4206afbf55b6691ae0686d6713338c25dc770a`
+- payload SHA-256: `1e9c6cee5398c550bc1822b5741174fabd6ebb8049b1925d7c8244185d490fec`
+- 第17章専用CSS: `assets/ch17-depth-v398.css`
+- PR #152 のCI（publication / v35）success、Pages deploy run `35503361609` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -350,11 +368,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第17章「システム企画」へ進み、第1章〜第16章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第18章「経営戦略マネジメント」へ進み、第1章〜第17章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第17章をページ画像も含めて確認
+1. 参考書の第18章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
