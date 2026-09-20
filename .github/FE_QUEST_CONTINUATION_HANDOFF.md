@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `6cdede4f96c3eea556f572b527e0006983541711`
+- main: `4abdb84d0a854ac5de03f44e847fcbd3bb285f36`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35487730464`、success
-- PWA cache contract: `fe-quest-v377-70`
+- 最新本番 deploy: GitHub Actions run `35488223618`、success
+- PWA cache contract: `fe-quest-v377-71`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -37,6 +37,7 @@
 - 第6章詳細図解 PR: #130、merged
 - 第7章詳細図解 PR: #132、merged
 - 第8章詳細図解 PR: #134、merged
+- 第9章詳細図解 PR: #136、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -186,6 +187,22 @@
 - 第8章専用CSS: `assets/ch8-depth-v389.css`
 - PR #134 のCI（publication / v35）success、Pages deploy run `35487730464` success
 
+### 第9章
+
+`.github/reference-audits/CH09_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_09_01`〜`core_09_07` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- データモデリング、データモデル、主キー/複合主キー/外部キー、E-R図の多重度、正規化段階を補強
+- DBMSの3機能、インデックス構造、ストアドプロシージャを図解
+- ORDER BY / ASC / DESC / AS / VIEW / CREATE VIEWをSQL教材へ補強
+- 更新前/更新後ログ、ROLLBACK / ROLLFORWARD、専有ロック（排他ロック）、ロック両立性・粒度を補強
+- `core_09_08`（DWH/OLTP/OLAP/NoSQL/分散DB等）は参考資料外の既存追加範囲として保持
+- protected lesson content version: `v376-lessons-ch9-visual-depth-v390-20260920`
+- lesson import manifest source commit: `4abdb84d0a854ac5de03f44e847fcbd3bb285f36`
+- payload SHA-256: `29b4527e98e5bf849b7909597b3304472815f02f8d64786bdc4be32386421e07`
+- 第9章専用CSS: `assets/ch9-depth-v390.css`
+- PR #136 のCI（publication / v35）success、Pages deploy run `35488223618` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -206,11 +223,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第9章「データベース」へ進み、第1章〜第8章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第10章「ネットワーク」へ進み、第1章〜第9章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第9章をページ画像も含めて確認
+1. 参考書の第10章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
