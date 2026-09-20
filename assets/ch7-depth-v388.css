@@ -1,0 +1,101 @@
+/* FE QUEST Chapter 7 depth visuals — v388
+   Reference-driven diagrams for semiconductor memory and electronic circuits.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch7-depth-v388{margin-top:22px}
+#lesson .ch7-depth-v388 p,
+#lesson .ch7-depth-v388 li{font-size:18px;line-height:1.72}
+#lesson .ch7-depth-v388 small,
+#lesson .ch7-depth-v388 .ch7-helper-v388{font-size:16px;line-height:1.5}
+#lesson .ch7-depth-v388 code{font-size:17px;white-space:normal}
+#lesson .ch7-visual-v388{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch7-visual-v388>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch7-grid-v388{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch7-card-v388{min-width:0;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#lesson .ch7-card-v388>b{display:block;margin-bottom:6px;font-size:18px;color:#17364b}
+#lesson .ch7-card-v388>span,
+#lesson .ch7-card-v388>p{font-size:16px;line-height:1.55;color:#425b68}
+#lesson .ch7-note-v388{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+
+/* 07-01 semiconductor memory */
+#lesson .semi-scale-v388{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+#lesson .semi-scale-v388>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff;text-align:center}
+#lesson .semi-scale-v388 b{display:block;font-size:18px;color:#17364b}
+#lesson .semi-scale-v388 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .memory-tree-v388{display:grid;gap:10px;margin:14px 0}
+#lesson .memory-tree-v388 .root-v388{justify-self:center;padding:10px 14px;border:2px solid #91aab5;border-radius:12px;background:#fff;font-size:18px;font-weight:900}
+#lesson .memory-branches-v388{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .memory-branch-v388{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .memory-branch-v388>b{display:block;font-size:18px;color:#17364b}
+#lesson .memory-leaves-v388{display:grid;gap:7px;margin-top:9px}
+#lesson .memory-leaves-v388 span{padding:9px 10px;border:1px solid #c3d2d8;border-radius:9px;background:#f8fbfc;font-size:16px;line-height:1.45}
+#lesson .dram-sram-v388{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .dram-sram-v388>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .dram-sram-v388 b{display:block;font-size:18px;color:#17364b}
+#lesson .rom-family-v388{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .rom-family-v388>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .rom-family-v388 b{display:block;font-size:17px;color:#17364b}
+#lesson .rom-family-v388 span{display:block;margin-top:4px;font-size:16px;line-height:1.45;color:#425b68}
+#lesson .flash-units-v388{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .flash-units-v388 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .flash-units-v388 i{font-style:normal;color:#b45309}
+
+/* 07-02 circuits */
+#lesson .cell-strip-v388{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:12px auto;max-width:640px}
+#lesson .cell-strip-v388 span{display:grid;place-items:center;min-height:48px;border:1px solid #b9ccd5;border-radius:8px;background:#fff;font-size:18px;font-weight:900;color:#17364b}
+#lesson .cell-compare-v388{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .cell-compare-v388>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .cell-compare-v388 b{display:block;font-size:18px;color:#17364b}
+#lesson .circuit-sketch-v388{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+#lesson .circuit-sketch-v388 span{padding:9px 11px;border:1px solid #c3d2d8;border-radius:9px;background:#f8fbfc;font-size:16px}
+#lesson .circuit-sketch-v388 i{font-style:normal;color:#b45309}
+#lesson .chatter-wave-v388{display:flex;align-items:flex-end;justify-content:center;gap:4px;min-height:90px;margin:12px 0}
+#lesson .chatter-wave-v388 span{width:34px;border-top:4px solid #6f8994;border-right:4px solid #6f8994}
+#lesson .chatter-wave-v388 span:nth-child(1){height:16px}
+#lesson .chatter-wave-v388 span:nth-child(2){height:56px}
+#lesson .chatter-wave-v388 span:nth-child(3){height:22px}
+#lesson .chatter-wave-v388 span:nth-child(4){height:52px}
+#lesson .chatter-wave-v388 span:nth-child(5){height:26px}
+#lesson .chatter-wave-v388 span:nth-child(6){height:54px}
+#lesson .chatter-wave-v388 span:nth-child(7){height:54px;width:76px}
+#lesson .sevenseg-wrap-v388{display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px;align-items:center}
+#lesson .sevenseg-v388{position:relative;width:120px;height:190px;margin:0 auto}
+#lesson .sevenseg-v388 span{position:absolute;background:#d9e3e7;border:1px solid #9fb4bd;border-radius:999px}
+#lesson .sevenseg-v388 .on-v388{background:#f59e0b;border-color:#d97706}
+#lesson .sevenseg-v388 .a-v388{left:27px;top:8px;width:66px;height:14px}
+#lesson .sevenseg-v388 .g-v388{left:27px;top:87px;width:66px;height:14px}
+#lesson .sevenseg-v388 .d-v388{left:27px;bottom:8px;width:66px;height:14px}
+#lesson .sevenseg-v388 .f-v388{left:12px;top:24px;width:14px;height:62px}
+#lesson .sevenseg-v388 .b-v388{right:12px;top:24px;width:14px;height:62px}
+#lesson .sevenseg-v388 .e-v388{left:12px;bottom:24px;width:14px;height:62px}
+#lesson .sevenseg-v388 .c-v388{right:12px;bottom:24px;width:14px;height:62px}
+#lesson .sevenseg-v388 .dp-v388{right:0;bottom:7px;width:14px;height:14px}
+#lesson .sevenseg-label-v388{position:absolute;font-size:14px;font-weight:800;color:#425b68}
+#lesson .sevenseg-label-v388.la-v388{left:55px;top:-12px}
+#lesson .sevenseg-label-v388.lb-v388{right:-4px;top:50px}
+#lesson .sevenseg-label-v388.lc-v388{right:-4px;bottom:50px}
+#lesson .sevenseg-label-v388.ld-v388{left:55px;bottom:-13px}
+#lesson .sevenseg-label-v388.le-v388{left:-3px;bottom:50px}
+#lesson .sevenseg-label-v388.lf-v388{left:-3px;top:50px}
+#lesson .sevenseg-label-v388.lg-v388{left:55px;top:72px}
+#lesson .common-compare-v388{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .common-compare-v388>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .common-compare-v388 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:760px){
+  #lesson .rom-family-v388{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .sevenseg-wrap-v388{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  #lesson .ch7-grid-v388,
+  #lesson .memory-branches-v388,
+  #lesson .dram-sram-v388,
+  #lesson .cell-compare-v388,
+  #lesson .common-compare-v388{grid-template-columns:1fr}
+  #lesson .semi-scale-v388{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch7-visual-v388{padding:13px}
+  #lesson .rom-family-v388{grid-template-columns:1fr}
+  #lesson .cell-strip-v388{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
