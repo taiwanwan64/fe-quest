@@ -1,0 +1,105 @@
+/* FE QUEST Chapter 8 depth visuals — v389
+   Reference-driven diagrams for UI components, usability and multimedia.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch8-depth-v389{margin-top:22px}
+#lesson .ch8-depth-v389 p,
+#lesson .ch8-depth-v389 li{font-size:18px;line-height:1.72}
+#lesson .ch8-depth-v389 small,
+#lesson .ch8-depth-v389 .ch8-helper-v389{font-size:16px;line-height:1.5}
+#lesson .ch8-depth-v389 code{font-size:17px;white-space:normal}
+#lesson .ch8-visual-v389{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch8-visual-v389>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch8-grid-v389{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch8-card-v389{min-width:0;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#lesson .ch8-card-v389>b{display:block;margin-bottom:6px;font-size:18px;color:#17364b}
+#lesson .ch8-card-v389>span,
+#lesson .ch8-card-v389>p{font-size:16px;line-height:1.55;color:#425b68}
+#lesson .ch8-note-v389{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+
+/* 08-01 GUI parts */
+#lesson .gui-parts-v389{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .gui-part-v389{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .gui-part-v389>b{display:block;font-size:17px;color:#17364b}
+#lesson .gui-demo-v389{margin:10px 0;padding:10px;border:1px solid #c3d2d8;border-radius:10px;background:#f8fbfc;font-size:16px}
+#lesson .gui-demo-v389 label{display:block;margin:4px 0;font-size:16px}
+#lesson .gui-demo-v389 select,
+#lesson .gui-demo-v389 input[type="text"]{max-width:100%;font-size:16px;padding:6px}
+#lesson .gui-compare-v389{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .gui-compare-v389>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center}
+#lesson .gui-compare-v389 b{display:block;font-size:16px;color:#17364b}
+#lesson .gui-compare-v389 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+
+/* 08-02 usability */
+#lesson .usability-3-v389{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .usability-3-v389>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .usability-3-v389 b{display:block;font-size:18px;color:#17364b}
+#lesson .usability-3-v389 span{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .eval-methods-v389{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#lesson .eval-methods-v389>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .eval-methods-v389 b{display:block;font-size:17px;color:#17364b}
+#lesson .eval-methods-v389 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .input-checks-v389{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .input-checks-v389>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .input-checks-v389 b{display:block;font-size:17px;color:#17364b}
+#lesson .input-checks-v389 span{display:block;margin-top:4px;font-size:15px;line-height:1.4;color:#425b68}
+#lesson .assist-functions-v389{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .assist-functions-v389>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .assist-functions-v389 b{display:block;font-size:17px;color:#17364b}
+#lesson .assist-functions-v389 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .design-scope-v389{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .design-scope-v389>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .design-scope-v389 b{display:block;font-size:17px;color:#17364b}
+#lesson .design-scope-v389 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+
+/* 08-03 multimedia */
+#lesson .font-compare-v389{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .font-panel-v389{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .font-panel-v389>b{display:block;font-size:18px;color:#17364b}
+#lesson .bitmap-a-v389{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;width:126px;margin:12px auto;padding:7px;background:#e8f0f3;border-radius:8px}
+#lesson .bitmap-a-v389 i{aspect-ratio:1;background:#fff}
+#lesson .bitmap-a-v389 i.on-v389{background:#5c7480}
+#lesson .outline-a-v389{font-size:94px;line-height:1;text-align:center;font-weight:900;color:#17364b}
+#lesson .pcm-flow-v389{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .pcm-flow-v389 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .pcm-flow-v389 i{font-style:normal;color:#b45309}
+#lesson .pcm-calc-v389{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .pcm-calc-v389 code{display:block;margin-top:7px;font-size:18px;font-weight:850;line-height:1.6}
+#lesson .image-tech-v389{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .image-tech-v389>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .image-tech-v389 b{display:block;font-size:17px;color:#17364b}
+#lesson .image-tech-v389 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .clip-demo-v389{position:relative;height:120px;margin:10px auto;max-width:240px;border:2px solid #91aab5;background:#fff;overflow:hidden}
+#lesson .clip-demo-v389 .clip-shape-v389{position:absolute;left:34px;top:18px;width:150px;height:100px;border-radius:50%;background:#f7c6a3}
+#lesson .clip-demo-v389 .clip-window-v389{position:absolute;left:76px;top:34px;width:80px;height:60px;border:3px solid #f59e0b;background:transparent}
+#lesson .aa-demo-v389{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#lesson .aa-demo-v389>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center}
+#lesson .aa-demo-v389 .jagged-v389{font-size:62px;font-weight:900;image-rendering:pixelated;transform:scaleX(.9)}
+#lesson .aa-demo-v389 .smooth-v389{font-size:62px;font-weight:900;color:#17364b}
+#lesson .texture-cube-v389{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0}
+#lesson .texture-cube-v389 span{display:grid;place-items:center;width:86px;height:86px;border:2px solid #91aab5;background:#fff;font-size:16px;font-weight:800}
+#lesson .texture-cube-v389 .textured-v389{background:repeating-linear-gradient(45deg,#d8e4e9 0 8px,#a9bdc6 8px 16px)}
+#lesson .video-codec-v389{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .video-codec-v389 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:760px){
+  #lesson .gui-parts-v389,
+  #lesson .gui-compare-v389,
+  #lesson .input-checks-v389{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .usability-3-v389,
+  #lesson .assist-functions-v389,
+  #lesson .design-scope-v389,
+  #lesson .image-tech-v389{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  #lesson .ch8-grid-v389,
+  #lesson .eval-methods-v389,
+  #lesson .font-compare-v389{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch8-visual-v389{padding:13px}
+  #lesson .gui-parts-v389,
+  #lesson .gui-compare-v389,
+  #lesson .input-checks-v389{grid-template-columns:1fr}
+  #lesson .aa-demo-v389{grid-template-columns:1fr}
+}
