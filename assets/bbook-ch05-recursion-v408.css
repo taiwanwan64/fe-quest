@@ -1,0 +1,62 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 5 recursion — v408
+   Public solving guide only; protected question bodies remain in Supabase. */
+
+#bSelect .b-recursion-v408{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .b-recursion-v408>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:18px;
+  line-height:1.5;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .b-recursion-v408>summary::-webkit-details-marker{display:none}
+#bSelect .b-recursion-v408>summary::after{content:"＋";float:right}
+#bSelect .b-recursion-v408[open]>summary::after{content:"−"}
+#bSelect .b-recursion-body-v408{padding:0 16px 16px}
+#bSelect .b-recursion-body-v408 p,
+#bSelect .b-recursion-body-v408 li{font-size:18px;line-height:1.7}
+#bSelect .b-recursion-section-v408{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-recursion-section-v408>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-recursion-grid-v408{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-recursion-card-v408{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-recursion-card-v408 b{display:block;font-size:18px;line-height:1.45;color:#17364b}
+#bSelect .b-recursion-card-v408 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-recursion-code-v408{margin:10px 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f1f5f9;border-radius:10px;padding:11px 13px;font-size:17px;line-height:1.65;white-space:pre-wrap}
+#bSelect .b-recursion-flow-v408{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0}
+#bSelect .b-recursion-flow-v408 span{padding:9px 11px;border:1px solid #c9d8de;border-radius:9px;background:#fbfdfe;font-size:17px;font-weight:800}
+#bSelect .b-recursion-flow-v408 i{font-style:normal;color:#b45309;font-size:18px}
+#bSelect .b-recursion-note-v408{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-recursion-alert-v408{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-recursion-good-v408{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-recursion-stack-v408{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+#bSelect .b-recursion-frame-v408{padding:11px;border:1px solid #c9d8de;border-radius:10px;background:#fff}
+#bSelect .b-recursion-frame-v408 b{display:block;font-size:17px;color:#17364b}
+#bSelect .b-recursion-frame-v408 small{display:block;margin-top:4px;font-size:16px;line-height:1.5;color:#425b68}
+#bSelect .b-recursion-return-v408{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:12px 0}
+#bSelect .b-recursion-return-v408>div{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe;font-size:17px;line-height:1.6}
+#bSelect .b-recursion-return-v408>i{font-style:normal;font-size:22px;color:#b45309}
+#bSelect .b-recursion-table-v408{overflow-x:auto;margin-top:10px}
+#bSelect .b-recursion-table-v408 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
+#bSelect .b-recursion-table-v408 th,
+#bSelect .b-recursion-table-v408 td{border:1px solid #c9d8de;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}
+#bSelect .b-recursion-table-v408 th{background:#eef5f8;color:#17364b}
+@media(max-width:760px){
+  #bSelect .b-recursion-grid-v408{grid-template-columns:1fr}
+  #bSelect .b-recursion-stack-v408{grid-template-columns:1fr}
+  #bSelect .b-recursion-return-v408{grid-template-columns:1fr}
+  #bSelect .b-recursion-return-v408>i{transform:rotate(90deg);justify-self:center}
+}
+@media(max-width:480px){
+  #bSelect .b-recursion-v408>summary{padding:13px 14px;font-size:18px}
+  #bSelect .b-recursion-body-v408{padding:0 14px 14px}
+  #bSelect .b-recursion-section-v408{padding:13px}
+  #bSelect .b-recursion-section-v408>h3{font-size:19px}
+}
