@@ -1,0 +1,118 @@
+/* FE QUEST Chapter 14 depth visuals — v395
+   Reference-driven diagrams for project management.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch14-depth-v395{margin-top:22px}
+#lesson .ch14-depth-v395 p,
+#lesson .ch14-depth-v395 li{font-size:18px;line-height:1.72}
+#lesson .ch14-depth-v395 small,
+#lesson .ch14-depth-v395 .ch14-helper-v395{font-size:16px;line-height:1.5}
+#lesson .ch14-visual-v395{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch14-visual-v395>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch14-note-v395{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch14-grid2-v395{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch14-grid3-v395{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch14-grid4-v395{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .ch14-card-v395{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch14-card-v395>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch14-card-v395>span,
+#lesson .ch14-card-v395>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch14-table-v395{overflow-x:auto}
+#lesson .ch14-table-v395 table{width:100%;min-width:720px;border-collapse:collapse;background:#fff}
+#lesson .ch14-table-v395 th,
+#lesson .ch14-table-v395 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch14-table-v395 th{background:#eef5f8;color:#17364b}
+#lesson .ch14-flow-v395{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .ch14-flow-v395 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch14-flow-v395 i{font-style:normal;color:#b45309}
+
+/* 14-01 */
+#lesson .project-traits-v395{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .project-traits-v395>div{padding:14px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .project-traits-v395 b{display:block;font-size:19px;color:#17364b}
+#lesson .knowledge10-v395{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .knowledge10-v395 span{padding:10px 7px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center;font-size:15px;font-weight:800}
+
+/* 14-02 */
+#lesson .wbs-tree-v395{display:grid;gap:9px}
+#lesson .wbs-level-v395{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .wbs-level-v395:first-child{grid-template-columns:1fr}
+#lesson .wbs-level-v395:nth-child(2){grid-template-columns:repeat(2,minmax(0,1fr))}
+#lesson .wbs-node-v395{padding:10px;border:1px solid #c7d8df;border-radius:10px;background:#fff;text-align:center;font-size:16px;font-weight:800}
+#lesson .work-package-v395{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+#lesson .work-package-v395 span{padding:10px 13px;border-radius:10px;border:1px solid #b9ccd5;background:#fff;font-size:16px;font-weight:800}
+
+/* 14-03 */
+#lesson .formula-v395{padding:14px;border:1px solid #c7d8df;border-radius:12px;background:#fff;text-align:center}
+#lesson .formula-v395 strong{display:block;font-size:21px;color:#17364b}
+#lesson .formula-v395 span{display:block;margin-top:6px;font-size:16px;line-height:1.5}
+#lesson .allocation-v395{display:flex;align-items:stretch;gap:0;margin-top:12px;border-radius:11px;overflow:hidden;border:1px solid #c7d8df}
+#lesson .allocation-v395>div{min-width:0;padding:11px 8px;text-align:center;background:#fff;font-size:15px;line-height:1.45}
+#lesson .allocation-v395>div+div{border-left:1px solid #c7d8df}
+#lesson .allocation-v395 b{display:block;font-size:16px;color:#17364b}
+
+/* 14-04 */
+#lesson .trend-v395{position:relative;height:220px;margin:10px 0 4px;border-left:2px solid #64748b;border-bottom:2px solid #64748b;background:linear-gradient(to top,rgba(226,232,240,.45) 1px,transparent 1px);background-size:100% 25%}
+#lesson .trend-v395 .axis-y{position:absolute;left:5px;top:4px;font-size:14px;font-weight:800}
+#lesson .trend-v395 .axis-x{position:absolute;right:4px;bottom:5px;font-size:14px;font-weight:800}
+#lesson .trend-v395 .plan{position:absolute;left:8%;bottom:12%;width:82%;height:64%;border-top:4px dashed #64748b;transform:skewY(-16deg);transform-origin:left bottom}
+#lesson .trend-v395 .actual{position:absolute;left:8%;bottom:10%;width:62%;height:48%;border-top:4px solid #111827;transform:skewY(-11deg);transform-origin:left bottom}
+#lesson .trend-legend-v395{display:flex;gap:14px;flex-wrap:wrap;font-size:16px}
+#lesson .trend-legend-v395 b{font-weight:800}
+#lesson .arrow-symbols-v395{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .arrow-symbol-v395{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff;text-align:center}
+#lesson .arrow-symbol-v395 .glyph{font-size:30px;line-height:1;color:#8a4b13}
+#lesson .precedence-v395{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#lesson .precedence-v395>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .precedence-v395 b{font-size:18px;color:#17364b}
+#lesson .route-v395{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+#lesson .route-v395 span{padding:10px 12px;border:1px solid #c7d8df;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .route-v395 i{font-style:normal;color:#b45309}
+#lesson .shorten-v395{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .shorten-v395>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+/* 14-05 */
+#lesson .estimate-methods-v395{overflow-x:auto}
+#lesson .estimate-methods-v395 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
+#lesson .estimate-methods-v395 th,
+#lesson .estimate-methods-v395 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .estimate-methods-v395 th{background:#eef5f8;color:#17364b}
+#lesson .fp-types-v395{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .fp-types-v395>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff}
+#lesson .fp-types-v395 b{display:block;font-size:16px;color:#17364b}
+#lesson .fp-calc-v395{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+#lesson .fp-calc-v395 span{padding:9px 11px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .fp-calc-v395 i{font-style:normal;color:#b45309}
+
+/* 14-06 */
+#lesson .risk4-v395{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .risk4-v395>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .risk4-v395 b{display:block;font-size:18px;color:#17364b}
+#lesson .risk4-v395 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+
+@media(max-width:900px){
+  #lesson .knowledge10-v395{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .fp-types-v395{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:820px){
+  #lesson .risk4-v395,
+  #lesson .ch14-grid4-v395{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  #lesson .project-traits-v395,
+  #lesson .ch14-grid2-v395,
+  #lesson .ch14-grid3-v395,
+  #lesson .precedence-v395,
+  #lesson .shorten-v395{grid-template-columns:1fr}
+  #lesson .wbs-level-v395,
+  #lesson .wbs-level-v395:nth-child(2){grid-template-columns:1fr}
+  #lesson .allocation-v395{display:grid;grid-template-columns:1fr}
+  #lesson .allocation-v395>div+div{border-left:0;border-top:1px solid #c7d8df}
+}
+@media(max-width:480px){
+  #lesson .ch14-visual-v395{padding:13px}
+  #lesson .knowledge10-v395,
+  #lesson .fp-types-v395,
+  #lesson .risk4-v395,
+  #lesson .ch14-grid4-v395{grid-template-columns:1fr}
+}
