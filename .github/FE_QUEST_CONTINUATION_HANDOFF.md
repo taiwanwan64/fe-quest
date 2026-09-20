@@ -28,7 +28,7 @@
 - open PR: 0
 - active work PR: なし
 - 最新本番 deploy: GitHub Actions run `35484864653`、success
-- PWA cache contract: `fe-quest-v377-65`
+- PWA cache contract: `fe-quest-v377-66`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -62,6 +62,18 @@
 3. `fequest_beta_access_private` の `open-preview-v1` を disable する。
 4. PWA cache contract と CI の期待値を同時に更新する。
 5. PR → CI success → merge → Pages deploy success を確認する。
+
+## 4. bit / byte 日本語表記統一
+
+`.github/reference-audits/BIT_BYTE_JAPANESE_TERMINOLOGY_AUDIT_2026-09-20.md`
+
+- lesson bank 10件のユーザー向け `bit` / `byte` を「ビット」/「バイト」へ統一
+- protected lesson content version: `v376-lessons-bit-byte-jp-v385-20260920`
+- payload SHA-256: `92d0f4ea676bac6f50b06e5dc8f9335b5460144c676940eb8cfa7f77ef7a2c66`
+- lesson import manifest source commit: `b5322ce41f5777a7e121cd19ddd808d2d0274a46`
+- `assets/first-impression-ux-v377.js` v9 で動的表示にも日本語化フォールバックを追加
+- `BIT先生` はブランド名として変換対象外
+- PR #126 の publication / v35 CI success、Pages deploy run `35485465052` success
 
 ## 4. 直前まで完了した教材品質改善
 
