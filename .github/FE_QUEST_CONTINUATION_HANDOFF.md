@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `abb15f791212b99e6b1c51822d569b938f135dc7`
+- main: `d763db420f9237f92c39fe44560e6f2ffbba54f2`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35510969478`、success
-- PWA cache contract: `fe-quest-v377-86`
+- 最新本番 deploy: GitHub Actions run `35515375061`、success
+- PWA cache contract: `fe-quest-v377-87`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -53,6 +53,7 @@
 - 第22章科目B合格戦略 PR: #162、merged
 - 科目B専用参考書 第1章「文法」 PR: #164、merged
 - 科目B専用参考書 第2章「一次元配列」 PR: #166、merged
+- 科目B専用参考書 第3章「二次元配列」 PR: #168、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -485,6 +486,25 @@
 - PWA cache contract: `fe-quest-v377-86`
 - 二次元配列の0始まり表記は第3章監査へ送る
 
+
+### 科目B専用参考書 第1部 第3章「二次元配列」
+
+`.github/reference-audits/BBOOK_CH03_MATRIX_AUDIT_2026-09-20.md`
+
+- 第3章を章扉から確認問題・練習問題3-1〜3-3・解説までページ画像で確認済み
+- 二次元配列の行 / 列、二重ループ、上下左右の隣接、配列の配列（ジャグ配列）を補強
+- 終了条件→継続条件、関係演算子の否定、科目Bでのド・モルガンの使い方を補強
+- protected question bankの二次元配列14問を要素番号1始まりへ統一
+- 学習者向け二次元配列アクセスを `m[r, c]` 形式へ統一し、`m[r][c]` 型表記を解消
+- `matrixFocus` は画面描画用の内部座標なので0始まりを維持
+- active question totalは1173のまま
+- protected question content version: `v376-bbook-ch03-matrix-v406-20260920`
+- question import manifest source commit: `d763db420f9237f92c39fe44560e6f2ffbba54f2`
+- payload SHA-256: `98917513bee5fcbcb8a98171a575829a321def702418251c3f0714ca0f769b83`
+- 専用CSS: `assets/bbook-ch03-matrix-v406.css`
+- PR #168 のCI（publication / v35）success、Pages deploy run `35515375061` success
+- PWA cache contract: `fe-quest-v377-87`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -505,11 +525,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第3章「二次元配列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第4章「ありえない選択肢」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第3章「二次元配列」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第4章「ありえない選択肢」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
