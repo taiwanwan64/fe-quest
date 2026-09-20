@@ -155,3 +155,17 @@ protected question bankはこの段階では変更しない。Chapter 2以降の
 
 - PWA cache contractを `fe-quest-v377-85` へ更新する。
 - 新CSSと「文法早見表」の存在をpublication / Pages CIで検証する。
+
+
+## 完了証跡
+
+- protected lesson bank: 変更なし
+- protected question bank: 変更なし
+- lesson / question import manifest: 第1章では追加不要
+- source / merged main commit: `051061c4401c9ba7885f5d507b74466dc4f69675`
+- PR: #164（merged）
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35509773263` — success
+  - Validate IPA 9.2 question v35 public activation: run `35509773262` — success
+- production Pages deploy: run `35509802329` — success
+- PWA cache contract: `fe-quest-v377-85`
