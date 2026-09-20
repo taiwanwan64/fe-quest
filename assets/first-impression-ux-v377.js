@@ -1,13 +1,15 @@
 (()=>{
 'use strict';
 
-const VERSION='v377-first-impression-ux-8';
+const VERSION='v377-first-impression-ux-9';
 const NOTICE_ID='v377BetaInviteNotice';
 const READINESS_UNKNOWN_NOTE='演習結果など、判定に必要なデータがそろうと自動で算出されます。';
 const INVALID_PERCENT_RE=/(?:NaN|Infinity|-Infinity)\s*%/;
 const FINITE_PERCENT_RE=/^\s*(?:100|\d{1,2})%\s*$/;
 const VENN_CARD_ID='ipa92VennLabCard';
 const VENN_DIALOG_ID='ipa92VennDialog';
+const BIT_BYTE_TEXT_SKIP_SELECTOR='script,style,pre,code,kbd,samp,textarea,input,select,option,[contenteditable="true"],[data-preserve-english]';
+const BIT_BYTE_ATTRS=Object.freeze(['aria-label','title','placeholder','alt']);
 
 let applyScheduled=false;
 let readinessObserver=null;
@@ -205,6 +207,47 @@ function enhanceAccessDialog(){
   }
 
   dialog.dataset.v377Enhanced='1';
+}
+
+
+function normalizeBitByteText(value){
+  return String(value??'')
+    .replace(/(?<![A-Za-z])([KMGT]?)byte(?![A-Za-z])/g,'$1バイト')
+    .replace(/(?<![A-Za-z])([KMGT]?)Byte(?![A-Za-z])/g,'$1バイト')
+    .replace(/(?<![A-Za-z])([KMGT]?)bit(?![A-Za-z])/g,'$1ビット')
+    .replace(/(?<![A-Za-z])([KMGT]?)Bit(?![A-Za-z])/g,'$1ビット');
+}
+
+function normalizeUserFacingBitByte(root=document.body){
+  if(!root)return 0;
+  let changed=0;
+  const scope=root.nodeType===Node.ELEMENT_NODE||root.nodeType===Node.DOCUMENT_FRAGMENT_NODE?root:root.parentElement;
+  if(!scope)return 0;
+
+  const walker=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  for(const node of nodes){
+    const parent=node.parentElement;
+    if(!parent||parent.closest(BIT_BYTE_TEXT_SKIP_SELECTOR))continue;
+    const before=node.nodeValue||'';
+    const after=normalizeBitByteText(before);
+    if(after!==before){node.nodeValue=after;changed++;}
+  }
+
+  const elements=[];
+  if(scope.nodeType===Node.ELEMENT_NODE)elements.push(scope);
+  if(typeof scope.querySelectorAll==='function')elements.push(...scope.querySelectorAll('*'));
+  for(const element of elements){
+    if(element.matches?.(BIT_BYTE_TEXT_SKIP_SELECTOR))continue;
+    for(const attr of BIT_BYTE_ATTRS){
+      if(!element.hasAttribute?.(attr))continue;
+      const before=element.getAttribute(attr)||'';
+      const after=normalizeBitByteText(before);
+      if(after!==before){element.setAttribute(attr,after);changed++;}
+    }
+  }
+  return changed;
 }
 
 function hasInvalidPercent(value){
@@ -598,6 +641,7 @@ function ensureScopedReadinessObserver(){
 function apply(){
   enhanceDiagnosticIntro();
   enhanceAccessDialog();
+  normalizeUserFacingBitByte(document.body);
   enhanceReadiness();
   relocateStudyBlockBar();
   enhanceSyllabusBadge();
@@ -625,6 +669,8 @@ globalThis.FEQUEST_FIRST_IMPRESSION_UX_V377=Object.freeze({
   blankShellRecovery:'guarded-v2',
   studyBlockBarMode:'inline-active-screen',
   ipa92VennLab:'touch-v1',
+  bitByteTerminology:'ja-text-v1',
+  normalizeBitByte:normalizeUserFacingBitByte,
   refresh:scheduleApply,
   recoverNow:()=>checkBlankShell(true),
   routeHealthy:routeIsHealthy,
