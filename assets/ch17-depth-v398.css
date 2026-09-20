@@ -1,0 +1,87 @@
+/* FE QUEST Chapter 17 depth visuals — v398
+   Reference-driven diagrams for system planning.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch17-depth-v398{margin-top:22px}
+#lesson .ch17-depth-v398 p,
+#lesson .ch17-depth-v398 li{font-size:18px;line-height:1.72}
+#lesson .ch17-depth-v398 small,
+#lesson .ch17-depth-v398 .ch17-helper-v398{font-size:16px;line-height:1.5}
+#lesson .ch17-visual-v398{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch17-visual-v398>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch17-note-v398{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch17-card-v398{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch17-card-v398>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch17-card-v398>span,
+#lesson .ch17-card-v398>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch17-grid2-v398{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch17-grid3-v398{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch17-grid4-v398{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .ch17-table-v398{overflow-x:auto}
+#lesson .ch17-table-v398 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
+#lesson .ch17-table-v398 th,
+#lesson .ch17-table-v398 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch17-table-v398 th{background:#eef5f8;color:#17364b}
+#lesson .ch17-flow-v398{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .ch17-flow-v398 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch17-flow-v398 i{font-style:normal;color:#b45309}
+
+/* 17-01 */
+#lesson .actors-v398{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:center}
+#lesson .actors-v398 .hub-v398{grid-column:2;padding:14px;border:2px solid #8aa9b8;border-radius:14px;background:#fff;text-align:center;font-weight:800}
+#lesson .actors-v398 .actor-v398{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff;text-align:center}
+#lesson .actors-v398 .top-v398{grid-column:2}
+#lesson .actors-v398 .left-v398{grid-column:1}
+#lesson .actors-v398 .right-v398{grid-column:3}
+#lesson .plan2-v398{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .plan2-v398>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .formula-v398{padding:16px;border:1px solid #c7d8df;border-radius:12px;background:#fff;text-align:center}
+#lesson .formula-v398 strong{font-size:22px;color:#17364b}
+#lesson .portfolio-v398{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #b9ccd5;border-radius:12px;overflow:hidden;background:#fff}
+#lesson .portfolio-v398>div{padding:14px;min-height:95px}
+#lesson .portfolio-v398>div:nth-child(odd){border-right:1px solid #c9d8de}
+#lesson .portfolio-v398>div:nth-child(-n+2){border-bottom:1px solid #c9d8de}
+#lesson .portfolio-v398 b{display:block;font-size:17px;color:#17364b}
+#lesson .privacy-flow-v398{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+#lesson .privacy-flow-v398 span{padding:9px 11px;border:1px solid #b9ccd5;border-radius:9px;background:#fff;font-size:15px;font-weight:800}
+#lesson .privacy-flow-v398 .privacy-v398{border:2px solid #f59e0b;background:#fff7ed}
+#lesson .req-tree-v398{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .req-tree-v398>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .req-tree-v398 b{display:block;font-size:18px;color:#17364b}
+
+/* 17-02 */
+#lesson .procure-v398{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+#lesson .procure-v398 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .procure-v398 i{font-style:normal;color:#b45309}
+#lesson .rfi-purpose-v398{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .rfi-purpose-v398>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .docs-v398{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .docs-v398>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .green-v398{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .green-v398>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .green-v398 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:760px){
+  #lesson .actors-v398{grid-template-columns:1fr}
+  #lesson .actors-v398 .top-v398,
+  #lesson .actors-v398 .left-v398,
+  #lesson .actors-v398 .hub-v398,
+  #lesson .actors-v398 .right-v398{grid-column:1}
+  #lesson .plan2-v398,
+  #lesson .rfi-purpose-v398,
+  #lesson .docs-v398,
+  #lesson .ch17-grid2-v398,
+  #lesson .ch17-grid3-v398,
+  #lesson .ch17-grid4-v398{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  #lesson .req-tree-v398,
+  #lesson .green-v398{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch17-visual-v398{padding:13px}
+  #lesson .portfolio-v398{grid-template-columns:1fr}
+  #lesson .portfolio-v398>div:nth-child(odd){border-right:0}
+  #lesson .portfolio-v398>div{border-bottom:1px solid #c9d8de}
+  #lesson .portfolio-v398>div:last-child{border-bottom:0}
+}
