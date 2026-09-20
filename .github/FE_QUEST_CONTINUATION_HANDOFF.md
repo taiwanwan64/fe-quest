@@ -24,16 +24,17 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `64fdd47eb91a6dbdebdcfd8e5ebce977b51c9ebc`
+- main: `26e2dec3b0d21be4fc5f8ca07955f5b7e09edeaf`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35486361519`、success
-- PWA cache contract: `fe-quest-v377-67`
+- 最新本番 deploy: GitHub Actions run `35486914132`、success
+- PWA cache contract: `fe-quest-v377-68`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
 - 第4章詳細図解 PR: #122、merged
 - 第5章詳細図解 PR: #128、merged
+- 第6章詳細図解 PR: #130、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -137,6 +138,21 @@
 - 第5章専用CSS: `assets/ch5-depth-v386.css`
 - PR #128 のCI（publication / v35）success、Pages deploy run `35486361519` success
 
+### 第6章
+
+`.github/reference-audits/CH06_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_06_01`〜`core_06_05` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- OSの4機能、ジョブ管理、スプーリング、バッファ、タスク3状態、ディスパッチ、スケジューリング方式を補強
+- ファイルツリー、ルート/カレント、絶対/相対パス、レプリケーション/バックアップ/アーカイブを図解
+- コンパイラ5段階、インタプリタ、静的/動的テスト、Eclipse、OSS/商用/パブリックドメイン、コピーレフトを補強
+- `core_06_06`（ミドルウェア）は参考資料外の既存追加範囲として保持
+- protected lesson content version: `v376-lessons-ch6-visual-depth-v387-20260920`
+- lesson import manifest source commit: `26e2dec3b0d21be4fc5f8ca07955f5b7e09edeaf`
+- payload SHA-256: `3f3c836555def967df763bdea399aa3b8c69a4bbbc1083d957fb99a2904a1efa`
+- 第6章専用CSS: `assets/ch6-depth-v387.css`
+- PR #130 のCI（publication / v35）success、Pages deploy run `35486914132` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -157,11 +173,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第6章へ進み、第1章〜第5章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第7章へ進み、第1章〜第6章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第6章をページ画像も含めて確認
+1. 参考書の第7章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
