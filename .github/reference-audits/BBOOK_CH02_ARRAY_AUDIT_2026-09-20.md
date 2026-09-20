@@ -115,3 +115,25 @@ protected question bankでは上記25問を1始まりへ統一し、stem / optio
 - 専用CSS: `assets/bbook-ch02-array-v405.css`
 - PWA cache contract: `fe-quest-v377-86`
 - publication / Pages CIでCSS、1始まりのガイド、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question content version: `v376-bbook-ch02-array-v405-20260920`
+- 対象問題数: 25
+  - `b_exercise`: 14
+  - `b_exam_algo`: 5
+  - `b_compound`: 6
+- active protected question total: 1173（件数増減なし）
+- option数不整合: 0
+- answer_index範囲外: 0
+- `b_exercise` ordinal 2 の traceTail 欠落: 0
+- 対象25問の一次元配列コードに `data[0]` / `sales[0]` / `prefix[0]` / `out[0]` / 0始まりループの残存: 0
+- question payload SHA-256: `23bc8543a66fe360e706d7af94a04e4895a7ebdce2f47df7e4d1db8568e6b498`
+- question import manifest source commit: `abb15f791212b99e6b1c51822d569b938f135dc7`
+- PR: #166（merged）
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35510933708` — success
+  - Validate IPA 9.2 question v35 public activation: run `35510933696` — success
+- production Pages deploy: run `35510969478` — success
+- PWA cache contract: `fe-quest-v377-86`
