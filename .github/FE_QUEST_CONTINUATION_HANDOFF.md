@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `075e9323dd88a71d0a93bb3d829c7ded4d9e665e`
+- main: `0c45f3beac1f83477c46a5fca57047826824edf7`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35505516967`、success
-- PWA cache contract: `fe-quest-v377-82`
+- 最新本番 deploy: GitHub Actions run `35507296596`、success
+- PWA cache contract: `fe-quest-v377-83`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -49,6 +49,7 @@
 - 第18章詳細図解 PR: #154、merged
 - 第19章詳細図解 PR: #156、merged
 - 第20章詳細図解 PR: #158、merged
+- 第21章詳細図解 PR: #160、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -407,6 +408,25 @@
 - 第20章専用CSS: `assets/ch20-depth-v401.css`
 - PR #158 のCI（publication / v35）success、Pages deploy run `35505516967` success
 
+
+### 第21章
+
+`.github/reference-audits/CH21_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_21_01`〜`core_21_04` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 知的財産権3分類、ソース / オブジェクトプログラム、プログラム言語 / アルゴリズム / プロトコルの著作権上の区別を補強
+- 産業財産権4分類、営業秘密の秘密管理性 / 有用性 / 非公知性を補強
+- サイバーセキュリティ基本法の対象、刑法2類型、不正アクセス禁止法の4行為を補強
+- 個人情報の具体例、オプトイン / オプトアウトを補強
+- 雇用 / 労働者派遣 / 請負の比較、派遣の指揮命令関係、請負の完成責任 / 契約不適合責任を補強
+- 参考資料の試験向け整理として契約形態別のプログラム著作権帰属先を補強
+- `core_21_05` / `core_21_06` と既存IPA追加教材は削除せず保持
+- protected lesson content version: `v376-lessons-ch21-visual-depth-v402-20260920`
+- lesson import manifest source commit: `0c45f3beac1f83477c46a5fca57047826824edf7`
+- payload SHA-256: `0e9588d1f2f687722db39407006f2982d07159b0029ade0931c80b3f94d290c5`
+- 第21章専用CSS: `assets/ch21-depth-v402.css`
+- PR #160 のCI（publication / v35）success、Pages deploy run `35507296596` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -427,11 +447,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第21章「法務」へ進み、第1章〜第20章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第22章「【科目B】の合格戦略」へ進み、科目Bの既存教材・問題設計と照合して監査を始める。**
 
 手順:
 
-1. 参考書の第21章をページ画像も含めて確認
+1. 参考書の第22章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
