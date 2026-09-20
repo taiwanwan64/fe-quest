@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-75';
+const CACHE_NAME = 'fe-quest-v377-76';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./assets/ch11-depth-v392.css",
   "./assets/ch12-depth-v393.css",
   "./assets/ch13-depth-v394.css",
+  "./assets/ch14-depth-v395.css",
   "./assets/protected-content-provider-v376.js",
   "./assets/protected-content-provider-v376-v7.js",
   "./assets/protected-content-provider-v376-v8.js",
