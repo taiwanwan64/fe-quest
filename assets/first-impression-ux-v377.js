@@ -212,8 +212,10 @@ function enhanceAccessDialog(){
 
 function normalizeBitByteText(value){
   return String(value??'')
-    .replace(/(?<![A-Za-z])([KMGT]?)byte(?![A-Za-z])/gi,'$1バイト')
-    .replace(/(?<![A-Za-z])([KMGT]?)bit(?![A-Za-z])/gi,'$1ビット');
+    .replace(/(?<![A-Za-z])([KMGT]?)byte(?![A-Za-z])/g,'$1バイト')
+    .replace(/(?<![A-Za-z])([KMGT]?)Byte(?![A-Za-z])/g,'$1バイト')
+    .replace(/(?<![A-Za-z])([KMGT]?)bit(?![A-Za-z])/g,'$1ビット')
+    .replace(/(?<![A-Za-z])([KMGT]?)Bit(?![A-Za-z])/g,'$1ビット');
 }
 
 function normalizeUserFacingBitByte(root=document.body){
