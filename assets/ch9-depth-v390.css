@@ -1,0 +1,116 @@
+/* FE QUEST Chapter 9 depth visuals — v390
+   Reference-driven diagrams for database models, keys, normalization, SQL, recovery and locking.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch9-depth-v390{margin-top:22px}
+#lesson .ch9-depth-v390 p,
+#lesson .ch9-depth-v390 li{font-size:18px;line-height:1.72}
+#lesson .ch9-depth-v390 small,
+#lesson .ch9-depth-v390 .ch9-helper-v390{font-size:16px;line-height:1.5}
+#lesson .ch9-depth-v390 code{font-size:17px;white-space:normal}
+#lesson .ch9-visual-v390{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch9-visual-v390>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch9-grid-v390{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch9-card-v390{min-width:0;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#lesson .ch9-card-v390>b{display:block;margin-bottom:6px;font-size:18px;color:#17364b}
+#lesson .ch9-card-v390>span,
+#lesson .ch9-card-v390>p{font-size:16px;line-height:1.55;color:#425b68}
+#lesson .ch9-note-v390{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+
+/* 09-01 */
+#lesson .db-flow-v390{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+#lesson .db-flow-v390 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .db-flow-v390 i{font-style:normal;color:#b45309}
+#lesson .data-models-v390{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .data-models-v390>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .data-models-v390 b{display:block;font-size:18px;color:#17364b}
+#lesson .data-models-v390 span{display:block;margin-top:5px;font-size:16px;line-height:1.45;color:#425b68}
+
+/* 09-02 */
+#lesson .rel-table-v390{overflow-x:auto}
+#lesson .rel-table-v390 table{width:100%;min-width:560px;border-collapse:collapse;background:#fff}
+#lesson .rel-table-v390 th,
+#lesson .rel-table-v390 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .rel-table-v390 th{background:#eef5f8;color:#17364b}
+#lesson .key-rules-v390{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .key-rules-v390>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .key-rules-v390 b{display:block;font-size:18px;color:#17364b}
+#lesson .key-rules-v390 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .fk-flow-v390{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .fk-flow-v390 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .fk-flow-v390 i{font-style:normal;color:#b45309}
+
+/* 09-03 */
+#lesson .er-row-v390{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .er-entity-v390{padding:11px 14px;border:2px solid #91aab5;border-radius:10px;background:#fff;font-size:17px;font-weight:900}
+#lesson .er-rel-v390{padding:9px 12px;border:1px solid #f59e0b;border-radius:999px;background:#fff7ed;font-size:16px;font-weight:850}
+#lesson .cardinality-v390{font-size:17px;font-weight:850;color:#425b68}
+#lesson .norm-steps-v390{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .norm-steps-v390>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .norm-steps-v390 b{display:block;font-size:17px;color:#17364b}
+#lesson .norm-steps-v390 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+
+/* 09-04 / 09-07 */
+#lesson .dbms-functions-v390{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .dbms-functions-v390>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .dbms-functions-v390 b{display:block;font-size:18px;color:#17364b}
+#lesson .dbms-functions-v390 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .index-demo-v390{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;align-items:start}
+#lesson .index-box-v390,
+#lesson .data-box-v390{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .index-row-v390{display:grid;grid-template-columns:1fr 60px;gap:6px;margin:5px 0}
+#lesson .index-row-v390 span{padding:7px 8px;border:1px solid #c3d2d8;border-radius:8px;background:#f8fbfc;font-size:15px}
+#lesson .stored-flow-v390{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .stored-flow-v390 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .stored-flow-v390 i{font-style:normal;color:#b45309}
+#lesson .sql-pipeline-v390{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0}
+#lesson .sql-pipeline-v390 span{padding:9px 11px;border:1px solid #c3d2d8;border-radius:9px;background:#fff;font-size:16px;font-weight:800}
+#lesson .sql-pipeline-v390 i{font-style:normal;color:#b45309}
+#lesson .view-compare-v390{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .view-compare-v390>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .view-compare-v390 b{display:block;font-size:18px;color:#17364b}
+
+/* 09-05 */
+#lesson .acid-grid-v390{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .acid-grid-v390>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .acid-grid-v390 b{display:block;font-size:17px;color:#17364b}
+#lesson .acid-grid-v390 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+#lesson .log-timeline-v390{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+#lesson .log-timeline-v390>div{padding:10px;border:1px solid #c3d2d8;border-radius:10px;background:#fff;text-align:center}
+#lesson .log-timeline-v390 b{display:block;font-size:16px;color:#17364b}
+#lesson .recovery-v390{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .recovery-v390>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .recovery-v390 b{display:block;font-size:18px;color:#17364b}
+
+/* 09-06 */
+#lesson .lock-matrix-v390{overflow-x:auto}
+#lesson .lock-matrix-v390 table{width:100%;min-width:460px;border-collapse:collapse;background:#fff}
+#lesson .lock-matrix-v390 th,
+#lesson .lock-matrix-v390 td{border:1px solid #c9d8de;padding:10px;font-size:16px;text-align:center}
+#lesson .lock-matrix-v390 th{background:#eef5f8;color:#17364b}
+#lesson .lock-ok-v390{font-weight:900;color:#16794a}
+#lesson .lock-ng-v390{font-weight:900;color:#b53b2f}
+#lesson .granularity-v390{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .granularity-v390>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .granularity-v390 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:760px){
+  #lesson .data-models-v390,
+  #lesson .key-rules-v390,
+  #lesson .dbms-functions-v390{grid-template-columns:1fr}
+  #lesson .norm-steps-v390,
+  #lesson .acid-grid-v390{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  #lesson .ch9-grid-v390,
+  #lesson .index-demo-v390,
+  #lesson .view-compare-v390,
+  #lesson .recovery-v390,
+  #lesson .granularity-v390{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch9-visual-v390{padding:13px}
+  #lesson .norm-steps-v390,
+  #lesson .acid-grid-v390,
+  #lesson .log-timeline-v390{grid-template-columns:1fr}
+}
