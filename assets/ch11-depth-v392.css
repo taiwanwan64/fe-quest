@@ -1,0 +1,122 @@
+/* FE QUEST Chapter 11 depth visuals — v392
+   Reference-driven diagrams for information security.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch11-depth-v392{margin-top:22px}
+#lesson .ch11-depth-v392 p,
+#lesson .ch11-depth-v392 li{font-size:18px;line-height:1.72}
+#lesson .ch11-depth-v392 small,
+#lesson .ch11-depth-v392 .ch11-helper-v392{font-size:16px;line-height:1.5}
+#lesson .ch11-depth-v392 code{font-size:17px;white-space:normal}
+#lesson .ch11-visual-v392{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch11-visual-v392>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch11-note-v392{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch11-grid-v392{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch11-grid3-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch11-grid4-v392{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .ch11-card-v392{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch11-card-v392>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch11-card-v392>span,
+#lesson .ch11-card-v392>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .security-flow-v392{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .security-flow-v392 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .security-flow-v392 i{font-style:normal;color:#b45309}
+
+/* 11-01 */
+#lesson .threat-types-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .threat-types-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .threat-types-v392 b{display:block;font-size:18px;color:#17364b}
+#lesson .threat-types-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .fraud-triangle-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:720px;margin:12px auto}
+#lesson .fraud-triangle-v392>div{padding:12px;border:2px solid #f0c28b;border-radius:14px;background:#fffaf3;text-align:center}
+#lesson .fraud-triangle-v392 b{display:block;font-size:18px;color:#8a4b13}
+#lesson .fraud-triangle-v392 span{display:block;margin-top:4px;font-size:16px;line-height:1.4}
+#lesson .attack-list-v392{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#lesson .attack-list-v392>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .attack-list-v392 b{display:block;font-size:17px;color:#17364b}
+#lesson .attack-list-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+
+/* 11-02 / 11-03 */
+#lesson .key-compare-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .key-compare-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .key-compare-v392 b{display:block;font-size:18px;color:#17364b}
+#lesson .key-compare-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .algo-tree-v392{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+#lesson .algo-branch-v392{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .algo-branch-v392>b{display:block;font-size:18px;color:#17364b}
+#lesson .algo-leaves-v392{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+#lesson .algo-leaves-v392 span{padding:8px 10px;border:1px solid #c3d2d8;border-radius:9px;background:#f8fbfc;font-size:16px}
+#lesson .digest-v392{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .digest-v392 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .digest-v392 i{font-style:normal;color:#b45309}
+#lesson .pki-v392{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .pki-v392 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .pki-v392 i{font-style:normal;color:#b45309}
+
+/* 11-04 / 11-05 */
+#lesson .risk-process-v392{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .risk-process-v392>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .risk-process-v392 b{display:block;font-size:17px;color:#17364b}
+#lesson .risk-process-v392 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+#lesson .risk-response-v392{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .risk-response-v392>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .risk-response-v392 b{display:block;font-size:17px;color:#17364b}
+#lesson .risk-response-v392 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+#lesson .bcm-bcp-v392{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .bcm-bcp-v392>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .bcm-bcp-v392 b{display:block;font-size:18px;color:#17364b}
+#lesson .isms-v392{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .isms-v392>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .isms-v392 b{display:block;font-size:18px;color:#17364b}
+
+/* 11-06 */
+#lesson .permission-v392{overflow-x:auto}
+#lesson .permission-v392 table{width:100%;min-width:560px;border-collapse:collapse;background:#fff}
+#lesson .permission-v392 th,
+#lesson .permission-v392 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .permission-v392 th{background:#eef5f8;color:#17364b}
+#lesson .walls-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .walls-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .walls-v392 b{display:block;font-size:18px;color:#17364b}
+#lesson .walls-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .dmz-v392{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .dmz-v392 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .dmz-v392 .zone-v392{background:#fff7ed;border-color:#f59e0b}
+#lesson .detect-methods-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .detect-methods-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .detect-methods-v392 b{display:block;font-size:17px;color:#17364b}
+#lesson .detect-methods-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .mobile-v392{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .mobile-v392>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .mobile-v392 b{display:block;font-size:18px;color:#17364b}
+#lesson .auth-factors-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .auth-factors-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .auth-factors-v392 b{display:block;font-size:17px;color:#17364b}
+#lesson .auth-factors-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+
+@media(max-width:760px){
+  #lesson .ch11-grid4-v392,
+  #lesson .risk-process-v392,
+  #lesson .risk-response-v392{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .threat-types-v392,
+  #lesson .walls-v392,
+  #lesson .detect-methods-v392,
+  #lesson .auth-factors-v392{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  #lesson .ch11-grid-v392,
+  #lesson .attack-list-v392,
+  #lesson .algo-tree-v392,
+  #lesson .bcm-bcp-v392,
+  #lesson .isms-v392,
+  #lesson .mobile-v392{grid-template-columns:1fr}
+  #lesson .key-compare-v392{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch11-visual-v392{padding:13px}
+  #lesson .fraud-triangle-v392,
+  #lesson .ch11-grid3-v392,
+  #lesson .ch11-grid4-v392,
+  #lesson .risk-process-v392,
+  #lesson .risk-response-v392{grid-template-columns:1fr}
+}
