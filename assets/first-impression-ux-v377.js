@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 
-const VERSION='v377-first-impression-ux-7';
+const VERSION='v377-first-impression-ux-8';
 const NOTICE_ID='v377BetaInviteNotice';
 const READINESS_UNKNOWN_NOTE='演習結果など、判定に必要なデータがそろうと自動で算出されます。';
 const INVALID_PERCENT_RE=/(?:NaN|Infinity|-Infinity)\s*%/;
@@ -173,21 +173,8 @@ function scheduleHealthCheck(delay=600){
 function enhanceDiagnosticIntro(){
   const begin=document.getElementById('diagBegin');
   if(!begin)return;
-  const intro=document.getElementById('diagIntro')||begin.parentElement;
-  if(!intro)return;
-
-  let notice=document.getElementById(NOTICE_ID);
-  if(!notice){
-    notice=document.createElement('div');
-    notice.id=NOTICE_ID;
-    notice.className='v377-beta-invite-notice';
-    notice.setAttribute('role','note');
-    notice.innerHTML='<strong>現在は招待制βテスト中です。</strong><br>診断を始める際に、案内された招待コードを1回入力してください。';
-    begin.insertAdjacentElement('beforebegin',notice);
-  }
-
-  const expected=hasInviteCode()?'診断を始める':'招待コードを入力して診断を始める';
-  if(begin.textContent!==expected)begin.textContent=expected;
+  document.getElementById(NOTICE_ID)?.remove();
+  if(begin.textContent!=='診断を始める')begin.textContent='診断を始める';
 }
 
 function enhanceAccessDialog(){
