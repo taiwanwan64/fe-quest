@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `ed05c41018f861073e19f89a522413ea919294bf`
+- main: `6cdede4f96c3eea556f572b527e0006983541711`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35487332243`、success
-- PWA cache contract: `fe-quest-v377-69`
+- 最新本番 deploy: GitHub Actions run `35487730464`、success
+- PWA cache contract: `fe-quest-v377-70`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -36,6 +36,7 @@
 - 第5章詳細図解 PR: #128、merged
 - 第6章詳細図解 PR: #130、merged
 - 第7章詳細図解 PR: #132、merged
+- 第8章詳細図解 PR: #134、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -169,6 +170,22 @@
 - 第7章専用CSS: `assets/ch7-depth-v388.css`
 - PR #132 のCI（publication / v35）success、Pages deploy run `35487332243` success
 
+### 第8章
+
+`.github/reference-audits/CH08_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_08_01`〜`core_08_03` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- ラジオボタン/チェックボックス/プルダウン/コンボボックスを見分け軸付きで補強
+- ユーザビリティの効果・効率・満足、評価4手法、入力チェック、Undo/マクロ/ショートカットを補強
+- ユニバーサルデザイン/バリアフリー/Webアクセシビリティを比較
+- ビットマップ/アウトラインフォント、ラスタライズ、PCM、クリッピング、アンチエイリアシング、テクスチャマッピング、H.264を図解
+- `core_08_04`（AR/VR/CG/ストリーミング）は参考資料外の既存追加範囲として保持
+- protected lesson content version: `v376-lessons-ch8-visual-depth-v389-20260920`
+- lesson import manifest source commit: `6cdede4f96c3eea556f572b527e0006983541711`
+- payload SHA-256: `5352386404ab2b888d0e0a5576b79875572e281258b84ddb9c8b4e81a33ad4e4`
+- 第8章専用CSS: `assets/ch8-depth-v389.css`
+- PR #134 のCI（publication / v35）success、Pages deploy run `35487730464` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -189,11 +206,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第8章へ進み、第1章〜第7章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第9章「データベース」へ進み、第1章〜第8章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第8章をページ画像も含めて確認
+1. 参考書の第9章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
