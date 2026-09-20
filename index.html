@@ -112,6 +112,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css">
 <link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
 <link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
+<link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1473,7 +1474,72 @@ endfor</div>
           </div>
         </details>
 
-        <div class="b-mode-next-card" id="bTraceNextCard">
+
+        <details class="b-eliminate-v407">
+          <summary>ありえない選択肢：全部追う前の3チェック</summary>
+          <div class="b-eliminate-body-v407">
+            <p>空欄補充や選択肢問題では、最初から全候補を最後までトレースしなくても、<strong>プログラムとして成立しにくい候補を先に外せる</strong>ことがあります。先に候補を減らし、残ったものだけを丁寧に追うと時間を使いすぎにくくなります。</p>
+            <div class="b-eliminate-flow-v407">
+              <span>選択肢を見る</span><i>→</i><span>3チェックで候補を絞る</span><i>→</i><span>残りだけトレース</span>
+            </div>
+            <p class="b-eliminate-alert-v407"><strong>候補を外すための補助技法です。</strong>この3チェックだけで正答が1つに決まらない場合は、残った候補を通常どおりトレースします。</p>
+
+            <section class="b-eliminate-section-v407">
+              <h3>1. ループ条件の変数は、終わる方向へ変わるか</h3>
+              <p>まずwhileなどの<strong>継続条件に使われている変数</strong>へ印を付けます。その変数が繰返しの中で変わらない候補は、同じ条件判定を延々と繰り返す可能性があります。</p>
+              <div class="b-eliminate-code-v407">i ← 1
+while i &lt; 5
+    [A]
+endwhile</div>
+              <div class="b-eliminate-grid-v407">
+                <div class="b-eliminate-card-v407"><b>i ← i + 1</b><span>iが1→2→3…と変わり、やがて条件が偽になる。候補として残せる。</span></div>
+                <div class="b-eliminate-card-v407"><b>j ← j + 1</b><span>条件に使うiが変わらない。別の処理がなければループ終了へ近づかない。</span></div>
+              </div>
+              <p class="b-eliminate-note-v407">「どこかで1回変わる」だけでは不十分です。必要な繰返しで条件変数が更新され続けるかを確認します。</p>
+            </section>
+
+            <section class="b-eliminate-section-v407">
+              <h3>2. 同じ変数を、使わずにすぐ上書きしていないか</h3>
+              <p>代入した値を一度も利用しないまま、直後に同じ変数へ別の値を代入すると、最初の値は消えてしまいます。空欄候補としては不自然な処理になりやすいので確認します。</p>
+              <div class="b-eliminate-grid-v407">
+                <div class="b-eliminate-card-v407"><b>不自然な上書き</b><span><code>x ← 10</code> の直後に、xを使わず <code>x ← 20</code>。10を入れた意味がなくなる。</span></div>
+                <div class="b-eliminate-card-v407"><b>途中で使えば別</b><span><code>x ← 10</code> → <code>output(x)</code> → <code>x ← 20</code>。10は出力に使われている。</span></div>
+              </div>
+              <div class="b-eliminate-code-v407">x ← 10
+処理(x)      // ここでxを利用
+x ← 20</div>
+              <p class="b-eliminate-note-v407">出力だけでなく、計算・比較・関数や手続の引数として渡すことも「値を利用した」に含めて考えます。</p>
+            </section>
+
+            <section class="b-eliminate-section-v407">
+              <h3>3. 「代入してから利用」の順序が通っているか</h3>
+              <p>変数の流れを<strong>値を入れる（代入）→使う（利用）</strong>の矢印として見ると、候補の不自然さを見つけやすくなります。</p>
+              <div class="b-eliminate-table-v407">
+                <table>
+                  <thead><tr><th>流れ</th><th>判断の目安</th><th>見るところ</th></tr></thead>
+                  <tbody>
+                    <tr><td>代入 → 利用</td><td>自然</td><td>入れた値が計算・比較・出力などに使われる。</td></tr>
+                    <tr><td>代入 → 終了</td><td>要確認</td><td>入れた値を最後まで一度も使わないなら、代入の意味が薄い。</td></tr>
+                    <tr><td>利用 → 代入</td><td>要確認</td><td>それ以前に値が与えられていなければ、未定義の値を使うことになる。</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-eliminate-good-v407">問題文の表や初期条件、関数の引数などで最初から値が与えられている変数は、「既に代入済み」と考えます。空欄の直前だけを見ず、問題全体の初期状態まで戻って確認します。</p>
+            </section>
+
+            <section class="b-eliminate-section-v407">
+              <h3>4. 本番ではこの順で確認する</h3>
+              <div class="b-eliminate-grid-v407">
+                <div class="b-eliminate-card-v407"><b>① 条件変数</b><span>ループ条件に出る変数が、終了へ向かって更新されるか。</span></div>
+                <div class="b-eliminate-card-v407"><b>② 上書き</b><span>同じ変数へ、途中利用なしで連続代入していないか。</span></div>
+                <div class="b-eliminate-card-v407"><b>③ 代入と利用</b><span>未代入で使っていないか。代入した値を後で使っているか。</span></div>
+                <div class="b-eliminate-card-v407"><b>④ 残りをトレース</b><span>ありえない候補を外した後、残った候補だけを実行順に追う。</span></div>
+              </div>
+              <p class="b-eliminate-note-v407">「全部を計算してから選ぶ」だけでなく、「成立しない候補を先に消す」という視点を持つと、長い科目B問題でも追う量を減らせます。</p>
+            </section>
+          </div>
+        </details>
+\n        <div class="b-mode-next-card" id="bTraceNextCard">
           <div class="b-mode-next-icon">▶</div>
           <div class="b-mode-next-copy"><span>次の未完了</span><b id="bTraceNextTitle">演習を確認中…</b><small id="bTraceNextDesc"></small></div>
           <button id="bTraceNextAction">始める →</button>

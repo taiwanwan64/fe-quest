@@ -76,8 +76,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-87';" sw.js
-          grep -Fq "fe-quest-v377-87" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-88';" sw.js
+          grep -Fq "fe-quest-v377-88" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -179,6 +179,12 @@ jobs:
           grep -Fq '"./assets/bbook-ch03-matrix-v406.css"' sw.js
           grep -Fq '二次元配列＋条件変換：行・列・ド・モルガン' index.html
           grep -Fq '終了条件は、そのままwhileへ入れない' index.html
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">' index.html
+          test -f assets/bbook-ch04-impossible-v407.css
+          grep -Fq '#bSelect .b-eliminate-v407' assets/bbook-ch04-impossible-v407.css
+          grep -Fq '"./assets/bbook-ch04-impossible-v407.css"' sw.js
+          grep -Fq 'ありえない選択肢：全部追う前の3チェック' index.html
+          grep -Fq '同じ変数を、使わずにすぐ上書きしていないか' index.html
           grep -Fq "v377-62: chapter 1 visual depth" assets/app-v377.css
           grep -Fq "#lesson .unit-pipeline-v382" assets/app-v377.css
           grep -Fq "#lesson .hex-map-v382" assets/app-v377.css
@@ -592,6 +598,9 @@ jobs:
           grep -Fq '"./assets/bbook-ch02-array-v405.css"' "$RUNNER_TEMP/site/sw.js"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch03-matrix-v406.css"
           grep -Fq '"./assets/bbook-ch03-matrix-v406.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch04-impossible-v407.css"
+          grep -Fq '"./assets/bbook-ch04-impossible-v407.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'ありえない選択肢：全部追う前の3チェック' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
           test -f "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
           test -f "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
@@ -605,7 +614,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-87';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-88';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
