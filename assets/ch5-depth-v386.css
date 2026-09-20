@@ -1,0 +1,112 @@
+/* FE QUEST Chapter 5 depth visuals — v386
+   Reference-driven diagrams for system structure, performance and reliability.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch5-depth-v386{margin-top:22px}
+#lesson .ch5-depth-v386 p,
+#lesson .ch5-depth-v386 li{font-size:18px;line-height:1.72}
+#lesson .ch5-depth-v386 small,
+#lesson .ch5-depth-v386 .ch5-helper-v386{font-size:16px;line-height:1.5}
+#lesson .ch5-depth-v386 code{font-size:17px;white-space:normal}
+#lesson .ch5-visual-v386{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch5-visual-v386>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch5-grid-v386{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch5-card-v386{min-width:0;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#lesson .ch5-card-v386>b{display:block;margin-bottom:6px;font-size:18px;color:#17364b}
+#lesson .ch5-card-v386>span,
+#lesson .ch5-card-v386>p{font-size:16px;line-height:1.55;color:#425b68}
+#lesson .ch5-note-v386{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+
+/* 05-02: client/server, redundant systems, RAID */
+#lesson .web-flow-v386{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+#lesson .web-flow-v386 span{padding:11px 13px;border:1px solid #b9ccd5;border-radius:11px;background:#fff;font-size:17px;font-weight:850;text-align:center}
+#lesson .web-flow-v386 i{font-style:normal;font-size:19px;color:#b45309}
+#lesson .system-mode-v386{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .system-mode-v386>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .system-mode-v386 b{display:block;font-size:18px;color:#17364b}
+#lesson .system-mode-v386 .mode-line-v386{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0}
+#lesson .mode-line-v386 span{padding:8px 10px;border:1px solid #c3d2d8;border-radius:9px;background:#f8fbfc;font-size:16px}
+#lesson .mode-line-v386 .active-v386{border-color:#f59e0b;background:#fff7ed}
+#lesson .mode-line-v386 .standby-v386{border-style:dashed}
+#lesson .standby-compare-v386{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .standby-compare-v386>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .standby-compare-v386 b{display:block;font-size:18px;color:#17364b}
+#lesson .raid-grid-v386{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+#lesson .raid-grid-v386>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .raid-grid-v386 b{display:block;font-size:17px;color:#17364b}
+#lesson .raid-grid-v386 span{display:block;margin-top:4px;font-size:16px;line-height:1.45;color:#425b68}
+#lesson .disk-compare-v386{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .disk-panel-v386{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .disk-panel-v386>b{display:block;font-size:18px;color:#17364b}
+#lesson .disk-row-v386{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+#lesson .disk-v386{padding:10px;border:1px solid #b9ccd5;border-radius:10px;background:#f8fbfc;text-align:center;font-size:16px;line-height:1.45}
+
+/* 05-03: response, benchmark, capacity planning */
+#lesson .time-range-v386{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:14px 0}
+#lesson .time-range-v386>div{padding:12px;border:1px solid #c3d2d8;background:#fff;text-align:center}
+#lesson .time-range-v386>div:first-child{border-radius:12px 0 0 12px}
+#lesson .time-range-v386>div:last-child{border-radius:0 12px 12px 0}
+#lesson .time-range-v386 b{display:block;font-size:17px;color:#17364b}
+#lesson .time-range-v386 span{display:block;margin-top:4px;font-size:16px}
+#lesson .time-brackets-v386{display:grid;gap:8px;margin-top:10px}
+#lesson .time-brackets-v386 div{padding:9px 12px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;font-size:16px}
+#lesson .benchmark-flow-v386{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .benchmark-flow-v386 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .benchmark-flow-v386 i{font-style:normal;color:#b45309}
+#lesson .scale-compare-v386{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .scale-compare-v386>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .scale-compare-v386 b{display:block;font-size:18px;color:#17364b}
+#lesson .scale-servers-v386{display:flex;align-items:end;justify-content:center;gap:7px;min-height:84px;margin:10px 0}
+#lesson .scale-servers-v386 span{display:grid;place-items:center;width:48px;height:64px;border:2px solid #91aab5;border-radius:8px;background:#f8fbfc;font-size:14px;font-weight:850}
+#lesson .scale-servers-v386 .big-v386{width:72px;height:82px;border-color:#f59e0b;background:#fff7ed}
+
+/* 05-04: RASIS, MTBF/MTTR, availability structures */
+#lesson .rasis-grid-v386{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .rasis-grid-v386>div{padding:10px 8px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
+#lesson .rasis-grid-v386 b{display:block;font-size:17px;color:#17364b}
+#lesson .rasis-grid-v386 span{display:block;margin-top:4px;font-size:15px;line-height:1.4;color:#425b68}
+#lesson .uptime-timeline-v386{display:grid;grid-template-columns:3fr 1fr 4fr 1fr 3fr 1fr;gap:3px;align-items:stretch;margin:14px 0}
+#lesson .uptime-timeline-v386 span{display:grid;place-items:center;min-height:58px;border-radius:8px;font-size:16px;font-weight:800;text-align:center;padding:5px}
+#lesson .uptime-timeline-v386 .up-v386{background:#eef8f1;border:1px solid #9ec9a8}
+#lesson .uptime-timeline-v386 .down-v386{background:#fff2ef;border:1px solid #e9a89c}
+#lesson .metric-formulas-v386{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+#lesson .metric-formulas-v386>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff;text-align:center}
+#lesson .metric-formulas-v386 b{display:block;font-size:17px;color:#17364b}
+#lesson .metric-formulas-v386 code{display:block;margin-top:6px;font-size:17px;font-weight:850}
+#lesson .availability-layouts-v386{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .availability-layouts-v386>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .availability-layouts-v386 b{display:block;font-size:17px;color:#17364b}
+#lesson .series-path-v386,
+#lesson .parallel-path-v386{display:flex;align-items:center;justify-content:center;gap:7px;min-height:70px;margin:8px 0}
+#lesson .series-path-v386 span,
+#lesson .parallel-path-v386 span{display:grid;place-items:center;width:50px;height:38px;border:1px solid #91aab5;border-radius:8px;background:#f8fbfc;font-size:15px;font-weight:850}
+#lesson .parallel-path-v386{flex-direction:column}
+#lesson .parallel-row-v386{display:flex;gap:7px}
+#lesson .maintenance-v386{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .maintenance-v386>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .maintenance-v386 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:760px){
+  #lesson .system-mode-v386,
+  #lesson .availability-layouts-v386{grid-template-columns:1fr}
+  #lesson .raid-grid-v386{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .rasis-grid-v386{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .metric-formulas-v386{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  #lesson .ch5-grid-v386,
+  #lesson .standby-compare-v386,
+  #lesson .disk-compare-v386,
+  #lesson .scale-compare-v386,
+  #lesson .maintenance-v386{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch5-visual-v386{padding:13px}
+  #lesson .raid-grid-v386,
+  #lesson .rasis-grid-v386{grid-template-columns:1fr}
+  #lesson .time-range-v386{grid-template-columns:1fr}
+  #lesson .time-range-v386>div:first-child,
+  #lesson .time-range-v386>div:last-child{border-radius:10px}
+  #lesson .uptime-timeline-v386{grid-template-columns:1fr}
+  #lesson .uptime-timeline-v386 span{min-height:44px}
+}
