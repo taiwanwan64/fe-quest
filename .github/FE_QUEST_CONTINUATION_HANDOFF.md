@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `051061c4401c9ba7885f5d507b74466dc4f69675`
+- main: `abb15f791212b99e6b1c51822d569b938f135dc7`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35509802329`、success
-- PWA cache contract: `fe-quest-v377-85`
+- 最新本番 deploy: GitHub Actions run `35510969478`、success
+- PWA cache contract: `fe-quest-v377-86`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -52,6 +52,7 @@
 - 第21章詳細図解 PR: #160、merged
 - 第22章科目B合格戦略 PR: #162、merged
 - 科目B専用参考書 第1章「文法」 PR: #164、merged
+- 科目B専用参考書 第2章「一次元配列」 PR: #166、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -463,6 +464,27 @@
 - PR #164 のCI（publication / v35）success、Pages deploy run `35509802329` success
 - PWA cache contract: `fe-quest-v377-85`
 
+
+### 科目B専用参考書 第1部 第2章「一次元配列」
+
+`.github/reference-audits/BBOOK_CH02_ARRAY_AUDIT_2026-09-20.md`
+
+- 第2章を本文から練習問題2-1〜2-4・解説までページ画像で確認済み
+- IPA公開問題・サンプル問題で科目B配列の要素番号1始まりを照合
+- 要素数 / 要素 / 要素番号、宣言・初期化、可変長配列、隣接要素、範囲外、配列トレース手順を補強
+- protected question bankの一次元配列25問を1始まりへ統一
+  - `b_exercise`: 14
+  - `b_exam_algo`: 5
+  - `b_compound`: 6
+- active question totalは1173のまま
+- protected question content version: `v376-bbook-ch02-array-v405-20260920`
+- question import manifest source commit: `abb15f791212b99e6b1c51822d569b938f135dc7`
+- payload SHA-256: `23bc8543a66fe360e706d7af94a04e4895a7ebdce2f47df7e4d1db8568e6b498`
+- 専用CSS: `assets/bbook-ch02-array-v405.css`
+- PR #166 のCI（publication / v35）success、Pages deploy run `35510969478` success
+- PWA cache contract: `fe-quest-v377-86`
+- 二次元配列の0始まり表記は第3章監査へ送る
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -483,11 +505,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第2章「一次元配列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第3章「二次元配列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第2章「一次元配列」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第3章「二次元配列」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
@@ -497,14 +519,15 @@
 8. 必要な場合だけprotected question / lesson bankを更新し、既存の科目B問題設計を不用意に壊さない
 9. 公開GitHub側のCSS / audit doc / CI contract / PWA cache を必要に応じて更新
 10. PR → CI success → merge → Pages deploy success を確認
-11. protected lesson bankを更新した場合のみlesson import manifestをsource commitと紐付けて記録
+11. protected lesson / question bankを更新した場合は対応するimport manifestをsource commitと紐付けて記録
 
 ## 8. リポジトリと保護教材の役割
 
 - GitHub 公開リポジトリ: アプリコード、CSS、CI、監査方針、概念レベルの監査記録
 - protected lesson bank: 教材本文の正本
+- protected question bank: 問題本文・選択肢・解説・科目B render / trace metadata の正本
 - 教材本文そのものを公開GitHubへコピーしない
-- lesson bank を更新した場合、merge 後の source commit と content_version を import manifest に記録する
+- lesson / question bank を更新した場合、merge 後の source commit と content_version を対応する import manifest に記録する
 
 ## 9. 作業上の既定権限
 
