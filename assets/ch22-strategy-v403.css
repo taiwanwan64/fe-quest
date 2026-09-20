@@ -1,0 +1,64 @@
+/* FE QUEST Chapter 22 subject-B strategy — v403
+   Reference-driven guidance only. No protected question/lesson bodies are published here. */
+
+#subjectBCoursePanel .subject-b-strategy-v403,
+#bSelect .b-strategy-mini-v403,
+#secSelect .b-strategy-mini-v403{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#subjectBCoursePanel .subject-b-strategy-v403>summary,
+#bSelect .b-strategy-mini-v403>summary,
+#secSelect .b-strategy-mini-v403>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:17px;
+  font-weight:800;
+  color:#17364b;
+}
+#subjectBCoursePanel .subject-b-strategy-v403>summary::-webkit-details-marker,
+#bSelect .b-strategy-mini-v403>summary::-webkit-details-marker,
+#secSelect .b-strategy-mini-v403>summary::-webkit-details-marker{display:none}
+#subjectBCoursePanel .subject-b-strategy-v403>summary::after,
+#bSelect .b-strategy-mini-v403>summary::after,
+#secSelect .b-strategy-mini-v403>summary::after{content:"＋";float:right}
+#subjectBCoursePanel .subject-b-strategy-v403[open]>summary::after,
+#bSelect .b-strategy-mini-v403[open]>summary::after,
+#secSelect .b-strategy-mini-v403[open]>summary::after{content:"−"}
+.subject-b-strategy-body-v403,
+.b-strategy-mini-body-v403{padding:0 16px 16px}
+.subject-b-strategy-body-v403 p,
+.subject-b-strategy-body-v403 li,
+.b-strategy-mini-body-v403 p,
+.b-strategy-mini-body-v403 li{font-size:17px;line-height:1.65}
+.subject-b-spec-v403{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:4px 0 14px}
+.subject-b-spec-v403>div{padding:11px;border:1px solid #c9d8de;border-radius:11px;background:#fff;text-align:center}
+.subject-b-spec-v403 strong{display:block;font-size:21px;color:#17364b}
+.subject-b-spec-v403 span{display:block;margin-top:3px;font-size:15px;line-height:1.35;color:#526b77}
+.subject-b-split-v403{display:grid;grid-template-columns:4fr 1fr;gap:10px;margin:12px 0}
+.subject-b-split-v403>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+.subject-b-split-v403 b{display:block;font-size:18px;color:#17364b}
+.subject-b-split-v403 span{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+.subject-b-source-note-v403{margin-top:10px;padding:11px 13px;border-left:4px solid #f59e0b;border-radius:9px;background:#fff7ed;font-size:16px;line-height:1.55}
+.b-strategy-points-v403{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.b-strategy-points-v403>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+.b-strategy-points-v403 b{display:block;font-size:17px;color:#17364b}
+.b-strategy-points-v403 span{display:block;margin-top:4px;font-size:15px;line-height:1.5;color:#425b68}
+.b-strategy-mini-v403 .b-strategy-cue-v403{margin-top:11px;padding:10px 12px;border-radius:10px;background:#fff7ed;font-size:16px;line-height:1.55}
+@media(max-width:760px){
+  .subject-b-spec-v403{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .subject-b-split-v403{grid-template-columns:1fr}
+  .b-strategy-points-v403{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #subjectBCoursePanel .subject-b-strategy-v403>summary,
+  #bSelect .b-strategy-mini-v403>summary,
+  #secSelect .b-strategy-mini-v403>summary{font-size:16px;padding:13px 14px}
+  .subject-b-strategy-body-v403,
+  .b-strategy-mini-body-v403{padding:0 14px 14px}
+  .subject-b-spec-v403{grid-template-columns:1fr 1fr}
+}
