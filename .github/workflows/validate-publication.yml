@@ -506,7 +506,7 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v21.js"
           grep -Fq "const IPA92_SUBJECT_A_METADATA=Object.freeze([" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
           grep -Fq "installIpa92SubjectAMetadata();" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
-          grep -Fq "const VERSION='v377-first-impression-ux-7';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "const VERSION='v377-first-impression-ux-8';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "observerMode:'scoped-readiness'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "blankShellRecovery:'guarded-v2'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "studyBlockBarMode:'inline-active-screen'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
