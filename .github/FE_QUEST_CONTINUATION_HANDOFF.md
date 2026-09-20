@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `e20bc49ecbe0a6f50e5de72277bd737d075bef23`
+- main: `2811a0522de58cc49ed87e353390668a99a2ab0b`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35544179827`、success
-- PWA cache contract: `fe-quest-v377-88`
+- 最新本番 deploy: GitHub Actions run `35544754098`、success
+- PWA cache contract: `fe-quest-v377-89`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -55,6 +55,7 @@
 - 科目B専用参考書 第2章「一次元配列」 PR: #166、merged
 - 科目B専用参考書 第3章「二次元配列」 PR: #168、merged
 - 科目B専用参考書 第4章「ありえない選択肢」 PR: #170、merged
+- 科目B専用参考書 第5章「再帰」 PR: #172、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -524,6 +525,26 @@
 - production Pages deploy: run `35544179827` — success
 - PWA cache contract: `fe-quest-v377-88`
 
+### 科目B専用参考書 第1部 第5章「再帰」
+
+`.github/reference-audits/BBOOK_CH05_RECURSION_AUDIT_2026-09-21.md`
+
+- 第5章を章扉から練習問題5-1〜5-3・解説までページ画像で確認済み
+- 科目Bトレース画面へ「再帰トレース：呼出しと戻りを分けて追う」を追加
+- 同じ関数でも呼出しごとに別の引数値・実行状態を持つことを補強
+- 停止条件まで内側へ進み、終了後は呼出し元の次の行へ戻る流れを補強
+- 再帰呼出し前 / 後の処理で実行方向が分かれることを補強
+- 戻り値は最も内側から一段ずつ外側へ返すことを補強
+- `a ← r(x - 1)` を呼出し→戻り値待ち→代入の順に読む手順を補強
+- 複数再帰呼出しは上の呼出しを完了してから次の行へ進むことを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch05-recursion-v408.css`
+- PR #172 のCI:
+  - Validate sanitized FE QUEST publication: run `35544737947` — success
+  - Validate IPA 9.2 question v35 public activation: run `35544737940` — success
+- production Pages deploy: run `35544754098` — success
+- PWA cache contract: `fe-quest-v377-89`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -544,11 +565,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第5章「再帰」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第6章「木構造」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第5章「再帰」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第6章「木構造」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認

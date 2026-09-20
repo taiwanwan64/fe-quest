@@ -82,3 +82,17 @@ protected question bankは変更しない。既存の再帰問題群を壊さず
 - 専用CSS: `assets/bbook-ch05-recursion-v408.css`
 - PWA cache contract: `fe-quest-v377-89`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- PR: #172（merged）
+- PR head: `ba6ec736a2b8bdda687f015d88087df51a541703`
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35544737947` — success
+  - Validate IPA 9.2 question v35 public activation: run `35544737940` — success
+- merge commit: `2811a0522de58cc49ed87e353390668a99a2ab0b`
+- production Pages deploy: run `35544754098` — success
+- PWA cache contract: `fe-quest-v377-89`
