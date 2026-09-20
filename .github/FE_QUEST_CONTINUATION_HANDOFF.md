@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `83fea9f261365c843c603629265dce860bfede55`
+- main: `fbc3c864758ab52c4fbd924dc3fe7617a9b7bc8c`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35489662096`、success
-- PWA cache contract: `fe-quest-v377-73`
+- 最新本番 deploy: GitHub Actions run `35490650417`、success
+- PWA cache contract: `fe-quest-v377-74`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -40,6 +40,7 @@
 - 第9章詳細図解 PR: #136、merged
 - 第10章詳細図解 PR: #138、merged
 - 第11章詳細図解 PR: #140、merged
+- 第12章詳細図解 PR: #142、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -235,6 +236,23 @@
 - 第11章専用CSS: `assets/ch11-depth-v392.css`
 - PR #140 のCI（publication / v35）success、Pages deploy run `35489662096` success
 
+
+### 第12章
+
+`.github/reference-audits/CH12_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_12_01`〜`core_12_05` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- SLCP / ISO/IEC 12207 / ISO/IEC 15288 / 共通フレーム、企画〜保守の5プロセスを補強
+- システム設計4工程、DFDの4記号、プロセス中心/データ中心、モジュール結合度6段階を図解
+- クラス/インスタンス、カプセル化/継承/多相性、UML主要図と汎化記号を補強
+- Vモデル、ホワイトボックス5網羅レベル、ブラック/ホワイトボックス、スタブ/ドライバを補強
+- `core_12_06`〜`core_12_08` と既存IPA 9.2追加教材は削除せず保持
+- protected lesson content version: `v376-lessons-ch12-visual-depth-v393-20260920`
+- lesson import manifest source commit: `fbc3c864758ab52c4fbd924dc3fe7617a9b7bc8c`
+- payload SHA-256: `c7ac86bdc7a0fde0c1aa4a4b49eaa4866b9c368c910b69f253d53c8cb93c5852`
+- 第12章専用CSS: `assets/ch12-depth-v393.css`
+- PR #142 のCI（publication / v35）success、Pages deploy run `35490650417` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -255,11 +273,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第12章「システム開発」へ進み、第1章〜第11章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第13章「ソフトウェア開発手法」へ進み、第1章〜第12章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第12章をページ画像も含めて確認
+1. 参考書の第13章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
