@@ -1,0 +1,59 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 3 Two-dimensional arrays — v406
+   Public guide only; protected question bodies remain in Supabase. */
+
+#bSelect .b-matrix-v406{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .b-matrix-v406>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:17px;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .b-matrix-v406>summary::-webkit-details-marker{display:none}
+#bSelect .b-matrix-v406>summary::after{content:"＋";float:right}
+#bSelect .b-matrix-v406[open]>summary::after{content:"−"}
+#bSelect .b-matrix-body-v406{padding:0 16px 16px}
+#bSelect .b-matrix-body-v406 p,
+#bSelect .b-matrix-body-v406 li{font-size:17px;line-height:1.65}
+#bSelect .b-matrix-section-v406{margin-top:14px;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-matrix-section-v406>h3{margin:0 0 10px;font-size:19px;color:#17364b}
+#bSelect .b-matrix-grid-v406{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-matrix-card-v406{padding:11px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-matrix-card-v406 b{display:block;font-size:17px;color:#17364b}
+#bSelect .b-matrix-card-v406 span{display:block;margin-top:4px;font-size:15px;line-height:1.5;color:#425b68}
+#bSelect .b-matrix-figure-v406{display:grid;grid-template-columns:42px repeat(4,minmax(44px,1fr));max-width:430px;margin:14px auto;border-top:1px solid #b8c7ce;border-left:1px solid #b8c7ce}
+#bSelect .b-matrix-figure-v406 span{display:flex;align-items:center;justify-content:center;min-height:42px;border-right:1px solid #b8c7ce;border-bottom:1px solid #b8c7ce;font-size:16px;background:#fff}
+#bSelect .b-matrix-figure-v406 .head{font-weight:800;background:#eef5f8;color:#17364b}
+#bSelect .b-matrix-figure-v406 .hit{font-weight:800;background:#fff7ed}
+#bSelect .b-matrix-code-v406{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f1f5f9;border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.55;white-space:pre-wrap}
+#bSelect .b-matrix-flow-v406{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:10px 0}
+#bSelect .b-matrix-flow-v406 span{padding:8px 10px;border:1px solid #c9d8de;border-radius:9px;background:#fbfdfe;font-size:15px;font-weight:800}
+#bSelect .b-matrix-flow-v406 i{font-style:normal;color:#b45309}
+#bSelect .b-matrix-note-v406{margin-top:10px;padding:11px 13px;border-left:4px solid #f59e0b;border-radius:9px;background:#fff7ed;font-size:16px;line-height:1.55}
+#bSelect .b-matrix-alert-v406{margin-top:10px;padding:11px 13px;border-left:4px solid #b42318;border-radius:9px;background:#fff5f5;font-size:16px;line-height:1.55}
+#bSelect .b-matrix-table-v406{overflow-x:auto}
+#bSelect .b-matrix-table-v406 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
+#bSelect .b-matrix-table-v406 th,
+#bSelect .b-matrix-table-v406 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#bSelect .b-matrix-table-v406 th{background:#eef5f8;color:#17364b}
+#bSelect .b-demorgan-v406{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:10px 0}
+#bSelect .b-demorgan-v406>div{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe;font-size:16px;line-height:1.55}
+#bSelect .b-demorgan-v406>i{font-style:normal;font-size:22px;color:#b45309}
+@media(max-width:760px){
+  #bSelect .b-matrix-grid-v406{grid-template-columns:1fr}
+  #bSelect .b-demorgan-v406{grid-template-columns:1fr}
+  #bSelect .b-demorgan-v406>i{transform:rotate(90deg);justify-self:center}
+}
+@media(max-width:480px){
+  #bSelect .b-matrix-v406>summary{font-size:16px;padding:13px 14px}
+  #bSelect .b-matrix-body-v406{padding:0 14px 14px}
+  #bSelect .b-matrix-figure-v406{grid-template-columns:36px repeat(4,minmax(38px,1fr))}
+  #bSelect .b-matrix-figure-v406 span{min-height:38px;font-size:15px}
+}
