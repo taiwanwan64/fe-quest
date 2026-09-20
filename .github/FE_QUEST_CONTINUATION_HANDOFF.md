@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `01e58c645d7c8000c3f848e1360b3474a20cd66c`
+- main: `83fea9f261365c843c603629265dce860bfede55`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35488713545`、success
-- PWA cache contract: `fe-quest-v377-72`
+- 最新本番 deploy: GitHub Actions run `35489662096`、success
+- PWA cache contract: `fe-quest-v377-73`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -39,6 +39,7 @@
 - 第8章詳細図解 PR: #134、merged
 - 第9章詳細図解 PR: #136、merged
 - 第10章詳細図解 PR: #138、merged
+- 第11章詳細図解 PR: #140、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -218,6 +219,22 @@
 - 第10章専用CSS: `assets/ch10-depth-v391.css`
 - PR #138 のCI（publication / v35）success、Pages deploy run `35488713545` success
 
+### 第11章
+
+`.github/reference-audits/CH11_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_11_01`〜`core_11_08` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 人的/技術的/物理的脅威、不正のトライアングル、パスワード攻撃、マルウェア/Web攻撃を補強
+- AES/DES/RSA/楕円曲線暗号、SHA-256、PKI、デジタル証明書の流れを補強
+- リスク4プロセス、BCM/BCP、JIS Q 27001、ISMS適合性評価制度を図解
+- アクセス権の8進数表現、FW/IDS・IPS/WAF、DMZ、HTTPS/WPA3、マルウェア検出、BYOD/MDMを補強
+- ペネトレーションテスト/ファジング、CAPTCHA、完全消去、バイオメトリクス、2要素認証を補強
+- protected lesson content version: `v376-lessons-ch11-visual-depth-v392-20260920`
+- lesson import manifest source commit: `83fea9f261365c843c603629265dce860bfede55`
+- payload SHA-256: `618c91ac481d39a3d25abcfe317ddb354d56c35a6b39803c6a1b4b3513fde317`
+- 第11章専用CSS: `assets/ch11-depth-v392.css`
+- PR #140 のCI（publication / v35）success、Pages deploy run `35489662096` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -238,11 +255,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第11章「情報セキュリティ」へ進み、第1章〜第10章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第12章「システム開発」へ進み、第1章〜第11章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第11章をページ画像も含めて確認
+1. 参考書の第12章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
