@@ -7280,3 +7280,153 @@ body.study-block-active-v373 main{padding-bottom:180px}
       text-align:center;
     }
   }
+
+
+  /* ===== v377-61: chapter 2 visual depth ===== */
+  #lesson .ch2-depth-v381{overflow:visible}
+  #lesson .ch2-depth-v381 table{margin-top:16px;margin-bottom:20px}
+
+  /* 02-03 expression / stack */
+  #lesson .expr-tree-v381{display:grid;gap:7px;margin:18px auto 20px;max-width:420px;text-align:center}
+  #lesson .tree-root-v381,#lesson .tree-level-v381 span:not(:empty){display:grid;place-items:center;min-height:48px;border:1px solid #cfe0e7;border-radius:13px;background:#fff;font-size:21px;font-weight:900;color:#17364b}
+  #lesson .tree-root-v381{width:90px;margin:auto;background:#fff7ed;border-color:#f3c889}
+  #lesson .tree-line-v381{font-size:23px;color:#78909c}
+  #lesson .tree-level-v381{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+  #lesson .tree-leaves-v381{grid-template-columns:1fr 1fr 1fr;gap:20px;padding:0 50px}
+  #lesson .notation-correspond-v381{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+  #lesson .notation-correspond-v381>div{display:grid;gap:5px;padding:12px;border:1px solid #d7e5eb;border-radius:13px;background:#fff;text-align:center}
+  #lesson .notation-correspond-v381 b,#lesson .notation-correspond-v381 code{font-size:17px}
+  #lesson .notation-correspond-v381 small{font-size:14px;color:#607580}
+  #lesson .stack-steps-v381{display:grid;gap:9px;margin:18px 0}
+  #lesson .stack-steps-v381>div{display:grid;grid-template-columns:48px minmax(0,1fr) 110px;gap:10px;align-items:center;padding:11px 12px;border:1px solid #d7e5eb;border-radius:12px;background:#fff}
+  #lesson .stack-steps-v381 b{font-size:20px;text-align:center;color:#17364b}
+  #lesson .stack-steps-v381 span{padding:7px 10px;border-radius:9px;background:#eef8fb;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:17px;font-weight:850}
+  #lesson .stack-steps-v381 small{font-size:15px;color:#607580}
+  #lesson .stack-steps-v381 .is-answer{background:#fff7ed;border-color:#f3c889}
+
+  /* 02-04 automata */
+  #lesson .automaton-svg-wrap-v381{margin:18px 0;padding:12px;border:1px solid #d7e5eb;border-radius:16px;background:#fbfdfe}
+  #lesson .automaton-svg-v381{display:block;width:100%;max-width:560px;height:auto;margin:auto}
+  #lesson .auto-line-v381{fill:none;stroke:#4f7180;stroke-width:4;stroke-linecap:round}
+  #lesson .auto-state-v381{fill:#eef8fb;stroke:#2f6d83;stroke-width:4}
+  #lesson .auto-state-text-v381{font-size:28px;font-weight:900;fill:#17364b}
+  #lesson .auto-label-v381{font-size:21px;font-weight:900;fill:#b45309}
+  #lesson .auto-small-v381{font-size:15px;font-weight:800;fill:#607580}
+  #lesson .automaton-table-v381{max-width:520px;margin:16px auto 20px!important}
+  #lesson .state-memory-v381{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  #lesson .state-memory-v381>div{display:grid;gap:6px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .state-memory-v381 b{font-size:18px;color:#17364b}
+  #lesson .state-memory-v381 span{font-size:17px;color:#294d60}
+
+  /* 02-05 AI */
+  #lesson .ml-three-v381{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+  #lesson .ml-three-v381>div{display:grid;gap:6px;padding:15px 12px;border:1px solid #d7e5eb;border-radius:15px;background:#fff;text-align:center}
+  #lesson .ml-three-v381 b{font-size:18px;color:#17364b}
+  #lesson .ml-three-v381 span,#lesson .ml-three-v381 strong{font-size:16px}
+  #lesson .ml-three-v381 i{font-style:normal;font-size:22px;color:#78909c}
+  #lesson .ml-three-v381 small{font-size:14px;color:#607580}
+  #lesson .neuron-flow-v381{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px 0;padding:16px;border:1px solid #d7e5eb;border-radius:16px;background:#fbfdfe}
+  #lesson .neuron-inputs-v381{display:grid;gap:5px}
+  #lesson .neuron-inputs-v381 span,#lesson .neuron-sum-v381,#lesson .neuron-act-v381,#lesson .neuron-out-v381{padding:10px 13px;border-radius:12px;background:#fff;border:1px solid #cfe0e7;text-align:center;font-size:17px;font-weight:850}
+  #lesson .neuron-sum-v381{background:#eef8fb;font-size:22px}
+  #lesson .neuron-sum-v381 small{font-size:13px}
+  #lesson .neuron-flow-v381>i{font-style:normal;font-size:17px;color:#607580}
+  #lesson .overfit-visual-v381{display:grid;gap:12px;margin:18px 0}
+  #lesson .overfit-visual-v381>div{display:grid;grid-template-columns:110px minmax(0,1fr) 54px;gap:10px;align-items:center}
+  #lesson .overfit-visual-v381 b,#lesson .overfit-visual-v381 em{font-size:16px;font-style:normal}
+  #lesson .overfit-visual-v381>div>span{height:20px;border-radius:999px;background:#e8eef1;overflow:hidden}
+  #lesson .overfit-visual-v381 i{display:block;width:var(--w);height:100%;background:#4f8aa0;border-radius:inherit}
+  #lesson .genai-flow-v381{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}
+  #lesson .genai-flow-v381>div{display:grid;gap:5px;min-width:130px;padding:13px;border:1px solid #d7e5eb;border-radius:13px;background:#fff;text-align:center}
+  #lesson .genai-flow-v381 b{font-size:17px;color:#17364b}
+  #lesson .genai-flow-v381 span{font-size:15px;color:#607580}
+  #lesson .genai-flow-v381>i{font-style:normal;font-size:22px;color:#78909c}
+  #lesson .genai-risk-v381{display:grid;gap:5px;margin:14px 0;padding:14px;border-left:5px solid #ea580c;border-radius:12px;background:#fff7ed}
+  #lesson .genai-risk-v381 b{font-size:18px;color:#9a3412}
+
+  /* 02-06 statistics */
+  #lesson .representative-values-v381{width:100%}
+  #lesson .correlation-grid-v381{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+  #lesson .correlation-grid-v381>div{display:grid;gap:6px;padding:12px;border:1px solid #d7e5eb;border-radius:14px;background:#fff;text-align:center}
+  #lesson .correlation-grid-v381 b{font-size:17px;color:#17364b}
+  #lesson .correlation-grid-v381 svg{width:100%;max-width:180px;margin:auto;background:#fbfdfe;border-radius:10px}
+  #lesson .correlation-grid-v381 circle{fill:#2f7b90}
+  #lesson .corr-guide-v381{stroke:#f59e0b;stroke-width:3;stroke-dasharray:5 4}
+  #lesson .correlation-grid-v381 span{font-size:15px;line-height:1.5;color:#607580}
+
+  /* 02-07 numerical analysis */
+  #lesson .numeric-methods-v381{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+  #lesson .numeric-methods-v381>div{display:grid;gap:9px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .numeric-methods-v381 b{font-size:18px;color:#17364b}
+  #lesson .numeric-methods-v381 small{font-size:15px;line-height:1.55;color:#607580}
+  #lesson .interval-v381{display:block;height:18px;border-radius:999px;background:#4f8aa0;color:#fff;font-size:13px;line-height:18px;text-align:center}
+  #lesson .i100{width:100%}.i50{width:50%}.i25{width:25%}
+  #lesson .newton-steps-v381{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #lesson .newton-steps-v381 span{padding:7px 9px;border-radius:9px;background:#eef8fb;font-size:17px;font-weight:850}
+  #lesson .newton-steps-v381 i{font-style:normal;font-size:14px;color:#607580}
+  #lesson .error-example-v381{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  #lesson .error-example-v381>div{display:grid;gap:6px;padding:14px;border:1px solid #d7e5eb;border-radius:13px;background:#fff}
+  #lesson .error-example-v381 b{font-size:18px;color:#17364b}
+  #lesson .error-example-v381 span{font-size:17px}
+
+  /* 02-08 information theory */
+  #lesson .entropy-visual-v381{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  #lesson .entropy-visual-v381>div{display:grid;gap:6px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .entropy-visual-v381 b{font-size:18px;color:#17364b}
+  #lesson .entropy-visual-v381 span,#lesson .entropy-visual-v381 strong,#lesson .entropy-visual-v381 em{font-size:15px;font-style:normal}
+  #lesson .huffman-visual-v381{display:grid;gap:10px;margin:18px 0}
+  #lesson .huffman-row-v381{display:grid;grid-template-columns:38px minmax(0,1fr) 64px;gap:10px;align-items:center}
+  #lesson .huffman-row-v381 b{font-size:18px;color:#17364b}
+  #lesson .huffman-row-v381 code{font-size:18px;font-weight:900;text-align:center}
+  #lesson .freq-v381{display:block;height:20px;border-radius:999px;background:#4f8aa0;color:#fff;font-size:13px;line-height:20px;text-align:center}
+  #lesson .f50{width:100%}.f25{width:50%}.f15{width:30%}.f10{width:20%}
+  #lesson .error-code-compare-v381{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  #lesson .error-code-compare-v381>div{display:grid;gap:6px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .error-code-compare-v381 b{font-size:18px;color:#17364b}
+  #lesson .error-code-compare-v381 span{font-size:16px}
+  #lesson .error-code-compare-v381 small{font-size:14px;color:#607580}
+
+  /* 02-09 control */
+  #lesson .ad-flow-v381{display:flex;align-items:stretch;justify-content:center;gap:7px;flex-wrap:wrap;margin:18px 0}
+  #lesson .ad-flow-v381>div{display:grid;gap:6px;min-width:150px;max-width:190px;flex:1 1 150px;padding:13px;border:1px solid #d7e5eb;border-radius:13px;background:#fff;text-align:center}
+  #lesson .ad-flow-v381>b{font-size:17px}
+  #lesson .ad-flow-v381 svg{width:100%;height:auto}
+  #lesson .ad-flow-v381 svg path{fill:none;stroke:#2f7b90;stroke-width:4}
+  #lesson .ad-flow-v381>i{align-self:center;font-style:normal;font-size:22px;color:#78909c}
+  #lesson .sample-dots-v381{padding:16px 2px;font-size:18px;color:#2f7b90;white-space:nowrap}
+  #lesson .quantize-bars-v381{display:flex;align-items:flex-end;justify-content:center;gap:6px;height:52px}
+  #lesson .quantize-bars-v381 span{width:24px;background:#4f8aa0;border-radius:4px 4px 0 0}
+  #lesson .quantize-bars-v381 span:nth-child(1){height:15px}#lesson .quantize-bars-v381 span:nth-child(2){height:30px}#lesson .quantize-bars-v381 span:nth-child(3){height:45px}#lesson .quantize-bars-v381 span:nth-child(4){height:30px}
+  #lesson .pid-cards-v381{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+  #lesson .pid-cards-v381>div{display:grid;gap:6px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .pid-cards-v381 b{font-size:18px;color:#17364b}
+  #lesson .pid-cards-v381 span{font-size:16px;font-weight:850}
+  #lesson .pid-cards-v381 small{font-size:14px;color:#607580}
+  #lesson .pwm-visual-v381{display:grid;gap:12px;margin:18px 0}
+  #lesson .pwm-visual-v381>div{display:grid;grid-template-columns:60px minmax(0,1fr) 150px;gap:10px;align-items:center}
+  #lesson .pwm-visual-v381 b{font-size:17px}
+  #lesson .pwm-track-v381{display:block;height:24px;border-radius:7px;background:#e8eef1;overflow:hidden}
+  #lesson .pwm-track-v381 i{display:block;width:var(--w);height:100%;background:#ea580c}
+  #lesson .pwm-visual-v381 small{font-size:14px;color:#607580}
+  #lesson .loop-compare-v381{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  #lesson .loop-compare-v381>div{display:grid;gap:7px;padding:15px;border:1px solid #d7e5eb;border-radius:14px;background:#fff}
+  #lesson .loop-compare-v381 b{font-size:18px;color:#17364b}
+  #lesson .loop-compare-v381 span{font-size:17px;font-weight:850}
+  #lesson .loop-compare-v381 small{font-size:14px;color:#607580}
+
+  @media(max-width:620px){
+    #lesson .notation-correspond-v381,#lesson .ml-three-v381,#lesson .correlation-grid-v381,#lesson .pid-cards-v381{grid-template-columns:1fr}
+    #lesson .tree-level-v381{gap:38px}
+    #lesson .tree-leaves-v381{padding:0 22px}
+    #lesson .state-memory-v381,#lesson .numeric-methods-v381,#lesson .error-example-v381,#lesson .entropy-visual-v381,#lesson .error-code-compare-v381,#lesson .loop-compare-v381{grid-template-columns:1fr}
+    #lesson .neuron-flow-v381>i,#lesson .genai-flow-v381>i,#lesson .ad-flow-v381>i{transform:rotate(90deg)}
+    #lesson .pwm-visual-v381>div{grid-template-columns:54px minmax(0,1fr)}
+    #lesson .pwm-visual-v381 small{grid-column:1/-1;text-align:center}
+  }
+  @media(max-width:390px){
+    #lesson .stack-steps-v381>div{grid-template-columns:42px minmax(0,1fr)}
+    #lesson .stack-steps-v381 small{grid-column:1/-1;text-align:center}
+    #lesson .overfit-visual-v381>div{grid-template-columns:94px minmax(0,1fr) 46px}
+    #lesson .huffman-row-v381{grid-template-columns:34px minmax(0,1fr) 52px}
+    #lesson .ad-flow-v381{display:grid}
+  }
