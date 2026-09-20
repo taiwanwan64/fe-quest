@@ -145,3 +145,19 @@ IPA公式シラバスを試験範囲の正本とし、参考資料は説明不�
 
 - PWA cache contractは `fe-quest-v377-80` へ更新する。
 - 第18章CSSをindex / service worker / publication CI / Pages CIへ接続する。
+
+
+## 完了証跡
+
+- protected lesson content version: `v376-lessons-ch18-visual-depth-v399-20260920`
+- 対象レッスン数: 6（`core_18_01`〜`core_18_06`）
+- lesson payload SHA-256: `842e63063628f3a953c48a68553251e2aaf9db4cb05bb79a04d9f7a845889cca`
+- lesson import manifest source commit: `1b4eb6d77290e0d41cb7b7b657c32859a0d1399b`
+- PR: #154（merged）
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35503770494` — success
+  - Validate IPA 9.2 question v35 public activation: run `35503770495` — success
+- production Pages deploy: run `35503792519` — success
+- PWA cache contract: `fe-quest-v377-80`
+- `core_18_01`〜`core_18_06` の追加セクションマーカーは各1件で重複なし
+- ユーザー向けHTMLに文字列としての `\\n` 残存なし

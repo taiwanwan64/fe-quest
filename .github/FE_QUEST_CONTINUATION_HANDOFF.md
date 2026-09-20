@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `2d4206afbf55b6691ae0686d6713338c25dc770a`
+- main: `1b4eb6d77290e0d41cb7b7b657c32859a0d1399b`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35503361609`、success
-- PWA cache contract: `fe-quest-v377-79`
+- 最新本番 deploy: GitHub Actions run `35503792519`、success
+- PWA cache contract: `fe-quest-v377-80`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -46,6 +46,7 @@
 - 第15章詳細図解 PR: #148、merged
 - 第16章詳細図解 PR: #150、merged
 - 第17章詳細図解 PR: #152、merged
+- 第18章詳細図解 PR: #154、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -348,6 +349,25 @@
 - 第17章専用CSS: `assets/ch17-depth-v398.css`
 - PR #152 のCI（publication / v35）success、Pages deploy run `35503361609` success
 
+
+### 第18章
+
+`.github/reference-audits/CH18_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_18_01`〜`core_18_06` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 経営戦略3分類、SWOT、ベンチマーキングを補強
+- PPM、規模の経済 / 範囲の経済、プロダクトライフサイクル、コアコンピタンスを補強
+- 競争地位、ブルーオーシャン、イノベーター理論、バリューチェーンを補強
+- BSC 4視点、CSF→KPIの因果関係を図解
+- 4P / 4C、コストプラス価格決定法を補強
+- ERP / CRM / SFA / SCM、顧客ロイヤリティ、ナレッジマネジメント、暗黙知 / 形式知を補強
+- `core_18_07` / `core_18_08` と既存IPA追加教材は削除せず保持
+- protected lesson content version: `v376-lessons-ch18-visual-depth-v399-20260920`
+- lesson import manifest source commit: `1b4eb6d77290e0d41cb7b7b657c32859a0d1399b`
+- payload SHA-256: `842e63063628f3a953c48a68553251e2aaf9db4cb05bb79a04d9f7a845889cca`
+- 第18章専用CSS: `assets/ch18-depth-v399.css`
+- PR #154 のCI（publication / v35）success、Pages deploy run `35503792519` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -368,11 +388,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第18章「経営戦略マネジメント」へ進み、第1章〜第17章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第19章「ビジネスインダストリ」へ進み、第1章〜第18章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第18章をページ画像も含めて確認
+1. 参考書の第19章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
