@@ -143,3 +143,18 @@ IPA公式シラバスを試験範囲の正本とし、既存のIPA 9.2補強は�
 - 既存のIPA 9.2補強を保持。
 - PWA cache contractを `fe-quest-v377-64` へ更新。
 - 参考資料の文章・図表を転載せず、独自の例・図解・比較カードとして実装。
+
+
+## 本番反映
+
+- PR: #122
+- merge commit: `ab2f7738640764bd6047a4b14c276515d791496c`
+- pull request validation:
+  - `Validate sanitized FE QUEST publication` run `35483010001`: success
+  - `Validate IPA 9.2 question v35 public activation` run `35483010006`: success
+- Pages deploy: run `35483023544`: success
+- lesson import manifest:
+  - content version: `v376-lessons-ch4-visual-depth-v384-20260920`
+  - total count: 5
+  - payload SHA-256: `8c79e3abb38e3104ded33c84c40d560002f000ff4afa8cfd589c9c56b9495e1c`
+  - source commit: `ab2f7738640764bd6047a4b14c276515d791496c`
