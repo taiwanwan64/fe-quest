@@ -4,7 +4,7 @@
 
 添付参考資料『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』第1部「擬似言語」第3章「二次元配列」を、章扉から確認問題・練習問題3-1〜3-3・解説までページ画像で確認した。
 
-PDF 122ページから第3章が始まり、PDF 147ページから第4章「あのえない選択肢」が始まることを視覚確認した。
+PDF 122ページから第3章が始まり、PDF 147ページから第4章「ありえない選択肢」が始まることを視覚確認した。
 
 第2章監査で確認したIPAの科目B配列表記に合わせ、この章でもFE QUESTの科目B二次元配列問題は要素番号1始まりへ統一する。
 
@@ -133,3 +133,27 @@ protected question bankでは上記14問を1始まりへ統一し、二次元配
 - 専用CSS: `assets/bbook-ch03-matrix-v406.css`
 - PWA cache contract: `fe-quest-v377-87`
 - publication / Pages CIでCSS、二次元配列ガイド、条件変換ガイド、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question content version: `v376-bbook-ch03-matrix-v406-20260920`
+- 対象問題数: 14
+  - `b_exercise`: 4
+  - `b_exam_algo`: 4
+  - `b_compound`: 6
+- active protected question total: 1173（件数増減なし）
+- option数不整合: 0
+- answer_index範囲外: 0
+- `b_exercise` ordinal 2 の traceTail 欠落: 0
+- 対象14問の学習者向けコードに0始まりループの残存: 0
+- 対象14問の学習者向け二次元配列コードに `m[r][c]` 型アクセスの残存: 0
+- `matrixFocus` の0始まり座標はレンダラー内部表現として維持
+- question payload SHA-256: `98917513bee5fcbcb8a98171a575829a321def702418251c3f0714ca0f769b83`
+- question import manifest source commit: `d763db420f9237f92c39fe44560e6f2ffbba54f2`
+- PR: #168（merged）
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35515339050` — success
+  - Validate IPA 9.2 question v35 public activation: run `35515339043` — success
+- production Pages deploy: run `35515375061` — success
+- PWA cache contract: `fe-quest-v377-87`
