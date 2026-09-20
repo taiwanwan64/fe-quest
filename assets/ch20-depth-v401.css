@@ -1,0 +1,124 @@
+/* FE QUEST Chapter 20 depth visuals — v401
+   Reference-driven diagrams for corporate activities.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch20-depth-v401{margin-top:22px}
+#lesson .ch20-depth-v401 p,
+#lesson .ch20-depth-v401 li{font-size:18px;line-height:1.72}
+#lesson .ch20-depth-v401 small,
+#lesson .ch20-depth-v401 .ch20-helper-v401{font-size:16px;line-height:1.5}
+#lesson .ch20-visual-v401{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch20-visual-v401>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch20-note-v401{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch20-card-v401{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch20-card-v401>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch20-card-v401>span,
+#lesson .ch20-card-v401>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch20-grid2-v401{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch20-grid3-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch20-grid4-v401{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .ch20-grid5-v401{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .ch20-table-v401{overflow-x:auto}
+#lesson .ch20-table-v401 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
+#lesson .ch20-table-v401 th,
+#lesson .ch20-table-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch20-table-v401 th{background:#eef5f8;color:#17364b}
+#lesson .ch20-flow-v401{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .ch20-flow-v401 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch20-flow-v401 i{font-style:normal;color:#b45309}
+#lesson .ch20-formula-v401{padding:14px;border:1px solid #c9d8de;border-radius:12px;background:#fff;text-align:center}
+#lesson .ch20-formula-v401 strong{font-size:20px;color:#17364b}
+
+/* 20-01 */
+#lesson .philosophy-v401{display:grid;gap:8px;max-width:650px;margin:0 auto}
+#lesson .philosophy-v401>div{margin:0 auto;padding:10px 12px;border:1px solid #c9d8de;border-radius:10px;background:#fff;text-align:center;font-weight:800}
+#lesson .philosophy-v401 .p1{width:46%}
+#lesson .philosophy-v401 .p2{width:68%}
+#lesson .philosophy-v401 .p3{width:90%}
+
+/* 20-02 */
+#lesson .org5-v401{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .org5-v401>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .org5-v401 b{display:block;font-size:16px;color:#17364b}
+#lesson .officers-v401{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .officers-v401>div{padding:11px 8px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .officers-v401 b{display:block;font-size:16px;color:#17364b}
+#lesson .training-v401,
+#lesson .people-policy-v401{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .training-v401>div,
+#lesson .people-policy-v401>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+/* 20-03 */
+#lesson .abc-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .abc-v401>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .abc-v401 b{display:block;font-size:19px;color:#17364b}
+#lesson .correlation-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .correlation-v401>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .correlation-v401 .dots-v401{height:72px;position:relative;margin:8px 0;border-left:2px solid #8aa9b8;border-bottom:2px solid #8aa9b8}
+#lesson .correlation-v401 .dots-v401 span{position:absolute;width:7px;height:7px;border-radius:50%;background:currentColor}
+#lesson .weighted-v401{overflow-x:auto}
+#lesson .weighted-v401 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
+#lesson .weighted-v401 th,
+#lesson .weighted-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .weighted-v401 th{background:#eef5f8;color:#17364b}
+
+/* 20-04 */
+#lesson .cost-lines-v401{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .cost-lines-v401>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .break-even-v401{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+#lesson .break-even-v401>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .break-even-v401 .eq-v401{border:0;background:transparent;font-size:24px;color:#b45309;text-align:center}
+
+/* 20-05 */
+#lesson .bs-v401{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #b9ccd5;border-radius:12px;overflow:hidden;background:#fff}
+#lesson .bs-v401>div{padding:13px}
+#lesson .bs-v401>div:first-child{border-right:1px solid #c9d8de}
+#lesson .profit-stairs-v401{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:end}
+#lesson .profit-stairs-v401>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;min-height:90px}
+#lesson .profit-stairs-v401 b{display:block;font-size:15px;color:#17364b}
+#lesson .cashflow3-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .cashflow3-v401>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+/* 20-06 */
+#lesson .asset2-v401{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .asset2-v401>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .fifo-v401{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+#lesson .fifo-v401 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .fifo-v401 i{font-style:normal;color:#b45309}
+#lesson .depr2-v401{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .depr2-v401>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+@media(max-width:900px){
+  #lesson .org5-v401,
+  #lesson .officers-v401,
+  #lesson .profit-stairs-v401{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  #lesson .training-v401,
+  #lesson .people-policy-v401,
+  #lesson .cost-lines-v401,
+  #lesson .asset2-v401,
+  #lesson .depr2-v401,
+  #lesson .ch20-grid2-v401,
+  #lesson .ch20-grid3-v401,
+  #lesson .ch20-grid4-v401,
+  #lesson .ch20-grid5-v401{grid-template-columns:1fr}
+  #lesson .break-even-v401{grid-template-columns:1fr}
+  #lesson .break-even-v401 .eq-v401{transform:rotate(90deg)}
+}
+@media(max-width:560px){
+  #lesson .abc-v401,
+  #lesson .correlation-v401,
+  #lesson .cashflow3-v401,
+  #lesson .org5-v401,
+  #lesson .officers-v401,
+  #lesson .profit-stairs-v401{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  #lesson .ch20-visual-v401{padding:13px}
+  #lesson .philosophy-v401 .p1,
+  #lesson .philosophy-v401 .p2,
+  #lesson .philosophy-v401 .p3{width:100%}
+  #lesson .bs-v401{grid-template-columns:1fr}
+  #lesson .bs-v401>div:first-child{border-right:0;border-bottom:1px solid #c9d8de}
+}
