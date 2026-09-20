@@ -133,6 +133,7 @@ const IPA92_V35_TOTAL=5;
 const IPA92_EXTENSION_TOTAL=IPA92_V1_V6_TOTAL+IPA92_V7_TOTAL+IPA92_V8_TOTAL+IPA92_V9_TOTAL+IPA92_V10_TOTAL+IPA92_V11_TOTAL+IPA92_V12_TOTAL+IPA92_V13_TOTAL+IPA92_V14_TOTAL+IPA92_V15_TOTAL+IPA92_V16_TOTAL+IPA92_V17_TOTAL+IPA92_V18_TOTAL+IPA92_V19_TOTAL+IPA92_V20_TOTAL+IPA92_V21_TOTAL+IPA92_V22_TOTAL+IPA92_V23_TOTAL+IPA92_V24_TOTAL+IPA92_V25_TOTAL+IPA92_V26_TOTAL+IPA92_V27_TOTAL+IPA92_V28_TOTAL+IPA92_V29_TOTAL+IPA92_V30_TOTAL+IPA92_V31_TOTAL+IPA92_V32_TOTAL+IPA92_V33_TOTAL+IPA92_V34_TOTAL+IPA92_V35_TOTAL;
 const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_EXTENSION_TOTAL;
 const ACCESS_SESSION_KEY='fequest_beta_access_v376';
+const OPEN_PREVIEW_ACCESS=true;
 const MAX_BATCH=20;
 const MAX_CACHE=60;
 const REQUEST_TIMEOUT_MS=15000;
@@ -154,6 +155,7 @@ function currentAccessCode(){
   if(memoryAccessCode)return memoryAccessCode;
   const stored=readSessionAccessCode();
   if(stored){memoryAccessCode=stored;return stored}
+  if(OPEN_PREVIEW_ACCESS)return '';
   throw new Error('beta_access_required');
 }
 function setAccessCode(value,{rememberForTab=true}={}){
@@ -170,7 +172,7 @@ function clearHydrated(inputIds){
 }
 function forgetAnswer(questionId){return typeof questionId==='string'?answerCache.delete(questionId):false;}
 function clearAccessCode(){memoryAccessCode='';try{sessionStorage.removeItem(ACCESS_SESSION_KEY)}catch(_e){}clearProtectedCache();}
-function hasAccessCode(){return !!(memoryAccessCode||readSessionAccessCode())}
+function hasAccessCode(){return OPEN_PREVIEW_ACCESS||!!(memoryAccessCode||readSessionAccessCode())}
 
 async function fetchJson(url,options={}){
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);
