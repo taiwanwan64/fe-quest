@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `d763db420f9237f92c39fe44560e6f2ffbba54f2`
+- main: `e20bc49ecbe0a6f50e5de72277bd737d075bef23`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35515375061`、success
-- PWA cache contract: `fe-quest-v377-87`
+- 最新本番 deploy: GitHub Actions run `35544179827`、success
+- PWA cache contract: `fe-quest-v377-88`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -54,6 +54,7 @@
 - 科目B専用参考書 第1章「文法」 PR: #164、merged
 - 科目B専用参考書 第2章「一次元配列」 PR: #166、merged
 - 科目B専用参考書 第3章「二次元配列」 PR: #168、merged
+- 科目B専用参考書 第4章「ありえない選択肢」 PR: #170、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -505,6 +506,24 @@
 - PR #168 のCI（publication / v35）success、Pages deploy run `35515375061` success
 - PWA cache contract: `fe-quest-v377-87`
 
+### 科目B専用参考書 第1部 第4章「ありえない選択肢」
+
+`.github/reference-audits/BBOOK_CH04_IMPOSSIBLE_CHOICES_AUDIT_2026-09-21.md`
+
+- 第4章を章扉から確認問題・練習問題4-1〜4-8・解説までページ画像で確認済み
+- 「全部を追う前に候補を絞る」解法を科目Bトレース画面へ追加
+- ループ条件変数が繰返しごとに終了へ向かって更新されるかを確認する手順を補強
+- 同じ変数への途中利用なしの連続上書き、代入前利用、代入後未使用を候補除外の観点として補強
+- 関数引数・問題文の表や初期条件で既に値が与えられている場合も含めて判断する注意を追加
+- 候補除外だけで一意に決まらない場合は、残った候補を通常トレースする位置付けを明示
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch04-impossible-v407.css`
+- PR #170 のCI:
+  - Validate sanitized FE QUEST publication: run `35544157932` — success
+  - Validate IPA 9.2 question v35 public activation: run `35544157921` — success
+- production Pages deploy: run `35544179827` — success
+- PWA cache contract: `fe-quest-v377-88`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -525,11 +544,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第4章「ありえない選択肢」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第5章「再帰」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第4章「ありえない選択肢」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第5章「再帰」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認

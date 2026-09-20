@@ -75,3 +75,17 @@ protected question bankは変更しない。既存問題本文・選択肢・学
 - 専用CSS: `assets/bbook-ch04-impossible-v407.css`
 - PWA cache contract: `fe-quest-v377-88`
 - publication / Pages CIでCSS、ガイド見出し、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- PR: #170（merged）
+- PR head: `47c11121107c53b74600452e892b5ce252c1d62b`
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35544157932` — success
+  - Validate IPA 9.2 question v35 public activation: run `35544157921` — success
+- merge commit: `e20bc49ecbe0a6f50e5de72277bd737d075bef23`
+- production Pages deploy: run `35544179827` — success
+- PWA cache contract: `fe-quest-v377-88`
