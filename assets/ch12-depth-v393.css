@@ -1,0 +1,128 @@
+/* FE QUEST Chapter 12 depth visuals — v393
+   Reference-driven diagrams for system development.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch12-depth-v393{margin-top:22px}
+#lesson .ch12-depth-v393 p,
+#lesson .ch12-depth-v393 li{font-size:18px;line-height:1.72}
+#lesson .ch12-depth-v393 small,
+#lesson .ch12-depth-v393 .ch12-helper-v393{font-size:16px;line-height:1.5}
+#lesson .ch12-visual-v393{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch12-visual-v393>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch12-note-v393{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch12-card-v393{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch12-card-v393>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch12-card-v393>span,
+#lesson .ch12-card-v393>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch12-flow-v393{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .ch12-flow-v393 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch12-flow-v393 i{font-style:normal;color:#b45309}
+#lesson .ch12-grid2-v393{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch12-grid3-v393{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch12-grid4-v393{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+
+/* 12-01 */
+#lesson .slcp-map-v393{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+#lesson .slcp-map-v393>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .slcp-map-v393 b{display:block;font-size:18px;color:#17364b}
+#lesson .slcp-map-v393 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .slcp-map-v393 .arrow-v393{border:0;background:transparent;font-size:26px;text-align:center;color:#b45309}
+#lesson .lifecycle5-v393{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+#lesson .lifecycle5-v393>div{padding:11px 8px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
+#lesson .lifecycle5-v393 b{display:block;font-size:17px;color:#17364b}
+#lesson .lifecycle5-v393 span{display:block;margin-top:5px;font-size:15px;line-height:1.4}
+#lesson .dev-tree-v393{overflow-x:auto}
+#lesson .dev-tree-v393 table{width:100%;min-width:700px;border-collapse:collapse;background:#fff}
+#lesson .dev-tree-v393 th,
+#lesson .dev-tree-v393 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:left;vertical-align:top}
+#lesson .dev-tree-v393 th{background:#eef5f8;color:#17364b}
+
+/* 12-02 / 12-03 */
+#lesson .requirement-split-v393{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .requirement-split-v393>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .requirement-split-v393 b{display:block;font-size:18px;color:#17364b}
+#lesson .design-steps-v393{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .design-steps-v393>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
+#lesson .design-steps-v393 b{display:block;font-size:17px;color:#17364b}
+#lesson .design-steps-v393 span{display:block;margin-top:4px;font-size:15px;line-height:1.4}
+#lesson .dfd-legend-v393{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#lesson .dfd-legend-v393>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
+#lesson .dfd-shape-v393{display:flex;min-height:44px;align-items:center;justify-content:center;margin-bottom:7px;font-size:16px;font-weight:800;color:#17364b}
+#lesson .dfd-process-v393{width:76px;height:44px;border:2px solid #64748b;border-radius:50%}
+#lesson .dfd-external-v393{width:90px;height:42px;border:2px solid #64748b}
+#lesson .dfd-store-v393{width:100px;height:42px;border-top:2px solid #64748b;border-bottom:2px solid #64748b}
+#lesson .dfd-flow-v393{font-size:28px;color:#b45309}
+#lesson .approach-v393{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .approach-v393>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .approach-v393 b{display:block;font-size:18px;color:#17364b}
+#lesson .coupling-v393{overflow-x:auto}
+#lesson .coupling-v393 table{width:100%;min-width:680px;border-collapse:collapse;background:#fff}
+#lesson .coupling-v393 th,
+#lesson .coupling-v393 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .coupling-v393 th{background:#eef5f8;color:#17364b}
+#lesson .coupling-v393 .weak-v393{font-weight:800}
+#lesson .coupling-v393 .strong-v393{font-weight:800}
+
+/* 12-04 */
+#lesson .class-instance-v393{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+#lesson .class-box-v393,
+#lesson .instance-box-v393{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .class-instance-v393 .arrow-v393{font-size:28px;color:#b45309;text-align:center}
+#lesson .oop-pillars-v393{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .oop-pillars-v393>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .oop-pillars-v393 b{display:block;font-size:18px;color:#17364b}
+#lesson .oop-pillars-v393 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .uml-v393{overflow-x:auto}
+#lesson .uml-v393 table{width:100%;min-width:600px;border-collapse:collapse;background:#fff}
+#lesson .uml-v393 th,
+#lesson .uml-v393 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .uml-v393 th{background:#eef5f8;color:#17364b}
+#lesson .generalization-v393{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .generalization-v393 span{padding:10px 14px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .generalization-v393 i{font-style:normal;color:#b45309}
+
+/* 12-05 */
+#lesson .vmodel-v393{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
+#lesson .vmodel-v393 .side-v393{display:grid;gap:8px}
+#lesson .vmodel-v393 .step-v393{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .vmodel-v393 .middle-v393{display:flex;align-items:center;justify-content:center;font-size:28px;color:#b45309}
+#lesson .coverage-v393{overflow-x:auto}
+#lesson .coverage-v393 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
+#lesson .coverage-v393 th,
+#lesson .coverage-v393 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .coverage-v393 th{background:#eef5f8;color:#17364b}
+#lesson .box-test-v393{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .box-test-v393>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .box-test-v393 b{display:block;font-size:18px;color:#17364b}
+#lesson .integration-v393{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .integration-v393>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .integration-v393 b{display:block;font-size:18px;color:#17364b}
+
+@media(max-width:820px){
+  #lesson .lifecycle5-v393{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .design-steps-v393{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .dfd-legend-v393{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .ch12-grid4-v393{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  #lesson .slcp-map-v393,
+  #lesson .requirement-split-v393,
+  #lesson .approach-v393,
+  #lesson .class-instance-v393,
+  #lesson .oop-pillars-v393,
+  #lesson .box-test-v393,
+  #lesson .integration-v393,
+  #lesson .vmodel-v393,
+  #lesson .ch12-grid2-v393,
+  #lesson .ch12-grid3-v393{grid-template-columns:1fr}
+  #lesson .slcp-map-v393 .arrow-v393,
+  #lesson .class-instance-v393 .arrow-v393{transform:rotate(90deg)}
+  #lesson .vmodel-v393 .middle-v393{transform:rotate(90deg)}
+}
+@media(max-width:480px){
+  #lesson .ch12-visual-v393{padding:13px}
+  #lesson .lifecycle5-v393,
+  #lesson .design-steps-v393,
+  #lesson .dfd-legend-v393,
+  #lesson .ch12-grid4-v393{grid-template-columns:1fr}
+}
