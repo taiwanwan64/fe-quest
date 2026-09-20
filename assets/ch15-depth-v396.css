@@ -1,0 +1,116 @@
+/* FE QUEST Chapter 15 depth visuals — v396
+   Reference-driven diagrams for service management and system audit.
+   Protected lesson bodies remain outside this public repository. */
+
+#lesson .ch15-depth-v396{margin-top:22px}
+#lesson .ch15-depth-v396 p,
+#lesson .ch15-depth-v396 li{font-size:18px;line-height:1.72}
+#lesson .ch15-depth-v396 small,
+#lesson .ch15-depth-v396 .ch15-helper-v396{font-size:16px;line-height:1.5}
+#lesson .ch15-visual-v396{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
+#lesson .ch15-visual-v396>h3{margin:0 0 12px;font-size:20px;color:#17364b}
+#lesson .ch15-note-v396{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch15-grid2-v396{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#lesson .ch15-grid3-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .ch15-grid4-v396{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .ch15-card-v396{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .ch15-card-v396>b{display:block;font-size:18px;color:#17364b}
+#lesson .ch15-card-v396>span,
+#lesson .ch15-card-v396>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch15-table-v396{overflow-x:auto}
+#lesson .ch15-table-v396 table{width:100%;min-width:720px;border-collapse:collapse;background:#fff}
+#lesson .ch15-table-v396 th,
+#lesson .ch15-table-v396 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch15-table-v396 th{background:#eef5f8;color:#17364b}
+#lesson .ch15-flow-v396{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#lesson .ch15-flow-v396 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch15-flow-v396 i{font-style:normal;color:#b45309}
+
+/* 15-01 service management / PDCA / migration */
+#lesson .pdca-v396{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#lesson .pdca-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .pdca-v396 b{display:block;font-size:19px;color:#17364b}
+#lesson .pdca-v396 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .migration-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .migration-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .migration-v396 b{display:block;font-size:18px;color:#17364b}
+#lesson .migration-v396 .metric{margin-top:8px;padding-top:8px;border-top:1px dashed #c9d8de;font-size:15px;line-height:1.45}
+
+/* 15-02 SLA */
+#lesson .slm-sla-v396{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+#lesson .slm-sla-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .slm-sla-v396 .arrow-v396{border:0;background:transparent;font-size:28px;color:#b45309;text-align:center}
+#lesson .sla-benefits-v396{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .sla-benefits-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+/* 15-03 service desk */
+#lesson .incident-problem-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .incident-problem-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .incident-problem-v396 b{display:block;font-size:18px;color:#17364b}
+#lesson .desk-types-v396{overflow-x:auto}
+#lesson .desk-types-v396 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
+#lesson .desk-types-v396 th,
+#lesson .desk-types-v396 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .desk-types-v396 th{background:#eef5f8;color:#17364b}
+
+/* 15-04 facility */
+#lesson .facility-compare-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .facility-compare-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .facility-compare-v396 b{display:block;font-size:18px;color:#17364b}
+#lesson .power-protection-v396{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .power-protection-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .power-protection-v396 b{display:block;font-size:18px;color:#17364b}
+
+/* 15-05 system audit */
+#lesson .audit-standards-v396{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .audit-standards-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .audit-points-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .audit-points-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .audit-points-v396 b{display:block;font-size:18px;color:#17364b}
+#lesson .audit-cia-v396{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#lesson .audit-cia-v396>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .audit-flow-v396{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#lesson .audit-flow-v396>div{padding:11px 8px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
+#lesson .audit-flow-v396 b{display:block;font-size:17px;color:#17364b}
+#lesson .audit-flow-v396 span{display:block;margin-top:4px;font-size:15px;line-height:1.35}
+#lesson .audit-roles-v396{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#lesson .audit-roles-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+
+/* 15-06 internal control */
+#lesson .governance-stack-v396{display:grid;grid-template-columns:1fr;gap:9px}
+#lesson .governance-stack-v396>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
+#lesson .governance-stack-v396 b{display:block;font-size:18px;color:#17364b}
+#lesson .segregation-v396{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+#lesson .segregation-v396 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
+#lesson .segregation-v396 i{font-style:normal;color:#b45309}
+
+@media(max-width:860px){
+  #lesson .audit-flow-v396{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson .pdca-v396,
+  #lesson .migration-v396,
+  #lesson .incident-problem-v396,
+  #lesson .facility-compare-v396,
+  #lesson .audit-points-v396,
+  #lesson .audit-roles-v396{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  #lesson .slm-sla-v396,
+  #lesson .sla-benefits-v396,
+  #lesson .power-protection-v396,
+  #lesson .audit-standards-v396,
+  #lesson .audit-cia-v396,
+  #lesson .ch15-grid2-v396,
+  #lesson .ch15-grid3-v396,
+  #lesson .ch15-grid4-v396{grid-template-columns:1fr}
+  #lesson .slm-sla-v396 .arrow-v396{transform:rotate(90deg)}
+}
+@media(max-width:480px){
+  #lesson .ch15-visual-v396{padding:13px}
+  #lesson .pdca-v396,
+  #lesson .migration-v396,
+  #lesson .incident-problem-v396,
+  #lesson .facility-compare-v396,
+  #lesson .audit-points-v396,
+  #lesson .audit-roles-v396,
+  #lesson .audit-flow-v396{grid-template-columns:1fr}
+}
