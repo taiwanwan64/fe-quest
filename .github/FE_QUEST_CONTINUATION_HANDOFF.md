@@ -24,14 +24,15 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `25b5e037b387069ff1d4e6c3d2b1d05b836623e1`
+- main: `ab2f7738640764bd6047a4b14c276515d791496c`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35480599277`、success
-- PWA cache contract: `fe-quest-v377-63`
+- 最新本番 deploy: GitHub Actions run `35483023544`、success
+- PWA cache contract: `fe-quest-v377-64`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
+- 第4章詳細図解 PR: #122、merged
 
 ## 3. 直前まで完了した教材品質改善
 
@@ -68,6 +69,18 @@
 - 第3章専用CSS: `assets/ch3-depth-v383.css`
 - PR #120 のCI（publication / v35）success、Pages deploy run `35480599277` success
 
+### 第4章
+
+`.github/reference-audits/CH04_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_04_01`〜`core_04_05` を参考資料のページ画像まで確認して詳細図解レベルへ補強済み
+- クロック・MIPS・コア、命令処理とレジスタ、直接/間接アドレス指定、割込み、記憶階層、実効アクセス時間、USB/接続方式、画素/dpi/3Dプリンタを補強
+- protected lesson content version: `v376-lessons-ch4-visual-depth-v384-20260920`
+- lesson import manifest source commit: `ab2f7738640764bd6047a4b14c276515d791496c`
+- payload SHA-256: `8c79e3abb38e3104ded33c84c40d560002f000ff4afa8cfd589c9c56b9495e1c`
+- 第4章専用CSS: `assets/ch4-depth-v384.css`
+- PR #122 のCI（publication / v35）success、Pages deploy run `35483023544` success
+
 ## 4. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -88,11 +101,11 @@
 
 ## 5. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第4章へ進み、第1章〜第3章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第5章へ進み、第1章〜第4章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第4章をページ画像も含めて確認
+1. 参考書の第5章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
