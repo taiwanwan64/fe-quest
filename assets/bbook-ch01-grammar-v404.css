@@ -1,0 +1,56 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 1 Grammar — v404
+   Source-derived grammar guide only; protected question bodies remain private. */
+
+#bSelect .b-grammar-v404{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .b-grammar-v404>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:17px;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .b-grammar-v404>summary::-webkit-details-marker{display:none}
+#bSelect .b-grammar-v404>summary::after{content:"＋";float:right}
+#bSelect .b-grammar-v404[open]>summary::after{content:"−"}
+#bSelect .b-grammar-body-v404{padding:0 16px 16px}
+#bSelect .b-grammar-body-v404 p,
+#bSelect .b-grammar-body-v404 li{font-size:17px;line-height:1.65}
+#bSelect .b-grammar-section-v404{margin-top:14px;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-grammar-section-v404>h3{margin:0 0 10px;font-size:19px;color:#17364b}
+#bSelect .b-grammar-grid-v404{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-grammar-grid-v404.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+#bSelect .b-grammar-card-v404{padding:11px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-grammar-card-v404 b{display:block;font-size:17px;color:#17364b}
+#bSelect .b-grammar-card-v404 span{display:block;margin-top:4px;font-size:15px;line-height:1.5;color:#425b68}
+#bSelect .b-grammar-table-v404{overflow-x:auto}
+#bSelect .b-grammar-table-v404 table{width:100%;min-width:680px;border-collapse:collapse;background:#fff}
+#bSelect .b-grammar-table-v404 th,
+#bSelect .b-grammar-table-v404 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#bSelect .b-grammar-table-v404 th{background:#eef5f8;color:#17364b}
+#bSelect .b-grammar-flow-v404{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:8px 0}
+#bSelect .b-grammar-flow-v404 span{padding:8px 10px;border:1px solid #c9d8de;border-radius:9px;background:#fbfdfe;font-size:15px;font-weight:800}
+#bSelect .b-grammar-flow-v404 i{font-style:normal;color:#b45309}
+#bSelect .b-grammar-code-v404{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f1f5f9;border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.55;white-space:pre-wrap}
+#bSelect .b-grammar-note-v404{margin-top:10px;padding:11px 13px;border-left:4px solid #f59e0b;border-radius:9px;background:#fff7ed;font-size:16px;line-height:1.55}
+#bSelect .b-grammar-tips-v404{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#bSelect .b-grammar-tip-v404{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff}
+#bSelect .b-grammar-tip-v404 b{display:block;font-size:16px;color:#17364b}
+#bSelect .b-grammar-tip-v404 span{display:block;margin-top:4px;font-size:14px;line-height:1.45;color:#425b68}
+
+@media(max-width:760px){
+  #bSelect .b-grammar-grid-v404,
+  #bSelect .b-grammar-grid-v404.three{grid-template-columns:1fr}
+  #bSelect .b-grammar-tips-v404{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:480px){
+  #bSelect .b-grammar-v404>summary{font-size:16px;padding:13px 14px}
+  #bSelect .b-grammar-body-v404{padding:0 14px 14px}
+  #bSelect .b-grammar-tips-v404{grid-template-columns:1fr}
+}

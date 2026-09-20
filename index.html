@@ -109,6 +109,7 @@
 <link rel="stylesheet" href="./assets/ch20-depth-v401.css">
 <link rel="stylesheet" href="./assets/ch21-depth-v402.css">
 <link rel="stylesheet" href="./assets/ch22-strategy-v403.css">
+<link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1176,6 +1177,132 @@
               <div><b>データ構造と手続</b><span>再帰・スタック・キュー・探索・整列など</span></div>
             </div>
             <div class="b-strategy-cue-v403">FE QUESTの基礎演習を進めながら、公式公開問題も早めに一度見て、問題文の長さ・出題形式・レベル感を確認しておくと実戦へ移りやすくなります。</div>
+          </div>
+        </details>
+
+        <details class="b-grammar-v404">
+          <summary>文法早見表：変数・条件分岐・繰返し・関数</summary>
+          <div class="b-grammar-body-v404">
+            <p>擬似言語は、プログラムの処理を読み取るための表記です。まずは「変数の値がどう変わるか」を1行ずつ追えるようにします。</p>
+
+            <section class="b-grammar-section-v404">
+              <h3>1. 変数と型</h3>
+              <div class="b-grammar-grid-v404 three">
+                <div class="b-grammar-card-v404"><b>文字型</b><span>1字の文字を格納します。</span></div>
+                <div class="b-grammar-card-v404"><b>文字列型</b><span>複数の文字を格納します。</span></div>
+                <div class="b-grammar-card-v404"><b>整数型</b><span>整数を格納します。</span></div>
+                <div class="b-grammar-card-v404"><b>実数型</b><span>整数と小数を格納します。</span></div>
+                <div class="b-grammar-card-v404"><b>論理型</b><span>true（真）またはfalse（偽）を格納します。</span></div>
+                <div class="b-grammar-card-v404"><b>未定義</b><span>まだ値が格納されていない状態です。</span></div>
+              </div>
+              <div class="b-grammar-code-v404">整数型: a
+a ← 1
+f ← e + 2</div>
+              <p class="b-grammar-note-v404">「←」は右側の計算結果を左側へ格納する代入です。プログラムは原則として上から下へ1行ずつ実行します。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>2. 演算子を日本語と結び付ける</h3>
+              <div class="b-grammar-table-v404">
+                <table>
+                  <thead><tr><th>種類</th><th>表記</th><th>意味</th></tr></thead>
+                  <tbody>
+                    <tr><td>算術演算子</td><td>+ / - / × / ÷ / mod</td><td>加算 / 減算 / 乗算 / 除算 / 剰余</td></tr>
+                    <tr><td>関係演算子</td><td>&gt; / ≥ / &lt; / ≤ / = / ≠</td><td>より大きい / 以上 / より小さい / 以下 / 等しい / 等しくない</td></tr>
+                    <tr><td>論理演算子</td><td>and / or</td><td>両方が真 / どちらか一方でも真</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-grammar-note-v404">「5以上」には5を含みますが、「5より大きい」には5を含みません。境界値を含むかどうかまで読みます。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>3. if・elseif・else</h3>
+              <div class="b-grammar-grid-v404">
+                <div class="b-grammar-card-v404"><b>if</b><span>条件が真なら直後の処理を実行。偽ならその処理を飛ばします。</span></div>
+                <div class="b-grammar-card-v404"><b>elseif / else</b><span>前の条件が偽なら次の条件を確認し、どれも当てはまらなければelseへ進みます。</span></div>
+              </div>
+              <div class="b-grammar-code-v404">if a = 6
+    a ← a + 1
+elseif a = 5
+    a ← a - 1
+else
+    a ← a + 3
+endif</div>
+              <p>条件を一つずつ判定し、最初に真になった分岐だけを実行します。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>4. whileとdoは「条件を調べる位置」が違う</h3>
+              <div class="b-grammar-grid-v404">
+                <div class="b-grammar-card-v404"><b>while</b><span>先に条件を確認します。最初から偽なら、処理を1回も実行しません。</span></div>
+                <div class="b-grammar-card-v404"><b>do</b><span>先に処理を実行し、その後で条件を確認します。最初から偽でも1回は実行します。</span></div>
+              </div>
+              <div class="b-grammar-code-v404">while 0 &gt; 0
+    処理
+endwhile
+
+do
+    処理
+while 0 &gt; 0</div>
+              <p class="b-grammar-note-v404">繰返しの中で条件がいつまでも偽にならないと、処理が終わらない「無限ループ」になります。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>5. forは4つに分けて読む</h3>
+              <div class="b-grammar-flow-v404">
+                <span>for変数</span><i>→</i><span>初期値</span><i>→</i><span>条件式</span><i>→</i><span>増減</span>
+              </div>
+              <div class="b-grammar-code-v404">for (i を 1 から 3 まで 2ずつ増やす)
+    処理
+endfor</div>
+              <div class="b-grammar-flow-v404">
+                <span>① 初期値を格納</span><i>→</i><span>② 条件を確認</span><i>→</i><span>③ 本体を実行</span><i>→</i><span>④ 増減</span><i>↺</i>
+              </div>
+              <p>初期化は最初の1回だけです。その後は、条件判定→本体→増減→条件判定…を繰り返します。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>6. 関数・手続・有効範囲</h3>
+              <div class="b-grammar-grid-v404">
+                <div class="b-grammar-card-v404"><b>関数</b><span>引数を受け取り、処理後にreturnで戻り値を呼び出し元へ返します。</span></div>
+                <div class="b-grammar-card-v404"><b>手続</b><span>戻り値を返さない処理のまとまりです。</span></div>
+                <div class="b-grammar-card-v404"><b>局所変数・引数</b><span>宣言された関数や手続の中だけで利用し、終了すると値は残りません。</span></div>
+                <div class="b-grammar-card-v404"><b>大域変数</b><span>プログラムの広い範囲から利用し、各処理が終了しても値を残して再利用できます。</span></div>
+              </div>
+              <div class="b-grammar-flow-v404">
+                <span>引数を持って呼出し</span><i>→</i><span>引数へ値を格納</span><i>→</i><span>関数内を実行</span><i>→</i><span>returnで戻る</span>
+              </div>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>7. トレースは「変化した状態」を書く</h3>
+              <div class="b-grammar-tips-v404">
+                <div class="b-grammar-tip-v404"><b>変数ごとに列を作る</b><span>値の変化を横に混ぜず、追う対象を分けます。</span></div>
+                <div class="b-grammar-tip-v404"><b>1行ずつ実行する</b><span>飛ばし読みせず、現在値を使って次の値を求めます。</span></div>
+                <div class="b-grammar-tip-v404"><b>値が変わらない行は省略</b><span>else、endif、endwhile、do、endforなどは、値が変わらないため表への記入を省略できます。</span></div>
+                <div class="b-grammar-tip-v404"><b>条件式は記号で短く</b><span>「aが5より大きい」は「a &gt; 5」のように書くと速く確認できます。</span></div>
+              </div>
+              <p class="b-grammar-note-v404">FE QUESTの「状態」欄は、このトレース表を画面上で可視化したものです。慣れてきたら、問題文を見て自分で小さな表を書いてから答えを予測してみてください。</p>
+            </section>
+
+            <section class="b-grammar-section-v404">
+              <h3>8. 変数名の定番略語</h3>
+              <div class="b-grammar-table-v404">
+                <table>
+                  <thead><tr><th>名前</th><th>読み取る意味</th><th>名前</th><th>読み取る意味</th></tr></thead>
+                  <tbody>
+                    <tr><td>array</td><td>配列</td><td>count / cnt</td><td>個数</td></tr>
+                    <tr><td>current / curr</td><td>現在の値</td><td>index / idx</td><td>要素番号・添字</td></tr>
+                    <tr><td>length / len</td><td>長さ</td><td>matrix</td><td>行列</td></tr>
+                    <tr><td>number / num</td><td>数・数値</td><td>pos</td><td>位置</td></tr>
+                    <tr><td>prev</td><td>前の値・前の位置</td><td>ptr</td><td>次の位置を指す添字</td></tr>
+                    <tr><td>ret</td><td>戻り値</td><td>temp / tmp / work</td><td>一時保存用</td></tr>
+                    <tr><td>value / val</td><td>値</td><td></td><td></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </div>
         </details>
 
