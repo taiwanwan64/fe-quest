@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `4abdb84d0a854ac5de03f44e847fcbd3bb285f36`
+- main: `01e58c645d7c8000c3f848e1360b3474a20cd66c`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35488223618`、success
-- PWA cache contract: `fe-quest-v377-71`
+- 最新本番 deploy: GitHub Actions run `35488713545`、success
+- PWA cache contract: `fe-quest-v377-72`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -38,6 +38,7 @@
 - 第7章詳細図解 PR: #132、merged
 - 第8章詳細図解 PR: #134、merged
 - 第9章詳細図解 PR: #136、merged
+- 第10章詳細図解 PR: #138、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -203,6 +204,20 @@
 - 第9章専用CSS: `assets/ch9-depth-v390.css`
 - PR #136 のCI（publication / v35）success、Pages deploy run `35488223618` success
 
+### 第10章
+
+`.github/reference-audits/CH10_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_10_01`〜`core_10_09` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 回線、交換方式、LAN/WAN、無線LAN、IP/ポート/MAC、サブネット、IPv4/IPv6、NAT/NAPT/DHCPを補強
+- DNS/URL、OSIとTCP/IP、ネットワーク機器、接続形態、NTP、To/Cc/Bcc、MIME/S-MIME、パリティ/CRCを図解
+- `core_10_10`（SNMP/SDN/NFV/RADIUS/QoS等）は参考資料外の既存追加範囲として保持
+- protected lesson content version: `v376-lessons-ch10-visual-depth-v391-20260920`
+- lesson import manifest source commit: `01e58c645d7c8000c3f848e1360b3474a20cd66c`
+- payload SHA-256: `36a58d14f6ac295329d8197875f77017e3b5106949a0977e5dc9a6b31f786e29`
+- 第10章専用CSS: `assets/ch10-depth-v391.css`
+- PR #138 のCI（publication / v35）success、Pages deploy run `35488713545` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -223,11 +238,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第10章「ネットワーク」へ進み、第1章〜第9章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第11章「情報セキュリティ」へ進み、第1章〜第10章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第10章をページ画像も含めて確認
+1. 参考書の第11章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
