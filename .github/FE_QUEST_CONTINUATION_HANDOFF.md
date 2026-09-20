@@ -24,17 +24,18 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `26e2dec3b0d21be4fc5f8ca07955f5b7e09edeaf`
+- main: `ed05c41018f861073e19f89a522413ea919294bf`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35486914132`、success
-- PWA cache contract: `fe-quest-v377-68`
+- 最新本番 deploy: GitHub Actions run `35487332243`、success
+- PWA cache contract: `fe-quest-v377-69`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
 - 第4章詳細図解 PR: #122、merged
 - 第5章詳細図解 PR: #128、merged
 - 第6章詳細図解 PR: #130、merged
+- 第7章詳細図解 PR: #132、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -153,6 +154,21 @@
 - 第6章専用CSS: `assets/ch6-depth-v387.css`
 - PR #130 のCI（publication / v35）success、Pages deploy run `35486914132` success
 
+### 第7章
+
+`.github/reference-audits/CH07_FULL_DEPTH_VISUAL_AUDIT_2026-09-20.md`
+
+- `core_07_01`〜`core_07_02` を参考資料の本文画像・章末問題まで確認して詳細図解レベルへ補強済み
+- 半導体、RAM/ROM分類、SDRAM、マスクROM/PROM/EPROM/EEPROM、フラッシュのページ/ブロックを補強
+- メモリセル、DRAM=コンデンサ、SRAM=フリップフロップ、チャタリング、7セグメントLEDを図解
+- アノードコモン/カソードコモンの点灯条件を補強
+- 既存のA/D・D/A、標本化、量子化、正論理/負論理、ダイオード/トランジスタ、FPGAは保持
+- protected lesson content version: `v376-lessons-ch7-visual-depth-v388-20260920`
+- lesson import manifest source commit: `ed05c41018f861073e19f89a522413ea919294bf`
+- payload SHA-256: `f7df6fa3def93d8f7010338eb947142bef374ac5d0706351b1f8120ff9ddb769`
+- 第7章専用CSS: `assets/ch7-depth-v388.css`
+- PR #132 のCI（publication / v35）success、Pages deploy run `35487332243` success
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -173,11 +189,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**参考書の第7章へ進み、第1章〜第6章と同じ粒度で章単位監査を始める。**
+ユーザーから別の具体的な修正指示がなければ、**参考書の第8章へ進み、第1章〜第7章と同じ粒度で章単位監査を始める。**
 
 手順:
 
-1. 参考書の第7章をページ画像も含めて確認
+1. 参考書の第8章をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の対応 lesson ID / payload を live で読む
