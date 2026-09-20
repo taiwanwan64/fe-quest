@@ -91,3 +91,18 @@
 
 - PWA cache contractは `fe-quest-v377-84` へ更新する。
 - 第22章戦略CSSをindex / service worker / publication CI / Pages CIへ接続する。
+
+
+## 完了証跡
+
+- protected lesson bank: 変更なし
+- protected question bank: 変更なし
+- lesson import manifest: Chapter 22では追加不要
+- source / merged main commit: `62ac4251452d9e5946cdc0abcdaa20ac2b53d366`
+- PR: #162（merged）
+- PR head CI:
+  - Validate sanitized FE QUEST publication: run `35508738417` — success
+  - Validate IPA 9.2 question v35 public activation: run `35508738405` — success
+- production Pages deploy: run `35508766208` — success
+- PWA cache contract: `fe-quest-v377-84`
+- 第22章で追加した3つの戦略ガイドは、科目Bコアコース / アルゴリズム / セキュリティの既存主動線を壊さない折りたたみ構成
