@@ -763,6 +763,51 @@
 - production Pages deploy: run `35566414975` — success
 - PWA cache contract: `fe-quest-v377-98`
 
+
+### 科目B 予想＋過去問題集 第1章「予想問題1」
+
+`.github/reference-audits/BBOOK2_PREDICTION1_AUDIT_2026-09-21.md`
+
+- PDF 35〜105ページを問題20問＋解説まで監査
+- 既存問題プールで主要領域はcovered
+- 長いプログラムを「状態が変わる単位」で追う実戦トレースを補強
+- protected question bankは変更なし、active total 1173
+- PR #193 merged / production deploy success
+- PWA cache contract: `fe-quest-v377-99`
+
+### 科目B 予想＋過去問題集 第2章「予想問題2」
+
+`.github/reference-audits/BBOOK2_PREDICTION2_AUDIT_2026-09-21.md`
+
+- PDF 106〜187ページを問題20問＋解説まで監査
+- 複数空欄を「役割 → 依存関係」の順で解く横断手順を補強
+- protected question bankは変更なし、active total 1173
+- PR #194 merged / production deploy success
+- PWA cache contract: `fe-quest-v377-100`
+
+### 科目B 予想＋過去問題集 第3章「予想問題3」
+
+`.github/reference-audits/BBOOK2_PREDICTION3_AUDIT_2026-09-21.md`
+
+- PDF 188〜280ページを問題20問＋解説まで監査
+- 循環キュー（リングバッファ）と後置記法（逆ポーランド記法）の解法を補強
+- protected question bankは変更なし、active total 1173
+- PR #195 merged / production deploy run `35569666752` success
+- main after merge: `f3e9f6dbd6b1f12b95dda4f30e7d93b1d594a34c`
+- PWA cache contract: `fe-quest-v377-101`
+
+### 科目B 予想＋過去問題集 第4章「令和4年サンプル問題」
+
+`.github/reference-audits/BBOOK2_SAMPLE2022_AUDIT_2026-09-21.md`
+
+- PDF 282〜365ページを問題20問＋解説まで監査
+- 既存教材で大半はcovered
+- ゲーム木／ミニマックス法と、固定ビットをもつ符号化・ビットパッキング手順を補強
+- protected lesson / question bankは変更なし、active total 1173
+- PWA cache contract: `fe-quest-v377-102`
+- この項目のPR / CI / merge / Pages deployは、作業完了時にlive状態を再確認する
+
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -784,11 +829,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**添付教材『科目B 予想＋過去問題集』の第1部・第1章「予想問題1」へ進む。PDF 35ページが第1部扉、PDF 36ページから第1章が始まり、第2章開始直前（PDF 106ページ付近）までを問題→解説の順で監査する。原著問題は転載せず、出題型・つまずきポイント・解法手順を概念単位でFE QUESTと照合し、thin / missingだけを補強する。**
+ユーザーから別の具体的な修正指示がなければ、**添付教材『科目B 予想＋過去問題集』の第5章「令和5年公開問題」へ進む。PDF 366ページから第5章が始まることを確認済み。問題→解説の順で監査し、原著問題は転載せず、出題型・つまずきポイント・解法手順を概念単位でFE QUESTと照合し、thin / missingだけを補強する。**
 
 手順:
 
-1. 『科目B 予想＋過去問題集』第1章「予想問題1」を問題→解説の順でページ画像まで確認
+1. 『科目B 予想＋過去問題集』第5章「令和5年公開問題」を問題→解説の順でページ画像まで確認
 2. 各問から「何を追わせる問題か」「どこで誤りやすいか」「解説が使っている一般化可能な手順」を概念として抽出し、問題文そのものは転載しない
 3. IPA範囲との対応を確認
 4. FE QUEST の b_exercise / b_compound / b_exam_algo とトレース教材をliveで照合
