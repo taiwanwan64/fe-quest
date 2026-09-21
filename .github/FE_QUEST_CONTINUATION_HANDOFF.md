@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `b692e0a6acf21d3c9b004cdcf9ac6cb33679bced`
+- main: `d815d9a9e85eb9575a7e48e72607ac750fe61701`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35554534338`、success
-- PWA cache contract: `fe-quest-v377-91`
+- 最新本番 deploy: GitHub Actions run `35555394156`、success
+- PWA cache contract: `fe-quest-v377-92`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -58,6 +58,7 @@
 - 科目B専用参考書 第5章「再帰」 PR: #172、merged
 - 科目B専用参考書 第6章「木構造」 PR: #174、merged
 - 科目B専用参考書 第7章「オブジェクト指向」 PR: #176、merged
+- 科目B専用参考書 第8章「リスト」 PR: #178、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -587,6 +588,28 @@
 - production Pages deploy: run `35554534338` — success
 - PWA cache contract: `fe-quest-v377-91`
 
+### 科目B専用参考書 第1部 第8章「リスト」
+
+`.github/reference-audits/BBOOK_CH08_LIST_AUDIT_2026-09-21.md`
+
+- 第8章を章扉から確認問題・練習問題8-1〜8-4・解説までページ画像で確認済み
+- 科目Bトレース画面へ「連結リスト：値ではなく参照の矢印を付け替える」を追加
+- node = 値 + next、headから終端までたどる基本を整理
+- 挿入では後続への参照を保存してから前側のnextを付け替える順序を補強
+- 中間削除は前要素のnextで対象を飛び越すことを補強
+- 先頭追加/削除は前要素がないためhead自体を更新することを補強
+- 末尾・位置指定処理ではprev / ptrを2本で追う手順を補強
+- 空・1要素・先頭・末尾・未発見の境界条件を整理
+- リストから外れることとインスタンスそのものを消すことを区別
+- 双方向リストのnext / prev、head / tailを補足
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch08-list-v411.css`
+- PR #178 のCI:
+  - Validate sanitized FE QUEST publication: run `35555373014` — success
+  - Validate IPA 9.2 question v35 public activation: run `35555372980` — success
+- production Pages deploy: run `35555394156` — success
+- PWA cache contract: `fe-quest-v377-92`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -607,11 +630,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第8章「リスト」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第9章「スタック・キュー」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第8章「リスト」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第9章「スタック・キュー」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
