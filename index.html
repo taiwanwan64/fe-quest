@@ -1495,6 +1495,23 @@ endfor</div>
                 <div><b>継続条件</b><br>(i &gt; 0) and (j &gt; 0)</div>
               </div>
               <p class="b-matrix-note-v406">科目Aで学ぶド・モルガンの法則を、科目Bでは「終了条件をwhileの継続条件へ直す道具」として使います。</p>
+            <section class="b-matrix-section-v406">
+              <h3>7. グラフの隣接行列は「辺1本 → 2か所」を基本にする</h3>
+              <p>頂点どうしのつながりを二次元配列で表す方法を<strong>隣接行列</strong>といいます。行を「出発側の頂点」、列を「相手側の頂点」として、つながっている場所へ1を入れます。</p>
+              <div class="b-matrix-code-v406">頂点1と頂点3の間に辺がある
+→ adj[1, 3] ← 1
+
+無向グラフなら反対向きも同じ
+→ adj[3, 1] ← 1</div>
+              <div class="b-matrix-grid-v406">
+                <div class="b-matrix-card-v406"><b>無向グラフ</b><span>辺(u, v)なら [u, v] と [v, u] の2か所を1にする。</span></div>
+                <div class="b-matrix-card-v406"><b>対称になる</b><span>無向グラフの隣接行列は、左上→右下の対角線を境に鏡のような形になる。</span></div>
+                <div class="b-matrix-card-v406"><b>自己ループなし</b><span>頂点から自分自身への辺がなければ [u, u] は0のまま。</span></div>
+                <div class="b-matrix-card-v406"><b>有向グラフ</b><span>向きがある場合は [u, v] と [v, u] を同じにするとは限らない。</span></div>
+              </div>
+              <p class="b-matrix-alert-v406">選択肢で代入が1行しかない候補は、無向グラフの両向きを表せるかを確認します。<strong>「辺の配列」から「行列」へ変換するなら、まず1本の辺だけで試す</strong>と判断しやすくなります。</p>
+            </section>
+
             </section>
           </div>
         </details>
@@ -2294,7 +2311,21 @@ x ← x OR setMask</div>
             </section>
 
             <section class="b-bit-section-v413">
-              <h3>10. 科目Bではこの順で確認する</h3>
+              <h3>10. 2進文字列は「今までの値 × 2 + 次の1桁」で左から読める</h3>
+              <p>2進数を文字列として左から1桁ずつ読む処理では、各桁の重みを毎回書かなくても、<strong>これまでの値を2倍して次のビットを足す</strong>ことで10進値を作れます。</p>
+              <div class="b-bit-code-v413">binary = "1011"
+
+result ← 0
+'1' → result = 0×2 + 1 = 1
+'0' → result = 1×2 + 0 = 2
+'1' → result = 2×2 + 1 = 5
+'1' → result = 5×2 + 1 = 11</div>
+              <p>これは10進数を左から読むときの「今までの値 × 10 + 次の数字」と同じ考え方です。一般に基数bなら、<code>result ← result × b + digit</code> と考えられます。</p>
+              <p class="b-bit-good-v413">配列や文字列を左から走査しているコードなら、「何桁目の重みか」を別計算するより、累積値が毎回基数倍されているかを見ると候補を絞りやすくなります。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>11. 科目Bではこの順で確認する</h3>
               <div class="b-bit-steps-v413">
                 <div><strong>① ビット数を固定</strong><br>4ビット / 8ビットなどを最初に確認。</div>
                 <div><strong>② 桁を縦にそろえる</strong><br>右端を合わせ、位置をずらさない。</div>
