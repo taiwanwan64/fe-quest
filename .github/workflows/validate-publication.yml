@@ -76,8 +76,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-103';" sw.js
-          grep -Fq "fe-quest-v377-103" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-104';" sw.js
+          grep -Fq "fe-quest-v377-104" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -276,6 +276,10 @@ jobs:
           grep -Fq '設問が「最初の出力」「1回目の分割後」などを聞いているなら、その時点で止めます' index.html
           grep -Fq '数式は「記号の読み替え → 塊ごとの計算」の順でコードへ対応させる' index.html
           grep -Fq '数式では掛け算記号が省略されることがある' index.html
+          grep -Fq 'グラフの隣接行列は「辺1本 → 2か所」を基本にする' index.html
+          grep -Fq '無向グラフの隣接行列は、左上→右下の対角線を境に鏡のような形' index.html
+          grep -Fq '2進文字列は「今までの値 × 2 + 次の1桁」で左から読める' index.html
+          grep -Fq 'result ← result × b + digit' index.html
           grep -Fq '実戦トレース：1行ずつではなく「状態が変わる単位」で追う' index.html
           grep -Fq '途中表の列は「必要になった変数だけ」' index.html
           ! grep -Fq '参考資料' index.html
@@ -740,7 +744,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-103';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-104';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
