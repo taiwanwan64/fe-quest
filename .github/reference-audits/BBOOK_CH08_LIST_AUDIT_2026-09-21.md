@@ -84,3 +84,17 @@ protected question bankは変更しない。既存9問を維持し、薄かっ�
 - 専用CSS: `assets/bbook-ch08-list-v411.css`
 - PWA cache contract: `fe-quest-v377-92`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- PR: #178（merged）
+- PR head: `06b74ee27d4ad62425071d2b3c2b711c3a1296ff`
+- PR CI:
+  - Validate sanitized FE QUEST publication: run `35555373014` — success
+  - Validate IPA 9.2 question v35 public activation: run `35555372980` — success
+- merge commit: `d815d9a9e85eb9575a7e48e72607ac750fe61701`
+- production Pages deploy: run `35555394156` — success
+- PWA cache contract: `fe-quest-v377-92`
