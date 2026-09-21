@@ -80,7 +80,7 @@ jobs:
           const selectorStart=app.indexOf('function bFinalSelectDescriptorsV376(){');
           const selectorEnd=app.indexOf('function bFinalProtectedItemV376',selectorStart);
           const selector=selectorStart>=0&&selectorEnd>selectorStart?app.slice(selectorStart,selectorEnd):'';
-          if(!app.includes("policy:'algorithm-16-then-security-4'")||!selector.includes('const descriptors=[...algo,...security];')||!selector.includes("item.kind!=='algo'")||!selector.includes("item.kind!=='security'"))throw new Error('v425 final runtime order contract missing');
+          if(!app.includes("policy:'algorithm-16-then-security-4'")||!app.includes('randomizesWithinBlocks:true')||!selector.includes('const algo=shuffled(bFinalSelectAlgoV376());')||!selector.includes('const security=shuffled(bFinalSelectSecurityV376());')||!selector.includes('const descriptors=[...algo,...security];')||!selector.includes("item.kind!=='algo'")||!selector.includes("item.kind!=='security'"))throw new Error('v425 final runtime order contract missing');
           if(selector.includes('shuffled([...bFinalSelectAlgoV376()'))throw new Error('v425 final runtime order regressed to mixed shuffle');
           console.log('PASS Subject B final runtime order: algorithm 16 then security 4');
           NODE
