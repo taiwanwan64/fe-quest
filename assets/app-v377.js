@@ -9107,6 +9107,24 @@ function finishBFinalLegacyV376(timeUp=false){
   document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show');
   renderBFinalResult(attempt,earned);
 }
+const B_FINAL_GRADING_V427_SPEC=Object.freeze({
+  policy:'preserve-exact-question-order-through-server-grading',
+  totalCount:20,
+  algorithmCount:16,
+  securityCount:4,
+  requiresExactSessionOrder:true,
+  requiresExactResultOrder:true,
+  blankAnswersRemainIncorrect:true,
+  preservesServerSideGrading:true,
+  preventsLocalDoubleScoring:true
+});
+function bFinalQuestionOrderMatchesV427(actual,expected){
+  return Array.isArray(actual)&&Array.isArray(expected)&&actual.length===expected.length&&actual.every((id,index)=>id===expected[index]);
+}
+function bFinalGradeResultsMatchV427(results,expectedIds){
+  return Array.isArray(results)&&Array.isArray(expectedIds)&&results.length===expectedIds.length&&results.every((result,index)=>result?.questionId===expectedIds[index]);
+}
+globalThis.B_FINAL_GRADING_V427_SPEC=B_FINAL_GRADING_V427_SPEC;
 async function finishBFinal(timeUp=false){
   if(!bFinalItems.length||bFinalGradeBusyV376)return false;
   bFinalGradeBusyV376=true;stopBFinalTimer();
@@ -9115,7 +9133,7 @@ async function finishBFinal(timeUp=false){
     const ids=bFinalItems.map(item=>item._protectedQuestionId);
     if(ids.some(id=>!id)||new Set(ids).size!==20)throw new Error('v376_b_final_resume_ids_invalid');
     const state=bFinalBridgeV376().state();
-    if(state.mode!=='final'||state.questionIds.length!==20||ids.some(id=>!state.questionIds.includes(id))){
+    if(state.mode!=='final'||!bFinalQuestionOrderMatchesV427(state.questionIds,ids)){
       await bFinalBridgeV376().startSession(ids);
     }
     const serverChoices=bFinalItems.map((item,index)=>{
@@ -9123,7 +9141,7 @@ async function finishBFinal(timeUp=false){
       const mapped=item._serverMap?.[selected];if(!Number.isInteger(mapped))throw new Error('v376_b_final_choice_map_invalid');return mapped;
     });
     const results=await bFinalBridgeV376().gradeSession(serverChoices);
-    if(!Array.isArray(results)||results.length!==20)throw new Error('v376_b_final_grade_count_invalid');
+    if(!bFinalGradeResultsMatchV427(results,ids))throw new Error('v427_b_final_grade_order_invalid');
     results.forEach((result,index)=>{
       const item=bFinalItems[index],displayAnswer=item._serverMap.indexOf(result.answerIndex);
       if(displayAnswer<0)throw new Error('v376_b_final_answer_map_invalid');
