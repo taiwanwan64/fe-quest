@@ -1,0 +1,12 @@
+#bSelect .bbook2-prediction2-v419{margin:14px 0;border:1px solid rgba(99,102,241,.22);border-radius:18px;background:rgba(255,255,255,.78);overflow:hidden}
+#bSelect .bbook2-prediction2-v419>summary{cursor:pointer;padding:16px 18px;font-weight:800;font-size:18px;line-height:1.55}
+#bSelect .bbook2-prediction2-body-v419{padding:0 18px 18px;font-size:18px;line-height:1.75}
+#bSelect .bbook2-prediction2-body-v419>p{margin:0 0 14px}
+#bSelect .bbook2-prediction2-grid-v419{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#bSelect .bbook2-prediction2-grid-v419>div{padding:14px;border-radius:14px;background:rgba(99,102,241,.07)}
+#bSelect .bbook2-prediction2-grid-v419 b{display:block;margin-bottom:5px;font-size:18px;line-height:1.5}
+#bSelect .bbook2-prediction2-grid-v419 span{display:block;font-size:16px;line-height:1.65}
+#bSelect .bbook2-prediction2-note-v419{margin-top:12px;padding:14px 16px;border-radius:14px;background:rgba(16,185,129,.09)}
+#bSelect .bbook2-prediction2-note-v419 b{display:block;margin-bottom:4px;font-size:18px}
+#bSelect .bbook2-prediction2-note-v419 span{font-size:17px;line-height:1.65}
+@media(max-width:760px){#bSelect .bbook2-prediction2-grid-v419{grid-template-columns:1fr}#bSelect .bbook2-prediction2-v419>summary{font-size:17px}#bSelect .bbook2-prediction2-body-v419{font-size:17px;padding:0 14px 16px}}
