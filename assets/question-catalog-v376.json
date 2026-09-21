@@ -11,10 +11,10 @@
     "bPredictions": 40,
     "bCompoundSets": 15,
     "bCompoundQuestions": 45,
-    "bExamAlgo": 43,
+    "bExamAlgo": 50,
     "bSecurityScenarios": 15,
     "bSecurityQuestions": 45,
-    "catalogQuestions": 904
+    "catalogQuestions": 911
   },
   "items": [
     {
@@ -10531,6 +10531,69 @@
       "ordinal": 3,
       "level": "標準",
       "concept": "脆弱性管理・パッチ"
+    },
+    {
+      "id": "b_exam_bexam_sq_05",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_sq_05",
+      "ordinal": 1,
+      "level": "応用",
+      "domain": "スタック・キュー",
+      "format": "途中状態"
+    },
+    {
+      "id": "b_exam_bexam_tree_06",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_tree_06",
+      "ordinal": 1,
+      "level": "応用",
+      "domain": "木構造",
+      "format": "処理結果"
+    },
+    {
+      "id": "b_exam_bexam_bit_06",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_bit_06",
+      "ordinal": 1,
+      "level": "応用",
+      "domain": "ビット列",
+      "format": "処理結果"
+    },
+    {
+      "id": "b_exam_bexam_algo_04",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_algo_04",
+      "ordinal": 1,
+      "level": "応用",
+      "domain": "探索・整列",
+      "format": "途中状態"
+    },
+    {
+      "id": "b_exam_bexam_arr_06",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_arr_06",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "一次元配列",
+      "format": "空欄補充"
+    },
+    {
+      "id": "b_exam_bexam_mat_05",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_mat_05",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "二次元配列",
+      "format": "処理結果"
+    },
+    {
+      "id": "b_exam_bexam_ctrl_05",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bexam_ctrl_05",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "制御",
+      "format": "処理結果"
     }
   ]
 }
