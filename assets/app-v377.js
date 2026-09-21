@@ -8881,11 +8881,12 @@ const B_FINAL_RUNTIME_ORDER_V425_SPEC=Object.freeze({
   securityCount:4,
   totalCount:20,
   preservesQuestionSelection:true,
+  randomizesWithinBlocks:true,
   changesOnlyFinalRuntimeOrder:true
 });
 function bFinalSelectDescriptorsV376(){
-  const algo=bFinalSelectAlgoV376();
-  const security=bFinalSelectSecurityV376();
+  const algo=shuffled(bFinalSelectAlgoV376());
+  const security=shuffled(bFinalSelectSecurityV376());
   const descriptors=[...algo,...security];
   if(descriptors.length!==20||new Set(descriptors.map(item=>item.questionId)).size!==20)throw new Error('v376_b_final_selection_invalid');
   if(algo.length!==16||security.length!==4||descriptors.slice(0,16).some(item=>item.kind!=='algo')||descriptors.slice(16).some(item=>item.kind!=='security'))throw new Error('v425_b_final_runtime_order_invalid');
