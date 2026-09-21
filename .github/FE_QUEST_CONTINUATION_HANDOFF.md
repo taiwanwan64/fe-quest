@@ -24,16 +24,17 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `d136220be022f087473fe9469b6ab23e7e558bf3`
+- main: `19ce7118a25a99c353df52612a3d66a26289a540`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35614253427`、success
-- PWA cache contract: `fe-quest-v377-108`
+- 最新本番 deploy: GitHub Actions run `35615019010`、success
+- PWA cache contract: `fe-quest-v377-109`
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
 - 科目B総合実戦16→4順序復元 PR: #203、merged
 - 科目B総合実戦再開データ整合性強化 PR: #204、merged
+- 科目B総合実戦採点順序整合性強化 PR: #206、merged
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -913,6 +914,22 @@
 - PWA cache contract: `fe-quest-v377-108`
 
 
+### 科目B 総合実戦 採点・結果パイプライン監査
+
+`.github/reference-audits/B_FINAL_GRADING_RESULT_AUDIT_2026-09-21.md`
+
+- 表示4択のshuffle → server choice index → answerIndexの戻しを監査
+- 未回答は正答位置が0番でも正解扱いされないことを確認
+- question gateのanswer再送は回答済みIDを重複追加せず再試行可能
+- 全20問のserver grading完了前にはXP / history / statsを更新しない
+- bridge session再利用時の判定が「同じ20問の集合」止まりだったため、完全順序一致へ修正
+- grading resultも `results[i].questionId === expectedIds[i]` を全件確認してから結果へ反映
+- protected bankは変更なし、active total 1180、`b_exam_algo=50`
+- PR #206 merged、merge commit `19ce7118a25a99c353df52612a3d66a26289a540`
+- production Pages deploy run `35615019010` success
+- PWA cache contract: `fe-quest-v377-109`
+
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -934,17 +951,17 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦の「採点 → 結果表示 → 誤答復習」パイプラインをlive監査する。** 50問プール、16＋4の順序、途中再開は監査済みなので、次は提出後の正答map・未回答処理・履歴・弱点診断・復習導線がprotected化後も一貫しているか確認する。
+ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦の結果画面・誤答復習導線をlive監査する。** gradingのindex整合性、未回答、再試行、XP / history更新境界はv427で確認済み。次は採点後に「何を間違えたか → どこへ戻るか」が学習者に正しく伝わるかを確認する。
 
 手順:
 
-1. `finishBFinal()` と `protected-b-final-bridge-v376.js` の `gradeSession()` を照合
-2. 表示順にshuffleした4択とserver-side `answerIndex` の対応が全問で正しく復元されることを確認
-3. 未回答を誤答として扱う契約、正答数、algo 16問 / security 4問の区分集計を確認
-4. `bFinalHistory` / `bFinalStats` / mistake stats の更新が二重計上されないことを確認
-5. 結果画面の正答率・誤答復習・弱点領域・次の学習導線を確認
-6. リトライ、通信失敗、時間切れ時に履歴やXPが重複付与されないことを確認
-7. protected内容・正答をpre-submitや公開GitHubへ漏らさない境界を維持
+1. `renderBFinalResult()` / `renderBFinalDiagnosis()` / review list の表示内容を確認
+2. algo / security別の正答数、format別内訳、弱点domainが20問結果と一致することを確認
+3. `bFinalMistakeKey()` と mistake stats が同じ問題型を誤って合算・分断していないか確認
+4. 誤答理由の選択・保存・再表示が対象問題へ正しく紐付くことを確認
+5. `bFinalRemediationTarget()` が10 algorithm domain / security scenarioを適切な学習先へ返すか確認
+6. 「誤答を復習する」「次の科目Bへ」「再挑戦」の優先順位とモバイル導線を確認
+7. 結果画面から戻った際にprotected contentやanswer cacheを保持し続けないことを確認
 8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
