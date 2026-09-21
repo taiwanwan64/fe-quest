@@ -4,6 +4,7 @@
 const GATE_URL='https://gkvgxnkoypypikxtyeoz.supabase.co/functions/v1/fequest-question-gate-v376';
 const SCRIPT_URL=document.currentScript?.src||document.baseURI;
 const BASE_CATALOG_URL=new URL('question-catalog-v376.json',SCRIPT_URL).toString();
+const B_GAP_CATALOG_URL=new URL('question-catalog-b-gap-v1.json',SCRIPT_URL).toString();
 const IPA92_V1_V6_CATALOG_URL=new URL('question-catalog-ipa92-v1-v6.json',SCRIPT_URL).toString();
 const IPA92_V7_CATALOG_URL=new URL('question-catalog-ipa92-v7.json',SCRIPT_URL).toString();
 const IPA92_V8_CATALOG_URL=new URL('question-catalog-ipa92-v8.json',SCRIPT_URL).toString();
@@ -35,6 +36,8 @@ const IPA92_V33_CATALOG_URL=new URL('question-catalog-ipa92-v33.json',SCRIPT_URL
 const IPA92_V34_CATALOG_URL=new URL('question-catalog-ipa92-v34.json',SCRIPT_URL).toString();
 const IPA92_V35_CATALOG_URL=new URL('question-catalog-ipa92-v35.json',SCRIPT_URL).toString();
 const BASE_CATALOG_VERSION='v376-catalog-1';
+const B_GAP_CATALOG_VERSION='b-gap-catalog-v1';
+const B_GAP_CONTENT_VERSION='v376-protected-b-gap-v1-20260921';
 const IPA92_V1_V6_CATALOG_VERSION='ipa92-catalog-v1-v6';
 const IPA92_V7_CATALOG_VERSION='ipa92-catalog-v7';
 const IPA92_V8_CATALOG_VERSION='ipa92-catalog-v8';
@@ -100,6 +103,7 @@ const IPA92_V33_CONTENT_VERSION='ipa92-questions-v33';
 const IPA92_V34_CONTENT_VERSION='ipa92-questions-v34';
 const IPA92_V35_CONTENT_VERSION='ipa92-questions-v35';
 const BASE_CATALOG_TOTAL=904;
+const B_GAP_TOTAL=7;
 const IPA92_V1_V6_TOTAL=83;
 const IPA92_V7_TOTAL=16;
 const IPA92_V8_TOTAL=16;
@@ -131,7 +135,7 @@ const IPA92_V33_TOTAL=5;
 const IPA92_V34_TOTAL=5;
 const IPA92_V35_TOTAL=5;
 const IPA92_EXTENSION_TOTAL=IPA92_V1_V6_TOTAL+IPA92_V7_TOTAL+IPA92_V8_TOTAL+IPA92_V9_TOTAL+IPA92_V10_TOTAL+IPA92_V11_TOTAL+IPA92_V12_TOTAL+IPA92_V13_TOTAL+IPA92_V14_TOTAL+IPA92_V15_TOTAL+IPA92_V16_TOTAL+IPA92_V17_TOTAL+IPA92_V18_TOTAL+IPA92_V19_TOTAL+IPA92_V20_TOTAL+IPA92_V21_TOTAL+IPA92_V22_TOTAL+IPA92_V23_TOTAL+IPA92_V24_TOTAL+IPA92_V25_TOTAL+IPA92_V26_TOTAL+IPA92_V27_TOTAL+IPA92_V28_TOTAL+IPA92_V29_TOTAL+IPA92_V30_TOTAL+IPA92_V31_TOTAL+IPA92_V32_TOTAL+IPA92_V33_TOTAL+IPA92_V34_TOTAL+IPA92_V35_TOTAL;
-const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_EXTENSION_TOTAL;
+const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_EXTENSION_TOTAL+B_GAP_TOTAL;
 const ACCESS_SESSION_KEY='fequest_beta_access_v376';
 const OPEN_PREVIEW_ACCESS=true;
 const MAX_BATCH=20;
@@ -190,20 +194,26 @@ function safeIpa92CatalogItem(item){
   if(Object.keys(item).some(key=>PROTECTED_CATALOG_KEYS.has(key)))return false;
   return typeof item.cat==='string'&&typeof item.concept==='string'&&/^core_[0-9]{2}_[0-9]{2}$/.test(String(item.coreTopicId||''));
 }
+function safeBGapCatalogItem(item){
+  if(!safeCatalogItem(item)||item.sourcePool!=='b_exam_algo'||!/^b_exam_bexam_[A-Za-z0-9_-]+$/.test(item.id))return false;
+  if(Object.keys(item).some(key=>PROTECTED_CATALOG_KEYS.has(key)))return false;
+  return typeof item.parentId==='string'&&Number(item.ordinal)===1&&typeof item.level==='string'&&typeof item.domain==='string'&&typeof item.format==='string';
+}
 function sameStringArray(actual,expected){return Array.isArray(actual)&&actual.length===expected.length&&actual.every((value,index)=>value===expected[index])}
 function mergedCounts(baseCounts){
   const counts={...(baseCounts&&typeof baseCounts==='object'?baseCounts:{})};
   counts.subjectA=Number(counts.subjectA||0)+IPA92_EXTENSION_TOTAL;
   counts.trackedSubjectA=Number(counts.trackedSubjectA||0)+IPA92_EXTENSION_TOTAL;
-  counts.catalogQuestions=Number(counts.catalogQuestions||BASE_CATALOG_TOTAL)+IPA92_EXTENSION_TOTAL;
+  counts.bExamAlgo=Number(counts.bExamAlgo||0)+B_GAP_TOTAL;
+  counts.catalogQuestions=Number(counts.catalogQuestions||BASE_CATALOG_TOTAL)+IPA92_EXTENSION_TOTAL+B_GAP_TOTAL;
   return Object.freeze(counts);
 }
 
 async function loadCatalog(){
   if(!catalogPromise){
     catalogPromise=Promise.all([
-      fetchJson(BASE_CATALOG_URL),fetchJson(IPA92_V1_V6_CATALOG_URL),fetchJson(IPA92_V7_CATALOG_URL),fetchJson(IPA92_V8_CATALOG_URL),fetchJson(IPA92_V9_CATALOG_URL),fetchJson(IPA92_V10_CATALOG_URL),fetchJson(IPA92_V11_CATALOG_URL),fetchJson(IPA92_V12_CATALOG_URL),fetchJson(IPA92_V13_CATALOG_URL),fetchJson(IPA92_V14_CATALOG_URL),fetchJson(IPA92_V15_CATALOG_URL),fetchJson(IPA92_V16_CATALOG_URL),fetchJson(IPA92_V17_CATALOG_URL),fetchJson(IPA92_V18_CATALOG_URL),fetchJson(IPA92_V19_CATALOG_URL),fetchJson(IPA92_V20_CATALOG_URL),fetchJson(IPA92_V21_CATALOG_URL),fetchJson(IPA92_V22_CATALOG_URL),fetchJson(IPA92_V23_CATALOG_URL),fetchJson(IPA92_V24_CATALOG_URL),fetchJson(IPA92_V25_CATALOG_URL),fetchJson(IPA92_V26_CATALOG_URL),fetchJson(IPA92_V27_CATALOG_URL),fetchJson(IPA92_V28_CATALOG_URL),fetchJson(IPA92_V29_CATALOG_URL),fetchJson(IPA92_V30_CATALOG_URL),fetchJson(IPA92_V31_CATALOG_URL),fetchJson(IPA92_V32_CATALOG_URL),fetchJson(IPA92_V33_CATALOG_URL),fetchJson(IPA92_V34_CATALOG_URL),fetchJson(IPA92_V35_CATALOG_URL)
-    ]).then(([base,legacy,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22,v23,v24,v25,v26,v27,v28,v29,v30,v31,v32,v33,v34,v35])=>{
+      fetchJson(BASE_CATALOG_URL),fetchJson(IPA92_V1_V6_CATALOG_URL),fetchJson(IPA92_V7_CATALOG_URL),fetchJson(IPA92_V8_CATALOG_URL),fetchJson(IPA92_V9_CATALOG_URL),fetchJson(IPA92_V10_CATALOG_URL),fetchJson(IPA92_V11_CATALOG_URL),fetchJson(IPA92_V12_CATALOG_URL),fetchJson(IPA92_V13_CATALOG_URL),fetchJson(IPA92_V14_CATALOG_URL),fetchJson(IPA92_V15_CATALOG_URL),fetchJson(IPA92_V16_CATALOG_URL),fetchJson(IPA92_V17_CATALOG_URL),fetchJson(IPA92_V18_CATALOG_URL),fetchJson(IPA92_V19_CATALOG_URL),fetchJson(IPA92_V20_CATALOG_URL),fetchJson(IPA92_V21_CATALOG_URL),fetchJson(IPA92_V22_CATALOG_URL),fetchJson(IPA92_V23_CATALOG_URL),fetchJson(IPA92_V24_CATALOG_URL),fetchJson(IPA92_V25_CATALOG_URL),fetchJson(IPA92_V26_CATALOG_URL),fetchJson(IPA92_V27_CATALOG_URL),fetchJson(IPA92_V28_CATALOG_URL),fetchJson(IPA92_V29_CATALOG_URL),fetchJson(IPA92_V30_CATALOG_URL),fetchJson(IPA92_V31_CATALOG_URL),fetchJson(IPA92_V32_CATALOG_URL),fetchJson(IPA92_V33_CATALOG_URL),fetchJson(IPA92_V34_CATALOG_URL),fetchJson(IPA92_V35_CATALOG_URL),fetchJson(B_GAP_CATALOG_URL)
+    ]).then(([base,legacy,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16,v17,v18,v19,v20,v21,v22,v23,v24,v25,v26,v27,v28,v29,v30,v31,v32,v33,v34,v35,bGap])=>{
       if(base?.version!==BASE_CATALOG_VERSION||!Array.isArray(base.items)||base.items.length!==BASE_CATALOG_TOTAL)throw new Error('question_catalog_invalid');
       if(!base.items.every(safeCatalogItem))throw new Error('question_catalog_invalid');
       if(legacy?.version!==IPA92_V1_V6_CATALOG_VERSION||legacy?.contentVersion!==IPA92_V1_V6_CONTENT_VERSION||!sameStringArray(legacy?.contentVersions,IPA92_V1_V6_CONTENT_VERSIONS)||!Array.isArray(legacy.items)||legacy.items.length!==IPA92_V1_V6_TOTAL)throw new Error('ipa92_question_catalog_invalid');
@@ -243,19 +253,24 @@ async function loadCatalog(){
         if(doc?.version!==catalogVersion||doc?.contentVersion!==contentVersion||!sameStringArray(doc?.contentVersions,[contentVersion])||!Array.isArray(doc.items)||doc.items.length!==total)throw new Error(`ipa92_${label}_question_catalog_invalid`);
         if(!doc.items.every(safeIpa92CatalogItem)||doc.items.some(item=>item.qualityAudit!==qualityAudit))throw new Error(`ipa92_${label}_question_catalog_invalid`);
       }
+      if(bGap?.version!==B_GAP_CATALOG_VERSION||bGap?.contentVersion!==B_GAP_CONTENT_VERSION||!sameStringArray(bGap?.contentVersions,[B_GAP_CONTENT_VERSION])||!Array.isArray(bGap.items)||bGap.items.length!==B_GAP_TOTAL)throw new Error('b_gap_question_catalog_invalid');
+      if(!bGap.items.every(safeBGapCatalogItem)||bGap?.counts?.bExamAlgo!==B_GAP_TOTAL||bGap?.counts?.catalogQuestions!==B_GAP_TOTAL)throw new Error('b_gap_question_catalog_invalid');
       const baseIds=base.items.map(item=>item.id);
       const extensionItems=[...legacy.items,...v7.items,...v8.items,...v9.items,...v10.items,...v11.items,...v12.items,...v13.items,...v14.items,...v15.items,...v16.items,...v17.items,...v18.items,...v19.items,...v20.items,...v21.items,...v22.items,...v23.items,...v24.items,...v25.items,...v26.items,...v27.items,...v28.items,...v29.items,...v30.items,...v31.items,...v32.items,...v33.items,...v34.items,...v35.items];
       const extensionIds=extensionItems.map(item=>item.id);
+      const bGapIds=bGap.items.map(item=>item.id);
       if(new Set(baseIds).size!==baseIds.length)throw new Error('question_catalog_duplicate_ids');
       if(new Set(extensionIds).size!==IPA92_EXTENSION_TOTAL)throw new Error('ipa92_question_catalog_duplicate_ids');
-      const mergedIds=[...baseIds,...extensionIds];
+      if(new Set(bGapIds).size!==B_GAP_TOTAL)throw new Error('b_gap_question_catalog_duplicate_ids');
+      const mergedIds=[...baseIds,...extensionIds,...bGapIds];
       if(new Set(mergedIds).size!==MERGED_CATALOG_TOTAL)throw new Error('question_catalog_extension_collision');
-      const items=[...base.items,...extensionItems].map(item=>Object.freeze({...item}));
+      const items=[...base.items,...extensionItems,...bGap.items].map(item=>Object.freeze({...item}));
       return Object.freeze({
         ...base,
-        version:`${BASE_CATALOG_VERSION}+ipa92-catalog-v1-v35`,
+        version:`${BASE_CATALOG_VERSION}+ipa92-catalog-v1-v35+b-gap-v1`,
         extensionContentVersion:'ipa92-questions-v1-v35',
         extensionContentVersions:Object.freeze([...IPA92_V1_V6_CONTENT_VERSIONS,IPA92_V7_CONTENT_VERSION,IPA92_V8_CONTENT_VERSION,IPA92_V9_CONTENT_VERSION,IPA92_V10_CONTENT_VERSION,IPA92_V11_CONTENT_VERSION,IPA92_V12_CONTENT_VERSION,IPA92_V13_CONTENT_VERSION,IPA92_V14_CONTENT_VERSION,IPA92_V15_CONTENT_VERSION,IPA92_V16_CONTENT_VERSION,IPA92_V17_CONTENT_VERSION,IPA92_V18_CONTENT_VERSION,IPA92_V19_CONTENT_VERSION,IPA92_V20_CONTENT_VERSION,IPA92_V21_CONTENT_VERSION,IPA92_V22_CONTENT_VERSION,IPA92_V23_CONTENT_VERSION,IPA92_V24_CONTENT_VERSION,IPA92_V25_CONTENT_VERSION,IPA92_V26_CONTENT_VERSION,IPA92_V27_CONTENT_VERSION,IPA92_V28_CONTENT_VERSION,IPA92_V29_CONTENT_VERSION,IPA92_V30_CONTENT_VERSION,IPA92_V31_CONTENT_VERSION,IPA92_V32_CONTENT_VERSION,IPA92_V33_CONTENT_VERSION,IPA92_V34_CONTENT_VERSION,IPA92_V35_CONTENT_VERSION]),
+        bGapContentVersion:B_GAP_CONTENT_VERSION,
         counts:mergedCounts(base.counts),
         items:Object.freeze(items),
       });
@@ -315,7 +330,7 @@ async function resumeTraceTail(questionId){
 }
 
 window.FEQUEST_PROTECTED_CONTENT=Object.freeze({
-  version:'v376-provider-32-ipa92-v1-v35',maxBatch:MAX_BATCH,maxCache:MAX_CACHE,catalogTotal:MERGED_CATALOG_TOTAL,
+  version:'v376-provider-33-ipa92-v1-v35-bgap1',maxBatch:MAX_BATCH,maxCache:MAX_CACHE,catalogTotal:MERGED_CATALOG_TOTAL,
   setAccessCode,clearAccessCode,hasAccessCode,loadCatalog,hydrate,submit,resumeTraceTail,
   getCachedQuestion,getAnsweredResult,forgetAnswer,clearHydrated,clearProtectedCache,
 });
