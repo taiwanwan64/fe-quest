@@ -2418,7 +2418,59 @@ endif</div>
             </section>
 
             <section class="b-review-section-v414">
-              <h3>8. 選択肢は最後に照合する</h3>
+              <h3>8. クイックソートは「ピボット・左ポインタ・右ポインタ」を別欄で追う</h3>
+              <p>クイックソート型の処理は、配列全体を一気に整列させようとせず、まず<strong>1回の分割処理</strong>だけを追います。ピボットを基準に、左から探す位置と右から探す位置を別々に動かします。</p>
+              <div class="b-review-grid-v414">
+                <div class="b-review-card-v414"><b>pivot</b><span>比較の基準。どの要素を基準にするかを最初に固定する。</span></div>
+                <div class="b-review-card-v414"><b>i</b><span>左側から、pivot以上になる要素を探して右へ進む。</span></div>
+                <div class="b-review-card-v414"><b>j</b><span>右側から、pivot以下になる要素を探して左へ進む。</span></div>
+              </div>
+              <div class="b-review-code-v414">pivot を決める
+i ← 左端
+j ← 右端
+
+i を右へ進める
+j を左へ進める
+
+if i &lt; j
+    data[i] と data[j] を交換
+    i と j をさらに内側へ
+endif</div>
+              <p class="b-review-alert-v414">再帰呼出しまで全部追う必要があるとは限りません。<strong>設問が「最初の出力」「1回目の分割後」などを聞いているなら、その時点で止めます。</strong></p>
+              <p class="b-review-good-v414">整列アルゴリズム名を覚えるだけでなく、pivot・i・jがどの条件で動くかをコードから確認してください。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>9. 数式は「記号の読み替え → 塊ごとの計算」の順でコードへ対応させる</h3>
+              <p>数式と擬似言語を対応させる問題では、いきなり空欄候補を試さず、まず数式の記号をプログラムの表記へ読み替えます。</p>
+              <div class="b-review-table-v414">
+                <table>
+                  <thead><tr><th>数式側</th><th>擬似言語で見る形</th><th>注意</th></tr></thead>
+                  <tbody>
+                    <tr><td>添字 xᵢ</td><td><code>x[i]</code></td><td>要素番号の開始位置は問題文に従う</td></tr>
+                    <tr><td>x²</td><td><code>x の2乗</code></td><td>2×xではない</td></tr>
+                    <tr><td>√x</td><td><code>x の正の平方根</code></td><td>平方根を取る前に中身を確定</td></tr>
+                    <tr><td>xy</td><td><code>x × y</code></td><td>数式では掛け算記号が省略されることがある</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>次に、分子・分母・総和など<strong>数式の大きな塊</strong>と、プログラム内の変数・ループを対応させます。</p>
+              <div class="b-review-code-v414">sumXY ← 0
+for i
+    sumXY ← sumXY + x[i] × y[i]
+endfor
+
+sumX2 ← 0
+for i
+    sumX2 ← sumX2 + x[i] の2乗
+endfor
+
+lengthX ← sumX2 の正の平方根</div>
+              <p class="b-review-good-v414">「この変数は数式のどの部分か」を横に書くと、長い式でも空欄を局所的に判断できます。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>10. 選択肢は最後に照合する</h3>
               <p>空欄問題で最初から各選択肢を総当たりすると、途中状態が増えて混乱しやすくなります。まずコードから必要条件を作り、その条件を満たす選択肢を最後に探します。</p>
               <div class="b-review-grid-v414">
                 <div class="b-review-card-v414"><b>前から追う</b><span>初期値が明確なら、空欄直前までの状態を作って候補を評価。</span></div>
@@ -2428,7 +2480,7 @@ endif</div>
             </section>
 
             <section class="b-review-section-v414">
-              <h3>9. 総合問題のチェック順</h3>
+              <h3>11. 総合問題のチェック順</h3>
               <div class="b-review-grid-v414">
                 <div class="b-review-card-v414"><b>① 仕様を読む</b><span>配列番号、未定義値、メソッドの意味を確認。</span></div>
                 <div class="b-review-card-v414"><b>② 状態欄を作る</b><span>変数・配列・戻り値・参照を必要最小限で表にする。</span></div>
