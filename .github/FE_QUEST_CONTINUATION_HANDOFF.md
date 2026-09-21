@@ -732,11 +732,10 @@
 - ユーザー向けHTMLに外部教材由来と分かる表現を追加していない
 - source-neutral CIは `参考資料` / `参考書` / `本書` / `虎の巻` / `情報処理教科書` / `出るとこだけ` を検査
 - 専用CSS: `assets/b-security-practice-v416.css`
-- PR #188 のCI:
-  - Validate sanitized FE QUEST publication: run `35562339335` — success
-  - Validate IPA 9.2 question v35 public activation: run `35562339382` — success
-  - 上記CI head `0cc35ce9a346c52be8020b9266f3fd6f5c1d8ca6` にはアプリ本体・CSS・sw.js・公開検証の全変更を含む
-  - その後の2コミットは deploy workflow のsource-neutral検査追加と監査文書追記のみ
+- PR #188 の最終head CI:
+  - head: `628a1d7b20b2826080e8f3246c0d0b51409cfd35`
+  - Validate sanitized FE QUEST publication: run `35562503174` — success
+  - Validate IPA 9.2 question v35 public activation: run `35562503175` — success
 - merge commit: `f799d03ec8e34c14e2359a2959875d83b0782960`
 - production Pages deploy: run `35562489860` — success
 - PWA cache contract: `fe-quest-v377-97`
