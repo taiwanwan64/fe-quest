@@ -76,8 +76,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-100';" sw.js
-          grep -Fq "fe-quest-v377-100" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-101';" sw.js
+          grep -Fq "fe-quest-v377-101" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -265,6 +265,9 @@ jobs:
           grep -Fq '"./assets/bbook2-prediction2-v419.css"' sw.js
           grep -Fq '複数空欄：全部を同時に考えず「役割 → 依存関係」の順で解く' index.html
           grep -Fq '空欄番号は「解く順番」ではありません' index.html
+          grep -Fq '循環キューは「配列上の位置」と「キューの順番」を分ける' index.html
+          grep -Fq '後置記法は「演算子が来たら2個pop」で追う' index.html
+          grep -Fq '最初のpopが右、次のpopが左' index.html
           grep -Fq '実戦トレース：1行ずつではなく「状態が変わる単位」で追う' index.html
           grep -Fq '途中表の列は「必要になった変数だけ」' index.html
           ! grep -Fq '参考資料' index.html
@@ -729,7 +732,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-100';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-101';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
