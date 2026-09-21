@@ -1,0 +1,79 @@
+/* FE QUEST Subject B exam-strategy supplement — v417
+   User-facing wording is source-neutral; no protected question or lesson bodies live here. */
+
+#bSelect .bbook2-intro-v417,
+#bFinalSelect .bbook2-intro-v417{
+  margin:14px 0;
+  border:1px solid #d6e3ea;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .bbook2-intro-v417>summary,
+#bFinalSelect .bbook2-intro-v417>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:15px 16px;
+  font-size:18px;
+  line-height:1.45;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .bbook2-intro-v417>summary::-webkit-details-marker,
+#bFinalSelect .bbook2-intro-v417>summary::-webkit-details-marker{display:none}
+#bSelect .bbook2-intro-v417>summary::after,
+#bFinalSelect .bbook2-intro-v417>summary::after{content:"＋";float:right;margin-left:12px}
+#bSelect .bbook2-intro-v417[open]>summary::after,
+#bFinalSelect .bbook2-intro-v417[open]>summary::after{content:"−"}
+
+.bbook2-intro-body-v417{padding:0 16px 16px}
+.bbook2-intro-body-v417 p{
+  margin:2px 0 14px;
+  font-size:18px;
+  line-height:1.72;
+  color:#263f4d;
+}
+.bbook2-intro-grid-v417{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0;
+}
+.bbook2-intro-grid-v417>div{
+  min-width:0;
+  padding:13px;
+  border:1px solid #d8e4e9;
+  border-radius:12px;
+  background:#fff;
+}
+.bbook2-intro-grid-v417 b{
+  display:block;
+  margin-bottom:6px;
+  font-size:18px;
+  line-height:1.4;
+  color:#17364b;
+}
+.bbook2-intro-grid-v417 span{
+  display:block;
+  font-size:16px;
+  line-height:1.6;
+  color:#425d6b;
+}
+.bbook2-intro-note-v417{
+  display:grid;
+  gap:5px;
+  margin-top:12px;
+  padding:14px 15px;
+  border-left:4px solid #58cc02;
+  border-radius:10px;
+  background:#f3faef;
+}
+.bbook2-intro-note-v417 b{font-size:18px;line-height:1.45;color:#214d24}
+.bbook2-intro-note-v417 span{font-size:17px;line-height:1.68;color:#315a37}
+
+@media (max-width:760px){
+  .bbook2-intro-grid-v417{grid-template-columns:1fr}
+  #bSelect .bbook2-intro-v417>summary,
+  #bFinalSelect .bbook2-intro-v417>summary{padding:14px}
+  .bbook2-intro-body-v417{padding:0 14px 14px}
+}
