@@ -84,6 +84,27 @@ jobs:
           if(selector.includes('shuffled([...bFinalSelectAlgoV376()'))throw new Error('v425 final runtime order regressed to mixed shuffle');
           console.log('PASS Subject B final runtime order: algorithm 16 then security 4');
           NODE
+      - name: Validate Subject B final resume integrity contract
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const required=[
+            "policy:'validate-resume-payload-before-restoring-protected-final'",
+            "schemaVersion:1",
+            "algorithmCount:16",
+            "securityCount:4",
+            "function bFinalResumePayloadValidV426(s)",
+            "function bFinalResumeItemValidV426(item,index)",
+            "if(!bFinalResumePayloadValidV426(s)){clearBFinalResume();return false;}",
+            "new Set(s.items.map(item=>item._protectedQuestionId)).size!==20",
+            "const expectedKind=index<16?'algo':'security'",
+            "rejectsPreSubmitAnswerFields:true"
+          ];
+          for(const token of required)if(!app.includes(token))throw new Error('missing resume integrity contract: '+token);
+          if(!app.includes("['a','answerIndex','correctText','explain','explanation','choiceExplanations']"))throw new Error('pre-submit answer-field guard missing');
+          console.log('PASS Subject B final resume integrity v426');
+          NODE
       - name: Validate bilingual learning terminology
         run: |
           grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
@@ -108,11 +129,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-107';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-108';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-107" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-108" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -781,7 +802,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-107';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-108';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
