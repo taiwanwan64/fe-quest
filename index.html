@@ -120,6 +120,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">
 <link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">
 <link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">
+<link rel="stylesheet" href="./assets/b-security-foundations-v415.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -747,7 +748,7 @@
               <div><b>アルゴリズム・プログラミング：16問</b><span>全体の約8割。擬似言語で、処理の流れ・データ構造・アルゴリズムを読み取ります。</span></div>
               <div><b>情報セキュリティ：4問</b><span>全体の約2割。長い状況文やログから判断します。</span></div>
             </div>
-            <p>参考資料では、科目A・科目Bの双方で基準点以上を取ることが合格条件として整理されています。科目Bだけを後回しにせず、早い段階から少しずつ並行して進めます。</p>
+            <p>基本情報技術者試験は、科目A・科目Bの双方で基準点以上が必要です。科目Bだけを後回しにせず、早い段階から少しずつ並行して進めます。</p>
             <div class="subject-b-source-note-v403">本試験は問題によって3〜10択程度です。FE QUESTの練習問題には学習しやすさのため4択のものもあり、本試験の選択肢数をそのまま再現しているわけではありません。</div>
           </div>
         </details>
@@ -1180,7 +1181,7 @@
         <details class="b-strategy-mini-v403">
           <summary>擬似言語の学び方</summary>
           <div class="b-strategy-mini-body-v403">
-            <p>科目Bでは特定のプログラム言語の文法暗記より、<strong>「この処理で何が行われているか」</strong>を読み取る力を優先します。参考資料では、擬似言語の記述形式は問題文中に示されるため、JavaやPythonなど一つの言語の文法を丸暗記する必要はないと整理されています。</p>
+            <p>科目Bでは特定のプログラム言語の文法暗記より、<strong>「この処理で何が行われているか」</strong>を読み取る力を優先します。擬似言語は問題文で示される記述形式を読み、処理を追うことが中心なので、JavaやPythonなど一つの言語の文法を丸暗記する必要はありません。</p>
             <div class="b-strategy-points-v403">
               <div><b>基本要素</b><span>変数・型・配列・比較演算</span></div>
               <div><b>処理の流れ</b><span>選択・繰返し・関数</span></div>
@@ -1352,7 +1353,7 @@ value[1] ← 60</div>
               <div class="b-array-flow-v405">
                 <span>[]</span><i>→ 0を追加</i><span>[0]</span><i>→ 1を追加</i><span>[0, 1]</span>
               </div>
-              <p>参考資料では、要素数0の配列から始めて、末尾へ値を追加することで要素数を増やす例を扱っています。FE QUESTの「out の末尾に追加」もこの考え方です。</p>
+              <p>可変長配列は、要素数0の状態から始めて末尾へ値を追加し、要素数を増やせます。FE QUESTの「out の末尾に追加」もこの考え方です。</p>
             </section>
 
             <section class="b-array-section-v405">
@@ -1397,7 +1398,7 @@ value[1] ← 60</div>
               <div class="b-matrix-grid-v406">
                 <div class="b-matrix-card-v406"><b>value[2, 2]</b><span>2行2列の要素なので、この図では22。</span></div>
                 <div class="b-matrix-card-v406"><b>行数 / 列数</b><span>箱が何行・何列あるか。行番号 / 列番号とは別です。</span></div>
-                <div class="b-matrix-card-v406"><b>行の要素番号</b><span>上下方向の位置。参考資料とFE QUESTの対象問題では1から数えます。</span></div>
+                <div class="b-matrix-card-v406"><b>行の要素番号</b><span>上下方向の位置。このガイドの対象問題では1から数えます。</span></div>
                 <div class="b-matrix-card-v406"><b>列の要素番号</b><span>左右方向の位置。こちらも1から数えます。</span></div>
               </div>
               <p class="b-matrix-note-v406">「行→列」の順です。カタカナの「ギョウ」は縦方向、「レツ」は横方向、と向きを固定して覚えると迷いにくくなります。</p>
@@ -1718,7 +1719,7 @@ return a + b</div>
                 <div>左の子 <code>tree[2 × i]</code></div>
                 <div>右の子 <code>tree[2 × i + 1]</code></div>
               </div>
-              <p>例えば <code>i = 2</code> なら、左の子は <code>tree[4]</code>、右の子は <code>tree[5]</code> です。ここでは参考資料と同じく<strong>要素番号1始まり</strong>で考えます。</p>
+              <p>例えば <code>i = 2</code> なら、左の子は <code>tree[4]</code>、右の子は <code>tree[5]</code> です。ここでは<strong>要素番号1始まり</strong>で考えます。</p>
               <details class="b-tree-check-v409">
                 <summary>確認：tree[3] の左右の子は？</summary>
                 <p>左は <code>tree[6]</code>、右は <code>tree[7]</code> です。</p>
@@ -2057,7 +2058,7 @@ pop()
 push(C)
 peek()
 pop()</div>
-              <p>各行の直後に現在のTOP / FRONT / REARを書き直します。参考書の例題・確認問題でも、操作を一つずつ図へ反映して追う方法が使われています。</p>
+              <p>各行の直後に現在のTOP / FRONT / REARを書き直します。操作を一つずつ図へ反映して追うと、途中状態の取り違えを防げます。</p>
               <p class="b-sq-good-v412">特にpushとpop、enqueueとdequeueが交互に出るときは、最終状態だけを頭の中で出そうとしない方が安全です。</p>
             </section>
 
@@ -2837,7 +2838,7 @@ endif</div>
         <details class="b-strategy-mini-v403">
           <summary>長文セキュリティの読み方</summary>
           <div class="b-strategy-mini-body-v403">
-            <p>科目Bの情報セキュリティは、第11章のセキュリティ知識だけで完結しません。参考資料では、科目Aのテクノロジ分野全体と重なるため、ネットワーク・クラウド・データベースなども含めて復習することが重要だと説明されています。</p>
+            <p>科目Bの情報セキュリティは、セキュリティ用語だけで完結しません。ネットワーク・クラウド・データベースなど、科目Aのテクノロジ分野の知識も組み合わせて判断します。</p>
             <div class="b-strategy-points-v403">
               <div><b>状況をつかむ</b><span>誰が・どのシステムで・何が起きたかを整理。</span></div>
               <div><b>証拠を拾う</b><span>ログ、設定、通信、認証情報など判断材料を確認。</span></div>
@@ -2846,6 +2847,155 @@ endif</div>
             <div class="b-strategy-cue-v403">長文だからと捨てず、文章中の手掛かりを拾う練習をします。公式公開問題も早めに見て、長さとレベル感に慣れておくのが有効です。</div>
           </div>
         </details>
+
+
+        <details class="sec-foundations-v415">
+          <summary>セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む</summary>
+          <div class="sec-foundations-body-v415">
+            <p>科目Bのセキュリティ問題は、知っている用語を選ぶだけではなく、<strong>今どの段階で、何を守るために、どの証拠を根拠として、何をするか</strong>を判断します。対策名より先に、時系列と目的を整理します。</p>
+
+            <section class="sec-foundations-section-v415">
+              <h3>1. インシデント初動は「封じ込め」と「証拠保全」を両立する</h3>
+              <div class="sec-foundations-flow-v415">
+                <span class="sec-foundations-step-v415">報告</span><span class="sec-foundations-arrow-v415">→</span>
+                <span class="sec-foundations-step-v415">隔離</span><span class="sec-foundations-arrow-v415">→</span>
+                <span class="sec-foundations-step-v415">証拠保全</span><span class="sec-foundations-arrow-v415">→</span>
+                <span class="sec-foundations-step-v415">影響調査</span><span class="sec-foundations-arrow-v415">→</span>
+                <span class="sec-foundations-step-v415">除去・復旧</span><span class="sec-foundations-arrow-v415">→</span>
+                <span class="sec-foundations-step-v415">再発防止</span>
+              </div>
+              <p><strong>CSIRT</strong>は、組織内でセキュリティインシデントへ対応するチームです。<strong>デジタルフォレンジックス</strong>は、端末やログなどのデジタル証拠を収集・保全・分析する考え方です。</p>
+              <p class="sec-foundations-good-v415">不審端末をネットワークから切り離すことは、被害拡大を抑えながら端末上の情報を残しやすい初動です。</p>
+              <p class="sec-foundations-bad-v415">手順を確認せず電源断・再起動・初期化をすると、メモリ上の情報やログなど、調査に必要な証拠を失う場合があります。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>2. 「何が危ない？」は資産・脅威・脆弱性に分ける</h3>
+              <div class="sec-foundations-grid-v415 three">
+                <div class="sec-foundations-card-v415"><b>情報資産</b><span>守る価値があるデータ、システム、端末、知識など。</span></div>
+                <div class="sec-foundations-card-v415"><b>脅威</b><span>情報資産へ悪影響を与える攻撃・災害・誤操作など。</span></div>
+                <div class="sec-foundations-card-v415"><b>脆弱性</b><span>脅威に悪用され得る弱点。未修正ソフトや設定不備など。</span></div>
+              </div>
+              <div class="sec-foundations-grid-v415 three" style="margin-top:10px">
+                <div class="sec-foundations-card-v415"><b>機密性</b><span>許可された人だけが情報へアクセスできる。</span></div>
+                <div class="sec-foundations-card-v415"><b>完全性</b><span>情報が正しく、勝手に改ざんされていない。</span></div>
+                <div class="sec-foundations-card-v415"><b>可用性</b><span>必要なときに利用できる。</span></div>
+              </div>
+              <p class="sec-foundations-note-v415">OS・ミドルウェア・アプリの名称とバージョンを構成管理しておくと、脆弱性公表時に「どの端末が影響を受けるか」を素早く絞れます。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>3. 認証は「何回」より「何要素」を見る</h3>
+              <div class="sec-foundations-grid-v415 three">
+                <div class="sec-foundations-card-v415"><b>知識</b><span>パスワード・暗証番号など、本人が知っているもの。</span></div>
+                <div class="sec-foundations-card-v415"><b>所有物</b><span>スマートフォン・ICカードなど、本人が持っているもの。</span></div>
+                <div class="sec-foundations-card-v415"><b>生体</b><span>指紋・顔・虹彩など、本人の身体的・行動的特徴。</span></div>
+              </div>
+              <div class="sec-foundations-table-v415">
+                <table>
+                  <thead><tr><th>方式</th><th>見るポイント</th><th>例</th></tr></thead>
+                  <tbody>
+                    <tr><td>2要素認証</td><td><strong>異なる2要素</strong>を使う</td><td>パスワード＋スマートフォンの認証アプリ</td></tr>
+                    <tr><td>2段階認証</td><td>認証を<strong>2段階</strong>で行う。要素が異なるとは限らない</td><td>同じ知識要素を2回確認する方式もあり得る</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="sec-foundations-alert-v415">「2回認証したから2要素」とは限りません。知識・所有物・生体のどの要素を使っているかで判断します。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>4. 最小権限と職務分離は、守り方が違う</h3>
+              <div class="sec-foundations-grid-v415">
+                <div class="sec-foundations-card-v415"><b>最小権限</b><span>一人の利用者へ、業務に必要な最小限の権限だけを与える。</span></div>
+                <div class="sec-foundations-card-v415"><b>職務分離</b><span>申請・承認・実行などを複数人へ分け、一人だけで不正を完結しにくくする。</span></div>
+              </div>
+              <p>「権限が広すぎる」なら最小権限、「申請者が自分で承認できる」なら職務分離を疑います。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>5. 端末・入退室・紛失対策は「何を防ぐか」で区別する</h3>
+              <div class="sec-foundations-table-v415">
+                <table>
+                  <thead><tr><th>対策</th><th>主に防ぐもの</th></tr></thead>
+                  <tbody>
+                    <tr><td>自動ログアウト / 画面ロック</td><td>離席中のなりすまし操作</td></tr>
+                    <tr><td>オートコンプリートを無効化</td><td>共有端末に残った認証情報の悪用</td></tr>
+                    <tr><td>クリアスクリーン</td><td>机上・画面に残した機密情報ののぞき見</td></tr>
+                    <tr><td>アンチパスバック</td><td>入室記録なしでの退出・再入室など、入退室の不整合</td></tr>
+                    <tr><td>共連れ対策</td><td>認証済み利用者の後ろについて無認証で入室する行為</td></tr>
+                    <tr><td>CAPTCHA</td><td>自動プログラムによる操作。人間かどうかを判定する</td></tr>
+                    <tr><td>ストレージ暗号化</td><td>端末・記憶装置を盗まれた後のデータ読取り</td></tr>
+                    <tr><td>セキュアブート</td><td>起動時に信頼されていないコードが先に実行されること</td></tr>
+                    <tr><td>リモートワイプ</td><td>紛失端末に残ったデータの悪用。遠隔から消去する</td></tr>
+                    <tr><td>耐タンパ性</td><td>機器を物理的に解析・改造して秘密情報を取り出すこと</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>6. ログは「誰が・いつ・何をしたか」を時系列でつなぐ</h3>
+              <p>認証成功・失敗、操作対象、権限変更、外部通信などを、複数の機器から突き合わせて調査します。</p>
+              <div class="sec-foundations-grid-v415">
+                <div class="sec-foundations-card-v415"><b>時刻同期</b><span>NTPなどで機器の時計を合わせる。時刻がずれると出来事の前後関係を判断しにくい。</span></div>
+                <div class="sec-foundations-card-v415"><b>ログ保全</b><span>調査前に消去・改ざんしない。必要ならアクセス制御や別保管で証拠性を保つ。</span></div>
+              </div>
+              <p class="sec-foundations-good-v415">一つのログだけで断定せず、認証・通信・端末・アプリのログを時間軸で合わせます。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>7. バックアップは「取る」だけでなく「生き残る・戻せる」まで</h3>
+              <div class="sec-foundations-grid-v415">
+                <div class="sec-foundations-card-v415"><b>ランサムウェア対策</b><span>常時接続の場所だけに置かず、隔離・オフライン・変更されにくい保管先も組み合わせる。</span></div>
+                <div class="sec-foundations-card-v415"><b>災害対策</b><span>同じ建物だけに置かず、同時被災しにくい場所へ分散する。</span></div>
+              </div>
+              <p>復元テストを行い、実際に戻せることまで確認します。バックアップが存在しても、復元できなければ復旧手段になりません。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>8. 内部不正は「動機・機会・正当化」に分けて読む</h3>
+              <div class="sec-foundations-grid-v415 three">
+                <div class="sec-foundations-card-v415"><b>動機・プレッシャ</b><span>不満、金銭問題、過大な目標など、不正へ向かう理由。</span></div>
+                <div class="sec-foundations-card-v415"><b>機会</b><span>権限が広すぎる、監視がないなど、不正を実行できる状況。</span></div>
+                <div class="sec-foundations-card-v415"><b>正当化</b><span>「自分は悪くない」など、不正を自分の中で合理化する考え。</span></div>
+              </div>
+              <p class="sec-foundations-note-v415">問題では、どの要因を減らす対策かを見ます。最小権限・職務分離・ログ監視は、特に「機会」を小さくする方向の対策です。</p>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>9. ネットワーク機器は「どの通信を、どう扱うか」で見分ける</h3>
+              <div class="sec-foundations-table-v415">
+                <table>
+                  <thead><tr><th>技術</th><th>主な役割</th></tr></thead>
+                  <tbody>
+                    <tr><td>FW</td><td>主にIPアドレス・ポートなどを基に通信を許可 / 拒否する</td></tr>
+                    <tr><td>WAF</td><td>WebアプリへのHTTP/HTTPSリクエストを検査し、Web攻撃を防ぐ</td></tr>
+                    <tr><td>IDS</td><td>不審な通信・侵入を検知して通知する</td></tr>
+                    <tr><td>IPS</td><td>不審な通信・侵入を検知し、遮断まで行う</td></tr>
+                    <tr><td>DMZ</td><td>公開サーバを社内ネットワークから分離して配置する領域</td></tr>
+                    <tr><td>プロキシ</td><td>主に利用者側の代理として外部サーバへ接続する</td></tr>
+                    <tr><td>リバースプロキシ</td><td>主に外部利用者からの要求を受け、内部のWebサーバなどへ中継する</td></tr>
+                    <tr><td>VPN</td><td>公衆ネットワーク上に暗号化などで仮想的な専用通信路を作る</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="sec-foundations-section-v415">
+              <h3>10. 選択肢を見る前に「何の段階を聞いているか」を決める</h3>
+              <div class="sec-foundations-grid-v415">
+                <div class="sec-foundations-card-v415"><b>事象の特定</b><span>何が起きたか。フィッシング、マルウェア、不正アクセスなど。</span></div>
+                <div class="sec-foundations-card-v415"><b>初動</b><span>被害拡大を止め、報告し、証拠を残す。</span></div>
+                <div class="sec-foundations-card-v415"><b>調査</b><span>ログ・設定・構成情報を突き合わせて原因と範囲を確認。</span></div>
+                <div class="sec-foundations-card-v415"><b>復旧</b><span>脅威を除去し、安全を確認して業務を戻す。</span></div>
+                <div class="sec-foundations-card-v415"><b>再発防止</b><span>権限、教育、設定、パッチ、監視などを改善する。</span></div>
+                <div class="sec-foundations-card-v415"><b>平時の予防</b><span>バックアップ、構成管理、MFA、最小権限などを事前に整える。</span></div>
+              </div>
+              <p class="sec-foundations-alert-v415">選択肢の対策自体が正しくても、設問が「最優先の初動」を聞いているのに再発防止策を選ぶと不正解になり得ます。</p>
+            </section>
+          </div>
+        </details>
+
 
         <div class="b-mode-next-card security-next" id="secNextCard">
           <div class="b-mode-next-icon">▶</div>
