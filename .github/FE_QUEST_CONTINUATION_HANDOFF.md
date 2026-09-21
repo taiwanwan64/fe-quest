@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `b3ae636da91574956ebed132ee9c0e434817ebd5`
+- main: `99c6acf53adf6d9b59dcc5996a53c4aa59481edb`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35557799251`、success
-- PWA cache contract: `fe-quest-v377-95`
+- 最新本番 deploy: GitHub Actions run `35561299366`、success
+- PWA cache contract: `fe-quest-v377-96`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -62,6 +62,7 @@
 - 科目B専用参考書 第9章「スタック・キュー」 PR: #180、merged
 - 科目B専用参考書 第10章「ビット列」 PR: #182、merged
 - 科目B専用参考書 第11章「問題演習」 PR: #184、merged
+- 科目B 情報セキュリティ基礎補強 / source-neutral化 PR: #186、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -660,7 +661,7 @@
 
 - 参考資料の実際の章名は第11章「問題演習」。前回引き継ぎの「関数演算」は誤記だったため訂正
 - PDF 271〜294ページ（紙面269〜292ページ）の問題11-1〜11-6・解説をページ画像で確認済み
-- PDF 295ページから第2部「情報セキュリティ」、第2部 第1章は「虎の巻」
+- PDF 295ページから情報セキュリティ編へ移行し、PDF 297ページから基礎整理、PDF 341ページから問題演習編へ進む
 - 科目Bトレース画面へ「総合問題：題材をいったん捨てて、処理の型に分ける」を追加
 - 二重ループは外側 / 内側の役割を分け、比較・交換時だけ状態を書き換える手順を整理
 - `mod 10` と10の整数商を使った10進数の桁分解を補強
@@ -678,6 +679,39 @@
 - production Pages deploy: run `35557799251` — success
 - PWA cache contract: `fe-quest-v377-95`
 
+### 科目B 情報セキュリティ基礎補強 / source-neutral化
+
+`.github/reference-audits/B_SECURITY_FOUNDATIONS_AUDIT_2026-09-21.md`
+
+- PDF 297〜340ページ（紙面295〜338ページ）の情報セキュリティ基礎範囲をページ画像で確認
+- PDF 341ページから情報セキュリティ問題演習編
+- セキュリティ選択画面へ「セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む」を追加
+- 初動の「報告 → 隔離 → 証拠保全 → 影響調査 → 除去・復旧 → 再発防止」を整理
+- CSIRT / デジタルフォレンジックス / 構成管理のつながりを補強
+- CIA、資産 / 脅威 / 脆弱性、2要素認証 / 2段階認証、最小権限 / 職務分離を補強
+- 共有端末・入退室・盗難紛失・ログ時刻同期・バックアップ・内部不正・ネットワーク防御を補強
+- protected question bankは変更なし、active question totalは1173
+- b_securityは15ケース・45問を維持
+- 公開HTMLに残っていた「参考資料」「参考書」など出典を感じさせるユーザー向け表現7箇所を自然な教材文へ置換
+- publication / Pages CIで `参考資料` / `参考書` / `虎の巻` / `情報処理教科書` の公開HTML再混入を禁止
+- protected lesson bankのユーザー向け「参考資料」表現26教材もsource-neutral化
+  - content version: `v376-lessons-source-neutral-v415-20260921`
+  - total count: 26
+  - payload SHA-256: `bc17396e7143d63ad95e8936c4f6b592d9f768b4feb477903f0b9a00c8f29a60`
+  - source commit: `99c6acf53adf6d9b59dcc5996a53c4aa59481edb`
+  - lesson import manifest登録済み
+- protected lesson bank再検索:
+  - `参考資料`: 0
+  - `参考書`: 0
+  - `本書`: 0
+  - `虎の巻`: 0
+  - 書名 / シリーズ名: 0
+- PR #186 CI:
+  - Validate sanitized FE QUEST publication: run `35561235448` — success
+  - Validate IPA 9.2 question v35 public activation: run `35561235517` — success
+- production Pages deploy: run `35561299366` — success
+- PWA cache contract: `fe-quest-v377-96`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -690,6 +724,7 @@
 - 抽象説明だけで終えず、具体例・途中計算・変換前後を付ける
 - 図で理解した方が早い内容はHTML/CSS/SVGのFE QUEST独自図解を入れる
 - 参考書の文章・図版は転載しない
+- ユーザー向け画面・教材本文では、監査元の書名・章固有の呼称・「参考資料では」「参考書の例題」など、外部教材由来と分かる表現を使わない
 - 主要本文18px以上、補助ラベル16px以上をスマホ基準にする
 - 数式の指数・対数の底は上付き/下付き表記を優先する
 - 不要な読み仮名は付けず、最尤法・尤度のような難読語の初出に絞る
@@ -698,11 +733,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第2部「情報セキュリティ」第1章「虎の巻」へ進み、FE QUESTの科目Bセキュリティ教材・問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**情報セキュリティ問題演習編（PDF 341ページ以降）へ進み、FE QUESTの科目Bセキュリティケース・ミニ模試・総合実戦と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第2部「情報セキュリティ」第1章「虎の巻」をページ画像も含めて確認
+1. PDF 341ページから始まる情報セキュリティ問題演習編をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bセキュリティ教材 / セキュリティ問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認

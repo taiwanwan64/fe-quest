@@ -128,3 +128,25 @@ protected question bank は変更しない。既存45問を維持し、薄い知
 - 専用CSS: `assets/b-security-foundations-v415.css`
 - PWA cache contract: `fe-quest-v377-96`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、PWA cache contract、公開HTMLのsource-neutral表現を検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- b_security: 15ケース / 45問
+- protected lesson source-neutral update:
+  - content version: `v376-lessons-source-neutral-v415-20260921`
+  - changed lessons: 26
+  - payload SHA-256: `bc17396e7143d63ad95e8936c4f6b592d9f768b4feb477903f0b9a00c8f29a60`
+  - source commit: `99c6acf53adf6d9b59dcc5996a53c4aa59481edb`
+  - import manifest: 登録済み
+  - DB再検索で `参考資料` / `参考書` / `本書` / `虎の巻` / 書名 / シリーズ名 = 0
+- PR: #186（merged）
+- PR head: `b62d13c920cbae7bce7cb9e68d31ae18e95a7322`
+- PR CI:
+  - Validate sanitized FE QUEST publication: run `35561235448` — success
+  - Validate IPA 9.2 question v35 public activation: run `35561235517` — success
+- merge commit: `99c6acf53adf6d9b59dcc5996a53c4aa59481edb`
+- production Pages deploy: run `35561299366` — success
+- PWA cache contract: `fe-quest-v377-96`
