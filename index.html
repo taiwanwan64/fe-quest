@@ -119,6 +119,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">
 <link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">
 <link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">
+<link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -2215,6 +2216,139 @@ x ← x OR setMask</div>
                 <div><strong>⑥ シフトの0埋めと桁あふれ</strong><br>空いた位置と、捨てられたビットを確認。</div>
               </div>
               <p class="b-bit-good-v413">ビット列は「数」としてだけでなく、「各位置に意味を持つ0/1の並び」として見ると、マスク問題がかなり読みやすくなります。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-review-v414">
+          <summary>総合問題：題材をいったん捨てて、処理の型に分ける</summary>
+          <div class="b-review-body-v414">
+            <p>科目Bの総合問題は、見慣れない題材が出ても、プログラムの中身は<strong>配列・ループ・関数・文字列・参照</strong>など既知の部品でできています。問題文を全部覚えようとせず、まず「何を入力し、何が変わり、何を返すか」に分解します。</p>
+
+            <section class="b-review-section-v414">
+              <h3>1. 最初の30秒で「入力・状態・戻り値・出力」に分ける</h3>
+              <div class="b-review-flow-v414">
+                <div><strong>入力</strong><br>引数・初期配列・初期文字列</div>
+                <div><strong>途中状態</strong><br>更新される変数・配列・参照</div>
+                <div><strong>結果</strong><br>return・出力・最終状態</div>
+              </div>
+              <p>大域変数がある場合は、戻り値とは別に<strong>大域の状態も変わっていないか</strong>を確認します。</p>
+              <p class="b-review-note-v414">題材が「チェックデジット」「ハッシュ」「単語群」でも、トレース欄に書くのは結局、変数・配列・戻り値です。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>2. 二重ループは、外側と内側の役割を別々に見る</h3>
+              <p>整列のような二重ループでは、外側ループ1回の中で内側ループが何回動くかを先に決めます。比較や交換が起きたときだけ配列を書き換えます。</p>
+              <div class="b-review-code-v414">外側 n = 1
+  内側 m = 1 → 比較 → 必要なら交換
+  内側 m = 2 → 比較 → 必要なら交換
+  ...
+外側 n = 2
+  内側 m = 1 → ...</div>
+              <p class="b-review-good-v414">アルゴリズム名を知らなくても、提示されたループとifを上から追えば解けます。名前の暗記よりトレースを優先します。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>3. 10進数の桁分解は「余り=末尾、商=残り」</h3>
+              <div class="b-review-grid-v414">
+                <div class="b-review-card-v414"><b><code>n mod 10</code></b><span>10で割った余り。10進数の最下位桁を取り出す。</span></div>
+                <div class="b-review-card-v414"><b><code>n ÷ 10</code> の整数商</b><span>最下位桁を除いた上位側を残す。</span></div>
+              </div>
+              <div class="b-review-code-v414">n = 583
+583 mod 10 = 3
+583 ÷ 10 の整数商 = 58
+
+58 mod 10 = 8
+58 ÷ 10 の整数商 = 5</div>
+              <p>各桁の合計や、数字を1桁ずつ処理する問題ではこの2つをセットで使います。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>4. ハッシュ表は「第1候補 → 衝突 → 次の候補」</h3>
+              <p>ここでのハッシュは、データを配列のどこへ置くか決める<strong>データ構造のハッシュ</strong>です。改ざん検出に使う暗号学的ハッシュとは目的が違います。</p>
+              <div class="b-review-code-v414">i ← hash1(value)
+if table[i] が空
+    table[i] ← value
+else
+    i ← hash2(value)
+    if table[i] が空
+        table[i] ← value
+    endif
+endif</div>
+              <p class="b-review-alert-v414">最初のハッシュ値だけ計算して終わらず、そこが既に使われているかを確認します。衝突したときだけ次の規則へ進みます。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>5. 文字列メソッドは、仕様表を先に読む</h3>
+              <div class="b-review-table-v414">
+                <table>
+                  <thead><tr><th>種類</th><th>先に確認すること</th><th>トレース方法</th></tr></thead>
+                  <tbody>
+                    <tr><td>置換</td><td>全部置換か最初だけか</td><td>結果を新しい文字列として保存</td></tr>
+                    <tr><td>部分文字列</td><td>開始位置と長さの意味</td><td>問題文の位置番号に従って切り出す</td></tr>
+                    <tr><td>検索</td><td>見つからない時の戻り値</td><td>最初に見つかった位置を記録</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="b-review-code-v414">s1 ← "CABAC"
+s2 ← replaceAll(s1, "A", "XY")   → "CXYBXYC"
+s3 ← subString(s2, 2, 3)          → 問題文の位置規則で切り出す
+p  ← indexOf(s3, "B")             → 問題文の戻り値規則で決める</div>
+              <p class="b-review-note-v414">実際のプログラミング言語の仕様を持ち込まず、<strong>問題文が定義した位置番号・戻り値</strong>を使います。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>6. 複数メソッドを含む式は、戻り値を先に表へ出す</h3>
+              <p>長い式を一気に計算せず、メソッド呼出しを小さな部品へ分けます。</p>
+              <div class="b-review-code-v414">a ← obj.freq("x")
+b ← obj.freqEnd("x")
+c ← obj.freq("xy")
+
+最後に  c ÷ (a - b)  のような外側の式を計算</div>
+              <p class="b-review-good-v414">同じメソッド名でも引数が違えば戻り値も別です。「呼出しごとの戻り値表」を作ると混同しません。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>7. リスト末尾追加は、最初に「空か非空か」を分ける</h3>
+              <div class="b-review-grid-v414">
+                <div class="b-review-card-v414"><b>空リスト</b><span>新しい要素をそのままheadへ入れる。</span></div>
+                <div class="b-review-card-v414"><b>非空リスト</b><span>headからnextをたどり、末尾のnextを新しい要素へ変更する。</span></div>
+              </div>
+              <div class="b-review-code-v414">curr ← 新しい要素
+if head が未定義
+    head ← curr
+else
+    prev ← head
+    while prev.next が未定義でない
+        prev ← prev.next
+    endwhile
+    prev.next ← curr
+endif</div>
+              <p>第8章の連結リストと同じく、値より<strong>参照の矢印</strong>を追います。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>8. 選択肢は最後に照合する</h3>
+              <p>空欄問題で最初から各選択肢を総当たりすると、途中状態が増えて混乱しやすくなります。まずコードから必要条件を作り、その条件を満たす選択肢を最後に探します。</p>
+              <div class="b-review-grid-v414">
+                <div class="b-review-card-v414"><b>前から追う</b><span>初期値が明確なら、空欄直前までの状態を作って候補を評価。</span></div>
+                <div class="b-review-card-v414"><b>後ろから絞る</b><span>空欄後の条件や最終値が強い手掛かりなら、必要な値を逆算。</span></div>
+              </div>
+              <p class="b-review-alert-v414">「この選択肢なら何となく合いそう」と状態を選択肢へ寄せないこと。トレース結果と一致する候補を選びます。</p>
+            </section>
+
+            <section class="b-review-section-v414">
+              <h3>9. 総合問題のチェック順</h3>
+              <div class="b-review-grid-v414">
+                <div class="b-review-card-v414"><b>① 仕様を読む</b><span>配列番号、未定義値、メソッドの意味を確認。</span></div>
+                <div class="b-review-card-v414"><b>② 状態欄を作る</b><span>変数・配列・戻り値・参照を必要最小限で表にする。</span></div>
+                <div class="b-review-card-v414"><b>③ 呼出しを小さく分解</b><span>関数やメソッドの戻り値を先に確定。</span></div>
+                <div class="b-review-card-v414"><b>④ 代入ごとに更新</b><span>古い値を残さない。</span></div>
+                <div class="b-review-card-v414"><b>⑤ 分岐条件を再判定</b><span>更新後の値でif / whileを評価。</span></div>
+                <div class="b-review-card-v414"><b>⑥ 最後に選択肢照合</b><span>自分の状態表と一致するものを選ぶ。</span></div>
+              </div>
+              <p class="b-review-good-v414">総合問題ほど「全部を頭の中で処理しない」ことが重要です。部品に分け、途中状態を外へ書き出すほど安定します。</p>
             </section>
           </div>
         </details>
