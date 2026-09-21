@@ -1,0 +1,32 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 7 object orientation — v410 */
+
+#bSelect .b-oop-v410{margin:14px 0;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc;overflow:hidden}
+#bSelect .b-oop-v410>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:18px;line-height:1.5;font-weight:800;color:#17364b}
+#bSelect .b-oop-v410>summary::-webkit-details-marker{display:none}
+#bSelect .b-oop-v410>summary::after{content:"＋";float:right}
+#bSelect .b-oop-v410[open]>summary::after{content:"−"}
+#bSelect .b-oop-body-v410{padding:0 16px 16px}
+#bSelect .b-oop-body-v410 p,#bSelect .b-oop-body-v410 li{font-size:18px;line-height:1.7}
+#bSelect .b-oop-section-v410{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-oop-section-v410>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-oop-grid-v410{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-oop-card-v410{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-oop-card-v410 b{display:block;font-size:18px;line-height:1.45;color:#17364b}
+#bSelect .b-oop-card-v410 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-oop-code-v410{margin:10px 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f1f5f9;border-radius:10px;padding:11px 13px;font-size:17px;line-height:1.65;white-space:pre-wrap}
+#bSelect .b-oop-ref-v410{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+#bSelect .b-oop-var-v410,#bSelect .b-oop-inst-v410{padding:10px 13px;border:1px solid #c9d8de;border-radius:10px;background:#fff;font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-oop-inst-v410{min-width:160px;text-align:center;border-width:2px}
+#bSelect .b-oop-arrow-v410{font-size:20px;color:#b45309;font-weight:900}
+#bSelect .b-oop-state-v410{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+#bSelect .b-oop-state-v410>div{padding:10px;border-radius:10px;background:#eef5f8;text-align:center;font-size:17px;line-height:1.55}
+#bSelect .b-oop-state-v410 code{font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-oop-note-v410{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-oop-alert-v410{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-oop-good-v410{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-oop-table-v410{overflow-x:auto;margin-top:10px}
+#bSelect .b-oop-table-v410 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
+#bSelect .b-oop-table-v410 th,#bSelect .b-oop-table-v410 td{border:1px solid #c9d8de;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}
+#bSelect .b-oop-table-v410 th{background:#eef5f8;color:#17364b}
+@media(max-width:760px){#bSelect .b-oop-grid-v410,#bSelect .b-oop-state-v410{grid-template-columns:1fr}}
+@media(max-width:480px){#bSelect .b-oop-v410>summary{padding:13px 14px;font-size:18px}#bSelect .b-oop-body-v410{padding:0 14px 14px}#bSelect .b-oop-section-v410{padding:13px}#bSelect .b-oop-section-v410>h3{font-size:19px}}
