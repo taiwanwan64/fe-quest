@@ -196,7 +196,7 @@ jobs:
           grep -Fq '#bSelect .b-tree-v409' assets/bbook-ch06-tree-v409.css
           grep -Fq '"./assets/bbook-ch06-tree-v409.css"' sw.js
           grep -Fq '木構造：図と一次元配列を行き来する' index.html
-          grep -Fq '左の子 tree[2 × i]' index.html
+          grep -Fq '左の子 <code>tree[2 × i]</code>' index.html
           grep -Fq "v377-62: chapter 1 visual depth" assets/app-v377.css
           grep -Fq "#lesson .unit-pipeline-v382" assets/app-v377.css
           grep -Fq "#lesson .hex-map-v382" assets/app-v377.css
