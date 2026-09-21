@@ -52,6 +52,32 @@ jobs:
           node --check cloud/activation-loader-v342.js
           node --check cloud/public-config-v342.js
           node --check sw.js
+      - name: Validate Subject B 50-question final-pool metadata
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const base=require('./assets/question-catalog-v376.json');
+          const gap=require('./assets/question-catalog-b-gap-v1.json');
+          const match=app.match(/const B_EXAM_ALGO_ITEMS=(\[[^\n]*\]);/);
+          if(!match)throw new Error('B_EXAM_ALGO_ITEMS not found');
+          const actual=JSON.parse(match[1]);
+          const expected=[...base.items,...gap.items].filter(x=>x.sourcePool==='b_exam_algo');
+          if(actual.length!==50||expected.length!==50)throw new Error('b_exam_algo count drift actual='+actual.length+' catalog='+expected.length);
+          const actualByProtectedId=new Map(actual.map(x=>[x.protectedQuestionId,x]));
+          if(actualByProtectedId.size!==50)throw new Error('duplicate protectedQuestionId in app metadata');
+          for(const item of expected){
+            const row=actualByProtectedId.get(item.id);
+            if(!row)throw new Error('missing app metadata '+item.id);
+            if(row.id!==item.parentId||row.level!==item.level||row.domain!==item.domain||row.format!==item.format||row.protected!==true){
+              throw new Error('metadata mismatch '+item.id);
+            }
+          }
+          const required=['b_exam_bexam_sq_05','b_exam_bexam_tree_06','b_exam_bexam_bit_06','b_exam_bexam_algo_04','b_exam_bexam_arr_06','b_exam_bexam_mat_05','b_exam_bexam_ctrl_05'];
+          for(const id of required)if(!actualByProtectedId.has(id))throw new Error('missing gap metadata '+id);
+          if(!app.includes('const B_FINAL_ALGO_POOL_V424_COUNT=50;'))throw new Error('v424 runtime pool contract missing');
+          console.log('PASS Subject B final selector metadata: 50 questions');
+          NODE
       - name: Validate bilingual learning terminology
         run: |
           grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
@@ -76,11 +102,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-105';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-106';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-105" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-106" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -749,7 +775,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-105';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-106';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
