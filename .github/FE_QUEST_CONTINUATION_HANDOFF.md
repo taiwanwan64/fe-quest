@@ -24,11 +24,16 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `c67f0b246768e6f4e2ddbaee09d4f9cf9cbd9c89`
+- main: `d136220be022f087473fe9469b6ab23e7e558bf3`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35580611945`、success
-- PWA cache contract: `fe-quest-v377-105`
+- 最新本番 deploy: GitHub Actions run `35614253427`、success
+- PWA cache contract: `fe-quest-v377-108`
+- active protected question total: **1180**
+- `b_exam_algo`: **50**
+- 科目B実戦50問同期 PR: #202、merged
+- 科目B総合実戦16→4順序復元 PR: #203、merged
+- 科目B総合実戦再開データ整合性強化 PR: #204、merged
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -866,6 +871,48 @@
 - private bank の問題本文・選択肢・正答・解説は公開GitHubへ移していない
 
 
+### 科目B 実戦50問 品質・出題バランス監査
+
+`.github/reference-audits/B_EXAM_50_QUALITY_BALANCE_AUDIT_2026-09-21.md`
+
+- private bank / public catalog / runtime metadata を照合し、`b_exam_algo=50` を確認
+- domainは10分野すべて4〜6問、標準24 / 応用26
+- 選択肢重複、render metadata不一致、pre-submit解答漏えいなし
+- 50問化後も `assets/app-v377.js` の総合実戦セレクタが43問のままだった統合漏れを発見
+- `B_EXAM_ALGO_ITEMS` を50問へ同期
+- 5,000回の16問抽出シミュレーションで不正構成0
+- PR #202 merged、merge commit `8b29b13b2030a41ece29b92099a815e931cf22a7`
+- production Pages deploy run `35589397381` success
+- PWA cache contract: `fe-quest-v377-106`
+
+### 科目B 総合実戦20問 runtime順序監査
+
+`.github/reference-audits/B_FINAL_RUNTIME_ORDER_AUDIT_2026-09-21.md`
+
+- protected移行後にアルゴリズム16問とセキュリティ4問を20問全体でshuffleしていた順序ドリフトを発見
+- アルゴリズム16問内 / セキュリティ4問内だけを個別にランダム化
+- 本番想定の **アルゴリズム16問 → セキュリティ4問** の区分順を復元
+- 問題集合・難易度・採点・100分タイマーは変更なし
+- PR #203 merged、merge commit `da2fe333bee10e221ec5a0799ad5cc5c8f783318`
+- production Pages deploy run `35602662422` success
+- PWA cache contract: `fe-quest-v377-107`
+
+### 科目B 総合実戦 再開データ整合性監査
+
+`.github/reference-audits/B_FINAL_RESUME_INTEGRITY_AUDIT_2026-09-21.md`
+
+- `fequest_bfinal_resume_v1` の復元前validationを追加
+- Q1〜Q16=algo / Q17〜Q20=security を検証
+- protected question ID 20件の一意性、4択、server map、回答・flag・index範囲を検証
+- pre-submit itemへ正答・解説系fieldが混入していないことを検証
+- 不正・破損payloadは破棄し、総合実戦runtimeへ持ち込まない
+- resume key / schema 1 / 100分 / 16+4 / server-side grading は変更なし
+- protected bankは変更なし、active total 1180、`b_exam_algo=50`
+- PR #204 merged、merge commit `d136220be022f087473fe9469b6ab23e7e558bf3`
+- production Pages deploy run `35614253427` success
+- PWA cache contract: `fe-quest-v377-108`
+
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -887,18 +934,18 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B実戦問題50問の品質・出題バランスをlive監査する。新規7問を含め、domain / format / level の偏り、選択肢品質、解説の十分さ、最終20問モード（アルゴリズム16＋セキュリティ4）での利用可否を確認し、必要な場合だけ補強する。**
+ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦の「採点 → 結果表示 → 誤答復習」パイプラインをlive監査する。** 50問プール、16＋4の順序、途中再開は監査済みなので、次は提出後の正答map・未回答処理・履歴・弱点診断・復習導線がprotected化後も一貫しているか確認する。
 
 手順:
 
-1. b_exam_algo 50問をlive取得し、domain / format / level / render metadataの分布を確認
-2. 新規7問はstem / options / answer / explanation / renderを個別再検算し、誤答選択肢が妥当か確認
-3. catalog 50件とprivate bank 50件のID完全一致を確認
-4. pre-submitでanswer / explanation等が漏れないことを継続確認
-5. b_finalの16問抽出で新規問題も通常どおり利用でき、16＋4構成を壊さないことを確認
-6. 問題内容の重複が強いもの、難易度・形式が偏る領域があれば必要最小限だけ調整
-7. protected bankを変更した場合はactive total 1180を基準に増減を明示し、import manifestを更新
-8. PR → CI success → merge → Pages deploy successを確認
+1. `finishBFinal()` と `protected-b-final-bridge-v376.js` の `gradeSession()` を照合
+2. 表示順にshuffleした4択とserver-side `answerIndex` の対応が全問で正しく復元されることを確認
+3. 未回答を誤答として扱う契約、正答数、algo 16問 / security 4問の区分集計を確認
+4. `bFinalHistory` / `bFinalStats` / mistake stats の更新が二重計上されないことを確認
+5. 結果画面の正答率・誤答復習・弱点領域・次の学習導線を確認
+6. リトライ、通信失敗、時間切れ時に履歴やXPが重複付与されないことを確認
+7. protected内容・正答をpre-submitや公開GitHubへ漏らさない境界を維持
+8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
 
