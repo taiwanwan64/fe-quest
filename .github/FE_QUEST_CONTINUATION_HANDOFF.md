@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `d815d9a9e85eb9575a7e48e72607ac750fe61701`
+- main: `fad1b8ce7eeae160b2c8529bc9089e0c53eb780d`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35555394156`、success
-- PWA cache contract: `fe-quest-v377-92`
+- 最新本番 deploy: GitHub Actions run `35556294519`、success
+- PWA cache contract: `fe-quest-v377-93`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -59,6 +59,7 @@
 - 科目B専用参考書 第6章「木構造」 PR: #174、merged
 - 科目B専用参考書 第7章「オブジェクト指向」 PR: #176、merged
 - 科目B専用参考書 第8章「リスト」 PR: #178、merged
+- 科目B専用参考書 第9章「スタック・キュー」 PR: #180、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -610,6 +611,26 @@
 - production Pages deploy: run `35555394156` — success
 - PWA cache contract: `fe-quest-v377-92`
 
+### 科目B専用参考書 第1部 第9章「スタック・キュー」
+
+`.github/reference-audits/BBOOK_CH09_STACK_QUEUE_AUDIT_2026-09-21.md`
+
+- 第9章を章扉から確認問題・練習問題9-1・解説までページ画像で確認済み
+- 科目Bトレース画面へ「スタック・キュー：出し入れする端を固定して追う」を追加
+- スタックのLIFO / FILOを同じ動作の二つの表現として整理
+- push / pop / peekの違いを、返り値と構造変化の有無で整理
+- キューのFIFO、enqueue / dequeue / peek、FRONT / REARを整理
+- pop / dequeueでは返り値と操作後の構造を同時に記録する手順を補強
+- 操作列を1行ずつ状態更新して追う方法を補強
+- 優先度付きキューでは優先度の大小と同優先度時の規則を問題文から先に確認することを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch09-stackqueue-v412.css`
+- PR #180 のCI:
+  - Validate sanitized FE QUEST publication: run `35556268414` — success
+  - Validate IPA 9.2 question v35 public activation: run `35556268407` — success
+- production Pages deploy: run `35556294519` — success
+- PWA cache contract: `fe-quest-v377-93`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -630,11 +651,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第9章「スタック・キュー」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第10章「ビット列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第9章「スタック・キュー」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第10章「ビット列」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
