@@ -1765,12 +1765,29 @@ return a + b</div>
             </section>
 
             <section class="b-tree-section-v409">
-              <h3>6. 試験ではこの順に確認する</h3>
+              <h3>6. ゲーム木は「自分は最大、相手は最小」で下から戻す</h3>
+              <p>対戦ゲームの手を木で表す問題では、葉にある評価値から親へ順に値を戻します。自分の手番では<strong>自分にとって最も大きい評価値</strong>、相手の手番では<strong>自分にとって最も小さい評価値</strong>を選ぶ考え方を、ミニマックス法と呼びます。</p>
+              <div class="b-tree-kind-v409">
+                <div><b>自分の手番</b><span>子の評価値の最大値を親へ戻す。</span></div>
+                <div><b>相手の手番</b><span>子の評価値の最小値を親へ戻す。</span></div>
+                <div><b>葉</b><span>勝敗や局面の良し悪しを表す評価値。ここから計算を始める。</span></div>
+              </div>
+              <div class="b-tree-formula-v409">
+                <div>葉: 8, -3 → 相手の手番なら <strong>-3</strong></div>
+                <div>葉: 4, 6 → 相手の手番なら <strong>4</strong></div>
+                <div>親: -3, 4 → 自分の手番なら <strong>4</strong></div>
+              </div>
+              <p class="b-tree-alert-v409">根から「良さそうな枝」を先に選ばないでください。まず葉の評価値を確定し、<strong>一段ずつ下から上へ</strong>戻します。</p>
+              <p class="b-tree-good-v409">手番が交互なら、最大・最小も段ごとに交互になります。各段の横に「MAX / MIN」と書くと混乱しにくくなります。</p>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>7. 試験ではこの順に確認する</h3>
               <div class="b-tree-grid-v409">
                 <div class="b-tree-card-v409"><b>① 配列の開始番号</b><span>このガイドでは1始まり。根はtree[1]。</span></div>
                 <div class="b-tree-card-v409"><b>② 要素番号で木を作る</b><span>2i / 2i+1で親子関係を決める。</span></div>
                 <div class="b-tree-card-v409"><b>③ 完全二分木の形を見る</b><span>上の段を飛ばしたり、途中に不自然な空きがないか。</span></div>
-                <div class="b-tree-card-v409"><b>④ 親子だけ比較する</b><span>最大ヒープか最小ヒープかに合わせて全親子を確認。</span></div>
+                <div class="b-tree-card-v409"><b>④ 親子だけ比較する</b><span>ヒープなら親子の大小条件、ゲーム木なら手番ごとのMAX / MINを確認。</span></div>
               </div>
               <p class="b-tree-good-v409">「値を見て木を作る」のではなく、<strong>要素番号で木を作る → 親子の値を調べる</strong>の順にすると、ヒープ問題を安定して解けます。</p>
             </section>
@@ -2257,7 +2274,27 @@ x ← x OR setMask</div>
             </section>
 
             <section class="b-bit-section-v413">
-              <h3>9. 科目Bではこの順で確認する</h3>
+              <h3>9. 符号化は「データ部を取り出す → ひな形へ埋める」で追う</h3>
+              <p>UTF-8のように、決まったビットパターンへ元データを分割して埋め込む処理では、数値の意味を一度に考えず、<strong>元データのビット列</strong>と<strong>出力用のひな形</strong>を分けて追います。</p>
+              <div class="b-bit-grid-v413">
+                <div class="b-bit-card-v413"><b>① ひな形を固定</b><span>先頭の固定ビットと、データを入れる位置を先に区別する。</span></div>
+                <div class="b-bit-card-v413"><b>② 下位側から分ける</b><span>必要なビット数ずつ、元データの下位側から取り出す。</span></div>
+                <div class="b-bit-card-v413"><b>③ ORで埋める</b><span>固定ビットを壊さず、空いているデータ部分へ値を重ねる。</span></div>
+              </div>
+              <div class="b-bit-code-v413">例: 3バイト形式のひな形
+1110xxxx 10xxxxxx 10xxxxxx
+   ↑       ↑        ↑
+データを入れる位置だけを使う
+
+元データを必要な幅に分ける
+→ 各ブロックを対応する x の位置へ埋める
+→ 固定の 1 / 0 はそのまま残す</div>
+              <p class="b-bit-alert-v413">「何ビット左へ動かすか」「何で割った余りを使うか」は、データをどの幅で切り出すかから決まります。候補式を先に暗記しない方が安全です。</p>
+              <p class="b-bit-good-v413">UTF-8固有の値を覚えるより、<strong>固定ビットと可変ビットを分離し、切り出したデータを所定位置へ戻す</strong>手順を理解しておくと、類似のビット詰め問題にも対応できます。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>10. 科目Bではこの順で確認する</h3>
               <div class="b-bit-steps-v413">
                 <div><strong>① ビット数を固定</strong><br>4ビット / 8ビットなどを最初に確認。</div>
                 <div><strong>② 桁を縦にそろえる</strong><br>右端を合わせ、位置をずらさない。</div>
@@ -2265,6 +2302,7 @@ x ← x OR setMask</div>
                 <div><strong>④ 1行ずつ結果を更新</strong><br>途中結果を次の演算へ渡す。</div>
                 <div><strong>⑤ マスクの1を見る</strong><br>抽出・設定・反転のどれかを判断。</div>
                 <div><strong>⑥ シフトの0埋めと桁あふれ</strong><br>空いた位置と、捨てられたビットを確認。</div>
+                <div><strong>⑦ 符号化なら固定部とデータ部を分ける</strong><br>ひな形の固定ビットを保ち、切り出したデータだけを埋める。</div>
               </div>
               <p class="b-bit-good-v413">ビット列は「数」としてだけでなく、「各位置に意味を持つ0/1の並び」として見ると、マスク問題がかなり読みやすくなります。</p>
             </section>
