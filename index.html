@@ -2105,14 +2105,47 @@ D(優先度1)</div>
             </section>
 
             <section class="b-sq-section-v412">
-              <h3>8. 科目Bではこの順で確認する</h3>
+              <h3>8. 循環キューは「配列上の位置」と「キューの順番」を分ける</h3>
+              <p>固定長の配列をキューとして繰り返し使う方式では、末尾まで進んだ位置が先頭へ戻ります。これを<strong>循環キュー（リングバッファ）</strong>として扱います。</p>
               <div class="b-sq-grid-v412">
-                <div class="b-sq-card-v412"><b>① 構造を判定</b><span>スタックか、キューか、優先度付きキューか。</span></div>
+                <div class="b-sq-card-v412"><b>head / front</b><span>次に取り出す要素の位置。dequeue後に前へ進む。</span></div>
+                <div class="b-sq-card-v412"><b>tail / rear</b><span>次に追加する位置。enqueue後に前へ進む。</span></div>
+                <div class="b-sq-card-v412"><b>size / count</b><span>現在入っている要素数。空と満杯の判定に使われることがある。</span></div>
+              </div>
+              <div class="b-sq-code-v412">配列上:   [ E ][ B ][ C ][ D ]
+論理順:          B → C → D → E
+                 ↑head       tailは先頭側へ回り込む</div>
+              <p>配列の見た目が <code>E, B, C, D</code> でも、キューとしての取り出し順はheadからたどった順です。<strong>配列を左から読むだけでは順番を決めません。</strong></p>
+              <p class="b-sq-alert-v412"><code>head == tail</code> だけで「空」と決めつけないでください。実装によってはsize/countや別の条件で空・満杯を区別します。判定式は問題文のコードをそのまま使います。</p>
+              <p class="b-sq-good-v412">トレース表には「head・tail・size」と、書き換わった配列要素だけを残すと追いやすくなります。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>9. 後置記法は「演算子が来たら2個pop」で追う</h3>
+              <p><strong>後置記法（逆ポーランド記法）</strong>では、数値などのオペランドをスタックへ積み、演算子が現れた時点で必要な値を取り出して計算します。</p>
+              <div class="b-sq-grid-v412">
+                <div class="b-sq-card-v412"><b>オペランド</b><span>そのままpushする。</span></div>
+                <div class="b-sq-card-v412"><b>演算子</b><span>右オペランド、左オペランドの順にpopする。</span></div>
+                <div class="b-sq-card-v412"><b>計算結果</b><span>左 op 右を計算してpushし直す。</span></div>
+              </div>
+              <div class="b-sq-code-v412">8 3 -
+push 8 → push 3 → 「-」
+右 = pop() → 3
+左 = pop() → 8
+8 - 3 = 5 → push 5</div>
+              <p class="b-sq-alert-v412">減算と除算はpopした順のまま計算すると逆になります。<strong>最初のpopが右、次のpopが左</strong>と固定して追います。</p>
+              <p class="b-sq-good-v412">式を最後まで読んだとき、スタックに計算結果が1個だけ残るかを最終確認に使えます。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>10. 科目Bではこの順で確認する</h3>
+              <div class="b-sq-grid-v412">
+                <div class="b-sq-card-v412"><b>① 構造を判定</b><span>スタックか、キューか、優先度付きキューか、循環キューか。</span></div>
                 <div class="b-sq-card-v412"><b>② 操作端を書く</b><span>TOP / FRONT / REARを図に明記。</span></div>
                 <div class="b-sq-card-v412"><b>③ 1操作ずつ実行</b><span>まとめて暗算せず、毎行状態を更新。</span></div>
                 <div class="b-sq-card-v412"><b>④ 返り値も記録</b><span>pop / dequeueの戻り値を構造の変化と分けて書く。</span></div>
                 <div class="b-sq-card-v412"><b>⑤ peekなら消さない</b><span>値だけ読み、構造本体は変更しない。</span></div>
-                <div class="b-sq-card-v412"><b>⑥ 優先度規則を確認</b><span>大小関係と同優先度時の順序を問題文から読む。</span></div>
+                <div class="b-sq-card-v412"><b>⑥ 特有の規則を確認</b><span>優先度、head/tailの回り込み、後置記法のpop順などを問題文から読む。</span></div>
               </div>
               <p class="b-sq-good-v412">迷ったら「次に取り出されるのはどの値か」を毎行確認します。スタックとキューの混同をかなり防げます。</p>
             </section>
