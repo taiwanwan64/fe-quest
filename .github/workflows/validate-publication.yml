@@ -251,6 +251,8 @@ jobs:
           ! grep -Fq '参考書' index.html
           ! grep -Fq '虎の巻' index.html
           ! grep -Fq '情報処理教科書' index.html
+          ! grep -Fq '出るとこだけ' index.html
+          ! grep -Fq '本書' index.html
           grep -Fq "v377-62: chapter 1 visual depth" assets/app-v377.css
           grep -Fq "#lesson .unit-pipeline-v382" assets/app-v377.css
           grep -Fq "#lesson .hex-map-v382" assets/app-v377.css
