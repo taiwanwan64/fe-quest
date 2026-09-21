@@ -76,8 +76,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-95';" sw.js
-          grep -Fq "fe-quest-v377-95" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-96';" sw.js
+          grep -Fq "fe-quest-v377-96" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -232,6 +232,18 @@ jobs:
           grep -Fq '総合問題：題材をいったん捨てて、処理の型に分ける' index.html
           grep -Fq 'ハッシュ表は「第1候補 → 衝突 → 次の候補」' index.html
           grep -Fq '選択肢は最後に照合する' index.html
+          grep -Fq '<link rel="stylesheet" href="./assets/b-security-foundations-v415.css">' index.html
+          test -f assets/b-security-foundations-v415.css
+          grep -Fq '#secSelect .sec-foundations-v415' assets/b-security-foundations-v415.css
+          grep -Fq '"./assets/b-security-foundations-v415.css"' sw.js
+          grep -Fq 'セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む' index.html
+          grep -Fq '初動は「封じ込め」と「証拠保全」を両立する' index.html
+          grep -Fq '認証は「何回」より「何要素」を見る' index.html
+          grep -Fq '選択肢を見る前に「何の段階を聞いているか」を決める' index.html
+          ! grep -Fq '参考資料' index.html
+          ! grep -Fq '参考書' index.html
+          ! grep -Fq '虎の巻' index.html
+          ! grep -Fq '情報処理教科書' index.html
           grep -Fq "v377-62: chapter 1 visual depth" assets/app-v377.css
           grep -Fq "#lesson .unit-pipeline-v382" assets/app-v377.css
           grep -Fq "#lesson .hex-map-v382" assets/app-v377.css
@@ -661,6 +673,12 @@ jobs:
           grep -Fq '"./assets/bbook-ch10-bitstring-v413.css"' "$RUNNER_TEMP/site/sw.js"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch11-problem-practice-v414.css"
           grep -Fq '"./assets/bbook-ch11-problem-practice-v414.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/b-security-foundations-v415.css"
+          grep -Fq '"./assets/b-security-foundations-v415.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '参考資料' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '参考書' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '虎の巻' "$RUNNER_TEMP/site/index.html"
           grep -Fq '総合問題：題材をいったん捨てて、処理の型に分ける' "$RUNNER_TEMP/site/index.html"
           grep -Fq 'ビット列：桁をそろえて、演算ごとに1行ずつ書き換える' "$RUNNER_TEMP/site/index.html"
           grep -Fq 'スタック・キュー：出し入れする端を固定して追う' "$RUNNER_TEMP/site/index.html"
@@ -682,7 +700,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-95';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-96';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
