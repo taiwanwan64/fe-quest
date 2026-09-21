@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `042f75d7624a413b45f4979c9289ac14e75c59eb`
+- main: `c67f0b246768e6f4e2ddbaee09d4f9cf9cbd9c89`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35566414975`、success
-- PWA cache contract: `fe-quest-v377-98`
+- 最新本番 deploy: GitHub Actions run `35580611945`、success
+- PWA cache contract: `fe-quest-v377-105`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -833,16 +833,37 @@
 - 2進文字列を左から読む累積基数変換（result × base + digit）を補強
 - 無向グラフの辺リスト→隣接行列変換を補強
 - 複合条件・整列済み配列のマージ・関連度計算・テレワークセキュリティは既存教材でcovered
-- protected lesson / question bankは変更なし、active total 1173
+- protected lesson / question bankはこの章監査単体では変更なし、active total 1173
+- PR #198 の publication / v35 CI success
+- merge commit: `162cbb70b0051e2ab5acf9bc465ab7492ca3572e`
+- production Pages deploy: run `35573319415` success
 - PWA cache contract: `fe-quest-v377-104`
-- この項目のPR / CI / merge / Pages deployは、作業完了時にlive状態を再確認する
 
 ### 科目B 予想＋過去問題集 全体
 
 - 序章、予想問題1〜3、令和4年サンプル問題、令和5年公開問題、令和6年公開問題まで章順に監査完了。
 - PDF 429ページ以降はTips / 著者紹介 / 奥付で、問題章の追加はない。
 - 原著の問題文・図・選択肢は公開GitHubやユーザー向け教材へ転載していない。
-- ここまでの補強は主に「解法ガイド」。protected question bankは1173問のまま維持している。
+- 章ごとの補強は主に「解法ガイド」。その後の全章統合照合で直接演習が薄い技能だけを追加した。
+
+### 科目B 全章監査 thin / missing 統合演習
+
+`.github/reference-audits/BBOOK2_GAP_EXERCISE_INTEGRATION_2026-09-21.md`
+`.github/reference-audits/BBOOK2_B_GAP_V1_IMPORT_2026-09-21.md`
+
+- 後置記法は `b_compound_postfix_stack_1〜3`、`b_exam_bexam_sq_01`、`b_exam_bexam_sq_04` に既存の直接演習があるため重複追加しなかった
+- 循環キュー、ゲーム木／ミニマックス、固定ビット幅パッキング、クイックソートpartition、数式→擬似言語、隣接行列、累積基数変換の7問をFE QUEST独自問題として `b_exam_algo` へ追加
+- b_exam_algo: 43 → 50
+- active protected question total: 1173 → 1180
+- content_version: `v376-protected-b-gap-v1-20260921`
+- public metadata catalog: `assets/question-catalog-b-gap-v1.json`
+- latest provider: `v376-provider-33-ipa92-v1-v35-bgap1`
+- PWA cache contract: `fe-quest-v377-105`
+- PR #199 publication / v35 CI success、merge commit `129efc43eb237149a64d6cc4eda637d25e95b487`
+- PR #199直後のPages deploy `35580437814` は deploy workflow に旧provider versionの検査が1行残っていたため failure
+- PR #200で公開契約だけを修正、merge commit `c67f0b246768e6f4e2ddbaee09d4f9cf9cbd9c89`
+- production Pages deploy `35580611945` success
+- private bank の問題本文・選択肢・正答・解説は公開GitHubへ移していない
 
 
 ## 6. 今後も守る教材監査方針
@@ -866,21 +887,18 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**『科目B 予想＋過去問題集』全章監査で見つかったthin / missing項目を、live protected B問題プールと統合照合する。特に、循環キュー、後置記法、ゲーム木／ミニマックス、符号化・ビットパッキング、クイックソート、数式↔擬似言語、隣接行列、累積基数変換について、「ガイドだけで十分か」「オリジナル演習が必要か」を判定し、必要なものだけ問題追加する。**
+ユーザーから別の具体的な修正指示がなければ、**科目B実戦問題50問の品質・出題バランスをlive監査する。新規7問を含め、domain / format / level の偏り、選択肢品質、解説の十分さ、最終20問モード（アルゴリズム16＋セキュリティ4）での利用可否を確認し、必要な場合だけ補強する。**
 
 手順:
 
-1. 全章監査で抽出したthin / missing項目を一覧化し、b_exercise / b_compound / b_exam_algo / b_securityをlive検索して直接演習の有無を確認
-2. ガイドで理解できても実戦練習が不足する項目を優先し、既存問題の重複追加は避ける
-3. 問題追加候補はIPA範囲・公式公開問題で確認できる技能に限定し、原著問題を翻案・転載しない
-4. FE QUEST の b_exercise / b_compound / b_exam_algo とトレース教材をliveで照合
-5. covered / thin / missing を判断し、thin / missingだけを補強
-6. 問題追加が本当に必要かを先に判断し、既存問題で十分なら解法ガイドだけを補強
-7. protected question bankを更新する場合は1173問の完全性・pool構成・pre-submit answer leak防止を維持
-8. スマホ図解・表・文字サイズを確認
-9. 公開GitHub側のCSS / audit doc / CI contract / PWA cache を必要に応じて更新
-10. PR → CI success → merge → Pages deploy success を確認
-11. protected lesson / question bankを更新した場合は対応するimport manifestをsource commitと紐付けて記録
+1. b_exam_algo 50問をlive取得し、domain / format / level / render metadataの分布を確認
+2. 新規7問はstem / options / answer / explanation / renderを個別再検算し、誤答選択肢が妥当か確認
+3. catalog 50件とprivate bank 50件のID完全一致を確認
+4. pre-submitでanswer / explanation等が漏れないことを継続確認
+5. b_finalの16問抽出で新規問題も通常どおり利用でき、16＋4構成を壊さないことを確認
+6. 問題内容の重複が強いもの、難易度・形式が偏る領域があれば必要最小限だけ調整
+7. protected bankを変更した場合はactive total 1180を基準に増減を明示し、import manifestを更新
+8. PR → CI success → merge → Pages deploy successを確認
 
 ## 8. リポジトリと保護教材の役割
 
