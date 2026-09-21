@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `f799d03ec8e34c14e2359a2959875d83b0782960`
+- main: `042f75d7624a413b45f4979c9289ac14e75c59eb`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35562489860`、success
-- PWA cache contract: `fe-quest-v377-97`
+- 最新本番 deploy: GitHub Actions run `35566414975`、success
+- PWA cache contract: `fe-quest-v377-98`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -64,6 +64,7 @@
 - 科目B専用参考書 第11章「問題演習」 PR: #184、merged
 - 科目B 情報セキュリティ基礎補強 / source-neutral化 PR: #186、merged
 - 科目B 情報セキュリティ問題演習補強 PR: #188、merged
+- 科目B 予想＋過去問題集 序章「傾向と対策」補強 PR: #191、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -740,6 +741,28 @@
 - production Pages deploy: run `35562489860` — success
 - PWA cache contract: `fe-quest-v377-97`
 
+
+### 科目B 予想＋過去問題集 序章「傾向と対策」
+
+`.github/reference-audits/BBOOK2_INTRO_STRATEGY_AUDIT_2026-09-21.md`
+
+- PDF 19〜34ページをページ画像の強調・図表まで確認
+- 現行の科目B導線、トレース、セキュリティ、ミニ模試、20問総合実戦と照合
+- プログラムトレース画面へ「トレースを身につける練習法」を追加
+- 実行した行 / 条件の真偽 / 変わった値だけを記録する最小トレース手順を補強
+- 初期値を変えてもう一度追う再トレース、定番アルゴリズムの丸暗記回避を補強
+- 科目B総合実戦へ「100分を使い切るための解き方」を追加
+- 1周目 → 「後で見る」 → 最終確認の時間配分を補強
+- live protected bank の b_exam_algo は43問で、UIの「40問プール」固定表示が古くなっていたため件数非依存の表現へ修正
+- protected lesson / question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook2-intro-strategy-v417.css`
+- PR #191 CI:
+  - Validate sanitized FE QUEST publication: run `35566386429` — success
+  - Validate IPA 9.2 question v35 public activation: run `35566386467` — success
+- merge commit: `042f75d7624a413b45f4979c9289ac14e75c59eb`
+- production Pages deploy: run `35566414975` — success
+- PWA cache contract: `fe-quest-v377-98`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -761,18 +784,18 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**次の添付教材『科目B 予想＋過去問題集』の序章「傾向と対策」（PDF 19〜34ページ）へ進み、FE QUESTの科目B学習導線・アルゴリズム・セキュリティ対策と照合して監査を続ける。PDF 35ページから第1部「予想問題」が始まる。**
+ユーザーから別の具体的な修正指示がなければ、**添付教材『科目B 予想＋過去問題集』の第1部・第1章「予想問題1」へ進む。PDF 35ページが第1部扉、PDF 36ページから第1章が始まり、第2章開始直前（PDF 106ページ付近）までを問題→解説の順で監査する。原著問題は転載せず、出題型・つまずきポイント・解法手順を概念単位でFE QUESTと照合し、thin / missingだけを補強する。**
 
 手順:
 
-1. 『科目B 予想＋過去問題集』PDF 19〜34ページの序章「傾向と対策」をページ画像も含めて確認
-2. 強調箇所・図表・初出用語・具体例を抽出
+1. 『科目B 予想＋過去問題集』第1章「予想問題1」を問題→解説の順でページ画像まで確認
+2. 各問から「何を追わせる問題か」「どこで誤りやすいか」「解説が使っている一般化可能な手順」を概念として抽出し、問題文そのものは転載しない
 3. IPA範囲との対応を確認
-4. FE QUEST の科目B学習導線 / アルゴリズム教材 / セキュリティ教材 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
-5. covered / thin / missing を判断
-6. thin / missing のみ補強
-7. スマホ図解・表・文字サイズまで確認
-8. 必要な場合だけprotected question / lesson bankを更新し、既存の科目B問題設計を不用意に壊さない
+4. FE QUEST の b_exercise / b_compound / b_exam_algo とトレース教材をliveで照合
+5. covered / thin / missing を判断し、thin / missingだけを補強
+6. 問題追加が本当に必要かを先に判断し、既存問題で十分なら解法ガイドだけを補強
+7. protected question bankを更新する場合は1173問の完全性・pool構成・pre-submit answer leak防止を維持
+8. スマホ図解・表・文字サイズを確認
 9. 公開GitHub側のCSS / audit doc / CI contract / PWA cache を必要に応じて更新
 10. PR → CI success → merge → Pages deploy success を確認
 11. protected lesson / question bankを更新した場合は対応するimport manifestをsource commitと紐付けて記録
