@@ -8759,9 +8759,43 @@ function saveBFinalResume(){
 function readBFinalResume(){
   try{return JSON.parse(localStorage.getItem(BFINAL_RESUME_KEY)||'null')}catch(e){return null}
 }
+const B_FINAL_RESUME_V426_SPEC=Object.freeze({
+  policy:'validate-resume-payload-before-restoring-protected-final',
+  schemaVersion:1,
+  totalCount:20,
+  algorithmCount:16,
+  securityCount:4,
+  preservesExistingResumeFormat:true,
+  rejectsMalformedLocalState:true,
+  rejectsPreSubmitAnswerFields:true
+});
+function bFinalResumeItemValidV426(item,index){
+  if(!item||typeof item!=='object'||Array.isArray(item))return false;
+  if(typeof item._protectedQuestionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(item._protectedQuestionId))return false;
+  if(typeof item.sourceId!=='string'||!item.sourceId)return false;
+  if(typeof item.q!=='string'||!item.q||!Array.isArray(item.options)||item.options.length!==4)return false;
+  if(!Array.isArray(item._serverMap)||item._serverMap.length!==4)return false;
+  const map=item._serverMap;
+  if(new Set(map).size!==4||map.some(n=>!Number.isInteger(n)||n<0||n>3))return false;
+  if(['a','answerIndex','correctText','explain','explanation','choiceExplanations'].some(key=>Object.prototype.hasOwnProperty.call(item,key)))return false;
+  const expectedKind=index<16?'algo':'security';
+  if(item.kind!==expectedKind)return false;
+  return true;
+}
+function bFinalResumePayloadValidV426(s){
+  if(!s||typeof s!=='object'||Array.isArray(s)||s.version!==1||s.appVersion!==APP_VERSION)return false;
+  if(!Array.isArray(s.items)||s.items.length!==20||!Array.isArray(s.answers)||s.answers.length!==20)return false;
+  if(!s.items.every((item,index)=>bFinalResumeItemValidV426(item,index)))return false;
+  if(new Set(s.items.map(item=>item._protectedQuestionId)).size!==20)return false;
+  if(s.answers.some(answer=>answer!==null&&(!Number.isInteger(answer)||answer<0||answer>3)))return false;
+  if(!Array.isArray(s.flags)||s.flags.some(n=>!Number.isInteger(n)||n<0||n>19)||new Set(s.flags).size!==s.flags.length)return false;
+  if(!Number.isInteger(s.index)||s.index<0||s.index>19)return false;
+  if(!Number.isFinite(Number(s.expiresAt))||!Number.isFinite(Number(s.startedAt))||!Number.isFinite(Number(s.savedAt)))return false;
+  return true;
+}
 function restoreBFinalResume(){
   const s=readBFinalResume();
-  if(!s||!Array.isArray(s.items)||s.items.length!==20||!Array.isArray(s.answers)||s.answers.length!==20)return false;
+  if(!bFinalResumePayloadValidV426(s)){clearBFinalResume();return false;}
   const remain=Math.ceil((Number(s.expiresAt||0)-Date.now())/1000);
   if(remain<=0){clearBFinalResume();return false}
   bFinalItems=s.items;
@@ -8780,6 +8814,9 @@ function restoreBFinalResume(){
   startBFinalTimer();
   return true;
 }
+
+globalThis.B_FINAL_RESUME_V426_SPEC=B_FINAL_RESUME_V426_SPEC;
+globalThis.bFinalResumePayloadValidV426=bFinalResumePayloadValidV426;
 
 const B_FINAL_ALGO_DOMAINS_V376=Object.freeze(["制御","一次元配列","二次元配列","再帰・関数","木構造","オブジェクト指向","リスト","スタック・キュー","ビット列","探索・整列"]);
 const B_FINAL_APPLIED_DOMAINS_V376=new Set(["再帰・関数","木構造","リスト","スタック・キュー","ビット列","探索・整列"]);
