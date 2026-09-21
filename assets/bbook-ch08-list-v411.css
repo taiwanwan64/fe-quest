@@ -1,0 +1,20 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 8 linked lists — v411 */
+#bSelect .b-list-v411{margin:14px 0;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc;overflow:hidden}
+#bSelect .b-list-v411>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:18px;line-height:1.5;font-weight:800;color:#17364b}
+#bSelect .b-list-v411>summary::-webkit-details-marker{display:none}#bSelect .b-list-v411>summary::after{content:"＋";float:right}#bSelect .b-list-v411[open]>summary::after{content:"−"}
+#bSelect .b-list-body-v411{padding:0 16px 16px}#bSelect .b-list-body-v411 p,#bSelect .b-list-body-v411 li{font-size:18px;line-height:1.7}
+#bSelect .b-list-section-v411{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-list-section-v411>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-list-grid-v411{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-list-card-v411{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}#bSelect .b-list-card-v411 b{display:block;font-size:18px;color:#17364b}#bSelect .b-list-card-v411 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-list-chain-v411{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0;padding:12px;border-radius:12px;background:#f6fafc;border:1px solid #d8e4e9}
+#bSelect .b-list-end-v411,#bSelect .b-list-node-v411{padding:9px 11px;border:1px solid #bdccd3;border-radius:9px;background:#fff;font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-list-node-v411 small{display:block;font-size:16px;font-weight:600;color:#526b78}#bSelect .b-list-arrow-v411{font-size:20px;color:#b45309;font-weight:900}
+#bSelect .b-list-code-v411{margin:10px 0;padding:11px 13px;border-radius:10px;background:#f1f5f9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17px;line-height:1.65;white-space:pre-wrap}
+#bSelect .b-list-steps-v411{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}#bSelect .b-list-steps-v411>div{padding:10px 11px;border-radius:10px;background:#eef5f8;font-size:17px;line-height:1.6}
+#bSelect .b-list-note-v411{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-list-alert-v411{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-list-good-v411{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-list-table-v411{overflow-x:auto;margin-top:10px}#bSelect .b-list-table-v411 table{width:100%;min-width:620px;border-collapse:collapse}#bSelect .b-list-table-v411 th,#bSelect .b-list-table-v411 td{border:1px solid #c9d8de;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}#bSelect .b-list-table-v411 th{background:#eef5f8;color:#17364b}
+@media(max-width:760px){#bSelect .b-list-grid-v411,#bSelect .b-list-steps-v411{grid-template-columns:1fr}}
+@media(max-width:480px){#bSelect .b-list-v411>summary{padding:13px 14px;font-size:18px}#bSelect .b-list-body-v411{padding:0 14px 14px}#bSelect .b-list-section-v411{padding:13px}#bSelect .b-list-section-v411>h3{font-size:19px}}
