@@ -1,0 +1,20 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 10 bit strings — v413 */
+#bSelect .b-bit-v413{margin:14px 0;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc;overflow:hidden}
+#bSelect .b-bit-v413>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:18px;line-height:1.5;font-weight:800;color:#17364b}
+#bSelect .b-bit-v413>summary::-webkit-details-marker{display:none}#bSelect .b-bit-v413>summary::after{content:"＋";float:right}#bSelect .b-bit-v413[open]>summary::after{content:"−"}
+#bSelect .b-bit-body-v413{padding:0 16px 16px}#bSelect .b-bit-body-v413 p,#bSelect .b-bit-body-v413 li{font-size:18px;line-height:1.7}
+#bSelect .b-bit-section-v413{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-bit-section-v413>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-bit-grid-v413{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-bit-card-v413{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}#bSelect .b-bit-card-v413 b{display:block;font-size:18px;color:#17364b}#bSelect .b-bit-card-v413 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-bit-row-v413{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0;padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#f6fafc}
+#bSelect .b-bit-cell-v413{min-width:38px;padding:9px 7px;border:1px solid #bdccd3;border-radius:8px;background:#fff;text-align:center;font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-bit-arrow-v413{font-size:20px;color:#b45309;font-weight:900}
+#bSelect .b-bit-code-v413{margin:10px 0;padding:11px 13px;border-radius:10px;background:#f1f5f9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17px;line-height:1.65;white-space:pre-wrap}
+#bSelect .b-bit-note-v413{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-bit-alert-v413{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-bit-good-v413{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-bit-table-v413{overflow-x:auto;margin-top:10px}#bSelect .b-bit-table-v413 table{width:100%;min-width:680px;border-collapse:collapse}#bSelect .b-bit-table-v413 th,#bSelect .b-bit-table-v413 td{border:1px solid #c9d8de;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}#bSelect .b-bit-table-v413 th{background:#eef5f8;color:#17364b}
+#bSelect .b-bit-steps-v413{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}#bSelect .b-bit-steps-v413>div{padding:10px 11px;border-radius:10px;background:#eef5f8;font-size:17px;line-height:1.6}
+@media(max-width:760px){#bSelect .b-bit-grid-v413,#bSelect .b-bit-steps-v413{grid-template-columns:1fr}}
+@media(max-width:480px){#bSelect .b-bit-v413>summary{padding:13px 14px;font-size:18px}#bSelect .b-bit-body-v413{padding:0 14px 14px}#bSelect .b-bit-section-v413{padding:13px}#bSelect .b-bit-section-v413>h3{font-size:19px}}
