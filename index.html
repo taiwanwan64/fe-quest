@@ -118,6 +118,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">
 <link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">
 <link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">
+<link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -2095,6 +2096,125 @@ D(優先度1)</div>
                 <div class="b-sq-card-v412"><b>⑥ 優先度規則を確認</b><span>大小関係と同優先度時の順序を問題文から読む。</span></div>
               </div>
               <p class="b-sq-good-v412">迷ったら「次に取り出されるのはどの値か」を毎行確認します。スタックとキューの混同をかなり防げます。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-bit-v413">
+          <summary>ビット列：桁をそろえて、演算ごとに1行ずつ書き換える</summary>
+          <div class="b-bit-body-v413">
+            <p>ビット列の問題は、10進数の暗算へ逃げずに<strong>固定されたビット数・各桁の位置・演算後のビット列</strong>を1行ずつ追うのが基本です。まず桁をそろえ、AND / OR / XOR / シフトを一つずつ適用します。</p>
+
+            <section class="b-bit-section-v413">
+              <h3>1. 基数変換は「10進数へ」と「10進数から」で方法を分ける</h3>
+              <div class="b-bit-grid-v413">
+                <div class="b-bit-card-v413"><b>別の基数 → 10進数</b><span>各桁 × 基数の重みを足す。右端は基数の0乗。</span></div>
+                <div class="b-bit-card-v413"><b>10進数 → 別の基数</b><span>変換先の基数で0になるまで割り、余りを下から上へ読む。</span></div>
+              </div>
+              <div class="b-bit-code-v413">10110₂
+= 1×2⁴ + 0×2³ + 1×2² + 1×2¹ + 0×2⁰
+= 22₁₀</div>
+              <p class="b-bit-note-v413">科目Bで演算途中に10進数との対応を確認したくなったら、この2手順だけを短く使います。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>2. 8ビットなら、常に8個の箱として見る</h3>
+              <div class="b-bit-row-v413">
+                <span>最上位</span>
+                <span class="b-bit-cell-v413">0</span><span class="b-bit-cell-v413">0</span><span class="b-bit-cell-v413">0</span><span class="b-bit-cell-v413">1</span>
+                <span class="b-bit-cell-v413">0</span><span class="b-bit-cell-v413">1</span><span class="b-bit-cell-v413">0</span><span class="b-bit-cell-v413">0</span>
+                <span>最下位</span>
+              </div>
+              <p>4ビット・8ビットなど固定長が指定されている問題では、桁数を途中で変えません。論理演算も加減算も、<strong>右端をそろえて縦に並べる</strong>とミスしにくくなります。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>3. 加算・減算は繰上がり／繰下がりを別に書く</h3>
+              <div class="b-bit-grid-v413">
+                <div class="b-bit-card-v413"><b>加算</b><span>1+1=10₂。下の桁へ0を書き、上の桁へ1を繰り上げる。</span></div>
+                <div class="b-bit-card-v413"><b>減算</b><span>0から1を引けないときは、上位から10₂を借りて計算する。</span></div>
+              </div>
+              <div class="b-bit-code-v413">  00001111
++ 00000001
+----------
+  00010000</div>
+              <p class="b-bit-alert-v413">固定8ビットなら、9桁目へあふれたビットをどう扱うかは問題文の条件に従います。勝手に桁数を増やしません。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>4. 2の累乗で割ると、下位ビットが剰余になる</h3>
+              <p>除数が <code>2ⁿ</code> なら、下位nビットが剰余、その左側が商として読めます。</p>
+              <div class="b-bit-code-v413">10101101₂ ÷ 8
+8 = 2³ なので下位3ビットを見る
+
+10101 | 101
+ 商      剰余
+
+商 = 10101₂
+剰余 = 101₂</div>
+              <p class="b-bit-note-v413">「2の何乗で割っているか」を先に確認すると、どこでビット列を分けるか決まります。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>5. AND / OR / XORは「マスクの1が何をするか」で覚える</h3>
+              <div class="b-bit-table-v413">
+                <table>
+                  <thead><tr><th>操作</th><th>マスクが1の位置</th><th>代表用途</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>A AND mask</code></td><td>Aの値を残す</td><td>必要なビットだけ取り出す</td></tr>
+                    <tr><td><code>A OR mask</code></td><td>必ず1にする</td><td>特定ビットを立てる</td></tr>
+                    <tr><td><code>A XOR mask</code></td><td>Aを反転する</td><td>特定ビットを反転する</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="b-bit-good-v413">マスクが0の位置では、ANDは0にし、ORとXORは元のAを保ちます。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>6. 定番の組合せを意味で読む</h3>
+              <div class="b-bit-grid-v413">
+                <div class="b-bit-card-v413"><b><code>A AND (A - 1)</code></b><span>Aの最も右側にある1を一つ0へ落とす。</span></div>
+                <div class="b-bit-card-v413"><b><code>A XOR 11111111</code></b><span>8ビットなら全ビットを反転する。</span></div>
+              </div>
+              <div class="b-bit-code-v413">A        = 10101010
+A - 1    = 10101001
+AND      = 10101000
+           ↑ 最も右側の1が消える</div>
+              <p>式を丸暗記するより、「この演算でどの位置が残る／立つ／反転するのか」を各桁で確認します。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>7. 論理シフトは、空いた場所へ0を入れる</h3>
+              <div class="b-bit-grid-v413">
+                <div class="b-bit-card-v413"><b>論理左シフト</b><span>左へ1ビットなら2倍相当。空いた右側へ0を入れる。</span></div>
+                <div class="b-bit-card-v413"><b>論理右シフト</b><span>右へ1ビットなら半分相当。空いた左側へ0を入れる。</span></div>
+              </div>
+              <div class="b-bit-code-v413">00000110 << 2  → 00011000
+00011000 >> 2  → 00000110</div>
+              <p class="b-bit-alert-v413">「左へ1ビットなら必ず2倍」とは限りません。固定長で左端から1があふれれば、そのビットは捨てられるためです。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>8. 複数演算は、1行ごとに結果を書き直す</h3>
+              <div class="b-bit-code-v413">x ← x AND mask
+x ← x >> 1
+x ← x XOR toggle
+x ← x OR setMask</div>
+              <p>最後だけを暗算せず、各行の直後のxを書きます。次の演算は<strong>一つ前の結果</strong>に対して行うため、途中結果を飛ばすと崩れやすくなります。</p>
+            </section>
+
+            <section class="b-bit-section-v413">
+              <h3>9. 科目Bではこの順で確認する</h3>
+              <div class="b-bit-steps-v413">
+                <div><strong>① ビット数を固定</strong><br>4ビット / 8ビットなどを最初に確認。</div>
+                <div><strong>② 桁を縦にそろえる</strong><br>右端を合わせ、位置をずらさない。</div>
+                <div><strong>③ 演算子の意味を確認</strong><br>AND / OR / XOR / シフトを取り違えない。</div>
+                <div><strong>④ 1行ずつ結果を更新</strong><br>途中結果を次の演算へ渡す。</div>
+                <div><strong>⑤ マスクの1を見る</strong><br>抽出・設定・反転のどれかを判断。</div>
+                <div><strong>⑥ シフトの0埋めと桁あふれ</strong><br>空いた位置と、捨てられたビットを確認。</div>
+              </div>
+              <p class="b-bit-good-v413">ビット列は「数」としてだけでなく、「各位置に意味を持つ0/1の並び」として見ると、マスク問題がかなり読みやすくなります。</p>
             </section>
           </div>
         </details>
