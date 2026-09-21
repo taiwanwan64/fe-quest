@@ -121,6 +121,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">
 <link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">
 <link rel="stylesheet" href="./assets/b-security-foundations-v415.css">
+<link rel="stylesheet" href="./assets/b-security-practice-v416.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -2992,6 +2993,72 @@ endif</div>
                 <div class="sec-foundations-card-v415"><b>平時の予防</b><span>バックアップ、構成管理、MFA、最小権限などを事前に整える。</span></div>
               </div>
               <p class="sec-foundations-alert-v415">選択肢の対策自体が正しくても、設問が「最優先の初動」を聞いているのに再発防止策を選ぶと不正解になり得ます。</p>
+            </section>
+          </div>
+        </details>
+
+
+
+        <details class="sec-practice-v416">
+          <summary>セキュリティ問題演習：変わった条件と責任範囲だけを追う</summary>
+          <div class="sec-practice-body-v416">
+            <p>長文のセキュリティ問題では、書かれている危険を全部探すのではなく、<strong>設問が聞いている変化・利用者・システムの層・責任範囲</strong>だけを切り出します。選択肢を読む前に、問題文の因果関係を短く図にします。</p>
+            <section class="sec-practice-section-v416">
+              <h3>1. 「導入したら増えるリスク」は変更前との差分だけを見る</h3>
+              <div class="sec-practice-flow-v416"><span class="sec-practice-step-v416">変更前</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">新しい運用</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">増える接続・端末・権限</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">増加するリスク</span></div>
+              <p>たとえば私物PCからVPN接続を許可するなら、私物PCのマルウェアが社内へ到達する経路や、VPN接続数の増加による可用性への影響は「変更によって増えるリスク」です。</p>
+              <p class="sec-practice-alert-v416">もともと存在していた紛失リスクや、変更内容と関係のない人の操作を選んでも、「今回の変更で増えるリスク」にはなりません。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>2. リスクは「攻撃が成立する鎖」が全部つながるか確認する</h3>
+              <div class="sec-practice-flow-v416"><span class="sec-practice-step-v416">攻撃者ができること</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">利用できる設定・経路</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">守る対象へ到達</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">被害</span></div>
+              <p>送信元アドレスや初期設定が公開されていて、利用者がその送信元を信頼する運用なら、なりすましメールが成立する可能性があります。逆に、途中の条件が一つ成立しない選択肢は除外します。</p>
+              <p class="sec-practice-good-v416">「攻撃名が有名だから」ではなく、問題文の条件だけで攻撃経路が最後までつながるかを見ます。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>3. ID・パスワードは「どの層の認証か」を分ける</h3>
+              <div class="sec-practice-table-v416"><table><thead><tr><th>層</th><th>例</th><th>確認すること</th></tr></thead><tbody>
+                <tr><td>端末 / OS</td><td>共有PCへログインする端末ID・パスワード</td><td>端末を誰が使えるか</td></tr>
+                <tr><td>ブラウザ</td><td>保存されたID・パスワード、オートコンプリート</td><td>次の利用者へ認証情報が残らないか</td></tr>
+                <tr><td>業務アプリ</td><td>個人別の利用者ID・パスワード</td><td>誰の権限で業務データへアクセスするか</td></tr>
+              </tbody></table></div>
+              <p>「利用者IDを共有していない」と書かれていても、それが業務アプリのIDだけを指すなら、共有端末のOS認証やブラウザ保存情報は別問題です。</p>
+              <p class="sec-practice-note-v416">同じ「ID」「パスワード」という言葉が出たら、端末・ブラウザ・アプリのどれかを横にメモします。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>4. 権限表は役職名ではなく、業務手順から埋める</h3>
+              <div class="sec-practice-grid-v416">
+                <div class="sec-practice-card-v416"><b>入力する人</b><span>入力権限が必要。自分で承認する必要があるとは限らない。</span></div>
+                <div class="sec-practice-card-v416"><b>承認する人</b><span>承認権限が必要。内容確認のため閲覧権限も必要になりやすい。</span></div>
+                <div class="sec-practice-card-v416"><b>管理者</b><span>設定変更権限があっても、業務上の承認者とは限らない。</span></div>
+                <div class="sec-practice-card-v416"><b>委託先</b><span>契約・要求事項で許された作業だけを行う。委託元と同じ権限とは限らない。</span></div>
+              </div>
+              <p>「入力した人とは別の人が承認する」というルールなら、入力と承認を分離します。まず業務フローを書き、その後で権限表へ○を置きます。</p>
+              <p class="sec-practice-alert-v416">「課長だから全部できるはず」「システム部だから承認できるはず」のように、肩書だけから権限を推測しません。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>5. クラウドの責任は「会社」ではなく「管理している層」で切る</h3>
+              <div class="sec-practice-table-v416"><table><thead><tr><th>問題がある層</th><th>まず確認する責任範囲</th></tr></thead><tbody>
+                <tr><td>クラウド基盤・PaaSが提供するDBMSやミドルウェア</td><td>サービス提供者が管理する範囲か</td></tr>
+                <tr><td>利用者が作ったWebアプリのプログラム</td><td>開発・運用担当が管理する範囲か</td></tr>
+                <tr><td>業務上の利用方法・データ・アカウント</td><td>サービス利用組織が管理する範囲か</td></tr>
+              </tbody></table></div>
+              <p>「PaaSだから全部クラウド事業者」「委託しているから全部委託先」と決めつけません。<strong>脆弱性がどの部品にあるか</strong>を先に特定し、その部品を管理する主体へ結び付けます。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>6. 選択肢は一文ずつ「根拠があるか」を判定する</h3>
+              <div class="sec-practice-grid-v416">
+                <div class="sec-practice-card-v416"><b>主語</b><span>その人・組織が本当に問題文に登場し、その操作をする立場か。</span></div>
+                <div class="sec-practice-card-v416"><b>行為</b><span>その設定・接続・権限が問題文で許可されているか。</span></div>
+                <div class="sec-practice-card-v416"><b>経路</b><span>被害対象まで実際に到達できる構成か。</span></div>
+                <div class="sec-practice-card-v416"><b>結果</b><span>その行為から本当に機密性・完全性・可用性への影響が生じるか。</span></div>
+              </div>
+              <p class="sec-practice-good-v416">選択肢の一部だけ正しくても、後半の因果が問題文とつながらなければ不正解です。一文を「主語 → 行為 → 経路 → 被害」に分解すると見抜きやすくなります。</p>
+            </section>
+            <section class="sec-practice-section-v416">
+              <h3>7. 長文問題ではこの順でメモする</h3>
+              <div class="sec-practice-flow-v416"><span class="sec-practice-step-v416">① 変更点</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">② 利用者 / 組織</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">③ 接続・認証・権限</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">④ 管理責任</span><span class="sec-practice-arrow-v416">→</span><span class="sec-practice-step-v416">⑤ 選択肢照合</span></div>
+              <p>文章の細部を全部覚える必要はありません。設問に必要な関係だけを5項目へ圧縮すると、長文でも判断材料が見えやすくなります。</p>
             </section>
           </div>
         </details>
