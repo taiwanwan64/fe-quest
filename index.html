@@ -114,6 +114,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
 <link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">
 <link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">
+<link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1650,6 +1651,105 @@ return a + b</div>
                 <div class="b-recursion-card-v408"><b>④ 戻り値を外側へ渡す</b><span>代入や計算がある場合は、戻ってから実行する。</span></div>
               </div>
               <p class="b-recursion-good-v408">再帰が苦手なときは、コード全体を何度も読み直すより、呼出しごとに小さなトレース表を分ける方が安全です。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-tree-v409">
+          <summary>木構造：図と一次元配列を行き来する</summary>
+          <div class="b-tree-body-v409">
+            <p>木構造の問題は、図そのものより<strong>「親子関係」と「配列の要素番号」</strong>を対応させられるかが重要です。まず用語と形を確認し、その後に配列へ変換します。</p>
+
+            <section class="b-tree-section-v409">
+              <h3>1. まず5つの言葉を図に結び付ける</h3>
+              <div class="b-tree-grid-v409">
+                <div class="b-tree-card-v409"><b>根</b><span>いちばん上の節。親をもたない節です。</span></div>
+                <div class="b-tree-card-v409"><b>節（ノード）</b><span>値を持つ一つ一つの要素です。</span></div>
+                <div class="b-tree-card-v409"><b>枝</b><span>親と子の節を結ぶ線です。</span></div>
+                <div class="b-tree-card-v409"><b>葉</b><span>子をもたない節です。</span></div>
+              </div>
+              <p class="b-tree-note-v409">上にある節が親、そこから枝でつながる下の節が子です。木構造では「値が大きい方が親」とは限りません。値の条件が付くのはヒープなど特定の木です。</p>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>2. 二分木 → 完全二分木 → ヒープ</h3>
+              <div class="b-tree-kind-v409">
+                <div><b>二分木</b><span>一つの節がもつ子は最大2個。子が1個だけなら左の子として扱います。</span></div>
+                <div><b>完全二分木</b><span>上の段を飛ばして下の段へ節を置かず、同じ段では左から詰めていく形です。</span></div>
+                <div><b>ヒープ</b><span>完全二分木に、親子の値の大小条件を追加したものです。</span></div>
+              </div>
+              <p class="b-tree-alert-v409"><strong>完全二分木は「形」の条件、ヒープは「形＋親子の値」の条件</strong>です。ここを混ぜないようにします。</p>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>3. 要素番号1始まりなら、根はtree[1]</h3>
+              <div class="b-tree-map-v409" aria-label="木と一次元配列の対応例">
+                <div class="b-tree-level-v409"><span class="b-tree-node-v409">80<small>tree[1]</small></span></div>
+                <div class="b-tree-arrow-v409">↓ 左右の子</div>
+                <div class="b-tree-level-v409">
+                  <span class="b-tree-node-v409">55<small>tree[2]</small></span>
+                  <span class="b-tree-node-v409">70<small>tree[3]</small></span>
+                </div>
+                <div class="b-tree-arrow-v409">↓ 次の段</div>
+                <div class="b-tree-level-v409">
+                  <span class="b-tree-node-v409">20<small>tree[4]</small></span>
+                  <span class="b-tree-node-v409">40<small>tree[5]</small></span>
+                  <span class="b-tree-node-v409">60<small>tree[6]</small></span>
+                  <span class="b-tree-node-v409">65<small>tree[7]</small></span>
+                </div>
+              </div>
+              <div class="b-array-strip-v409" aria-label="一次元配列treeの要素番号と値">
+                <div class="b-array-cell-v409"><small>1</small><b>80</b></div>
+                <div class="b-array-cell-v409"><small>2</small><b>55</b></div>
+                <div class="b-array-cell-v409"><small>3</small><b>70</b></div>
+                <div class="b-array-cell-v409"><small>4</small><b>20</b></div>
+                <div class="b-array-cell-v409"><small>5</small><b>40</b></div>
+                <div class="b-array-cell-v409"><small>6</small><b>60</b></div>
+                <div class="b-array-cell-v409"><small>7</small><b>65</b></div>
+              </div>
+              <div class="b-tree-formula-v409">
+                <div>親が <code>tree[i]</code></div>
+                <div>左の子 <code>tree[2 × i]</code></div>
+                <div>右の子 <code>tree[2 × i + 1]</code></div>
+              </div>
+              <p>例えば <code>i = 2</code> なら、左の子は <code>tree[4]</code>、右の子は <code>tree[5]</code> です。ここでは参考資料と同じく<strong>要素番号1始まり</strong>で考えます。</p>
+              <details class="b-tree-check-v409">
+                <summary>確認：tree[3] の左右の子は？</summary>
+                <p>左は <code>tree[6]</code>、右は <code>tree[7]</code> です。</p>
+              </details>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>4. 配列から木へ戻すときは「段ごとに左から」</h3>
+              <p>要素番号1から順に、根 → 2段目の左・右 → 3段目の左から右へ、と置きます。先に値の大小を見て位置を変えてはいけません。</p>
+              <div class="b-tree-good-v409"><strong>配列の位置が先、値は後。</strong>まず要素番号で木の形を作り、その後でヒープの大小条件を確認します。</div>
+              <p>逆に子から親を探したいときは、左の子が <code>2 × i</code>、右の子が <code>2 × i + 1</code> という対応から逆算できます。例えば <code>tree[6]</code> と <code>tree[7]</code> の親はどちらも <code>tree[3]</code> です。</p>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>5. ヒープは「親と子」だけを比較する</h3>
+              <div class="b-heap-compare-v409">
+                <div><b>最大ヒープ</b><span>すべての親について、親の値が子の値以上。</span></div>
+                <div><b>最小ヒープ</b><span>すべての親について、親の値が子の値以下。</span></div>
+              </div>
+              <p>上の例は、80 ≥ 55・70、55 ≥ 20・40、70 ≥ 60・65なので最大ヒープです。</p>
+              <p class="b-tree-alert-v409">55と70、20と40のような<strong>同じ段の値同士は比較条件ではありません</strong>。兄弟の並び順が大小順でなくても、それだけではヒープ違反になりません。</p>
+              <details class="b-tree-check-v409">
+                <summary>確認：tree = [10, 18, 14, 22, 30, 16, 20] は最小ヒープ？</summary>
+                <p>はい。10 ≤ 18・14、18 ≤ 22・30、14 ≤ 16・20なので、すべての親子関係で条件を満たします。</p>
+              </details>
+            </section>
+
+            <section class="b-tree-section-v409">
+              <h3>6. 試験ではこの順に確認する</h3>
+              <div class="b-tree-grid-v409">
+                <div class="b-tree-card-v409"><b>① 配列の開始番号</b><span>このガイドでは1始まり。根はtree[1]。</span></div>
+                <div class="b-tree-card-v409"><b>② 要素番号で木を作る</b><span>2i / 2i+1で親子関係を決める。</span></div>
+                <div class="b-tree-card-v409"><b>③ 完全二分木の形を見る</b><span>上の段を飛ばしたり、途中に不自然な空きがないか。</span></div>
+                <div class="b-tree-card-v409"><b>④ 親子だけ比較する</b><span>最大ヒープか最小ヒープかに合わせて全親子を確認。</span></div>
+              </div>
+              <p class="b-tree-good-v409">「値を見て木を作る」のではなく、<strong>要素番号で木を作る → 親子の値を調べる</strong>の順にすると、ヒープ問題を安定して解けます。</p>
             </section>
           </div>
         </details>
