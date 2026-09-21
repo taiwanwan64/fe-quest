@@ -116,6 +116,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">
 <link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">
 <link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">
+<link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1865,6 +1866,115 @@ items[2].add(1)</div>
                 <div class="b-oop-card-v410"><b>⑦ 状態を1行ずつ更新</b><span>共有参照なら、同じ実体を指す他の変数からも変更後の状態が見える。</span></div>
               </div>
               <p class="b-oop-good-v410">迷ったら「変数の箱」ではなく「インスタンスの箱」を描き、変数から矢印を伸ばします。共有参照の問題がかなり追いやすくなります。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-list-v411">
+          <summary>連結リスト：値ではなく参照の矢印を付け替える</summary>
+          <div class="b-list-body-v411">
+            <p>連結リストは、要素を物理的に横へ並べるのではなく、各要素が持つ<strong>「次の要素への参照」</strong>で順番を作ります。科目Bでは値より先に、<strong>head・現在位置・nextの矢印</strong>を追うと安定します。</p>
+
+            <section class="b-list-section-v411">
+              <h3>1. 1要素は「値 + 次への参照」</h3>
+              <div class="b-list-chain-v411">
+                <span class="b-list-end-v411">head</span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">A<small>next: B</small></span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">B<small>next: C</small></span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">C<small>next: null</small></span>
+              </div>
+              <p><code>head</code> は先頭要素への参照です。現在位置を <code>p</code> とすると、<code>p ← p.next</code> で次の要素へ移動します。</p>
+              <p class="b-list-note-v411">終端は問題によって <code>null</code>、未定義など表記が異なります。意味は「次にたどる要素がない」です。問題文の表記に合わせます。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>2. 挿入は「後ろを保存してから、前をつなぐ」</h3>
+              <p>A→Cの間へ新しいBを入れるなら、後続のCへの道を先にBへ持たせます。</p>
+              <div class="b-list-code-v411">① B.next ← A.next
+② A.next ← B</div>
+              <div class="b-list-chain-v411">
+                <span class="b-list-node-v411">A</span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">B</span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">C</span>
+              </div>
+              <p class="b-list-alert-v411">順序を逆にして、先に <code>A.next ← B</code> とした後で <code>B.next ← A.next</code> と読むと、その時点のA.nextはBなので、Bが自分自身を指す形になり得ます。<strong>右辺が「更新前の参照」を必要としていないか</strong>を確認します。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>3. 削除は「飛び越すように前のnextを書き換える」</h3>
+              <p>A→B→CからBを外すなら、Aから見た次の行き先をBの次へ変更します。</p>
+              <div class="b-list-code-v411">prev.next ← target.next</div>
+              <div class="b-list-chain-v411">
+                <span class="b-list-node-v411">A</span><span class="b-list-arrow-v411">→</span>
+                <span class="b-list-node-v411">C</span>
+              </div>
+              <p class="b-list-good-v411">配列の削除のように後ろの要素を一つずつ詰めません。連結リストでは、基本は<strong>参照の付替え</strong>です。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>4. 先頭だけはhead自身を書き換える</h3>
+              <div class="b-list-grid-v411">
+                <div class="b-list-card-v411"><b>先頭へ追加</b><span>新要素.next ← head の後、head ← 新要素。</span></div>
+                <div class="b-list-card-v411"><b>先頭を削除</b><span>head ← head.next。前の要素がないためheadを直接更新。</span></div>
+              </div>
+              <p class="b-list-alert-v411">中間要素なら「前の要素.next」を変えますが、先頭には前の要素がありません。そこでheadが特別扱いになります。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>5. 末尾や位置指定ではprevとptrを2本で追う</h3>
+              <div class="b-list-steps-v411">
+                <div><strong>ptr</strong><br>今見ている要素</div>
+                <div><strong>prev</strong><br>ptrの一つ前の要素</div>
+              </div>
+              <div class="b-list-code-v411">prev ← ptr
+ptr ← ptr.next</div>
+              <p>この2行をセットで進めると、ptrが目的の位置や末尾へ到達したとき、prevからリンクを付け替えられます。</p>
+              <p class="b-list-note-v411">末尾削除は「末尾を見つける」だけでは足りません。単方向リストでは、末尾の一つ前の要素を覚えておく必要があります。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>6. 空・1要素・見つからない場合を先に確認</h3>
+              <div class="b-list-table-v411">
+                <table>
+                  <thead><tr><th>状態</th><th>見るポイント</th><th>典型的な処理</th></tr></thead>
+                  <tbody>
+                    <tr><td>空リスト</td><td>headが終端値</td><td>削除・探索をすぐ終了する場合がある</td></tr>
+                    <tr><td>1要素</td><td>head.nextが終端値</td><td>その要素を削除するとheadも終端値になる</td></tr>
+                    <tr><td>先頭が一致</td><td>head.valueを見る</td><td>head ← head.next</td></tr>
+                    <tr><td>中間が一致</td><td>prevとptrを使う</td><td>prev.next ← ptr.next</td></tr>
+                    <tr><td>見つからない</td><td>終端まで到達</td><td>リストを変えず終了</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>7. 「リストから外れた」と「実体が消えた」は別</h3>
+              <p>リンクの付替えである要素へheadから到達できなくなれば、その要素は<strong>リストの並びからは外れています</strong>。ただし、トレースでは「矢印がなくなった」ことと「インスタンスそのものを消去した」ことを同じ意味にしません。</p>
+              <p class="b-list-note-v411">別の変数がそのインスタンスを参照しているなら、その変数からは引き続き参照できます。リストの順序は、あくまでheadから参照をたどって到達できる要素で判断します。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>8. 双方向リストは前後2本の矢印</h3>
+              <div class="b-list-grid-v411">
+                <div class="b-list-card-v411"><b>next</b><span>次の要素への参照。head側から順方向へたどる。</span></div>
+                <div class="b-list-card-v411"><b>prev</b><span>前の要素への参照。tail側から逆方向へたどれる。</span></div>
+              </div>
+              <p>双方向リストでは、挿入・削除時に片側だけ更新すると参照関係が壊れます。問題文でnextとprevの両方がある場合は、<strong>前向き・後ろ向きの両方</strong>を確認します。</p>
+            </section>
+
+            <section class="b-list-section-v411">
+              <h3>9. 科目Bではこの順で確認する</h3>
+              <div class="b-list-grid-v411">
+                <div class="b-list-card-v411"><b>① headを確認</b><span>空か、先頭はどれか。</span></div>
+                <div class="b-list-card-v411"><b>② 現在の矢印を書く</b><span>値より先にnextの接続を図にする。</span></div>
+                <div class="b-list-card-v411"><b>③ 右辺を先に読む</b><span>更新前の参照が必要なら先に保存。</span></div>
+                <div class="b-list-card-v411"><b>④ 代入後の矢印を書き直す</b><span>古い矢印を残さない。</span></div>
+                <div class="b-list-card-v411"><b>⑤ prev / ptrを別欄で追う</b><span>現在位置と直前位置を混同しない。</span></div>
+                <div class="b-list-card-v411"><b>⑥ 境界条件を見る</b><span>空・先頭・末尾・1要素・未発見。</span></div>
+              </div>
+              <p class="b-list-good-v411">リスト問題は「値の並び」を暗算するより、<strong>代入1回ごとに矢印を描き直す</strong>方がミスを減らせます。</p>
             </section>
           </div>
         </details>
