@@ -124,6 +124,7 @@
 <link rel="stylesheet" href="./assets/b-security-practice-v416.css">
 <link rel="stylesheet" href="./assets/bbook2-intro-strategy-v417.css">
 <link rel="stylesheet" href="./assets/bbook2-prediction1-v418.css">
+<link rel="stylesheet" href="./assets/bbook2-prediction2-v419.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -2386,6 +2387,21 @@ endif</div>
           </div>
         </details>
 
+        <details class="bbook2-prediction2-v419">
+          <summary>複数空欄：全部を同時に考えず「役割 → 依存関係」の順で解く</summary>
+          <div class="bbook2-prediction2-body-v419">
+            <p>空欄が複数ある長いプログラムでは、候補を組み合わせて総当たりすると急に重くなります。まず各空欄が<strong>何を決める場所か</strong>を言葉にし、ほかの空欄へ影響する順に確定します。</p>
+            <div class="bbook2-prediction2-grid-v419">
+              <div><b>① 空欄の役割を一言で書く</b><span>「ループの終了条件」「次に見る要素」「戻り値」など、式そのものより先に役割を決める。</span></div>
+              <div><b>② 前後の確定部分を使う</b><span>空欄の直前に何が分かっていて、直後で何に使われるかを見る。離れた行まで一度に追わない。</span></div>
+              <div><b>③ 依存する空欄は後回し</b><span>別の空欄で決まる値を使うなら、元になる空欄から先に解く。空欄番号の順とは限らない。</span></div>
+              <div><b>④ 境界値で壊れないか確認</b><span>最初・最後の要素、0回目・1回目、空や末尾など、条件が切り替わる地点を小さく試す。</span></div>
+              <div><b>⑤ 1ケースだけ手で通す</b><span>候補を絞ったら短い入力で一周だけ実行し、更新順・添字・参照先が意図どおりか確認する。</span></div>
+              <div><b>⑥ 最後に全体へ戻す</b><span>個々の空欄が局所的に正しくても、全体の目的を満たすかを最後に確認する。</span></div>
+            </div>
+            <div class="bbook2-prediction2-note-v419"><b>空欄番号は「解く順番」ではありません</b><span>先に確定できる条件や、ほかの処理の前提になる空欄から解くと、組合せを総当たりせずに済みます。</span></div>
+          </div>
+        </details>
         <div class="b-mode-next-card" id="bTraceNextCard">
           <div class="b-mode-next-icon">▶</div>
           <div class="b-mode-next-copy"><span>次の未完了</span><b id="bTraceNextTitle">演習を確認中…</b><small id="bTraceNextDesc"></small></div>
