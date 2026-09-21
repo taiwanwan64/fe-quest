@@ -383,7 +383,7 @@
     root.FEQUEST_IPA92_V33_SUBJECT_A_METADATA_INSTALL=v33Install;
     root.FEQUEST_IPA92_V34_SUBJECT_A_METADATA_INSTALL=v34Install;
     root.FEQUEST_IPA92_V35_SUBJECT_A_METADATA_INSTALL=v35Install;
-    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-32-ipa92-v1-v35'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1173;
+    const providerOk=root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-33-ipa92-v1-v35-bgap1'&&root.FEQUEST_PROTECTED_CONTENT?.catalogTotal===1180;
     const ok=providerOk&&v7Install.ok&&v8Install.ok&&v9Install.ok&&v10Install.ok&&v11Install.ok&&v12Install.ok&&v13Install.ok&&v14Install.ok&&v15Install.ok&&v16Install.ok&&v17Install.ok&&v18Install.ok&&v19Install.ok&&v20Install.ok&&v21Install.ok&&v22Install.ok&&v23Install.ok&&v24Install.ok&&v25Install.ok&&v26Install.ok&&v27Install.ok&&v28Install.ok&&v29Install.ok&&v30Install.ok&&v31Install.ok&&v32Install.ok&&v33Install.ok&&v34Install.ok&&v35Install.ok;
     return Object.freeze({ok,status:ok?'activated':'metadata-install-failed',reused,v7:v7Install,v8:v8Install,v9:v9Install,v10:v10Install,v11:v11Install,v12:v12Install,v13:v13Install,v14:v14Install,v15:v15Install,v16:v16Install,v17:v17Install,v18:v18Install,v19:v19Install,v20:v20Install,v21:v21Install,v22:v22Install,v23:v23Install,v24:v24Install,v25:v25Install,v26:v26Install,v27:v27Install,v28:v28Install,v29:v29Install,v30:v30Install,v31:v31Install,v32:v32Install,v33:v33Install,v34:v34Install,v35:v35Install});
   }
@@ -391,13 +391,13 @@
   function activateV35Provider(){
     const d=root.document;
     if(!d||typeof d.createElement!=='function')return Promise.resolve({ok:false,status:'document-unavailable'});
-    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-32-ipa92-v1-v35')return Promise.resolve(finishLatestActivation(true));
+    if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-33-ipa92-v1-v35-bgap1')return Promise.resolve(finishLatestActivation(true));
     const id='fequest-ipa92-v35-provider';
     const existing=d.getElementById?.(id);
     if(existing){
       return new Promise(resolve=>{
         const finish=()=>resolve(finishLatestActivation(true));
-        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-32-ipa92-v1-v35')return finish();
+        if(root.FEQUEST_PROTECTED_CONTENT?.version==='v376-provider-33-ipa92-v1-v35-bgap1')return finish();
         existing.addEventListener('load',finish,{once:true});
         existing.addEventListener('error',()=>resolve({ok:false,status:'provider-load-failed',reused:true}),{once:true});
       });
