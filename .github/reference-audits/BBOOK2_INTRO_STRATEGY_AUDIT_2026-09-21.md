@@ -81,3 +81,14 @@ UIに「アルゴリズム40問プール」と固定表示が残っていたが�
 ## 完了条件
 
 PR CI（publication / IPA 9.2 v35）が成功し、mainへmerge後のPages deployが成功した時点で完了とする。
+
+
+## 完了証跡
+
+- PR: #191（merged）
+- final PR head: `031e6b4e8e610fbcf84e32270a3b6c545e7e2141`
+- Validate sanitized FE QUEST publication: run `35566386429` — success
+- Validate IPA 9.2 question v35 public activation: run `35566386467` — success
+- merge commit: `042f75d7624a413b45f4979c9289ac14e75c59eb`
+- production Pages deploy: run `35566414975` — success
+- PWA cache contract: `fe-quest-v377-98`
