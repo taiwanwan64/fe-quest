@@ -77,6 +77,12 @@ jobs:
           for(const id of required)if(!actualByProtectedId.has(id))throw new Error('missing gap metadata '+id);
           if(!app.includes('const B_FINAL_ALGO_POOL_V424_COUNT=50;'))throw new Error('v424 runtime pool contract missing');
           console.log('PASS Subject B final selector metadata: 50 questions');
+          const selectorStart=app.indexOf('function bFinalSelectDescriptorsV376(){');
+          const selectorEnd=app.indexOf('function bFinalProtectedItemV376',selectorStart);
+          const selector=selectorStart>=0&&selectorEnd>selectorStart?app.slice(selectorStart,selectorEnd):'';
+          if(!app.includes("policy:'algorithm-16-then-security-4'")||!app.includes('randomizesWithinBlocks:true')||!selector.includes('const algo=shuffled(bFinalSelectAlgoV376());')||!selector.includes('const security=shuffled(bFinalSelectSecurityV376());')||!selector.includes('const descriptors=[...algo,...security];')||!selector.includes("item.kind!=='algo'")||!selector.includes("item.kind!=='security'"))throw new Error('v425 final runtime order contract missing');
+          if(selector.includes('shuffled([...bFinalSelectAlgoV376()'))throw new Error('v425 final runtime order regressed to mixed shuffle');
+          console.log('PASS Subject B final runtime order: algorithm 16 then security 4');
           NODE
       - name: Validate bilingual learning terminology
         run: |
@@ -102,11 +108,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-106';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-107';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-106" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-107" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -775,7 +781,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-106';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-107';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
