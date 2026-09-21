@@ -83,3 +83,18 @@ protected question bankは変更しない。既存の木構造トレース10問�
 - 専用CSS: `assets/bbook-ch06-tree-v409.css`
 - PWA cache contract: `fe-quest-v377-90`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- PR: #174（merged）
+- PR final head: `dda6ed5dae9437ad4fca0038ecbeb23102ec7ef6`
+- PR final CI:
+  - Validate sanitized FE QUEST publication: run `35549191345` — success
+  - Validate IPA 9.2 question v35 public activation: run `35549191401` — success
+- merge commit: `ff370e4e4aa53595dad79427ed8ad95e43686025`
+- production Pages deploy: run `35549212475` — success
+- PWA cache contract: `fe-quest-v377-90`
+- 補足: 最初のpublication run `35549169215` はガイド本文のHTMLタグを含まない文字列でgrepしていたため失敗。アプリ実装の構文エラーではなく、検証文字列を実際のHTMLに合わせて修正し、上記最終runでsuccessを確認した。
