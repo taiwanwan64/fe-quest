@@ -171,6 +171,8 @@ jobs:
           ! grep -Fq '参考書' "$RUNNER_TEMP/site/index.html"
           ! grep -Fq '虎の巻' "$RUNNER_TEMP/site/index.html"
           ! grep -Fq '情報処理教科書' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '出るとこだけ' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '本書' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v14.js"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v15.js"
