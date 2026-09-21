@@ -20,15 +20,15 @@
 
 過去会話の記憶より、上記 live 情報を優先すること。
 
-## 2. 2026-09-20 時点のスナップショット
+## 2. 2026-09-21 時点のスナップショット
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `2811a0522de58cc49ed87e353390668a99a2ab0b`
+- main: `ff370e4e4aa53595dad79427ed8ad95e43686025`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35544754098`、success
-- PWA cache contract: `fe-quest-v377-89`
+- 最新本番 deploy: GitHub Actions run `35549212475`、success
+- PWA cache contract: `fe-quest-v377-90`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -56,6 +56,7 @@
 - 科目B専用参考書 第3章「二次元配列」 PR: #168、merged
 - 科目B専用参考書 第4章「ありえない選択肢」 PR: #170、merged
 - 科目B専用参考書 第5章「再帰」 PR: #172、merged
+- 科目B専用参考書 第6章「木構造」 PR: #174、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -545,6 +546,26 @@
 - production Pages deploy: run `35544754098` — success
 - PWA cache contract: `fe-quest-v377-89`
 
+### 科目B専用参考書 第1部 第6章「木構造」
+
+`.github/reference-audits/BBOOK_CH06_TREE_AUDIT_2026-09-21.md`
+
+- 第6章を章扉から練習問題6-1・解説までページ画像で確認済み
+- 科目Bトレース画面へ「木構造：図と一次元配列を行き来する」を追加
+- 根・節（ノード）・枝・葉・親子の基本用語を科目B直前に整理
+- 二分木 → 完全二分木 → ヒープの関係を整理
+- 完全二分木は形、ヒープは形＋親子の値の条件であることを明示
+- 要素番号1始まりで root=`tree[1]`、左=`tree[2 × i]`、右=`tree[2 × i + 1]` の対応を図解
+- 木→一次元配列 / 一次元配列→木の相互変換手順を補強
+- 最大ヒープ / 最小ヒープでは親子のみを比較し、同じ段の値同士は条件ではないことを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch06-tree-v409.css`
+- PR #174 の最終CI:
+  - Validate sanitized FE QUEST publication: run `35549191345` — success
+  - Validate IPA 9.2 question v35 public activation: run `35549191401` — success
+- production Pages deploy: run `35549212475` — success
+- PWA cache contract: `fe-quest-v377-90`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -565,11 +586,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第6章「木構造」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第7章「オブジェクト指向」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第6章「木構造」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第7章「オブジェクト指向」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
