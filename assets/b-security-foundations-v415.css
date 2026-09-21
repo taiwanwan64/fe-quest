@@ -1,0 +1,25 @@
+/* FE QUEST Subject-B security foundations / source-neutral guide — v415 */
+#secSelect .sec-foundations-v415{margin:14px 0;border:1px solid #cfe1d5;border-radius:16px;background:#f8fbf9;overflow:hidden}
+#secSelect .sec-foundations-v415>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:18px;line-height:1.5;font-weight:800;color:#173b2b}
+#secSelect .sec-foundations-v415>summary::-webkit-details-marker{display:none}#secSelect .sec-foundations-v415>summary::after{content:"＋";float:right}#secSelect .sec-foundations-v415[open]>summary::after{content:"−"}
+#secSelect .sec-foundations-body-v415{padding:0 16px 16px}#secSelect .sec-foundations-body-v415 p,#secSelect .sec-foundations-body-v415 li{font-size:18px;line-height:1.7}
+#secSelect .sec-foundations-section-v415{margin-top:16px;padding:15px;border:1px solid #d6e5dc;border-radius:14px;background:#fff}
+#secSelect .sec-foundations-section-v415>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#173b2b}
+#secSelect .sec-foundations-grid-v415{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#secSelect .sec-foundations-grid-v415.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+#secSelect .sec-foundations-card-v415{padding:12px;border:1px solid #c9d8cf;border-radius:11px;background:#fbfdfb}
+#secSelect .sec-foundations-card-v415 b{display:block;font-size:18px;color:#173b2b}
+#secSelect .sec-foundations-card-v415 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425d4d}
+#secSelect .sec-foundations-flow-v415{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0;padding:12px;border:1px solid #d6e5dc;border-radius:12px;background:#f5faf7}
+#secSelect .sec-foundations-step-v415{padding:9px 11px;border:1px solid #bfd2c5;border-radius:9px;background:#fff;font-size:17px;font-weight:800;color:#173b2b}
+#secSelect .sec-foundations-arrow-v415{font-size:19px;font-weight:900;color:#2f6b4d}
+#secSelect .sec-foundations-table-v415{overflow-x:auto;margin-top:10px}
+#secSelect .sec-foundations-table-v415 table{width:100%;min-width:700px;border-collapse:collapse}
+#secSelect .sec-foundations-table-v415 th,#secSelect .sec-foundations-table-v415 td{border:1px solid #c9d8cf;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}
+#secSelect .sec-foundations-table-v415 th{background:#eef6f1;color:#173b2b}
+#secSelect .sec-foundations-note-v415{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#secSelect .sec-foundations-alert-v415{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#secSelect .sec-foundations-good-v415{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#secSelect .sec-foundations-bad-v415{margin-top:11px;padding:12px 14px;border-left:4px solid #b91c1c;border-radius:9px;background:#fef2f2;font-size:17px;line-height:1.65}
+@media(max-width:760px){#secSelect .sec-foundations-grid-v415,#secSelect .sec-foundations-grid-v415.three{grid-template-columns:1fr}}
+@media(max-width:480px){#secSelect .sec-foundations-v415>summary{padding:13px 14px;font-size:18px}#secSelect .sec-foundations-body-v415{padding:0 14px 14px}#secSelect .sec-foundations-section-v415{padding:13px}#secSelect .sec-foundations-section-v415>h3{font-size:19px}}
