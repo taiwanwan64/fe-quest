@@ -123,6 +123,7 @@
 <link rel="stylesheet" href="./assets/b-security-foundations-v415.css">
 <link rel="stylesheet" href="./assets/b-security-practice-v416.css">
 <link rel="stylesheet" href="./assets/bbook2-intro-strategy-v417.css">
+<link rel="stylesheet" href="./assets/bbook2-prediction1-v418.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -2366,6 +2367,22 @@ endif</div>
               </div>
               <p class="b-review-good-v414">総合問題ほど「全部を頭の中で処理しない」ことが重要です。部品に分け、途中状態を外へ書き出すほど安定します。</p>
             </section>
+          </div>
+        </details>
+
+        <details class="bbook2-prediction1-v418">
+          <summary>実戦トレース：1行ずつではなく「状態が変わる単位」で追う</summary>
+          <div class="bbook2-prediction1-body-v418">
+            <p>長いプログラムでは、全変数を毎行書き写すより、<strong>比較・代入・参照移動・関数の戻り</strong>など、状態が変わる場所へ絞って記録すると速く追えます。</p>
+            <div class="bbook2-prediction1-grid-v418">
+              <div><b>① 仕様を固定</b><span>配列の開始番号、整数除算、未定義値、関数の戻り値などを先に確認。</span></div>
+              <div><b>② 変化点だけ記録</b><span>値が変わらない行は結果だけ確認し、表へ同じ値を何度も書かない。</span></div>
+              <div><b>③ 呼出し先を完了</b><span>関数・再帰は呼出し先の戻り値が決まってから、呼出し元の次の行へ戻る。</span></div>
+              <div><b>④ 参照は矢印で追う</b><span>リストは値のコピーではなく、どの要素を指すかを更新前・更新後で描く。</span></div>
+              <div><b>⑤ 反復は区切る</b><span>外側ループ1回、探索範囲1回など、意味のある1周ごとに状態をまとめる。</span></div>
+              <div><b>⑥ 最後に選択肢</b><span>途中状態を作ってから候補と照合し、選択肢に合わせてトレースを曲げない。</span></div>
+            </div>
+            <div class="bbook2-prediction1-note-v418"><b>途中表の列は「必要になった変数だけ」</b><span>最初から大きな表を作る必要はありません。条件式で使う値、更新される値、最終結果へ影響する値を中心に列を増やします。</span></div>
           </div>
         </details>
 
