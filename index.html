@@ -117,6 +117,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">
 <link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">
 <link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">
+<link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1975,6 +1976,125 @@ ptr ← ptr.next</div>
                 <div class="b-list-card-v411"><b>⑥ 境界条件を見る</b><span>空・先頭・末尾・1要素・未発見。</span></div>
               </div>
               <p class="b-list-good-v411">リスト問題は「値の並び」を暗算するより、<strong>代入1回ごとに矢印を描き直す</strong>方がミスを減らせます。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-sq-v412">
+          <summary>スタック・キュー：出し入れする端を固定して追う</summary>
+          <div class="b-sq-body-v412">
+            <p>スタックとキューは、どちらも「値を入れて、あとで取り出す」データ構造です。違いは<strong>どちら側から取り出すか</strong>。図の向きで覚えず、スタックなら<strong>TOP</strong>、キューなら<strong>FRONT / REAR</strong>を最初に書いてから追います。</p>
+
+            <section class="b-sq-section-v412">
+              <h3>1. スタックはLIFO = FILO</h3>
+              <div class="b-sq-grid-v412">
+                <div class="b-sq-card-v412"><b>LIFO</b><span>Last In, First Out。最後に入れた値が最初に出る。</span></div>
+                <div class="b-sq-card-v412"><b>FILO</b><span>First In, Last Out。最初に入れた値が最後に出る。</span></div>
+              </div>
+              <p>言い方は違いますが、表している動作は同じです。</p>
+              <div class="b-sq-flow-v412">
+                <span class="b-sq-label-v412">底</span>
+                <span class="b-sq-box-v412">A</span><span class="b-sq-box-v412">B</span><span class="b-sq-box-v412">C</span>
+                <span class="b-sq-label-v412">TOP</span>
+              </div>
+              <p class="b-sq-good-v412">A → B → C の順にpushしたなら、最初のpopはCです。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>2. push / pop / peekを分ける</h3>
+              <div class="b-sq-table-v412">
+                <table>
+                  <thead><tr><th>操作</th><th>見る場所</th><th>値を返すか</th><th>構造は変わるか</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>push(x)</code></td><td>TOP</td><td>通常は追加が目的</td><td>xを追加する</td></tr>
+                    <tr><td><code>pop()</code></td><td>TOP</td><td>TOPの値を返す</td><td>その値を削除する</td></tr>
+                    <tr><td><code>peek()</code></td><td>TOP</td><td>TOPの値を返す</td><td><strong>変えない</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="b-sq-code-v412">stack = [A, B, C]   ← CがTOP
+x ← pop()            → x = C, stack = [A, B]
+y ← peek()           → y = B, stack = [A, B]</div>
+              <p class="b-sq-alert-v412">popとpeekは返る値が同じに見えることがありますが、popだけがスタック本体を変えます。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>3. キューはFIFO。追加と取出しで端が違う</h3>
+              <div class="b-sq-flow-v412">
+                <span class="b-sq-label-v412">REAR</span>
+                <span class="b-sq-arrow-v412">← enqueue</span>
+                <span class="b-sq-box-v412">C</span><span class="b-sq-box-v412">B</span><span class="b-sq-box-v412">A</span>
+                <span class="b-sq-arrow-v412">→ dequeue</span>
+                <span class="b-sq-label-v412">FRONT</span>
+              </div>
+              <p>A → B → C の順にenqueueしたなら、最初のdequeueはAです。<strong>enqueueはREAR側、dequeueとpeekはFRONT側</strong>と固定して追います。</p>
+              <div class="b-sq-grid-v412">
+                <div class="b-sq-card-v412"><b>dequeue()</b><span>FRONTの値を返し、その値をキューから削除する。</span></div>
+                <div class="b-sq-card-v412"><b>peek()</b><span>FRONTの値を返すだけで、キューはそのまま。</span></div>
+              </div>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>4. 取り出し操作は「返り値」と「残り」を同時に書く</h3>
+              <p>科目Bでは、取り出した値を変数へ代入するコードがよく出ます。そこで、操作1回ごとに2列で記録します。</p>
+              <div class="b-sq-trace-v412">
+                <div><strong>操作</strong></div><div><strong>返り値</strong></div><div><strong>操作後の構造</strong></div>
+                <div><code>pop()</code></div><div>C</div><div>[A, B]</div>
+                <div><code>dequeue()</code></div><div>A</div><div>[B, C]</div>
+                <div><code>peek()</code></div><div>先頭 / TOPの値</div><div>変化なし</div>
+              </div>
+              <p class="b-sq-note-v412">「何が返ったか」だけ追うと、次の操作で古い要素をもう一度使ってしまいます。取り出したら構造側からも消します。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>5. 操作列は一気に暗算せず、1行ずつ状態更新</h3>
+              <div class="b-sq-code-v412">push(A)
+push(B)
+pop()
+push(C)
+peek()
+pop()</div>
+              <p>各行の直後に現在のTOP / FRONT / REARを書き直します。参考書の例題・確認問題でも、操作を一つずつ図へ反映して追う方法が使われています。</p>
+              <p class="b-sq-good-v412">特にpushとpop、enqueueとdequeueが交互に出るときは、最終状態だけを頭の中で出そうとしない方が安全です。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>6. 優先度付きキューは「FIFOだけ」では決めない</h3>
+              <p>優先度付きキューでは、通常のキューのように単純な到着順だけで取り出しません。<strong>まず問題文の優先度規則を確認</strong>します。</p>
+              <div class="b-sq-code-v412">例：小さい優先度値ほど高い、と問題文で定義
+A(優先度3)
+B(優先度1)
+C(優先度2)
+D(優先度1)</div>
+              <p>さらに「同じ優先度なら先に追加されたものを先に取り出す」と定義されていれば、取り出し順は <strong>B → D → C → A</strong> になります。</p>
+              <p class="b-sq-alert-v412">優先度1が必ず高い、とは決めつけません。優先度の大小や同優先度時の順序は、問題文に書かれた定義を使います。</p>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>7. スタックとキューを見分ける最短表</h3>
+              <div class="b-sq-table-v412">
+                <table>
+                  <thead><tr><th>構造</th><th>追加</th><th>取り出し</th><th>読むだけ</th><th>順序</th></tr></thead>
+                  <tbody>
+                    <tr><td>スタック</td><td>push</td><td>pop</td><td>peek</td><td>LIFO / FILO</td></tr>
+                    <tr><td>キュー</td><td>enqueue</td><td>dequeue</td><td>peek</td><td>FIFO</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="b-sq-section-v412">
+              <h3>8. 科目Bではこの順で確認する</h3>
+              <div class="b-sq-grid-v412">
+                <div class="b-sq-card-v412"><b>① 構造を判定</b><span>スタックか、キューか、優先度付きキューか。</span></div>
+                <div class="b-sq-card-v412"><b>② 操作端を書く</b><span>TOP / FRONT / REARを図に明記。</span></div>
+                <div class="b-sq-card-v412"><b>③ 1操作ずつ実行</b><span>まとめて暗算せず、毎行状態を更新。</span></div>
+                <div class="b-sq-card-v412"><b>④ 返り値も記録</b><span>pop / dequeueの戻り値を構造の変化と分けて書く。</span></div>
+                <div class="b-sq-card-v412"><b>⑤ peekなら消さない</b><span>値だけ読み、構造本体は変更しない。</span></div>
+                <div class="b-sq-card-v412"><b>⑥ 優先度規則を確認</b><span>大小関係と同優先度時の順序を問題文から読む。</span></div>
+              </div>
+              <p class="b-sq-good-v412">迷ったら「次に取り出されるのはどの値か」を毎行確認します。スタックとキューの混同をかなり防げます。</p>
             </section>
           </div>
         </details>

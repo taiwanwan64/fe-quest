@@ -76,8 +76,8 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-92';" sw.js
-          grep -Fq "fe-quest-v377-92" .github/workflows/deploy-pages.yml
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-93';" sw.js
+          grep -Fq "fe-quest-v377-93" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -211,6 +211,13 @@ jobs:
           grep -Fq '連結リスト：値ではなく参照の矢印を付け替える' index.html
           grep -Fq '挿入は「後ろを保存してから、前をつなぐ」' index.html
           grep -Fq '「リストから外れた」と「実体が消えた」は別' index.html
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">' index.html
+          test -f assets/bbook-ch09-stackqueue-v412.css
+          grep -Fq '#bSelect .b-sq-v412' assets/bbook-ch09-stackqueue-v412.css
+          grep -Fq '"./assets/bbook-ch09-stackqueue-v412.css"' sw.js
+          grep -Fq 'スタック・キュー：出し入れする端を固定して追う' index.html
+          grep -Fq 'スタックはLIFO = FILO' index.html
+          grep -Fq '優先度付きキューは「FIFOだけ」では決めない' index.html
           grep -Fq "v377-62: chapter 1 visual depth" assets/app-v377.css
           grep -Fq "#lesson .unit-pipeline-v382" assets/app-v377.css
           grep -Fq "#lesson .hex-map-v382" assets/app-v377.css
@@ -634,6 +641,9 @@ jobs:
           grep -Fq '"./assets/bbook-ch07-oop-v410.css"' "$RUNNER_TEMP/site/sw.js"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch08-list-v411.css"
           grep -Fq '"./assets/bbook-ch08-list-v411.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch09-stackqueue-v412.css"
+          grep -Fq '"./assets/bbook-ch09-stackqueue-v412.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'スタック・キュー：出し入れする端を固定して追う' "$RUNNER_TEMP/site/index.html"
           grep -Fq '連結リスト：値ではなく参照の矢印を付け替える' "$RUNNER_TEMP/site/index.html"
           grep -Fq 'オブジェクト指向トレース：インスタンス・参照・メソッドを分ける' "$RUNNER_TEMP/site/index.html"
           grep -Fq '木構造：図と一次元配列を行き来する' "$RUNNER_TEMP/site/index.html"
@@ -652,7 +662,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-92';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-93';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
