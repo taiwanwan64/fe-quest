@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `3839840cd8e13fc2ad403d55e7054f399f637a30`
+- main: `b3ae636da91574956ebed132ee9c0e434817ebd5`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35557013108`、success
-- PWA cache contract: `fe-quest-v377-94`
+- 最新本番 deploy: GitHub Actions run `35557799251`、success
+- PWA cache contract: `fe-quest-v377-95`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -61,6 +61,7 @@
 - 科目B専用参考書 第8章「リスト」 PR: #178、merged
 - 科目B専用参考書 第9章「スタック・キュー」 PR: #180、merged
 - 科目B専用参考書 第10章「ビット列」 PR: #182、merged
+- 科目B専用参考書 第11章「問題演習」 PR: #184、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -653,6 +654,30 @@
 - production Pages deploy: run `35557013108` — success
 - PWA cache contract: `fe-quest-v377-94`
 
+### 科目B専用参考書 第1部 第11章「問題演習」
+
+`.github/reference-audits/BBOOK_CH11_PROBLEM_PRACTICE_AUDIT_2026-09-21.md`
+
+- 参考資料の実際の章名は第11章「問題演習」。前回引き継ぎの「関数演算」は誤記だったため訂正
+- PDF 271〜294ページ（紙面269〜292ページ）の問題11-1〜11-6・解説をページ画像で確認済み
+- PDF 295ページから第2部「情報セキュリティ」、第2部 第1章は「虎の巻」
+- 科目Bトレース画面へ「総合問題：題材をいったん捨てて、処理の型に分ける」を追加
+- 二重ループは外側 / 内側の役割を分け、比較・交換時だけ状態を書き換える手順を整理
+- `mod 10` と10の整数商を使った10進数の桁分解を補強
+- ハッシュ表では第1候補 → 衝突判定 → 第2候補の順に追う手順を補強
+- 文字列メソッドは問題文の仕様表を先に読み、中間文字列を毎行保存する手順を補強
+- 複数メソッド呼出しを含む式は、各戻り値を先に表へ出す手順を補強
+- 単方向リスト末尾追加は空 / 非空を先に分岐してからnextをたどる手順を補強
+- 選択肢へ状態を合わせず、トレース結果を作って最後に照合する横断ルールを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- ハッシュ表・文字列メソッドの直接問題は薄いが、原著問題を転載せずまず横断ガイドで補強
+- 専用CSS: `assets/bbook-ch11-problem-practice-v414.css`
+- PR #184 のCI:
+  - Validate sanitized FE QUEST publication: run `35557774396` — success
+  - Validate IPA 9.2 question v35 public activation: run `35557774409` — success
+- production Pages deploy: run `35557799251` — success
+- PWA cache contract: `fe-quest-v377-95`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -673,14 +698,14 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第11章「関数演算」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第2部「情報セキュリティ」第1章「虎の巻」へ進み、FE QUESTの科目Bセキュリティ教材・問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第11章「関数演算」をページ画像も含めて確認
+1. 科目B専用参考書の第2部「情報セキュリティ」第1章「虎の巻」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
-4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
+4. FE QUEST の科目Bセキュリティ教材 / セキュリティ問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
 5. covered / thin / missing を判断
 6. thin / missing のみ補強
 7. スマホ図解・表・文字サイズまで確認

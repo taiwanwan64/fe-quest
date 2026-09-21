@@ -99,3 +99,17 @@ protected question bankは変更しない。ハッシュ表・文字列メソッ
 - 専用CSS: `assets/bbook-ch11-problem-practice-v414.css`
 - PWA cache contract: `fe-quest-v377-95`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- PR: #184（merged）
+- PR head: `e015358789652b2409e43304a95a4e18cbe97de1`
+- PR CI:
+  - Validate sanitized FE QUEST publication: run `35557774396` — success
+  - Validate IPA 9.2 question v35 public activation: run `35557774409` — success
+- merge commit: `b3ae636da91574956ebed132ee9c0e434817ebd5`
+- production Pages deploy: run `35557799251` — success
+- PWA cache contract: `fe-quest-v377-95`
