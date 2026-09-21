@@ -326,7 +326,7 @@ jobs:
           grep -Fq "version:'v376-provider-29-ipa92-v1-v32'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v32.js"
           grep -Fq "version:'v376-provider-30-ipa92-v1-v33'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v33.js"
           grep -Fq "version:'v376-provider-31-ipa92-v1-v34'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v34.js"
-          grep -Fq "version:'v376-provider-32-ipa92-v1-v35'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
+          grep -Fq "version:'v376-provider-33-ipa92-v1-v35-bgap1'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
           test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v21.js"
           grep -Fq "const IPA92_SUBJECT_A_METADATA=Object.freeze([" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
           grep -Fq "installIpa92SubjectAMetadata();" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
