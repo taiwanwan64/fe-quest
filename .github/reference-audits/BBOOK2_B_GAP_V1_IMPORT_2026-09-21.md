@@ -2,7 +2,8 @@
 
 - date: 2026-09-21
 - content_version: `v376-protected-b-gap-v1-20260921`
-- source commit: `32074dc91365445ea97b24bc0baaaaee4016cc1c`
+- source commit: `129efc43eb237149a64d6cc4eda637d25e95b487`
+- production hotfix commit: `c67f0b246768e6f4e2ddbaee09d4f9cf9cbd9c89`
 - payload SHA-256: `b3b1d3dc7e0049869fcfb483f77a9975481facebb4963351d64470868d8d5308`
 - imported rows: 7
 - target pool: `b_exam_algo`
