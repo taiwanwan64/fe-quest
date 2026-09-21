@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `ff370e4e4aa53595dad79427ed8ad95e43686025`
+- main: `b692e0a6acf21d3c9b004cdcf9ac6cb33679bced`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35549212475`、success
-- PWA cache contract: `fe-quest-v377-90`
+- 最新本番 deploy: GitHub Actions run `35554534338`、success
+- PWA cache contract: `fe-quest-v377-91`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -57,6 +57,7 @@
 - 科目B専用参考書 第4章「ありえない選択肢」 PR: #170、merged
 - 科目B専用参考書 第5章「再帰」 PR: #172、merged
 - 科目B専用参考書 第6章「木構造」 PR: #174、merged
+- 科目B専用参考書 第7章「オブジェクト指向」 PR: #176、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -566,6 +567,26 @@
 - production Pages deploy: run `35549212475` — success
 - PWA cache contract: `fe-quest-v377-90`
 
+### 科目B専用参考書 第1部 第7章「オブジェクト指向」
+
+`.github/reference-audits/BBOOK_CH07_OOP_AUDIT_2026-09-21.md`
+
+- 第7章を章扉から練習問題7-1〜7-3・解説までページ画像で確認済み
+- 科目Bトレース画面へ「オブジェクト指向トレース：インスタンス・参照・メソッドを分ける」を追加
+- クラス / インスタンス / メンバ変数 / コンストラクタ / メソッドの役割を科目B向けに整理
+- インスタンス生成時はコンストラクタまで実行して初期状態を確定する手順を補強
+- 参照を矢印で書き、共有参照と別インスタンスを区別する手順を補強
+- メソッド呼出し対象はドット左側の参照先から確定することを補強
+- オーバーロードは引数の個数・型などから呼出し先を選ぶことを補強
+- インスタンス配列は「配列要素 → インスタンス → メンバ」の順に追うことを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch07-oop-v410.css`
+- PR #176 のCI:
+  - Validate sanitized FE QUEST publication: run `35554513627` — success
+  - Validate IPA 9.2 question v35 public activation: run `35554513630` — success
+- production Pages deploy: run `35554534338` — success
+- PWA cache contract: `fe-quest-v377-91`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -586,11 +607,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第7章「オブジェクト指向」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第8章「リスト」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第7章「オブジェクト指向」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第8章「リスト」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
