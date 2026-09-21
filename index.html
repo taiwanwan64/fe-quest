@@ -122,6 +122,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">
 <link rel="stylesheet" href="./assets/b-security-foundations-v415.css">
 <link rel="stylesheet" href="./assets/b-security-practice-v416.css">
+<link rel="stylesheet" href="./assets/bbook2-intro-strategy-v417.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1189,6 +1190,19 @@
               <div><b>データ構造と手続</b><span>再帰・スタック・キュー・探索・整列など</span></div>
             </div>
             <div class="b-strategy-cue-v403">FE QUESTの基礎演習を進めながら、公式公開問題も早めに一度見て、問題文の長さ・出題形式・レベル感を確認しておくと実戦へ移りやすくなります。</div>
+          </div>
+        </details>
+
+        <details class="bbook2-intro-v417 trace-training-v417">
+          <summary>トレースを身につける練習法</summary>
+          <div class="bbook2-intro-body-v417">
+            <p>科目Bでは、コード全体を先に説明しようとするより、<strong>実行した行と値の変化を順番に追う</strong>方が確実です。解説を読んだ直後も、初期値を少し変えてもう一度追うと「答えの暗記」ではなく処理の理解になります。</p>
+            <div class="bbook2-intro-grid-v417">
+              <div><b>① 実行した行</b><span>今どの行を処理したかだけを1行ずつ記録します。</span></div>
+              <div><b>② 条件の真偽</b><span>分岐・繰返しは T / F を書き、次に進む行を決めます。</span></div>
+              <div><b>③ 変わった値</b><span>変数・配列のうち、更新されたものだけを書き換えます。</span></div>
+            </div>
+            <div class="bbook2-intro-note-v417"><b>定番アルゴリズムも丸暗記しない</b><span>名前や完成形を覚えるだけでなく、「比較した後にどの値がどう動くか」を説明できる状態を目標にします。実コードのステップ実行は確認用の補助として使えますが、特定のプログラム言語を習得していなくても擬似言語のトレースは練習できます。</span></div>
           </div>
         </details>
 
@@ -2458,10 +2472,23 @@ endif</div>
           </div>
           <div class="bfinal-title">本番を意識した20問・100分</div>
           <div class="sub">
-            本番型アルゴリズム40問プールから16問＋情報セキュリティ4問。ヒント・途中採点・ステップ操作はありません。
+            アルゴリズム問題プールから16問＋情報セキュリティ4問。ヒント・途中採点・ステップ操作はありません。
             問題文を読み、必要なら手元でトレースして最後まで解き切ります。
           </div>
         </div>
+
+        <details class="bbook2-intro-v417 time-strategy-v417">
+          <summary>100分を使い切るための解き方</summary>
+          <div class="bbook2-intro-body-v417">
+            <p>20問・100分なので平均は<strong>1問5分</strong>ですが、全問を5分ずつで区切る必要はありません。短く判断できる問題で時間を作り、重いトレースや長文に回します。</p>
+            <div class="bbook2-intro-grid-v417 time-grid-v417">
+              <div><b>1周目</b><span>条件や処理が読みやすい問題を先に解きます。</span></div>
+              <div><b>詰まったら</b><span>「☆ 後で見る」を付け、1問だけに時間を使い続けません。</span></div>
+              <div><b>最後</b><span>未回答と「後で見る」を一覧から確認して戻ります。</span></div>
+            </div>
+            <div class="bbook2-intro-note-v417"><b>トレース表は必要なところだけ</b><span>最初から最後まで全部を書き写すのではなく、設問に関係する条件・変数・配列の変化へ絞ると時間を使いやすくなります。</span></div>
+          </div>
+        </details>
 
         <div class="bfinal-readiness" id="bFinalReadiness">
           <div class="bfinal-readiness-icon" id="bFinalReadinessIcon">📚</div>
