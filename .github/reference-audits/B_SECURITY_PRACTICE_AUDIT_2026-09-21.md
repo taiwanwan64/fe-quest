@@ -84,3 +84,26 @@ protected `b_security` の直接問題を検索したところ、BYOD、VPN、�
 - 専用CSS: `assets/b-security-practice-v416.css`
 - PWA cache contract: `fe-quest-v377-97`
 - publication / Pages / IPA v35 CIでCSS、ガイド見出し、source-neutral、PWA cache contractを検証する。
+
+
+## 完了証跡
+
+- protected question bank: 変更なし
+- active protected question total: 1173
+- b_security: 15ケース / 45問
+- PR: #188（merged）
+- substantive CI head: `0cc35ce9a346c52be8020b9266f3fd6f5c1d8ca6`
+- PR CI:
+  - Validate sanitized FE QUEST publication: run `35562339335` — success
+  - Validate IPA 9.2 question v35 public activation: run `35562339382` — success
+- CI後の2コミットは deploy workflow のsource-neutral検査2行追加と監査記録追記のみ
+- merge commit: `f799d03ec8e34c14e2359a2959875d83b0782960`
+- production Pages deploy: run `35562489860` — success
+- PWA cache contract: `fe-quest-v377-97`
+- 公開HTMLのsource-neutral検査対象:
+  - `参考資料`
+  - `参考書`
+  - `本書`
+  - `虎の巻`
+  - `情報処理教科書`
+  - `出るとこだけ`

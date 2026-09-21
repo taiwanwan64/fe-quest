@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `99c6acf53adf6d9b59dcc5996a53c4aa59481edb`
+- main: `f799d03ec8e34c14e2359a2959875d83b0782960`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35561299366`、success
-- PWA cache contract: `fe-quest-v377-96`
+- 最新本番 deploy: GitHub Actions run `35562489860`、success
+- PWA cache contract: `fe-quest-v377-97`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -63,6 +63,7 @@
 - 科目B専用参考書 第10章「ビット列」 PR: #182、merged
 - 科目B専用参考書 第11章「問題演習」 PR: #184、merged
 - 科目B 情報セキュリティ基礎補強 / source-neutral化 PR: #186、merged
+- 科目B 情報セキュリティ問題演習補強 PR: #188、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -712,6 +713,34 @@
 - production Pages deploy: run `35561299366` — success
 - PWA cache contract: `fe-quest-v377-96`
 
+### 科目B 情報セキュリティ問題演習
+
+`.github/reference-audits/B_SECURITY_PRACTICE_AUDIT_2026-09-21.md`
+
+- PDF 341〜355ページ（紙面339〜353ページ）の情報セキュリティ問題演習5題をページ画像で確認
+- PDF 356ページは受験者コメント、357ページ以降は索引・奥付等であり、この教材の学習内容監査は完了
+- セキュリティ選択画面へ「セキュリティ問題演習：変わった条件と責任範囲だけを追う」を追加
+- 「導入・変更によって増えたリスク」は変更前 / 変更後の差分から判断する手順を補強
+- 攻撃が成立するかを「攻撃者ができること → 設定・経路 → 守る対象 → 被害」の因果で確認する手順を補強
+- OS / ブラウザ / 業務アプリの認証情報を別レイヤとして追う手順を補強
+- 権限表は役職名ではなく、入力 / 承認など実際の業務手順から埋める手順を補強
+- PaaS等の責任分界は会社名ではなく「どのコンポーネントを管理しているか」で判断する手順を補強
+- 選択肢を「主語 → 行為 → 経路 → 被害」へ分解して根拠を確認する手順を補強
+- protected question bankは変更なし、active question totalは1173
+- b_securityは15ケース / 45問を維持
+- BYOD / VPN / 共有端末の保存認証情報 / 職務分離 / PaaS / 初期設定悪用は直接ケースが薄いため、まず横断ガイドで補強
+- ユーザー向けHTMLに外部教材由来と分かる表現を追加していない
+- source-neutral CIは `参考資料` / `参考書` / `本書` / `虎の巻` / `情報処理教科書` / `出るとこだけ` を検査
+- 専用CSS: `assets/b-security-practice-v416.css`
+- PR #188 のCI:
+  - Validate sanitized FE QUEST publication: run `35562339335` — success
+  - Validate IPA 9.2 question v35 public activation: run `35562339382` — success
+  - 上記CI head `0cc35ce9a346c52be8020b9266f3fd6f5c1d8ca6` にはアプリ本体・CSS・sw.js・公開検証の全変更を含む
+  - その後の2コミットは deploy workflow のsource-neutral検査追加と監査文書追記のみ
+- merge commit: `f799d03ec8e34c14e2359a2959875d83b0782960`
+- production Pages deploy: run `35562489860` — success
+- PWA cache contract: `fe-quest-v377-97`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -733,14 +762,14 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**情報セキュリティ問題演習編（PDF 341ページ以降）へ進み、FE QUESTの科目Bセキュリティケース・ミニ模試・総合実戦と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**次の添付教材『科目B 予想＋過去問題集』の序章「傾向と対策」（PDF 19〜34ページ）へ進み、FE QUESTの科目B学習導線・アルゴリズム・セキュリティ対策と照合して監査を続ける。PDF 35ページから第1部「予想問題」が始まる。**
 
 手順:
 
-1. PDF 341ページから始まる情報セキュリティ問題演習編をページ画像も含めて確認
+1. 『科目B 予想＋過去問題集』PDF 19〜34ページの序章「傾向と対策」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
-4. FE QUEST の科目Bセキュリティ教材 / セキュリティ問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
+4. FE QUEST の科目B学習導線 / アルゴリズム教材 / セキュリティ教材 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
 5. covered / thin / missing を判断
 6. thin / missing のみ補強
 7. スマホ図解・表・文字サイズまで確認
