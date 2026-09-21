@@ -1,0 +1,20 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 9 stack / queue — v412 */
+#bSelect .b-sq-v412{margin:14px 0;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc;overflow:hidden}
+#bSelect .b-sq-v412>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:18px;line-height:1.5;font-weight:800;color:#17364b}
+#bSelect .b-sq-v412>summary::-webkit-details-marker{display:none}#bSelect .b-sq-v412>summary::after{content:"＋";float:right}#bSelect .b-sq-v412[open]>summary::after{content:"−"}
+#bSelect .b-sq-body-v412{padding:0 16px 16px}#bSelect .b-sq-body-v412 p,#bSelect .b-sq-body-v412 li{font-size:18px;line-height:1.7}
+#bSelect .b-sq-section-v412{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-sq-section-v412>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-sq-grid-v412{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-sq-card-v412{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}#bSelect .b-sq-card-v412 b{display:block;font-size:18px;color:#17364b}#bSelect .b-sq-card-v412 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-sq-flow-v412{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0;padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#f6fafc}
+#bSelect .b-sq-box-v412{min-width:64px;padding:9px 11px;border:1px solid #bdccd3;border-radius:9px;background:#fff;text-align:center;font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-sq-label-v412{font-size:16px;font-weight:800;color:#526b78}#bSelect .b-sq-arrow-v412{font-size:20px;color:#b45309;font-weight:900}
+#bSelect .b-sq-code-v412{margin:10px 0;padding:11px 13px;border-radius:10px;background:#f1f5f9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17px;line-height:1.65;white-space:pre-wrap}
+#bSelect .b-sq-note-v412{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-sq-alert-v412{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-sq-good-v412{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-sq-table-v412{overflow-x:auto;margin-top:10px}#bSelect .b-sq-table-v412 table{width:100%;min-width:650px;border-collapse:collapse}#bSelect .b-sq-table-v412 th,#bSelect .b-sq-table-v412 td{border:1px solid #c9d8de;padding:10px 11px;font-size:17px;line-height:1.55;vertical-align:top}#bSelect .b-sq-table-v412 th{background:#eef5f8;color:#17364b}
+#bSelect .b-sq-trace-v412{display:grid;grid-template-columns:110px 1fr 1fr;gap:7px;margin-top:10px}#bSelect .b-sq-trace-v412>div{padding:9px 10px;border-radius:9px;background:#eef5f8;font-size:17px;line-height:1.5}
+@media(max-width:760px){#bSelect .b-sq-grid-v412{grid-template-columns:1fr}#bSelect .b-sq-trace-v412{grid-template-columns:1fr}}
+@media(max-width:480px){#bSelect .b-sq-v412>summary{padding:13px 14px;font-size:18px}#bSelect .b-sq-body-v412{padding:0 14px 14px}#bSelect .b-sq-section-v412{padding:13px}#bSelect .b-sq-section-v412>h3{font-size:19px}}
