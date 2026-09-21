@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `fad1b8ce7eeae160b2c8529bc9089e0c53eb780d`
+- main: `3839840cd8e13fc2ad403d55e7054f399f637a30`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35556294519`、success
-- PWA cache contract: `fe-quest-v377-93`
+- 最新本番 deploy: GitHub Actions run `35557013108`、success
+- PWA cache contract: `fe-quest-v377-94`
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -60,6 +60,7 @@
 - 科目B専用参考書 第7章「オブジェクト指向」 PR: #176、merged
 - 科目B専用参考書 第8章「リスト」 PR: #178、merged
 - 科目B専用参考書 第9章「スタック・キュー」 PR: #180、merged
+- 科目B専用参考書 第10章「ビット列」 PR: #182、merged
 - テスター用アクセスコード一時解除 PR: #124、merged
 
 ## 3. 現在のテストアクセス状態
@@ -631,6 +632,27 @@
 - production Pages deploy: run `35556294519` — success
 - PWA cache contract: `fe-quest-v377-93`
 
+### 科目B専用参考書 第1部 第10章「ビット列」
+
+`.github/reference-audits/BBOOK_CH10_BIT_STRING_AUDIT_2026-09-21.md`
+
+- 第10章を章扉から確認問題・練習問題10-1〜10-2・解説までページ画像で確認済み
+- 科目Bトレース画面へ「ビット列：桁をそろえて、演算ごとに1行ずつ書き換える」を追加
+- 基数変換の最短確認、8ビット固定長、最上位/最下位ビットを整理
+- 加減算では桁を縦にそろえ、繰上がり/繰下がりを記録する手順を補強
+- 2の累乗で割るとき、下位nビットを剰余・残りを商として読む手順を補強
+- AND / OR / XORマスクの「マスクの1が何をするか」を整理
+- `A AND (A - 1)` で最も右側の1を落とす定番操作を補強
+- 全1マスクとのXORで固定長の全ビットを反転する見方を補強
+- 論理左/右シフトの0埋めと、固定長での桁あふれを補強
+- protected question bankは変更なし、active question totalは1173のまま
+- 専用CSS: `assets/bbook-ch10-bitstring-v413.css`
+- PR #182 のCI:
+  - Validate sanitized FE QUEST publication: run `35556982926` — success
+  - Validate IPA 9.2 question v35 public activation: run `35556982939` — success
+- production Pages deploy: run `35557013108` — success
+- PWA cache contract: `fe-quest-v377-94`
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -651,11 +673,11 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第10章「ビット列」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
+ユーザーから別の具体的な修正指示がなければ、**科目B専用参考書『情報処理教科書 出るとこだけ！基本情報技術者［科目B］第4版』の第1部「擬似言語」第11章「関数演算」へ進み、FE QUESTの科目Bトレース・複合問題・実戦問題と照合して章単位監査を続ける。**
 
 手順:
 
-1. 科目B専用参考書の第1部「擬似言語」第10章「ビット列」をページ画像も含めて確認
+1. 科目B専用参考書の第1部「擬似言語」第11章「関数演算」をページ画像も含めて確認
 2. 強調箇所・図表・初出用語・具体例を抽出
 3. IPA範囲との対応を確認
 4. FE QUEST の科目Bトレース / 複合問題 / ミニ模試 / 総合実戦の現行実装とprotected catalogをliveで確認
