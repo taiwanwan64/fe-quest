@@ -1,0 +1,72 @@
+/* FE QUEST Subject-B reference audit: Part 1 Chapter 6 tree structures — v409
+   Public solving guide only; protected question bodies remain in Supabase. */
+
+#bSelect .b-tree-v409{
+  margin:14px 0;
+  border:1px solid #d8e4e9;
+  border-radius:16px;
+  background:#f8fbfc;
+  overflow:hidden;
+}
+#bSelect .b-tree-v409>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:14px 16px;
+  font-size:18px;
+  line-height:1.5;
+  font-weight:800;
+  color:#17364b;
+}
+#bSelect .b-tree-v409>summary::-webkit-details-marker{display:none}
+#bSelect .b-tree-v409>summary::after{content:"＋";float:right}
+#bSelect .b-tree-v409[open]>summary::after{content:"−"}
+#bSelect .b-tree-body-v409{padding:0 16px 16px}
+#bSelect .b-tree-body-v409 p,
+#bSelect .b-tree-body-v409 li{font-size:18px;line-height:1.7}
+#bSelect .b-tree-section-v409{margin-top:16px;padding:15px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
+#bSelect .b-tree-section-v409>h3{margin:0 0 10px;font-size:20px;line-height:1.45;color:#17364b}
+#bSelect .b-tree-grid-v409{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#bSelect .b-tree-card-v409{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-tree-card-v409 b{display:block;font-size:18px;line-height:1.45;color:#17364b}
+#bSelect .b-tree-card-v409 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-tree-kind-v409{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#bSelect .b-tree-kind-v409>div{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-tree-kind-v409 b{display:block;font-size:18px;color:#17364b}
+#bSelect .b-tree-kind-v409 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+#bSelect .b-tree-map-v409{margin:12px 0;padding:14px;border-radius:13px;background:#f7fafc;border:1px solid #d8e4e9}
+#bSelect .b-tree-level-v409{display:flex;justify-content:center;gap:18px;margin:8px 0;flex-wrap:wrap}
+#bSelect .b-tree-node-v409{min-width:70px;padding:9px 10px;border:2px solid #6b8797;border-radius:999px;background:#fff;text-align:center;font-size:18px;font-weight:800;color:#17364b}
+#bSelect .b-tree-node-v409 small{display:block;margin-top:2px;font-size:16px;font-weight:600;color:#516b78}
+#bSelect .b-tree-arrow-v409{text-align:center;font-size:18px;color:#b45309;font-weight:800}
+#bSelect .b-array-strip-v409{display:grid;grid-template-columns:repeat(7,minmax(56px,1fr));gap:5px;overflow-x:auto;padding:4px 0 8px}
+#bSelect .b-array-cell-v409{min-width:56px;border:1px solid #bfcfd6;border-radius:8px;background:#fff;text-align:center;padding:7px 5px}
+#bSelect .b-array-cell-v409 small{display:block;font-size:16px;color:#516b78}
+#bSelect .b-array-cell-v409 b{display:block;margin-top:2px;font-size:18px;color:#17364b}
+#bSelect .b-tree-formula-v409{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:11px}
+#bSelect .b-tree-formula-v409>div{padding:10px 11px;border-radius:10px;background:#eef5f8;font-size:17px;line-height:1.6;text-align:center}
+#bSelect .b-tree-formula-v409 code{font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-tree-note-v409{margin-top:11px;padding:12px 14px;border-left:4px solid #2563eb;border-radius:9px;background:#eff6ff;font-size:17px;line-height:1.65}
+#bSelect .b-tree-alert-v409{margin-top:11px;padding:12px 14px;border-left:4px solid #b45309;border-radius:9px;background:#fff7ed;font-size:17px;line-height:1.65}
+#bSelect .b-tree-good-v409{margin-top:11px;padding:12px 14px;border-left:4px solid #15803d;border-radius:9px;background:#f0fdf4;font-size:17px;line-height:1.65}
+#bSelect .b-tree-check-v409{margin-top:10px;border:1px solid #c9d8de;border-radius:10px;background:#fff}
+#bSelect .b-tree-check-v409>summary{cursor:pointer;padding:11px 12px;font-size:17px;font-weight:800;color:#17364b}
+#bSelect .b-tree-check-v409>p{margin:0;padding:0 12px 12px;font-size:17px}
+#bSelect .b-heap-compare-v409{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+#bSelect .b-heap-compare-v409>div{padding:12px;border:1px solid #c9d8de;border-radius:11px;background:#fbfdfe}
+#bSelect .b-heap-compare-v409 b{display:block;font-size:18px;color:#17364b}
+#bSelect .b-heap-compare-v409 span{display:block;margin-top:5px;font-size:16px;line-height:1.6;color:#425b68}
+@media(max-width:760px){
+  #bSelect .b-tree-grid-v409,
+  #bSelect .b-tree-kind-v409,
+  #bSelect .b-tree-formula-v409,
+  #bSelect .b-heap-compare-v409{grid-template-columns:1fr}
+  #bSelect .b-array-strip-v409{grid-template-columns:repeat(7,64px)}
+}
+@media(max-width:480px){
+  #bSelect .b-tree-v409>summary{padding:13px 14px;font-size:18px}
+  #bSelect .b-tree-body-v409{padding:0 14px 14px}
+  #bSelect .b-tree-section-v409{padding:13px}
+  #bSelect .b-tree-section-v409>h3{font-size:19px}
+  #bSelect .b-tree-level-v409{gap:8px}
+  #bSelect .b-tree-node-v409{min-width:62px}
+}
