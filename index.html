@@ -115,6 +115,7 @@
 <link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">
 <link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">
 <link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">
+<link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">
 
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1750,6 +1751,120 @@ return a + b</div>
                 <div class="b-tree-card-v409"><b>④ 親子だけ比較する</b><span>最大ヒープか最小ヒープかに合わせて全親子を確認。</span></div>
               </div>
               <p class="b-tree-good-v409">「値を見て木を作る」のではなく、<strong>要素番号で木を作る → 親子の値を調べる</strong>の順にすると、ヒープ問題を安定して解けます。</p>
+            </section>
+          </div>
+        </details>
+
+
+        <details class="b-oop-v410">
+          <summary>オブジェクト指向トレース：インスタンス・参照・メソッドを分ける</summary>
+          <div class="b-oop-body-v410">
+            <p>オブジェクト指向のトレースは、<strong>「変数の値」だけでなく「どの変数がどのインスタンスを指しているか」</strong>を追うのがポイントです。クラスの定義、生成されたインスタンス、参照の矢印を分けて考えます。</p>
+
+            <section class="b-oop-section-v410">
+              <h3>1. クラスはひな型、インスタンスは実体</h3>
+              <div class="b-oop-grid-v410">
+                <div class="b-oop-card-v410"><b>クラス</b><span>メンバ変数、コンストラクタ、メソッドなどをまとめたひな型。</span></div>
+                <div class="b-oop-card-v410"><b>インスタンス</b><span>クラスから実際に生成された実体。同じクラスから複数作れます。</span></div>
+                <div class="b-oop-card-v410"><b>メンバ変数</b><span>各インスタンスが持つ状態。別インスタンスなら別々の値を持ちます。</span></div>
+                <div class="b-oop-card-v410"><b>メソッド</b><span>インスタンスの状態を読んだり更新したりする処理。</span></div>
+              </div>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>2. 生成式を見たら、コンストラクタまで実行する</h3>
+              <div class="b-oop-code-v410">class Counter
+    value
+    constructor Counter(start)
+        value ← start
+    endconstructor
+endclass
+
+a ← Counter(3)</div>
+              <div class="b-oop-state-v410">
+                <div>① インスタンス生成</div>
+                <div>② コンストラクタ実行</div>
+                <div>③ <code>a.value = 3</code></div>
+              </div>
+              <p class="b-oop-note-v410">インスタンスを作っただけで次の行へ進まず、コンストラクタによる初期化まで終えてから次の命令を追います。</p>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>3. オブジェクト変数は「参照の矢印」で書く</h3>
+              <div class="b-oop-code-v410">a ← Counter(3)
+b ← a</div>
+              <div class="b-oop-ref-v410">
+                <span class="b-oop-var-v410">a</span><span class="b-oop-arrow-v410">→</span>
+                <span class="b-oop-inst-v410">Counter<br>value = 3</span>
+                <span class="b-oop-arrow-v410">←</span><span class="b-oop-var-v410">b</span>
+              </div>
+              <p><code>b ← a</code> は、aの中身を複製して新しいCounterを作る意味ではありません。この問題設定では、aとbが<strong>同じインスタンス</strong>を参照します。</p>
+              <p class="b-oop-alert-v410">その後 <code>b.value ← 8</code> とすると、aから見ても同じインスタンスのvalueは8です。変数ごとに別の値を持つのではなく、参照先の実体が一つです。</p>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>4. 新しく生成したなら、同じクラスでも別インスタンス</h3>
+              <div class="b-oop-code-v410">a ← Counter(3)
+b ← Counter(3)</div>
+              <div class="b-oop-ref-v410">
+                <span class="b-oop-var-v410">a</span><span class="b-oop-arrow-v410">→</span><span class="b-oop-inst-v410">Counter A<br>value = 3</span>
+                <span class="b-oop-var-v410">b</span><span class="b-oop-arrow-v410">→</span><span class="b-oop-inst-v410">Counter B<br>value = 3</span>
+              </div>
+              <p class="b-oop-good-v410">見た目の値が同じでも、生成式を2回実行したなら別インスタンスです。片方のメンバを変更しても、もう片方は自動では変わりません。</p>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>5. メソッドは「誰に対して呼んだか」を最初に見る</h3>
+              <div class="b-oop-code-v410">a.add(2)
+b.add(5)</div>
+              <p><code>a.add(2)</code> なら、aが参照しているインスタンスのメンバを使ってaddを実行します。メソッド名だけを追わず、<strong>ドットの左側</strong>を先に確認します。</p>
+              <div class="b-oop-grid-v410">
+                <div class="b-oop-card-v410"><b>メンバ参照</b><span><code>a.value</code> → aの参照先インスタンスのvalueを見る。</span></div>
+                <div class="b-oop-card-v410"><b>メソッド呼出し</b><span><code>a.add(2)</code> → aの参照先インスタンスを対象にaddを実行。</span></div>
+              </div>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>6. オーバーロードは、引数を見て呼出し先を選ぶ</h3>
+              <div class="b-oop-table-v410">
+                <table>
+                  <thead><tr><th>定義</th><th>呼出し例</th><th>選び方</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>show()</code></td><td><code>x.show()</code></td><td>引数なしの定義</td></tr>
+                    <tr><td><code>show(n)</code></td><td><code>x.show(3)</code></td><td>引数1個の定義</td></tr>
+                    <tr><td><code>show(s, n)</code></td><td><code>x.show("A", 3)</code></td><td>引数2個で型も対応する定義</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>同じ名前のメソッドが複数ある場合、名前だけでは決めません。問題文で示されたルールに従い、引数の個数や型などから該当する定義を選びます。</p>
+              <p class="b-oop-note-v410">オーバーロードは「同名で引数などが異なる複数の定義」。継承した処理を子クラス側で再定義するオーバーライドとは別です。</p>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>7. インスタンス配列は「配列要素 → インスタンス → メンバ」</h3>
+              <div class="b-oop-code-v410">items[1] ← Counter(4)
+items[2] ← Counter(7)
+items[2].add(1)</div>
+              <div class="b-oop-state-v410">
+                <div><code>items[2]</code><br>参照を取り出す</div>
+                <div>→ Counterインスタンス</div>
+                <div><code>value: 7 → 8</code></div>
+              </div>
+              <p>配列の中にメンバ変数そのものが並んでいると考えず、配列要素がインスタンスへの参照を持つと分けて追います。</p>
+            </section>
+
+            <section class="b-oop-section-v410">
+              <h3>8. 科目Bではこの順でトレースする</h3>
+              <div class="b-oop-grid-v410">
+                <div class="b-oop-card-v410"><b>① クラス定義を確認</b><span>メンバ、コンストラクタ、メソッドを把握。</span></div>
+                <div class="b-oop-card-v410"><b>② 生成した実体を書き出す</b><span>生成式1回につき、原則1インスタンスとして区別。</span></div>
+                <div class="b-oop-card-v410"><b>③ コンストラクタを実行</b><span>初期状態を確定してから次へ。</span></div>
+                <div class="b-oop-card-v410"><b>④ 参照の矢印を書く</b><span>どの変数・メンバ・配列要素がどの実体を指すか。</span></div>
+                <div class="b-oop-card-v410"><b>⑤ ドットの左側を見る</b><span>どの実体のメンバ・メソッドかを確定。</span></div>
+                <div class="b-oop-card-v410"><b>⑥ 同名メソッドは引数確認</b><span>オーバーロードなら呼出し先を選ぶ。</span></div>
+                <div class="b-oop-card-v410"><b>⑦ 状態を1行ずつ更新</b><span>共有参照なら、同じ実体を指す他の変数からも変更後の状態が見える。</span></div>
+              </div>
+              <p class="b-oop-good-v410">迷ったら「変数の箱」ではなく「インスタンスの箱」を描き、変数から矢印を伸ばします。共有参照の問題がかなり追いやすくなります。</p>
             </section>
           </div>
         </details>
