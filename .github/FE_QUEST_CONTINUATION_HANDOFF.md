@@ -24,11 +24,12 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `10e96f49c7cc5612b9087ad443e0241e7720a677`
+- main: `e96a20a5fcc717bfebe8f572ba4c21054ed3ae7a`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35673125032`、success
-- PWA cache contract: `fe-quest-v377-111`
+- 最新本番 deploy: GitHub Actions run `35689491972`、success
+- PWA cache contract: `fe-quest-v377-112`
+- profile schema: **6**（schema 5 checksum互換あり）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
@@ -37,6 +38,7 @@
 - 科目B総合実戦採点順序整合性強化 PR: #206、merged
 - 科目Bセキュリティ誤答履歴の設問単位分離 PR: #208、merged
 - 新規二次元配列問題の復習先難易度修正 PR: #209、merged
+- 科目B総合実戦post-submit保持最小化 PR: #211、merged
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -958,6 +960,24 @@
 - PWA cache contract: `fe-quest-v377-111`
 
 
+### 科目B 総合実戦 post-submit protected data retention監査
+
+`.github/reference-audits/B_FINAL_POSTSUBMIT_RETENTION_AUDIT_2026-09-22.md`
+
+- `bFinalHistory` に問題文・ユーザー回答・正解・解説まで永続化され、backup / recovery snapshotにも入る不整合を発見
+- persisted detailを `kind / format / domain / ok` の分析metadataだけへ縮小
+- full問題文・正答・解説は即時結果レビュー中のmemory / DOMに限定
+- 結果画面を離れる時と新しい総合実戦開始時にfull review memoryを破棄
+- 採点成功後に `bFinalItems / bFinalAnswers / flags` 等の重複runtimeを解放
+- profile schema: 5 → 6
+- schema 5専用checksum互換を追加し、既存profile / atomic envelope / backupを旧規則で検証後にschema 6へ移行
+- readiness / format analytics / 履歴一覧 / 学習時間見積りはmetadataだけで維持
+- protected bankは変更なし、active total 1180、`b_exam_algo=50`
+- PR #211 merged、merge commit `e96a20a5fcc717bfebe8f572ba4c21054ed3ae7a`
+- production Pages deploy run `35689491972` success
+- PWA cache contract: `fe-quest-v377-112`
+
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -979,17 +999,17 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦のpost-submit protected data retentionをlive監査する。** 結果画面・誤答識別・復習先難易度はv428 / v429まで確認済み。次は、採点後の問題文・正解・解説が `bFinalHistory` / profile backup / localStorageへ必要以上に永続化されていないかを確認する。
+ユーザーから別の具体的な修正指示がなければ、**科目Bの短い実戦モード（アルゴリズム ミニ模試 / 複合問題 / セキュリティ ミニ模試）のpost-submit protected data retentionをlive監査する。** 総合実戦はv430でmetadata-only persistenceへ移行済み。同じprotected化境界を他の科目B実戦履歴にも適用できるか確認する。
 
 手順:
 
-1. `finishBFinalLegacyV376()` が `profile.bFinalHistory` に保存するdetail fieldを列挙
-2. 学習分析・readiness・復習導線が実際に必要とするhistory fieldだけを特定
-3. `q / selected / correct / explain` 等のprotected post-submit contentがprofileへ永続化・backup exportされるか確認
-4. 即時結果レビューに必要なfull detailはmemory上の `lastBFinalAttempt` へ限定できるか確認
-5. persisted historyはrate / kind / format / domain / ok等の安全な分析metadataへ縮小できるか確認
-6. 既存profile checksum / backup復旧との互換性を壊さない移行方法を確認
-7. 結果画面を離れた後の `bFinalItems` / answer cache の寿命も確認
+1. `bMockHistory / bCompoundHistory / securityMockHistory` の保存detail fieldを列挙
+2. `q / selected / correct / explain / exp / point / pitfall` 等がprofile / backup / recovery snapshotへ永続化されるか確認
+3. analytics / readiness /履歴一覧が本当に必要とするmetadata fieldを特定
+4. 即時結果レビュー用full detailと永続分析metadataを分離できるか確認
+5. schema 6のまま後方互換を保ってsanitizerを追加できるか、schema bumpが必要か判断
+6. 結果画面を離れた後の各runtime item / answer / review DOMの寿命も確認
+7. protected内容・正答をpre-submitや公開GitHubへ漏らさない境界を維持
 8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
