@@ -13389,6 +13389,27 @@ bFinalRemediationTarget=function(studyMode,sourceId,domain){
 };
 
 globalThis.SUBJECT_B_REMEDIATION_DIFFICULTY_V249_SPEC=SUBJECT_B_REMEDIATION_DIFFICULTY_V249_SPEC;
+
+// ===== FE QUEST v429 Subject B newly-added matrix remediation parity =====
+const SUBJECT_B_REMEDIATION_GAP_V429_SPEC=Object.freeze({
+  policy:'keep-new-standard-matrix-final-item-on-standard-remediation',
+  sourceFinding:'bexam_mat_05_defaulted_to_advanced_matrix_find',
+  repairedFinalId:'bexam_mat_05',
+  repairedTarget:'matrix_sum',
+  repairedTargetLevel:'標準',
+  scoringChanged:false,
+  questionSelectionChanged:false,
+  questionOrderChanged:false,
+  timingChanged:false,
+  readinessChanged:false,
+  profileSchemaMigrationRequired:false
+});
+const __bFinalRemediationTargetBeforeV429=bFinalRemediationTarget;
+bFinalRemediationTarget=function(studyMode,sourceId,domain){
+  if(studyMode==='exam'&&sourceId==='bexam_mat_05')return {mode:'trace',id:'matrix_sum'};
+  return __bFinalRemediationTargetBeforeV429(studyMode,sourceId,domain);
+};
+globalThis.SUBJECT_B_REMEDIATION_GAP_V429_SPEC=SUBJECT_B_REMEDIATION_GAP_V429_SPEC;
 // ===== FE QUEST v254 Subject B local-only per-question performance timing =====
 const SUBJECT_B_LOCAL_PERFORMANCE_V254_SPEC=Object.freeze({
   policy:'bounded-local-only-first-answer-active-time-evidence',
