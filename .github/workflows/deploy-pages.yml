@@ -302,7 +302,7 @@ jobs:
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-117';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-118';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
@@ -396,6 +396,26 @@ jobs:
           grep -Fq "globalThis.FEQUEST_IPA92_MODELING_LAB" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
           grep -Fq "globalThis.FEQUEST_IPA92_MEMORY_LAB" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
           grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$RUNNER_TEMP/site/cloud/public-config-v342.js"
+          grep -Fq "policy:'public-static-assets-metadata-only-for-protected-question-content'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXTRA_DISTRACTOR=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXPLANATION=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          SITE="$RUNNER_TEMP/site" node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.SITE;
+          const dir=path.join(root,'assets');
+          const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations','point','pitfall','correctText']);
+          const files=fs.readdirSync(dir).filter(name=>/^question-catalog.*\.json$/.test(name));
+          function walk(value,file,trail='root'){
+            if(Array.isArray(value)){value.forEach((item,index)=>walk(item,file,`${trail}[${index}]`));return;}
+            if(!value||typeof value!=='object')return;
+            for(const [key,item] of Object.entries(value)){
+              if(forbidden.has(key))throw new Error(`protected field ${key} in Pages catalog ${file} at ${trail}`);
+              walk(item,file,`${trail}.${key}`);
+            }
+          }
+          for(const file of files)walk(JSON.parse(fs.readFileSync(path.join(dir,file),'utf8')),file);
+          console.log(`PASS Pages protected static boundary: ${files.length} metadata catalogs`);
+          NODE
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
