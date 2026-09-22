@@ -304,11 +304,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-114';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-115';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-114" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-115" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -623,6 +623,37 @@ jobs:
           grep -Fq "if(!showA&&typeof renderSubjectBHub==='function')renderSubjectBHub();" assets/app-v377.js
           grep -Fq "const firstDiagnostic=profile.diagnosticCompleted!==true;" assets/protected-flow-bridge-v376.js
           grep -Fq "const screened=Math.round(50-errorRate*25*confidence);" assets/protected-flow-bridge-v376.js
+          grep -Fq "function clearDiagnosticRuntimeV433()" assets/protected-flow-bridge-v376.js
+          grep -Fq "diagnosticItems=[];" assets/protected-flow-bridge-v376.js
+          grep -Fq "diagAnswers=[];" assets/protected-flow-bridge-v376.js
+          grep -Fq "clearDiagnosticRuntimeV433();" assets/protected-flow-bridge-v376.js
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const flow=fs.readFileSync('assets/protected-flow-bridge-v376.js','utf8');
+          const pushStart=app.indexOf('sessionLog.push({');
+          const pushEnd=app.indexOf('});',pushStart);
+          const sessionDetail=pushStart>=0&&pushEnd>pushStart?app.slice(pushStart,pushEnd):'';
+          if(!sessionDetail)throw new Error('Subject A sessionLog block missing');
+          for(const forbidden of ['q:','options','answerIndex','correctIndex','explanation','choiceExplanations']){
+            if(sessionDetail.includes(forbidden))throw new Error('protected Subject A practice field persisted in sessionLog: '+forbidden);
+          }
+          const finishStart=flow.indexOf('async function finishDiagnostic(){');
+          const finishEnd=flow.indexOf('async function startDiagnostic',finishStart);
+          const finishBody=finishStart>=0&&finishEnd>finishStart?flow.slice(finishStart,finishEnd):'';
+          for(const forbidden of ['profile.diagAnswers','profile.diagnosticItems','profile.diagnosticDetails']){
+            if(finishBody.includes(forbidden))throw new Error('diagnostic answer/detail persisted: '+forbidden);
+          }
+          if(!finishBody.includes('profile.diagnosticScores=scores;'))throw new Error('diagnostic aggregate scores missing');
+          if(!finishBody.includes('renderDiagnosticResult(scores,categories);')||!finishBody.includes('clearDiagnosticRuntimeV433();'))throw new Error('diagnostic result/runtime release ordering missing');
+          const clearStart=flow.indexOf('function clearDiagnosticRuntimeV433(){');
+          const clearEnd=flow.indexOf('function renderDiagnosticResult',clearStart);
+          const clearBody=clearStart>=0&&clearEnd>clearStart?flow.slice(clearStart,clearEnd):'';
+          for(const token of ['diagnosticItems=[];','diagAnswers=[];','diagIndex=0;','provider().clearProtectedCache();']){
+            if(!clearBody.includes(token))throw new Error('diagnostic runtime clear contract missing: '+token);
+          }
+          console.log('PASS Subject A practice/diagnostic post-submit retention v433');
+          NODE
           ! grep -Fq "科目Bの進捗を確認中…" index.html
           ! grep -Fq "必要なときだけ4つのモードから選べます" index.html
           grep -Fq "プログラムトレースから始める" index.html
@@ -977,7 +1008,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-114';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-115';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
