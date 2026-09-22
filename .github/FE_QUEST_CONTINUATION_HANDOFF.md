@@ -20,21 +20,23 @@
 
 過去会話の記憶より、上記 live 情報を優先すること。
 
-## 2. 2026-09-21 時点のスナップショット
+## 2. 2026-09-22 時点のスナップショット
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `19ce7118a25a99c353df52612a3d66a26289a540`
+- main: `10e96f49c7cc5612b9087ad443e0241e7720a677`
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35615019010`、success
-- PWA cache contract: `fe-quest-v377-109`
+- 最新本番 deploy: GitHub Actions run `35673125032`、success
+- PWA cache contract: `fe-quest-v377-111`
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
 - 科目B総合実戦16→4順序復元 PR: #203、merged
 - 科目B総合実戦再開データ整合性強化 PR: #204、merged
 - 科目B総合実戦採点順序整合性強化 PR: #206、merged
+- 科目Bセキュリティ誤答履歴の設問単位分離 PR: #208、merged
+- 新規二次元配列問題の復習先難易度修正 PR: #209、merged
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -930,6 +932,32 @@
 - PWA cache contract: `fe-quest-v377-109`
 
 
+### 科目B 総合実戦 セキュリティ誤答履歴識別監査
+
+`.github/reference-audits/B_FINAL_SECURITY_MISTAKE_IDENTITY_AUDIT_2026-09-22.md`
+
+- セキュリティ最終問題の誤答履歴が `scenario sourceId + format` 単位で、同一シナリオの第2問 / 第3問を区別できない不整合を発見
+- final result detailへ protected question ID を保持
+- algorithmは従来どおりsourceId、securityだけprotected question IDをmistake identityに使用
+- 過去履歴にquestionIdがない場合は旧sourceIdへfallback
+- profile schema migrationなし
+- PR #208 merged、merge commit `92879e58828e92fc0f7f3dae989c6f6a2056844c`
+- production Pages deploy run `35672904840` success
+- PWA cache contract: `fe-quest-v377-110`
+
+### 科目B 総合実戦 mat05 復習先難易度監査
+
+`.github/reference-audits/B_FINAL_MAT05_REMEDIATION_AUDIT_2026-09-22.md`
+
+- 新規 `bexam_mat_05` は標準・二次元配列だが、既定復習先が `matrix_find`（応用）になっていた取り残しを発見
+- 既存の `bexam_mat_01 / 02` と同じ方針で `matrix_sum`（標準）へ修正
+- CIで問題側 / 復習先側のlevelとdomainを検証
+- 問題内容・採点・問題選択は変更なし
+- PR #209 merged、merge commit `10e96f49c7cc5612b9087ad443e0241e7720a677`
+- production Pages deploy run `35673125032` success
+- PWA cache contract: `fe-quest-v377-111`
+
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -951,17 +979,17 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦の結果画面・誤答復習導線をlive監査する。** gradingのindex整合性、未回答、再試行、XP / history更新境界はv427で確認済み。次は採点後に「何を間違えたか → どこへ戻るか」が学習者に正しく伝わるかを確認する。
+ユーザーから別の具体的な修正指示がなければ、**科目B総合実戦のpost-submit protected data retentionをlive監査する。** 結果画面・誤答識別・復習先難易度はv428 / v429まで確認済み。次は、採点後の問題文・正解・解説が `bFinalHistory` / profile backup / localStorageへ必要以上に永続化されていないかを確認する。
 
 手順:
 
-1. `renderBFinalResult()` / `renderBFinalDiagnosis()` / review list の表示内容を確認
-2. algo / security別の正答数、format別内訳、弱点domainが20問結果と一致することを確認
-3. `bFinalMistakeKey()` と mistake stats が同じ問題型を誤って合算・分断していないか確認
-4. 誤答理由の選択・保存・再表示が対象問題へ正しく紐付くことを確認
-5. `bFinalRemediationTarget()` が10 algorithm domain / security scenarioを適切な学習先へ返すか確認
-6. 「誤答を復習する」「次の科目Bへ」「再挑戦」の優先順位とモバイル導線を確認
-7. 結果画面から戻った際にprotected contentやanswer cacheを保持し続けないことを確認
+1. `finishBFinalLegacyV376()` が `profile.bFinalHistory` に保存するdetail fieldを列挙
+2. 学習分析・readiness・復習導線が実際に必要とするhistory fieldだけを特定
+3. `q / selected / correct / explain` 等のprotected post-submit contentがprofileへ永続化・backup exportされるか確認
+4. 即時結果レビューに必要なfull detailはmemory上の `lastBFinalAttempt` へ限定できるか確認
+5. persisted historyはrate / kind / format / domain / ok等の安全な分析metadataへ縮小できるか確認
+6. 既存profile checksum / backup復旧との互換性を壊さない移行方法を確認
+7. 結果画面を離れた後の `bFinalItems` / answer cache の寿命も確認
 8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
