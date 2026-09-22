@@ -188,6 +188,11 @@ function showScreen(id,opts={}){
   const exists=screens.some(s=>s.id===id);
   if(!exists)id='home';
   const prev=activeScreenId();
+  if(globalThis.FEQUEST_RUNTIME_HYGIENE_V435_READY===true){
+    if(prev==='mock'&&id!=='mock')releaseSubjectAMockContextV435();
+    if(prev==='problems'&&id!=='problems')releaseSubjectAPracticeRuntimeV435();
+    if(prev==='trace'&&id!=='trace')releaseSubjectBProtectedRuntimeV435();
+  }
   if(prev==='plan'&&id!=='plan'&&!opts.skipUnsavedPlanGuard&&typeof confirmStudyPlanLeaveV373==='function'&&!confirmStudyPlanLeaveV373())return false;
   screens.forEach(s => {
     const active=s.id===id;
@@ -1814,6 +1819,21 @@ const problemHub=document.getElementById('problemHub');
 const quizSession=document.getElementById('quizSession');
 const quizResultScreen=document.getElementById('quizResultScreen');
 
+function releaseSubjectAPracticeRuntimeV435(){
+  try{stopQuestionPacer()}catch(_e){}
+  try{stopRxTimer()}catch(_e){}
+  try{globalThis.FEQUEST_V376_PROTECTED_FLOW?.clearSubjectASession?.()}catch(_e){}
+  quizItems=[];sessionLog=[];quizSelected=null;quizAnswered=false;quizPickedReason=null;
+  quizRetryCount=0;quizFirstAttemptWrong=false;quizQuestionStartedAt=0;quizFirstAttemptSeconds=0;
+  rxTechniqueReady=true;rxTechniqueData={};rxPaceRemaining=90;rxPaceElapsed=0;
+  const q=document.getElementById('quizQuestion');if(q)q.textContent='';
+  const opts=document.getElementById('quizOptions');if(opts)opts.replaceChildren();
+  const exp=document.getElementById('quizExplanation');if(exp)exp.textContent='';
+  const hint=document.getElementById('quizHint');if(hint)hint.textContent='';
+  document.getElementById('quizExplain')?.classList.remove('show');
+}
+globalThis.releaseSubjectAPracticeRuntimeV435=releaseSubjectAPracticeRuntimeV435;
+
 function nextUnfinishedDailyTask(){
   const rec=getDailyRecord();
   return ensureTodayPlanSnapshot().find(t=>!dailyTaskDone(rec,t))||null;
@@ -1867,6 +1887,7 @@ function renderExerciseEntry(){
   action.onclick=()=>profile.sessions?.length?startRecommendedPrescription():startQuiz('weak');
 }
 function openProblemsHub(){
+  releaseSubjectAPracticeRuntimeV435();
   document.getElementById('problems')?.classList.remove('exercise-session-active');
   if(problemHub) problemHub.style.display='grid';
   if(quizSession) quizSession.style.display='none';
@@ -2682,8 +2703,7 @@ function finishQuizSession(){
   updateDueCount();
   renderExerciseEntry();
 
-  globalThis.FEQUEST_V376_PROTECTED_FLOW?.clearSubjectASession?.();
-  quizItems=[];
+  releaseSubjectAPracticeRuntimeV435();
 }
 
 document.getElementById('sessionHome')?.addEventListener('click',openProblemsHub);
@@ -9083,6 +9103,9 @@ function renderBFinalMenu(){
 
 function showBFinalMenu(){
   stopBFinalTimer();
+  bFinalReleaseExamRuntimeV430();
+  bFinalReleaseResultMemoryV430();
+  bFinalClearProtectedV376();
   ['bSelect','secSelect','bMockSelect'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
   ['bLab','secLab','bMockExam','bMockResult','bCompoundExam','bCompoundResult','secMockExam','secMockResult','bFinalExam','bFinalResult'].forEach(id=>document.getElementById(id)?.classList.remove('show'));
   document.getElementById('bFinalSelect')?.classList.remove('hidden');
@@ -9094,12 +9117,18 @@ const BFINAL_RESUME_KEY='fequest_bfinal_resume_v1';
 function clearBFinalResume(){
   try{localStorage.removeItem(BFINAL_RESUME_KEY)}catch(e){}
 }
+function bFinalDisplayMapValidV435(value){
+  return Array.isArray(value)&&value.length===4&&new Set(value).size===4&&value.every(n=>Number.isInteger(n)&&n>=0&&n<=3);
+}
 function saveBFinalResume(){
   if(!bFinalItems?.length||!document.getElementById('bFinalExam')?.classList.contains('show'))return false;
   try{
+    const questionIds=bFinalItems.map(item=>item._protectedQuestionId);
+    const optionMaps=bFinalItems.map(item=>Array.isArray(item._serverMap)?[...item._serverMap]:null);
+    if(questionIds.length!==20||new Set(questionIds).size!==20||optionMaps.some(map=>!bFinalDisplayMapValidV435(map)))return false;
     const payload={
-      version:1,appVersion:APP_VERSION,
-      items:bFinalItems,answers:bFinalAnswers,flags:[...bFinalFlags],index:bFinalIndex,
+      version:2,appVersion:APP_VERSION,
+      questionIds,optionMaps,answers:[...bFinalAnswers],flags:[...bFinalFlags],index:bFinalIndex,
       expiresAt:Date.now()+Math.max(0,bFinalSeconds)*1000,
       startedAt:bFinalStartedAt||Date.now(),savedAt:Date.now()
     };
@@ -9110,64 +9139,69 @@ function saveBFinalResume(){
 function readBFinalResume(){
   try{return JSON.parse(localStorage.getItem(BFINAL_RESUME_KEY)||'null')}catch(e){return null}
 }
-const B_FINAL_RESUME_V426_SPEC=Object.freeze({
-  policy:'validate-resume-payload-before-restoring-protected-final',
-  schemaVersion:1,
+const B_FINAL_RESUME_V435_SPEC=Object.freeze({
+  policy:'persist-resume-metadata-only-rehydrate-protected-final',
+  schemaVersion:2,
   totalCount:20,
   algorithmCount:16,
   securityCount:4,
-  preservesExistingResumeFormat:true,
-  rejectsMalformedLocalState:true,
-  rejectsPreSubmitAnswerFields:true
+  persistedFields:Object.freeze(['version','appVersion','questionIds','optionMaps','answers','flags','index','expiresAt','startedAt','savedAt']),
+  protectedQuestionTextPersisted:false,
+  protectedOptionsPersisted:false,
+  rehydratesProtectedQuestionsOnResume:true,
+  preservesDisplayPermutation:true
 });
-function bFinalResumeItemValidV426(item,index){
-  if(!item||typeof item!=='object'||Array.isArray(item))return false;
-  if(typeof item._protectedQuestionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(item._protectedQuestionId))return false;
-  if(typeof item.sourceId!=='string'||!item.sourceId)return false;
-  if(typeof item.q!=='string'||!item.q||!Array.isArray(item.options)||item.options.length!==4)return false;
-  if(!Array.isArray(item._serverMap)||item._serverMap.length!==4)return false;
-  const map=item._serverMap;
-  if(new Set(map).size!==4||map.some(n=>!Number.isInteger(n)||n<0||n>3))return false;
-  if(['a','answerIndex','correctText','explain','explanation','choiceExplanations'].some(key=>Object.prototype.hasOwnProperty.call(item,key)))return false;
-  const expectedKind=index<16?'algo':'security';
-  if(item.kind!==expectedKind)return false;
+function bFinalResumePayloadValidV435(value){
+  const x=value&&typeof value==='object'&&!Array.isArray(value)?value:null;
+  if(!x||x.version!==2||x.appVersion!==APP_VERSION)return false;
+  if(!Array.isArray(x.questionIds)||x.questionIds.length!==20||new Set(x.questionIds).size!==20)return false;
+  if(x.questionIds.some(id=>typeof id!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(id)))return false;
+  if(!Array.isArray(x.optionMaps)||x.optionMaps.length!==20||x.optionMaps.some(map=>!bFinalDisplayMapValidV435(map)))return false;
+  if(!Array.isArray(x.answers)||x.answers.length!==20||x.answers.some(answer=>answer!==null&&(!Number.isInteger(answer)||answer<0||answer>3)))return false;
+  if(!Array.isArray(x.flags)||x.flags.some(n=>!Number.isInteger(n)||n<0||n>19)||new Set(x.flags).size!==x.flags.length)return false;
+  if(!Number.isInteger(x.index)||x.index<0||x.index>19)return false;
+  if(!Number.isFinite(Number(x.expiresAt))||!Number.isFinite(Number(x.startedAt))||!Number.isFinite(Number(x.savedAt)))return false;
   return true;
 }
-function bFinalResumePayloadValidV426(s){
-  if(!s||typeof s!=='object'||Array.isArray(s)||s.version!==1||s.appVersion!==APP_VERSION)return false;
-  if(!Array.isArray(s.items)||s.items.length!==20||!Array.isArray(s.answers)||s.answers.length!==20)return false;
-  if(!s.items.every((item,index)=>bFinalResumeItemValidV426(item,index)))return false;
-  if(new Set(s.items.map(item=>item._protectedQuestionId)).size!==20)return false;
-  if(s.answers.some(answer=>answer!==null&&(!Number.isInteger(answer)||answer<0||answer>3)))return false;
-  if(!Array.isArray(s.flags)||s.flags.some(n=>!Number.isInteger(n)||n<0||n>19)||new Set(s.flags).size!==s.flags.length)return false;
-  if(!Number.isInteger(s.index)||s.index<0||s.index>19)return false;
-  if(!Number.isFinite(Number(s.expiresAt))||!Number.isFinite(Number(s.startedAt))||!Number.isFinite(Number(s.savedAt)))return false;
-  return true;
+async function hydrateBFinalResumeV435(saved,remain){
+  try{
+    const packets=await bFinalBridgeV376().startSession(saved.questionIds);
+    if(!Array.isArray(packets)||packets.length!==20||
+       packets.slice(0,16).some(packet=>packet.kind!=='algo')||
+       packets.slice(16).some(packet=>packet.kind!=='security'))throw new Error('v435_b_final_resume_order_invalid');
+    bFinalItems=packets.map((packet,index)=>bFinalProtectedItemV376(packet,saved.optionMaps[index]));
+    bFinalAnswers=[...saved.answers];bFinalFlags=new Set(saved.flags||[]);
+    bFinalIndex=saved.index;bFinalSeconds=Math.min(B_FINAL_SECONDS,remain);bFinalStartedAt=Number(saved.startedAt)||Date.now();
+    lastBFinalAttempt=null;
+    renderBFinalQuestion();startBFinalTimer();saveBFinalResume();
+    showAppNotice?.('info','総合実戦を再開しました','再読み込み前の回答と残り時間から続けています。');
+    return true;
+  }catch(error){
+    bFinalBridgeV376().reportError?.(error);
+    bFinalReleaseExamRuntimeV430();bFinalClearProtectedV376();
+    document.getElementById('bFinalExam')?.classList.remove('show');
+    document.getElementById('bFinalSelect')?.classList.remove('hidden');
+    showAppNotice?.('warning','総合実戦を再開できませんでした','再開情報は有効期限まで保持しています。通信状態を確認して再読み込みすると再試行できます。');
+    return false;
+  }
 }
 function restoreBFinalResume(){
-  const s=readBFinalResume();
-  if(!bFinalResumePayloadValidV426(s)){clearBFinalResume();return false;}
-  const remain=Math.ceil((Number(s.expiresAt||0)-Date.now())/1000);
+  const saved=readBFinalResume();
+  if(!bFinalResumePayloadValidV435(saved)){clearBFinalResume();return false;}
+  const remain=Math.ceil((Number(saved.expiresAt||0)-Date.now())/1000);
   if(remain<=0){clearBFinalResume();return false}
-  bFinalItems=s.items;
-  bFinalAnswers=s.answers;
-  bFinalFlags=new Set(s.flags||[]);
-  bFinalIndex=Math.max(0,Math.min(19,Number(s.index)||0));
-  bFinalSeconds=Math.min(B_FINAL_SECONDS,remain);
-  bFinalStartedAt=Number(s.startedAt)||Date.now();
-  lastBFinalAttempt=null;
-  setBMode('final');
+  ['bSelect','secSelect','bMockSelect'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('bFinalSelect')?.classList.add('hidden');
   document.getElementById('bFinalResult')?.classList.remove('show');
   document.getElementById('bFinalExam')?.classList.add('show');
+  const q=document.getElementById('bFinalQuestion');if(q)q.textContent='総合実戦を再開しています…';
+  const opts=document.getElementById('bFinalOptions');if(opts)opts.replaceChildren();
   showScreen('trace',{replaceHistory:true,instant:true});
-  renderBFinalQuestion();
-  startBFinalTimer();
+  void hydrateBFinalResumeV435(saved,remain);
   return true;
 }
-
-globalThis.B_FINAL_RESUME_V426_SPEC=B_FINAL_RESUME_V426_SPEC;
-globalThis.bFinalResumePayloadValidV426=bFinalResumePayloadValidV426;
+globalThis.B_FINAL_RESUME_V435_SPEC=B_FINAL_RESUME_V435_SPEC;
+globalThis.bFinalResumePayloadValidV435=bFinalResumePayloadValidV435;
 
 const B_FINAL_ALGO_DOMAINS_V376=Object.freeze(["制御","一次元配列","二次元配列","再帰・関数","木構造","オブジェクト指向","リスト","スタック・キュー","ビット列","探索・整列"]);
 const B_FINAL_APPLIED_DOMAINS_V376=new Set(["再帰・関数","木構造","リスト","スタック・キュー","ビット列","探索・整列"]);
@@ -9281,9 +9315,12 @@ function bFinalSelectDescriptorsV376(){
   return descriptors;
 }
 globalThis.B_FINAL_RUNTIME_ORDER_V425_SPEC=B_FINAL_RUNTIME_ORDER_V425_SPEC;
-function bFinalProtectedItemV376(packet){
+function bFinalProtectedItemV376(packet,storedMap=null){
   if(!packet||!['algo','security'].includes(packet.kind)||!Array.isArray(packet.options)||packet.options.length!==4)throw new Error('v376_b_final_packet_invalid');
-  const pairs=packet.options.map((text,serverIndex)=>({text,serverIndex})),mixed=shuffled(pairs);
+  const savedMap=bFinalDisplayMapValidV435(storedMap)?[...storedMap]:null;
+  const mixed=savedMap
+    ? savedMap.map(serverIndex=>({text:packet.options[serverIndex],serverIndex}))
+    : shuffled(packet.options.map((text,serverIndex)=>({text,serverIndex})));
   const common={
     _protectedQuestionId:packet.questionId,_serverMap:mixed.map(item=>item.serverIndex),
     sourceId:packet.parentId,kind:packet.kind,level:packet.level||'',title:packet.title||'',
@@ -9831,7 +9868,20 @@ let secCorrect=0;
 let secFirstTryCorrect=0;
 let secAttempts=0;
 
+function releaseSubjectBProtectedRuntimeV435(){
+  try{bTraceBridgeV376().clear()}catch(_e){}
+  bTracePacketV376=null;bTraceFinalResultV376=null;currentB=null;bStepIndex=-1;bPredictionSatisfied=true;lastBState={};
+  try{bSecurityBridgeV376().clear()}catch(_e){}
+  currentSec=null;secStepIndex=0;secAnswered=false;secCorrect=0;secFirstTryCorrect=0;secAttempts=0;bSecurityLastChoiceV376=null;
+  try{stopBMockTimer()}catch(_e){};try{bMockReleaseRuntimeV431()}catch(_e){};try{bMockReleaseResultMemoryV431()}catch(_e){}
+  try{stopCompoundTimer()}catch(_e){};try{bCompoundClearProtectedV376()}catch(_e){};try{bCompoundReleaseResultMemoryV431()}catch(_e){}
+  try{stopSecurityMockTimer()}catch(_e){};try{securityMockReleaseRuntimeV431()}catch(_e){};try{securityMockReleaseResultMemoryV431()}catch(_e){}
+  try{stopBFinalTimer()}catch(_e){};try{bFinalReleaseExamRuntimeV430()}catch(_e){};try{bFinalReleaseResultMemoryV430()}catch(_e){};try{bFinalClearProtectedV376()}catch(_e){}
+}
+globalThis.releaseSubjectBProtectedRuntimeV435=releaseSubjectBProtectedRuntimeV435;
+
 function setBMode(mode){
+  releaseSubjectBProtectedRuntimeV435();
   // Any route that leaves a submitted result must release full post-submit review text.
   if(document.getElementById('bMockResult')?.classList.contains('show'))bMockReleaseResultMemoryV431();
   if(document.getElementById('bCompoundResult')?.classList.contains('show'))bCompoundReleaseResultMemoryV431();
@@ -11210,6 +11260,30 @@ let reviewItems=[];
 let reviewIndex=0;
 let currentSimilar=null;
 
+function releaseSubjectAMockExamRuntimeV435(){
+  if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
+  mockItems=[];mockAnswers=[];mockFlags=[];mockQuestionSeconds=[];
+  mockIndex=0;mockSeconds=0;mockInitialSeconds=0;mockStartedAt=null;mockQuestionEnteredAt=null;mockCurrentBlueprint=null;
+  const q=document.getElementById('mockQuestion');if(q)q.textContent='';
+  const opts=document.getElementById('mockOptions');if(opts)opts.replaceChildren();
+}
+function releaseSubjectAMockResultMemoryV435(){
+  lastMockAttempt=null;reviewItems=[];reviewIndex=0;currentSimilar=null;
+  const review=document.getElementById('mockReviewList');if(review)review.replaceChildren();
+  const diagnosis=document.getElementById('mockDiagnosis');if(diagnosis)diagnosis.replaceChildren();
+  const breakdown=document.getElementById('mockBreakdown');if(breakdown)breakdown.replaceChildren();
+  for(const id of ['reviewQuestion','reviewUserAnswerValue','reviewCorrectAnswerValue','reviewExplanation','reviewHint','similarQuestion','similarFeedback']){
+    const node=document.getElementById(id);if(node)node.textContent='';
+  }
+  const similarOptions=document.getElementById('similarOptions');if(similarOptions)similarOptions.replaceChildren();
+  document.getElementById('similarBox')?.classList.remove('show');
+}
+function releaseSubjectAMockContextV435(){
+  releaseSubjectAMockExamRuntimeV435();
+  releaseSubjectAMockResultMemoryV435();
+}
+globalThis.releaseSubjectAMockContextV435=releaseSubjectAMockContextV435;
+
 
 function randomizeMockQuestion(q){
   const indexed=q.options.map((text,i)=>({text,correct:i===q.a}));
@@ -11387,6 +11461,7 @@ function buildMockQuestions(modeOrCount){
 }
 
 function startMock(mode){
+  releaseSubjectAMockContextV435();
   mockMode=mode;
   mockLastMode=mode;
   const bp=MOCK_BLUEPRINTS[mode]||MOCK_BLUEPRINTS.full;
@@ -11560,9 +11635,10 @@ function renderReviewPrescription(){
 }
 function startReviewPrescription(qid,reason){
   const q=originalQuestionById(qid);if(!q)return;
-  const p=reasonPrescription(reason,q);
-  if(reason==='知識不足'&&p.lesson){activeReviewJourneyId=qid;startLesson(p.lesson);return;}
-  showScreen('problems');startQuiz(`rx:${p.kind}:${q.cat}`);
+  const p=reasonPrescription(reason,q),cat=q.cat,lesson=p.lesson;
+  releaseSubjectAMockContextV435();
+  if(reason==='知識不足'&&lesson){activeReviewJourneyId=qid;startLesson(lesson);return;}
+  showScreen('problems');startQuiz(`rx:${p.kind}:${cat}`);
 }
 function currentReviewDominantReason(){
   const totals=aggregateReasons();return Object.entries(totals).sort((a,b)=>b[1]-a[1])[0]?.[0]||null;
@@ -11694,7 +11770,7 @@ function finishMock(timeup=false){
 }
 
 function showMockMenu(){
-  if(mockTimerHandle){clearInterval(mockTimerHandle);mockTimerHandle=null;}
+  releaseSubjectAMockContextV435();
   document.getElementById('mockMenu').classList.remove('hidden');
   document.getElementById('mockExam').classList.remove('show');
   document.getElementById('mockResult').classList.remove('show');
@@ -11962,8 +12038,8 @@ function exitMockReview(){
 }
 document.getElementById('reviewExit')?.addEventListener('click',exitMockReview);
 document.getElementById('reviewSummaryBack')?.addEventListener('click',exitMockReview);
-document.getElementById('reviewSummaryJourney')?.addEventListener('click',()=>{const j=activeReviewJourneys()[0];if(j)startJourneyAction(j.id);});
-document.getElementById('reviewSummaryRx')?.addEventListener('click',e=>{const reason=e.currentTarget.dataset.reason,cat=e.currentTarget.dataset.cat;const fake={id:'',cat,concept:''};const p=reasonPrescription(reason,fake);showScreen('problems');startQuiz(`rx:${p.kind}:${cat}`);});
+document.getElementById('reviewSummaryJourney')?.addEventListener('click',()=>{const j=activeReviewJourneys()[0];if(j){const id=j.id;releaseSubjectAMockContextV435();startJourneyAction(id);}});
+document.getElementById('reviewSummaryRx')?.addEventListener('click',e=>{const reason=e.currentTarget.dataset.reason,cat=e.currentTarget.dataset.cat;const fake={id:'',cat,concept:''};const p=reasonPrescription(reason,fake);releaseSubjectAMockContextV435();showScreen('problems');startQuiz(`rx:${p.kind}:${cat}`);});
 
 
 // Planner STEP5 now reflects real mock attempts as well as ordinary problem sessions.
@@ -11982,6 +12058,18 @@ roadmapData=function(){
 
 
 
+
+const PROTECTED_RUNTIME_LIFETIME_V435_SPEC=Object.freeze({
+  policy:'protected-content-runtime-only-while-active-or-immediate-review',
+  bFinalResumeSchemaVersion:2,
+  bFinalResumeStoresProtectedText:false,
+  subjectAPracticeClearsOnExit:true,
+  subjectAMockClearsOnContextExit:true,
+  subjectBClearsOnModeOrScreenExit:true,
+  profileSchemaChanged:false
+});
+globalThis.PROTECTED_RUNTIME_LIFETIME_V435_SPEC=PROTECTED_RUNTIME_LIFETIME_V435_SPEC;
+globalThis.FEQUEST_RUNTIME_HYGIENE_V435_READY=true;
 
 const PROFILE_PROTECTED_CHECKPOINT_RETENTION_V434_SPEC=Object.freeze({
   policy:'strip-protected-answer-positions-from-persistent-resume-checkpoints',
@@ -14518,7 +14606,6 @@ function restoreResilientUiState(){
   try{
     if(restoreBFinalResume()){
       appHistoryReplace('trace',0);
-      setTimeout(()=>showAppNotice?.('info','総合実戦を再開しました','再読み込み前の回答と残り時間から続けています。'),30);
       return 'bfinal';
     }
     const state=readUiState();

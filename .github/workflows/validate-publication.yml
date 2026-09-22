@@ -84,26 +84,68 @@ jobs:
           if(selector.includes('shuffled([...bFinalSelectAlgoV376()'))throw new Error('v425 final runtime order regressed to mixed shuffle');
           console.log('PASS Subject B final runtime order: algorithm 16 then security 4');
           NODE
-      - name: Validate Subject B final resume integrity contract
+      - name: Validate protected runtime lifetime and metadata-only final resume
         run: |
           node <<'NODE'
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "policy:'validate-resume-payload-before-restoring-protected-final'",
-            "schemaVersion:1",
-            "algorithmCount:16",
-            "securityCount:4",
-            "function bFinalResumePayloadValidV426(s)",
-            "function bFinalResumeItemValidV426(item,index)",
-            "if(!bFinalResumePayloadValidV426(s)){clearBFinalResume();return false;}",
-            "new Set(s.items.map(item=>item._protectedQuestionId)).size!==20",
-            "const expectedKind=index<16?'algo':'security'",
-            "rejectsPreSubmitAnswerFields:true"
+            "policy:'persist-resume-metadata-only-rehydrate-protected-final'",
+            "schemaVersion:2",
+            "protectedQuestionTextPersisted:false",
+            "protectedOptionsPersisted:false",
+            "rehydratesProtectedQuestionsOnResume:true",
+            "function bFinalResumePayloadValidV435(value)",
+            "function hydrateBFinalResumeV435(saved,remain)",
+            "questionIds,optionMaps,answers:[...bFinalAnswers]",
+            "bFinalProtectedItemV376(packet,saved.optionMaps[index])",
+            "function releaseSubjectAPracticeRuntimeV435()",
+            "function releaseSubjectAMockContextV435()",
+            "function releaseSubjectBProtectedRuntimeV435()",
+            "policy:'protected-content-runtime-only-while-active-or-immediate-review'",
+            "FEQUEST_RUNTIME_HYGIENE_V435_READY===true"
           ];
-          for(const token of required)if(!app.includes(token))throw new Error('missing resume integrity contract: '+token);
-          if(!app.includes("['a','answerIndex','correctText','explain','explanation','choiceExplanations']"))throw new Error('pre-submit answer-field guard missing');
-          console.log('PASS Subject B final resume integrity v426');
+          for(const token of required)if(!app.includes(token))throw new Error('missing v435 runtime/resume contract: '+token);
+          if(app.includes('items:bFinalItems'))throw new Error('full protected B-final items must not be written to resume storage');
+          if(app.includes('bFinalResumePayloadValidV426'))throw new Error('legacy full-item B-final resume validator still active');
+
+          const saveStart=app.indexOf('function saveBFinalResume(){');
+          const saveEnd=app.indexOf('function readBFinalResume()',saveStart);
+          const saveBody=saveStart>=0&&saveEnd>saveStart?app.slice(saveStart,saveEnd):'';
+          if(!saveBody)throw new Error('B-final resume save function missing');
+          for(const forbidden of ['items:bFinalItems','q:','options:','context:','code:','data:','incident:','evidence:','log:','explain:','correctText:']){
+            if(saveBody.includes(forbidden))throw new Error('protected B-final content persisted in resume: '+forbidden);
+          }
+          for(const needed of ['questionIds','optionMaps','answers:[...bFinalAnswers]','flags:[...bFinalFlags]']){
+            if(!saveBody.includes(needed))throw new Error('B-final resume metadata missing: '+needed);
+          }
+
+          const restoreStart=app.indexOf('async function hydrateBFinalResumeV435(saved,remain)');
+          const restoreEnd=app.indexOf('function restoreBFinalResume()',restoreStart);
+          const restoreBody=restoreStart>=0&&restoreEnd>restoreStart?app.slice(restoreStart,restoreEnd):'';
+          for(const needed of ["bFinalBridgeV376().startSession(saved.questionIds)","packets.slice(0,16).some(packet=>packet.kind!=='algo')","packets.slice(16).some(packet=>packet.kind!=='security')","bFinalProtectedItemV376(packet,saved.optionMaps[index])"]){
+            if(!restoreBody.includes(needed))throw new Error('B-final rehydrate contract missing: '+needed);
+          }
+
+          const mockStart=app.indexOf('function releaseSubjectAMockContextV435()');
+          const mockEnd=app.indexOf('function randomizeMockQuestion',mockStart);
+          const mockBody=mockStart>=0&&mockEnd>mockStart?app.slice(mockStart,mockEnd):'';
+          if(!mockBody.includes('releaseSubjectAMockExamRuntimeV435();')||!mockBody.includes('releaseSubjectAMockResultMemoryV435();'))throw new Error('Subject A mock full cleanup missing');
+
+          const practiceStart=app.indexOf('function releaseSubjectAPracticeRuntimeV435()');
+          const practiceEnd=app.indexOf('function nextUnfinishedDailyTask',practiceStart);
+          const practiceBody=practiceStart>=0&&practiceEnd>practiceStart?app.slice(practiceStart,practiceEnd):'';
+          for(const needed of ['clearSubjectASession','quizItems=[]','sessionLog=[]','quizOptions']){
+            if(!practiceBody.includes(needed))throw new Error('Subject A practice cleanup missing: '+needed);
+          }
+
+          const bStart=app.indexOf('function releaseSubjectBProtectedRuntimeV435()');
+          const bEnd=app.indexOf('function setBMode(mode)',bStart);
+          const bBody=bStart>=0&&bEnd>bStart?app.slice(bStart,bEnd):'';
+          for(const needed of ['bTraceBridgeV376().clear()','bSecurityBridgeV376().clear()','bMockReleaseRuntimeV431()','bCompoundClearProtectedV376()','securityMockReleaseRuntimeV431()','bFinalReleaseExamRuntimeV430()','bFinalClearProtectedV376()']){
+            if(!bBody.includes(needed))throw new Error('Subject B runtime cleanup missing: '+needed);
+          }
+          console.log('PASS protected runtime lifetime and B-final resume v435');
           NODE
       - name: Validate Subject B final grading order contract
         run: |
@@ -353,11 +395,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-116';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-117';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-116" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-117" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -1057,7 +1099,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-116';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-117';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"

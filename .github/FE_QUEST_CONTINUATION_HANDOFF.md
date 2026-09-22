@@ -24,14 +24,13 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `0fdab47051cab982330e01bb81f4b79fc8adab27`（PR #215 merge後）
-- open PR: **#216** `profile-retention-checkpoint-v434-20260922`
-- active work PR: **#216 科目B途中再開checkpointから正答位置を除去**
-- 最新本番 deploy: GitHub Actions run `35699659688`、success（PR #215 merge後）
-- main PWA cache contract: `fe-quest-v377-115`
-- PR #216 target PWA cache contract: `fe-quest-v377-116`
-- main profile schema: **8**（schema 7 checksum互換あり）
-- PR #216 target profile schema: **9**（schema 8 checksum互換を追加）
+- main: `bc9db1af7f95de4438b37195e7f7a49c8eb3894c`（PR #216 merge後）
+- open PR: **#217** `protected-runtime-lifetime-v435-20260922`
+- active work PR: **#217 protected contentのruntime寿命と総合実戦resumeを強化**
+- 最新本番 deploy: GitHub Actions run `35700747464`、success（PR #216 merge後）
+- main PWA cache contract: `fe-quest-v377-116`
+- PR #217 target PWA cache contract: `fe-quest-v377-117`
+- profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
@@ -44,7 +43,8 @@
 - 科目B短時間実戦post-submit保持最小化 PR: #213、merged
 - 科目A模試post-submit保持最小化 PR: #214、merged
 - 科目A通常演習・初回診断post-submit監査 PR: #215、merged
-- Profile全体protected checkpoint retention監査 PR: #216、open（CI確認後merge予定）
+- Profile全体protected checkpoint retention監査 PR: #216、merged
+- Protected runtime lifetime / B-final resume監査 PR: #217、open（CI success確認済み、handoff更新後に再確認してmerge予定）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1045,8 +1045,26 @@
 - profile schema: 8 → 9
 - schema 8 checksum互換を追加
 - protected bankは変更なし、active total 1180、`b_exam_algo=50`
-- PR #216 `profile-retention-checkpoint-v434-20260922` で実装中。**次チャットではliveのCI / merge / Pages deploy状態を必ず再確認する**
-- target PWA cache contract: `fe-quest-v377-116`
+- PR #216 merged、merge commit `bc9db1af7f95de4438b37195e7f7a49c8eb3894c`
+- production Pages deploy run `35700747464` success
+- PWA cache contract: `fe-quest-v377-116`
+
+
+### Protected content runtime lifetime / B-final resume横断監査
+
+`.github/reference-audits/PROTECTED_RUNTIME_LIFETIME_AUDIT_2026-09-22.md`
+
+- profile外のDOM / JS runtime / provider cache / localStorage / sessionStorage / IndexedDB / history.stateまで横断監査
+- 科目B総合実戦の `fequest_bfinal_resume_v1` が `items:bFinalItems` を保存し、問題文・選択肢・render dataまでlocalStorageへ残していた不整合を発見
+- v435ではresume payloadをversion 2へ変更し、`questionIds / optionMaps / answers / flags / index / timing` だけを保存
+- reload時はquestion IDからprotected bridgeで20問を再hydrateし、保存したdisplay permutationを復元
+- 科目A通常演習は途中離脱でもprovider hydrated session / `quizItems` / question DOMを解放
+- 科目A模試は即時結果・レビューを離れた時に `mockItems / lastMockAttempt / reviewItems` とprotected DOMを解放
+- Subject B mode / trace screen離脱時にtrace / security / short practice / finalのruntimeとbridge cacheを解放
+- B-final metadata-only resumeは画面離脱では保持し、明示的な終了では従来どおり削除
+- profile schemaは9のまま、protected bank変更なし、active total 1180、`b_exam_algo=50`
+- PR #217 `protected-runtime-lifetime-v435-20260922` で実装中。publication / v35 CIは一度success確認済み。**handoff更新後の最新head CI / merge / Pages deployをlive再確認する**
+- target PWA cache contract: `fe-quest-v377-117`
 
 
 ## 6. 今後も守る教材監査方針
@@ -1070,20 +1088,20 @@
 
 ## 7. 次のデフォルト作業
 
-まず **PR #216 のlive状態を確認** する。CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
+まず **PR #217 のlive状態を確認** する。最新headのCIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
 
-その後、ユーザーから別の具体的な修正指示がなければ、**protected contentのruntime寿命をprofile外まで横断監査する。** profile / backup側の長期保持はv430〜v434で重点監査したため、次はDOM・global変数・bridge/provider cache・postSubmit objectに、結果画面や演習終了後も問題本文・選択肢・正答・解説が不要に残っていないかを見る。
+その後、ユーザーから別の具体的な修正指示がなければ、**公開GitHub / Pages bundleに残るprotected contentの静的残存を横断監査する。** runtime・profile・resumeの保持境界はv430〜v435で重点監査したため、次は公開asset内の旧コード・旧catalog・redacted residual・監査用fixture等に、問題本文・選択肢・正答・解説が不用意に残っていないかを見る。
 
 手順:
 
-1. Subject A通常演習 / 模試 / 診断、Subject B trace / security / short practice / finalのruntime holderを列挙
-2. 問題本文・options・answerIndex・explanation・postSubmit・render metadataを保持するglobal / module変数を検索
-3. 結果画面を離れる、一覧へ戻る、別モードへ切替える、新しい演習を始める各境界でclearされるか確認
-4. providerのhydrated / answer / protected cacheがbridge clearと連動しているか確認
-5. UI上の即時レビューに必要なmemoryと、それ以降不要なmemoryを分離する
-6. localStorage / sessionStorage / IndexedDB / history stateにprofile以外のprotected本文が残らないか確認
-7. protected bankやserver grading仕様を変更せず、必要なcleanupだけ最小限追加
-8. 必要な場合だけ監査記録 → PR → CI success → merge → Pages deploy successまで確認
+1. 公開対象asset / provider / catalog /旧version fileを列挙
+2. `stem / options / answerIndex / explanation / choiceExplanations / point / pitfall` 等のprotected fieldを静的検索
+3. 現行runtimeで必要なmetadata catalogと、不要な旧full-content artifactを区別
+4. service worker precache対象とPages artifact inclusionを照合
+5. redacted / quarantinedコードがprotected本文を含まないことを確認
+6. reference-audit文書に外部教材本文・問題本文の引用が残っていないことも確認
+7. protected bankを正本のまま維持し、公開artifactから不要なprotected内容だけを除去
+8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
 
