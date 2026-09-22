@@ -9685,6 +9685,11 @@ let secFirstTryCorrect=0;
 let secAttempts=0;
 
 function setBMode(mode){
+  // Any route that leaves a submitted result must release full post-submit review text.
+  if(document.getElementById('bMockResult')?.classList.contains('show'))bMockReleaseResultMemoryV431();
+  if(document.getElementById('bCompoundResult')?.classList.contains('show'))bCompoundReleaseResultMemoryV431();
+  if(document.getElementById('secMockResult')?.classList.contains('show'))securityMockReleaseResultMemoryV431();
+  if(document.getElementById('bFinalResult')?.classList.contains('show'))bFinalReleaseResultMemoryV430();
   document.querySelectorAll('.b-mode-switcher').forEach(d=>d.open=false);
   const traceMode=mode==='trace',securityMode=mode==='security',mockMode=mode==='mock',finalMode=mode==='final';
   document.getElementById('bSelect')?.classList.toggle('hidden',!traceMode);
