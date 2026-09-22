@@ -216,7 +216,11 @@ jobs:
             "profile.bMockHistory=[persistedAttempt,...(profile.bMockHistory||[])].slice(0,20)",
             "profile.bCompoundHistory=[persistedAttempt,...(profile.bCompoundHistory||[])].slice(0,20)",
             "profile.securityMockHistory=[persistedAttempt,...(profile.securityMockHistory||[])].slice(0,20)",
-            "clearsReviewMemoryWhenLeavingResult:true"
+            "clearsReviewMemoryWhenLeavingResult:true",
+            "if(document.getElementById('bMockResult')?.classList.contains('show'))bMockReleaseResultMemoryV431();",
+            "if(document.getElementById('bCompoundResult')?.classList.contains('show'))bCompoundReleaseResultMemoryV431();",
+            "if(document.getElementById('secMockResult')?.classList.contains('show'))securityMockReleaseResultMemoryV431();",
+            "if(document.getElementById('bFinalResult')?.classList.contains('show'))bFinalReleaseResultMemoryV430();"
           ];
           for(const token of required)if(!app.includes(token))throw new Error('missing v431 short-practice retention contract: '+token);
           for(const forbiddenDirect of [
