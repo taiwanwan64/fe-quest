@@ -171,7 +171,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 8;",
+            "const PROFILE_SCHEMA_VERSION = 9;",
             "policy:'persist-analysis-metadata-only-after-final-submit'",
             "function bFinalHistoryAttemptForPersistenceV430(value)",
             "function normalizeBFinalHistoryForPersistenceV430(value)",
@@ -200,7 +200,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 8;",
+            "const PROFILE_SCHEMA_VERSION = 9;",
             "policy:'persist-analysis-metadata-only-for-short-subject-b-practice'",
             "profileSchemaVersion:7",
             "priorSchemaCompatibility:6",
@@ -247,7 +247,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 8;",
+            "const PROFILE_SCHEMA_VERSION = 9;",
             "policy:'persist-analysis-metadata-only-for-subject-a-mock'",
             "profileSchemaVersion:8",
             "priorSchemaCompatibility:7",
@@ -280,6 +280,55 @@ jobs:
           }
           console.log('PASS Subject A mock post-submit retention v432');
           NODE
+      - name: Validate profile protected checkpoint retention contract
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const required=[
+            "const PROFILE_SCHEMA_VERSION = 9;",
+            "policy:'strip-protected-answer-positions-from-persistent-resume-checkpoints'",
+            "profileSchemaVersion:9",
+            "priorSchemaCompatibility:8",
+            "function sanitizeBTraceResumeForPersistenceV434(value)",
+            "function sanitizeBSecurityResumeForPersistenceV434(value)",
+            "function normalizeDailyPlansForPersistenceV434(value)",
+            "out.dailyPlans=normalizeDailyPlansForPersistenceV434(p.dailyPlans);",
+            "function normalizeProfileDataV8ForChecksum(input)",
+            "function profileIntegrityChecksumV8(p)",
+            "if(schema===8)return profileIntegrityChecksumV8(p);",
+            "resumeTail(id,resume.choiceIndex??null)",
+            "const persistedChoiceIndex=!answered&&attempts===1?choiceIndex:null;"
+          ];
+          for(const token of required)if(!app.includes(token))throw new Error('missing v434 protected checkpoint retention contract: '+token);
+
+          if(app.includes("choiceIndex:tail.choiceIndex"))throw new Error('trace tail correct-answer position must not be persisted');
+          if(app.includes("choiceIndex:bTracePacketV376.choiceIndex"))throw new Error('active trace tail answer position must not be checkpointed');
+
+          const traceStart=app.indexOf('function sanitizeBTraceResumeForPersistenceV434');
+          const traceEnd=app.indexOf('function sanitizeBSecurityResumeForPersistenceV434',traceStart);
+          const traceBody=traceStart>=0&&traceEnd>traceStart?app.slice(traceStart,traceEnd):'';
+          if(!traceBody.includes("if(v.phase==='tail')delete v.choiceIndex;"))throw new Error('trace tail sanitizer missing');
+
+          const secStart=app.indexOf('function sanitizeBSecurityResumeForPersistenceV434');
+          const secEnd=app.indexOf('function dailyPlanRecordForPersistenceV434',secStart);
+          const secBody=secStart>=0&&secEnd>secStart?app.slice(secStart,secEnd):'';
+          if(!secBody.includes("v.answered===false&&attempts===1"))throw new Error('security retry sanitizer must keep only unfinished known-wrong choice');
+          if(!secBody.includes("v.choiceIndex=keepKnownWrongChoice?v.choiceIndex:null;"))throw new Error('security answered checkpoint answer position not stripped');
+
+          const v8Start=app.indexOf('function normalizeProfileDataV8ForChecksum');
+          const v8End=app.indexOf('function profileIntegrityChecksumV8',v8Start);
+          const v8Body=v8Start>=0&&v8End>v8Start?app.slice(v8Start,v8End):'';
+          if(!v8Body.includes("'settings','dailyPlans','reviewJourney'"))throw new Error('schema 8 checksum compatibility must preserve raw dailyPlans');
+          if(v8Body.includes('normalizeDailyPlansForPersistenceV434'))throw new Error('schema 8 checksum compatibility must not apply v434 sanitizer');
+
+          const currentStart=app.indexOf('function normalizeProfileData(input)');
+          const currentEnd=app.indexOf('// v96 backup compatibility',currentStart);
+          const currentBody=currentStart>=0&&currentEnd>currentStart?app.slice(currentStart,currentEnd):'';
+          if(!currentBody.includes('out.dailyPlans=normalizeDailyPlansForPersistenceV434(p.dailyPlans);'))throw new Error('current profile normalization must sanitize dailyPlans');
+
+          console.log('PASS protected resume checkpoint retention v434');
+          NODE
       - name: Validate bilingual learning terminology
         run: |
           grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
@@ -304,11 +353,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-115';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-116';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-115" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-116" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -1008,7 +1057,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-115';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-116';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"

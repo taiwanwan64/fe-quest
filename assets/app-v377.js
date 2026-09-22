@@ -339,7 +339,7 @@ const RECOVERY_DB_VERSION = 1;
 const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
-const PROFILE_SCHEMA_VERSION = 8;
+const PROFILE_SCHEMA_VERSION = 9;
 const APP_VERSION = 'v377';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
@@ -546,6 +546,40 @@ function securityMockHistoryAttemptForPersistenceV431(value){
 function normalizeSecurityMockHistoryForPersistenceV431(value){
   return safeArray(value,100).map(securityMockHistoryAttemptForPersistenceV431);
 }
+// v434: daily-plan resume checkpoints must never persist a protected correct-answer position.
+// Algorithm tail resume can be reconstructed server-side. Security retry keeps only a known-wrong
+// first choice while the learner still has one retry remaining.
+function sanitizeBTraceResumeForPersistenceV434(value){
+  const v=isPlainObject(value)?structuredClone(value):{};
+  if(v.phase==='tail')delete v.choiceIndex;
+  return v;
+}
+function sanitizeBSecurityResumeForPersistenceV434(value){
+  const v=isPlainObject(value)?structuredClone(value):{};
+  const attempts=nonNegativeInt(v.attempts,0);
+  const keepKnownWrongChoice=v.answered===false&&attempts===1&&Number.isInteger(v.choiceIndex)&&v.choiceIndex>=0&&v.choiceIndex<=3;
+  v.choiceIndex=keepKnownWrongChoice?v.choiceIndex:null;
+  return v;
+}
+function dailyPlanRecordForPersistenceV434(value){
+  const rec=isPlainObject(value)?structuredClone(value):{};
+  const progress=safeObject(rec.blockProgressV373);
+  Object.keys(progress).forEach(slot=>{
+    const row=isPlainObject(progress[slot])?progress[slot]:null;
+    if(!row)return;
+    if(isPlainObject(row.traceV376))row.traceV376=sanitizeBTraceResumeForPersistenceV434(row.traceV376);
+    if(isPlainObject(row.securityV376))row.securityV376=sanitizeBSecurityResumeForPersistenceV434(row.securityV376);
+  });
+  rec.blockProgressV373=progress;
+  return rec;
+}
+function normalizeDailyPlansForPersistenceV434(value){
+  const out={};
+  Object.entries(safeObject(value)).forEach(([date,record])=>{
+    if(typeof date==='string'&&date)out[date]=dailyPlanRecordForPersistenceV434(record);
+  });
+  return out;
+}
 function normalizeProgressMap(v){
   const out={};
   Object.entries(safeObject(v)).forEach(([k,val])=>{
@@ -617,8 +651,9 @@ function normalizeProfileData(input){
   out.securityBProgress=normalizeProgressMap(p.securityBProgress);
 
   ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',
-   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'
+   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','reviewJourney','reviewJourneys','chapterMastery'
   ].forEach(key=>out[key]=safeObject(p[key]));
+  out.dailyPlans=normalizeDailyPlansForPersistenceV434(p.dailyPlans);
 
   out.sessions=safeArray(p.sessions,3000);
   out.activity=safeObject(p.activity);
@@ -819,12 +854,51 @@ function normalizeProfileDataV7ForChecksum(input){
 function profileIntegrityChecksumV7(p){
   return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV7ForChecksum(p)))}`;
 }
+// v434: schema v8 checksum compatibility preserves the exact v432/v433 normalization.
+// In schema 8, Subject-A/B histories were already metadata-only, but dailyPlans still
+// preserved raw B resume choiceIndex fields.
+function normalizeProfileDataV8ForChecksum(input){
+  const p=isPlainObject(input)?input:{};
+  const base=structuredClone(DEFAULT_PROFILE);
+  base.profileSchemaVersion=8;
+  const out={...base,...p};
+  out.profileSchemaVersion=8;
+  out.profileMeta={...structuredClone(base.profileMeta),...safeObject(p.profileMeta)};
+  out.profileMeta.revision=nonNegativeInt(out.profileMeta.revision,0);
+  out.profileMeta.lastWriterId=typeof out.profileMeta.lastWriterId==='string'?out.profileMeta.lastWriterId:null;
+  out.masteryHistory=safeObject(p.masteryHistory);
+  out.xp=nonNegativeInt(p.xp,0);
+  out.streak=nonNegativeInt(p.streak,0);
+  out.diagnosticCompleted=!!p.diagnosticCompleted;
+  out.diagnosticScores=safeObject(p.diagnosticScores);
+  out.skills={};
+  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));
+  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;
+  out.lessonProgress=normalizeProgressMap(p.lessonProgress);
+  out.bProgress=normalizeProgressMap(p.bProgress);
+  out.securityBProgress=normalizeProgressMap(p.securityBProgress);
+  ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',
+   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'
+  ].forEach(key=>out[key]=safeObject(p[key]));
+  out.sessions=safeArray(p.sessions,3000);
+  out.activity=safeObject(p.activity);
+  out.mockHistory=normalizeSubjectAMockHistoryForPersistenceV432(p.mockHistory);
+  out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);
+  out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);
+  out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);
+  out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);
+  return out;
+}
+function profileIntegrityChecksumV8(p){
+  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV8ForChecksum(p)))}`;
+}
 function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){
   if(schema===3)return profileIntegrityChecksumV3(p);
   if(schema===4)return profileIntegrityChecksumV4(p);
   if(schema===5)return profileIntegrityChecksumV5(p);
   if(schema===6)return profileIntegrityChecksumV6(p);
   if(schema===7)return profileIntegrityChecksumV7(p);
+  if(schema===8)return profileIntegrityChecksumV8(p);
   return profileIntegrityChecksum(p);
 }
 function parseProfileRaw(raw){
@@ -8561,7 +8635,7 @@ function bTraceRecordStudyPositionV376(ordinal,stepIndex,complete=false,tail=nul
   if(!active||active.screen!=='trace'||active.bmode!=='trace')return;
   const rec=profile.dailyPlans[active.date];
   rec.blockProgressV373=rec.blockProgressV373||{};
-  rec.blockProgressV373[active.task.slot]={seconds:active.seconds,screen:'trace',bid:currentB.id,traceV376:{ordinal,stepIndex,complete,...(tail?{phase:'tail',choiceIndex:tail.choiceIndex}:{})}};
+  rec.blockProgressV373[active.task.slot]={seconds:active.seconds,screen:'trace',bid:currentB.id,traceV376:{ordinal,stepIndex,complete,...(tail?{phase:'tail'}:{})}};
   if(complete)rec.done[active.task.slot]=true;
 }
 async function bTraceShowPredictionV376(){
@@ -8689,7 +8763,7 @@ async function startBExercise(id,resume=null){
   document.getElementById('bStep').disabled=true;
   try{
     if(resume&&(!Number.isInteger(resume.ordinal)||resume.ordinal<1||resume.ordinal>2||!Number.isInteger(resume.stepIndex)||resume.stepIndex<-1||resume.complete))throw new Error('b_trace_resume_invalid');
-    const packet=resume?.phase==='tail'?await bTraceBridgeV376().resumeTail(id,resume.choiceIndex):resume?await bTraceBridgeV376().resume(id,resume.ordinal):await bTraceBridgeV376().start(id);
+    const packet=resume?.phase==='tail'?await bTraceBridgeV376().resumeTail(id,resume.choiceIndex??null):resume?await bTraceBridgeV376().resume(id,resume.ordinal):await bTraceBridgeV376().start(id);
     if(resume&&(resume.stepIndex>=packet.traceSegment.steps.length||(resume.phase==='tail'&&resume.stepIndex===packet.traceSegment.steps.length-1)))throw new Error('b_trace_resume_step_invalid');
     bTraceApplyPacketV376(packet);
     if(resume&&resume.stepIndex>=0){bStepIndex=resume.stepIndex;renderBStep(currentB.steps[bStepIndex]);}
@@ -9800,7 +9874,8 @@ function bSecurityCheckpointV376(saved=null){
      !Number.isInteger(attempts)||attempts<0||attempts>2||
      (answered?attempts<1:attempts>1)||
      (choiceIndex!==null&&(!Number.isInteger(choiceIndex)||choiceIndex<0||choiceIndex>3)))throw new Error('b_security_checkpoint_invalid');
-  return {index,answered,correct,first,attempts,choiceIndex};
+  const persistedChoiceIndex=!answered&&attempts===1?choiceIndex:null;
+  return {index,answered,correct,first,attempts,choiceIndex:persistedChoiceIndex};
 }
 function bSecurityRecordStudyPositionV376(complete=false){
   const active=globalThis.studyActiveV373;
@@ -11907,6 +11982,17 @@ roadmapData=function(){
 
 
 
+
+const PROFILE_PROTECTED_CHECKPOINT_RETENTION_V434_SPEC=Object.freeze({
+  policy:'strip-protected-answer-positions-from-persistent-resume-checkpoints',
+  profileSchemaVersion:9,
+  priorSchemaCompatibility:8,
+  algorithmTailResumeStoresAnswerPosition:false,
+  securityAnsweredCheckpointStoresAnswerPosition:false,
+  securityUnfinishedRetryMayStoreKnownWrongPosition:true,
+  backupAndRecoveryUseSanitizedProfile:true
+});
+globalThis.PROFILE_PROTECTED_CHECKPOINT_RETENTION_V434_SPEC=PROFILE_PROTECTED_CHECKPOINT_RETENTION_V434_SPEC;
 
 const A_MOCK_POSTSUBMIT_RETENTION_V432_SPEC=Object.freeze({
   policy:'persist-analysis-metadata-only-for-subject-a-mock',
@@ -15762,7 +15848,7 @@ function checkpointStudyBlockV373(){
   if(active.screen==='trace'&&active.bmode==='trace'&&currentB){p.bid=currentB.id;
       if(!bTracePacketV376)throw new Error('b_trace_checkpoint_packet_missing');
       const state=bTraceBridgeV376().state(),resolved=state.resolvedOrdinals.includes(bTracePacketV376.ordinal);
-      p.traceV376=bTracePacketV376.phase==='tail'?{ordinal:2,stepIndex:bStepIndex,complete:false,phase:'tail',choiceIndex:bTracePacketV376.choiceIndex}:{ordinal:resolved?Math.min(2,bTracePacketV376.ordinal+1):bTracePacketV376.ordinal,stepIndex:resolved?-1:bStepIndex,complete:false};}
+      p.traceV376=bTracePacketV376.phase==='tail'?{ordinal:2,stepIndex:bStepIndex,complete:false,phase:'tail'}:{ordinal:resolved?Math.min(2,bTracePacketV376.ordinal+1):bTracePacketV376.ordinal,stepIndex:resolved?-1:bStepIndex,complete:false};}
   if(active.screen==='trace'&&active.bmode==='security'&&currentSec){p.sid=currentSec.id;p.securityV376=bSecurityCheckpointV376();}
   // Answers have already been saved by the normal grader. Store the remaining
   // queue only; never replay a scored answer or forge a completed quiz session.
