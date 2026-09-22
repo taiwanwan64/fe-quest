@@ -8352,35 +8352,16 @@ const B_MOCK_COUNT=8;
 const B_MOCK_SECONDS=40*60;
 const B_MOCK_QUOTAS={'基礎':2,'標準':4,'応用':2};
 
-const B_MOCK_EXTRA_DISTRACTOR={
-  loop_sum:'5',array_max:'11',linear_search:'2',stack_ops:'8',recursion:'4',tree_dfs:'B',
-  count_even:'4',array_reverse:'5',nested_loop:'8',binary_search_b:'6',
-  bubble_sort_b:'[4,1,2,5]',selection_sort_b:'[1,5,2,4]',matrix_sum:'7',matrix_find:'(0,2)',
-  queue_ops:'7',linked_list:'12',bit_mask:'0001',object_counter:'2',gcd_euclid:'3',recursive_fib:'5'
-};
-
-const B_MOCK_EXPLANATION={
-  loop_sum:'i=2のときは直前のsum=1に2を加えるので、sum=3になります。',
-  array_max:'data[1]=9は現在のmax=4より大きいため、maxは9へ更新されます。',
-  linear_search:'添字は0から始まるため、12を見つけた位置はdata[3]で、posには3が入ります。',
-  stack_ops:'スタックはLIFO（Last In, First Out：後入れ先出し）です。2の上に4が積まれているので、次のPOPでは4が取り出されます。',
-  recursion:'factorialの終了条件ではfactorial(1)=1を返します。ここから呼出し元へ値が戻ります。',
-  tree_dfs:'先行順の深さ優先探索ではA→Bの次にBの左子Dへ進むので、次の出力はDです。',
-  count_even:'8は2で割り切れるので条件が真となり、countは0から1へ増えます。',
-  array_reverse:'末尾から走査しているため、5の次はdata[3]=4がoutへ追加されます。',
-  nested_loop:'外側3回×内側2回なので、countを増やす処理は合計6回実行されます。',
-  binary_search_b:'data[3]=12はtarget=21より小さいため左側を捨て、low=mid+1=4とします。',
-  bubble_sort_b:'5と2を交換すると、1走査後の配列は[1,4,2,5]になります。',
-  selection_sort_b:'未整列部分の最小値1は添字3にあるため、最終的なminPosは3です。',
-  matrix_sum:'ここまでのsum=6に最後の要素4を加えるので、合計は10です。',
-  matrix_find:'10は2行目・2列目にあり、添字が0始まりなので位置は(1,1)です。',
-  queue_ops:'キューはFIFO（First In, First Out：先入れ先出し）です。3,5の順に入っているので、次のDEQUEUEは先頭の3です。',
-  linked_list:'A=5、B=7、C=9を順に合計するため、最終sumは5+7+9=21です。',
-  bit_mask:'1101 AND 0100は0100で0ではないため、条件が真となりflag=trueです。',
-  object_counter:'value=3の状態でinc()をもう1回呼ぶので、valueは4になります。',
-  gcd_euclid:'12は6で割り切れるため12 mod 6=0です。これで次の反復で終了条件に到達します。',
-  recursive_fib:'fib(3)=fib(2)+fib(1)=1+1=2です。'
-};
+const PUBLIC_STATIC_PROTECTED_CONTENT_V436_SPEC=Object.freeze({
+  policy:'public-static-assets-metadata-only-for-protected-question-content',
+  removesLegacyMiniMockDistractorValues:true,
+  removesLegacyMiniMockExplanationText:true,
+  catalogsRemainMetadataOnly:true,
+  providerCodeContainsNoEmbeddedProtectedQuestionBank:true,
+  profileSchemaChanged:false,
+  protectedBankChanged:false
+});
+globalThis.PUBLIC_STATIC_PROTECTED_CONTENT_V436_SPEC=PUBLIC_STATIC_PROTECTED_CONTENT_V436_SPEC;
 
 if(!profile.bMockHistory) profile.bMockHistory=[];
 if(!profile.bMockStats) profile.bMockStats={};
