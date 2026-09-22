@@ -24,14 +24,13 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `3a1d2757debb9acf53dc9e83d601378f95423379`（PR #213 merge後）
-- open PR: **#214** `a-mock-postsubmit-retention-v432-20260922`
-- active work PR: **#214 科目A模試の採点後データ保持を最小化**
-- 最新本番 deploy: GitHub Actions run `35697054173`、success（PR #213 merge後）
-- main PWA cache contract: `fe-quest-v377-113`
-- PR #214 target PWA cache contract: `fe-quest-v377-114`
-- main profile schema: **7**（schema 6 checksum互換あり）
-- PR #214 target profile schema: **8**（schema 7 checksum互換を追加）
+- main: `27a1a58b343de299a91bca4ab62599d34973bd5a`（PR #214 merge後）
+- open PR: **#215** `a-practice-diagnostic-retention-v433-20260922`
+- active work PR: **#215 科目A通常演習・初回診断の採点後保持を監査**
+- 最新本番 deploy: GitHub Actions run `35699137452`、success（PR #214 merge後）
+- main PWA cache contract: `fe-quest-v377-114`
+- PR #215 target PWA cache contract: `fe-quest-v377-115`
+- profile schema: **8**（schema 7 checksum互換あり、PR #215でも変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
@@ -42,7 +41,8 @@
 - 新規二次元配列問題の復習先難易度修正 PR: #209、merged
 - 科目B総合実戦post-submit保持最小化 PR: #211、merged
 - 科目B短時間実戦post-submit保持最小化 PR: #213、merged
-- 科目A模試post-submit保持最小化 PR: #214、open（CI確認後merge予定）
+- 科目A模試post-submit保持最小化 PR: #214、merged
+- 科目A通常演習・初回診断post-submit監査 PR: #215、open（CI確認後merge予定）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1008,8 +1008,24 @@
 - profile schema: 7 → 8
 - schema 7 checksum互換を追加
 - protected bankは変更なし、active total 1180、`b_exam_algo=50`
-- PR #214 `a-mock-postsubmit-retention-v432-20260922` で実装中。**次チャットではliveのCI / merge / Pages deploy状態を必ず再確認する**
-- target PWA cache contract: `fe-quest-v377-114`
+- PR #214 merged、merge commit `27a1a58b343de299a91bca4ab62599d34973bd5a`
+- production Pages deploy run `35699137452` success
+- PWA cache contract: `fe-quest-v377-114`
+
+
+### 科目A 通常演習 / 初回診断 post-submit retention監査
+
+`.github/reference-audits/A_PRACTICE_DIAGNOSTIC_RETENTION_AUDIT_2026-09-22.md`
+
+- `qStats / sessions[].log / diagnosticScores` のprofile永続化は既にmetadata-onlyで、問題文・選択肢・正答・解説を保存していないことを確認
+- 通常演習の採点結果はUI描画後に `q.a / q.exp / q.choiceExps / q.__v376PostSubmit` を削除
+- セッション終了時に `clearSubjectASession()` と `quizItems=[]` でhydrated protected runtimeを解放
+- 解法トレーニングの保存値はユーザー入力途中式・一般条件語・選択肢index・秒数等で、protected本文の自動複製なし
+- 初回診断だけ、結果表示後も `diagnosticItems / diagAnswers` がbridge memoryに残る取り残しを発見
+- v433で結果描画直後に `diagnosticItems=[] / diagAnswers=[] / diagIndex=0 / clearProtectedCache()` を一括実行
+- profile schemaは8のまま、protected bankも変更なし
+- PR #215 `a-practice-diagnostic-retention-v433-20260922` で実装中。**次チャットではliveのCI / merge / Pages deploy状態を必ず再確認する**
+- target PWA cache contract: `fe-quest-v377-115`
 
 
 ## 6. 今後も守る教材監査方針
@@ -1033,19 +1049,19 @@
 
 ## 7. 次のデフォルト作業
 
-まず **PR #214 のlive状態を確認** する。CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
+まず **PR #215 のlive状態を確認** する。CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
 
-その後、ユーザーから別の具体的な修正指示がなければ、**科目Aの通常演習・初回診断のpost-submit persistenceをlive監査する。** 科目A模試までmetadata-only化したため、残る `sessions / qStats / diagnosticScores` 周辺に問題本文・選択肢・正答・解説などprotected本文が永続化されていないかを確認する。
+その後、ユーザーから別の具体的な修正指示がなければ、**profile全体の残存protected-text retentionを横断監査する。** 特に `reviewJourneys / mockMistakeStats / masteryHistory / techniqueStats / dailyPlans` 等の長期保存fieldと、backup / recoveryへ到達する自由記述・本文由来文字列を確認する。
 
 手順:
 
-1. `profile.sessions[].log / qStats / diagnosticScores` と関連するbackup / recovery経路の保存fieldを列挙
-2. `q / options / answer / correct / exp / explanation / choiceExplanations` 等が永続化されていないか確認
-3. 通常演習の分析・復習・学習計画が必要とする最小metadataを特定
-4. 初回診断は点数・分野scoreだけで十分か、設問detailを別経路で保持していないか確認
-5. protected内容・正答はpost-submit UIに必要な期間だけruntimeへ置く
-6. 既存のschema 8 / checksum互換を壊さずに済むか判断
-7. protected bank・公開catalog・server grading境界を変更しない
+1. `normalizeProfileData()` が永続化する全主要fieldを再列挙
+2. 各fieldについて問題文・選択肢・正答・解説・protected render metadata由来の文字列が入る書込箇所を検索
+3. `reviewJourneys / mockMistakeStats / masteryHistory / techniqueStats / dailyPlans` を優先監査
+4. user-authored文字列とprotected content由来文字列を区別する
+5. backup / atomic envelope / recovery snapshotが同じnormalization境界を通ることを再確認
+6. 永続本文が見つかった場合だけmetadata-only sanitizerまたはruntime分離を行う
+7. profile schema 8と既存checksum互換を不用意に変更しない
 8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
