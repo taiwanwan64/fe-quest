@@ -165,6 +165,35 @@ jobs:
           if(target?.level!=='標準'||item?.level!=='標準'||item?.domain!=='二次元配列')throw new Error('mat05 remediation level contract drift');
           console.log('PASS Subject B mat05 remediation parity v429');
           NODE
+      - name: Validate Subject B post-submit retention contract
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const required=[
+            "const PROFILE_SCHEMA_VERSION = 6;",
+            "policy:'persist-analysis-metadata-only-after-final-submit'",
+            "function bFinalHistoryAttemptForPersistenceV430(value)",
+            "function normalizeBFinalHistoryForPersistenceV430(value)",
+            "out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);",
+            "function normalizeProfileDataV5ForChecksum(input)",
+            "function profileIntegrityChecksumV5(p)",
+            "if(schema===5)return profileIntegrityChecksumV5(p);",
+            "const actual=profileChecksumForSchema(candidate,schema);",
+            "profile.bFinalHistory=[persistedAttempt,...(profile.bFinalHistory||[])].slice(0,20)",
+            "finishBFinalLegacyV376(timeUp);bFinalReleaseExamRuntimeV430();bFinalClearProtectedV376();return true;",
+            "clearsImmediateResultMemoryWhenLeavingReview:true"
+          ];
+          for(const token of required)if(!app.includes(token))throw new Error('missing v430 retention contract: '+token);
+          if(app.includes('profile.bFinalHistory=[attempt,...'))throw new Error('full final attempt must not be persisted');
+          const fnStart=app.indexOf('function bFinalHistoryDetailForPersistenceV430');
+          const fnEnd=app.indexOf('function bFinalHistoryAttemptForPersistenceV430',fnStart);
+          const detailFn=fnStart>=0&&fnEnd>fnStart?app.slice(fnStart,fnEnd):'';
+          for(const forbidden of ['questionId','sourceId','title','selected','correct:','explain','studyMode']){
+            if(detailFn.includes(forbidden))throw new Error('protected/detail field persisted: '+forbidden);
+          }
+          console.log('PASS Subject B post-submit retention v430');
+          NODE
       - name: Validate bilingual learning terminology
         run: |
           grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
@@ -189,11 +218,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-111';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-112';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-111" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-112" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -862,7 +891,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-111';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-112';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
