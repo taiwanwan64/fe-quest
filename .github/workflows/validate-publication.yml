@@ -171,7 +171,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 6;",
+            "const PROFILE_SCHEMA_VERSION = 7;",
             "policy:'persist-analysis-metadata-only-after-final-submit'",
             "function bFinalHistoryAttemptForPersistenceV430(value)",
             "function normalizeBFinalHistoryForPersistenceV430(value)",
@@ -193,6 +193,49 @@ jobs:
             if(detailFn.includes(forbidden))throw new Error('protected/detail field persisted: '+forbidden);
           }
           console.log('PASS Subject B post-submit retention v430');
+          NODE
+      - name: Validate Subject B short-practice retention contract
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const required=[
+            "const PROFILE_SCHEMA_VERSION = 7;",
+            "policy:'persist-analysis-metadata-only-for-short-subject-b-practice'",
+            "profileSchemaVersion:7",
+            "priorSchemaCompatibility:6",
+            "function bMockHistoryAttemptForPersistenceV431(value)",
+            "function bCompoundHistoryAttemptForPersistenceV431(value)",
+            "function securityMockHistoryAttemptForPersistenceV431(value)",
+            "out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);",
+            "out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);",
+            "out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);",
+            "function normalizeProfileDataV6ForChecksum(input)",
+            "function profileIntegrityChecksumV6(p)",
+            "if(schema===6)return profileIntegrityChecksumV6(p);",
+            "profile.bMockHistory=[persistedAttempt,...(profile.bMockHistory||[])].slice(0,20)",
+            "profile.bCompoundHistory=[persistedAttempt,...(profile.bCompoundHistory||[])].slice(0,20)",
+            "profile.securityMockHistory=[persistedAttempt,...(profile.securityMockHistory||[])].slice(0,20)",
+            "clearsReviewMemoryWhenLeavingResult:true"
+          ];
+          for(const token of required)if(!app.includes(token))throw new Error('missing v431 short-practice retention contract: '+token);
+          for(const forbiddenDirect of [
+            'profile.bMockHistory=[attempt,...',
+            'profile.securityMockHistory=[attempt,...',
+            'profile.bCompoundHistory=[{date:localDateISO(0)'
+          ])if(app.includes(forbiddenDirect))throw new Error('full short-practice attempt persisted: '+forbiddenDirect);
+          const detailFns=[
+            ['function bMockHistoryDetailForPersistenceV431','function bMockHistoryAttemptForPersistenceV431',['id','exId','title','q:','selected','correct:','explain']],
+            ['function bCompoundHistoryDetailForPersistenceV431','function bCompoundHistoryAttemptForPersistenceV431',['q:','selected','correct:','exp','point','pitfall']],
+            ['function securityMockHistoryDetailForPersistenceV431','function securityMockHistoryAttemptForPersistenceV431',['title','concept','q:','selected','correct:','explain']]
+          ];
+          for(const [startToken,endToken,forbidden] of detailFns){
+            const start=app.indexOf(startToken),end=app.indexOf(endToken,start);
+            const body=start>=0&&end>start?app.slice(start,end):'';
+            if(!body)throw new Error('missing detail sanitizer '+startToken);
+            for(const field of forbidden)if(body.includes(field))throw new Error('protected review field persisted in '+startToken+': '+field);
+          }
+          console.log('PASS Subject B short-practice retention v431');
           NODE
       - name: Validate bilingual learning terminology
         run: |
@@ -218,11 +261,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-112';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-113';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-112" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-113" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -891,7 +934,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-112';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-113';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
