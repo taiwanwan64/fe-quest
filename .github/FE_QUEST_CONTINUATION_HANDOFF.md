@@ -24,12 +24,12 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `a823753f591cb0b265343ed594bf3747a6070637`（PR #217 merge後）
-- open PR: **#218** `public-static-protected-audit-v436-20260923`
-- active work PR: **#218 公開assetのprotected残存を除去**
-- 最新本番 deploy: GitHub Actions run `35715768128`、success（PR #217 merge後）
-- main PWA cache contract: `fe-quest-v377-117`
-- PR #218 target PWA cache contract: `fe-quest-v377-118`
+- main: `bf918d02d7cc8984bed17de25b9104a1965cf96d`（PR #218 merge後）
+- open PR: **#219** `pages-current-provider-only-v437-20260923`
+- active work PR: **#219 Pages配信を現行providerだけに整理**
+- 最新本番 deploy: GitHub Actions run `35791662537`、success（PR #218 merge後）
+- main PWA cache contract: `fe-quest-v377-118`
+- PR #219 target PWA cache contract: `fe-quest-v377-119`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -45,7 +45,8 @@
 - 科目A通常演習・初回診断post-submit監査 PR: #215、merged
 - Profile全体protected checkpoint retention監査 PR: #216、merged
 - Protected runtime lifetime / B-final resume監査 PR: #217、merged
-- 公開static protected-content残存監査 PR: #218、open（publication / v35 CIの初回success確認済み）
+- 公開static protected-content残存監査 PR: #218、merged
+- Pages current-provider surface整理 PR: #219、open（publication / v35 CIの初回success確認済み）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1081,8 +1082,24 @@
 - 両constantにはread siteがなく、v436で安全に削除
 - Pages artifact側でも同じabsence / metadata-only catalog contractを検証
 - profile schemaは9のまま、protected bank変更なし、active total 1180、`b_exam_algo=50`
-- PR #218 `public-static-protected-audit-v436-20260923` で実装中。初回publication / v35 CI success確認済み。**handoff更新後の最新head CI / merge / Pages deployをlive再確認する**
-- target PWA cache contract: `fe-quest-v377-118`
+- PR #218 merged、merge commit `bf918d02d7cc8984bed17de25b9104a1965cf96d`
+- production Pages deploy run `35791662537` success
+- PWA cache contract: `fe-quest-v377-118`
+
+
+### Pages current-provider surface監査
+
+`.github/reference-audits/PAGES_CURRENT_PROVIDER_SURFACE_AUDIT_2026-09-23.md`
+
+- current runtimeは `index.html` のbase providerと `public-config` が動的loadするlatest v35 providerだけを使用することを確認
+- v35 providerはhistorical metadata catalogを直接合成し、historical provider JS v7〜v34をimportしない
+- 旧provider JS 28本（約527KB）がPagesとservice-worker precacheに残っていたため、v437でbrowser/offline surfaceから除外
+- metadata catalog群はcurrent v35 providerが利用するため維持
+- GitHub repository上のhistorical provider sourceはtraceabilityのため削除しない
+- publication / deploy CIでPages artifactとSWからv7〜v34が除外され、base + v35が残ることを検証
+- profile schemaは9のまま、protected bank変更なし、active total 1180、`b_exam_algo=50`
+- PR #219 `pages-current-provider-only-v437-20260923` で実装中。初回publication / v35 CI success確認済み。**handoff更新後の最新head CI / merge / Pages deployをlive再確認する**
+- target PWA cache contract: `fe-quest-v377-119`
 
 
 ## 6. 今後も守る教材監査方針
@@ -1106,19 +1123,19 @@
 
 ## 7. 次のデフォルト作業
 
-まず **PR #218 のlive状態を確認** する。handoff更新後の最新head CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
+まず **PR #219 のlive状態を確認** する。handoff更新後の最新head CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
 
-その後、ユーザーから別の具体的な修正指示がなければ、**historical provider / precacheの不要公開assetを整理できるか監査する。** v436でprotected本文の静的残存は重点監査したため、次は現在runtimeが直接使うbase + latest v35 providerと、service worker / validation matrixに残る旧provider v7〜v34の役割を分離する。
+その後、ユーザーから別の具体的な修正指示がなければ、**科目Bアルゴリズム ミニ模試のcurrent protected runtime経路を機能監査する。** static監査中、legacy `bMockCandidateFromExercise()` がredacted stubのまま残っていることを確認したため、実際のcurrent start / build / grade経路がprotected bridgeへ置換済みか、または0問化し得る死んだlegacy経路が残っていないかをlive codeで確定する。
 
 手順:
 
-1. `index.html / public-config / activation-loader` から現行providerロード経路を再確認
-2. latest v35 providerが必要とするhistorical catalogと、不要なhistorical provider JSを区別
-3. old provider JSをSW precacheから外してもoffline/current runtimeが成立するか確認
-4. publication / deploy CIが旧providerの存在を要求している理由を確認
-5. repository source削除とPages-only exclusionを分けてリスク評価
-6. 学習機能・catalog 1180件・server gradingに影響しない場合だけ最小限整理
-7. 変更する場合はPWA cache更新・監査記録・CI・merge・Pages deployまで確認
+1. `startBMiniMock / buildBMock / finishBMiniMock` の全定義・wrapper・再代入を列挙
+2. `protected-b-exam-bridge-v376.js` の公開APIとmini mock呼出し側を照合
+3. current UIの「アルゴリズム ミニ模試」開始イベントから実際のhydration / gradingまで追跡
+4. redacted legacy builderがcurrent routeなら、protected bridgeで問題ID選択→hydrate→server gradeする最小修正を行う
+5. 8問・40分、基礎2/標準4/応用2、履歴metadata-only、post-submit cleanupを維持
+6. protected bankを公開assetへ戻さず、既存1180問・`b_exam_algo=50`を変更しない
+7. 必要なら監査記録 → PR → CI → merge → Pages deployまで確認
 
 ## 8. リポジトリと保護教材の役割
 
