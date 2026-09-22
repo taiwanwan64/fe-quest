@@ -3,8 +3,11 @@
 
 const provider=()=>globalThis.FEQUEST_PROTECTED_CONTENT;
 const SOURCE_POOL='b_exercise';
+const MINI_MOCK_SIZE=8;
+const MINI_MOCK_QUOTAS=Object.freeze({'基礎':2,'標準':4,'応用':2});
 let activeParentId='';
 let entries=[];
+let miniMockEntries=[];
 let activeOrdinal=0;
 const resolvedOrdinals=new Set();
 const hydratedIds=new Set();
@@ -157,6 +160,78 @@ async function grade(questionId,choiceIndex){
   }
 }
 
+function miniMockPacket(question,entry){
+  const segment=validatePacketQuestion(question,entry);
+  return Object.freeze({
+    parentId:safeId(entry.parentId),
+    ordinal:Number(entry.ordinal)||1,
+    questionId:entry.id,
+    level:entry.level||'',
+    concept:entry.concept||'',
+    stem:question.stem,
+    options:Object.freeze([...question.options]),
+    hint:typeof question.hint==='string'?question.hint:'',
+    traceSegment:Object.freeze(cloneValue(segment)),
+  });
+}
+
+function miniMockQuotaValid(rows){
+  const counts={'基礎':0,'標準':0,'応用':0};
+  for(const row of rows){
+    if(!(row?.level in counts))return false;
+    counts[row.level]+=1;
+  }
+  return Object.entries(MINI_MOCK_QUOTAS).every(([level,count])=>counts[level]===count);
+}
+
+async function startMiniMockSession(questionIds){
+  clear();
+  if(!(await requestAccess()))throw new Error('beta_access_cancelled');
+  if(!Array.isArray(questionIds)||questionIds.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_question_count_invalid');
+  const ids=questionIds.map(safeId);
+  if(ids.some(id=>!id)||new Set(ids).size!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_question_ids_invalid');
+  const catalog=await provider().loadCatalog();
+  const byId=new Map((catalog?.items||[]).filter(item=>item?.sourcePool===SOURCE_POOL).map(item=>[item.id,item]));
+  miniMockEntries=ids.map(id=>byId.get(id));
+  if(miniMockEntries.some(item=>!item))throw new Error('b_mini_mock_catalog_item_missing');
+  if(new Set(miniMockEntries.map(item=>safeId(item.parentId))).size!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_parent_duplicate');
+  if(!miniMockQuotaValid(miniMockEntries))throw new Error('b_mini_mock_level_quota_invalid');
+  const hydrated=await provider().hydrate(ids);
+  const questions=hydrated?.questions||[];
+  if(questions.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_hydration_incomplete');
+  const packets=miniMockEntries.map(entry=>{
+    const question=questions.find(item=>item.id===entry.id);
+    const packet=miniMockPacket(question,entry);
+    hydratedIds.add(entry.id);
+    return packet;
+  });
+  return Object.freeze(packets);
+}
+
+async function gradeMiniMockSession(choiceIndexes){
+  if(miniMockEntries.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_session_missing');
+  if(!Array.isArray(choiceIndexes)||choiceIndexes.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_answers_invalid');
+  const out=[];
+  for(let i=0;i<miniMockEntries.length;i++){
+    const entry=miniMockEntries[i],choice=choiceIndexes[i],blank=choice===null||choice===undefined;
+    if(!blank&&(!Number.isInteger(choice)||choice<0||choice>3))throw new Error('choice_index_invalid');
+    const submitted=blank?0:choice;
+    const result=await provider().submit(entry.id,submitted);
+    if(result?.questionId!==entry.id||typeof result?.correct!=='boolean'||!Number.isInteger(result?.answerIndex))throw new Error('b_mini_mock_grade_invalid');
+    out.push(Object.freeze({
+      questionId:entry.id,
+      blank,
+      selectedChoiceIndex:blank?null:choice,
+      correct:blank?false:result.correct,
+      answerIndex:result.answerIndex,
+      explanation:typeof result.explanation==='string'?result.explanation:'',
+      postSubmit:result.postSubmit&&typeof result.postSubmit==='object'?Object.freeze({...result.postSubmit}):Object.freeze({}),
+    }));
+    provider().forgetAnswer?.(entry.id);
+  }
+  return Object.freeze(out);
+}
+
 async function next(){
   if(!activeOrdinal||!resolvedOrdinals.has(activeOrdinal))throw new Error('b_trace_current_prediction_unresolved');
   if(activeOrdinal>=entries.length)return null;
@@ -166,24 +241,26 @@ async function next(){
 function clear(){
   const ids=[...hydratedIds];
   hydratedIds.clear();
-  activeParentId='';entries=[];activeOrdinal=0;resolvedOrdinals.clear();
+  activeParentId='';entries=[];miniMockEntries=[];activeOrdinal=0;resolvedOrdinals.clear();
   if(ids.length)provider()?.clearHydrated?.(ids);
   return ids.length;
 }
 
-function state(){return Object.freeze({parentId:activeParentId,activeOrdinal,resolvedOrdinals:Object.freeze([...resolvedOrdinals]),hydratedIds:Object.freeze([...hydratedIds])})}
+function state(){return Object.freeze({parentId:activeParentId,activeOrdinal,resolvedOrdinals:Object.freeze([...resolvedOrdinals]),miniMockQuestionIds:Object.freeze(miniMockEntries.map(item=>item.id)),hydratedIds:Object.freeze([...hydratedIds])})}
 function reportError(error){
   if(error?.status===401||error?.status===403||String(error?.message||'').startsWith('beta_access'))provider()?.clearAccessCode?.();
   toast('科目Bの問題読み込みまたは採点に失敗しました。通信状態とアクセスコードを確認してください。');
 }
 
 globalThis.FEQUEST_V376_B_TRACE=Object.freeze({
-  version:'v376-b-trace-1',
+  version:'v376-b-trace-2-mini-mock',
   start,
   resume:(parentId,ordinal)=>start(parentId,ordinal),
   resumeTail,
   grade,
   next,
+  startMiniMockSession,
+  gradeMiniMockSession,
   clear,
   state,
   reportError,
