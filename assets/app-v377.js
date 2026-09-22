@@ -339,7 +339,7 @@ const RECOVERY_DB_VERSION = 1;
 const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
-const PROFILE_SCHEMA_VERSION = 6;
+const PROFILE_SCHEMA_VERSION = 7;
 const APP_VERSION = 'v377';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
@@ -434,6 +434,83 @@ function bFinalHistoryAttemptForPersistenceV430(value){
 function normalizeBFinalHistoryForPersistenceV430(value){
   return safeArray(value,100).map(bFinalHistoryAttemptForPersistenceV430);
 }
+function bMockHistoryDetailForPersistenceV431(value){
+  const d=isPlainObject(value)?value:{};
+  return {
+    level:typeof d.level==='string'?d.level:'',
+    ok:!!d.ok
+  };
+}
+function bMockHistoryAttemptForPersistenceV431(value){
+  const h=isPlainObject(value)?value:{};
+  const total=Math.max(1,nonNegativeInt(h.total,8));
+  const correct=Math.min(total,nonNegativeInt(h.correct,0));
+  const blank=Math.min(total-correct,nonNegativeInt(h.blank,0));
+  const rate=Number.isFinite(Number(h.rate))?boundedPercent(h.rate,0):Math.round(correct/total*100);
+  return {
+    date:typeof h.date==='string'?h.date:'',
+    total,correct,blank,rate,
+    seconds:nonNegativeInt(h.seconds,0),
+    timeUp:!!h.timeUp,
+    details:safeArray(h.details,20).map(bMockHistoryDetailForPersistenceV431)
+  };
+}
+function normalizeBMockHistoryForPersistenceV431(value){
+  return safeArray(value,100).map(bMockHistoryAttemptForPersistenceV431);
+}
+function bCompoundHistoryDetailForPersistenceV431(value){
+  const d=isPlainObject(value)?value:{};
+  return {
+    kind:typeof d.kind==='string'?d.kind:'',
+    qlevel:typeof d.qlevel==='string'?d.qlevel:'',
+    ok:!!d.ok
+  };
+}
+function bCompoundHistoryAttemptForPersistenceV431(value){
+  const h=isPlainObject(value)?value:{};
+  const total=Math.max(1,nonNegativeInt(h.total,3));
+  const correct=Math.min(total,nonNegativeInt(h.correct,0));
+  const blank=Math.min(total-correct,nonNegativeInt(h.blank,0));
+  const rate=Number.isFinite(Number(h.rate))?boundedPercent(h.rate,0):Math.round(correct/total*100);
+  return {
+    date:typeof h.date==='string'?h.date:'',
+    id:typeof h.id==='string'?h.id:'',
+    title:typeof h.title==='string'?h.title:'',
+    level:typeof h.level==='string'?h.level:'',
+    total,correct,blank,rate,
+    seconds:nonNegativeInt(h.seconds,0),
+    timeUp:!!h.timeUp,
+    details:safeArray(h.details,10).map(bCompoundHistoryDetailForPersistenceV431)
+  };
+}
+function normalizeBCompoundHistoryForPersistenceV431(value){
+  return safeArray(value,100).map(bCompoundHistoryAttemptForPersistenceV431);
+}
+function securityMockHistoryDetailForPersistenceV431(value){
+  const d=isPlainObject(value)?value:{};
+  return {
+    scenarioId:typeof d.scenarioId==='string'?d.scenarioId:'',
+    level:typeof d.level==='string'?d.level:'',
+    ok:!!d.ok
+  };
+}
+function securityMockHistoryAttemptForPersistenceV431(value){
+  const h=isPlainObject(value)?value:{};
+  const total=Math.max(1,nonNegativeInt(h.total,8));
+  const correct=Math.min(total,nonNegativeInt(h.correct,0));
+  const blank=Math.min(total-correct,nonNegativeInt(h.blank,0));
+  const rate=Number.isFinite(Number(h.rate))?boundedPercent(h.rate,0):Math.round(correct/total*100);
+  return {
+    date:typeof h.date==='string'?h.date:'',
+    total,correct,blank,rate,
+    seconds:nonNegativeInt(h.seconds,0),
+    timeUp:!!h.timeUp,
+    details:safeArray(h.details,20).map(securityMockHistoryDetailForPersistenceV431)
+  };
+}
+function normalizeSecurityMockHistoryForPersistenceV431(value){
+  return safeArray(value,100).map(securityMockHistoryAttemptForPersistenceV431);
+}
 function normalizeProgressMap(v){
   const out={};
   Object.entries(safeObject(v)).forEach(([k,val])=>{
@@ -511,9 +588,9 @@ function normalizeProfileData(input){
   out.sessions=safeArray(p.sessions,3000);
   out.activity=safeObject(p.activity);
   out.mockHistory=safeArray(p.mockHistory,100);
-  out.bMockHistory=safeArray(p.bMockHistory,100);
-  out.bCompoundHistory=safeArray(p.bCompoundHistory,100);
-  out.securityMockHistory=safeArray(p.securityMockHistory,100);
+  out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);
+  out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);
+  out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);
   out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);
 
   return out;
@@ -633,10 +710,48 @@ function normalizeProfileDataV5ForChecksum(input){
 function profileIntegrityChecksumV5(p){
   return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV5ForChecksum(p)))}`;
 }
+// v431: schema v6 checksum compatibility preserves the exact v430 normalization:
+// short Subject-B practice histories remain full, while bFinalHistory is already metadata-only.
+function normalizeProfileDataV6ForChecksum(input){
+  const p=isPlainObject(input)?input:{};
+  const base=structuredClone(DEFAULT_PROFILE);
+  base.profileSchemaVersion=6;
+  const out={...base,...p};
+  out.profileSchemaVersion=6;
+  out.profileMeta={...structuredClone(base.profileMeta),...safeObject(p.profileMeta)};
+  out.profileMeta.revision=nonNegativeInt(out.profileMeta.revision,0);
+  out.profileMeta.lastWriterId=typeof out.profileMeta.lastWriterId==='string'?out.profileMeta.lastWriterId:null;
+  out.masteryHistory=safeObject(p.masteryHistory);
+  out.xp=nonNegativeInt(p.xp,0);
+  out.streak=nonNegativeInt(p.streak,0);
+  out.diagnosticCompleted=!!p.diagnosticCompleted;
+  out.diagnosticScores=safeObject(p.diagnosticScores);
+  out.skills={};
+  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));
+  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;
+  out.lessonProgress=normalizeProgressMap(p.lessonProgress);
+  out.bProgress=normalizeProgressMap(p.bProgress);
+  out.securityBProgress=normalizeProgressMap(p.securityBProgress);
+  ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',
+   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'
+  ].forEach(key=>out[key]=safeObject(p[key]));
+  out.sessions=safeArray(p.sessions,3000);
+  out.activity=safeObject(p.activity);
+  out.mockHistory=safeArray(p.mockHistory,100);
+  out.bMockHistory=safeArray(p.bMockHistory,100);
+  out.bCompoundHistory=safeArray(p.bCompoundHistory,100);
+  out.securityMockHistory=safeArray(p.securityMockHistory,100);
+  out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);
+  return out;
+}
+function profileIntegrityChecksumV6(p){
+  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV6ForChecksum(p)))}`;
+}
 function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){
   if(schema===3)return profileIntegrityChecksumV3(p);
   if(schema===4)return profileIntegrityChecksumV4(p);
   if(schema===5)return profileIntegrityChecksumV5(p);
+  if(schema===6)return profileIntegrityChecksumV6(p);
   return profileIntegrityChecksum(p);
 }
 function parseProfileRaw(raw){
@@ -7929,6 +8044,10 @@ if(!profile.bCompoundHistory)profile.bCompoundHistory=[];
 if(!profile.bCompoundStats)profile.bCompoundStats={};
 void 0;/* FEQUEST_V376_REDACTED_PROTECTED_MUTATION */
 let bCompoundSet=null,bCompoundAnswers=[],bCompoundIndex=0,bCompoundSeconds=B_COMPOUND_SECONDS,bCompoundTimerId=null,bCompoundStartedAt=null;
+function bCompoundReleaseResultMemoryV431(){
+  bCompoundAnswers=[];bCompoundIndex=0;bCompoundStartedAt=null;bCompoundSeconds=B_COMPOUND_SECONDS;
+  const review=document.getElementById('bCompoundReview');if(review)review.replaceChildren();
+}
 function randomizeCompoundSet(set){const out=structuredClone(set);out.qs=out.qs.map(q=>{const correct=q.opts[q.a];const opts=shuffled(q.opts);return {...q,opts,a:opts.indexOf(correct)}});return out}
 function chooseCompoundSet(){const picked=[...B_COMPOUND_SETS].sort((a,b)=>{const sa=profile.bCompoundStats[a.id]?.seen||0,sb=profile.bCompoundStats[b.id]?.seen||0;if(sa!==sb)return sa-sb;const la=profile.bCompoundStats[a.id]?.lastSeen||'',lb=profile.bCompoundStats[b.id]?.lastSeen||'';if(la!==lb)return la.localeCompare(lb);return Math.random()-.5})[0];return randomizeCompoundSet(picked)}
 function bExamBridgeV376(){
@@ -7983,6 +8102,7 @@ async function startCompoundChallenge(){
   if(startBtn)startBtn.disabled=true;if(retryBtn)retryBtn.disabled=true;
   try{
     bCompoundClearProtectedV376();
+    bCompoundReleaseResultMemoryV431();
     if(!profile.bCompoundHistory)profile.bCompoundHistory=[];
     if(!profile.bCompoundStats)profile.bCompoundStats={};
     const picked=[...B_COMPOUND_SETS].sort((a,b)=>{
@@ -8023,7 +8143,7 @@ function stopCompoundTimer(){if(bCompoundTimerId){clearInterval(bCompoundTimerId
 function updateCompoundTimer(){const t=document.getElementById('bCompoundTimer');if(!t)return;t.textContent=bMockFormatTime(bCompoundSeconds);t.classList.toggle('warn',bCompoundSeconds<=300&&bCompoundSeconds>120);t.classList.toggle('danger',bCompoundSeconds<=120)}
 function renderCompoundQuestion(){const q=bCompoundSet.qs[bCompoundIndex],ans=bCompoundAnswers[bCompoundIndex];const diffClass=q.qlevel==='基礎'?'diff-basic':q.qlevel==='応用'?'diff-advanced':'diff-standard';document.getElementById('bCompoundQProgress').innerHTML=`設問 ${bCompoundIndex+1} / 3 <span class="bcompound-kind">${escapeHtml(q.kind||'トレース')}</span> <span class="bcompound-kind ${diffClass}">${escapeHtml(q.qlevel||'標準')}</span>`;document.getElementById('bCompoundQuestion').textContent=q.q;document.getElementById('bCompoundOptions').innerHTML=q.opts.map((opt,i)=>`<button class="bmock-option ${ans===i?'selected':''}" data-copt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');document.querySelectorAll('[data-copt]').forEach(btn=>btn.onclick=()=>{bCompoundAnswers[bCompoundIndex]=Number(btn.dataset.copt);renderCompoundQuestion()});document.getElementById('bCompoundPrev').disabled=bCompoundIndex===0;document.getElementById('bCompoundNext').textContent=bCompoundIndex===2?'提出へ':'次へ →';document.getElementById('bCompoundQNav').innerHTML=bCompoundSet.qs.map((_,i)=>`<button class="${bCompoundAnswers[i]!==null?'answered':''} ${i===bCompoundIndex?'current':''}" data-cq="${i}">${i+1}</button>`).join('');document.querySelectorAll('[data-cq]').forEach(btn=>btn.onclick=()=>{bCompoundIndex=Number(btn.dataset.cq);renderCompoundQuestion()})}
 function askSubmitCompound(){const blank=bCompoundAnswers.filter(x=>x===null).length;if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishCompoundChallenge(false)}
-function finishCompoundChallengeLegacyV376(timeUp=false){if(!bCompoundSet)return;stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);profile.bCompoundHistory=[{date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details},...(profile.bCompoundHistory||[])].slice(0,20);saveProfile();document.getElementById('bCompoundExam')?.classList.remove('show');document.getElementById('bCompoundResult')?.classList.add('show');document.getElementById('bCompoundResultScore').textContent=`${correct} / 3`;document.getElementById('bCompoundResultMessage').textContent=correct===3?`長いコードを最後まで読み切れています。+${earned} XP`:correct===2?`あと一歩です。間違えた設問の途中状態を確認しましょう。+${earned} XP`:`紙に途中値を書きながら再挑戦するのがおすすめです。+${earned} XP`;document.getElementById('bCompoundCorrect').textContent=correct;document.getElementById('bCompoundWrong').textContent=3-correct-blank;document.getElementById('bCompoundBlank').textContent=blank;document.getElementById('bCompoundTime').textContent=bMockFormatTime(used);document.getElementById('bCompoundReview').innerHTML=details.map((d,i)=>`<div class="bcompound-review-item ${d.ok?'correct':'wrong'}"><b>設問${i+1} ${d.ok?'✓ 正解':'✕ 要確認'}</b><div class="bcompound-review-meta"><span>${escapeHtml(d.kind)}</span><span>${escapeHtml(d.qlevel)}</span></div><div class="bcompound-review-q">${escapeHtml(d.q)}</div><div class="bcompound-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bcompound-review-box"><b>考え方</b><span>${escapeHtml(d.exp)}</span></div><div class="bcompound-review-box"><b>見るポイント</b><span>${escapeHtml(d.point)}</span></div><div class="bcompound-review-box pitfall"><b>間違えやすい点</b><span>${escapeHtml(d.pitfall)}</span></div></div>`).join('')}
+function finishCompoundChallengeLegacyV376(timeUp=false){if(!bCompoundSet)return;stopCompoundTimer();const used=Math.min(B_COMPOUND_SECONDS,Math.max(0,Math.round((Date.now()-(bCompoundStartedAt||Date.now()))/1000)));let correct=0,blank=0;const details=bCompoundSet.qs.map((q,i)=>{const ans=bCompoundAnswers[i],ok=ans===q.a;if(ok)correct++;if(ans===null)blank++;return{q:q.q,selected:ans===null?null:q.opts[ans],correct:q.opts[q.a],ok,exp:q.exp,kind:q.kind||'トレース',qlevel:q.qlevel||'標準',point:q.point||'',pitfall:q.pitfall||''}});const rate=Math.round(correct/3*100),earned=correct*12+(correct===3?15:0);profile.xp=(profile.xp||0)+earned;const st=profile.bCompoundStats[bCompoundSet.id];st.seen=(st.seen||0)+1;st.correct=(st.correct||0)+correct;st.lastSeen=localDateISO(0);const attempt={date:localDateISO(0),id:bCompoundSet.id,title:bCompoundSet.title,level:bCompoundSet.level,total:3,correct,blank,rate,seconds:used,timeUp,details};const persistedAttempt=bCompoundHistoryAttemptForPersistenceV431(attempt);profile.bCompoundHistory=[persistedAttempt,...(profile.bCompoundHistory||[])].slice(0,20);saveProfile();document.getElementById('bCompoundExam')?.classList.remove('show');document.getElementById('bCompoundResult')?.classList.add('show');document.getElementById('bCompoundResultScore').textContent=`${correct} / 3`;document.getElementById('bCompoundResultMessage').textContent=correct===3?`長いコードを最後まで読み切れています。+${earned} XP`:correct===2?`あと一歩です。間違えた設問の途中状態を確認しましょう。+${earned} XP`:`紙に途中値を書きながら再挑戦するのがおすすめです。+${earned} XP`;document.getElementById('bCompoundCorrect').textContent=correct;document.getElementById('bCompoundWrong').textContent=3-correct-blank;document.getElementById('bCompoundBlank').textContent=blank;document.getElementById('bCompoundTime').textContent=bMockFormatTime(used);document.getElementById('bCompoundReview').innerHTML=details.map((d,i)=>`<div class="bcompound-review-item ${d.ok?'correct':'wrong'}"><b>設問${i+1} ${d.ok?'✓ 正解':'✕ 要確認'}</b><div class="bcompound-review-meta"><span>${escapeHtml(d.kind)}</span><span>${escapeHtml(d.qlevel)}</span></div><div class="bcompound-review-q">${escapeHtml(d.q)}</div><div class="bcompound-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="bcompound-review-box"><b>考え方</b><span>${escapeHtml(d.exp)}</span></div><div class="bcompound-review-box"><b>見るポイント</b><span>${escapeHtml(d.point)}</span></div><div class="bcompound-review-box pitfall"><b>間違えやすい点</b><span>${escapeHtml(d.pitfall)}</span></div></div>`).join('')}
 async function finishCompoundChallenge(timeUp=false){
   if(!bCompoundSet||bCompoundGradeBusyV376)return false;
   bCompoundGradeBusyV376=true;
@@ -8049,6 +8169,7 @@ async function finishCompoundChallenge(timeUp=false){
     });
     finishCompoundChallengeLegacyV376(timeUp);
     bCompoundClearProtectedV376();
+    bCompoundAnswers=[];bCompoundIndex=0;bCompoundStartedAt=null;bCompoundSeconds=B_COMPOUND_SECONDS;
     return true;
   }catch(error){
     bExamBridgeV376().reportError?.(error);
@@ -8058,7 +8179,7 @@ async function finishCompoundChallenge(timeUp=false){
     bCompoundGradeBusyV376=false;
   }
 }
-document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}});
+document.getElementById('bCompoundStart')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundRetry')?.addEventListener('click',startCompoundChallenge);document.getElementById('bCompoundBackMenu')?.addEventListener('click',()=>{stopCompoundTimer();document.getElementById('bCompoundResult')?.classList.remove('show');bCompoundReleaseResultMemoryV431();continueSubjectBFlow()});document.getElementById('bCompoundPrev')?.addEventListener('click',()=>{if(bCompoundIndex>0){bCompoundIndex--;renderCompoundQuestion()}});document.getElementById('bCompoundNext')?.addEventListener('click',()=>{if(bCompoundIndex<2){bCompoundIndex++;renderCompoundQuestion()}else askSubmitCompound()});document.getElementById('bCompoundSubmit')?.addEventListener('click',askSubmitCompound);document.getElementById('bCompoundExit')?.addEventListener('click',()=>{if(confirm('複合問題を終了しますか？回答は保存されません。')){stopCompoundTimer();document.getElementById('bCompoundExam')?.classList.remove('show');showBMockMenu()}});
 
 const B_MOCK_COUNT=8;
 const B_MOCK_SECONDS=40*60;
@@ -8100,6 +8221,15 @@ void 0;/* FEQUEST_V376_REDACTED_PROTECTED_MUTATION */
 
 let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0;
 let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null;
+function bMockReleaseRuntimeV431(){
+  bMockItems=[];bMockAnswers=[];bMockFlags=new Set();bMockIndex=0;
+  bMockStartedAt=null;bMockSeconds=B_MOCK_SECONDS;
+}
+function bMockReleaseResultMemoryV431(){
+  lastBMockAttempt=null;
+  const review=document.getElementById('bMockReviewList');if(review)review.replaceChildren();
+  const breakdown=document.getElementById('bMockBreakdown');if(breakdown)breakdown.replaceChildren();
+}
 
 function bMockCandidateFromExercise(){return undefined;}/* FEQUEST_V376_REDACTED_RESIDUAL_QUESTION_FUNCTION */
 
@@ -8164,6 +8294,9 @@ function renderBMockMenu(){
 function showBMockMenu(){
   stopBMockTimer();
   stopCompoundTimer();
+  bMockReleaseRuntimeV431();
+  bMockReleaseResultMemoryV431();
+  bCompoundReleaseResultMemoryV431();
   document.getElementById('bSelect')?.classList.add('hidden');
   document.getElementById('secSelect')?.classList.add('hidden');
   document.getElementById('bLab')?.classList.remove('show');
@@ -8177,6 +8310,7 @@ function showBMockMenu(){
 }
 
 function startBMiniMock(){
+  bMockReleaseResultMemoryV431();
   bMockItems=buildBMock();bMockAnswers=Array(bMockItems.length).fill(null);bMockFlags=new Set();bMockIndex=0;
   bMockSeconds=B_MOCK_SECONDS;bMockStartedAt=Date.now();lastBMockAttempt=null;
   document.getElementById('bMockSelect')?.classList.add('hidden');
@@ -8262,9 +8396,11 @@ function finishBMiniMock(timeUp=false){
     levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const rows=details.filter(d=>d.level===level);return[level,{correct:rows.filter(d=>d.ok).length,total:rows.length}]})),
     details
   };
-  profile.bMockHistory=[attempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile();
+  const persistedAttempt=bMockHistoryAttemptForPersistenceV431(attempt);
+  profile.bMockHistory=[persistedAttempt,...(profile.bMockHistory||[])].slice(0,20);lastBMockAttempt=attempt;saveProfile();
   document.getElementById('bMockExam')?.classList.remove('show');document.getElementById('bMockResult')?.classList.add('show');
   renderBMockResult(attempt,earned);
+  bMockReleaseRuntimeV431();
   if(typeof renderReadiness==='function')renderReadiness();
   if(typeof renderDailyPlan==='function')renderDailyPlan();
 }
@@ -8284,12 +8420,12 @@ function renderBMockResult(attempt,earned){
       <div class="bmock-review-explain">${escapeHtml(d.explain)}</div>
       ${d.ok?'':`<button class="bmock-review-study" data-bstudy="${escapeHtml(d.exId)}">学習モードで1行ずつ確認 →</button>`}
     </div>`).join('');
-  document.querySelectorAll('[data-bstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('bMockResult')?.classList.remove('show');setBMode('trace');startBExercise(btn.dataset.bstudy);});
+  document.querySelectorAll('[data-bstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('bMockResult')?.classList.remove('show');const target=btn.dataset.bstudy;bMockReleaseResultMemoryV431();setBMode('trace');startBExercise(target);});
 }
 
 document.getElementById('bMockStart')?.addEventListener('click',startBMiniMock);
 document.getElementById('bMockRetry')?.addEventListener('click',startBMiniMock);
-document.getElementById('bMockResultList')?.addEventListener('click',continueSubjectBFlow);
+document.getElementById('bMockResultList')?.addEventListener('click',()=>{bMockReleaseResultMemoryV431();continueSubjectBFlow()});
 document.getElementById('bMockSubmitTop')?.addEventListener('click',askSubmitBMock);
 document.getElementById('bMockPrev')?.addEventListener('click',()=>{if(bMockIndex>0){bMockIndex--;renderBMockQuestion();}});
 document.getElementById('bMockNext')?.addEventListener('click',()=>{if(bMockIndex<bMockItems.length-1){bMockIndex++;renderBMockQuestion();}else askSubmitBMock();});
@@ -9188,6 +9324,18 @@ function finishBFinalLegacyV376(timeUp=false){
   document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show');
   renderBFinalResult(attempt,earned);
 }
+const B_SHORT_PRACTICE_RETENTION_V431_SPEC=Object.freeze({
+  policy:'persist-analysis-metadata-only-for-short-subject-b-practice',
+  profileSchemaVersion:7,
+  priorSchemaCompatibility:6,
+  modes:Object.freeze(['algorithm-mini-mock','compound-challenge','security-mini-mock']),
+  removesProtectedReviewTextFromPersistentHistory:true,
+  keepsImmediateResultReview:true,
+  clearsRuntimeAfterResultRender:true,
+  clearsReviewMemoryWhenLeavingResult:true
+});
+globalThis.B_SHORT_PRACTICE_RETENTION_V431_SPEC=B_SHORT_PRACTICE_RETENTION_V431_SPEC;
+
 const B_FINAL_POSTSUBMIT_RETENTION_V430_SPEC=Object.freeze({
   policy:'persist-analysis-metadata-only-after-final-submit',
   profileSchemaVersion:6,
@@ -9352,6 +9500,15 @@ function ensureSecurityMockStats(){
 
 let secMockItems=[],secMockAnswers=[],secMockFlags=new Set(),secMockIndex=0;
 let secMockSeconds=SECURITY_MOCK_SECONDS,secMockTimerId=null,secMockStartedAt=null,lastSecurityMockAttempt=null;
+function securityMockReleaseRuntimeV431(){
+  secMockItems=[];secMockAnswers=[];secMockFlags=new Set();secMockIndex=0;
+  secMockStartedAt=null;secMockSeconds=SECURITY_MOCK_SECONDS;
+}
+function securityMockReleaseResultMemoryV431(){
+  lastSecurityMockAttempt=null;
+  const review=document.getElementById('secMockReviewList');if(review)review.replaceChildren();
+  const breakdown=document.getElementById('secMockBreakdown');if(breakdown)breakdown.replaceChildren();
+}
 
 function randomizeSecurityMockItem(){return undefined;}/* FEQUEST_V376_REDACTED_RESIDUAL_QUESTION_FUNCTION */
 
@@ -9417,6 +9574,7 @@ function securityMockEvidenceHtml(item){
 }
 
 function startSecurityMock(){
+  securityMockReleaseResultMemoryV431();
   secMockItems=buildSecurityMock();
   secMockAnswers=Array(secMockItems.length).fill(null);
   secMockFlags=new Set();secMockIndex=0;secMockSeconds=SECURITY_MOCK_SECONDS;secMockStartedAt=Date.now();
@@ -9486,7 +9644,8 @@ function finishSecurityMock(timeUp=false){
     levels:Object.fromEntries(['基礎','標準','応用'].map(level=>{const r=details.filter(d=>d.level===level);return[level,{correct:r.filter(d=>d.ok).length,total:r.length}]})),
     details
   };
-  profile.securityMockHistory=[attempt,...(profile.securityMockHistory||[])].slice(0,20);
+  const persistedAttempt=securityMockHistoryAttemptForPersistenceV431(attempt);
+  profile.securityMockHistory=[persistedAttempt,...(profile.securityMockHistory||[])].slice(0,20);
   lastSecurityMockAttempt=attempt;saveProfile();
 
   document.getElementById('secMockExam')?.classList.remove('show');
@@ -9499,12 +9658,13 @@ function finishSecurityMock(timeUp=false){
   document.getElementById('secMockTime').textContent=bMockFormatTime(used);
   document.getElementById('secMockBreakdown').innerHTML=['基礎','標準','応用'].map(level=>{const x=attempt.levels[level],pct=x.total?Math.round(x.correct/x.total*100):0;return `<div class="secmock-break-row"><div class="secmock-break-label">${level}</div><div class="secmock-break-bar"><div class="secmock-break-fill" style="width:${pct}%"></div></div><div class="secmock-break-score">${x.correct}/${x.total}</div></div>`}).join('');
   document.getElementById('secMockReviewList').innerHTML=details.map((d,i)=>`<div class="secmock-review-item ${d.ok?'correct':'wrong'}"><div class="secmock-review-top"><b>Q${i+1} ${escapeHtml(d.title)}</b><span>${d.ok?'✓ 正解':'✕ 要復習'}</span></div><div class="secmock-review-q">${escapeHtml(d.q)}</div><div class="secmock-review-a">あなたの回答：<b>${d.selected===null?'未回答':escapeHtml(d.selected)}</b><br>正解：<b>${escapeHtml(d.correct)}</b></div><div class="secmock-review-e">${escapeHtml(d.explain)}</div>${d.ok?'':`<button class="secmock-review-study" data-sstudy="${escapeHtml(d.scenarioId)}">学習モードで確認 →</button>`}</div>`).join('');
-  document.querySelectorAll('[data-sstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('secMockResult')?.classList.remove('show');setBMode('security');startSecurityScenario(btn.dataset.sstudy)});
+  document.querySelectorAll('[data-sstudy]').forEach(btn=>btn.onclick=()=>{document.getElementById('secMockResult')?.classList.remove('show');const target=btn.dataset.sstudy;securityMockReleaseResultMemoryV431();setBMode('security');startSecurityScenario(target)});
+  securityMockReleaseRuntimeV431();
 }
 
 document.getElementById('secMockStartMenu')?.addEventListener('click',startSecurityMock);
 document.getElementById('secMockRetry')?.addEventListener('click',startSecurityMock);
-document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');continueSubjectBFlow()});
+document.getElementById('secMockBackList')?.addEventListener('click',()=>{stopSecurityMockTimer();document.getElementById('secMockResult')?.classList.remove('show');securityMockReleaseResultMemoryV431();continueSubjectBFlow()});
 document.getElementById('secMockSubmitTop')?.addEventListener('click',askSubmitSecurityMock);
 document.getElementById('secMockPrev')?.addEventListener('click',()=>{if(secMockIndex>0){secMockIndex--;renderSecurityMockQuestion()}});
 document.getElementById('secMockNext')?.addEventListener('click',()=>{if(secMockIndex<secMockItems.length-1){secMockIndex++;renderSecurityMockQuestion()}else askSubmitSecurityMock()});
