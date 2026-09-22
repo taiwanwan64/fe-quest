@@ -20,16 +20,16 @@
 
 過去会話の記憶より、上記 live 情報を優先すること。
 
-## 2. 2026-09-22 時点のスナップショット
+## 2. 2026-09-23 時点のスナップショット
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `bc9db1af7f95de4438b37195e7f7a49c8eb3894c`（PR #216 merge後）
-- open PR: **#217** `protected-runtime-lifetime-v435-20260922`
-- active work PR: **#217 protected contentのruntime寿命と総合実戦resumeを強化**
-- 最新本番 deploy: GitHub Actions run `35700747464`、success（PR #216 merge後）
-- main PWA cache contract: `fe-quest-v377-116`
-- PR #217 target PWA cache contract: `fe-quest-v377-117`
+- main: `a823753f591cb0b265343ed594bf3747a6070637`（PR #217 merge後）
+- open PR: **#218** `public-static-protected-audit-v436-20260923`
+- active work PR: **#218 公開assetのprotected残存を除去**
+- 最新本番 deploy: GitHub Actions run `35715768128`、success（PR #217 merge後）
+- main PWA cache contract: `fe-quest-v377-117`
+- PR #218 target PWA cache contract: `fe-quest-v377-118`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -44,7 +44,8 @@
 - 科目A模試post-submit保持最小化 PR: #214、merged
 - 科目A通常演習・初回診断post-submit監査 PR: #215、merged
 - Profile全体protected checkpoint retention監査 PR: #216、merged
-- Protected runtime lifetime / B-final resume監査 PR: #217、open（CI success確認済み、handoff更新後に再確認してmerge予定）
+- Protected runtime lifetime / B-final resume監査 PR: #217、merged
+- 公開static protected-content残存監査 PR: #218、open（publication / v35 CIの初回success確認済み）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1063,8 +1064,25 @@
 - Subject B mode / trace screen離脱時にtrace / security / short practice / finalのruntimeとbridge cacheを解放
 - B-final metadata-only resumeは画面離脱では保持し、明示的な終了では従来どおり削除
 - profile schemaは9のまま、protected bank変更なし、active total 1180、`b_exam_algo=50`
-- PR #217 `protected-runtime-lifetime-v435-20260922` で実装中。publication / v35 CIは一度success確認済み。**handoff更新後の最新head CI / merge / Pages deployをlive再確認する**
-- target PWA cache contract: `fe-quest-v377-117`
+- PR #217 merged、merge commit `a823753f591cb0b265343ed594bf3747a6070637`
+- production Pages deploy run `35715768128` success
+- PWA cache contract: `fe-quest-v377-117`
+
+
+### 公開GitHub / Pages static protected-content残存監査
+
+`.github/reference-audits/PUBLIC_STATIC_PROTECTED_CONTENT_AUDIT_2026-09-23.md`
+
+- GitHub repositoryがpublicで、Pages artifactは `.git/.github/README.md` 等を除いて広くrepository assetを配信する境界であることを確認
+- base / IPA 9.2 extension / Subject-B gap catalogはmetadata-onlyで、問題本文・選択肢・正答位置・解説等を含まないことを確認
+- v436で全 `assets/question-catalog*.json` を横断するprotected field CI guardを追加
+- providerの代表版はfield transport codeのみで、静的なquestion-bank本文埋込みは確認されず
+- `assets/app-v377.js` に、既にredactedされたSubject-B mini mockのdead legacy残存として、正答候補値・詳細解説を含む `B_MOCK_EXTRA_DISTRACTOR / B_MOCK_EXPLANATION` が残っていた不整合を発見
+- 両constantにはread siteがなく、v436で安全に削除
+- Pages artifact側でも同じabsence / metadata-only catalog contractを検証
+- profile schemaは9のまま、protected bank変更なし、active total 1180、`b_exam_algo=50`
+- PR #218 `public-static-protected-audit-v436-20260923` で実装中。初回publication / v35 CI success確認済み。**handoff更新後の最新head CI / merge / Pages deployをlive再確認する**
+- target PWA cache contract: `fe-quest-v377-118`
 
 
 ## 6. 今後も守る教材監査方針
@@ -1088,20 +1106,19 @@
 
 ## 7. 次のデフォルト作業
 
-まず **PR #217 のlive状態を確認** する。最新headのCIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
+まず **PR #218 のlive状態を確認** する。handoff更新後の最新head CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
 
-その後、ユーザーから別の具体的な修正指示がなければ、**公開GitHub / Pages bundleに残るprotected contentの静的残存を横断監査する。** runtime・profile・resumeの保持境界はv430〜v435で重点監査したため、次は公開asset内の旧コード・旧catalog・redacted residual・監査用fixture等に、問題本文・選択肢・正答・解説が不用意に残っていないかを見る。
+その後、ユーザーから別の具体的な修正指示がなければ、**historical provider / precacheの不要公開assetを整理できるか監査する。** v436でprotected本文の静的残存は重点監査したため、次は現在runtimeが直接使うbase + latest v35 providerと、service worker / validation matrixに残る旧provider v7〜v34の役割を分離する。
 
 手順:
 
-1. 公開対象asset / provider / catalog /旧version fileを列挙
-2. `stem / options / answerIndex / explanation / choiceExplanations / point / pitfall` 等のprotected fieldを静的検索
-3. 現行runtimeで必要なmetadata catalogと、不要な旧full-content artifactを区別
-4. service worker precache対象とPages artifact inclusionを照合
-5. redacted / quarantinedコードがprotected本文を含まないことを確認
-6. reference-audit文書に外部教材本文・問題本文の引用が残っていないことも確認
-7. protected bankを正本のまま維持し、公開artifactから不要なprotected内容だけを除去
-8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
+1. `index.html / public-config / activation-loader` から現行providerロード経路を再確認
+2. latest v35 providerが必要とするhistorical catalogと、不要なhistorical provider JSを区別
+3. old provider JSをSW precacheから外してもoffline/current runtimeが成立するか確認
+4. publication / deploy CIが旧providerの存在を要求している理由を確認
+5. repository source削除とPages-only exclusionを分けてリスク評価
+6. 学習機能・catalog 1180件・server gradingに影響しない場合だけ最小限整理
+7. 変更する場合はPWA cache更新・監査記録・CI・merge・Pages deployまで確認
 
 ## 8. リポジトリと保護教材の役割
 
