@@ -134,6 +134,13 @@ function renderDiagnostic(){
   }
 }
 
+function clearDiagnosticRuntimeV433(){
+  diagnosticItems=[];
+  diagAnswers=[];
+  diagIndex=0;
+  provider().clearProtectedCache();
+}
+
 function renderDiagnosticResult(scores,categories){
   setDisplay('diagQuiz','none');
   setDisplay('diagResult','block');
@@ -201,7 +208,7 @@ async function finishDiagnostic(){
     profile.xp+=120;
     saveProfile();
     renderDiagnosticResult(scores,categories);
-    provider().clearProtectedCache();
+    clearDiagnosticRuntimeV433();
     return true;
   }catch(error){
     protectedError(error,'診断結果を取得できませんでした。通信状態とアクセスコードを確認してください。');
