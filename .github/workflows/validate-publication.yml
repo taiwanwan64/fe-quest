@@ -52,6 +52,29 @@ jobs:
           node --check cloud/activation-loader-v342.js
           node --check cloud/public-config-v342.js
           node --check sw.js
+      - name: Validate public protected-content static boundary
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const path=require('node:path');
+          const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations','point','pitfall','correctText']);
+          const files=fs.readdirSync('assets').filter(name=>/^question-catalog.*\.json$/.test(name));
+          if(!files.length)throw new Error('question catalogs missing');
+          function walk(value,file,trail='root'){
+            if(Array.isArray(value)){value.forEach((item,index)=>walk(item,file,`${trail}[${index}]`));return;}
+            if(!value||typeof value!=='object')return;
+            for(const [key,item] of Object.entries(value)){
+              if(forbidden.has(key))throw new Error(`protected field ${key} found in public catalog ${file} at ${trail}`);
+              walk(item,file,`${trail}.${key}`);
+            }
+          }
+          for(const file of files)walk(JSON.parse(fs.readFileSync(path.join('assets',file),'utf8')),file);
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          if(app.includes('const B_MOCK_EXTRA_DISTRACTOR='))throw new Error('legacy protected mini-mock distractor residual is public');
+          if(app.includes('const B_MOCK_EXPLANATION='))throw new Error('legacy protected mini-mock explanation residual is public');
+          if(!app.includes("policy:'public-static-assets-metadata-only-for-protected-question-content'"))throw new Error('v436 public-static policy missing');
+          console.log(`PASS public protected-content static boundary: ${files.length} metadata catalogs`);
+          NODE
       - name: Validate Subject B 50-question final-pool metadata
         run: |
           node <<'NODE'
@@ -395,11 +418,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-117';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-118';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-117" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-118" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -1099,7 +1122,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-117';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-118';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
