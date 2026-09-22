@@ -171,7 +171,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 7;",
+            "const PROFILE_SCHEMA_VERSION = 8;",
             "policy:'persist-analysis-metadata-only-after-final-submit'",
             "function bFinalHistoryAttemptForPersistenceV430(value)",
             "function normalizeBFinalHistoryForPersistenceV430(value)",
@@ -200,7 +200,7 @@ jobs:
           const fs=require('node:fs');
           const app=fs.readFileSync('assets/app-v377.js','utf8');
           const required=[
-            "const PROFILE_SCHEMA_VERSION = 7;",
+            "const PROFILE_SCHEMA_VERSION = 8;",
             "policy:'persist-analysis-metadata-only-for-short-subject-b-practice'",
             "profileSchemaVersion:7",
             "priorSchemaCompatibility:6",
@@ -241,6 +241,45 @@ jobs:
           }
           console.log('PASS Subject B short-practice retention v431');
           NODE
+      - name: Validate Subject A mock post-submit retention contract
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const required=[
+            "const PROFILE_SCHEMA_VERSION = 8;",
+            "policy:'persist-analysis-metadata-only-for-subject-a-mock'",
+            "profileSchemaVersion:8",
+            "priorSchemaCompatibility:7",
+            "function subjectAMockHistoryDetailForPersistenceV432(value)",
+            "function subjectAMockHistoryAttemptForPersistenceV432(value)",
+            "function normalizeSubjectAMockHistoryForPersistenceV432(value)",
+            "out.mockHistory=normalizeSubjectAMockHistoryForPersistenceV432(p.mockHistory);",
+            "function normalizeProfileDataV7ForChecksum(input)",
+            "function profileIntegrityChecksumV7(p)",
+            "if(schema===7)return profileIntegrityChecksumV7(p);",
+            "profile.mockHistory.unshift(persistedMockAttempt);",
+            "ok:mockAnswers[i]===q.a",
+            "subjectAMockHistoryDetailOkV432(d)",
+            "historicalReviewUsesCurrentProtectedQuestion:true"
+          ];
+          for(const token of required)if(!app.includes(token))throw new Error('missing v432 Subject A mock retention contract: '+token);
+          if(app.includes('profile.mockHistory.unshift(lastMockAttempt);'))throw new Error('full Subject A mock attempt must not be persisted');
+          const start=app.indexOf('function subjectAMockHistoryDetailForPersistenceV432');
+          const end=app.indexOf('function subjectAMockHistoryAttemptForPersistenceV432',start);
+          const body=start>=0&&end>start?app.slice(start,end):'';
+          if(!body)throw new Error('missing Subject A mock detail sanitizer');
+          for(const forbidden of ['shownOptions','correctIndex','answerIndex','q:','options','explanation','exp']){
+            if(body.includes(forbidden))throw new Error('protected Subject A mock review field persisted: '+forbidden);
+          }
+          const attemptStart=app.indexOf('function subjectAMockHistoryAttemptForPersistenceV432');
+          const attemptEnd=app.indexOf('function normalizeSubjectAMockHistoryForPersistenceV432',attemptStart);
+          const attemptBody=attemptStart>=0&&attemptEnd>attemptStart?app.slice(attemptStart,attemptEnd):'';
+          for(const forbidden of ['shownOptions','correctIndex','answerIndex']){
+            if(attemptBody.includes(forbidden))throw new Error('answer-position field persisted in Subject A mock attempt: '+forbidden);
+          }
+          console.log('PASS Subject A mock post-submit retention v432');
+          NODE
       - name: Validate bilingual learning terminology
         run: |
           grep -Fq "function fequestLocalizeProtectedLessonArticleV377" assets/app-v377.js
@@ -265,11 +304,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-113';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-114';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-113" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-114" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -938,7 +977,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-113';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-114';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
