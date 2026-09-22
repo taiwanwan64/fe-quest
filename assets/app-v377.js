@@ -339,7 +339,7 @@ const RECOVERY_DB_VERSION = 1;
 const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
-const PROFILE_SCHEMA_VERSION = 5;
+const PROFILE_SCHEMA_VERSION = 6;
 const APP_VERSION = 'v377';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
@@ -404,6 +404,36 @@ function boundedPercent(v,fallback=0){
 }
 function safeObject(v){return isPlainObject(v)?v:{}}
 function safeArray(v,max=2000){return Array.isArray(v)?v.slice(0,max):[]}
+function bFinalHistoryDetailForPersistenceV430(value){
+  const d=isPlainObject(value)?value:{};
+  return {
+    kind:typeof d.kind==='string'?d.kind:'',
+    format:typeof d.format==='string'?d.format:'',
+    domain:typeof d.domain==='string'?d.domain:'',
+    ok:!!d.ok
+  };
+}
+function bFinalHistoryAttemptForPersistenceV430(value){
+  const h=isPlainObject(value)?value:{};
+  const total=Math.max(1,nonNegativeInt(h.total,20));
+  const correct=Math.min(total,nonNegativeInt(h.correct,0));
+  const blank=Math.min(total-correct,nonNegativeInt(h.blank,0));
+  const rate=Number.isFinite(Number(h.rate))?boundedPercent(h.rate,0):Math.round(correct/total*100);
+  return {
+    date:typeof h.date==='string'?h.date:'',
+    total,correct,blank,
+    points:nonNegativeInt(h.points,correct*50),
+    rate,
+    seconds:nonNegativeInt(h.seconds,0),
+    timeUp:!!h.timeUp,
+    algoCorrect:Math.min(16,nonNegativeInt(h.algoCorrect,0)),
+    secCorrect:Math.min(4,nonNegativeInt(h.secCorrect,0)),
+    details:safeArray(h.details,20).map(bFinalHistoryDetailForPersistenceV430)
+  };
+}
+function normalizeBFinalHistoryForPersistenceV430(value){
+  return safeArray(value,100).map(bFinalHistoryAttemptForPersistenceV430);
+}
 function normalizeProgressMap(v){
   const out={};
   Object.entries(safeObject(v)).forEach(([k,val])=>{
@@ -484,7 +514,7 @@ function normalizeProfileData(input){
   out.bMockHistory=safeArray(p.bMockHistory,100);
   out.bCompoundHistory=safeArray(p.bCompoundHistory,100);
   out.securityMockHistory=safeArray(p.securityMockHistory,100);
-  out.bFinalHistory=safeArray(p.bFinalHistory,100);
+  out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);
 
   return out;
 }
@@ -566,9 +596,47 @@ function normalizeProfileDataV4ForChecksum(input){
 function profileIntegrityChecksumV4(p){
   return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV4ForChecksum(p)))}`;
 }
+// v430: schema v5 checksum compatibility must preserve the exact pre-v430
+// normalization, including historical full bFinalHistory details.
+function normalizeProfileDataV5ForChecksum(input){
+  const p=isPlainObject(input)?input:{};
+  const base=structuredClone(DEFAULT_PROFILE);
+  base.profileSchemaVersion=5;
+  const out={...base,...p};
+  out.profileSchemaVersion=5;
+  out.profileMeta={...structuredClone(base.profileMeta),...safeObject(p.profileMeta)};
+  out.profileMeta.revision=nonNegativeInt(out.profileMeta.revision,0);
+  out.profileMeta.lastWriterId=typeof out.profileMeta.lastWriterId==='string'?out.profileMeta.lastWriterId:null;
+  out.masteryHistory=safeObject(p.masteryHistory);
+  out.xp=nonNegativeInt(p.xp,0);
+  out.streak=nonNegativeInt(p.streak,0);
+  out.diagnosticCompleted=!!p.diagnosticCompleted;
+  out.diagnosticScores=safeObject(p.diagnosticScores);
+  out.skills={};
+  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));
+  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;
+  out.lessonProgress=normalizeProgressMap(p.lessonProgress);
+  out.bProgress=normalizeProgressMap(p.bProgress);
+  out.securityBProgress=normalizeProgressMap(p.securityBProgress);
+  ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',
+   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'
+  ].forEach(key=>out[key]=safeObject(p[key]));
+  out.sessions=safeArray(p.sessions,3000);
+  out.activity=safeObject(p.activity);
+  out.mockHistory=safeArray(p.mockHistory,100);
+  out.bMockHistory=safeArray(p.bMockHistory,100);
+  out.bCompoundHistory=safeArray(p.bCompoundHistory,100);
+  out.securityMockHistory=safeArray(p.securityMockHistory,100);
+  out.bFinalHistory=safeArray(p.bFinalHistory,100);
+  return out;
+}
+function profileIntegrityChecksumV5(p){
+  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV5ForChecksum(p)))}`;
+}
 function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){
   if(schema===3)return profileIntegrityChecksumV3(p);
   if(schema===4)return profileIntegrityChecksumV4(p);
+  if(schema===5)return profileIntegrityChecksumV5(p);
   return profileIntegrityChecksum(p);
 }
 function parseProfileRaw(raw){
@@ -8961,6 +9029,7 @@ async function startBFinal(){
     const descriptors=bFinalSelectDescriptorsV376();
     const packets=await bFinalBridgeV376().startSession(descriptors.map(item=>item.questionId));
     if(!Array.isArray(packets)||packets.length!==20)throw new Error('v376_b_final_packet_count_invalid');
+    bFinalReleaseResultMemoryV430();
     bFinalItems=packets.map(bFinalProtectedItemV376);
     if(bFinalItems.filter(item=>item.kind==='algo').length!==16||bFinalItems.filter(item=>item.kind==='security').length!==4)throw new Error('v376_b_final_runtime_mix_invalid');
     bFinalAnswers=Array(bFinalItems.length).fill(null);bFinalFlags=new Set();bFinalIndex=0;
@@ -9113,11 +9182,36 @@ function finishBFinalLegacyV376(timeUp=false){
   const points=correct*50,rate=Math.round(correct/20*100),earned=correct*10+(points>=600?40:0);
   profile.xp=(profile.xp||0)+earned;
   const attempt={date:localDateISO(0),total:20,correct,blank,points,rate,seconds:used,timeUp,algoCorrect,secCorrect,details};
-  profile.bFinalHistory=[attempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile();
+  const persistedAttempt=bFinalHistoryAttemptForPersistenceV430(attempt);
+  profile.bFinalHistory=[persistedAttempt,...(profile.bFinalHistory||[])].slice(0,20);lastBFinalAttempt=attempt;saveProfile();
 
   document.getElementById('bFinalExam')?.classList.remove('show');document.getElementById('bFinalResult')?.classList.add('show');
   renderBFinalResult(attempt,earned);
 }
+const B_FINAL_POSTSUBMIT_RETENTION_V430_SPEC=Object.freeze({
+  policy:'persist-analysis-metadata-only-after-final-submit',
+  profileSchemaVersion:6,
+  priorSchemaCompatibility:5,
+  persistedAttemptFields:Object.freeze(['date','total','correct','blank','points','rate','seconds','timeUp','algoCorrect','secCorrect','details']),
+  persistedDetailFields:Object.freeze(['kind','format','domain','ok']),
+  protectedDetailFieldsRemoved:Object.freeze(['questionId','sourceId','title','q','selected','correct','explain','studyMode']),
+  keepsFullDetailInImmediateResultMemory:true,
+  clearsExamRuntimeAfterSuccessfulGrade:true,
+  clearsImmediateResultMemoryWhenLeavingReview:true
+});
+function bFinalReleaseExamRuntimeV430(){
+  bFinalItems=[];bFinalAnswers=[];bFinalFlags=new Set();bFinalIndex=0;
+  bFinalStartedAt=null;bFinalSeconds=B_FINAL_SECONDS;
+}
+function bFinalReleaseResultMemoryV430(){
+  lastBFinalAttempt=null;
+  const review=document.getElementById('bFinalReviewList');if(review)review.replaceChildren();
+  const diagnosis=document.getElementById('bFinalDiagnosis');if(diagnosis)diagnosis.replaceChildren();
+  const formats=document.getElementById('bFinalFormatBreakdown');if(formats)formats.replaceChildren();
+}
+globalThis.B_FINAL_POSTSUBMIT_RETENTION_V430_SPEC=B_FINAL_POSTSUBMIT_RETENTION_V430_SPEC;
+globalThis.bFinalHistoryAttemptForPersistenceV430=bFinalHistoryAttemptForPersistenceV430;
+
 const B_FINAL_GRADING_V427_SPEC=Object.freeze({
   policy:'preserve-exact-question-order-through-server-grading',
   totalCount:20,
@@ -9158,7 +9252,7 @@ async function finishBFinal(timeUp=false){
       if(displayAnswer<0)throw new Error('v376_b_final_answer_map_invalid');
       item.a=displayAnswer;item.correctText=item.options[displayAnswer];item.explain=result.explanation||'';
     });
-    finishBFinalLegacyV376(timeUp);bFinalClearProtectedV376();return true;
+    finishBFinalLegacyV376(timeUp);bFinalReleaseExamRuntimeV430();bFinalClearProtectedV376();return true;
   }catch(error){
     bFinalBridgeV376().reportError?.(error);
     if(!timeUp&&bFinalItems.length)startBFinalTimer();
@@ -9219,6 +9313,7 @@ function renderBFinalResult(a,earned){
   document.querySelectorAll('[data-bfinalstudy]').forEach(btn=>btn.onclick=()=>{
     document.getElementById('bFinalResult')?.classList.remove('show');
     const target=bFinalRemediationTarget(btn.dataset.bfinalstudy,btn.dataset.bfinalsource,btn.dataset.bfinaldomain);
+    bFinalReleaseResultMemoryV430();
     if(target.mode==='security'){
       setBMode('security');startSecurityScenario(target.id);
     }else if(target.mode==='trace'){
@@ -13917,6 +14012,7 @@ const SUBJECT_B_FINAL_HANDOFF_V273_SPEC=Object.freeze({
   btn.addEventListener('click',function(ev){
     if(ev&&typeof ev.preventDefault==='function')ev.preventDefault();
     if(ev&&typeof ev.stopImmediatePropagation==='function')ev.stopImmediatePropagation();
+    bFinalReleaseResultMemoryV430();
     continueSubjectBFlow();
   },true);
 })();
@@ -14535,7 +14631,7 @@ function decodeBackupPayload(parsed){
 
   if(parsed.format==='fequest-backup-v2'){
     if(typeof parsed.checksum!=='string')throw new Error('整合性情報がありません');
-    const actual=schema===3?profileIntegrityChecksumV3(candidate):schema===4?profileIntegrityChecksumV4(candidate):profileIntegrityChecksum(candidate);
+    const actual=profileChecksumForSchema(candidate,schema);
     if(actual!==parsed.checksum)throw new Error('整合性チェックに失敗しました。ファイルが破損または変更されています');
   }else if(parsed.format && parsed.format!=='fequest-backup-v1'){
     throw new Error('未対応のバックアップ形式です');
