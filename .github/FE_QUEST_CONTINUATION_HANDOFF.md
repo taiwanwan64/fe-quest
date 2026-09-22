@@ -24,12 +24,14 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `e96a20a5fcc717bfebe8f572ba4c21054ed3ae7a`
-- open PR: 0
-- active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35689491972`、success
-- PWA cache contract: `fe-quest-v377-112`
-- profile schema: **6**（schema 5 checksum互換あり）
+- main: `3a1d2757debb9acf53dc9e83d601378f95423379`（PR #213 merge後）
+- open PR: **#214** `a-mock-postsubmit-retention-v432-20260922`
+- active work PR: **#214 科目A模試の採点後データ保持を最小化**
+- 最新本番 deploy: GitHub Actions run `35697054173`、success（PR #213 merge後）
+- main PWA cache contract: `fe-quest-v377-113`
+- PR #214 target PWA cache contract: `fe-quest-v377-114`
+- main profile schema: **7**（schema 6 checksum互換あり）
+- PR #214 target profile schema: **8**（schema 7 checksum互換を追加）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
 - 科目B実戦50問同期 PR: #202、merged
@@ -39,6 +41,8 @@
 - 科目Bセキュリティ誤答履歴の設問単位分離 PR: #208、merged
 - 新規二次元配列問題の復習先難易度修正 PR: #209、merged
 - 科目B総合実戦post-submit保持最小化 PR: #211、merged
+- 科目B短時間実戦post-submit保持最小化 PR: #213、merged
+- 科目A模試post-submit保持最小化 PR: #214、open（CI確認後merge予定）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -977,6 +981,36 @@
 - production Pages deploy run `35689491972` success
 - PWA cache contract: `fe-quest-v377-112`
 
+### 科目B 短時間実戦 post-submit protected data retention監査
+
+`.github/reference-audits/B_SHORT_PRACTICE_POSTSUBMIT_RETENTION_AUDIT_2026-09-22.md`
+
+- `bMockHistory / bCompoundHistory / securityMockHistory` をmetadata-onlyへ縮小
+- 保存detailはモード別に `level / kind / qlevel / scenarioId / ok` 等の分析metadataだけ
+- 問題本文・選択肢・選択回答・正答・解説は永続履歴へ保存しない
+- profile schema: 6 → 7
+- schema 6 checksum互換を追加
+- 即時結果レビューのfull detailはmemory / DOMに限定し、結果画面離脱時に解放
+- protected bankは変更なし、active total 1180、`b_exam_algo=50`
+- PR #213 merged、merge commit `3a1d2757debb9acf53dc9e83d601378f95423379`
+- production Pages deploy run `35697054173` success
+- PWA cache contract: `fe-quest-v377-113`
+
+### 科目A 模試 post-submit protected data retention監査
+
+`.github/reference-audits/A_MOCK_POSTSUBMIT_RETENTION_AUDIT_2026-09-22.md`
+
+- v431時点の `mockHistory.details` が `shownOptions / correctIndex / answerIndex` をprofile / backup / recoveryへ長期保存していた不整合を発見
+- v432ではpersisted detailを `id / ok / flagged / seconds` へ縮小
+- 採点直後の `lastMockAttempt` はfull detailをmemory上に保ち、従来の即時レビューを維持
+- 履歴レビューはユーザー回答本文を保存せず、現在のprotected questionで問題・正解・解説を確認する
+- analytics / mock diagnosis / 履歴レビューの誤答判定を `ok` metadata対応へ変更
+- profile schema: 7 → 8
+- schema 7 checksum互換を追加
+- protected bankは変更なし、active total 1180、`b_exam_algo=50`
+- PR #214 `a-mock-postsubmit-retention-v432-20260922` で実装中。**次チャットではliveのCI / merge / Pages deploy状態を必ず再確認する**
+- target PWA cache contract: `fe-quest-v377-114`
+
 
 ## 6. 今後も守る教材監査方針
 
@@ -999,17 +1033,19 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目Bの短い実戦モード（アルゴリズム ミニ模試 / 複合問題 / セキュリティ ミニ模試）のpost-submit protected data retentionをlive監査する。** 総合実戦はv430でmetadata-only persistenceへ移行済み。同じprotected化境界を他の科目B実戦履歴にも適用できるか確認する。
+まず **PR #214 のlive状態を確認** する。CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
+
+その後、ユーザーから別の具体的な修正指示がなければ、**科目Aの通常演習・初回診断のpost-submit persistenceをlive監査する。** 科目A模試までmetadata-only化したため、残る `sessions / qStats / diagnosticScores` 周辺に問題本文・選択肢・正答・解説などprotected本文が永続化されていないかを確認する。
 
 手順:
 
-1. `bMockHistory / bCompoundHistory / securityMockHistory` の保存detail fieldを列挙
-2. `q / selected / correct / explain / exp / point / pitfall` 等がprofile / backup / recovery snapshotへ永続化されるか確認
-3. analytics / readiness /履歴一覧が本当に必要とするmetadata fieldを特定
-4. 即時結果レビュー用full detailと永続分析metadataを分離できるか確認
-5. schema 6のまま後方互換を保ってsanitizerを追加できるか、schema bumpが必要か判断
-6. 結果画面を離れた後の各runtime item / answer / review DOMの寿命も確認
-7. protected内容・正答をpre-submitや公開GitHubへ漏らさない境界を維持
+1. `profile.sessions[].log / qStats / diagnosticScores` と関連するbackup / recovery経路の保存fieldを列挙
+2. `q / options / answer / correct / exp / explanation / choiceExplanations` 等が永続化されていないか確認
+3. 通常演習の分析・復習・学習計画が必要とする最小metadataを特定
+4. 初回診断は点数・分野scoreだけで十分か、設問detailを別経路で保持していないか確認
+5. protected内容・正答はpost-submit UIに必要な期間だけruntimeへ置く
+6. 既存のschema 8 / checksum互換を壊さずに済むか判断
+7. protected bank・公開catalog・server grading境界を変更しない
 8. 必要な場合だけ最小限修正し、監査記録 → PR → CI success → merge → Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割

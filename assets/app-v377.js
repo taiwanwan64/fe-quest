@@ -339,7 +339,7 @@ const RECOVERY_DB_VERSION = 1;
 const RECOVERY_MAX_SNAPSHOTS = 4;
 const RECOVERY_CHECKPOINT_INTERVAL = 30*60*1000;
 const WRITER_LEASE_MS = 12000;
-const PROFILE_SCHEMA_VERSION = 7;
+const PROFILE_SCHEMA_VERSION = 8;
 const APP_VERSION = 'v377';
 const TAB_INSTANCE_ID = (()=>{try{return crypto.randomUUID()}catch(_e){return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`}})();
 let profileRecoveryWarning = false;
@@ -404,6 +404,41 @@ function boundedPercent(v,fallback=0){
 }
 function safeObject(v){return isPlainObject(v)?v:{}}
 function safeArray(v,max=2000){return Array.isArray(v)?v.slice(0,max):[]}
+// v432: Subject-A mock history keeps only analysis/review metadata after submit.
+// Full shuffled choices and answer positions stay in memory for the immediate result review.
+function subjectAMockHistoryDetailOkV432(value){
+  const d=isPlainObject(value)?value:{};
+  if(typeof d.ok==='boolean')return d.ok;
+  return d.answerIndex!==null&&Number.isInteger(d.answerIndex)&&Number.isInteger(d.correctIndex)&&d.answerIndex===d.correctIndex;
+}
+function subjectAMockHistoryDetailForPersistenceV432(value){
+  const d=isPlainObject(value)?value:{};
+  return {
+    id:typeof d.id==='string'?d.id:'',
+    ok:subjectAMockHistoryDetailOkV432(d),
+    flagged:!!d.flagged,
+    seconds:nonNegativeInt(d.seconds,0)
+  };
+}
+function subjectAMockHistoryAttemptForPersistenceV432(value){
+  const h=isPlainObject(value)?value:{};
+  const total=Math.max(1,nonNegativeInt(h.total,h.mode==='half'?30:60));
+  const correct=Math.min(total,nonNegativeInt(h.correct,0));
+  const blank=Math.min(total-correct,nonNegativeInt(h.blank,0));
+  const rate=Number.isFinite(Number(h.rate))?boundedPercent(h.rate,0):Math.round(correct/total*100);
+  return {
+    date:typeof h.date==='string'?h.date:'',
+    mode:h.mode==='half'?'half':'full',
+    total,correct,blank,rate,
+    seconds:nonNegativeInt(h.seconds,0),
+    blueprint:isPlainObject(h.blueprint)?structuredClone(h.blueprint):null,
+    byCat:isPlainObject(h.byCat)?structuredClone(h.byCat):{},
+    details:safeArray(h.details,60).map(subjectAMockHistoryDetailForPersistenceV432)
+  };
+}
+function normalizeSubjectAMockHistoryForPersistenceV432(value){
+  return safeArray(value,100).map(subjectAMockHistoryAttemptForPersistenceV432);
+}
 function bFinalHistoryDetailForPersistenceV430(value){
   const d=isPlainObject(value)?value:{};
   return {
@@ -587,7 +622,7 @@ function normalizeProfileData(input){
 
   out.sessions=safeArray(p.sessions,3000);
   out.activity=safeObject(p.activity);
-  out.mockHistory=safeArray(p.mockHistory,100);
+  out.mockHistory=normalizeSubjectAMockHistoryForPersistenceV432(p.mockHistory);
   out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);
   out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);
   out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);
@@ -747,11 +782,49 @@ function normalizeProfileDataV6ForChecksum(input){
 function profileIntegrityChecksumV6(p){
   return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV6ForChecksum(p)))}`;
 }
+// v432: schema v7 checksum compatibility preserves the exact v431 normalization:
+// Subject-A mock history remains full, while all Subject-B post-submit histories are metadata-only.
+function normalizeProfileDataV7ForChecksum(input){
+  const p=isPlainObject(input)?input:{};
+  const base=structuredClone(DEFAULT_PROFILE);
+  base.profileSchemaVersion=7;
+  const out={...base,...p};
+  out.profileSchemaVersion=7;
+  out.profileMeta={...structuredClone(base.profileMeta),...safeObject(p.profileMeta)};
+  out.profileMeta.revision=nonNegativeInt(out.profileMeta.revision,0);
+  out.profileMeta.lastWriterId=typeof out.profileMeta.lastWriterId==='string'?out.profileMeta.lastWriterId:null;
+  out.masteryHistory=safeObject(p.masteryHistory);
+  out.xp=nonNegativeInt(p.xp,0);
+  out.streak=nonNegativeInt(p.streak,0);
+  out.diagnosticCompleted=!!p.diagnosticCompleted;
+  out.diagnosticScores=safeObject(p.diagnosticScores);
+  out.skills={};
+  Object.entries(DEFAULT_PROFILE.skills).forEach(([name,def])=>out.skills[name]=boundedPercent(p.skills?.[name],def));
+  out.lastStudyDate=typeof p.lastStudyDate==='string'?p.lastStudyDate:null;
+  out.lessonProgress=normalizeProgressMap(p.lessonProgress);
+  out.bProgress=normalizeProgressMap(p.bProgress);
+  out.securityBProgress=normalizeProgressMap(p.securityBProgress);
+  ['qStats','techniqueStats','mockQuestionStats','mockMistakeStats','bMockStats','bCompoundStats',
+   'securityMockStats','bFinalStats','bFinalMistakeStats','settings','dailyPlans','reviewJourney','reviewJourneys','chapterMastery'
+  ].forEach(key=>out[key]=safeObject(p[key]));
+  out.sessions=safeArray(p.sessions,3000);
+  out.activity=safeObject(p.activity);
+  out.mockHistory=safeArray(p.mockHistory,100);
+  out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);
+  out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);
+  out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);
+  out.bFinalHistory=normalizeBFinalHistoryForPersistenceV430(p.bFinalHistory);
+  return out;
+}
+function profileIntegrityChecksumV7(p){
+  return `fnv1a32:${fnv1a32(stableJson(normalizeProfileDataV7ForChecksum(p)))}`;
+}
 function profileChecksumForSchema(p,schema=profileSchemaNumber(p)){
   if(schema===3)return profileIntegrityChecksumV3(p);
   if(schema===4)return profileIntegrityChecksumV4(p);
   if(schema===5)return profileIntegrityChecksumV5(p);
   if(schema===6)return profileIntegrityChecksumV6(p);
+  if(schema===7)return profileIntegrityChecksumV7(p);
   return profileIntegrityChecksum(p);
 }
 function parseProfileRaw(raw){
@@ -11375,7 +11448,7 @@ function formatElapsed(sec){
 function mockTargetSeconds(){return mockItems.length?Math.round(mockInitialSeconds/mockItems.length):90;}
 function mockAttemptDiagnostics(details,byCat){
   const target=mockTargetSeconds();
-  const wrongRows=details.filter(d=>d.answerIndex===null||d.answerIndex!==d.correctIndex);
+  const wrongRows=details.filter(d=>!subjectAMockHistoryDetailOkV432(d));
   const slowRows=details.filter(d=>(d.seconds||0)>target*1.35);
   const repeatRows=wrongRows.filter(d=>(profile.mockMistakeStats?.[d.id]?.misses||0)>=1);
   const weakest=Object.entries(byCat||{}).filter(([,v])=>v.total).sort((a,b)=>(a[1].correct/a[1].total)-(b[1].correct/b[1].total))[0];
@@ -11475,6 +11548,7 @@ function finishMock(timeup=false){
     shownOptions:[...q.options],
     correctIndex:q.a,
     answerIndex:mockAnswers[i],
+    ok:mockAnswers[i]===q.a,
     flagged:!!mockFlags[i],
     seconds:mockQuestionSeconds[i]||0
   }));
@@ -11483,7 +11557,8 @@ function finishMock(timeup=false){
     blueprint:mockCurrentBlueprint?structuredClone(mockCurrentBlueprint):null,
     byCat:structuredClone(byCat),details:attemptDetails
   };
-  profile.mockHistory.unshift(lastMockAttempt);
+  const persistedMockAttempt=subjectAMockHistoryAttemptForPersistenceV432(lastMockAttempt);
+  profile.mockHistory.unshift(persistedMockAttempt);
   profile.mockHistory=profile.mockHistory.slice(0,10);
   profile.xp += Math.round(correct*2);
   saveProfile();
@@ -11590,7 +11665,7 @@ function reviewCandidates(attempt){
   return attempt.details.map((d,i)=>{
     const q=originalQuestionById(d.id);
     if(!q) return null;
-    const wrong=d.answerIndex===null || d.answerIndex!==d.correctIndex;
+    const wrong=!subjectAMockHistoryDetailOkV432(d);
     if(!wrong && !d.flagged) return null;
     return {...d,q,wrong,position:i};
   }).filter(Boolean);
@@ -11637,8 +11712,9 @@ function renderMockReviewItem(){
   if((stat.misses||0)>=2) badges.push(`<span class="review-badge repeat">繰り返し誤答 ${stat.misses}回</span>`);
   document.getElementById('reviewBadges').innerHTML=badges.join('');
 
-  const user=item.answerIndex===null?'未回答':item.shownOptions[item.answerIndex];
-  const correct=item.shownOptions[item.correctIndex];
+  const hasStoredChoiceText=Array.isArray(item.shownOptions)&&Number.isInteger(item.correctIndex);
+  const user=hasStoredChoiceText?(item.answerIndex===null?'未回答':item.shownOptions[item.answerIndex]):'回答内容は保存していません';
+  const correct=hasStoredChoiceText?item.shownOptions[item.correctIndex]:(Array.isArray(q.options)&&Number.isInteger(q.a)?q.options[q.a]:'現在の問題で確認してください');
   document.getElementById('reviewUserAnswerValue').textContent=user;
   document.getElementById('reviewCorrectAnswerValue').textContent=correct;
   document.getElementById('reviewUserAnswer').className='review-answer user'+(item.wrong?' wrong':'');
@@ -11832,6 +11908,18 @@ roadmapData=function(){
 
 
 
+const A_MOCK_POSTSUBMIT_RETENTION_V432_SPEC=Object.freeze({
+  policy:'persist-analysis-metadata-only-for-subject-a-mock',
+  profileSchemaVersion:8,
+  priorSchemaCompatibility:7,
+  detailFields:Object.freeze(['id','ok','flagged','seconds']),
+  removesShuffledChoicesAndAnswerPositionsFromPersistentHistory:true,
+  keepsImmediateResultReview:true,
+  historicalReviewUsesCurrentProtectedQuestion:true
+});
+globalThis.A_MOCK_POSTSUBMIT_RETENTION_V432_SPEC=A_MOCK_POSTSUBMIT_RETENTION_V432_SPEC;
+
+
 // ===== v44: learning history analytics =====
 const ANALYTICS_CATEGORIES=['基礎理論','コンピュータ','データベース','ネットワーク','セキュリティ','アルゴリズム','マネジメント','ストラテジ'];
 
@@ -11850,7 +11938,7 @@ function analyticsAttemptStream(){
   (profile.sessions||[]).forEach((s,si)=>(s.log||[]).forEach((x,li)=>rows.push({date:s.date,cat:x.cat,ok:!!x.ok,order:si*100+li,source:'session'})));
   (profile.mockHistory||[]).forEach((h,hi)=>(h.details||[]).forEach((d,di)=>{
     const q=QUESTION_BANK.find(x=>x.id===d.id);if(!q)return;
-    rows.push({date:h.date,cat:q.cat,ok:d.answerIndex!==null&&d.answerIndex===d.correctIndex,order:hi*100+di+50000,source:'mock'});
+    rows.push({date:h.date,cat:q.cat,ok:subjectAMockHistoryDetailOkV432(d),order:hi*100+di+50000,source:'mock'});
   }));
   return rows.sort((a,b)=>String(b.date).localeCompare(String(a.date))||a.order-b.order);
 }
@@ -12093,7 +12181,7 @@ function categoryAnalytics(cat){
   const accuracy=attempts?Math.round(correct/attempts*100):cognitive.score;
 
   const mockRows=allRecentMockDetails().filter(d=>ids.has(d.id));
-  const mockWrong=mockRows.filter(d=>d.answerIndex===null || d.answerIndex!==d.correctIndex).length;
+  const mockWrong=mockRows.filter(d=>!subjectAMockHistoryDetailOkV432(d)).length;
   const timed=mockRows.filter(d=>(d.seconds||0)>0);
   const avgSec=timed.length?Math.round(timed.reduce((s,d)=>s+(d.seconds||0),0)/timed.length):0;
 
