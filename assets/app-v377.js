@@ -189,6 +189,7 @@ function showScreen(id,opts={}){
   if(!exists)id='home';
   const prev=activeScreenId();
   if(prev==='plan'&&id!=='plan'&&!opts.skipUnsavedPlanGuard&&typeof confirmStudyPlanLeaveV373==='function'&&!confirmStudyPlanLeaveV373())return false;
+  if(prev==='problems'&&id!=='problems'&&typeof releaseSubjectAPracticeRuntimeV435==='function')releaseSubjectAPracticeRuntimeV435();
   screens.forEach(s => {
     const active=s.id===id;
     s.classList.toggle('active',active);
@@ -1866,7 +1867,26 @@ function renderExerciseEntry(){
   action.textContent='始める →';
   action.onclick=()=>profile.sessions?.length?startRecommendedPrescription():startQuiz('weak');
 }
+function releaseSubjectAPracticeRuntimeV435(){
+  stopQuestionPacer();
+  stopRxTimer();
+  globalThis.FEQUEST_V376_PROTECTED_FLOW?.clearSubjectASession?.();
+  quizItems=[];
+  quizSelected=null;
+  quizAnswered=false;
+  quizPickedReason=null;
+  quizRetryCount=0;
+  quizFirstAttemptWrong=false;
+  sessionLog=[];
+  rxTechniqueData={};
+  const question=document.getElementById('quizQuestion');if(question)question.textContent='';
+  const options=document.getElementById('quizOptions');if(options)options.replaceChildren();
+  const explanation=document.getElementById('quizExplanation');if(explanation)explanation.textContent='';
+  const hint=document.getElementById('quizHint');if(hint)hint.textContent='';
+  document.getElementById('quizExplain')?.classList.remove('show');
+}
 function openProblemsHub(){
+  releaseSubjectAPracticeRuntimeV435();
   document.getElementById('problems')?.classList.remove('exercise-session-active');
   if(problemHub) problemHub.style.display='grid';
   if(quizSession) quizSession.style.display='none';
@@ -2265,6 +2285,7 @@ function selectSubjectAMetadataV376(mode){
 }
 
 async function startQuiz(mode){
+  releaseSubjectAPracticeRuntimeV435();
   ensureQuestionProfile();
   quizMode=mode;
   quizItems=selectSubjectAMetadataV376(mode);
@@ -2315,6 +2336,7 @@ async function startQuiz(mode){
     quizItems=await bridge.prepareSubjectA(quizItems);
   }catch(error){
     bridge.reportSubjectAError?.(error);
+    releaseSubjectAPracticeRuntimeV435();
     problemHub.style.display='block';
     quizSession.style.display='none';
     if(loadingSubmit)loadingSubmit.disabled=false;
@@ -2682,8 +2704,7 @@ function finishQuizSession(){
   updateDueCount();
   renderExerciseEntry();
 
-  globalThis.FEQUEST_V376_PROTECTED_FLOW?.clearSubjectASession?.();
-  quizItems=[];
+  releaseSubjectAPracticeRuntimeV435();
 }
 
 document.getElementById('sessionHome')?.addEventListener('click',openProblemsHub);
@@ -9094,18 +9115,33 @@ const BFINAL_RESUME_KEY='fequest_bfinal_resume_v1';
 function clearBFinalResume(){
   try{localStorage.removeItem(BFINAL_RESUME_KEY)}catch(e){}
 }
+function bFinalResumeItemForPersistenceV435(item){
+  return {
+    _protectedQuestionId:item?._protectedQuestionId||'',
+    kind:item?.kind||'',
+    _serverMap:Array.isArray(item?._serverMap)?[...item._serverMap]:[]
+  };
+}
+function bFinalResumePayloadForPersistenceV435(){
+  return {
+    version:2,appVersion:APP_VERSION,
+    items:(bFinalItems||[]).map(bFinalResumeItemForPersistenceV435),
+    answers:[...(bFinalAnswers||[])],
+    flags:[...bFinalFlags],
+    index:bFinalIndex,
+    expiresAt:Date.now()+Math.max(0,bFinalSeconds)*1000,
+    startedAt:bFinalStartedAt||Date.now(),
+    savedAt:Date.now()
+  };
+}
+function writeBFinalResumePayloadV435(payload){
+  localStorage.setItem(BFINAL_RESUME_KEY,JSON.stringify(payload));
+  return true;
+}
 function saveBFinalResume(){
   if(!bFinalItems?.length||!document.getElementById('bFinalExam')?.classList.contains('show'))return false;
-  try{
-    const payload={
-      version:1,appVersion:APP_VERSION,
-      items:bFinalItems,answers:bFinalAnswers,flags:[...bFinalFlags],index:bFinalIndex,
-      expiresAt:Date.now()+Math.max(0,bFinalSeconds)*1000,
-      startedAt:bFinalStartedAt||Date.now(),savedAt:Date.now()
-    };
-    localStorage.setItem(BFINAL_RESUME_KEY,JSON.stringify(payload));
-    return true;
-  }catch(e){console.warn('B final resume save failed',e);return false}
+  try{return writeBFinalResumePayloadV435(bFinalResumePayloadForPersistenceV435())}
+  catch(e){console.warn('B final resume save failed',e);return false}
 }
 function readBFinalResume(){
   try{return JSON.parse(localStorage.getItem(BFINAL_RESUME_KEY)||'null')}catch(e){return null}
@@ -9144,27 +9180,87 @@ function bFinalResumePayloadValidV426(s){
   if(!Number.isFinite(Number(s.expiresAt))||!Number.isFinite(Number(s.startedAt))||!Number.isFinite(Number(s.savedAt)))return false;
   return true;
 }
-function restoreBFinalResume(){
-  const s=readBFinalResume();
-  if(!bFinalResumePayloadValidV426(s)){clearBFinalResume();return false;}
-  const remain=Math.ceil((Number(s.expiresAt||0)-Date.now())/1000);
-  if(remain<=0){clearBFinalResume();return false}
-  bFinalItems=s.items;
-  bFinalAnswers=s.answers;
-  bFinalFlags=new Set(s.flags||[]);
-  bFinalIndex=Math.max(0,Math.min(19,Number(s.index)||0));
-  bFinalSeconds=Math.min(B_FINAL_SECONDS,remain);
-  bFinalStartedAt=Number(s.startedAt)||Date.now();
-  lastBFinalAttempt=null;
-  setBMode('final');
-  document.getElementById('bFinalSelect')?.classList.add('hidden');
-  document.getElementById('bFinalResult')?.classList.remove('show');
-  document.getElementById('bFinalExam')?.classList.add('show');
-  showScreen('trace',{replaceHistory:true,instant:true});
-  renderBFinalQuestion();
-  startBFinalTimer();
+const B_FINAL_RESUME_V435_SPEC=Object.freeze({
+  policy:'persist-resume-metadata-only-and-rehydrate-protected-questions',
+  schemaVersion:2,
+  legacySchemaVersion:1,
+  totalCount:20,
+  persistedItemFields:Object.freeze(['_protectedQuestionId','kind','_serverMap']),
+  persistsQuestionText:false,
+  persistsOptionText:false,
+  preservesAnswersFlagsOrderAndTimer:true,
+  legacyPayloadIsSanitizedBeforeAsyncRehydrate:true
+});
+function bFinalResumeMetadataItemValidV435(item,index){
+  if(!item||typeof item!=='object'||Array.isArray(item))return false;
+  if(typeof item._protectedQuestionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(item._protectedQuestionId))return false;
+  const expectedKind=index<16?'algo':'security';
+  if(item.kind!==expectedKind)return false;
+  if(!Array.isArray(item._serverMap)||item._serverMap.length!==4)return false;
+  if(new Set(item._serverMap).size!==4||item._serverMap.some(n=>!Number.isInteger(n)||n<0||n>3))return false;
+  const forbidden=['q','options','stem','hint','context','code','data','incident','evidence','log','a','answerIndex','correctText','explain','explanation','choiceExplanations'];
+  return !forbidden.some(key=>Object.prototype.hasOwnProperty.call(item,key));
+}
+function bFinalResumePayloadValidV435(s){
+  if(!s||typeof s!=='object'||Array.isArray(s)||s.version!==2||s.appVersion!==APP_VERSION)return false;
+  if(!Array.isArray(s.items)||s.items.length!==20||!Array.isArray(s.answers)||s.answers.length!==20)return false;
+  if(!s.items.every((item,index)=>bFinalResumeMetadataItemValidV435(item,index)))return false;
+  if(new Set(s.items.map(item=>item._protectedQuestionId)).size!==20)return false;
+  if(s.answers.some(answer=>answer!==null&&(!Number.isInteger(answer)||answer<0||answer>3)))return false;
+  if(!Array.isArray(s.flags)||s.flags.some(n=>!Number.isInteger(n)||n<0||n>19)||new Set(s.flags).size!==s.flags.length)return false;
+  if(!Number.isInteger(s.index)||s.index<0||s.index>19)return false;
+  if(!Number.isFinite(Number(s.expiresAt))||!Number.isFinite(Number(s.startedAt))||!Number.isFinite(Number(s.savedAt)))return false;
   return true;
 }
+function bFinalLegacyResumeToV435(s){
+  if(!bFinalResumePayloadValidV426(s))return null;
+  return {
+    version:2,appVersion:APP_VERSION,
+    items:s.items.map(bFinalResumeItemForPersistenceV435),
+    answers:[...s.answers],flags:[...s.flags],index:s.index,
+    expiresAt:s.expiresAt,startedAt:s.startedAt,savedAt:Date.now()
+  };
+}
+async function restoreBFinalResume(){
+  const raw=readBFinalResume();
+  let state=raw;
+  if(raw?.version===1){
+    state=bFinalLegacyResumeToV435(raw);
+    if(!state){clearBFinalResume();return false;}
+    try{writeBFinalResumePayloadV435(state)}
+    catch(e){console.warn('Legacy B final resume could not be sanitized',e);clearBFinalResume();return false}
+  }
+  if(!bFinalResumePayloadValidV435(state)){if(raw)clearBFinalResume();return false;}
+  const remain=Math.ceil((Number(state.expiresAt||0)-Date.now())/1000);
+  if(remain<=0){clearBFinalResume();return false}
+  const ids=state.items.map(item=>item._protectedQuestionId);
+  try{
+    const packets=await bFinalBridgeV376().startSession(ids);
+    if(!Array.isArray(packets)||packets.length!==20)throw new Error('v435_b_final_resume_hydration_invalid');
+    bFinalItems=packets.map((packet,index)=>bFinalProtectedItemV376(packet,state.items[index]._serverMap));
+    bFinalAnswers=[...state.answers];
+    bFinalFlags=new Set(state.flags||[]);
+    bFinalIndex=Math.max(0,Math.min(19,Number(state.index)||0));
+    bFinalSeconds=Math.min(B_FINAL_SECONDS,remain);
+    bFinalStartedAt=Number(state.startedAt)||Date.now();
+    lastBFinalAttempt=null;
+    setBMode('final');
+    document.getElementById('bFinalSelect')?.classList.add('hidden');
+    document.getElementById('bFinalResult')?.classList.remove('show');
+    document.getElementById('bFinalExam')?.classList.add('show');
+    showScreen('trace',{replaceHistory:true,instant:true});
+    renderBFinalQuestion();
+    startBFinalTimer();
+    saveBFinalResume();
+    return true;
+  }catch(error){
+    console.warn('B final resume rehydrate failed',error);
+    bFinalClearProtectedV376();
+    return false;
+  }
+}
+globalThis.B_FINAL_RESUME_V435_SPEC=B_FINAL_RESUME_V435_SPEC;
+globalThis.bFinalResumePayloadValidV435=bFinalResumePayloadValidV435;
 
 globalThis.B_FINAL_RESUME_V426_SPEC=B_FINAL_RESUME_V426_SPEC;
 globalThis.bFinalResumePayloadValidV426=bFinalResumePayloadValidV426;
@@ -9281,9 +9377,11 @@ function bFinalSelectDescriptorsV376(){
   return descriptors;
 }
 globalThis.B_FINAL_RUNTIME_ORDER_V425_SPEC=B_FINAL_RUNTIME_ORDER_V425_SPEC;
-function bFinalProtectedItemV376(packet){
+function bFinalProtectedItemV376(packet,serverMap=null){
   if(!packet||!['algo','security'].includes(packet.kind)||!Array.isArray(packet.options)||packet.options.length!==4)throw new Error('v376_b_final_packet_invalid');
-  const pairs=packet.options.map((text,serverIndex)=>({text,serverIndex})),mixed=shuffled(pairs);
+  const validMap=Array.isArray(serverMap)&&serverMap.length===4&&new Set(serverMap).size===4&&serverMap.every(n=>Number.isInteger(n)&&n>=0&&n<=3);
+  const order=validMap?[...serverMap]:shuffled([0,1,2,3]);
+  const mixed=order.map(serverIndex=>({text:packet.options[serverIndex],serverIndex}));
   const common={
     _protectedQuestionId:packet.questionId,_serverMap:mixed.map(item=>item.serverIndex),
     sourceId:packet.parentId,kind:packet.kind,level:packet.level||'',title:packet.title||'',
@@ -11983,6 +12081,16 @@ roadmapData=function(){
 
 
 
+const RUNTIME_PROTECTED_LIFETIME_V435_SPEC=Object.freeze({
+  policy:'clear-protected-runtime-on-exit-and-persist-b-final-resume-metadata-only',
+  subjectAQuitClearsHydratedSession:true,
+  subjectANavigationClearsQuestionDom:true,
+  bFinalResumeSchemaVersion:2,
+  bFinalResumePersistsQuestionText:false,
+  bFinalResumeRehydratesByProtectedQuestionId:true
+});
+globalThis.RUNTIME_PROTECTED_LIFETIME_V435_SPEC=RUNTIME_PROTECTED_LIFETIME_V435_SPEC;
+
 const PROFILE_PROTECTED_CHECKPOINT_RETENTION_V434_SPEC=Object.freeze({
   policy:'strip-protected-answer-positions-from-persistent-resume-checkpoints',
   profileSchemaVersion:9,
@@ -14513,10 +14621,10 @@ function uiStateIsToday(state){
   const a=new Date(ts),b=new Date();
   return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
 }
-function restoreResilientUiState(){
+async function restoreResilientUiState(){
   restoringUiState=true;
   try{
-    if(restoreBFinalResume()){
+    if(await restoreBFinalResume()){
       appHistoryReplace('trace',0);
       setTimeout(()=>showAppNotice?.('info','総合実戦を再開しました','再読み込み前の回答と残り時間から続けています。'),30);
       return 'bfinal';
@@ -14550,7 +14658,7 @@ window.addEventListener('pagehide',()=>{persistProfileSilently();persistResilien
 window.addEventListener('beforeunload',()=>{persistProfileSilently();persistResilientUiState();releaseProfileWriteLease()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){persistProfileSilently();releaseProfileWriteLease()}});
 
-restoreResilientUiState();
+void restoreResilientUiState();
 window.FEQUEST_BOOT_OK = true;
 // ===== v47: PWA production support =====
 let deferredInstallPrompt=null;
