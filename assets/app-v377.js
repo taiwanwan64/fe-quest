@@ -9051,7 +9051,18 @@ function askSubmitBFinal(){
 
 
 if(!profile.bFinalMistakeStats)profile.bFinalMistakeStats={};
-function bFinalMistakeKey(d){return `${d.kind}:${d.sourceId}:${d.format}`;}
+const B_FINAL_MISTAKE_IDENTITY_V428_SPEC=Object.freeze({
+  policy:'security-question-specific-mistake-identity',
+  algorithmIdentity:'sourceId',
+  securityIdentity:'protectedQuestionId',
+  preservesLegacyHistoryFallback:true,
+  profileSchemaMigrationRequired:false
+});
+function bFinalMistakeKey(d){
+  const identity=d?.kind==='security'&&d?.questionId?d.questionId:d?.sourceId;
+  return `${d.kind}:${identity}:${d.format}`;
+}
+globalThis.B_FINAL_MISTAKE_IDENTITY_V428_SPEC=B_FINAL_MISTAKE_IDENTITY_V428_SPEC;
 function bFinalReviewReasonMeta(reason,d){
   const m={
     'トレースミス':['TRACEで1行ずつ確認','途中状態を紙に書き、変数・配列の更新を1行ずつ追います。'],
@@ -9093,7 +9104,7 @@ function finishBFinalLegacyV376(timeUp=false){
     const key=item.kind==='security'?`sec:${item.sourceId}`:`algo:${item.sourceId}`;
     if(!profile.bFinalStats[key])profile.bFinalStats[key]={seen:0,correct:0,lastSeen:null};
     const st=profile.bFinalStats[key];st.seen++;if(ok)st.correct++;st.lastSeen=localDateISO(0);
-    const detail={sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),domain:item.kind==='security'?(item.concept||'情報セキュリティ'):(item.domain||'擬似言語'),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};
+    const detail={questionId:item._protectedQuestionId,sourceId:item.sourceId,kind:item.kind,format:bFinalFormatOf(item),domain:item.kind==='security'?(item.concept||'情報セキュリティ'):(item.domain||'擬似言語'),title:item.title,q:item.q,selected:ans===null?null:item.options[ans],correct:item.correctText,ok,explain:item.explain,studyMode:item.studyMode};
     if(!ok){const mk=bFinalMistakeKey(detail);const ms=profile.bFinalMistakeStats[mk]||(profile.bFinalMistakeStats[mk]={misses:0,reasons:{},lastReason:null,last:null});ms.misses=(ms.misses||0)+1;ms.last=localDateISO(0);}
     return detail;
   });
