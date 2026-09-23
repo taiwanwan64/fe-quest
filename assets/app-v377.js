@@ -5747,6 +5747,10 @@ function fequestPrepareResponsiveLessonTablesV377(root){
     const colCount=Math.max(headers.length,...rows.map(row=>row.children.length));
     table.classList.add('fequest-responsive-content-table-v377');
     if(colCount===2)table.classList.add('is-two-column');
+    if(colCount===4 && headers[0]==='X' && headers[1]==='Y' &&
+       /^C(?:[（(]|$)/.test(headers[2]) && /^S(?:[（(]|$)/.test(headers[3])){
+      table.classList.add('is-half-adder-truth-table-v383');
+    }
     rows.forEach(row=>{
       [...row.children].forEach((cell,index)=>{
         const label=headers[index]||'';
