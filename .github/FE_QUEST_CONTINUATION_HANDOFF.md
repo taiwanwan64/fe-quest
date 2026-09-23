@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `03971646435daf36fc355ed9bf9076a2d658cdad`（PR #222 merge後）
+- main: `d56f37bf3de66d46817e22ec4ebda4b25c4b2b3c`（PR #224 merge後）
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35805011810`、success（PR #222 merge後）
-- main PWA cache contract: `fe-quest-v377-121`
+- 最新本番 deploy: GitHub Actions run `35809143667`、success（PR #224 merge後）
+- main PWA cache contract: `fe-quest-v377-122`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -48,6 +48,7 @@
 - Pages current-provider surface整理 PR: #219、merged
 - 科目Bアルゴリズム ミニ模試 protected runtime復旧 PR: #220、merged（publication / v35 CI success）
 - 科目Bセキュリティ ミニ模試 protected runtime復旧 PR: #222、merged（publication / v35 CI success）
+- 科目A関連問題復習・残存関数の現行経路監査 PR: #224、merged（publication / v35 CI success）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1126,6 +1127,17 @@
 - publication run `35804975108` success、v35 run `35804975034` success、Pages run `35805011810` success
 - PWA cache `fe-quest-v377-121`、profile schema 9、protected total 1180、`b_exam_algo` 50
 
+### 科目A関連問題復習・公開残存関数の現行経路監査
+
+`.github/reference-audits/REDACTED_RUNTIME_AUDIT_2026-09-23.md`
+
+- 「関連問題を出題」設定を現行の科目A通常復習・学習計画の復習へ接続。公開メタデータから同じカテゴリ・概念の実在するIDだけを一部選ぶ
+- 元の期限到来問題を少なくとも半分維持。再開IDは保持。直前復習は従来どおり元問題を優先
+- 旧variant generatorと科目B総合実戦の旧関数は現行の保護ブリッジ経路では使われないことを確認。出題内容・正答は公開しない
+- PR #224 merged、main `d56f37bf3de66d46817e22ec4ebda4b25c4b2b3c`
+- publication run `35809095536` success、v35 run `35809095545` success、Pages run `35809143667` success
+- PWA cache `fe-quest-v377-122`、profile schema 9、protected total 1180、`b_exam_algo` 50
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -1147,7 +1159,7 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**残るredacted residual関数の現行呼出し経路を監査する。** 科目Bの二つのミニ模試は #220・#222 で復旧した。科目Aの `genBaseConversion` などのvariant generator、および科目B総合実戦の旧 `makeFinalAlgoFromTrace` などもredacted stubのまま存在する。現行UIから到達するものと、protected移行後に使われない旧コードを分けて確認する。
+ユーザーから別の具体的な修正指示がなければ、**現行の保護出題経路で残る実動作の不整合を監査する。** 科目Bの二つのミニ模試は #220・#222 で復旧し、科目Aの関連問題復習は #224 で現行経路へ接続した。旧空関数は名前だけで復元せず、画面の開始・保護bridge・採点・履歴の実行順に沿って確認する。
 
 手順:
 
