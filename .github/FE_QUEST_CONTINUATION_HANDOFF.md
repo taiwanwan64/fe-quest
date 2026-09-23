@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `090b33221a8070ce42cc61ab6e19c62732d25c5a`（PR #220 merge後）
+- main: `03971646435daf36fc355ed9bf9076a2d658cdad`（PR #222 merge後）
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35803452914`、success（PR #220 merge後）
-- main PWA cache contract: `fe-quest-v377-120`
+- 最新本番 deploy: GitHub Actions run `35805011810`、success（PR #222 merge後）
+- main PWA cache contract: `fe-quest-v377-121`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -47,6 +47,7 @@
 - 公開static protected-content残存監査 PR: #218、merged
 - Pages current-provider surface整理 PR: #219、merged
 - 科目Bアルゴリズム ミニ模試 protected runtime復旧 PR: #220、merged（publication / v35 CI success）
+- 科目Bセキュリティ ミニ模試 protected runtime復旧 PR: #222、merged（publication / v35 CI success）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1114,6 +1115,17 @@
 - production Pages deploy run `35803452914` success
 - PWA cache `fe-quest-v377-120`、profile schema 9、protected total 1180、`b_exam_algo` 50
 
+### 科目Bセキュリティ ミニ模試 protected runtime監査
+
+`.github/reference-audits/B_SECURITY_MINI_RUNTIME_AUDIT_2026-09-23.md`
+
+- redacted stubから8問のprotected hydrate / server gradeへ復旧。基礎2・標準4・応用2、ログ読解は標準1・応用1
+- 提出中の回答固定、8件のID・正答位置・判定検証、未回答処理、離脱中の結果破棄
+- format analyticsのログ分類をprotected移行後の公開シナリオIDと整合
+- PR #222 merged、main `03971646435daf36fc355ed9bf9076a2d658cdad`
+- publication run `35804975108` success、v35 run `35804975034` success、Pages run `35805011810` success
+- PWA cache `fe-quest-v377-121`、profile schema 9、protected total 1180、`b_exam_algo` 50
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -1135,17 +1147,15 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**科目Bセキュリティ ミニ模試のcurrent protected runtimeを機能監査する。** PR #220のアルゴリズム ミニ模試と同様、mainの `randomizeSecurityMockItem(){return undefined;}` はredacted stubである。現在の `buildSecurityMock()` は8件を選んでこのstubへmapするため、結果にundefinedが入り得る。開始・描画・採点の実際の経路を確認し、受験できる状態へ戻す。
+ユーザーから別の具体的な修正指示がなければ、**残るredacted residual関数の現行呼出し経路を監査する。** 科目Bの二つのミニ模試は #220・#222 で復旧した。科目Aの `genBaseConversion` などのvariant generator、および科目B総合実戦の旧 `makeFinalAlgoFromTrace` などもredacted stubのまま存在する。現行UIから到達するものと、protected移行後に使われない旧コードを分けて確認する。
 
 手順:
 
-1. `startSecurityMock / buildSecurityMock / finishSecurityMock` と後段wrapper、画面イベントを照合
-2. `SECURITY_SCENARIOS` のprotected IDと `protected-b-security-bridge-v376.js` の公開APIを照合
-3. 8問・20分、基礎2/標準4/応用2、ログ読解の配分を確認
-4. 問題ID選択→protected hydrate→server gradeへ戻し、事前に正答・解説を漏らさない
-5. 未回答・提出中の回答固定・離脱時キャンセル・一度だけの履歴とXP付与・post-submit cleanupを検証
-6. profile schema 9、active protected total 1180、`b_exam_algo` 50を維持
-7. 必要な最小修正を監査記録→PR→CI success→merge→Pages deploy successまで確認
+1. redacted stub定義・参照・再代入・UIイベントを一覧化
+2. 到達可能な候補は、開始からhydrate / grade / reviewまで実行順に追跡
+3. 問題・正答を公開assetへ戻さず、到達可能で実際に壊れる経路だけ最小修正
+4. profile / backup / historyの既存データを保持し、重複採点と未回答処理を検証
+5. 必要なら監査記録→PR→CI success→merge→Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
 
