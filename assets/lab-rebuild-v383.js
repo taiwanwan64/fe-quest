@@ -205,7 +205,10 @@
   }
   function render(){
     const config=scenarios[currentId];if(!config||!dialog)return;
-    const focused=document.activeElement,focusKey=focused?.getAttributeNames?.().find(name=>name.startsWith('data-') && name!=='data-count');
+    // Safari may leave the previous <select> focused after a touch on a button.
+    // Restoring focus to a newly rendered select would reopen its native picker.
+    const focused=document.activeElement,focusKey=focused?.tagName==='BUTTON'&&dialog.contains(focused)
+      ?focused.getAttributeNames().find(name=>name.startsWith('data-') && name!=='data-count'):null;
     const focusValue=focusKey&&focused.getAttribute(focusKey);
     dialog.querySelector('.touch-lab-title').textContent=LESSONS[currentId].title;
     dialog.querySelector('.touch-lab-task').textContent=config.task;
@@ -215,6 +218,19 @@
       const next=[...dialog.querySelectorAll(`[${focusKey}]`)].find(node=>node.getAttribute(focusKey)===focusValue && !node.disabled);
       (next||dialog.querySelector('.touch-lab-close')).focus({preventScroll:true});
     }
+  }
+  // Keep the native form control mounted while updating its results. Replacing and
+  // focusing a <select> during its change event reopens the iOS picker.
+  function refreshAfterFieldChange(){
+    const activity=dialog.querySelector('.touch-lab-activity');
+    const preview=document.createElement('div');
+    preview.innerHTML=visual(scenarios[currentId]);
+    const previous=[...activity.children],next=[...preview.children];
+    if(previous.length!==next.length)throw new Error('Touch lab field layout changed unexpectedly');
+    previous.forEach((element,i)=>{
+      if(element.matches('select,input')||element.querySelector('select,input'))return;
+      element.replaceWith(next[i]);
+    });
   }
   function open(id){
     if(!scenarios[id])return;
@@ -399,16 +415,16 @@
         activity.querySelector('[data-profit-state]').textContent=profit===0?'損益分岐点':profit>0?'黒字':'赤字';
       });
       dialog.addEventListener('change',event=>{
-        if(event.target.matches('[data-target]')){target=Number(event.target.value);searchLow=0;searchHigh=6;searchDone=false;render();}
-        else if(event.target.matches('[data-octet]')){lastOctet=Math.min(255,Math.max(0,Number(event.target.value)||0));render();}
-        else if(event.target.matches('[data-mask]')){maskLength=Number(event.target.value);render();}
-        else if(event.target.matches('[data-backup-day]')){backupDay=Number(event.target.value);render();}
-        else if(event.target.matches('[data-backup-method]')){backupMethod=event.target.value;render();}
-        else if(event.target.matches('[data-crypto-key]')){cryptoKey=event.target.value;if(cryptoStep>1)cryptoStep=1;render();}
-        else if(event.target.matches('[data-multimedia]')){multimedia[Number(event.target.dataset.multimedia)]=Number(event.target.value);render();}
-        else if(event.target.matches('[data-swot-case]')){swotCase=Number(event.target.value);swotInternal=null;swotFavorable=null;render();}
-        else if(event.target.matches('[data-test-case]')){testCase=Number(event.target.value);testAnswer='';render();}
-        else if(event.target.matches('[data-rights-case]')){rightsCase=Number(event.target.value);rightsAnswer='';render();}
+        if(event.target.matches('[data-target]')){target=Number(event.target.value);searchLow=0;searchHigh=6;searchDone=false;refreshAfterFieldChange();}
+        else if(event.target.matches('[data-octet]')){lastOctet=Math.min(255,Math.max(0,Number(event.target.value)||0));event.target.value=String(lastOctet);refreshAfterFieldChange();}
+        else if(event.target.matches('[data-mask]')){maskLength=Number(event.target.value);refreshAfterFieldChange();}
+        else if(event.target.matches('[data-backup-day]')){backupDay=Number(event.target.value);refreshAfterFieldChange();}
+        else if(event.target.matches('[data-backup-method]')){backupMethod=event.target.value;refreshAfterFieldChange();}
+        else if(event.target.matches('[data-crypto-key]')){cryptoKey=event.target.value;if(cryptoStep>1)cryptoStep=1;refreshAfterFieldChange();}
+        else if(event.target.matches('[data-multimedia]')){multimedia[Number(event.target.dataset.multimedia)]=Number(event.target.value);refreshAfterFieldChange();}
+        else if(event.target.matches('[data-swot-case]')){swotCase=Number(event.target.value);swotInternal=null;swotFavorable=null;refreshAfterFieldChange();}
+        else if(event.target.matches('[data-test-case]')){testCase=Number(event.target.value);testAnswer='';refreshAfterFieldChange();}
+        else if(event.target.matches('[data-rights-case]')){rightsCase=Number(event.target.value);rightsAnswer='';refreshAfterFieldChange();}
       });
       document.addEventListener('keydown',event=>{
         if(dialog.hidden)return;
