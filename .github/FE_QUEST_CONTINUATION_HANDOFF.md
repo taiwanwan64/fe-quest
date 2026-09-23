@@ -24,12 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `bf918d02d7cc8984bed17de25b9104a1965cf96d`（PR #218 merge後）
-- open PR: **#219** `pages-current-provider-only-v437-20260923`
-- active work PR: **#219 Pages配信を現行providerだけに整理**
-- 最新本番 deploy: GitHub Actions run `35791662537`、success（PR #218 merge後）
-- main PWA cache contract: `fe-quest-v377-118`
-- PR #219 target PWA cache contract: `fe-quest-v377-119`
+- main: `090b33221a8070ce42cc61ab6e19c62732d25c5a`（PR #220 merge後）
+- open PR: 0
+- active work PR: なし
+- 最新本番 deploy: GitHub Actions run `35803452914`、success（PR #220 merge後）
+- main PWA cache contract: `fe-quest-v377-120`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -46,7 +45,8 @@
 - Profile全体protected checkpoint retention監査 PR: #216、merged
 - Protected runtime lifetime / B-final resume監査 PR: #217、merged
 - 公開static protected-content残存監査 PR: #218、merged
-- Pages current-provider surface整理 PR: #219、open（publication / v35 CIの初回success確認済み）
+- Pages current-provider surface整理 PR: #219、merged
+- 科目Bアルゴリズム ミニ模試 protected runtime復旧 PR: #220、merged（publication / v35 CI success）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1102,6 +1102,18 @@
 - target PWA cache contract: `fe-quest-v377-119`
 
 
+### 科目Bアルゴリズム ミニ模試 protected runtime監査
+
+`.github/reference-audits/B_MINI_MOCK_RUNTIME_AUDIT_2026-09-23.md`
+
+- redacted stubによる0問化経路をprotected bridgeの8問hydrate / server gradeへ復旧
+- 採点待ち中の回答変更、結果の順序・正答位置・判定不整合、画面離脱後の結果適用を防止
+- 未回答の誤答判定・読み込み中キャンセル・結果解放をintegration testで検証
+- PR #220 merged、main `090b33221a8070ce42cc61ab6e19c62732d25c5a`
+- publication CI run `35803409485` success、v35 CI run `35803409400` success
+- production Pages deploy run `35803452914` success
+- PWA cache `fe-quest-v377-120`、profile schema 9、protected total 1180、`b_exam_algo` 50
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -1123,19 +1135,17 @@
 
 ## 7. 次のデフォルト作業
 
-まず **PR #219 のlive状態を確認** する。handoff更新後の最新head CIがsuccessならmergeし、mainのPages deploy successまで確認する。既にmergedならそのmain / deployを正として先へ進む。
-
-その後、ユーザーから別の具体的な修正指示がなければ、**科目Bアルゴリズム ミニ模試のcurrent protected runtime経路を機能監査する。** static監査中、legacy `bMockCandidateFromExercise()` がredacted stubのまま残っていることを確認したため、実際のcurrent start / build / grade経路がprotected bridgeへ置換済みか、または0問化し得る死んだlegacy経路が残っていないかをlive codeで確定する。
+ユーザーから別の具体的な修正指示がなければ、**科目Bセキュリティ ミニ模試のcurrent protected runtimeを機能監査する。** PR #220のアルゴリズム ミニ模試と同様、mainの `randomizeSecurityMockItem(){return undefined;}` はredacted stubである。現在の `buildSecurityMock()` は8件を選んでこのstubへmapするため、結果にundefinedが入り得る。開始・描画・採点の実際の経路を確認し、受験できる状態へ戻す。
 
 手順:
 
-1. `startBMiniMock / buildBMock / finishBMiniMock` の全定義・wrapper・再代入を列挙
-2. `protected-b-exam-bridge-v376.js` の公開APIとmini mock呼出し側を照合
-3. current UIの「アルゴリズム ミニ模試」開始イベントから実際のhydration / gradingまで追跡
-4. redacted legacy builderがcurrent routeなら、protected bridgeで問題ID選択→hydrate→server gradeする最小修正を行う
-5. 8問・40分、基礎2/標準4/応用2、履歴metadata-only、post-submit cleanupを維持
-6. protected bankを公開assetへ戻さず、既存1180問・`b_exam_algo=50`を変更しない
-7. 必要なら監査記録 → PR → CI → merge → Pages deployまで確認
+1. `startSecurityMock / buildSecurityMock / finishSecurityMock` と後段wrapper、画面イベントを照合
+2. `SECURITY_SCENARIOS` のprotected IDと `protected-b-security-bridge-v376.js` の公開APIを照合
+3. 8問・20分、基礎2/標準4/応用2、ログ読解の配分を確認
+4. 問題ID選択→protected hydrate→server gradeへ戻し、事前に正答・解説を漏らさない
+5. 未回答・提出中の回答固定・離脱時キャンセル・一度だけの履歴とXP付与・post-submit cleanupを検証
+6. profile schema 9、active protected total 1180、`b_exam_algo` 50を維持
+7. 必要な最小修正を監査記録→PR→CI success→merge→Pages deploy successまで確認
 
 ## 8. リポジトリと保護教材の役割
 
