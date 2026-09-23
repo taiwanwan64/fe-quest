@@ -189,7 +189,11 @@
     }
     const option=config.options[selected];
     const track=config.options.length<3?'':`<div class="touch-lab-track" aria-label="全体の段階">${config.options.map((item,i)=>`<span class="${i===selected?'active':''}"><b>${i+1}</b>${html(item[0])}</span>`).join('')}</div>`;
-    return `<div class="touch-lab-options">${config.options.map((item,i)=>`<button type="button" data-select="${i}" aria-pressed="${selected===i}">${html(item[0])}</button>`).join('')}</div>${track}<div class="touch-lab-flow" role="img" aria-label="${html(option[1])}"><span>${html(option[0])}</span><i aria-hidden="true">→</i><strong>${html(option[1])}</strong></div><p class="touch-lab-result">${html(option[2])}</p><p class="touch-lab-observation">${html(option[3])}</p>`;
+    const steps=option[1].split(/\s*→\s*/);
+    const flow=steps.length>1
+      ?`<div class="touch-lab-flow touch-lab-sequence" role="img" aria-label="${html(option[0]+'：'+option[1])}">${steps.map((step,i)=>`${i?'<i aria-hidden="true">→</i>':''}<span>${html(step)}</span>`).join('')}</div>`
+      :`<div class="touch-lab-flow" role="img" aria-label="${html(option[0]+'：'+option[1])}"><span>${html(option[0])}</span><i aria-hidden="true">→</i><strong>${html(option[1])}</strong></div>`;
+    return `<div class="touch-lab-options">${config.options.map((item,i)=>`<button type="button" data-select="${i}" aria-pressed="${selected===i}">${html(item[0])}</button>`).join('')}</div>${track}${flow}<p class="touch-lab-result">${html(option[2])}</p><p class="touch-lab-observation">${html(option[3])}</p>`;
   }
   function quiz(id){
     const item=LESSONS[id].pages.find(page=>page.quiz)?.quiz;
