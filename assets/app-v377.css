@@ -4250,6 +4250,21 @@
     #lesson .fequest-responsive-content-table-v377.is-two-column tbody tr > :nth-child(2){
       color:#405b6c;
     }
+    /* Keep the four half-adder outcomes comparable row by row on phones. */
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383{
+      display:table;width:100%;table-layout:fixed;border-collapse:collapse;background:#fff;
+    }
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383 thead{display:table-header-group}
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383 tbody{display:table-row-group}
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383 tbody tr{
+      display:table-row;width:auto;padding:0;border:0;border-radius:0;background:transparent;
+    }
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383 th,
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383 tbody tr > *{
+      display:table-cell;width:25%;padding:9px 3px;margin:0;border:1px solid #cadbe3;
+      text-align:center;vertical-align:middle;line-height:1.45;overflow-wrap:anywhere;
+    }
+    #lesson .fequest-responsive-content-table-v377.is-half-adder-truth-table-v383:not(.is-two-column) tbody tr > *::before{content:none}
   }
 
   /* ===== v74: option-by-option explanations ===== */
