@@ -21,6 +21,8 @@ jobs:
         run: node .github/scripts/check-b-mini-mock-v438.mjs
       - name: Exercise protected security mini mock bridge
         run: node .github/scripts/check-b-security-mini-v439.mjs
+      - name: Exercise Subject A related-question review selection
+        run: node .github/scripts/check-subject-a-review-related-v440.mjs
       - name: Validate JavaScript syntax
         run: |
           node --check assets/app-v377.js
@@ -422,11 +424,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-121';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-122';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-121" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-122" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -1105,7 +1107,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-121';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-122';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
