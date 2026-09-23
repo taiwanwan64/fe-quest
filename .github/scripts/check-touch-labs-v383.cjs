@@ -59,4 +59,7 @@ const input=new Node('button');input.dataset.input='0';
 dialog.listeners.click({target:input});
 assert.match(dialog.querySelector('.touch-lab-activity').innerHTML,/A：ON（1）/);
 labs.close();
+labs.open('tcpudp');
+assert.match(dialog.querySelector('.touch-lab-activity').innerHTML,/<span>接続<\/span>.*<span>送信<\/span>.*<span>到達確認<\/span>/);
+labs.close();
 console.log('PASS: 34 touch labs, cards, dialog navigation, binary and logic controls');
