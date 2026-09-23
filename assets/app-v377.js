@@ -1237,7 +1237,12 @@ function categoryCognitiveEvidence(cat){
   return {cat,score,levels,weakest};
 }
 
-function subjectACognitiveEvidence(){return undefined;}/* FEQUEST_V376_REDACTED_FUNCTION */
+function subjectACognitiveEvidence(){
+  const attempted=new Set(QUESTION_BANK.filter(q=>Number(profile.qStats?.[q.id]?.attempts)>0).map(q=>q.cat));
+  if(!attempted.size)return null;
+  const scores=[...attempted].map(cat=>categoryCognitiveEvidence(cat).score).filter(Number.isFinite);
+  return scores.length?Math.round(scores.reduce((sum,score)=>sum+score,0)/scores.length):null;
+}
 
 function refreshProfileUI(){
   const xpTop = document.getElementById('xpTop');
