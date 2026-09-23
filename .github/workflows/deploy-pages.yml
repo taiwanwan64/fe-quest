@@ -282,7 +282,7 @@ jobs:
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-121';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-122';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"

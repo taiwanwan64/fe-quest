@@ -1993,9 +1993,9 @@ function buildReviewItem(q){
   return generateVariant(q)||siblingVariant(q)||q;
 }
 function variantCoverage(){
-  const direct=QUESTION_BANK.filter(hasVariant).length,total=QUESTION_BANK.length;
-  const concepts=[...new Set(QUESTION_BANK.filter(hasVariant).map(q=>q.concept))].length;
-  return {direct,total,concepts};
+  const bank=subjectATrackedMetadataV376();
+  const related=bank.filter(item=>bank.some(other=>subjectAIsRelatedReviewMetadataV440(item,other)));
+  return {questions:related.length,concepts:new Set(related.map(item=>`${item.cat}:${item.concept||item.coreTopicId}`)).size};
 }
 function validateGeneratedVariants(){
   let count=0;
@@ -2236,6 +2236,24 @@ function subjectAPickRxMetadataV376(mode,pool){
   const count=kind==='speed'?10:8;
   return subjectAUniqueMetadataV376([...preferred.sort(()=>Math.random()-.5),...same.sort(()=>Math.random()-.5)],count);
 }
+function subjectAIsRelatedReviewMetadataV440(item,other){
+  if(!item?.id||!other?.id||item.id===other.id||item.cat!==other.cat)return false;
+  if(item.concept&&other.concept)return item.concept===other.concept;
+  return !!item.coreTopicId&&item.coreTopicId===other.coreTopicId;
+}
+function subjectAReviewRelatedMetadataV440(selected,pool){
+  if(profile.settings.variantReview===false||selected.length<2)return selected;
+  const out=[...selected],used=new Set(out.map(item=>item.id));
+  // Keep at least half of the due questions in this session, including the first due item.
+  for(let i=1;i<out.length;i+=2){
+    const base=out[i];
+    const candidates=pool.filter(item=>!used.has(item.id)&&subjectAIsRelatedReviewMetadataV440(base,item));
+    candidates.sort((a,b)=>(Number(subjectAStatV376(a).attempts)||0)-(Number(subjectAStatV376(b).attempts)||0));
+    if(!candidates.length)continue;
+    used.delete(base.id);used.add(candidates[0].id);out[i]=candidates[0];
+  }
+  return out;
+}
 function selectSubjectAMetadataV376(mode){
   const key=String(mode||'random'),bank=[...QUESTION_BANK],tracked=subjectATrackedMetadataV376();
   if(key.startsWith('budget:')){
@@ -2249,7 +2267,8 @@ function selectSubjectAMetadataV376(mode){
       return saved.map(id=>byId.get(id));
     }
     if(task?.lane==='review'){
-      const due=subjectAPickDueMetadataV376(tracked,n);return due.length?due:subjectAPickWeakMetadataV376(bank,n);
+      const due=subjectAPickDueMetadataV376(tracked,n);
+      return subjectAReviewRelatedMetadataV440(due.length?due:subjectAPickWeakMetadataV376(bank,n),tracked);
     }
     return subjectAPickWeakMetadataV376(bank,n);
   }
@@ -2273,7 +2292,8 @@ function selectSubjectAMetadataV376(mode){
     const due=subjectAPickDueMetadataV376(tracked,5);return due.length>=5?due:subjectAUniqueMetadataV376([...due,...subjectAPickWarmupMetadataV376(bank,5)],5);
   }
   if(key==='review'){
-    const due=subjectAPickDueMetadataV376(tracked,10);return due.length?due:subjectAPickWeakMetadataV376(bank,5);
+    const due=subjectAPickDueMetadataV376(tracked,10);
+    return subjectAReviewRelatedMetadataV440(due.length?due:subjectAPickWeakMetadataV376(bank,5),tracked);
   }
   if(key==='weak')return subjectAPickWeakMetadataV376(bank,10);
   if(key==='boss')return subjectAPickHardMetadataV376(bank,5);
@@ -13281,13 +13301,13 @@ function refreshVariantReviewUI(){
   if(t)t.checked=profile.settings.variantReview!==false;
   const c=variantCoverage();
   const e=document.getElementById('variantCoverageText');
-  if(e)e.textContent=`パラメータ生成 ${c.concepts}テーマ・${c.direct}問を直接対応。その他は同じテーマの別問題を優先し、なければ元問題を復習。`;
+  if(e)e.textContent=`関連問題がある ${c.concepts}テーマ・${c.questions}問。別問題がない場合は元問題を復習します。`;
 }
 document.getElementById('variantReviewToggle')?.addEventListener('change',e=>{
   profile.settings.variantReview=!!e.target.checked;
   saveProfile();
   refreshVariantReviewUI();
-  popToast(profile.settings.variantReview?'復習で類題を優先します':'元問題をそのまま復習します');
+  popToast(profile.settings.variantReview?'復習で関連問題を一部出題します':'復習で元問題を出題します');
 });
 refreshVariantReviewUI();
 
