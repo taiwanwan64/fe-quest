@@ -516,7 +516,7 @@ function buildVennDialog(){
   backdrop.innerHTML=`
     <section class="ipa92-venn-dialog" role="dialog" aria-modal="true" aria-labelledby="ipa92VennTitle">
       <div class="ipa92-venn-head">
-        <div><span class="ipa92-venn-kicker">図解・操作ラボ / IPA Ver.9.2補強</span><h2 id="ipa92VennTitle">集合・ベン図を触って理解する</h2></div>
+        <div><span class="ipa92-venn-kicker">図解・操作ラボ</span><h2 id="ipa92VennTitle">集合・ベン図を触って理解する</h2></div>
         <button type="button" class="ipa92-venn-close" id="ipa92VennClose" aria-label="ベン図ラボを閉じる">×</button>
       </div>
       <p class="ipa92-venn-lead">式を押すと対応する領域が光ります。図そのものをタップして「Aのみ」「共通部分」「Bのみ」「外側」の意味も確認できます。</p>
@@ -611,7 +611,7 @@ function ensureVennLabCard(){
   card.type='button';
   card.className='ipa92-lab-card';
   card.setAttribute('aria-haspopup','dialog');
-  card.innerHTML='<span class="ipa92-lab-icon">◉</span><span class="ipa92-lab-copy"><small>IPA Ver.9.2補強 / タッチ対応</small><b>集合・ベン図</b><em>領域を直接タップして、積集合・和集合・補集合・ド・モルガンを確認します。</em></span><span class="ipa92-lab-go">操作する →</span>';
+  card.innerHTML='<span class="ipa92-lab-icon">◉</span><span class="ipa92-lab-copy"><small>図を触って理解する</small><b>集合・ベン図</b><em>領域を直接タップして、積集合・和集合・補集合・ド・モルガンを確認します。</em></span><span class="ipa92-lab-go">操作する →</span>';
   card.addEventListener('click',openVennLab);
   grid.appendChild(card);
 }

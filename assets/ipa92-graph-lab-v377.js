@@ -291,7 +291,7 @@ function buildDialog(){
   backdrop.hidden=true;
   backdrop.innerHTML=`
     <section class="ipa92-graph-dialog" role="dialog" aria-modal="true" aria-labelledby="ipa92GraphLabTitle">
-      <div class="ipa92-graph-head"><div><span class="ipa92-graph-kicker">図解・操作ラボ / IPA Ver.9.2補強</span><h2 id="ipa92GraphLabTitle">グラフ理論をタップして理解する</h2></div><button type="button" class="ipa92-graph-close" data-graph-close aria-label="グラフ理論ラボを閉じる">×</button></div>
+      <div class="ipa92-graph-head"><div><span class="ipa92-graph-kicker">図解・操作ラボ</span><h2 id="ipa92GraphLabTitle">グラフ理論をタップして理解する</h2></div><button type="button" class="ipa92-graph-close" data-graph-close aria-label="グラフ理論ラボを閉じる">×</button></div>
       <p class="ipa92-graph-lead">頂点と辺の関係を直接タップして確認し、経路を自分で作った後、BFSとDFSの探索順へつなげます。</p>
       <div class="ipa92-graph-toolbar">
         <button type="button" data-graph-directed>無向 —</button>
@@ -359,7 +359,7 @@ function ensureCard(){
   card.type='button';
   card.className='ipa92-lab-card';
   card.setAttribute('aria-haspopup','dialog');
-  card.innerHTML='<span class="ipa92-lab-icon">⌘</span><span class="ipa92-lab-copy"><small>IPA Ver.9.2補強 / タッチ対応</small><b>グラフ理論・探索</b><em>頂点・辺・経路をタップし、無向/有向とBFS/DFSをつなげて理解します。</em></span><span class="ipa92-lab-go">操作する →</span>';
+  card.innerHTML='<span class="ipa92-lab-icon">⌘</span><span class="ipa92-lab-copy"><small>図を触って理解する</small><b>グラフ理論・探索</b><em>頂点・辺・経路をタップし、無向/有向とBFS/DFSをつなげて理解します。</em></span><span class="ipa92-lab-go">操作する →</span>';
   card.addEventListener('click',openLab);
   grid.appendChild(card);
   return true;
