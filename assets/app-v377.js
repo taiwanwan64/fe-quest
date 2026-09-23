@@ -8369,7 +8369,9 @@ void 0;/* FEQUEST_V376_REDACTED_PROTECTED_MUTATION */
 
 let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0;
 let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null;
+let bMockRunTokenV438=0;
 function bMockReleaseRuntimeV431(){
+  bMockRunTokenV438++;
   bMockItems=[];bMockAnswers=[];bMockFlags=new Set();bMockIndex=0;
   bMockStartedAt=null;bMockSeconds=B_MOCK_SECONDS;
 }
@@ -8379,26 +8381,86 @@ function bMockReleaseResultMemoryV431(){
   const breakdown=document.getElementById('bMockBreakdown');if(breakdown)breakdown.replaceChildren();
 }
 
-function bMockCandidateFromExercise(){return undefined;}/* FEQUEST_V376_REDACTED_RESIDUAL_QUESTION_FUNCTION */
+const B_MINI_MOCK_PROTECTED_RUNTIME_V438_SPEC=Object.freeze({
+  policy:'protected-b-exercise-batch-hydration-and-server-grading',
+  count:B_MOCK_COUNT,
+  quotas:Object.freeze({...B_MOCK_QUOTAS}),
+  sourcePool:'b_exercise',
+  preSubmitAnswerIndexInClient:false,
+  serverSideGrading:true,
+  persistedHistoryMetadataOnly:true,
+  profileSchemaChanged:false,
+  protectedBankChanged:false
+});
+globalThis.B_MINI_MOCK_PROTECTED_RUNTIME_V438_SPEC=B_MINI_MOCK_PROTECTED_RUNTIME_V438_SPEC;
 
-function shuffleBMockAnswer(item){
-  const options=shuffled(item.options);
-  return {...item,options,a:options.indexOf(item.correctText)};
+let bMockStartBusyV438=false,bMockGradeBusyV438=false;
+
+function bMockSelectDescriptorsV438(){
+  const selected=[];
+  Object.entries(B_MOCK_QUOTAS).forEach(([level,count])=>{
+    const pool=B_EXERCISES
+      .filter(item=>item.level===level&&Array.isArray(item.protectedQuestionIds)&&item.protectedQuestionIds.length===2)
+      .sort((a,b)=>{
+        const sa=profile.bMockStats?.[a.id]?.seen||0,sb=profile.bMockStats?.[b.id]?.seen||0;
+        if(sa!==sb)return sa-sb;
+        const la=profile.bMockStats?.[a.id]?.lastSeen||'',lb=profile.bMockStats?.[b.id]?.lastSeen||'';
+        if(la!==lb)return la.localeCompare(lb);
+        return Math.random()-.5;
+      });
+    if(pool.length<count)throw new Error('v438_b_mini_mock_quota_unavailable');
+    pool.slice(0,count).forEach(item=>{
+      const ids=item.protectedQuestionIds.filter(id=>typeof id==='string'&&id);
+      if(ids.length!==2)throw new Error('v438_b_mini_mock_question_ids_invalid');
+      const seen=profile.bMockStats?.[item.id]?.seen||0;
+      selected.push({parentId:item.id,questionId:ids[seen%ids.length],level:item.level});
+    });
+  });
+  if(selected.length!==B_MOCK_COUNT||new Set(selected.map(item=>item.parentId)).size!==B_MOCK_COUNT)throw new Error('v438_b_mini_mock_selection_invalid');
+  return shuffled(selected);
 }
 
-function buildBMock(){
-  const candidates=B_EXERCISES.map(bMockCandidateFromExercise).filter(Boolean),selected=[];
-  Object.entries(B_MOCK_QUOTAS).forEach(([level,n])=>{
-    const pool=candidates.filter(x=>x.level===level).sort((a,b)=>{
-      const sa=profile.bMockStats[a.id]?.seen||0,sb=profile.bMockStats[b.id]?.seen||0;
-      if(sa!==sb)return sa-sb;
-      const la=profile.bMockStats[a.id]?.lastSeen||'',lb=profile.bMockStats[b.id]?.lastSeen||'';
-      if(la!==lb)return la.localeCompare(lb);
-      return Math.random()-.5;
-    });
-    selected.push(...pool.slice(0,n));
-  });
-  return shuffled(selected).map(shuffleBMockAnswer);
+function bMockVisualFromSegmentV438(parentId,segment,last){
+  const visual={};
+  if(Array.isArray(segment.matrix)){visual.matrix=structuredClone(segment.matrix);visual.matrixFocus=Array.isArray(last.matrixFocus)?[...last.matrixFocus]:[];}
+  if(Array.isArray(last.queue))visual.queue=[...last.queue];
+  if(Array.isArray(segment.list)){visual.list=structuredClone(segment.list);visual.currentNode=last.currentNode;visual.visited=Array.isArray(last.visited)?[...last.visited]:[];}
+  if(last.bits&&typeof last.bits==='object')visual.bits=structuredClone(last.bits);
+  if(last.object&&typeof last.object==='object'){visual.object=structuredClone(last.object);visual.objectName=segment.objectName||'object';}
+  if(Array.isArray(segment.array)){
+    visual.array=[...segment.array];
+    if(Array.isArray(last.arrayState))visual.arrayState=[...last.arrayState];
+    if(segment.target!==undefined)visual.target=segment.target;
+    if(last.focus!==undefined)visual.focus=last.focus;
+    if(last.found!==undefined)visual.found=last.found;
+    if(parentId==='linear_search'||parentId==='binary_search_b'){visual.searchMode=parentId;visual.searchState=structuredClone(last.state||{});}
+    if(parentId==='bubble_sort_b'||parentId==='selection_sort_b'){visual.sortMode=parentId;visual.sortState=structuredClone(last.state||{});visual.sortLine=last.line;visual.sortMessage=last.msg||'';}
+  }
+  if(Array.isArray(last.stack))visual.stack=[...last.stack];
+  if(segment.tree){visual.tree=true;visual.visited=Array.isArray(last.visited)?[...last.visited]:[];}
+  return visual;
+}
+
+function bMockProtectedItemV438(packet){
+  if(!packet||typeof packet.parentId!=='string'||typeof packet.questionId!=='string'||!Array.isArray(packet.options)||packet.options.length!==4)throw new Error('v438_b_mini_mock_packet_invalid');
+  const segment=packet.traceSegment&&typeof packet.traceSegment==='object'?packet.traceSegment:{};
+  const steps=Array.isArray(segment.steps)?segment.steps:[],last=steps.at(-1)||{};
+  const mixed=shuffled(packet.options.map((text,serverIndex)=>({text,serverIndex})));
+  return {
+    _protectedQuestionId:packet.questionId,
+    _serverMap:mixed.map(item=>item.serverIndex),
+    id:packet.parentId,
+    exId:packet.parentId,
+    sourceId:packet.parentId,
+    title:segment.title||`${packet.concept||'アルゴリズム'}・実戦`,
+    level:packet.level||'標準',
+    q:packet.stem,
+    options:mixed.map(item=>item.text),
+    code:Array.isArray(segment.code)?structuredClone(segment.code):[],
+    line:Number.isInteger(last.line)?last.line:-1,
+    state:structuredClone(last.state||{}),
+    visual:bMockVisualFromSegmentV438(packet.parentId,segment,last)
+  };
 }
 
 function bMockFormatTime(sec){
@@ -8442,6 +8504,7 @@ function renderBMockMenu(){
 function showBMockMenu(){
   stopBMockTimer();
   stopCompoundTimer();
+  try{bTraceBridgeV376().clear()}catch(_e){}
   bMockReleaseRuntimeV431();
   bMockReleaseResultMemoryV431();
   bCompoundReleaseResultMemoryV431();
@@ -8457,19 +8520,42 @@ function showBMockMenu(){
   renderBMockMenu();
 }
 
-function startBMiniMock(){
-  bMockReleaseResultMemoryV431();
-  bMockItems=buildBMock();bMockAnswers=Array(bMockItems.length).fill(null);bMockFlags=new Set();bMockIndex=0;
-  bMockSeconds=B_MOCK_SECONDS;bMockStartedAt=Date.now();lastBMockAttempt=null;
-  document.getElementById('bMockSelect')?.classList.add('hidden');
-  document.getElementById('bMockResult')?.classList.remove('show');
-  document.getElementById('bMockExam')?.classList.add('show');
-  renderBMockQuestion();startBMockTimer();
+async function startBMiniMock(){
+  if(bMockStartBusyV438)return false;
+  bMockStartBusyV438=true;
+  const startBtn=document.getElementById('bMockStart'),retryBtn=document.getElementById('bMockRetry');
+  if(startBtn)startBtn.disabled=true;if(retryBtn)retryBtn.disabled=true;
+  stopBMockTimer();bMockReleaseRuntimeV431();bMockReleaseResultMemoryV431();
+  const runToken=bMockRunTokenV438;
+  try{
+    bTraceBridgeV376().clear();
+    const descriptors=bMockSelectDescriptorsV438();
+    const packets=await bTraceBridgeV376().startMiniMockSession(descriptors.map(item=>item.questionId));
+    if(runToken!==bMockRunTokenV438)return false;
+    if(!Array.isArray(packets)||packets.length!==B_MOCK_COUNT)throw new Error('v438_b_mini_mock_packet_count_invalid');
+    if(!packets.every((packet,index)=>packet.questionId===descriptors[index].questionId))throw new Error('v438_b_mini_mock_packet_order_invalid');
+    bMockItems=packets.map(bMockProtectedItemV438);
+    bMockAnswers=Array(bMockItems.length).fill(null);bMockFlags=new Set();bMockIndex=0;
+    bMockSeconds=B_MOCK_SECONDS;bMockStartedAt=Date.now();lastBMockAttempt=null;
+    document.getElementById('bMockSelect')?.classList.add('hidden');
+    document.getElementById('bMockResult')?.classList.remove('show');
+    document.getElementById('bMockExam')?.classList.add('show');
+    renderBMockQuestion();startBMockTimer();
+    return true;
+  }catch(error){
+    if(runToken!==bMockRunTokenV438)return false;
+    bTraceBridgeV376().reportError?.(error);bTraceBridgeV376().clear();bMockReleaseRuntimeV431();
+    document.getElementById('bMockExam')?.classList.remove('show');
+    document.getElementById('bMockSelect')?.classList.remove('hidden');
+    return false;
+  }finally{
+    if(startBtn)startBtn.disabled=false;if(retryBtn)retryBtn.disabled=false;bMockStartBusyV438=false;
+  }
 }
 
 function startBMockTimer(){
   stopBMockTimer();updateBMockTimer();
-  bMockTimerId=setInterval(()=>{bMockSeconds--;updateBMockTimer();if(bMockSeconds<=0){stopBMockTimer();finishBMiniMock(true);}},1000);
+  bMockTimerId=setInterval(()=>{bMockSeconds--;updateBMockTimer();if(bMockSeconds<=0){stopBMockTimer();void submitBMiniMockV438(true);}},1000);
 }
 function stopBMockTimer(){if(bMockTimerId){clearInterval(bMockTimerId);bMockTimerId=null;}}
 function updateBMockTimer(){
@@ -8505,7 +8591,7 @@ function renderBMockQuestion(){
   document.getElementById('bMockQuestion').textContent=item.q;
   const answer=bMockAnswers[bMockIndex];
   document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class="bmock-option ${answer===i?'selected':''}" data-bmopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');
-  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
+  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{if(bMockGradeBusyV438)return;bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
   document.getElementById('bMockPrev').disabled=bMockIndex===0;
   document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →';
   document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex));
@@ -8521,8 +8607,65 @@ function renderBMockNav(){
 }
 
 function askSubmitBMock(){
+  if(bMockGradeBusyV438)return;
   const blank=bMockAnswers.filter(x=>x===null).length;
-  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishBMiniMock(false);
+  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))void submitBMiniMockV438(false);
+}
+
+function bMockApplyPerformanceGradeV438(index,ok){
+  try{
+    if(typeof subjectBPerformanceStateV254!=='function'||typeof subjectBPerformanceKeyV254!=='function')return;
+    const item=bMockItems[index];if(!item)return;
+    const key=subjectBPerformanceKeyV254('miniMock',item,index),st=subjectBPerformanceStateV254('miniMock');
+    if(Object.prototype.hasOwnProperty.call(st.frozen,key))st.firstOk[key]=!!ok;
+  }catch(_e){}
+}
+
+async function submitBMiniMockV438(timeUp=false){
+  if(!bMockItems.length||bMockGradeBusyV438)return false;
+  bMockGradeBusyV438=true;stopBMockTimer();
+  const runToken=bMockRunTokenV438;
+  const submittedAnswers=[...bMockAnswers];
+  const submitBtn=document.getElementById('bMockSubmitTop');if(submitBtn)submitBtn.disabled=true;
+  try{
+    const ids=bMockItems.map(item=>item._protectedQuestionId);
+    const state=bTraceBridgeV376().state?.();
+    if(!Array.isArray(state?.miniMockQuestionIds)||state.miniMockQuestionIds.length!==B_MOCK_COUNT||!ids.every((id,index)=>state.miniMockQuestionIds[index]===id)){
+      await bTraceBridgeV376().startMiniMockSession(ids);
+      if(runToken!==bMockRunTokenV438)return false;
+    }
+    const serverChoices=bMockItems.map((item,index)=>{
+      const selected=submittedAnswers[index];if(selected===null||selected===undefined)return null;
+      const mapped=item._serverMap?.[selected];if(!Number.isInteger(mapped))throw new Error('v438_b_mini_mock_choice_map_invalid');
+      return mapped;
+    });
+    const results=await bTraceBridgeV376().gradeMiniMockSession(serverChoices);
+    if(runToken!==bMockRunTokenV438)return false;
+    if(!Array.isArray(results)||results.length!==B_MOCK_COUNT||!results.every((result,index)=>result?.questionId===ids[index]))throw new Error('v438_b_mini_mock_grade_order_invalid');
+    const displayAnswers=results.map((result,index)=>{
+      const answer=bMockItems[index]._serverMap.indexOf(result.answerIndex);
+      if(answer<0||result.correct!==(submittedAnswers[index]!==null&&submittedAnswers[index]!==undefined&&submittedAnswers[index]===answer))throw new Error('v438_b_mini_mock_answer_map_invalid');
+      return answer;
+    });
+    bMockAnswers=submittedAnswers;
+    results.forEach((result,index)=>{
+      const item=bMockItems[index],displayAnswer=displayAnswers[index];
+      item.a=displayAnswer;
+      item.correctText=item.options[displayAnswer];
+      item.explain=result.explanation||'';
+      bMockApplyPerformanceGradeV438(index,result.correct);
+    });
+    const out=finishBMiniMock(timeUp);
+    bTraceBridgeV376().clear();
+    return out;
+  }catch(error){
+    if(runToken!==bMockRunTokenV438)return false;
+    bTraceBridgeV376().reportError?.(error);
+    if(!timeUp&&bMockItems.length)startBMockTimer();
+    return false;
+  }finally{
+    if(submitBtn)submitBtn.disabled=false;bMockGradeBusyV438=false;
+  }
 }
 
 function finishBMiniMock(timeUp=false){
@@ -8597,7 +8740,7 @@ let bTraceGradeBusyV376=false;
 let bTraceFinalResultV376=null;
 function bTraceBridgeV376(){
   const bridge=globalThis.FEQUEST_V376_B_TRACE;
-  if(!bridge||typeof bridge.start!=='function'||typeof bridge.grade!=='function'||typeof bridge.next!=='function')throw new Error('v376_b_trace_bridge_missing');
+  if(!bridge||typeof bridge.start!=='function'||typeof bridge.grade!=='function'||typeof bridge.next!=='function'||typeof bridge.startMiniMockSession!=='function'||typeof bridge.gradeMiniMockSession!=='function')throw new Error('v376_b_trace_bridge_missing');
   return bridge;
 }
 function bTraceGenericTitleV376(ex){return ex?.concept?`${ex.concept}・トレース演習`:'アルゴリズム・トレース演習';}
