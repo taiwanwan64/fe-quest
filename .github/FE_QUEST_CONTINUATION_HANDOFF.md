@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `088910e2839ae9c4b183a64460db82b603c5daa7`（PR #226 merge後）
+- main: `b29430845a77326865cf940b708bf28b5cf2c6cb`（PR #228 merge後）
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35811328424`、success（PR #226 merge後）
-- main PWA cache contract: `fe-quest-v377-123`
+- 最新本番 deploy: GitHub Actions run `35812171084`、success（PR #228 merge後）
+- main PWA cache contract: `fe-quest-v377-124`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -50,6 +50,7 @@
 - 科目Bセキュリティ ミニ模試 protected runtime復旧 PR: #222、merged（publication / v35 CI success）
 - 科目A関連問題復習・残存関数の現行経路監査 PR: #224、merged（publication / v35 CI success）
 - 科目A受験準備度の認知レベル評価復旧 PR: #226、merged（publication / v35 CI success）
+- ベン図ラボの文字・5ラボの開発向け表示修正 PR: #228、merged（publication / v35 CI success）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1149,6 +1150,16 @@
 - publication run `35811298405` success、v35 run `35811298407` success、Pages run `35811328424` success
 - PWA cache `fe-quest-v377-123`、profile schema 9、protected total 1180、`b_exam_algo` 50
 
+### IPA 9.2 集合・ベン図ラボの読みやすさ監査
+
+`.github/reference-audits/IPA92_VENN_READABILITY_AUDIT_2026-09-23.md`
+
+- 本番デスクトップ表示で、ベン図ラボの本文・補助文字が11〜13pxと小さく、ユーザー向けに「IPA Ver.9.2補強」が残ることを確認
+- ベン図ラボの本文・ラベルを拡大し、同表記をベン図・整列・グラフ・モデリング・メモリの5ラボから除去
+- PR #228 merged、main `b29430845a77326865cf940b708bf28b5cf2c6cb`
+- publication run `35812143960` success、v35 run `35812143979` success、Pages run `35812171084` success
+- PWA cache `fe-quest-v377-124`。クラウドブラウザは1363pxのため、スマホ実機相当のタッチ・スクロール検証が済むまでは `FE92-THEORY-SET-VENN` を `in-progress` のままにする
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -1170,7 +1181,7 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**IPA 9.2教材の未完了項目を章単位で監査する。** `ipa92-coverage.json` の43項目中37項目は `in-progress`、6項目は `verified-covered`（2026-09-23確認時）。実装済みとスマホ操作・直接演習・学習履歴まで検証済みの状態を分け、資料の強調箇所と現行教材を照合する。旧空関数は名前だけで復元せず、画面の実際の呼び出し経路を確認する。
+ユーザーから別の具体的な修正指示がなければ、**IPA 9.2教材の未完了項目を章単位で監査する。** `ipa92-coverage.json` の43項目中37項目は `in-progress`、6項目は `verified-covered`（2026-09-23確認時）。ベン図ラボの表示改善 #228 は済み、スマホ実機相当のタッチ確認は未完了。実装済みとスマホ操作・直接演習・学習履歴まで検証済みの状態を分け、資料の強調箇所と現行教材を照合する。旧空関数は名前だけで復元せず、画面の実際の呼び出し経路を確認する。
 
 手順:
 
