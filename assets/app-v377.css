@@ -7580,3 +7580,96 @@ body.study-block-active-v373 main{padding-bottom:180px}
   #lesson .ch1-depth-v382 .shift-compare-v382 span{font-size:16px!important;line-height:1.45}
   #lesson .ch1-depth-v382 p,
   #lesson .ch1-depth-v382 li{font-size:18px}
+
+  /* Rebuilt optional touch labs share one interaction pattern with the newer labs. */
+  body.touch-lab-open{overflow:hidden}
+  .touch-lab-backdrop[hidden]{display:none!important}
+  .touch-lab-backdrop{
+    position:fixed;inset:0;z-index:10010;display:grid;place-items:center;
+    padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));
+    background:rgba(17,36,47,.72);
+  }
+  .touch-lab-dialog{
+    width:min(100%,700px);max-height:100%;overflow:auto;overscroll-behavior:contain;
+    padding:18px;border-radius:20px;background:#f8fcff;color:#263c4d;
+    box-shadow:0 24px 80px rgba(0,0,0,.25);
+  }
+  .touch-lab-head{display:flex;justify-content:space-between;align-items:start;gap:12px}
+  .touch-lab-head small{display:block;color:#43841c;font-size:16px;font-weight:900}
+  .touch-lab-head h2{margin:4px 0 0;font-size:24px;line-height:1.4}
+  .touch-lab-close{
+    flex:none;width:46px;height:46px;border:1px solid #cbdae1;border-radius:50%;
+    background:#fff;color:#253a49;font-size:28px;line-height:1;cursor:pointer;
+  }
+  .touch-lab-task{margin:14px 0 16px;font-size:18px;line-height:1.65}
+  .touch-lab-activity,.touch-lab-check{
+    margin:0 0 15px;padding:16px;border:1px solid #d1e1e8;border-radius:16px;background:#fff;
+  }
+  .touch-lab-activity p,.touch-lab-check p{font-size:18px;line-height:1.65}
+  .touch-lab-options,.touch-lab-answers,.touch-lab-switches{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:15px;
+  }
+  .touch-lab-options button,.touch-lab-answers button,.touch-lab-switches button,
+  .touch-lab-bits button,.touch-lab-advance,.touch-lab-reset{
+    min-height:48px;padding:10px 12px;border:1px solid #b9cfd8;border-radius:12px;
+    background:#f7fafb;color:#263c4d;font:inherit;font-size:17px;font-weight:800;cursor:pointer;
+  }
+  .touch-lab-options button[aria-pressed="true"],.touch-lab-answers button[aria-pressed="true"],
+  .touch-lab-switches button[aria-pressed="true"],.touch-lab-bits button[aria-pressed="true"]{
+    border-color:#57a82e;background:#ebfae6;color:#285b16;
+  }
+  .touch-lab-dialog button:focus-visible,.touch-lab-dialog input:focus-visible,.touch-lab-dialog select:focus-visible{
+    outline:3px solid #46a413;outline-offset:2px;
+  }
+  .touch-lab-flow{display:flex;align-items:stretch;gap:8px;margin:12px 0;flex-wrap:wrap}
+  .touch-lab-track{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px}
+  .touch-lab-track span{
+    display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px;min-width:max-content;
+    padding:7px 9px;border:1px solid #d4e1e7;border-radius:10px;color:#627580;font-size:16px;
+  }
+  .touch-lab-track span.active{border-color:#65af43;background:#eaf8e6;color:#285b16;font-weight:800}
+  .touch-lab-track b{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#e5edf1}
+  .touch-lab-track span.active b{background:#c9ebba}
+  .touch-lab-flow span,.touch-lab-flow strong{
+    display:grid;place-items:center;min-height:58px;flex:1 1 110px;padding:8px;
+    border:1px solid #c9dfe8;border-radius:12px;background:#eff7fb;text-align:center;
+    font-size:18px;line-height:1.5;overflow-wrap:anywhere;
+  }
+  .touch-lab-flow strong{background:#eaf8e6;border-color:#a7d599}
+  .touch-lab-flow i{align-self:center;color:#66838f;font-size:22px;font-style:normal}
+  .touch-lab-result{
+    margin:12px 0;padding:12px;border-radius:12px;background:#eaf8e6;
+    color:#264f1b;font-weight:800;overflow-wrap:anywhere;
+  }
+  .touch-lab-result strong{font-size:21px}
+  .touch-lab-observation{margin-bottom:0}
+  .touch-lab-check h3{margin:0 0 8px;font-size:21px}
+  .touch-lab-answers button{text-align:left}
+  .touch-lab-feedback{min-height:1.5em;font-size:17px;line-height:1.5;color:#925523}
+  .touch-lab-feedback.correct{color:#27661a}
+  .touch-lab-bits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  .touch-lab-bits button{display:grid;gap:5px;text-align:center}
+  .touch-lab-bits button b{font-size:16px}.touch-lab-bits button span{font-size:23px}
+  .touch-lab-equations{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .touch-lab-equations span{display:grid;gap:4px;padding:12px;border:1px solid #c9dfe8;border-radius:12px;text-align:center;font-size:18px}
+  .touch-lab-equations strong{font-size:30px;color:#285b16}
+  .touch-lab-equations small{font-size:16px}
+  .touch-lab-slider{display:grid;gap:12px;margin-bottom:16px;font-size:18px}
+  .touch-lab-slider input{width:100%;min-height:42px}
+  .touch-lab-slider select{min-height:48px;padding:8px;border:1px solid #b9cfd8;border-radius:8px;font-size:18px}
+  .touch-lab-bars{display:grid;gap:10px}
+  .touch-lab-bars div{position:relative;min-height:45px;padding:9px;border-radius:8px;background:#eef3f6;font-size:17px;font-weight:800}
+  .touch-lab-bars i{position:absolute;inset:0 auto 0 0;border-radius:8px;background:#bfe8b7}
+  .touch-lab-bars div+div i{background:#d3e5f6}
+  .touch-lab-bars b{position:relative;float:right}
+  .touch-lab-query{padding:10px;border-radius:8px;background:#eef5fa;overflow-wrap:anywhere}
+  .touch-lab-rows{display:flex;flex-wrap:wrap;gap:7px}
+  .touch-lab-rows span{min-width:50px;padding:9px;border:1px solid #b6d7aa;border-radius:9px;background:#eaf8e6;text-align:center;font-size:17px}
+  .touch-lab-rows .removed{opacity:.42;text-decoration:line-through;background:#f1f4f5;border-color:#d3dadd}
+  .touch-lab-rows .middle{border:2px solid #43841c;font-weight:900}
+  .touch-lab-advance,.touch-lab-reset{margin:5px 8px 0 0}
+  @media(max-width:620px){
+    .touch-lab-dialog{padding:14px;border-radius:16px}
+    .touch-lab-options,.touch-lab-answers{grid-template-columns:1fr 1fr}
+    .touch-lab-flow span,.touch-lab-flow strong{flex-basis:95px}
+  }
