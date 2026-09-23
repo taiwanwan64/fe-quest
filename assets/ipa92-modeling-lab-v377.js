@@ -173,7 +173,7 @@ function buildDialog(){
   backdrop.hidden=true;
   backdrop.innerHTML=`
     <section class="ipa92-modeling-dialog" role="dialog" aria-modal="true" aria-labelledby="ipa92ModelingTitle">
-      <div class="ipa92-modeling-head"><div><span class="ipa92-modeling-kicker">図解・操作ラボ / IPA Ver.9.2補強</span><h2 id="ipa92ModelingTitle">UML・DFD・E-R図を見分ける</h2></div><button type="button" class="ipa92-modeling-close" data-modeling-close aria-label="モデリング図ラボを閉じる">×</button></div>
+      <div class="ipa92-modeling-head"><div><span class="ipa92-modeling-kicker">図解・操作ラボ</span><h2 id="ipa92ModelingTitle">UML・DFD・E-R図を見分ける</h2></div><button type="button" class="ipa92-modeling-close" data-modeling-close aria-label="モデリング図ラボを閉じる">×</button></div>
       <p class="ipa92-modeling-lead">図の要素を直接タップして意味を確認し、最後に関係の選び方を練習します。「構造」「データの流れ」「業務データの関係」を混同しないことが目標です。</p>
       <div class="ipa92-modeling-tabs" role="group" aria-label="図の種類を選択"><button type="button" data-modeling-mode="uml">UML クラス図</button><button type="button" data-modeling-mode="dfd">DFD</button><button type="button" data-modeling-mode="er">E-R図</button></div>
       <h3 class="ipa92-modeling-title" data-modeling-title></h3><p class="ipa92-modeling-cue" data-modeling-cue></p>
@@ -218,7 +218,7 @@ function ensureCard(){
   card.type='button';
   card.className='ipa92-lab-card';
   card.setAttribute('aria-haspopup','dialog');
-  card.innerHTML='<span class="ipa92-lab-icon">◇</span><span class="ipa92-lab-copy"><small>IPA Ver.9.2補強 / タッチ対応</small><b>UML・DFD・E-R図</b><em>図の要素をタップし、構造・データの流れ・多重度を見分けます。</em></span><span class="ipa92-lab-go">操作する →</span>';
+  card.innerHTML='<span class="ipa92-lab-icon">◇</span><span class="ipa92-lab-copy"><small>図を触って理解する</small><b>UML・DFD・E-R図</b><em>図の要素をタップし、構造・データの流れ・多重度を見分けます。</em></span><span class="ipa92-lab-go">操作する →</span>';
   card.addEventListener('click',openLab);
   grid.appendChild(card);
   return true;

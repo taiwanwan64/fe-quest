@@ -293,7 +293,7 @@ function buildDialog(){
   backdrop.innerHTML=`
     <section class="ipa92-sort-dialog" role="dialog" aria-modal="true" aria-labelledby="ipa92SortLabTitle">
       <div class="ipa92-sort-head">
-        <div><span class="ipa92-sort-kicker">図解・操作ラボ / IPA Ver.9.2補強</span><h2 id="ipa92SortLabTitle">整列アルゴリズムを1手ずつ追う</h2></div>
+        <div><span class="ipa92-sort-kicker">図解・操作ラボ</span><h2 id="ipa92SortLabTitle">整列アルゴリズムを1手ずつ追う</h2></div>
         <button type="button" class="ipa92-sort-close" data-sort-close aria-label="整列アルゴリズムラボを閉じる">×</button>
       </div>
       <p class="ipa92-sort-lead">同じ配列を4種類の方法で昇順にします。「1手進める」をタップし、値がどこへ動くかを比較してください。</p>
@@ -359,7 +359,7 @@ function ensureCard(){
   card.type='button';
   card.className='ipa92-lab-card';
   card.setAttribute('aria-haspopup','dialog');
-  card.innerHTML='<span class="ipa92-lab-icon">⇅</span><span class="ipa92-lab-copy"><small>IPA Ver.9.2補強 / タッチ対応</small><b>整列アルゴリズム</b><em>マージ・挿入・シェル・ヒープを同じ配列で1手ずつ比較します。</em></span><span class="ipa92-lab-go">操作する →</span>';
+  card.innerHTML='<span class="ipa92-lab-icon">⇅</span><span class="ipa92-lab-copy"><small>図を触って理解する</small><b>整列アルゴリズム</b><em>マージ・挿入・シェル・ヒープを同じ配列で1手ずつ比較します。</em></span><span class="ipa92-lab-go">操作する →</span>';
   card.addEventListener('click',openLab);
   grid.appendChild(card);
   return true;

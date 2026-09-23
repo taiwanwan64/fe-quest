@@ -206,7 +206,7 @@ function buildDialog(){
   const refs=REFERENCES.map((page,index)=>`<span data-reference-index="${index}">${page}</span>`).join('');
   backdrop.innerHTML=`
     <section class="ipa92-memory-dialog" role="dialog" aria-modal="true" aria-labelledby="ipa92MemoryTitle">
-      <div class="ipa92-memory-head"><div><span class="ipa92-memory-kicker">図解・操作ラボ / IPA Ver.9.2補強</span><h2 id="ipa92MemoryTitle">TLB・ページ置換を1参照ずつ追う</h2></div><button type="button" class="ipa92-memory-close" data-memory-close aria-label="TLB・ページ置換ラボを閉じる">×</button></div>
+      <div class="ipa92-memory-head"><div><span class="ipa92-memory-kicker">図解・操作ラボ</span><h2 id="ipa92MemoryTitle">TLB・ページ置換を1参照ずつ追う</h2></div><button type="button" class="ipa92-memory-close" data-memory-close aria-label="TLB・ページ置換ラボを閉じる">×</button></div>
       <p class="ipa92-memory-lead">仮想ページを3個の主記憶フレームへ読み込みます。TLBは直近2件の「ページ→フレーム」対応だけを保持します。FIFOとLRUで置換結果がどう変わるか比較してください。</p>
       <div class="ipa92-memory-tabs" role="group" aria-label="ページ置換方式を選択"><button type="button" data-memory-algorithm="fifo">FIFO</button><button type="button" data-memory-algorithm="lru">LRU</button></div>
       <div><b>参照列</b><span data-memory-progress style="float:right;color:#64748b;font-size:12px;font-weight:800">0 / ${REFERENCES.length}</span></div><div class="ipa92-memory-reference">${refs}</div>
@@ -257,7 +257,7 @@ function ensureCard(){
   card.type='button';
   card.className='ipa92-lab-card';
   card.setAttribute('aria-haspopup','dialog');
-  card.innerHTML='<span class="ipa92-lab-icon">▦</span><span class="ipa92-lab-copy"><small>IPA Ver.9.2補強 / タッチ対応</small><b>TLB・ページ置換</b><em>参照列を1つずつ進め、FIFO・LRUとTLBヒットを同時に追います。</em></span><span class="ipa92-lab-go">操作する →</span>';
+  card.innerHTML='<span class="ipa92-lab-icon">▦</span><span class="ipa92-lab-copy"><small>図を触って理解する</small><b>TLB・ページ置換</b><em>参照列を1つずつ進め、FIFO・LRUとTLBヒットを同時に追います。</em></span><span class="ipa92-lab-go">操作する →</span>';
   card.addEventListener('click',openLab);
   grid.appendChild(card);
   return true;
