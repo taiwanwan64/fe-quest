@@ -9808,7 +9808,9 @@ function ensureSecurityMockStats(){
 
 let secMockItems=[],secMockAnswers=[],secMockFlags=new Set(),secMockIndex=0;
 let secMockSeconds=SECURITY_MOCK_SECONDS,secMockTimerId=null,secMockStartedAt=null,lastSecurityMockAttempt=null;
+let secMockRunTokenV439=0,secMockStartBusyV439=false,secMockGradeBusyV439=false;
 function securityMockReleaseRuntimeV431(){
+  secMockRunTokenV439++;
   secMockItems=[];secMockAnswers=[];secMockFlags=new Set();secMockIndex=0;
   secMockStartedAt=null;secMockSeconds=SECURITY_MOCK_SECONDS;
 }
@@ -9818,7 +9820,20 @@ function securityMockReleaseResultMemoryV431(){
   const breakdown=document.getElementById('secMockBreakdown');if(breakdown)breakdown.replaceChildren();
 }
 
-function randomizeSecurityMockItem(){return undefined;}/* FEQUEST_V376_REDACTED_RESIDUAL_QUESTION_FUNCTION */
+const SECURITY_MINI_MOCK_PROTECTED_V439_SPEC=Object.freeze({count:SECURITY_MOCK_COUNT,seconds:SECURITY_MOCK_SECONDS,quotas:Object.freeze({...SECURITY_MOCK_QUOTAS}),logLevels:Object.freeze(['標準','応用']),serverSideGrading:true,historyMetadataOnly:true});
+globalThis.SECURITY_MINI_MOCK_PROTECTED_V439_SPEC=SECURITY_MINI_MOCK_PROTECTED_V439_SPEC;
+
+function securityMockProtectedItemV439(packet){
+  if(!packet||!packet.questionId||!packet.parentId||!Array.isArray(packet.options)||packet.options.length!==4)throw new Error('v439_security_mini_packet_invalid');
+  const mixed=shuffled(packet.options.map((text,serverIndex)=>({text,serverIndex})));
+  return {
+    _protectedQuestionId:packet.questionId,_serverMap:mixed.map(item=>item.serverIndex),
+    scenarioId:packet.parentId,sourceId:packet.parentId,title:packet.title,level:packet.level,concept:packet.concept,
+    incident:{icon:packet.incident?.icon||packet.icon||'🛡️',title:packet.incident?.title||packet.title,text:packet.incident?.text||packet.desc||''},
+    evidence:structuredClone(packet.evidence||[]),log:packet.log||'',risk:!!(packet.risk&&Object.keys(packet.risk).length),
+    q:packet.stem,options:mixed.map(item=>item.text)
+  };
+}
 
 function securityAppliedStepIndex(s){
   // 実戦では「攻撃名を当てる」だけの最初の設問を避け、
@@ -9849,11 +9864,12 @@ function buildSecurityMock(){
   const requiredLogLevels=['標準','応用'];
   requiredLogLevels.forEach(level=>{
     const pool=sortSecurityScenarioPool(
-      SECURITY_SCENARIOS.filter(s=>s.level===level&&s.log&&!used.has(s.id)),
+      SECURITY_SCENARIOS.filter(s=>s.level===level&&B_FINAL_SECURITY_LOG_IDS_V376.has(s.id)&&!used.has(s.id)),
       profile.securityMockStats
     );
     const pick=pool[0];
-    if(pick){selected.push(pick);used.add(pick.id);}
+    if(!pick)throw new Error('v439_security_mini_log_quota_unavailable');
+    selected.push(pick);used.add(pick.id);
   });
 
   // 基礎2・標準4・応用2の配分を保ったまま残りを埋める。
@@ -9861,13 +9877,18 @@ function buildSecurityMock(){
     const already=selected.filter(s=>s.level===level).length;
     const need=Math.max(0,n-already);
     const pool=sortSecurityScenarioPool(
-      SECURITY_SCENARIOS.filter(s=>s.level===level&&!used.has(s.id)),
+      SECURITY_SCENARIOS.filter(s=>s.level===level&&!B_FINAL_SECURITY_LOG_IDS_V376.has(s.id)&&!used.has(s.id)),
       profile.securityMockStats
     );
     pool.slice(0,need).forEach(s=>{selected.push(s);used.add(s.id)});
   });
 
-  return shuffled(selected).map(s=>randomizeSecurityMockItem(s,securityAppliedStepIndex(s)));
+  if(selected.length!==SECURITY_MOCK_COUNT||new Set(selected.map(s=>s.id)).size!==SECURITY_MOCK_COUNT)throw new Error('v439_security_mini_selection_invalid');
+  return shuffled(selected).map(s=>{
+    const step=s.steps?.[securityAppliedStepIndex(s)];
+    if(!step?.id)return null;
+    return {questionId:step.id,scenarioId:s.id,level:s.level};
+  }).map(item=>{if(!item)throw new Error('v439_security_mini_step_missing');return item});
 }
 
 function securityMockEvidenceHtml(item){
@@ -9878,24 +9899,45 @@ function securityMockEvidenceHtml(item){
     <div class="risk-cell">可能性 中</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div>
     <div class="risk-cell">可能性 低</div><div class="risk-cell low">低</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div>
   </div>`;
-  return `<div class="evidence-list">${(item.evidence||[]).map(e=>`<div class="evidence-item"><span class="ev-icon">${e.icon}</span><div>${e.text}</div></div>`).join('')}</div>`;
+  return `<div class="evidence-list">${(item.evidence||[]).map(e=>`<div class="evidence-item"><span class="ev-icon">${escapeHtml(e.icon||'')}</span><div>${escapeHtml(e.text||'')}</div></div>`).join('')}</div>`;
 }
 
-function startSecurityMock(){
-  securityMockReleaseResultMemoryV431();
-  secMockItems=buildSecurityMock();
-  secMockAnswers=Array(secMockItems.length).fill(null);
-  secMockFlags=new Set();secMockIndex=0;secMockSeconds=SECURITY_MOCK_SECONDS;secMockStartedAt=Date.now();
-  document.getElementById('secSelect')?.classList.add('hidden');
-  document.getElementById('secMockResult')?.classList.remove('show');
-  document.getElementById('secMockExam')?.classList.add('show');
-  renderSecurityMockQuestion();startSecurityMockTimer();
+async function startSecurityMock(){
+  if(secMockStartBusyV439)return false;
+  secMockStartBusyV439=true;
+  const startBtn=document.getElementById('secMockStartMenu'),retryBtn=document.getElementById('secMockRetry');
+  if(startBtn)startBtn.disabled=true;if(retryBtn)retryBtn.disabled=true;
+  stopSecurityMockTimer();securityMockReleaseRuntimeV431();securityMockReleaseResultMemoryV431();
+  const runToken=secMockRunTokenV439;
+  try{
+    bSecurityBridgeV376().clear();
+    const descriptors=buildSecurityMock();
+    const packets=await bSecurityBridgeV376().startMiniMockSession(descriptors.map(item=>item.questionId));
+    if(runToken!==secMockRunTokenV439)return false;
+    if(!Array.isArray(packets)||packets.length!==SECURITY_MOCK_COUNT||!packets.every((packet,index)=>packet.questionId===descriptors[index].questionId&&packet.parentId===descriptors[index].scenarioId))throw new Error('v439_security_mini_packet_order_invalid');
+    secMockItems=packets.map(securityMockProtectedItemV439);
+    secMockAnswers=Array(secMockItems.length).fill(null);
+    secMockFlags=new Set();secMockIndex=0;secMockSeconds=SECURITY_MOCK_SECONDS;secMockStartedAt=Date.now();
+    document.getElementById('secSelect')?.classList.add('hidden');
+    document.getElementById('secMockResult')?.classList.remove('show');
+    document.getElementById('secMockExam')?.classList.add('show');
+    renderSecurityMockQuestion();startSecurityMockTimer();
+    return true;
+  }catch(error){
+    if(runToken!==secMockRunTokenV439)return false;
+    bSecurityBridgeV376().reportError?.(error);bSecurityBridgeV376().clear();securityMockReleaseRuntimeV431();
+    document.getElementById('secMockExam')?.classList.remove('show');
+    document.getElementById('secSelect')?.classList.remove('hidden');
+    return false;
+  }finally{
+    if(startBtn)startBtn.disabled=false;if(retryBtn)retryBtn.disabled=false;secMockStartBusyV439=false;
+  }
 }
 
 function stopSecurityMockTimer(){if(secMockTimerId){clearInterval(secMockTimerId);secMockTimerId=null}}
 function startSecurityMockTimer(){
   stopSecurityMockTimer();updateSecurityMockTimer();
-  secMockTimerId=setInterval(()=>{secMockSeconds--;updateSecurityMockTimer();if(secMockSeconds<=0){stopSecurityMockTimer();finishSecurityMock(true)}},1000);
+  secMockTimerId=setInterval(()=>{secMockSeconds--;updateSecurityMockTimer();if(secMockSeconds<=0){stopSecurityMockTimer();void submitSecurityMockV439(true)}},1000);
 }
 function updateSecurityMockTimer(){
   const t=document.getElementById('secMockTimer');if(!t)return;
@@ -9915,7 +9957,7 @@ function renderSecurityMockQuestion(){
   document.getElementById('secMockQuestion').textContent=item.q;
   const ans=secMockAnswers[secMockIndex];
   document.getElementById('secMockOptions').innerHTML=item.options.map((op,i)=>`<button class="secmock-option ${ans===i?'selected':''}" data-smopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(op)}</button>`).join('');
-  document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()});
+  document.querySelectorAll('[data-smopt]').forEach(btn=>btn.onclick=()=>{if(secMockGradeBusyV439)return;secMockAnswers[secMockIndex]=Number(btn.dataset.smopt);renderSecurityMockQuestion()});
   document.getElementById('secMockPrev').disabled=secMockIndex===0;
   document.getElementById('secMockNext').textContent=secMockIndex===secMockItems.length-1?'提出へ':'次へ →';
   document.getElementById('secMockFlag').classList.toggle('active',secMockFlags.has(secMockIndex));
@@ -9929,8 +9971,53 @@ function renderSecurityMockNav(){
   document.getElementById('secMockAnswerCount').textContent=`${secMockAnswers.filter(x=>x!==null).length} / ${secMockItems.length} 回答`;
 }
 function askSubmitSecurityMock(){
+  if(secMockGradeBusyV439)return;
   const blank=secMockAnswers.filter(x=>x===null).length;
-  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))finishSecurityMock(false);
+  if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))void submitSecurityMockV439(false);
+}
+async function submitSecurityMockV439(timeUp=false){
+  if(!secMockItems.length||secMockGradeBusyV439)return false;
+  secMockGradeBusyV439=true;stopSecurityMockTimer();
+  const runToken=secMockRunTokenV439,submittedAnswers=[...secMockAnswers];
+  const submitBtn=document.getElementById('secMockSubmitTop');if(submitBtn)submitBtn.disabled=true;
+  try{
+    const ids=secMockItems.map(item=>item._protectedQuestionId);
+    const state=bSecurityBridgeV376().state?.();
+    if(!Array.isArray(state?.miniMockQuestionIds)||!ids.every((id,index)=>state.miniMockQuestionIds[index]===id)){
+      await bSecurityBridgeV376().startMiniMockSession(ids);
+      if(runToken!==secMockRunTokenV439)return false;
+    }
+    const serverChoices=secMockItems.map((item,index)=>{
+      const selected=submittedAnswers[index];if(selected===null||selected===undefined)return null;
+      const mapped=item._serverMap?.[selected];if(!Number.isInteger(mapped))throw new Error('v439_security_mini_choice_map_invalid');
+      return mapped;
+    });
+    const results=await bSecurityBridgeV376().gradeMiniMockSession(serverChoices);
+    if(runToken!==secMockRunTokenV439)return false;
+    if(!Array.isArray(results)||results.length!==SECURITY_MOCK_COUNT||!results.every((result,index)=>result?.questionId===ids[index]))throw new Error('v439_security_mini_grade_order_invalid');
+    const displayAnswers=results.map((result,index)=>{
+      const answer=secMockItems[index]._serverMap.indexOf(result.answerIndex);
+      if(answer<0||result.correct!==(submittedAnswers[index]!==null&&submittedAnswers[index]!==undefined&&submittedAnswers[index]===answer))throw new Error('v439_security_mini_grade_map_invalid');
+      return answer;
+    });
+    secMockAnswers=submittedAnswers;
+    results.forEach((result,index)=>{
+      const item=secMockItems[index],answer=displayAnswers[index];
+      item.a=answer;item.correctText=item.options[answer];item.explain=result.explanation;
+      const key=subjectBPerformanceKeyV254('securityMock',item,index),st=subjectBPerformanceStateV254('securityMock');
+      if(Object.prototype.hasOwnProperty.call(st.frozen,key))st.firstOk[key]=result.correct;
+    });
+    const out=finishSecurityMock(timeUp);
+    bSecurityBridgeV376().clear();
+    return out;
+  }catch(error){
+    if(runToken!==secMockRunTokenV439)return false;
+    bSecurityBridgeV376().reportError?.(error);
+    if(!timeUp&&secMockItems.length)startSecurityMockTimer();
+    return false;
+  }finally{
+    if(submitBtn)submitBtn.disabled=false;secMockGradeBusyV439=false;
+  }
 }
 function finishSecurityMock(timeUp=false){
   if(!secMockItems.length)return;
@@ -10077,7 +10164,7 @@ async function advanceSecurityV376(){
 }
 function bSecurityBridgeV376(){
   const bridge=globalThis.FEQUEST_V376_B_SECURITY;
-  if(!bridge||typeof bridge.start!=='function'||typeof bridge.resume!=='function'||typeof bridge.grade!=='function'||typeof bridge.prepareNext!=='function'||typeof bridge.packet!=='function')throw new Error('v376_b_security_bridge_missing');
+  if(!bridge||typeof bridge.start!=='function'||typeof bridge.resume!=='function'||typeof bridge.grade!=='function'||typeof bridge.prepareNext!=='function'||typeof bridge.packet!=='function'||typeof bridge.startMiniMockSession!=='function'||typeof bridge.gradeMiniMockSession!=='function')throw new Error('v376_b_security_bridge_missing');
   return bridge;
 }
 function bSecurityGenericTitleV376(item){return item?.concept?`${item.concept}・ケース演習`:'セキュリティ・ケース演習';}
@@ -12301,7 +12388,7 @@ function analyticsBFormatRows(){
   // Full Subject-B practice already stores normalized format names.
   (profile.bFinalHistory||[]).forEach(h=>(h.details||[]).forEach(d=>add(d.format||(d.kind==='security'?'ケース判断':'処理結果'),!!d.ok)));
   // Security mini mock: infer log-reading vs scenario judgment from its source scenario.
-  (profile.securityMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>{const s=SECURITY_SCENARIOS.find(x=>x.id===d.scenarioId);add(s?.log?'ログ読解':'ケース判断',!!d.ok)}));
+  (profile.securityMockHistory||[]).forEach(h=>(h.details||[]).forEach(d=>{add(B_FINAL_SECURITY_LOG_IDS_V376.has(d.scenarioId)?'ログ読解':'ケース判断',!!d.ok)}));
   return Object.values(map).sort((a,b)=>b.total-a.total);
 }
 function renderAnalyticsBFormats(){
@@ -14613,7 +14700,7 @@ function validateSubjectBSemantics(){
   }
 
   if(SECURITY_SCENARIOS.length!==15)errors.push('security scenarios must be 15');
-  if(SECURITY_SCENARIOS.filter(s=>s.log).length<4)errors.push('security log scenarios must be at least 4');
+  if(SECURITY_SCENARIOS.filter(s=>B_FINAL_SECURITY_LOG_IDS_V376.has(s.id)).length<4)errors.push('security log scenarios must be at least 4');
   const weakDistractor=/好きな|壁紙|プリンタ用紙|モニタ|CPUクロック|キーボード配列|背景色|ディスプレイ解像度|モニタ解像度/;
   SECURITY_SCENARIOS.forEach(s=>{
     if(s.steps?.length!==3)errors.push(`${s.id}: security step count`);

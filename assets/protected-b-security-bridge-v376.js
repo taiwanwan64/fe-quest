@@ -4,8 +4,12 @@
 const provider=()=>globalThis.FEQUEST_PROTECTED_CONTENT;
 const SOURCE_POOL='b_security';
 const STEPS_PER_SCENARIO=3;
+const MINI_MOCK_SIZE=8;
+const MINI_MOCK_QUOTAS=Object.freeze({'基礎':2,'標準':4,'応用':2});
 let activeParentId='';
 let entries=[];
+let miniMockEntries=[];
+let miniMockGeneration=0;
 let activeOrdinal=0;
 const preparedPackets=new Map();
 const finalizedOrdinals=new Set();
@@ -68,17 +72,17 @@ async function catalogEntries(parentId){
   return found;
 }
 
-function packetFrom(question,entry){
+function packetFrom(question,entry,parentId=activeParentId){
   if(!question||question.id!==entry.id||question.sourcePool!==SOURCE_POOL)throw new Error('b_security_hydration_invalid');
   if(typeof question.stem!=='string'||!Array.isArray(question.options)||question.options.length!==4)throw new Error('b_security_question_invalid');
   if('answerIndex' in question||'explanation' in question||'choiceExplanations' in question)throw new Error('b_security_pre_submit_answer_leak');
   const render=question.renderContext;
-  if(!render||typeof render!=='object'||render.type!=='security'||render.parentId!==activeParentId)throw new Error('b_security_render_context_invalid');
+  if(!render||typeof render!=='object'||render.type!=='security'||render.parentId!==parentId)throw new Error('b_security_render_context_invalid');
   for(const forbidden of ['options','opts','answer','answerIndex','a','explain','explanation','choiceExplanations']){
     if(Object.prototype.hasOwnProperty.call(render,forbidden))throw new Error('b_security_render_answer_leak');
   }
   return Object.freeze({
-    parentId:activeParentId,
+    parentId,
     ordinal:Number(entry.ordinal),
     questionId:entry.id,
     level:entry.level||'',
@@ -169,6 +173,56 @@ async function grade(questionId,choiceIndex,{finalAttempt=false}={}){
   return response;
 }
 
+async function startMiniMockSession(questionIds){
+  clear();
+  const generation=miniMockGeneration;
+  if(!(await requestAccess()))throw new Error('beta_access_cancelled');
+  if(generation!==miniMockGeneration)throw new Error('b_security_mini_session_cancelled');
+  if(!Array.isArray(questionIds)||questionIds.length!==MINI_MOCK_SIZE)throw new Error('b_security_mini_question_count_invalid');
+  const ids=questionIds.map(safeId);
+  if(ids.some(id=>!id)||new Set(ids).size!==MINI_MOCK_SIZE)throw new Error('b_security_mini_question_ids_invalid');
+  const catalog=await provider().loadCatalog();
+  if(generation!==miniMockGeneration)throw new Error('b_security_mini_session_cancelled');
+  const byId=new Map((catalog?.items||[]).filter(item=>item?.sourcePool===SOURCE_POOL).map(item=>[item.id,item]));
+  miniMockEntries=ids.map(id=>byId.get(id));
+  if(miniMockEntries.some(item=>!item)||new Set(miniMockEntries.map(item=>safeId(item.parentId))).size!==MINI_MOCK_SIZE)throw new Error('b_security_mini_catalog_invalid');
+  const counts={'基礎':0,'標準':0,'応用':0};
+  for(const entry of miniMockEntries){
+    if(!(entry.level in counts)||Number(entry.ordinal)<2||Number(entry.ordinal)>3)throw new Error('b_security_mini_entry_invalid');
+    counts[entry.level]++;
+  }
+  if(Object.entries(MINI_MOCK_QUOTAS).some(([level,count])=>counts[level]!==count))throw new Error('b_security_mini_quota_invalid');
+  const hydrated=await provider().hydrate(ids);
+  if(generation!==miniMockGeneration){provider().clearHydrated?.(ids);throw new Error('b_security_mini_session_cancelled');}
+  const questions=hydrated?.questions||[];
+  if(questions.length!==MINI_MOCK_SIZE)throw new Error('b_security_mini_hydration_incomplete');
+  const packets=miniMockEntries.map(entry=>{
+    const question=questions.find(item=>item.id===entry.id);
+    const packet=packetFrom(question,entry,entry.parentId);
+    hydratedIds.add(entry.id);
+    return packet;
+  });
+  const logs=packets.filter(packet=>!!packet.log);
+  if(logs.length!==2||!logs.some(packet=>packet.level==='標準')||!logs.some(packet=>packet.level==='応用'))throw new Error('b_security_mini_log_mix_invalid');
+  return Object.freeze(packets);
+}
+
+async function gradeMiniMockSession(choiceIndexes){
+  if(miniMockEntries.length!==MINI_MOCK_SIZE)throw new Error('b_security_mini_session_missing');
+  if(!Array.isArray(choiceIndexes)||choiceIndexes.length!==MINI_MOCK_SIZE)throw new Error('b_security_mini_answers_invalid');
+  const generation=miniMockGeneration,out=[];
+  for(let i=0;i<miniMockEntries.length;i++){
+    const entry=miniMockEntries[i],choice=choiceIndexes[i],blank=choice===null||choice===undefined;
+    if(!blank&&(!Number.isInteger(choice)||choice<0||choice>3))throw new Error('choice_index_invalid');
+    const result=await provider().submit(entry.id,blank?0:choice);
+    if(generation!==miniMockGeneration)throw new Error('b_security_mini_session_cancelled');
+    if(result?.questionId!==entry.id||typeof result?.correct!=='boolean'||!Number.isInteger(result?.answerIndex)||result.answerIndex<0||result.answerIndex>3)throw new Error('b_security_mini_grade_invalid');
+    out.push(Object.freeze({questionId:entry.id,blank,correct:blank?false:result.correct,answerIndex:result.answerIndex,explanation:typeof result.explanation==='string'?result.explanation:''}));
+    provider().forgetAnswer?.(entry.id);
+  }
+  return Object.freeze(out);
+}
+
 async function prepareNext(){
   if(!activeOrdinal||!finalizedOrdinals.has(activeOrdinal))throw new Error('b_security_current_step_unresolved');
   if(activeOrdinal>=entries.length)return null;
@@ -178,14 +232,15 @@ async function prepareNext(){
 function packet(ordinal){return activate(ordinal)}
 
 function clear(){
+  miniMockGeneration++;
   const ids=[...hydratedIds];
   hydratedIds.clear();
-  activeParentId='';entries=[];activeOrdinal=0;preparedPackets.clear();finalizedOrdinals.clear();
+  activeParentId='';entries=[];miniMockEntries=[];activeOrdinal=0;preparedPackets.clear();finalizedOrdinals.clear();
   if(ids.length)provider()?.clearHydrated?.(ids);
   return ids.length;
 }
 
-function state(){return Object.freeze({parentId:activeParentId,activeOrdinal,finalizedOrdinals:Object.freeze([...finalizedOrdinals]),preparedOrdinals:Object.freeze([...preparedPackets.keys()]),hydratedIds:Object.freeze([...hydratedIds])})}
+function state(){return Object.freeze({parentId:activeParentId,activeOrdinal,finalizedOrdinals:Object.freeze([...finalizedOrdinals]),preparedOrdinals:Object.freeze([...preparedPackets.keys()]),miniMockQuestionIds:Object.freeze(miniMockEntries.map(item=>item.id)),hydratedIds:Object.freeze([...hydratedIds])})}
 function reportError(error){
   if(error?.status===401||error?.status===403||String(error?.message||'').startsWith('beta_access'))provider()?.clearAccessCode?.();
   toast('セキュリティ演習の問題読み込みまたは採点に失敗しました。通信状態とアクセスコードを確認してください。');
@@ -196,6 +251,8 @@ globalThis.FEQUEST_V376_B_SECURITY=Object.freeze({
   start,
   resume:(parentId,ordinal,answered)=>start(parentId,ordinal,answered),
   grade,
+  startMiniMockSession,
+  gradeMiniMockSession,
   prepareNext,
   packet,
   clear,
