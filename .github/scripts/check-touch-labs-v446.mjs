@@ -6,7 +6,8 @@ const source=readFileSync(new URL('../../assets/lab-rebuild-v383.js',import.meta
 const insertion='  cards();\n  const search=';
 assert.ok(source.includes(insertion),'touch lab entry point changed');
 const testSource=source.replace(insertion,`  globalThis.testLabs={
-    scenarios,visual,
+    scenarios,visual,refreshAfterFieldChange,
+    testDialog(value,id){dialog=value;currentId=id;},
     search(value){target=value;searchLow=0;searchHigh=6;searchDone=false;},
     searchStep(){
       const mid=Math.floor((searchLow+searchHigh)/2),value=[1,3,5,7,9,11,13][mid];
@@ -55,4 +56,17 @@ labs.cache(['A'],'A',true);
 assert.match(labs.visual(labs.scenarios.cache),/HIT/);
 labs.paths([1,1,5,5]);
 assert.match(labs.visual(labs.scenarios.criticalpath),/クリティカルパス：B → D/);
+// A native select must remain the exact same DOM node after a choice changes.
+// Replacing it and focusing the replacement reopens the iOS selection sheet.
+let replacements=0;
+const selectWrapper={matches(){return false;},querySelector(){return {};},replaceWith(){throw new Error('select wrapper was replaced');}};
+const oldResults=Array.from({length:3},()=>({matches(){return false;},querySelector(){return null;},replaceWith(){replacements++;}}));
+const activity={children:[selectWrapper,...oldResults]};
+context.document.createElement=()=>({children:Array.from({length:4},()=>({})),set innerHTML(markup){assert.match(markup,/無圧縮の画素データ量/);}});
+labs.testDialog({querySelector(){return activity;}},'multimedia');
+labs.refreshAfterFieldChange();
+assert.equal(activity.children[0],selectWrapper);
+assert.equal(replacements,3);
+const css=readFileSync(new URL('../../assets/app-v377.css',import.meta.url),'utf8');
+assert.match(css,/\.touch-lab-actions\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 console.log('34 touch labs and core simulation invariants verified');

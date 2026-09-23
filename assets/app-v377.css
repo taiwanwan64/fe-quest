@@ -7669,12 +7669,12 @@ body.study-block-active-v373 main{padding-bottom:180px}
   .touch-lab-rows .removed{opacity:.42;text-decoration:line-through;background:#f1f4f5;border-color:#d3dadd}
   .touch-lab-rows .middle{border:2px solid #43841c;font-weight:900}
   .touch-lab-advance,.touch-lab-reset{margin:5px 8px 0 0}
-  .touch-lab-actions{display:flex;flex-wrap:wrap;gap:9px}
+  .touch-lab-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
   #labLessonGrid .ipa92-lab-card[hidden]{display:none!important}
   .touch-lab-find{display:grid;gap:6px;margin:12px 0 4px;font-size:16px;font-weight:800}
   .touch-lab-find input{min-height:48px;width:100%;padding:9px 12px;border:1px solid #b9cfd8;border-radius:12px;background:#fff;color:#263c4d;font:inherit;font-weight:400}
   .touch-lab-find-status{min-height:1.3em;margin:0 0 6px;color:#4f6773;font-size:15px}
-  .touch-lab-actions button{min-height:48px;padding:10px 12px;border:1px solid #b9cfd8;border-radius:12px;background:#f7fafb;color:#263c4d;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+  .touch-lab-actions button{min-width:0;min-height:48px;padding:10px 12px;border:1px solid #b9cfd8;border-radius:12px;background:#f7fafb;color:#263c4d;font:inherit;font-size:17px;font-weight:800;overflow-wrap:anywhere;cursor:pointer}
   .touch-lab-actions button:disabled,.touch-lab-advance:disabled{opacity:.5;cursor:default}
   .touch-lab-ledger,.touch-lab-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
   .touch-lab-ledger div,.touch-lab-compare>div{display:grid;gap:5px;padding:12px;border:1px solid #c9dfe8;border-radius:12px;background:#eff7fb;overflow-wrap:anywhere}
