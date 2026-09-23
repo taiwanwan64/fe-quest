@@ -24,11 +24,11 @@
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**
 
-- main: `d56f37bf3de66d46817e22ec4ebda4b25c4b2b3c`（PR #224 merge後）
+- main: `088910e2839ae9c4b183a64460db82b603c5daa7`（PR #226 merge後）
 - open PR: 0
 - active work PR: なし
-- 最新本番 deploy: GitHub Actions run `35809143667`、success（PR #224 merge後）
-- main PWA cache contract: `fe-quest-v377-122`
+- 最新本番 deploy: GitHub Actions run `35811328424`、success（PR #226 merge後）
+- main PWA cache contract: `fe-quest-v377-123`
 - profile schema: **9**（schema 8 checksum互換あり、PR #217では変更なし）
 - active protected question total: **1180**
 - `b_exam_algo`: **50**
@@ -49,6 +49,7 @@
 - 科目Bアルゴリズム ミニ模試 protected runtime復旧 PR: #220、merged（publication / v35 CI success）
 - 科目Bセキュリティ ミニ模試 protected runtime復旧 PR: #222、merged（publication / v35 CI success）
 - 科目A関連問題復習・残存関数の現行経路監査 PR: #224、merged（publication / v35 CI success）
+- 科目A受験準備度の認知レベル評価復旧 PR: #226、merged（publication / v35 CI success）
 - 第1章詳細図解 PR: #118、merged
 - 第2章詳細図解 PR: #117、merged
 - 第3章詳細図解 PR: #120、merged
@@ -1138,6 +1139,16 @@
 - publication run `35809095536` success、v35 run `35809095545` success、Pages run `35809143667` success
 - PWA cache `fe-quest-v377-122`、profile schema 9、protected total 1180、`b_exam_algo` 50
 
+### 科目A受験準備度の認知レベル評価監査
+
+`.github/reference-audits/SUBJECT_A_READINESS_EVIDENCE_AUDIT_2026-09-23.md`
+
+- 演習履歴があっても認知レベル別評価が常に0だった経路を、公開メタデータと保存済み問題IDの履歴から集計する形で修正
+- 未演習の診断結果の加点上限を維持。既存のprofile構造は変更せず、問題・正答の公開もなし
+- PR #226 merged、main `088910e2839ae9c4b183a64460db82b603c5daa7`
+- publication run `35811298405` success、v35 run `35811298407` success、Pages run `35811328424` success
+- PWA cache `fe-quest-v377-123`、profile schema 9、protected total 1180、`b_exam_algo` 50
+
 ## 6. 今後も守る教材監査方針
 
 正本は `.github/REFERENCE_MATERIAL_AUDIT_POLICY.md`。特に以下を継続する。
@@ -1159,15 +1170,14 @@
 
 ## 7. 次のデフォルト作業
 
-ユーザーから別の具体的な修正指示がなければ、**現行の保護出題経路で残る実動作の不整合を監査する。** 科目Bの二つのミニ模試は #220・#222 で復旧し、科目Aの関連問題復習は #224 で現行経路へ接続した。旧空関数は名前だけで復元せず、画面の開始・保護bridge・採点・履歴の実行順に沿って確認する。
+ユーザーから別の具体的な修正指示がなければ、**IPA 9.2教材の未完了項目を章単位で監査する。** `ipa92-coverage.json` の43項目中37項目は `in-progress`、6項目は `verified-covered`（2026-09-23確認時）。実装済みとスマホ操作・直接演習・学習履歴まで検証済みの状態を分け、資料の強調箇所と現行教材を照合する。旧空関数は名前だけで復元せず、画面の実際の呼び出し経路を確認する。
 
 手順:
 
-1. redacted stub定義・参照・再代入・UIイベントを一覧化
-2. 到達可能な候補は、開始からhydrate / grade / reviewまで実行順に追跡
-3. 問題・正答を公開assetへ戻さず、到達可能で実際に壊れる経路だけ最小修正
-4. profile / backup / historyの既存データを保持し、重複採点と未回答処理を検証
-5. 必要なら監査記録→PR→CI success→merge→Pages deploy successまで確認
+1. `REFERENCE_MATERIAL_AUDIT_POLICY.md` と最新の章監査・公式シラバス対応表を読む
+2. 章の節順に、説明・図・演習・スマホ操作・保存復旧の不足を確認する
+3. 問題・正答を公開assetへ戻さず、不足が確認できた箇所だけ補強する
+4. 監査記録→PR→CI success→merge→Pages deploy successまで確認する
 
 ## 8. リポジトリと保護教材の役割
 
