@@ -8369,7 +8369,9 @@ void 0;/* FEQUEST_V376_REDACTED_PROTECTED_MUTATION */
 
 let bMockItems=[],bMockAnswers=[],bMockFlags=new Set(),bMockIndex=0;
 let bMockSeconds=B_MOCK_SECONDS,bMockTimerId=null,bMockStartedAt=null,lastBMockAttempt=null;
+let bMockRunTokenV438=0;
 function bMockReleaseRuntimeV431(){
+  bMockRunTokenV438++;
   bMockItems=[];bMockAnswers=[];bMockFlags=new Set();bMockIndex=0;
   bMockStartedAt=null;bMockSeconds=B_MOCK_SECONDS;
 }
@@ -8524,10 +8526,12 @@ async function startBMiniMock(){
   const startBtn=document.getElementById('bMockStart'),retryBtn=document.getElementById('bMockRetry');
   if(startBtn)startBtn.disabled=true;if(retryBtn)retryBtn.disabled=true;
   stopBMockTimer();bMockReleaseRuntimeV431();bMockReleaseResultMemoryV431();
+  const runToken=bMockRunTokenV438;
   try{
     bTraceBridgeV376().clear();
     const descriptors=bMockSelectDescriptorsV438();
     const packets=await bTraceBridgeV376().startMiniMockSession(descriptors.map(item=>item.questionId));
+    if(runToken!==bMockRunTokenV438)return false;
     if(!Array.isArray(packets)||packets.length!==B_MOCK_COUNT)throw new Error('v438_b_mini_mock_packet_count_invalid');
     if(!packets.every((packet,index)=>packet.questionId===descriptors[index].questionId))throw new Error('v438_b_mini_mock_packet_order_invalid');
     bMockItems=packets.map(bMockProtectedItemV438);
@@ -8539,6 +8543,7 @@ async function startBMiniMock(){
     renderBMockQuestion();startBMockTimer();
     return true;
   }catch(error){
+    if(runToken!==bMockRunTokenV438)return false;
     bTraceBridgeV376().reportError?.(error);bTraceBridgeV376().clear();bMockReleaseRuntimeV431();
     document.getElementById('bMockExam')?.classList.remove('show');
     document.getElementById('bMockSelect')?.classList.remove('hidden');
@@ -8586,7 +8591,7 @@ function renderBMockQuestion(){
   document.getElementById('bMockQuestion').textContent=item.q;
   const answer=bMockAnswers[bMockIndex];
   document.getElementById('bMockOptions').innerHTML=item.options.map((opt,i)=>`<button class="bmock-option ${answer===i?'selected':''}" data-bmopt="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(opt)}</button>`).join('');
-  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
+  document.querySelectorAll('[data-bmopt]').forEach(btn=>btn.onclick=()=>{if(bMockGradeBusyV438)return;bMockAnswers[bMockIndex]=Number(btn.dataset.bmopt);renderBMockQuestion();});
   document.getElementById('bMockPrev').disabled=bMockIndex===0;
   document.getElementById('bMockNext').textContent=bMockIndex===bMockItems.length-1?'提出へ':'次へ →';
   document.getElementById('bMockFlag').classList.toggle('active',bMockFlags.has(bMockIndex));
@@ -8602,6 +8607,7 @@ function renderBMockNav(){
 }
 
 function askSubmitBMock(){
+  if(bMockGradeBusyV438)return;
   const blank=bMockAnswers.filter(x=>x===null).length;
   if(confirm(blank?`未回答が${blank}問あります。提出しますか？`:'回答を提出しますか？'))void submitBMiniMockV438(false);
 }
@@ -8618,23 +8624,32 @@ function bMockApplyPerformanceGradeV438(index,ok){
 async function submitBMiniMockV438(timeUp=false){
   if(!bMockItems.length||bMockGradeBusyV438)return false;
   bMockGradeBusyV438=true;stopBMockTimer();
+  const runToken=bMockRunTokenV438;
+  const submittedAnswers=[...bMockAnswers];
   const submitBtn=document.getElementById('bMockSubmitTop');if(submitBtn)submitBtn.disabled=true;
   try{
     const ids=bMockItems.map(item=>item._protectedQuestionId);
     const state=bTraceBridgeV376().state?.();
     if(!Array.isArray(state?.miniMockQuestionIds)||state.miniMockQuestionIds.length!==B_MOCK_COUNT||!ids.every((id,index)=>state.miniMockQuestionIds[index]===id)){
       await bTraceBridgeV376().startMiniMockSession(ids);
+      if(runToken!==bMockRunTokenV438)return false;
     }
     const serverChoices=bMockItems.map((item,index)=>{
-      const selected=bMockAnswers[index];if(selected===null||selected===undefined)return null;
+      const selected=submittedAnswers[index];if(selected===null||selected===undefined)return null;
       const mapped=item._serverMap?.[selected];if(!Number.isInteger(mapped))throw new Error('v438_b_mini_mock_choice_map_invalid');
       return mapped;
     });
     const results=await bTraceBridgeV376().gradeMiniMockSession(serverChoices);
+    if(runToken!==bMockRunTokenV438)return false;
     if(!Array.isArray(results)||results.length!==B_MOCK_COUNT||!results.every((result,index)=>result?.questionId===ids[index]))throw new Error('v438_b_mini_mock_grade_order_invalid');
+    const displayAnswers=results.map((result,index)=>{
+      const answer=bMockItems[index]._serverMap.indexOf(result.answerIndex);
+      if(answer<0||result.correct!==(submittedAnswers[index]!==null&&submittedAnswers[index]!==undefined&&submittedAnswers[index]===answer))throw new Error('v438_b_mini_mock_answer_map_invalid');
+      return answer;
+    });
+    bMockAnswers=submittedAnswers;
     results.forEach((result,index)=>{
-      const item=bMockItems[index],displayAnswer=item._serverMap.indexOf(result.answerIndex);
-      if(displayAnswer<0)throw new Error('v438_b_mini_mock_answer_map_invalid');
+      const item=bMockItems[index],displayAnswer=displayAnswers[index];
       item.a=displayAnswer;
       item.correctText=item.options[displayAnswer];
       item.explain=result.explanation||'';
@@ -8644,6 +8659,7 @@ async function submitBMiniMockV438(timeUp=false){
     bTraceBridgeV376().clear();
     return out;
   }catch(error){
+    if(runToken!==bMockRunTokenV438)return false;
     bTraceBridgeV376().reportError?.(error);
     if(!timeUp&&bMockItems.length)startBMockTimer();
     return false;

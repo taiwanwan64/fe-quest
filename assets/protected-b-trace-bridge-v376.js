@@ -12,6 +12,7 @@ let activeOrdinal=0;
 const resolvedOrdinals=new Set();
 const hydratedIds=new Set();
 let accessPromise=null;
+let miniMockGeneration=0;
 
 function el(id){return document.getElementById(id)}
 function toast(message){
@@ -186,17 +187,21 @@ function miniMockQuotaValid(rows){
 
 async function startMiniMockSession(questionIds){
   clear();
+  const generation=miniMockGeneration;
   if(!(await requestAccess()))throw new Error('beta_access_cancelled');
+  if(generation!==miniMockGeneration)throw new Error('b_mini_mock_session_cancelled');
   if(!Array.isArray(questionIds)||questionIds.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_question_count_invalid');
   const ids=questionIds.map(safeId);
   if(ids.some(id=>!id)||new Set(ids).size!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_question_ids_invalid');
   const catalog=await provider().loadCatalog();
+  if(generation!==miniMockGeneration)throw new Error('b_mini_mock_session_cancelled');
   const byId=new Map((catalog?.items||[]).filter(item=>item?.sourcePool===SOURCE_POOL).map(item=>[item.id,item]));
   miniMockEntries=ids.map(id=>byId.get(id));
   if(miniMockEntries.some(item=>!item))throw new Error('b_mini_mock_catalog_item_missing');
   if(new Set(miniMockEntries.map(item=>safeId(item.parentId))).size!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_parent_duplicate');
   if(!miniMockQuotaValid(miniMockEntries))throw new Error('b_mini_mock_level_quota_invalid');
   const hydrated=await provider().hydrate(ids);
+  if(generation!==miniMockGeneration){provider().clearHydrated?.(ids);throw new Error('b_mini_mock_session_cancelled');}
   const questions=hydrated?.questions||[];
   if(questions.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_hydration_incomplete');
   const packets=miniMockEntries.map(entry=>{
@@ -210,6 +215,7 @@ async function startMiniMockSession(questionIds){
 
 async function gradeMiniMockSession(choiceIndexes){
   if(miniMockEntries.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_session_missing');
+  const generation=miniMockGeneration;
   if(!Array.isArray(choiceIndexes)||choiceIndexes.length!==MINI_MOCK_SIZE)throw new Error('b_mini_mock_answers_invalid');
   const out=[];
   for(let i=0;i<miniMockEntries.length;i++){
@@ -217,6 +223,7 @@ async function gradeMiniMockSession(choiceIndexes){
     if(!blank&&(!Number.isInteger(choice)||choice<0||choice>3))throw new Error('choice_index_invalid');
     const submitted=blank?0:choice;
     const result=await provider().submit(entry.id,submitted);
+    if(generation!==miniMockGeneration)throw new Error('b_mini_mock_session_cancelled');
     if(result?.questionId!==entry.id||typeof result?.correct!=='boolean'||!Number.isInteger(result?.answerIndex))throw new Error('b_mini_mock_grade_invalid');
     out.push(Object.freeze({
       questionId:entry.id,
@@ -239,6 +246,7 @@ async function next(){
 }
 
 function clear(){
+  miniMockGeneration++;
   const ids=[...hydratedIds];
   hydratedIds.clear();
   activeParentId='';entries=[];miniMockEntries=[];activeOrdinal=0;resolvedOrdinals.clear();
