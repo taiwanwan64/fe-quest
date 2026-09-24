@@ -211,7 +211,10 @@ function showScreen(id,opts={}){
   if(!opts.fromHistory && !opts.noHistory && prev!==id)appHistoryPush(id);
   if(opts.replaceHistory)appHistoryReplace(id,opts.depth||0);
   if(id==='map'&&prev==='lesson'&&activeLesson){
-    requestAnimationFrame(()=>focusReturnedLessonInMap(activeLesson));
+    const returnedLesson=activeLesson;
+    // Browser history may restore the previous scroll position after popstate.
+    // Position the card once that restoration has finished.
+    setTimeout(()=>requestAnimationFrame(()=>focusReturnedLessonInMap(returnedLesson)),100);
   }else if(!opts.keepScroll){
     window.scrollTo({top:0, behavior:opts.instant?'auto':'smooth'});
   }
