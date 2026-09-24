@@ -6209,8 +6209,8 @@ function renderCoreCourseMap(filter=''){
 }
 function renderLabLessonGrid(){
   const root=document.getElementById('labLessonGrid');if(!root)return;
-  // The touch labs mount their cards here after the main application loads.
-  root.replaceChildren();
+  root.innerHTML=LAB_LESSON_IDS.map(id=>{const l=LESSONS[id],p=profile.lessonProgress?.[id]||0;return `<div class="lesson-tile"><div class="lesson-tile-top"><div class="lesson-tile-icon">🧪</div><div><div class="lesson-tile-title">${escapeHtml(l.title)}</div><div class="lesson-tile-cat">${escapeHtml(l.cat)}</div></div></div><div class="lesson-tile-desc">図解や操作で理解を補助する任意ラボです。</div><div class="lesson-tile-bottom"><div class="progress"><div style="width:${p}%"></div></div><span class="lesson-percent">${p}%</span></div><button class="lesson-open" data-lesson="${id}">ラボを開く</button></div>`}).join('');
+  root.querySelectorAll('.lesson-open[data-lesson]').forEach(b=>b.onclick=()=>startLesson(b.dataset.lesson));
 }
 function refreshCoreCourseProgress(){
   const vals=CORE_A_IDS.map(id=>profile.lessonProgress?.[id]||0),done=vals.filter(x=>x>=100).length;
@@ -6251,10 +6251,6 @@ function startLessonLegacyV376(id){
   renderLesson();
 }
 async function startLesson(id){
-  if(LAB_LESSON_IDS.includes(id)){
-    globalThis.FEQUEST_TOUCH_LABS_V383?.open(id);
-    return !!globalThis.FEQUEST_TOUCH_LABS_V383;
-  }
   if(!fequestProtectedLessonIsCoreV376(id)){fequestProtectedLessonLoadGenerationV376++;fequestProtectedLessonProviderV376().clearCurrent();return startLessonLegacyV376(id);}
   const generation=++fequestProtectedLessonLoadGenerationV376;
   try{
@@ -14857,11 +14853,6 @@ function restoreResilientUiState(){
       showScreen('home',{noHistory:true,instant:true});
       appHistoryReplace('home',0);
       return 'home';
-    }
-    if(state.screen==='lesson'&&LAB_LESSON_IDS.includes(state.lessonId)){
-      showScreen('map',{noHistory:true,instant:true});
-      appHistoryReplace('map',0);
-      return 'map';
     }
     if(state.screen==='lesson'&&state.lessonId&&LESSONS[state.lessonId]){
       activeLesson=state.lessonId;
