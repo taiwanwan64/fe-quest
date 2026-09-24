@@ -210,7 +210,11 @@ function showScreen(id,opts={}){
   rememberScreen(id);
   if(!opts.fromHistory && !opts.noHistory && prev!==id)appHistoryPush(id);
   if(opts.replaceHistory)appHistoryReplace(id,opts.depth||0);
-  if(!opts.keepScroll)window.scrollTo({top:0, behavior:opts.instant?'auto':'smooth'});
+  if(id==='map'&&prev==='lesson'&&activeLesson){
+    requestAnimationFrame(()=>focusReturnedLessonInMap(activeLesson));
+  }else if(!opts.keepScroll){
+    window.scrollTo({top:0, behavior:opts.instant?'auto':'smooth'});
+  }
   return true;
 }
 function appBack(fallback='home'){
@@ -6211,6 +6215,29 @@ function renderLabLessonGrid(){
   const root=document.getElementById('labLessonGrid');if(!root)return;
   root.innerHTML=LAB_LESSON_IDS.map(id=>{const l=LESSONS[id],p=profile.lessonProgress?.[id]||0;return `<div class="lesson-tile"><div class="lesson-tile-top"><div class="lesson-tile-icon">🧪</div><div><div class="lesson-tile-title">${escapeHtml(l.title)}</div><div class="lesson-tile-cat">${escapeHtml(l.cat)}</div></div></div><div class="lesson-tile-desc">図解や操作で理解を補助する任意ラボです。</div><div class="lesson-tile-bottom"><div class="progress"><div style="width:${p}%"></div></div><span class="lesson-percent">${p}%</span></div><button class="lesson-open" data-lesson="${id}">ラボを開く</button></div>`}).join('');
   root.querySelectorAll('.lesson-open[data-lesson]').forEach(b=>b.onclick=()=>startLesson(b.dataset.lesson));
+}
+function focusReturnedLessonInMap(id){
+  if(activeScreenId()!=='map')return;
+  let card=null;
+  if(CORE_A_IDS.includes(id)){
+    setCourseSubject('A',false);
+    const search=document.getElementById('coreCourseSearch');
+    let row=[...document.querySelectorAll('#coreCourseChapters [data-core-lesson]')].find(el=>el.dataset.coreLesson===id);
+    if(!row&&search?.value){
+      search.value='';
+      renderCoreCourseMap();
+      row=[...document.querySelectorAll('#coreCourseChapters [data-core-lesson]')].find(el=>el.dataset.coreLesson===id);
+    }
+    row?.closest('.core-chapter')?.classList.add('open');
+    card=row;
+  }else if(LAB_LESSON_IDS.includes(id)){
+    setCourseSubject('A',false);
+    const details=document.querySelector('#subjectACoursePanel .lab-course-details');
+    if(details)details.open=true;
+    card=[...document.querySelectorAll('#labLessonGrid [data-lesson]')].find(el=>el.dataset.lesson===id)?.closest('.lesson-tile');
+  }
+  if(card)card.scrollIntoView({block:'center',behavior:'auto'});
+  else window.scrollTo({top:0,behavior:'auto'});
 }
 function refreshCoreCourseProgress(){
   const vals=CORE_A_IDS.map(id=>profile.lessonProgress?.[id]||0),done=vals.filter(x=>x>=100).length;
