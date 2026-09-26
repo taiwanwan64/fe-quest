@@ -20,6 +20,17 @@
 
 過去会話の記憶より、上記 live 情報を優先すること。
 
+## 最新確認・作業（2026-09-26）
+
+- 作業開始時の live main: `73be1902886587178ba915bf67648da2f2ec2533`（PR #237）。open PR / open Issue はともに0。
+- PR #237 head `092f2669f850fd9fc060b1e2a72416cb753d58fd` の publication run `35955275533` / v35 run `35955275583` は success。main の Pages run `35955324267` も success。
+- PR #235でラボを統一前の2種類へ復元済み。#231〜#234の統一方針を再適用しない。#236/#237のレッスン一覧復帰時の中央表示も反映済み。
+- 残存ブランチには過去のsquash等によりmainへ祖先として入っていないものもある。open PRなしを確認し、残存branchだけで未着手と判断しない。
+- 今回の作業ブランチ: `audit-venn-practice-state-20260926`。集合・ベン図ラボの練習状態の不整合を修正し、CI回帰検査を追加。詳細は `reference-audits/IPA92_VENN_PRACTICE_STATE_AUDIT_2026-09-26.md`。
+- 対応表は43項目（37 in-progress / 6 verified-covered）のまま。今回だけで集合の教材・直接演習・履歴の全ゲートを完了扱いにしない。
+- 目標PWA cache: `fe-quest-v377-133`。profile schema / protected banksは変更なし。
+- 以下の9月23日スナップショットは過去記録。再開時は今回のPRのCI・merge・Pagesをlive確認すること。
+
 ## 2. 2026-09-23 時点のスナップショット
 
 このファイル作成直前の確認値。**次回は必ず再確認すること。**

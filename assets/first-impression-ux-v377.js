@@ -431,6 +431,12 @@ function setVennOperation(key){
       button.setAttribute('aria-pressed',String(button.dataset.vennOperation===key));
     }
     const practiceStatus=dialog.querySelector('#ipa92VennPracticeStatus');
+    const prompt=dialog.querySelector('#ipa92VennPracticePrompt');
+    const check=dialog.querySelector('#ipa92VennCheck');
+    const next=dialog.querySelector('#ipa92VennPracticeNext');
+    if(prompt)prompt.textContent='式から領域を選ぶ練習もできます。';
+    if(check)check.disabled=true;
+    if(next)next.textContent='タップ練習を始める';
     if(practiceStatus)practiceStatus.textContent='下の「タップ練習を始める」で、式から領域を選ぶ練習もできます。';
   }
   renderVennSelection(operation.regions,operation.label,operation.detail);
@@ -458,6 +464,8 @@ function handleVennRegion(region){
   if(vennPracticeExpected){
     if(vennPracticeSelection.has(region))vennPracticeSelection.delete(region);
     else vennPracticeSelection.add(region);
+    const status=dialog.querySelector('#ipa92VennPracticeStatus');
+    if(status)status.textContent='選択を変更しました。選び終えたら「答え合わせ」を押してください。';
     renderVennSelection(vennPracticeSelection,'選択中',`${vennSorted(vennPracticeSelection).map(vennRegionName).join('・')||'まだ選択していません'}。選び終えたら「答え合わせ」を押してください。`,{practice:true});
     return;
   }
@@ -465,7 +473,7 @@ function handleVennRegion(region){
     button.classList.remove('is-active');
     button.setAttribute('aria-pressed','false');
   }
-  const detail=region==='ab'?'ここはAとBの両方に含まれるので A ∩ B です。':region==='a'?'ここはAには含まれますがBには含まれません。':region==='b'?'ここはBには含まれますがAには含まれません。':'ここはAにもBにも含まれない、全体集合の外側部分です。';
+  const detail=region==='ab'?'ここはAとBの両方に含まれるので A ∩ B です。':region==='a'?'ここはAには含まれますがBには含まれません。':region==='b'?'ここはBには含まれますがAには含まれません。':'ここは全体集合の中で、AにもBにも含まれない部分です。';
   renderVennSelection([region],vennRegionName(region),detail);
 }
 
@@ -484,9 +492,11 @@ function nextVennPractice(){
   const prompt=dialog.querySelector('#ipa92VennPracticePrompt');
   const status=dialog.querySelector('#ipa92VennPracticeStatus');
   const check=dialog.querySelector('#ipa92VennCheck');
+  const next=dialog.querySelector('#ipa92VennPracticeNext');
   if(prompt)prompt.textContent=task.prompt;
   if(status)status.textContent='図を直接タップするか、下の4つの領域ボタンで選べます。';
   if(check)check.disabled=false;
+  if(next)next.textContent='次の練習へ';
   renderVennSelection([],'タップ練習',task.prompt,{practice:true});
 }
 
