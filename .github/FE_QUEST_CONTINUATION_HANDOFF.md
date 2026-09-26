@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 第3章の探索・整列・再帰を19問と教材・整列ラボで照合。二分探索の件数増加の途中計算を保護教材 `core_03_03` に補強（`v376-lessons-ch3-binary-growth-v455-20260926`、非公開ソースPR #83 / CI success）。監査は `reference-audits/IPA92_SEARCH_SORT_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章のプログラムの分類と言語を照合。
 - 第3章の決定表を出題と照合。規則列の実際の読み取り例を保護教材 `core_03_02` に補強（`v376-lessons-ch3-decision-table-example-v454-20260926`、非公開ソースPR #82 / CI success）。監査は `reference-audits/IPA92_DECISION_TABLE_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章の探索・整列・再帰を照合。
 - 第3章グラフ理論を出題・教材・操作ラボと照合。重み付き経路の合計と重みなしラボの最少辺数の違いを保護教材 `core_03_01` に補強（`v376-lessons-ch3-weighted-graph-path-v453-20260926`、非公開ソースPR #81 / CI success）。監査は `reference-audits/IPA92_GRAPH_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章の残りの節を順に照合。
 - 数値解析と線形計画法を照合。線形補間の計算途中のみ保護教材 `core_02_07` に補強（`v376-lessons-ch2-interpolation-example-v452-20260926`、非公開ソースPR #80 / CI success）。線形計画法は第20章 `core_20_03` の既存教材に対応し増補不要。監査は `reference-audits/IPA92_NUMERICAL_LP_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章グラフ理論。
