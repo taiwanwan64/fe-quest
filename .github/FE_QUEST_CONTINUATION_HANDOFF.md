@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 第2章のAI P0 4項目を出題と照合。用語表はあったがSVM/PCA、CNN/RNN、基盤モデル/LLM、few-shotの判断手順を補強した。非公開ソースPR #79 / CI success、`core_02_05` は `v376-lessons-ch2-ai-decision-bridge-v451-20260926`。監査は `reference-audits/IPA92_AI_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第2章の数値解析・線形計画法を照合。
 - 第2章のマルコフ過程・仮説検定も照合: 仮説検定の既存説明は出題に対応。マルコフ過程の二経路確率計算のみ補強した。非公開ソースPR #78 / CI success、`core_02_06` は `v376-lessons-ch2-markov-paths-v450-20260926`。監査は `reference-audits/IPA92_MARKOV_HYPOTHESIS_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。スマホ実画面・直接演習・履歴の検証が残る。
 - 第2章の形式言語も監査: 正規表現・閉包は既存教材で対応、BNFの再帰展開だけ出題前の手順が薄いため補強。非公開ソース PR #77、保護教材CI success。`core_02_04` は `v376-lessons-ch2-bnf-trace-v449-20260926`。監査記録は `reference-audits/IPA92_FORMAL_LANGUAGE_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次はマルコフ過程・仮説検定を節順に照合。
 - 継続作業: 第2章の述語論理で出題前の説明不足を発見。非公開ソース PR #76 はマージ、保護教材CI success。`core_02_01` のみ `v376-lessons-ch2-predicate-bridge-v448-20260926` へ更新済み。監査記録は `reference-audits/IPA92_PREDICATE_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress のまま。次は形式言語・正規表現を節順で監査する。
