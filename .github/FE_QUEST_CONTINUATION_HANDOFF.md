@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 第3章グラフ理論を出題・教材・操作ラボと照合。重み付き経路の合計と重みなしラボの最少辺数の違いを保護教材 `core_03_01` に補強（`v376-lessons-ch3-weighted-graph-path-v453-20260926`、非公開ソースPR #81 / CI success）。監査は `reference-audits/IPA92_GRAPH_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章の残りの節を順に照合。
 - 数値解析と線形計画法を照合。線形補間の計算途中のみ保護教材 `core_02_07` に補強（`v376-lessons-ch2-interpolation-example-v452-20260926`、非公開ソースPR #80 / CI success）。線形計画法は第20章 `core_20_03` の既存教材に対応し増補不要。監査は `reference-audits/IPA92_NUMERICAL_LP_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章グラフ理論。
 - 第2章のAI P0 4項目を出題と照合。用語表はあったがSVM/PCA、CNN/RNN、基盤モデル/LLM、few-shotの判断手順を補強した。非公開ソースPR #79 / CI success、`core_02_05` は `v376-lessons-ch2-ai-decision-bridge-v451-20260926`。監査は `reference-audits/IPA92_AI_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第2章の数値解析・線形計画法を照合。
 - 第2章のマルコフ過程・仮説検定も照合: 仮説検定の既存説明は出題に対応。マルコフ過程の二経路確率計算のみ補強した。非公開ソースPR #78 / CI success、`core_02_06` は `v376-lessons-ch2-markov-paths-v450-20260926`。監査は `reference-audits/IPA92_MARKOV_HYPOTHESIS_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。スマホ実画面・直接演習・履歴の検証が残る。
