@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 継続作業: 第2章の述語論理で出題前の説明不足を発見。非公開ソース PR #76 はマージ、保護教材CI success。`core_02_01` のみ `v376-lessons-ch2-predicate-bridge-v448-20260926` へ更新済み。監査記録は `reference-audits/IPA92_PREDICATE_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress のまま。次は形式言語・正規表現を節順で監査する。
 - 作業開始時の live main: `73be1902886587178ba915bf67648da2f2ec2533`（PR #237）。open PR / open Issue はともに0。
 - PR #237 head `092f2669f850fd9fc060b1e2a72416cb753d58fd` の publication run `35955275533` / v35 run `35955275583` は success。main の Pages run `35955324267` も success。
 - PR #235でラボを統一前の2種類へ復元済み。#231〜#234の統一方針を再適用しない。#236/#237のレッスン一覧復帰時の中央表示も反映済み。
