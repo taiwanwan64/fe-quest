@@ -3843,6 +3843,7 @@
   .core-course-chapters{display:grid;gap:12px}
   .core-chapter{border:1px solid #dfe6eb;border-radius:19px;background:#fff;overflow:hidden}
   .core-chapter-head{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;padding:15px 17px;cursor:pointer;background:#fff}
+  .core-chapter-head:focus-visible,.core-topic-row:focus-visible{outline:3px solid #276fac;outline-offset:-3px}
   .core-chapter-no{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#eff8e9;color:#378526;font-size:16px;font-weight:1000}
   .core-chapter-title{font-size:18px;font-weight:1000}.core-chapter-meta{font-size:14px;color:#6c7f8e;margin-top:3px}
   .core-chapter-progress{min-width:90px;text-align:right}.core-chapter-progress b{font-size:16px}.core-chapter-progress span{display:block;font-size:14px;color:#718492}

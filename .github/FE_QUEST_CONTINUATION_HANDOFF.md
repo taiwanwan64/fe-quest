@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 第3章の本番UIをゲスト環境で確認。03-01教材→直接演習1問の採点・解説、グラフの最短経路/BFS、整列ラボの1手進行と切替を操作。教材一覧の章見出し・教材行のキーボード操作を修正するPRを進行中。記録は `reference-audits/CH03_PRODUCTION_UI_PRACTICE_GATE_2026-09-26.md`。スマホ実画面、全節演習完走、履歴確認は残る。coverageは in-progress。
 - 第3章のプログラム分類と言語を出題と照合。`core_03_04` は既存説明が対応。JSONのキー・値・配列の実例を `core_03_05` に補強（`v376-lessons-ch3-json-shape-v456-20260926`、非公開ソースPR #84 / CI success）。監査は `reference-audits/IPA92_PROGRAM_LANGUAGES_PRACTICE_ALIGNMENT_2026-09-26.md`。第3章5節の出題前照合を順番に記録したが、スマホ実画面・直接演習・履歴・ラボ実操作は未完了。coverageは in-progress。次は実画面・演習ゲートを確認。
 - 第3章の探索・整列・再帰を19問と教材・整列ラボで照合。二分探索の件数増加の途中計算を保護教材 `core_03_03` に補強（`v376-lessons-ch3-binary-growth-v455-20260926`、非公開ソースPR #83 / CI success）。監査は `reference-audits/IPA92_SEARCH_SORT_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章のプログラムの分類と言語を照合。
 - 第3章の決定表を出題と照合。規則列の実際の読み取り例を保護教材 `core_03_02` に補強（`v376-lessons-ch3-decision-table-example-v454-20260926`、非公開ソースPR #82 / CI success）。監査は `reference-audits/IPA92_DECISION_TABLE_PRACTICE_ALIGNMENT_2026-09-26.md`。coverageは in-progress。次は第3章の探索・整列・再帰を照合。
@@ -37,7 +38,7 @@
 - 残存ブランチには過去のsquash等によりmainへ祖先として入っていないものもある。open PRなしを確認し、残存branchだけで未着手と判断しない。
 - 今回の作業ブランチ: `audit-venn-practice-state-20260926`。集合・ベン図ラボの練習状態の不整合を修正し、CI回帰検査を追加。詳細は `reference-audits/IPA92_VENN_PRACTICE_STATE_AUDIT_2026-09-26.md`。
 - 対応表は43項目（37 in-progress / 6 verified-covered）のまま。今回だけで集合の教材・直接演習・履歴の全ゲートを完了扱いにしない。
-- 目標PWA cache: `fe-quest-v377-133`。profile schema / protected banksは変更なし。
+- 目標PWA cache: `fe-quest-v377-134`。profile schema / protected banksは変更なし。
 - 以下の9月23日スナップショットは過去記録。再開時は今回のPRのCI・merge・Pagesをlive確認すること。
 
 ## 2. 2026-09-23 時点のスナップショット
