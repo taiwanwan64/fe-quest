@@ -6186,7 +6186,7 @@ function renderCoreCourseMap(filter=''){
     const pct=Math.round(all.reduce((s,t)=>s+(profile.lessonProgress?.[t.id]||0),0)/Math.max(1,all.length));
 
     output+=`<section class="core-chapter ${q?'open':''}">
-      <div class="core-chapter-head" data-core-chapter="${ch}">
+      <div class="core-chapter-head" data-core-chapter="${ch}" role="button" tabindex="0" aria-expanded="${q?'true':'false'}" aria-controls="core-chapter-body-${ch}">
         <div class="core-chapter-no">${ch}</div>
         <div>
           <div class="core-chapter-title">${escapeHtml(all[0].chapterTitle)}</div>
@@ -6194,11 +6194,11 @@ function renderCoreCourseMap(filter=''){
         </div>
         <div class="core-chapter-progress"><b>${pct}%</b><span>${q?'検索結果 '+rows.length+'件':'教材進捗'}</span></div>
       </div>
-      <div class="core-chapter-body">
+      <div class="core-chapter-body" id="core-chapter-body-${ch}">
         ${coreChapterGuideView(ch)}
         ${rows.map(t=>{
           const p=profile.lessonProgress?.[t.id]||0,state=coreTopicLearningState(t.id);
-          return `<div class="core-topic-row ${p>=100?'done':''} ${t.id===focusAId?'course-next-topic':''} learning-${state.key}" data-core-lesson="${t.id}">
+          return `<div class="core-topic-row ${p>=100?'done':''} ${t.id===focusAId?'course-next-topic':''} learning-${state.key}" data-core-lesson="${t.id}" role="button" tabindex="0">
             <div class="core-topic-code">${t.code}</div>
             <div>
               <div class="core-topic-name">${t.id===focusAId?'<span class="course-next-badge">未完了</span> ':''}${learningHtml(t.title)}</div>
@@ -6231,7 +6231,9 @@ function focusReturnedLessonInMap(id){
       renderCoreCourseMap();
       row=[...document.querySelectorAll('#coreCourseChapters [data-core-lesson]')].find(el=>el.dataset.coreLesson===id);
     }
-    row?.closest('.core-chapter')?.classList.add('open');
+    const chapter=row?.closest('.core-chapter');
+    chapter?.classList.add('open');
+    chapter?.querySelector('.core-chapter-head')?.setAttribute('aria-expanded','true');
     card=row;
   }else if(LAB_LESSON_IDS.includes(id)){
     setCourseSubject('A',false);
@@ -6259,7 +6261,16 @@ document.getElementById('coreCourseChapters')?.addEventListener('click',e=>{
     return;
   }
   const row=e.target.closest?.('[data-core-lesson]');if(row){startLesson(row.dataset.coreLesson);return;}
-  const head=e.target.closest?.('[data-core-chapter]');if(head)head.parentElement.classList.toggle('open');
+  const head=e.target.closest?.('[data-core-chapter]');if(head){
+    const open=head.parentElement.classList.toggle('open');
+    head.setAttribute('aria-expanded',String(open));
+  }
+});
+document.getElementById('coreCourseChapters')?.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches?.('[data-core-chapter], [data-core-lesson]')){
+    e.preventDefault();
+    e.target.click();
+  }
 });
 document.getElementById('coreCourseSearch')?.addEventListener('input',e=>renderCoreCourseMap(e.target.value));
 renderCoreCourseMap();renderLabLessonGrid();
