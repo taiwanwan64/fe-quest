@@ -2370,6 +2370,8 @@ async function startQuiz(mode){
   if(loadingQuestion)loadingQuestion.textContent='問題を読み込み中…';
   if(loadingOptions)loadingOptions.innerHTML='';
   if(loadingSubmit)loadingSubmit.disabled=true;
+  document.getElementById('quizCounter').textContent=`1 / ${quizItems.length}`;
+  document.getElementById('quizProgress').style.width='0%';
   try{
     quizItems=await bridge.prepareSubjectA(quizItems);
   }catch(error){
