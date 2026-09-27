@@ -22,6 +22,7 @@
 
 ## 最新確認・作業（2026-09-26）
 
+- 2026-09-27 続き: PR #251 はpublication/v35 CI成功、main `0c1fc5ac391b8872276f49d4bf575de4b3192365` へマージ、Pages run `36289300724` 成功。公開版で難度「標準」を確認。`core_03_03` と `core_03_01` の本番教材から各10問を完走（両方10/10）。これで第3章5テーマすべてで教材→直接演習の1セッションを完走し、直近4件のテーマ名・結果が再読み込み後に保持された。章末統合演習、テーマ別問題バンクの全問、スマホ幅での可読性・タッチ操作は未確認。`reference-audits/CH03_PRODUCTION_UI_PRACTICE_GATE_2026-09-26.md` を参照。coverageは in-progress。
 - 2026-09-27 live main `85377672640389724daa55a39acee89ccbd62dd0`、open PR 0、Pages run `36281988127` 成功を確認。新規ゲストで診断12問の後、`core_03_02` 本番教材→テーマ演習6問を完走。結果83%（初回5/6）、履歴は再読み込み後も保持された。履歴のテーマ名を修正したPR #250はCIとPages run `36288947205` 成功、本番で再確認済み。続いて `core_03_04` と `core_03_05` の教材・各7問を完走（両方7/7）。難度 `standard` の表示を「標準」へ修正し、PWA cacheを `fe-quest-v377-136` に更新。03-03・スマホUIのゲートが残る。記録は `reference-audits/CH03_PRODUCTION_UI_PRACTICE_GATE_2026-09-26.md`。coverageは in-progress。
 - 第3章の本番UIをゲスト環境で確認。03-01教材→直接演習1問の採点・解説、グラフの最短経路/BFS、整列ラボの1手進行と切替を操作。教材一覧の章見出し・教材行をキーボード対応したPR #248はマージ済み。publication/v35 CI、Pages run `36234388292` 成功、公開画面でEnter/Space操作を再確認。記録は `reference-audits/CH03_PRODUCTION_UI_PRACTICE_GATE_2026-09-26.md`。スマホ実画面、全節演習完走、履歴確認は残る。coverageは in-progress。
 - 第3章のプログラム分類と言語を出題と照合。`core_03_04` は既存説明が対応。JSONのキー・値・配列の実例を `core_03_05` に補強（`v376-lessons-ch3-json-shape-v456-20260926`、非公開ソースPR #84 / CI success）。監査は `reference-audits/IPA92_PROGRAM_LANGUAGES_PRACTICE_ALIGNMENT_2026-09-26.md`。第3章5節の出題前照合を順番に記録したが、スマホ実画面・直接演習・履歴・ラボ実操作は未完了。coverageは in-progress。次は実画面・演習ゲートを確認。
