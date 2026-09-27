@@ -5714,7 +5714,20 @@ function fequestLocalizeProtectedLessonArticleV377(topicId,article){
     }
     node.nodeValue=fequestLocalizeLearningEnglishTextV377(value);
   }
+  if(topicId==='core_03_02')fequestRefineControl3DiagramV377(template.content);
   return template.innerHTML;
+}
+function fequestRefineControl3DiagramV377(root){
+  const cards=[...root.querySelectorAll('.control3-v383 > div')];
+  if(cards.length!==3)return;
+  const [sequence,choice,repeat]=cards.map(card=>card.querySelector('code'));
+  if(!sequence||!choice||!repeat||
+     !sequence.textContent.includes('Aをする')||!sequence.textContent.includes('Bをする')||
+     !choice.textContent.includes('Yes')||!choice.textContent.includes('No')||
+     !repeat.textContent.includes('条件へ戻る'))return;
+  sequence.outerHTML='<div class="control3-diagram-v377"><span>Aをする</span><span class="control3-arrow-v377" aria-hidden="true">↓</span><span>Bをする</span></div>';
+  choice.outerHTML='<div class="control3-diagram-v377"><span>条件を確認</span><div class="control3-branches-v377"><span><b>Yes</b><i aria-hidden="true">↓</i><strong>Aをする</strong></span><span><b>No</b><i aria-hidden="true">↓</i><strong>Bをする</strong></span></div></div>';
+  repeat.outerHTML='<div class="control3-diagram-v377"><span>条件を確認</span><span class="control3-arrow-v377" aria-hidden="true">↓</span><span>処理する</span><span class="control3-loop-v377">↺ 条件へ戻る</span></div>';
 }
 function fequestLearningDetailVariantsV377(abbr,full){
   const japanese=LEARNING_ENGLISH_GLOSSES_JA_V377[full]||'';
