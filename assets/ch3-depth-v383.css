@@ -210,6 +210,35 @@
   margin-top:7px;
   line-height:1.55;
 }
+#lesson .control3-diagram-v377{
+  display:grid;
+  justify-items:center;
+  gap:3px;
+  margin-top:8px;
+  font-size:17px;
+  line-height:1.4;
+  color:#263b4a;
+}
+#lesson .control3-arrow-v377{color:#67808d;line-height:1.1}
+#lesson .control3-branches-v377{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  width:100%;
+  margin-top:3px;
+}
+#lesson .control3-branches-v377>span{
+  display:grid;
+  justify-items:center;
+  gap:2px;
+  padding:7px 4px;
+  border-radius:9px;
+  background:#f3f8fa;
+}
+#lesson .control3-branches-v377 b,
+#lesson .control3-branches-v377 strong{font-size:16px;color:#17364b}
+#lesson .control3-branches-v377 i{font-style:normal;line-height:1;color:#67808d}
+#lesson .control3-loop-v377{font-size:16px;color:#425b68}
 
 /* 03-03 quicksort */
 #lesson .quicksort-v383{
@@ -399,7 +428,9 @@
   #lesson .program-props-v383,
   #lesson .ajax-compare-v383{grid-template-columns:1fr}
   #lesson .flow-symbols-v383{grid-template-columns:1fr}
-  #lesson .control3-v383{grid-template-columns:1fr}
+  #lesson .control3-v383{grid-template-columns:1fr;gap:10px}
+  #lesson .control3-v383>div{padding:12px}
+  #lesson .control3-diagram-v377{margin-top:6px}
   #lesson .web-layers-v383{grid-template-columns:1fr}
   #lesson .java-terms-v383>div{grid-template-columns:1fr}
 }
