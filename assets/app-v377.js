@@ -2317,6 +2317,18 @@ function selectSubjectAMetadataV376(mode){
   return subjectAPickBalancedMetadataV376(bank,10);
 }
 
+function quizModeTitle(mode){
+  const key=String(mode||'');
+  const titles={review:'今日の復習',taperreview:'直前復習 5問',warmup:'受験前ウォームアップ 3問',weak:'弱点10問',random:'ランダム10問',boss:'今日の総合チェック'};
+  if(key.startsWith('journey:'))return '復習ルート・類題確認';
+  if(key.startsWith('coretopic:'))return `${CORE_A_TOPIC_MAP[key.slice(10)]?.title||'テーマ'}・テーマ演習`;
+  if(key.startsWith('corechapter:'))return `第${key.slice(12)}章・章末チェック`;
+  if(key.startsWith('cogcat:'))return `${key.split(':')[1]}・${key.split(':')[2]} 集中特訓`;
+  if(key.startsWith('cat:'))return `${key.slice(4)} 集中特訓`;
+  if(key.startsWith('rx:'))return prescriptionMeta(mode).title;
+  return titles[key]||'問題演習';
+}
+
 async function startQuiz(mode){
   ensureQuestionProfile();
   quizMode=mode;
@@ -2337,21 +2349,7 @@ async function startQuiz(mode){
   quizResultScreen.style.display='none';
   quizSession.style.display='block';
 
-  const titles={review:'今日の復習',taperreview:'直前復習 5問',warmup:'受験前ウォームアップ 3問',weak:'弱点10問',random:'ランダム10問',boss:'今日の総合チェック'};
-  const modeTitle=String(mode).startsWith('journey:')
-    ?'復習ルート・類題確認'
-    :String(mode).startsWith('coretopic:')
-      ?`${CORE_A_TOPIC_MAP[String(mode).slice(10)]?.title||'テーマ'}・テーマ演習`
-      :String(mode).startsWith('corechapter:')
-        ?`第${String(mode).slice(12)}章・章末チェック`
-        :String(mode).startsWith('cogcat:')
-        ?`${String(mode).split(':')[1]}・${String(mode).split(':')[2]} 集中特訓`
-        :String(mode).startsWith('cat:')
-          ?`${String(mode).slice(4)} 集中特訓`
-        :String(mode).startsWith('rx:')
-          ?prescriptionMeta(mode).title
-          :titles[mode];
-  document.getElementById('quizSessionTitle').textContent=modeTitle||'問題演習';
+  document.getElementById('quizSessionTitle').textContent=quizModeTitle(mode);
   document.getElementById('quizSessionSub').textContent=String(mode).startsWith('corechapter:')
     ?`科目A 章末統合演習・全${CORE_A_CURRICULUM.filter(t=>t.chapter===Number(String(mode).slice(12))).length}テーマ`
     :'科目A 問題演習';
@@ -2758,7 +2756,6 @@ function renderRecentHistory(){
     return;
   }
   root.innerHTML='';
-  const names={review:'今日の復習',weak:'弱点10問',random:'ランダム10問',boss:'今日の総合チェック'};
   sessions.forEach(s=>{
     const row=document.createElement('div');
     row.className='history-row';
@@ -2766,7 +2763,7 @@ function renderRecentHistory(){
     row.innerHTML=`
       <div class="history-mark ${good?'ok':'ng'}">${good?'✓':'!'}</div>
       <div class="history-text">
-        <div class="history-title">${String(s.mode).startsWith('rx:')?prescriptionMeta(s.mode).title:(names[s.mode]||'問題演習')}・${s.rate}%</div>
+        <div class="history-title">${escapeHtml(quizModeTitle(s.mode))}・${s.rate}%</div>
         <div class="history-sub">${s.date}　${s.correct}/${s.total}問正解</div>
       </div>
     `;
