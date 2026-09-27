@@ -2395,7 +2395,8 @@ function renderQuizQuestion(){
 
   document.getElementById('quizCategory').textContent=`${q.cat}・${q.concept}`;
   const angleNames={knowledge:'知識',application:'適用例',discrimination:'見分け',calculation:'計算',scenario:'状況判断',interpretation:'読解',trace:'操作追跡',comparison:'比較'};
-  document.getElementById('quizDifficulty').textContent=q.angle?`${q.difficulty}・${angleNames[q.angle]||q.angle}`:q.difficulty;
+  const difficultyLabel=q.difficulty==='standard'?'標準':q.difficulty;
+  document.getElementById('quizDifficulty').textContent=q.angle?`${difficultyLabel}・${angleNames[q.angle]||q.angle}`:difficultyLabel;
   document.getElementById('quizQuestion').textContent=q.q;
   const vb=document.getElementById('variantBadge');
   if(vb){
