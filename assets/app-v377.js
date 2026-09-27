@@ -16390,3 +16390,49 @@ setTimeout(installStudyPlanningV373,0);
 queueMicrotask(installBCompoundCleanupV376);
 
 queueMicrotask(installBFinalCleanupV376);
+
+// Keep mathematical powers legible in lessons, questions, and explanations,
+// including protected content inserted after the initial page load. Code and
+// editable areas retain their literal notation (where ^ may be an operator).
+function formatVisibleExponentsV377(root){
+  const pattern=/(\d+)\^(\([0-9A-Za-z_+\-−*/ ]{1,24}\)|[+−-]?\d+|[nN])(?![A-Za-z0-9_])/g;
+  const excluded='code,pre,kbd,samp,script,style,textarea,svg,[contenteditable],.b-code-line,.code-line';
+  const nodes=[];
+  if(root.nodeType===Node.TEXT_NODE)nodes.push(root);
+  else if(root.nodeType===Node.ELEMENT_NODE){
+    if(root.matches(excluded))return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    while(walker.nextNode())nodes.push(walker.currentNode);
+  }else return;
+  for(const node of nodes){
+    if(!node.parentElement||node.parentElement.closest(excluded)||!pattern.test(node.nodeValue)){
+      pattern.lastIndex=0;
+      continue;
+    }
+    pattern.lastIndex=0;
+    const source=node.nodeValue,fragment=document.createDocumentFragment();
+    let from=0,match;
+    while((match=pattern.exec(source))){
+      fragment.append(document.createTextNode(source.slice(from,match.index)+match[1]));
+      const sup=document.createElement('sup');
+      sup.className='feq-exponent-v377';
+      sup.textContent=match[2].startsWith('(')?match[2].slice(1,-1):match[2];
+      fragment.append(sup);
+      from=pattern.lastIndex;
+    }
+    fragment.append(document.createTextNode(source.slice(from)));
+    node.replaceWith(fragment);
+    pattern.lastIndex=0;
+  }
+}
+function installExponentTypographyV377(){
+  formatVisibleExponentsV377(document.body);
+  new MutationObserver(records=>{
+    for(const record of records){
+      if(record.type==='characterData')formatVisibleExponentsV377(record.target);
+      else for(const node of record.addedNodes)formatVisibleExponentsV377(node);
+    }
+  }).observe(document.body,{subtree:true,childList:true,characterData:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installExponentTypographyV377,{once:true});
+else installExponentTypographyV377();
