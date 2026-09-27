@@ -2170,6 +2170,17 @@ function subjectAUniqueMetadataV376(items,n=20){
   }
   return out;
 }
+function subjectAPickCoreChapterMetadataV377(chapter,bank){
+  const topicIds=[...new Set(CORE_A_CURRICULUM.filter(topic=>Number(topic.chapter)===chapter).map(topic=>topic.id))];
+  const pool=bank.filter(item=>topicIds.includes(item.coreTopicId));
+  const extras=CORE_A_CHAPTER_EXTRA_QUESTIONS?.[String(chapter)]||[];
+  const shuffled=items=>[...items].sort(()=>Math.random()-.5);
+  const anchors=topicIds.map(id=>shuffled(pool.filter(item=>item.coreTopicId===id))[0]).filter(Boolean);
+  const candidates=[...pool,...extras];
+  const comparison=shuffled(candidates.filter(item=>item.angle==='comparison'))[0]
+    ||shuffled(candidates.filter(item=>item.angle==='scenario'))[0];
+  return shuffled(subjectAUniqueMetadataV376([...anchors,comparison,...shuffled(candidates)],12));
+}
 function subjectAStatV376(item){return profile.qStats?.[item?.id]||{};}
 function subjectAIsDueMetadataV376(item){
   const stat=subjectAStatV376(item),due=typeof stat.due==='string'?stat.due:'';
@@ -2294,10 +2305,7 @@ function selectSubjectAMetadataV376(mode){
   }
   if(key.startsWith('corechapter:')){
     const chapter=Number(key.slice(12));
-    const topicIds=new Set((Array.isArray(CORE_A_CURRICULUM)?CORE_A_CURRICULUM:[]).filter(topic=>Number(topic.chapter)===chapter).map(topic=>topic.id));
-    const chapterBase=bank.filter(item=>topicIds.has(item.coreTopicId));
-    const extras=CORE_A_CHAPTER_EXTRA_QUESTIONS?.[String(chapter)]||[];
-    return subjectAUniqueMetadataV376([...chapterBase.sort(()=>Math.random()-.5),...extras.sort(()=>Math.random()-.5)],10);
+    return subjectAPickCoreChapterMetadataV377(chapter,bank);
   }
   if(key==='warmup')return subjectAPickWarmupMetadataV376(bank,3);
   if(key==='taperreview'){
