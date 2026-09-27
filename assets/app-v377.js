@@ -2170,6 +2170,19 @@ function subjectAUniqueMetadataV376(items,n=20){
   }
   return out;
 }
+function subjectASpaceKnownOverlapV377(items){
+  const out=[...items];
+  const pairs=[['coreq_03_05_2','coreq_03_05_3']];
+  for(const [firstId,secondId] of pairs){
+    const first=out.findIndex(item=>item.id===firstId),second=out.findIndex(item=>item.id===secondId);
+    if(out.length<3||first<0||second<0||Math.abs(first-second)!==1)continue;
+    const [moved]=out.splice(second,1);
+    const remainingFirst=out.findIndex(item=>item.id===firstId);
+    if(remainingFirst<(out.length-1)/2)out.push(moved);
+    else out.unshift(moved);
+  }
+  return out;
+}
 function subjectAPickCoreChapterMetadataV377(chapter,bank){
   const topicIds=[...new Set(CORE_A_CURRICULUM.filter(topic=>Number(topic.chapter)===chapter).map(topic=>topic.id))];
   const pool=bank.filter(item=>topicIds.includes(item.coreTopicId));
@@ -2179,7 +2192,7 @@ function subjectAPickCoreChapterMetadataV377(chapter,bank){
   const candidates=[...pool,...extras];
   const comparison=shuffled(candidates.filter(item=>item.angle==='comparison'))[0]
     ||shuffled(candidates.filter(item=>item.angle==='scenario'))[0];
-  return shuffled(subjectAUniqueMetadataV376([...anchors,comparison,...shuffled(candidates)],12));
+  return subjectASpaceKnownOverlapV377(shuffled(subjectAUniqueMetadataV376([...anchors,comparison,...shuffled(candidates)],12)));
 }
 function subjectAStatV376(item){return profile.qStats?.[item?.id]||{};}
 function subjectAIsDueMetadataV376(item){
@@ -2299,9 +2312,9 @@ function selectSubjectAMetadataV376(mode){
     const id=key.slice(8),item=tracked.find(question=>question.id===id);return item?[item]:[];
   }
   if(key.startsWith('coretopic:')){
-    const topicId=key.slice(10),pool=bank.filter(item=>item.coreTopicId===topicId);
+    const topicId=key.slice(10),pool=bank.filter(item=>item.coreTopicId===topicId&&isCoreTopicImmediatePracticeQuestion(item));
     const applied=pool.filter(item=>['application','scenario','calculation','trace','interpretation'].includes(item.angle));
-    return subjectAUniqueMetadataV376([...applied.sort(()=>Math.random()-.5),...pool.sort(()=>Math.random()-.5)],10);
+    return subjectASpaceKnownOverlapV377(subjectAUniqueMetadataV376([...applied.sort(()=>Math.random()-.5),...pool.sort(()=>Math.random()-.5)],10));
   }
   if(key.startsWith('corechapter:')){
     const chapter=Number(key.slice(12));
