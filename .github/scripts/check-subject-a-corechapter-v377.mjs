@@ -32,6 +32,21 @@ for(const source of [bank,publishedBank]){
     if(pair.every(index=>index>=0))assert.ok(Math.abs(pair[0]-pair[1])>1,'do not place overlapping JSON questions together');
   }
 }
+
+const chapter4Curriculum=Array.from({length:6},(_,i)=>({chapter:4,id:`core_04_0${i+1}`}));
+const chapter4PublishedBank=catalog.items.filter(item=>chapter4Curriculum.some(topic=>topic.id===item.coreTopicId));
+assert.ok(chapter4PublishedBank.length>=18,'chapter 4 public catalog must include the six core topics');
+const chapter4Ctx={QUESTION_BANK:chapter4PublishedBank,CORE_A_CURRICULUM:chapter4Curriculum,CORE_A_CHAPTER_EXTRA_QUESTIONS:{},subjectATrackedMetadataV376:()=>[],globalThis:{}};
+vm.createContext(chapter4Ctx);
+vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter4Ctx);
+for(let i=0;i<100;i++){
+  const selected=Array.from(chapter4Ctx.select('corechapter:4'));
+  assert.equal(selected.length,12,'chapter 4 check must match the 12-question label');
+  assert.equal(new Set(selected.map(item=>item.id)).size,12,'chapter 4 check must not repeat question IDs');
+  for(const topic of chapter4Curriculum)assert.ok(selected.some(item=>item.coreTopicId===topic.id),`chapter 4 check missing ${topic.id}`);
+  assert.ok(selected.some(item=>item.angle==='scenario'),'chapter 4 check should include a scenario question when available');
+}
+
 const extensions=['assets/question-catalog-ipa92-v1-v6.json','assets/question-catalog-ipa92-v28.json']
   .flatMap(path=>JSON.parse(fs.readFileSync(path,'utf8')).items.filter(item=>item.coreTopicId==='core_03_05'));
 const topicCtx={QUESTION_BANK:[...publishedBank,...extensions],CORE_A_CURRICULUM:curriculum,CORE_A_CHAPTER_EXTRA_QUESTIONS:{},subjectATrackedMetadataV376:()=>[],globalThis:{}};
@@ -44,4 +59,4 @@ for(let i=0;i<100;i++){
   assert.equal(selected.length,6,'topic practice matches the six-question label and excludes its chapter comparison');
   assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')),'chapter comparisons belong to the chapter check');
 }
-console.log('PASS Subject A chapter/topic selection: 12 chapter questions, every topic, no immediate comparison, and spaced JSON overlap');
+console.log('PASS Subject A chapter/topic selection: 12 chapter questions, every topic including all six Chapter 4 topics, no immediate comparison, and spaced JSON overlap');
