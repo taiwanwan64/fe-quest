@@ -5801,16 +5801,15 @@ function fequestPrepareResponsiveLessonTablesV377(root){
   });
 }
 function expandLearningAbbreviations(text){
-  let s=String(text??'');
   const entries=Object.entries(LEARNING_ABBREVIATIONS).sort((a,b)=>b[0].length-a[0].length);
-  for(const [key,full] of entries){
-    if(LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377.has(key))continue;
-    const esc=fequestEscapeRegExpV377(key);
-    const re=new RegExp(`(^|[^A-Za-z0-9])(${esc})(?![A-Za-z0-9]|\\s*[（(])`,'g');
+  const eligible=entries.filter(([key])=>!LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377.has(key));
+  const byAbbreviation=Object.fromEntries(eligible);
+  const pattern=new RegExp(`(^|[^A-Za-z0-9])(${eligible.map(([key])=>fequestEscapeRegExpV377(key)).join('|')})(?![A-Za-z0-9]|\\s*[（(])`,'g');
+  return String(text??'').replace(pattern,(_,pre,abbr)=>{
+    const full=byAbbreviation[abbr];
     const japanese=LEARNING_ENGLISH_GLOSSES_JA_V377[full];
-    s=s.replace(re,(_,pre,abbr)=>`${pre}${abbr}（${full}${japanese?'／'+japanese:''}）`);
-  }
-  return s;
+    return `${pre}${abbr}（${full}${japanese?'／'+japanese:''}）`;
+  });
 }
 function learningHtml(text){return escapeHtml(expandLearningAbbreviations(text));}
 
