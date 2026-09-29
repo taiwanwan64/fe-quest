@@ -427,6 +427,24 @@ jobs:
           grep -Fq "fequestCollapseRepeatedLearningDetailsV377(learningDetailRoots);" assets/app-v377.js
           grep -Fq "if(seen.has(abbr))return abbr;" assets/app-v377.js
           grep -Fq "const pattern=new RegExp(entries.map(([english])=>fequestEscapeRegExpV377(english)).join('|'),'g');" assets/app-v377.js
+          node <<'NODE'
+          const fs=require('node:fs');
+          const vm=require('node:vm');
+          const app=fs.readFileSync('assets/app-v377.js','utf8');
+          const start=app.indexOf('function fequestLocalizeLearningEnglishTextV377(text){');
+          const end=app.indexOf('function fequestNaturalizeLessonVersionLabelsV377',start);
+          if(start<0||end<0)throw new Error('lesson English localization missing');
+          const context={
+            FEQUEST_LEARNING_PHRASE_OVERRIDES_V377:[],
+            LEARNING_ENGLISH_GLOSSES_JA_V377:{'Central Processing Unit':'中央処理装置'},
+            fequestEscapeRegExpV377:s=>s.replace(/[\\^$.*+?()[\]{}|]/g,'\\          grep -Fq "return fequestLocalizeProtectedLessonArticleV377(id,article);" assets/app-v377.js')
+          };
+          vm.createContext(context);
+          vm.runInContext(app.slice(start,end),context);
+          const localize=context.fequestLocalizeLearningEnglishTextV377;
+          if(localize('CPU（Central Processing Unit：中央処理装置）')!=='CPU（Central Processing Unit：中央処理装置）')throw new Error('existing Japanese gloss duplicated');
+          if(localize('CPU（Central Processing Unit）')!=='CPU（Central Processing Unit／中央処理装置）')throw new Error('missing Japanese gloss');
+          NODE
           grep -Fq "return fequestLocalizeProtectedLessonArticleV377(id,article);" assets/app-v377.js
           grep -Fq "Politics（政治）・Economy（経済）・Society（社会）・Technology（技術）" assets/app-v377.js
           grep -Fq '"Key Performance Indicator":"重要業績評価指標"' assets/app-v377.js
@@ -434,11 +452,11 @@ jobs:
           grep -Fq '"Strengths, Weaknesses, Opportunities, Threats":"強み・弱み・機会・脅威"' assets/app-v377.js
           grep -Fq "LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377=new Set(['OR'])" assets/app-v377.js
           grep -Fq "OR（論理和）" assets/app-v377.js
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-142';" sw.js
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-143';" sw.js
           grep -Fq "const B_GAP_TOTAL=7;" assets/protected-content-provider-v376-v35.js
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" assets/protected-content-provider-v376-v35.js
           node -e "const d=require('./assets/question-catalog-b-gap-v1.json'); if(d.items?.length!==7||d.counts?.bExamAlgo!==7||d.items.some(x=>x.sourcePool!=='b_exam_algo')) process.exit(1)"
-          grep -Fq "fe-quest-v377-142" .github/workflows/deploy-pages.yml
+          grep -Fq "fe-quest-v377-143" .github/workflows/deploy-pages.yml
           grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' index.html
           test -f assets/ch3-depth-v383.css
           grep -Fq '#lesson .ch3-depth-v383' assets/ch3-depth-v383.css
@@ -1118,7 +1136,7 @@ jobs:
           grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-142';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-143';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"

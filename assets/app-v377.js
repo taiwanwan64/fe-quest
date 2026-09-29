@@ -5688,7 +5688,7 @@ function fequestLocalizeLearningEnglishTextV377(text){
   s=s.replace(pattern,(english,offset,whole)=>{
     const japanese=byEnglish[english];
     const after=String(whole).slice(offset+english.length).trimStart();
-    const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')');
+    const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('：'+japanese)||after.startsWith(':'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')');
     return alreadyLocalized?english:english+'／'+japanese;
   });
   return s;
