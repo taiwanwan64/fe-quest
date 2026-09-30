@@ -16407,7 +16407,7 @@ queueMicrotask(installBFinalCleanupV376);
 // including protected content inserted after the initial page load. Code and
 // editable areas retain their literal notation (where ^ may be an operator).
 function formatVisibleExponentsV377(root){
-  const pattern=/(\d+)\^(\([0-9A-Za-z_+\-−*/ ]{1,24}\)|[+−-]?\d+|[nN])(?![A-Za-z0-9_])/g;
+  const pattern=/(\d+)\^(\([0-9A-Za-z_+\-−*/ ]{1,24}\)|[+−-]?\d+|[nN])(?=$|[^A-Za-z0-9_]|(?:[kMGTmunpµμ]?Hz|[kMGTmunpµμ]?s|[kMGT]?bit|[kMGT]?byte|[kMGT]?bps|[kMGT]?B)(?![A-Za-z0-9_]))/g;
   const excluded='code,pre,kbd,samp,script,style,textarea,svg,[contenteditable],.b-code-line,.code-line';
   const nodes=[];
   if(root.nodeType===Node.TEXT_NODE)nodes.push(root);
