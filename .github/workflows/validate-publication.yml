@@ -437,7 +437,7 @@ jobs:
           const context={
             FEQUEST_LEARNING_PHRASE_OVERRIDES_V377:[],
             LEARNING_ENGLISH_GLOSSES_JA_V377:{'Central Processing Unit':'中央処理装置'},
-            fequestEscapeRegExpV377:s=>s.replace(/[\\^$.*+?()[\]{}|]/g,'\\          grep -Fq "return fequestLocalizeProtectedLessonArticleV377(id,article);" assets/app-v377.js')
+            fequestEscapeRegExpV377:s=>s.replace(/[\\^$.*+?()[\]{}|]/g,'\\$&')
           };
           vm.createContext(context);
           vm.runInContext(app.slice(start,end),context);
