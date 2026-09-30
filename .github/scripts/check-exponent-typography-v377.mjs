@@ -35,4 +35,15 @@ const late=new NodeMock(ELEMENT,'','div');late.append(new NodeMock(TEXT,'後か�
 observer([{type:'childList',addedNodes:[late]}]);
 assert.equal(late.children.find(x=>x.tag==='sup')?.textContent,'-3');
 assert.equal(late.textContent,'後から 10-3');
+const units=new NodeMock(ELEMENT,'','p');
+units.append(new NodeMock(TEXT,'10^9Hz、10^6bit、10^-3s、10^3MB、10^9foo、10^9Hz_value、10^9Hz2'));
+body.append(units);
+observer([{type:'childList',addedNodes:[units]}]);
+assert.deepEqual(units.children.filter(x=>x.tag==='sup').map(x=>x.textContent),['9','6','-3','3']);
+assert.equal(units.textContent,'109Hz、106bit、10-3s、103MB、10^9foo、10^9Hz_value、10^9Hz2');
+const lateText=new NodeMock(TEXT,'更新後は 10^9Hz');
+const changing=new NodeMock(ELEMENT,'','span');changing.append(lateText);body.append(changing);
+observer([{type:'characterData',target:lateText}]);
+assert.equal(changing.children.find(x=>x.tag==='sup')?.textContent,'9');
+assert.equal(changing.textContent,'更新後は 109Hz');
 console.log('PASS exponent typography: initial and late text, signed and parenthesized powers, code preserved');
