@@ -2377,12 +2377,8 @@ async function startQuiz(mode){
   configurePrescriptionUI(mode);
   const bridge=globalThis.FEQUEST_V376_PROTECTED_FLOW;
   if(!bridge||typeof bridge.prepareSubjectA!=='function')throw new Error('v376_subject_a_bridge_missing');
-  const loadingQuestion=document.getElementById('quizQuestion');
-  const loadingOptions=document.getElementById('quizOptions');
   const loadingSubmit=document.getElementById('quizSubmit');
-  if(loadingQuestion)loadingQuestion.textContent='問題を読み込み中…';
-  if(loadingOptions)loadingOptions.innerHTML='';
-  if(loadingSubmit)loadingSubmit.disabled=true;
+  resetQuizLoadingViewV377();
   document.getElementById('quizCounter').textContent=`1 / ${quizItems.length}`;
   document.getElementById('quizProgress').style.width='0%';
   try{
@@ -2397,6 +2393,28 @@ async function startQuiz(mode){
   renderQuizQuestion();
   return true;
   requestAnimationFrame(()=>document.getElementById('quizSession')?.scrollIntoView({block:'start',behavior:'auto'}));
+}
+
+function resetQuizLoadingViewV377(){
+  // Clear the previous question before awaiting protected content. A disabled
+  // result button or an old hint must not look like part of the new session.
+  for(const id of ['quizCategory','quizDifficulty','quizResultTitle','quizExplanation','quizHint']){
+    const node=document.getElementById(id);
+    if(node)node.textContent='';
+  }
+  const question=document.getElementById('quizQuestion');
+  if(question)question.textContent='問題を読み込み中…';
+  const options=document.getElementById('quizOptions');
+  if(options)options.innerHTML='';
+  document.getElementById('quizExplain')?.classList.remove('show');
+  document.getElementById('reasonBox')?.classList.remove('show');
+  document.querySelectorAll('.reason-chip').forEach(node=>node.classList.remove('picked'));
+  for(const id of ['variantBadge','rxTechnique','quizHintBtn']){
+    const node=document.getElementById(id);
+    if(node)node.style.display='none';
+  }
+  const submit=document.getElementById('quizSubmit');
+  if(submit){submit.textContent='読み込み中…';submit.disabled=true;}
 }
 
 document.querySelectorAll('.problem-mode button[data-mode]').forEach(b=>{
