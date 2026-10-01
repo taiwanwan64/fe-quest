@@ -11,7 +11,7 @@ const TEXT=3,ELEMENT=1,FRAGMENT=11;
 class NodeMock{
   constructor(type,value='',tag=''){this.nodeType=type;this.nodeValue=value;this.tag=tag;this.children=[];this.parentElement=null;this.className='';}
   append(child){this.children.push(child);child.parentElement=this.nodeType===ELEMENT?this:this.parentElement;}
-  matches(){return ['pre','code','kbd','samp','textarea','script','style','svg'].includes(this.tag);}
+  matches(){return ['sup','pre','code','kbd','samp','textarea','script','style','svg'].includes(this.tag);}
   closest(){for(let p=this;p;p=p.parentElement)if(p.matches())return p;return null;}
   replaceWith(fragment){const parent=this.parentElement;const i=parent.children.indexOf(this);assert.ok(i>=0);parent.children.splice(i,1,...fragment.children);for(const child of fragment.children)child.parentElement=parent;}
   set textContent(value){this.children=[new NodeMock(TEXT,String(value))];this.children[0].parentElement=this;}
@@ -46,4 +46,15 @@ const changing=new NodeMock(ELEMENT,'','span');changing.append(lateText);body.ap
 observer([{type:'characterData',target:lateText}]);
 assert.equal(changing.children.find(x=>x.tag==='sup')?.textContent,'9');
 assert.equal(changing.textContent,'更新後は 109Hz');
+
+const algebra=new NodeMock(ELEMENT,'','p');
+algebra.append(new NodeMock(TEXT,'x^2-1、(1/2)^3、A^-1A=I、AA^-1=I、O(n^2)、0.1^2、value2^3、foo^2、x^2foo'));
+body.append(algebra);
+observer([{type:'childList',addedNodes:[algebra]}]);
+assert.deepEqual(algebra.children.filter(x=>x.tag==='sup').map(x=>x.textContent),['2','3','-1','-1','2','2']);
+assert.equal(algebra.textContent,'x2-1、(1/2)3、A-1A=I、AA-1=I、O(n2)、0.12、value2^3、foo^2、x^2foo');
+const existingSup=new NodeMock(ELEMENT,'','sup');existingSup.append(new NodeMock(TEXT,'2^3'));body.append(existingSup);
+observer([{type:'childList',addedNodes:[existingSup]}]);
+assert.equal(existingSup.textContent,'2^3');
+
 console.log('PASS exponent typography: initial and late text, signed and parenthesized powers, code preserved');
