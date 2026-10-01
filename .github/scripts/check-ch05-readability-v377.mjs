@@ -30,4 +30,6 @@ const css=fs.readFileSync('assets/ch5-depth-v386.css','utf8');
 assert.match(css,/web-flow-v386\{flex-direction:column;align-items:stretch;flex-wrap:nowrap\}/);
 assert.match(css,/rasis-grid-v386 span\{[^}]*font-size:16px/);
 assert.match(css,/ch5-card-v386>p\{font-size:18px/);
+assert.match(css,/ch5-helper-v386\{font-size:18px;line-height:1\.65\}/);
+assert.match(css,/raid-grid-v386 span\{[^}]*font-size:18px;line-height:1\.6/);
 console.log('PASS Chapter 5: intact formulas, once-only definitions, escaping, chapter scope and responsive CSS contracts (not live mobile evidence)');
