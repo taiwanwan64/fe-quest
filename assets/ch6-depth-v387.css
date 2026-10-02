@@ -5,17 +5,21 @@
 #lesson .ch6-depth-v387{margin-top:22px}
 #lesson .ch6-depth-v387 p,
 #lesson .ch6-depth-v387 li{font-size:18px;line-height:1.72}
-#lesson .ch6-depth-v387 small,
-#lesson .ch6-depth-v387 .ch6-helper-v387{font-size:16px;line-height:1.5}
-#lesson .ch6-depth-v387 code{font-size:17px;white-space:normal}
+#lesson .ch6-depth-v387 small{font-size:16px;line-height:1.5}
+#lesson .ch6-depth-v387 .ch6-helper-v387{font-size:18px;line-height:1.65}
+#lesson .ch6-depth-v387 code{font-size:18px;white-space:normal;overflow-wrap:anywhere}
+#lesson:has(.ch6-depth-v387) .fequest-responsive-content-table-v377 th,
+#lesson:has(.ch6-depth-v387) .fequest-responsive-content-table-v377 td,
+#lesson:has(.ch6-content-v377) .fequest-responsive-content-table-v377 th,
+#lesson:has(.ch6-content-v377) .fequest-responsive-content-table-v377 td{font-size:18px;line-height:1.65}
 #lesson .ch6-visual-v387{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
 #lesson .ch6-visual-v387>h3{margin:0 0 12px;font-size:20px;color:#17364b}
 #lesson .ch6-grid-v387{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #lesson .ch6-card-v387{min-width:0;padding:14px;border:1px solid #d8e4e9;border-radius:14px;background:#fff}
 #lesson .ch6-card-v387>b{display:block;margin-bottom:6px;font-size:18px;color:#17364b}
 #lesson .ch6-card-v387>span,
-#lesson .ch6-card-v387>p{font-size:16px;line-height:1.55;color:#425b68}
-#lesson .ch6-note-v387{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch6-card-v387>p{font-size:18px;line-height:1.65;color:#425b68}
+#lesson .ch6-note-v387{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:18px;line-height:1.65}
 
 /* 06-01 OS */
 #lesson .os-bridge-v387{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}
@@ -24,7 +28,7 @@
 #lesson .os-functions-v387{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 #lesson .os-functions-v387>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
 #lesson .os-functions-v387 b{display:block;font-size:17px;color:#17364b}
-#lesson .os-functions-v387 span{display:block;margin-top:5px;font-size:16px;line-height:1.45;color:#425b68}
+#lesson .os-functions-v387 span{display:block;margin-top:5px;font-size:18px;line-height:1.6;color:#425b68}
 #lesson .spool-flow-v387{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
 #lesson .spool-flow-v387 span{padding:10px 12px;border:1px solid #c3d2d8;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
 #lesson .spool-flow-v387 .slow-v387{border-color:#f59e0b;background:#fff7ed}
@@ -38,12 +42,18 @@
 #lesson .scheduler-grid-v387{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 #lesson .scheduler-grid-v387>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .scheduler-grid-v387 b{display:block;font-size:17px;color:#17364b}
-#lesson .scheduler-grid-v387 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+#lesson .scheduler-grid-v387 span{display:block;margin-top:5px;font-size:18px;line-height:1.6}
 #lesson .preempt-compare-v387{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #lesson .preempt-compare-v387>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .preempt-compare-v387 b{display:block;font-size:18px;color:#17364b}
 
 /* 06-02 filesystem */
+#lesson .ch6-depth-v387 .directory-tree-v377,
+#lesson .ch6-depth-v387 .directory-tree-v377 ul{list-style:none;margin:10px 0;padding-left:0}
+#lesson .ch6-depth-v387 .directory-tree-v377 ul{margin-left:12px;padding-left:12px;border-left:2px solid #b9ccd5}
+#lesson .ch6-depth-v387 .directory-tree-v377 li{min-width:0;margin:8px 0;overflow-wrap:anywhere}
+#lesson .ch6-depth-v387 .directory-tree-v377 li>b,
+#lesson .ch6-depth-v387 .directory-tree-v377 li>code{display:inline-block;max-width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:18px}
 #lesson .file-tree-v387{display:grid;gap:8px;margin:12px 0}
 #lesson .tree-level-v387{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 #lesson .tree-node-v387{padding:9px 11px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
@@ -63,7 +73,7 @@
 #lesson .backup-purpose-v387{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .backup-purpose-v387>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .backup-purpose-v387 b{display:block;font-size:18px;color:#17364b}
-#lesson .backup-purpose-v387 span{display:block;margin-top:5px;font-size:16px;line-height:1.5}
+#lesson .backup-purpose-v387 span{display:block;margin-top:5px;font-size:18px;line-height:1.6}
 #lesson .copy-time-v387{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
 #lesson .copy-time-v387 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
 #lesson .copy-time-v387 i{font-style:normal;color:#b45309}
@@ -75,7 +85,7 @@
 #lesson .compiler-stages-v387{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 #lesson .compiler-stages-v387>div{padding:10px 7px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center}
 #lesson .compiler-stages-v387 b{display:block;font-size:16px;color:#17364b}
-#lesson .compiler-stages-v387 span{display:block;margin-top:4px;font-size:15px;line-height:1.35}
+#lesson .compiler-stages-v387 span{display:block;margin-top:4px;font-size:18px;line-height:1.6}
 #lesson .compiler-interpreter-v387{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #lesson .compiler-interpreter-v387>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .compiler-interpreter-v387 b{display:block;font-size:18px;color:#17364b}
@@ -87,7 +97,7 @@
 #lesson .software-license-v387{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .software-license-v387>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .software-license-v387 b{display:block;font-size:18px;color:#17364b}
-#lesson .software-license-v387 span{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .software-license-v387 span{display:block;margin-top:5px;font-size:18px;line-height:1.6;color:#425b68}
 #lesson .oss-flow-v387{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
 #lesson .oss-flow-v387 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800}
 #lesson .oss-flow-v387 i{font-style:normal;color:#b45309}
