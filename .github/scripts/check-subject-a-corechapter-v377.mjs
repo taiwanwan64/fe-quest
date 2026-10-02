@@ -7,13 +7,16 @@ function functionSource(name){
   const start=app.indexOf(`function ${name}(`);
   assert.ok(start>=0,`missing ${name}`);
   let depth=0;
-  for(let i=app.indexOf('{',start);i<app.length;i++){
+  // A default argument can contain braces (showScreen opts={}); start at the body.
+  const body = app.slice(start).match(/\)\s*\{/);
+  assert.ok(body, 'function body missing: ' + name);
+  for(let i=start+body.index+body[0].length-1;i<app.length;i++){
     if(app[i]==='{')depth++;
     else if(app[i]==='}'&&--depth===0)return app.slice(start,i+1);
   }
   throw new Error(`unclosed ${name}`);
 }
-const names=['isCoreTopicImmediatePracticeQuestion','subjectAUniqueMetadataV376','subjectASpaceKnownOverlapV377','subjectAPickCoreChapterMetadataV377','selectSubjectAMetadataV376'];
+const names=['isCoreTopicImmediatePracticeQuestion','coreTopicImmediatePracticeCountV377','subjectAUniqueMetadataV376','subjectASpaceKnownOverlapV377','subjectAPickCoreChapterMetadataV377','selectSubjectAMetadataV376'];
 const curriculum=Array.from({length:5},(_,i)=>({chapter:3,id:`core_03_0${i+1}`}));
 const bank=curriculum.flatMap((topic,i)=>Array.from({length:5},(_,j)=>({id:`${topic.id}_${j}`,coreTopicId:topic.id,angle:i===3&&j===0?'scenario':'knowledge'})));
 const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8'));
@@ -80,6 +83,20 @@ for (let i=0; i<100; i++) {
 for (const [i, topic] of chapter6Curriculum.entries()) {
   const selected = Array.from(chapter6Ctx.select('coretopic:' + topic.id));
   assert.equal(selected.length, [10, 3, 3, 3, 4, 4][i], 'direct-practice count ' + topic.id);
+  assert.equal(chapter6Ctx.coreTopicImmediatePracticeCountV377(topic.id), selected.length, 'displayed count equals actual selection');
   assert.ok(selected.every(item => !item.id.startsWith('challenge_cmp_')));
 }
+const delayedBank = chapter6Bank.filter(item => item.id.startsWith('coreq_'));
+const delayedCtx = {QUESTION_BANK:delayedBank};
+vm.createContext(delayedCtx);
+vm.runInContext(functionSource('isCoreTopicImmediatePracticeQuestion') + '\n' + functionSource('coreTopicImmediatePracticeCountV377'), delayedCtx);
+assert.equal(delayedCtx.coreTopicImmediatePracticeCountV377('core_06_01'), 3);
+delayedBank.push(...chapter6Bank.filter(item => !item.id.startsWith('coreq_')));
+assert.equal(delayedCtx.coreTopicImmediatePracticeCountV377('core_06_01'), 10, 'late metadata replaces the initial three-question count');
+delayedBank.push({...chapter6Bank[0]}, {id:'extra-os', coreTopicId:'core_06_01'});
+assert.equal(delayedCtx.coreTopicImmediatePracticeCountV377('core_06_01'), 10, 'unique IDs and session cap');
+assert.ok(app.includes('テーマ演習 ${coreTopicImmediatePracticeCountV377(t.id)}問'));
+assert.ok(app.includes('${coreTopicImmediatePracticeCountV377(activeLesson)}問で'));
+const showScreenSource = functionSource('showScreen');
+assert.ok(showScreenSource.indexOf('refreshCoreCourseProgress()') < showScreenSource.indexOf('renderLearningEntry()'), 'refresh cached course DOM on entry before early-returning recommendations');
 console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6 coverage; Chapter 6 direct counts 10/3/3/3/4/4; no immediate comparison; spaced JSON overlap');
