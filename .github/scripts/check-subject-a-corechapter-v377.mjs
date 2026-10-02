@@ -59,4 +59,27 @@ for(let i=0;i<100;i++){
   assert.equal(selected.length,6,'topic practice matches the six-question label and excludes its chapter comparison');
   assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')),'chapter comparisons belong to the chapter check');
 }
-console.log('PASS Subject A chapter/topic selection: 12 chapter questions, every topic including all six Chapter 4 topics, no immediate comparison, and spaced JSON overlap');
+const chapter6Curriculum = Array.from({length:6}, (_, i) => ({chapter:6, id:`core_06_0${i+1}`}));
+const chapter6Bank = [...new Map(fs.readdirSync('assets')
+  .filter(file => /^question-catalog.*\.json$/.test(file))
+  .flatMap(file => JSON.parse(fs.readFileSync('assets/' + file, 'utf8')).items || [])
+  .filter(item => item.coreTopicId?.startsWith('core_06_'))
+  .map(item => [item.id, item])).values()];
+assert.equal(chapter6Bank.length, 32, 'all current Chapter 6 metadata represented');
+const chapter6Ctx = {QUESTION_BANK:chapter6Bank, CORE_A_CURRICULUM:chapter6Curriculum,
+  CORE_A_CHAPTER_EXTRA_QUESTIONS:{}, subjectATrackedMetadataV376:() => [], globalThis:{}};
+vm.createContext(chapter6Ctx);
+vm.runInContext(names.map(functionSource).join('\n') + '\nthis.select=selectSubjectAMetadataV376;', chapter6Ctx);
+for (let i=0; i<100; i++) {
+  const selected = Array.from(chapter6Ctx.select('corechapter:6'));
+  assert.equal(selected.length, 12, 'Chapter 6 entry label equals actual selection');
+  assert.equal(new Set(selected.map(item => item.id)).size, 12);
+  for (const topic of chapter6Curriculum) assert.ok(selected.some(item => item.coreTopicId === topic.id), topic.id);
+  assert.ok(selected.some(item => item.angle === 'comparison' || item.angle === 'scenario'));
+}
+for (const [i, topic] of chapter6Curriculum.entries()) {
+  const selected = Array.from(chapter6Ctx.select('coretopic:' + topic.id));
+  assert.equal(selected.length, [10, 3, 3, 3, 4, 4][i], 'direct-practice count ' + topic.id);
+  assert.ok(selected.every(item => !item.id.startsWith('challenge_cmp_')));
+}
+console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6 coverage; Chapter 6 direct counts 10/3/3/3/4/4; no immediate comparison; spaced JSON overlap');
