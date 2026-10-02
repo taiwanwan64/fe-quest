@@ -206,7 +206,12 @@ function showScreen(id,opts={}){
     if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
   });
   if(id==='history' && typeof renderLearningAnalytics==='function') renderLearningAnalytics();
-  if(id==='map' && typeof renderLearningEntry==='function') renderLearningEntry();
+  if(id==='map'){
+    // The safe question metadata can arrive after the initial course DOM.
+    // Refresh counts even when the recommended daily-task card returns early.
+    if(typeof refreshCoreCourseProgress==='function')refreshCoreCourseProgress();
+    if(typeof renderLearningEntry==='function')renderLearningEntry();
+  }
   rememberScreen(id);
   if(!opts.fromHistory && !opts.noHistory && prev!==id)appHistoryPush(id);
   if(opts.replaceHistory)appHistoryReplace(id,opts.depth||0);
@@ -5637,6 +5642,13 @@ const CORE_A_TOPIC_PRACTICE_COUNTS=QUESTION_BANK
   .filter(isCoreTopicImmediatePracticeQuestion)
   .reduce((a,q)=>(a[q.coreTopicId]=(a[q.coreTopicId]||0)+1,a),{});
 
+function coreTopicImmediatePracticeCountV377(id){
+  // Same unique pool and ten-question cap as coretopic selection; no shuffle.
+  return Math.min(10,new Set(QUESTION_BANK
+    .filter(q=>q.coreTopicId===id&&isCoreTopicImmediatePracticeQuestion(q))
+    .map(q=>q.id)).size);
+}
+
 
 
 function coreTopicPages(t){
@@ -6265,7 +6277,7 @@ function renderCoreCourseMap(filter=''){
             <div>
               <div class="core-topic-name">${t.id===focusAId?'<span class="course-next-badge">未完了</span> ':''}${learningHtml(t.title)}</div>
               <div class="core-topic-sub">${escapeHtml(t.skill)}</div>
-              <div class="core-topic-qcount">テーマ演習 ${state.total||CORE_A_TOPIC_PRACTICE_COUNTS[t.id]||3}問${state.attempted?`・回答 ${state.attempted}/${state.total}`:''}</div>
+              <div class="core-topic-qcount">テーマ演習 ${coreTopicImmediatePracticeCountV377(t.id)}問${state.attempted?`・バンク回答 ${state.attempted}/${state.total}`:''}</div>
             </div>
             <div class="core-topic-pct state-${state.key}">${masteryRecoveryInfo(t.id)?'↩ 復帰中・':''}${state.label}</div>
           </div>`;
@@ -8280,7 +8292,7 @@ function completeLessonLegacyV376(){
       <div class="lesson-complete-xp">+${old<100?50:15} XP</div>
       <span class="mastery-change">教材の学習を記録しました</span>
       ${reviewLessonCompleted?'<button class="lesson-review-next" id="lessonReviewNext">類題で確認 →</button>':''}
-      ${(!reviewLessonCompleted && CORE_A_IDS.includes(activeLesson))?`<button class="lesson-topic-practice" id="lessonTopicPractice">このテーマを問題で仕上げる →</button><div class="topic-practice-note">${CORE_A_TOPIC_PRACTICE_COUNTS[activeLesson]||3}問で、この解説だけで判断できる内容を確認します。複数テーマをまたぐ比較問題は章末チェックで扱います。</div>`:''}
+      ${(!reviewLessonCompleted && CORE_A_IDS.includes(activeLesson))?`<button class="lesson-topic-practice" id="lessonTopicPractice">このテーマを問題で仕上げる →</button><div class="topic-practice-note">${coreTopicImmediatePracticeCountV377(activeLesson)}問で、この解説だけで判断できる内容を確認します。複数テーマをまたぐ比較問題は章末チェックで扱います。</div>`:''}
     </div>`;
   if(reviewLessonCompleted){
     document.getElementById('lessonReviewNext')?.addEventListener('click',()=>{const id=reviewJourneyId;activeReviewJourneyId=null;showScreen('problems');startQuiz('journey:'+id);});
