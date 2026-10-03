@@ -17,3 +17,5 @@ assert.match(css,/deadlock-figure-v370\) :is\(p,code\)\{font-size:18px!important
 assert.match(css,/deadlock-figure-v370\) :is\(span,small,b,strong,em,h3,h4\)\{font-size:16px/);
 assert.ok(fs.readFileSync('sw.js','utf8').includes('./assets/ch9-depth-v390.css'));
 console.log('PASS Chapter 9 scoped prose/data typography and wrapping (not live mobile evidence)');
+
+assert.match(css,/sql-join-table-v369 caption\{font-size:16px;line-height:1.5/);
