@@ -5,7 +5,7 @@
 #lesson .ch9-depth-v390{margin-top:22px}
 #lesson .ch9-depth-v390 p,
 #lesson .ch9-depth-v390 li{font-size:18px;line-height:1.72}
-#lesson .ch9-depth-v390 small{font-size:16px;line-height:1.5}
+#lesson .ch9-depth-v390 small{font-size:16px!important;line-height:1.5}
 #lesson .ch9-depth-v390 .ch9-helper-v390{font-size:18px;line-height:1.65}
 #lesson .ch9-depth-v390 code{font-size:18px;white-space:normal;overflow-wrap:anywhere}
 #lesson .ch9-depth-v390 pre{max-width:100%;overflow-x:auto}
@@ -144,3 +144,5 @@
 #lesson:has(.ch9-depth-v390) .sql-join-panel-v369 p span,
 #lesson:has(.ch9-depth-v390) .sql-join-takeaway-v369 span{font-size:18px;line-height:1.65}
 #lesson:has(.ch9-depth-v390) :is(.core-dbnorm-diagram-v354,.sql-join-figure-v369,.deadlock-figure-v370) :is(h3,h4){font-size:18px}
+
+#lesson:has(.ch9-depth-v390) :is(.core-dbnorm-diagram-v354,.sql-join-figure-v369,.deadlock-figure-v370) small{font-size:16px!important;line-height:1.5}
