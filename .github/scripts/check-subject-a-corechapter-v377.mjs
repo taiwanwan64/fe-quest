@@ -99,4 +99,32 @@ assert.ok(app.includes('テーマ演習 ${coreTopicImmediatePracticeCountV377(t.
 assert.ok(app.includes('${coreTopicImmediatePracticeCountV377(activeLesson)}問で'));
 const showScreenSource = functionSource('showScreen');
 assert.ok(showScreenSource.indexOf('refreshCoreCourseProgress()') < showScreenSource.indexOf('renderLearningEntry()'), 'refresh cached course DOM on entry before early-returning recommendations');
-console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6 coverage; Chapter 6 direct counts 10/3/3/3/4/4; no immediate comparison; spaced JSON overlap');
+const chapter7Curriculum = ['core_07_01', 'core_07_02'].map(id => ({chapter:7, id}));
+const chapter7Metadata = [...new Map(fs.readdirSync('assets')
+  .filter(file => /^question-catalog.*\.json$/.test(file))
+  .flatMap(file => JSON.parse(fs.readFileSync('assets/' + file, 'utf8')).items || [])
+  .filter(item => item.coreTopicId?.startsWith('core_07_'))
+  .map(item => [item.id, item])).values()];
+assert.equal(chapter7Metadata.length, 16);
+const chapter7Bank = chapter7Metadata.filter(item => item.sourcePool === 'subject_a');
+const chapter7Extras = chapter7Metadata.filter(item => item.sourcePool === 'chapter_extra');
+assert.equal(chapter7Bank.length, 12);
+assert.equal(chapter7Extras.length, 4);
+const chapter7Ctx = {QUESTION_BANK:chapter7Bank, CORE_A_CURRICULUM:chapter7Curriculum,
+  CORE_A_CHAPTER_EXTRA_QUESTIONS:{'7':chapter7Extras}, subjectATrackedMetadataV376:() => chapter7Metadata, globalThis:{}};
+vm.createContext(chapter7Ctx);
+vm.runInContext(names.map(functionSource).join('\n') + '\nthis.select=selectSubjectAMetadataV376;', chapter7Ctx);
+for (let i=0; i<100; i++) {
+  const selected = Array.from(chapter7Ctx.select('corechapter:7'));
+  assert.equal(selected.length, 12);
+  assert.equal(new Set(selected.map(item => item.id)).size, 12);
+  for (const topic of chapter7Curriculum) assert.ok(selected.some(item => item.coreTopicId === topic.id));
+  assert.ok(selected.some(item => item.id === 'chapterextra_07_01'), 'include the available DRAM/SRAM comparison');
+}
+for (const [i, topic] of chapter7Curriculum.entries()) {
+  const selected = Array.from(chapter7Ctx.select('coretopic:' + topic.id));
+  assert.equal(selected.length, [3, 7][i]);
+  assert.equal(chapter7Ctx.coreTopicImmediatePracticeCountV377(topic.id), selected.length);
+  assert.ok(selected.every(item => !item.id.startsWith('chapterextra_') && !item.id.startsWith('challenge_cmp_')));
+}
+console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6/7 coverage; direct Chapter 6=10/3/3/3/4/4, Chapter 7=3/7; separated chapter extras/comparisons');
