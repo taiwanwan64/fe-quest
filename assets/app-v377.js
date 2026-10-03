@@ -6318,6 +6318,21 @@ function focusReturnedLessonInMap(id){
   if(card)card.scrollIntoView({block:'center',behavior:'auto'});
   else window.scrollTo({top:0,behavior:'auto'});
 }
+function refreshQuestionMetadataUIV377(){
+  const count=new Set(QUESTION_BANK.map(q=>q?.id).filter(id=>typeof id==='string'&&id)).size;
+  document.querySelectorAll('[data-subject-a-bank-count]').forEach(node=>{
+    node.textContent=node.dataset.subjectABankCount==='short'?`問題バンク${count}問`:`科目A 問題バンク：${count}問`;
+  });
+  // Update existing rows without replacing focused elements or collapsing chapters.
+  // Metadata readiness must never restart an active quiz or change its selected pool.
+  document.querySelectorAll('[data-core-lesson]').forEach(row=>{
+    const node=row.querySelector('.core-topic-qcount');if(!node)return;
+    const id=row.dataset.coreLesson,state=coreTopicLearningState(id);
+    node.textContent=`テーマ演習 ${coreTopicImmediatePracticeCountV377(id)}問${state.attempted?`・バンク回答 ${state.attempted}/${state.total}`:''}`;
+  });
+}
+globalThis.refreshQuestionMetadataUIV377=refreshQuestionMetadataUIV377;
+
 function refreshCoreCourseProgress(){
   const vals=CORE_A_IDS.map(id=>profile.lessonProgress?.[id]||0),done=vals.filter(x=>x>=100).length;
   const pct=Math.round(vals.reduce((a,b)=>a+b,0)/Math.max(1,vals.length));
