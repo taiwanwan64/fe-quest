@@ -27,6 +27,46 @@ SQLは教材から抽出してSQLiteで実行し、集計結果west/30、副問�
 
 補助的な一次資料：PostgreSQL公式 [SELECT](https://www.postgresql.org/docs/current/sql-select.html)、[Constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)、[Explicit Locking](https://www.postgresql.org/docs/current/explicit-locking.html)、[WAL Configuration](https://www.postgresql.org/docs/current/wal-configuration.html)。一般的なFEの回復モデルとDBMS固有実装の差を混同しない。
 
-## 残件
+## CI・本番適用の確定記録
 
-実装PR/CI、Pages、CAS、本番8教材→直接41種類、章末比較3種類、採点・選択肢別解説・履歴再読込は後続の確定記録へ追記する。第5〜9章のスマホ幅・タッチは未検証であり、デスクトップとコード検査だけでは完了扱いにしない。IPA対応表43項目（37 in-progress / 6 verified-covered）は変更しない。次の内容監査は第9章の本番受入完了後に第10章全体。
+非公開PR [#107](https://github.com/taiwanwan64/fe-quest-private-source/pull/107) は最終head `559ce12c59a5fd5c832ea92a8a90f3af0b48a31f`、保護教材CI `37102858888` success、merge/main `366f366cd5ea066a1a3f390bfb094eac1f190bff`。マージ済みdeltaを再読し、適用する完全期待値CASと全フィールドを照合した。
+
+公開の各PRはpublication・v35の両CI成功後にマージし、各merge SHAのPages成功を確認した。
+
+| PR | publication / v35 run（success） | merge SHA | Pages run（success） |
+| --- | --- | --- | --- |
+| [#294](https://github.com/taiwanwan64/fe-quest/pull/294) | 37102698738 / 37102698669 | `915d6124d3b240caed46db6ee75d46c458c51fd0` | 37102818408 |
+| [#295](https://github.com/taiwanwan64/fe-quest/pull/295) | 37103753630 / 37103753590 | `a65b420ff5e1dcab004c4e9baef5ec53f98fd7e4` | 37103806783 |
+| [#296](https://github.com/taiwanwan64/fe-quest/pull/296) | 37104052127 / 37104052132 | `58ab5c7543b30814ba9309927d134a3aaf8629a5` | 37104102987 |
+| [#297](https://github.com/taiwanwan64/fe-quest/pull/297) | 37104421113 / 37104421106 | `b5e7cbf4b8173b894e179449e10e1078f032cae0` | 37104457919 |
+
+PR #295〜#297は実画面で残った既存正規化・JOIN・デッドロック図の小さい文字、共通smallの強い14px指定、JOIN表の10px captionを第9章だけで補正する。最終cacheは `fe-quest-v377-158`。公開repoへ保護本文・問題本文を入れない。
+
+8教材・6問題を各行の完全期待値で保護した短いCASトランザクションで1回適用し、本番の全8payloadと6問題の指定変更フィールドを再照合した。教材ID/version/active、問題ID/正答index/catalog/version/active、profile・履歴schemaは保持。全体130教材/1180問を保持し、他章教材digest `41b6526073841a714641a92bd1df1d8f` と対象6件以外の問題digest `eeee5c4e482d377b7676b7bcee40b288` は適用前後で一致した。
+
+## 本番デスクトップ受入
+
+新規確認用ゲストで通常UIから初回診断を終え、8教材を読み、各教材の直接演習を完走した。次に通常の第9章章末12問を2回完走した。答え・画面進行・保存情報を内部注入せず、ヒント・再挑戦なしで操作した。診断の12回答は下記65回答へ含めない。
+
+| 教材 | 直接演習（初回正答 / 出題） |
+| --- | --- |
+| 09-01 データベースの基本 | 5/5 |
+| 09-02 関係データベース | 3/3 |
+| 09-03 データベース設計 | 7/7 |
+| 09-04 データベース管理システム | 3/3 |
+| 09-05 トランザクション管理 | 5/5 |
+| 09-06 排他制御 | 5/5 |
+| 09-07 SQLとデータ操作 | 4/4 |
+| 09-08 データベース応用 | 9/9 |
+| 章末1回目 | 12/12 |
+| 章末2回目 | 12/12 |
+
+直接41回答＋章末24回答＝計65回答、すべて初回正解。比較 `challenge_cmp_09_01` / `09_02` / `09_04` を含む全44種類で採点と選択肢別解説を確認した。章末の各回は12問重複なし、全8テーマと比較を出題。章末24回答だけで44種類を網羅した意味ではない。修正した正答の個別理由はDB全フィールド照合でも確認し、画面の正解根拠欄には全体解説が表示される仕様と区別した。
+
+追加の表・SQL例と既存図を目視し、本文・表のデータ・コード18px、短い図ラベル16pxを本番で実測。最終PR #297のPages成功後、通常再読込した09-07の本文・コードは18px、smallは16px、JOIN表のcaption全4件も16pxを確認した。SQL実行検査、公開可読性・100回の章選択検査、既存第3/4/6/7/8章の関連回帰検査はPASS。
+
+通常再読込後も第9章教材8/8・全体8/130、各バンク回答5/5・3/3・7/7・3/3・5/5・5/5・4/4・9/9、1,170 XP、979問を保持。定着表示は2/8であり、教材完了8/8と区別する。直近4履歴は章末12/12、章末12/12、09-08 9/9、09-07 4/4の順で各100%を保持した。履歴の画面日付はブラウザー側の2026-10-02表示で、作業記録の2026-10-03 UTC日付と区別する。新規ゲストでの確認であり、以前のゲストの全体進捗値と比較してリセットを意味するものではない。
+
+## 残件と次の章
+
+第9章の内容・デスクトップ受入は完了。第5〜9章のスマホ幅・タッチ・横溢れは未検証であり、デスクトップとコード検査だけでは完了扱いにしない。coverageはin-progress、IPA対応表43項目（37 in-progress / 6 verified-covered）は変更しない。次の内容監査は第10章「ネットワーク」全体。次回もGitHub live main/作業branch/PR/CI/Pagesを再読し、適用済みCASや65回答の全問操作を反復しない。記録更新のみの後続PRと最新main/配信はliveで確認する。
