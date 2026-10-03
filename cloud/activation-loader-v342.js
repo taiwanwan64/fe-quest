@@ -269,6 +269,9 @@
   const metadataInstall=installIpa92SubjectAMetadata();
   root.FEQUEST_IPA92_SUBJECT_A_METADATA=IPA92_SUBJECT_A_METADATA;
   root.FEQUEST_IPA92_SUBJECT_A_METADATA_INSTALL=metadataInstall;
+  if(metadataInstall.ok){
+    try{root.refreshQuestionMetadataUIV377?.()}catch(error){console.warn('FE QUEST metadata display refresh failed',error)}
+  }
   const api=Object.freeze({ACTIVATION_SPEC,PUBLIC_ENHANCEMENT_PATHS,IPA92_SUBJECT_A_METADATA,installIpa92SubjectAMetadata,localAssetPath,installConnectivityNoticeRecovery,loadPublicEnhancements,createActivationLoader,autoStart});
   root.FEQUEST_CLOUD_ACTIVATION_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
