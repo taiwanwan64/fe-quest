@@ -133,3 +133,14 @@
 #lesson .ch9-table-wrap-v377 td{border:1px solid #c9d8de;padding:9px 10px;overflow-wrap:anywhere}
 #lesson .ch9-table-wrap-v377 th{background:#eef5f8;color:#17364b}
 #lesson .log-timeline-v390 span{display:block;font-size:18px;line-height:1.65}
+
+/* Legacy figure prose used !important at 10–14px: override within Chapter 9. */
+#lesson:has(.ch9-depth-v390) :is(.core-dbnorm-diagram-v354,.sql-join-figure-v369,.deadlock-figure-v370) :is(span,small,b,strong,em,h3,h4){font-size:16px;line-height:1.5}
+#lesson:has(.ch9-depth-v390) :is(.core-dbnorm-diagram-v354,.sql-join-figure-v369,.deadlock-figure-v370) :is(p,code){font-size:18px!important;line-height:1.65!important}
+#lesson:has(.ch9-depth-v390) table td :is(span,strong,b),
+#lesson:has(.ch9-depth-v390) .core-dbnorm-result-v354 span,
+#lesson:has(.ch9-depth-v390) .deadlock-result-v370 span,
+#lesson:has(.ch9-depth-v390) .deadlock-takeaway-v370 span,
+#lesson:has(.ch9-depth-v390) .sql-join-panel-v369 p span,
+#lesson:has(.ch9-depth-v390) .sql-join-takeaway-v369 span{font-size:18px;line-height:1.65}
+#lesson:has(.ch9-depth-v390) :is(.core-dbnorm-diagram-v354,.sql-join-figure-v369,.deadlock-figure-v370) :is(h3,h4){font-size:18px}
