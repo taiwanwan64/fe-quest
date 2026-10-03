@@ -1,36 +1,37 @@
-/* FE QUEST Chapter 10 depth visuals — v391 */
+/* FE QUEST Chapter 10 depth visuals — v391; whole-chapter audit 2026-10-03 */
 #lesson .ch10-depth-v391{margin-top:22px}
 #lesson .ch10-depth-v391 p,#lesson .ch10-depth-v391 li{font-size:18px;line-height:1.72}
-#lesson .ch10-depth-v391 small,#lesson .ch10-depth-v391 .ch10-helper-v391{font-size:16px;line-height:1.5}
-#lesson .ch10-depth-v391 code{font-size:17px;white-space:normal}
+#lesson .ch10-depth-v391 small{font-size:16px!important;line-height:1.5}
+#lesson .ch10-depth-v391 .ch10-helper-v391{font-size:18px;line-height:1.65}
+#lesson .ch10-depth-v391 code{font-size:18px;white-space:normal;overflow-wrap:anywhere}
 #lesson .ch10-visual-v391{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
 #lesson .ch10-visual-v391>h3{margin:0 0 12px;font-size:20px;color:#17364b}
-#lesson .ch10-note-v391{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch10-note-v391{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:18px;line-height:1.65}
 #lesson .ch10-grid-v391{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #lesson .ch10-card-v391{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .ch10-card-v391>b{display:block;font-size:18px;color:#17364b}
-#lesson .ch10-card-v391>span,#lesson .ch10-card-v391>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch10-card-v391>span,#lesson .ch10-card-v391>p{display:block;margin-top:5px;font-size:18px;line-height:1.65;color:#425b68}
 #lesson .net-flow-v391{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
 #lesson .net-flow-v391 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
 #lesson .net-flow-v391 i{font-style:normal;color:#b45309}
 #lesson .net-3-v391{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .net-4-v391{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 #lesson .net-3-v391>div,#lesson .net-4-v391>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff}
-#lesson .net-3-v391 b,#lesson .net-4-v391 b{display:block;font-size:17px;color:#17364b}
-#lesson .net-3-v391 span,#lesson .net-4-v391 span{display:block;margin-top:4px;font-size:15px;line-height:1.4;color:#425b68}
+#lesson .net-3-v391 b,#lesson .net-4-v391 b{display:block;font-size:16px;color:#17364b}
+#lesson .net-3-v391 span,#lesson .net-4-v391 span{display:block;margin-top:4px;font-size:18px;line-height:1.65;color:#425b68}
 #lesson .bitbar-v391{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:10px 0}
-#lesson .bitbar-v391 span{padding:9px 5px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;text-align:center;font-size:15px;font-weight:800}
+#lesson .bitbar-v391 span{padding:9px 5px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;text-align:center;font-size:16px;font-weight:800}
 #lesson .osi-table-v391{overflow-x:auto}
 #lesson .osi-table-v391 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
-#lesson .osi-table-v391 th,#lesson .osi-table-v391 td{border:1px solid #c9d8de;padding:9px;font-size:15px;text-align:center}
+#lesson .osi-table-v391 th,#lesson .osi-table-v391 td{border:1px solid #c9d8de;padding:9px;font-size:18px;text-align:center}
 #lesson .osi-table-v391 th{background:#eef5f8;color:#17364b}
 #lesson .lockless-table-v391{overflow-x:auto}
 #lesson .lockless-table-v391 table{width:100%;min-width:560px;border-collapse:collapse;background:#fff}
-#lesson .lockless-table-v391 th,#lesson .lockless-table-v391 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .lockless-table-v391 th,#lesson .lockless-table-v391 td{border:1px solid #c9d8de;padding:9px 10px;font-size:18px;text-align:center}
 #lesson .lockless-table-v391 th{background:#eef5f8;color:#17364b}
 #lesson .topology-v391{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 #lesson .topology-v391>div{padding:11px;border:1px solid #d8e4e9;border-radius:11px;background:#fff;text-align:center}
-#lesson .topology-v391 b{display:block;font-size:17px;color:#17364b}
+#lesson .topology-v391 b{display:block;font-size:16px;color:#17364b}
 #lesson .mail-head-v391{display:grid;grid-template-columns:100px 1fr;gap:8px;margin:8px 0}
 #lesson .mail-head-v391 b,#lesson .mail-head-v391 span{padding:9px 10px;border:1px solid #c3d2d8;border-radius:8px;background:#fff;font-size:16px}
 #lesson .parity-v391{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:12px 0}
@@ -47,4 +48,30 @@
  #lesson .ch10-visual-v391{padding:13px}
  #lesson .net-4-v391,#lesson .topology-v391{grid-template-columns:1fr}
  #lesson .bitbar-v391{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Chapter-scoped typography. Wide data stays inside a scrollable container. */
+#lesson .ch10-depth-v391{min-width:0;max-width:100%;overflow-wrap:anywhere}
+#lesson .ch10-depth-v391 .beginner-term span,
+#lesson .ch10-depth-v391 .core-cue-think,
+#lesson .topology-v391 span,
+#lesson .mail-head-v391 span{font-size:18px;line-height:1.65}
+#lesson:has(.ch10-depth-v391) table :is(th,td){font-size:18px;line-height:1.65}
+#lesson:has(.ch10-depth-v391) table caption{font-size:16px;line-height:1.5;text-align:left;padding:8px 0}
+#lesson .ch10-table-wrap-v377{max-width:100%;overflow-x:auto;margin:14px 0}
+#lesson .ch10-table-wrap-v377 table{width:100%;min-width:620px;border-collapse:collapse}
+#lesson .ch10-table-wrap-v377 :is(th,td){border:1px solid #c9d8de;padding:10px;vertical-align:top;text-align:left}
+#lesson .ch10-table-wrap-v377 th{background:#eef5f8;color:#17364b}
+#lesson .ch10-depth-v391 .core-subnet-diagram-v356 :is(span,b,small,em){font-size:16px!important;line-height:1.5}
+#lesson .ch10-depth-v391 .core-subnet-summary-v356 b,
+#lesson .ch10-depth-v391 .core-subnet-result-v356 b{font-size:18px!important}
+#lesson .ch10-depth-v391 .core-subnet-binary-v356{display:block;max-width:100%;overflow-x:auto}
+#lesson .ch10-depth-v391 .core-subnet-binary-row-v356{grid-template-columns:160px minmax(0,1fr);min-width:720px;margin:8px 0}
+#lesson .ch10-depth-v391 .core-subnet-column-head-v356{margin-left:168px;min-width:552px}
+#lesson .ch10-depth-v391 .core-subnet-and-v356{margin-left:168px;min-width:552px}
+#lesson .ch10-depth-v391 .core-subnet-row-label-v356{display:block;text-align:right}
+#lesson .ch10-depth-v391 .core-subnet-bitline-v356 :is(span,em){font-size:18px!important;line-height:1.65}
+@media(max-width:480px){
+ #lesson .ch10-depth-v391 .core-subnet-summary-v356 b{display:block}
+ #lesson .ch10-depth-v391 .core-subnet-summary-v356 small{display:block;margin-left:0}
 }
