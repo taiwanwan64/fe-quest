@@ -152,4 +152,29 @@ for (const [i, topic] of chapter8Curriculum.entries()) {
   assert.equal(chapter8Ctx.coreTopicImmediatePracticeCountV377(topic.id), selected.length);
   assert.ok(selected.every(item => !item.id.startsWith('challenge_cmp_')));
 }
-console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6/7/8 coverage; direct Chapter 6=10/3/3/3/4/4, Chapter 7=3/7, Chapter 8=3/7/5/4');
+const chapter9Curriculum = Array.from({length:8}, (_,i)=>({chapter:9,id:`core_09_0${i+1}`}));
+const chapter9Bank = [...new Map(fs.readdirSync('assets')
+  .filter(file=>/^question-catalog.*\.json$/.test(file))
+  .flatMap(file=>JSON.parse(fs.readFileSync('assets/'+file,'utf8')).items||[])
+  .filter(item=>item.coreTopicId?.startsWith('core_09_'))
+  .map(item=>[item.id,item])).values()];
+assert.equal(chapter9Bank.length,44);
+assert.ok(chapter9Bank.every(item=>item.sourcePool==='subject_a'));
+const chapter9Ctx={QUESTION_BANK:chapter9Bank,CORE_A_CURRICULUM:chapter9Curriculum,
+  CORE_A_CHAPTER_EXTRA_QUESTIONS:{},subjectATrackedMetadataV376:()=>chapter9Bank,globalThis:{}};
+vm.createContext(chapter9Ctx);
+vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter9Ctx);
+for(let i=0;i<100;i++){
+  const selected=Array.from(chapter9Ctx.select('corechapter:9'));
+  assert.equal(selected.length,12);
+  assert.equal(new Set(selected.map(item=>item.id)).size,12);
+  for(const topic of chapter9Curriculum)assert.ok(selected.some(item=>item.coreTopicId===topic.id));
+  assert.ok(selected.some(item=>item.id.startsWith('challenge_cmp_')),'Chapter 9 comparison guaranteed');
+}
+for(const [i,topic] of chapter9Curriculum.entries()){
+  const selected=Array.from(chapter9Ctx.select('coretopic:'+topic.id));
+  assert.equal(selected.length,[5,3,7,3,5,5,4,9][i]);
+  assert.equal(chapter9Ctx.coreTopicImmediatePracticeCountV377(topic.id),selected.length);
+  assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')));
+}
+console.log('PASS Subject A chapter/topic selection: 12 unique with full Chapter 3/4/6/7/8/9 coverage; Chapter 9 direct=5/3/7/3/5/5/4/9 and comparison guaranteed');
