@@ -2196,6 +2196,7 @@ function subjectAPickCoreChapterMetadataV377(chapter,bank){
   const anchors=topicIds.map(id=>shuffled(pool.filter(item=>item.coreTopicId===id))[0]).filter(Boolean);
   const candidates=[...pool,...extras];
   const comparison=shuffled(candidates.filter(item=>item.angle==='comparison'))[0]
+    ||shuffled(candidates.filter(item=>item.examStyle==='two-case-classification'||(Array.isArray(item.comparisonTopicIds)&&item.comparisonTopicIds.length>1)))[0]
     ||shuffled(candidates.filter(item=>item.angle==='scenario'))[0];
   return subjectASpaceKnownOverlapV377(shuffled(subjectAUniqueMetadataV376([...anchors,comparison,...shuffled(candidates)],12)));
 }

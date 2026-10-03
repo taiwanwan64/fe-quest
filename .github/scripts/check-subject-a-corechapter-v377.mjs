@@ -127,4 +127,29 @@ for (const [i, topic] of chapter7Curriculum.entries()) {
   assert.equal(chapter7Ctx.coreTopicImmediatePracticeCountV377(topic.id), selected.length);
   assert.ok(selected.every(item => !item.id.startsWith('chapterextra_') && !item.id.startsWith('challenge_cmp_')));
 }
-console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6/7 coverage; direct Chapter 6=10/3/3/3/4/4, Chapter 7=3/7; separated chapter extras/comparisons');
+const chapter8Curriculum = Array.from({length:4}, (_, i) => ({chapter:8, id:`core_08_0${i+1}`}));
+const chapter8Metadata = [...new Map(fs.readdirSync('assets')
+  .filter(file => /^question-catalog.*\.json$/.test(file))
+  .flatMap(file => JSON.parse(fs.readFileSync('assets/' + file, 'utf8')).items || [])
+  .filter(item => item.coreTopicId?.startsWith('core_08_'))
+  .map(item => [item.id, item])).values()];
+assert.equal(chapter8Metadata.length, 21);
+assert.ok(chapter8Metadata.every(item => item.sourcePool === 'subject_a'));
+const chapter8Ctx = {QUESTION_BANK:chapter8Metadata, CORE_A_CURRICULUM:chapter8Curriculum,
+  CORE_A_CHAPTER_EXTRA_QUESTIONS:{}, subjectATrackedMetadataV376:() => chapter8Metadata, globalThis:{}};
+vm.createContext(chapter8Ctx);
+vm.runInContext(names.map(functionSource).join('\n') + '\nthis.select=selectSubjectAMetadataV376;', chapter8Ctx);
+for (let i=0; i<100; i++) {
+  const selected = Array.from(chapter8Ctx.select('corechapter:8'));
+  assert.equal(selected.length, 12);
+  assert.equal(new Set(selected.map(item => item.id)).size, 12);
+  for (const topic of chapter8Curriculum) assert.ok(selected.some(item => item.coreTopicId === topic.id));
+  assert.ok(selected.some(item => item.id.startsWith('challenge_cmp_')), 'include chapter comparison');
+}
+for (const [i, topic] of chapter8Curriculum.entries()) {
+  const selected = Array.from(chapter8Ctx.select('coretopic:' + topic.id));
+  assert.equal(selected.length, [3, 7, 5, 4][i]);
+  assert.equal(chapter8Ctx.coreTopicImmediatePracticeCountV377(topic.id), selected.length);
+  assert.ok(selected.every(item => !item.id.startsWith('challenge_cmp_')));
+}
+console.log('PASS Subject A chapter/topic selection: 12 unique questions and full Chapter 3/4/6/7/8 coverage; direct Chapter 6=10/3/3/3/4/4, Chapter 7=3/7, Chapter 8=3/7/5/4');
