@@ -29,6 +29,11 @@
 
 ## 検証・公開状況
 
-追加修正のCI、DB反映、本番表示確認の結果は確定後に追記する。PWAキャッシュ166へ更新し、既存教材CSSを保持。
+- private PR [117](https://github.com/taiwanwan64/fe-quest-private-source/pull/117) merged。head `551f9d5810e1419cc2afe2255989da1c7848b382`、CI `37171148170` success、merge `f202698e5352b1105d44aa4dcf712c2927957a46`。
+- 変更前の全対象行をguardで確認してDB反映。全5教材・12問の変更後フィールドと保護メタデータを再取得して一致確認。無関係行・教材topic全体のdigestが不変、active 130教材・1180問、12章8教材・54問を維持。
+- public PR [313](https://github.com/taiwanwan64/fe-quest/pull/313) merged。初回CIはPWAキャッシュの検証値が165のまま残ったため失敗。公開・配信の検証値を166へ揃え、head `e30baf5a09ba3744e48ff53c4c246683b6916b89`のpublication `37171247930`、v35 `37171247961`がsuccess。
+- public merge `2315d27019921579dad0ef25d6d7688daf819d91`、production Pages `37171301526` success。PWAキャッシュ166、既存教材CSSを保持。公開regression 20本、保護delta validator、service worker構文確認が成功。
+- 本番desktopで全8教材を表示・読込完了確認。5教材の追加文、設計階層と汎化、対象の章専用本文・箇条書き・表のcomputed font 18pxを確認。網羅表・カード・短絡評価の補足を画面で視認。
+- 12-07の全4問を本番で解答・採点・次問・完了まで確認。受入れ確認問題で意図的な誤答→更新ヒント→再回答→更新済み正答理由と選択肢別解説を確認。テスト用ゲスト進捗は3問初回正答、1問再挑戦正答。
 
 実スマートフォンのタッチ・表の横スクロール・縦横切替、および54問すべての解答操作は未検証。内容監査と実機受入れの完了を分け、未検証項目を完了扱いにしない。
