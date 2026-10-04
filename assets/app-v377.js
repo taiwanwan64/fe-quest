@@ -5718,6 +5718,10 @@ function fequestLocalizeLearningEnglishTextV377(text){
   const pattern=new RegExp(entries.map(([english])=>fequestEscapeRegExpV377(english)).join('|'),'g');
   s=s.replace(pattern,(english,offset,whole)=>{
     const japanese=byEnglish[english];
+    // Keep longer English names intact instead of inserting a gloss midway.
+    const before=String(whole).slice(0,offset);
+    const rawAfter=String(whole).slice(offset+english.length);
+    if(/[A-Za-z]$/.test(before)||/^[A-Za-z]/.test(rawAfter)||/^\s+[A-Za-z]/.test(rawAfter))return english;
     const after=String(whole).slice(offset+english.length).trimStart();
     const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('：'+japanese)||after.startsWith(':'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')');
     return alreadyLocalized?english:english+'／'+japanese;
