@@ -1582,3 +1582,20 @@ GitHub / protected DB の現状を正として、第13章を章単位で再監�
 - 詳細: `.github/reference-audits/ch12-ui-acceptance-20261004.md`。
 - 前節の「54問全件の解答操作」は解消。残件は実スマートフォンの狭幅・タッチ・横スクロール・縦横切替のみ。実機を含むcoverageはin-progressを維持。
 - 今回は監査記録のみ更新し、教材・問題・実装・DBは変更しない。第13章以降へ進めず、第12章の指定を優先する。
+
+## 18. 2026-10-04 第13章全体再監査・全30問の本番UI検証
+
+第12章全54問のUI確認後、ユーザーの継続指示に従い第13章へ進んだ。開始public main `375bc49b0ceea38f205a3053d18ba7315ae40e7a`、private main `f202698e5352b1105d44aa4dcf712c2927957a46`、双方open PR 0をlive GitHubで確認。添付参考資料の第13章PDF509〜520（12ページ）の本文・強調・図表を再確認し、全4教材・30問をlive DBから照合した。
+
+- private PR #118 merged、head `7ada51e106050ca964742bc5ed573d5e74c1db4e`、CI `37192259297` success、merge/main `dc2c54a9072c047034bab63f45f863765af0a678`。
+- 3教材・12問のguarded deltaを本番DBへ反映。スクラム/XP、環境の再現性と分離、ベースライン/変更管理、ヒント・説明・誤答理由を補強。設問本文・正解位置・正解選択肢・ID・分類・版・activeを維持。
+- 全4教材・30問を反映後に再取得して変更・未変更フィールドを照合。無関係行・metadataの不変性をtransaction内で検査。130教材・1180問・13章30問。
+- public PR #316 merged、head `03e71d81e7c0793eca2b72ca382daced6e146d94`、publication `37192324323` / v35 `37192324320` success、merge `502483c70223e03b244cc42e500cdf6b7a3e9bed`、Pages `37192586593` success、cache167。
+- 説明カード・スクラム役割・イベント表・構成品目表の本文18pxを検査に追加し、本番computed styleも確認。
+- 本番Chrome desktop新規ゲストで全4教材・全30 IDの正解判定、正解根拠、3つの誤答理由、次問・結果遷移を検証。延べ54問・55送信。13-04では意図的誤答1件のヒント・再回答・再挑戦正解を検証。未確認ID 0、新規不具合なし。
+- 詳細: `.github/reference-audits/ch13-full-reaudit-20261004.md`。source commit/content_version対応: `.github/reference-audits/ch13-import-manifest-20261004.json`。
+- 残件は実スマートフォンの狭幅・タッチ・横スクロール・縦横切替。coverageはin-progressを維持する。
+
+### 次のデフォルト作業
+
+別指示がなければ、第14章「プロジェクトマネジメント」全体を、最新GitHub main・作業ブランチ・PR・CIと現行protected DBを読み直して再監査する。第12章の指定は上記追加確認で完了し、第13章も内容・desktop全問検証まで完了。実機残件は横断事項として引き継ぐ。
