@@ -23,11 +23,14 @@
 
 ## 変更範囲と検証
 
-- 非公開PR #114: 更新前との一致を必須とする8教材・11問題の差分。ID・正解位置・分類・content_version・activeを保ち、履歴の対応を変えない。
-- 非公開validator: 既存のマージ済み教材ソースとliveの更新条件を照合し、範囲・正解・メタデータ・具体例・危険なHTMLを確認。ローカルPASS。
-- 公開の既存チェック21件は全件PASS。CIと本番反映の確定結果は後続の受入記録に追記する。
+- 非公開PR #112/#113で、スパム追加、CIA本文補強、OAuth文言修正、9問の解説/ヒント改善とguard修正を実施。PR #112 CI `37168791167` success、PR #113 CI `37168996076` success。
+- 非公開PR #115で、参考資料で強調されるCIAを直接確認する問題へ `coreq_11_05_3` を置換。ID・分類・正解位置3・content_version・activeを維持。CI `37169240057` success。
+- 非公開PR #114: 更新前との一致を必須とする8教材・11問題の追加差分。ID・正解位置・分類・content_version・activeを保ち、履歴の対応を変えない。最終head `b6397d5ec6f5c48e40582be4f8ff03199b8a2a4c`、CI `37169343700` success、merge `eb4c2fd5007a0dfde520a8d0300993f616f8754a`。
+- 非公開validatorは、既存のマージ済み教材ソースとliveの更新条件を照合し、範囲・正解・メタデータ・具体例・危険なHTMLを確認。DB反映後もactive lesson `130`、active question `1180`、第11章 `38` 問を維持。
+- 公開PR #307はpublication `37169257801` / v35 `37169257795` success後にマージ。merge `cf5a58f0386fb01e2332769a4c122464f4ce5038`、Pages `37169351504` success、PWA cache `fe-quest-v377-163`。
+- 初回の第2パスDB適用はguard形状の不一致で停止し、トランザクション全体がロールバックされた。PR #113でguardを修正してから再適用し、意図しない部分更新がないことを確認。
 - 参考確認: [RFC 4270](https://www.rfc-editor.org/rfc/rfc4270.html)、[NIST SP 800-88 Rev.2](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r2.pdf)。
 
 ## 残件
 
-実スマホの狭幅・タッチ・縦横切替は未検証。静的CSS検査を実画面受入の代用にせず、coverageはin-progressのままにする。12章以降の今回の再監査は未着手。次の内容再監査対象は12章全体。
+実スマホの狭幅・タッチ・縦横切替は未検証。静的CSS検査を実画面受入の代用にせず、coverageはin-progressのままにする。第11章の内容・protected DB・公開readability・CI・Pagesは再監査分まで反映済み。次の内容再監査対象は第12章全体。
