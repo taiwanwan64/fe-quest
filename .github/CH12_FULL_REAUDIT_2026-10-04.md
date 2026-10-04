@@ -22,8 +22,11 @@
 ## protected変更
 
 - private PR #116: 2教材・9問題の guarded delta。
+- head `3c2fa60cf47cb47f225a06e6822abbdbec891981`、protected CI `37170183635` success。
+- private merge `5cb04a770a94e9ddb2dc85c94f5be2afb1e2f589`。
 - lesson / question ID、正答index、catalog metadata、content_version、active flagを維持し、既存学習履歴との対応を変えない。
-- DB適用後も active lesson 130、active question 1180、第12章54問を維持する。
+- guarded transactionでDBへ反映し、反映後に2教材と9問題の全対象フィールドがdeltaのreplace後状態と一致することを再照合。
+- active lesson `130`、active question `1180`、第12章 `54` 問を維持。
 - 詳細な教材本文・問題本文・選択肢・正答は公開リポジトリへ置かない。
 
 ## 公開readability
@@ -35,6 +38,16 @@
 - 矢印、短いフローラベル、図形内ラベルなどは16px以上を維持。
 - 横長表の横スクロールと既存の820 / 680 / 480pxレスポンシブ規則を保持。
 
+## 公開CI / production
+
+- public PR #311 `audit: Chapter 12 full re-audit and readability` merged。
+- head `7189201070aa308bce619a4bbd7f974748bbf438`。
+- `Validate sanitized FE QUEST publication` run `37170398143`: success。
+- `Validate IPA 9.2 question v35 public activation` run `37170398183`: success。
+- public merge `d68e1351c269ca632b70ba01abd88be0bcb9c2a3`。
+- production Pages run `37170423353`: success。
+- PWA cache: `fe-quest-v377-165`。
+
 ## 残件
 
-実スマートフォンでのタッチ、横スクロール、縦横切替は静的CIとは別の残件として扱う。内容・DB・公開CI・Pagesの確定結果はマージ後に記録へ追記する。
+実スマートフォンでのタッチ、横スクロール、縦横切替は静的CIとは別の残件として扱う。第12章の内容・protected DB・公開readability・CI・Pagesは2回目の再監査分まで反映済み。次の内容再監査対象は第13章「ソフトウェア開発手法」全体。
