@@ -24,3 +24,6 @@ assert.match(css,/@media\(max-width:680px\)[\s\S]*?attack-list-v392,[\s\S]*?grid
 assert.match(css,/@media\(max-width:480px\)[\s\S]*?risk-response-v392\{grid-template-columns:1fr/);
 assert.ok(fs.readFileSync('sw.js','utf8').includes('./assets/ch11-depth-v392.css'));
 console.log('PASS Chapter 11 scoped text/data fonts, wide-table containment and responsive security diagrams (not live mobile evidence)');
+
+assert.match(css, /p\.ch11-helper-v392\{font-size:18px/, 'Helper paragraphs remain readable body text');
+assert.ok(css.includes('#lesson .risk-process-v392 span,\n#lesson .risk-response-v392 span,'), 'Risk card explanations use the 18px override');
