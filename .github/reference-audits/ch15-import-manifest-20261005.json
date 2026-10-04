@@ -1,0 +1,281 @@
+{
+  "audit_date": "2026-10-05",
+  "chapter": 15,
+  "coverage": "in-progress",
+  "content_audit": "complete",
+  "desktop_ui": {
+    "status": "in-progress",
+    "confirmed_unique": 51,
+    "expected_unique": 52,
+    "completed_questions": 111,
+    "grading_submissions": 112,
+    "confirmed_question_ids": [
+      "challenge_cmp_15_01",
+      "challenge_cmp_15_02",
+      "challenge_cmp_15_03",
+      "challenge_cmp_15_04",
+      "challenge_cmp_15_05",
+      "challenge_cmp_15_06",
+      "challenge_v92_15_07",
+      "challenge_v92_15_08",
+      "coreq_15_01_1",
+      "coreq_15_01_2",
+      "coreq_15_01_3",
+      "coreq_15_02_1",
+      "coreq_15_02_2",
+      "coreq_15_02_3",
+      "coreq_15_03_1",
+      "coreq_15_03_2",
+      "coreq_15_03_3",
+      "coreq_15_04_1",
+      "coreq_15_04_2",
+      "coreq_15_04_3",
+      "coreq_15_05_1",
+      "coreq_15_05_2",
+      "coreq_15_05_3",
+      "coreq_15_06_1",
+      "coreq_15_06_2",
+      "coreq_15_06_3",
+      "coreq_15_07_1",
+      "coreq_15_07_2",
+      "coreq_15_07_3",
+      "coreq_15_08_1",
+      "coreq_15_08_2",
+      "coreq_15_08_3",
+      "ipa92_a_aiops_001",
+      "ipa92_a_cab_001",
+      "ipa92_a_coso_internal_control_001",
+      "ipa92_a_csa_internal_control_001",
+      "ipa92_a_green_it_001",
+      "ipa92_a_hot_cold_aisle_001",
+      "ipa92_a_it_general_controls_001",
+      "ipa92_a_itil_001",
+      "ipa92_a_jis20000_001",
+      "ipa92_a_jisq38500_it_governance_001",
+      "ipa92_a_job_scheduling_001",
+      "ipa92_a_known_error_001",
+      "ipa92_a_mdf_001",
+      "ipa92_a_pir_001",
+      "ipa92_a_rlo_001",
+      "ipa92_a_rpo_001",
+      "ipa92_a_rto_001",
+      "ipa92_a_sli_slo_001",
+      "ipa92_a_sli_slo_002"
+    ],
+    "pending_question_ids": [
+      "ipa92_a_service_request_001"
+    ],
+    "pending_acceptance": [
+      "finish pending question via normal UI",
+      "verify latest history and progress after final reload",
+      "save final screenshot"
+    ],
+    "browser_blocker": "409 Conflict / environment_offline: Environment is not connected"
+  },
+  "mobile_acceptance": "not-verified",
+  "source": {
+    "repository": "taiwanwan64/fe-quest-private-source",
+    "head": "40c72be9bafb7259dff8723c55aef05154740334",
+    "merged_commit": "0a0828a830e2aa50e629cc1672103cc601373578",
+    "pr": 121,
+    "path": ".github/v376/ch15_reaudit_20261005.json"
+  },
+  "publication": {
+    "implementation_pr": 320,
+    "english_name_fix_pr": 321,
+    "verified_production_commit": "63581b3815212d918683c921c4345d470c635a8b",
+    "verified_pages_run": 37241317724,
+    "cache": 170
+  },
+  "db": {
+    "active_lessons": 130,
+    "active_questions": 1180,
+    "updated_lessons": 8,
+    "updated_questions": 11,
+    "after_retrieval_exact_match": true,
+    "invariant_digests": {
+      "lesson_count": 130,
+      "question_count": 1180,
+      "other_lessons": "4894f0b356bfb1713c732bfa53de4dec",
+      "other_questions": "14b7b8d8bf13470178c1962edb859cc2",
+      "lesson_metadata": "b061ef420450ffcb33d95923ac3befcb",
+      "question_metadata": "1ece5cc1cc557f6b1c1a867a56b0793f",
+      "updated_lessons": 8,
+      "updated_questions": 11
+    }
+  },
+  "lessons": [
+    {
+      "id": "core_15_01",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_02",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_03",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_04",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_05",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_06",
+      "content_version": "v376-lessons-ch15-visual-depth-v396-20260920",
+      "active": true
+    },
+    {
+      "id": "core_15_07",
+      "content_version": "v376-lessons-1",
+      "active": true
+    },
+    {
+      "id": "core_15_08",
+      "content_version": "v376-lessons-1",
+      "active": true
+    }
+  ],
+  "updated_questions": [
+    {
+      "id": "coreq_15_01_2",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_01_3",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_02_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_03_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_04_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_04_2",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_05_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_05_2",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_07_3",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_15_08_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "ipa92_a_green_it_001",
+      "content_version": "ipa92-questions-v15",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    }
+  ],
+  "protected_fields_preserved": [
+    "id",
+    "answer_index",
+    "stem",
+    "options",
+    "source_pool",
+    "catalog",
+    "extra",
+    "content_version",
+    "active",
+    "created_at"
+  ],
+  "history_regraded": false,
+  "reference_pages": {
+    "pdf_start": 553,
+    "pdf_end": 578,
+    "printed_start": 535,
+    "printed_end": 560,
+    "total": 26
+  }
+}
