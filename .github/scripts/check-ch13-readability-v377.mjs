@@ -20,6 +20,9 @@ assert.match(css,/scrum-events-v394\{overflow-x:auto/);
 assert.match(css,/scrum-events-v394 table\{[^}]*min-width:720px/);
 assert.match(css,/config-items-v394\{overflow-x:auto/);
 assert.match(css,/config-items-v394 table\{[^}]*min-width:720px/);
+for(const selector of ['.scrum-roles-v394 span','.mashup-v394 span','.ch13-card-v394>p','.scrum-events-v394 td','.config-items-v394 td']){
+  assert.ok(css.slice(css.indexOf(selector)).split('}')[0].includes('font-size:18px'),selector);
+}
 assert.match(css,/@media\(max-width:820px\)[\s\S]*?scrum-roles-v394,[\s\S]*?grid-template-columns:1fr/);
 assert.match(css,/@media\(max-width:680px\)[\s\S]*?engineering-map-v394,[\s\S]*?grid-template-columns:1fr/);
 assert.match(css,/@media\(max-width:480px\)[\s\S]*?agile-loop-v394\{grid-template-columns:1fr/);
