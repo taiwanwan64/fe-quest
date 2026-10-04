@@ -281,9 +281,9 @@ for(let i=0;i<100;i++){
 }
 for(const [i,topic] of chapter13Curriculum.entries()){
   const selected=Array.from(chapter13Ctx.select('coretopic:'+topic.id));
-  assert.equal(selected.length,[16,4,4,4][i]);
+  assert.equal(selected.length,[10,4,4,4][i]);
   assert.equal(chapter13Ctx.coreTopicImmediatePracticeCountV377(topic.id),selected.length);
   assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')&&!item.id.startsWith('chapterextra_')));
 }
 
-console.log('PASS Subject A chapter/topic selection: 12 unique with full Chapter 3/4/6/7/8/9/10/11/12/13 coverage; Chapter 13 direct=16/4/4/4 and comparison guaranteed');
+console.log('PASS Subject A chapter/topic selection: 12 unique with full Chapter 3/4/6/7/8/9/10/11/12/13 coverage; Chapter 13 immediate practice=10/4/4/4 (topic 13-01 capped from 16 eligible metadata) and comparison guaranteed');
