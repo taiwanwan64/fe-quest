@@ -73,7 +73,7 @@
 #lesson .permission-v392{overflow-x:auto}
 #lesson .permission-v392 table{width:100%;min-width:560px;border-collapse:collapse;background:#fff}
 #lesson .permission-v392 th,
-#lesson .permission-v392 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .permission-v392 td{border:1px solid #c9d8de;padding:9px 10px;font-size:18px;text-align:center}
 #lesson .permission-v392 th{background:#eef5f8;color:#17364b}
 #lesson .walls-v392{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .walls-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
@@ -93,6 +93,17 @@
 #lesson .auth-factors-v392>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .auth-factors-v392 b{display:block;font-size:17px;color:#17364b}
 #lesson .auth-factors-v392 span{display:block;margin-top:5px;font-size:16px;line-height:1.45}
+
+/* Explanations in cards are body text; only short flow labels remain 16px. */
+#lesson .ch11-card-v392>span,
+#lesson .ch11-card-v392>p,
+#lesson .threat-types-v392 span,
+#lesson .fraud-triangle-v392 span,
+#lesson .attack-list-v392 span,
+#lesson .key-compare-v392 span,
+#lesson .walls-v392 span,
+#lesson .detect-methods-v392 span,
+#lesson .auth-factors-v392 span{font-size:18px;line-height:1.6}
 
 @media(max-width:760px){
   #lesson .ch11-grid4-v392,
