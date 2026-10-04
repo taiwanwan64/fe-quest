@@ -1294,3 +1294,63 @@ GitHub live main/open PR/CI/Pagesと保護DBを再読し、6教材・32問を章
 - open PR があれば、新しいブランチを勝手に作る前にそのPRの内容とCIを確認する。
 - main がこのスナップショットより進んでいたら、**必ず新しいmainを正とする**。
 - ユーザーの新しい指示がこのファイルの「次のデフォルト作業」と競合した場合は、ユーザーの新しい指示を優先する。
+
+
+## 11. 2026-10-04 第11章「情報セキュリティ」章単位監査完了
+
+GitHub / protected DB の現状を正として、第11章を章単位で再監査した。
+
+### protected lesson / question
+
+- private PR #109 `audit: Chapter 11 security whole-chapter clarity` merged
+- private merge commit: `2d80b516e69cbadf426a563f7a65fdd3c0f5ed3b`
+- protected CI `Validate protected lessons` run `37164740753`: success
+- `core_11_01`〜`core_11_08` の8 lessonすべてで、本文ルートへ `ch11-depth-v392` を適用
+- 11-01〜11-06のquick quiz解説を、設問の正答理由を直接説明する形へ修正
+- UNIX系アクセス権を「左から 読取り(4)・書込み(2)・実行(1)」へ明確化
+- 2要素認証と2段階認証の説明を分離
+- 既存ID・正答位置・catalog metadata・content_version・active flagを維持したまま10問を別角度へ置換
+  - パスワードリスト攻撃
+  - AES / RSA / SHA-256
+  - BCM / BCP
+  - JIS Q 27001 / ISMS適合性評価
+  - UNIX系アクセス権
+  - DMZ
+  - ファジング
+  - CAPTCHA
+  - 多要素認証
+  - 本人拒否率 / 他人受入率
+- guarded baseline付きでDBへ反映済み
+- 反映後も active lesson `130`、active question `1180` の件数は不変
+
+### public app / CI / production
+
+- public PR #301 `audit: Chapter 11 security acceptance and readability` merged
+- public merge commit: `304911ef847284c9315b8883c08155c255a09c69`
+- Chapter 11 public metadata:
+  - 全38問
+  - chapter comparison 4問
+  - テーマ演習 `3 / 5 / 5 / 3 / 3 / 3 / 4 / 8`
+  - 章末確認12問、重複IDなし、8テーマすべてを含み、chapter comparisonも含む
+- `ch11-depth-v392.css` の本文/注記/code/リスクカード文字サイズをスマホ基準へ調整
+- 第11章readability CIを追加
+- 初回public CIはChapter 11 selector testの正規表現エスケープ誤りで失敗したが、branch上で修正
+- 修正後:
+  - `Validate sanitized FE QUEST publication` run `37165024026`: success
+  - `Validate IPA 9.2 question v35 public activation` run `37165024030`: success
+- production Pages deploy run `37165053856`: success
+- PWA cache contract: `fe-quest-v377-160`
+- 監査記録: `.github/reference-audits/CH11_CHAPTER_ACCEPTANCE_2026-10-04.md`
+
+### 次のデフォルト作業
+
+別の具体的指示がなければ、次は参考資料の節順に沿って **第12章「システム開発」** を章単位で監査する。
+
+対象:
+- 12-01 システム開発技術
+- 12-02 システム要件定義
+- 12-03 システム設計
+- 12-04 プログラミングとオブジェクト指向
+- 12-05 テスト
+
+第5〜11章の静的スマホreadability CIは整備済みだが、実機スマートフォンでの最終タッチ・スクロール・横幅確認は別残件として扱う。
