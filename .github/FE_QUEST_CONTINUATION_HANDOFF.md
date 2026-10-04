@@ -1416,3 +1416,69 @@ GitHub / protected DB の現状を正として、第12章を章単位で再監�
 参考資料の第13章は `13-01 ソフトウェアの開発モデル`。現行教材・公開問題metadata・protected DBを最新mainから読み直し、ウォーターフォール、プロトタイピング、アジャイル等の説明・図・演習・スマホreadabilityを確認する。
 
 第5〜12章の静的スマホreadability CIは順次整備しているが、実機スマートフォンでの最終タッチ・横スクロール・横幅確認は横断残件として扱う。
+
+
+## 13. 2026-10-04 第13章「ソフトウェア開発手法」章単位監査完了
+
+GitHub / protected DB の現状を正として、第13章を章単位で再監査した。
+
+### 参考資料との照合
+
+添付参考資料の第13章は `13-01 ソフトウェアの開発モデル` の1節構成。
+本文・過去問で、ウォーターフォール / アジャイル、スクラム、ローコード / ノーコード、リバースエンジニアリング、マッシュアップ、XP、ペアプログラミング、リファクタリング、ソフトウェア構成管理を確認した。
+
+現行 `core_13_01` にはこれらの主要事項が既に実装されており、`core_13_02`〜`core_13_04` はIPAシラバス側の補足テーマとして知的財産適用管理・開発環境管理・構成管理/変更管理を保持している。
+
+### protected lesson / question
+
+- private PR #111 `audit: Chapter 13 software development methods whole-chapter clarity` merged
+- private merge commit: `eaa07b9c7c0b85596bb2fc96123f84b44643cf9c`
+- protected CI `Validate protected lessons` run `37166640421`: success
+- `core_13_01`〜`core_13_04` の4 lessonすべてで本文rootへ `ch13-depth-v394` を適用
+- `core_13_01` quick quizの解説を、正答であるアジャイルの短期反復・フィードバックの説明へ修正
+- 既存ID・正答位置・catalog metadata・content_version・active flagを維持したまま2問を参考資料の重点へ置換
+  - デイリースクラム
+  - リバースエンジニアリング
+- guarded baseline付きでDBへ反映済み
+- 反映後も active lesson `130`、active question `1180` の件数は不変
+
+### public app / CI / production
+
+- public PR #305 `audit: Chapter 13 software development methods acceptance and readability` merged
+- public merge commit: `4e445a880655885d8134f83cbcddb7da57692165`
+- Chapter 13 public metadata:
+  - 全30問
+  - subject_a 29問
+  - chapter_extra 1問
+  - `core_13_01` の即時演習対象は16問あるが、通常テーマ演習の上限により実出題は10問
+  - テーマ演習実出題数 `10 / 4 / 4 / 4`
+  - 章末確認12問、重複IDなし、4テーマすべてを含み、比較問題も含む
+- `ch13-depth-v394.css`
+  - note 17px → 18px
+  - waterfall / agile工程カード見出し 17px → 18px
+  - waterfall / agile工程カード補助文 15px → 16px
+  - agile releaseラベル 17px → 18px
+  - mashupカード見出し 17px → 18px
+  - スクラムイベント表 / 構成品目表の横スクロールを維持
+- 第13章readability CIを追加
+- 初回public CIは `core_13_01` のテーマ演習上限10問を16問と誤って期待して失敗したため、実際のselector仕様に合わせて修正
+- 修正後:
+  - `Validate sanitized FE QUEST publication` run `37166812398`: success
+  - `Validate IPA 9.2 question v35 public activation` run `37166812394`: success
+- production Pages deploy run `37166835694`: success
+- PWA cache contract: `fe-quest-v377-162`
+- 監査記録: `.github/reference-audits/CH13_CHAPTER_ACCEPTANCE_2026-10-04.md`
+
+### 次のデフォルト作業
+
+別の具体的指示がなければ、次は **第14章「プロジェクトマネジメント」** を章単位で監査する。
+
+参考資料の節順:
+- 14-01 プロジェクトマネジメント
+- 14-02 プロジェクトスコープマネジメント
+- 14-03 プロジェクト資源マネジメント
+- 14-04 プロジェクトスケジュールマネジメント
+- 14-05 プロジェクトコストマネジメント
+- 14-06 プロジェクトリスクマネジメント
+
+第5〜13章の静的スマホreadability CIは順次整備済みだが、実機スマートフォンでの最終タッチ・横スクロール・横幅確認は横断残件として扱う。
