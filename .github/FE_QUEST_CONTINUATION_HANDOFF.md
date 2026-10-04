@@ -1482,3 +1482,32 @@ GitHub / protected DB の現状を正として、第13章を章単位で再監�
 - 14-06 プロジェクトリスクマネジメント
 
 第5〜13章の静的スマホreadability CIは順次整備済みだが、実機スマートフォンでの最終タッチ・横スクロール・横幅確認は横断残件として扱う。
+
+## 14. 2026-10-04 第11章「情報セキュリティ」再監査（2回目）完了
+
+ユーザーの「11章から監査をもう一度」の指示を受け、過去記録ではなくlive GitHub / protected DBを正として第11章を再監査した。開始時は公開main `bc706502839a61cfb438f582cf3d30fe4c8d0c86`、非公開main `eaa07b9c7c0b85596bb2fc96123f84b44643cf9c`、双方open PR 0。監査途中に並行作業でopen PRが現れたため、そのlive状態を読み直して競合を避け、最終的に同じ章の再監査PRへ合流した。
+
+添付教科書の第11章（PDFページ405〜464、60ページ）を本文・図表まで再確認し、protected lesson 8件・第11章question 38件をlive DBから照合。第2パスでスパム、CIA三大特性、OAuth文言、問題解説/ヒントを補強し、さらに全章再監査でハッシュ/署名、認証局、DMZ、リスク、CVE/CVSS/CWE/CPE、生体認証、媒体別データ消去などの具体性を改善した。
+
+### protected側の確定状態
+
+- PR #112 merged。CI `37168791167` success。スパム/CIA/OAuth文言と9問の説明・ヒントを補強。
+- 初回DB適用はguard不一致で失敗し、トランザクション全体がロールバック。部分更新なし。
+- PR #113 merged。CI `37168996076` success。lesson baseline guardを現在行へ修正し、その後DB適用成功。
+- PR #115 merged。CI `37169240057` success。CIAを直接問う演習へ `coreq_11_05_3` を置換し、ID/分類/正解index/content_version/activeを維持。
+- PR #114 は最新mainへ更新後、head `b6397d5ec6f5c48e40582be4f8ff03199b8a2a4c`、CI `37169343700` success、merge `eb4c2fd5007a0dfde520a8d0300993f616f8754a`。
+- live DBで8教材すべてがPR #114のreplace payloadと一致、対象11問すべてがreplace後フィールドと一致することを再照合。
+- active lesson `130`、active question `1180`、第11章 `38` 問を維持。
+
+### public側の確定状態
+
+- PR #307 merged。publication `37169257801` success、v35 `37169257795` success。
+- public merge/main `cf5a58f0386fb01e2332769a4c122464f4ce5038`。
+- Pages `37169351504` success。
+- PWA cache `fe-quest-v377-163`。
+- 第11章の説明カード・アクセス権表の本文を18pxへ統一し、readability検査を強化。
+- 詳細: `.github/CH11_FULL_REAUDIT_2026-10-04.md`。
+
+### 残件と次の作業
+
+実スマホでの狭幅・タッチ・縦横切替は未検証のため、coverageはin-progressのまま。内容再監査としては第11章の2回目監査を完了。ユーザーから別指示がなければ、次は添付参考資料の節順で第12章「システム開発」を同じ基準で再監査する。
