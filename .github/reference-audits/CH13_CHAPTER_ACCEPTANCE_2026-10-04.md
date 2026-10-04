@@ -80,7 +80,7 @@ Chapter 13の公開メタデータは30問。
 - subject_a: 29問。
 - chapter_extra: 1問。
 - chapter comparison: `challenge_cmp_13_01` 1問 + chapter extra comparison 1問。
-- テーマ演習（chapter comparison / chapter extraを除く）: `16 / 4 / 4 / 4`。
+- 即時テーマ演習の実出題数: `10 / 4 / 4 / 4`。`core_13_01` は直接演習対象メタデータが16問あるが、通常テーマ演習のセッション上限10問により10問へ制限される。
 - 章末確認: 12問。
 - 章末確認では4テーマすべてを含み、重複IDを出さず、比較問題を少なくとも1問含める。
 - 第13章CSSの本文・カード文字サイズ、横長表のcontainment、レスポンシブbreakpointを静的CIで固定する。
