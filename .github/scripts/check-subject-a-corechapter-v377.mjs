@@ -204,7 +204,7 @@ for(const [i,topic] of chapter10Curriculum.entries()){
 }
 const chapter11Curriculum=Array.from({length:8},(_,i)=>({chapter:11,id:'core_11_'+String(i+1).padStart(2,'0')}));
 const chapter11Bank=[...new Map(fs.readdirSync('assets')
-  .filter(file=>/^question-catalog.*\\.json$/.test(file))
+  .filter(file=>/^question-catalog.*\.json$/.test(file))
   .flatMap(file=>JSON.parse(fs.readFileSync('assets/'+file,'utf8')).items||[])
   .filter(item=>item.coreTopicId?.startsWith('core_11_'))
   .map(item=>[item.id,item])).values()];
@@ -214,7 +214,7 @@ assert.ok(chapter11Bank.every(item=>item.sourcePool==='subject_a'));
 const chapter11Ctx={QUESTION_BANK:chapter11Bank,CORE_A_CURRICULUM:chapter11Curriculum,
   CORE_A_CHAPTER_EXTRA_QUESTIONS:{},subjectATrackedMetadataV376:()=>chapter11Bank,globalThis:{}};
 vm.createContext(chapter11Ctx);
-vm.runInContext(names.map(functionSource).join('\\n')+'\\nthis.select=selectSubjectAMetadataV376;',chapter11Ctx);
+vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter11Ctx);
 for(let i=0;i<100;i++){
   const selected=Array.from(chapter11Ctx.select('corechapter:11'));
   assert.equal(selected.length,12);
