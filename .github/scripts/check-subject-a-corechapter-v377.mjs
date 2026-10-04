@@ -256,4 +256,34 @@ for(const [i,topic] of chapter12Curriculum.entries()){
   assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')));
 }
 
-console.log('PASS Subject A chapter/topic selection: 12 unique with full Chapter 3/4/6/7/8/9/10/11/12 coverage; Chapter 12 direct=3/7/7/8/7/6/4/7 and comparison guaranteed');
+const chapter13Curriculum=Array.from({length:4},(_,i)=>({chapter:13,id:'core_13_'+String(i+1).padStart(2,'0')}));
+const chapter13Metadata=[...new Map(fs.readdirSync('assets')
+  .filter(file=>file.startsWith('question-catalog')&&file.endsWith('.json'))
+  .flatMap(file=>JSON.parse(fs.readFileSync('assets/'+file,'utf8')).items||[])
+  .filter(item=>item.coreTopicId?.startsWith('core_13_'))
+  .map(item=>[item.id,item])).values()];
+assert.equal(chapter13Metadata.length,30);
+const chapter13Bank=chapter13Metadata.filter(item=>item.sourcePool==='subject_a');
+const chapter13Extras=chapter13Metadata.filter(item=>item.sourcePool==='chapter_extra');
+assert.equal(chapter13Bank.length,29);
+assert.equal(chapter13Extras.length,1);
+assert.equal(chapter13Bank.filter(item=>item.id.startsWith('challenge_cmp_')).length,1);
+const chapter13Ctx={QUESTION_BANK:chapter13Bank,CORE_A_CURRICULUM:chapter13Curriculum,
+  CORE_A_CHAPTER_EXTRA_QUESTIONS:{'13':chapter13Extras},subjectATrackedMetadataV376:()=>chapter13Metadata,globalThis:{}};
+vm.createContext(chapter13Ctx);
+vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter13Ctx);
+for(let i=0;i<100;i++){
+  const selected=Array.from(chapter13Ctx.select('corechapter:13'));
+  assert.equal(selected.length,12);
+  assert.equal(new Set(selected.map(item=>item.id)).size,12);
+  for(const topic of chapter13Curriculum)assert.ok(selected.some(item=>item.coreTopicId===topic.id));
+  assert.ok(selected.some(item=>item.id.startsWith('challenge_cmp_')||item.id.startsWith('chapterextra_')),'Chapter 13 comparison guaranteed');
+}
+for(const [i,topic] of chapter13Curriculum.entries()){
+  const selected=Array.from(chapter13Ctx.select('coretopic:'+topic.id));
+  assert.equal(selected.length,[10,4,4,4][i]);
+  assert.equal(chapter13Ctx.coreTopicImmediatePracticeCountV377(topic.id),selected.length);
+  assert.ok(selected.every(item=>!item.id.startsWith('challenge_cmp_')&&!item.id.startsWith('chapterextra_')));
+}
+
+console.log('PASS Subject A chapter/topic selection: 12 unique with full Chapter 3/4/6/7/8/9/10/11/12/13 coverage; Chapter 13 immediate practice=10/4/4/4 (topic 13-01 capped from 16 eligible metadata) and comparison guaranteed');
