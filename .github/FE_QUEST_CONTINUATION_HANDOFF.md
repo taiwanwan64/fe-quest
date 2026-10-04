@@ -1354,3 +1354,65 @@ GitHub / protected DB の現状を正として、第11章を章単位で再監�
 - 12-05 テスト
 
 第5〜11章の静的スマホreadability CIは整備済みだが、実機スマートフォンでの最終タッチ・スクロール・横幅確認は別残件として扱う。
+
+
+## 12. 2026-10-04 第12章「システム開発」章単位監査完了
+
+GitHub / protected DB の現状を正として、第12章を章単位で再監査した。
+
+### 参考資料との照合
+
+参考資料の第12章は次の5節。
+
+- 12-01 システム開発技術
+- 12-02 システム要件定義
+- 12-03 システム設計
+- 12-04 プログラミングとオブジェクト指向
+- 12-05 テスト
+
+既存のprotected lessonには、SLCP・共通フレーム・開発工程階層、DFD、設計4工程、モジュール結合度、オブジェクト指向、UML、Vモデル、ホワイト/ブラックボックス、5種類の網羅、トップダウン/ボトムアップ、スタブ/ドライバまで既に実装されていたため、今回は大規模追加ではなく「章全体の読みやすさ・quick quiz整合・直接演習の重複改善」を中心にした。
+
+### protected lesson / question
+
+- private PR #110 `audit: Chapter 12 system development whole-chapter clarity` merged
+- private merge commit: `7fecdd68decc168ef6b585b055c1db6b514e86d6`
+- protected CI `Validate protected lessons` run `37165989620`: success
+- `core_12_01`〜`core_12_08` の8 lessonすべてで本文rootへ `ch12-depth-v393` を適用
+- 12-01 / 12-02 / 12-03 / 12-05 のquick quiz解説を設問の正答理由へ直接対応
+- 既存ID・正答位置・catalog metadata・content_version・active flagを維持したまま5問を別角度へ置換
+  - 共通フレーム
+  - モジュール結合度（データ結合）
+  - DFDのプロセス
+  - UMLシーケンス図
+  - 複数条件網羅（2条件なら4組合せ）
+- guarded baseline付きでDBへ反映済み
+- 反映後も active lesson `130`、active question `1180` の件数は不変
+
+### public app / CI / production
+
+- public PR #303 `audit: Chapter 12 system development acceptance and readability` merged
+- public merge commit: `ee06be81ad48671087858b0363149703b0444f6f`
+- Chapter 12 public metadata:
+  - 全54問
+  - chapter comparison 5問
+  - テーマ演習 `3 / 7 / 7 / 8 / 7 / 6 / 4 / 7`
+  - 章末確認12問、重複IDなし、8テーマすべてを含み、chapter comparisonも含む
+- `ch12-depth-v393.css`
+  - note 17px → 18px
+  - lifecycle補助文 15px → 16px
+  - design-step補助文 15px → 16px
+  - 横長表の横スクロールと既存レスポンシブbreakpointを維持
+- 第12章readability CIを追加
+- `Validate sanitized FE QUEST publication` run `37166113547`: success
+- `Validate IPA 9.2 question v35 public activation` run `37166113558`: success
+- production Pages deploy run `37166141859`: success
+- PWA cache contract: `fe-quest-v377-161`
+- 監査記録: `.github/reference-audits/CH12_CHAPTER_ACCEPTANCE_2026-10-04.md`
+
+### 次のデフォルト作業
+
+別の具体的指示がなければ、次は **第13章「ソフトウェア開発手法」** を章単位で監査する。
+
+参考資料の第13章は `13-01 ソフトウェアの開発モデル`。現行教材・公開問題metadata・protected DBを最新mainから読み直し、ウォーターフォール、プロトタイピング、アジャイル等の説明・図・演習・スマホreadabilityを確認する。
+
+第5〜12章の静的スマホreadability CIは順次整備しているが、実機スマートフォンでの最終タッチ・横スクロール・横幅確認は横断残件として扱う。
