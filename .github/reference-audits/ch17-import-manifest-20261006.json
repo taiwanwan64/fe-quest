@@ -1,0 +1,127 @@
+{
+  "audit_date": "2026-10-06",
+  "audit_timezone": "Asia/Tokyo",
+  "chapter": 17,
+  "coverage": "in-progress",
+  "content_audit": "complete",
+  "desktop_ui": {
+    "status": "complete",
+    "confirmed_unique": 12,
+    "expected_unique": 12,
+    "confirmed_question_ids": [
+      "challenge_047",
+      "challenge_048",
+      "challenge_cmp_17_01",
+      "chapterextra_17_01",
+      "chapterextra_17_02",
+      "chapterextra_17_03",
+      "coreq_17_01_1",
+      "coreq_17_01_2",
+      "coreq_17_01_3",
+      "coreq_17_02_1",
+      "coreq_17_02_2",
+      "coreq_17_02_3"
+    ],
+    "theme_sessions": [
+      3,
+      5
+    ],
+    "chapter_sessions": [
+      12
+    ],
+    "completed_questions": 20,
+    "grading_submissions": 21,
+    "intentional_first_try_incorrect": 1,
+    "retry_correct": 1,
+    "hints_verified": [
+      "coreq_17_01_2",
+      "coreq_17_02_1"
+    ],
+    "history_reload_verified": true,
+    "all_sessions_persisted": true,
+    "save_conflict_observed": false,
+    "guest": "new verification guest; earlier guest not reused or erased",
+    "xp_before_chapter": 120,
+    "xp_after_reload": 417,
+    "lessons_after_reload": {
+      "overall": "2/130",
+      "chapter17": "2/2",
+      "mastered": "1/2"
+    },
+    "bank": 979,
+    "ui_history_date": "2026-10-05",
+    "history_scores": [
+      {
+        "session": "chapter17",
+        "score": "12/12",
+        "percentage": 100
+      },
+      {
+        "session": "core_17_02",
+        "score": "5/5",
+        "percentage": 100
+      },
+      {
+        "session": "core_17_01",
+        "score": "2/3",
+        "percentage": 67,
+        "retry": 1
+      }
+    ],
+    "pending_question_ids": [],
+    "evidence_file": "fequest-ch17-history-1791240004011.jpg",
+    "evidence_in_public_repository": false,
+    "typography": {
+      "measured_elements": 132,
+      "body_sizes_px": [
+        18
+      ],
+      "viewport": 1348,
+      "document_width": 1348,
+      "articles_per_lesson": 1
+    },
+    "complete_term_names_verified": true
+  },
+  "mobile_acceptance": "not-verified",
+  "source": {
+    "repository": "taiwanwan64/fe-quest-private-source",
+    "primary": {
+      "pr": 124,
+      "head": "bf8a8737a8c55fc4e3dc0e9140f92d2e63f7cb3e",
+      "merge": "daca2f6d65fd2de5318b487cce6102dfea58112e",
+      "path": ".github/v376/ch17_reaudit_20261006.json",
+      "ci_run": 37382487145
+    },
+    "followup": {
+      "pr": 125,
+      "head": "58f9746cd38983a08de5df79b79256de5681494c",
+      "merge": "890bb3976f1ad0adcb9d907accf6cae1f35932f9",
+      "path": ".github/v376/ch17_term_names_20261006.json",
+      "ci_run": 37383431027
+    }
+  },
+  "publication": {
+    "implementation_pr": 330,
+    "head": "55e558f71ec011182faf877a5e3cc90bcde5afb0",
+    "verified_production_commit": "efffaab7695acd7710e4517a0a4a2980a017163c",
+    "publication_ci": 37382762957,
+    "v35_ci": 37382763225,
+    "verified_pages_run": 37382870641,
+    "cache": 174
+  },
+  "db": {
+    "active_lessons": 130,
+    "active_questions": 1180,
+    "primary_updated_lessons": 2,
+    "primary_updated_questions": 6,
+    "followup_updated_lessons": 1,
+    "followup_updated_questions": 0,
+    "after_retrieval_exact_match": true,
+    "final_retrieval_rows": 14,
+    "outside_rows_and_metadata": "all full rows compared within both transactions",
+    "ids_stems_options_answers_versions_active_dates_preserved": true,
+    "history_schema_unchanged": true,
+    "regrading": false
+  },
+  "next_chapter": 18
+}
