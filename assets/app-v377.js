@@ -5836,11 +5836,18 @@ function fequestPrepareResponsiveLessonTablesV377(root){
   });
 }
 function expandLearningAbbreviations(text){
+  const value=String(text??'');
+  // An abbreviation inside a complete English name is part of that name.
+  const names=[...Object.values(LEARNING_ABBREVIATIONS),'Artificial Intelligence for IT Operations','Information Technology Infrastructure Library'];
+  const namePattern=new RegExp(names.sort((a,b)=>b.length-a.length).map(fequestEscapeRegExpV377).join('|'),'g');
+  const nameRanges=[...value.matchAll(namePattern)].map(match=>[match.index,match.index+match[0].length]);
   const entries=Object.entries(LEARNING_ABBREVIATIONS).sort((a,b)=>b[0].length-a[0].length);
   const eligible=entries.filter(([key])=>!LEARNING_ABBREVIATION_AUTO_BLOCKLIST_V377.has(key));
   const byAbbreviation=Object.fromEntries(eligible);
   const pattern=new RegExp(`(^|[^A-Za-z0-9])(${eligible.map(([key])=>fequestEscapeRegExpV377(key)).join('|')})(?![A-Za-z0-9]|\\s*[（(])`,'g');
-  return String(text??'').replace(pattern,(_,pre,abbr)=>{
+  return value.replace(pattern,(_,pre,abbr,offset)=>{
+    const start=offset+pre.length;
+    if(nameRanges.some(([from,to])=>start>=from&&start+abbr.length<=to))return pre+abbr;
     const full=byAbbreviation[abbr];
     const japanese=LEARNING_ENGLISH_GLOSSES_JA_V377[full];
     return `${pre}${abbr}（${full}${japanese?'／'+japanese:''}）`;
