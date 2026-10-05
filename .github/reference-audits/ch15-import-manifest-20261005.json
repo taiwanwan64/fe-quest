@@ -4,11 +4,11 @@
   "coverage": "in-progress",
   "content_audit": "complete",
   "desktop_ui": {
-    "status": "in-progress",
-    "confirmed_unique": 51,
+    "status": "complete",
+    "confirmed_unique": 52,
     "expected_unique": 52,
-    "completed_questions": 111,
-    "grading_submissions": 112,
+    "completed_questions": 141,
+    "grading_submissions": 142,
     "confirmed_question_ids": [
       "challenge_cmp_15_01",
       "challenge_cmp_15_02",
@@ -59,18 +59,48 @@
       "ipa92_a_rlo_001",
       "ipa92_a_rpo_001",
       "ipa92_a_rto_001",
+      "ipa92_a_service_request_001",
       "ipa92_a_sli_slo_001",
       "ipa92_a_sli_slo_002"
     ],
-    "pending_question_ids": [
-      "ipa92_a_service_request_001"
-    ],
-    "pending_acceptance": [
-      "finish pending question via normal UI",
-      "verify latest history and progress after final reload",
-      "save final screenshot"
-    ],
-    "browser_blocker": "409 Conflict / environment_offline: Environment is not connected"
+    "pending_question_ids": [],
+    "pending_acceptance": [],
+    "browser_blocker": null,
+    "completion_followup": {
+      "audit_date": "2026-10-05",
+      "new_confirmation_guest": true,
+      "first_session_questions": 10,
+      "first_session_first_try_correct": 10,
+      "first_session_retries": 0,
+      "service_request_position": 3,
+      "history_reload_verified": true,
+      "first_session_xp_after_reload": 270,
+      "lessons_after_reload": {
+        "overall": "1/130",
+        "chapter15": "1/8",
+        "mastered": "0/8"
+      },
+      "topic_bank_after_reload": "10/13",
+      "subject_a_bank": 979,
+      "prior_guest_progress_not_overwritten": true,
+      "second_session_questions": 10,
+      "second_session_first_try_correct": 10,
+      "third_session_questions": 10,
+      "third_session_first_try_correct": 10,
+      "second_third_session_retries": 0,
+      "aiops_after_deployment_verified": true,
+      "rfc_after_deployment_verified": true,
+      "rfc_third_session_position": 6,
+      "evidence_file": "fequest-ch15-rfc-verified-1791172375131.jpg",
+      "evidence_in_public_repository": false,
+      "final_history_reload_verified": true,
+      "final_recent_history_entries": 3,
+      "final_recent_history_each_correct": "10/10",
+      "final_recent_history_each_percentage": 100,
+      "final_history_display_date": "2026-10-04",
+      "final_xp_after_reload": 500,
+      "final_topic_bank_after_reload": "12/13"
+    }
   },
   "mobile_acceptance": "not-verified",
   "source": {
@@ -83,9 +113,11 @@
   "publication": {
     "implementation_pr": 320,
     "english_name_fix_pr": 321,
-    "verified_production_commit": "63581b3815212d918683c921c4345d470c635a8b",
-    "verified_pages_run": 37241317724,
-    "cache": 170
+    "verified_production_commit": "f5aed480f4bb411df3f1572fa18dc47e4d306c3a",
+    "verified_pages_run": 37260593402,
+    "cache": 172,
+    "aiops_name_fix_pr": 323,
+    "rfc_context_fix_pr": 324
   },
   "db": {
     "active_lessons": 130,
