@@ -2518,7 +2518,7 @@ function renderChoiceExplanations(q){
         <span class="choice-mark">×</span>
         <b>${letters[i]}. ${escapeHtml(op)}</b>
       </div>
-      <div class="choice-explanation-body">${/^core_05_/.test(q.coreTopicId||'')?chapterFiveLearningHtmlV377(reason):learningHtml(reason)}</div>
+      <div class="choice-explanation-body">${/^core_05_/.test(q.coreTopicId||'')?chapterFiveLearningHtmlV377(reason):learningHtml(reason,q.coreTopicId)}</div>
     </div>`;
   }).join('');
   return `<div class="choice-explanations">
@@ -2532,7 +2532,7 @@ function renderFinalQuizExplanation(q){
   root.innerHTML=`
     <div class="answer-rationale">
       <div class="answer-rationale-title">正解の根拠</div>
-      <div>${/^core_05_/.test(q.coreTopicId||'')?chapterFiveLearningHtmlV377(q.exp):learningHtml(q.exp)}</div>
+      <div>${/^core_05_/.test(q.coreTopicId||'')?chapterFiveLearningHtmlV377(q.exp):learningHtml(q.exp,q.coreTopicId)}</div>
     </div>
     ${renderChoiceExplanations(q)}
   `;
@@ -5835,7 +5835,7 @@ function fequestPrepareResponsiveLessonTablesV377(root){
     });
   });
 }
-function expandLearningAbbreviations(text){
+function expandLearningAbbreviations(text,coreTopicId=''){
   const value=String(text??'');
   // An abbreviation inside a complete English name is part of that name.
   const names=[...Object.values(LEARNING_ABBREVIATIONS),'Artificial Intelligence for IT Operations','Information Technology Infrastructure Library'];
@@ -5848,12 +5848,13 @@ function expandLearningAbbreviations(text){
   return value.replace(pattern,(_,pre,abbr,offset)=>{
     const start=offset+pre.length;
     if(nameRanges.some(([from,to])=>start>=from&&start+abbr.length<=to))return pre+abbr;
-    const full=byAbbreviation[abbr];
-    const japanese=LEARNING_ENGLISH_GLOSSES_JA_V377[full];
+    const serviceRequest=abbr==='RFC'&&/^core_15_/.test(coreTopicId);
+    const full=serviceRequest?'Request for Change':byAbbreviation[abbr];
+    const japanese=serviceRequest?'変更要求':LEARNING_ENGLISH_GLOSSES_JA_V377[full];
     return `${pre}${abbr}（${full}${japanese?'／'+japanese:''}）`;
   });
 }
-function learningHtml(text){return escapeHtml(expandLearningAbbreviations(text));}
+function learningHtml(text,coreTopicId=''){return escapeHtml(expandLearningAbbreviations(text,coreTopicId));}
 
 // Keep symbolic availability formulas intact; explain abbreviations in prose,
 // once per feedback block. Other chapters retain their existing rendering.
