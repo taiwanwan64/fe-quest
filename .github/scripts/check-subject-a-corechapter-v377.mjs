@@ -301,3 +301,25 @@ for(let n=0;n<100;n++){
  for(const [i,t] of chapter16Curriculum.entries())assert.equal(chapter16Ctx.select('coretopic:'+t.id).length,[7,3,10,3][i]);
 }
 console.log('PASS Chapter 16: 28 metadata, chapter check 12 unique/all 4 themes/comparison; direct practice 7/3/10/3');
+
+const chapter17Curriculum=['core_17_01','core_17_02'].map(id=>({chapter:17,id}));
+const chapter17Metadata=[...new Map(fs.readdirSync('assets').filter(f=>/^question-catalog.*\.json$/.test(f)).flatMap(f=>JSON.parse(fs.readFileSync('assets/'+f,'utf8')).items||[]).filter(x=>x.coreTopicId?.startsWith('core_17_')).map(x=>[x.id,x])).values()];
+assert.equal(chapter17Metadata.length,12);
+const chapter17Bank=chapter17Metadata.filter(x=>x.sourcePool==='subject_a');
+const chapter17Extras=chapter17Metadata.filter(x=>x.sourcePool==='chapter_extra');
+assert.equal(chapter17Bank.length,9);assert.equal(chapter17Extras.length,3);
+const chapter17Ctx={QUESTION_BANK:chapter17Bank,CORE_A_CURRICULUM:chapter17Curriculum,CORE_A_CHAPTER_EXTRA_QUESTIONS:{'17':chapter17Extras},subjectATrackedMetadataV376:()=>chapter17Metadata,globalThis:{}};
+vm.createContext(chapter17Ctx);vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter17Ctx);
+for(let n=0;n<100;n++){
+ const selected=Array.from(chapter17Ctx.select('corechapter:17'));
+ assert.equal(selected.length,12);assert.equal(new Set(selected.map(x=>x.id)).size,12);
+ for(const t of chapter17Curriculum)assert.ok(selected.some(x=>x.coreTopicId===t.id));
+ assert.ok(selected.some(x=>x.id==='challenge_cmp_17_01'));
+ assert.equal(selected.filter(x=>x.sourcePool==='chapter_extra').length,3);
+ for(const [i,t] of chapter17Curriculum.entries()){
+  const direct=Array.from(chapter17Ctx.select('coretopic:'+t.id));
+  assert.equal(direct.length,[3,5][i]);assert.equal(chapter17Ctx.coreTopicImmediatePracticeCountV377(t.id),direct.length);
+  assert.ok(direct.every(x=>!x.id.startsWith('challenge_cmp_')&&!x.id.startsWith('chapterextra_')));
+ }
+}
+console.log('PASS Chapter 17: 12 metadata, all unique/all 2 themes/comparison/3 extras; direct practice 3/5');
