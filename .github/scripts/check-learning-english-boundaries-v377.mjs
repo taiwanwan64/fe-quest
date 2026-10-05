@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 const source=fs.readFileSync('assets/app-v377.js','utf8');
 const start=source.indexOf('const LEARNING_ABBREVIATIONS=');
-const end=source.indexOf('function learningHtml(text)',start);
+const end=source.indexOf('function learningHtml(',start);
 assert.ok(start>=0&&end>start);
 const ctx={};vm.createContext(ctx);vm.runInContext(source.slice(start,end),ctx);
 const localize=ctx.fequestLocalizeLearningEnglishTextV377;
@@ -28,4 +28,9 @@ assert.equal(expand('Information Technology Infrastructure Library'), 'Informati
 assert.equal(expand('IT運用とAI活用'), 'IT（Information Technology／情報技術）運用とAI（Artificial Intelligence／人工知能）活用');
 assert.equal(expand('CPU（Central Processing Unit）はCPUを使います。'), 'CPU（Central Processing Unit）はCPU（Central Processing Unit／中央処理装置）を使います。');
 for(const name of Object.values(vm.runInContext('LEARNING_ABBREVIATIONS',ctx)))assert.equal(expand(name),name);
+assert.equal(expand('RFCは変更を要求する文書です。','core_15_08'),'RFC（Request for Change／変更要求）は変更を要求する文書です。');
+assert.equal(expand('RFCを参照します。','core_10_07'),'RFC（Request for Comments／インターネット技術仕様文書）を参照します。');
+assert.equal(expand('RFC（Request for Change／変更要求）','core_15_08'),'RFC（Request for Change／変更要求）');
+assert.ok(source.includes('learningHtml(reason,q.coreTopicId)'));
+assert.ok(source.includes('learningHtml(q.exp,q.coreTopicId)'));
 console.log('PASS complete English names remain intact; standalone glosses and idempotence preserved');
