@@ -1,0 +1,227 @@
+{
+  "audit_date": "2026-10-05",
+  "chapter": 16,
+  "coverage": "in-progress",
+  "content_audit": "complete",
+  "desktop_ui": {
+    "status": "complete",
+    "confirmed_unique": 28,
+    "expected_unique": 28,
+    "confirmed_question_ids": [
+      "challenge_cmp_16_01",
+      "challenge_cmp_16_02",
+      "challenge_cmp_16_03",
+      "challenge_cmp_16_04",
+      "coreq_16_01_1",
+      "coreq_16_01_2",
+      "coreq_16_01_3",
+      "coreq_16_02_1",
+      "coreq_16_02_2",
+      "coreq_16_02_3",
+      "coreq_16_03_1",
+      "coreq_16_03_2",
+      "coreq_16_03_3",
+      "coreq_16_04_1",
+      "coreq_16_04_2",
+      "coreq_16_04_3",
+      "ipa92_a_cloud_by_default_001",
+      "ipa92_a_cloud_by_default_002",
+      "ipa92_a_cloud_deploy_001",
+      "ipa92_a_cloud_deploy_002",
+      "ipa92_a_cloud_model_001",
+      "ipa92_a_cloud_model_002",
+      "ipa92_a_cloud_native_001",
+      "ipa92_a_cloud_native_002",
+      "ipa92_a_enterprise_architecture_001",
+      "ipa92_a_soa_001",
+      "ipa92_a_wfa_001",
+      "ipa92_a_zachman_framework_001"
+    ],
+    "theme_sessions": [
+      7,
+      3,
+      10,
+      3
+    ],
+    "chapter_sessions": [
+      12,
+      12,
+      12
+    ],
+    "grading_submissions": 60,
+    "completed_questions": 59,
+    "intentional_first_try_incorrect": 1,
+    "retry_correct": 1,
+    "all_sessions_persisted": false,
+    "save_conflict_observed": true,
+    "save_conflict_context": "Concurrent follow-up screen reported in public PR #327; stopped saves are not claimed retained.",
+    "final_single_screen_session": {
+      "questions": 12,
+      "first_try_correct": 12,
+      "percentage": 100,
+      "xp_before": 607,
+      "xp_after_reload": 727,
+      "history_reload_verified": true,
+      "lessons_after_reload": {
+        "overall": "4/130",
+        "chapter16": "4/4",
+        "mastered": "1/4"
+      },
+      "bank": 979,
+      "save_conflict": false
+    },
+    "evidence_file": "fequest-ch16-history-1791191022663.jpg",
+    "evidence_in_public_repository": false,
+    "pending_question_ids": [],
+    "pending_acceptance": [],
+    "browser_blocker": null
+  },
+  "mobile_acceptance": "not-verified",
+  "source": {
+    "repository": "taiwanwan64/fe-quest-private-source",
+    "primary": {
+      "head": "d3664a2ccb21b5d496bafbf9d43587ac5a03d8c2",
+      "merged_commit": "b6221a28de5812ab1f04ddc7cde8cdfa00c5a929",
+      "pr": 122,
+      "path": ".github/v376/ch16_reaudit_20261005.json",
+      "ci_run": 37284437942
+    },
+    "followup": {
+      "head": "847c10d64ec4f702125b4f5522f41053a3591163",
+      "merged_commit": "423f94465f047592b4b660e52b8f7baabc903ab1",
+      "pr": 123,
+      "path": ".github/v376/ch16_solution_hints_20261005.json",
+      "ci_run": 37285337927
+    }
+  },
+  "publication": {
+    "implementation_pr": 326,
+    "followup_pr": 327,
+    "verified_production_commit": "aae364e43811f66fceaff41c429d07271c20a11c",
+    "verified_pages_run": 37286475029,
+    "cache": 173
+  },
+  "db": {
+    "active_lessons": 130,
+    "active_questions": 1180,
+    "updated_lessons": 4,
+    "updated_questions": 7,
+    "after_retrieval_exact_match": true,
+    "final_retrieval_rows": 32,
+    "primary_delta_invariant_digests": {
+      "other_lessons": "043f3d87ba226e73566dd8218511be2b",
+      "lesson_metadata": "b5a797f3ceb624353bd9937f5ee959c4",
+      "other_questions": "8680718e501106e0c8810486ca6f55a2",
+      "question_metadata": "c016097555a38e8cb570386359c6ce6f"
+    }
+  },
+  "lessons": [
+    {
+      "id": "core_16_01",
+      "content_version": "v376-lessons-ch16-visual-depth-v397-20260920",
+      "active": true
+    },
+    {
+      "id": "core_16_02",
+      "content_version": "v376-lessons-ch16-visual-depth-v397-20260920",
+      "active": true
+    },
+    {
+      "id": "core_16_03",
+      "content_version": "v376-lessons-ch16-visual-depth-v397-20260920",
+      "active": true
+    },
+    {
+      "id": "core_16_04",
+      "content_version": "v376-lessons-ch16-visual-depth-v397-20260920",
+      "active": true
+    }
+  ],
+  "updated_questions": [
+    {
+      "id": "coreq_16_01_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_16_01_3",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_16_02_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_16_03_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "stem",
+        "hint",
+        "explanation",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_16_04_1",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "stem",
+        "explanation",
+        "hint",
+        "choice_explanations"
+      ]
+    },
+    {
+      "id": "coreq_16_03_2",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint"
+      ]
+    },
+    {
+      "id": "coreq_16_03_3",
+      "content_version": "v376-protected-final",
+      "active": true,
+      "changed_fields": [
+        "hint"
+      ]
+    }
+  ],
+  "protected_fields_preserved": [
+    "id",
+    "options",
+    "answer_index",
+    "source_pool",
+    "catalog",
+    "extra",
+    "content_version",
+    "active",
+    "created_at"
+  ],
+  "history_regraded": false,
+  "reference_pages": {
+    "pdf_start": 579,
+    "pdf_end": 604,
+    "printed_start": 561,
+    "printed_end": 586,
+    "total": 26
+  }
+}
