@@ -21,6 +21,7 @@
 - immutable merged delta `.github/v376/ch16_solution_hints_20261005.json`を作成内容と照合後、完全expected行を検査する単一transactionで適用。2行以外のhintと、全行のhint以外の列の不変性をtransaction内で検査。
 - 反映後、別SQLで2行の全フィールドがexpected＋replaceと完全一致することを確認。
 - active 130教材・1180問・第16章28問を維持。PR #122の適用済みdeltaは再実行していない。
+- 最後に全4教材・全28問をlive DBから独立に再取得し、開始時baselineへPR #122と#123のreplaceを重ねた期待値と全フィールド照合。一致32/32、差分0。
 
 ## 本番表示の独立確認
 
