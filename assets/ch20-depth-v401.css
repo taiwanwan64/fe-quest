@@ -9,11 +9,11 @@
 #lesson .ch20-depth-v401 .ch20-helper-v401{font-size:16px;line-height:1.5}
 #lesson .ch20-visual-v401{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
 #lesson .ch20-visual-v401>h3{margin:0 0 12px;font-size:20px;color:#17364b}
-#lesson .ch20-note-v401{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch20-note-v401{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:18px;line-height:1.6}
 #lesson .ch20-card-v401{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .ch20-card-v401>b{display:block;font-size:18px;color:#17364b}
 #lesson .ch20-card-v401>span,
-#lesson .ch20-card-v401>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch20-card-v401>p{display:block;margin-top:5px;font-size:18px;line-height:1.5;color:#425b68}
 #lesson .ch20-grid2-v401{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #lesson .ch20-grid3-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .ch20-grid4-v401{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
@@ -21,7 +21,7 @@
 #lesson .ch20-table-v401{overflow-x:auto}
 #lesson .ch20-table-v401 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
 #lesson .ch20-table-v401 th,
-#lesson .ch20-table-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch20-table-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:18px;vertical-align:top}
 #lesson .ch20-table-v401 th{background:#eef5f8;color:#17364b}
 #lesson .ch20-flow-v401{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
 #lesson .ch20-flow-v401 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
@@ -59,7 +59,7 @@
 #lesson .weighted-v401{overflow-x:auto}
 #lesson .weighted-v401 table{width:100%;min-width:650px;border-collapse:collapse;background:#fff}
 #lesson .weighted-v401 th,
-#lesson .weighted-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;text-align:center}
+#lesson .weighted-v401 td{border:1px solid #c9d8de;padding:9px 10px;font-size:18px;text-align:center}
 #lesson .weighted-v401 th{background:#eef5f8;color:#17364b}
 
 /* 20-04 */
@@ -75,7 +75,7 @@
 #lesson .bs-v401>div:first-child{border-right:1px solid #c9d8de}
 #lesson .profit-stairs-v401{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:end}
 #lesson .profit-stairs-v401>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;min-height:90px}
-#lesson .profit-stairs-v401 b{display:block;font-size:15px;color:#17364b}
+#lesson .profit-stairs-v401 b{display:block;font-size:18px;color:#17364b}
 #lesson .cashflow3-v401{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .cashflow3-v401>div{padding:12px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 
@@ -122,3 +122,27 @@
   #lesson .bs-v401{grid-template-columns:1fr}
   #lesson .bs-v401>div:first-child{border-right:0;border-bottom:1px solid #c9d8de}
 }
+
+/* Whole-article typography and bounded diagrams. */
+#lesson .ch20-depth-v401{max-width:100%;overflow-wrap:anywhere}
+#lesson .ch20-depth-v401 .beginner-term>span,
+#lesson .ch20-depth-v401 .beginner-term>b,
+#lesson .ch20-depth-v401 .core-cue-trigger,
+#lesson .ch20-depth-v401 .core-cue-think,
+#lesson .ch20-depth-v401 .core-compare-table th,
+#lesson .ch20-depth-v401 .core-compare-table td,
+#lesson .ch20-depth-v401 .ipa92-coverage-extension th,
+#lesson .ch20-depth-v401 .ipa92-coverage-extension td{font-size:18px;line-height:1.65}
+#lesson .ch20-depth-v401 .core-compare-wrap,
+#lesson .ch20-depth-v401 .ipa92-coverage-extension,
+#lesson .ch20-chart-v401{max-width:100%;overflow-x:auto}
+#lesson .ch20-depth-v401 .core-compare-table{min-width:600px}
+#lesson .ch20-table-v401{max-width:100%}
+#lesson .ch20-chart-v401 svg{display:block;width:100%;min-width:600px;max-width:760px;height:auto}
+#lesson .org5-v401>div,
+#lesson .officers-v401>div,
+#lesson .training-v401>div,
+#lesson .people-policy-v401>div,
+#lesson .abc-v401>div,
+#lesson .correlation-v401>div,
+#lesson .cashflow3-v401>div{min-width:0}
