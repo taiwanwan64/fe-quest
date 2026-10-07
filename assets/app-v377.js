@@ -5723,7 +5723,7 @@ function fequestLocalizeLearningEnglishTextV377(text){
     const rawAfter=String(whole).slice(offset+english.length);
     if(/[A-Za-z]$/.test(before)||/^[A-Za-z]/.test(rawAfter)||/^\s+[A-Za-z]/.test(rawAfter))return english;
     const after=String(whole).slice(offset+english.length).trimStart();
-    const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('：'+japanese)||after.startsWith(':'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')');
+    const alreadyLocalized=after.startsWith('／'+japanese)||after.startsWith('/'+japanese)||after.startsWith('：'+japanese)||after.startsWith(':'+japanese)||after.startsWith('（'+japanese+'）')||after.startsWith('('+japanese+')')||/^[／/：:、,]\s*[^）)\n]*[ぁ-んァ-ヶ一-龯]/.test(after);
     return alreadyLocalized?english:english+'／'+japanese;
   });
   return s;
