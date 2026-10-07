@@ -19,7 +19,10 @@ const labels=['short','full'].map(kind=>({dataset:{subjectABankCount:kind},textC
 const rowNodes=Array.from({length:6},()=>({textContent:'old count'}));
 const rows=rowNodes.map((node,i)=>({dataset:{coreLesson:`core_06_0${i+1}`},querySelector:()=>node}));
 const bank=JSON.parse(fs.readFileSync('assets/question-catalog-v376.json','utf8')).items.filter(q=>q.sourcePool==='subject_a');
+const memoryDisplays=[],forecastDisplays=[];
 const ctx={QUESTION_BANK:bank,console,rows,labels,
+  renderMemoryHealth:()=>memoryDisplays.push(new Set(bank.map(q=>q.id)).size),
+  renderReviewForecast:()=>forecastDisplays.push(new Set(bank.map(q=>q.id)).size),
   document:{querySelectorAll:selector=>selector==='[data-subject-a-bank-count]'?labels:rows,createElement:()=>{throw Error('unexpected provider load');}},
   FEQUEST_PROTECTED_CONTENT:{version:'v376-provider-33-ipa92-v1-v35-bgap1',catalogTotal:1180},
   coreTopicLearningState:id=>({attempted:2,total:new Set(bank.filter(q=>q.coreTopicId===id&&!q.id.startsWith('challenge_cmp_')).map(q=>q.id)).size}),
@@ -35,6 +38,8 @@ vm.runInContext(config,ctx);
 assert.equal((await ctx.FEQUEST_IPA92_V35_PROVIDER_READY).ok,true);
 assert.equal(labels[0].textContent,'問題バンク979問');
 assert.equal(labels[1].textContent,'科目A 問題バンク：979問');
+assert.equal(memoryDisplays.at(-1),979,'late metadata refreshes memory population');
+assert.equal(forecastDisplays.at(-1),979,'late metadata refreshes review forecast');
 for(const [i,n] of [10,3,3,3,4,4].entries())assert.equal(rowNodes[i].textContent,`テーマ演習 ${n}問・バンク回答 2/${n}`);
 // Reused provider and repeated metadata registration stay idempotent.
 vm.runInContext(config,ctx);

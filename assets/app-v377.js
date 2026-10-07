@@ -6343,6 +6343,10 @@ function refreshQuestionMetadataUIV377(){
     const id=row.dataset.coreLesson,state=coreTopicLearningState(id);
     node.textContent=`テーマ演習 ${coreTopicImmediatePracticeCountV377(id)}問${state.attempted?`・バンク回答 ${state.attempted}/${state.total}`:''}`;
   });
+  // Late metadata also changes the tracked memory/forecast population after reload.
+  // Refresh only these display regions; never replace an active quiz or planner form.
+  renderMemoryHealth();
+  renderReviewForecast();
 }
 globalThis.refreshQuestionMetadataUIV377=refreshQuestionMetadataUIV377;
 
