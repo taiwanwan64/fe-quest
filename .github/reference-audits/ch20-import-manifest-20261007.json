@@ -1,0 +1,260 @@
+{
+  "chapter": 20,
+  "date": "2026-10-07",
+  "status": "content-applied-ui-acceptance-incomplete",
+  "publicImplementation": {
+    "pr": 338,
+    "head": "765ab13e33b9a1150a9f5649badd311681c1f3ff",
+    "main": "33e7a4524d01e032826d9470c70f3be64b137c92",
+    "publicationRun": 37604791709,
+    "v35Run": 37604791576,
+    "pagesRun": 37604968565,
+    "conclusion": "success",
+    "cache": 179
+  },
+  "protectedImplementation": {
+    "pr": 128,
+    "head": "219db4ae0b78ab3af30208a7187376130ba049af",
+    "main": "f877616b37a897e1c5b88de745047e4b6324fc88",
+    "ciRun": 37604772322,
+    "conclusion": "success",
+    "deltaPath": ".github/v376/ch20_reaudit_20261007.json"
+  },
+  "database": {
+    "appliedOnce": true,
+    "doNotReapply": true,
+    "lessonUpdates": 7,
+    "questionUpdates": 24,
+    "exactReadbackRows": 52,
+    "totalLessons": 130,
+    "totalQuestions": 1180,
+    "unrelatedRowsPreserved": true,
+    "immutableFieldsPreserved": true,
+    "historyRegraded": false
+  },
+  "auditedQuestionIds": [
+    "challenge_053",
+    "challenge_054",
+    "challenge_055",
+    "challenge_056",
+    "challenge_057",
+    "challenge_058",
+    "challenge_cmp_20_01",
+    "challenge_cmp_20_02",
+    "challenge_cmp_20_03",
+    "challenge_v92_20_07",
+    "coreq_20_01_1",
+    "coreq_20_01_2",
+    "coreq_20_01_3",
+    "coreq_20_02_1",
+    "coreq_20_02_2",
+    "coreq_20_02_3",
+    "coreq_20_03_1",
+    "coreq_20_03_2",
+    "coreq_20_03_3",
+    "coreq_20_04_1",
+    "coreq_20_04_2",
+    "coreq_20_04_3",
+    "coreq_20_05_1",
+    "coreq_20_05_2",
+    "coreq_20_05_3",
+    "coreq_20_06_1",
+    "coreq_20_06_2",
+    "coreq_20_06_3",
+    "coreq_20_07_1",
+    "coreq_20_07_2",
+    "coreq_20_07_3",
+    "ipa92_a_bcp_bcm_bia_001",
+    "ipa92_a_bi_data_mining_001",
+    "ipa92_a_boxplot_001",
+    "ipa92_a_cashflow_classification_001",
+    "ipa92_a_eoq_001",
+    "ipa92_a_equity_fixed_ratio_001",
+    "ipa92_a_financial_statements_roles_001",
+    "ipa92_a_heatmap_001",
+    "ipa92_a_inventory_001",
+    "ipa92_a_lp_001",
+    "ipa92_a_lp_002",
+    "ipa92_a_margin_of_safety_001",
+    "ipa92_a_regression_moving_average_001",
+    "ipa92_a_roa_roe_001"
+  ],
+  "modifiedQuestionIds": [
+    "coreq_20_01_1",
+    "coreq_20_01_2",
+    "coreq_20_01_3",
+    "coreq_20_02_1",
+    "coreq_20_02_2",
+    "coreq_20_02_3",
+    "coreq_20_03_1",
+    "coreq_20_03_2",
+    "coreq_20_03_3",
+    "coreq_20_04_1",
+    "coreq_20_04_2",
+    "coreq_20_04_3",
+    "coreq_20_05_1",
+    "coreq_20_05_2",
+    "coreq_20_05_3",
+    "coreq_20_06_1",
+    "coreq_20_06_2",
+    "coreq_20_06_3",
+    "challenge_cmp_20_01",
+    "challenge_cmp_20_02",
+    "challenge_cmp_20_03",
+    "coreq_20_07_2",
+    "coreq_20_07_3",
+    "ipa92_a_lp_002"
+  ],
+  "ui": {
+    "verifiedQuestionIds": [
+      "challenge_053",
+      "challenge_054",
+      "coreq_20_01_1",
+      "coreq_20_01_2",
+      "coreq_20_01_3",
+      "coreq_20_02_1",
+      "coreq_20_02_2",
+      "coreq_20_02_3",
+      "coreq_20_03_1",
+      "coreq_20_03_2",
+      "coreq_20_03_3",
+      "coreq_20_04_1",
+      "coreq_20_04_2",
+      "coreq_20_04_3",
+      "ipa92_a_bcp_bcm_bia_001",
+      "ipa92_a_eoq_001",
+      "ipa92_a_inventory_001",
+      "ipa92_a_lp_001",
+      "ipa92_a_lp_002",
+      "ipa92_a_margin_of_safety_001"
+    ],
+    "remainingQuestionIds": [
+      "challenge_055",
+      "challenge_056",
+      "challenge_057",
+      "challenge_058",
+      "challenge_cmp_20_01",
+      "challenge_cmp_20_02",
+      "challenge_cmp_20_03",
+      "challenge_v92_20_07",
+      "coreq_20_05_1",
+      "coreq_20_05_2",
+      "coreq_20_05_3",
+      "coreq_20_06_1",
+      "coreq_20_06_2",
+      "coreq_20_06_3",
+      "coreq_20_07_1",
+      "coreq_20_07_2",
+      "coreq_20_07_3",
+      "ipa92_a_bi_data_mining_001",
+      "ipa92_a_boxplot_001",
+      "ipa92_a_cashflow_classification_001",
+      "ipa92_a_equity_fixed_ratio_001",
+      "ipa92_a_financial_statements_roles_001",
+      "ipa92_a_heatmap_001",
+      "ipa92_a_regression_moving_average_001",
+      "ipa92_a_roa_roe_001"
+    ],
+    "verifiedQuestionPositions": 20,
+    "verifiedGradingSubmissions": 21,
+    "firstWrongCount": 1,
+    "retryCount": 1,
+    "results": [
+      {
+        "topic": "20-01",
+        "firstCorrect": 3,
+        "total": 4,
+        "percent": 75,
+        "xp": 37
+      },
+      {
+        "topic": "20-02",
+        "firstCorrect": 3,
+        "total": 3,
+        "percent": 100,
+        "xp": 30
+      },
+      {
+        "topic": "20-03",
+        "firstCorrect": 7,
+        "total": 7,
+        "percent": 100,
+        "xp": 70
+      },
+      {
+        "topic": "20-04",
+        "firstCorrect": 6,
+        "total": 6,
+        "percent": 100,
+        "xp": 60
+      }
+    ],
+    "lastConfirmedXp": 517,
+    "lastConfirmedCompletedLessons": 4,
+    "lessonDisplayMetrics": [
+      {
+        "topic": "20-01",
+        "elements": 58,
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1348,
+        "documentScrollWidth": 1348
+      },
+      {
+        "topic": "20-02",
+        "elements": 66,
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1348,
+        "documentScrollWidth": 1348
+      },
+      {
+        "topic": "20-03",
+        "elements": 110,
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1348,
+        "documentScrollWidth": 1348
+      },
+      {
+        "topic": "20-04",
+        "elements": 45,
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1348,
+        "documentScrollWidth": 1348
+      },
+      {
+        "topic": "20-05",
+        "elements": 132,
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1348,
+        "documentScrollWidth": 1348
+      }
+    ],
+    "chapterExerciseVerified": false,
+    "reloadPersistenceVerified": false,
+    "screenshotCaptured": false,
+    "physicalMobileVerified": false,
+    "interruption": "CUA command, DOM snapshot and reset each timed out after 300 seconds; local exec-server transport subsequently disconnected. No response from the pending 20-05 start/answer call was returned. Its effect is unknown; inspect actual UI before resuming."
+  },
+  "resume": [
+    "Verify live GitHub main, branches, PRs and CI/Pages first.",
+    "Do not reapply the protected DB delta; compare immutable source and readback if needed.",
+    "Inspect current browser state; 20-05 start/answer call effects are unknown.",
+    "Finish 20-05 (9), 20-06 (5), 20-07 (8), comparison questions (3), and chapter 12-question selection.",
+    "Check reload persistence, XP/progress/history/memory and screenshot; retain physical-mobile pending.",
+    "Finish Chapter20 acceptance before moving to Chapter21."
+  ]
+}

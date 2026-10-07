@@ -14,8 +14,16 @@
 
 本文・用語・カード・表を18pxへ統一、短い図ラベル16px以上、SVGは18px。狭幅グリッド一列化・表/SVGラッパー横スクロールを維持。PWA cache179を3workflowと同期。実選択関数100回で直接4/3/7/6/9/5/8、章末12unique・全7テーマ・比較保証を確認。保護validatorは7教材・45監査ID・24限定修正、不変フィールドと独立数値例を検査。
 
-## 受入の現状
-実装・保護差分のローカル検査済み。PR CI・merge・DB適用・本番全45問と保存状態はまだ未確認。確認後にこの段落を確定実績へ置き換える。実スマホ受入は未確認。coverage in-progress、IPA対応43項目（37 in-progress / 6 verified-covered）は維持。
+## 受入の現状（本番反映済み・画面受入は未完了）
+- 非公開[PR #128](https://github.com/taiwanwan64/fe-quest-private-source/pull/128)、head `219db4ae0b78ab3af30208a7187376130ba049af`、保護CI `37604772322` success。private main `f877616b37a897e1c5b88de745047e4b6324fc88`。
+- 公開[PR #338](https://github.com/taiwanwan64/fe-quest/pull/338)、head `765ab13e33b9a1150a9f5649badd311681c1f3ff`、publication `37604791709` / v35 `37604791576` success後merge。public main `33e7a4524d01e032826d9470c70f3be64b137c92`、同head Pages `37604968565` success。
+- immutable差分と期待値を照合してguarded transactionを1回だけ適用。7教材・24問題を更新し、全7教材45問の52行readbackが全フィールド期待値一致。130教材1180問、対象外行・metadata・ID・選択肢・正答index・版・active・日時を維持。過去履歴の再採点なし。**適用済みDB差分を再実行しない。**
+- 新規確認用ゲストで初期診断12/12・120XPから開始。20-01〜04の直接4/3/7/6問、20種類・21採点操作を通常UIで確認。各問の正解根拠と3誤答理由を表示。20-01は意図的誤答1件のhint→誤答選択肢無効化→再挑戦成功、初回3/4・75%・+37XP。他は3/3・7/7・6/6・100%。前回ゲストの進捗消去・復旧・保持は主張しない。
+- 20-01〜05の教材表示は読取済み。各article1個、本文・用語・カード・表は58/66/110/45/132要素（計411）が18px。1348pxデスクトップでページ横溢れなし。20-06/07の本番教材表示は未確認。SVGラベルの静的検査は18pxだが、画像としての目視検証は未完了。
+- 最後に応答した画面は20-05教材、517XP・教材4/130。20-05の演習開始/回答操作、その後のDOM読取、接続resetが各300秒でtimeout。開始/回答操作の実行結果は返らず、効果は不明。続いてlocal exec-serverもtransport disconnected。アプリの不具合と断定しない。再開時は実画面を確認してから続行する。
+- 残る本番25種類は20-05の9問・20-06の5問・20-07の8問・比較3問。章末12問、再読込後の保存状態・履歴・記憶件数、画面証拠は未確認。**第20章の全45問受入完了とは呼ばず、第21章へ進む前にこの残件を完了する。**
+- 第5〜20章の実スマホ狭幅・タッチ・横スクロール・縦横切替は未確認。coverage in-progress、IPA対応43項目（37 in-progress / 6 verified-covered）は維持。
+- 機械可読記録：`ch20-import-manifest-20261007.json`。記録PR後のmain/CI/Pagesはlive再確認する。
 
 ## 一次資料
 - [IPA FE 9.2](https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf)
