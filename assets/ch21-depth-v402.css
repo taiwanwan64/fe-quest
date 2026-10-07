@@ -9,21 +9,21 @@
 #lesson .ch21-depth-v402 .ch21-helper-v402{font-size:16px;line-height:1.5}
 #lesson .ch21-visual-v402{margin:18px 0;padding:16px;border:1px solid #d8e4e9;border-radius:16px;background:#f8fbfc}
 #lesson .ch21-visual-v402>h3{margin:0 0 12px;font-size:20px;color:#17364b}
-#lesson .ch21-note-v402{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:17px;line-height:1.6}
+#lesson .ch21-note-v402{margin-top:12px;padding:12px 14px;border-left:4px solid #f59e0b;border-radius:10px;background:#fff7ed;font-size:18px;line-height:1.6}
 #lesson .ch21-card-v402{min-width:0;padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .ch21-card-v402>b{display:block;font-size:18px;color:#17364b}
 #lesson .ch21-card-v402>span,
-#lesson .ch21-card-v402>p{display:block;margin-top:5px;font-size:16px;line-height:1.5;color:#425b68}
+#lesson .ch21-card-v402>p{display:block;margin-top:5px;font-size:18px;line-height:1.5;color:#425b68}
 #lesson .ch21-grid2-v402{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #lesson .ch21-grid3-v402{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #lesson .ch21-grid4-v402{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 #lesson .ch21-table-v402{overflow-x:auto}
 #lesson .ch21-table-v402 table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
 #lesson .ch21-table-v402 th,
-#lesson .ch21-table-v402 td{border:1px solid #c9d8de;padding:9px 10px;font-size:16px;vertical-align:top}
+#lesson .ch21-table-v402 td{border:1px solid #c9d8de;padding:9px 10px;font-size:18px;vertical-align:top}
 #lesson .ch21-table-v402 th{background:#eef5f8;color:#17364b}
 #lesson .ch21-flow-v402{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
-#lesson .ch21-flow-v402 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:16px;font-weight:800;text-align:center}
+#lesson .ch21-flow-v402 span{padding:10px 12px;border:1px solid #b9ccd5;border-radius:10px;background:#fff;font-size:18px;font-weight:800;text-align:center}
 #lesson .ch21-flow-v402 i{font-style:normal;color:#b45309}
 
 /* 21-01 */
@@ -43,7 +43,7 @@
 
 /* 21-03 */
 #lesson .cyber-all-v402{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-#lesson .cyber-all-v402>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center;font-size:15px;font-weight:800}
+#lesson .cyber-all-v402>div{padding:10px;border:1px solid #d8e4e9;border-radius:10px;background:#fff;text-align:center;font-size:18px;font-weight:800}
 #lesson .crime2-v402{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #lesson .crime2-v402>div{padding:13px;border:1px solid #d8e4e9;border-radius:12px;background:#fff}
 #lesson .unauth4-v402{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -90,3 +90,20 @@
   #lesson .industrial4-v402,
   #lesson .cyber-all-v402{grid-template-columns:1fr}
 }
+
+/* Whole-article baseline: core terms, IPA extensions and original examples. */
+#lesson .ch21-depth-v402{font-size:18px;overflow-wrap:anywhere;min-width:0}
+#lesson .ch21-depth-v402 p,
+#lesson .ch21-depth-v402 li,
+#lesson .ch21-depth-v402 td,
+#lesson .ch21-depth-v402 th,
+#lesson .ch21-depth-v402 .beginner-term>span,
+#lesson .ch21-depth-v402 .core-cue-trigger,
+#lesson .ch21-depth-v402 .core-cue-think{font-size:18px;line-height:1.72}
+#lesson .ch21-depth-v402 .core-compare-wrap,
+#lesson .ch21-depth-v402 .ipa92-coverage-extension{max-width:100%;overflow-x:auto}
+#lesson .ch21-depth-v402 .ipa92-coverage-extension table{width:100%;min-width:760px}
+#lesson .ch21-depth-v402 .core-cue-grid,
+#lesson .ch21-depth-v402 .beginner-term-list{min-width:0}
+#lesson .ch21-depth-v402 small,
+#lesson .ch21-depth-v402 .ch21-helper-v402{font-size:16px}
