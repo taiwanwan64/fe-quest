@@ -1,7 +1,7 @@
 {
   "chapter": 20,
   "date": "2026-10-07",
-  "status": "content-applied-ui-acceptance-incomplete",
+  "status": "content-applied-desktop-acceptance-complete-mobile-pending",
   "publicImplementation": {
     "pr": 338,
     "head": "765ab13e33b9a1150a9f5649badd311681c1f3ff",
@@ -109,6 +109,14 @@
     "verifiedQuestionIds": [
       "challenge_053",
       "challenge_054",
+      "challenge_055",
+      "challenge_056",
+      "challenge_057",
+      "challenge_058",
+      "challenge_cmp_20_01",
+      "challenge_cmp_20_02",
+      "challenge_cmp_20_03",
+      "challenge_v92_20_07",
       "coreq_20_01_1",
       "coreq_20_01_2",
       "coreq_20_01_3",
@@ -121,22 +129,6 @@
       "coreq_20_04_1",
       "coreq_20_04_2",
       "coreq_20_04_3",
-      "ipa92_a_bcp_bcm_bia_001",
-      "ipa92_a_eoq_001",
-      "ipa92_a_inventory_001",
-      "ipa92_a_lp_001",
-      "ipa92_a_lp_002",
-      "ipa92_a_margin_of_safety_001"
-    ],
-    "remainingQuestionIds": [
-      "challenge_055",
-      "challenge_056",
-      "challenge_057",
-      "challenge_058",
-      "challenge_cmp_20_01",
-      "challenge_cmp_20_02",
-      "challenge_cmp_20_03",
-      "challenge_v92_20_07",
       "coreq_20_05_1",
       "coreq_20_05_2",
       "coreq_20_05_3",
@@ -146,17 +138,24 @@
       "coreq_20_07_1",
       "coreq_20_07_2",
       "coreq_20_07_3",
+      "ipa92_a_bcp_bcm_bia_001",
       "ipa92_a_bi_data_mining_001",
       "ipa92_a_boxplot_001",
       "ipa92_a_cashflow_classification_001",
+      "ipa92_a_eoq_001",
       "ipa92_a_equity_fixed_ratio_001",
       "ipa92_a_financial_statements_roles_001",
       "ipa92_a_heatmap_001",
+      "ipa92_a_inventory_001",
+      "ipa92_a_lp_001",
+      "ipa92_a_lp_002",
+      "ipa92_a_margin_of_safety_001",
       "ipa92_a_regression_moving_average_001",
       "ipa92_a_roa_roe_001"
     ],
-    "verifiedQuestionPositions": 20,
-    "verifiedGradingSubmissions": 21,
+    "remainingQuestionIds": [],
+    "verifiedQuestionPositions": 78,
+    "verifiedGradingSubmissions": 79,
     "firstWrongCount": 1,
     "retryCount": 1,
     "results": [
@@ -187,10 +186,101 @@
         "total": 6,
         "percent": 100,
         "xp": 60
+      },
+      {
+        "topic": "20-05",
+        "firstCorrect": 9,
+        "total": 9,
+        "percent": 100,
+        "xp": 90
+      },
+      {
+        "topic": "20-06",
+        "firstCorrect": 5,
+        "total": 5,
+        "percent": 100,
+        "xp": 50
+      },
+      {
+        "topic": "20-07",
+        "firstCorrect": 8,
+        "total": 8,
+        "percent": 100,
+        "xp": 80
+      },
+      {
+        "topic": "chapter20",
+        "run": 1,
+        "firstCorrect": 12,
+        "total": 12,
+        "percent": 100,
+        "xp": 120,
+        "uniqueQuestionIds": 12,
+        "allSevenThemes": true,
+        "questionIds": [
+          "challenge_cmp_20_01",
+          "challenge_055",
+          "coreq_20_01_3",
+          "coreq_20_06_2",
+          "coreq_20_01_2",
+          "coreq_20_06_1",
+          "ipa92_a_financial_statements_roles_001",
+          "coreq_20_03_1",
+          "coreq_20_02_2",
+          "ipa92_a_margin_of_safety_001",
+          "ipa92_a_eoq_001",
+          "ipa92_a_regression_moving_average_001"
+        ]
+      },
+      {
+        "topic": "chapter20",
+        "run": 2,
+        "firstCorrect": 12,
+        "total": 12,
+        "percent": 100,
+        "xp": 120,
+        "uniqueQuestionIds": 12,
+        "allSevenThemes": true,
+        "questionIds": [
+          "challenge_cmp_20_02",
+          "coreq_20_01_2",
+          "coreq_20_03_3",
+          "challenge_053",
+          "coreq_20_02_1",
+          "coreq_20_05_1",
+          "coreq_20_06_3",
+          "coreq_20_03_1",
+          "ipa92_a_financial_statements_roles_001",
+          "coreq_20_04_2",
+          "ipa92_a_roa_roe_001",
+          "challenge_v92_20_07"
+        ]
+      },
+      {
+        "topic": "chapter20",
+        "run": 3,
+        "firstCorrect": 12,
+        "total": 12,
+        "percent": 100,
+        "xp": 120,
+        "uniqueQuestionIds": 12,
+        "allSevenThemes": true,
+        "questionIds": [
+          "ipa92_a_inventory_001",
+          "coreq_20_07_2",
+          "challenge_cmp_20_02",
+          "challenge_058",
+          "challenge_cmp_20_03",
+          "coreq_20_01_1",
+          "coreq_20_04_2",
+          "challenge_055",
+          "challenge_057",
+          "challenge_054",
+          "ipa92_a_bcp_bcm_bia_001",
+          "coreq_20_07_1"
+        ]
       }
     ],
-    "lastConfirmedXp": 517,
-    "lastConfirmedCompletedLessons": 4,
     "lessonDisplayMetrics": [
       {
         "topic": "20-01",
@@ -241,20 +331,108 @@
         "articles": 1,
         "viewportWidth": 1348,
         "documentScrollWidth": 1348
+      },
+      {
+        "topic": "20-06",
+        "elements": 41,
+        "selector": "article p, article li, article td, article th",
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1363,
+        "documentScrollWidth": 1348,
+        "note": "Different selector from the prior 411-element sample; do not sum."
+      },
+      {
+        "topic": "20-07",
+        "elements": 49,
+        "selector": "article p, article li, article td, article th",
+        "fonts": [
+          "18px"
+        ],
+        "articles": 1,
+        "viewportWidth": 1363,
+        "documentScrollWidth": 1348,
+        "note": "Different selector from the prior 411-element sample; do not sum."
       }
     ],
-    "chapterExerciseVerified": false,
-    "reloadPersistenceVerified": false,
-    "screenshotCaptured": false,
+    "chapterExerciseVerified": true,
+    "reloadPersistenceVerified": true,
+    "screenshotCaptured": true,
     "physicalMobileVerified": false,
-    "interruption": "CUA command, DOM snapshot and reset each timed out after 300 seconds; local exec-server transport subsequently disconnected. No response from the pending 20-05 start/answer call was returned. Its effect is unknown; inspect actual UI before resuming."
+    "previousGuestCheckpoint": {
+      "xp": 517,
+      "completedLessons": 4,
+      "questionPositions": 20,
+      "gradingSubmissions": 21,
+      "retentionAcrossGuestsNotClaimed": true
+    },
+    "currentGuest": {
+      "xp": 850,
+      "completedLessons": 3,
+      "totalLessons": 130,
+      "chapterCompletedLessons": 3,
+      "chapterTotalLessons": 7,
+      "chapterRetentionTopics": 1,
+      "memoryStable": 39,
+      "memorySoon": 0,
+      "memoryNeedsReview": 0,
+      "newGuestInitialDiagnosis": {
+        "correct": 12,
+        "total": 12,
+        "xp": 120
+      },
+      "questionPositions": 58,
+      "gradingSubmissions": 58,
+      "uniqueQuestionIds": 39,
+      "firstWrongCount": 0,
+      "retryCount": 0
+    },
+    "svgVisualVerification": {
+      "topics": [
+        "20-03",
+        "20-04"
+      ],
+      "axesLegendsAndValuesVerified": true,
+      "physicalMobileVerified": false
+    },
+    "reloadPersistence": {
+      "xp": 850,
+      "completedLessons": 3,
+      "memoryStable": 39,
+      "recentHistoryRetained": 4,
+      "recentHistoryTextEqual": true,
+      "historyEntries": [
+        "chapter20 12/12 100%",
+        "chapter20 12/12 100%",
+        "chapter20 12/12 100%",
+        "20-07 8/8 100%"
+      ],
+      "date": "2026-10-07"
+    },
+    "previousInterruption": "CUA command, DOM snapshot and reset each timed out after 300 seconds; local exec-server transport subsequently disconnected. No response from the pending 20-05 start/answer call was returned. Its effect is unknown; inspect actual UI before resuming."
   },
   "resume": [
-    "Verify live GitHub main, branches, PRs and CI/Pages first.",
-    "Do not reapply the protected DB delta; compare immutable source and readback if needed.",
-    "Inspect current browser state; 20-05 start/answer call effects are unknown.",
-    "Finish 20-05 (9), 20-06 (5), 20-07 (8), comparison questions (3), and chapter 12-question selection.",
-    "Check reload persistence, XP/progress/history/memory and screenshot; retain physical-mobile pending.",
-    "Finish Chapter20 acceptance before moving to Chapter21."
-  ]
+    "Verify live GitHub main, branches, PRs and CI/Pages first; the recording PR commit is newer than acceptanceContinuation.publicMain.",
+    "Do not reapply the Chapter20 protected DB delta or repeat its complete desktop question coverage.",
+    "Chapter20 content and desktop acceptance are complete across two separate test guests; physical-mobile acceptance remains pending.",
+    "Next content audit: Chapter21 law, all six lessons, all related questions and chapter exercise, using current protected DB and reference sources.",
+    "Keep coverage in-progress and IPA table at 43 entries (37 in-progress / 6 verified-covered) until physical-mobile acceptance is evidenced."
+  ],
+  "acceptanceContinuation": {
+    "date": "2026-10-07",
+    "publicMain": "0e37897d2be0613c7cf47fd9472d394f43ca536a",
+    "pagesRun": 37608813823,
+    "pagesConclusion": "success",
+    "publicCheckpointPr": 339,
+    "implementationBranch": "audit-ch20-whole-chapter-20261007",
+    "implementationHead": "765ab13e33b9a1150a9f5649badd311681c1f3ff",
+    "protectedMain": "f877616b37a897e1c5b88de745047e4b6324fc88",
+    "bothRepositoriesOpenPrCount": 0,
+    "dbReapplied": false,
+    "remainingTwentyFiveKindsVerified": true,
+    "screenshotFilename": "fequest-ch20-history-1791373791194.jpg",
+    "protectedScreenshotsNotPublished": true
+  }
 }
