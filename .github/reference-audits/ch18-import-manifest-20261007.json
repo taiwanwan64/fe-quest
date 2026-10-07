@@ -1,0 +1,179 @@
+{
+  "audit_date": "2026-10-07",
+  "audit_timezone": "Etc/UTC",
+  "chapter": 18,
+  "coverage": "in-progress",
+  "content_audit": "complete",
+  "desktop_ui": {
+    "status": "complete",
+    "confirmed_unique": 46,
+    "expected_unique": 46,
+    "confirmed_question_ids": [
+      "challenge_049",
+      "challenge_050",
+      "challenge_cmp_18_01",
+      "challenge_cmp_18_02",
+      "challenge_cmp_18_03",
+      "challenge_cmp_18_04",
+      "challenge_cmp_18_06",
+      "challenge_v92_18_07",
+      "challenge_v92_18_08",
+      "coreq_18_01_1",
+      "coreq_18_01_2",
+      "coreq_18_01_3",
+      "coreq_18_02_1",
+      "coreq_18_02_2",
+      "coreq_18_02_3",
+      "coreq_18_03_1",
+      "coreq_18_03_2",
+      "coreq_18_03_3",
+      "coreq_18_04_1",
+      "coreq_18_04_2",
+      "coreq_18_04_3",
+      "coreq_18_05_1",
+      "coreq_18_05_2",
+      "coreq_18_05_3",
+      "coreq_18_06_1",
+      "coreq_18_06_2",
+      "coreq_18_06_3",
+      "coreq_18_07_1",
+      "coreq_18_07_2",
+      "coreq_18_07_3",
+      "coreq_18_08_1",
+      "coreq_18_08_2",
+      "coreq_18_08_3",
+      "ipa92_a_3c_001",
+      "ipa92_a_dynamic_pricing_001",
+      "ipa92_a_growth_matrix_001",
+      "ipa92_a_innovators_dilemma_001",
+      "ipa92_a_lean_startup_001",
+      "ipa92_a_mot_001",
+      "ipa92_a_omnichannel_001",
+      "ipa92_a_open_innovation_001",
+      "ipa92_a_persona_journey_001",
+      "ipa92_a_poc_pov_001",
+      "ipa92_a_seo_lpo_001",
+      "ipa92_a_subscription_model_001",
+      "ipa92_a_vrio_001"
+    ],
+    "theme_sessions": [
+      3,
+      3,
+      5,
+      3,
+      10,
+      3,
+      8,
+      5,
+      10
+    ],
+    "chapter_sessions": [
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "completed_questions": 134,
+    "grading_submissions": 135,
+    "intentional_first_try_incorrect": 1,
+    "retry_correct": 1,
+    "hints_verified": [
+      "coreq_18_01_2"
+    ],
+    "history_reload_verified": true,
+    "visible_recent_histories_verified": 4,
+    "all_16_results_observed": true,
+    "all_16_histories_reload_verified": false,
+    "save_conflict_observed": false,
+    "guest": "new verification guest; earlier guest not reused or erased",
+    "xp_before_chapter": 120,
+    "xp_after_reload": 1872,
+    "lessons_after_reload": {
+      "overall": "8/130",
+      "chapter18": "8/8",
+      "mastered": "7/8",
+      "marketing_bank": "11/11"
+    },
+    "bank": 979,
+    "ui_history_date": "2026-10-06",
+    "history_scores": [
+      {
+        "session": "chapter18",
+        "score": "12/12",
+        "percentage": 100
+      },
+      {
+        "session": "chapter18",
+        "score": "12/12",
+        "percentage": 100
+      },
+      {
+        "session": "core_18_05",
+        "score": "10/10",
+        "percentage": 100
+      },
+      {
+        "session": "chapter18",
+        "score": "12/12",
+        "percentage": 100
+      }
+    ],
+    "pending_question_ids": [],
+    "evidence_file": "fequest-ch18-history-1791347532419.jpg",
+    "evidence_in_public_repository": false,
+    "typography": {
+      "measured_elements": 380,
+      "elements_by_lesson": [
+        33,
+        49,
+        60,
+        38,
+        59,
+        39,
+        45,
+        57
+      ],
+      "body_sizes_px": [
+        18
+      ],
+      "viewport": 1348,
+      "document_width": 1348,
+      "articles_per_lesson": 1
+    }
+  },
+  "mobile_acceptance": "not-verified",
+  "source": {
+    "repository": "taiwanwan64/fe-quest-private-source",
+    "pr": 126,
+    "head": "ec265a45d243913c9534c37a141882697620050e",
+    "merge": "11c79c0709e8dbd60f69190e7c684fe82204354a",
+    "path": ".github/v376/ch18_reaudit_20261007.json",
+    "ci_run": 37570067976
+  },
+  "publication": {
+    "implementation_pr": 332,
+    "head": "74d2e41ab16ef940155dd88ea3d8bef94645a893",
+    "verified_production_commit": "1ed127c7c8b3e9ea8fd96cffb87f55670689b099",
+    "publication_ci": 37570133004,
+    "v35_ci": 37570133031,
+    "verified_pages_run": 37570234550,
+    "cache": 175
+  },
+  "db": {
+    "active_lessons": 130,
+    "active_questions": 1180,
+    "updated_lessons": 8,
+    "updated_questions": 18,
+    "after_retrieval_exact_match": true,
+    "final_retrieval_rows": 54,
+    "outside_rows_and_metadata": "all full rows compared in guarded transaction",
+    "ids_options_answers_catalog_extra_versions_active_dates_preserved": true,
+    "comparison_stems_changed": 5,
+    "history_schema_unchanged": true,
+    "regrading": false
+  },
+  "next_chapter": 19
+}
