@@ -2,6 +2,11 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新作業：第21章全6教材・38問監査、反映・受入は進行中（2026-10-08）
+GitHub live公開main `1bbbecbc992e146cbfffd1e23c6bc47315120181`、非公開main `f877616b37a897e1c5b88de745047e4b6324fc88`、旧branch・双方open PR 0・CI/Pages successを再読して再開。第20章のDB差分は再実行していない。
+第21章全6教材・38関連問題、02参考PDF733〜752の全20ページ画像（章末11問・解説）、IPA9.2印刷102〜108を確認。非公開PR #129に6教材・13問の限定修正とimmutable検査。公開側は18px表示・選択関数100回検査・cache180。DB適用と本番全38種類のUI受入はこの段落作成時点で未完了、live再確認して同章の残件から再開する。
+選択肢・正答index・ID・catalog・extra・版・active・日時・過去履歴は維持する。第5〜21章の実スマホ未確認、coverage in-progress、IPA対応43（37 in-progress / 6 verified-covered）は変えない。詳細：[第21章監査](reference-audits/ch21-full-reaudit-20261008.md)。次章へ進む前に第21章の受入状態を確定する。
+
 ## 最新状態：第20章の内容・デスクトップ45/45確認完了（2026-10-07 UTC）
 
 GitHubのlive状態を再読して再開。public main `0e37897d2be0613c7cf47fd9472d394f43ca536a`（記録PR #339）、Pages `37608813823` success、実装branch `audit-ch20-whole-chapter-20261007` head `765ab13e33b9a1150a9f5649badd311681c1f3ff`、private main `f877616b37a897e1c5b88de745047e4b6324fc88`、双方open PR 0を確認。今回の完了記録PR後のmain/CI/Pagesはlive再確認する。

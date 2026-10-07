@@ -377,3 +377,21 @@ for(let n=0;n<100;n++){
  }
 }
 console.log('PASS Chapter20: 45 metadata, chapter 12 unique/all 7 themes/comparison; direct=4/3/7/6/9/5/8 (100 runs)');
+
+const chapter21Curriculum=Array.from({length:6},(_,i)=>({chapter:21,id:`core_21_0${i+1}`}));
+const chapter21Metadata=[...new Map(fs.readdirSync('assets').filter(f=>/^question-catalog.*\.json$/.test(f)).flatMap(f=>JSON.parse(fs.readFileSync('assets/'+f,'utf8')).items||[]).filter(x=>x.coreTopicId?.startsWith('core_21_')).map(x=>[x.id,x])).values()];
+assert.equal(chapter21Metadata.length,38);
+const chapter21Ctx={QUESTION_BANK:chapter21Metadata,CORE_A_CURRICULUM:chapter21Curriculum,CORE_A_CHAPTER_EXTRA_QUESTIONS:{},subjectATrackedMetadataV376:()=>chapter21Metadata,globalThis:{}};
+vm.createContext(chapter21Ctx);vm.runInContext(names.map(functionSource).join('\n')+'\nthis.select=selectSubjectAMetadataV376;',chapter21Ctx);
+for(let n=0;n<100;n++){
+ const selected=Array.from(chapter21Ctx.select('corechapter:21'));
+ assert.equal(selected.length,12);assert.equal(new Set(selected.map(x=>x.id)).size,12);
+ for(const t of chapter21Curriculum)assert.ok(selected.some(x=>x.coreTopicId===t.id));
+ assert.ok(selected.some(x=>x.id.startsWith('challenge_cmp_21_')));
+ for(const [i,t]of chapter21Curriculum.entries()){
+  const direct=Array.from(chapter21Ctx.select('coretopic:'+t.id));
+  assert.equal(direct.length,[5,3,10,7,4,6][i]);assert.equal(chapter21Ctx.coreTopicImmediatePracticeCountV377(t.id),direct.length);
+  assert.ok(direct.every(x=>!x.id.startsWith('challenge_cmp_')));
+ }
+}
+console.log('PASS Chapter21: 38 metadata, chapter 12 unique/all 6 themes/comparison; direct=5/3/10/7/4/6 (100 runs)');
