@@ -57,3 +57,10 @@ GitHub live public main `abf8055627cafe5a333c633b9777ade0a7ecf1a7`、記録branc
 新しい `check-ch22-strategy-v377.mjs` は3ガイド・公式リンク・本文/補助文字・B metadata集計・16+4を検証。publication workflowへ追加。ローカルPASS。
 SWと3 workflowのcache契約を `fe-quest-v377-182` へ同期。
 PR/CI/merge/Pagesと本番確認の結果は後続確定欄に記録する。実スマホ狭幅・タッチ・縦横切替は未実施。第5〜22章のcoverageを完了にしない。IPA43項目（37 in-progress / 6 verified-covered）維持。
+
+## 本番で発見した再読込不具合と限定修正
+#344 publication `37703582039` / v35 `37703582021` success、merge `7b6f9b1b3226513efdd5a8d3d8e479bd5a02bd60`、Pages `37703672537` success。
+科目B選択を保存した状態で通常再読込すると、app約5945行の早期setCourseSubjectが約8365/9258行のB_EXERCISES/SECURITY_SCENARIOS宣言前にrenderSubjectBHubを呼び、ReferenceError（TDZ）で後続初期化を停止した。おすすめ/進捗欄がplaceholder、旧CSS資産も残る状態を実画面とconsoleで確認。データの消失とは判断しない。
+最初のsetCourseSubjectのみqueueMicrotaskへ遅延し、同じスクリプトの全宣言後にrestoreする。profileの初期化・削除・移行を追加しない。実setter/実公開metadata宣言を使う回帰検査で旧B cold bootのTDZを再現、新A/B cold bootは20+15・profile書込0でPASS。
+既存PWA資産が残る環境にも新app/CSSを届けるため、indexとAPP_SHELLの2URLだけ `?v=ch22-183` を同期。cache183と3CI契約を更新。#344の「indexガイド外は不変」は#344単独の証跡であり、この追補では2資産URLも変更する。app差分は初期呼出し1箇所だけ。
+本番の再検証結果は確定欄に記録する。

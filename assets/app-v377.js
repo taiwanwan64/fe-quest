@@ -5942,7 +5942,8 @@ document.querySelectorAll('[data-course-subject]').forEach(btn=>{
     document.querySelector(`[data-course-subject="${next}"]`)?.focus?.();
   });
 });
-setCourseSubject(activeCourseSubject,false);
+// Restore the tab after all Subject B catalogs are initialized; functions alone are hoisted.
+queueMicrotask(()=>setCourseSubject(activeCourseSubject,false));
 document.getElementById('subjectBCoursePanel')?.addEventListener('click',e=>{
   const b=e.target.closest?.('[data-course-bmode]');
   if(!b)return;
