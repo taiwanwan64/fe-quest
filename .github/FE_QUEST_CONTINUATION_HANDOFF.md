@@ -2,6 +2,22 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新状態：第22章3ガイド改善・科目B cold boot修正（2026-10-08 JST）
+
+GitHub liveの公開main `abf8055627cafe5a333c633b9777ade0a7ecf1a7`、旧作業branch `record-ch21-desktop-complete-20261008`、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0・CI/Pages successを実読して再開。02参考PDF753〜779の全27ページ画像と全6章末問題・解説、IPA現行試験要綱5.6を照合した。第22章は130教材に含まれず、科目Bの既存3ガイドが対象。
+
+公開PR #344で本番構成・擬似言語・長文セキュリティの3ガイドを改善。IRT評価点と練習正答率を区別し、20問解答/19問評価、擬似言語の初出説明、ログの意味、公式リンクを追加。本文18px・短い仕様ラベル16px。publication `37703582039` / v35 `37703582021`、Pages `37703672537` success。
+本番で保存済み科目Bの初期復元がB配列の初期化より先に走るTDZ停止を確認。#345で初期復元1行だけをmicrotaskへ移し、実宣言を使うA/B冷起動回帰検査を追加。既存PWAの資産更新を保証する2 URLのversion query、cache183。publication `37704043557` / v35 `37704043549`、Pages `37704093654` success。配信確認main `36b0f4bad1bd1ac46ac49ce25dd42eedde044b53`。後続の記録PR・最新main/CI/Pagesはlive確認する。
+
+本番通常再読込後に学習画面が起動し、科目Bへ通常UIで移って20/15の一覧・4モード（trace/security/実戦/総合実戦）設定表示を確認。今回採点は行っていない。3ガイド本文/カード/注記/summaryは各18px、仕様4ラベル16px、1363px viewport/document scrollWidth1348で横溢れなし。修正後のFE QUEST由来console errorなし。今日の学習推薦は既存ロジックで科目Aを表示するため、再読込後の科目Bタブ保持そのものを主張しない。
+同じ第21章確認用ゲストの1247XP、教材6/130・第21章6/6、B0/35、バンク979問、直近4章末12/12履歴全文一致を確認。途中に既存の別画面データ保護通知が出たため、UIの「最新状態を読み込む」に従い継続。プロフィール消去・ゲスト再作成・過去採点変更なし。定着数は時点により3/6〜4/6の表示があったため完全固定保持を主張しない。
+
+DBは全行digest前後一致、130教材1180問維持。科目B全180行の公開catalog metadata一致（trace40/security45/compound45/exam50）、基礎35は20演習＋15ケースで180問とは別指標。private main変更・DB mutationなし。**第21章の適用済みDB差分を再実行しない。**
+
+**第22章3ガイドの内容改善とデスクトップ受入は完了。全6章末skillのうち「関連度計算」の直接演習は現行180問に見つからず direct-practice-gapとして残す。第22章全skill/科目B180問全品質の完了を宣言しない。次は03科目B参考書・第1部第1章「文法」の全章を現行ガイド/20演習と照合し、既存監査を現状から再確認する。** 今回03/04は導入・目次だけ読み、本文全章は未再監査。関連度計算は総合問題の章単位作業で保護pool/provider/catalog契約を含めて設計する。実スマホ狭幅・タッチ・縦横切替は未確認、coverage in-progress、IPA43（37 in-progress / 6 verified-covered）維持。
+
+詳細：[第22章監査と起動修正](reference-audits/ch22-strategy-reaudit-20261008.md)。以下の第21章以前は当時の履歴であり、次作業はこの段落を優先する。
+
 ## 最新状態：第21章の内容・デスクトップ38/38確認完了（2026-10-08 JST）
 GitHub liveで公開main `1bbbecbc992e146cbfffd1e23c6bc47315120181`、旧作業branch、非公開main `f877616b37a897e1c5b88de745047e4b6324fc88`、双方open PR 0・CI/Pages successを実読して再開した。全6教材・全38関連問題、02参考PDF733〜752の20ページ画像（章末11問・解説）、IPA9.2印刷102〜108を照合。
 非公開PR #129の保護CI `37699904155` success、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`。6教材・13問題を完全期待値guard transactionで1回適用、全19行readback一致・対象外124教材/1167問・imports metadata保持・130教材1180問。ID・選択肢・正答index・catalog・extra・版・active・日時・過去履歴は不変。**適用済みDB差分を再実行しない。**

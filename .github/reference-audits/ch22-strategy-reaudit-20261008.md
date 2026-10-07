@@ -64,3 +64,14 @@ PR/CI/merge/Pagesと本番確認の結果は後続確定欄に記録する。実
 最初のsetCourseSubjectのみqueueMicrotaskへ遅延し、同じスクリプトの全宣言後にrestoreする。profileの初期化・削除・移行を追加しない。実setter/実公開metadata宣言を使う回帰検査で旧B cold bootのTDZを再現、新A/B cold bootは20+15・profile書込0でPASS。
 既存PWA資産が残る環境にも新app/CSSを届けるため、indexとAPP_SHELLの2URLだけ `?v=ch22-183` を同期。cache183と3CI契約を更新。#344の「indexガイド外は不変」は#344単独の証跡であり、この追補では2資産URLも変更する。app差分は初期呼出し1箇所だけ。
 本番の再検証結果は確定欄に記録する。
+
+
+## 最終本番受入（2026-10-08 JST）
+
+- #345 publication 37704043557 / v35 37704043549 success。new chapter22 / saved-subject boot steps success。merge main 36b0f4bad1bd1ac46ac49ce25dd42eedde044b53、Pages 37704093654 success、cache183/versioned app+strategy CSSを本番DOMで確認。
+- 既存ゲストで通常再読込、学習表示/科目B20+15/4モード設定を通常UI確認。新規採点・プロフィールresetなし。saved Bの起動停止解消。日次推薦の既存A切替により、再読込後Bタブ保持は未主張。
+- 3ガイドのsummary/本文/カード/注記18px、試験仕様4ラベル16px。viewport1363/document scrollWidth1348。擬似言語/ログ/IRT警告/公式リンクを実画面確認。修正後のFE QUEST URL由来console errorなし（拡張側metadata errorは別）。
+- XP1247、教材6/130・第21章6/6、B0/35、バンク979、直近4章末履歴全文一致。既存の別画面保存保護通知に従って「最新状態を読み込む」を1回実行。定着は表示時点3/6〜4/6であり固定保持を主張しない。
+- DB再読：130教材1180問。question digest c62e79b86ba41d03c054db09e6337bd2 / lesson digest e89f8d33fa35a4d104110807dddb3543、事前値と一致。private main/DB/source rows変更なし。
+- 章末6 skill対応表の関連度計算direct-practice-gapを維持。科目B180問全品質/実スマホ未完了。03/04の今回本文全章再監査なし。次は03第1部第1章文法の全章単位。
+- 改善後本番画面の証拠を保存。PDF画像・問題/教材の保護本文・ユーザー画像を公開GitHubへ追加しない。
