@@ -73,8 +73,73 @@
     "audited_questions": 38,
     "changed_questions": 13
   },
-  "db_status": "pending",
-  "desktop_status": "pending",
+  "db_status": "applied_once_full_rows_match",
+  "desktop_status": "verified_38_of_38",
   "physical_mobile_status": "not_verified",
-  "coverage": "in-progress"
+  "coverage": "in-progress",
+  "source_main": "bf691b8ae0537766dc820d7e2ba824be783b5ae3",
+  "source_ci": 37699904155,
+  "public_prs": [
+    341,
+    342
+  ],
+  "public_verified_main": "11945b9c39ce488b031c59da4d6ddf9863ae4eaf",
+  "pages_run": 37701469076,
+  "cache": "fe-quest-v377-181",
+  "db_readback": {
+    "chapter": 21,
+    "lessonCount": 130,
+    "importsDigest": "04995901d5b8687f50cac2fa39501ea1",
+    "questionCount": 1180,
+    "lessonReadback": 6,
+    "allFullRowsMatch": true,
+    "questionReadback": 13,
+    "lessonOtherDigest": "bed06bf568da8ba95282b392ba17a2f9",
+    "questionOtherDigest": "47954798478db2cc820b09e9b3d9a4b1",
+    "unchangedLessonCount": 124,
+    "unchangedQuestionCount": 1167,
+    "timestampVersionMetadataPreserved": true
+  },
+  "desktop": {
+    "unique_question_ids": 38,
+    "question_positions": 83,
+    "grading_operations": 84,
+    "observed_results": 10,
+    "direct_counts": [
+      5,
+      3,
+      10,
+      7,
+      4,
+      6
+    ],
+    "chapter_runs": 4,
+    "chapter_each": 12,
+    "chapter_each_unique": 12,
+    "all_themes_each": true,
+    "all_comparisons_verified": true,
+    "fonts": {
+      "element_counts": [
+        39,
+        36,
+        65,
+        77,
+        38,
+        70
+      ],
+      "total": 325,
+      "size": "18px"
+    },
+    "reload": {
+      "recent_histories": 4,
+      "history_text_equal": true,
+      "xp": 1247,
+      "completed_lessons": 6,
+      "chapter_mastered": 4,
+      "memory_count": 38,
+      "subject_a_bank": 979
+    },
+    "guest": "new_verification_guest_not_previous_profile",
+    "physical_mobile": false
+  }
 }
