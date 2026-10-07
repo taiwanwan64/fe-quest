@@ -5713,7 +5713,7 @@ function fequestEscapeRegExpV377(value){
 function fequestLocalizeLearningEnglishTextV377(text){
   let s=String(text??'');
   for(const [from,to] of FEQUEST_LEARNING_PHRASE_OVERRIDES_V377)s=s.split(from).join(to);
-  const entries=Object.entries(LEARNING_ENGLISH_GLOSSES_JA_V377).sort((a,b)=>b[0].length-a[0].length);
+  const entries=Object.entries({...LEARNING_ENGLISH_GLOSSES_JA_V377,'Local Government Wide Area Network':'総合行政ネットワーク'}).sort((a,b)=>b[0].length-a[0].length);
   const byEnglish=Object.fromEntries(entries);
   const pattern=new RegExp(entries.map(([english])=>fequestEscapeRegExpV377(english)).join('|'),'g');
   s=s.replace(pattern,(english,offset,whole)=>{
