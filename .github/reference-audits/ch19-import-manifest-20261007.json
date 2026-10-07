@@ -1,0 +1,195 @@
+{
+  "audit_date": "2026-10-07",
+  "audit_timezone": "Etc/UTC",
+  "chapter": 19,
+  "coverage": "in-progress",
+  "content_audit": "complete",
+  "desktop_ui": {
+    "status": "complete",
+    "confirmed_unique": 27,
+    "expected_unique": 27,
+    "confirmed_question_ids": [
+      "challenge_051",
+      "challenge_052",
+      "challenge_cmp_19_01",
+      "challenge_cmp_19_02",
+      "challenge_cmp_19_03",
+      "coreq_19_01_1",
+      "coreq_19_01_2",
+      "coreq_19_01_3",
+      "coreq_19_02_1",
+      "coreq_19_02_2",
+      "coreq_19_02_3",
+      "coreq_19_03_1",
+      "coreq_19_03_2",
+      "coreq_19_03_3",
+      "coreq_19_04_1",
+      "coreq_19_04_2",
+      "coreq_19_04_3",
+      "ipa92_a_cbdc_001",
+      "ipa92_a_digital_twin_cps_001",
+      "ipa92_a_edge_ai_001",
+      "ipa92_a_ekyc_001",
+      "ipa92_a_hems_001",
+      "ipa92_a_m2m_001",
+      "ipa92_a_maas_autonomous_001",
+      "ipa92_a_nft_001",
+      "ipa92_a_smart_contract_001",
+      "ipa92_a_smart_industry_001"
+    ],
+    "theme_sessions": [
+      6,
+      4,
+      5,
+      9
+    ],
+    "chapter_sessions": [
+      12
+    ],
+    "question_positions": 36,
+    "grading_submissions": 38,
+    "result_screens_observed": 5,
+    "incorrect_first_attempts": 2,
+    "intentional_wrong_checks": 1,
+    "verification_match_error": 1,
+    "retries_correct": 2,
+    "chapter_unique": 12,
+    "chapter_all_four_themes": true,
+    "chapter_comparisons": [
+      "challenge_cmp_19_01",
+      "challenge_cmp_19_02",
+      "challenge_cmp_19_03"
+    ],
+    "font_size_min_px": 18,
+    "body_term_table_elements": 320,
+    "lesson_elements": [
+      93,
+      86,
+      82,
+      59
+    ],
+    "article_count_per_lesson": 1,
+    "viewport_width_px": 1348,
+    "document_scroll_width_px": 1348
+  },
+  "persistence": {
+    "status": "verified for observed fields",
+    "test_guest": "new guest; earlier guests not cleared or restored",
+    "visible_history_rows": 4,
+    "history_full_text_equal_after_reload": true,
+    "xp": 674,
+    "lessons_done": 4,
+    "lesson_total": 130,
+    "chapter_lessons_done": 4,
+    "chapter_lessons_total": 4,
+    "chapter_mastered": 0,
+    "theme_bank_answered": [
+      6,
+      4,
+      5,
+      9
+    ],
+    "theme_bank_total": [
+      6,
+      4,
+      5,
+      9
+    ],
+    "subject_a_bank": 979,
+    "ui_history_date": "2026-10-06",
+    "save_conflict_observed": false,
+    "all_five_history_rows_persistence_claimed": false,
+    "memory_stable_count": 27,
+    "memory_stable_count_after_reload": 27
+  },
+  "sources": {
+    "reference_pdf_number": "02",
+    "pdf_pages": [
+      657,
+      684
+    ],
+    "page_images_read": 28,
+    "printed_pages": [
+      640,
+      666
+    ],
+    "past_questions_and_explanations_read": 21,
+    "chapter_boundary_page": 685,
+    "ipa_version": "9.2",
+    "ipa_printed_pages": [
+      91,
+      95
+    ]
+  },
+  "protected": {
+    "pr": 127,
+    "head": "1dd03b933ca4f39f0b05893e97e3bff52453b41b",
+    "main": "1dd812580ede476dadf573b7b38e6fa769921260",
+    "ci_run": 37575863355,
+    "ci_conclusion": "success",
+    "lesson_updates": 4,
+    "question_updates": 13,
+    "guarded_transaction_applied_once": true,
+    "never_reapply": true,
+    "readback_matched_rows": 31,
+    "active_lessons": 130,
+    "active_questions": 1180,
+    "metadata_and_untargeted_rows_preserved": true,
+    "past_answers_regraded": false
+  },
+  "public": {
+    "implementation_pr": 334,
+    "implementation_head": "749bd3736c59d72cef3e4a53c2e7c27262a598c0",
+    "implementation_main": "33762afdb6d7c3a8eb4367630bd9c8918eaf8368",
+    "implementation_ci": [
+      37575870257,
+      37575870236
+    ],
+    "implementation_pages": 37576001333,
+    "gloss_pr": 335,
+    "gloss_head": "b08da5597e18266dd1dec2331813ed8c5f67f87c",
+    "gloss_main": "c7c68f68a934b49c096f429fc72a730857560313",
+    "gloss_ci": [
+      37577162349,
+      37577162356
+    ],
+    "gloss_pages": 37577231308,
+    "memory_refresh_pr": 336,
+    "memory_refresh_head": "4627e87a802293e25af25ea003c6700d16993f18",
+    "memory_refresh_main": "bc698d93dc9d6a3dd37113172853267c83d2a4a8",
+    "memory_refresh_ci": [
+      37577653562,
+      37577653512
+    ],
+    "memory_refresh_pages": 37577714481,
+    "cache": "fe-quest-v377-178",
+    "memory_refresh_pages_conclusion": "success"
+  },
+  "physical_mobile": {
+    "status": "not verified",
+    "pending_chapters": "5–19",
+    "checks": [
+      "narrow viewport on physical device",
+      "touch",
+      "horizontal table scroll",
+      "portrait/landscape"
+    ]
+  },
+  "ipa_mapping": {
+    "total": 43,
+    "in_progress": 37,
+    "verified_covered": 6,
+    "changed": false
+  },
+  "next_content_chapter": {
+    "chapter": 20,
+    "title": "企業活動",
+    "lessons": 7,
+    "status": "not audited this turn"
+  },
+  "notes": [
+    "LGWAN full-name gloss verified on production after PR335",
+    "PR336 refreshes memory/forecast after late metadata; production shows 27 stable questions before and after normal reload",
+    "No public protected text copied; screenshot saved privately"
+  ]
+}
