@@ -2,6 +2,22 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：文法章の保護された補助確認6問・デスクトップ受入（2026-10-08）
+
+全B180行のlive保護本文を照合。doの後判定反復は既存 `b_exam_bexam_ctrl_03` にあり、全Bでdo欠如とは言わない。整数divも既存。while/do初回偽・同名局所/大域・論理or/not・文字列連結・実数商/整数商/余りの対比を、独自新ID6問で追補した。
+
+private PR #130 head `4c77f9be3dca852ef2bbbba7fb4787404e85e42c`、補助CI `37735540263` / 保護CI `37735540351` success、private main `030c4164dda109974fbba150213f1cec1cc5db74`。one-shot guarded INSERTを1回適用済み。全6行readback一致、1186問/130教材、既存1180問・全130教材の全行digest保持。**追加SQLと第21章等の既適用deltaは再実行しない。** 全問digest `8385789f12edf994d6ae4eee0ea86b7f`、教材 `e89f8d33fa35a4d104110807dddb3543`。
+
+public PR #349 最終head `996b21fe35dbf2df32ac6e92a4c69efc66a1a674`、publication `37735875205` / v35 `37735875238` success、実装配信main `9c26424d1edc836ecfeb356bd3063e8b68ab49b0`、Pages `37735921600` success、cache185。最初のCI失敗はcache184固定検査で、Pagesと検査を185へ揃えて解消。一般provider/catalog1180・B通常180・実戦50候補・基礎20+15・総合16+4・app本体は不変。専用catalogの補助6問だけを追加し、利用者へ「通信必須・XP/履歴/基礎進捗へ加算しない・再開不可」を明示する。回答前に正答/解説を返さず、内容を公開repoや永続cacheへ置かない。
+
+本番通常UIで全6種類の採点・正答根拠・4選択肢理由を確認。意図的誤答1件→ヒント/無効化→再挑戦、他5問初回正解、初回スコア5/6（成功採点7・6問題位置・1結果）。全問本文/コード/選択肢/解説18px、見出し19px、viewport1363/document scrollWidth1348で横溢れなし。結果画面を目視・画像保存。途中終了とホーム移動で問題表示消去。通信失敗/遅延応答等は回帰test、本番回線障害誘発はしていない。
+
+前回文法受入と同じ確認用ゲストの120XP・A0/130・B0/35・履歴なし・Aバンク979問を通常再読込後にも確認。プロフィール消去/復旧/別ゲスト作成はしない。以前の1247XPゲストを今回継続確認したとは主張しない。通常180問全採点や文法章全完了は未確定。
+
+**次は同じ文法章の既存関連演習の通常UI採点/解説受入を前回記録と照合し、未確認分のみ進める。補助6問全操作や既適用SQLを反復しない。第2章へ自動的に飛ばさない。** 実スマホ狭幅/タッチ/横スクロール/縦横切替は未確認、coverage in-progress、IPA43（37 in-progress / 6 verified-covered）と第22章関連度計算direct-practice-gap維持。記録PR後の最新main/作業branch/open PR/CI/Pagesはliveで再確認する。
+
+詳細：[直接演習追補の確定受入](reference-audits/bbook-ch01-direct-practice-20261008.md)。以下の候補/前回記録は当時の履歴で、この確定状態を優先する。
+
 ## 最新作業：文法章の全B gap判定と保護された補助確認6問（2026-10-08）
 
 live public main `ca03a28954f82569fa275ba111e7bf5309567c27`、前branch `record-b-grammar-acceptance-20261008` head `823938ebd490ec91acc9b1804644e4f00f99c548`、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0、CI/Pages successを再読。全B180行をlive保護本文まで照合した。doの後判定反復は既存 `b_exam_bexam_ctrl_03` があり、全B欠如の判定は撤回。整数divも既存。直接不足はwhile/doの初回偽比較、同名局所/大域、論理or/not、文字列連結、実数商/整数商/余りの対比。
