@@ -9161,7 +9161,7 @@ function renderBVisual(step){
   if(currentB.matrix){
     const focus=step.matrixFocus||[];
     v.innerHTML=`<div class="trace-matrix">${currentB.matrix.map((row,r)=>`
-      <div class="trace-matrix-row">${row.map((x,c)=>`<div class="trace-matrix-cell ${focus[0]===r&&focus[1]===c?'focus':''}">${x}<span class="trace-matrix-index">${r},${c}</span></div>`).join('')}</div>`).join('')}</div>`;
+      <div class="trace-matrix-row">${row.map((x,c)=>`<div class="trace-matrix-cell ${focus[0]===r&&focus[1]===c?'focus':''}">${x}<span class="trace-matrix-index">${r+1},${c+1}</span></div>`).join('')}</div>`).join('')}</div>`;
     return;
   }
 
@@ -9200,7 +9200,7 @@ function renderBVisual(step){
       return;
     }
     v.innerHTML=`<div class="trace-array">${
-      arr.map((x,i)=>`<div class="trace-array-cell ${step.focus===i?'focus':''} ${step.found===i?'found':''}">${x}<span class="trace-array-index">${i}</span></div>`).join('')
+      arr.map((x,i)=>`<div class="trace-array-cell ${step.focus===i?'focus':''} ${step.found===i?'found':''}">${x}<span class="trace-array-index">${i+1}</span></div>`).join('')
     }</div>${currentB.target!==undefined?`<div class="visit-path">target = ${currentB.target}</div>`:''}`;
     return;
   }
