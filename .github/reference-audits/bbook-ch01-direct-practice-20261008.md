@@ -1,5 +1,35 @@
 # 文法章・全B直接演習の追補（2026-10-08）
 
+## 確定受入：追加6問の内容・デスクトップ（2026-10-08 UTC / JST）
+
+### PR・CI・配信
+
+- private PR #130 head `4c77f9be3dca852ef2bbbba7fb4787404e85e42c`。補助確認CI `37735540263` / 保護教材CI `37735540351` success後にmerge。private main `030c4164dda109974fbba150213f1cec1cc5db74`。
+- public PR #349 最終head `996b21fe35dbf2df32ac6e92a4c69efc66a1a674`。publication `37735875205` / v35 `37735875238` success後にmerge。実装の配信確認main `9c26424d1edc836ecfeb356bd3063e8b68ab49b0`、Pages `37735921600` success、cache185。
+- 初期headのpublication `37735688379` / v35 `37735688228` はcache184固定検査によりfailure。sw/Pages/公開2workflowの期待番号を185へ揃え、最終headのsuccessで解消した。一般providerの1180問/50候補契約は緩めていない。
+
+### DB（既適用・再実行禁止）
+
+CI成功後、privateに保存したone-shot guarded INSERTを**1回だけ**適用。新6行全field readback一致。全1186問/130教材、b_exam_algo56行（通常50+補助6）。既存1180行digest `c62e79b86ba41d03c054db09e6337bd2`、130教材digest `e89f8d33fa35a4d104110807dddb3543` は保持。追加後DB全問digest `8385789f12edf994d6ae4eee0ea86b7f` を採点後にも確認した。旧ID・選択肢・正答index・extra・version・active・日時を変えず、教材やimports、プロフィールや過去採点へ書いていない。新規fixtureはcreated/updatedをDB defaultで設定。第21章等の既適用deltaを再実行していない。
+
+### 本番通常UI
+
+前回文法ガイド受入と同じ確認用ゲスト（120XP・A0/130・B0/35・履歴なし）を再読。別ゲストへ作り直したり、過去の1247XPゲストを消去/復旧/統合したりしない。通常再読込→学習→科目B→別の学習モード→プログラムトレース→文法早見表の導線で6問を開始した。
+
+全6種類を通常UIで採点し、各正答根拠・4選択肢の理由を読んだ。最初の問題は意図的誤答1件→ヒント/誤答無効化→正解再挑戦を確認。他5問は初回正解、最後は初回正解**5/6**と表示し、再挑戦を初回へ加算していない。成功した採点は7件、6問題位置・1結果。2問目のDOM計測helperでparseFloat未提供のエラー、4問目の最初のUI操作で採点表示へ移らず待機timeoutがあった。いずれも現在表示を再確認し、前者は再採点せず、後者は画面の選択肢を選び直して採点を確定した。通信異常やアプリ不具合と断定しない。
+
+追加欄の各問題/解説/ボタン/ヒントを実測し本文18px、h4は19px。1問目20要素、他5問は各19要素（同じ静的欄を含むのでunique合計とは数えない）。viewport1363px、document scrollWidth1348px、追加欄client/scrollWidth868pxで横溢れなし。結果画面の余白・注記・120XPを画像で目視し、確認画像を保存した。公開GitHubへ画像を置いていない。
+
+開始→最初の問題表示→「確認を閉じる」で本文/解説/選択肢が消え、途中解答を保存しない表示を確認。別の開始→最初の問題表示→ホームへの画面移動でコード空・question hiddenを確認した。通信失敗・不正payload・遅延応答・guide collapse時のcleanupは回帰testで検証し、**本番の回線障害を意図的に起こしたとは主張しない**。
+
+通常再読込後も120XP・A0/130・B0/35、演習メニュー「まだ演習履歴がありません。」と科目A979問を確認。補助6問を既存の学習完了や履歴へ加算していない。基礎20/15・実戦50候補・総合16+4・app本体不変。今回採点したのは補助6問だけで、通常180問全品質/全本番受入を主張しない。console採取にブラウザー拡張由来のmetadata errorがあるがFE QUEST由来として扱わない。
+
+### 継続の残件
+
+補助6問の内容・デスクトップ受入は完了。文法章全体の完了を宣言しない。次は**同じ文法章**の既存関連演習の通常UI採点/解説受入を前回監査と照合し、未確認分のみ進める。実スマホ狭幅・タッチ・横スクロール・縦横切替は未検証。coverage in-progress、IPA43（37 in-progress / 6 verified-covered）、第22章関連度計算direct-practice-gap維持。第2章へ自動的に飛ばさない。追加SQLや既適用章delta、補助6問全操作の反復を避ける。
+
+記録PR後の最新main・作業branch・open PR・CI・Pagesは次回live再確認する。下の候補時点記録より、この確定受入を優先する。
+
 ## 再開時に確認したGitHub現状
 
 - public main: `ca03a28954f82569fa275ba111e7bf5309567c27`、tree `db68441381e262d4aba514a8d24a3efce0d7ef87`。
