@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新状態：03科目B・文法章ガイド改善とデスクトップ受入（2026-10-08）
+
+GitHub liveのpublic main `ca6e598854a322289b3bac84496b53302960d79f`、前作業branch `record-ch22-production-acceptance-20261008` head `c059a68a2b5c50ff0e71d74121319879a5e01daf`（mainとtree一致）、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0、CI/Pages successを実読して再開した。03科目B参考書・第1部第1章「文法」は印刷026〜095、物理028〜097の全70ページ画像、確認13項目、章末6問と全解説まで再監査した。IPA現行用語/言語Ver.5.1別紙2も照合。04本文全章の今回監査はしていない。
+
+PR #347で既存文法早見表1個・8節だけを独自例で改善。未宣言入力例を除去し、型・未定義・代入、mod/not/コメント/文字列、if最初の真、while/do0回対1回、for途中値と終了判定値、関数入力→return、同名局所/大域、紙トレースの省略と境界値を具体化。名前表2列、長表2個は名前付きfocus可能横スクロール、主要文字18px。app/保護provider/catalog/ID/選択肢/正答/既存履歴を変更しない。publication `37733206164` / v35 `37733206041` success後マージ、配信確認main `c85bede4de1689eff69c37aac64f9ac25f37094a`、Pages `37733300602` success、cache184。記録PR後のmain/branch/CI/Pagesはlive確認する。
+
+本番通常再読込後に全8節・9表を確認、本文/コード/表/カード等216要素が18px。1363px viewport / document scrollWidth1348で横溢れなし。while/do比較、for途中表、局所/大域の別箱、紙トレースを画像で目視、確認画像を保存。本番由来console errorなし。現在ブラウザーは初回設定状態だったため、**別の確認用ゲスト**で診断12/12→計画確認を通常UIで完了。120XP・A0/130・B0/35を再読込後に確認。以前の第21章1247XP/直近4履歴を今回継続確認したとは主張しない。プロフィール消去/復旧/統合はしていない。
+
+DB全行digest前後一致、130教材1180問。private main変更・DB mutationなし。**第21章等の適用済みDB差分を再実行しない。** 基礎20演習40行のコード・予測・正答/説明を静的再読したが、今回40問の本番採点はしていない。
+
+**ガイド内容改善・静的readability・デスクトップ表示受入は完了。文法章全skill/直接演習/実スマホの完了を宣言しない。次は同じ文法章の直接演習不足（do、同名局所/大域、論理or/not、文字列連結、整数/実数除算）を全Bpoolのlive metadata/保護本文に照合し、重複しない保護問題/provider/catalogを設計・受入する。第2章へ自動的に飛ばさない。** これは基礎20/40内でのgap判定で、他pool全体の欠如は今回未確定。第22章の関連度計算direct-practice-gapも残す。実スマホ狭幅・タッチ・横スクロール・縦横切替は未確認、coverage in-progress、IPA43（37 in-progress / 6 verified-covered）維持。
+
+詳細：[文法章再監査と受入](reference-audits/bbook-ch01-grammar-reaudit-20261008.md)。以下は過去の履歴で、次作業はこの段落を優先する。
+
 ## 最新状態：第22章3ガイド改善・科目B cold boot修正（2026-10-08 JST）
 
 GitHub liveの公開main `abf8055627cafe5a333c633b9777ade0a7ecf1a7`、旧作業branch `record-ch21-desktop-complete-20261008`、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0・CI/Pages successを実読して再開。02参考PDF753〜779の全27ページ画像と全6章末問題・解説、IPA現行試験要綱5.6を照合した。第22章は130教材に含まれず、科目Bの既存3ガイドが対象。
