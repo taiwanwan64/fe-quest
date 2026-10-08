@@ -11,6 +11,7 @@ vm.createContext(ctx);vm.runInContext(fn,ctx);
 for(const id of ['array_max','array_reverse','count_even']){
  ctx.currentB={id,array:[101,202,303]};
  ctx.renderBVisual({focus:1});
+ assert(visual.innerHTML.includes('tabindex="0" role="region" aria-label="配列の状態（横にスクロール）"'),'normal array is a named keyboard-scroll region');
  assert.deepEqual([...visual.innerHTML.matchAll(/trace-array-index">([^<]+)/g)].map(x=>x[1]),['1','2','3']);
  assert(/trace-array-cell focus *">202/.test(visual.innerHTML),'zero-based focus must still highlight the second value');
  assert(!/trace-array-cell focus *">101/.test(visual.innerHTML));
@@ -21,4 +22,6 @@ assert.deepEqual([...visual.innerHTML.matchAll(/trace-matrix-index">([^<]+)/g)].
 assert(visual.innerHTML.includes('trace-matrix-cell focus">203'),'matrix highlight stays zero-based internally');
 for(const id of ['linear_search','binary_search_b']){ctx.currentB={id,array:[101]};ctx.renderBVisual({});assert.equal(visual.innerHTML,'search-view');}
 for(const id of ['bubble_sort_b','selection_sort_b']){ctx.currentB={id,array:[101]};ctx.renderBVisual({});assert.equal(visual.innerHTML,'sort-view');}
+assert(!source.slice(source.indexOf('function bMockVisualHtml('),source.indexOf('function bTraceBridgeV376(')).includes('配列の状態（横にスクロール）'),'no unrelated bMock region');
 console.log('PASS: B trace array/matrix labels are one-based; internal highlight and dedicated search/sort renderers unchanged');
+

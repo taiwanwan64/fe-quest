@@ -8748,7 +8748,7 @@ function bMockVisualHtml(item){
   if(v.list)return linkedListTraceViewV365(v.list,v.currentNode,v.visited||[]);
   if(v.bits){const labels={x:'x',mask:'mask',result:'AND'};return `<div class="trace-bits">${Object.entries(v.bits).map(([k,val])=>`<div class="trace-bit-row"><div class="trace-bit-label">${labels[k]||escapeHtml(k)}</div><div class="trace-bit-value">${escapeHtml(val)}</div></div>`).join('')}</div>`;}
   if(v.object)return `<div class="trace-object"><div class="trace-object-title">${escapeHtml(v.objectName||'object')}</div>${Object.entries(v.object).map(([k,val])=>`<div class="trace-object-prop"><span>${escapeHtml(k)}</span><b>${escapeHtml(val)}</b></div>`).join('')}</div>`;
-  if(v.array){const arr=v.arrayState||v.array;if(v.searchMode)return searchTraceViewV366(v.searchMode,arr,v.target,{state:v.searchState||{},focus:v.focus,found:v.found});if(v.sortMode)return sortTraceViewV367(v.sortMode,arr,{state:v.sortState||{},focus:v.focus,line:v.sortLine,msg:v.sortMessage});return `<div class="trace-array" tabindex="0" role="region" aria-label="配列の状態（横にスクロール）">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
+  if(v.array){const arr=v.arrayState||v.array;if(v.searchMode)return searchTraceViewV366(v.searchMode,arr,v.target,{state:v.searchState||{},focus:v.focus,found:v.found});if(v.sortMode)return sortTraceViewV367(v.sortMode,arr,{state:v.sortState||{},focus:v.focus,line:v.sortLine,msg:v.sortMessage});return `<div class="trace-array">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
   if(v.stack)return `<div class="sub" style="text-align:center;margin-bottom:6px">トップ</div><div class="trace-stack">${v.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
   if(v.tree){const visited=v.visited||[],mark=n=>visited.includes(n)?`[${n}]`:n;return `<div class="tree-view">       ${mark('A')}
       /   \\
@@ -9233,7 +9233,7 @@ function renderBVisual(step){
       v.innerHTML=sortTraceViewV367(currentB.id,arr,step);
       return;
     }
-    v.innerHTML=`<div class="trace-array">${
+    v.innerHTML=`<div class="trace-array" tabindex="0" role="region" aria-label="配列の状態（横にスクロール）">${
       arr.map((x,i)=>`<div class="trace-array-cell ${step.focus===i?'focus':''} ${step.found===i?'found':''}">${x}<span class="trace-array-index">${i+1}</span></div>`).join('')
     }</div>${currentB.target!==undefined?`<div class="visit-path">target = ${currentB.target}</div>`:''}`;
     return;
