@@ -49,3 +49,16 @@
 - 物理スマートフォン狭幅・タッチ・横スクロール・縦横切替は未検証。ガイド内容改善、静的readability、デスクトップ受入と、章全体の完了を区別する。
 - coverage in-progress、IPA43（37 in-progress / 6 verified-covered）維持。関連度計算の前回direct-practice-gapも残す。
 - 次の章単位作業は、この文法章の直接演習不足を全Bpoolのlive metadata/保護本文と照合し、重複しない保護問題/provider/catalog契約を設計・受入する。第2章へ自動的に飛ばさない。
+
+## 本番受入 — 2026-10-08 UTC
+
+- 実装PR #347、head `b835cf4183e0e32270c8ee0ba175b851820ddbec`。publication `37733206164` / v35 `37733206041` successを確認してマージ。
+- 配信確認main `c85bede4de1689eff69c37aac64f9ac25f37094a`、Pages `37733300602` success。cache `fe-quest-v377-184`、文法CSS query `?v=bgrammar-184`。
+- 本番通常再読込後に、学習→科目B→トレース一覧の既存文法ガイド1個を開き、全8節・9表を表示確認。本文/カード/コード/表/注記/summary/captionの216要素が全て18px。
+- 1363px viewport / document scrollWidth1348、ガイド幅906px、各表枠842px・scrollWidth842pxでデスクトップ横溢れなし。2つの長表は名前付きregion・tabindex0で、紙トレース表のクリック後focusも確認した。狭幅で実際に横スクロールしたとは主張しない。
+- while/doの同初期値比較、for全途中値、同名局所/大域、紙トレース表を画面画像で目視した。周辺UIと120XPの見えるwhile/do確認画像を保存。保護教材の画像/問題本文をpublic repoへ置かない。
+- 既存のブラウザーは初回設定状態だったので、別の確認用ゲストで初回診断12/12→計画確認を通常UIで完了。診断由来120XP、A0/130、B0/35を再読込後に確認。以前の第21章1247XP/4履歴の継続保持は今回未確認で、消去・復旧・統合をしていない。
+- 40予測問題の本番採点は今回行っていない。起点の静的照合と、ガイド受入を区別する。
+- 取得できた本番errorログにFE QUEST由来エラーなし（ブラウザー拡張metadataエラーは対象外）。
+- DB最終readback130/1180、question digest `c62e79b86ba41d03c054db09e6337bd2`、lesson digest `e89f8d33fa35a4d104110807dddb3543`。起点と完全一致、DB mutationなし。
+- **ガイド内容改善・静的readability・デスクトップ表示受入は完了。章全skill/直接演習/40問採点/実スマホは未完了。** 次チャットはまずlive GitHubを確認し、上記文法章直接演習不足を全Bpoolへ照合する。
