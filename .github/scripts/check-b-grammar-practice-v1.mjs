@@ -3,6 +3,9 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const source=fs.readFileSync('assets/b-grammar-practice-v1.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-v1.json','utf8'));
+const examCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-exam-v1.json','utf8'));
+const examIds=['ctrl_01','ctrl_02','ctrl_03','ctrl_04','ctrl_05','rec_02','rec_04'].map(s=>'b_exam_bexam_'+s);
+assert.deepEqual(examCatalog.items.map(x=>x.id),examIds);
 const indexHtml=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const css=fs.readFileSync('assets/b-grammar-practice-v1.css','utf8');
@@ -28,21 +31,21 @@ function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failG
   const guide=new Element();get('bGrammarPractice').guide=guide;
   get('bGrammarQuestion').hidden=true;get('bGrammarNext').hidden=true;get('bGrammarHint').hidden=true;
   get('trace').classList.contains=key=>key==='active';
-  const calls=[],observers=[];let pendingResolve=null,failed=false;
+  const calls=[],observers=[];let pendingResolve=null,failed=false,activeIds=ids,activeQuestions=synthetic;
   const fetch=async(url,options)=>{
     assert.equal(options.cache,'no-store');assert.equal(options.credentials,'omit');assert.equal(options.referrerPolicy,'no-referrer');assert.ok(options.signal);
     const body=options.body?JSON.parse(options.body):null;calls.push({url,body});
-    if(!body)return {ok:true,json:async()=>mutateCatalog(structuredClone(catalog))};
+    if(!body){const selected=String(url).includes('question-catalog-b-grammar-exam-v1.json')?examCatalog:catalog;activeIds=selected.items.map(x=>x.id);activeQuestions=selected.items.map((entry,i)=>({...structuredClone(synthetic[i%synthetic.length]),id:entry.id,renderContext:{type:'exam',parentId:entry.parentId,title:'Synthetic title '+i,context:'Synthetic context',code:['synthetic code'],data:[{label:'<label>',text:'<img src=x> note'}]}}));return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
     assert.equal(options.method,'POST');
     if(body.action==='bootstrap'){
-      assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,ids);
+      assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,activeIds);
       if(failBootstrap)return {ok:false};
       if(delayBootstrap)await new Promise(resolve=>pendingResolve=resolve);
-      return {ok:true,json:async()=>mutateBootstrap({sessionToken:'x'.repeat(64),questions:structuredClone(synthetic)})};
+      return {ok:true,json:async()=>mutateBootstrap({sessionToken:'x'.repeat(64),questions:structuredClone(activeQuestions)})};
     }
     assert.equal(body.action,'answer');assert.equal(body.sessionToken,'x'.repeat(64));
     if(failGrade&&!failed){failed=true;return {ok:false};}
-    const ordinal=ids.indexOf(body.questionId);assert.ok(ordinal>=0);
+    const ordinal=activeIds.indexOf(body.questionId);assert.ok(ordinal>=0);
     const answerIndex=ordinal%4;
     return {ok:true,json:async()=>mutateGrade({questionId:body.questionId,correct:body.choiceIndex===answerIndex,answerIndex,explanation:'Synthetic explanation',choiceExplanations:Array(4).fill('Synthetic reason')})};
   };
@@ -81,3 +84,31 @@ assert.equal(app.get('bGrammarQuestion').hidden,true);assert.equal(app.get('bGra
 app=harness();await app.get('bGrammarStart').click();app.guide.open=false;app.guide.handlers.toggle();assert.equal(app.get('bGrammarQuestion').hidden,true);
 app=harness();await app.get('bGrammarStart').click();app.get('trace').classList.contains=()=>false;app.observers[1].handler();assert.equal(app.get('bGrammarOptions').children.length,0);
 console.log('PASS isolated grammar supplement: 6-question flow, wrong retry, first score, pre-answer leak rejection, transport failure, stale/collapse/route cleanup, no persistence');
+
+app=harness({mutateGrade:data=>({...data,choiceExplanations:[]})});await app.get('bGrammarExamStart').click();
+for(let i=0;i<7;i++){
+ assert.equal(app.get('bGrammarTitle').textContent,`${i+1} / 7：Synthetic title ${i}`);
+ assert.equal(app.get('bGrammarData').children[0].children[1].textContent,'<img src=x> note');
+ if(i===0){await app.get('bGrammarOptions').children[1].click();assert.equal(app.get('bGrammarOptions').children[1].disabled,true);}
+ await app.get('bGrammarOptions').children[i%4].click();
+ assert.equal(app.get('bGrammarFeedback').children.length,2,'empty legacy reasons must not render empty option list');
+ await app.get('bGrammarNext').click();
+}
+assert.ok(app.get('bGrammarStatus').textContent.includes('初回正解 6 / 7'));
+assert.equal(app.get('bGrammarCode').textContent,'');
+assert.equal(app.get('bGrammarData').children.length,0);
+assert.equal(app.get('bGrammarStart').hidden,false);assert.equal(app.get('bGrammarExamStart').hidden,false);
+await app.get('bGrammarStart').click();assert.ok(app.get('bGrammarTitle').textContent.startsWith('1 / 6'));
+await app.get('bGrammarClose').click();
+for(const mutateCatalog of [doc=>{doc.items[0].id='b_exam_bexam_array_01';return doc;},doc=>{doc.items[0].explanation='leak';return doc;},doc=>{doc.items[1]=doc.items[0];return doc;}]){
+ app=harness({mutateCatalog});await app.get('bGrammarExamStart').click();assert.equal(app.get('bGrammarQuestion').hidden,true);assert.equal(app.calls.length,1);
+}
+for(const mutateBootstrap of [data=>{data.questions[0].renderContext.data[0].answerIndex=0;return data;},data=>{data.questions[0].renderContext.data[0].text=42;return data;}]){
+ app=harness({mutateBootstrap});await app.get('bGrammarExamStart').click();assert.equal(app.get('bGrammarQuestion').hidden,true);
+}
+app=harness({mutateGrade:data=>({...data,choiceExplanations:['one','two','three']})});await app.get('bGrammarExamStart').click();await app.get('bGrammarOptions').children[0].click();assert.equal(app.get('bGrammarNext').hidden,true);
+app=harness({delayBootstrap:true});const examStarting=app.get('bGrammarExamStart').click();
+for(let i=0;i<20&&!app.pending();i++)await Promise.resolve();
+await app.get('bGrammarClose').click();app.release();await examStarting;assert.equal(app.get('bGrammarQuestion').hidden,true);
+console.log('PASS existing grammar exam: 7 IDs/order, empty reasons, notes/plain text, wrong retry and first score, switch to 6, malformed content and stale cleanup');
+

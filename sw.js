@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-189';
+const CACHE_NAME = 'fe-quest-v377-190';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -28,10 +28,11 @@ const APP_SHELL = [
   "./assets/ch21-depth-v402.css",
   "./assets/ch22-strategy-v403.css?v=ch22-183",
   "./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184",
-  "./assets/b-grammar-practice-v1.css",
+  "./assets/b-grammar-practice-v1.css?v=grammar-exam-190",
   "./assets/b-trace-feedback-v1.css",
-  "./assets/b-grammar-practice-v1.js",
+  "./assets/b-grammar-practice-v1.js?v=grammar-exam-190",
   "./assets/question-catalog-b-grammar-v1.json",
+  "./assets/question-catalog-b-grammar-exam-v1.json",
   "./assets/bbook-ch02-array-v405.css",
   "./assets/bbook-ch03-matrix-v406.css",
   "./assets/bbook-ch04-impossible-v407.css",
@@ -50,9 +51,9 @@ const APP_SHELL = [
   "./assets/protected-content-provider-v376.js",
   "./assets/protected-content-provider-v376-v35.js",
   "./assets/protected-lesson-provider-v376.js",
-  "./assets/app-v377.js?v=btrace-choice-189",
+  "./assets/app-v377.js?v=btrace-choice-190",
   "./assets/protected-flow-bridge-v376.js",
-  "./assets/protected-b-trace-bridge-v376.js?v=btrace-choice-189",
+  "./assets/protected-b-trace-bridge-v376.js?v=btrace-choice-190",
   "./assets/protected-b-security-bridge-v376.js",
   "./assets/protected-b-exam-bridge-v376.js",
   "./assets/protected-b-final-bridge-v376.js",
@@ -180,5 +181,6 @@ self.addEventListener('fetch', event => {
   }
   event.respondWith(staleWhileRevalidate(request));
 });
+
 
 

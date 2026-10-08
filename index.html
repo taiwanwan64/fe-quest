@@ -110,7 +110,7 @@
 <link rel="stylesheet" href="./assets/ch21-depth-v402.css">
 <link rel="stylesheet" href="./assets/ch22-strategy-v403.css?v=ch22-183">
 <link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184">
-<link rel="stylesheet" href="./assets/b-grammar-practice-v1.css">
+<link rel="stylesheet" href="./assets/b-grammar-practice-v1.css?v=grammar-exam-190">
 <link rel="stylesheet" href="./assets/b-trace-feedback-v1.css">
 <link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
 <link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
@@ -1216,16 +1216,19 @@
           <summary>文法早見表：変数・条件分岐・繰返し・関数</summary>
           <div class="b-grammar-body-v404">
             <p>擬似言語は、処理の手順を表すための表記です。変数は値を保存する名前付きの箱、型は入れられる値の種類です。実行した行と、その直後の値を順番に追うことを<strong>トレース</strong>と呼びます。</p>
-            <div id="bGrammarPractice" class="b-grammar-practice-v1" aria-label="文法の補助確認">
-              <h4>文法の補助確認：6問</h4>
+            <div id="bGrammarPractice" class="b-grammar-practice-v1" aria-label="文法の確認演習">
+              <h4>文法の確認演習</h4>
               <p>while/doの0回・1回、同名の局所／大域変数、論理or/not、文字列連結、整数／実数除算を確認します。通信が必要です。この確認はXP・履歴・基礎35演習の進捗に加算しません。途中再開はできません。</p>
-              <button type="button" id="bGrammarStart">6問を確認する</button>
+              <button type="button" id="bGrammarStart">基本の6問を確認する</button>
+              <p>実戦確認では、条件分岐、整数除算、do-while、break、累積計算、関数の引数と再帰を7問で練習します。</p>
+              <button type="button" id="bGrammarExamStart">実戦の7問を確認する</button>
               <button type="button" id="bGrammarClose" hidden>確認を閉じる</button>
               <p id="bGrammarStatus" role="status" aria-live="polite"></p>
               <div id="bGrammarQuestion" hidden>
                 <h4 id="bGrammarTitle" tabindex="-1"></h4>
                 <p id="bGrammarContext"></p>
                 <pre id="bGrammarCode" tabindex="0" aria-label="問題の擬似コード"></pre>
+                <div id="bGrammarData" aria-label="問題の補足"></div>
                 <p id="bGrammarStem"></p>
                 <div id="bGrammarOptions" role="group" aria-label="解答の選択肢"></div>
                 <p id="bGrammarHint" hidden></p>
@@ -3634,16 +3637,17 @@ lengthX ← sumX2 の正の平方根</div>
 
 <script src="./assets/protected-content-provider-v376.js"></script>
 <script src="./assets/protected-lesson-provider-v376.js"></script>
-<script src="./assets/app-v377.js?v=btrace-choice-189"></script>
+<script src="./assets/app-v377.js?v=btrace-choice-190"></script>
 <script src="./assets/protected-flow-bridge-v376.js"></script>
-<script src="./assets/protected-b-trace-bridge-v376.js?v=btrace-choice-189"></script>
+<script src="./assets/protected-b-trace-bridge-v376.js?v=btrace-choice-190"></script>
 <script src="./assets/protected-b-security-bridge-v376.js"></script>
 <script src="./assets/protected-b-exam-bridge-v376.js"></script>
 <script src="./assets/protected-b-final-bridge-v376.js"></script>
-<script src="./assets/b-grammar-practice-v1.js"></script>
+<script src="./assets/b-grammar-practice-v1.js?v=grammar-exam-190"></script>
 <script src="./assets/first-impression-ux-v377.js"></script>
 <script src="./cloud/activation-loader-v342.js"></script>
 </body>
 </html>
+
 
 
