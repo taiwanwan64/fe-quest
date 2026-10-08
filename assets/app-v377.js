@@ -8748,7 +8748,7 @@ function bMockVisualHtml(item){
   if(v.list)return linkedListTraceViewV365(v.list,v.currentNode,v.visited||[]);
   if(v.bits){const labels={x:'x',mask:'mask',result:'AND'};return `<div class="trace-bits">${Object.entries(v.bits).map(([k,val])=>`<div class="trace-bit-row"><div class="trace-bit-label">${labels[k]||escapeHtml(k)}</div><div class="trace-bit-value">${escapeHtml(val)}</div></div>`).join('')}</div>`;}
   if(v.object)return `<div class="trace-object"><div class="trace-object-title">${escapeHtml(v.objectName||'object')}</div>${Object.entries(v.object).map(([k,val])=>`<div class="trace-object-prop"><span>${escapeHtml(k)}</span><b>${escapeHtml(val)}</b></div>`).join('')}</div>`;
-  if(v.array){const arr=v.arrayState||v.array;if(v.searchMode)return searchTraceViewV366(v.searchMode,arr,v.target,{state:v.searchState||{},focus:v.focus,found:v.found});if(v.sortMode)return sortTraceViewV367(v.sortMode,arr,{state:v.sortState||{},focus:v.focus,line:v.sortLine,msg:v.sortMessage});return `<div class="trace-array">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
+  if(v.array){const arr=v.arrayState||v.array;if(v.searchMode)return searchTraceViewV366(v.searchMode,arr,v.target,{state:v.searchState||{},focus:v.focus,found:v.found});if(v.sortMode)return sortTraceViewV367(v.sortMode,arr,{state:v.sortState||{},focus:v.focus,line:v.sortLine,msg:v.sortMessage});return `<div class="trace-array" tabindex="0" role="region" aria-label="配列の状態（横にスクロール）">${arr.map((x,i)=>`<div class="trace-array-cell ${v.focus===i?'focus':''} ${v.found===i?'found':''}">${escapeHtml(x)}<span class="trace-array-index">${i}</span></div>`).join('')}</div>${v.target!==undefined?`<div class="visit-path">target = ${escapeHtml(v.target)}</div>`:''}`;}
   if(v.stack)return `<div class="sub" style="text-align:center;margin-bottom:6px">トップ</div><div class="trace-stack">${v.stack.map(x=>`<div class="trace-stack-item">${escapeHtml(x)}</div>`).join('')}</div>`;
   if(v.tree){const visited=v.visited||[],mark=n=>visited.includes(n)?`[${n}]`:n;return `<div class="tree-view">       ${mark('A')}
       /   \\
@@ -8921,8 +8921,36 @@ function bTraceBridgeV376(){
   return bridge;
 }
 function bTraceGenericTitleV376(ex){return ex?.concept?`${ex.concept}・トレース演習`:'アルゴリズム・トレース演習';}
+function bTraceClearFeedbackV377(){
+  const root=document.getElementById('bTraceFeedback');
+  if(root){root.replaceChildren();root.hidden=true;}
+}
+function bTraceRenderChoiceFeedbackV377(packet,result,selectedIndex){
+  bTraceClearFeedbackV377();
+  const root=document.getElementById('bTraceFeedback');
+  if(!root||!packet||!Array.isArray(packet.options))return;
+  const reasons=result.correct&&Array.isArray(result.choiceExplanations)?result.choiceExplanations:[];
+  const indices=result.correct?reasons.map((_,i)=>i):typeof result.selectedExplanation==='string'&&result.selectedExplanation?[selectedIndex]:[];
+  if(!indices.length)return;
+  const title=document.createElement('h3');
+  title.textContent=result.correct?'選択肢の理由':'選んだ答えを確認';
+  root.appendChild(title);
+  const list=document.createElement('ul');
+  for(const i of indices){
+    if(!Number.isInteger(i)||i<0||i>=packet.options.length)continue;
+    const reason=result.correct?reasons[i]:result.selectedExplanation;
+    if(typeof reason!=='string'||!reason.trim())continue;
+    const item=document.createElement('li'),label=document.createElement('strong'),body=document.createElement('p');
+    label.textContent=String.fromCharCode(65+i)+'. '+packet.options[i]+(i===selectedIndex?'（選択）':'');
+    body.textContent=reason;
+    item.appendChild(label);item.appendChild(body);list.appendChild(item);
+  }
+  if(!list.children.length)return;
+  root.appendChild(list);root.hidden=false;
+}
 function bTraceApplyPacketV376(packet,{resetMessage=true}={}){
   if(!packet||typeof packet!=='object'||!packet.traceSegment||!Array.isArray(packet.traceSegment.steps)||!packet.traceSegment.steps.length)throw new Error('v376_b_trace_packet_invalid');
+  if(resetMessage)bTraceClearFeedbackV377();
   const feedback=!resetMessage?document.getElementById('bTraceMessage').textContent:'';
   const segment=packet.traceSegment;
   bTracePacketV376=packet;
@@ -8963,6 +8991,7 @@ function bTraceRecordStudyPositionV376(ordinal,stepIndex,complete=false,tail=nul
 async function bTraceShowPredictionV376(){
   const packet=bTracePacketV376;
   if(!packet||bTraceGradeBusyV376)return;
+  bTraceClearFeedbackV377();
   bPredictionSatisfied=false;
   const box=document.getElementById('predictionBox');
   box.classList.add('show');
@@ -8980,6 +9009,8 @@ async function bTraceShowPredictionV376(){
       try{
         const alreadyScored=bTraceBridgeV376().state().resolvedOrdinals.includes(packet.ordinal);
         const result=alreadyScored?(bTraceFinalResultV376||{correct:true}):await bTraceBridgeV376().grade(packet.questionId,index);
+        if(bTracePacketV376!==packet)return;
+        bTraceRenderChoiceFeedbackV377(packet,result,index);
         if(result.tail)bTraceFinalResultV376=result;
         if(!result.correct){
           button.classList.add('bad');
@@ -9069,13 +9100,16 @@ function showBListLegacyV376(){
   document.getElementById('bLab').classList.remove('show');
   renderBGrid();
 }
-function showBList(){bTraceBridgeV376().clear();bTracePacketV376=null;currentB=null;return showBListLegacyV376();}
+function showBList(){bTraceClearFeedbackV377();bTraceBridgeV376().clear();bTracePacketV376=null;currentB=null;return showBListLegacyV376();}
 document.getElementById('bBackToList')?.addEventListener('click',showBList);
 document.getElementById('bNextExercise')?.addEventListener('click',continueSubjectBFlow);
 
 async function startBExercise(id,resume=null){
   const meta=B_EXERCISES.find(item=>item.id===id);if(!meta)return false;
   bTraceFinalResultV376=null;
+  bTracePacketV376=null;currentB=null;
+  bTraceClearFeedbackV377();resetBView();
+  document.getElementById('bTraceMessage').textContent='問題を読み込み中…';
   document.getElementById('bSelect').classList.add('hidden');
   document.getElementById('bLab').classList.add('show');
   document.getElementById('bComplete').classList.remove('show');
@@ -9115,7 +9149,7 @@ function resetBView(){
   document.getElementById('bStep').textContent='▶ 次の行を実行';
   document.getElementById('bComplete').classList.remove('show');
 }
-document.getElementById('bReset')?.addEventListener('click',resetBView);
+document.getElementById('bReset')?.addEventListener('click',()=>{bTraceClearFeedbackV377();resetBView();});
 
 document.getElementById('bStep')?.addEventListener('click',()=>{
   if(!currentB) return;
@@ -16523,3 +16557,4 @@ function installExponentTypographyV377(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installExponentTypographyV377,{once:true});
 else installExponentTypographyV377();
+

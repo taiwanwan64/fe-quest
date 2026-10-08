@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const bridgeSource=fs.readFileSync('assets/protected-b-trace-bridge-v376.js','utf8');
+const app=fs.readFileSync('assets/app-v377.js','utf8');
+const rows=[1,2].map(n=>({id:'synthetic-'+n,parentId:'synthetic',ordinal:n,sourcePool:'b_exercise',level:'基礎'}));
+const segment={code:['synthetic instruction'],traceSegment:[{line:0,state:{value:77}}]};
+const reasons=['first <img src=x> reason','second reason','third reason','fourth reason'];
+let mode='wrong',forget=0;
+const provider={hasAccessCode:()=>true,loadCatalog:async()=>({items:rows}),hydrate:async ids=>({questions:ids.map(id=>({id,sourcePool:'b_exercise',stem:'Synthetic question',options:['one','two','three','four'],renderContext:segment}))}),submit:async id=>({questionId:id,correct:mode!=='wrong',explanation:'synthetic overall',choiceExplanations:mode==='legacy'?[]:mode==='bad'?['partial']:reasons,postSubmit:{traceTail:{steps:[{line:0,state:{value:88}}]}}}),forgetAnswer:()=>forget++,clearHydrated(){}};
+const ctx={globalThis:{FEQUEST_PROTECTED_CONTENT:provider},console,document:{getElementById:()=>null}};
+vm.createContext(ctx);vm.runInContext(bridgeSource,ctx);
+const bridge=ctx.globalThis.FEQUEST_V376_B_TRACE;
+const packet=await bridge.start('synthetic');
+assert(!('choiceExplanations' in packet));assert(!('answerIndex' in packet));
+const wrong=await bridge.grade(packet.questionId,2);
+assert.equal(wrong.selectedExplanation,reasons[2]);assert.equal(wrong.choiceExplanations.length,0);assert.equal(wrong.explanation,'');assert.equal(wrong.tail,null);
+assert.equal(bridge.state().resolvedOrdinals.length,0);assert.equal(forget,1);
+mode='correct';const correct=await bridge.grade(packet.questionId,0);
+assert.deepEqual(Array.from(correct.choiceExplanations),reasons);assert(Object.isFrozen(correct.choiceExplanations));assert.equal(correct.selectedExplanation,'');assert.equal(forget,2);
+await bridge.next();const final=await bridge.grade('synthetic-2',0);assert.equal(final.tail.phase,'tail');assert.equal(final.choiceExplanations.length,4);
+bridge.clear();mode='legacy';await bridge.start('synthetic');assert.equal((await bridge.grade('synthetic-1',0)).choiceExplanations.length,0);
+bridge.clear();mode='bad';await bridge.start('synthetic');assert.equal((await bridge.grade('synthetic-1',0)).choiceExplanations.length,0);
+
+const nodes=new Map();
+function node(tag='div'){return {tag,textContent:'',hidden:true,children:[],appendChild(n){this.children.push(n)},replaceChildren(){this.children=[]}}}
+const root=node();nodes.set('bTraceFeedback',root);
+const ui={document:{getElementById:id=>nodes.get(id)||null,createElement:tag=>node(tag)}};
+vm.createContext(ui);const start=app.indexOf('function bTraceClearFeedbackV377('),end=app.indexOf('function bTraceApplyPacketV376(',start);
+vm.runInContext(app.slice(start,end),ui);
+ui.bTraceRenderChoiceFeedbackV377(packet,wrong,2);assert.equal(root.hidden,false);assert.equal(root.children[1].children.length,1);assert(root.children[1].children[0].children[0].textContent.includes('C. three'));assert.equal(root.children[1].children[0].children[1].textContent,reasons[2]);
+ui.bTraceRenderChoiceFeedbackV377(packet,correct,0);assert.equal(root.children[1].children.length,4);assert.equal(root.children[1].children[0].children[1].textContent,reasons[0]);assert(!('innerHTML' in root.children[1].children[0].children[1]),'all protected feedback is written as text only');
+ui.bTraceClearFeedbackV377();assert.equal(root.hidden,true);assert.equal(root.children.length,0);
+ui.bTraceRenderChoiceFeedbackV377(packet,{correct:true,choiceExplanations:[]},0);assert.equal(root.hidden,true);
+const startFn=app.slice(app.indexOf('async function startBExercise('),app.indexOf('function escapeHtml(',app.indexOf('async function startBExercise(')));
+assert(startFn.indexOf('currentB=null')<startFn.indexOf('await bTraceBridgeV376()'));assert(startFn.indexOf('resetBView()')<startFn.indexOf('await bTraceBridgeV376()'));
+console.log('PASS: normal trace selected-only wrong feedback / four reasons after correct / legacy fallback / plain text / reset cleanup');

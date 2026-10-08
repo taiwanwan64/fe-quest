@@ -47,6 +47,7 @@ for (const declaration of ['const FINAL_SIZE=20;','const FINAL_ALGO_SIZE=16;','c
 assert.ok(html.includes('./assets/ch22-strategy-v403.css'));
 assert.ok(read('sw.js').includes('"./assets/ch22-strategy-v403.css?v=ch22-183"'));
 assert.ok(html.includes('href="./assets/ch22-strategy-v403.css?v=ch22-183"'));
-assert.ok(html.includes('src="./assets/app-v377.js?v=btrace-index-187"'));
-assert.ok(read('sw.js').includes('"./assets/app-v377.js?v=btrace-index-187"'));
+assert.ok(html.includes('src="./assets/app-v377.js?v=btrace-choice-188"'));
+assert.ok(read('sw.js').includes('"./assets/app-v377.js?v=btrace-choice-188"'));
 console.log('PASS Chapter 22: 3 strategy guides, 18px main / 16px labels, official links, B metadata 40/45/45/50 and final 16+4; no protected content fixture');
+
