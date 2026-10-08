@@ -1,0 +1,16 @@
+#bGrammarPractice{margin:18px 0;padding:16px;border:2px solid #b9d3df;border-radius:14px;background:#f8fcff;min-width:0}
+#bGrammarPractice [hidden]{display:none!important}
+#bGrammarPractice h3,#bGrammarPractice h4{font-size:19px;line-height:1.6;margin:0 0 10px;color:#17364b}
+#bGrammarPractice p,#bGrammarPractice li,#bGrammarPractice button{font-size:18px;line-height:1.65;overflow-wrap:anywhere}
+#bGrammarPractice button{cursor:pointer;min-height:48px;padding:10px 14px;border:1px solid #9cb7c5;border-radius:10px;background:#fff;color:#17364b;font-weight:700;max-width:100%;margin:4px 8px 4px 0;text-align:left}
+#bGrammarPractice button:disabled{cursor:default;opacity:.65}
+#bGrammarPractice button:focus-visible,#bGrammarPractice pre:focus-visible{outline:3px solid #b45309;outline-offset:3px}
+#bGrammarCode{font:18px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;padding:12px;background:#eef4f8;border-radius:10px;max-width:100%;box-sizing:border-box}
+#bGrammarOptions{display:grid;gap:8px}
+#bGrammarOptions button{width:100%;margin:0}
+#bGrammarOptions button[data-correct="true"]{border:2px solid #288646;background:#edf9ef;color:#185e31;opacity:1}
+#bGrammarOptions button[data-wrong="true"]{border:2px solid #b42318;background:#fff3f1;color:#922017}
+#bGrammarFeedback{margin-top:12px}
+#bGrammarFeedback ul{padding-left:22px}
+#bGrammarHint{border-left:4px solid #d97706;padding:10px;background:#fff7ed}
+#bGrammarStatus:empty{display:none}
