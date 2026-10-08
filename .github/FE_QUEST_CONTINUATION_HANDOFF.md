@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：文法章の既存10予測・40選択肢理由と表示改善（2026-10-09）
+
+既存loop_sum/count_even/nested_loop/gcd_euclid/recursionの10予測に40理由を追加。private PR #131/#132のCI成功後、修正したone-shot SQLを1回適用済み。初回SQLはreadback照合のJSON演算子優先順位で全件ロールバックし、データ不変を確認後に括弧を修正。対象choice_explanationsだけ変更、正答/本文/code/選択肢/日時等不変、非対象1176問と全130教材の全行digest保持。1186問digest `df83aae7e41c90f929b180ffb18bfc13` / 130教材digest `e89f8d33fa35a4d104110807dddb3543`。private main `756f1451e114990cc59599cef4be7ed4b5c93b9b`。**理由SQLと従来既適用deltaは再実行しない。gate version3再deployなし。**
+
+public PR #354で誤答選択1理由/正答4理由・textContent表示、18px、配列nowrap、次予測/一覧/リセット/新問題ロード時に説明消去を実装。head `1af444259ddd7f2ff11f8b2ab94a7bc1b226fbc9`、publication `37854036526` / v35 `37854036512` / Pages `37854126136` success。PR #355で配列キーボード領域属性を通常renderBVisualへ限定（bMockへの付与を撤去）し対象の回帰テストを追加。最終head `1a78c2adaa16cccffdccd0d1a4d4f6ebd1ad13a5`、publication `37854501893` / v35 `37854501959` / Pages `37854560807` success。実装配信main `9cfd114116f19071dcfb97ffaeb7004f3b00fd61`、cache189、script query `btrace-choice-189`を通常reloadで確認。GitHub blob hashとローカル検証ファイル一致。得点/採点/一般catalog/providerは維持。
+
+許可済み別QAゲストで診断12/12→120XPから、10予測全ての4理由・5完了、意図的誤答1件で選択1理由/XP不変/再回答を確認。診断とは別に10unique ID/10予測位置/11採点操作/5完了。loopは188、残り4親は189で受入。最終reload後570XP（120+50+400）、A0/130、B5/35、トレース5/20保持。旧575/120XPセッションの復旧/統合/削除なし、旧セッション保持を今回証明したとは言わない。補助6問の全操作は反復していない。
+
+表示はコード/予測/4択/理由18px。5配列セルが同じ行で番号1〜5、ページ横溢れなし。名前付きfocus可能領域を確認したが、このdesktop幅は内部overflowなしのため実際の横移動・実スマホ狭幅/タッチ/縦横切替は未受入。リセットの理由消去と新問題ロード時の旧STATE/予測/理由消去を通常UIで確認。画像保存済み。
+
+**次は同じ文法章の未受入exam/do/div等をlive保護本文と前回記録で対象限定し確認する。他15親30予測の理由は空のまま。受入済み5親や補助6問を無目的に全反復せず、第2章へ自動的に飛ばさない。** 全B180・文法章全skill・実スマホ完了とは言わない。coverage in-progress、IPA43（37 in-progress / 6 verified-covered）、第22章関連度gap維持。
+
+詳細：[選択肢理由・表示改善の受入](reference-audits/bbook-ch01-choice-reasons-20261009.md)。記録PR後の最新GitHub main/作業branch/open PR/CI/Pagesはliveで再確認する。以下は当時の履歴。
+
 ## 最新確定状態：文法章の既存5トレース受入・解説と図番号修正（2026-10-08）
 
 既存loop_sum/count_even/nested_loop/gcd_euclid/recursionの5親10予測を通常UIで正答・全体解説・最終区間・完了まで確認。修正前誤答/再挑戦2操作＋修正後10操作、10unique ID/11問題位置/5完了。診断とは別カウント。補助6問の全操作や既適用SQLは反復していない。
