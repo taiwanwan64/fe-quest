@@ -2,6 +2,22 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：文法章の既存5トレース受入・解説と図番号修正（2026-10-08）
+
+既存loop_sum/count_even/nested_loop/gcd_euclid/recursionの5親10予測を通常UIで正答・全体解説・最終区間・完了まで確認。修正前誤答/再挑戦2操作＋修正後10操作、10unique ID/11問題位置/5完了。診断とは別カウント。補助6問の全操作や既適用SQLは反復していない。
+
+PR #351で採点解説が次区間/最終区間のresetで消える不具合を表示だけ修正。head `67303ae88276bbb2cbbaa426d529033200c6269a`、publication `37748040737` / v35 `37748040797` / Pages `37748130635` success。main `610a815c046bb74cf4a18ffdb7a7c5698844a7b5`、cache186。実helper/grade-handler回帰と本番10予測で解説保持を確認。
+
+PR #352で通常汎用配列/行列の番号ラベル2箇所をコードと同じ1始まりへ修正。内部focusと採点は不変、専用探索/ソートやbMockは対象外。初期候補の誤った描画関数への適用はpublication FAILでmergeを阻止し、対象関数を限定して修正。最終head `57a5aa012e3563078bb9909f5a186bd462210fd9`、publication `37749248086` / v35 `37749248073` success、pinned compare/blobも一致。配信main `3b4c4dfe47c6711948190f35a8d38445547ace8f`、Pages `37773254470` success、cache187。公開script query `btrace-index-187`、配列1〜5・行列1,1〜2,2と強調位置を通常UIで確認し、画像保存。
+
+最初の許可済み別QAゲストは診断120＋修正前5＋修正後50＋5完了400＝575XP、トレース一覧5/20まで確認。継続時にブラウザーが初回設定となり、そのゲストのB5/35/履歴/再読込保持は未確認。プロフィールの消去/復旧/統合なし。公開後表示用の別セッションで診断12/12→60分・受験日未定、120XP・A0/130・B0/35を再読込後確認。配列/行列は未採点の図確認だけ。前の575XPを保持したとは言わない。
+
+DB mutation/private変更なし。read-only最終1186問・130教材、全問digest `8385789f12edf994d6ae4eee0ea86b7f` / 教材 `e89f8d33fa35a4d104110807dddb3543` 一致。private main `030c4164dda109974fbba150213f1cec1cc5db74`。追加SQL/既適用delta/旧gateを再実行・再deployしない。
+
+**次は同じ文法章の残件：既存10予測の選択肢別理由（live DBでは空）、通常トレース16pxの読みやすさ、一次元図の折返し、新演習読み込み中の前状態残存を保護source/gate/UI契約に照合して整える。未受入の既存文法exam/do/div等も対象を決める。既に済んだ5親・補助6問を無目的に全反復せず、第2章へ自動的に飛ばさない。** 残る基礎15親30予測・全B180・実スマホの受入完了とは言わない。coverage in-progress、IPA43（37 in-progress / 6 verified-covered）、第22章関連度gap維持。
+
+詳細：[既存トレース受入記録](reference-audits/bbook-ch01-existing-trace-acceptance-20261008.md)。記録PR後の最新GitHub main/作業branch/open PR/CI/Pagesはliveで再確認する。以下は当時の履歴。
+
 ## 最新確定状態：文法章の保護された補助確認6問・デスクトップ受入（2026-10-08）
 
 全B180行のlive保護本文を照合。doの後判定反復は既存 `b_exam_bexam_ctrl_03` にあり、全Bでdo欠如とは言わない。整数divも既存。while/do初回偽・同名局所/大域・論理or/not・文字列連結・実数商/整数商/余りの対比を、独自新ID6問で追補した。
