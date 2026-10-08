@@ -109,7 +109,7 @@
 <link rel="stylesheet" href="./assets/ch20-depth-v401.css">
 <link rel="stylesheet" href="./assets/ch21-depth-v402.css">
 <link rel="stylesheet" href="./assets/ch22-strategy-v403.css?v=ch22-183">
-<link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css">
+<link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184">
 <link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">
 <link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">
 <link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">
@@ -1213,125 +1213,205 @@
         <details class="b-grammar-v404">
           <summary>文法早見表：変数・条件分岐・繰返し・関数</summary>
           <div class="b-grammar-body-v404">
-            <p>擬似言語は、プログラムの処理を読み取るための表記です。まずは「変数の値がどう変わるか」を1行ずつ追えるようにします。</p>
+            <p>擬似言語は、処理の手順を表すための表記です。変数は値を保存する名前付きの箱、型は入れられる値の種類です。実行した行と、その直後の値を順番に追うことを<strong>トレース</strong>と呼びます。</p>
 
             <section class="b-grammar-section-v404">
               <h3>1. 変数と型</h3>
               <div class="b-grammar-grid-v404 three">
-                <div class="b-grammar-card-v404"><b>文字型</b><span>1字の文字を格納します。</span></div>
-                <div class="b-grammar-card-v404"><b>文字列型</b><span>複数の文字を格納します。</span></div>
-                <div class="b-grammar-card-v404"><b>整数型</b><span>整数を格納します。</span></div>
-                <div class="b-grammar-card-v404"><b>実数型</b><span>整数と小数を格納します。</span></div>
-                <div class="b-grammar-card-v404"><b>論理型</b><span>true（真）またはfalse（偽）を格納します。</span></div>
-                <div class="b-grammar-card-v404"><b>未定義</b><span>まだ値が格納されていない状態です。</span></div>
+                <div class="b-grammar-card-v404"><b>文字型</b><span>1字を保存します。例："月"。</span></div>
+                <div class="b-grammar-card-v404"><b>文字列型</b><span>文字の並びを保存します。例："月曜"。1字や空の文字列 "" も扱えます。</span></div>
+                <div class="b-grammar-card-v404"><b>整数型</b><span>小数部分のない数。例：−2、0、7。</span></div>
+                <div class="b-grammar-card-v404"><b>実数型</b><span>小数部分も扱える数。例：2.5、7.0。</span></div>
+                <div class="b-grammar-card-v404"><b>論理型</b><span>条件が成り立つtrue（真）か、成り立たないfalse（偽）を保存します。</span></div>
+                <div class="b-grammar-card-v404"><b>未定義</b><span>値が入っていない状態。未定義の値を代入してもこの状態になります。0やfalseとは別です。</span></div>
               </div>
-              <div class="b-grammar-code-v404">整数型: a
-a ← 1
-f ← e + 2</div>
-              <p class="b-grammar-note-v404">「←」は右側の計算結果を左側へ格納する代入です。プログラムは原則として上から下へ1行ずつ実行します。</p>
+              <p>宣言は変数名と型を決めること、初期化は最初の値を入れることです。「←」は右側を計算し、左の変数へ保存する<strong>代入</strong>です。</p>
+              <pre class="b-grammar-code-v404">整数型: a ← 4, b
+a ← a + 3
+b ← a × 2</pre>
+              <div class="b-grammar-table-v404"><table>
+                <caption>代入の前後</caption>
+                <thead><tr><th scope="col">実行直後</th><th scope="col">a</th><th scope="col">b</th></tr></thead>
+                <tbody><tr><th scope="row">宣言・初期化</th><td>4</td><td>未定義</td></tr><tr><th scope="row">a ← a + 3</th><td>7</td><td>未定義</td></tr><tr><th scope="row">b ← a × 2</th><td>7</td><td>14</td></tr></tbody>
+              </table></div>
+              <p class="b-grammar-note-v404"><strong>a ← a + 3 は等式ではありません。</strong>古いaの4で右辺を計算し、7で上書きします。次の行では新しい7を使います。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>2. 演算子を日本語と結び付ける</h3>
-              <div class="b-grammar-table-v404">
-                <table>
-                  <thead><tr><th>種類</th><th>表記</th><th>意味</th></tr></thead>
-                  <tbody>
-                    <tr><td>算術演算子</td><td>+ / - / × / ÷ / mod</td><td>加算 / 減算 / 乗算 / 除算 / 剰余</td></tr>
-                    <tr><td>関係演算子</td><td>&gt; / ≥ / &lt; / ≤ / = / ≠</td><td>より大きい / 以上 / より小さい / 以下 / 等しい / 等しくない</td></tr>
-                    <tr><td>論理演算子</td><td>and / or</td><td>両方が真 / どちらか一方でも真</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="b-grammar-note-v404">「5以上」には5を含みますが、「5より大きい」には5を含みません。境界値を含むかどうかまで読みます。</p>
+              <p>演算子は計算や比較を指示する記号です。かっこの中を先に計算します。数の計算では ×・÷・mod を +・− より先に扱います。</p>
+              <div class="b-grammar-table-v404"><table>
+                <caption>数の計算</caption>
+                <thead><tr><th scope="col">記号</th><th scope="col">意味と例</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">+ / −</th><td>足す／引く。7 + 2 = 9、7 − 2 = 5。</td></tr>
+                  <tr><th scope="row">× / ÷</th><td>掛ける／割る。7 × 2 = 14、7 ÷ 2 = 3.5。</td></tr>
+                  <tr><th scope="row">mod</th><td>剰余（じょうよ）、割った余り。7 mod 3 = 1（7 = 3 × 2 + 1）。2 mod 3 = 2、0 mod 3 = 0。</td></tr>
+                </tbody>
+              </table></div>
+              <p class="b-grammar-note-v404">整数の商や整数型への代入で小数部分をどう扱うかは、<strong>問題文の指定を確認</strong>します。「小数部分を切り捨てる」指定なら、7 ÷ 2 の整数の商は3です。丸め方を他の言語の知識だけで決めません。</p>
+              <div class="b-grammar-table-v404"><table>
+                <caption>比較は真か偽を返す</caption>
+                <thead><tr><th scope="col">記号</th><th scope="col">意味と境界の例</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">&gt; / ≥</th><td>より大きい／以上。5 &gt; 5 は偽、5 ≥ 5 は真。</td></tr>
+                  <tr><th scope="row">&lt; / ≤</th><td>より小さい／以下。5 &lt; 5 は偽、5 ≤ 5 は真。</td></tr>
+                  <tr><th scope="row">= / ≠</th><td>等しい／等しくない。5 = 5 は真、5 ≠ 5 は偽。</td></tr>
+                </tbody>
+              </table></div>
+              <p><strong>and</strong>は両方が真、<strong>or</strong>は少なくとも一方が真、<strong>not</strong>は真偽の反転です。Tはtrue、Fはfalseの略です。</p>
+              <div class="b-grammar-table-v404 trace-wide" role="region" aria-label="論理演算の真偽表・横スクロール可能" tabindex="0"><table>
+                <caption>条件PとQを組み合わせる</caption>
+                <thead><tr><th scope="col">P</th><th scope="col">Q</th><th scope="col">P and Q</th><th scope="col">P or Q</th><th scope="col">not P</th></tr></thead>
+                <tbody><tr><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td></tr><tr><td>T</td><td>F</td><td>F</td><td>T</td><td>F</td></tr><tr><td>F</td><td>T</td><td>F</td><td>T</td><td>T</td></tr><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>T</td></tr></tbody>
+              </table></div>
+              <p>例：xが5なら (x ≥ 5) and (x &lt; 8) は T and T で真。xが8なら T and F で偽です。not (x &lt; 5) は x ≥ 5 と同じ範囲です。</p>
+              <p>文字列に使う + は連結（つなぐこと）です。"2" + "7" は "27" で、数の2 + 7 = 9とは違います。// 以降の行末までと /* … */ の間はコメント（説明用の注記）で、処理として実行しません。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>3. if・elseif・else</h3>
-              <div class="b-grammar-grid-v404">
-                <div class="b-grammar-card-v404"><b>if</b><span>条件が真なら直後の処理を実行。偽ならその処理を飛ばします。</span></div>
-                <div class="b-grammar-card-v404"><b>elseif / else</b><span>前の条件が偽なら次の条件を確認し、どれも当てはまらなければelseへ進みます。</span></div>
-              </div>
-              <div class="b-grammar-code-v404">if a = 6
-    a ← a + 1
-elseif a = 5
-    a ← a - 1
+              <p>ifは「もし条件が真なら」。elseifは「前の条件がすべて偽なら次を調べる」。elseは「どれも真でない場合」。endifは分岐の終わりです。</p>
+              <pre class="b-grammar-code-v404">整数型: x ← 8
+文字列型: label
+if (x ≥ 8)
+    label ← "多い"
+elseif (x ≥ 5)
+    label ← "中くらい"
 else
-    a ← a + 3
-endif</div>
-              <p>条件を一つずつ判定し、最初に真になった分岐だけを実行します。</p>
+    label ← "少ない"
+endif</pre>
+              <p>8 ≥ 8 が真なので label は "多い"。8 ≥ 5 も真になり得ますが、<strong>elseifは判定せず</strong>、endifの後へ進みます。elseifへ来た時点で x &lt; 8 が確定しているため、中くらいの範囲は 5 ≤ x &lt; 8 です。</p>
+              <p class="b-grammar-note-v404"><strong>1本のif・elseif列は最初に真の分岐だけ。</strong>独立したifを2本書いた場合は、それぞれ条件を調べるので両方の処理が走ることがあります。elseがなく全条件が偽なら、分岐内の処理は実行しません。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>4. whileとdoは「条件を調べる位置」が違う</h3>
               <div class="b-grammar-grid-v404">
-                <div class="b-grammar-card-v404"><b>while</b><span>先に条件を確認します。最初から偽なら、処理を1回も実行しません。</span></div>
-                <div class="b-grammar-card-v404"><b>do</b><span>先に処理を実行し、その後で条件を確認します。最初から偽でも1回は実行します。</span></div>
-              </div>
-              <div class="b-grammar-code-v404">while 0 &gt; 0
-    処理
-endwhile
-
+                <div class="b-grammar-card-v404"><b>while：先に条件</b><span>真の間だけ本体を実行します。最初から偽なら0回です。</span>
+                  <pre class="b-grammar-code-v404">整数型: n ← 2, count ← 0
+while (n &lt; 2)
+    count ← count + 1
+    n ← n + 1
+endwhile</pre>
+                </div>
+                <div class="b-grammar-card-v404"><b>do：先に本体</b><span>本体の後で条件を調べ、真なら繰り返します。最低1回は実行します。</span>
+                  <pre class="b-grammar-code-v404">整数型: n ← 2, count ← 0
 do
-    処理
-while 0 &gt; 0</div>
-              <p class="b-grammar-note-v404">繰返しの中で条件がいつまでも偽にならないと、処理が終わらない「無限ループ」になります。</p>
+    count ← count + 1
+    n ← n + 1
+while (n &lt; 2)</pre>
+                </div>
+              </div>
+              <div class="b-grammar-table-v404"><table>
+                <caption>それぞれ同じ初期値から開始した結果</caption>
+                <thead><tr><th scope="col">方式</th><th scope="col">途中の判定</th><th scope="col">終了時</th></tr></thead>
+                <tbody><tr><th scope="row">while</th><td>2 &lt; 2 → F、本体を飛ばす</td><td>n = 2、count = 0</td></tr><tr><th scope="row">do</th><td>本体実行後、3 &lt; 2 → F</td><td>n = 3、count = 1</td></tr></tbody>
+              </table></div>
+              <p class="b-grammar-note-v404">無限ループは、抜ける経路がなく処理が終わらない繰返しです。条件に使う値が更新されるかを追います。while (true) でも、break（繰返しから抜ける指示）やreturnなどの出口があれば、意図的な書き方の場合があります。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>5. forは4つに分けて読む</h3>
-              <div class="b-grammar-flow-v404">
-                <span>for変数</span><i>→</i><span>初期値</span><i>→</i><span>条件式</span><i>→</i><span>増減</span>
+              <p>繰返しを数える変数、初期値、続ける条件、増減幅を先に分けます。「まで」は境界を含み、増加なら上限以下、減少なら下限以上の間、本体を実行します。</p>
+              <pre class="b-grammar-code-v404">整数型: i, total ← 0
+for (i を 2 から 6 まで 2ずつ増やす)
+    total ← total + i
+endfor</pre>
+              <div class="b-grammar-flow-v404" aria-label="forの実行順">
+                <span>① 初期値を1回設定</span><i>→</i><span>② 続ける条件</span><i>→</i><span>③ 本体</span><i>→</i><span>④ 増減し②へ</span>
               </div>
-              <div class="b-grammar-code-v404">for (i を 1 から 3 まで 2ずつ増やす)
-    処理
-endfor</div>
-              <div class="b-grammar-flow-v404">
-                <span>① 初期値を格納</span><i>→</i><span>② 条件を確認</span><i>→</i><span>③ 本体を実行</span><i>→</i><span>④ 増減</span><i>↺</i>
-              </div>
-              <p>初期化は最初の1回だけです。その後は、条件判定→本体→増減→条件判定…を繰り返します。</p>
+              <div class="b-grammar-table-v404"><table>
+                <caption>増加するforの途中経過</caption>
+                <thead><tr><th scope="col">i</th><th scope="col">i ≤ 6</th><th scope="col">本体後のtotal</th></tr></thead>
+                <tbody><tr><td>2</td><td>T</td><td>0 + 2 = 2</td></tr><tr><td>4</td><td>T</td><td>2 + 4 = 6</td></tr><tr><td>6</td><td>T</td><td>6 + 6 = 12</td></tr><tr><td>8</td><td>F</td><td>12のまま（本体は実行しない）</td></tr></tbody>
+              </table></div>
+              <p class="b-grammar-note-v404"><strong>最後に本体で使ったiは6、終了判定時のiは8。</strong>本体の後に増減してから判定するため、同じ値ではありません。</p>
+              <p>減少の例：「iを7から1まで3ずつ減らす」では、本体で使うiは7 → 4 → 1。次の−2で条件 i ≥ 1 が偽になり終了します。増減幅によって境界に届かない場合もあります。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>6. 関数・手続・有効範囲</h3>
+              <p>関数は処理をまとめて呼び出し、結果を返す仕組みです。渡す値を<strong>引数（ひきすう）</strong>、返す結果を<strong>戻り値</strong>と呼びます。戻り値を返さないまとまりは<strong>手続</strong>です。引数のない関数・手続もあります。</p>
+              <pre class="b-grammar-code-v404">○整数型: addFee(整数型: price, fee)
+    return price + fee
+
+呼び出し元：
+整数型: result ← addFee(12, 3)</pre>
+              <div class="b-grammar-flow-v404" aria-label="関数呼出しと戻り値">
+                <span>addFee(12, 3)</span><i>→</i><span>price = 12、fee = 3</span><i>→</i><span>12 + 3 = 15</span><i>→</i><span>result = 15</span>
+              </div>
+              <p>値は引数の並び順で対応します。○は関数・手続の定義の開始です。定義を見ただけで本体は実行しません。呼出しでその本体へ移り、<strong>returnでその呼出しを終えて呼出し元へ戻ります</strong>。同じ本体にreturnの後の行があっても、そこは実行しません。</p>
               <div class="b-grammar-grid-v404">
-                <div class="b-grammar-card-v404"><b>関数</b><span>引数を受け取り、処理後にreturnで戻り値を呼び出し元へ返します。</span></div>
-                <div class="b-grammar-card-v404"><b>手続</b><span>戻り値を返さない処理のまとまりです。</span></div>
-                <div class="b-grammar-card-v404"><b>局所変数・引数</b><span>宣言された関数や手続の中だけで利用し、終了すると値は残りません。</span></div>
-                <div class="b-grammar-card-v404"><b>大域変数</b><span>プログラムの広い範囲から利用し、各処理が終了しても値を残して再利用できます。</span></div>
+                <div class="b-grammar-card-v404"><b>局所変数・引数</b><span>その関数・手続の呼出し内で使います。別の呼出しの同名変数とは分けて記録します。</span></div>
+                <div class="b-grammar-card-v404"><b>大域変数</b><span>複数の関数・手続で共有します。変更後の値を、別の呼出しでも引き継ぎます。</span></div>
               </div>
-              <div class="b-grammar-flow-v404">
-                <span>引数を持って呼出し</span><i>→</i><span>引数へ値を格納</span><i>→</i><span>関数内を実行</span><i>→</i><span>returnで戻る</span>
-              </div>
+              <p>有効範囲は、変数を使える場所の範囲です。同じ名前の局所変数・引数と大域変数があるときは、その本体内の局所変数・引数を使います。</p>
+              <pre class="b-grammar-code-v404">大域: 整数型: count ← 10
+
+○localCount()
+    整数型: count ← 2
+    count ← count + 1
+    countを出力する
+
+呼び出し元：
+localCount()
+countを出力する</pre>
+              <div class="b-grammar-table-v404"><table>
+                <caption>同名でも箱は別</caption>
+                <thead><tr><th scope="col">場所</th><th scope="col">使うcount</th><th scope="col">出力</th></tr></thead>
+                <tbody><tr><th scope="row">localCount内</th><td>局所：2 → 3</td><td>3</td></tr><tr><th scope="row">呼出し元に戻る</th><td>大域：10のまま</td><td>10</td></tr></tbody>
+              </table></div>
+              <p class="b-grammar-note-v404">局所countの変更は大域countの変更ではありません。局所変数のない別の手続が大域countへ代入した場合は、その変更を共有します。紙のトレースでも「大域count」と「呼出しごとの局所count」の列を分けます。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>7. トレースは「変化した状態」を書く</h3>
-              <div class="b-grammar-tips-v404">
-                <div class="b-grammar-tip-v404"><b>変数ごとに列を作る</b><span>値の変化を横に混ぜず、追う対象を分けます。</span></div>
-                <div class="b-grammar-tip-v404"><b>1行ずつ実行する</b><span>飛ばし読みせず、現在値を使って次の値を求めます。</span></div>
-                <div class="b-grammar-tip-v404"><b>値が変わらない行は省略</b><span>else、endif、endwhile、do、endforなどは、値が変わらないため表への記入を省略できます。</span></div>
-                <div class="b-grammar-tip-v404"><b>条件式は記号で短く</b><span>「aが5より大きい」は「a &gt; 5」のように書くと速く確認できます。</span></div>
-              </div>
-              <p class="b-grammar-note-v404">FE QUESTの「状態」欄は、このトレース表を画面上で可視化したものです。慣れてきたら、問題文を見て自分で小さな表を書いてから答えを予測してみてください。</p>
+              <p>値を持つ対象ごとに列を作り、条件にはT / Fを記録します。表の記入を省略することと、処理の流れを飛ばすことは別です。endforなら増減・次の判定へ戻る流れまで追います。</p>
+              <pre class="b-grammar-code-v404">整数型: n ← 1, total ← 0
+while (n ≤ 2)
+    total ← total + n
+    n ← n + 1
+endwhile</pre>
+              <div class="b-grammar-table-v404 trace-wide" role="region" aria-label="whileのトレース表・横スクロール可能" tabindex="0"><table>
+                <caption>「—」は直前の値を引き継ぐ省略記号</caption>
+                <thead><tr><th scope="col">実行・判定</th><th scope="col">条件</th><th scope="col">n</th><th scope="col">total</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">初期化</th><td>—</td><td>1</td><td>0</td></tr>
+                  <tr><th scope="row">1 ≤ 2</th><td>T</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">total ← total + n</th><td>—</td><td>—</td><td>1</td></tr>
+                  <tr><th scope="row">n ← n + 1</th><td>—</td><td>2</td><td>—</td></tr>
+                  <tr><th scope="row">2 ≤ 2</th><td>T</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">total ← total + n</th><td>—</td><td>—</td><td>3</td></tr>
+                  <tr><th scope="row">n ← n + 1</th><td>—</td><td>3</td><td>—</td></tr>
+                  <tr><th scope="row">3 ≤ 2</th><td>F</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table></div>
+              <p>終了時は n = 3、total = 3。省略したセルや紙の空欄は、<strong>未定義・0・空文字を表しているとは限りません</strong>。この表では変数の「—」を上へたどって現在値を確かめます。</p>
+              <p>FE QUESTの「状態」欄はトレースの補助です。隠す前に紙へ初期値と途中値を書き、予測してから照合すると、結果の暗記ではなく処理を練習できます。</p>
+              <p class="b-grammar-note-v404"><strong>選択肢へ1例を代入して合っただけでは、正しいと確定しません。</strong>条件の境目である境界値、その直前・直後、範囲内の値も試します。たとえば 5 ≤ x &lt; 8 なら、4・5・7・8と、内部の6を確認します。elseifは前の条件が偽という前提も使います。</p>
             </section>
 
             <section class="b-grammar-section-v404">
               <h3>8. 変数名の定番略語</h3>
-              <div class="b-grammar-table-v404">
-                <table>
-                  <thead><tr><th>名前</th><th>読み取る意味</th><th>名前</th><th>読み取る意味</th></tr></thead>
-                  <tbody>
-                    <tr><td>array</td><td>配列</td><td>count / cnt</td><td>個数</td></tr>
-                    <tr><td>current / curr</td><td>現在の値</td><td>index / idx</td><td>要素番号・添字</td></tr>
-                    <tr><td>length / len</td><td>長さ</td><td>matrix</td><td>行列</td></tr>
-                    <tr><td>number / num</td><td>数・数値</td><td>pos</td><td>位置</td></tr>
-                    <tr><td>prev</td><td>前の値・前の位置</td><td>ptr</td><td>次の位置を指す添字</td></tr>
-                    <tr><td>ret</td><td>戻り値</td><td>temp / tmp / work</td><td>一時保存用</td></tr>
-                    <tr><td>value / val</td><td>値</td><td></td><td></td></tr>
-                  </tbody>
-                </table>
-              </div>
+              <p>名前は役割の手掛かりです。処理内容や宣言を確認し、名前だけで値や動作を決めません。</p>
+              <div class="b-grammar-table-v404"><table>
+                <caption>名前と英語の由来</caption>
+                <thead><tr><th scope="col">名前</th><th scope="col">意味</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">array / matrix</th><td>配列／行列（行と列のある表）。</td></tr>
+                  <tr><th scope="row">count / cnt</th><td>count：個数。</td></tr>
+                  <tr><th scope="row">current / curr</th><td>current：現在の値・位置。</td></tr>
+                  <tr><th scope="row">index / idx</th><td>index：要素番号・添字。</td></tr>
+                  <tr><th scope="row">length / len</th><td>length：長さ。</td></tr>
+                  <tr><th scope="row">number / num</th><td>number：数・数値。</td></tr>
+                  <tr><th scope="row">pos / prev</th><td>position：位置／previous：前の値・位置。</td></tr>
+                  <tr><th scope="row">ptr</th><td>pointer：データの場所を指す値・参照。常に次の要素や添字を指すとは限りません。</td></tr>
+                  <tr><th scope="row">ret</th><td>return：戻り値。</td></tr>
+                  <tr><th scope="row">temp / tmp / work</th><td>temporary：一時的な保存用／work：作業用。</td></tr>
+                  <tr><th scope="row">value / val</th><td>value：値。</td></tr>
+                </tbody>
+              </table></div>
             </section>
           </div>
         </details>
