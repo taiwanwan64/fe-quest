@@ -149,11 +149,14 @@ async function grade(questionId,choiceIndex){
     if(result?.questionId!==id||typeof result?.correct!=='boolean')throw new Error('b_trace_grade_invalid');
     const tail=result.correct&&activeOrdinal===2?tailPacket(result.postSubmit?.traceTail,choiceIndex):null;
     if(result.correct)resolvedOrdinals.add(activeOrdinal);
+    const reasons=Array.isArray(result.choiceExplanations)&&result.choiceExplanations.length===4&&result.choiceExplanations.every(x=>typeof x==='string'&&x.trim())?[...result.choiceExplanations]:[];
     return Object.freeze({
       questionId:id,
       tail,
       correct:result.correct,
       explanation:result.correct&&typeof result.explanation==='string'?result.explanation:'',
+      choiceExplanations:Object.freeze(result.correct?reasons:[]),
+      selectedExplanation:!result.correct&&reasons.length?reasons[choiceIndex]:'',
       postSubmit:result.correct&&result.postSubmit&&typeof result.postSubmit==='object'?Object.freeze({...result.postSubmit}):Object.freeze({}),
     });
   }finally{
@@ -274,3 +277,4 @@ globalThis.FEQUEST_V376_B_TRACE=Object.freeze({
   reportError,
 });
 })();
+
