@@ -8923,6 +8923,7 @@ function bTraceBridgeV376(){
 function bTraceGenericTitleV376(ex){return ex?.concept?`${ex.concept}・トレース演習`:'アルゴリズム・トレース演習';}
 function bTraceApplyPacketV376(packet,{resetMessage=true}={}){
   if(!packet||typeof packet!=='object'||!packet.traceSegment||!Array.isArray(packet.traceSegment.steps)||!packet.traceSegment.steps.length)throw new Error('v376_b_trace_packet_invalid');
+  const feedback=!resetMessage?document.getElementById('bTraceMessage').textContent:'';
   const segment=packet.traceSegment;
   bTracePacketV376=packet;
   currentB={
@@ -8949,7 +8950,7 @@ function bTraceApplyPacketV376(packet,{resetMessage=true}={}){
   resetBView();
   const progress=packet.phase==='tail'?80:Math.max(0,Math.min(80,(Number(packet.ordinal)-1)*40));
   document.getElementById('bTraceProgress').style.width=`${progress}%`;
-  if(!resetMessage)document.getElementById('bTraceMessage').textContent='予測正解。続きの区間を1行ずつ追跡してください。';
+  if(!resetMessage)document.getElementById('bTraceMessage').textContent=feedback||'予測正解。続きの区間を1行ずつ追跡してください。';
 }
 function bTraceRecordStudyPositionV376(ordinal,stepIndex,complete=false,tail=null){
   const active=globalThis.studyActiveV373;
@@ -8998,7 +8999,7 @@ async function bTraceShowPredictionV376(){
           box.classList.remove('show');
           bTraceRecordStudyPositionV376(2,-1,false,result.tail);
           if(!saveProfile())throw new Error('b_trace_checkpoint_save_failed');
-          bTraceApplyPacketV376(result.tail);
+          bTraceApplyPacketV376(result.tail,{resetMessage:false});
           return;
         }
         bTraceRecordStudyPositionV376(2,-1);
