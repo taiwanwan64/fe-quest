@@ -2,6 +2,14 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新作業：文法章の全B gap判定と保護された補助確認6問（2026-10-08）
+
+live public main `ca03a28954f82569fa275ba111e7bf5309567c27`、前branch `record-b-grammar-acceptance-20261008` head `823938ebd490ec91acc9b1804644e4f00f99c548`、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0、CI/Pages successを再読。全B180行をlive保護本文まで照合した。doの後判定反復は既存 `b_exam_bexam_ctrl_03` があり、全B欠如の判定は撤回。整数divも既存。直接不足はwhile/doの初回偽比較、同名局所/大域、論理or/not、文字列連結、実数商/整数商/余りの対比。
+
+同章内の新規ID6問を保護source/DBと専用metadata catalog・補助確認欄で追加する候補を作成。通常180問catalog/provider、実戦50候補、基礎20+15、総合16+4、app-v377.jsを変更しない。XP・履歴・基礎進捗へ加算しないことをUIへ明示し、プロフィールへ書かない。DBはprivate CI後にone-shot appendのみで1180→1186問、130教材/既存全行digestを保持する。private SQLは再実行不可、既存章の適用済みdeltaも再実行しない。
+
+PR/CI・DB適用・Pages・全6問の本番受入はこの候補時点では未完了。後続の確定記録とGitHub liveを正とする。詳細：[全B直接演習の追補](reference-audits/bbook-ch01-direct-practice-20261008.md)。次は同章の配信/全6問/既存進捗保持を確定し、文法章全skill/スマホの完了を宣言せず、第2章へ飛ばさない。第22章関連度gap、スマホ残件、coverage in-progress、IPA43（37 in-progress / 6 verified-covered）維持。
+
 ## 最新状態：03科目B・文法章ガイド改善とデスクトップ受入（2026-10-08）
 
 GitHub liveのpublic main `ca6e598854a322289b3bac84496b53302960d79f`、前作業branch `record-ch22-production-acceptance-20261008` head `c059a68a2b5c50ff0e71d74121319879a5e01daf`（mainとtree一致）、private main `bf691b8ae0537766dc820d7e2ba824be783b5ae3`、双方open PR 0、CI/Pages successを実読して再開した。03科目B参考書・第1部第1章「文法」は印刷026〜095、物理028〜097の全70ページ画像、確認13項目、章末6問と全解説まで再監査した。IPA現行用語/言語Ver.5.1別紙2も照合。04本文全章の今回監査はしていない。
@@ -1727,3 +1735,4 @@ GitHub / protected DB の現状を正として、第13章を章単位で再監�
 ### 次のデフォルト作業
 
 live main / 作業branch / PR / CI / Pages / DBを再読し、接続可能な通常UIで15-08の残る1問を確認して終了結果・履歴・進捗の再読込と画像証拠保存を完了する。CASを再適用せず、確認済み51種類を網羅し直さない。実スマホ残件を保持し、対応可能なら狭幅/タッチ/スクロール/縦横切替を確認する。その後、次の内容監査は第16章「システム戦略」全体。IPA対応表43項目の完了数は変更しない。
+

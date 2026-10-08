@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-184';
+const CACHE_NAME = 'fe-quest-v377-185';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -28,6 +28,9 @@ const APP_SHELL = [
   "./assets/ch21-depth-v402.css",
   "./assets/ch22-strategy-v403.css?v=ch22-183",
   "./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184",
+  "./assets/b-grammar-practice-v1.css",
+  "./assets/b-grammar-practice-v1.js",
+  "./assets/question-catalog-b-grammar-v1.json",
   "./assets/bbook-ch02-array-v405.css",
   "./assets/bbook-ch03-matrix-v406.css",
   "./assets/bbook-ch04-impossible-v407.css",
@@ -176,3 +179,4 @@ self.addEventListener('fetch', event => {
   }
   event.respondWith(staleWhileRevalidate(request));
 });
+

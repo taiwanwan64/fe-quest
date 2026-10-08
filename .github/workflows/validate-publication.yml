@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v6
       - name: Validate IPA 9.2 coverage manifest
         run: node .github/scripts/check-ipa92-coverage.mjs
+      - name: Exercise isolated protected grammar supplement
+        run: node .github/scripts/check-b-grammar-practice-v1.mjs
       - name: Exercise Venn practice grading and mode transitions
         run: node .github/scripts/check-venn-practice-state-v447.mjs
       - name: Exercise protected Subject B mini mock bridge
@@ -1229,3 +1231,4 @@ jobs:
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
 
 # v32 publication markers
+
