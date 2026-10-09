@@ -9513,7 +9513,7 @@ async function hydrateBFinalResumeV435(saved,remain){
     showAppNotice?.('info','総合実戦を再開しました','再読み込み前の回答と残り時間から続けています。');
     return true;
   }catch(error){
-    bFinalBridgeV376().reportError?.(error);
+    globalThis.FEQUEST_V376_B_FINAL?.reportError?.(error);
     bFinalReleaseExamRuntimeV430();bFinalClearProtectedV376();
     document.getElementById('bFinalExam')?.classList.remove('show');
     document.getElementById('bFinalSelect')?.classList.remove('hidden');
@@ -15060,7 +15060,15 @@ window.addEventListener('pagehide',()=>{persistProfileSilently();persistResilien
 window.addEventListener('beforeunload',()=>{persistProfileSilently();persistResilientUiState();releaseProfileWriteLease()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){persistProfileSilently();releaseProfileWriteLease()}});
 
-restoreResilientUiState();
+// Classic bridge scripts follow this file in index.html; resume only after they have loaded.
+function bootResilientUiStateV377(){
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',restoreResilientUiState,{once:true});
+  }else{
+    restoreResilientUiState();
+  }
+}
+bootResilientUiStateV377();
 window.FEQUEST_BOOT_OK = true;
 // ===== v47: PWA production support =====
 let deferredInstallPrompt=null;
