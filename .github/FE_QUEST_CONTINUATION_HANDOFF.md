@@ -2,6 +2,16 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：文法章の教材・演習・受入対応表（2026-10-09）
+
+live public main `d82a57461652cf63339749a42cb6c8bdcde66f2c` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch ahead0/behind1/files0、#360 CI/Pages `37923053097` successから再開。現行guide/専用catalog/final bridgeとDB基礎40＋補助6＋制御5＝51行を実読。構文検索はactiveな基礎/compound/exam計141行に限定、全B186行の新規再監査ではない。03添付の物理028・067〜080を画像で再読し、紙面074の確認13項目を現行guideへ対応づけた。
+
+[教材と受入の対応表](reference-audits/bbook-ch01-acceptance-map-20261009.md)に、guide8節・補助6問・基礎5親10予測・制御exam5問を整理。対象21 IDの受入を章完了率に変換しない。論理andは補助logical_or/notにも存在して受入済みで、欠如とは扱わない。制御5行の4択理由は空で、final bridgeもchoiceExplanationsを引き継がないため、DB理由追加だけでは画面の不足は解決しない。
+
+**次の限定対象は既存array_reverseの2予測（減少for）＋binary_search_bの2予測（elseif）。liveで4行存在と理由空を確認。保護本文/正答/解説の独立トレースと理由の補強判断後、通常UIで対象4予測を受入する。** 既受入6問/5親/制御5件を全反復せず、第2章へ自動的に進まない。型/未定義、複数引数、コメント、境界値作成・候補排除は独立技能の受入保留。guideの入れ子break説明は補強候補。全Bで問題欠如と確定したわけではない。
+
+今回は対応表/引き継ぎのみ、ブラウザー採点・XP・DB/アプリ/private変更なし。1186問digest `df83aae7e41c90f929b180ffb18bfc13` / 130教材digest `e89f8d33fa35a4d104110807dddb3543` 一致。cache191、既適用SQL/理由SQL/旧gateを再実行・再deployしない。実スマホ、coverage43（37 in-progress/6 verified-covered、inventory incomplete）、第22章関連度gapを維持。記録PR後のmain/branch/open PR/CI/Pagesは次回liveで再確認する。以下は当時の履歴。
+
 ## 最新確定状態：文法制御exam5問のUI受入一巡（2026-10-09）
 
 public main `f377b33024d7addcc6369b7abbe00449f46935f3` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch ahead0/behind1/files0、#359 CI・Pages `37921465582` successをlive確認して再開。既受入ctrl_02/05を全反復せず、未受入ctrl_01/03/04の保護本文を再読・独立トレース。添付第4版の物理42（紙面040）のwhile/do前判定/後判定を画像で確認。
