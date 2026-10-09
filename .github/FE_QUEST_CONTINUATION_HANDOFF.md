@@ -2,6 +2,24 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：文法制御exam2件受入・総合実戦cold boot修正（2026-10-09）
+
+live public `3653fd687a29b5a376250003adc659d66cb6cae4` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch差分なし、CI/Pages successから再開。同じ第1章の制御exam5件をlive保護本文・独立トレースで照合して5/5一致。既存div/doがあるため全B欠如とは判定しない。
+
+別QAゲスト診断12/12→120XPから20問総合実戦へ。5/20回答後の通常reloadでbridge未準備による `v376_b_final_bridge_missing` と二重例外を観測。PR #357はDOM読込完了後にrestoreし、不在bridgeのcatchも安全化。公開後に最新版provider切替前の旧catalog検索競合が残り、PR #358でactivation loaderのconfig/最新版provider準備だけをawaitする処理を追加。クラウド認証/同期完了へ依存しない。本文・DB・採点・選択・profile/resume形式は不変。resumeへ保護本文/選択肢/codeを永続化しない。
+
+#357 final head `153ade6038db6f514769c69d9b9444657879bc81`、publication `37920142525` / v35 `37920142494` / Pages `37920205597` success。#358 final head `f7d5fb531c750066f6457888aa6d69743045b822`、publication `37920557465` / v35 `37920557452` / Pages `37920601960` success。実装配信main `765f05c6e6394534c29071018fc9aecd29f42d2c`、cache191、app/loader query `bfinal-resume-191` を本番DOMで確認。元失敗再現と遅延config/provider、正常復元、通信/順序/不在bridge失敗を回帰testへ追加。最初の#357 CI cache固定検査更新漏れはmerge前に修正済み。
+
+本番同じ途中metadataを通常reloadし、5回答・6問目・約88分・120XPを復元。SW追加reloadも保持。その後全20問を通常UIで提出し20/20正解、擬似言語16/16＋sec4/4、未回答0、+240XP→360XP。全20問レビューの正答/説明を確認。文法対象の `b_exam_bexam_ctrl_02`（Q9:整数div while）と `ctrl_05`（Q4:累積）の2件を採点/説明まで受入。関連再帰Q11/探索Q16のdivも同じ20問で確認。独立照合5/5とUI2/5を混同しない。
+
+提出後の通常reloadで360XP、A0/130・B基礎0/35・トレース0/20・総合実戦1/2、ベスト100%、履歴1件（20/20・100%・15:04）保持、重複加点なし。15:04は修正/配信待機を含むQA時間。旧570/575XPゲストの復旧/統合/継続証明なし。診断とは別に20unique問題位置/1提出であり、再hydrate回数を新規受入数へ加算しない。探索時ミニ模試8問は未提出退出。
+
+DB read-only不変1186問digest `df83aae7e41c90f929b180ffb18bfc13` / 130教材 `e89f8d33fa35a4d104110807dddb3543`。private変更なし。**既適用SQLや理由SQL再実行・旧gate再deployなし。**
+
+**次は同じ文法章の未受入 `ctrl_01/03/04`、特にdo後判定 `ctrl_03` を通常UIで確認する。ctrl_02/05や既受入トレース/補助6問を無目的に全反復しない。** 他15親30予測の選択肢理由、実スマホ狭幅/タッチ/実内部横移動/縦横切替は未受入。全B180・全skill・全章の完了とは言わない。coverage in-progress、IPA43（37 in-progress / 6 verified-covered）、inventory incomplete、第22章関連度gap維持。
+
+詳細：[制御exam・総合実戦再開の受入](reference-audits/bbook-ch01-control-final-resume-20261009.md)。以下は履歴。記録PR後のmain/branch/open PR/CI/Pagesを次回liveで再確認する。
+
 ## 最新確定状態：文法章の既存10予測・40選択肢理由と表示改善（2026-10-09）
 
 既存loop_sum/count_even/nested_loop/gcd_euclid/recursionの10予測に40理由を追加。private PR #131/#132のCI成功後、修正したone-shot SQLを1回適用済み。初回SQLはreadback照合のJSON演算子優先順位で全件ロールバックし、データ不変を確認後に括弧を修正。対象choice_explanationsだけ変更、正答/本文/code/選択肢/日時等不変、非対象1176問と全130教材の全行digest保持。1186問digest `df83aae7e41c90f929b180ffb18bfc13` / 130教材digest `e89f8d33fa35a4d104110807dddb3543`。private main `756f1451e114990cc59599cef4be7ed4b5c93b9b`。**理由SQLと従来既適用deltaは再実行しない。gate version3再deployなし。**
