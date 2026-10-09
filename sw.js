@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-190';
+const CACHE_NAME = 'fe-quest-v377-191';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -50,9 +50,9 @@ const APP_SHELL = [
   "./assets/protected-content-provider-v376.js",
   "./assets/protected-content-provider-v376-v35.js",
   "./assets/protected-lesson-provider-v376.js",
-  "./assets/app-v377.js?v=bfinal-resume-190",
+  "./assets/app-v377.js?v=bfinal-resume-191",
   "./assets/protected-flow-bridge-v376.js",
-  "./assets/protected-b-trace-bridge-v376.js?v=bfinal-resume-190",
+  "./assets/protected-b-trace-bridge-v376.js?v=bfinal-resume-191",
   "./assets/protected-b-security-bridge-v376.js",
   "./assets/protected-b-exam-bridge-v376.js",
   "./assets/protected-b-final-bridge-v376.js",
@@ -97,7 +97,7 @@ const APP_SHELL = [
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",
-  "./cloud/activation-loader-v342.js",
+  "./cloud/activation-loader-v342.js?v=bfinal-resume-191",
   "./cloud/public-config-v342.js",
   "./cloud/sync-ui-v342.css",
   "./vendor/supabase/supabase-2.112.3.js",

@@ -9501,6 +9501,11 @@ function bFinalResumePayloadValidV435(value){
 }
 async function hydrateBFinalResumeV435(saved,remain){
   try{
+    const activation=globalThis.FEQUEST_CLOUD_ACTIVATION_INSTANCE_V342;
+    if(activation?.prepareProtectedProvider)await activation.prepareProtectedProvider();
+    else await activation?.start?.();
+    const ready=globalThis.FEQUEST_IPA92_V35_PROVIDER_READY;
+    if(ready&&(await ready)?.ok!==true)throw new Error('protected_provider_activation_failed');
     const packets=await bFinalBridgeV376().startSession(saved.questionIds);
     if(!Array.isArray(packets)||packets.length!==20||
        packets.slice(0,16).some(packet=>packet.kind!=='algo')||

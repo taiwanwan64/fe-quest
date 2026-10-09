@@ -218,6 +218,14 @@
       return {ok:true,config,loaded:true};
     }
 
+    async function prepareProtectedProvider(){
+      const result=await ensureConfig();
+      if(!result.ok)throw new Error(result.status||'protected_config_failed');
+      const ready=root.FEQUEST_IPA92_V35_PROVIDER_READY;
+      if(!ready||(await ready)?.ok!==true)throw new Error('protected_provider_activation_failed');
+      return true;
+    }
+
     async function startInner(){
       if(stopped)return {ok:false,status:'stopped'};
       const configResult=await ensureConfig();
@@ -254,7 +262,7 @@
       return true;
     }
     function snapshot(){return Object.freeze({started:Boolean(runtime),stopped,config:Boolean(currentConfig()),policy:ACTIVATION_SPEC.policy})}
-    return Object.freeze({start,stop,snapshot});
+    return Object.freeze({start,stop,snapshot,prepareProtectedProvider});
   }
 
   function autoStart(){

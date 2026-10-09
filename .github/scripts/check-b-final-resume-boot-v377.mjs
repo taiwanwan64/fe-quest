@@ -59,3 +59,39 @@ for(const kind of ['missing','network','order']){
   assert.ok(x.calls.some(v=>v[0]==='notice'&&v[1]==='warning'));
 }
 console.log('PASS final resume cold boot: original race reproduced; delayed/immediate boot, preserved answers/order/flags/time, no profile writes, safe missing/network/order failures');
+
+const loader=fs.readFileSync('cloud/activation-loader-v342.js','utf8');
+const prepareStart=loader.indexOf('    async function prepareProtectedProvider(){');
+const prepareEnd=loader.indexOf('\n    async function startInner()',prepareStart);
+assert.ok(prepareStart>=0&&prepareEnd>prepareStart);
+const prepare=loader.slice(prepareStart,prepareEnd);
+const waiting=context('complete');waiting.install();
+let releaseConfig,releaseProvider;
+const configReady=new Promise(resolve=>{releaseConfig=resolve;});
+const providerReady=new Promise(resolve=>{releaseProvider=resolve;});
+waiting.c.root=waiting.c;
+waiting.c.ensureConfig=async()=>configReady;
+vm.runInContext(prepare,waiting.c);
+waiting.c.FEQUEST_CLOUD_ACTIVATION_INSTANCE_V342={prepareProtectedProvider:waiting.c.prepareProtectedProvider};
+vm.runInContext(hydrate,waiting.c);
+let started=false;
+const originalStart=waiting.c.FEQUEST_V376_B_FINAL.startSession;
+waiting.c.FEQUEST_V376_B_FINAL.startSession=async ids=>{started=true;return originalStart(ids);};
+const pending=waiting.c.hydrateBFinalResumeV435(saved,5300);
+await Promise.resolve();assert.equal(started,false,'no hydration before config');
+waiting.c.FEQUEST_IPA92_V35_PROVIDER_READY=providerReady;
+releaseConfig({ok:true});await Promise.resolve();await Promise.resolve();
+assert.equal(started,false,'no hydration before latest provider');
+releaseProvider({ok:true});
+assert.equal(await pending,true);assert.equal(started,true);
+for(const failure of ['config','provider']){
+  const x=context('complete');x.install();x.c.root=x.c;
+  x.c.ensureConfig=async()=>({ok:failure!=='config',status:'config-load-failed'});
+  x.c.FEQUEST_IPA92_V35_PROVIDER_READY=Promise.resolve({ok:false});
+  vm.runInContext(prepare,x.c);vm.runInContext(hydrate,x.c);
+  x.c.FEQUEST_CLOUD_ACTIVATION_INSTANCE_V342={prepareProtectedProvider:x.c.prepareProtectedProvider};
+  let called=false;x.c.FEQUEST_V376_B_FINAL.startSession=async()=>{called=true;return [];};
+  assert.equal(await x.c.hydrateBFinalResumeV435(saved,5300),false);
+  assert.equal(called,false,'activation failure must not hydrate old catalog');
+}
+console.log('PASS final provider activation: delayed config and latest catalog block hydration; config/provider failures keep retry flow');
