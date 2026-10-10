@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const source=fs.readFileSync('assets/b-grammar-practice-v1.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-v1.json','utf8'));
+const functionCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-functions-v1.json','utf8'));
 const typeCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-types-v1.json','utf8'));
 const indexHtml=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
@@ -16,9 +17,16 @@ assert.equal(typeCatalog.contentVersion,'b-grammar-types-protected-v1-20261010')
 assert.deepEqual(typeCatalog.counts,{supplementalGrammar:2,catalogQuestions:2});
 assert.equal(indexHtml.split('id="bGrammarTypesStart"').length-1,1);
 assert.ok(indexHtml.includes('型・未定義の2問を確認する'));
-assert.ok(indexHtml.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-types-194'));
-assert.ok(sw.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-types-194'));
+assert.ok(indexHtml.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195'));
+assert.ok(sw.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195'));
 assert.ok(sw.includes('question-catalog-b-grammar-types-v1.json'));
+assert.deepEqual(functionCatalog.items.map(x=>x.id),['b_exam_bgrammar_call_order','b_exam_bgrammar_return_exit']);
+assert.equal(functionCatalog.version,'b-grammar-functions-catalog-v1');
+assert.equal(functionCatalog.contentVersion,'b-grammar-functions-protected-v1-20261010');
+assert.deepEqual(functionCatalog.counts,{supplementalGrammar:2,catalogQuestions:2});
+assert.equal(indexHtml.split('id="bGrammarFunctionsStart"').length-1,1);
+assert.ok(indexHtml.includes('引数・returnの2問を確認する'));
+assert.ok(sw.includes('question-catalog-b-grammar-functions-v1.json'));
 for(const [i,row] of typeCatalog.items.entries()){
  assert.equal(row.practice,'grammar-types-v1');assert.equal(row.practiceOrdinal,i+1);
  assert.equal(row.sourcePool,'b_exam_algo');assert.equal(row.id,'b_exam_'+row.parentId);
@@ -48,7 +56,7 @@ function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failG
   const fetch=async(url,options)=>{
     assert.equal(options.cache,'no-store');assert.equal(options.credentials,'omit');assert.equal(options.referrerPolicy,'no-referrer');assert.ok(options.signal);
     const body=options.body?JSON.parse(options.body):null;calls.push({url,body});
-    if(!body){selected=String(url).includes('grammar-types-v1')?typeCatalog:catalog;return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
+    if(!body){selected=String(url).includes('grammar-functions-v1')?functionCatalog:String(url).includes('grammar-types-v1')?typeCatalog:catalog;return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
     assert.equal(options.method,'POST');
     if(body.action==='bootstrap'){
       assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,selected.items.map(x=>x.id));
@@ -101,18 +109,18 @@ app=harness();await app.get('bGrammarStart').click();app.get('trace').classList.
 console.log('PASS isolated grammar supplement: 6-question flow, wrong retry, first score, pre-answer leak rejection, transport failure, stale/collapse/route cleanup, no persistence');
 
 
-for(const doc of [catalog,typeCatalog]){
- const button=doc===catalog?'bGrammarStart':'bGrammarTypesStart';
+const subsets=[[catalog,'bGrammarStart'],[typeCatalog,'bGrammarTypesStart'],[functionCatalog,'bGrammarFunctionsStart']];
+for(const [doc,button] of subsets){
  const size=doc.items.length;
  let trial=harness();await trial.get(button).click();
- assert.equal(trial.get('bGrammarStart').hidden,true);assert.equal(trial.get('bGrammarTypesStart').hidden,true);
+ for(const [,startButton] of subsets)assert.equal(trial.get(startButton).hidden,true);
  for(let i=0;i<size;i++){
   assert.equal(trial.get('bGrammarTitle').textContent,`${i+1} / ${size}：Synthetic title ${i}`);
   await trial.get('bGrammarOptions').children[i%4].click();await trial.get('bGrammarNext').click();
  }
  assert.ok(trial.get('bGrammarStatus').textContent.includes(`初回正解 ${size} / ${size}`));
  assert.equal(trial.get(button).focused,true);
- assert.equal(trial.get('bGrammarTypesStart').hidden,false);assert.equal(trial.get('bGrammarStart').hidden,false);
+ for(const [,startButton] of subsets)assert.equal(trial.get(startButton).hidden,false);
  for(const mutateCatalog of [
   doc=>({...doc,contentVersion:'wrong-version'}),
   doc=>({...doc,counts:{...doc.counts,catalogQuestions:99}}),
@@ -145,7 +153,8 @@ await app.get('bGrammarOptions').children[1].click();await app.get('bGrammarNext
 assert.ok(app.get('bGrammarStatus').textContent.includes('初回正解 1 / 2'));
 assert.equal(app.calls.filter(x=>x.body?.action==='answer').length,3);
 // Close a pending old response, start the other subset, and reject the old response.
-for(const [oldButton,newButton] of [['bGrammarStart','bGrammarTypesStart'],['bGrammarTypesStart','bGrammarStart']]){
+for(const [,oldButton] of subsets)for(const [,newButton] of subsets){
+ if(oldButton===newButton)continue;
  app=harness({delayBootstrap:true});const oldStart=app.get(oldButton).click();
  for(let i=0;i<20&&!app.pending();i++)await Promise.resolve();assert.ok(app.pending());
  const releaseOld=app.takeRelease();
@@ -167,5 +176,32 @@ await app.get('bGrammarClose').click();await app.get('bGrammarStart').click();
 app.release();await oldGrade;
 assert.equal(app.get('bGrammarTitle').textContent,'1 / 6：Synthetic title 0');
 assert.equal(app.get('bGrammarFeedback').children.length,0);
-console.log('PASS isolated subsets: unchanged 6 plus separate 2, both validation and transport failures, retry, score and late-grade rejection');
+for(const [doc,button] of subsets){
+ for(const [i,row] of doc.items.entries()){
+  assert.equal(row.practiceOrdinal,i+1);
+  assert.equal(row.id,'b_exam_'+row.parentId);
+  assert.ok(Object.keys(row).every(key=>['id','sourcePool','parentId','ordinal','level','domain','format','practice','practiceOrdinal'].includes(key)));
+ }
+ let trial=harness();await trial.get(button).click();
+ for(const [,startButton] of subsets)assert.equal(trial.get(startButton).hidden,true);
+ await trial.get('bGrammarOptions').children[1].click();
+ assert.equal(trial.get('bGrammarHint').hidden,false);
+ assert.equal(trial.get('bGrammarOptions').children[1].disabled,true);
+ await trial.get('bGrammarOptions').children[0].click();await trial.get('bGrammarNext').click();
+ for(let i=1;i<doc.items.length;i++){await trial.get('bGrammarOptions').children[i%4].click();await trial.get('bGrammarNext').click();}
+ assert.ok(trial.get('bGrammarStatus').textContent.includes('初回正解 '+(doc.items.length-1)+' / '+doc.items.length));
+ assert.equal(trial.get(button).focused,true);
+}
+// Every old grading response must be discarded after starting a different subset.
+for(const [,oldButton] of subsets)for(const [newDoc,newButton] of subsets){
+ if(oldButton===newButton)continue;
+ const trial=harness({delayGrade:true});await trial.get(oldButton).click();
+ const oldGrade=trial.get('bGrammarOptions').children[0].click();
+ for(let i=0;i<20&&!trial.pending();i++)await Promise.resolve();assert.ok(trial.pending());
+ await trial.get('bGrammarClose').click();await trial.get(newButton).click();
+ trial.release();await oldGrade;
+ assert.equal(trial.get('bGrammarTitle').textContent,'1 / '+newDoc.items.length+'：Synthetic title 0');
+ assert.equal(trial.get('bGrammarFeedback').children.length,0);
+}
+console.log('PASS isolated subsets: unchanged 6 and types 2 plus independent functions 2; all subset failures, retries, first score, six cross-subset bootstrap and grade races');
 

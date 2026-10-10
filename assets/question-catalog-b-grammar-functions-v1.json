@@ -1,0 +1,32 @@
+{
+  "version": "b-grammar-functions-catalog-v1",
+  "contentVersion": "b-grammar-functions-protected-v1-20261010",
+  "counts": {
+    "supplementalGrammar": 2,
+    "catalogQuestions": 2
+  },
+  "items": [
+    {
+      "id": "b_exam_bgrammar_call_order",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_call_order",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "再帰・関数",
+      "format": "処理結果",
+      "practice": "grammar-functions-v1",
+      "practiceOrdinal": 1
+    },
+    {
+      "id": "b_exam_bgrammar_return_exit",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_return_exit",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "再帰・関数",
+      "format": "処理結果",
+      "practice": "grammar-functions-v1",
+      "practiceOrdinal": 2
+    }
+  ]
+}
