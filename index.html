@@ -1226,6 +1226,8 @@
               <button type="button" id="bGrammarFunctionsStart">引数・returnの2問を確認する</button>
               <p>コメントの確認では、注記の内側と実行する命令を1問で区別します。</p>
               <button type="button" id="bGrammarCommentsStart">コメントの1問を確認する</button>
+              <p>条件の境目で試す入力を作り、追加の入力で選択肢の候補を絞ります。</p>
+              <button type="button" id="bGrammarBoundariesStart">境界値・候補比較の2問を確認する</button>
               <button type="button" id="bGrammarClose" hidden>確認を閉じる</button>
               <p id="bGrammarStatus" role="status" aria-live="polite"></p>
               <div id="bGrammarQuestion" hidden>
@@ -1444,7 +1446,7 @@ endwhile</pre>
               </table></div>
               <p>終了時は n = 3、total = 3。省略したセルや紙の空欄は、<strong>未定義・0・空文字を表しているとは限りません</strong>。この表では変数の「—」を上へたどって現在値を確かめます。</p>
               <p>FE QUESTの「状態」欄はトレースの補助です。隠す前に紙へ初期値と途中値を書き、予測してから照合すると、結果の暗記ではなく処理を練習できます。</p>
-              <p class="b-grammar-note-v404"><strong>選択肢へ1例を代入して合っただけでは、正しいと確定しません。</strong>条件の境目である境界値、その直前・直後、範囲内の値も試します。たとえば 5 ≤ x &lt; 8 なら、4・5・7・8と、内部の6を確認します。elseifは前の条件が偽という前提も使います。</p>
+              <p class="b-grammar-note-v404"><strong>選択肢へ1例を代入して合っただけでは、正しいと確定しません。</strong>条件の境目である境界値、その直前・直後、範囲内の値も試します。たとえば 5 ≤ x &lt; 8 なら、4・5・7・8と、内部の6を確認します。elseifは前の条件が偽という前提も使います。期待する結果と違う入力が1つ見つかれば、その候補は除外できます。試した入力ですべて合っても、試していない入力まで正しいと保証したことにはなりません。</p>
             </section>
 
             <section class="b-grammar-section-v404">
@@ -3676,11 +3678,12 @@ lengthX ← sumX2 の正の平方根</div>
 <script src="./assets/protected-b-security-bridge-v376.js"></script>
 <script src="./assets/protected-b-exam-bridge-v376.js"></script>
 <script src="./assets/protected-b-final-bridge-v376.js"></script>
-<script src="./assets/b-grammar-practice-v1.js?v=bgrammar-comments-196"></script>
+<script src="./assets/b-grammar-practice-v1.js?v=bgrammar-boundaries-197"></script>
 <script src="./assets/first-impression-ux-v377.js"></script>
 <script src="./cloud/activation-loader-v342.js?v=bfinal-resume-192"></script>
 </body>
 </html>
+
 
 
 
