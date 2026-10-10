@@ -4,7 +4,12 @@ import assert from 'node:assert/strict';
 const source=fs.readFileSync('assets/b-grammar-practice-v1.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-v1.json','utf8'));
 const functionCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-functions-v1.json','utf8'));
+const commentCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-comments-v1.json','utf8'));
 const typeCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-types-v1.json','utf8'));
+assert.deepEqual(commentCatalog.items.map(x=>x.id),['b_exam_bgrammar_comments']);
+assert.equal(commentCatalog.version,'b-grammar-comments-catalog-v1');
+assert.equal(commentCatalog.contentVersion,'b-grammar-comments-protected-v1-20261010');
+assert.deepEqual(commentCatalog.counts,{supplementalGrammar:1,catalogQuestions:1});
 const indexHtml=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const css=fs.readFileSync('assets/b-grammar-practice-v1.css','utf8');
@@ -17,8 +22,8 @@ assert.equal(typeCatalog.contentVersion,'b-grammar-types-protected-v1-20261010')
 assert.deepEqual(typeCatalog.counts,{supplementalGrammar:2,catalogQuestions:2});
 assert.equal(indexHtml.split('id="bGrammarTypesStart"').length-1,1);
 assert.ok(indexHtml.includes('型・未定義の2問を確認する'));
-assert.ok(indexHtml.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195'));
-assert.ok(sw.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195'));
+assert.ok(indexHtml.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-comments-196'));
+assert.ok(sw.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-comments-196'));
 assert.ok(sw.includes('question-catalog-b-grammar-types-v1.json'));
 assert.deepEqual(functionCatalog.items.map(x=>x.id),['b_exam_bgrammar_call_order','b_exam_bgrammar_return_exit']);
 assert.equal(functionCatalog.version,'b-grammar-functions-catalog-v1');
@@ -27,6 +32,11 @@ assert.deepEqual(functionCatalog.counts,{supplementalGrammar:2,catalogQuestions:
 assert.equal(indexHtml.split('id="bGrammarFunctionsStart"').length-1,1);
 assert.ok(indexHtml.includes('引数・returnの2問を確認する'));
 assert.ok(sw.includes('question-catalog-b-grammar-functions-v1.json'));
+assert.equal(indexHtml.split('id="bGrammarCommentsStart"').length-1,1);
+assert.ok(indexHtml.includes('コメントの1問を確認する'));
+assert.ok(sw.includes('question-catalog-b-grammar-comments-v1.json'));
+assert.ok(indexHtml.includes('/* から */ までは改行を含めてコメントです'));
+assert.ok(indexHtml.includes('同じ行に書かれていても実行します'));
 for(const [i,row] of typeCatalog.items.entries()){
  assert.equal(row.practice,'grammar-types-v1');assert.equal(row.practiceOrdinal,i+1);
  assert.equal(row.sourcePool,'b_exam_algo');assert.equal(row.id,'b_exam_'+row.parentId);
@@ -56,7 +66,7 @@ function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failG
   const fetch=async(url,options)=>{
     assert.equal(options.cache,'no-store');assert.equal(options.credentials,'omit');assert.equal(options.referrerPolicy,'no-referrer');assert.ok(options.signal);
     const body=options.body?JSON.parse(options.body):null;calls.push({url,body});
-    if(!body){selected=String(url).includes('grammar-functions-v1')?functionCatalog:String(url).includes('grammar-types-v1')?typeCatalog:catalog;return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
+    if(!body){selected=String(url).includes('grammar-comments-v1')?commentCatalog:String(url).includes('grammar-functions-v1')?functionCatalog:String(url).includes('grammar-types-v1')?typeCatalog:catalog;return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
     assert.equal(options.method,'POST');
     if(body.action==='bootstrap'){
       assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,selected.items.map(x=>x.id));
@@ -109,7 +119,7 @@ app=harness();await app.get('bGrammarStart').click();app.get('trace').classList.
 console.log('PASS isolated grammar supplement: 6-question flow, wrong retry, first score, pre-answer leak rejection, transport failure, stale/collapse/route cleanup, no persistence');
 
 
-const subsets=[[catalog,'bGrammarStart'],[typeCatalog,'bGrammarTypesStart'],[functionCatalog,'bGrammarFunctionsStart']];
+const subsets=[[catalog,'bGrammarStart'],[typeCatalog,'bGrammarTypesStart'],[functionCatalog,'bGrammarFunctionsStart'],[commentCatalog,'bGrammarCommentsStart']];
 for(const [doc,button] of subsets){
  const size=doc.items.length;
  let trial=harness();await trial.get(button).click();
@@ -203,5 +213,5 @@ for(const [,oldButton] of subsets)for(const [newDoc,newButton] of subsets){
  assert.equal(trial.get('bGrammarTitle').textContent,'1 / '+newDoc.items.length+'：Synthetic title 0');
  assert.equal(trial.get('bGrammarFeedback').children.length,0);
 }
-console.log('PASS isolated subsets: unchanged 6 and types 2 plus independent functions 2; all subset failures, retries, first score, six cross-subset bootstrap and grade races');
+console.log('PASS isolated subsets: unchanged 6/types 2/functions 2 plus comments 1; all subset failures, retries, first score, twelve cross-subset bootstrap and grade races');
 

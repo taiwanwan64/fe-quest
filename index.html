@@ -1224,6 +1224,8 @@
               <button type="button" id="bGrammarTypesStart">型・未定義の2問を確認する</button>
               <p>関数の確認では、複数引数の位置対応と、return後は関数内の続きへ進まず呼出し元へ戻ることを2問で確認できます。</p>
               <button type="button" id="bGrammarFunctionsStart">引数・returnの2問を確認する</button>
+              <p>コメントの確認では、注記の内側と実行する命令を1問で区別します。</p>
+              <button type="button" id="bGrammarCommentsStart">コメントの1問を確認する</button>
               <button type="button" id="bGrammarClose" hidden>確認を閉じる</button>
               <p id="bGrammarStatus" role="status" aria-live="polite"></p>
               <div id="bGrammarQuestion" hidden>
@@ -1289,7 +1291,8 @@ b ← a × 2</pre>
                 <tbody><tr><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td></tr><tr><td>T</td><td>F</td><td>F</td><td>T</td><td>F</td></tr><tr><td>F</td><td>T</td><td>F</td><td>T</td><td>T</td></tr><tr><td>F</td><td>F</td><td>F</td><td>F</td><td>T</td></tr></tbody>
               </table></div>
               <p>例：xが5なら (x ≥ 5) and (x &lt; 8) は T and T で真。xが8なら T and F で偽です。not (x &lt; 5) は x ≥ 5 と同じ範囲です。</p>
-              <p>文字列に使う + は連結（つなぐこと）です。"2" + "7" は "27" で、数の2 + 7 = 9とは違います。// 以降の行末までと /* … */ の間はコメント（説明用の注記）で、処理として実行しません。</p>
+              <p>文字列に使う + は連結（つなぐこと）です。"2" + "7" は "27" で、数の2 + 7 = 9とは違います。</p>
+              <p>コメントは説明用の注記で、処理として実行しません。// から行末までがコメントです。/* から */ までは改行を含めてコメントです。コメントの外にある命令は、同じ行に書かれていても実行します。まずコメントの範囲を確かめ、残った命令だけを追います。</p>
             </section>
 
             <section class="b-grammar-section-v404">
@@ -3673,7 +3676,7 @@ lengthX ← sumX2 の正の平方根</div>
 <script src="./assets/protected-b-security-bridge-v376.js"></script>
 <script src="./assets/protected-b-exam-bridge-v376.js"></script>
 <script src="./assets/protected-b-final-bridge-v376.js"></script>
-<script src="./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195"></script>
+<script src="./assets/b-grammar-practice-v1.js?v=bgrammar-comments-196"></script>
 <script src="./assets/first-impression-ux-v377.js"></script>
 <script src="./cloud/activation-loader-v342.js?v=bfinal-resume-192"></script>
 </body>

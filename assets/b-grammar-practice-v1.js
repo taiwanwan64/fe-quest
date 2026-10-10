@@ -6,6 +6,7 @@ const ASSET_BASE=document.currentScript?.src||document.baseURI;
 const MODES={
   base:{file:'question-catalog-b-grammar-v1.json',version:'b-grammar-catalog-v1',contentVersion:'b-grammar-protected-v1-20261008',practice:'grammar-v1',size:6,button:'bGrammarStart'},
   types:{file:'question-catalog-b-grammar-types-v1.json',version:'b-grammar-types-catalog-v1',contentVersion:'b-grammar-types-protected-v1-20261010',practice:'grammar-types-v1',size:2,button:'bGrammarTypesStart'},
+  comments:{file:'question-catalog-b-grammar-comments-v1.json',version:'b-grammar-comments-catalog-v1',contentVersion:'b-grammar-comments-protected-v1-20261010',practice:'grammar-comments-v1',size:1,button:'bGrammarCommentsStart'},
   functions:{file:'question-catalog-b-grammar-functions-v1.json',version:'b-grammar-functions-catalog-v1',contentVersion:'b-grammar-functions-protected-v1-20261010',practice:'grammar-functions-v1',size:2,button:'bGrammarFunctionsStart'}
 };
 let mode=MODES.base;
@@ -128,6 +129,7 @@ function next(){
 }
 el('bGrammarStart').addEventListener('click',()=>start('base'));
 el('bGrammarTypesStart').addEventListener('click',()=>start('types'));
+el('bGrammarCommentsStart').addEventListener('click',()=>start('comments'));
 el('bGrammarFunctionsStart').addEventListener('click',()=>start('functions'));
 el('bGrammarClose').addEventListener('click',()=>reset('確認を閉じました。途中の解答は保存しません。'));
 el('bGrammarNext').addEventListener('click',next);
