@@ -4,6 +4,7 @@
 const GATE_URL='https://gkvgxnkoypypikxtyeoz.supabase.co/functions/v1/fequest-question-gate-v376';
 const ASSET_BASE=document.currentScript?.src||document.baseURI;
 const MODES={
+  boundaries:{file:'question-catalog-b-grammar-boundaries-v1.json',version:'b-grammar-boundaries-catalog-v1',contentVersion:'b-grammar-boundaries-protected-v1-20261011',practice:'grammar-boundaries-v1',size:2,button:'bGrammarBoundariesStart'},
   base:{file:'question-catalog-b-grammar-v1.json',version:'b-grammar-catalog-v1',contentVersion:'b-grammar-protected-v1-20261008',practice:'grammar-v1',size:6,button:'bGrammarStart'},
   types:{file:'question-catalog-b-grammar-types-v1.json',version:'b-grammar-types-catalog-v1',contentVersion:'b-grammar-types-protected-v1-20261010',practice:'grammar-types-v1',size:2,button:'bGrammarTypesStart'},
   comments:{file:'question-catalog-b-grammar-comments-v1.json',version:'b-grammar-comments-catalog-v1',contentVersion:'b-grammar-comments-protected-v1-20261010',practice:'grammar-comments-v1',size:1,button:'bGrammarCommentsStart'},
@@ -127,6 +128,7 @@ function next(){
   if(index===mode.size-1){const score=firstCorrect;reset(`確認終了：初回正解 ${score} / ${mode.size}問。XP・履歴・基礎演習の進捗は変更していません。`);el(mode.button).focus();return;}
   index++;showQuestion();
 }
+el('bGrammarBoundariesStart').addEventListener('click',()=>start('boundaries'));
 el('bGrammarStart').addEventListener('click',()=>start('base'));
 el('bGrammarTypesStart').addEventListener('click',()=>start('types'));
 el('bGrammarCommentsStart').addEventListener('click',()=>start('comments'));
@@ -140,4 +142,5 @@ const screen=el('trace');
 if(screen)new MutationObserver(()=>{if(!screen.classList.contains('active'))reset();}).observe(screen,{attributes:true,attributeFilter:['class']});
 window.addEventListener('pagehide',()=>reset());
 })();
+
 

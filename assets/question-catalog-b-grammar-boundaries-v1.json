@@ -1,0 +1,32 @@
+{
+  "version": "b-grammar-boundaries-catalog-v1",
+  "contentVersion": "b-grammar-boundaries-protected-v1-20261011",
+  "counts": {
+    "supplementalGrammar": 2,
+    "catalogQuestions": 2
+  },
+  "items": [
+    {
+      "id": "b_exam_bgrammar_boundary_inputs",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_boundary_inputs",
+      "ordinal": 1,
+      "level": "基礎",
+      "domain": "基本構文",
+      "format": "テスト入力",
+      "practice": "grammar-boundaries-v1",
+      "practiceOrdinal": 1
+    },
+    {
+      "id": "b_exam_bgrammar_candidate_tests",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_candidate_tests",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "基本構文",
+      "format": "候補比較",
+      "practice": "grammar-boundaries-v1",
+      "practiceOrdinal": 2
+    }
+  ]
+}
