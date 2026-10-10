@@ -3,11 +3,27 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const source=fs.readFileSync('assets/b-grammar-practice-v1.js','utf8');
 const catalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-v1.json','utf8'));
+const typeCatalog=JSON.parse(fs.readFileSync('assets/question-catalog-b-grammar-types-v1.json','utf8'));
 const indexHtml=fs.readFileSync('index.html','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const css=fs.readFileSync('assets/b-grammar-practice-v1.css','utf8');
 const ids=['do_boundary','scope','logical_or','logical_not','concat','division'].map(s=>'b_exam_bgrammar_'+s);
 assert.deepEqual(catalog.items.map(x=>x.id),ids);
+const typeIds=['b_exam_bgrammar_types','b_exam_bgrammar_undefined'];
+assert.deepEqual(typeCatalog.items.map(x=>x.id),typeIds);
+assert.equal(typeCatalog.version,'b-grammar-types-catalog-v1');
+assert.equal(typeCatalog.contentVersion,'b-grammar-types-protected-v1-20261010');
+assert.deepEqual(typeCatalog.counts,{supplementalGrammar:2,catalogQuestions:2});
+assert.equal(indexHtml.split('id="bGrammarTypesStart"').length-1,1);
+assert.ok(indexHtml.includes('型・未定義の2問を確認する'));
+assert.ok(indexHtml.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-types-194'));
+assert.ok(sw.includes('./assets/b-grammar-practice-v1.js?v=bgrammar-types-194'));
+assert.ok(sw.includes('question-catalog-b-grammar-types-v1.json'));
+for(const [i,row] of typeCatalog.items.entries()){
+ assert.equal(row.practice,'grammar-types-v1');assert.equal(row.practiceOrdinal,i+1);
+ assert.equal(row.sourcePool,'b_exam_algo');assert.equal(row.id,'b_exam_'+row.parentId);
+ assert.ok(Object.keys(row).every(key=>['id','sourcePool','parentId','ordinal','level','domain','format','practice','practiceOrdinal'].includes(key)));
+}
 assert.equal(indexHtml.split('id="bGrammarPractice"').length-1,1);
 assert.ok(indexHtml.includes('XP・履歴・基礎35演習の進捗に加算しません'));
 for(const asset of ['b-grammar-practice-v1.js','b-grammar-practice-v1.css','question-catalog-b-grammar-v1.json'])assert.ok(sw.includes(asset));
@@ -22,33 +38,35 @@ class Element{
   focus(){this.focused=true;}
   async click(){if(!this.disabled)return this.handlers.click?.();}
 }
-const synthetic=catalog.items.map((entry,i)=>({id:entry.id,sourcePool:entry.sourcePool,stem:'Synthetic prompt '+i,options:['alpha','beta','gamma','delta'],hint:'Synthetic hint',renderContext:{type:'exam',parentId:entry.parentId,title:'Synthetic title '+i,context:'Synthetic context',code:['synthetic code'],data:[]}}));
-function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failGrade=false,failBootstrap=false,delayBootstrap=false}={}){
+const syntheticFor=doc=>doc.items.map((entry,i)=>({id:entry.id,sourcePool:entry.sourcePool,stem:'Synthetic prompt '+i,options:['alpha','beta','gamma','delta'],hint:'Synthetic hint',renderContext:{type:'exam',parentId:entry.parentId,title:'Synthetic title '+i,context:'Synthetic context',code:['synthetic code'],data:[]}}));
+function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failGrade=false,failBootstrap=false,delayBootstrap=false,delayGrade=false}={}){
   const elements=new Map();const get=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id);};
   const guide=new Element();get('bGrammarPractice').guide=guide;
   get('bGrammarQuestion').hidden=true;get('bGrammarNext').hidden=true;get('bGrammarHint').hidden=true;
   get('trace').classList.contains=key=>key==='active';
-  const calls=[],observers=[];let pendingResolve=null,failed=false;
+  const calls=[],observers=[];let pendingResolve=null,failed=false,selected=catalog;
   const fetch=async(url,options)=>{
     assert.equal(options.cache,'no-store');assert.equal(options.credentials,'omit');assert.equal(options.referrerPolicy,'no-referrer');assert.ok(options.signal);
     const body=options.body?JSON.parse(options.body):null;calls.push({url,body});
-    if(!body)return {ok:true,json:async()=>mutateCatalog(structuredClone(catalog))};
+    if(!body){selected=String(url).includes('grammar-types-v1')?typeCatalog:catalog;return {ok:true,json:async()=>mutateCatalog(structuredClone(selected))};}
     assert.equal(options.method,'POST');
     if(body.action==='bootstrap'){
-      assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,ids);
+      assert.equal(body.accessCode,'');assert.deepEqual(body.requestedIds,selected.items.map(x=>x.id));
+      const synthetic=syntheticFor(selected);
       if(failBootstrap)return {ok:false};
       if(delayBootstrap)await new Promise(resolve=>pendingResolve=resolve);
       return {ok:true,json:async()=>mutateBootstrap({sessionToken:'x'.repeat(64),questions:structuredClone(synthetic)})};
     }
     assert.equal(body.action,'answer');assert.equal(body.sessionToken,'x'.repeat(64));
     if(failGrade&&!failed){failed=true;return {ok:false};}
-    const ordinal=ids.indexOf(body.questionId);assert.ok(ordinal>=0);
+    const ordinal=selected.items.findIndex(x=>x.id===body.questionId);assert.ok(ordinal>=0);
     const answerIndex=ordinal%4;
+    if(delayGrade)await new Promise(resolve=>pendingResolve=resolve);
     return {ok:true,json:async()=>mutateGrade({questionId:body.questionId,correct:body.choiceIndex===answerIndex,answerIndex,explanation:'Synthetic explanation',choiceExplanations:Array(4).fill('Synthetic reason')})};
   };
   const context={document:{currentScript:{src:'https://example.test/assets/b-grammar-practice-v1.js'},baseURI:'https://example.test/',getElementById:get,createElement:()=>new Element()},window:{addEventListener(){}},URL,AbortController,setTimeout,clearTimeout,fetch,MutationObserver:class{constructor(handler){this.handler=handler;observers.push(this);}observe(){}}};
   vm.runInNewContext(source,context);
-  return {get,calls,guide,observers,release:()=>pendingResolve?.(),pending:()=>!!pendingResolve};
+  return {get,calls,guide,observers,release:()=>pendingResolve?.(),takeRelease:()=>pendingResolve,pending:()=>!!pendingResolve};
 }
 let app=harness();await app.get('bGrammarStart').click();
 for(let i=0;i<6;i++){
@@ -81,3 +99,73 @@ assert.equal(app.get('bGrammarQuestion').hidden,true);assert.equal(app.get('bGra
 app=harness();await app.get('bGrammarStart').click();app.guide.open=false;app.guide.handlers.toggle();assert.equal(app.get('bGrammarQuestion').hidden,true);
 app=harness();await app.get('bGrammarStart').click();app.get('trace').classList.contains=()=>false;app.observers[1].handler();assert.equal(app.get('bGrammarOptions').children.length,0);
 console.log('PASS isolated grammar supplement: 6-question flow, wrong retry, first score, pre-answer leak rejection, transport failure, stale/collapse/route cleanup, no persistence');
+
+
+for(const doc of [catalog,typeCatalog]){
+ const button=doc===catalog?'bGrammarStart':'bGrammarTypesStart';
+ const size=doc.items.length;
+ let trial=harness();await trial.get(button).click();
+ assert.equal(trial.get('bGrammarStart').hidden,true);assert.equal(trial.get('bGrammarTypesStart').hidden,true);
+ for(let i=0;i<size;i++){
+  assert.equal(trial.get('bGrammarTitle').textContent,`${i+1} / ${size}：Synthetic title ${i}`);
+  await trial.get('bGrammarOptions').children[i%4].click();await trial.get('bGrammarNext').click();
+ }
+ assert.ok(trial.get('bGrammarStatus').textContent.includes(`初回正解 ${size} / ${size}`));
+ assert.equal(trial.get(button).focused,true);
+ assert.equal(trial.get('bGrammarTypesStart').hidden,false);assert.equal(trial.get('bGrammarStart').hidden,false);
+ for(const mutateCatalog of [
+  doc=>({...doc,contentVersion:'wrong-version'}),
+  doc=>({...doc,counts:{...doc.counts,catalogQuestions:99}}),
+  doc=>{doc.items[0].practice='other-practice';return doc;}
+ ]){
+  trial=harness({mutateCatalog});await trial.get(button).click();
+  assert.equal(trial.calls.length,1);assert.equal(trial.get('bGrammarQuestion').hidden,true);
+  assert.equal(trial.get('bGrammarTypesStart').disabled,false);
+ }
+ for(const mutateBootstrap of [
+  data=>({...data,questions:data.questions.slice(1)}),
+  data=>{data.questions[0].renderContext.answer_index=0;return data;}
+ ]){
+  trial=harness({mutateBootstrap});await trial.get(button).click();
+  assert.equal(trial.get('bGrammarQuestion').hidden,true);assert.equal(trial.get(button).disabled,false);
+ }
+ trial=harness({failGrade:true});await trial.get(button).click();
+ await trial.get('bGrammarOptions').children[0].click();
+ assert.equal(trial.get('bGrammarNext').hidden,true);
+ await trial.get('bGrammarOptions').children[0].click();
+ assert.equal(trial.get('bGrammarNext').hidden,false);
+ await trial.get('bGrammarClose').click();assert.equal(trial.get('bGrammarOptions').children.length,0);
+}
+app=harness();await app.get('bGrammarTypesStart').click();
+await app.get('bGrammarOptions').children[1].click();
+assert.equal(app.get('bGrammarHint').hidden,false);
+assert.equal(app.get('bGrammarOptions').children[1].disabled,true);
+await app.get('bGrammarOptions').children[0].click();await app.get('bGrammarNext').click();
+await app.get('bGrammarOptions').children[1].click();await app.get('bGrammarNext').click();
+assert.ok(app.get('bGrammarStatus').textContent.includes('初回正解 1 / 2'));
+assert.equal(app.calls.filter(x=>x.body?.action==='answer').length,3);
+// Close a pending old response, start the other subset, and reject the old response.
+for(const [oldButton,newButton] of [['bGrammarStart','bGrammarTypesStart'],['bGrammarTypesStart','bGrammarStart']]){
+ app=harness({delayBootstrap:true});const oldStart=app.get(oldButton).click();
+ for(let i=0;i<20&&!app.pending();i++)await Promise.resolve();assert.ok(app.pending());
+ const releaseOld=app.takeRelease();
+ await app.get('bGrammarClose').click();
+ const newStart=app.get(newButton).click();
+ for(let i=0;i<20;i++)await Promise.resolve();
+ const releaseNew=app.takeRelease();
+ releaseNew();await newStart;
+ const newTitle=app.get('bGrammarTitle').textContent;
+ releaseOld();await oldStart;
+ assert.equal(app.get('bGrammarTitle').textContent,newTitle);
+ assert.equal(app.get('bGrammarQuestion').hidden,false);
+}
+// A late grade after close must not alter the newly loaded subset.
+app=harness({delayGrade:true});await app.get('bGrammarTypesStart').click();
+const oldGrade=app.get('bGrammarOptions').children[0].click();
+for(let i=0;i<20&&!app.pending();i++)await Promise.resolve();
+await app.get('bGrammarClose').click();await app.get('bGrammarStart').click();
+app.release();await oldGrade;
+assert.equal(app.get('bGrammarTitle').textContent,'1 / 6：Synthetic title 0');
+assert.equal(app.get('bGrammarFeedback').children.length,0);
+console.log('PASS isolated subsets: unchanged 6 plus separate 2, both validation and transport failures, retry, score and late-grade rejection');
+

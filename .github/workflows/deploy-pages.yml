@@ -228,6 +228,9 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-v376.json"
           test -f "$RUNNER_TEMP/site/assets/question-catalog-b-gap-v1.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-grammar-types-v1.json"
+          grep -Fq '"./assets/question-catalog-b-grammar-types-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'bGrammarTypesStart' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/question-catalog-b-gap-v1.json"' "$RUNNER_TEMP/site/sw.js"
           grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
           grep -Fq "const B_FINAL_ALGO_POOL_V424_COUNT=50;" "$RUNNER_TEMP/site/assets/app-v377.js"
@@ -291,7 +294,7 @@ jobs:
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-193';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-194';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
@@ -393,4 +396,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
 

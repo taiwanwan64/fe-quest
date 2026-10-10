@@ -2,8 +2,12 @@
 'use strict';
 // Isolated open-preview supplement: no profile, XP, history or offline content writes.
 const GATE_URL='https://gkvgxnkoypypikxtyeoz.supabase.co/functions/v1/fequest-question-gate-v376';
-const CATALOG_URL=new URL('question-catalog-b-grammar-v1.json',document.currentScript?.src||document.baseURI).toString();
-const SIZE=6;
+const ASSET_BASE=document.currentScript?.src||document.baseURI;
+const MODES={
+  base:{file:'question-catalog-b-grammar-v1.json',version:'b-grammar-catalog-v1',contentVersion:'b-grammar-protected-v1-20261008',practice:'grammar-v1',size:6,button:'bGrammarStart'},
+  types:{file:'question-catalog-b-grammar-types-v1.json',version:'b-grammar-types-catalog-v1',contentVersion:'b-grammar-types-protected-v1-20261010',practice:'grammar-types-v1',size:2,button:'bGrammarTypesStart'}
+};
+let mode=MODES.base;
 const el=id=>document.getElementById(id);
 const root=el('bGrammarPractice');
 if(!root)return;
@@ -18,17 +22,17 @@ function safeTree(value){
   }
 }
 function validateCatalog(doc){
-  if(doc?.version!=='b-grammar-catalog-v1'||doc?.contentVersion!=='b-grammar-protected-v1-20261008'||doc?.counts?.supplementalGrammar!==SIZE||doc?.counts?.catalogQuestions!==SIZE||!Array.isArray(doc.items)||doc.items.length!==SIZE)throw new Error('catalog_invalid');
+  if(doc?.version!==mode.version||doc?.contentVersion!==mode.contentVersion||doc?.counts?.supplementalGrammar!==mode.size||doc?.counts?.catalogQuestions!==mode.size||!Array.isArray(doc.items)||doc.items.length!==mode.size)throw new Error('catalog_invalid');
   const rows=doc.items.slice().sort((a,b)=>a.practiceOrdinal-b.practiceOrdinal);
   rows.forEach((row,i)=>{
-    if(!/^b_exam_bgrammar_[a-z_]+$/.test(row?.id||'')||row.sourcePool!=='b_exam_algo'||row.practice!=='grammar-v1'||row.practiceOrdinal!==i+1||row.ordinal!==1||row.id!=='b_exam_'+row.parentId)throw new Error('catalog_invalid');
+    if(!/^b_exam_bgrammar_[a-z_]+$/.test(row?.id||'')||row.sourcePool!=='b_exam_algo'||row.practice!==mode.practice||row.practiceOrdinal!==i+1||row.ordinal!==1||row.id!=='b_exam_'+row.parentId)throw new Error('catalog_invalid');
     if(Object.keys(row).some(key=>!['id','sourcePool','parentId','ordinal','level','domain','format','practice','practiceOrdinal'].includes(key)))throw new Error('catalog_private_content');
   });
-  if(new Set(rows.map(row=>row.id)).size!==SIZE)throw new Error('catalog_duplicate');
+  if(new Set(rows.map(row=>row.id)).size!==mode.size)throw new Error('catalog_duplicate');
   return rows;
 }
 function validateBootstrap(data,entries){
-  if(typeof data?.sessionToken!=='string'||data.sessionToken.length<32||!Array.isArray(data.questions)||data.questions.length!==SIZE)throw new Error('bootstrap_invalid');
+  if(typeof data?.sessionToken!=='string'||data.sessionToken.length<32||!Array.isArray(data.questions)||data.questions.length!==mode.size)throw new Error('bootstrap_invalid');
   const found=new Map();
   for(const question of data.questions){
     safeTree(question);
@@ -61,13 +65,14 @@ function clearQuestion(){
 }
 function reset(message=''){
   epoch++;controller?.abort();controller=null;clearRuntime();clearQuestion();
-  el('bGrammarStart').disabled=false;el('bGrammarStart').hidden=false;el('bGrammarClose').hidden=true;el('bGrammarStatus').textContent=message;
+  for(const config of Object.values(MODES)){el(config.button).disabled=false;el(config.button).hidden=false;}
+  el('bGrammarClose').hidden=true;el('bGrammarStatus').textContent=message;
 }
 function showQuestion(){
   const q=questions[index];if(!q)return;
   clearQuestion();firstAnswered=false;disabledChoices.clear();
   el('bGrammarQuestion').hidden=false;
-  el('bGrammarTitle').textContent=`${index+1} / ${SIZE}：${q.renderContext.title}`;
+  el('bGrammarTitle').textContent=`${index+1} / ${mode.size}：${q.renderContext.title}`;
   el('bGrammarContext').textContent=q.renderContext.context;
   el('bGrammarCode').textContent=q.renderContext.code.join('\n');
   el('bGrammarStem').textContent=q.stem;
@@ -77,15 +82,17 @@ function showQuestion(){
   });
   el('bGrammarStatus').textContent='選択肢を選んで採点してください。';el('bGrammarTitle').focus();
 }
-async function start(){
+async function start(name){
   if(busy)return;
-  reset();const run=epoch;busy=true;
-  el('bGrammarStart').disabled=true;el('bGrammarClose').hidden=false;el('bGrammarStatus').textContent='保護された6問を読み込んでいます…';
+  reset();mode=MODES[name];const run=epoch;busy=true;
+  for(const config of Object.values(MODES))el(config.button).disabled=true;
+  el('bGrammarClose').hidden=false;el('bGrammarStatus').textContent=`保護された${mode.size}問を読み込んでいます…`;
   try{
-    const entries=validateCatalog(await request(CATALOG_URL,null,run));
+    const entries=validateCatalog(await request(new URL(mode.file,ASSET_BASE).toString(),null,run));
     const data=await request(GATE_URL,{action:'bootstrap',accessCode:'',requestedIds:entries.map(row=>row.id)},run);
     questions=validateBootstrap(data,entries);session=data.sessionToken;busy=false;
-    el('bGrammarStart').hidden=true;showQuestion();
+    for(const config of Object.values(MODES))el(config.button).hidden=true;
+    showQuestion();
   }catch(_error){if(run===epoch)reset('読み込めませんでした。通信状態を確認して、もう一度開始してください。');}
 }
 function feedback(data,q){
@@ -107,7 +114,7 @@ async function answer(choice){
     if(data.correct){buttons[choice].dataset.correct='true';buttons.forEach((_,i)=>disabledChoices.add(i));}
     else{disabledChoices.add(choice);buttons[choice].dataset.wrong='true';el('bGrammarHint').textContent='ヒント：'+q.hint;el('bGrammarHint').hidden=false;}
     buttons.forEach((button,i)=>button.disabled=disabledChoices.has(i));
-    el('bGrammarNext').hidden=false;el('bGrammarNext').textContent=index===SIZE-1?'確認結果を見る':'次の問題へ';
+    el('bGrammarNext').hidden=false;el('bGrammarNext').textContent=index===mode.size-1?'確認結果を見る':'次の問題へ';
     el('bGrammarStatus').textContent=data.correct?'正解を確認しました。次へ進めます。':'初回正解には数えません。再挑戦するか、次へ進めます。';
   }catch(_error){
     if(run===epoch){buttons.forEach((button,i)=>button.disabled=disabledChoices.has(i));el('bGrammarStatus').textContent='採点できませんでした。解答は未確定です。通信状態を確認して再試行してください。';}
@@ -115,10 +122,11 @@ async function answer(choice){
 }
 function next(){
   if(busy||!firstAnswered)return;
-  if(index===SIZE-1){const score=firstCorrect;reset(`確認終了：初回正解 ${score} / ${SIZE}問。XP・履歴・基礎演習の進捗は変更していません。`);el('bGrammarStart').focus();return;}
+  if(index===mode.size-1){const score=firstCorrect;reset(`確認終了：初回正解 ${score} / ${mode.size}問。XP・履歴・基礎演習の進捗は変更していません。`);el(mode.button).focus();return;}
   index++;showQuestion();
 }
-el('bGrammarStart').addEventListener('click',start);
+el('bGrammarStart').addEventListener('click',()=>start('base'));
+el('bGrammarTypesStart').addEventListener('click',()=>start('types'));
 el('bGrammarClose').addEventListener('click',()=>reset('確認を閉じました。途中の解答は保存しません。'));
 el('bGrammarNext').addEventListener('click',next);
 const guide=root.closest('details');guide?.addEventListener('toggle',()=>{if(!guide.open)reset();});
@@ -128,3 +136,4 @@ const screen=el('trace');
 if(screen)new MutationObserver(()=>{if(!screen.classList.contains('active'))reset();}).observe(screen,{attributes:true,attributeFilter:['class']});
 window.addEventListener('pagehide',()=>reset());
 })();
+

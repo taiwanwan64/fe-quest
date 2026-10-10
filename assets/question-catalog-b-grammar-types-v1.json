@@ -1,0 +1,32 @@
+{
+  "version": "b-grammar-types-catalog-v1",
+  "contentVersion": "b-grammar-types-protected-v1-20261010",
+  "counts": {
+    "supplementalGrammar": 2,
+    "catalogQuestions": 2
+  },
+  "items": [
+    {
+      "id": "b_exam_bgrammar_types",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_types",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "制御",
+      "format": "型の識別",
+      "practice": "grammar-types-v1",
+      "practiceOrdinal": 1
+    },
+    {
+      "id": "b_exam_bgrammar_undefined",
+      "sourcePool": "b_exam_algo",
+      "parentId": "bgrammar_undefined",
+      "ordinal": 1,
+      "level": "標準",
+      "domain": "制御",
+      "format": "処理結果",
+      "practice": "grammar-types-v1",
+      "practiceOrdinal": 2
+    }
+  ]
+}
