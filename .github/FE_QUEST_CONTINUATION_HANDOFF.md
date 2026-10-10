@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：入れ子breakの文法ガイド補強・表示受入（2026-10-10）
+
+開始live public main `0599dcfe7fabb4c2d5c68839435660df82c2e347` / private `dfb709bafa302d13ef442e92a4e71b8a19cf211e`、双方open PR 0、前作業branch ahead0/behind1/files0、#363 Pages `38017510679` successを再確認。最新ガイド4はbreakの一般注記だけだったため、添付03の繰返し終了・トレースの関連ページを画像で確認し、独自の入れ子for例と6行の途中状態表を追加。参考書の問題/解説/codeの転載ではない。
+
+public PR #364 merged、head `90b0ce62a57607ea1a44f8e7e5dd810b6f0ba1fc`、publication `38017963126` / v35 `38017963042` success、implementation main `f68b6ac987b82d1b8f5b6084dcbf9cae08690caf`、Pages `38018013606` success。cache193のみ更新し、app/trace bridge/loaderのqueryは内容不変のため `bfinal-resume-192` を維持。既存guide8節は維持、表9→10、名前付きfocus可能な表領域2→3。独立計算と表示6行、内側の残り飛ばし/外側継続/内側再初期化・returnとの違いを既存grammar CIで検査。appJS・CSS・保護bridge/loaderのblobは変更前と一致。
+
+本番通常UIで同じ300XPゲストを継続し、新カード1個、6行の全数値/説明、code/本文/表18px、表のkeyboard focus（3px outline）を確認。desktop document1348pxでページ横溢れなし、表幅818pxで内部overflowなしのため実際の横移動・実スマホは未受入。公開後と閲覧後の通常reloadで300XP、A0/130・B2/35・トレース2/20・security0/15・総合実戦0/2保持。診断/採点/新規加点/profile消去/別ゲスト作成なし。画像保存済み。SW自動更新後の古いAX indexはfresh AXで再取得、summaryをbutton locatorで探す不一致も通常UIで解消。アプリ不具合として断定しない。
+
+今回は公開ガイド/検査/cacheと記録のみ。private/DB/採点/content gate・coverage変更なし。DB digestは前回4行反映後の値を継承する記録であり、今回DB全行を再照合したとは言わない。**既適用SQL（理由追加含む）の再実行・旧gateの再deployはしない。**
+
+**guideの入れ子break説明補強は完了。次は同じ第1章の型/未定義を直接問う独立技能に限定し、既存protected問題の本文をliveで探して、新規追加か既存利用かを判断する。** 教材に型を使っただけで独立技能受入と数えない。複数引数・コメント・境界値作成/候補排除、他13親26予測の理由、制御exam5行の理由/bridge不足も残件。既受入7親14予測・補助6問・制御5件を無目的に反復せず、第2章へ自動で進まない。全章・全B完了ではない。実スマホ、IPA43（6 verified-covered/37 in-progress、inventory incomplete）、第22章関連度gap維持。
+
+詳細：[入れ子breakのガイド補強](reference-audits/bbook-ch01-nested-break-guide-20261010.md)。記録PR後のmain/作業branch/open PR/CI/Pagesは次回liveで再確認する。以下は各時点の履歴。
+
 ## 最新確定状態：減少for／elseifの4予測・16理由と探索図修正（2026-10-10）
 
 開始時にlive public main `4868851fd17967874f4500831ea5fbd77bd7c647` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch ahead0/behind1/files0、CI/Pages successを実読。添付03の物理39・54〜56（紙面037・052〜054）を画像で確認し、既存array_reverse / binary_search_bの4予測を独立トレースした。
