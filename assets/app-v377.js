@@ -7257,30 +7257,32 @@ function coreTopicSearchDiagramViewV366(id){
   </figure>`;
 }
 
-function searchTraceViewV366(mode,array,target,step={}){
+function searchTraceViewV366(mode,array,target,step={},indexBase=0){
   const values=Array.isArray(array)?array:[];
   const state=step&&typeof step.state==='object'&&step.state?step.state:{};
   const binary=mode==='binary_search_b'||mode==='binary';
   const focus=Number.isInteger(step.focus)?step.focus:-1;
   const found=Number.isInteger(step.found)?step.found:-1;
-  const low=Number.isInteger(state.low)?state.low:0;
-  const high=Number.isInteger(state.high)?state.high:values.length-1;
-  const mid=Number.isInteger(state.mid)?state.mid:(binary?focus:-1);
+  const base=indexBase===1?1:0;
+  const low=Number.isInteger(state.low)?state.low:base;
+  const high=Number.isInteger(state.high)?state.high:values.length-1+base;
+  const mid=Number.isInteger(state.mid)?state.mid:(binary&&focus>=0?focus+base:-1);
   const hasRange=binary&&Number.isInteger(state.low)&&Number.isInteger(state.high);
   const cells=values.map((value,index)=>{
-    const inRange=!binary||!hasRange||(index>=low&&index<=high);
+    const position=index+base;
+    const inRange=!binary||!hasRange||(position>=low&&position<=high);
     const checked=binary?(hasRange&&!inRange):(focus>=0&&index<focus);
     const labels=[];
-    if(binary&&hasRange&&index===low) labels.push('low');
-    if(binary&&mid>=0&&index===mid) labels.push('mid');
-    if(binary&&hasRange&&index===high) labels.push('high');
+    if(binary&&hasRange&&position===low) labels.push('low');
+    if(binary&&mid>=0&&position===mid) labels.push('mid');
+    if(binary&&hasRange&&position===high) labels.push('high');
     if(!binary&&index===focus) labels.push('i');
     const classes=[inRange?'is-active':'is-discarded',checked?'is-checked':'',index===focus?'is-current':'',index===found?'is-found':''].filter(Boolean).join(' ');
-    return `<span class="search-trace-cell-wrap-v366"><span class="search-trace-marker-v366">${escapeHtml(labels.join(' / '))}</span><span class="trace-array-cell ${classes}" data-search-trace-index="${index}">${escapeHtml(value)}<span class="trace-array-index">${index}</span></span></span>`;
+    return `<span class="search-trace-cell-wrap-v366"><span class="search-trace-marker-v366">${escapeHtml(labels.join(' / '))}</span><span class="trace-array-cell ${classes}" data-search-trace-index="${index}">${escapeHtml(value)}<span class="trace-array-index">${position}</span></span></span>`;
   }).join('');
   const status=binary
     ?(hasRange?`探索範囲：${low}〜${high}${mid>=0?` ／ mid：${mid}`:''}`:'探索範囲を設定する前です。')
-    :(focus>=0?`現在の i：${focus} ／ 先頭から${focus+1}個目を確認`:'先頭から探索を始めます。');
+    :(focus>=0?`現在の i：${focus+base} ／ 先頭から${focus+1}個目を確認`:'先頭から探索を始めます。');
   return `<div class="search-trace-v366" data-search-mode="${binary?'binary':'linear'}" data-search-focus="${focus}" data-search-low="${binary&&hasRange?low:''}" data-search-high="${binary&&hasRange?high:''}">
     <div class="search-trace-head-v366"><b>${binary?'二分探索':'線形探索'}</b><span>target = ${escapeHtml(target)}</span></div>
     <div class="search-trace-cells-v366">${cells}</div>
@@ -9226,7 +9228,7 @@ function renderBVisual(step){
   if(currentB.array){
     const arr=step.arrayState||currentB.array;
     if(currentB.id==='linear_search'||currentB.id==='binary_search_b'){
-      v.innerHTML=searchTraceViewV366(currentB.id,arr,currentB.target,step);
+      v.innerHTML=searchTraceViewV366(currentB.id,arr,currentB.target,step,1);
       return;
     }
     if(currentB.id==='bubble_sort_b'||currentB.id==='selection_sort_b'){

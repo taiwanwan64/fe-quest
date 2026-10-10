@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const source=fs.readFileSync('assets/app-v377.js','utf8');
+const start=source.indexOf('function searchTraceViewV366(');
+const search=source.slice(start,source.indexOf('// FE QUEST v367:',start));
+const renderStart=source.indexOf('function renderBVisual(step){');
+const render=source.slice(renderStart,source.indexOf('function showBPrediction()',renderStart));
+const visual={innerHTML:''};
+const ctx={escapeHtml:x=>String(x),document:{getElementById:()=>visual},currentB:{}};
+vm.createContext(ctx);vm.runInContext(search+'\n'+render,ctx);
+const values=[101,202,303,404,505,606,707];
+function cells(html){
+ return [...html.matchAll(/<span class="search-trace-marker-v366">([^<]*)<\/span><span class="trace-array-cell ([^"]*)" data-search-trace-index="(\d+)">([^<]*)<span class="trace-array-index">(\d+)<\/span>/g)].map(m=>({marker:m[1],classes:m[2],index:Number(m[3]),value:m[4],label:Number(m[5])}));
+}
+ctx.currentB={id:'binary_search_b',array:values,target:606};
+ctx.renderBVisual({state:{low:1,high:7,mid:4},focus:3});
+let c=cells(visual.innerHTML);
+assert.deepEqual(c.map(x=>x.label),[1,2,3,4,5,6,7]);
+assert.deepEqual(c.map(x=>x.index),[0,1,2,3,4,5,6]);
+assert.equal(c[0].marker,'low');assert.equal(c[3].marker,'mid');assert.equal(c[6].marker,'high');
+assert(c[3].classes.includes('is-current'));assert(c.every(x=>!x.classes.includes('is-discarded')));
+ctx.renderBVisual({state:{low:5,high:7,mid:6},focus:5,found:5});
+c=cells(visual.innerHTML);assert(c.slice(0,4).every(x=>x.classes.includes('is-discarded')));assert(c.slice(4).every(x=>x.classes.includes('is-active')));
+assert.equal(c[4].marker,'low');assert.equal(c[5].marker,'mid');assert.equal(c[6].marker,'high');assert(c[5].classes.includes('is-current'));assert(c[5].classes.includes('is-found'));
+ctx.renderBVisual({});assert(cells(visual.innerHTML).every(x=>!x.marker));assert(visual.innerHTML.includes('探索範囲を設定する前'));
+ctx.renderBVisual({state:{low:8,high:7},focus:-1});assert(cells(visual.innerHTML).every(x=>x.classes.includes('is-discarded')));
+ctx.currentB={id:'linear_search',array:values,target:202};ctx.renderBVisual({state:{i:2},focus:1});c=cells(visual.innerHTML);
+assert.equal(c[1].marker,'i');assert(c[1].classes.includes('is-current'));assert(c[0].classes.includes('is-checked'));assert(visual.innerHTML.includes('現在の i：2 ／ 先頭から2個目'));
+const legacy=ctx.searchTraceViewV366('binary',values,606,{state:{low:0,high:6,mid:3},focus:3});
+c=cells(legacy);assert.deepEqual(c.map(x=>x.label),[0,1,2,3,4,5,6]);assert.equal(c[0].marker,'low');assert.equal(c[3].marker,'mid');assert.equal(c[6].marker,'high');
+assert(source.includes('searchTraceViewV366(v.searchMode,arr,v.target,{state:v.searchState||{},focus:v.focus,found:v.found})'),'legacy mock call retains default base');
+console.log('PASS normal search: one-based labels/ranges/markers; zero-based internal focus/found and legacy default preserved');
