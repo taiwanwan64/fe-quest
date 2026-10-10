@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-195';
+const CACHE_NAME = 'fe-quest-v377-196';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -30,10 +30,11 @@ const APP_SHELL = [
   "./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184",
   "./assets/b-grammar-practice-v1.css",
   "./assets/b-trace-feedback-v1.css",
-  "./assets/b-grammar-practice-v1.js?v=bgrammar-functions-195",
+  "./assets/b-grammar-practice-v1.js?v=bgrammar-comments-196",
   "./assets/question-catalog-b-grammar-v1.json",
   "./assets/question-catalog-b-grammar-types-v1.json",
   "./assets/question-catalog-b-grammar-functions-v1.json",
+  "./assets/question-catalog-b-grammar-comments-v1.json",
   "./assets/bbook-ch02-array-v405.css",
   "./assets/bbook-ch03-matrix-v406.css",
   "./assets/bbook-ch04-impossible-v407.css",
