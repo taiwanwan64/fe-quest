@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：コメントと実行命令の独立補助1問（2026-10-10）
+
+開始live public d6e15f04e7eaf59188edbdedb6cc0c40cbfda814 / private 9eb50482c6d800e2ffda0ace9d633d13131a2cfa、双方open PR0、旧記録branch ahead0/behind1/files0、CI/Pages成功を再確認。添付03の物理074（紙面072）のコメント説明/図、変数/実行順・確認項目とactiveアルゴリズム145行を実読。既存scopeの注釈を独立技能受入と数えず、独自1問を追加。
+
+private #138 head b8c64d562db59ad268417260e37c6656105ef1ce、CI 38051943574 / 38051943603 success、source be60b0bfa5dbd93ff4e8409703440312d8908a71。one-shot append1回、全1行canonical readback一致。1191問digest 74c56a7ea47cceaf71c2247dc424df2b、旧1190問digest 45a80736f79bc29d0ccd312efcc11160 / 130教材digest e89f8d33fa35a4d104110807dddb3543保持。UI後も一致。manifest版 b-grammar-comments-protected-v1-20261010、count1/source/payload SHA記録済み。private記録 #139 head af04eb0b21377d73374e1d15d7ef374ee04b79a0、CI 38052224560 / 38052224579 success、main 0bd634c59d2fc2ca37ef81900e8910c599c07acb。**新旧INSERT/provenance/理由SQLを再実行しない。旧gate再deployなし。**
+
+公開 #370 head 900b9451eb0ccbd09218b05d0b8fcd80d52d5075、CI 38051947960 / 38051947980 success、implementation main 4f6232eece17e3a1035225be2805ca006a1cac6f、Pages 38052070458 success。コメント1問を旧6/types2/functions2とは別入口へ追加、guideで改行を含む範囲/外側の実行命令を明確化。cache196、補助query bgrammar-comments-196。本体/trace/final bridge/provider/loader/旧3catalog/CSS blob不変、本体/loader bfinal-resume-192維持。一般catalog1180/通常B180/実戦50候補/基礎20+15/総合16+4/guide8節10表は維持。公開catalog metadata-only、公開tests synthetic。4mode/12方向の遅延bootstrap/grade競合・retry/score/leak/通信失敗検査PASS。
+
+今回もtab1 about:blank→初回設定。以前のQAゲストの継続証明なし、消去/リセット/統合なし。新QA必須診断12/12→120XP。通常UIで新1unique ID・3採点（誤答retry/初回正解）・2結果0/1と1/1・未回答close1回。正答/説明/全4理由、ヒント/無効化、結果focus/消去、18px/見出し19px、desktop横溢れなし。旧引数2は先頭読込だけ未採点close。ホーム/通常reload後120XP・A0/130/B0/35/trace0/20/sec0/15/short0/5/final0/2・通常履歴空を確認。過去のプロフィール継続保証とはしない。結果画像保存、実スマホ未受入。
+
+**コメント1問はdesktop受入完了。次は同じ文法章の境界値作成・候補排除を現行guide/既存protected問題とlive照合し、既存利用/不足補強/受入を判断する。** 補助11問・7親14予測・制御5件を無目的に反復せず、第2章へ飛ばさない。現在アルゴリズム146行（40+45+61）。他13親26予測の理由、制御5行/bridgeの理由不足、実スマホ、IPA43（6 verified-covered/37 in-progress・inventory incomplete）、第22章関連度gap維持。文法章全skill・全B完了ではない。
+
+詳細：[コメントの独立補助1問](reference-audits/bbook-ch01-comments-20261010.md)。記録PR後のmain/branch/open PR/CI/Pagesは次回liveで再確認。以下は各時点の履歴。
+
 ## 最新確定状態：引数・returnの独立した補助2問（2026-10-10）
 
 開始live public `fd09458d8112f9e11abacbda5ba5ba18d223a75c` / private `b48f38959a788dacc9371dcedd94497e426a3ba6`、双方open PR0、前記録branch ahead0/behind1/files0、CI/Pages成功を再確認。添付03物理057〜061（紙面055〜059）とactiveアルゴリズム143行を実読し、引数の位置対応・return後非実行/呼出し元継続を直接問う独自2問を追加。旧6問と型/未定義2問とは別入口で維持。
