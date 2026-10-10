@@ -1328,6 +1328,35 @@ while (n &lt; 2)</pre>
                 <tbody><tr><th scope="row">while</th><td>2 &lt; 2 → F、本体を飛ばす</td><td>n = 2、count = 0</td></tr><tr><th scope="row">do</th><td>本体実行後、3 &lt; 2 → F</td><td>n = 3、count = 1</td></tr></tbody>
               </table></div>
               <p class="b-grammar-note-v404">無限ループは、抜ける経路がなく処理が終わらない繰返しです。条件に使う値が更新されるかを追います。while (true) でも、break（繰返しから抜ける指示）やreturnなどの出口があれば、意図的な書き方の場合があります。</p>
+              <div class="b-grammar-card-v404" id="bGrammarNestedBreakV404">
+                <b>入れ子のbreak：最も内側の繰返しだけを抜ける</b>
+                <p>breakは、それを囲む最も内側のforやwhileを終了し、その繰返しの直後へ進みます。ifは繰返しではないので、ifだけを抜ける指示ではありません。</p>
+                <pre class="b-grammar-code-v404">整数型: i, j, hits ← 0, rounds ← 0
+for (i を 1 から 2 まで 1ずつ増やす)
+    for (j を 1 から 3 まで 1ずつ増やす)
+        if (j = 2)
+            break  // 内側のforだけを終了
+        endif
+        hits ← hits + 1
+    endfor
+    rounds ← rounds + 1  // 外側の本体は続く
+endfor
+hits, rounds を出力する</pre>
+                <p>内側はj = 1でhitsを増やし、j = 2でbreakします。その回のhits加算とj = 3の処理は飛ばし、内側のendforの後にあるroundsの加算へ進みます。外側の次の反復ではjを1から始め直します。</p>
+                <div class="b-grammar-table-v404 trace-wide" role="region" aria-label="入れ子のbreakの実行順（横にスクロール）" tabindex="0"><table>
+                  <caption>breakの後も、外側の処理と次の反復は続く</caption>
+                  <thead><tr><th scope="col">外側i</th><th scope="col">内側j</th><th scope="col">実行する処理</th><th scope="col">累計</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td>1</td><td>j = 2は偽。hitsを1増やす</td><td>hits = 1、rounds = 0</td></tr>
+                    <tr><td>1</td><td>2</td><td>break。内側の残りを飛ばす</td><td>hits = 1、rounds = 0</td></tr>
+                    <tr><td>1</td><td>2</td><td>内側forの直後でroundsを1増やす</td><td>hits = 1、rounds = 1</td></tr>
+                    <tr><td>2</td><td>1</td><td>jを1から始め直し、hitsを1増やす</td><td>hits = 2、rounds = 1</td></tr>
+                    <tr><td>2</td><td>2</td><td>再びbreak。内側だけを終了</td><td>hits = 2、rounds = 1</td></tr>
+                    <tr><td>2</td><td>2</td><td>外側の本体を続け、roundsを1増やす</td><td>hits = 2、rounds = 2</td></tr>
+                  </tbody>
+                </table></div>
+                <p class="b-grammar-note-v404"><strong>出力はhits = 2、rounds = 2。</strong>breakで外側まで一度に終了するわけではありません。returnは関数から呼出し元へ戻る指示で、抜ける範囲が異なります。問題文で終了する範囲が指定されている場合は、その指定に従います。</p>
+              </div>
             </section>
 
             <section class="b-grammar-section-v404">
