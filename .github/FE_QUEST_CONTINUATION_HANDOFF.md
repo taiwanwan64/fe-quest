@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：型・未定義の独立した補助2問（2026-10-10）
+
+live public `b4368de36f5085bd26e5d8b521772475f58a0f7f` / private `dfb709bafa302d13ef442e92a4e71b8a19cf211e`、双方open PR0・CI/Pages成功から再開。前回141行の探索と同一baseline digestを照合。添付03の物理028/029/031/032とIPA公式言語Ver.5.1別紙2を実読し、型の用途識別・未定義/0/false/空文字と未定義代入の独自2問を追加した。元6問を置換せず別ボタンから2問だけ選べる。
+
+private PR #134 head `b089d5c4ba8ed159490833b1f258e9b3b2f3df76`、supplement `38019467090` / protected `38019467114` success、source main `2252b09f0d4cbf959fb1ea605bfc09e1c5091b91`。新INSERTを1回適用し全2行readback一致。1188問digest `4995a10a4ee697f6ba0cdab1d8f749cf`、旧1186行digest `a6f614049e12cd924c43838f58a3effb` / 全130教材digest `e89f8d33fa35a4d104110807dddb3543` 保持、UI後も一致。import manifestはsource commit/version/2件/pool/payload SHAを記録済み。**新旧INSERT・理由SQL・provenance SQLを再実行しない。旧gate再deployなし。**
+
+public PR #366 head `06e6d4b6b3892bab5c7f1ec99a2c425b83977a58`、publication `38019468350` / v35 `38019468479` success、implementation main `afbf2d34930477dd691dcdad79dc78f3c97b643f`、Pages `38019598237` success。cache194、補助JS query bgrammar-types-194。app/trace bridge/loaderは本体不変でbfinal-resume-192を維持。旧6問catalog・appJS・bridge・loaderのblob一致、一般provider/catalog1180・通常B180・実戦50候補・基礎20+15・総合16+4・guide8節/10表は変更なし。新専用catalogはmetadata-onlyで本文/正答/解説を公開しない。
+
+同じ300XPゲストで新2unique位置/3成功採点（意図的誤答1→再挑戦）/1結果。全2正答・8理由、ヒント/無効化、初回正解1/2、表示18px/見出し19px、desktop横溢れなしを通常UIで確認。元6問は先頭読込だけ未採点退出。途中終了で問題表示消去、ホーム移動・通常reload後も300XP・A0/130・B2/35・トレース2/20・security0/15・短い実戦0/5・総合実戦0/2を保持。別ゲスト/診断/profile消去なし。結果/入口画像保存済み。PWA自動更新後の旧AX indexはfresh AXで解消。
+
+**型/未定義の独立補助2問はdesktop受入完了。次は同じ第1章の複数引数の位置対応・return後非実行を直接問う既存protected問題をliveで探索し、既存利用/新規追加を判断する。** 既受入7親14予測・補助6+2問・制御5件を無目的に全反復しない。第2章へ自動で進まない。コメント・境界値作成/候補排除・他13親26予測の理由・制御exam5行の理由/bridge不足、実スマホ、IPA43（6 verified-covered/37 in-progress、inventory incomplete）、第22章関連度gapは残件。全B・文法章全skill完了ではない。
+
+詳細：[型・未定義の補助2問](reference-audits/bbook-ch01-types-undefined-20261010.md)。記録PR後のmain/branch/PR/CI/Pagesは次回liveで再確認する。以下は各時点の履歴。
+
 ## 最新確定状態：入れ子breakの文法ガイド補強・表示受入（2026-10-10）
 
 開始live public main `0599dcfe7fabb4c2d5c68839435660df82c2e347` / private `dfb709bafa302d13ef442e92a4e71b8a19cf211e`、双方open PR 0、前作業branch ahead0/behind1/files0、#363 Pages `38017510679` successを再確認。最新ガイド4はbreakの一般注記だけだったため、添付03の繰返し終了・トレースの関連ページを画像で確認し、独自の入れ子for例と6行の途中状態表を追加。参考書の問題/解説/codeの転載ではない。
