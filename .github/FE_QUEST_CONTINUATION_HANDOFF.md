@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：引数・returnの独立した補助2問（2026-10-10）
+
+開始live public `fd09458d8112f9e11abacbda5ba5ba18d223a75c` / private `b48f38959a788dacc9371dcedd94497e426a3ba6`、双方open PR0、前記録branch ahead0/behind1/files0、CI/Pages成功を再確認。添付03物理057〜061（紙面055〜059）とactiveアルゴリズム143行を実読し、引数の位置対応・return後非実行/呼出し元継続を直接問う独自2問を追加。旧6問と型/未定義2問とは別入口で維持。
+
+private PR #136 head `95456de962dbb9848edf41045e5bdd113fcf420f`、supplement `38049231151` / protected `38049231192` success、source merge `fe187926624c283c4b7897bc3f6acd38ed4d8444`。one-shot appendを1回適用、全2行readback一致。1190問digest `45a80736f79bc29d0ccd312efcc11160`、旧1188行digest `4995a10a4ee697f6ba0cdab1d8f749cf` / 全130教材digest `e89f8d33fa35a4d104110807dddb3543`保持。UI後も一致。import manifestのversion/count/source/payload SHA記録済み。private記録PR #137 head `123383ff74e060401809a7c092bdf7539c85a655`、CI `38049574686` / `38049574720` success、private main `9eb50482c6d800e2ffda0ace9d633d13131a2cfa`。**新旧INSERT/provenance/理由SQLは再実行しない。旧gate再deployなし。**
+
+public PR #368 head `4533bde2f06a41110486d3422f5411bdfc715db1`、publication `38049278860` / v35 `38049278836` success、implementation main `cab6df2ddbe6700e47cfb74540867a59ab4dbc26`、Pages `38049347661` success。cache195、補助JS query bgrammar-functions-195。本体/trace/final bridge/loader/一般provider/元6・型2catalog/CSSのblob不変、本体/loader query bfinal-resume-192維持。一般catalog1180、通常B180、実戦50候補、基礎20+15・総合16+4、guide8節/10表不変。専用catalogはmetadata-only、公開testはsynthetic。3modeと6方向遅延bootstrap/grade競合・誤答retry/score/leak/通信失敗を検査。
+
+今回tab1はabout:blank→本番初回設定となり、前回300XPゲストの継続証明なし。データ消去/リセット/統合操作なし。新QAゲストの必須診断12/12→120XPから通常導線で新2unique位置・4採点操作（誤答retry + 第1問正答後close検査）・1結果。全2正答/説明・8理由、初回1/2、誤答hint/無効化、正答全無効化、結果focus/close消去、18px/見出し19px、desktop横溢れなしを確認。旧6/types2は先頭読込だけ未採点close。ホーム移動・通常reload後に120XP・A0/130・B0/35・トレース0/20・security0/15・短い実戦0/5・総合0/2保持。今回のQA0進捗で、過去300XP/2進捗の保持を証明したとは言わない。画像保存済み。実スマホ未受入。
+
+**引数/returnの独立補助2問はdesktop受入完了。次は同じ文法章のコメントと実行行の区別を直接問う既存protected問題をliveで探索し、既存利用/追加/guide補強を判断する。** 単にコメントを使っているだけを直接技能受入と数えない。現在アルゴリズム145行。既受入7親14予測・補助6+2+2問・制御5件を無目的に反復せず、第2章へ飛ばさない。境界値作成/候補排除、他13親26予測の理由、制御5行/bridgeの理由不足、実スマホ、IPA43（6 verified-covered/37 in-progress・inventory incomplete）、第22章関連度gapは残件。文法章全skill・全B完了ではない。
+
+詳細：[引数・returnの補助2問](reference-audits/bbook-ch01-functions-20261010.md)。記録PR後のmain/branch/open PR/CI/Pagesは次回liveで再確認。以下は各時点の履歴。
+
 ## 最新確定状態：型・未定義の独立した補助2問（2026-10-10）
 
 live public `b4368de36f5085bd26e5d8b521772475f58a0f7f` / private `dfb709bafa302d13ef442e92a4e71b8a19cf211e`、双方open PR0・CI/Pages成功から再開。前回141行の探索と同一baseline digestを照合。添付03の物理028/029/031/032とIPA公式言語Ver.5.1別紙2を実読し、型の用途識別・未定義/0/false/空文字と未定義代入の独自2問を追加した。元6問を置換せず別ボタンから2問だけ選べる。
