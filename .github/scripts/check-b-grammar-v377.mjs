@@ -20,7 +20,7 @@ assert.ok(css.includes('min-width:0;table-layout:fixed'));
 assert.ok(css.includes('min-width:520px;table-layout:auto'));
 assert.ok(css.includes('overflow-wrap:anywhere'));
 assert.ok(css.includes(':focus-visible'));
-assert.equal((guide.match(/role="region" aria-label="[^"]+" tabindex="0"/g)||[]).length, 2);
+assert.equal((guide.match(/role="region" aria-label="[^"]+" tabindex="0"/g)||[]).length, 3);
 for (const table of guide.match(/<table>[\s\S]*?<\/table>/g)||[]) {
   assert.ok(table.includes('<caption>'), 'table caption');
   assert.ok(table.includes('scope="col"'), 'column headers');
@@ -56,3 +56,32 @@ n=1; total=0; while(n<=2){ total+=n; n++; }
 assert.deepEqual([n,total], [3,3]);
 assert.deepEqual([4,5,7,8,6].map(x => x>=5 && x<8), [false,true,true,false,true]);
 console.log('PASS Subject B grammar: 8 sections, teaching examples, 18px and accessible table contracts');
+
+// Independently authored nested-break example: only the inner loop exits.
+// Bind the displayed code and six trace rows to an independent executable trace.
+const nestedStart=guide.indexOf('<div class="b-grammar-card-v404" id="bGrammarNestedBreakV404">');
+assert.ok(nestedStart>=0, 'nested-break teaching card exists');
+const nested=guide.slice(nestedStart,guide.indexOf('</section>',nestedStart));
+assert.ok(nested, 'nested-break teaching card');
+const nestedCode=nested.match(/<pre class="b-grammar-code-v404">([\s\S]*?)<\/pre>/)?.[1];
+assert.equal(nestedCode, "整数型: i, j, hits ← 0, rounds ← 0\nfor (i を 1 から 2 まで 1ずつ増やす)\n    for (j を 1 から 3 まで 1ずつ増やす)\n        if (j = 2)\n            break  // 内側のforだけを終了\n        endif\n        hits ← hits + 1\n    endfor\n    rounds ← rounds + 1  // 外側の本体は続く\nendfor\nhits, rounds を出力する");
+assert.ok(nested.includes('ifは繰返しではない'));
+assert.ok(nested.includes('最も内側のforやwhile'));
+assert.ok(nested.includes('returnは関数から呼出し元へ戻る'));
+assert.ok(nested.includes('出力はhits = 2、rounds = 2'));
+let hits=0,rounds=0;const nestedRows=[];
+for(let outer=1;outer<=2;outer++){
+ let inner;
+ for(inner=1;inner<=3;inner++){
+  if(inner===2){nestedRows.push([outer,inner,hits,rounds]);break;}
+  hits++;nestedRows.push([outer,inner,hits,rounds]);
+ }
+ rounds++;nestedRows.push([outer,inner,hits,rounds]);
+}
+assert.deepEqual([hits,rounds],[2,2]);
+assert.deepEqual(nestedRows,[[1,1,1,0],[1,2,1,0],[1,2,1,1],[2,1,2,1],[2,2,2,1],[2,2,2,2]]);
+const body=nested.match(/<tbody>([\s\S]*?)<\/tbody>/)[1];
+const displayed=[...body.matchAll(/<tr><td>(\d+)<\/td><td>(\d+)<\/td><td>[^<]*<\/td><td>hits = (\d+)、rounds = (\d+)<\/td><\/tr>/g)].map(m=>m.slice(1).map(Number));
+assert.deepEqual(displayed,nestedRows,'every displayed trace row matches the independent loop');
+assert.equal((guide.match(/<table>/g)||[]).length,10,'existing nine plus one nested-break trace');
+console.log('PASS nested break: skipped inner work, outer continuation, inner restart and six displayed states');
