@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：減少for／elseifの4予測・16理由と探索図修正（2026-10-10）
+
+開始時にlive public main `4868851fd17967874f4500831ea5fbd77bd7c647` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch ahead0/behind1/files0、CI/Pages successを実読。添付03の物理39・54〜56（紙面037・052〜054）を画像で確認し、既存array_reverse / binary_search_bの4予測を独立トレースした。
+
+private PR #133 merged、head `eb824e989eae78dc7f79ceb758eb1a84f04527d8`、reasons CI `38016345674` / protected CI `38016345662` success、private main `dfb709bafa302d13ef442e92a4e71b8a19cf211e`。4行のchoice_explanationsだけに16理由を追加し、one-shot guarded SQLを1回適用。正答・本文・code・選択肢・ID・分類・版・active・日時は不変、非対象1182問と全130教材をtransaction内で検査。4行全フィールドのreadback一致。現在1186問digest `a6f614049e12cd924c43838f58a3effb` / 130教材digest `e89f8d33fa35a4d104110807dddb3543`。**この理由SQL・旧deltaを再実行しない。gate version3再deployなし。**
+
+public PR #362で通常探索図の番号・範囲判定・low/mid/highを1始まりへ整合。内部focus/foundは0始まりを維持、legacy bMockの既定値・科目Aの図・採点を変更しない。修正前を検出するsynthetic回帰テストを追加。最初のCIは第22章boot URLの固定値191で失敗し、固定契約を192へ更新後に成功。final head `40488ca2144d973dee5e3f0036e4e5170437bc62`、publication `38017152559` / v35 `38017152547` success、implementation main `7c420be9646701832295df2be0d32d4d17a55556`、Pages `38017184855` success。cache192、app/loader query `bfinal-resume-192` を本番DOMで確認。
+
+以前の600XPゲストは今回継続できず、許可済み別QAゲストで診断12/12→120XP。今回4unique予測/5採点操作（意図的誤答1件含む）/2完了、全16理由と正答を通常UIで確認。誤答時は選択1理由・加点なし・再回答可。配列逆順は191、二分探索は192で受入。二分探索の全範囲→縮小範囲で図の番号/marker/破棄範囲が一致、内部強調が正しい位置を保持。code/理由18px。通常reloadで300XP（120+4×5+2×80）、A0/130・B2/35・トレース2/20・security0/15・総合実戦0/2保持、重複加点なし。旧600XPの復旧/統合/継続証明なし、プロフィール削除/リセットなし。完了画像保存済み。
+
+**既受入5親10予測＋今回2親4予測で、基礎7親14予測の56理由が確認済み。他13親26予測の理由は空。制御exam5問の理由/bridge不足は別残件。文法章全skill・全B・実スマホ完了とは言わない。次は同じ第1章のguide入れ子breakの説明を添付と照合し、最内側ループだけを抜ける点の補強要否を判断する。型/未定義・複数引数・コメント・境界値作成/候補排除の独立技能受入も保留。** 既受入補助6問/基礎7親/制御5件を無目的に全反復せず、第2章へ自動で進まない。実スマホ狭幅/タッチ/実内部横移動/縦横切替、coverage43（37 in-progress/6 verified-covered、inventory incomplete）、第22章関連度gapを維持。
+
+詳細：[減少for／elseifの受入記録](reference-audits/bbook-ch01-descending-elseif-20261010.md)。記録PR後のmain/作業branch/open PR/CI/Pagesは次回必ずliveで確認する。以下は各時点の履歴。
+
 ## 最新確定状態：文法章の教材・演習・受入対応表（2026-10-09）
 
 live public main `d82a57461652cf63339749a42cb6c8bdcde66f2c` / private `756f1451e114990cc59599cef4be7ed4b5c93b9b`、双方open PR 0、前作業branch ahead0/behind1/files0、#360 CI/Pages `37923053097` successから再開。現行guide/専用catalog/final bridgeとDB基礎40＋補助6＋制御5＝51行を実読。構文検索はactiveな基礎/compound/exam計141行に限定、全B186行の新規再監査ではない。03添付の物理028・067〜080を画像で再読し、紙面074の確認13項目を現行guideへ対応づけた。
