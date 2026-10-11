@@ -6,37 +6,36 @@ import {createServer} from 'node:http';
 const require=createRequire(import.meta.url);
 const {stages,validStage,buildAnswer,sensitive,issueUrl}=require('../../assets/beta-feedback-v1.js');
 const root=process.cwd();
-assert.equal(validStage('d7'),'d7');
-for(const invalid of ['toString','__proto__','invalid',null])assert.equal(validStage(invalid),'d1');
+assert.equal(validStage('bug'),'bug');
+for(const invalid of ['toString','__proto__','invalid',null])assert.equal(validStage(invalid),'feedback');
 for(const [stage,spec] of Object.entries(stages)){
   const answers=Object.fromEntries(spec.fields.map(field=>[field.id,field.options?field.options.at(-1):'合成テスト回答']));
-  answers.tester='B01';
   const body=buildAnswer(stage,answers);
-  assert.ok(body.includes(spec.title));assert.ok(body.includes('管理番号：B01'));
+  assert.ok(body.includes(spec.title));
   for(const field of spec.fields)assert.ok(body.includes(answers[field.id]));
   const url=new URL(issueUrl(stage,body));
   assert.equal(url.origin,'https://github.com');assert.equal(url.pathname,'/taiwanwan64/fe-quest/issues/new');assert.equal(url.searchParams.get('body'),body);
   assert.ok(url.href.length<7500,'ordinary answers fit GitHub URL');
 }
-assert.ok(!buildAnswer('d1',{}).includes('管理番号'));
+assert.ok(!buildAnswer('feedback',{}).includes('管理番号'));
 assert.equal(sensitive('文章が分かりにくかったです。'),false);
 assert.equal(sensitive('tester@example.com'),true);
 assert.equal(sensitive('access_token=synthetic'),true);
 assert.equal(sensitive('-----BEGIN PRIVATE KEY-----'),true);
-assert.ok(buildAnswer('price',{}).includes('購入予約・契約ではありません'));
-assert.ok(!buildAnswer('d7',{}).includes('480円'));
-for(const file of ['beta.html','feedback.html','assets/beta-preparation-v1.css','assets/beta-feedback-v1.js']){
+assert.deepEqual(Object.keys(stages),['feedback','bug']);
+for(const file of ['start.html','feedback.html','assets/beta-preparation-v1.css','assets/beta-feedback-v1.js']){
   const content=fs.readFileSync(path.join(root,file),'utf8');
   assert.ok(!/localStorage|sessionStorage|fetch\(|sendBeacon|XMLHttpRequest|supabase|gtag\(/.test(content),'new pages do not silently store/collect data');
 }
-const beta=fs.readFileSync(path.join(root,'beta.html'),'utf8');
-assert.ok(beta.includes('謝礼のない任意の無料テスト'));
+const beta=fs.readFileSync(path.join(root,'start.html'),'utf8');
 assert.ok(beta.includes('表示例です'));
-for(const stage of ['d1','d3','d7'])assert.ok(beta.includes('feedback.html?stage='+stage));
+assert.ok(!/無料β|βテスト|7日間|3〜5人/.test(beta));
+assert.ok(beta.includes('./help.html'));
+assert.ok(beta.includes('./terms.html'));
 const feedback=fs.readFileSync(path.join(root,'feedback.html'),'utf8');
 assert.ok(feedback.includes('GitHub投稿にはアカウントが必要'));
 assert.ok(feedback.includes('回答は送信されません'));
-console.log('PASS questionnaire, GitHub roundtrip, price separation, no tracking or server writes');
+console.log('PASS general release, GitHub roundtrip, no beta recruitment or server writes');
 if(!process.argv.includes('--browser'))process.exit(0);
 const {chromium,webkit}=await import('playwright');
 const mime={'.html':'text/html;charset=utf-8','.css':'text/css;charset=utf-8','.js':'application/javascript;charset=utf-8'};
@@ -56,15 +55,24 @@ try{
       const context=await browser.newContext({viewport:{width,height:850}});
       const page=await context.newPage();
       const errors=[];page.on('pageerror',e=>errors.push(e.message));
-      await page.goto(base+'/beta.html');
+      await page.goto(base+'/start.html');
       assert.equal(await page.locator('a.primary').first().getAttribute('href'),'./');
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+      assert.equal(await page.locator('.example').evaluate(el=>getComputedStyle(el).transform),'none');
+      for(const file of ['help.html','terms.html','privacy.html']){
+        await page.goto(base+'/'+file);
+        assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),file+' fits');
+      }
+      await page.goto(base+'/beta.html');
+      await page.waitForURL('**/start.html');
       await page.goto(base+'/feedback.html?stage=d7');
-      assert.ok((await page.locator('#stageTitle').textContent()).includes('7日目'));
+      assert.ok((await page.locator('#stageTitle').textContent()).includes('ご意見'),'legacy stage becomes general feedback');
+      await page.goto(base+'/feedback.html?stage=feedback');
+      assert.ok((await page.locator('#stageTitle').textContent()).includes('ご意見'));
       assert.equal(await page.locator('#review').isVisible(),false);
       await page.locator('#feedbackForm button[type=submit]').click();
       assert.equal(await page.locator('#review').isVisible(),false,'required choices block preview');
-      for(const stage of ['d1','d3','d7','bug','price']){
+      for(const stage of ['feedback','bug']){
         await page.locator('.stage-nav [data-stage='+stage+']').click();
         for(const field of stages[stage].fields){
           if(field.options)await page.locator('#answer-'+field.id).selectOption(field.options.at(-1));
@@ -85,13 +93,12 @@ try{
         assert.ok((await page.locator('#shareStatus').textContent()).includes('提出済みか確認できません'));
         await page.locator('#answerPreview').fill(body+'\n追記');
         assert.equal(await page.locator('#publicConsent').isChecked(),false,'edit requires new public acknowledgement');
-        if(stage==='d7')assert.equal(await page.locator('#priceNext').isVisible(),true);
       }
-      await page.locator('.stage-nav [data-stage=d1]').click();
+      await page.locator('.stage-nav [data-stage=feedback]').click();
       assert.ok((await page.locator('#answerPreview').inputValue()).includes('追記'),'stage switches retain explicit draft in memory');
       await page.locator('#answerPreview').fill('合成回答の保存テスト');
       const downloaded=page.waitForEvent('download');await page.locator('#saveAnswer').click();
-      const download=await downloaded;assert.equal(download.suggestedFilename(),'fequest-feedback-d1.txt');
+      const download=await downloaded;assert.equal(download.suggestedFilename(),'fequest-feedback-feedback.txt');
       assert.ok((await page.locator('#shareStatus').textContent()).includes('まだ運営者には提出されていません'));
       await page.locator('#answerPreview').fill('tester@example.com');
       await page.locator('#publicConsent').check();
