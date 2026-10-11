@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-197';
+const CACHE_NAME = 'fe-quest-v377-198';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -149,15 +149,21 @@ function networkWithTimeout(request, timeoutMs=4000){
 }
 
 async function navigationResponse(request){
+  const url=new URL(request.url);
+  const scope=new URL(self.registration.scope);
+  const appPath=new URL('index.html',scope).pathname;
+  const appNavigation=url.pathname===scope.pathname||url.pathname===appPath;
+  const cacheKey=appNavigation?'./index.html':request;
   try{
     const response = await networkWithTimeout(request,4000);
     if(response && response.ok){
       const cache = await caches.open(CACHE_NAME);
-      cache.put('./index.html',response.clone()).catch(()=>{});
+      cache.put(cacheKey,response.clone()).catch(()=>{});
     }
     return response;
   }catch(e){
-    return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+    if(appNavigation)return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+    return (await caches.match(request)) || Response.error();
   }
 }
 
@@ -184,6 +190,7 @@ self.addEventListener('fetch', event => {
   }
   event.respondWith(staleWhileRevalidate(request));
 });
+
 
 
 

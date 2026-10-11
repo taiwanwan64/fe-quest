@@ -1,3 +1,5 @@
+> 2026-10-11方針変更：ユーザーはβテストを省略します。以下は当初の準備記録です。現在の実行方針は [PUBLIC_LAUNCH_PREPARATION_2026-10-11.md](PUBLIC_LAUNCH_PREPARATION_2026-10-11.md) を優先してください。β募集やテスト結果待ちを再開しないでください。
+
 # FE QUEST 無料β募集・感想受付の準備
 
 更新日: 2026-10-11
@@ -81,3 +83,4 @@ GitHubを使わない人には回答のコピーまたはテキスト保存を�
 - 既存publication CIとPages CIを通す。
 - 新ページは学習アプリのversioned runtime・Service Worker・プロフィールschemaに介入しない独立ページ。コード・DB・gateの既適用変更を再実行しない。
 - スマホ幅のブラウザ試験を物理iPhone確認済みと表現しない。
+

@@ -1,9 +1,14 @@
-name: Validate beta recruitment and feedback
+name: Validate general release and feedback
 on:
   pull_request:
     branches: [main]
     paths:
       - 'beta.html'
+      - 'start.html'
+      - 'help.html'
+      - 'terms.html'
+      - 'sw.js'
+      - '.github/scripts/check-navigation-cache-v1.mjs'
       - 'feedback.html'
       - 'privacy.html'
       - 'assets/beta-*.css'
@@ -22,6 +27,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Keep informational pages out of the app offline shell
+        run: node .github/scripts/check-navigation-cache-v1.mjs
       - name: Validate questionnaire and public boundaries
         run: node .github/scripts/check-beta-preparation-v1.mjs
       - name: Install pinned browser test tooling
@@ -30,3 +37,4 @@ jobs:
           npx playwright install --with-deps chromium webkit
       - name: Exercise mobile and desktop feedback journey
         run: node .github/scripts/check-beta-preparation-v1.mjs --browser
+

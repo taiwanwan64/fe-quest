@@ -2,6 +2,14 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 一般公開準備：外部βを省略（2026-10-11）
+
+ユーザーは「ベータテストはスキップします。公開までの準備を整えてください」と明示。過去のβ必須条件・募集・7日間アンケートを再開せず、最新方針を優先する。一般紹介start.html、使い方help.html、現在の無料利用条件terms.html、アクセスコード不要と整合するprivacy.htmlを用意。beta.htmlは紹介へ転送。feedbackは一般感想/不具合の2種類へ切替。入力だけでは未送信、公開GitHubで確定、非公開窓口は未設定。
+
+詳細は [PUBLIC_LAUNCH_PREPARATION_2026-10-11.md](PUBLIC_LAUNCH_PREPARATION_2026-10-11.md)。商用ホスト用ZIPを作るCIは現行Pagesのsanitized buildと保護境界を再利用。ZIPだけを作り、外部ホストへ自動deployしない。新ホストURLは未確定で、現行question gate v3/lesson gate v2はGitHub Originだけ許可。正確な新Originの追加とAuth redirect allow-list、旧Originバックアップ→新Origin復元を確認してから移行する。旧ホストのconfig・runtime・DB・招待コード不要のOPEN_PREVIEWは保持。SWは情報ページのnavigationがアプリindex.htmlを上書きする問題を修正しcache198。情報ページは自分のURLへ保存・復旧する。GitHub配下/新Originルートの合成検査を追加。
+
+課金商品/税込料金/本人の販売者情報/非公開サポート/決済契約/商用権利確認は未確定。非公開docs/launch/2026-10-11に販売・移行の下書きと現行server sourceの準備を保存。β省略をこれらの完了や有料販売開始と混同しない。教材品質監査の既存制御5問の理由/bridge等は引き続き残件。既適用SQLとgateの再deployを無目的に行わない。開始live public06e9fd7/private7f2784b、双方open PR0、CI/Pages成功。今回PR/CI/ZIP/Pagesの確定結果はliveで読む。
+
 ## 紹介ページの表示調整（2026-10-11）
 
 ユーザーの希望で「開いたら、次の一歩が分かる」のカード全体の傾きを解除。FE QUESTブランドを緑色・PC最大36px/スマホ最小26pxへ拡大し、ヘッダーは狭い幅で折り返せる。紹介/回答ページの共有CSS参照を `?v=20261011-2` に更新。学習アプリ/教材/DB/課金契約は変更しない。CIと本番配信の結果はGitHub liveを再確認する。
@@ -1923,4 +1931,5 @@ GitHub / protected DB の現状を正として、第13章を章単位で再監�
 ### 次のデフォルト作業
 
 live main / 作業branch / PR / CI / Pages / DBを再読し、接続可能な通常UIで15-08の残る1問を確認して終了結果・履歴・進捗の再読込と画像証拠保存を完了する。CASを再適用せず、確認済み51種類を網羅し直さない。実スマホ残件を保持し、対応可能なら狭幅/タッチ/スクロール/縦横切替を確認する。その後、次の内容監査は第16章「システム戦略」全体。IPA対応表43項目の完了数は変更しない。
+
 

@@ -1,0 +1,428 @@
+name: Build commercial release package
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'start.html'
+      - 'help.html'
+      - 'terms.html'
+      - 'privacy.html'
+      - 'feedback.html'
+      - 'assets/**'
+      - 'cloud/**'
+      - 'index.html'
+      - 'sw.js'
+      - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/workflows/build-commercial-release.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'start.html'
+      - 'help.html'
+      - 'terms.html'
+      - 'privacy.html'
+      - 'feedback.html'
+      - 'assets/**'
+      - 'cloud/**'
+      - 'index.html'
+      - 'sw.js'
+      - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/workflows/build-commercial-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve protected Subject B trace grading explanations
+        run: node .github/scripts/check-b-trace-feedback-v377.mjs
+      - name: Validate normal trace option feedback
+        run: node .github/scripts/check-b-trace-choices-v377.mjs
+      - name: Keep trace diagram element numbers aligned with pseudocode
+        run: node .github/scripts/check-b-trace-index-v377.mjs
+      - name: Keep normal search ranges and markers aligned with pseudocode
+        run: node .github/scripts/check-b-search-index-v377.mjs
+      - name: Exercise protected Subject B mini mock bridge
+        run: node .github/scripts/check-b-mini-mock-v438.mjs
+      - name: Exercise protected security mini mock bridge
+        run: node .github/scripts/check-b-security-mini-v439.mjs
+      - name: Build Pages artifact from deploy files only
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/site"
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='README.md' \
+            --include='assets/protected-content-provider-v376-v35.js' \
+            --exclude='assets/protected-content-provider-v376-v*.js' \
+            ./ "$RUNNER_TEMP/site/"
+          printf '' > "$RUNNER_TEMP/site/.nojekyll"
+          test -f "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/app-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/app-v377.css"
+          test -f "$RUNNER_TEMP/site/assets/ch3-depth-v383.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch3-depth-v383.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch3-depth-v383.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch4-depth-v384.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch4-depth-v384.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch4-depth-v384.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch5-depth-v386.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch5-depth-v386.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch5-depth-v386.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch6-depth-v387.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch6-depth-v387.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch6-depth-v387.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch7-depth-v388.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch7-depth-v388.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch7-depth-v388.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch8-depth-v389.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch8-depth-v389.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch8-depth-v389.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch9-depth-v390.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch9-depth-v390.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch9-depth-v390.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch10-depth-v391.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch10-depth-v391.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch10-depth-v391.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch11-depth-v392.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch11-depth-v392.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch11-depth-v392.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch12-depth-v393.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch12-depth-v393.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch12-depth-v393.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch13-depth-v394.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch13-depth-v394.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch13-depth-v394.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch14-depth-v395.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch14-depth-v395.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch14-depth-v395.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch15-depth-v396.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch15-depth-v396.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch15-depth-v396.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch16-depth-v397.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch16-depth-v397.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch16-depth-v397.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch17-depth-v398.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch17-depth-v398.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch17-depth-v398.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch18-depth-v399.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch18-depth-v399.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch18-depth-v399.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch19-depth-v400.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch19-depth-v400.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch19-depth-v400.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch20-depth-v401.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch20-depth-v401.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch20-depth-v401.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch21-depth-v402.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch21-depth-v402.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch21-depth-v402.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/ch22-strategy-v403.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/ch22-strategy-v403.css?v=ch22-183">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/ch22-strategy-v403.css?v=ch22-183"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '本番構成と合格戦略を確認' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '擬似言語の学び方' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '長文セキュリティの読み方' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch01-grammar-v404.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '文法早見表：変数・条件分岐・繰返し・関数' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'whileとdoは「条件を調べる位置」が違う' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch02-array-v405.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch02-array-v405.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '一次元配列の読み方：要素番号・隣接・範囲外' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '要素番号1始まり' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch03-matrix-v406.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch03-matrix-v406.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '二次元配列＋条件変換：行・列・ド・モルガン' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '終了条件は、そのままwhileへ入れない' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch04-impossible-v407.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch04-impossible-v407.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'ありえない選択肢：全部追う前の3チェック' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '同じ変数を、使わずにすぐ上書きしていないか' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch05-recursion-v408.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch05-recursion-v408.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '再帰トレース：呼出しと戻りを分けて追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '「a ← r(x - 1)」は2段階で読む' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch06-tree-v409.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch06-tree-v409.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '木構造：図と一次元配列を行き来する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '同じ段の値同士は比較条件ではありません' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch07-oop-v410.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch07-oop-v410.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'オブジェクト指向トレース：インスタンス・参照・メソッドを分ける' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '同じインスタンス</strong>を参照します' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch08-list-v411.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch08-list-v411.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '連結リスト：値ではなく参照の矢印を付け替える' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '末尾の一つ前の要素を覚えておく必要があります' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch09-stackqueue-v412.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch09-stackqueue-v412.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'スタック・キュー：出し入れする端を固定して追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'peekなら消さない' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch10-bitstring-v413.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch10-bitstring-v413.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'ビット列：桁をそろえて、演算ごとに1行ずつ書き換える' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '固定長で左端から1があふれれば' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook-ch11-problem-practice-v414.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook-ch11-problem-practice-v414.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '総合問題：題材をいったん捨てて、処理の型に分ける' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '実際のプログラミング言語の仕様を持ち込まず' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/b-security-foundations-v415.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/b-security-foundations-v415.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/b-security-foundations-v415.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'リバースプロキシ' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/b-security-practice-v416.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/b-security-practice-v416.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/b-security-practice-v416.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'セキュリティ問題演習：変わった条件と責任範囲だけを追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '選択肢の一部だけ正しくても' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook2-intro-strategy-v417.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook2-intro-strategy-v417.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook2-intro-strategy-v417.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'トレースを身につける練習法' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '100分を使い切るための解き方' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'アルゴリズム問題プールから16問＋情報セキュリティ4問。' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '本番型アルゴリズム40問プールから16問' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/bbook2-prediction1-v418.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook2-prediction1-v418.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook2-prediction1-v418.css"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/bbook2-prediction2-v419.css"
+          grep -Fq '<link rel="stylesheet" href="./assets/bbook2-prediction2-v419.css">' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/bbook2-prediction2-v419.css"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '複数空欄：全部を同時に考えず「役割 → 依存関係」の順で解く' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '循環キューは「配列上の位置」と「キューの順番」を分ける' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '後置記法は「演算子が来たら2個pop」で追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'ゲーム木は「自分は最大、相手は最小」で下から戻す' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '符号化は「データ部を取り出す → ひな形へ埋める」で追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'クイックソートは「ピボット・左ポインタ・右ポインタ」を別欄で追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '数式は「記号の読み替え → 塊ごとの計算」の順でコードへ対応させる' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'グラフの隣接行列は「辺1本 → 2か所」を基本にする' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '2進文字列は「今までの値 × 2 + 次の1桁」で左から読める' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '実戦トレース：1行ずつではなく「状態が変わる単位」で追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '途中表の列は「必要になった変数だけ」' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '参考資料' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '参考書' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '虎の巻' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '情報処理教科書' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '出るとこだけ' "$RUNNER_TEMP/site/index.html"
+          ! grep -Fq '本書' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v35.js"' "$RUNNER_TEMP/site/sw.js"
+          for n in $(seq 7 34); do
+            test ! -e "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v${n}.js"
+            ! grep -Fq "./assets/protected-content-provider-v376-v${n}.js" "$RUNNER_TEMP/site/sw.js"
+          done
+          test -f "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
+          grep -Fq '"./assets/protected-content-provider-v376-v35.js"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-v376.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-gap-v1.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-grammar-types-v1.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-grammar-functions-v1.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-grammar-boundaries-v1.json"
+          grep -Fq '"./assets/question-catalog-b-grammar-boundaries-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'bGrammarBoundariesStart' "$RUNNER_TEMP/site/index.html"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-b-grammar-comments-v1.json"
+          grep -Fq '"./assets/question-catalog-b-grammar-comments-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-b-grammar-functions-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-b-grammar-types-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq 'bGrammarTypesStart' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '"./assets/question-catalog-b-gap-v1.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "v376-provider-33-ipa92-v1-v35-bgap1" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
+          grep -Fq "const B_FINAL_ALGO_POOL_V424_COUNT=50;" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'algorithm-16-then-security-4'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "randomizesWithinBlocks:true" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'persist-resume-metadata-only-rehydrate-protected-final'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function bFinalResumePayloadValidV435(value)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function hydrateBFinalResumeV435(saved,remain)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "items:bFinalItems" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'preserve-exact-question-order-through-server-grading'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function bFinalGradeResultsMatchV427(results,expectedIds)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'security-question-specific-mistake-identity'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "questionId:item._protectedQuestionId" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'keep-new-standard-matrix-final-item-on-standard-remediation'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "sourceId==='bexam_mat_05'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v1-v6.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v14.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v15.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v16.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v17.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v18.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v19.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v20.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v21.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v22.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v23.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v23.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v24.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v24.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v25.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v25.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v26.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v26.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v27.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v27.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v28.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v28.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v29.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v29.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v30.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v30.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v31.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v31.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v32.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v33.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v34.json"
+          test -f "$RUNNER_TEMP/site/assets/question-catalog-ipa92-v35.json"
+          grep -Fq '"./assets/question-catalog-ipa92-v35.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v34.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v33.json"' "$RUNNER_TEMP/site/sw.js"
+          test -f "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          test ! -e "$RUNNER_TEMP/site/.github"
+          test ! -e "$RUNNER_TEMP/site/supabase"
+          test ! -e "$RUNNER_TEMP/site/assets/app-v375.js"
+          test ! -e "$RUNNER_TEMP/site/assets/app-v376.js"
+          grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const APP_VERSION = 'v376';" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function subjectACognitiveEvidence(){" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "function subjectACognitiveEvidence(){return undefined;}" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const cognitiveRaw=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-198';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'persist-analysis-metadata-only-for-short-subject-b-practice'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function profileIntegrityChecksumV6(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "out.bMockHistory=normalizeBMockHistoryForPersistenceV431(p.bMockHistory);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "out.bCompoundHistory=normalizeBCompoundHistoryForPersistenceV431(p.bCompoundHistory);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "out.securityMockHistory=normalizeSecurityMockHistoryForPersistenceV431(p.securityMockHistory);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'persist-analysis-metadata-only-for-subject-a-mock'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function profileIntegrityChecksumV7(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "out.mockHistory=normalizeSubjectAMockHistoryForPersistenceV432(p.mockHistory);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "profile.mockHistory.unshift(lastMockAttempt);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function clearDiagnosticRuntimeV433()" "$RUNNER_TEMP/site/assets/protected-flow-bridge-v376.js"
+          grep -Fq "clearDiagnosticRuntimeV433();" "$RUNNER_TEMP/site/assets/protected-flow-bridge-v376.js"
+          grep -Fq "diagnosticItems=[];" "$RUNNER_TEMP/site/assets/protected-flow-bridge-v376.js"
+          grep -Fq "diagAnswers=[];" "$RUNNER_TEMP/site/assets/protected-flow-bridge-v376.js"
+          grep -Fq "policy:'strip-protected-answer-positions-from-persistent-resume-checkpoints'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function normalizeDailyPlansForPersistenceV434(value)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function profileIntegrityChecksumV8(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "out.dailyPlans=normalizeDailyPlansForPersistenceV434(p.dailyPlans);" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "choiceIndex:tail.choiceIndex" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "choiceIndex:bTracePacketV376.choiceIndex" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "policy:'protected-content-runtime-only-while-active-or-immediate-review'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function releaseSubjectAPracticeRuntimeV435()" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function releaseSubjectAMockContextV435()" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "function releaseSubjectBProtectedRuntimeV435()" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq "FEQUEST_RUNTIME_HYGIENE_V435_READY===true" "$RUNNER_TEMP/site/assets/app-v377.js"
+          grep -Fq '"./assets/ipa92-sort-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-graph-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-modeling-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/ipa92-memory-lab-v377.js"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v1-v6.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v14.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v15.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v18.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v19.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq '"./assets/question-catalog-ipa92-v20.json"' "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const IPA92_CATALOG_TOTAL=83;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "const MERGED_CATALOG_TOTAL=BASE_CATALOG_TOTAL+IPA92_CATALOG_TOTAL;" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "question-catalog-ipa92-v1-v6.json" "$RUNNER_TEMP/site/assets/protected-content-provider-v376.js"
+          grep -Fq "version:'v376-provider-33-ipa92-v1-v35-bgap1'" "$RUNNER_TEMP/site/assets/protected-content-provider-v376-v35.js"
+          grep -Fq "const IPA92_SUBJECT_A_METADATA=Object.freeze([" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "installIpa92SubjectAMetadata();" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "const VERSION='v377-first-impression-ux-9';" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "bitByteTerminology:'ja-text-v1'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "observerMode:'scoped-readiness'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "blankShellRecovery:'guarded-v2'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "studyBlockBarMode:'inline-active-screen'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "ipa92VennLab:'touch-v1'" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "Ver.9.2対応強化中" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "sanitizeCompactReadiness(right,rightBar);" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "relocateStudyBlockBar();" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          ! grep -Fq "observer.observe(document.documentElement,{childList:true,subtree:true,characterData:true})" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "データ収集中" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "未判定" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq '#diagIntro #diagBegin' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '#studyBlockBarV373[data-v377-inline="1"]' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '.ipa92-venn-backdrop' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq "./assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/index.html"
+          grep -Fq "./assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/index.html"
+          grep -Fq "./assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-modeling-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-memory-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_SORT_LAB" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_GRAPH_LAB" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MODELING_LAB" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MEMORY_LAB" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$RUNNER_TEMP/site/cloud/public-config-v342.js"
+          grep -Fq "policy:'public-static-assets-metadata-only-for-protected-question-content'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXTRA_DISTRACTOR=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXPLANATION=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          SITE="$RUNNER_TEMP/site" node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.SITE;
+          const dir=path.join(root,'assets');
+          const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations','point','pitfall','correctText']);
+          const files=fs.readdirSync(dir).filter(name=>/^question-catalog.*\.json$/.test(name));
+          function walk(value,file,trail='root'){
+            if(Array.isArray(value)){value.forEach((item,index)=>walk(item,file,`${trail}[${index}]`));return;}
+            if(!value||typeof value!=='object')return;
+            for(const [key,item] of Object.entries(value)){
+              if(forbidden.has(key))throw new Error(`protected field ${key} in Pages catalog ${file} at ${trail}`);
+              walk(item,file,`${trail}.${key}`);
+            }
+          }
+          for(const file of files)walk(JSON.parse(fs.readFileSync(path.join(dir,file),'utf8')),file);
+          console.log(`PASS Pages protected static boundary: ${files.length} metadata catalogs`);
+          NODE
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
+      - name: Prepare Cloudflare staging without changing GitHub production
+        run: node .github/scripts/prepare-commercial-package-v1.mjs "$RUNNER_TEMP/site"
+      - name: Zip the public staging directory
+        shell: python
+        run: |
+          import os, pathlib, zipfile
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          site = root / 'site'
+          with zipfile.ZipFile(root / 'fe-quest-commercial-site.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+            for file in sorted(site.rglob('*')):
+              if file.is_file():
+                archive.write(file, file.relative_to(site).as_posix())
+      - name: Upload preparation package
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-commercial-release
+          path: ${{ runner.temp }}/fe-quest-commercial-site.zip
+          if-no-files-found: error
+          retention-days: 30
+
