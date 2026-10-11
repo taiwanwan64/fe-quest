@@ -2,6 +2,20 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 最新確定状態：境界値作成・候補比較の独立補助2問（2026-10-11）
+
+開始live public 545ba3ca46f7aabf83e41e4603d94acee67590db / private 0bd634c59d2fc2ca37ef81900e8910c599c07acb、双方open PR0、旧記録branch ahead0/behind1/files0、CI/Pages成功を実読。添付03物理072/075（紙面070/073）を画像で確認し、activeアルゴリズム146行の本文を照合。既存logical_notの境界計算をcoveredとして保持し、入力セット作成と追加入力で候補を絞る独立技能がthinと判断。独自2問を追加した。
+
+private #140 head c265ea4b8951f2b097408d84aa6d5c19462ef6ca、CI 38096742128 / 38096742134 success、source 15cb21888e0e603a2a6ffcb4ce12a15dbe97627a。guarded appendを1回だけ適用、全2行canonical readback一致。1193問digest da5a38a70699a01214deb9bee8131aa2 / 旧1191行digest74c56a7ea47cceaf71c2247dc424df2b / 130教材digest e89f8d33fa35a4d104110807dddb3543、UI後も保持。version b-grammar-boundaries-protected-v1-20261011、count2/source/payload SHAのmanifest記録済み。private記録 #141 head e937e3c07fcae953212192ae98cba79a3cc31d0e、CI 38096923442 / 38096923437 success、main 218154148e657090eb806319e9db575487216127。**新旧INSERT/provenance/理由SQLを再実行しない。現行gate実読済み、再deployなし。**
+
+公開 #372 head1487ca4251ab7eca203fab6863fc2c2171923381、CI38096746203 / 38096746195 success、implementation main11a773f2efc057ad23577180c8d0035a0eda4b8e、Pages38096836807 success。新2問を別入口へ追加し、guideに不一致による候補除外/一致例の限界を追記。cache197、補助query bgrammar-boundaries-197。本体/trace/final bridge/provider/loader/旧4catalog/CSSのblob不変、本体/loader bfinal-resume-192維持。一般catalog1180/通常B180/実戦50候補/基礎20+15/総合16+4/guide8節10表を維持。新catalog metadata-only、公開tests synthetic。5mode/20方向の遅延bootstrap/grade競合、retry/score/leak/通信失敗/cleanupを検査PASS。
+
+今回もtab1 about:blank→初回設定。前回QAゲストの継続証明なし、消去/リセット/統合なし。新QA必須診断12/12→120XP。配信更新後の通常reloadと最新補助queryを確認し、通常UIで新2unique問題・3採点（第1問誤答→再回答、第2問初回正解）・1結果、未回答close1回を検証。全2正答/本文/説明/8理由、hint/誤答のみ無効化/正答全無効化、初回1/2、結果focus/表示消去、本文/code/options/reasons18px・見出し19px、desktop1348px横溢れなし。ホーム/通常reload後120XP、A0/130・B0/35・trace0/20・sec0/15・short0/5・final0/2、通常履歴空を確認。過去プロフィールの継続保証とはしない。結果画像保存済み。実スマホは未受入。
+
+**境界値作成・候補比較の新2問はdesktop受入完了。次は同じ文法章の既存制御5問の選択肢理由と表示bridgeに限定し、live DBと現行bridgeを実読して不足を補強する。** 補助13問/既受入7親14予測を無目的に反復せず、第2章へ飛ばさない。現行アルゴリズム148行（40+45+63）。他13親26予測の理由、実スマホ、IPA43（6 verified-covered/37 in-progress・inventory incomplete）、第22章関連度gapを保持。文法章全skill・全B完了ではない。
+
+詳細：[境界値作成・候補比較の独立補助2問](reference-audits/bbook-ch01-boundaries-20261011.md)。公開記録PR後のmain/branch/open PR/CI/Pagesは次回liveで再確認。以下は各時点の履歴。
+
 ## 最新確定状態：コメントと実行命令の独立補助1問（2026-10-10）
 
 開始live public d6e15f04e7eaf59188edbdedb6cc0c40cbfda814 / private 9eb50482c6d800e2ffda0ace9d633d13131a2cfa、双方open PR0、旧記録branch ahead0/behind1/files0、CI/Pages成功を再確認。添付03の物理074（紙面072）のコメント説明/図、変数/実行順・確認項目とactiveアルゴリズム145行を実読。既存scopeの注釈を独立技能受入と数えず、独自1問を追加。
@@ -1897,4 +1911,3 @@ GitHub / protected DB の現状を正として、第13章を章単位で再監�
 ### 次のデフォルト作業
 
 live main / 作業branch / PR / CI / Pages / DBを再読し、接続可能な通常UIで15-08の残る1問を確認して終了結果・履歴・進捗の再読込と画像証拠保存を完了する。CASを再適用せず、確認済み51種類を網羅し直さない。実スマホ残件を保持し、対応可能なら狭幅/タッチ/スクロール/縦横切替を確認する。その後、次の内容監査は第16章「システム戦略」全体。IPA対応表43項目の完了数は変更しない。
-
