@@ -23,10 +23,9 @@ for(const href of ['https://fequest-release.example/','https://fequest-release.e
 }
 
 const privacyPath=path.join(site,'privacy.html');
-let privacy=fs.readFileSync(privacyPath,'utf8');
-assert.ok(privacy.includes('FE QUESTのWebページはGitHub Pagesを利用して配信します。'));
-privacy=privacy.replace('FE QUESTのWebページはGitHub Pagesを利用して配信します。','この公開用パッケージのWebページはCloudflare Pagesを利用して配信する想定です。公開時に実際の配信先をご確認ください。');
-fs.writeFileSync(privacyPath,privacy);
+const privacy=fs.readFileSync(privacyPath,'utf8');
+assert.ok(privacy.includes('FE QUESTのWebページはCloudflare Pagesを利用して配信します。'),'privacy must describe the current Cloudflare host');
+assert.ok(privacy.includes('従来のGitHub Pagesの公開先も維持しています。'),'privacy must retain the legacy hosting disclosure');
 fs.writeFileSync(path.join(site,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Cache-Control: no-cache\n');
 const files=[];
 function walk(dir){for(const name of fs.readdirSync(dir).sort()){const full=path.join(dir,name);const stat=fs.lstatSync(full);assert.ok(!stat.isSymbolicLink(),'symlinks are forbidden');if(stat.isDirectory())walk(full);else{
@@ -42,3 +41,4 @@ assert.ok(files.length+1<=1000,'Cloudflare dashboard file count limit');
 const manifest={version:'commercial-preparation-v1-20261011',sourceCommit:process.env.GITHUB_SHA||'local-validation',billingEnabled:false,deployed:false,requiredBeforeSwitch:['exact new origin must be allowed in both question and lesson Edge Functions','Supabase Auth redirect allow-list must include the exact new app URL','backup old-origin local history and verify restore on new origin','verify protected content, grading, auth, synchronization and PWA on new host'],files};
 fs.writeFileSync(path.join(site,'release-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log('PASS commercial package: '+files.length+' files; auth redirect follows deployed origin; no billing enabled');
+
