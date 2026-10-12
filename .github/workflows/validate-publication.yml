@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout publication candidate
         uses: actions/checkout@v6
+      - name: Preserve vendored software licenses
+        run: node .github/scripts/check-third-party-notices-v1.mjs
+      - name: Reject stale or altered commercial release ZIPs
+        run: python .github/scripts/check-commercial-release-v1.py
       - name: Validate IPA 9.2 coverage manifest
         run: node .github/scripts/check-ipa92-coverage.mjs
       - name: Exercise isolated protected grammar supplement

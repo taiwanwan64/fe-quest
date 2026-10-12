@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout deploy-only repository
         uses: actions/checkout@v6
+      - name: Preserve vendored software licenses
+        run: node .github/scripts/check-third-party-notices-v1.mjs
       - name: Preserve protected Subject B trace grading explanations
         run: node .github/scripts/check-b-trace-feedback-v377.mjs
       - name: Validate normal trace option feedback

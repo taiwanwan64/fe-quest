@@ -2,6 +2,14 @@
 
 > **重要:** このファイルは作業再開の入口です。ここに書かれた状態を盲信せず、次チャットでは必ず GitHub の live 状態（main / 作業ブランチ / open PR / CI / Pages deploy）を最初に再確認し、GitHub の現状を正としてください。
 
+## 公開準備：同梱ライセンス・ZIP検証・権利台帳（2026-10-12）
+
+β省略を維持して収益化準備を継続。開始live public944fb8d/private62073aa、双方open PR0。公開対象124ファイル（旧provider28除外）のうち119テキストを静的確認。唯一の同梱vendor JSはSupabase2.112.3で、npmの完全固定版UMDとbytes/Git blobが一致。Supabase core、Phoenix0.4.5、iceberg-js0.8.1、tslib2.8.1の公式npm packageをSHA512 integrityで検証し、5ライセンス/著作権通知を原文で同梱。教材の商用権利をこれらのソフトウェアライセンスで保証しない。
+
+THIRD_PARTY_NOTICES.txtを利用条件から案内し、vendor manifestでbundle/noticeのSHA256を固定。CI/Pages/公開用ZIPで欠落・変更を検査。ZIP検証CLIは指定main SHA、全filesのbytes/SHA256、完全なfile inventory、ライセンス、配布対象の境界を確認。正常・改変・旧SHA・欠落・余分なfile・不正path・重複の7ケースを検査。ZIPの署名や新ホストCORS/Auth/学習履歴復旧、商用権利の受入を代替しない。
+
+DBはread-onlyで1193問/130教材のID・版・import commit・row digestを取得し、private docs/launch/2026-10-12/content-rights-register.jsonに未確認台帳を保存。20問はimport commit未対応、ライセンス未許諾という判定ではない。参考書03/04の最終頁を確認済み、転載の許諾を得たわけではない。内容の全件本文照合は未実施。本人の販売方針・価格・新ホストURL・販売者/窓口・決済は未確定。選択式の有料範囲/契約期間に回答はなかったため、推奨案を採用決定と扱わない。教材/問題DB・runtime・SW・契約/アカウント・外部告知には変更なし。次回PR/CI/Pages/ZIPの確定結果をliveで読む。
+
 ## 紹介ページの全面調整（2026-10-12）
 
 ユーザーの依頼でstart.htmlのデザイン・文章を整えた。FE QUESTのブランドはPC最大40px・スマホ32px、ブランド下の説明16px、補助見出し17px、本文18〜19pxへ拡大。専用assets/start-v1.cssをbody.landingに限定して読み込み、見出し・余白・深い緑色・学習例・機能紹介・3ステップ・FAQ・締めの導線を統一。学習例のカードは水平を保持し、実画面や学習結果として表示しない。

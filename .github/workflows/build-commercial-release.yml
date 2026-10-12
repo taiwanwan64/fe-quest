@@ -9,10 +9,15 @@ on:
       - 'privacy.html'
       - 'feedback.html'
       - 'assets/**'
+      - 'vendor/**'
+      - 'THIRD_PARTY_NOTICES.txt'
       - 'cloud/**'
       - 'index.html'
       - 'sw.js'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/scripts/check-third-party-notices-v1.mjs'
+      - '.github/scripts/verify-commercial-release-v1.py'
+      - '.github/scripts/check-commercial-release-v1.py'
       - '.github/workflows/build-commercial-release.yml'
   push:
     branches: [main]
@@ -23,10 +28,15 @@ on:
       - 'privacy.html'
       - 'feedback.html'
       - 'assets/**'
+      - 'vendor/**'
+      - 'THIRD_PARTY_NOTICES.txt'
       - 'cloud/**'
       - 'index.html'
       - 'sw.js'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/scripts/check-third-party-notices-v1.mjs'
+      - '.github/scripts/verify-commercial-release-v1.py'
+      - '.github/scripts/check-commercial-release-v1.py'
       - '.github/workflows/build-commercial-release.yml'
   workflow_dispatch:
 permissions:
@@ -406,6 +416,8 @@ jobs:
           console.log(`PASS Pages protected static boundary: ${files.length} metadata catalogs`);
           NODE
           ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
+      - name: Check distributed third-party notices
+        run: node .github/scripts/check-third-party-notices-v1.mjs "$RUNNER_TEMP/site"
       - name: Prepare Cloudflare staging without changing GitHub production
         run: node .github/scripts/prepare-commercial-package-v1.mjs "$RUNNER_TEMP/site"
       - name: Zip the public staging directory
@@ -418,6 +430,8 @@ jobs:
             for file in sorted(site.rglob('*')):
               if file.is_file():
                 archive.write(file, file.relative_to(site).as_posix())
+      - name: Verify the completed ZIP against this commit
+        run: python .github/scripts/verify-commercial-release-v1.py "$RUNNER_TEMP/fe-quest-commercial-site.zip" --expected-commit "$GITHUB_SHA"
       - name: Upload preparation package
         uses: actions/upload-artifact@v4
         with:
