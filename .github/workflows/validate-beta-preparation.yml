@@ -22,7 +22,10 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
-    container:\n      image: mcr.microsoft.com/playwright:v1.55.0-noble\n      options: --shm-size=1g\n    timeout-minutes: 12
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0-noble
+      options: --shm-size=1g
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
