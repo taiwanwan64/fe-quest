@@ -44,7 +44,7 @@
     }
 
     if(signedIn&&deletionAvailable&&!actions.includes('delete-account'))actions.push('delete-account');
-    if(busy){title='処理しています';detail=busy==='magic-link'?'ログインリンクを送信しています。':busy==='delete-account'?'アカウントとクラウドデータを削除しています。':'データを安全に確認しています。';actions=[]}
+    if(busy){title='処理しています';detail=busy==='magic-link'?'ログインメールを送信しています。':busy==='delete-account'?'アカウントとクラウドデータを削除しています。':'データを安全に確認しています。';actions=[]}
     return Object.freeze({key,title,detail,tone,actions:Object.freeze(actions),signedIn,email:auth.email||null,bound,conflict,pending,lastError:state.lastError||null,notice,deletionAvailable});
   }
 
@@ -60,6 +60,7 @@
     const onMessage=typeof o.onMessage==='function'?o.onMessage:()=>{};
     let node=o.mount||null,unsubscribe=null,disposed=false;
     let uiState={busy:null,notice:null};
+    let pendingEmail='';
 
     function state(){return controller.state()}
     function view(){return deriveView(auth.snapshot(),state(),{...uiState,accountDeletionAvailable:Boolean(deleteAccountAction)})}
@@ -75,8 +76,16 @@
 
     async function sendMagicLink(email){
       const result=await run('magic-link',()=>auth.sendMagicLink(email));
-      if(result&&result.ok)setNotice('success',`${result.email} にログインリンクを送りました。`);
+      if(result&&result.ok){pendingEmail=result.email;setNotice('success','メールを送りました。届いた確認コードをこの画面に入力してください。');}
       else setNotice('error','ログインリンクを送れませんでした。通信状態とメールアドレスを確認してください。');
+      return result;
+    }
+    async function verifyEmailCode(code){
+      if(uiState.busy)return {ok:false,status:'busy'};
+      if(!pendingEmail)return {ok:false,status:'email-required'};
+      const result=await run('verify-code',()=>auth.verifyEmailCode(pendingEmail,code));
+      if(result?.ok){pendingEmail='';setNotice('success','ログインしました。');}
+      else setNotice('error',result?.status==='invalid-code'?'メールに届いた数字の確認コードを入力してください。':'確認コードが正しくないか、有効期限が切れています。最新のメールを確認するか、再送してください。');
       return result;
     }
     async function enable(){
@@ -143,7 +152,8 @@
       if(disposed)return null;
       const mount=ensureNode(),v=view();if(!mount)return v;
       const notice=v.notice?`<div class="feq-sync-notice ${escapeHtml(v.notice.kind)}" role="status">${escapeHtml(v.notice.text)}</div>`:'';
-      const signedOutForm=v.key==='signed-out'?`<div class="feq-sync-email"><label for="cloudSyncEmailV342">メールアドレス</label><input id="cloudSyncEmailV342" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"><button type="button" data-sync-action="send-link">ログインリンクを送る</button></div>`:'';
+      const signedOutForm=v.key==='signed-out'?`<div class="feq-sync-email"><label for="cloudSyncEmailV342">メールアドレス</label><input id="cloudSyncEmailV342" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${escapeHtml(pendingEmail)}"><button type="button" data-sync-action="send-link">ログインメールを送る</button></div>`:'';
+      const codeForm=!v.signedIn&&pendingEmail?`<div class="feq-sync-email"><p>メールのリンクを開かず、確認コードを入力すると、このアプリでログインできます。</p><label for="cloudSyncCodeV342">確認コード</label><input id="cloudSyncCodeV342" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]{6,10}" aria-label="確認コード"><button type="button" data-sync-action="verify-code" ${uiState.busy?'disabled':''}>確認コードでログイン</button></div>`:'';
       const buttons=[];
       if(v.actions.includes('enable'))buttons.push('<button type="button" class="planner-save" data-sync-action="enable">クラウド同期を有効にする</button>');
       if(v.actions.includes('sync-now'))buttons.push('<button type="button" class="planner-save" data-sync-action="sync-now">今すぐ同期</button>');
@@ -153,8 +163,10 @@
       if(v.actions.includes('sign-out'))buttons.push('<button type="button" data-sync-action="sign-out">ログアウト</button>');
       if(v.actions.includes('delete-account'))buttons.push('<button type="button" class="feq-sync-danger" data-sync-action="delete-account">アカウントを削除</button>');
       const deletionNote=v.signedIn&&v.deletionAvailable?`<div class="feq-sync-deletion-note">${escapeHtml(UI_SPEC.deletionCopy)}</div>`:'';
-      mount.innerHTML=`<div class="feq-sync-head"><div><h2>アカウント・クラウド同期</h2><div class="sub">端末変更やブラウザデータ削除に備えて学習履歴を同期できます。</div></div><span class="feq-sync-status ${escapeHtml(v.tone)}">${escapeHtml(v.title)}</span></div><div class="feq-sync-detail">${escapeHtml(v.detail)}</div>${v.email?`<div class="feq-sync-account">${escapeHtml(v.email)}</div>`:''}${notice}${signedOutForm}<div class="feq-sync-actions">${buttons.join('')}</div>${deletionNote}<div class="feq-sync-local-note">クラウドに接続できないときも学習とローカル保存は続けられます。JSONエクスポートと復旧センターも引き続き利用できます。</div>`;
+      mount.innerHTML=`<div class="feq-sync-head"><div><h2>アカウント・クラウド同期</h2><div class="sub">端末変更やブラウザデータ削除に備えて学習履歴を同期できます。</div></div><span class="feq-sync-status ${escapeHtml(v.tone)}">${escapeHtml(v.title)}</span></div><div class="feq-sync-detail">${escapeHtml(v.detail)}</div>${v.email?`<div class="feq-sync-account">${escapeHtml(v.email)}</div>`:''}${notice}${signedOutForm}${codeForm}<div class="feq-sync-actions">${buttons.join('')}</div>${deletionNote}<div class="feq-sync-local-note">クラウドに接続できないときも学習とローカル保存は続けられます。JSONエクスポートと復旧センターも引き続き利用できます。</div>`;
       mount.querySelector?.('[data-sync-action="send-link"]')?.addEventListener('click',()=>sendMagicLink(mount.querySelector?.('#cloudSyncEmailV342')?.value||''));
+      mount.querySelector?.('[data-sync-action="verify-code"]')?.addEventListener('click',()=>verifyEmailCode(mount.querySelector?.('#cloudSyncCodeV342')?.value||''));
+      mount.querySelector?.('#cloudSyncCodeV342')?.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();verifyEmailCode(event.target.value);}});
       mount.querySelector?.('[data-sync-action="enable"]')?.addEventListener('click',enable);
       mount.querySelector?.('[data-sync-action="sync-now"]')?.addEventListener('click',syncNow);
       mount.querySelector?.('[data-sync-action="keep-local"]')?.addEventListener('click',()=>resolve('local'));
@@ -172,10 +184,11 @@
     }
     function dispose(){disposed=true;try{unsubscribe&&unsubscribe()}catch(_e){}unsubscribe=null;return true}
 
-    return Object.freeze({start,render,view,sendMagicLink,enable,syncNow,resolve,disable,signOut,deleteAccount,dispose});
+    return Object.freeze({start,render,view,sendMagicLink,verifyEmailCode,enable,syncNow,resolve,disable,signOut,deleteAccount,dispose});
   }
 
   const api=Object.freeze({UI_SPEC,deriveView,createSyncSettingsUI});
   root.FEQUEST_SYNC_UI_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
+
