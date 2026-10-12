@@ -8,6 +8,7 @@ on:
       - 'terms.html'
       - 'privacy.html'
       - 'feedback.html'
+      - 'contact.html'
       - 'assets/**'
       - 'vendor/**'
       - 'THIRD_PARTY_NOTICES.txt'
@@ -27,6 +28,7 @@ on:
       - 'terms.html'
       - 'privacy.html'
       - 'feedback.html'
+      - 'contact.html'
       - 'assets/**'
       - 'vendor/**'
       - 'THIRD_PARTY_NOTICES.txt'
@@ -441,5 +443,6 @@ jobs:
           path: ${{ runner.temp }}/fe-quest-commercial-site.zip
           if-no-files-found: error
           retention-days: 30
+
 
 

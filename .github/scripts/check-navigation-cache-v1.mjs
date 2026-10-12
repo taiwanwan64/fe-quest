@@ -10,7 +10,7 @@ for(const scope of ['https://taiwanwan64.github.io/fe-quest/','https://confirmed
   vm.runInNewContext(code,context);
   async function navigate(relative){const request={url:new URL(relative,scope).href,method:'GET',mode:'navigate',headers:{has:()=>false}};let result;callbacks.get('fetch')({request,respondWith:value=>{result=value;}});return await result;}
   const app=await navigate('./');assert.ok(app.ok);const appHtml=await store.get('./index.html').clone().text();
-  for(const page of ['start.html','help.html','terms.html','privacy.html','feedback.html?stage=bug']){
+  for(const page of ['start.html','help.html','terms.html','privacy.html','contact.html','feedback.html?stage=bug']){
     await navigate(page);
     assert.equal(await store.get('./index.html').clone().text(),appHtml,'informational navigation must not poison app shell');
   }
@@ -21,3 +21,4 @@ for(const scope of ['https://taiwanwan64.github.io/fe-quest/','https://confirmed
   const missing=await navigate('never-cached.html');assert.equal(missing.type,'error','missing information page does not return app HTML');
   console.log('PASS isolated navigation cache '+scope);
 }
+
