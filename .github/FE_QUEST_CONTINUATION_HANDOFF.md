@@ -6,7 +6,7 @@
 
 主な紹介URLは https://fe-quest.pages.dev/start.html 、アプリURLは https://fe-quest.pages.dev/ 。旧GitHub Pagesは保持する。直前のpublic mainは8af7e4ac3c04dd2e9abca0b9c340142a39bb01ff、SW cacheはfe-quest-v377-200。Cloudflare Origin追加、Supabaseの正確なSite URL/redirect設定、コードを含むメールテンプレート、送信中の重複操作対策は適用済み。以下の古い「新ホスト未確定」「Origin追加未実施」記録を現在の状態と混同しない。
 
-今回の公開準備では、help.htmlへ確認コードログイン/環境ごとの明示的な同期有効化/競合時のバックアップとデータ選択を追加し、紹介FAQから案内する。privacy.htmlの配信先をCloudflare Pagesと旧GitHub Pagesへ整合させ、同期がオフでもログイン時のアカウント情報を処理する点を修正。terms.htmlの保存説明も整合する。アプリ本体・DB・認証設定・SW cacheには追加変更なし。情報ページは自身のURLでnetwork-firstのため、案内更新だけでSW cacheを上げない。
+今回の公開準備では、help.htmlへ確認コードログイン/環境ごとの明示的な同期有効化/競合時のバックアップとデータ選択を追加し、紹介FAQから案内する。privacy.htmlの配信先をCloudflare Pagesと旧GitHub Pagesへ整合させ、同期がオフでもログイン時のアカウント情報を処理する点を修正。terms.htmlの保存説明も整合する。公開ZIPの作成処理も、古いGitHub単独配信の文面を置換する方式から、実際のCloudflare/旧GitHub表記を検査・保持する方式へ更新する。アプリ本体・DB・認証設定・SW cacheには追加変更なし。情報ページは自身のURLでnetwork-firstのため、案内更新だけでSW cacheを上げない。
 
 私の方で続けられるのは案内文/公開境界/配布ファイル/運用記録の整備。教材の権利確認は台帳の全件照合待ち、商品/価格/販売者情報/非公開窓口/決済/解約・返金は未確定。外部β省略を維持し、外部告知や有料契約・課金を開始しない。検査・PR・main・Pages・ZIPの確定結果はGitHub liveで確認する。
 
