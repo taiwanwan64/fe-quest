@@ -22,7 +22,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    container:\n      image: mcr.microsoft.com/playwright:v1.55.0-noble\n      options: --shm-size=1g\n    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
@@ -35,7 +35,6 @@ jobs:
       - name: Install pinned browser test tooling
         run: |
           npm install --no-save --package-lock=false playwright@1.55.0
-          npx playwright install --with-deps chromium webkit
       - name: Exercise mobile and desktop feedback journey
         run: node .github/scripts/check-beta-preparation-v1.mjs --browser
 
