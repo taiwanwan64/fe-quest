@@ -7,7 +7,7 @@ import stat
 import zipfile
 from pathlib import PurePosixPath
 
-REQUIRED = {'index.html', 'sw.js', 'manifest.webmanifest', 'start.html', 'help.html', 'terms.html', 'privacy.html', 'feedback.html', 'cloud/public-config-v342.js', '_headers', 'THIRD_PARTY_NOTICES.txt', 'vendor/third-party-manifest.json'}
+REQUIRED = {'index.html', 'sw.js', 'manifest.webmanifest', 'start.html', 'help.html', 'terms.html', 'privacy.html', 'feedback.html', 'contact.html', 'cloud/public-config-v342.js', '_headers', 'THIRD_PARTY_NOTICES.txt', 'vendor/third-party-manifest.json'}
 
 def require(condition, message):
     if not condition:
@@ -60,3 +60,4 @@ if __name__ == '__main__':
         raise SystemExit('FAIL release package: ' + str(error))
     print(f'PASS release ZIP: {count} files; commit, complete hashes and software notices verified')
     print('New-host CORS/Auth, learner-data restore and commercial content rights still require separate verification.')
+

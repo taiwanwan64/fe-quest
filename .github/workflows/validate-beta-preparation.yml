@@ -10,6 +10,7 @@ on:
       - 'sw.js'
       - '.github/scripts/check-navigation-cache-v1.mjs'
       - 'feedback.html'
+      - 'contact.html'
       - 'privacy.html'
       - 'assets/beta-*.css'
       - 'assets/start-v1.css'
@@ -40,4 +41,5 @@ jobs:
           npm install --no-save --package-lock=false playwright@1.55.0
       - name: Exercise mobile and desktop feedback journey
         run: node .github/scripts/check-beta-preparation-v1.mjs --browser
+
 

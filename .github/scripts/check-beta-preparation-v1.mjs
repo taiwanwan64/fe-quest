@@ -23,7 +23,7 @@ assert.equal(sensitive('tester@example.com'),true);
 assert.equal(sensitive('access_token=synthetic'),true);
 assert.equal(sensitive('-----BEGIN PRIVATE KEY-----'),true);
 assert.deepEqual(Object.keys(stages),['feedback','bug']);
-for(const file of ['start.html','feedback.html','assets/beta-preparation-v1.css','assets/start-v1.css','assets/beta-feedback-v1.js']){
+for(const file of ['start.html','feedback.html','contact.html','assets/beta-preparation-v1.css','assets/start-v1.css','assets/beta-feedback-v1.js']){
   const content=fs.readFileSync(path.join(root,file),'utf8');
   assert.ok(!/localStorage|sessionStorage|fetch\(|sendBeacon|XMLHttpRequest|supabase|gtag\(/.test(content),'new pages do not silently store/collect data');
 }
@@ -61,11 +61,18 @@ try{
       assert.equal(await page.locator('.example').evaluate(el=>getComputedStyle(el).transform),'none');
       for(const summary of await page.locator('.faq summary').all())await summary.click();
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'expanded FAQ fits');
+      await page.locator('.site-footer a[href="./contact.html"]').click();
+      await page.waitForURL('**/contact.html');
+      assert.equal(await page.getByRole('link',{name:'メールで問い合わせる →'}).getAttribute('href'),'mailto:fequest.contact@gmail.com');
+      assert.ok((await page.locator('main').textContent()).includes('fequest.contact@gmail.com'));
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'contact page fits');
+      await page.goto(base+'/start.html');
+      for(const summary of await page.locator('.faq summary').all())await summary.click();
       const reportLink=page.locator('.faq a[href="./feedback.html?stage=bug"]');
       await reportLink.click();
       await page.waitForURL('**/feedback.html?stage=bug');
       assert.ok((await page.locator('#stageTitle').textContent()).includes('不具合'),'FAQ opens the report form');
-      for(const file of ['help.html','terms.html','privacy.html']){
+      for(const file of ['help.html','terms.html','privacy.html','contact.html']){
         await page.goto(base+'/'+file);
         assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),file+' fits');
       }
@@ -118,3 +125,4 @@ try{
     }finally{await browser.close();}
   }
 }finally{await new Promise(resolve=>server.close(resolve));}
+

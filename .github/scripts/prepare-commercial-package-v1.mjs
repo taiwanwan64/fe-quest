@@ -8,7 +8,7 @@ import vm from 'node:vm';
 const site=path.resolve(process.argv[2]||'');
 assert.ok(process.argv[2]&&site!==process.cwd(),'an isolated staging directory is required');
 for(const forbidden of ['.git','.github','supabase','docs','node_modules'])assert.ok(!fs.existsSync(path.join(site,forbidden)),'source-only directory in package: '+forbidden);
-for(const file of ['index.html','sw.js','manifest.webmanifest','start.html','help.html','terms.html','privacy.html','feedback.html','cloud/public-config-v342.js'])assert.ok(fs.existsSync(path.join(site,file)),'required file: '+file);
+for(const file of ['index.html','sw.js','manifest.webmanifest','start.html','help.html','terms.html','privacy.html','feedback.html','contact.html','cloud/public-config-v342.js'])assert.ok(fs.existsSync(path.join(site,file)),'required file: '+file);
 
 const configPath=path.join(site,'cloud/public-config-v342.js');
 let config=fs.readFileSync(configPath,'utf8');
@@ -41,4 +41,5 @@ assert.ok(files.length+1<=1000,'Cloudflare dashboard file count limit');
 const manifest={version:'commercial-preparation-v1-20261011',sourceCommit:process.env.GITHUB_SHA||'local-validation',billingEnabled:false,deployed:false,requiredBeforeSwitch:['exact new origin must be allowed in both question and lesson Edge Functions','Supabase Auth redirect allow-list must include the exact new app URL','backup old-origin local history and verify restore on new origin','verify protected content, grading, auth, synchronization and PWA on new host'],files};
 fs.writeFileSync(path.join(site,'release-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log('PASS commercial package: '+files.length+' files; auth redirect follows deployed origin; no billing enabled');
+
 
