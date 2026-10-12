@@ -1,11 +1,22 @@
 // Keep email-code verification in the same PWA that requested the email.
 (()=>{
   'use strict';
+  // Core onboarding must respect the sync UI's in-flight/cooldown guard.
+  if(typeof firstRunCloudReadyV364==='function'){
+    const originalReady=firstRunCloudReadyV364;
+    firstRunCloudReadyV364=()=>originalReady()&&!document.querySelector('#cloudSyncCardV342 [data-sync-action="send-link"]')?.disabled;
+  }
   function update(){
     const root=document.getElementById('firstRunGuidedV364');
     if(!root||root.dataset.stage!=='account')return;
     const send=root.querySelector('#firstRunSendLinkV364');
     if(!send)return;
+    if(!send.dataset.codeSendGuard){
+      send.dataset.codeSendGuard='1';
+      send.addEventListener('click',event=>{
+        if(document.querySelector('#cloudSyncCardV342 [data-sync-action="send-link"]')?.disabled){event.preventDefault();event.stopImmediatePropagation();}
+      },true);
+    }
     if(send.textContent!=='ログインメールを送る')send.textContent='ログインメールを送る';
     const help=root.querySelector('.v364-account-help');
     const copy='メールに届く確認コードを、この画面に入力してください。パスワードは不要です。';

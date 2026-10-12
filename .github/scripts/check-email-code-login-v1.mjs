@@ -1,3 +1,4 @@
+import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import fs from 'node:fs';
@@ -38,6 +39,46 @@ assert.equal(emailUsed,'first@example.com','verify against the successful send r
 assert.equal((await ui.verifyEmailCode('123456')).status,'busy');assert.equal(verifyCalls,1,'double submit blocked');
 release({ok:true});await pending;
 assert.equal((await ui.verifyEmailCode('123456')).status,'email-required','successful verification clears pending recipient');
+ui.dispose();
 assert.ok(fs.readFileSync('index.html','utf8').includes('./assets/email-code-login-v1.js'));
 assert.ok(fs.readFileSync('sw.js','utf8').includes('./assets/email-code-login-v1.js'));
 console.log('PASS email-code validation, failed/successful sessions, recipient binding, duplicate submit, asset wiring');
+
+// A slow email response must not hide verification or send duplicates.
+let finishSend,sendCalls=0;
+const mount={innerHTML:'',querySelector(){return null;}};
+const delayedAuth={snapshot:()=>({initialized:true,signedIn:false}),signOutThisDevice:async()=>({ok:true}),sendMagicLink:()=>{sendCalls++;return new Promise(resolve=>{finishSend=resolve;});},verifyEmailCode:async()=>({ok:true})};
+const delayed=createSyncSettingsUI({authBoundary:delayedAuth,controller,mount,sendTimeoutMs:30,resendDelayMs:80});
+const sending=delayed.sendMagicLink('first@example.com');
+await Promise.resolve();
+assert.ok(mount.innerHTML.includes('id="cloudSyncCodeV342"'),'code entry appears before send response');
+assert.match(mount.innerHTML,/data-sync-action="send-link" disabled/,'send control disabled during request');
+assert.equal((await delayed.sendMagicLink('first@example.com')).status,'busy');
+assert.equal(sendCalls,1,'only one network send while pending');
+assert.equal(delayed.view().notice,null,'double click must not falsely report send failure');
+assert.equal((await delayed.verifyEmailCode('123456')).ok,true,'delivered code can be verified while send response is pending');
+finishSend({ok:true,email:'first@example.com'});await sending;
+assert.equal(delayed.view().notice.text,'ログインしました。','late send result cannot overwrite login success');
+delayed.dispose();
+let endTimeoutSend;
+const timeoutAuth={...delayedAuth,sendMagicLink:()=>new Promise(resolve=>{endTimeoutSend=resolve;})};
+const timeout=createSyncSettingsUI({authBoundary:timeoutAuth,controller,mount,sendTimeoutMs:5,resendDelayMs:80});
+assert.equal((await timeout.sendMagicLink('first@example.com')).status,'send-unconfirmed');
+assert.equal(timeout.view().notice.kind,'warning','timeout is uncertain, not failed delivery');
+assert.ok(mount.innerHTML.includes('id="cloudSyncCodeV342"'));
+assert.equal((await timeout.verifyEmailCode('123456')).ok,true,'code works after send timeout');
+assert.equal((await timeout.sendMagicLink('first@example.com')).status,'busy','pending request must not be resent');
+endTimeoutSend({ok:true,email:'first@example.com'});await Promise.resolve();await Promise.resolve();
+timeout.dispose();
+console.log('PASS slow delivery, send deduplication, pre-response verification, timeout and stale-response protection');
+
+let clickGuard;
+const hiddenSend={disabled:true};
+const firstSend={dataset:{},textContent:'',addEventListener(_name,handler,capture){if(capture)clickGuard=handler;}};
+const onboarding={dataset:{stage:'account'},querySelector(selector){return selector==='#firstRunSendLinkV364'?firstSend:null;}};
+const context={document:{body:{},getElementById(id){return id==='firstRunGuidedV364'?onboarding:null;},querySelector(){return hiddenSend;}},firstRunCloudReadyV364:()=>true,MutationObserver:class{observe(){}},queueMicrotask};
+vm.runInNewContext(fs.readFileSync('assets/email-code-login-v1.js','utf8'),context);
+assert.equal(context.firstRunCloudReadyV364(),false,'onboarding poll respects hidden send lock');
+let blocked=0;clickGuard({preventDefault(){blocked++;},stopImmediatePropagation(){blocked++;}});assert.equal(blocked,2,'capture guard blocks queued duplicate clicks');
+hiddenSend.disabled=false;assert.equal(context.firstRunCloudReadyV364(),true);
+console.log('PASS onboarding send lock and capture guard');

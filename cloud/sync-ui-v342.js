@@ -60,7 +60,9 @@
     const onMessage=typeof o.onMessage==='function'?o.onMessage:()=>{};
     let node=o.mount||null,unsubscribe=null,disposed=false;
     let uiState={busy:null,notice:null};
-    let pendingEmail='';
+    let pendingEmail='',sendPending=false,sendGeneration=0,nextSendAt=0,cooldownTimer=null;
+    const sendTimeoutMs=Number(o.sendTimeoutMs)||15000;
+    const resendDelayMs=Number(o.resendDelayMs)||60000;
 
     function state(){return controller.state()}
     function view(){return deriveView(auth.snapshot(),state(),{...uiState,accountDeletionAvailable:Boolean(deleteAccountAction)})}
@@ -75,14 +77,36 @@
     }
 
     async function sendMagicLink(email){
-      const result=await run('magic-link',()=>auth.sendMagicLink(email));
-      if(result&&result.ok){pendingEmail=result.email;setNotice('success','メールを送りました。届いた確認コードをこの画面に入力してください。');}
-      else setNotice('error','ログインリンクを送れませんでした。通信状態とメールアドレスを確認してください。');
+      if(sendPending||uiState.busy)return {ok:false,status:'busy'};
+      if(Date.now()<nextSendAt)return {ok:false,status:'cooldown'};
+      const normalized=String(email||'').trim().toLowerCase();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)){
+        setNotice('error','正しい形式のメールアドレスを入力してください。');return {ok:false,status:'invalid-email'};
+      }
+      pendingEmail=normalized;sendPending=true;nextSendAt=Date.now()+resendDelayMs;
+      const generation=++sendGeneration;
+      uiState={...uiState,busy:'magic-link',notice:null};render();
+      if(cooldownTimer)clearTimeout(cooldownTimer);
+      cooldownTimer=setTimeout(()=>{cooldownTimer=null;render();},resendDelayMs);
+      let deadline;
+      const request=Promise.resolve().then(()=>auth.sendMagicLink(normalized))
+        .catch(()=>({ok:false,status:'send-error'}))
+        .finally(()=>{sendPending=false;});
+      const result=await Promise.race([request,new Promise(resolve=>{
+        deadline=setTimeout(()=>resolve({ok:false,status:'send-unconfirmed'}),sendTimeoutMs);
+      })]);
+      clearTimeout(deadline);
+      if(generation!==sendGeneration)return result;
+      uiState={...uiState,busy:null};
+      if(result?.ok)setNotice('success','メールを送りました。最新のメールの確認コードを、この画面に入力してください。');
+      else setNotice('warning','送信結果を確認できませんでした。メールが届いていれば、最新の確認コードを入力してください。届いていない場合は、1分以上待って再送してください。');
+      if(result?.status==='send-unconfirmed')request.then(()=>{if(!disposed)render();});
       return result;
     }
     async function verifyEmailCode(code){
-      if(uiState.busy)return {ok:false,status:'busy'};
+      if(uiState.busy&&uiState.busy!=='magic-link')return {ok:false,status:'busy'};
       if(!pendingEmail)return {ok:false,status:'email-required'};
+      ++sendGeneration;uiState={...uiState,busy:null};
       const result=await run('verify-code',()=>auth.verifyEmailCode(pendingEmail,code));
       if(result?.ok){pendingEmail='';setNotice('success','ログインしました。');}
       else setNotice('error',result?.status==='invalid-code'?'メールに届いた数字の確認コードを入力してください。':'確認コードが正しくないか、有効期限が切れています。最新のメールを確認するか、再送してください。');
@@ -152,8 +176,8 @@
       if(disposed)return null;
       const mount=ensureNode(),v=view();if(!mount)return v;
       const notice=v.notice?`<div class="feq-sync-notice ${escapeHtml(v.notice.kind)}" role="status">${escapeHtml(v.notice.text)}</div>`:'';
-      const signedOutForm=v.key==='signed-out'?`<div class="feq-sync-email"><label for="cloudSyncEmailV342">メールアドレス</label><input id="cloudSyncEmailV342" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${escapeHtml(pendingEmail)}"><button type="button" data-sync-action="send-link">ログインメールを送る</button></div>`:'';
-      const codeForm=!v.signedIn&&pendingEmail?`<div class="feq-sync-email"><p>メールのリンクを開かず、確認コードを入力すると、このアプリでログインできます。</p><label for="cloudSyncCodeV342">確認コード</label><input id="cloudSyncCodeV342" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]{6,10}" aria-label="確認コード"><button type="button" data-sync-action="verify-code" ${uiState.busy?'disabled':''}>確認コードでログイン</button></div>`:'';
+      const signedOutForm=v.key==='signed-out'?`<div class="feq-sync-email"><label for="cloudSyncEmailV342">メールアドレス</label><input id="cloudSyncEmailV342" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${escapeHtml(pendingEmail)}"><button type="button" data-sync-action="send-link" ${sendPending||uiState.busy||Date.now()<nextSendAt?'disabled':''}>ログインメールを送る</button></div>`:'';
+      const codeForm=!v.signedIn&&pendingEmail?`<div class="feq-sync-email"><p>メールのリンクを開かず、確認コードを入力すると、このアプリでログインできます。</p><label for="cloudSyncCodeV342">確認コード</label><input id="cloudSyncCodeV342" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]{6,10}" aria-label="確認コード"><button type="button" data-sync-action="verify-code" ${uiState.busy&&uiState.busy!=='magic-link'?'disabled':''}>確認コードでログイン</button></div>`:'';
       const buttons=[];
       if(v.actions.includes('enable'))buttons.push('<button type="button" class="planner-save" data-sync-action="enable">クラウド同期を有効にする</button>');
       if(v.actions.includes('sync-now'))buttons.push('<button type="button" class="planner-save" data-sync-action="sync-now">今すぐ同期</button>');
@@ -182,7 +206,7 @@
       if(typeof auth.subscribe==='function')unsubscribe=auth.subscribe(()=>render());
       return view();
     }
-    function dispose(){disposed=true;try{unsubscribe&&unsubscribe()}catch(_e){}unsubscribe=null;return true}
+    function dispose(){disposed=true;if(cooldownTimer)clearTimeout(cooldownTimer);try{unsubscribe&&unsubscribe()}catch(_e){}unsubscribe=null;return true}
 
     return Object.freeze({start,render,view,sendMagicLink,verifyEmailCode,enable,syncNow,resolve,disable,signOut,deleteAccount,dispose});
   }
