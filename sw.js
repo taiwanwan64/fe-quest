@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-198';
+const CACHE_NAME = 'fe-quest-v377-199';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./",
@@ -110,6 +110,7 @@ const APP_SHELL = [
   "./cloud/sync-engine-v342.js",
   "./cloud/supabase/transport-v342.js",
   "./cloud/supabase/auth-boundary-v342.js",
+  "./assets/email-code-login-v1.js",
   "./cloud/production-adapter-v342.js",
   "./cloud/reconciliation-v342.js",
   "./cloud/local-reconciliation-adapter-v342.js",
@@ -190,6 +191,7 @@ self.addEventListener('fetch', event => {
   }
   event.respondWith(staleWhileRevalidate(request));
 });
+
 
 
 

@@ -216,6 +216,23 @@
       return {ok:true,snapshot:snapshot()};
     }
 
+    async function verifyEmailCode(email,code){
+      let normalized,token;
+      try{
+        normalized=cleanEmail(email);
+        token=String(code||'').trim();
+        if(!/^\d{6,10}$/.test(token))return {ok:false,status:'invalid-code'};
+      }catch(_error){return {ok:false,status:'invalid-email'}}
+      if(typeof client.auth.verifyOtp!=='function')return {ok:false,status:'verify-unavailable'};
+      try{
+        const result=await client.auth.verifyOtp({email:normalized,token,type:'email'});
+        if(result?.error)return {ok:false,status:'verify-error'};
+        if(!sessionValue(result?.data?.session))return {ok:false,status:'session-missing'};
+        setSession(result.data.session,'SIGNED_IN');
+        return {ok:true,snapshot:snapshot()};
+      }catch(_error){return {ok:false,status:'verify-error'}}
+    }
+
     function subscribe(listener){
       if(typeof listener!=='function')throw new TypeError('listener function required');
       listeners.add(listener);
@@ -229,10 +246,11 @@
       return true;
     }
 
-    return Object.freeze({initialize,snapshot,getAuthenticatedUserId,getAccessToken,sendMagicLink,signOutThisDevice,consumeEmailTokenHashCallback,subscribe,dispose});
+    return Object.freeze({initialize,snapshot,getAuthenticatedUserId,getAccessToken,sendMagicLink,verifyEmailCode,signOutThisDevice,consumeEmailTokenHashCallback,subscribe,dispose});
   }
 
   const api=Object.freeze({AUTH_SPEC,parseEmailTokenHashCallback,sanitizedCallbackUrl,createConfiguredClient,createAuthBoundary});
   root.FEQUEST_SUPABASE_AUTH_V342=api;
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
+
