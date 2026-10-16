@@ -383,4 +383,66 @@ jobs:
           grep -Fq "sanitizeCompactReadiness(right,rightBar);" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "relocateStudyBlockBar();" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           ! grep -Fq "observer.observe(document.documentElement,{childList:true,subtree:true,characterData:true})" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
-          grep -Fq "データ収集中" "$RUNNER_TEMP/site/assets/first-impression-ux-v3
+          grep -Fq "データ収集中" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq "未判定" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
+          grep -Fq '#diagIntro #diagBegin' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '#studyBlockBarV373[data-v377-inline="1"]' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq '.ipa92-venn-backdrop' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
+          grep -Fq "./assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/index.html"
+          grep -Fq "./assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/index.html"
+          grep -Fq "./assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-modeling-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "./assets/ipa92-memory-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_SORT_LAB" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_GRAPH_LAB" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MODELING_LAB" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
+          grep -Fq "globalThis.FEQUEST_IPA92_MEMORY_LAB" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
+          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$RUNNER_TEMP/site/cloud/public-config-v342.js"
+          grep -Fq "policy:'public-static-assets-metadata-only-for-protected-question-content'" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXTRA_DISTRACTOR=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          ! grep -Fq "const B_MOCK_EXPLANATION=" "$RUNNER_TEMP/site/assets/app-v377.js"
+          SITE="$RUNNER_TEMP/site" node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=process.env.SITE;
+          const dir=path.join(root,'assets');
+          const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations','point','pitfall','correctText']);
+          const files=fs.readdirSync(dir).filter(name=>/^question-catalog.*\.json$/.test(name));
+          function walk(value,file,trail='root'){
+            if(Array.isArray(value)){value.forEach((item,index)=>walk(item,file,`${trail}[${index}]`));return;}
+            if(!value||typeof value!=='object')return;
+            for(const [key,item] of Object.entries(value)){
+              if(forbidden.has(key))throw new Error(`protected field ${key} in Pages catalog ${file} at ${trail}`);
+              walk(item,file,`${trail}.${key}`);
+            }
+          }
+          for(const file of files)walk(JSON.parse(fs.readFileSync(path.join(dir,file),'utf8')),file);
+          console.log(`PASS Pages protected static boundary: ${files.length} metadata catalogs`);
+          NODE
+          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
+      - name: Check distributed third-party notices
+        run: node .github/scripts/check-third-party-notices-v1.mjs "$RUNNER_TEMP/site"
+      - name: Prepare Cloudflare staging without changing GitHub production
+        run: node .github/scripts/prepare-commercial-package-v1.mjs "$RUNNER_TEMP/site"
+      - name: Zip the public staging directory
+        shell: python
+        run: |
+          import os, pathlib, zipfile
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          site = root / 'site'
+          with zipfile.ZipFile(root / 'fe-quest-commercial-site.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+            for file in sorted(site.rglob('*')):
+              if file.is_file():
+                archive.write(file, file.relative_to(site).as_posix())
+      - name: Verify the completed ZIP against this commit
+        run: python .github/scripts/verify-commercial-release-v1.py "$RUNNER_TEMP/fe-quest-commercial-site.zip" --expected-commit "$GITHUB_SHA"
+      - name: Upload preparation package
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-quest-commercial-release
+          path: ${{ runner.temp }}/fe-quest-commercial-site.zip
+          if-no-files-found: error
+          retention-days: 30
+
+
+
