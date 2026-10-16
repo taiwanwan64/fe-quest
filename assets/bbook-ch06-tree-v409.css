@@ -70,3 +70,12 @@
   #bSelect .b-tree-level-v409{gap:8px}
   #bSelect .b-tree-node-v409{min-width:62px}
 }
+
+/* Table-based child records and boundary examples. */
+#bSelect .b-tree-table-v409{overflow-x:auto;margin-top:10px;padding-bottom:6px}
+#bSelect .b-tree-table-v409 table{width:100%;min-width:520px;border-collapse:collapse;background:#fff}
+#bSelect .b-tree-table-v409 th,#bSelect .b-tree-table-v409 td{border:1px solid #c9d8de;padding:10px 11px;font-size:18px;line-height:1.6;vertical-align:top}
+#bSelect .b-tree-table-v409 th{background:#eef5f8;color:#17364b}
+#bSelect .b-tree-table-v409 caption{padding:8px 0;text-align:left;font-size:18px;line-height:1.6;font-weight:700;color:#17364b}
+#bSelect .b-tree-v409 .b-array-strip-v409{grid-template-columns:repeat(6,minmax(56px,1fr))}
+@media(max-width:760px){#bSelect .b-tree-v409 .b-array-strip-v409{grid-template-columns:repeat(6,64px)}}

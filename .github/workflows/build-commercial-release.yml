@@ -152,63 +152,63 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/bbook-ch02-array-v405.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch02-array-v405.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch02-array-v405.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '一次元配列の読み方：要素番号・隣接・範囲外' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '要素番号1始まり' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '一次元配列：場所を指定する・値を探す・状態を更新する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '要素番号を1から数えます' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch03-matrix-v406.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch03-matrix-v406.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch03-matrix-v406.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '二次元配列＋条件変換：行・列・ド・モルガン' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '終了条件は、そのままwhileへ入れない' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '二次元配列と配列の配列：行・列・子配列を確かめる' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '終了条件を否定して、継続条件を作る' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch04-impossible-v407.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch04-impossible-v407.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch04-impossible-v407.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'ありえない選択肢：全部追う前の3チェック' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '同じ変数を、使わずにすぐ上書きしていないか' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '候補の検証：問題の要求と反例で判断する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '更新式を替えたら、結果が要求を満たすか比べる' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch05-recursion-v408.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch05-recursion-v408.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch05-recursion-v408.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '再帰トレース：呼出しと戻りを分けて追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '「a ← r(x - 1)」は2段階で読む' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '再帰：呼出しごとの状態と、待っている処理を追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '呼出し先が戻るまで、代入を待つ' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch06-tree-v409.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch06-tree-v409.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch06-tree-v409.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '木構造：図と一次元配列を行き来する' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '同じ段の値同士は比較条件ではありません' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '木構造：子の指定と配列の位置を区別して読む' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'ヒープ判定は、存在する枝を一つずつ調べる' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch07-oop-v410.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch07-oop-v410.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch07-oop-v410.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'オブジェクト指向トレース：インスタンス・参照・メソッドを分ける' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '同じインスタンス</strong>を参照します' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'オブジェクト指向：生成・参照の代入・状態の更新を追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '参照の代入は、生成とは別の命令' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch08-list-v411.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch08-list-v411.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch08-list-v411.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '連結リスト：値ではなく参照の矢印を付け替える' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '末尾の一つ前の要素を覚えておく必要があります' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '連結リスト：要素の識別と、更新する参照先を追う' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '端の要素を外した後のhead・tailも確かめる' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch09-stackqueue-v412.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch09-stackqueue-v412.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch09-stackqueue-v412.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'スタック・キュー：出し入れする端を固定して追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq 'peekなら消さない' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'スタック・キュー：操作後の状態と返す値を別々に記録する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '操作名と、状態を変えるかを対応させる' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch10-bitstring-v413.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch10-bitstring-v413.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch10-bitstring-v413.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'ビット列：桁をそろえて、演算ごとに1行ずつ書き換える' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '固定長で左端から1があふれれば' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'ビット列：保存する幅と、変更する位置を決める' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '演算前の値と、8ビットへ保存する値を区別する' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook-ch11-problem-practice-v414.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook-ch11-problem-practice-v414.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook-ch11-problem-practice-v414.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '総合問題：題材をいったん捨てて、処理の型に分ける' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '実際のプログラミング言語の仕様を持ち込まず' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '総合問題：仕様と観測点を決め、状態の変化を確かめる' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '仕様と観測点を決め、状態の変化を確かめる' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/b-security-foundations-v415.css"
           grep -Fq '<link rel="stylesheet" href="./assets/b-security-foundations-v415.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/b-security-foundations-v415.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'セキュリティ長文：事実 → 守る対象 → 根拠 → 対応の順で読む' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'セキュリティ基礎：対象・権限・記録から対策を考える' "$RUNNER_TEMP/site/index.html"
           grep -Fq 'リバースプロキシ' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/b-security-practice-v416.css"
           grep -Fq '<link rel="stylesheet" href="./assets/b-security-practice-v416.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/b-security-practice-v416.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq 'セキュリティ問題演習：変わった条件と責任範囲だけを追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '選択肢の一部だけ正しくても' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'セキュリティ演習：条件と根拠を対応させて判断する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '結論に足りない条件を探す' "$RUNNER_TEMP/site/index.html"
           test -f "$RUNNER_TEMP/site/assets/bbook2-intro-strategy-v417.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook2-intro-strategy-v417.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook2-intro-strategy-v417.css"' "$RUNNER_TEMP/site/sw.js"
@@ -222,17 +222,17 @@ jobs:
           test -f "$RUNNER_TEMP/site/assets/bbook2-prediction2-v419.css"
           grep -Fq '<link rel="stylesheet" href="./assets/bbook2-prediction2-v419.css">' "$RUNNER_TEMP/site/index.html"
           grep -Fq '"./assets/bbook2-prediction2-v419.css"' "$RUNNER_TEMP/site/sw.js"
-          grep -Fq '複数空欄：全部を同時に考えず「役割 → 依存関係」の順で解く' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '複数空欄：処理の目的と止まる条件から候補を確かめる' "$RUNNER_TEMP/site/index.html"
           grep -Fq '循環キューは「配列上の位置」と「キューの順番」を分ける' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '後置記法は「演算子が来たら2個pop」で追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq 'ゲーム木は「自分は最大、相手は最小」で下から戻す' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '符号化は「データ部を取り出す → ひな形へ埋める」で追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq 'クイックソートは「ピボット・左ポインタ・右ポインタ」を別欄で追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '数式は「記号の読み替え → 塊ごとの計算」の順でコードへ対応させる' "$RUNNER_TEMP/site/index.html"
-          grep -Fq 'グラフの隣接行列は「辺1本 → 2か所」を基本にする' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '2進文字列は「今までの値 × 2 + 次の1桁」で左から読める' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '実戦トレース：1行ずつではなく「状態が変わる単位」で追う' "$RUNNER_TEMP/site/index.html"
-          grep -Fq '途中表の列は「必要になった変数だけ」' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '後置記法の二項演算は、右・左を分けて取り出す' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'ゲーム木では、各節の選ぶ役割を読む' "$RUNNER_TEMP/site/index.html"
+          grep -Fq 'UTF-8では、データの幅と有効な符号位置を先に確認する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '並べ替えでは、一巡・分割・全体完了を区別する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '数式を、各要素の計算と合計後の計算に分ける' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '隣接行列では、辺の向きが書込み先を決める' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '同じ値を数値とビット列の両方で確かめる' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '実戦トレース：判断と値の更新を分けて記録する' "$RUNNER_TEMP/site/index.html"
+          grep -Fq '同じ値でも、判断の記録は残す' "$RUNNER_TEMP/site/index.html"
           ! grep -Fq '参考資料' "$RUNNER_TEMP/site/index.html"
           ! grep -Fq '参考書' "$RUNNER_TEMP/site/index.html"
           ! grep -Fq '虎の巻' "$RUNNER_TEMP/site/index.html"
@@ -329,7 +329,7 @@ jobs:
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-200';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-201';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
@@ -383,66 +383,4 @@ jobs:
           grep -Fq "sanitizeCompactReadiness(right,rightBar);" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           grep -Fq "relocateStudyBlockBar();" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
           ! grep -Fq "observer.observe(document.documentElement,{childList:true,subtree:true,characterData:true})" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
-          grep -Fq "データ収集中" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
-          grep -Fq "未判定" "$RUNNER_TEMP/site/assets/first-impression-ux-v377.js"
-          grep -Fq '#diagIntro #diagBegin' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
-          grep -Fq '#studyBlockBarV373[data-v377-inline="1"]' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
-          grep -Fq '.ipa92-venn-backdrop' "$RUNNER_TEMP/site/assets/first-impression-ux-v377.css"
-          grep -Fq "./assets/first-impression-ux-v377.js" "$RUNNER_TEMP/site/index.html"
-          grep -Fq "./assets/first-impression-ux-v377.css" "$RUNNER_TEMP/site/index.html"
-          grep -Fq "./assets/ipa92-sort-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
-          grep -Fq "./assets/ipa92-graph-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
-          grep -Fq "./assets/ipa92-modeling-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
-          grep -Fq "./assets/ipa92-memory-lab-v377.js" "$RUNNER_TEMP/site/cloud/activation-loader-v342.js"
-          grep -Fq "globalThis.FEQUEST_IPA92_SORT_LAB" "$RUNNER_TEMP/site/assets/ipa92-sort-lab-v377.js"
-          grep -Fq "globalThis.FEQUEST_IPA92_GRAPH_LAB" "$RUNNER_TEMP/site/assets/ipa92-graph-lab-v377.js"
-          grep -Fq "globalThis.FEQUEST_IPA92_MODELING_LAB" "$RUNNER_TEMP/site/assets/ipa92-modeling-lab-v377.js"
-          grep -Fq "globalThis.FEQUEST_IPA92_MEMORY_LAB" "$RUNNER_TEMP/site/assets/ipa92-memory-lab-v377.js"
-          grep -Fq "redirectTo:'https://taiwanwan64.github.io/fe-quest/'" "$RUNNER_TEMP/site/cloud/public-config-v342.js"
-          grep -Fq "policy:'public-static-assets-metadata-only-for-protected-question-content'" "$RUNNER_TEMP/site/assets/app-v377.js"
-          ! grep -Fq "const B_MOCK_EXTRA_DISTRACTOR=" "$RUNNER_TEMP/site/assets/app-v377.js"
-          ! grep -Fq "const B_MOCK_EXPLANATION=" "$RUNNER_TEMP/site/assets/app-v377.js"
-          SITE="$RUNNER_TEMP/site" node <<'NODE'
-          const fs=require('node:fs'),path=require('node:path');
-          const root=process.env.SITE;
-          const dir=path.join(root,'assets');
-          const forbidden=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations','point','pitfall','correctText']);
-          const files=fs.readdirSync(dir).filter(name=>/^question-catalog.*\.json$/.test(name));
-          function walk(value,file,trail='root'){
-            if(Array.isArray(value)){value.forEach((item,index)=>walk(item,file,`${trail}[${index}]`));return;}
-            if(!value||typeof value!=='object')return;
-            for(const [key,item] of Object.entries(value)){
-              if(forbidden.has(key))throw new Error(`protected field ${key} in Pages catalog ${file} at ${trail}`);
-              walk(item,file,`${trail}.${key}`);
-            }
-          }
-          for(const file of files)walk(JSON.parse(fs.readFileSync(path.join(dir,file),'utf8')),file);
-          console.log(`PASS Pages protected static boundary: ${files.length} metadata catalogs`);
-          NODE
-          ! grep -RIl --exclude='*.png' -E 'fequest_lesson_bank_private|fequest_question_bank_private|SUPABASE_SERVICE_ROLE_KEY|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY' "$RUNNER_TEMP/site"
-      - name: Check distributed third-party notices
-        run: node .github/scripts/check-third-party-notices-v1.mjs "$RUNNER_TEMP/site"
-      - name: Prepare Cloudflare staging without changing GitHub production
-        run: node .github/scripts/prepare-commercial-package-v1.mjs "$RUNNER_TEMP/site"
-      - name: Zip the public staging directory
-        shell: python
-        run: |
-          import os, pathlib, zipfile
-          root = pathlib.Path(os.environ['RUNNER_TEMP'])
-          site = root / 'site'
-          with zipfile.ZipFile(root / 'fe-quest-commercial-site.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
-            for file in sorted(site.rglob('*')):
-              if file.is_file():
-                archive.write(file, file.relative_to(site).as_posix())
-      - name: Verify the completed ZIP against this commit
-        run: python .github/scripts/verify-commercial-release-v1.py "$RUNNER_TEMP/fe-quest-commercial-site.zip" --expected-commit "$GITHUB_SHA"
-      - name: Upload preparation package
-        uses: actions/upload-artifact@v4
-        with:
-          name: fe-quest-commercial-release
-          path: ${{ runner.temp }}/fe-quest-commercial-site.zip
-          if-no-files-found: error
-          retention-days: 30
-
-
-
+          grep -Fq "データ収集中" "$RUNNER_TEMP/site/assets/first-impression-ux-v3

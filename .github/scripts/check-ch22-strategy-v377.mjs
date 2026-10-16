@@ -7,10 +7,10 @@ const css = read('assets/ch22-strategy-v403.css');
 const guides = html.match(/<details class="(?:subject-b-strategy-v403|b-strategy-mini-v403)">[\s\S]*?<\/details>/g) || [];
 assert.equal(guides.length, 3, 'one guide for each Chapter 22 section');
 const [exam, algorithm, security] = guides;
-for (const text of ['100分','20問','16 + 4','1000点 / 600点','科目A・科目Bの双方','19問','正答率60％','Item Response Theory／項目応答理論','20問中12問正解なら合格','本試験の評価点や合格を保証しません']) assert.ok(exam.includes(text), text);
+for (const text of ['100分','20問','16問','4問','1000点満点','600点','科目A・科目Bの双方','19問','正答率60％','IRT（項目応答理論）','20問中12問','本試験の評価点や合否は決まりません']) assert.ok(exam.includes(text), text);
 assert.ok(!exam.includes('3〜10択'), 'no unsupported fixed option-count range');
-for (const text of ['擬似言語（ぎじげんご）','処理の手順','基本要素','処理の流れ','データ構造と手続','丸暗記する必要はありません']) assert.ok(algorithm.includes(text), text);
-for (const text of ['ネットワーク・クラウド・データベース','状況をつかむ','証拠を拾う','問いに戻る','ログ（システムの動作記録）']) assert.ok(security.includes(text), text);
+for (const text of ['擬似言語（ぎじげんご）','処理の手順','共通の記述形式','更新する値を決める','次に進む場所を決める','呼出しの前後をつなぐ','問題に書かれた前提']) assert.ok(algorithm.includes(text), text);
+for (const text of ['事実を抜き出す','条件と照合する','根拠を添えて答える','申請：R、承認：R、実行：T','情報漏えいまでは','科目Aの教材']) assert.ok(security.includes(text), text);
 for (const guide of guides) {
   assert.ok(!/^<details[^>]*\sopen(?:\s|>)/.test(guide), 'guides default collapsed');
   const links = [...guide.matchAll(/<a\s+([^>]+)>/g)];
