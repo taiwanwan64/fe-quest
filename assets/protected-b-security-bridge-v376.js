@@ -59,6 +59,11 @@ function cloneValue(value){
   return value;
 }
 function frozenObject(value){return Object.freeze(cloneValue(value&&typeof value==='object'?value:{}))}
+function frozenRiskContext(value){
+  if(value===true)return Object.freeze({enabled:true});
+  if(!value||typeof value!=='object'||Array.isArray(value)||!Object.keys(value).length||value.enabled===false)return null;
+  return frozenObject(value);
+}
 
 async function catalogEntries(parentId){
   const id=safeId(parentId);if(!id)throw new Error('b_security_parent_id_invalid');
@@ -96,7 +101,7 @@ function packetFrom(question,entry,parentId=activeParentId){
     incident:frozenObject(render.incident),
     evidence:Object.freeze(Array.isArray(render.evidence)?cloneValue(render.evidence):[]),
     log:typeof render.log==='string'?render.log:'',
-    risk:frozenObject(render.risk),
+    risk:frozenRiskContext(render.risk),
   });
 }
 

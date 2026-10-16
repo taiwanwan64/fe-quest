@@ -63,3 +63,65 @@ bridge.clear();resumeHydration();
 await assert.rejects(pending,/session_cancelled/);
 assert.equal(bridge.state().miniMockQuestionIds.length,0);
 console.log('PASS security mini mock: quotas, logs, protected hydrate, blank grade, cleanup and cancellation');
+
+// Regression: an absent/false risk flag must not become a truthy empty object.
+// Exercise the actual bridge and evidence renderers with synthetic content only.
+const riskVariants=[
+  {name:'missing',expected:false},
+  {name:'false',risk:false,expected:false},
+  {name:'null',risk:null,expected:false},
+  {name:'empty',risk:{},expected:false},
+  {name:'array',risk:[],expected:false},
+  {name:'true',risk:true,expected:true},
+  {name:'enabled',risk:{enabled:true},expected:true},
+  {name:'disabled',risk:{enabled:false},expected:false},
+  {name:'legacy',risk:{rows:['synthetic']},expected:true},
+];
+const evidenceEntries=riskVariants.flatMap(v=>[1,2,3].map(ordinal=>({
+  id:`synthetic_${v.name}_${ordinal}`,parentId:`synthetic_${v.name}`,sourcePool:'b_security',ordinal,level:(['missing','false'].includes(v.name)?'基礎':['true','enabled'].includes(v.name)?'応用':'標準'),concept:'Synthetic context'
+})));
+const evidenceProvider={
+  hasAccessCode:()=>true,
+  loadCatalog:async()=>({items:evidenceEntries}),
+  hydrate:async ids=>({questions:ids.map(id=>{
+    const entry=evidenceEntries.find(x=>x.id===id);
+    const variant=riskVariants.find(v=>entry.parentId===`synthetic_${v.name}`);
+    const renderContext={type:'security',parentId:entry.parentId,title:'Synthetic scenario',
+      incident:{title:'Synthetic incident',text:'Synthetic evidence'},
+      evidence:[{icon:'',text:`Evidence ${variant.name}`}],
+      log:entry.ordinal>=2&&['empty','true'].includes(variant.name)?'Synthetic log':''};
+    if(Object.hasOwn(variant,'risk'))renderContext.risk=variant.risk;
+    return {id,sourcePool:'b_security',stem:'Synthetic question',options:['0','1','2','3'],renderContext};
+  })}),
+  submit:async(id,choice)=>({questionId:id,correct:choice===0,answerIndex:0,explanation:'Synthetic reason'}),
+  clearHydrated(){},forgetAnswer(){}
+};
+const evidenceContext={globalThis:{FEQUEST_PROTECTED_CONTENT:evidenceProvider},document:{getElementById:()=>null},console,setTimeout};
+vm.runInNewContext(bridgeSource,evidenceContext);
+const evidenceBridge=evidenceContext.globalThis.FEQUEST_V376_B_SECURITY;
+const evidenceRoot={innerHTML:''};
+const renderContext={document:{getElementById:()=>evidenceRoot},escapeHtml:x=>String(x),structuredClone,shuffled:xs=>[...xs]};
+vm.createContext(renderContext);
+vm.runInContext(['renderSecEvidence','securityMockProtectedItemV439','securityMockEvidenceHtml'].map(functionSource).join('\n'),renderContext);
+for(const variant of riskVariants){
+  const packet=await evidenceBridge.start(`synthetic_${variant.name}`);
+  assert.equal(Boolean(packet.risk),variant.expected,`${variant.name}: correct evidence kind`);
+  renderContext.renderSecEvidence(packet);
+  assert.equal(evidenceRoot.innerHTML.includes('risk-matrix'),variant.expected,`${variant.name}: scenario evidence`);
+  if(!variant.expected)assert.ok(evidenceRoot.innerHTML.includes(`Evidence ${variant.name}`),'plain evidence retained');
+  if(variant.expected)assert.ok(!evidenceRoot.innerHTML.includes('最優先候補'),'pre-answer matrix does not name the preferred answer');
+  assert.ok(!Object.hasOwn(packet,'answerIndex'));
+  evidenceBridge.clear();
+}
+const miniEntries=riskVariants.slice(0,8).map(v=>`synthetic_${v.name}_2`);
+const evidenceMini=await evidenceBridge.startMiniMockSession(miniEntries);
+for(let i=0;i<evidenceMini.length;i++){
+  const item=renderContext.securityMockProtectedItemV439(evidenceMini[i]);
+  assert.equal(item.risk,riskVariants[i].expected,`${riskVariants[i].name}: mini-mock mapping`);
+  const html=renderContext.securityMockEvidenceHtml(item);
+  assert.equal(html.includes('risk-matrix'),riskVariants[i].expected&&!evidenceMini[i].log,`${riskVariants[i].name}: mini-mock evidence`);
+  if(evidenceMini[i].log)assert.ok(html.includes('Synthetic log'));
+  else if(!riskVariants[i].expected)assert.ok(html.includes(`Evidence ${riskVariants[i].name}`));
+}
+evidenceBridge.clear();
+console.log('PASS security evidence: nine risk shapes, normal scenario and eight mini-mock packets; evidence retained and no preferred-answer label');
