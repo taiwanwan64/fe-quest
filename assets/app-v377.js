@@ -10464,7 +10464,7 @@ function renderSecEvidence(s){
     root.innerHTML=`
       <div class="risk-matrix">
         <div class="risk-cell"></div><div class="risk-cell">影響 低</div><div class="risk-cell">影響 中</div><div class="risk-cell">影響 高</div>
-        <div class="risk-cell">可能性 高</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div><div class="risk-cell high">R1：最優先候補</div>
+        <div class="risk-cell">可能性 高</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div><div class="risk-cell high">R1</div>
         <div class="risk-cell">可能性 中</div><div class="risk-cell low">R3</div><div class="risk-cell medium">中</div><div class="risk-cell high">高</div>
         <div class="risk-cell">可能性 低</div><div class="risk-cell low">R2</div><div class="risk-cell low">低</div><div class="risk-cell medium">中</div>
       </div>`;
