@@ -141,11 +141,16 @@ body.ipa92-graph-open{overflow:hidden}
 function graphSvg(){
   const pathEdges=currentPathEdges();
   const visited=traversalKind?new Map(traversalOrder.slice(0,traversalIndex+1).map((node,index)=>[node,index+1])):new Map();
-  const marker=directed?'<defs><marker id="ipa92GraphArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>':'';
+  const marker=directed?'<defs><marker id="ipa92GraphArrow" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>':'';
   const edges=EDGES.map(([from,to])=>{
     const a=NODES[from],b=NODES[to];
+    // Keep the arrow tip outside the target's radius-25 circle and focus stroke.
+    const distance=Math.hypot(b.x-a.x,b.y-a.y);
+    const inset=directed?30:0;
+    const endX=b.x-(b.x-a.x)*inset/distance;
+    const endY=b.y-(b.y-a.y)*inset/distance;
     const cls=pathEdges.has(edgeKey(from,to))?'ipa92-graph-edge is-path':'ipa92-graph-edge';
-    return `<line class="${cls}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"${directed?' marker-end="url(#ipa92GraphArrow)"':''}/>`;
+    return `<line class="${cls}" x1="${a.x}" y1="${a.y}" x2="${endX}" y2="${endY}"${directed?' marker-end="url(#ipa92GraphArrow)"':''}/>`;
   }).join('');
   const nodes=NODE_ORDER.map(node=>{
     const p=NODES[node];
