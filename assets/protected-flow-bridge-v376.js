@@ -7,6 +7,7 @@ const SUBJECT_A_MAX_SESSION=20;
 let diagnosticItems=[];
 let diagnosticBusy=false;
 let subjectASessionIds=[];
+let subjectAChoiceMaps=new WeakMap();
 let accessDialogPromise=null;
 
 function toast(message){
@@ -312,17 +313,26 @@ async function prepareSubjectA(inputItems){
   const ids=normalized.map(entry=>entry.questionId);
   const hydrated=await p.hydrate(ids);
   const byId=new Map((hydrated?.questions||[]).map(question=>[question.id,question]));
+  const choiceMaps=new WeakMap();
   const prepared=normalized.map(({item,questionId,catalogItem})=>{
     const question=byId.get(questionId);
     if(!question||typeof question.stem!=='string'||!Array.isArray(question.options)||question.options.length!==4)throw new Error('subject_a_hydration_invalid');
-    return {
+    const choiceMap=[0,1,2,3];
+    for(let i=choiceMap.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [choiceMap[i],choiceMap[j]]=[choiceMap[j],choiceMap[i]];
+    }
+    const preparedItem={
       ...safeSubjectAMetadata(item,catalogItem,questionId),
       q:question.stem,
-      options:[...question.options],
+      options:choiceMap.map(index=>question.options[index]),
       hint:typeof question.hint==='string'?question.hint:'',
       renderContext:question.renderContext&&typeof question.renderContext==='object'?{...question.renderContext}:{},
     };
+    choiceMaps.set(preparedItem,choiceMap);
+    return preparedItem;
   });
+  subjectAChoiceMaps=choiceMaps;
   subjectASessionIds=[...ids];
   return prepared;
 }
@@ -330,9 +340,18 @@ async function prepareSubjectA(inputItems){
 async function gradeSubjectA(item,choiceIndex){
   const questionId=subjectAQuestionId(item);
   if(!questionId)throw new Error('subject_a_question_id_invalid');
+  if(!Number.isInteger(choiceIndex)||choiceIndex<0||choiceIndex>3)throw new Error('subject_a_choice_index_invalid');
+  const choiceMap=subjectAChoiceMaps.get(item);
+  if(!choiceMap)throw new Error('subject_a_choice_map_missing');
   try{
-    const result=await provider().submit(questionId,choiceIndex);
-    return result;
+    const result=await provider().submit(questionId,choiceMap[choiceIndex]);
+    if(!Number.isInteger(result?.answerIndex)||result.answerIndex<0||result.answerIndex>3)throw new Error('subject_a_answer_index_invalid');
+    return {
+      ...result,
+      answerIndex:choiceMap.indexOf(result.answerIndex),
+      choiceExplanations:Array.isArray(result.choiceExplanations)
+        ?choiceMap.map(index=>result.choiceExplanations[index]??''):[],
+    };
   }finally{
     provider()?.forgetAnswer?.(questionId);
   }
@@ -341,6 +360,7 @@ async function gradeSubjectA(item,choiceIndex){
 function clearSubjectASession(){
   const ids=[...subjectASessionIds];
   subjectASessionIds=[];
+  subjectAChoiceMaps=new WeakMap();
   return provider()?.clearHydrated?.(ids)||0;
 }
 
@@ -352,7 +372,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 else wireDiagnosticControls();
 
 globalThis.FEQUEST_V376_PROTECTED_FLOW=Object.freeze({
-  version:'v376-protected-flow-2',
+  version:'v376-protected-flow-3',
   startDiagnostic,
   renderDiagnostic,
   finishDiagnostic,
