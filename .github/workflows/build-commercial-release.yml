@@ -15,6 +15,12 @@ on:
       - 'cloud/**'
       - 'index.html'
       - 'sw.js'
+      - 'manifest.webmanifest'
+      - 'icon-192.png'
+      - 'icon-512.png'
+      - 'apple-touch-icon.png'
+      - '.github/pwa-icons-v1/**'
+      - '.github/scripts/check-final-pwa-icons-v1.mjs'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
       - '.github/scripts/check-third-party-notices-v1.mjs'
       - '.github/scripts/verify-commercial-release-v1.py'
@@ -35,6 +41,12 @@ on:
       - 'cloud/**'
       - 'index.html'
       - 'sw.js'
+      - 'manifest.webmanifest'
+      - 'icon-192.png'
+      - 'icon-512.png'
+      - 'apple-touch-icon.png'
+      - '.github/pwa-icons-v1/**'
+      - '.github/scripts/check-final-pwa-icons-v1.mjs'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
       - '.github/scripts/check-third-party-notices-v1.mjs'
       - '.github/scripts/verify-commercial-release-v1.py'
@@ -52,6 +64,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Verify final PWA icons and cache references
+        run: node .github/scripts/check-final-pwa-icons-v1.mjs
       - name: Verify email code authentication
         run: node .github/scripts/check-email-code-login-v1.mjs
       - name: Preserve protected Subject B trace grading explanations
@@ -333,7 +347,7 @@ jobs:
           grep -Fq "const cognitive=Number.isFinite(Number(cognitiveRaw))?Number(cognitiveRaw):0;" "$RUNNER_TEMP/site/assets/app-v377.js"
           ! grep -Fq "  const cognitive=subjectACognitiveEvidence();" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "const APP_VERSION = 'v377';" "$RUNNER_TEMP/site/sw.js"
-          grep -Fq "const CACHE_NAME = 'fe-quest-v377-204';" "$RUNNER_TEMP/site/sw.js"
+          grep -Fq "const CACHE_NAME = 'fe-quest-v377-205';" "$RUNNER_TEMP/site/sw.js"
           grep -Fq "const PROFILE_SCHEMA_VERSION = 9;" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "policy:'persist-analysis-metadata-only-after-final-submit'" "$RUNNER_TEMP/site/assets/app-v377.js"
           grep -Fq "function profileIntegrityChecksumV5(p)" "$RUNNER_TEMP/site/assets/app-v377.js"
