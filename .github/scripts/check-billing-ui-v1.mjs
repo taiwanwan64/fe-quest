@@ -12,7 +12,7 @@ function fixture({user=uid,settings={},reply}={}){
   let id=user;const listeners=new Set(),calls=[],navigations=[],stored=new Map([['learner-profile-sentinel','keep']]);let changes=0;
   const auth={snapshot:()=>({signedIn:Boolean(id),userId:id,email:'fixture@example.invalid'}),getAccessToken:async()=>id+'-token',subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}};
   const client=api.createClient({authBoundary:auth,config:{...config,...settings},fetcher:async(url,init)=>{calls.push({url,init});return reply?reply(url,init):Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status());},storage:{getItem:k=>stored.get(k),setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)},randomUUID:()=>requestID,navigate:url=>navigations.push(url),onIdentityChange:()=>{changes++;}});
-  return{client,calls,navigations,stored,changes:()=>changes,setUser:value=>{id=value;for(const fn of listeners)fn();},auth};
+  return{client,calls,navigations,stored,changes:()=>changes,setUser:value=>{id=value;for(const fn of listeners)fn();},quietSetUser:value=>{id=value;},auth};
 }
 test('disabled sale never posts Checkout, including a forged available server status',async()=>{
   const f=fixture({settings:{salesEnabled:false}});await f.client.refresh();await assert.rejects(f.client.checkout(),e=>e.code==='billing_unavailable');assert.equal(f.calls.length,1);assert.equal(f.navigations.length,0);
@@ -65,6 +65,10 @@ test('a late response after Auth switch cannot restore the old account entitleme
 test('same-account token events preserve caches; logout discards temporary account state',async()=>{
   const f=fixture();await f.client.refresh();f.setUser(uid);assert(f.client.snapshot().status);assert.equal(f.changes(),0);
   f.setUser(null);assert.equal(f.client.snapshot().status,null);assert.equal(f.changes(),1);
+});
+test('getSession changing identity before the Auth event also invalidates the old account',async()=>{
+  const f=fixture();await f.client.refresh();f.auth.getAccessToken=async()=>{f.quietSetUser(other);return 'new-account-token';};
+  await assert.rejects(f.client.refresh(),e=>e.code==='account_changed');assert.equal(f.client.snapshot().userID,other);assert.equal(f.client.snapshot().status,null);assert.equal(f.changes(),1);
 });
 test('overlapping status reads cannot overwrite a newer response',async()=>{
   const first=deferred();let count=0;const f=fixture({reply:()=>++count===1?first.promise:Promise.resolve(Response.json(status({purchaseAvailable:false})))});

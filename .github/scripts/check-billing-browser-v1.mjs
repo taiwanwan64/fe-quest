@@ -109,6 +109,8 @@ try{
     const cleared=await f.page.evaluate(()=>{const removed=[],original=Storage.prototype.removeItem;Storage.prototype.removeItem=function(k){removed.push(k);return original.call(this,k);};window.FEQUEST_CLEAR_TEMPORARY_ACCESS_V1(false);Storage.prototype.removeItem=original;return removed;});
     assert.deepEqual(cleared,[]);assert.equal(await f.page.evaluate(id=>window.FEQUEST_PROTECTED_CONTENT.getCachedQuestion(id),id),null);
     await f.page.evaluate(other=>window.__fixtureSetUser(other),other);await f.page.waitForFunction(other=>window.FEQUEST_BILLING_V1.snapshot().userID===other,other);
+    await f.page.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));});
+    await f.page.waitForTimeout(100);await f.page.evaluate(()=>window.FEQUEST_BILLING_V1.refresh());
     await capture(f,'phone-app-cache-clear');await f.context.close();await browser.close();browser=null;
   }
   assert.equal(evidence.liveEmailRequests,0);assert.equal(evidence.liveCheckoutRequests,0);

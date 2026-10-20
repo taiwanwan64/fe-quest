@@ -23,7 +23,7 @@
     let userID=identity();
     const snapshot=()=>Object.freeze({userID,status,lastError,busy,salesEnabled:config.salesEnabled===true,accessEnforcementEnabled:config.accessEnforcementEnabled===true});
     const emit=()=>{const s=snapshot();for(const fn of [...listeners])try{fn(s);}catch(_e){}};
-    function assertCurrent(g,u){if(disposed||g!==generation||u!==identity())throw new ClientError('account_changed');}
+    function assertCurrent(g,u){if(identity()!==userID)invalidate();if(disposed||g!==generation||u!==identity())throw new ClientError('account_changed');}
     function invalidate(){
       const next=identity();if(next===userID)return;
       userID=next;generation++;refreshRequest++;status=null;lastError=null;busy=false;

@@ -14,7 +14,7 @@
     await loader.start();
     const auth=loader.getAuthBoundary?.();if(!auth)return;
     clearTemporaryAccess(false);
-    const client=api.createClient({authBoundary:auth,config,onIdentityChange:()=>clearTemporaryAccess(true)});
+    const client=api.createClient({authBoundary:auth,config,onIdentityChange:()=>{clearTemporaryAccess(true);setTimeout(refresh,0);}});
     root.FEQUEST_BILLING_V1=client;
     const summary=root.document.getElementById('billingPlanSummaryV1');
     client.subscribe(s=>{
@@ -24,7 +24,8 @@
     const refresh=()=>client.refresh().catch(()=>{});
     auth.subscribe(()=>setTimeout(refresh,0));
     root.document.addEventListener('visibilitychange',()=>{if(root.document.visibilityState==='visible')refresh();});
-    root.addEventListener('pagehide',()=>client.dispose(),{once:true});
+    root.addEventListener('pagehide',event=>{if(!event.persisted)client.dispose();});
+    root.addEventListener('pageshow',event=>{if(event.persisted){clearTemporaryAccess(false);auth.getAccessToken().then(refresh).catch(()=>{});}});
     refresh();
   }
   root.FEQUEST_CLEAR_TEMPORARY_ACCESS_V1=clearTemporaryAccess;
