@@ -66,7 +66,7 @@ class Element{
   async click(){if(!this.disabled)return this.handlers.click?.();}
 }
 const syntheticFor=doc=>doc.items.map((entry,i)=>({id:entry.id,sourcePool:entry.sourcePool,stem:'Synthetic prompt '+i,options:['alpha','beta','gamma','delta'],hint:'Synthetic hint',renderContext:{type:'exam',parentId:entry.parentId,title:'Synthetic title '+i,context:'Synthetic context',code:['synthetic code'],data:[]}}));
-function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failGrade=false,failBootstrap=false,delayBootstrap=false,delayGrade=false}={}){
+function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failGrade=false,failBootstrap=false,delayBootstrap=false,delayGrade=false,useBilling=false}={}){
   const elements=new Map();const get=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id);};
   const guide=new Element();get('bGrammarPractice').guide=guide;
   get('bGrammarQuestion').hidden=true;get('bGrammarNext').hidden=true;get('bGrammarHint').hidden=true;
@@ -92,8 +92,10 @@ function harness({mutateCatalog=x=>x,mutateBootstrap=x=>x,mutateGrade=x=>x,failG
     return {ok:true,json:async()=>mutateGrade({questionId:body.questionId,correct:body.choiceIndex===answerIndex,answerIndex,explanation:'Synthetic explanation',choiceExplanations:Array(4).fill('Synthetic reason')})};
   };
   const context={document:{currentScript:{src:'https://example.test/assets/b-grammar-practice-v1.js'},baseURI:'https://example.test/',getElementById:get,createElement:()=>new Element()},window:{addEventListener(){}},URL,AbortController,setTimeout,clearTimeout,fetch,MutationObserver:class{constructor(handler){this.handler=handler;observers.push(this);}observe(){}}};
+  let billingCalls=0;
+  if(useBilling){context.FEQUEST_BILLING_CONFIG_V1={};context.FEQUEST_BILLING_V1={content:async(kind,body)=>{assert.equal(kind,'question');billingCalls++;const r=await fetch('https://fixture/gate',{method:'POST',headers:{},body:JSON.stringify(body),cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:new AbortController().signal});if(!r.ok)throw Error('service_unavailable');return r.json();}};}
   vm.runInNewContext(source,context);
-  return {get,calls,guide,observers,release:()=>pendingResolve?.(),takeRelease:()=>pendingResolve,pending:()=>!!pendingResolve};
+  return {get,calls,guide,observers,billingCalls:()=>billingCalls,resetAccount:()=>{for(const fn of context.FEQUEST_ACCOUNT_CACHE_RESETS_V1??[])fn();},release:()=>pendingResolve?.(),takeRelease:()=>pendingResolve,pending:()=>!!pendingResolve};
 }
 let app=harness();await app.get('bGrammarStart').click();
 for(let i=0;i<6;i++){
@@ -129,6 +131,18 @@ console.log('PASS isolated grammar supplement: 6-question flow, wrong retry, fir
 
 
 const subsets=[[catalog,'bGrammarStart'],[typeCatalog,'bGrammarTypesStart'],[functionCatalog,'bGrammarFunctionsStart'],[commentCatalog,'bGrammarCommentsStart'],[boundaryCatalog,'bGrammarBoundariesStart']];
+for(const [doc,button] of subsets){
+  const current=harness({useBilling:true});await current.get(button).click();
+  assert.equal(current.billingCalls(),1);await current.get('bGrammarOptions').children[0].click();assert.equal(current.billingCalls(),2);
+  current.resetAccount();assert.equal(current.get('bGrammarQuestion').hidden,true);assert.equal(current.get('bGrammarOptions').children.length,0);
+}
+for(const delayed of ['delayBootstrap','delayGrade']){
+  const current=harness({useBilling:true,[delayed]:true});
+  let running=current.get('bGrammarStart').click();if(delayed==='delayGrade'){await running;running=current.get('bGrammarOptions').children[0].click();}
+  for(let i=0;i<40&&!current.pending();i++)await Promise.resolve();assert(current.pending());current.resetAccount();current.release();await running;
+  assert.equal(current.get('bGrammarQuestion').hidden,true);assert.equal(current.get('bGrammarFeedback').children.length,0);
+}
+console.log('PASS grammar Auth port: all 13 questions route through the shared client; account reset rejects late bootstrap/grade and clears volatile display');
 for(const [doc,button] of subsets){
  const size=doc.items.length;
  let trial=harness();await trial.get(button).click();

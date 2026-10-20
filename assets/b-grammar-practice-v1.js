@@ -54,6 +54,10 @@ async function request(url,body,run){
   const active=new AbortController();controller=active;
   const timer=setTimeout(()=>active.abort(),15000);
   try{
+    const billing=body?(globalThis.FEQUEST_BILLING_V1??await globalThis.FEQUEST_BILLING_READY_V1):null;
+    if(run!==epoch)throw new Error('cancelled');
+    if(body&&billing){const data=await billing.content('question',body);if(run!==epoch)throw new Error('cancelled');return data;}
+    if(body&&globalThis.FEQUEST_BILLING_CONFIG_V1)throw new Error('content_auth_unavailable');
     const response=await fetch(url,{...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{}),cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:active.signal});
     if(!response.ok)throw new Error('service_unavailable');
     const data=await response.json();
@@ -141,6 +145,7 @@ if(parent)new MutationObserver(()=>{if(parent.classList.contains('hidden'))reset
 const screen=el('trace');
 if(screen)new MutationObserver(()=>{if(!screen.classList.contains('active'))reset();}).observe(screen,{attributes:true,attributeFilter:['class']});
 window.addEventListener('pagehide',()=>reset());
+(globalThis.FEQUEST_ACCOUNT_CACHE_RESETS_V1??=new Set()).add(()=>reset());
 })();
 
 

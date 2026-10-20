@@ -6,13 +6,13 @@ import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url),api=require('../../assets/billing-client-v1.js');
 const uid='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222',requestID='33333333-3333-4333-8333-333333333333';
 const config={supabaseURL:'https://gkvgxnkoypypikxtyeoz.supabase.co',publishableKey:'public-fixture-only',salesEnabled:true,accessEnforcementEnabled:false};
-const status=(extra={})=>({purchaseAvailable:true,accessMode:'restricted',plan:{sku:api.SKU,amountJPY:2980,durationDays:180,autoRenew:false},preview:{lessons:6,questions:41},entitlement:{active:false,expiresAt:null},purchase:null,...extra});
+const status=(extra={})=>({purchaseAvailable:true,accessMode:'restricted',accessRevision:1,plan:{sku:api.SKU,amountJPY:2980,durationDays:180,autoRenew:false},preview:{lessons:6,questions:41},entitlement:{active:false,expiresAt:null},purchase:null,...extra});
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return{promise,resolve};};
 function fixture({user=uid,settings={},reply}={}){
-  let id=user;const listeners=new Set(),calls=[],navigations=[],stored=new Map([['learner-profile-sentinel','keep']]);let changes=0;
+  let id=user;const listeners=new Set(),calls=[],navigations=[],denied=[],stored=new Map([['learner-profile-sentinel','keep']]);let changes=0,accessChanges=0;
   const auth={snapshot:()=>({signedIn:Boolean(id),userId:id,email:'fixture@example.invalid'}),getAccessToken:async()=>id+'-token',subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}};
-  const client=api.createClient({authBoundary:auth,config:{...config,...settings},fetcher:async(url,init)=>{calls.push({url,init});return reply?reply(url,init):Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status());},storage:{getItem:k=>stored.get(k),setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)},randomUUID:()=>requestID,navigate:url=>navigations.push(url),onIdentityChange:()=>{changes++;}});
-  return{client,calls,navigations,stored,changes:()=>changes,setUser:value=>{id=value;for(const fn of listeners)fn();},quietSetUser:value=>{id=value;},auth};
+  const client=api.createClient({authBoundary:auth,config:{...config,...settings},fetcher:async(url,init)=>{calls.push({url,init});return reply?reply(url,init):Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status());},storage:{getItem:k=>stored.get(k),setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)},randomUUID:()=>requestID,navigate:url=>navigations.push(url),onIdentityChange:()=>{changes++;},onAccessChange:()=>{accessChanges++;},onAccessDenied:e=>denied.push(e.code)});
+  return{client,calls,navigations,stored,denied,accessChanges:()=>accessChanges,changes:()=>changes,setUser:value=>{id=value;for(const fn of listeners)fn();},quietSetUser:value=>{id=value;},auth};
 }
 test('disabled sale never posts Checkout, including a forged available server status',async()=>{
   const f=fixture({settings:{salesEnabled:false}});await f.client.refresh();await assert.rejects(f.client.checkout(),e=>e.code==='billing_unavailable');assert.equal(f.calls.length,1);assert.equal(f.navigations.length,0);
@@ -75,16 +75,38 @@ test('overlapping status reads cannot overwrite a newer response',async()=>{
   const a=f.client.refresh();await new Promise(r=>setTimeout(r,0));await f.client.refresh();first.resolve(Response.json(status()));
   await assert.rejects(a,e=>e.code==='request_superseded');assert.equal(f.client.snapshot().status.purchaseAvailable,false);
 });
-test('candidate content uses the verified token and drops legacy access codes; disabled candidates never call',async()=>{
-  const f=fixture({settings:{accessEnforcementEnabled:true},reply:async()=>Response.json({lessonId:'core_01_01',payload:{}})});
+test('all content uses the stable protected URL and verified token regardless of the browser switch',async()=>{
+  const f=fixture({settings:{accessEnforcementEnabled:true},reply:async()=>Response.json({lessonId:'core_01_01',payload:{},accessMode:'restricted',accessRevision:1})});
   await f.client.content('lesson',{action:'lesson',lessonId:'core_01_01',accessCode:'old-code'});
-  assert.deepEqual(JSON.parse(f.calls[0].init.body),{action:'lesson',lessonId:'core_01_01'});assert(f.calls[0].url.endsWith('/fequest-lesson-gate-billing-v1'));
-  const disabled=fixture();await assert.rejects(disabled.client.content('lesson',{}),e=>e.code==='candidate_inactive');assert.equal(disabled.calls.length,0);
+  assert.deepEqual(JSON.parse(f.calls[0].init.body),{action:'lesson',lessonId:'core_01_01'});assert(f.calls[0].url.endsWith('/fequest-lesson-gate-v376'));
+  const disabled=fixture({reply:async()=>Response.json({accessMode:'open-preview',accessRevision:1})});await disabled.client.content('lesson',{action:'lesson',lessonId:'core_01_01'});assert.equal(disabled.calls.length,1);
 });
 test('invalid status and network failures stay closed without enabling Checkout',async()=>{
   for(const value of [{},status({plan:{sku:api.SKU,amountJPY:1,durationDays:180,autoRenew:false}}),status({entitlement:{active:true,expiresAt:null,kind:'purchase'}})]){
     const f=fixture({reply:async()=>Response.json(value)});await assert.rejects(f.client.refresh());assert.equal(f.client.snapshot().status,null);
   }
+});
+
+test('a server cutover discards a delayed preview response without trying an alternate URL',async()=>{
+  const old=deferred();let revision=1;
+  const f=fixture({reply:async url=>url.includes('gate-v376')?old.promise:Response.json(status({accessRevision:revision}))});
+  await f.client.refresh();const pending=f.client.content('question',{action:'bootstrap',requestedIds:['fixture']});await new Promise(r=>setTimeout(r,0));
+  revision=2;await f.client.refresh();old.resolve(Response.json({accessMode:'restricted',accessRevision:1,questions:[]}));
+  await assert.rejects(pending,e=>['request_superseded','content_policy_changed'].includes(e.code));assert.equal(f.accessChanges(),1);assert.equal(f.calls.filter(c=>c.init.method==='POST').length,1);assert.equal(f.stored.get('learner-profile-sentinel'),'keep');
+});
+test('the first content response after a policy change clears caches and requires a fresh attempt',async()=>{
+  const f=fixture({reply:async url=>Response.json(url.includes('gate-v376')?{accessMode:'restricted',accessRevision:2,questions:[]}:status({accessMode:'open-preview'}))});
+  await f.client.refresh();await assert.rejects(f.client.content('question',{}),e=>e.code==='content_policy_changed');
+  await f.client.content('question',{});assert.equal(f.accessChanges(),1);
+});
+test('expiry or refund in a same-account status read clears content without deleting history',async()=>{
+  let active=true;const f=fixture({reply:async()=>Response.json(status({entitlement:active?{active:true,kind:'purchase',expiresAt:200}:{active:false,expiresAt:null}}))});
+  await f.client.refresh();active=false;await f.client.refresh();assert.equal(f.accessChanges(),1);assert.equal(f.stored.get('learner-profile-sentinel'),'keep');
+});
+test('a purchase denial clears volatile content, offers the plan flow and never retries a free URL',async()=>{
+  const f=fixture({reply:async()=>Response.json({error:'purchase_required',accessMode:'restricted',accessRevision:2},{status:403})});
+  await assert.rejects(f.client.content('lesson',{action:'lesson',lessonId:'core_01_01'}),e=>e.code==='purchase_required');
+  assert.deepEqual(f.denied,['purchase_required']);assert.equal(f.accessChanges(),1);assert.equal(f.calls.length,1);
 });
 
 function providerContext(filename,gate){
@@ -103,6 +125,16 @@ for(const filename of ['protected-content-provider-v376.js','protected-content-p
   await assert.rejects(first,/account_changed/);assert.equal(p.getCachedQuestion(id),null);
   pending=null;await p.hydrate([id]);pending=deferred();const answer=p.submit(id,0);await new Promise(r=>setTimeout(r,0));p.clearProtectedCache();pending.resolve(Response.json({questionId:id,correct:true,answerIndex:0,explanation:'fixture',choiceExplanations:[],postSubmit:{}}));
   await assert.rejects(answer,/account_changed/);assert.equal(p.getAnsweredResult(id),null);
+});
+for(const filename of ['protected-content-provider-v376.js','protected-content-provider-v376-v35.js','protected-lesson-provider-v376.js'])test(filename+': waits for the existing Auth port and never falls back when it fails',async()=>{
+  const pending=deferred(),calls=[],c=providerContext(filename,()=>{throw Error('unauthenticated fallback');});
+  c.FEQUEST_BILLING_CONFIG_V1={};c.FEQUEST_BILLING_READY_V1=pending.promise;
+  const lesson=filename.includes('lesson'),p=lesson?c.FEQUEST_PROTECTED_LESSONS:c.FEQUEST_PROTECTED_CONTENT,id=lesson?'core_01_01':'coreq_01_01_1';
+  const running=p.hydrate(lesson?id:[id]);await new Promise(r=>setTimeout(r,0));
+  pending.resolve({content:async(kind,body)=>{calls.push({kind,body});return lesson?{lessonId:id,payload:{}}:{sessionToken:'a'.repeat(64),questions:[{id,options:['A','B','C','D']}]};}});
+  await running;assert.equal(calls.length,1);assert.equal(calls[0].kind,lesson?'lesson':'question');
+  p.clearCurrent?.();p.clearProtectedCache?.();c.FEQUEST_BILLING_READY_V1=Promise.resolve(null);
+  await assert.rejects(p.hydrate(lesson?id:[id]),/content_auth_unavailable/);
 });
 test('lesson account clearing rejects a late ignored-abort payload',async()=>{
   const pending=deferred(),c=providerContext('protected-lesson-provider-v376.js',()=>pending.promise),p=c.FEQUEST_PROTECTED_LESSONS;

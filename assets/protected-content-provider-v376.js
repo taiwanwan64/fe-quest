@@ -98,10 +98,11 @@ async function fetchJson(url,options={}){
   const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);if(gate)pendingGateRequests.add(controller);
   try{
     let data;
-    const billing=globalThis.FEQUEST_BILLING_V1;
-    if(gate&&billing?.snapshot?.().accessEnforcementEnabled===true){
+    const billing=gate?(globalThis.FEQUEST_BILLING_V1??await globalThis.FEQUEST_BILLING_READY_V1):null;
+    if(gate&&billing){
       data=await billing.content('question',JSON.parse(options.body));
     }else{
+      if(gate&&globalThis.FEQUEST_BILLING_CONFIG_V1)throw new Error('content_auth_unavailable');
       const response=await fetch(url,{...options,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
       data={};try{data=await response.json()}catch(_e){}
       if(!response.ok){const error=new Error(typeof data?.error==='string'?data.error:`request_failed_${response.status}`);error.status=response.status;error.payload=data;throw error;}

@@ -63,7 +63,7 @@ async function ensureAccess(){
 }
 
 function protectedError(error,message){
-  if(error?.status===401||error?.status===403||String(error?.message||'').startsWith('beta_access'))provider()?.clearAccessCode?.();
+  if(!globalThis.FEQUEST_BILLING_CONFIG_V1&&(error?.status===401||error?.status===403||String(error?.message||'').startsWith('beta_access')))provider()?.clearAccessCode?.();
   toast(message);
 }
 
