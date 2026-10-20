@@ -23,7 +23,7 @@ const args=JSON.parse(process.env.BILLING_BROWSER_ARGS||'["--no-sandbox","--disa
 let browser;const evidence={browser:null,cases:[],liveEmailRequests:0,liveCheckoutRequests:0};
 const uid='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222';
 const plan={sku:'fequest-full-180d',amountJPY:2980,durationDays:180,autoRenew:false};
-const response=extra=>({purchaseAvailable:false,accessMode:'open-preview',plan,preview:{lessons:6,questions:41},entitlement:{active:false,expiresAt:null},purchase:null,...extra});
+const response=extra=>({purchaseAvailable:false,accessMode:'open-preview',accessRevision:1,plan,preview:{lessons:6,questions:41},entitlement:{active:false,expiresAt:null},purchase:null,...extra});
 async function fixture({initialUser=null,width=390,height=844,reply=()=>({status:200,body:response({})})}={}){
   browser=await chromium.launch({executablePath,args,headless:true});evidence.browser=await browser.version();
   const context=await browser.newContext({viewport:{width,height},ignoreHTTPSErrors:true,serviceWorkers:'block'}),page=await context.newPage(),errors=[],requests=[];
@@ -100,7 +100,7 @@ try{
   }
   {
     const id='coreq_01_01_1',f=await fixture({initialUser:uid,reply:req=>{
-      if(req.url().includes('fequest-question-gate')){const body=req.postDataJSON();return{status:200,body:{sessionToken:'a'.repeat(64),questions:body.requestedIds.map(id=>({id,stem:'Browser fixture',options:['A','B','C','D'],hint:'',catalog:{},renderContext:{}}))}};}
+      if(req.url().includes('fequest-question-gate')){const body=req.postDataJSON();return{status:200,body:{accessMode:'open-preview',accessRevision:1,sessionToken:'a'.repeat(64),questions:body.requestedIds.map(id=>({id,stem:'Browser fixture',options:['A','B','C','D'],hint:'',catalog:{},renderContext:{}}))}};}
       return{status:200,body:response({})};
     }});
     await f.page.goto(base+'/');await f.page.waitForFunction(()=>Boolean(window.FEQUEST_BILLING_V1));
@@ -112,6 +112,17 @@ try{
     await f.page.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));});
     await f.page.waitForTimeout(100);await f.page.evaluate(()=>window.FEQUEST_BILLING_V1.refresh());
     await capture(f,'phone-app-cache-clear');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:uid,reply:req=>req.url().includes('fequest-question-gate')?{status:403,body:{error:'purchase_required',accessMode:'restricted',accessRevision:2}}:{status:200,body:response({accessMode:'restricted',accessRevision:2})}});
+    await f.page.goto(base+'/');await f.page.waitForFunction(()=>Boolean(window.FEQUEST_BILLING_V1?.snapshot().status));
+    await f.page.evaluate(async()=>{await window.FEQUEST_IPA92_V35_PROVIDER_READY;try{await window.FEQUEST_PROTECTED_CONTENT.hydrate(['coreq_02_01_1']);}catch(_e){}});
+    await f.page.locator('#billingAccessDialogV1[open]').waitFor();
+    assert((await f.page.locator('#billingAccessMessageV1').innerText()).includes('全範囲の利用プラン'));
+    assert.equal(await f.page.locator('#billingAccessDialogV1 a').getAttribute('href'),'./plans.html');
+    const contentCalls=f.requests.filter(r=>r.url.includes('fequest-question-gate'));assert.equal(contentCalls.length,1);assert(contentCalls[0].authorization.includes(uid));
+    await capture(f,'phone-access-required');await f.page.locator('#billingAccessCloseV1').click();assert(!(await f.page.locator('#billingAccessDialogV1').evaluate(n=>n.open)));
+    await f.context.close();await browser.close();browser=null;
   }
   assert.equal(evidence.liveEmailRequests,0);assert.equal(evidence.liveCheckoutRequests,0);
   console.log('PASS browser: '+evidence.cases.length+' screen states, responsive layouts, account switch, code-login port and zero live email/Checkout requests');

@@ -30,8 +30,9 @@ async function hydrate(id,{force=false}={}){
   const generation=++requestGeneration;
   const controller=new AbortController();
   const promise=(async()=>{
-    const billing=globalThis.FEQUEST_BILLING_V1;
-    const data=billing?.snapshot?.().accessEnforcementEnabled===true?await billing.content('lesson',{action:'lesson',lessonId:id}):await fetchJson({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'lesson',accessCode:currentAccessCode(),lessonId:id})},controller);
+    const billing=globalThis.FEQUEST_BILLING_V1??await globalThis.FEQUEST_BILLING_READY_V1;
+    if(!billing&&globalThis.FEQUEST_BILLING_CONFIG_V1)throw new Error('content_auth_unavailable');
+    const data=billing?await billing.content('lesson',{action:'lesson',lessonId:id}):await fetchJson({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'lesson',accessCode:currentAccessCode(),lessonId:id})},controller);
     if(generation!==requestGeneration)throw new Error('lesson_request_superseded');
     if(data?.lessonId!==id)throw new Error('lesson_payload_invalid');
     const record=Object.freeze({lessonId:id,payload:freezePayload(data.payload),remainingToday:Number.isFinite(Number(data.remainingToday))?Number(data.remainingToday):null});
