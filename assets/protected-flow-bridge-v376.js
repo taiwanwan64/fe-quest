@@ -371,6 +371,7 @@ function reportSubjectAError(error){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wireDiagnosticControls,{once:true});
 else wireDiagnosticControls();
 
+(globalThis.FEQUEST_ACCOUNT_CACHE_RESETS_V1??=new Set()).add(()=>{diagnosticItems=[];diagnosticBusy=false;clearSubjectASession();});
 globalThis.FEQUEST_V376_PROTECTED_FLOW=Object.freeze({
   version:'v376-protected-flow-3',
   startDiagnostic,

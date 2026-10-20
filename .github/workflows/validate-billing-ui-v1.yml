@@ -1,0 +1,54 @@
+name: Validate inactive purchase screens in browser
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'plans.html'
+      - 'billing-return.html'
+      - 'index.html'
+      - 'assets/billing-*'
+      - 'assets/protected-content-provider-v376*.js'
+      - 'assets/protected-lesson-provider-v376.js'
+      - 'cloud/activation-loader-v342.js'
+      - '.github/billing-ui/**'
+      - '.github/scripts/check-billing-browser-v1.mjs'
+      - '.github/workflows/validate-billing-ui-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'plans.html'
+      - 'billing-return.html'
+      - 'index.html'
+      - 'assets/billing-*'
+      - 'assets/protected-content-provider-v376*.js'
+      - 'assets/protected-lesson-provider-v376.js'
+      - 'cloud/activation-loader-v342.js'
+      - '.github/billing-ui/**'
+      - '.github/scripts/check-billing-browser-v1.mjs'
+      - '.github/workflows/validate-billing-ui-v1.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install locked browser test dependency
+        run: npm ci --prefix .github/billing-ui --ignore-scripts --no-audit --no-fund
+      - name: Render Japanese text with CJK fonts
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+      - name: Verify screen states, account switching and zero live Checkout requests
+        env:
+          BILLING_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+          BILLING_UI_EVIDENCE_DIR: ${{ runner.temp }}/billing-ui-evidence
+        run: node .github/scripts/check-billing-browser-v1.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: billing-ui-browser
+          path: ${{ runner.temp }}/billing-ui-evidence/
+          if-no-files-found: error

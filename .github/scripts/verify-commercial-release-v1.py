@@ -7,7 +7,7 @@ import stat
 import zipfile
 from pathlib import PurePosixPath
 
-REQUIRED = {'index.html', 'sw.js', 'manifest.webmanifest', 'start.html', 'help.html', 'terms.html', 'privacy.html', 'feedback.html', 'contact.html', 'cloud/public-config-v342.js', '_headers', 'THIRD_PARTY_NOTICES.txt', 'vendor/third-party-manifest.json'}
+REQUIRED = {'index.html', 'sw.js', 'manifest.webmanifest', 'start.html', 'plans.html', 'billing-return.html', 'assets/billing-client-v1.js', 'assets/billing-page-v1.js', 'assets/billing-config-v1.js', 'assets/billing-app-v1.js', 'assets/billing-v1.css', 'help.html', 'terms.html', 'privacy.html', 'feedback.html', 'contact.html', 'cloud/public-config-v342.js', '_headers', 'THIRD_PARTY_NOTICES.txt', 'vendor/third-party-manifest.json'}
 
 def require(condition, message):
     if not condition:

@@ -1,7 +1,14 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-205';
+const CACHE_NAME = 'fe-quest-v377-206';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
+  "./plans.html",
+  "./billing-return.html",
+  "./assets/billing-config-v1.js",
+  "./assets/billing-client-v1.js",
+  "./assets/billing-app-v1.js",
+  "./assets/billing-page-v1.js",
+  "./assets/billing-v1.css",
   "./",
   "./index.html",
   "./manifest.webmanifest",

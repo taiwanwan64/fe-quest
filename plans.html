@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#236637">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://gkvgxnkoypypikxtyeoz.supabase.co; img-src 'self' data:; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'">
+  <title>利用プラン｜FE QUEST</title>
+  <link rel="stylesheet" href="./assets/billing-v1.css">
+  <link rel="icon" href="./icon-192.png">
+</head>
+<body data-billing-page="plans">
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="billing-header">
+    <a class="billing-brand" href="./start.html"><img src="./apple-touch-icon.png" width="34" height="34" alt="">FE QUEST</a>
+    <a href="./">学習に戻る →</a>
+  </header>
+  <main id="main">
+    <p class="eyebrow">YOUR LEARNING PLAN</p>
+    <h1>自分のペースで、最後まで。</h1>
+    <p class="lead">毎日の学習計画から、図解・演習・復習まで。基本情報の学習を、一歩ずつ進められます。</p>
+    <div class="billing-banner">現在は無料公開中です。有料プランは販売開始に向けて準備しています。</div>
+    <div class="billing-grid">
+      <section class="billing-card" aria-labelledby="planHeading">
+        <p class="plan-tag">販売開始後の予定プラン</p>
+        <h2 id="planHeading">FE QUEST 全範囲プラン</h2>
+        <p class="price">2,980<span>円</span></p>
+        <p class="price-note">お支払い総額・1回払い</p>
+        <dl class="plan-facts">
+          <div><dt>利用期間</dt><dd>180日間</dd></div>
+          <div><dt>学習範囲</dt><dd>130教材・1,193問</dd></div>
+          <div><dt>数量</dt><dd>1</dd></div>
+          <div><dt>利用開始</dt><dd>支払い確認後</dd></div>
+          <div><dt>自動更新</dt><dd>なし</dd></div>
+        </dl>
+        <p class="preview-note">販売開始後も、無料の6教材・41問は繰り返し使える予定です。利用期限後も学習履歴を保持し、再購入すると続きから学習できます。</p>
+        <label class="consent" id="consentRow" hidden><input type="checkbox" id="consent"><span>料金・期間・自動更新がないことと、<a href="./terms.html">利用規約</a>を確認しました。</span></label>
+        <button class="billing-button primary wide" id="checkout" type="button" disabled>販売準備中</button>
+        <button class="billing-button wide billing-retry" id="newAttempt" type="button" hidden>新しい購入手続きを開始</button>
+      </section>
+      <section class="billing-card" aria-labelledby="accessHeading">
+        <p class="eyebrow">YOUR ACCOUNT</p>
+        <div role="status" aria-live="polite" aria-atomic="true">
+          <h2 class="status-title" id="accessHeading">利用状況を確認しています</h2>
+          <p class="status-copy" id="accessCopy">しばらくお待ちください。</p>
+        </div>
+        <p class="status-account" id="accountLabel">アカウントを確認しています</p>
+        <div class="billing-actions">
+          <button class="billing-button" id="refreshStatus" type="button">利用状況を再確認</button>
+          <button class="billing-button" id="signOut" type="button" hidden>ログアウト</button>
+        </div>
+        <div class="billing-login" id="loginPanel">
+          <h3>同じアカウントでログイン</h3>
+          <p>メールに届く確認コードを、この画面で入力してください。学習履歴の初期化は行いません。</p>
+          <label for="email">メールアドレス</label>
+          <input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="name@example.com">
+          <button class="billing-button wide" id="sendCode" type="button">確認コードを送る</button>
+          <label for="code">確認コード</label>
+          <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10">
+          <button class="billing-button primary wide" id="verifyCode" type="button">確認コードでログイン</button>
+        </div>
+        <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+        <p class="billing-support">確認が終わらない場合は、追加購入せず<a href="./contact.html">問い合わせ窓口</a>へご連絡ください。</p>
+      </section>
+    </div>
+    <section class="billing-card billing-details" aria-labelledby="keepHeading">
+      <h2 id="keepHeading">学んだ続きから、また始められます。</h2>
+      <p>無料の学習でも、保存・復元と任意のクラウド同期を利用できます。端末上の学習履歴とアカウントの利用権はそれぞれ保持されます。</p>
+      <div class="billing-actions"><a class="billing-button primary" href="./">無料公開中の学習へ</a><a class="billing-button" href="./help.html">使い方を見る</a></div>
+    </section>
+  </main>
+  <footer class="billing-footer"><a href="./terms.html">利用規約</a><a href="./privacy.html">プライバシー</a><a href="./contact.html">お問い合わせ</a><span>FE QUEST · 基本情報技術者の学習アプリ</span></footer>
+  <script src="./vendor/supabase/supabase-2.112.3.js"></script>
+  <script src="./cloud/supabase/auth-boundary-v342.js"></script>
+  <script src="./assets/billing-config-v1.js"></script>
+  <script src="./assets/billing-client-v1.js"></script>
+  <script src="./assets/billing-page-v1.js"></script>
+</body>
+</html>
