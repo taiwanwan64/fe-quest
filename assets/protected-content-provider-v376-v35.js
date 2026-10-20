@@ -143,6 +143,9 @@ const MAX_CACHE=60;
 const REQUEST_TIMEOUT_MS=15000;
 const PROTECTED_CATALOG_KEYS=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
 
+let cacheGeneration=0;
+const pendingGateRequests=new Set();
+function assertGeneration(g){if(g!==cacheGeneration)throw new Error('account_changed');}
 let memoryAccessCode='';
 let catalogPromise=null;
 const questionCache=new Map();
@@ -168,7 +171,8 @@ function setAccessCode(value,{rememberForTab=true}={}){
   else{try{sessionStorage.removeItem(ACCESS_SESSION_KEY)}catch(_e){}}
   return true;
 }
-function clearProtectedCache(){questionCache.clear();answerCache.clear();sessionByQuestion.clear();}
+function clearProtectedCache(){
+  cacheGeneration++;for(const controller of pendingGateRequests)controller.abort();pendingGateRequests.clear();questionCache.clear();answerCache.clear();sessionByQuestion.clear();}
 function clearHydrated(inputIds){
   if(!Array.isArray(inputIds))return 0;let cleared=0;
   for(const id of new Set(inputIds.filter(value=>typeof value==='string'))){if(questionCache.delete(id))cleared++;answerCache.delete(id);sessionByQuestion.delete(id);}
@@ -179,13 +183,21 @@ function clearAccessCode(){memoryAccessCode='';try{sessionStorage.removeItem(ACC
 function hasAccessCode(){return OPEN_PREVIEW_ACCESS||!!(memoryAccessCode||readSessionAccessCode())}
 
 async function fetchJson(url,options={}){
-  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);
+  const gate=url===GATE_URL,g=cacheGeneration,controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);if(gate)pendingGateRequests.add(controller);
   try{
-    const response=await fetch(url,{...options,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
-    let data={};try{data=await response.json()}catch(_e){}
-    if(!response.ok){const error=new Error(typeof data?.error==='string'?data.error:`request_failed_${response.status}`);error.status=response.status;error.payload=data;throw error;}
-    return data;
-  }catch(error){if(error?.name==='AbortError')throw new Error('question_service_timeout');throw error;}finally{clearTimeout(timer)}
+    let data;
+    const billing=globalThis.FEQUEST_BILLING_V1;
+    if(gate&&billing?.snapshot?.().accessEnforcementEnabled===true){
+      data=await billing.content('question',JSON.parse(options.body));
+    }else{
+      const response=await fetch(url,{...options,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
+      data={};try{data=await response.json()}catch(_e){}
+      if(!response.ok){const error=new Error(typeof data?.error==='string'?data.error:`request_failed_${response.status}`);error.status=response.status;error.payload=data;throw error;}
+    }
+    if(gate)assertGeneration(g);return data;
+  }catch(error){if(gate)assertGeneration(g);if(error?.name==='AbortError')throw new Error('question_service_timeout');throw error;}
+  finally{clearTimeout(timer);pendingGateRequests.delete(controller);}
 }
 
 function safeCatalogItem(item){return !!item&&typeof item==='object'&&typeof item.id==='string'&&typeof item.sourcePool==='string'}
@@ -285,11 +297,11 @@ function uniqueRequestedIds(input){
   if(ids.length<1)throw new Error('question_ids_required');return ids;
 }
 function touchQuestion(id,value){if(questionCache.has(id))questionCache.delete(id);questionCache.set(id,value);while(questionCache.size>MAX_CACHE){const oldest=questionCache.keys().next().value;questionCache.delete(oldest);answerCache.delete(oldest);sessionByQuestion.delete(oldest);}}
-async function bootstrapBatch(ids){
+async function bootstrapBatch(ids){const g=cacheGeneration;
   if(ids.length>MAX_BATCH)throw new Error('question_batch_too_large');
-  const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'bootstrap',accessCode:currentAccessCode(),requestedIds:ids})});
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'bootstrap',accessCode:currentAccessCode(),requestedIds:ids})});
   if(typeof data?.sessionToken!=='string'||data.sessionToken.length<32||!Array.isArray(data.questions))throw new Error('question_bootstrap_invalid');
-  const received=new Set();
+  assertGeneration(g);const received=new Set();
   for(const q of data.questions){
     if(!q||typeof q.id!=='string'||!ids.includes(q.id)||!Array.isArray(q.options)||q.options.length!==4)throw new Error('question_payload_invalid');
     if('answerIndex' in q||'explanation' in q||'choiceExplanations' in q)throw new Error('pre_submit_answer_leak');
@@ -298,37 +310,38 @@ async function bootstrapBatch(ids){
   if(received.size!==ids.length)throw new Error('question_bootstrap_incomplete');
   return {questions:ids.map(id=>questionCache.get(id)),expiresAt:data.expiresAt||null,remainingToday:Number.isFinite(Number(data.remainingToday))?Number(data.remainingToday):null};
 }
-async function hydrate(inputIds,{force=false}={}){
-  const ids=uniqueRequestedIds(inputIds);const catalog=await loadCatalog();const catalogIds=new Set(catalog.items.map(item=>item.id));
+async function hydrate(inputIds,{force=false}={}){const g=cacheGeneration;
+  const ids=uniqueRequestedIds(inputIds);const catalog=await loadCatalog();assertGeneration(g);const catalogIds=new Set(catalog.items.map(item=>item.id));
   if(ids.some(id=>!catalogIds.has(id)))throw new Error('question_id_not_in_catalog');
   const missing=force?ids:ids.filter(id=>!questionCache.has(id)||!sessionByQuestion.has(id));
   let remainingToday=null,expiresAt=null;
-  for(let i=0;i<missing.length;i+=MAX_BATCH){const result=await bootstrapBatch(missing.slice(i,i+MAX_BATCH));if(result.remainingToday!==null)remainingToday=result.remainingToday;if(result.expiresAt)expiresAt=result.expiresAt;}
+  for(let i=0;i<missing.length;i+=MAX_BATCH){const result=await bootstrapBatch(missing.slice(i,i+MAX_BATCH));assertGeneration(g);if(result.remainingToday!==null)remainingToday=result.remainingToday;if(result.expiresAt)expiresAt=result.expiresAt;}
   ids.forEach(id=>{if(questionCache.has(id))touchQuestion(id,questionCache.get(id))});
   return {questions:ids.map(id=>questionCache.get(id)).filter(Boolean),remainingToday,expiresAt};
 }
 function getCachedQuestion(id){const value=questionCache.get(id)||null;if(value)touchQuestion(id,value);return value}
 function getAnsweredResult(id){return answerCache.get(id)||null}
-async function ensureSession(questionId){let sessionToken=sessionByQuestion.get(questionId);if(!sessionToken){await hydrate([questionId],{force:true});sessionToken=sessionByQuestion.get(questionId)}if(typeof sessionToken!=='string'||sessionToken.length<32)throw new Error('question_session_missing');return sessionToken;}
-async function submit(questionId,choiceIndex){
+async function ensureSession(questionId){const g=cacheGeneration;let sessionToken=sessionByQuestion.get(questionId);if(!sessionToken){await hydrate([questionId],{force:true});sessionToken=sessionByQuestion.get(questionId)}if(typeof sessionToken!=='string'||sessionToken.length<32)throw new Error('question_session_missing');assertGeneration(g);return sessionToken;}
+async function submit(questionId,choiceIndex){const g=cacheGeneration;
   if(typeof questionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(questionId))throw new Error('question_id_invalid');
   if(!Number.isInteger(choiceIndex)||choiceIndex<0||choiceIndex>3)throw new Error('choice_index_invalid');
   const sessionToken=await ensureSession(questionId);
-  const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'answer',sessionToken,questionId,choiceIndex})});
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'answer',sessionToken,questionId,choiceIndex})});
   if(data?.questionId!==questionId||typeof data?.correct!=='boolean'||!Number.isInteger(data?.answerIndex))throw new Error('answer_payload_invalid');
   const result=Object.freeze({questionId,correct:data.correct,answerIndex:data.answerIndex,explanation:typeof data.explanation==='string'?data.explanation:'',choiceExplanations:Array.isArray(data.choiceExplanations)?Object.freeze([...data.choiceExplanations]):Object.freeze([]),postSubmit:data.postSubmit&&typeof data.postSubmit==='object'?Object.freeze({...data.postSubmit}):Object.freeze({})});
-  answerCache.set(questionId,result);return result;
+  assertGeneration(g);answerCache.set(questionId,result);return result;
 }
-async function resumeTraceTail(questionId){
+async function resumeTraceTail(questionId){const g=cacheGeneration;
   if(typeof questionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(questionId))throw new Error('question_id_invalid');
   const sessionToken=await ensureSession(questionId);
-  const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'trace_tail_resume',sessionToken,questionId})});
-  const tail=data?.traceTail;
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'trace_tail_resume',sessionToken,questionId})});
+  assertGeneration(g);const tail=data?.traceTail;
   if(data?.questionId!==questionId||!tail||typeof tail!=='object'||Array.isArray(tail)||!Array.isArray(tail.steps)||!tail.steps.length)throw new Error('trace_tail_resume_payload_invalid');
   for(const step of tail.steps){if(!step||typeof step!=='object'||Array.isArray(step)||['predict','answer','answerIndex','a'].some(key=>key in step))throw new Error('trace_tail_resume_payload_invalid');}
   return tail;
 }
 
+(globalThis.FEQUEST_ACCOUNT_CACHE_RESETS_V1??=new Set()).add(clearProtectedCache);
 window.FEQUEST_PROTECTED_CONTENT=Object.freeze({
   version:'v376-provider-33-ipa92-v1-v35-bgap1',maxBatch:MAX_BATCH,maxCache:MAX_CACHE,catalogTotal:MERGED_CATALOG_TOTAL,
   setAccessCode,clearAccessCode,hasAccessCode,loadCatalog,hydrate,submit,resumeTraceTail,

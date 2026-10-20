@@ -262,7 +262,7 @@
       return true;
     }
     function snapshot(){return Object.freeze({started:Boolean(runtime),stopped,config:Boolean(currentConfig()),policy:ACTIVATION_SPEC.policy})}
-    return Object.freeze({start,stop,snapshot,prepareProtectedProvider});
+    return Object.freeze({start,stop,snapshot,prepareProtectedProvider,getAuthBoundary:()=>runtime?.authBoundary??null});
   }
 
   function autoStart(){

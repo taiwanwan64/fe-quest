@@ -22,6 +22,9 @@ const MAX_CACHE=60;
 const REQUEST_TIMEOUT_MS=15000;
 const PROTECTED_CATALOG_KEYS=new Set(['q','stem','options','answerIndex','answer_index','a','explanation','exp','hint','choiceExplanations','choice_explanations']);
 
+let cacheGeneration=0;
+const pendingGateRequests=new Set();
+function assertGeneration(g){if(g!==cacheGeneration)throw new Error('account_changed');}
 let memoryAccessCode='';
 let catalogPromise=null;
 const questionCache=new Map();
@@ -58,6 +61,7 @@ function setAccessCode(value,{rememberForTab=true}={}){
 }
 
 function clearProtectedCache(){
+  cacheGeneration++;for(const controller of pendingGateRequests)controller.abort();pendingGateRequests.clear();
   questionCache.clear();
   answerCache.clear();
   sessionByQuestion.clear();
@@ -90,31 +94,21 @@ function hasAccessCode(){
 }
 
 async function fetchJson(url,options={}){
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);
+  const gate=url===GATE_URL,g=cacheGeneration,controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);if(gate)pendingGateRequests.add(controller);
   try{
-    const response=await fetch(url,{
-      ...options,
-      cache:'no-store',
-      credentials:'omit',
-      referrerPolicy:'no-referrer',
-      signal:controller.signal,
-    });
-    let data={};
-    try{data=await response.json()}catch(_e){}
-    if(!response.ok){
-      const error=new Error(typeof data?.error==='string'?data.error:`request_failed_${response.status}`);
-      error.status=response.status;
-      error.payload=data;
-      throw error;
+    let data;
+    const billing=globalThis.FEQUEST_BILLING_V1;
+    if(gate&&billing?.snapshot?.().accessEnforcementEnabled===true){
+      data=await billing.content('question',JSON.parse(options.body));
+    }else{
+      const response=await fetch(url,{...options,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
+      data={};try{data=await response.json()}catch(_e){}
+      if(!response.ok){const error=new Error(typeof data?.error==='string'?data.error:`request_failed_${response.status}`);error.status=response.status;error.payload=data;throw error;}
     }
-    return data;
-  }catch(error){
-    if(error?.name==='AbortError')throw new Error('question_service_timeout');
-    throw error;
-  }finally{
-    clearTimeout(timer);
-  }
+    if(gate)assertGeneration(g);return data;
+  }catch(error){if(gate)assertGeneration(g);if(error?.name==='AbortError')throw new Error('question_service_timeout');throw error;}
+  finally{clearTimeout(timer);pendingGateRequests.delete(controller);}
 }
 
 function safeCatalogItem(item){
@@ -193,9 +187,9 @@ function touchQuestion(id,value){
   }
 }
 
-async function bootstrapBatch(ids){
+async function bootstrapBatch(ids){const g=cacheGeneration;
   if(ids.length>MAX_BATCH)throw new Error('question_batch_too_large');
-  const data=await fetchJson(GATE_URL,{
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
@@ -207,7 +201,7 @@ async function bootstrapBatch(ids){
   if(typeof data?.sessionToken!=='string'||data.sessionToken.length<32||!Array.isArray(data.questions)){
     throw new Error('question_bootstrap_invalid');
   }
-  const received=new Set();
+  assertGeneration(g);const received=new Set();
   for(const q of data.questions){
     if(!q||typeof q.id!=='string'||!ids.includes(q.id)||!Array.isArray(q.options)||q.options.length!==4){
       throw new Error('question_payload_invalid');
@@ -227,10 +221,10 @@ async function bootstrapBatch(ids){
   };
 }
 
-async function hydrate(inputIds,{force=false}={}){
+async function hydrate(inputIds,{force=false}={}){const g=cacheGeneration;
   const ids=uniqueRequestedIds(inputIds);
   const catalog=await loadCatalog();
-  const catalogIds=new Set(catalog.items.map(item=>item.id));
+  assertGeneration(g);const catalogIds=new Set(catalog.items.map(item=>item.id));
   if(ids.some(id=>!catalogIds.has(id)))throw new Error('question_id_not_in_catalog');
 
   const missing=force?ids:ids.filter(id=>!questionCache.has(id)||!sessionByQuestion.has(id));
@@ -238,7 +232,7 @@ async function hydrate(inputIds,{force=false}={}){
   let expiresAt=null;
   for(let i=0;i<missing.length;i+=MAX_BATCH){
     const result=await bootstrapBatch(missing.slice(i,i+MAX_BATCH));
-    if(result.remainingToday!==null)remainingToday=result.remainingToday;
+    assertGeneration(g);if(result.remainingToday!==null)remainingToday=result.remainingToday;
     if(result.expiresAt)expiresAt=result.expiresAt;
   }
   ids.forEach(id=>{if(questionCache.has(id))touchQuestion(id,questionCache.get(id))});
@@ -259,21 +253,21 @@ function getAnsweredResult(id){
   return answerCache.get(id)||null;
 }
 
-async function ensureSession(questionId){
+async function ensureSession(questionId){const g=cacheGeneration;
   let sessionToken=sessionByQuestion.get(questionId);
   if(!sessionToken){
     await hydrate([questionId],{force:true});
     sessionToken=sessionByQuestion.get(questionId);
   }
   if(typeof sessionToken!=='string'||sessionToken.length<32)throw new Error('question_session_missing');
-  return sessionToken;
+  assertGeneration(g);return sessionToken;
 }
 
-async function submit(questionId,choiceIndex){
+async function submit(questionId,choiceIndex){const g=cacheGeneration;
   if(typeof questionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(questionId))throw new Error('question_id_invalid');
   if(!Number.isInteger(choiceIndex)||choiceIndex<0||choiceIndex>3)throw new Error('choice_index_invalid');
   const sessionToken=await ensureSession(questionId);
-  const data=await fetchJson(GATE_URL,{
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({action:'answer',sessionToken,questionId,choiceIndex}),
@@ -289,19 +283,19 @@ async function submit(questionId,choiceIndex){
     choiceExplanations:Array.isArray(data.choiceExplanations)?Object.freeze([...data.choiceExplanations]):Object.freeze([]),
     postSubmit:data.postSubmit&&typeof data.postSubmit==='object'?Object.freeze({...data.postSubmit}):Object.freeze({}),
   });
-  answerCache.set(questionId,result);
+  assertGeneration(g);answerCache.set(questionId,result);
   return result;
 }
 
-async function resumeTraceTail(questionId){
+async function resumeTraceTail(questionId){const g=cacheGeneration;
   if(typeof questionId!=='string'||!/^[A-Za-z0-9_-]{1,100}$/.test(questionId))throw new Error('question_id_invalid');
   const sessionToken=await ensureSession(questionId);
-  const data=await fetchJson(GATE_URL,{
+  assertGeneration(g);const data=await fetchJson(GATE_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({action:'trace_tail_resume',sessionToken,questionId}),
   });
-  const tail=data?.traceTail;
+  assertGeneration(g);const tail=data?.traceTail;
   if(data?.questionId!==questionId||!tail||typeof tail!=='object'||Array.isArray(tail)||!Array.isArray(tail.steps)||!tail.steps.length){
     throw new Error('trace_tail_resume_payload_invalid');
   }
@@ -313,6 +307,7 @@ async function resumeTraceTail(questionId){
   return tail;
 }
 
+(globalThis.FEQUEST_ACCOUNT_CACHE_RESETS_V1??=new Set()).add(clearProtectedCache);
 window.FEQUEST_PROTECTED_CONTENT=Object.freeze({
   version:'v376-provider-3-ipa92-v1-v6',
   maxBatch:MAX_BATCH,
