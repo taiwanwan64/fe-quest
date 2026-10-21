@@ -43,7 +43,7 @@ async function fixture({initialUser=null,width=390,height=844,reply=()=>({status
     if(method==='OPTIONS'){await route.fulfill({status:204,headers});return;}
     requests.push({url,method,authorization:req.headers().authorization??null});
     if(url.includes('/auth/')){evidence.liveEmailRequests++;await route.fulfill({status:500,headers,json:{error:'auth_not_expected'}});return;}
-    if(url.includes('fequest-checkout-v1')){evidence.liveCheckoutRequests++;await route.fulfill({status:503,headers,json:{error:'billing_unavailable'}});return;}
+    if(url.includes('/fequest-checkout')){evidence.liveCheckoutRequests++;await route.fulfill({status:503,headers,json:{error:'billing_unavailable'}});return;}
     const result=await reply(req);await route.fulfill({status:result.status,headers,json:result.body});
   });
   return{context,page,errors,requests};
@@ -123,6 +123,34 @@ try{
     const contentCalls=f.requests.filter(r=>r.url.includes('fequest-question-gate'));assert.equal(contentCalls.length,1);assert(contentCalls[0].authorization.includes(uid));
     await capture(f,'phone-access-required');await f.page.locator('#billingAccessCloseV1').click();assert(!(await f.page.locator('#billingAccessDialogV1').evaluate(n=>n.open)));
     await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({reply:()=>({status:503,body:{error:'sandbox_unavailable'}})});await f.page.goto(base+'/billing-sandbox.html');
+    await f.page.getByText('テスト決済は準備中です。開始の案内までお待ちください。').waitFor();assert(await f.page.locator('#checkout').isDisabled());assert(f.requests.every(r=>r.url.includes('fequest-access-status-sandbox-v1')&&r.method==='GET'));
+    await capture(f,'phone-sandbox-closed');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({sandbox:true,purchaseAvailable:true})})});await f.page.goto(base+'/billing-sandbox.html');
+    await f.page.getByRole('heading',{name:'テスト決済を開始できます'}).waitFor();assert(await f.page.locator('#checkout').isDisabled());await f.page.locator('#consent').check();assert(await f.page.locator('#checkout').isEnabled());
+    assert(f.requests.every(r=>r.url.includes('fequest-access-status-sandbox-v1')&&r.method==='GET'));assert.equal(await f.page.evaluate(()=>window.FEQUEST_BILLING_CONFIG_V1.salesEnabled),false);
+    await capture(f,'phone-sandbox-ready');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:other,width:1280,height:900,reply:()=>({status:403,body:{error:'sandbox_not_allowed'}})});await f.page.goto(base+'/billing-sandbox.html');
+    await f.page.getByText('このアカウントはテスト対象に設定されていません。案内されたメールアドレスをご確認ください。').waitFor();assert(await f.page.locator('#checkout').isDisabled());assert(f.requests.every(r=>r.method==='GET'));
+    await capture(f,'desktop-sandbox-denied');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:uid,reply:req=>req.headers().authorization?.includes(uid)?{status:200,body:response({sandbox:true,purchaseAvailable:true})}:{status:403,body:{error:'sandbox_not_allowed'}}});await f.page.goto(base+'/billing-sandbox.html');
+    await f.page.getByRole('heading',{name:'テスト決済を開始できます'}).waitFor();await f.page.locator('#consent').check();await f.page.evaluate(other=>window.__fixtureSetUser(other),other);
+    await f.page.getByText('このアカウントはテスト対象に設定されていません。案内されたメールアドレスをご確認ください。').waitFor();assert(await f.page.locator('#checkout').isDisabled());assert(!(await f.page.locator('#consent').isChecked()));
+    await capture(f,'phone-sandbox-account-switch');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({reply:()=>({status:503,body:{error:'sandbox_unavailable'}})});await f.page.goto(base+'/billing-sandbox.html');await f.page.getByText('テスト決済は準備中です。開始の案内までお待ちください。').waitFor();
+    await f.page.locator('#email').fill('first@example.invalid');await f.page.locator('#sendCode').click();await f.page.getByText('確認コードを送信しました。メールのコードを入力してください。').waitFor();
+    await f.page.locator('#code').fill('123456');await f.page.locator('#verifyCode').click();await f.page.getByText('first@example.invalid',{exact:true}).waitFor();assert(await f.page.locator('#checkout').isDisabled());assert.equal(await f.page.evaluate(()=>window.__fixtureEmailSends),1);
+    await capture(f,'phone-sandbox-code-login');await f.context.close();await browser.close();browser=null;
   }
   assert.equal(evidence.liveEmailRequests,0);assert.equal(evidence.liveCheckoutRequests,0);
   console.log('PASS browser: '+evidence.cases.length+' screen states, responsive layouts, account switch, code-login port and zero live email/Checkout requests');
