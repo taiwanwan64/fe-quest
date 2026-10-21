@@ -23,7 +23,7 @@
     text('accessHeading',heading);text('accessCopy',copy);
     const available=state.salesEnabled&&data?.purchaseAvailable===true&&!e?.active;
     by('consentRow').hidden=!available;by('checkout').disabled=!available||!state.userID||state.busy||!by('consent').checked;
-    text('checkout',state.busy?'購入手続きを確認しています':available?'2,980円で180日間利用する':e?.active?'利用権があります':'販売準備中');
+    text('checkout',state.busy?'購入手続きを確認しています':available?'支払い内容を確認する':e?.active?'利用権があります':'販売準備中');
     by('newAttempt').hidden=!state.salesEnabled||!['checkout_expired','request_already_completed'].includes(state.lastError);
     by('refreshStatus').disabled=state.busy;
   }

@@ -56,6 +56,26 @@ async function capture(f,name){
   await f.page.screenshot({path:path.join(out,name+'.png'),fullPage:true});evidence.cases.push({name,passed:true,requests:f.requests.length});
 }
 try{
+  for(const width of [320,390,1280]){
+    const f=await fixture({width,height:900});
+    for(const [file,title] of [['terms.html','利用規約'],['refund.html','返金・キャンセル'],['commerce.html','特定商取引法に基づく表記'],['privacy.html','プライバシーポリシー']]){
+      await f.page.goto(base+'/'+file);await f.page.getByRole('heading',{name:title,exact:true}).waitFor();
+      const text=await f.page.locator('body').innerText();assert(text.includes('無料公開'));assert(!/\{\{|migration\.html|30日.{0,8}告知|既存登録者/.test(text));
+      assert.equal(f.requests.length,0);await capture(f,'policy-'+width+'-'+file.replace('.html',''));
+    }
+    await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'現在は無料公開中です'}).waitFor();
+    assert(await f.page.locator('#checkout').isDisabled());await f.page.getByRole('heading',{name:'初回は7日以内なら全額返金'}).waitFor();
+    for(const file of ['terms.html','refund.html','commerce.html','privacy.html'])assert(await f.page.locator('a[href="./'+file+'"]').count()>0);
+    assert(f.requests.every(r=>r.method==='GET'));await capture(f,'policy-'+width+'-plans');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({purchaseAvailable:true})})});
+    await f.context.route('**/assets/billing-config-v1.js',route=>route.fulfill({contentType:'text/javascript',body:fs.readFileSync(path.join(root,'assets/billing-config-v1.js'),'utf8').replace('salesEnabled:false','salesEnabled:true')}));
+    await f.page.goto(base+'/plans.html');await f.page.locator('#consentRow').waitFor({state:'visible'});assert(await f.page.locator('#checkout').isDisabled());
+    await f.page.locator('#consent').check();assert(await f.page.getByRole('button',{name:'支払い内容を確認する',exact:true}).isEnabled());
+    await f.page.locator('#consent').uncheck();assert(await f.page.locator('#checkout').isDisabled());assert(f.requests.every(r=>r.method==='GET'));
+    await capture(f,'phone-future-checkout-consent');await f.context.close();await browser.close();browser=null;
+  }
   {
     const f=await fixture();await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'現在は無料公開中です'}).waitFor();
     assert(await f.page.locator('#checkout').isDisabled());assert.equal(f.requests.filter(r=>r.method==='POST').length,0);
