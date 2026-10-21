@@ -8,7 +8,7 @@ import vm from 'node:vm';
 const site=path.resolve(process.argv[2]||'');
 assert.ok(process.argv[2]&&site!==process.cwd(),'an isolated staging directory is required');
 for(const forbidden of ['.git','.github','supabase','docs','node_modules'])assert.ok(!fs.existsSync(path.join(site,forbidden)),'source-only directory in package: '+forbidden);
-for(const file of ['index.html','sw.js','manifest.webmanifest','start.html','plans.html','billing-return.html','assets/billing-config-v1.js','assets/billing-client-v1.js','assets/billing-app-v1.js','assets/billing-page-v1.js','assets/billing-v1.css','help.html','terms.html','privacy.html','feedback.html','contact.html','cloud/public-config-v342.js'])assert.ok(fs.existsSync(path.join(site,file)),'required file: '+file);
+for(const file of ['index.html','sw.js','manifest.webmanifest','start.html','plans.html','billing-return.html','billing-sandbox.html','assets/billing-sandbox-client-v1.js','assets/billing-sandbox-page-v1.js','assets/billing-config-v1.js','assets/billing-client-v1.js','assets/billing-app-v1.js','assets/billing-page-v1.js','assets/billing-v1.css','help.html','terms.html','privacy.html','feedback.html','contact.html','cloud/public-config-v342.js'])assert.ok(fs.existsSync(path.join(site,file)),'required file: '+file);
 
 const configPath=path.join(site,'cloud/public-config-v342.js');
 let config=fs.readFileSync(configPath,'utf8');

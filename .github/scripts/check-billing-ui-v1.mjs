@@ -3,15 +3,15 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {test} from 'node:test';
 import {createRequire} from 'node:module';
-const require=createRequire(import.meta.url),api=require('../../assets/billing-client-v1.js');
+const require=createRequire(import.meta.url),api=require('../../assets/billing-client-v1.js'),sandboxAPI=require('../../assets/billing-sandbox-client-v1.js');
 const uid='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222',requestID='33333333-3333-4333-8333-333333333333';
 const config={supabaseURL:'https://gkvgxnkoypypikxtyeoz.supabase.co',publishableKey:'public-fixture-only',salesEnabled:true,accessEnforcementEnabled:false};
 const status=(extra={})=>({purchaseAvailable:true,accessMode:'restricted',accessRevision:1,plan:{sku:api.SKU,amountJPY:2980,durationDays:180,autoRenew:false},preview:{lessons:6,questions:41},entitlement:{active:false,expiresAt:null},purchase:null,...extra});
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return{promise,resolve};};
-function fixture({user=uid,settings={},reply}={}){
+function fixture({user=uid,settings={},reply,factory=api}={}){
   let id=user;const listeners=new Set(),calls=[],navigations=[],denied=[],stored=new Map([['learner-profile-sentinel','keep']]);let changes=0,accessChanges=0;
   const auth={snapshot:()=>({signedIn:Boolean(id),userId:id,email:'fixture@example.invalid'}),getAccessToken:async()=>id+'-token',subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}};
-  const client=api.createClient({authBoundary:auth,config:{...config,...settings},fetcher:async(url,init)=>{calls.push({url,init});return reply?reply(url,init):Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status());},storage:{getItem:k=>stored.get(k),setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)},randomUUID:()=>requestID,navigate:url=>navigations.push(url),onIdentityChange:()=>{changes++;},onAccessChange:()=>{accessChanges++;},onAccessDenied:e=>denied.push(e.code)});
+  const client=factory.createClient({authBoundary:auth,config:{...config,...settings},fetcher:async(url,init)=>{calls.push({url,init});return reply?reply(url,init):Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status());},storage:{getItem:k=>stored.get(k),setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)},randomUUID:()=>requestID,navigate:url=>navigations.push(url),onIdentityChange:()=>{changes++;},onAccessChange:()=>{accessChanges++;},onAccessDenied:e=>denied.push(e.code)});
   return{client,calls,navigations,stored,denied,accessChanges:()=>accessChanges,changes:()=>changes,setUser:value=>{id=value;for(const fn of listeners)fn();},quietSetUser:value=>{id=value;},auth};
 }
 test('disabled sale never posts Checkout, including a forged available server status',async()=>{
@@ -144,8 +144,33 @@ test('lesson account clearing rejects a late ignored-abort payload',async()=>{
 test('public release switches are false and the new pages have no inline code or key material',()=>{
   const source=fs.readFileSync(new URL('../../assets/billing-config-v1.js',import.meta.url),'utf8'),context={URL,location:{href:'https://fe-quest.pages.dev/plans.html'}};
   vm.runInNewContext(source,context);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.salesEnabled,false);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.accessEnforcementEnabled,false);
-  for(const name of ['plans.html','billing-return.html']){
+  for(const name of ['plans.html','billing-return.html','billing-sandbox.html']){
     const html=fs.readFileSync(new URL('../../'+name,import.meta.url),'utf8');
     assert(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html));assert(!/\bon(?:click|load|error)=/i.test(html));assert(html.includes('Content-Security-Policy'));
   }
+});
+test('sandbox adapter posts only to dedicated APIs without changing normal release switches or intent keys',async()=>{
+  const f=fixture({factory:sandboxAPI,settings:{salesEnabled:false},reply:async url=>Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com/c/pay/fixture'}:status({sandbox:true,accessMode:'open-preview'}))});
+  await f.client.checkout();assert.equal(f.calls.length,2);
+  assert(f.calls[0].url.endsWith('/fequest-access-status-sandbox-v1'));assert(f.calls[1].url.endsWith('/fequest-checkout-sandbox-v1'));
+  assert.deepEqual(JSON.parse(f.calls[1].init.body),{sku:api.SKU,requestId:requestID});assert.equal(f.calls[1].init.headers.authorization,'Bearer '+uid+'-token');
+  assert.equal(f.stored.get('fequest_checkout_intent_v1:'+uid+':'+api.SKU),undefined);assert.equal(f.stored.get('fequest_sandbox_v1:fequest_checkout_intent_v1:'+uid+':'+api.SKU),requestID);assert.equal(f.stored.get('learner-profile-sentinel'),'keep');
+  assert.equal(f.client.content,undefined);assert.equal(config.accessEnforcementEnabled,false);
+});
+test('sandbox status must identify itself; no success, denial or failure falls back to a normal API',async()=>{
+  for(const [value,http] of [[status(),200],[{error:'sandbox_unavailable'},503],[{error:'sandbox_not_allowed'},403]]){
+    const f=fixture({factory:sandboxAPI,reply:async()=>Response.json(value,{status:http})});await assert.rejects(f.client.checkout());assert.equal(f.calls.length,1);assert(f.calls[0].url.endsWith('/fequest-access-status-sandbox-v1'));assert.equal(f.navigations.length,0);
+  }
+});
+test('a sandbox return only reads its session and never starts a new checkout',async()=>{
+  const f=fixture({factory:sandboxAPI,reply:async()=>Response.json(status({sandbox:true,purchase:{state:'pending',confirmationPending:true,reconciliationRequired:false}}))});
+  await f.client.refresh('cs_test_123');assert(f.calls[0].url.endsWith('/fequest-access-status-sandbox-v1?session_id=cs_test_123'));assert(f.calls.every(c=>c.init.method==='GET'));assert.equal(f.navigations.length,0);
+});
+test('sandbox account switch rejects a late status and cannot reuse the old account purchase intent',async()=>{
+  const pending=deferred(),f=fixture({factory:sandboxAPI,reply:()=>pending.promise});const running=f.client.checkout();await new Promise(r=>setTimeout(r,0));f.setUser(other);
+  pending.resolve(Response.json(status({sandbox:true})));await assert.rejects(running,e=>e.code==='account_changed');assert.equal(f.calls.length,1);assert.equal(f.navigations.length,0);assert.equal(f.client.snapshot().status,null);assert.equal(f.stored.get('learner-profile-sentinel'),'keep');
+});
+test('sandbox still requires a signed-in account and validates the exact Stripe redirect host',async()=>{
+  const anonymous=fixture({factory:sandboxAPI,user:null});await assert.rejects(anonymous.client.checkout(),e=>e.code==='authentication_required');assert.equal(anonymous.calls.length,0);
+  const f=fixture({factory:sandboxAPI,reply:async url=>Response.json(url.includes('checkout')?{url:'https://checkout.stripe.com.attacker.invalid/'}:status({sandbox:true}))});await assert.rejects(f.client.checkout(),e=>e.code==='checkout_response_invalid');assert.equal(f.navigations.length,0);
 });
