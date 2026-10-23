@@ -17,6 +17,21 @@ function fixture({user=uid,settings={},reply,factory=api}={}){
 test('disabled sale never posts Checkout, including a forged available server status',async()=>{
   const f=fixture({settings:{salesEnabled:false}});await f.client.refresh();await assert.rejects(f.client.checkout(),e=>e.code==='billing_unavailable');assert.equal(f.calls.length,1);assert.equal(f.navigations.length,0);
 });
+test('the shipped purchase flow stays closed when the server is paused, invalid or unavailable',async()=>{
+  const context={URL,location:{href:'https://fe-quest.pages.dev/plans.html'}};
+  vm.runInNewContext(fs.readFileSync(new URL('../../assets/billing-config-v1.js',import.meta.url),'utf8'),context);
+  for(const [body,http] of [[status({purchaseAvailable:false,accessMode:'open-preview'}),200],[status({purchaseAvailable:false}),200],[{},200],[{error:'billing_unavailable'},503]]){
+    const f=fixture({settings:context.FEQUEST_BILLING_CONFIG_V1,reply:async()=>Response.json(body,{status:http})});
+    await assert.rejects(f.client.checkout());assert.equal(f.calls.length,1);assert(f.calls.every(c=>c.init.method==='GET'));
+    assert.equal(f.navigations.length,0);assert.equal(f.stored.get('learner-profile-sentinel'),'keep');
+  }
+});
+test('a server pause after an available status is rechecked before any Checkout POST',async()=>{
+  let paused=false;const f=fixture({reply:async()=>Response.json(status({purchaseAvailable:!paused}))});
+  await f.client.refresh();assert.equal(f.client.snapshot().status.purchaseAvailable,true);paused=true;
+  await assert.rejects(f.client.checkout(),e=>e.code==='billing_unavailable');assert.equal(f.calls.length,2);
+  assert(f.calls.every(c=>c.init.method==='GET'));assert.equal(f.navigations.length,0);
+});
 test('Checkout requires Auth, current access status and explicit one-time SKU/request ID only',async()=>{
   const f=fixture();await f.client.checkout();const call=f.calls.find(c=>c.init.method==='POST');
   assert.deepEqual(JSON.parse(call.init.body),{sku:api.SKU,requestId:requestID});assert.equal(call.init.headers.authorization,'Bearer '+uid+'-token');
@@ -141,9 +156,9 @@ test('lesson account clearing rejects a late ignored-abort payload',async()=>{
   const first=p.hydrate('core_01_01');p.clearCurrent();pending.resolve(Response.json({lessonId:'core_01_01',payload:{articleHtml:'fixture'}}));
   await assert.rejects(first,/superseded/);assert.equal(p.getCurrent(),null);
 });
-test('public release switches are false and the new pages have no inline code or key material',()=>{
+test('public purchase flow is ready for server control and pages have no inline code or key material',()=>{
   const source=fs.readFileSync(new URL('../../assets/billing-config-v1.js',import.meta.url),'utf8'),context={URL,location:{href:'https://fe-quest.pages.dev/plans.html'}};
-  vm.runInNewContext(source,context);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.salesEnabled,false);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.accessEnforcementEnabled,false);
+  vm.runInNewContext(source,context);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.salesEnabled,true);assert.equal(context.FEQUEST_BILLING_CONFIG_V1.accessEnforcementEnabled,false);
   for(const name of ['plans.html','billing-return.html','billing-sandbox.html']){
     const html=fs.readFileSync(new URL('../../'+name,import.meta.url),'utf8');
     assert(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html));assert(!/\bon(?:click|load|error)=/i.test(html));assert(html.includes('Content-Security-Policy'));
