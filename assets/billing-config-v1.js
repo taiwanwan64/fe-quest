@@ -6,7 +6,9 @@
     supabaseURL:'https://gkvgxnkoypypikxtyeoz.supabase.co',
     publishableKey:"sb_publishable_kRxdzyfjBDHEd9xMamQpYg_C8reUast",
     appBaseURL:new URL('../',script||new URL('./assets/billing-config-v1.js',root.location.href)).href,
-    salesEnabled:false,
+    // The server's purchaseAvailable response and Checkout handler control sales.
+    // Keeping the purchase flow ready avoids another static upload at launch.
+    salesEnabled:true,
     accessEnforcementEnabled:false
   });
 })(typeof globalThis!=='undefined'?globalThis:this);

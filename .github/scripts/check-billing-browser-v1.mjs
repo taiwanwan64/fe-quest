@@ -70,11 +70,24 @@ try{
   }
   {
     const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({purchaseAvailable:true})})});
-    await f.context.route('**/assets/billing-config-v1.js',route=>route.fulfill({contentType:'text/javascript',body:fs.readFileSync(path.join(root,'assets/billing-config-v1.js'),'utf8').replace('salesEnabled:false','salesEnabled:true')}));
     await f.page.goto(base+'/plans.html');await f.page.locator('#consentRow').waitFor({state:'visible'});assert(await f.page.locator('#checkout').isDisabled());
     await f.page.locator('#consent').check();assert(await f.page.getByRole('button',{name:'支払い内容を確認する',exact:true}).isEnabled());
     await f.page.locator('#consent').uncheck();assert(await f.page.locator('#checkout').isDisabled());assert(f.requests.every(r=>r.method==='GET'));
     await capture(f,'phone-future-checkout-consent');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    let available=true;
+    const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({purchaseAvailable:available,accessMode:'restricted',accessRevision:2})})});
+    await f.page.goto(base+'/plans.html');await f.page.locator('#consentRow').waitFor({state:'visible'});await f.page.locator('#consent').check();
+    assert(await f.page.locator('#checkout').isEnabled());available=false;await f.page.locator('#refreshStatus').click();
+    await f.page.waitForFunction(()=>document.getElementById('checkout').disabled);assert(await f.page.locator('#consentRow').isHidden());
+    assert(f.requests.every(r=>r.method==='GET'));await capture(f,'phone-server-paused');await f.context.close();await browser.close();browser=null;
+  }
+  {
+    const f=await fixture({initialUser:uid,reply:()=>({status:503,body:{error:'billing_unavailable'}})});
+    await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'利用状況を確認できませんでした'}).waitFor();
+    assert(await f.page.locator('#checkout').isDisabled());assert(await f.page.locator('#consentRow').isHidden());
+    assert(f.requests.every(r=>r.method==='GET'));await capture(f,'phone-server-unavailable');await f.context.close();await browser.close();browser=null;
   }
   {
     const f=await fixture();await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'現在は無料公開中です'}).waitFor();
@@ -152,7 +165,7 @@ try{
   {
     const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({sandbox:true,purchaseAvailable:true})})});await f.page.goto(base+'/billing-sandbox.html');
     await f.page.getByRole('heading',{name:'テスト決済を開始できます'}).waitFor();assert(await f.page.locator('#checkout').isDisabled());await f.page.locator('#consent').check();assert(await f.page.locator('#checkout').isEnabled());
-    assert(f.requests.every(r=>r.url.includes('fequest-access-status-sandbox-v1')&&r.method==='GET'));assert.equal(await f.page.evaluate(()=>window.FEQUEST_BILLING_CONFIG_V1.salesEnabled),false);
+    assert(f.requests.every(r=>r.url.includes('fequest-access-status-sandbox-v1')&&r.method==='GET'));assert.equal(await f.page.evaluate(()=>window.FEQUEST_BILLING_CONFIG_V1.salesEnabled),true);
     await capture(f,'phone-sandbox-ready');await f.context.close();await browser.close();browser=null;
   }
   {
