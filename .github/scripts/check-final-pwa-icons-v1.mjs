@@ -27,5 +27,5 @@ for(const icon of manifest.icons){
   assert(item.purpose.split(/\s+/).includes('maskable'));
  }else assert(html.includes('apple-touch-icon.png'),'Apple icon missing HTML');
 }
-assert(sw.includes("const CACHE_NAME = 'fe-quest-v377-210';"),'final icon cache revision');
+assert(sw.includes("const CACHE_NAME = 'fe-quest-v377-211';"),'final icon cache revision');
 console.log('PASS final PWA icons: original SVG provenance, 3 exact PNGs, dimensions, manifest, HTML and offline cache');

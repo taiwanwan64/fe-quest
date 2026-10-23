@@ -60,7 +60,7 @@ try{
     const f=await fixture({width,height:900});
     for(const [file,title] of [['terms.html','利用規約'],['refund.html','返金・キャンセル'],['commerce.html','特定商取引法に基づく表記'],['privacy.html','プライバシーポリシー']]){
       await f.page.goto(base+'/'+file);await f.page.getByRole('heading',{name:title,exact:true}).waitFor();
-      const text=await f.page.locator('body').innerText();assert(text.includes('無料公開'));assert(!/\{\{|migration\.html|30日.{0,8}告知|既存登録者/.test(text));
+      const text=await f.page.locator('body').innerText();assert(text.includes('無料'));assert(!/現在は販売準備中|まだ受け付けていません|\{\{|migration\.html|30日.{0,8}告知|既存登録者/.test(text));
       assert.equal(f.requests.length,0);await capture(f,'policy-'+width+'-'+file.replace('.html',''));
     }
     await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'現在は無料公開中です'}).waitFor();
@@ -69,10 +69,12 @@ try{
     assert(f.requests.every(r=>r.method==='GET'));await capture(f,'policy-'+width+'-plans');await f.context.close();await browser.close();browser=null;
   }
   {
-    const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({purchaseAvailable:true})})});
+    const f=await fixture({initialUser:uid,reply:()=>({status:200,body:response({purchaseAvailable:true,accessMode:'restricted',accessRevision:2})})});
     await f.page.goto(base+'/plans.html');await f.page.locator('#consentRow').waitFor({state:'visible'});assert(await f.page.locator('#checkout').isDisabled());
     await f.page.locator('#consent').check();assert(await f.page.getByRole('button',{name:'支払い内容を確認する',exact:true}).isEnabled());
     await f.page.locator('#consent').uncheck();assert(await f.page.locator('#checkout').isDisabled());assert(f.requests.every(r=>r.method==='GET'));
+    assert((await f.page.locator('#purchaseAvailability').innerText()).includes('購入を受け付けています'));
+    assert(!(await f.page.locator('body').innerText()).includes('現在は無料公開中'));
     await capture(f,'phone-future-checkout-consent');await f.context.close();await browser.close();browser=null;
   }
   {
@@ -81,12 +83,14 @@ try{
     await f.page.goto(base+'/plans.html');await f.page.locator('#consentRow').waitFor({state:'visible'});await f.page.locator('#consent').check();
     assert(await f.page.locator('#checkout').isEnabled());available=false;await f.page.locator('#refreshStatus').click();
     await f.page.waitForFunction(()=>document.getElementById('checkout').disabled);assert(await f.page.locator('#consentRow').isHidden());
+    assert((await f.page.locator('#purchaseAvailability').innerText()).includes('新規購入の受付を停止'));
     assert(f.requests.every(r=>r.method==='GET'));await capture(f,'phone-server-paused');await f.context.close();await browser.close();browser=null;
   }
   {
     const f=await fixture({initialUser:uid,reply:()=>({status:503,body:{error:'billing_unavailable'}})});
     await f.page.goto(base+'/plans.html');await f.page.getByRole('heading',{name:'利用状況を確認できませんでした'}).waitFor();
     assert(await f.page.locator('#checkout').isDisabled());assert(await f.page.locator('#consentRow').isHidden());
+    assert((await f.page.locator('#purchaseAvailability').innerText()).includes('受付状況を確認できません'));
     assert(f.requests.every(r=>r.method==='GET'));await capture(f,'phone-server-unavailable');await f.context.close();await browser.close();browser=null;
   }
   {
