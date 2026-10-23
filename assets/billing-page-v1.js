@@ -21,6 +21,10 @@
       else{heading='無料体験をご利用いただけます';copy='無料の6教材・41問を繰り返し利用できます。学習履歴の保存・復元も使えます。';}
     }
     text('accessHeading',heading);text('accessCopy',copy);
+    if(by('purchaseAvailability')){
+      const notice=state.lastError?'購入の受付状況を確認できません。時間をおいて、利用状況を再確認してください。':!data?'購入の受付状況を確認しています。':data.accessMode==='open-preview'?'現在は全範囲を無料公開しています。購入手続きは不要です。':e?.active?'現在の利用権で学習を続けられます。追加購入は不要です。':data.purchaseAvailable?'全範囲プランの購入を受け付けています。料金と条件を確認してお申し込みください。':'現在、新規購入の受付を停止しています。無料の6教材・41問は購入せずに利用できます。';
+      text('purchaseAvailability',notice);
+    }
     const available=state.salesEnabled&&data?.purchaseAvailable===true&&!e?.active;
     by('consentRow').hidden=!available;by('checkout').disabled=!available||!state.userID||state.busy||!by('consent').checked;
     text('checkout',state.busy?'購入手続きを確認しています':available?'支払い内容を確認する':e?.active?'利用権があります':'販売準備中');
