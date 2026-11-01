@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
+import {prepareSearchDiscovery} from './prepare-search-discovery-v1.mjs';
 
 // Operates only on the sanitized staging directory built by the Pages workflow.
 const site=path.resolve(process.argv[2]||'');
@@ -27,6 +28,7 @@ const privacy=fs.readFileSync(privacyPath,'utf8');
 assert.ok(privacy.includes('FE QUESTのWebページはCloudflare Pagesを利用して配信します。'),'privacy must describe the current Cloudflare host');
 assert.ok(privacy.includes('従来のGitHub Pagesの公開先も維持しています。'),'privacy must retain the legacy hosting disclosure');
 fs.writeFileSync(path.join(site,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Cache-Control: no-cache\n');
+prepareSearchDiscovery(site);
 const files=[];
 function walk(dir){for(const name of fs.readdirSync(dir).sort()){const full=path.join(dir,name);const stat=fs.lstatSync(full);assert.ok(!stat.isSymbolicLink(),'symlinks are forbidden');if(stat.isDirectory())walk(full);else{
   assert.ok(stat.size<=25*1024*1024,'Cloudflare per-file limit');

@@ -27,6 +27,8 @@ on:
       - '.github/pwa-icons-v1/**'
       - '.github/scripts/check-final-pwa-icons-v1.mjs'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/scripts/prepare-search-discovery-v1.mjs'
+      - '.github/scripts/check-search-discovery-v1.mjs'
       - '.github/scripts/check-billing-ui-v1.mjs'
       - '.github/scripts/check-third-party-notices-v1.mjs'
       - '.github/scripts/verify-commercial-release-v1.py'
@@ -59,6 +61,8 @@ on:
       - '.github/pwa-icons-v1/**'
       - '.github/scripts/check-final-pwa-icons-v1.mjs'
       - '.github/scripts/prepare-commercial-package-v1.mjs'
+      - '.github/scripts/prepare-search-discovery-v1.mjs'
+      - '.github/scripts/check-search-discovery-v1.mjs'
       - '.github/scripts/check-billing-ui-v1.mjs'
       - '.github/scripts/check-third-party-notices-v1.mjs'
       - '.github/scripts/verify-commercial-release-v1.py'
@@ -76,6 +80,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate primary-site search discovery and legacy exclusions
+        run: node .github/scripts/check-search-discovery-v1.mjs
       - name: Validate inactive billing UI, account isolation and return safety
         run: node --test .github/scripts/check-billing-ui-v1.mjs
       - name: Verify final PWA icons and cache references
