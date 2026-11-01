@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 
 export const SEARCH_ORIGIN = 'https://fe-quest.pages.dev';
+export const SEARCH_VERIFICATION_TAG = '<meta name="google-site-verification" content="7aavktEQQlN6WkLDgBnGYYgxaGcSAQNUEI4EC1Ew-ps" />';
 export const SEARCH_PAGES = [
   {file:'start.html', route:'/start', title:'FE QUEST｜基本情報技術者試験の学習アプリ', description:'基本情報技術者試験の学習アプリFE QUEST。毎日の学習計画、図解、科目A・科目Bの演習と復習に対応。無料の6教材・41問は登録・クレジットカード不要で繰り返し利用できます。'},
   {file:'help.html', route:'/help', title:'使い方｜FE QUEST', description:'FE QUESTの始め方、確認コードでのログイン、ホーム画面への追加、クラウド同期とバックアップの方法。'},
@@ -22,6 +23,15 @@ export function prepareSearchDiscovery(site) {
       .replace(/<link\b[^>]*\brel=["']canonical["'][^>]*>\s*/gi,'')
       .replace(/\s*<\/head>/i,`\n  <meta name="description" content="${page.description}">\n  <link rel="canonical" href="${SEARCH_ORIGIN}${page.route}">\n</head>`);
     fs.writeFileSync(file,html);
+  }
+  // User-provided ownership tag belongs to the primary site's homepage.
+  // Preserve other owners' tags and never change the application body.
+  const indexPath = path.join(site,'index.html');
+  let index = fs.readFileSync(indexPath,'utf8');
+  assert.equal((index.match(/<\/head>/gi)||[]).length,1,'one homepage head');
+  if (!index.includes(SEARCH_VERIFICATION_TAG)) {
+    index = index.replace(/<\/head>/i,`  ${SEARCH_VERIFICATION_TAG}\n</head>`);
+    fs.writeFileSync(indexPath,index);
   }
   fs.writeFileSync(path.join(site,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${SEARCH_ORIGIN}/sitemap.xml\n`);
   fs.writeFileSync(path.join(site,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+SEARCH_PAGES.map(page=>`  <url><loc>${SEARCH_ORIGIN}${page.route}</loc></url>`).join('\n')+'\n</urlset>\n');
