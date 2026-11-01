@@ -11,7 +11,8 @@ try {
   const pages = [...SEARCH_PAGES.map(page=>page.file),'index.html','billing-return.html','billing-sandbox.html','contact.html','commerce.html','beta.html'];
   const original = new Map();
   for (const file of pages) {
-    const html = fs.readFileSync(file,'utf8');
+    let html = fs.readFileSync(file,'utf8');
+    if (file==='index.html') html=html.replace('</head>','<meta name="google-site-verification" content="synthetic-other-owner" />\n</head>');
     original.set(file,html);
     fs.writeFileSync(path.join(site,file),html);
   }
@@ -42,11 +43,19 @@ try {
   }
   assert.ok(!fs.readFileSync(path.join(site,'start.html'),'utf8').includes('現在は無料で利用できます'));
   for (const file of pages.filter(file=>!SEARCH_PAGES.some(page=>page.file===file))) {
-    assert.equal(fs.readFileSync(path.join(site,file),'utf8'),original.get(file),'app/return body and auth untouched');
+    const html = fs.readFileSync(path.join(site,file),'utf8');
+    if (file==='index.html') {
+      const expectedTag='<meta name="google-site-verification" content="7aavktEQQlN6WkLDgBnGYYgxaGcSAQNUEI4EC1Ew-ps" />';
+      const head=html.slice(0,html.indexOf('</head>'));
+      assert.equal(head.split(expectedTag).length,2,'exact user-provided tag occurs once in head');
+      assert.ok(head.includes('content="synthetic-other-owner"'),'other owner verification retained');
+      assert.equal(html.replace('  '+expectedTag+'\n',''),original.get(file),'only the new verification tag is added');
+      assert.equal(html.slice(html.indexOf('<body')),original.get(file).slice(original.get(file).indexOf('<body')),'app body/auth untouched');
+    } else assert.equal(html,original.get(file),'return body and auth untouched');
     for (const route of ['/'+file,'/'+file.slice(0,-5)]) assert.deepEqual(rules.get(route),['X-Robots-Tag: noindex']);
   }
   assert.deepEqual(rules.get('/'),['X-Robots-Tag: noindex']);
-  const outputs = ['robots.txt','sitemap.xml','_headers',...SEARCH_PAGES.map(page=>page.file)];
+  const outputs = ['robots.txt','sitemap.xml','_headers','index.html',...SEARCH_PAGES.map(page=>page.file)];
   const first = outputs.map(file=>fs.readFileSync(path.join(site,file),'utf8'));
   prepareSearchDiscovery(site);
   assert.deepEqual(outputs.map(file=>fs.readFileSync(path.join(site,file),'utf8')),first,'idempotent preparation');
