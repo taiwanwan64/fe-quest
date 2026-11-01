@@ -1,0 +1,40 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+
+export const SEARCH_ORIGIN = 'https://fe-quest.pages.dev';
+export const SEARCH_PAGES = [
+  {file:'start.html', route:'/start', title:'FE QUEST｜基本情報技術者試験の学習アプリ', description:'基本情報技術者試験の学習アプリFE QUEST。毎日の学習計画、図解、科目A・科目Bの演習と復習に対応。無料の6教材・41問は登録・クレジットカード不要で繰り返し利用できます。'},
+  {file:'help.html', route:'/help', title:'使い方｜FE QUEST', description:'FE QUESTの始め方、確認コードでのログイン、ホーム画面への追加、クラウド同期とバックアップの方法。'},
+  {file:'plans.html', route:'/plans', title:'利用プラン｜FE QUEST', description:'FE QUESTの無料6教材・41問と全範囲プランのご案内。全130教材・1,193問を2,980円・180日間の1回払いで利用できます。自動更新はありません。'},
+];
+
+// Cloudflare package only. GitHub Pages keeps its existing crawl prohibition.
+export function prepareSearchDiscovery(site) {
+  for (const page of SEARCH_PAGES) {
+    const file = path.join(site,page.file);
+    let html = fs.readFileSync(file,'utf8');
+    assert.equal((html.match(/<head>/gi)||[]).length,1,'one head: '+page.file);
+    assert.equal((html.match(/<title>[\s\S]*?<\/title>/gi)||[]).length,1,'one title: '+page.file);
+    assert.ok(!/<meta\b[^>]*name=["']robots["'][^>]*noindex/i.test(html),'indexable landing page: '+page.file);
+    html = html.replace(/<title>[\s\S]*?<\/title>/i,`<title>${page.title}</title>`)
+      .replace(/<meta\b[^>]*\bname=["']description["'][^>]*>\s*/gi,'')
+      .replace(/<link\b[^>]*\brel=["']canonical["'][^>]*>\s*/gi,'')
+      .replace(/\s*<\/head>/i,`\n  <meta name="description" content="${page.description}">\n  <link rel="canonical" href="${SEARCH_ORIGIN}${page.route}">\n</head>`);
+    fs.writeFileSync(file,html);
+  }
+  fs.writeFileSync(path.join(site,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${SEARCH_ORIGIN}/sitemap.xml\n`);
+  fs.writeFileSync(path.join(site,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+SEARCH_PAGES.map(page=>`  <url><loc>${SEARCH_ORIGIN}${page.route}</loc></url>`).join('\n')+'\n</urlset>\n');
+  // Keep app/account/return/legal pages out of search without blocking crawlers
+  // from reading their noindex response. These headers are not access controls.
+  const paths = new Set(['/','/assets/*','/cloud/*','/vendor/*']);
+  const indexable = new Set(SEARCH_PAGES.map(page=>page.file));
+  for (const file of fs.readdirSync(site).filter(file=>file.endsWith('.html')&&!indexable.has(file))) {
+    paths.add('/'+file);
+    paths.add('/'+file.slice(0,-5));
+  }
+  const headerFile = path.join(site,'_headers');
+  const marker = '# FE QUEST search discovery v1';
+  const base = fs.readFileSync(headerFile,'utf8').split(marker)[0].trimEnd();
+  fs.writeFileSync(headerFile,base+'\n\n'+marker+'\n'+[...paths].sort().map(route=>`${route}\n  X-Robots-Tag: noindex`).join('\n')+'\n');
+}
