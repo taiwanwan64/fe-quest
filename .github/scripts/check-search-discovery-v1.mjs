@@ -45,7 +45,7 @@ try {
   for (const file of pages.filter(file=>!SEARCH_PAGES.some(page=>page.file===file))) {
     const html = fs.readFileSync(path.join(site,file),'utf8');
     if (file==='index.html') {
-      const expectedTag='<meta name="google-site-verification" content="7aavktEQQlN6WkLDgBnGYYgxaGcSAQNUEI4EC1Ew-ps" />';
+      const expectedTag='<meta name="google-site-verification" content="Uyq8mpI7Il4ZqJDmVBfz-iDk8mCrgcbuFA9LNt2J2x0" />';
       const head=html.slice(0,html.indexOf('</head>'));
       assert.equal(head.split(expectedTag).length,2,'exact user-provided tag occurs once in head');
       assert.ok(head.includes('content="synthetic-other-owner"'),'other owner verification retained');
@@ -59,6 +59,13 @@ try {
   const first = outputs.map(file=>fs.readFileSync(path.join(site,file),'utf8'));
   prepareSearchDiscovery(site);
   assert.deepEqual(outputs.map(file=>fs.readFileSync(path.join(site,file),'utf8')),first,'idempotent preparation');
+  const currentIndex = fs.readFileSync(path.join(site,'index.html'),'utf8');
+  const currentToken = 'Uyq8mpI7Il4ZqJDmVBfz-iDk8mCrgcbuFA9LNt2J2x0';
+  const retiredToken = '7aavktEQQlN6WkLDgBnGYYgxaGcSAQNUEI4EC1Ew-ps';
+  fs.writeFileSync(path.join(site,'index.html'),currentIndex.replace(currentToken,retiredToken));
+  prepareSearchDiscovery(site);
+  assert.equal(fs.readFileSync(path.join(site,'index.html'),'utf8'),currentIndex,'replace retired account tag instead of appending another owner');
+  assert.ok(!fs.readFileSync(path.join(site,'index.html'),'utf8').includes(retiredToken),'retired account tag removed');
   assert.equal(fs.readFileSync('robots.txt','utf8'),sourceRobots,'source unchanged');
   console.log('PASS search discovery: 3 canonical pages, exact sitemap, crawlable resources, noindex route aliases, unchanged content/auth/security and idempotence');
 } finally {fs.rmSync(site,{recursive:true,force:true});}
