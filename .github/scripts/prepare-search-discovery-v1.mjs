@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 export const SEARCH_ORIGIN = 'https://fe-quest.pages.dev';
 export const SEARCH_VERIFICATION_TAG = '<meta name="google-site-verification" content="Uyq8mpI7Il4ZqJDmVBfz-iDk8mCrgcbuFA9LNt2J2x0" />';
 export const SEARCH_PAGES = [
-  {file:'start.html', route:'/start', title:'FE QUEST｜基本情報技術者試験の学習アプリ', description:'基本情報技術者試験の学習アプリFE QUEST。毎日の学習計画、図解、科目A・科目Bの演習と復習に対応。無料の6教材・41問は登録・クレジットカード不要で繰り返し利用できます。'},
+  {file:'start.html', route:'/start', title:'FE QUEST｜学習内容を自動提案する基本情報技術者試験アプリ', description:'基本情報技術者試験の学習アプリFE QUEST。使える時間に合わせて課題を作成し、苦手や進捗に応じた教材・問題を提案。正誤に合わせて復習時期も自動調整します。無料6教材・41問は登録・クレジットカード不要。'},
   {file:'help.html', route:'/help', title:'使い方｜FE QUEST', description:'FE QUESTの始め方、確認コードでのログイン、ホーム画面への追加、クラウド同期とバックアップの方法。'},
   {file:'plans.html', route:'/plans', title:'利用プラン｜FE QUEST', description:'FE QUESTの無料6教材・41問と全範囲プランのご案内。全130教材・1,193問を2,980円・180日間の1回払いで利用できます。自動更新はありません。'},
 ];
