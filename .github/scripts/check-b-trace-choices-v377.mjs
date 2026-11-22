@@ -23,14 +23,15 @@ bridge.clear();mode='legacy';await bridge.start('synthetic');assert.equal((await
 bridge.clear();mode='bad';await bridge.start('synthetic');assert.equal((await bridge.grade('synthetic-1',0)).choiceExplanations.length,0);
 
 const nodes=new Map();
-function node(tag='div'){return {tag,textContent:'',hidden:true,children:[],appendChild(n){this.children.push(n)},replaceChildren(){this.children=[]}}}
-const root=node();nodes.set('bTraceFeedback',root);
+function node(tag='div'){return {tag,textContent:'',hidden:true,children:[],dataset:{},removeAttribute(name){if(name==='data-result')delete this.dataset.result},appendChild(n){this.children.push(n)},replaceChildren(){this.children=[]}}}
+const root=node('details'), body=node(), status=node();
+nodes.set('bTraceFeedback',root);nodes.set('bTraceFeedbackBody',body);nodes.set('bTraceAnswerStatus',status);
 const ui={document:{getElementById:id=>nodes.get(id)||null,createElement:tag=>node(tag)}};
 vm.createContext(ui);const start=app.indexOf('function bTraceClearFeedbackV377('),end=app.indexOf('function bTraceApplyPacketV376(',start);
 vm.runInContext(app.slice(start,end),ui);
-ui.bTraceRenderChoiceFeedbackV377(packet,wrong,2);assert.equal(root.hidden,false);assert.equal(root.children[1].children.length,1);assert(root.children[1].children[0].children[0].textContent.includes('C. three'));assert.equal(root.children[1].children[0].children[1].textContent,reasons[2]);
-ui.bTraceRenderChoiceFeedbackV377(packet,correct,0);assert.equal(root.children[1].children.length,4);assert.equal(root.children[1].children[0].children[1].textContent,reasons[0]);assert(!('innerHTML' in root.children[1].children[0].children[1]),'all protected feedback is written as text only');
-ui.bTraceClearFeedbackV377();assert.equal(root.hidden,true);assert.equal(root.children.length,0);
+ui.bTraceRenderChoiceFeedbackV377(packet,wrong,2);assert.equal(root.hidden,false);assert.equal(body.children[0].children.length,1);assert(body.children[0].children[0].children[0].textContent.includes('C. three'));assert.equal(body.children[0].children[0].children[1].textContent,reasons[2]);
+ui.bTraceRenderChoiceFeedbackV377(packet,correct,0);assert.equal(body.children[1].children.length,4);assert.equal(body.children[1].children[0].children[1].textContent,reasons[0]);assert(!('innerHTML' in body.children[1].children[0].children[1]),'all protected feedback is written as text only');
+ui.bTraceClearFeedbackV377();assert.equal(root.hidden,true);assert.equal(body.children.length,0);
 ui.bTraceRenderChoiceFeedbackV377(packet,{correct:true,choiceExplanations:[]},0);assert.equal(root.hidden,true);
 const startFn=app.slice(app.indexOf('async function startBExercise('),app.indexOf('function escapeHtml(',app.indexOf('async function startBExercise(')));
 assert(startFn.indexOf('currentB=null')<startFn.indexOf('await bTraceBridgeV376()'));assert(startFn.indexOf('resetBView()')<startFn.indexOf('await bTraceBridgeV376()'));
