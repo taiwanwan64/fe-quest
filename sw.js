@@ -1,5 +1,5 @@
 const APP_VERSION = 'v377';
-const CACHE_NAME = 'fe-quest-v377-211';
+const CACHE_NAME = 'fe-quest-v377-212';
 const CACHE_PREFIX = 'fe-quest-';
 const APP_SHELL = [
   "./plans.html",
@@ -40,7 +40,7 @@ const APP_SHELL = [
   "./assets/ch22-strategy-v403.css?v=ch22-183",
   "./assets/bbook-ch01-grammar-v404.css?v=bgrammar-184",
   "./assets/b-grammar-practice-v1.css",
-  "./assets/b-trace-feedback-v1.css",
+  "./assets/b-trace-feedback-v1.css?v=btrace-feedback-212",
   "./assets/b-grammar-practice-v1.js?v=bgrammar-boundaries-197",
   "./assets/question-catalog-b-grammar-v1.json",
   "./assets/question-catalog-b-grammar-types-v1.json",
@@ -65,7 +65,7 @@ const APP_SHELL = [
   "./assets/protected-content-provider-v376.js",
   "./assets/protected-content-provider-v376-v35.js",
   "./assets/protected-lesson-provider-v376.js",
-  "./assets/app-v377.js?v=bfinal-resume-192",
+  "./assets/app-v377.js?v=btrace-feedback-212",
   "./assets/protected-flow-bridge-v376.js",
   "./assets/protected-b-trace-bridge-v376.js?v=bfinal-resume-192",
   "./assets/protected-b-security-bridge-v376.js",

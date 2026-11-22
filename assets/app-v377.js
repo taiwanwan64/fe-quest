@@ -8924,36 +8924,43 @@ function bTraceBridgeV376(){
 }
 function bTraceGenericTitleV376(ex){return ex?.concept?`${ex.concept}・トレース演習`:'アルゴリズム・トレース演習';}
 function bTraceClearFeedbackV377(){
-  const root=document.getElementById('bTraceFeedback');
-  if(root){root.replaceChildren();root.hidden=true;}
+  const status=document.getElementById('bTraceAnswerStatus');
+  status.textContent='';
+  status.removeAttribute('data-result');
+  const details=document.getElementById('bTraceFeedback');
+  details.open=false;
+  details.hidden=true;
+  document.getElementById('bTraceFeedbackBody').replaceChildren();
 }
 function bTraceRenderChoiceFeedbackV377(packet,result,selectedIndex){
   bTraceClearFeedbackV377();
-  const root=document.getElementById('bTraceFeedback');
-  if(!root||!packet||!Array.isArray(packet.options))return;
+  const status=document.getElementById('bTraceAnswerStatus');
+  status.dataset.result=result.correct?'correct':'incorrect';
+  status.textContent=result.correct?'✓ 正解':'✕ 不正解。もう一度選んでください。';
+  const details=document.getElementById('bTraceFeedback');
+  const content=document.getElementById('bTraceFeedbackBody');
   const reasons=result.correct&&Array.isArray(result.choiceExplanations)?result.choiceExplanations:[];
-  const indices=result.correct?reasons.map((_,i)=>i):typeof result.selectedExplanation==='string'&&result.selectedExplanation?[selectedIndex]:[];
-  if(!indices.length)return;
-  const title=document.createElement('h3');
-  title.textContent=result.correct?'選択肢の理由':'選んだ答えを確認';
-  root.appendChild(title);
+  const indices=result.correct?reasons.map((_,i)=>i):[selectedIndex];
+  if(result.correct&&result.explanation){
+    const explanation=document.createElement('p');
+    explanation.textContent=result.explanation;
+    content.appendChild(explanation);
+  }
   const list=document.createElement('ul');
   for(const i of indices){
-    if(!Number.isInteger(i)||i<0||i>=packet.options.length)continue;
     const reason=result.correct?reasons[i]:result.selectedExplanation;
-    if(typeof reason!=='string'||!reason.trim())continue;
+    if(i<0||i>=packet.options.length||typeof reason!=='string'||!reason.trim())continue;
     const item=document.createElement('li'),label=document.createElement('strong'),body=document.createElement('p');
-    label.textContent=String.fromCharCode(65+i)+'. '+packet.options[i]+(i===selectedIndex?'（選択）':'');
+    label.textContent=String.fromCharCode(65+i)+'. '+packet.options[i]+(i===selectedIndex?(result.correct?'（正解）':'（選択）'):'');
     body.textContent=reason;
     item.appendChild(label);item.appendChild(body);list.appendChild(item);
   }
-  if(!list.children.length)return;
-  root.appendChild(list);root.hidden=false;
+  if(list.children.length)content.appendChild(list);
+  details.hidden=!content.children.length;
 }
 function bTraceApplyPacketV376(packet,{resetMessage=true}={}){
   if(!packet||typeof packet!=='object'||!packet.traceSegment||!Array.isArray(packet.traceSegment.steps)||!packet.traceSegment.steps.length)throw new Error('v376_b_trace_packet_invalid');
   if(resetMessage)bTraceClearFeedbackV377();
-  const feedback=!resetMessage?document.getElementById('bTraceMessage').textContent:'';
   const segment=packet.traceSegment;
   bTracePacketV376=packet;
   currentB={
@@ -8980,7 +8987,6 @@ function bTraceApplyPacketV376(packet,{resetMessage=true}={}){
   resetBView();
   const progress=packet.phase==='tail'?80:Math.max(0,Math.min(80,(Number(packet.ordinal)-1)*40));
   document.getElementById('bTraceProgress').style.width=`${progress}%`;
-  if(!resetMessage)document.getElementById('bTraceMessage').textContent=feedback||'予測正解。続きの区間を1行ずつ追跡してください。';
 }
 function bTraceRecordStudyPositionV376(ordinal,stepIndex,complete=false,tail=null){
   const active=globalThis.studyActiveV373;
@@ -9023,7 +9029,6 @@ async function bTraceShowPredictionV376(){
         }
         button.classList.add('good');
         bPredictionSatisfied=true;
-        document.getElementById('bTraceMessage').textContent=result.explanation||'予測した状態と実際の処理を対応させて確認しましょう。';
         if(!alreadyScored){
           popToast('予測正解！ +5 XP');
           profile.xp+=5;
@@ -9160,6 +9165,10 @@ document.getElementById('bStep')?.addEventListener('click',()=>{
     return;
   }
   if(bStepIndex < currentB.steps.length-1){
+    const status=document.getElementById('bTraceAnswerStatus');
+    status.textContent='';
+    status.removeAttribute('data-result');
+    document.getElementById('bTraceFeedback').open=false;
     bStepIndex++;
     renderBStep(currentB.steps[bStepIndex]);
   }
@@ -9258,7 +9267,7 @@ function renderBVisual(step){
     return;
   }
 
-  v.innerHTML='<div class="sub" style="text-align:center">変数の変化を右上のSTATEで追いましょう。</div>';
+  v.innerHTML='<div class="sub" style="text-align:center">「状態」で変数の値を確認できます。</div>';
 }
 
 function showBPrediction(){throw new Error('v376_b_prediction_must_use_server_bridge');}
